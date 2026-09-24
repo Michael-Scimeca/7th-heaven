@@ -15,7 +15,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(products);
   } catch (err) {
     console.error("[admin/shop-inventory/products] GET error:", err);
-    return NextResponse.json({ error: "Failed to load products" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to load products" },
+      { status: 500 },
+    );
   }
 }
 
@@ -30,18 +33,27 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { slug, title, description, imageUrl, category, variantKind, sortOrder, variants } = body;
+    const {
+      slug,
+      title,
+      description,
+      imageUrl,
+      category,
+      variantKind,
+      sortOrder,
+      variants,
+    } = body;
 
     if (!slug || !title || !category || !variantKind) {
       return NextResponse.json(
         { error: "slug, title, category, and variantKind are required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!Array.isArray(variants) || variants.length === 0) {
       return NextResponse.json(
         { error: "At least one variant (size/format/color) is required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -60,7 +72,10 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (productError || !product) {
-      const message = productError?.code === "23505" ? `Slug "${slug}" is already in use.` : "Failed to create product.";
+      const message =
+        productError?.code === "23505"
+          ? `Slug "${slug}" is already in use.`
+          : "Failed to create product.";
       return NextResponse.json({ error: message }, { status: 400 });
     }
 
@@ -81,16 +96,24 @@ export async function POST(req: NextRequest) {
       sort_order: i,
     }));
 
-    const { error: variantsError } = await shopDb.from("north_shop_variants").insert(variantRows);
+    const { error: variantsError } = await shopDb
+      .from("north_shop_variants")
+      .insert(variantRows);
     if (variantsError) {
       // Roll back the orphaned product if variant creation failed.
       await shopDb.from("north_shop_products").delete().eq("id", product.id);
-      return NextResponse.json({ error: "Failed to create variants." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Failed to create variants." },
+        { status: 400 },
+      );
     }
 
     return NextResponse.json({ success: true, productId: product.id });
   } catch (err) {
     console.error("[admin/shop-inventory/products] POST error:", err);
-    return NextResponse.json({ error: "Failed to create product." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create product." },
+      { status: 500 },
+    );
   }
 }

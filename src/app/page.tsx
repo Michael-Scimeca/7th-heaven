@@ -4,15 +4,25 @@ import { fetchPageContent } from "@/lib/sanity";
 import { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
 const LogoTicker = nextDynamic(() => import("@/components/LogoTicker"));
 
-const HeroVideoPlayer = nextDynamic(() => import("@/components/HeroVideoPlayer"));
-const BioParallaxSlider = nextDynamic(() => import("@/components/BioParallaxSlider"));
-const HomeVideoShowcase = nextDynamic(() => import("@/components/HomeVideoShowcase"));
+const HeroVideoPlayer = nextDynamic(
+  () => import("@/components/HeroVideoPlayer"),
+);
+const BioParallaxSlider = nextDynamic(
+  () => import("@/components/BioParallaxSlider"),
+);
+const HomeVideoShowcase = nextDynamic(
+  () => import("@/components/HomeVideoShowcase"),
+);
 const SlideupSection = nextDynamic(() => import("@/components/SlideupSection"));
 const HomeMerch = nextDynamic(() => import("@/components/HomeMerch"));
-const HomeNewsSection = nextDynamic(() => import("@/components/HomeNewsSection"));
+const HomeNewsSection = nextDynamic(
+  () => import("@/components/HomeNewsSection"),
+);
 const HomeDataLoader = nextDynamic(() => import("@/components/HomeDataLoader"));
 
-const HomeLogosSection = nextDynamic(() => import("@/components/HomeLogosSection"));
+const HomeLogosSection = nextDynamic(
+  () => import("@/components/HomeLogosSection"),
+);
 
 import LazySection from "@/components/LazySection";
 
@@ -21,7 +31,10 @@ export const revalidate = 60;
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("home");
   return {
-    title: content?.seo?.metaTitle || content?.title || "7th Heaven — Official Band Website",
+    title:
+      content?.seo?.metaTitle ||
+      content?.title ||
+      "7th Heaven — Official Band Website",
     description:
       content?.seo?.metaDescription ||
       content?.heroSubheading ||
@@ -33,15 +46,19 @@ export default async function Home() {
   const sanityContent = await fetchPageContent("home");
 
   return (
-    <main id="home-page" >
+    <main id="home-page">
       {/* ====== HERO (Viewport Height) ====== */}
       <section
-        className="relative w-full !h-[calc(100vh)]"
+        className="relative !h-[calc(100vh)] w-full"
         data-pick-label="Play Music"
         id="hero"
       >
         <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        <div id="hero-card" className="relative w-full h-full  flex flex-col justify-between pb-15" data-pick-label="Play Music">
+        <div
+          id="hero-card"
+          className="relative flex h-full w-full flex-col justify-between pb-15"
+          data-pick-label="Play Music"
+        >
           <HeroVideoPlayer sanityContent={sanityContent} />
         </div>
       </section>

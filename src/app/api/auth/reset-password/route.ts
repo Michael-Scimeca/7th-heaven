@@ -8,13 +8,19 @@ export async function POST(req: Request) {
     const { email, pin, password } = await req.json();
 
     if (!email || !pin || !password) {
-      return NextResponse.json({ error: "Email, verification PIN, and new password are required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email, verification PIN, and new password are required." },
+        { status: 400 },
+      );
     }
 
     // Verify PIN ownership
     const isVerified = verifyPin(email, pin);
     if (!isVerified) {
-      return NextResponse.json({ error: "Invalid or expired verification code." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid or expired verification code." },
+        { status: 400 },
+      );
     }
 
     // Initialize Supabase Admin Client using service key to bypass RLS and perform admin auth tasks
@@ -23,22 +29,27 @@ export async function POST(req: Request) {
     const supabaseAdmin: any = createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
-        persistSession: false
-      }
+        persistSession: false,
+      },
     });
 
     console.log(`Resetting password for user ${email}...`);
 
     // Retrieve user list to locate by email
-    const { data: listData, error: listError } = await supabaseAdmin.auth.admin.listUsers();
+    const { data: listData, error: listError } =
+      await supabaseAdmin.auth.admin.listUsers();
     if (listError) {
       console.error("Failed to list users from Supabase:", listError.message);
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV !== "production") {
         try {
           const fakeLogins = getFakeLogins();
-          const isFake = fakeLogins.some((u: any) => u.email.toLowerCase() === email.toLowerCase());
+          const isFake = fakeLogins.some(
+            (u: any) => u.email.toLowerCase() === email.toLowerCase(),
+          );
           if (isFake) {
-            console.log(`[DEV BYPASS] Simulating password update for fake user ${email} on list failure`);
+            console.log(
+              `[DEV BYPASS] Simulating password update for fake user ${email} on list failure`,
+            );
             return NextResponse.json({ success: true, devBypass: true });
           }
         } catch {}
@@ -46,25 +57,35 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: listError.message }, { status: 500 });
     }
 
-    const user = listData.users.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
+    const user = listData.users.find(
+      (u: any) => u.email?.toLowerCase() === email.toLowerCase(),
+    );
     if (!user) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV !== "production") {
         try {
           const fakeLogins = getFakeLogins();
-          const isFake = fakeLogins.some((u: any) => u.email.toLowerCase() === email.toLowerCase());
+          const isFake = fakeLogins.some(
+            (u: any) => u.email.toLowerCase() === email.toLowerCase(),
+          );
           if (isFake) {
-            console.log(`[DEV BYPASS] Simulating password update for fake user ${email}`);
+            console.log(
+              `[DEV BYPASS] Simulating password update for fake user ${email}`,
+            );
             return NextResponse.json({ success: true, devBypass: true });
           }
         } catch {}
       }
-      return NextResponse.json({ error: "No registered user found with this email." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Unable to reset password. Please verify your email and code." },
+        { status: 400 },
+      );
     }
 
     // Update password
-    const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
-      password: password
-    });
+    const { error: updateError } =
+      await supabaseAdmin.auth.admin.updateUserById(user.id, {
+        password: password,
+      });
 
     if (updateError) {
       console.error("Failed to update user password:", updateError.message);
@@ -75,6 +96,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Password reset error:", error);
-    return NextResponse.json({ error: "Failed to reset password." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to reset password." },
+      { status: 500 },
+    );
   }
 }

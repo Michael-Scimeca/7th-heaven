@@ -2,8 +2,10 @@
 
 import React from "react";
 
-export interface SeventhButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
+export interface SeventhButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "children"
+> {
   children?: React.ReactNode;
   className?: string;
   icon?: React.ReactNode | boolean;
@@ -45,7 +47,7 @@ export const SeventhButton = React.forwardRef<
       rel,
       ...props
     },
-    ref
+    ref,
   ) => {
     const forced = Boolean(isActive || active);
     const combinedClassName = [
@@ -99,7 +101,7 @@ export const SeventhButton = React.forwardRef<
         {content}
       </button>
     );
-  }
+  },
 );
 
 SeventhButton.displayName = "SeventhButton";

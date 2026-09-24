@@ -1,22 +1,28 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 // Creates the missing live_feed, feed_reactions, and live_streams tables
 // Uses the Supabase SQL endpoint with the service_role key
 export async function POST() {
- // Block in production — this route should only run during development setup
- if (process.env.NODE_ENV === 'production') {
-  return NextResponse.json({ error: 'This endpoint is disabled in production' }, { status: 403 });
- }
+  // Block in production — this route should only run during development setup
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { error: "This endpoint is disabled in production" },
+      { status: 403 },
+    );
+  }
 
- const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
- const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
- if (!serviceKey) {
-  return NextResponse.json({ error: 'Missing SUPABASE_SERVICE_ROLE_KEY' }, { status: 500 });
- }
+  if (!serviceKey) {
+    return NextResponse.json(
+      { error: "Missing SUPABASE_SERVICE_ROLE_KEY" },
+      { status: 500 },
+    );
+  }
 
- // SQL to create the live feed tables
- const sql = `
+  // SQL to create the live feed tables
+  const sql = `
 -- Create live_feed if not exists
 CREATE TABLE IF NOT EXISTS public.live_feed (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -140,44 +146,52 @@ DO $$ BEGIN
 END $$;
 `;
 
- // Use the Supabase SQL endpoint
- const res = await fetch(`${url}/rest/v1/rpc`, {
-  method: 'POST',
-  headers: {
-   'Content-Type': 'application/json',
-   'apikey': serviceKey,
-   'Authorization': `Bearer ${serviceKey}`,
-   'Prefer': 'return=minimal',
-  },
-  body: JSON.stringify({ query: sql }),
- });
-
- // If the rpc endpoint doesn't work, we'll try the pg endpoint
- if (!res.ok) {
-  // Try through the pg/query endpoint
-  const pgRes = await fetch(`${url}/pg/query`, {
-   method: 'POST',
-   headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${serviceKey}`,
-   },
-   body: JSON.stringify({ query: sql }),
+  // Use the Supabase SQL endpoint
+  const res = await fetch(`${url}/rest/v1/rpc`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: serviceKey,
+      Authorization: `Bearer ${serviceKey}`,
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({ query: sql }),
   });
 
-  if (!pgRes.ok) {
-   const errBody = await pgRes.text();
-   return NextResponse.json({
-    error: 'Could not execute SQL',
-    status: pgRes.status,
-    body: errBody,
-    suggestion: 'Copy the SQL from supabase/schema.sql and run it in the Supabase SQL Editor: https://supabase.com/dashboard/project/acfzdcyqdskrmfuuoesb/sql/new'
-   }, { status: 500 });
+  // If the rpc endpoint doesn't work, we'll try the pg endpoint
+  if (!res.ok) {
+    // Try through the pg/query endpoint
+    const pgRes = await fetch(`${url}/pg/query`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${serviceKey}`,
+      },
+      body: JSON.stringify({ query: sql }),
+    });
+
+    if (!pgRes.ok) {
+      const errBody = await pgRes.text();
+      return NextResponse.json(
+        {
+          error: "Could not execute SQL",
+          status: pgRes.status,
+          body: errBody,
+          suggestion:
+            "Copy the SQL from supabase/schema.sql and run it in the Supabase SQL Editor: https://supabase.com/dashboard/project/acfzdcyqdskrmfuuoesb/sql/new",
+        },
+        { status: 500 },
+      );
+    }
+
+    const pgData = await pgRes.json();
+    return NextResponse.json({
+      success: true,
+      method: "pg/query",
+      result: pgData,
+    });
   }
 
-  const pgData = await pgRes.json();
-  return NextResponse.json({ success: true, method: 'pg/query', result: pgData });
- }
-
- const data = await res.text();
- return NextResponse.json({ success: true, method: 'rpc', result: data });
+  const data = await res.text();
+  return NextResponse.json({ success: true, method: "rpc", result: data });
 }

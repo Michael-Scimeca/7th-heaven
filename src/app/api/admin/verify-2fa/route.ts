@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     if (!email || !pin) {
       return NextResponse.json(
         { error: "Email and verification code are required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -27,8 +27,7 @@ export async function POST(req: Request) {
         const fakeLogins = getFakeLogins();
         const devUser = fakeLogins.find(
           (u: any) =>
-            u.email.toLowerCase() === email.toLowerCase() &&
-            u.pin === pin
+            u.email.toLowerCase() === email.toLowerCase() && u.pin === pin,
         );
         if (devUser) {
           console.log(`\n==============================================`);
@@ -47,7 +46,7 @@ export async function POST(req: Request) {
     if (!isValid) {
       return NextResponse.json(
         { error: "Invalid or expired verification code." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -56,7 +55,7 @@ export async function POST(req: Request) {
     console.error("Admin 2FA verification failed:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

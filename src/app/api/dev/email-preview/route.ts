@@ -1,28 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
-import { EMAIL_TEMPLATES, plannerPinVerification, raffleWin } from "@/lib/email-templates";
+import {
+  EMAIL_TEMPLATES,
+  plannerPinVerification,
+  raffleWin,
+} from "@/lib/email-templates";
 import { getShopifyProductForPrize } from "@/lib/shopify";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id") || "";
-  
+
   if (id === "raffle_win") {
     const pin = "7482";
     const prizeName = searchParams.get("prize") || "Signed Vinyl Record";
     const claimUrl = "http://localhost:3000/claim/7482";
 
-    const pinDigits = pin.split('').map(d =>
-      `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #c084fc;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#c084fc;font-family:monospace;">${d}</td>`
-    ).join('<td style="width:8px;"></td>');
+    const pinDigits = pin
+      .split("")
+      .map(
+        (d) =>
+          `<td style="width:48px;height:56px;background:#0a0a0e;border:2px solid #c084fc;border-radius:8px;text-align:center;font-size:28px;font-weight:900;color:#c084fc;font-family:monospace;">${d}</td>`,
+      )
+      .join('<td style="width:8px;"></td>');
 
     const lowerPrize = prizeName.toLowerCase();
-    let imgPath = '/images/merch/vinyl.png';
-    if (lowerPrize.includes('shirt') || lowerPrize.includes('tee')) {
-      imgPath = '/images/merch/logo-tee.png';
-    } else if (lowerPrize.includes('hood') || lowerPrize.includes('sweat')) {
-      imgPath = '/images/merch/hoodie.png';
+    let imgPath = "/images/merch/vinyl.png";
+    if (lowerPrize.includes("shirt") || lowerPrize.includes("tee")) {
+      imgPath = "/images/merch/logo-tee.png";
+    } else if (lowerPrize.includes("hood") || lowerPrize.includes("sweat")) {
+      imgPath = "/images/merch/hoodie.png";
     }
 
     const origin = new URL(req.url).origin;
@@ -37,7 +45,6 @@ export async function GET(req: NextRequest) {
       displayTitle = shopifyProduct.title || displayTitle;
       displayDescription = shopifyProduct.description || displayDescription;
     }
-
 
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#050508;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;">
@@ -62,7 +69,7 @@ export async function GET(req: NextRequest) {
         </div>
         <p style="margin:0;color:#fff;font-size:22px;font-weight:900;">${displayTitle}</p>
         <p style="margin:8px 0 0;color:#c084fc;font-size:12px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;">
-          Size: ${lowerPrize.includes('shirt') || lowerPrize.includes('tee') || lowerPrize.includes('hood') || lowerPrize.includes('sweat') ? 'S / M / L / XL / XXL (Select at Pickup/Checkout)' : 'Any Size'}
+          Size: ${lowerPrize.includes("shirt") || lowerPrize.includes("tee") || lowerPrize.includes("hood") || lowerPrize.includes("sweat") ? "S / M / L / XL / XXL (Select at Pickup/Checkout)" : "Any Size"}
         </p>
       </div>
 
@@ -97,11 +104,11 @@ export async function GET(req: NextRequest) {
     const html = plannerPinVerification("582901", "planner@example.com");
     return new NextResponse(html, { headers: { "Content-Type": "text/html" } });
   }
-  const template = EMAIL_TEMPLATES.find(t => t.id === id);
+  const template = EMAIL_TEMPLATES.find((t) => t.id === id);
   if (!template) {
     return new NextResponse(`Template ${id} not found`, { status: 404 });
   }
   return new NextResponse(template.render(), {
-    headers: { "Content-Type": "text/html" }
+    headers: { "Content-Type": "text/html" },
   });
 }

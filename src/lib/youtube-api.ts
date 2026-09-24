@@ -40,7 +40,9 @@ export function loadYouTubeAPI(onReady: () => void): void {
   };
 
   const injectScript = () => {
-    const existing = document.querySelector('script[src*="youtube.com/iframe_api"]');
+    const existing = document.querySelector(
+      'script[src*="youtube.com/iframe_api"]',
+    );
     if (!existing) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
@@ -66,7 +68,7 @@ export function loadYouTubeAPI(onReady: () => void): void {
           setTimeout(injectScript, 600);
         }
       },
-      { once: true }
+      { once: true },
     );
   }
 }

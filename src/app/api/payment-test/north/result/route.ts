@@ -4,7 +4,7 @@ import { shopDb } from "@/lib/north-shop-db";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 type OrderLineItem = {
@@ -19,7 +19,12 @@ type OrderLineItem = {
  * shown to the shopper; inventory can be reconciled manually via the admin
  * order list if needed.
  */
-async function finalizeOrder(tranNbr: string, authResp: string, authRespText: string, maskedAccount: string) {
+async function finalizeOrder(
+  tranNbr: string,
+  authResp: string,
+  authRespText: string,
+  maskedAccount: string,
+) {
   if (!tranNbr) return;
 
   const { data: order } = await shopDb
@@ -45,8 +50,11 @@ async function finalizeOrder(tranNbr: string, authResp: string, authRespText: st
           .maybeSingle();
         if (!variant) return;
         const newStock = Math.max(0, variant.stock_quantity - item.quantity);
-        await shopDb.from("north_shop_variants").update({ stock_quantity: newStock }).eq("id", item.variantId);
-      })
+        await shopDb
+          .from("north_shop_variants")
+          .update({ stock_quantity: newStock })
+          .eq("id", item.variantId);
+      }),
     );
   }
 
@@ -97,7 +105,10 @@ export async function POST(req: NextRequest) {
     if (error || !data) {
       console.error("[payment-test/north/result] insert error:", error);
       // Still send the shopper somewhere sensible even if persistence failed.
-      return NextResponse.redirect(`${siteUrl}/payment-test/result?error=1`, 303);
+      return NextResponse.redirect(
+        `${siteUrl}/payment-test/result?error=1`,
+        303,
+      );
     }
 
     try {
@@ -105,14 +116,20 @@ export async function POST(req: NextRequest) {
         raw.TRAN_NBR,
         raw.AUTH_RESP,
         raw.AUTH_RESP_TEXT,
-        raw.AUTH_MASKED_ACCOUNT_NBR
+        raw.AUTH_MASKED_ACCOUNT_NBR,
       );
     } catch (finalizeErr) {
-      console.error("[payment-test/north/result] order finalization error:", finalizeErr);
+      console.error(
+        "[payment-test/north/result] order finalization error:",
+        finalizeErr,
+      );
     }
 
     // 303 converts EPX's POST into a GET on the results page for this browser.
-    return NextResponse.redirect(`${siteUrl}/payment-test/result?id=${data.id}`, 303);
+    return NextResponse.redirect(
+      `${siteUrl}/payment-test/result?id=${data.id}`,
+      303,
+    );
   } catch (err) {
     console.error("[payment-test/north/result] error:", err);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";

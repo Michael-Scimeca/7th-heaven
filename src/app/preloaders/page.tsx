@@ -27,22 +27,22 @@ function DemoFrame({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg  ">{label}</h2>
+        <h2 className="text-lg">{label}</h2>
         <button
           onClick={onPlay}
           disabled={playing}
-          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40">
+          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+        >
           {playing ? "Playing…" : "Replay"}
         </button>
       </div>
       <div
         className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-black"
-        style={{ aspectRatio: "16 / 11" }}>
+        style={{ aspectRatio: "16 / 11" }}
+      >
         {/* fixed chrome -- never touched by any transition */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2 backdrop-blur-sm">
-          <span className="text-[11px]    text-white/70">
-            7th Heaven Studio
-          </span>
+          <span className="text-[11px] text-white/70">7th Heaven Studio</span>
           <span className="flex gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
             <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
@@ -84,7 +84,11 @@ const REVEAL_EASE_OPTIONS: { label: string; value: string }[] = [
 // off the real exoape.com footage and is shared with PageTransition.tsx);
 // this lives here purely so the demo's "flip" toggle can mirror the shape
 // without risking the verified production curve.
-function buildDecayingSlantCoverClipPathFlipped(progress: number, ratio: number, rampFraction = 0.05) {
+function buildDecayingSlantCoverClipPathFlipped(
+  progress: number,
+  ratio: number,
+  rampFraction = 0.05,
+) {
   const p = Math.max(0, Math.min(1, progress));
   const rightY = 100 * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
@@ -100,7 +104,12 @@ function buildDecayingSlantCoverClipPathFlipped(progress: number, ratio: number,
 // state as the reveal. This is what wires the old page into the same
 // speed/easing/slant/flip UI setup the panel controls, instead of it just
 // scaling/translating as a plain rectangle.
-function buildOldPageExitClipPath(progress: number, ratio: number, flip: boolean, rampFraction = 0.05) {
+function buildOldPageExitClipPath(
+  progress: number,
+  ratio: number,
+  flip: boolean,
+  rampFraction = 0.05,
+) {
   const p = Math.max(0, Math.min(1, progress));
   const lagY = 100 * (1 - p);
   const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
@@ -136,7 +145,9 @@ function CurtainWipeDemo() {
   // false (default) matches the real exoape.com footage this was measured
   // from -- right edge leads/reveals first, left edge lags. true swaps it.
   const [flipSlant, setFlipSlant] = useState(true);
-  const buildClip = flipSlant ? buildDecayingSlantCoverClipPathFlipped : buildDecayingSlantCoverClipPath;
+  const buildClip = flipSlant
+    ? buildDecayingSlantCoverClipPathFlipped
+    : buildDecayingSlantCoverClipPath;
 
   // Independent knobs for the OLD PAGE's own exit -- previously this reused
   // revealDuration/revealEase/slantRatio/flipSlant wholesale, which made it
@@ -170,7 +181,9 @@ function CurtainWipeDemo() {
     // Pre-hide the incoming content
     gsap.set(outerRef.current, { clipPath: buildClip(0, slantRatio) });
     gsap.set(contentRef.current, { scale: revealScale, y: height / 2 });
-    gsap.set(oldRef.current, { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" });
+    gsap.set(oldRef.current, {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+    });
 
     const tl = gsap.timeline({
       onComplete: () => setPlaying(false),
@@ -188,13 +201,28 @@ function CurtainWipeDemo() {
         ease: oldEase,
         onUpdate: function () {
           const p = this.progress();
-          if (oldRef.current) oldRef.current.style.clipPath = buildOldPageExitClipPath(p, oldSlantRatio, oldFlipSlant);
+          if (oldRef.current)
+            oldRef.current.style.clipPath = buildOldPageExitClipPath(
+              p,
+              oldSlantRatio,
+              oldFlipSlant,
+            );
         },
       },
-      0
+      0,
     );
     // Incoming reveal -- content settle and clip-path sweep share duration/ease
-    tl.to(contentRef.current, { scale: 1, y: 0, duration: revealDuration, ease: revealEase, clearProps: "all" }, 0);
+    tl.to(
+      contentRef.current,
+      {
+        scale: 1,
+        y: 0,
+        duration: revealDuration,
+        ease: revealEase,
+        clearProps: "all",
+      },
+      0,
+    );
     tl.to(
       { p: 0 },
       {
@@ -203,30 +231,51 @@ function CurtainWipeDemo() {
         ease: revealEase,
         onUpdate: function () {
           const p = (this.targets()[0] as { p: number }).p;
-          if (outerRef.current) outerRef.current.style.clipPath = buildClip(p, slantRatio);
+          if (outerRef.current)
+            outerRef.current.style.clipPath = buildClip(p, slantRatio);
         },
         onComplete: () => {
           if (outerRef.current) outerRef.current.style.clipPath = "none";
         },
       },
-      0
+      0,
     );
   };
 
   return (
     <div className="flex flex-col gap-3">
       <DemoFrame label="Curtain wipe (current)" onPlay={play} playing={playing}>
-        <div className="relative h-full w-full bg-black overflow-hidden">
+        <div className="relative h-full w-full overflow-hidden bg-black">
           <div ref={oldRef} className="absolute inset-0 z-0">
-            <Image src="/preloader-demo/cruise-v2.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
-            <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs r /90">
+            <Image
+              src="/preloader-demo/cruise-v2.jpg"
+              alt=""
+              fill
+              sizes="100vw"
+              unoptimized
+              className="h-full w-full object-cover object-top"
+            />
+            <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs">
               Cruise (old)
             </span>
           </div>
-          <div ref={outerRef} className="absolute inset-0 z-10 overflow-hidden" style={{ clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }}>
+          <div
+            ref={outerRef}
+            className="absolute inset-0 z-10 overflow-hidden"
+            style={{
+              clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+            }}
+          >
             <div ref={contentRef} className="relative h-full w-full">
-              <Image src="/preloader-demo/book.jpg" alt="" fill sizes="100vw" unoptimized className="h-full w-full object-cover object-top" />
-              <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs r /90">
+              <Image
+                src="/preloader-demo/book.jpg"
+                alt=""
+                fill
+                sizes="100vw"
+                unoptimized
+                className="h-full w-full object-cover object-top"
+              />
+              <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1 text-xs">
                 Book (new)
               </span>
             </div>
@@ -236,12 +285,12 @@ function CurtainWipeDemo() {
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px]     ">New page reveal</p>
+        <p className="text-[11px]">New page reveal</p>
         <div className="flex items-center justify-between gap-3">
           <label className="text-white/60">
             Reveal speed <span className="/35">(exit + 0.25s, linked)</span>
           </label>
-          <span className="font-mono  ">{revealDuration.toFixed(2)}s</span>
+          <span className="font-mono">{revealDuration.toFixed(2)}s</span>
         </div>
         <input
           type="range"
@@ -251,14 +300,14 @@ function CurtainWipeDemo() {
           value={revealDuration}
           disabled
           readOnly
-          className="w-full accent-cyan-400 opacity-50 cursor-not-allowed"
+          className="w-full cursor-not-allowed accent-cyan-400 opacity-50"
         />
 
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="reveal-scale" className="text-white/60">
             Reveal scale
           </label>
-          <span className="font-mono  ">{revealScale.toFixed(2)}x</span>
+          <span className="font-mono">{revealScale.toFixed(2)}x</span>
         </div>
         <input
           id="reveal-scale"
@@ -278,9 +327,10 @@ function CurtainWipeDemo() {
           id="reveal-ease"
           value={revealEase}
           onChange={(e) => setRevealEase(e.target.value)}
-          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 /90">
+          className="/90 w-full rounded border border-white/15 bg-black/40 px-2 py-1.5"
+        >
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} >
+            <option key={o.value} value={o.value}>
               {o.label}
             </option>
           ))}
@@ -290,7 +340,7 @@ function CurtainWipeDemo() {
           <label htmlFor="slant-ratio" className="text-white/60">
             Slant ratio
           </label>
-          <span className="font-mono  ">{slantRatio.toFixed(3)}</span>
+          <span className="font-mono">{slantRatio.toFixed(3)}</span>
         </div>
         <input
           id="slant-ratio"
@@ -310,19 +360,20 @@ function CurtainWipeDemo() {
             onChange={(e) => setFlipSlant(e.target.checked)}
             className="accent-cyan-400"
           />
-          Flip slant direction {flipSlant ? "(left leads)" : "(right leads -- matches reference)"}
+          Flip slant direction{" "}
+          {flipSlant ? "(left leads)" : "(right leads -- matches reference)"}
         </label>
       </div>
 
       {/* Old-page exit panel -- independent speed/easing/slant/flip, wired
           into the tl.fromTo(oldRef.current, ...) tween in play() above. */}
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3 text-xs">
-        <p className="text-[11px]    text-fuchsia-400/80">Old page exit</p>
+        <p className="text-[11px] text-fuchsia-400/80">Old page exit</p>
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="old-duration" className="text-white/60">
             Exit speed
           </label>
-          <span className="font-mono  ">{oldDuration.toFixed(2)}s</span>
+          <span className="font-mono">{oldDuration.toFixed(2)}s</span>
         </div>
         <input
           id="old-duration"
@@ -339,7 +390,7 @@ function CurtainWipeDemo() {
           <label htmlFor="old-scale" className="text-white/60">
             Exit scale
           </label>
-          <span className="font-mono  ">{oldScale.toFixed(2)}x</span>
+          <span className="font-mono">{oldScale.toFixed(2)}x</span>
         </div>
         <input
           id="old-scale"
@@ -356,7 +407,7 @@ function CurtainWipeDemo() {
           <label htmlFor="old-rotation" className="text-white/60">
             Exit rotation
           </label>
-          <span className="font-mono  ">{oldRotation}°</span>
+          <span className="font-mono">{oldRotation}°</span>
         </div>
         <input
           id="old-rotation"
@@ -376,9 +427,10 @@ function CurtainWipeDemo() {
           id="old-ease"
           value={oldEase}
           onChange={(e) => setOldEase(e.target.value)}
-          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5 /90">
+          className="/90 w-full rounded border border-white/15 bg-black/40 px-2 py-1.5"
+        >
           {REVEAL_EASE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value} >
+            <option key={o.value} value={o.value}>
               {o.label}
             </option>
           ))}
@@ -388,7 +440,7 @@ function CurtainWipeDemo() {
           <label htmlFor="old-slant-ratio" className="text-white/60">
             Slant ratio
           </label>
-          <span className="font-mono  ">{oldSlantRatio.toFixed(3)}</span>
+          <span className="font-mono">{oldSlantRatio.toFixed(3)}</span>
         </div>
         <input
           id="old-slant-ratio"
@@ -408,13 +460,13 @@ function CurtainWipeDemo() {
             onChange={(e) => setOldFlipSlant(e.target.checked)}
             className="accent-fuchsia-400"
           />
-          Flip slant direction {oldFlipSlant ? "(left leads)" : "(right leads -- matches reference)"}
+          Flip slant direction{" "}
+          {oldFlipSlant ? "(left leads)" : "(right leads -- matches reference)"}
         </label>
       </div>
     </div>
   );
 }
-
 
 // ---------------------------------------------------------------------------
 // 3. Fade to black, then a straight-edge rise from the bottom -- the
@@ -435,20 +487,34 @@ function FadeThenRiseDemo() {
     const tl = gsap.timeline({ onComplete: () => setPlaying(false) });
     tl.to(oldRef.current, { opacity: 0, duration: 0.4, ease: "power2.inOut" });
     tl.to({}, { duration: 0.35 }); // hold on black
-    tl.to(newRef.current, { clipPath: "inset(0% 0 0 0)", duration: 0.4, ease: "power2.out" });
+    tl.to(newRef.current, {
+      clipPath: "inset(0% 0 0 0)",
+      duration: 0.4,
+      ease: "power2.out",
+    });
   };
 
   return (
-    <DemoFrame label="Fade to black + bottom rise" onPlay={play} playing={playing}>
+    <DemoFrame
+      label="Fade to black + bottom rise"
+      onPlay={play}
+      playing={playing}
+    >
       <div className="relative h-full w-full bg-black">
-        <div ref={oldRef} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-800 to-teal-950">
+        <div
+          ref={oldRef}
+          className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-800 to-teal-950"
+        >
           <span className="text-2xl font-black">OLD PAGE</span>
         </div>
         {/* title stays pinned/visible through the whole fade, like the reference */}
-        <span className="absolute bottom-3 left-4 z-10 text-sm font-black st">
+        <span className="st absolute bottom-3 left-4 z-10 text-sm font-black">
           old page
         </span>
-        <div ref={newRef} className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-800 to-slate-950">
+        <div
+          ref={newRef}
+          className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-800 to-slate-950"
+        >
           <span className="text-2xl font-black">NEW PAGE</span>
         </div>
       </div>
@@ -460,12 +526,14 @@ export default function PreloadersTestPage() {
   return (
     <main className="min-h-screen bg-[#05030a] px-6 py-16 md:px-12">
       <div className="mx-auto max-w-6xl">
-        <p className="text-xs   text-white/40">Internal test page</p>
+        <p className="text-xs text-white/40">Internal test page</p>
         <h1 className="mt-2 text-4xl">Preloader / transition test bench</h1>
         <p className="mt-4 max-w-2xl text-white/60">
-          Three self-contained transition demos, isolated from real routing so you can play each one back
-          to back and compare. The curtain wipe is what&apos;s currently wired into the real site&apos;s
-          page navigation; the other two are the effects pulled from the Stratal Scenography reference video.
+          Three self-contained transition demos, isolated from real routing so
+          you can play each one back to back and compare. The curtain wipe is
+          what&apos;s currently wired into the real site&apos;s page navigation;
+          the other two are the effects pulled from the Stratal Scenography
+          reference video.
         </p>
 
         <div className="2 grid grid-cols-1 gap-10 lg:grid-cols-2">

@@ -268,7 +268,10 @@ void main() {
 function hexToRgb(hex: string): [number, number, number] {
   let c = hex.replace("#", "");
   if (c.length === 3) {
-    c = c.split("").map((x) => x + x).join("");
+    c = c
+      .split("")
+      .map((x) => x + x)
+      .join("");
   }
   if (c.length !== 6) return [0.5, 0.5, 0.5];
   return [
@@ -299,7 +302,7 @@ export default function PixelFireplaceCanvas({
   flameSpeed = 0.6,
   flameHeight = 1.5,
   sparkDensity = 2.0,
-  sparkScale = 0.10,
+  sparkScale = 0.1,
   paletteTheme = 0,
   useCustomColors = false,
   colorBaseHex = "#151150",
@@ -352,8 +355,15 @@ export default function PixelFireplaceCanvas({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const gl = (canvas.getContext("webgl", { alpha: true, premultipliedAlpha: false, powerPreference: "high-performance" }) ||
-      canvas.getContext("experimental-webgl", { alpha: true, premultipliedAlpha: false })) as WebGLRenderingContext | null;
+    const gl = (canvas.getContext("webgl", {
+      alpha: true,
+      premultipliedAlpha: false,
+      powerPreference: "high-performance",
+    }) ||
+      canvas.getContext("experimental-webgl", {
+        alpha: true,
+        premultipliedAlpha: false,
+      })) as WebGLRenderingContext | null;
     if (!gl) return;
 
     gl.enable(gl.BLEND);
@@ -386,10 +396,7 @@ export default function PixelFireplaceCanvas({
     gl.useProgram(program);
 
     const positions = new Float32Array([
-      -1, -1, 0,
-       1, -1, 0,
-      -1,  1, 0,
-       1,  1, 0,
+      -1, -1, 0, 1, -1, 0, -1, 1, 0, 1, 1, 0,
     ]);
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -422,7 +429,9 @@ export default function PixelFireplaceCanvas({
       mouseY = 1.0 - e.clientY / window.innerHeight;
     };
 
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove, {
+      passive: true,
+    });
 
     let animFrameId = 0;
     let isVisible = true;
@@ -436,7 +445,7 @@ export default function PixelFireplaceCanvas({
           }
         });
       },
-      { threshold: 0.01 }
+      { threshold: 0.01 },
     );
     intersectionObserver.observe(canvas);
 
@@ -510,7 +519,7 @@ export default function PixelFireplaceCanvas({
   return (
     <canvas
       ref={canvasRef}
-      className={`block pointer-events-none ${className}`}
+      className={`pointer-events-none block ${className}`}
       style={{
         display: "block",
         ...style,

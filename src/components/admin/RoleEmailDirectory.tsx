@@ -34,89 +34,230 @@ const getAvatarColor = (name: string) => {
     "from-violet-600 to-purple-600",
   ];
   let hash = 0;
-  for (let i = 0; i < (name || '').length; i++) {
+  for (let i = 0; i < (name || "").length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
   return colors[Math.abs(hash) % colors.length];
 };
 
 const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
-  if (avatar && avatar.trim() && !avatar.includes('ui-avatars.com')) return avatar;
-  const lower = (name || '').toLowerCase();
+  if (avatar && avatar.trim() && !avatar.includes("ui-avatars.com"))
+    return avatar;
+  const lower = (name || "").toLowerCase();
 
-  if (lower.includes('adam')) return '/images/members/adam.png';
-  if (lower.includes('nick')) return '/images/members/nick.png';
-  if (lower.includes('mark')) return '/images/members/mark.png';
-  if (lower.includes('frankie') || lower.includes('harchut')) return '/images/members/frankie.png';
-  if (lower.includes('richard') || lower.includes('hofherr') || lower.includes('dicky')) return '/images/members/dicky.png';
+  if (lower.includes("adam")) return "/images/members/adam.png";
+  if (lower.includes("nick")) return "/images/members/nick.png";
+  if (lower.includes("mark")) return "/images/members/mark.png";
+  if (lower.includes("frankie") || lower.includes("harchut"))
+    return "/images/members/frankie.png";
+  if (
+    lower.includes("richard") ||
+    lower.includes("hofherr") ||
+    lower.includes("dicky")
+  )
+    return "/images/members/dicky.png";
 
-  if (lower.includes('abbie')) return '/images/crew/abbie.png';
-  if (lower.includes('al') && lower.includes('hollie')) return '/images/crew/al.png';
-  if (lower.includes('andrea')) return '/images/crew/andrea.png';
-  if (lower.includes('arjun')) return '/images/crew/arjun.png';
-  if (lower.includes('chris')) return '/images/crew/chris.png';
-  if (lower.includes('colin') || lower.includes('farrell')) return '/images/crew/chris.png';
-  if (lower.includes('daniel')) return '/images/crew/daniel.png';
-  if (lower.includes('croke')) return '/images/crew/dave_croke.png';
-  if (lower.includes('maas')) return '/images/crew/dave_maas.png';
-  if (lower.includes('xu')) return '/images/crew/david_xu.png';
-  if (lower.includes('emily')) return '/images/crew/emily.png';
-  if (lower.includes('emma')) return '/images/crew/emma.png';
-  if (lower.includes('erin')) return '/images/crew/erin.png';
-  if (lower.includes('francesca')) return '/images/crew/francesca.png';
-  if (lower.includes('john') && lower.includes('wick')) return '/images/crew/john_wick.png';
-  if (lower.includes('john')) return '/images/crew/john_doe.png';
+  if (lower.includes("abbie")) return "/images/crew/abbie.png";
+  if (lower.includes("al") && lower.includes("hollie"))
+    return "/images/crew/al.png";
+  if (lower.includes("andrea")) return "/images/crew/andrea.png";
+  if (lower.includes("arjun")) return "/images/crew/arjun.png";
+  if (lower.includes("chris")) return "/images/crew/chris.png";
+  if (lower.includes("colin") || lower.includes("farrell"))
+    return "/images/crew/chris.png";
+  if (lower.includes("daniel")) return "/images/crew/daniel.png";
+  if (lower.includes("croke")) return "/images/crew/dave_croke.png";
+  if (lower.includes("maas")) return "/images/crew/dave_maas.png";
+  if (lower.includes("xu")) return "/images/crew/david_xu.png";
+  if (lower.includes("emily")) return "/images/crew/emily.png";
+  if (lower.includes("emma")) return "/images/crew/emma.png";
+  if (lower.includes("erin")) return "/images/crew/erin.png";
+  if (lower.includes("francesca")) return "/images/crew/francesca.png";
+  if (lower.includes("john") && lower.includes("wick"))
+    return "/images/crew/john_wick.png";
+  if (lower.includes("john")) return "/images/crew/john_doe.png";
 
-  return '';
+  return "";
 };
 
 const STATIC_DIRECTORY: RoleUser[] = [
   // Admins
-  { id: "adm-1", name: "Michael Scimeca", email: "mikeyscimeca@gmail.com", role: "admin", phone: "630-555-0199", status: "Active", joinedDate: "2024-01-15" },
-  { id: "adm-2", name: "Anthony Anatone", email: "anthony@7thheavenband.com", role: "admin", phone: "815-555-0144", status: "Active", joinedDate: "2024-01-15" },
-  { id: "adm-3", name: "Mary Grivas", email: "mary@7thheavenband.com", role: "admin", phone: "708-555-0188", status: "Active", joinedDate: "2024-02-01" },
+  {
+    id: "adm-1",
+    name: "Michael Scimeca",
+    email: "mikeyscimeca@gmail.com",
+    role: "admin",
+    phone: "630-555-0199",
+    status: "Active",
+    joinedDate: "2024-01-15",
+  },
+  {
+    id: "adm-2",
+    name: "Anthony Anatone",
+    email: "anthony@7thheavenband.com",
+    role: "admin",
+    phone: "815-555-0144",
+    status: "Active",
+    joinedDate: "2024-01-15",
+  },
+  {
+    id: "adm-3",
+    name: "Mary Grivas",
+    email: "mary@7thheavenband.com",
+    role: "admin",
+    phone: "708-555-0188",
+    status: "Active",
+    joinedDate: "2024-02-01",
+  },
 
   // Crew
-  { id: "crw-1", name: "Mike Scimeca (Crew)", email: "mike@test.com", role: "crew", phone: "630-555-0101", status: "Active", joinedDate: "2024-03-10" },
-  { id: "crw-2", name: "Sammy Sound", email: "sammy@7thheavenband.com", role: "crew", phone: "312-555-0122", status: "Active", joinedDate: "2024-03-12" },
-  { id: "crw-3", name: "Ryan Lights", email: "ryan@7thheavenband.com", role: "crew", phone: "847-555-0133", status: "Active", joinedDate: "2024-03-15" },
-  { id: "crw-4", name: "Abbie Stage", email: "abbie@7thheavenband.com", role: "crew", phone: "630-555-0177", status: "Active", joinedDate: "2024-04-01" },
+  {
+    id: "crw-1",
+    name: "Mike Scimeca (Crew)",
+    email: "mike@test.com",
+    role: "crew",
+    phone: "630-555-0101",
+    status: "Active",
+    joinedDate: "2024-03-10",
+  },
+  {
+    id: "crw-2",
+    name: "Sammy Sound",
+    email: "sammy@7thheavenband.com",
+    role: "crew",
+    phone: "312-555-0122",
+    status: "Active",
+    joinedDate: "2024-03-12",
+  },
+  {
+    id: "crw-3",
+    name: "Ryan Lights",
+    email: "ryan@7thheavenband.com",
+    role: "crew",
+    phone: "847-555-0133",
+    status: "Active",
+    joinedDate: "2024-03-15",
+  },
+  {
+    id: "crw-4",
+    name: "Abbie Stage",
+    email: "abbie@7thheavenband.com",
+    role: "crew",
+    phone: "630-555-0177",
+    status: "Active",
+    joinedDate: "2024-04-01",
+  },
 
   // Cruise
-  { id: "crs-1", name: "Jennifer Miller", email: "jennifer.m@example.com", role: "cruise", phone: "312-555-9011", status: "Cabin 9122", joinedDate: "2026-05-10" },
-  { id: "crs-2", name: "David Thompson", email: "dthompson@example.com", role: "cruise", phone: "815-555-4022", status: "Cabin 8214", joinedDate: "2026-05-12" },
-  { id: "crs-3", name: "Sarah Connor", email: "s.connor@example.com", role: "cruise", phone: "708-555-1199", status: "Cabin 1004", joinedDate: "2026-05-18" },
+  {
+    id: "crs-1",
+    name: "Jennifer Miller",
+    email: "jennifer.m@example.com",
+    role: "cruise",
+    phone: "312-555-9011",
+    status: "Cabin 9122",
+    joinedDate: "2026-05-10",
+  },
+  {
+    id: "crs-2",
+    name: "David Thompson",
+    email: "dthompson@example.com",
+    role: "cruise",
+    phone: "815-555-4022",
+    status: "Cabin 8214",
+    joinedDate: "2026-05-12",
+  },
+  {
+    id: "crs-3",
+    name: "Sarah Connor",
+    email: "s.connor@example.com",
+    role: "cruise",
+    phone: "708-555-1199",
+    status: "Cabin 1004",
+    joinedDate: "2026-05-18",
+  },
 
   // Planners
-  { id: "pln-1", name: "Chicago Event Manager", email: "planner@test.com", role: "planner", phone: "312-555-8822", status: "Verified Planner", joinedDate: "2025-11-01" },
-  { id: "pln-2", name: "Rosemont Special Events", email: "chicago_manager@example.com", role: "planner", phone: "847-555-3311", status: "Verified Planner", joinedDate: "2025-12-05" },
+  {
+    id: "pln-1",
+    name: "Chicago Event Manager",
+    email: "planner@test.com",
+    role: "planner",
+    phone: "312-555-8822",
+    status: "Verified Planner",
+    joinedDate: "2025-11-01",
+  },
+  {
+    id: "pln-2",
+    name: "Rosemont Special Events",
+    email: "chicago_manager@example.com",
+    role: "planner",
+    phone: "847-555-3311",
+    status: "Verified Planner",
+    joinedDate: "2025-12-05",
+  },
 
   // Fans
-  { id: "fan-1", name: "Jessica Alba (Fan)", email: "jessica.fan@example.com", role: "fan", phone: "630-555-8811", status: "VIP Fan", joinedDate: "2025-08-14" },
-  { id: "fan-2", name: "Chris Evans", email: "chris.evans@example.com", role: "fan", phone: "312-555-4433", status: "Gold VIP", joinedDate: "2025-09-20" },
-  { id: "fan-3", name: "Amanda Seyfried", email: "amanda.s@example.com", role: "fan", phone: "847-555-2244", status: "Silver Fan", joinedDate: "2025-10-02" },
+  {
+    id: "fan-1",
+    name: "Jessica Alba (Fan)",
+    email: "jessica.fan@example.com",
+    role: "fan",
+    phone: "630-555-8811",
+    status: "VIP Fan",
+    joinedDate: "2025-08-14",
+  },
+  {
+    id: "fan-2",
+    name: "Chris Evans",
+    email: "chris.evans@example.com",
+    role: "fan",
+    phone: "312-555-4433",
+    status: "Gold VIP",
+    joinedDate: "2025-09-20",
+  },
+  {
+    id: "fan-3",
+    name: "Amanda Seyfried",
+    email: "amanda.s@example.com",
+    role: "fan",
+    phone: "847-555-2244",
+    status: "Silver Fan",
+    joinedDate: "2025-10-02",
+  },
 ];
 
 const getRoleBadgeStyle = (role: string) => {
   switch (role) {
-    case "admin": return "bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)]";
-    case "crew": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
-    case "cruise": return "bg-sky-500/20 text-sky-300 border-sky-500/30";
+    case "admin":
+      return "bg-[var(--color-purple-glow)] text-[var(--color-text-main)] border-[var(--color-border-purple)]";
+    case "crew":
+      return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+    case "cruise":
+      return "bg-sky-500/20 text-sky-300 border-sky-500/30";
     case "planner":
-    case "event_planner": return "bg-[var(--color-accent)]   border-[var(--color-accent)]";
-    default: return "bg-[var(--color-accent)]   border-[var(--color-accent)]";
+    case "event_planner":
+      return "bg-[var(--color-accent)]   border-[var(--color-accent)]";
+    default:
+      return "bg-[var(--color-accent)]   border-[var(--color-accent)]";
   }
 };
 
 const EMPTY_DYNAMIC_USERS: any[] = [];
 
-export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dynamicUsers?: any[] }) {
-  const [activeTab, setActiveTab] = useState<"all" | "crew" | "fan" | "cruise" | "planner" | "admin">("all");
+export function RoleEmailDirectory({
+  dynamicUsers = EMPTY_DYNAMIC_USERS,
+}: {
+  dynamicUsers?: any[];
+}) {
+  const [activeTab, setActiveTab] = useState<
+    "all" | "crew" | "fan" | "cruise" | "planner" | "admin"
+  >("all");
   const [search, setSearch] = useState("");
   const [copiedSuccess, setCopiedSuccess] = useState(false);
 
   const combinedUsers = useMemo(() => {
-    const formattedDynamic: RoleUser[] = (dynamicUsers || []).map(u => ({
+    const formattedDynamic: RoleUser[] = (dynamicUsers || []).map((u) => ({
       id: u.id || u.email,
       name: u.name || u.full_name || "User",
       email: u.email || "",
@@ -146,21 +287,25 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
   const counts = useMemo(() => {
     return {
       all: combinedUsers.length,
-      crew: combinedUsers.filter(u => u.role === "crew").length,
-      fan: combinedUsers.filter(u => u.role === "fan").length,
-      cruise: combinedUsers.filter(u => u.role === "cruise").length,
-      planner: combinedUsers.filter(u => u.role === "planner" || u.role === "event_planner").length,
-      admin: combinedUsers.filter(u => u.role === "admin").length,
+      crew: combinedUsers.filter((u) => u.role === "crew").length,
+      fan: combinedUsers.filter((u) => u.role === "fan").length,
+      cruise: combinedUsers.filter((u) => u.role === "cruise").length,
+      planner: combinedUsers.filter(
+        (u) => u.role === "planner" || u.role === "event_planner",
+      ).length,
+      admin: combinedUsers.filter((u) => u.role === "admin").length,
     };
   }, [combinedUsers]);
 
   // Filtered users by tab & search query
   const filteredUsers = useMemo(() => {
-    return combinedUsers.filter(u => {
+    return combinedUsers.filter((u) => {
       const matchRole =
-        activeTab === "all" ? true :
-          activeTab === "planner" ? (u.role === "planner" || u.role === "event_planner") :
-            u.role === activeTab;
+        activeTab === "all"
+          ? true
+          : activeTab === "planner"
+            ? u.role === "planner" || u.role === "event_planner"
+            : u.role === activeTab;
 
       const q = search.toLowerCase().trim();
       const matchSearch =
@@ -174,15 +319,21 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
   }, [combinedUsers, activeTab, search]);
 
   const handleCopyEmails = () => {
-    const emailsList = filteredUsers.map(u => u.email).join(", ");
+    const emailsList = filteredUsers.map((u) => u.email).join(", ");
     navigator.clipboard.writeText(emailsList);
     setCopiedSuccess(true);
     setTimeout(() => setCopiedSuccess(false), 3000);
   };
 
   const handleExportCSV = () => {
-    const csvContent = "Name,Email,Role,Phone,Status\n" +
-      filteredUsers.map(u => `"${u.name}","${u.email}","${u.role}","${u.phone || ''}","${u.status || 'Active'}"`).join("\n");
+    const csvContent =
+      "Name,Email,Role,Phone,Status\n" +
+      filteredUsers
+        .map(
+          (u) =>
+            `"${u.name}","${u.email}","${u.role}","${u.phone || ""}","${u.status || "Active"}"`,
+        )
+        .join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -195,26 +346,37 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
     URL.revokeObjectURL(url);
   };
 
-
   return (
-    <div className="py-6 pl-0 border-none">
-
+    <div className="border-none py-6 pl-0">
       {/* Header Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
+      <div className="mb-3 flex flex-col justify-between gap-4 md:flex-row md:items-center">
         {/* Role Tabs */}
-        <div className="flex items-center gap-1.5 flex-wrap">
-          {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(tab => {
-            const labelText = tab === "all" ? "ALL" : tab === "crew" ? "CREW" : tab === "fan" ? "FANS" : tab === "cruise" ? "CRUISE" : tab === "planner" ? "PLANNERS" : "ADMINS";
-            return (
-              <SectionBadge
-                key={tab}
-                isActive={activeTab === tab}
-                onClick={() => setActiveTab(tab)}
-                label={`${counts[tab]} ${labelText}`}
-                className="cursor-pointer"
-              />
-            );
-          })}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(
+            (tab) => {
+              const labelText =
+                tab === "all"
+                  ? "ALL"
+                  : tab === "crew"
+                    ? "CREW"
+                    : tab === "fan"
+                      ? "FANS"
+                      : tab === "cruise"
+                        ? "CRUISE"
+                        : tab === "planner"
+                          ? "PLANNERS"
+                          : "ADMINS";
+              return (
+                <SectionBadge
+                  key={tab}
+                  isActive={activeTab === tab}
+                  onClick={() => setActiveTab(tab)}
+                  label={`${counts[tab]} ${labelText}`}
+                  className="cursor-pointer"
+                />
+              );
+            },
+          )}
         </div>
 
         {/* Action Buttons */}
@@ -223,15 +385,19 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
             type="button"
             onClick={handleCopyEmails}
             icon={false}
-            className="px-3.5 py-2 cursor-pointer whitespace-nowrap"
-            title="Copy all email addresses for BCC email dispatch">
-            {copiedSuccess ? "Copied List!" : `Copy ${filteredUsers.length} Emails`}
+            className="cursor-pointer px-3.5 py-2 whitespace-nowrap"
+            title="Copy all email addresses for BCC email dispatch"
+          >
+            {copiedSuccess
+              ? "Copied List!"
+              : `Copy ${filteredUsers.length} Emails`}
           </SeventhButton>
 
           <button
             type="button"
             onClick={handleExportCSV}
-            className="px-3.5 py-2 bg-[#00000029] hover:bg-white/10 border-none transition-colors cursor-pointer flex items-center gap-1.5 rounded-lg whitespace-nowrap">
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg border-none bg-[#00000029] px-3.5 py-2 whitespace-nowrap transition-colors hover:bg-white/10"
+          >
             <span></span> Export CSV
           </button>
         </div>
@@ -247,10 +413,10 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
       />
 
       {/* Email List Container (Divs) */}
-      <div className="border-none overflow-hidden relative">
+      <div className="relative overflow-hidden border-none">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 border-b border-white/10 select-none]   ">
+          <div className="select-none] grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10 py-3 pr-4 pl-2">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -262,46 +428,51 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           <CustomScrollbar height={480} direction="vertical">
             <div className="divide-y divide-white/10">
               {filteredUsers.length === 0 ? (
-                <div className="py-8 text-center text-white/40 opacity-60  ">
+                <div className="py-8 text-center text-white/40 opacity-60">
                   No recipients found matching your search.
                 </div>
               ) : (
-                filteredUsers.map(user => (
-                  <div key={user.id} className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 py-3 pr-4 pl-2 bg-[#00000029] transition-colors border-b border-white/10">
-                    <div className="truncate flex items-center gap-2.5">
+                filteredUsers.map((user) => (
+                  <div
+                    key={user.id}
+                    className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10 bg-[#00000029] py-3 pr-4 pl-2 transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5 truncate">
                       {(() => {
-                        const avatarSrc = resolveMemberAvatar(user.name, user.avatar);
+                        const avatarSrc = resolveMemberAvatar(
+                          user.name,
+                          user.avatar,
+                        );
                         return avatarSrc ? (
                           <img
                             src={avatarSrc}
                             alt={user.name}
-                            className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/10 shadow-x"
+                            className="shadow-x h-11 w-11 shrink-0 rounded-full border border-white/10 object-cover"
                             onError={(e) => {
-                              (e.currentTarget as HTMLElement).style.display = 'none';
+                              (e.currentTarget as HTMLElement).style.display =
+                                "none";
                             }}
                           />
                         ) : (
                           <div
-                            className={`w-11 h-11 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 flex items-center justify-center text-[10px]   shrink-0 border border-white/20`}>
+                            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]`}
+                          >
                             {getInitials(user.name)}
                           </div>
                         );
                       })()}
                       <span className="truncate">{user.name}</span>
                     </div>
-                    <div className="select-all truncate">
-                      {user.email}
-                    </div>
-                    <div className="py-1 rouned-lg   ">
-                      {user.role}
-                    </div>
-                    <div className="text-white/50   truncate">
+                    <div className="truncate select-all">{user.email}</div>
+                    <div className="rouned-lg py-1">{user.role}</div>
+                    <div className="truncate text-white/50">
                       {user.phone || "—"}
                     </div>
                     <div className="text-right">
                       <a
                         href={`mailto:${user.email}`}
-                        className="px-2.5 py-1 bg-[#00000029] border border-white/10 ! rounded-lg transition-colors inline-flex items-center gap-1">
+                        className="! inline-flex items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1 transition-colors"
+                      >
                         Email
                       </a>
                     </div>
@@ -312,7 +483,7 @@ export function RoleEmailDirectory({ dynamicUsers = EMPTY_DYNAMIC_USERS }: { dyn
           </CustomScrollbar>
         </div>
         {/* Bottom smooth gradient mask blur overlay */}
-        <div className="absolute bottom-0 left-0 right-0 h-5 backdrop-blur-md pointer-events-none z-10 [mask-image:linear-gradient(to_top,black_20%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_top,black_20%,transparent_100%)]" />
+        <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-5 [mask-image:linear-gradient(to_top,black_20%,transparent_100%)] backdrop-blur-md [-webkit-mask-image:linear-gradient(to_top,black_20%,transparent_100%)]" />
       </div>
     </div>
   );

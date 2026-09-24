@@ -13,12 +13,13 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { productId, label, price, stockQuantity, lowStockThreshold, sku } = body;
+    const { productId, label, price, stockQuantity, lowStockThreshold, sku } =
+      body;
 
     if (!productId || !label || price === undefined) {
       return NextResponse.json(
         { error: "productId, label, and price are required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -45,12 +46,18 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error || !data) {
-      return NextResponse.json({ error: "Failed to add variant." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Failed to add variant." },
+        { status: 400 },
+      );
     }
 
     return NextResponse.json({ success: true, variant: data });
   } catch (err) {
     console.error("[admin/shop-inventory/variants] POST error:", err);
-    return NextResponse.json({ error: "Failed to add variant." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to add variant." },
+      { status: 500 },
+    );
   }
 }

@@ -34,13 +34,16 @@ function clamp01(v: number): number {
  * at 0, so the wipe still fully clears either way; only the shape of the
  * edge while it's moving changes.
  */
-function edgePoints(progress: number, slantFrac: number): { leftY: number; rightY: number } {
+function edgePoints(
+  progress: number,
+  slantFrac: number,
+): { leftY: number; rightY: number } {
   const d = Math.min(MAX_SLANT_FRAC, Math.abs(slantFrac));
   const span = 1 - d || 1; // guard against divide-by-zero at the clamp ceiling
 
   let leftP: number;
   let rightP: number;
-  if (slantFrac>= 0) {
+  if (slantFrac >= 0) {
     rightP = clamp01(progress / span);
     leftP = clamp01((progress - d) / span);
   } else {
@@ -59,7 +62,10 @@ function toPolygon(leftY: number, rightY: number): string {
  * @param progress  0 (fully covering) to 1 (fully cleared).
  * @param slantFrac -0.9 to 0.9. 0 = flat edge, matching the reference site.
  */
-export function buildCurtainClipPath(progress: number, slantFrac: number): string {
+export function buildCurtainClipPath(
+  progress: number,
+  slantFrac: number,
+): string {
   const { leftY, rightY } = edgePoints(clamp01(progress), slantFrac);
   return toPolygon(leftY, rightY);
 }
@@ -67,7 +73,7 @@ export function buildCurtainClipPath(progress: number, slantFrac: number): strin
 function stagedEdgePoints(
   progress: number,
   slantFrac: number,
-  slantStart: number
+  slantStart: number,
 ): { leftY: number; rightY: number } {
   const p = clamp01(progress);
   const start = Math.min(0.95, Math.max(0, slantStart));
@@ -107,7 +113,7 @@ function stagedEdgePoints(
 export function buildStagedCurtainClipPath(
   progress: number,
   slantFrac: number,
-  slantStart: number = 0.75
+  slantStart: number = 0.75,
 ): string {
   const { leftY, rightY } = stagedEdgePoints(progress, slantFrac, slantStart);
   return toPolygon(leftY, rightY);
@@ -163,7 +169,7 @@ export function buildStagedCurtainClipPath(
 export function buildDecayingSlantClipPath(
   progress: number,
   ratio: number = 0.095,
-  rampFraction: number = 0.05
+  rampFraction: number = 0.05,
 ): string {
   const p = clamp01(progress);
   const leftY = 100 * (1 - p);
@@ -182,7 +188,7 @@ export function buildDecayingSlantClipPath(
 export function buildDecayingSlantCoverClipPath(
   progress: number,
   ratio: number = 0.095,
-  rampFraction: number = 0.05
+  rampFraction: number = 0.05,
 ): string {
   const p = clamp01(progress);
   const leftY = 100 * (1 - p);

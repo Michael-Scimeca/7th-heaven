@@ -18,7 +18,9 @@ const HIVE_ENDPOINT = "https://api.thehive.ai/api/v2/task/sync";
 export async function POST(request: Request) {
   if (!HIVE_API_KEY) {
     // If no key is configured, allow the upload (fail open) so fans aren't blocked
-    console.warn("[moderate] HIVE_MODERATION_API_KEY not set — skipping moderation");
+    console.warn(
+      "[moderate] HIVE_MODERATION_API_KEY not set — skipping moderation",
+    );
     return NextResponse.json({ action: "allow", reason: "moderation_skipped" });
   }
 
@@ -44,7 +46,10 @@ export async function POST(request: Request) {
       const errText = await hiveRes.text();
       console.error("[moderate] Hive API error:", hiveRes.status, errText);
       // Fail open — don't block the user if Hive is unavailable
-      return NextResponse.json({ action: "allow", reason: "moderation_unavailable" });
+      return NextResponse.json({
+        action: "allow",
+        reason: "moderation_unavailable",
+      });
     }
 
     const hiveData = await hiveRes.json();
@@ -56,13 +61,13 @@ export async function POST(request: Request) {
     const score = (name: string) =>
       classes.find((c) => c.class === name)?.score ?? 0;
 
-    const sexualExplicit = score("sexual_explicit");          // hard pornography
-    const sexualSuggestive = score("sexual_suggestive");      // suggestive, borderline
+    const sexualExplicit = score("sexual_explicit"); // hard pornography
+    const sexualSuggestive = score("sexual_suggestive"); // suggestive, borderline
     const hateVisual = score("hate_visual");
     const violence = score("general_violence_very_graphic");
 
     // Hard block thresholds
-    if (sexualExplicit> 0.4 || hateVisual> 0.6 || violence> 0.7) {
+    if (sexualExplicit > 0.4 || hateVisual > 0.6 || violence > 0.7) {
       return NextResponse.json({
         action: "block",
         reason: "explicit_content",
@@ -70,7 +75,7 @@ export async function POST(request: Request) {
     }
 
     // Soft flag thresholds — send to admin review queue
-    if (sexualSuggestive> 0.55 || sexualExplicit> 0.15) {
+    if (sexualSuggestive > 0.55 || sexualExplicit > 0.15) {
       return NextResponse.json({
         action: "flag",
         reason: "suggestive_content",

@@ -28,15 +28,24 @@ import PageTransition from "@/components/PageTransition";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
-const HomeShaderGradient = dynamic(() => import("@/components/HomeShaderGradient"));
+const HomeShaderGradient = dynamic(
+  () => import("@/components/HomeShaderGradient"),
+);
 const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"));
-const PageNav = dynamic(() => import("@/components/PageNav").then((m) => m.PageNav));
+const PageNav = dynamic(() =>
+  import("@/components/PageNav").then((m) => m.PageNav),
+);
 const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
 import { ThemeTokens } from "@/lib/theme-tokens";
-import { fetchSanity, queries, getMediaUrl, SanitySiteSettings } from "@/lib/sanity";
+import {
+  fetchSanity,
+  queries,
+  getMediaUrl,
+  SanitySiteSettings,
+} from "@/lib/sanity";
 
 // Runs on EVERY full document load, matching the reference site. Gating this
 // on sessionStorage (as an earlier version did) meant refreshes and direct URL
@@ -57,7 +66,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const title =
     settings?.seo?.metaTitle ||
-    (settings?.tagline ? `7th Heaven — ${settings.tagline}` : "7th Heaven — Official Website");
+    (settings?.tagline
+      ? `7th Heaven — ${settings.tagline}`
+      : "7th Heaven — Official Website");
 
   const description =
     settings?.seo?.metaDescription ||
@@ -68,7 +79,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ? getMediaUrl(settings.seo.ogImage, "/images/logos/7thheavenlogo.jpg")
     : "/images/logos/7thheavenlogo.jpg";
 
-  const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+  const rawSiteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
   let metadataBase: URL;
   try {
     metadataBase = new URL(rawSiteUrl);
@@ -133,46 +145,47 @@ export async function generateMetadata(): Promise<Metadata> {
 const BAND_LD = {
   "@context": "https://schema.org",
   "@type": "MusicGroup",
-  "name": "7th Heaven",
-  "description": "Chart-topping rock band from Chicago, icons of the Midwest music scene for over 40 years.",
-  "genre": "Rock",
-  "url": "https://7thheavenband.com",
-  "logo": "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
-  "image": "https://7thheavenband.com/images/hero/hero-banner.png",
-  "sameAs": [
+  name: "7th Heaven",
+  description:
+    "Chart-topping rock band from Chicago, icons of the Midwest music scene for over 40 years.",
+  genre: "Rock",
+  url: "https://7thheavenband.com",
+  logo: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+  image: "https://7thheavenband.com/images/hero/hero-banner.png",
+  sameAs: [
     "https://www.facebook.com/7thheavenband",
     "https://twitter.com/7thheavenband",
     "https://www.instagram.com/7thheavenband",
-    "https://www.youtube.com/user/7thheavenband"
+    "https://www.youtube.com/user/7thheavenband",
   ],
-  "track": [
+  track: [
     {
       "@type": "MusicRecording",
-      "name": "Ain't That Just Beautiful",
-      "url": "https://www.youtube.com/watch?v=BzHUNTZ66zY",
-      "duration": "PT3M35S"
+      name: "Ain't That Just Beautiful",
+      url: "https://www.youtube.com/watch?v=BzHUNTZ66zY",
+      duration: "PT3M35S",
     },
     {
       "@type": "MusicRecording",
-      "name": "Be Here",
-      "inAlbum": "Be Here"
+      name: "Be Here",
+      inAlbum: "Be Here",
     },
     {
       "@type": "MusicRecording",
-      "name": "Sing",
-      "inAlbum": "Luminous"
+      name: "Sing",
+      inAlbum: "Luminous",
     },
     {
       "@type": "MusicRecording",
-      "name": "Better This Way",
-      "inAlbum": "Color In Motion"
+      name: "Better This Way",
+      inAlbum: "Color In Motion",
     },
     {
       "@type": "MusicRecording",
-      "name": "30 Songs in 30 Minutes",
-      "description": "The world-famous medley of 70s and 80s hits."
-    }
-  ]
+      name: "30 Songs in 30 Minutes",
+      description: "The world-famous medley of 70s and 80s hits.",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -181,7 +194,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${tanker.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark ${tanker.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Switzer (Fontshare, free variable font) — now the site's primary
          * typeface for both body copy and headings. Loaded as a linked
@@ -193,10 +210,22 @@ export default function RootLayout({
          * this stylesheet ever fails to load. --font-rockstar (the brand
          * wordmark font) is untouched on purpose. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link rel="preconnect" href="https://api.fontshare.com" />
-        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://cdn.fontshare.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://cdn.sanity.io"
+          crossOrigin="anonymous"
+        />
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
         <link
           rel="stylesheet"
@@ -234,31 +263,37 @@ export default function RootLayout({
             // Escape <,> and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
             __html: JSON.stringify(BAND_LD)
-              .replace(/</g, '\\u003c')
-              .replace(/>/g, '\\u003e')
-              .replace(/&/g, '\\u0026'),
+              .replace(/</g, "\\u003c")
+              .replace(/>/g, "\\u003e")
+              .replace(/&/g, "\\u0026"),
           }}
         />
 
-        <Script id="bypass-animations" strategy="afterInteractive" dangerouslySetInnerHTML={{
-          __html: `
+        <Script
+          id="bypass-animations"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
  if (window.location.search.includes('bypass=true')) {
  var style = document.createElement('style');
  style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
  document.head.appendChild(style);
  }
- ` }} />
+ `,
+          }}
+        />
         <TransitionProvider>
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
             <Providers>
               <ScrollToTop />
               <SmoothScroll>
                 <ProgressiveBlur position="top" />
-                <div id="page-content-wrapper" className="flex flex-col min-h-screen relative">
+                <div
+                  id="page-content-wrapper"
+                  className="relative flex min-h-screen flex-col"
+                >
                   <Header />
-                  <PageTransition>
-                    {children}
-                  </PageTransition>
+                  <PageTransition>{children}</PageTransition>
                   <Footer />
                   <Suspense fallback={null}>
                     <DraftModeExtras />
@@ -271,9 +306,7 @@ export default function RootLayout({
           </ThemeProvider>
         </TransitionProvider>
         {/* <Script id="font-inspector-snippet" src="/js/snippet.js" strategy="afterInteractive" /> */}
-
       </body>
     </html>
   );
 }
-

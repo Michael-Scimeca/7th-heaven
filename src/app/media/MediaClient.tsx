@@ -1,11 +1,24 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
-import Image from 'next/image';
+import Image from "next/image";
 import staticVideoCategories from "../../../public/data/videos.json";
 
-import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import { createPortal } from "react-dom";
-import { Plus, X, Video as VideoIcon, CheckCircle2, Play, Search } from "lucide-react";
+import {
+  Plus,
+  X,
+  Video as VideoIcon,
+  CheckCircle2,
+  Play,
+  Search,
+} from "lucide-react";
 import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
@@ -13,8 +26,13 @@ import SeventhButton from "@/components/SeventhButton";
 import GlassPlayButton from "@/components/GlassPlayButton";
 import AddCmsButton from "@/components/AddCmsButton";
 
-const CustomVideoPlayer = dynamic(() => import("@/components/CustomVideoPlayer"), { ssr: false });
-const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), { ssr: false });
+const CustomVideoPlayer = dynamic(
+  () => import("@/components/CustomVideoPlayer"),
+  { ssr: false },
+);
+const AudioPlayer = dynamic(() => import("@/components/AudioPlayer"), {
+  ssr: false,
+});
 
 interface Video {
   id: string;
@@ -32,12 +50,36 @@ interface VideoCategory {
 }
 
 const GRADIENT_PALETTES = [
-  { bg: "from-[#1e0b36] via-[#0d061c] to-[#05020a]", accent: "from-purple-500 to-indigo-500", glow: "rgba(168,85,247,0.3)" },
-  { bg: "from-[#0b1b36] via-[#060c1c] to-[#02050a]", accent: "from-blue-500 to-cyan-500", glow: "rgba(59,130,246,0.3)" },
-  { bg: "from-[#360b24] via-[#1c0613] to-[#0a0207]", accent: "from-pink-500 to-rose-500", glow: "rgba(244,63,94,0.3)" },
-  { bg: "from-[#29170b] via-[#140b05] to-[#080402]", accent: "from-amber-500 to-orange-500", glow: "rgba(245,158,11,0.3)" },
-  { bg: "from-[#0b3620] via-[#051c10] to-[#020a05]", accent: "from-emerald-500 to-teal-500", glow: "rgba(16,185,129,0.3)" },
-  { bg: "from-[#250b36] via-[#12051c] to-[#07020a]", accent: "from-violet-500 to-fuchsia-500", glow: "rgba(217,70,239,0.3)" },
+  {
+    bg: "from-[#1e0b36] via-[#0d061c] to-[#05020a]",
+    accent: "from-purple-500 to-indigo-500",
+    glow: "rgba(168,85,247,0.3)",
+  },
+  {
+    bg: "from-[#0b1b36] via-[#060c1c] to-[#02050a]",
+    accent: "from-blue-500 to-cyan-500",
+    glow: "rgba(59,130,246,0.3)",
+  },
+  {
+    bg: "from-[#360b24] via-[#1c0613] to-[#0a0207]",
+    accent: "from-pink-500 to-rose-500",
+    glow: "rgba(244,63,94,0.3)",
+  },
+  {
+    bg: "from-[#29170b] via-[#140b05] to-[#080402]",
+    accent: "from-amber-500 to-orange-500",
+    glow: "rgba(245,158,11,0.3)",
+  },
+  {
+    bg: "from-[#0b3620] via-[#051c10] to-[#020a05]",
+    accent: "from-emerald-500 to-teal-500",
+    glow: "rgba(16,185,129,0.3)",
+  },
+  {
+    bg: "from-[#250b36] via-[#12051c] to-[#07020a]",
+    accent: "from-violet-500 to-fuchsia-500",
+    glow: "rgba(217,70,239,0.3)",
+  },
 ];
 
 function VideoCardVisual({
@@ -54,20 +96,25 @@ function VideoCardVisual({
   shouldPrefetch?: boolean;
 }) {
   const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
-  const [imgSrc, setImgSrc] = useState<string>(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
+  const [imgSrc, setImgSrc] = useState<string>(
+    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+  );
   const [imgFailed, setImgFailed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const handleImageError = () => {
-    if (imgSrc.includes('hqdefault.jpg')) {
+    if (imgSrc.includes("hqdefault.jpg")) {
       setImgSrc(`https://i.ytimg.com/vi/${videoId}/0.jpg`);
     } else {
       setImgFailed(true);
     }
   };
 
-  const originUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+  const originUrl =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "http://localhost:3000";
   // 5-Second snippet clip of this specific video (loops between 10s and 15s)
   const embedSnippetUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=15&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`;
 
@@ -76,19 +123,19 @@ function VideoCardVisual({
   const shouldRenderIframe = isHovered || isTop6;
 
   return (
-    <div className={`relative w-full h-full bg-gradient-to-b ${palette.bg} overflow-hidden`}>
+    <div
+      className={`relative h-full w-full bg-gradient-to-b ${palette.bg} overflow-hidden`}
+    >
       {/* 1. Base Stylized Poster Layer */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden">
+      <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full blur-3xl opacity-40 pointer-events-none"
+          className="pointer-events-none absolute top-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full opacity-40 blur-3xl"
           style={{ background: palette.glow }}
         />
-        <div className="w-20 h-20 flex items-center justify-center mb-6">
+        <div className="mb-6 flex h-20 w-20 items-center justify-center">
           <GlassPlayButton size="lg" />
         </div>
-        <h4 className="/90 line-clamp-2 px-2 drop-shadow-md">
-          {title}
-        </h4>
+        <h4 className="/90 line-clamp-2 px-2 drop-shadow-md">{title}</h4>
       </div>
 
       {/* 2. Cover Image Layer */}
@@ -108,40 +155,54 @@ function VideoCardVisual({
 
       {/* 3. 5-Second Video Hover Snippet (Pre-buffered for top 6, instant playback on hover) */}
       {shouldRenderIframe && (
-        <div className={`absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10 transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}>
+        <div
+          className={`pointer-events-none absolute inset-0 z-10 h-full w-full overflow-hidden transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
+        >
           <iframe
             src={embedSnippetUrl}
             title={title}
             loading={isTop6 ? "eager" : "lazy"}
             onLoad={() => setIframeLoaded(true)}
-            className="w-[300%] h-[300%] -top-[100%] -left-[100%] absolute object-cover pointer-events-none border-0 z-10 transform-gpu"
+            className="pointer-events-none absolute -top-[100%] -left-[100%] z-10 h-[300%] w-[300%] transform-gpu border-0 object-cover"
             allow="autoplay; encrypted-media"
           />
         </div>
       )}
-
     </div>
   );
 }
 
 function extractYouTubeId(urlOrId: string): string {
-  const match = urlOrId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  const match = urlOrId.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/,
+  );
   if (match && match[1]) return match[1];
   const clean = urlOrId.trim();
   if (clean.length === 11 && /^[\w-]+$/.test(clean)) return clean;
   return clean;
 }
 
-export default function MediaClient({ sanityContent }: { sanityContent?: any }) {
+export default function MediaClient({
+  sanityContent,
+}: {
+  sanityContent?: any;
+}) {
   const { member, isLoggedIn } = useMember();
-  const isAdmin = Boolean(isLoggedIn && (member?.role === 'admin' || member?.role === 'crew' || (member as any)?.isAdmin === true));
+  const isAdmin = Boolean(
+    isLoggedIn &&
+    (member?.role === "admin" ||
+      member?.role === "crew" ||
+      (member as any)?.isAdmin === true),
+  );
   const mounted = useSyncExternalStore(
-    () => () => { },
+    () => () => {},
     () => true,
-    () => false
+    () => false,
   );
 
-  const [categories, setCategories] = useState<VideoCategory[]>(staticVideoCategories as VideoCategory[]);
+  const [categories, setCategories] = useState<VideoCategory[]>(
+    staticVideoCategories as VideoCategory[],
+  );
   const [playingVideo, setPlayingVideo] = useState<Video | null>(null);
   const [hoveredVideoId, setHoveredVideoId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
@@ -159,7 +220,9 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   const [customCategories, setCustomCategories] = useState<string[]>([]);
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [customCategoryInput, setCustomCategoryInput] = useState("");
-  const [newYear, setNewYear] = useState(() => new Date().getFullYear().toString());
+  const [newYear, setNewYear] = useState(() =>
+    new Date().getFullYear().toString(),
+  );
   const [newDuration, setNewDuration] = useState("3:30");
   const [newDesc, setNewDesc] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -183,7 +246,9 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].category) fromCategories.push(categories[i].category);
     }
-    return Array.from(new Set([...defaults, ...fromCategories, ...customCategories]));
+    return Array.from(
+      new Set([...defaults, ...fromCategories, ...customCategories]),
+    );
   }, [categories, customCategories]);
 
   const fetchCategories = useCallback(async () => {
@@ -201,7 +266,9 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
           const { videos: sanityVids } = await sanityRes.json();
           if (Array.isArray(sanityVids) && sanityVids.length > 0) {
             sanityVids.forEach((sv: any) => {
-              const targetCat = baseCategories.find((c) => c.category.toLowerCase() === sv.category?.toLowerCase());
+              const targetCat = baseCategories.find(
+                (c) => c.category.toLowerCase() === sv.category?.toLowerCase(),
+              );
               const formattedVideo: Video = {
                 id: sv.youtubeId,
                 title: sv.title,
@@ -225,14 +292,16 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             });
           }
         }
-      } catch { }
+      } catch {}
 
       try {
         const rawLocal = localStorage.getItem("7th_heaven_custom_videos_v1");
         if (rawLocal) {
           const customVids: any[] = JSON.parse(rawLocal);
           customVids.forEach((cv) => {
-            const targetCat = baseCategories.find((c) => c.category.toLowerCase() === cv.category?.toLowerCase());
+            const targetCat = baseCategories.find(
+              (c) => c.category.toLowerCase() === cv.category?.toLowerCase(),
+            );
             const formattedVideo: Video = {
               id: cv.id,
               title: cv.title,
@@ -255,12 +324,12 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
             }
           });
         }
-      } catch { }
+      } catch {}
 
       if (hasExtraVideos) {
         setCategories(baseCategories);
       }
-    } catch { }
+    } catch {}
   }, []);
 
   const [prefetchLimit, setPrefetchLimit] = useState<number>(6);
@@ -295,10 +364,14 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   // Filtered videos array based on active filter tab & search query
   const filteredVideos = React.useMemo(() => {
     return allVideos.filter((v) => {
-      const matchesCategory = activeFilter === "ALL" || v.category?.toUpperCase() === activeFilter.toUpperCase();
-      const matchesSearch = !searchQuery.trim() ||
+      const matchesCategory =
+        activeFilter === "ALL" ||
+        v.category?.toUpperCase() === activeFilter.toUpperCase();
+      const matchesSearch =
+        !searchQuery.trim() ||
         v.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (v.description && v.description.toLowerCase().includes(searchQuery.toLowerCase()));
+        (v.description &&
+          v.description.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
   }, [allVideos, activeFilter, searchQuery]);
@@ -316,10 +389,12 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) {
-          setVisibleCount((prev) => Math.min(prev + CARDS_PER_BATCH, filteredVideos.length));
+          setVisibleCount((prev) =>
+            Math.min(prev + CARDS_PER_BATCH, filteredVideos.length),
+          );
         }
       },
-      { rootMargin: "600px" }
+      { rootMargin: "600px" },
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
@@ -336,7 +411,9 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
       return;
     }
 
-    const targetCategory = (isCustomCategory ? customCategoryInput : newCategory).trim();
+    const targetCategory = (
+      isCustomCategory ? customCategoryInput : newCategory
+    ).trim();
     if (!targetCategory) {
       alert("Please select or enter a video category.");
       return;
@@ -373,16 +450,26 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
       const rawLocal = localStorage.getItem("7th_heaven_custom_videos_v1");
       const existing: any[] = rawLocal ? JSON.parse(rawLocal) : [];
-      const updated = [videoObj, ...existing.filter((v: any) => v.id !== videoObj.id)];
-      localStorage.setItem("7th_heaven_custom_videos_v1", JSON.stringify(updated));
+      const updated = [
+        videoObj,
+        ...existing.filter((v: any) => v.id !== videoObj.id),
+      ];
+      localStorage.setItem(
+        "7th_heaven_custom_videos_v1",
+        JSON.stringify(updated),
+      );
 
       if (isCustomCategory && customCategoryInput.trim()) {
-        setCustomCategories((prev) => Array.from(new Set([...prev, customCategoryInput.trim()])));
+        setCustomCategories((prev) =>
+          Array.from(new Set([...prev, customCategoryInput.trim()])),
+        );
       }
 
       setCategories((prev) => {
         const next = [...prev];
-        let cat = next.find((c) => c.category.toLowerCase() === videoObj.category.toLowerCase());
+        let cat = next.find(
+          (c) => c.category.toLowerCase() === videoObj.category.toLowerCase(),
+        );
         if (!cat) {
           cat = { category: videoObj.category, videos: [] };
           next.push(cat);
@@ -400,7 +487,9 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
       setNewTitle("");
       setNewUrl("");
       setNewDesc("");
-      setToastMessage(`🎉 Video "${videoObj.title}" successfully added under "${videoObj.category}"!`);
+      setToastMessage(
+        `🎉 Video "${videoObj.title}" successfully added under "${videoObj.category}"!`,
+      );
       setTimeout(() => setToastMessage(null), 4500);
     } catch (err: any) {
       alert(err?.message || "Failed to save video.");
@@ -410,15 +499,22 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
   };
 
   return (
-    <main className="min-h-screen page-container relative overflow-hidden" id="media-page">
+    <main
+      className="page-container relative min-h-screen overflow-hidden"
+      id="media-page"
+    >
       <div className="site-container relative z-10">
         {/* ── CENTERED PAGE TITLE ── */}
-        <header className="text-center mb-6">
+        <header className="mb-6 text-center">
           <h1>
-            {sanityContent?.heroHeading || sanityContent?.title || "7TH HEAVEN MEDIA VAULT"}
+            {sanityContent?.heroHeading ||
+              sanityContent?.title ||
+              "7TH HEAVEN MEDIA VAULT"}
           </h1>
-          <p className="mt-2 max-w-xl mx-auto">
-            {sanityContent?.heroSubheading || sanityContent?.subtitle || "40 years of music, live performances, official music videos, and press highlights."}
+          <p className="mx-auto mt-2 max-w-xl">
+            {sanityContent?.heroSubheading ||
+              sanityContent?.subtitle ||
+              "40 years of music, live performances, official music videos, and press highlights."}
           </p>
         </header>
 
@@ -429,32 +525,45 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
 
         <section className="mb-6">
           {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+          <div className="mb-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
-              placeholder={sanityContent?.searchPlaceholder || "Search Media..."}
+              placeholder={
+                sanityContent?.searchPlaceholder || "Search Media..."
+              }
               containerClassName="w-full sm:w-[320px]"
             />
             <AddCmsButton
-              label={sanityContent?.addVideoButtonText || "ADD VIDEO / MEDIA IN SANITY CMS"}
+              label={
+                sanityContent?.addVideoButtonText ||
+                "ADD VIDEO / MEDIA IN SANITY CMS"
+              }
               onClick={() => setIsAddModalOpen(true)}
             />
           </div>
 
           {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
-          <nav aria-label="Media Categories" className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto">
+          <nav
+            aria-label="Media Categories"
+            className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-2.5"
+          >
             <SeventhButton
               type="button"
               onClick={() => handleFilterChange("ALL")}
               isActive={activeFilter === "ALL"}
-              className="!w-auto  [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0"
+              className="!w-auto [&>span]:!min-w-0 [&>span]:!px-4 [&>span]:!py-2"
             >
               ALL
             </SeventhButton>
 
             {categories.map((cat) => {
-              if (!cat.category || !cat.category.trim() || cat.videos.length === 0) return null;
+              if (
+                !cat.category ||
+                !cat.category.trim() ||
+                cat.videos.length === 0
+              )
+                return null;
               const catUpper = cat.category.toUpperCase();
               const isActive = activeFilter.toUpperCase() === catUpper;
               return (
@@ -463,19 +572,18 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
                   type="button"
                   onClick={() => handleFilterChange(catUpper)}
                   isActive={isActive}
-                  className="!w-auto [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0"
+                  className="!w-auto [&>span]:!min-w-0 [&>span]:!px-4 [&>span]:!py-2"
                 >
                   {catUpper}
                 </SeventhButton>
               );
             })}
           </nav>
-
         </section>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
         <section aria-label="Media Gallery" key={activeFilter}>
-          <ul className="py-section-fluid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+          <ul className="py-section-fluid grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
             {visibleVideos.map((video, index) => {
               const isHovered = hoveredVideoId === video.id;
               const isMiddleCol = index % 3 === 1;
@@ -483,45 +591,55 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
               return (
                 <li key={`${activeFilter}-${video.id}`}>
                   <article
-                    className={`group relative flex flex-col aspect-[16/10] sm:aspect-[3/4.2] overflow-hidden transition-all duration-500 bg-[#0c071a] animate-[fade-in_0.35s_ease-out_both] ${isMiddleCol ? "lg:-translate-y-6 lg:z-10" : "lg:translate-y-4"}`}
-                    style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}>
+                    className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] flex-col overflow-hidden bg-[#0c071a] transition-all duration-500 sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-6" : "lg:translate-y-4"}`}
+                    style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}
+                  >
                     <button
                       type="button"
                       aria-label={`Play ${video.title}`}
                       onMouseEnter={() => setHoveredVideoId(video.id)}
                       onMouseLeave={() => setHoveredVideoId(null)}
                       onClick={() => setPlayingVideo(video)}
-                      className="w-full h-full text-left relative focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer">
+                      className="relative h-full w-full cursor-pointer text-left focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                    >
                       {/* Full Bleed Visual Media Player Preview */}
-                      <div className="absolute inset-0 w-full h-full">
-                        <VideoCardVisual key={video.id} videoId={video.id} title={video.title} isHovered={isHovered} index={index} shouldPrefetch={index < prefetchLimit} />
+                      <div className="absolute inset-0 h-full w-full">
+                        <VideoCardVisual
+                          key={video.id}
+                          videoId={video.id}
+                          title={video.title}
+                          isHovered={isHovered}
+                          index={index}
+                          shouldPrefetch={index < prefetchLimit}
+                        />
                       </div>
 
                       {/* Dark Gradient Overlay at Bottom */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none z-10" />
+                      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-0" />
 
                       {/* Centered Glass Play Button Above Dark Overlay */}
-                      <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none group-hover:scale-110 group-hover:opacity-0 transition-all duration-300">
+                      <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:opacity-0">
                         <GlassPlayButton size="lg" />
                       </div>
 
                       {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
-                      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8 z-20 flex flex-col items-center text-center justify-end pointer-events-none group-hover:opacity-0 transition-opacity duration-300">
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end p-4 text-center transition-opacity duration-300 group-hover:opacity-0 sm:p-8">
                         {/* Category Pill Tag */}
-                        <span className="inline-flex items-center justify-center text-center px-3 py-1.5 !rounded-lg bg-white/20 backdrop-blur-md border border-white/10 shrink-0 mb-2">
+                        <span className="mb-2 inline-flex shrink-0 items-center justify-center !rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-center backdrop-blur-md">
                           {video.category || "7TH HEAVEN"}
                         </span>
 
                         {/* Poster Title Container with Responsive Height */}
-                        <div className="h-10 sm:h-14 flex items-center justify-center">
-                          <h3 className="drop-shadow-md line-clamp-2 font-bold">
+                        <div className="flex h-10 items-center justify-center sm:h-14">
+                          <h3 className="line-clamp-2 font-bold drop-shadow-md">
                             {video.title}
                           </h3>
                         </div>
 
                         {/* Year / Duration Metadata */}
-                        <span className="shrink-0 text-white/70 text-xs">
-                          {video.year || "2026"} {video.duration ? `• ${video.duration}` : ""}
+                        <span className="shrink-0 text-xs text-white/70">
+                          {video.year || "2026"}{" "}
+                          {video.duration ? `• ${video.duration}` : ""}
                         </span>
                       </div>
                     </button>
@@ -536,21 +654,34 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
           <div ref={loadMoreRef} className="flex justify-center py-10">
             <button
               type="button"
-              onClick={() => setVisibleCount((prev) => Math.min(prev + CARDS_PER_BATCH, filteredVideos.length))}
-              className="btn-secondary rounded-full px-6 py-2.5 text-sm cursor-pointer">
-              {sanityContent?.loadMoreText || "Load more"} ({filteredVideos.length - visibleCount} more)
+              onClick={() =>
+                setVisibleCount((prev) =>
+                  Math.min(prev + CARDS_PER_BATCH, filteredVideos.length),
+                )
+              }
+              className="btn-secondary cursor-pointer rounded-full px-6 py-2.5 text-sm"
+            >
+              {sanityContent?.loadMoreText || "Load more"} (
+              {filteredVideos.length - visibleCount} more)
             </button>
           </div>
         )}
 
         {/* Empty State */}
         {filteredVideos.length === 0 && (
-          <div className="py-24 text-center bg-white/5 rounded-3xl border border-white/10">
-            <Search className="w-12 h-12 text-purple-400/50 mx-auto mb-6" />
-            <p className=" ">{sanityContent?.noResultsTitle || "No media found matching"} &quot;{searchQuery}&quot;</p>
+          <div className="rounded-3xl border border-white/10 bg-white/5 py-24 text-center">
+            <Search className="mx-auto mb-6 h-12 w-12 text-purple-400/50" />
+            <p className=" ">
+              {sanityContent?.noResultsTitle || "No media found matching"}{" "}
+              &quot;{searchQuery}&quot;
+            </p>
             <button
-              onClick={() => { setSearchQuery(""); setActiveFilter("ALL"); }}
-              className="btn-primary mt-4 px-6 py-2.5 rounded-lg cursor-pointer">
+              onClick={() => {
+                setSearchQuery("");
+                setActiveFilter("ALL");
+              }}
+              className="btn-primary mt-4 cursor-pointer rounded-lg px-6 py-2.5"
+            >
               {sanityContent?.clearFiltersText || "Clear Filters & Search"}
             </button>
           </div>
@@ -558,233 +689,250 @@ export default function MediaClient({ sanityContent }: { sanityContent?: any }) 
       </div>
 
       {/* ── CENTERED VIDEO MODAL ── */}
-      {mounted && playingVideo && createPortal(
-        <div
-          className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6 md:p-10 bg-black/85 backdrop-blur-md animate-[fade-in_0.2s_ease-out]"
-          onClick={() => setPlayingVideo(null)}
-        >
+      {mounted &&
+        playingVideo &&
+        createPortal(
           <div
-            className="relative w-full max-w-5xl bg-[#090414] border border-purple-500/30 rounded-2xl overflow-hidden] flex flex-col"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-[999999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-md sm:p-6 md:p-10"
+            onClick={() => setPlayingVideo(null)}
           >
-            {/* Modal Header Bar */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-black/60">
-              <div className="flex items-center gap-3">
-                <span className="text-xs    px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30">
-                  {playingVideo.category || "7TH HEAVEN"}
-                </span>
-                <h3 className=" sm:text-lg    line-clamp-1">
-                  {playingVideo.title}
-                </h3>
+            <div
+              className="overflow-hidden] relative flex w-full max-w-5xl flex-col rounded-2xl border border-purple-500/30 bg-[#090414]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header Bar */}
+              <div className="flex items-center justify-between border-b border-white/10 bg-black/60 px-6 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-2.5 py-1 text-xs text-purple-300">
+                    {playingVideo.category || "7TH HEAVEN"}
+                  </span>
+                  <h3 className="line-clamp-1 sm:text-lg">
+                    {playingVideo.title}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPlayingVideo(null)}
+                  className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-white/10 transition-colors hover:bg-white/20 hover:text-white"
+                  aria-label="Close modal"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setPlayingVideo(null)}
-                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20   hover:text-white transition-colors cursor-pointer shrink-0"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
 
-            {/* Video Player 16:9 Aspect Ratio Container */}
-            <div className="relative w-full aspect-video bg-black overflow-hidden">
-              <CustomVideoPlayer
-                videoId={playingVideo.id}
-                title={playingVideo.title}
-              />
+              {/* Video Player 16:9 Aspect Ratio Container */}
+              <div className="relative aspect-video w-full overflow-hidden bg-black">
+                <CustomVideoPlayer
+                  videoId={playingVideo.id}
+                  title={playingVideo.title}
+                />
+              </div>
             </div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body,
+        )}
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[999999] bg-gradient-to-r from-purple-950 to-black border border-purple-500/50 px-5 py-3.5 rounded-lg flex items-center gap-3 shadow-2xl">
+        <div className="fixed right-6 bottom-6 z-[999999] flex items-center gap-3 rounded-lg border border-purple-500/50 bg-gradient-to-r from-purple-950 to-black px-5 py-3.5 shadow-2xl">
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Add Video Modal */}
-      {mounted && isAddModalOpen && createPortal(
-        <div className="fixed inset-0 z-[999999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fade-in_0.15s_ease-out]">
-          <div className="bg-[#0f0921] border border-purple-500/40 rounded-2xl w-full max-w-lg overflow-hidden p-6 relative shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center">
-                  <VideoIcon className="w-4 h-4 text-purple-300" />
+      {mounted &&
+        isAddModalOpen &&
+        createPortal(
+          <div className="fixed inset-0 z-[999999] flex animate-[fade-in_0.15s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-md">
+            <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/40 bg-[#0f0921] p-6 shadow-2xl">
+              <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-purple-500/40 bg-purple-500/20">
+                    <VideoIcon className="h-4 w-4 text-purple-300" />
+                  </div>
+                  <div>
+                    <h3 className=" ">
+                      {sanityContent?.modalTitle || "Add Video to Media Vault"}
+                    </h3>
+                    <p className="text-xs text-purple-300/70">
+                      {sanityContent?.modalSubtitle ||
+                        "Syncs to Sanity CMS & Media Hub"}
+                    </p>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="btn-ghost cursor-pointer p-1"
+                >
+                  <X className="h-5 w-5 text-white/60" />
+                </button>
+              </div>
+
+              <form onSubmit={handleAddVideoSubmit} className="space-y-4">
                 <div>
-                  <h3 className="  ">{sanityContent?.modalTitle || "Add Video to Media Vault"}</h3>
-                  <p className="text-xs text-purple-300/70">{sanityContent?.modalSubtitle || "Syncs to Sanity CMS & Media Hub"}</p>
+                  <label className="block text-[10px] text-purple-300">
+                    Video URL or ID <span className="text-pink-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newUrl}
+                    onChange={(e) => setNewUrl(e.target.value)}
+                    placeholder="Paste video link or ID..."
+                    className="interactive-input w-full rounded-lg px-3 py-2 text-sm"
+                  />
                 </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsAddModalOpen(false)}
-                className="btn-ghost p-1 cursor-pointer">
-                <X className="w-5 h-5 text-white/60" />
-              </button>
-            </div>
 
-            <form onSubmit={handleAddVideoSubmit} className="space-y-4">
-              <div>
-                <label className="block text-[10px] text-purple-300">
-                  Video URL or ID <span className="text-pink-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newUrl}
-                  onChange={(e) => setNewUrl(e.target.value)}
-                  placeholder="Paste video link or ID..."
-                  className="interactive-input w-full rounded-lg px-3 py-2 text-sm"
-                />
-              </div>
-
-              {(() => {
-                const parsed = extractYouTubeId(newUrl);
-                if (parsed && parsed.length === 11) {
-                  return (
-                    <div className="p-3 bg-purple-950/40 border border-purple-500/40 rounded-lg flex items-center gap-4">
-                      <div className="relative w-24 h-14 rounded-lg overflow-hidden shrink-0 border border-white/10 bg-black">
-                        <Image
-                          src={`https://img.youtube.com/vi/${parsed}/hqdefault.jpg`}
-                          alt="Thumbnail preview"
-                          fill
-                          sizes="96px"
-                          className="object-cover"
-                          unoptimized
-                        />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1.5 text-purple-300">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                          <span>Valid Video Link Detected</span>
+                {(() => {
+                  const parsed = extractYouTubeId(newUrl);
+                  if (parsed && parsed.length === 11) {
+                    return (
+                      <div className="flex items-center gap-4 rounded-lg border border-purple-500/40 bg-purple-950/40 p-3">
+                        <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-black">
+                          <Image
+                            src={`https://img.youtube.com/vi/${parsed}/hqdefault.jpg`}
+                            alt="Thumbnail preview"
+                            fill
+                            sizes="96px"
+                            className="object-cover"
+                            unoptimized
+                          />
                         </div>
-                        <p className="mt-0.5 text-xs text-purple-200/80">ID: {parsed}</p>
+                        <div>
+                          <div className="flex items-center gap-1.5 text-purple-300">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                            <span>Valid Video Link Detected</span>
+                          </div>
+                          <p className="mt-0.5 text-xs text-purple-200/80">
+                            ID: {parsed}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                }
-                return null;
-              })()}
+                    );
+                  }
+                  return null;
+                })()}
 
-              <div>
-                <label className="block text-[10px] text-purple-300">
-                  Video Title <span className="text-pink-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 placeholder: text-white/30 focus:outline-none focus:border-purple-400"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="block text-[10px] text-purple-300">
-                      Category <span className="text-pink-400">*</span>
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsCustomCategory(!isCustomCategory);
-                        if (!isCustomCategory) {
-                          setCustomCategoryInput("");
-                        }
-                      }}
-                      className="text-[10px]   text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
-                    >
-                      {isCustomCategory ? "← Select List" : "+ New Category"}
-                    </button>
+                  <label className="block text-[10px] text-purple-300">
+                    Video Title <span className="text-pink-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    placeholder="e.g. Ain't That Just Beautiful (Official Video)"
+                    className="placeholder: w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30 focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="mb-1 flex items-center justify-between">
+                      <label className="block text-[10px] text-purple-300">
+                        Category <span className="text-pink-400">*</span>
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsCustomCategory(!isCustomCategory);
+                          if (!isCustomCategory) {
+                            setCustomCategoryInput("");
+                          }
+                        }}
+                        className="cursor-pointer text-[10px] text-purple-400 transition-colors hover:text-purple-300"
+                      >
+                        {isCustomCategory ? "← Select List" : "+ New Category"}
+                      </button>
+                    </div>
+
+                    {isCustomCategory ? (
+                      <input
+                        type="text"
+                        required
+                        value={customCategoryInput}
+                        onChange={(e) => setCustomCategoryInput(e.target.value)}
+                        placeholder="e.g. Acoustic Sessions"
+                        className="placeholder: w-full rounded-lg border border-purple-500/50 bg-black/60 px-3 py-2.5 text-sm text-white/30 focus:border-purple-400 focus:outline-none"
+                      />
+                    ) : (
+                      <select
+                        value={newCategory}
+                        onChange={(e) => {
+                          if (e.target.value === "__CUSTOM__") {
+                            setIsCustomCategory(true);
+                            setCustomCategoryInput("");
+                          } else {
+                            setNewCategory(e.target.value);
+                          }
+                        }}
+                        className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-3 py-2.5 text-sm focus:border-purple-400 focus:outline-none"
+                      >
+                        {availableCategories.map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                        <option value="__CUSTOM__">
+                          ✨ + Add Custom Category...
+                        </option>
+                      </select>
+                    )}
                   </div>
 
-                  {isCustomCategory ? (
+                  <div>
+                    <label className="block text-[10px] text-purple-300">
+                      Release Year
+                    </label>
                     <input
-                      type="text"
-                      required
-                      value={customCategoryInput}
-                      onChange={(e) => setCustomCategoryInput(e.target.value)}
-                      placeholder="e.g. Acoustic Sessions"
-                      className="w-full bg-black/60 border border-purple-500/50 rounded-lg px-3 py-2.5 placeholder: text-white/30 focus:outline-none focus:border-purple-400 text-sm"
+                      type="number"
+                      value={newYear}
+                      onChange={(e) => setNewYear(e.target.value)}
+                      placeholder="2026"
+                      className="placeholder: w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30 focus:border-purple-400 focus:outline-none"
                     />
-                  ) : (
-                    <select
-                      value={newCategory}
-                      onChange={(e) => {
-                        if (e.target.value === "__CUSTOM__") {
-                          setIsCustomCategory(true);
-                          setCustomCategoryInput("");
-                        } else {
-                          setNewCategory(e.target.value);
-                        }
-                      }}
-                      className="w-full bg-black/60 border border-white/10 rounded-lg px-3 py-2.5 focus:outline-none focus:border-purple-400 cursor-pointer text-sm"
-                    >
-                      {availableCategories.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                      <option value="__CUSTOM__">✨ + Add Custom Category...</option>
-                    </select>
-                  )}
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-[10px] text-purple-300">
-                    Release Year
+                    Description / Notes (Optional)
                   </label>
-                  <input
-                    type="number"
-                    value={newYear}
-                    onChange={(e) => setNewYear(e.target.value)}
-                    placeholder="2026"
-                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 placeholder: text-white/30 focus:outline-none focus:border-purple-400"
+                  <textarea
+                    rows={2}
+                    value={newDesc}
+                    onChange={(e) => setNewDesc(e.target.value)}
+                    placeholder="e.g. Filmed live at Frontier Days..."
+                    className="placeholder: w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2 text-white/30 focus:border-purple-400 focus:outline-none"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-[10px] text-purple-300">
-                  Description / Notes (Optional)
-                </label>
-                <textarea
-                  rows={2}
-                  value={newDesc}
-                  onChange={(e) => setNewDesc(e.target.value)}
-                  placeholder="e.g. Filmed live at Frontier Days..."
-                  className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2 placeholder: text-white/30 focus:outline-none focus:border-purple-400"
-                />
-              </div>
-
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
-                <button
-                  type="button"
-                  onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 text-white/70 hover:text-white transition-colors cursor-pointer">
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:to-pink-500 rounded-lg    text-xs transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] cursor-pointer disabled:opacity-50 flex items-center gap-2">
-                  {submitting
-                    ? (sanityContent?.modalSavingText || "Saving to Sanity...")
-                    : (sanityContent?.modalSubmitText || "+ PUBLISH VIDEO TO SANITY")}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>,
-        document.body
-      )}
+                <div className="flex items-center justify-end gap-3 border-t border-white/10 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddModalOpen(false)}
+                    className="cursor-pointer px-4 py-2 text-white/70 transition-colors hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 text-xs shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-all hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                  >
+                    {submitting
+                      ? sanityContent?.modalSavingText || "Saving to Sanity..."
+                      : sanityContent?.modalSubmitText ||
+                        "+ PUBLISH VIDEO TO SANITY"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
     </main>
   );
 }

@@ -1,4 +1,5 @@
-export type Category = "all" | "fan" | "live" | "booking" | "ecommerce" | "comms" | "platform";
+export type Category =
+  "all" | "fan" | "live" | "booking" | "ecommerce" | "comms" | "platform";
 
 export interface FeatureCard {
   icon: string;
@@ -32,7 +33,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "🗺️",
     title: "Interactive Visual Sitemap & Flowcharts",
-    tagline: "Full interactive architecture canvas with Header Nav pages listed first with thumbnails.",
+    tagline:
+      "Full interactive architecture canvas with Header Nav pages listed first with thumbnails.",
     description:
       "A complete interactive visual sitemap powered by @xyflow/react mapping every page, portal, PIN security module, and transactional email trigger across the site. Displays primary Header Navigation pages first with high-resolution thumbnail screenshots, followed by step-by-step 6-digit PIN verification user journeys and an XML sitemap generator.",
     whyItMatters:
@@ -52,7 +54,13 @@ export const FEATURES: FeatureCard[] = [
       "Custom smoothstep edges draw non-overlapping connectors between parent pages and child security modules",
       "Switching view tabs dynamically updates node/edge state while keeping zoom and pan positions fluid",
     ],
-    tags: ["React Flow", "Visual Sitemap", "Header Nav First", "Thumbnail Screenshots", "PIN Verification"],
+    tags: [
+      "React Flow",
+      "Visual Sitemap",
+      "Header Nav First",
+      "Thumbnail Screenshots",
+      "PIN Verification",
+    ],
     category: ["platform", "booking"],
     highlight: true,
     link: "/sitemap",
@@ -60,7 +68,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "📌",
     title: "Interactive Client Sticky Notes System",
-    tagline: "Drag & drop sticky notes anywhere on screen with zero-snapping pixel-exact placement.",
+    tagline:
+      "Drag & drop sticky notes anywhere on screen with zero-snapping pixel-exact placement.",
     description:
       "A complete real-time client feedback and sticky note annotation tool built directly into the site. Clients and band managers can add sticky notes anywhere on any page, drag them with pixel-exact free placement, type feedback notes, minimize/hide them, and log notes to a real-time database.",
     whyItMatters:
@@ -80,7 +89,13 @@ export const FEATURES: FeatureCard[] = [
       "Saving updates Supabase Postgres table 'client_notes' and broadcasts changes via WebSocket",
       "LocalStorage remembers hidden note IDs ('7th_heaven_hidden_note_ids_v1') across page refreshes",
     ],
-    tags: ["Sticky Notes", "Supabase Realtime", "Drag & Drop", "LocalStorage", "Client Feedback"],
+    tags: [
+      "Sticky Notes",
+      "Supabase Realtime",
+      "Drag & Drop",
+      "LocalStorage",
+      "Client Feedback",
+    ],
     category: ["comms", "platform"],
     highlight: true,
     link: "/",
@@ -88,7 +103,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "🎸",
     title: "Guitar Pick Collector Lottery Game",
-    tagline: "Collect rare digital concert picks and enter exclusive stage raffles.",
+    tagline:
+      "Collect rare digital concert picks and enter exclusive stage raffles.",
     description:
       "An interactive gamified collector experience where fans discover and unlock rare 7th Heaven concert guitar picks (Signature, Stage Worn, Anniversary Edition). Fans earn entries into exclusive band raffles, view 3D pick art, and redeem winning PIN codes at live shows.",
     whyItMatters:
@@ -105,7 +121,13 @@ export const FEATURES: FeatureCard[] = [
       "Winning draws generate a 6-digit PIN code emailed via Resend and claimable at /claim/[pin]",
       "Client UI uses CSS 3D transforms and glassmorphism cards for realistic pick displays",
     ],
-    tags: ["Guitar Picks", "Gamification", "Lottery Game", "Raffle Claims", "VIP Rewards"],
+    tags: [
+      "Guitar Picks",
+      "Gamification",
+      "Lottery Game",
+      "Raffle Claims",
+      "VIP Rewards",
+    ],
     category: ["fan", "live"],
     highlight: true,
     link: "/picks",
@@ -113,7 +135,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "📜",
     title: "1,200+ Performance Past Shows Archive",
-    tagline: "Searchable database of over 1,200 historic 7th Heaven concerts and setlists.",
+    tagline:
+      "Searchable database of over 1,200 historic 7th Heaven concerts and setlists.",
     description:
       "A comprehensive, searchable archive indexing over 1,200 past 7th Heaven performances since the band's formation. Fans and venue managers can search by city, venue, year, or song title, view historical setlists, watch live fan video captures, and sign up for venue-specific show alerts.",
     whyItMatters:
@@ -130,7 +153,13 @@ export const FEATURES: FeatureCard[] = [
       "Next.js SSG pre-renders popular show pages with ISR revalidation for fast load times",
       "The 'Notify Me Next Time' form registers city/venue push preferences for future proximity alerts",
     ],
-    tags: ["Past Shows", "1200+ Concerts", "Setlist Database", "Full-Text Search", "Nostalgia Marketing"],
+    tags: [
+      "Past Shows",
+      "1200+ Concerts",
+      "Setlist Database",
+      "Full-Text Search",
+      "Nostalgia Marketing",
+    ],
     category: ["fan"],
     highlight: true,
     link: "/shows/past",
@@ -159,7 +188,13 @@ export const FEATURES: FeatureCard[] = [
       "Sanity CMS provides tour dates, bio content, and site settings — any update in Sanity appears on the site within seconds",
       "Direct merchant API queries hydrate the merch section with live product data and pricing",
     ],
-    tags: ["Live Detection", "Music Player", "Interactive Map", "Direct Store", "Sanity CMS"],
+    tags: [
+      "Live Detection",
+      "Music Player",
+      "Interactive Map",
+      "Direct Store",
+      "Sanity CMS",
+    ],
     demo: "/demos/homepage.webp",
     category: ["fan", "live"],
     highlight: true,
@@ -196,7 +231,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "🎬",
     title: "Video Gallery",
-    tagline: "Every music video, live performance, and backstage clip — organized.",
+    tagline:
+      "Every music video, live performance, and backstage clip — organized.",
     description:
       "The video gallery is a full-featured, categorized video library. It's not just an embedded YouTube playlist — it's a custom-built video browsing experience with 10+ content categories, thumbnail grids that match the site's aesthetic, and an inline player that keeps fans on the page rather than sending them to YouTube.",
     whyItMatters:
@@ -215,7 +251,12 @@ export const FEATURES: FeatureCard[] = [
       "The inline player uses YouTube's iframe API embedded in a focus-trapping modal",
       "Category navigation is rendered from a static config file, making it easy to add new categories without code changes",
     ],
-    tags: ["YouTube API", "Custom Inline Player", "10+ Categories", "Smart Fallback"],
+    tags: [
+      "YouTube API",
+      "Custom Inline Player",
+      "10+ Categories",
+      "Smart Fallback",
+    ],
     demo: "/demos/video-gallery.webp",
     category: ["fan"],
     link: "/video",
@@ -242,14 +283,20 @@ export const FEATURES: FeatureCard[] = [
       "Track state (current position, playing/paused, active track) is managed in global React context",
       "The /api/audio route serves track metadata and pre-signed streaming URLs",
     ],
-    tags: ["Audio Streaming", "Persistent Player", "Track Queue", "Supabase Storage"],
+    tags: [
+      "Audio Streaming",
+      "Persistent Player",
+      "Track Queue",
+      "Supabase Storage",
+    ],
     demo: "/demos/audio-player.webp",
     category: ["fan"],
   },
   {
     icon: "📸",
     title: "Fan Photo & Video Gallery",
-    tagline: "Every fan's concert photos & video clips, displayed and celebrated.",
+    tagline:
+      "Every fan's concert photos & video clips, displayed and celebrated.",
     description:
       "Fans are invited to submit their own photos and videos from shows, and they appear in a beautiful grid on the site. Before any image touches the server, it's scanned by an AI model for safety. Uploaded video clips are automatically processed and compressed on the server using FFmpeg to standardize to web-friendly MP4 (H.264/AAC), reducing file sizes by up to 80% while retaining high quality.",
     whyItMatters:
@@ -269,7 +316,13 @@ export const FEATURES: FeatureCard[] = [
       "Processed items are saved with type 'image' or 'video' in the fan memories database",
       "The masonry feed filters and queries only approved submissions, using standard HTML5 media tag elements for rendering",
     ],
-    tags: ["FFmpeg Compression", "TensorFlow.js AI", "Admin Moderation", "Video Player", "Lightbox"],
+    tags: [
+      "FFmpeg Compression",
+      "TensorFlow.js AI",
+      "Admin Moderation",
+      "Video Player",
+      "Lightbox",
+    ],
     demo: "/demos/fan-photo-wall.webp",
     category: ["fan"],
     link: "/fan-media-wall",
@@ -306,7 +359,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "🎟️",
     title: "Show Pages & RSVP",
-    tagline: "Every show has its own page — RSVP, share, see who's going, and check out what you missed.",
+    tagline:
+      "Every show has its own page — RSVP, share, see who's going, and check out what you missed.",
     description:
       "Each show gets a dedicated page containing everything a fan needs: RSVP controls, a live attendee count, an invite challenge, and directions. For past shows, the page converts to a retrospective gallery featuring high-quality live performance clips and a 'Notify Me Next Time' automated email collector so fans never miss the next date.",
     whyItMatters:
@@ -327,7 +381,13 @@ export const FEATURES: FeatureCard[] = [
       "RSVP state is stored in Supabase's show_attendance table with user_id + show_id + status",
       "QR codes are generated server-side using the QR Server API with the show's URL",
     ],
-    tags: ["RSVP State Machine", "Notify Me Email Collector", "Past Show Video Embed", "QR Codes", "Social Proof"],
+    tags: [
+      "RSVP State Machine",
+      "Notify Me Email Collector",
+      "Past Show Video Embed",
+      "QR Codes",
+      "Social Proof",
+    ],
     demo: "/demos/tour-map.webp",
     category: ["fan"],
     highlight: true,
@@ -357,13 +417,20 @@ export const FEATURES: FeatureCard[] = [
       "Proximity matching uses stored lat/lng coordinates vs. venue coordinates",
       "Proximity alerts allow 1-click RSVP and venue directions directly inside the notification prompt",
     ],
-    tags: ["Web Push API", "Geo-Targeting", "Browser Push", "Email Alerts", "High Engagement"],
+    tags: [
+      "Web Push API",
+      "Geo-Targeting",
+      "Browser Push",
+      "Email Alerts",
+      "High Engagement",
+    ],
     category: ["fan", "comms"],
   },
   {
     icon: "🔔",
     title: "Web Browser Alerts",
-    tagline: "Native browser push notifications for fans without sharing phone numbers.",
+    tagline:
+      "Native browser push notifications for fans without sharing phone numbers.",
     description:
       "For fans who prefer not to share their mobile number, we support native web browser alerts. Fans opt-in to browser notifications directly on the signup form or in their profile. On signup approval, the website triggers a desktop or browser notification dynamically showing details of the next upcoming show.",
     whyItMatters:
@@ -381,7 +448,12 @@ export const FEATURES: FeatureCard[] = [
       "On successful registration, the client constructs a new Notification object using browser runtime APIs to show custom text details and a band emoji",
       "Notification preferences are sent to the /api/notify endpoint to persist 'notifyBrowser' status in the user's account record",
     ],
-    tags: ["Browser Alerts", "Notification API", "Permissions", "No-Install Push"],
+    tags: [
+      "Browser Alerts",
+      "Notification API",
+      "Permissions",
+      "No-Install Push",
+    ],
     category: ["fan", "comms"],
   },
   {
@@ -410,7 +482,13 @@ export const FEATURES: FeatureCard[] = [
       "The referral QR code is generated via the QR Server API using the fan's unique referral code (stored in Supabase)",
       "The prize wallet reads from the raffle_entries table filtered by user_id with status='winner'",
     ],
-    tags: ["Role-Based Access", "JWT Sessions", "Referral Program", "VIP Wallet", "60-Day Cruise Expiry"],
+    tags: [
+      "Role-Based Access",
+      "JWT Sessions",
+      "Referral Program",
+      "VIP Wallet",
+      "60-Day Cruise Expiry",
+    ],
     demo: "/demos/fan-dashboard.webp",
     category: ["fan"],
     highlight: true,
@@ -419,7 +497,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "✉️",
     title: "Bulk Fan Invitations with PINs",
-    tagline: "Build your fan database in bulk with pre-confirmed email verification PINs.",
+    tagline:
+      "Build your fan database in bulk with pre-confirmed email verification PINs.",
     description:
       "Administrators can upload CSV contact lists or paste raw names and emails to bulk-invite fans to register. Each invited fan receives a customized invitation containing a unique, 7-day 6-digit PIN. Clicking the link auto-opens the signup modal, pre-fills the details, and registers the fan instantly without needing an extra PIN dispatch step.",
     whyItMatters:
@@ -439,7 +518,13 @@ export const FEATURES: FeatureCard[] = [
       "The endpoint checks requireAdmin authorization, generates a random 6-digit PIN, saves it to pins registry, and sends the fanInvitation email blast",
       "When the fan clicks the URL, LoginModal detects search params in useEffect, pre-populates state, and routes direct submit credentials to /api/auth/verify-pin on signup",
     ],
-    tags: ["CSV Import", "Bulk Emails", "PIN Codes", "Bypass Verification", "Next.js Route"],
+    tags: [
+      "CSV Import",
+      "Bulk Emails",
+      "PIN Codes",
+      "Bypass Verification",
+      "Next.js Route",
+    ],
     demo: "/demos/email-templates.webp",
     category: ["fan", "comms", "platform"],
     highlight: true,
@@ -528,7 +613,13 @@ export const FEATURES: FeatureCard[] = [
       "Emoji reactions are broadcast via Supabase real-time channels — they appear on every connected viewer's screen simultaneously",
       "The hype meter value is computed client-side based on the rate of incoming chat messages and reactions over the last 10 seconds",
     ],
-    tags: ["WebRTC LiveKit", "Real-Time Chat", "Floating Reactions", "Hype Meter", "Multi-Room"],
+    tags: [
+      "WebRTC LiveKit",
+      "Real-Time Chat",
+      "Floating Reactions",
+      "Hype Meter",
+      "Multi-Room",
+    ],
     demo: "/demos/live-hub.webp",
     category: ["live"],
     highlight: true,
@@ -560,14 +651,20 @@ export const FEATURES: FeatureCard[] = [
       "Chat moderation works by inserting a muted_users record — the chat API rejects messages from muted users",
       "When the crew ends the stream, the LiveKit room is closed and the Supabase live_streams record is deleted",
     ],
-    tags: ["LiveKit Streaming", "Cross-Tab Sync", "Chat Moderation", "One-Click Live"],
+    tags: [
+      "LiveKit Streaming",
+      "Cross-Tab Sync",
+      "Chat Moderation",
+      "One-Click Live",
+    ],
     category: ["live"],
     link: "/crew",
   },
   {
     icon: "🎥",
     title: "OBS Virtual Camera Support",
-    tagline: "Stream from any WiFi camera, DSLR, or multi-angle rig — no extra code required.",
+    tagline:
+      "Stream from any WiFi camera, DSLR, or multi-angle rig — no extra code required.",
     description:
       "Crew members can use OBS Studio (free) to pull in any WiFi camera, IP camera, GoPro, DSLR, or capture card feed and output it as a Virtual Camera device. The /crew broadcast dashboard automatically detects it as a selectable camera — just pick it from the dropdown and go live. Supports scene switching, overlays, and multi-camera mixing all before the stream even hits LiveKit.",
     whyItMatters:
@@ -589,13 +686,21 @@ export const FEATURES: FeatureCard[] = [
       "On the /crew broadcast page, the camera selector now shows 'OBS Virtual Camera'",
       "Crew selects it, clicks Go Live — LiveKit publishes the OBS-processed video feed to all viewers",
     ],
-    tags: ["Add-On", "OBS Studio", "WiFi Camera", "Zero Code", "Multi-Camera", "DSLR Support"],
+    tags: [
+      "Add-On",
+      "OBS Studio",
+      "WiFi Camera",
+      "Zero Code",
+      "Multi-Camera",
+      "DSLR Support",
+    ],
     category: ["live"],
   },
   {
     icon: "📡",
     title: "LiveKit RTMP Ingress — Direct Camera Streaming",
-    tagline: "Push any camera or encoder feed directly into a LiveKit room via RTMP — no browser needed.",
+    tagline:
+      "Push any camera or encoder feed directly into a LiveKit room via RTMP — no browser needed.",
     description:
       "With LiveKit Ingress enabled, crew can stream from professional cameras, dedicated hardware encoders, or OBS directly into the platform via an RTMP endpoint — exactly like streaming to YouTube or Twitch, but routed into the 7th Heaven fan viewer. No laptop browser required on the streaming side. The camera operator just points their encoder at the RTMP URL and the stream appears live for all fans.",
     whyItMatters:
@@ -617,13 +722,21 @@ export const FEATURES: FeatureCard[] = [
       "The encoder pushes the stream to LiveKit, which transcodes and distributes it to all viewer WebRTC connections",
       "The Supabase live_streams record is created as normal — homepage and live hub update automatically",
     ],
-    tags: ["Add-On", "RTMP Ingress", "LiveKit API", "Professional Broadcast", "Hardware Encoder", "OBS"],
+    tags: [
+      "Add-On",
+      "RTMP Ingress",
+      "LiveKit API",
+      "Professional Broadcast",
+      "Hardware Encoder",
+      "OBS",
+    ],
     category: ["live"],
   },
   {
     icon: "🎰",
     title: "Live Raffle Engine",
-    tagline: "Mid-stream raffles that go from launch to winner email in under 2 minutes.",
+    tagline:
+      "Mid-stream raffles that go from launch to winner email in under 2 minutes.",
     description:
       "The raffle engine is one of the most exciting features on the platform. Crew launches a raffle mid-stream, fans enter with a single tap, a live countdown runs, a winner is randomly selected and announced on-screen for all viewers to see, and a personalized winner email with a 6-digit PIN is sent automatically. The winner claims their prize at a dedicated page with no login required.",
     whyItMatters:
@@ -647,7 +760,13 @@ export const FEATURES: FeatureCard[] = [
       "The PIN is generated as a 6-digit random integer, stored hashed in Supabase, and sent plaintext in the email",
       "Resend is called from the /api/raffle/winner endpoint with the pre-built Raffle Winner email template",
     ],
-    tags: ["Real-Time State", "Supabase", "Resend Email", "PIN Claim", "Auto-Restart"],
+    tags: [
+      "Real-Time State",
+      "Supabase",
+      "Resend Email",
+      "PIN Claim",
+      "Auto-Restart",
+    ],
     demo: "/demos/pick-awards.webp",
     category: ["live"],
     highlight: true,
@@ -655,7 +774,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "🔥",
     title: "Merch Flash Drops",
-    tagline: "Limited-time exclusive merch drops — only available during a live stream.",
+    tagline:
+      "Limited-time exclusive merch drops — only available during a live stream.",
     description:
       "Flash drops are timed exclusive product sales that only appear during a live broadcast. The crew triggers a drop mid-stream, all viewers see a product card overlay with a countdown and live stock count, and fans can checkout instantly via Shopify or reserve their item for pickup at the merch table after the show. The urgency and exclusivity drives immediate conversions.",
     whyItMatters:
@@ -682,7 +802,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "💬",
     title: "PG-Moderated Live Chat",
-    tagline: "Real-time chat that's safe for all ages — two layers of protection.",
+    tagline:
+      "Real-time chat that's safe for all ages — two layers of protection.",
     description:
       "The live chat has two independent layers of content moderation. The first is a client-side filter that catches violations before any network request is even made. The second is a server-side enforcement layer that validates every message, applies rate limiting, checks for spam patterns, and blocks role spoofing. Crew can mute any fan with a single tap.",
     whyItMatters:
@@ -706,13 +827,20 @@ export const FEATURES: FeatureCard[] = [
       "The mute list is stored in Supabase's banned_users table per room — checked on every message insert attempt",
       "A singleton Supabase admin client is reused across requests — no connection overhead per message",
     ],
-    tags: ["Dual-Layer Moderation", "Rate Limiting", "Crew Mute Controls", "XSS Protection", "Role Enforcement"],
+    tags: [
+      "Dual-Layer Moderation",
+      "Rate Limiting",
+      "Crew Mute Controls",
+      "XSS Protection",
+      "Role Enforcement",
+    ],
     category: ["live"],
   },
   {
     icon: "📋",
     title: "Multi-Step Booking & Scheduling Hub",
-    tagline: "Event planners request single or multi-date runs with modular options.",
+    tagline:
+      "Event planners request single or multi-date runs with modular options.",
     description:
       "The booking flow is a polished, guided multi-step form that allows planners to select multiple dates and time slots in a single submission, configure unique requirements per show (like door times, cover charges, and age restrictions), and secure their identity using a 6-digit email verification PIN code. It creates a planner account, dispatches Resend confirmation alerts, and logs requests in the admin dashboard.",
     whyItMatters:
@@ -735,7 +863,13 @@ export const FEATURES: FeatureCard[] = [
       "A cancel token (UUID) is generated at booking time and stored in Supabase — included in the confirmation email",
       "Admin reviews, approves, or directly contacts the booker from the booking approval dashboard",
     ],
-    tags: ["PIN Verification", "Multi-Slot Scheduling", "Supabase", "Resend Email", "Local Storage Pre-fill"],
+    tags: [
+      "PIN Verification",
+      "Multi-Slot Scheduling",
+      "Supabase",
+      "Resend Email",
+      "Local Storage Pre-fill",
+    ],
     demo: "/demos/booking-form.webp",
     category: ["booking"],
     highlight: true,
@@ -764,7 +898,12 @@ export const FEATURES: FeatureCard[] = [
       "Checklist items are stored as JSONB in the bookings record — the planner's edits call a PATCH endpoint",
       "Email notifications on status changes are triggered by a Supabase database webhook that calls /api/email",
     ],
-    tags: ["Role-Based Access", "Row-Level Security", "Real-Time Status", "Email Notifications"],
+    tags: [
+      "Role-Based Access",
+      "Row-Level Security",
+      "Real-Time Status",
+      "Email Notifications",
+    ],
     category: ["booking"],
     link: "/planner",
   },
@@ -792,7 +931,12 @@ export const FEATURES: FeatureCard[] = [
       "If found and not already cancelled, it renders the cancellation confirmation UI",
       "On confirm, a PATCH call updates the status field and triggers the admin alert email",
     ],
-    tags: ["Secure UUID Tokens", "No-Login Flow", "Admin Alerts", "One-Time Use"],
+    tags: [
+      "Secure UUID Tokens",
+      "No-Login Flow",
+      "Admin Alerts",
+      "One-Time Use",
+    ],
     category: ["booking"],
   },
   {
@@ -821,7 +965,13 @@ export const FEATURES: FeatureCard[] = [
       "The invite link is included in the Cruise Community Welcome email sent via Resend",
       "When the passenger clicks the invite link, their Supabase Auth account is created and they get access to /cruise/dashboard",
     ],
-    tags: ["Supabase Auth Invite", "Live Counter", "Email Confirmation", "Itinerary", "Cinematic Hero"],
+    tags: [
+      "Supabase Auth Invite",
+      "Live Counter",
+      "Email Confirmation",
+      "Itinerary",
+      "Cinematic Hero",
+    ],
     demo: "/demos/cruise.webp",
     category: ["fan"],
     highlight: true,
@@ -851,7 +1001,13 @@ export const FEATURES: FeatureCard[] = [
       "The cruise chat uses the same Supabase real-time chat infrastructure as the live stream chat",
       "The itinerary is managed in Supabase — admin adds/edits days via the admin dashboard",
     ],
-    tags: ["Role-Based Access", "WYSIWYG Editor", "Real-Time Chat", "Admin Controlled", "Countdown Timer"],
+    tags: [
+      "Role-Based Access",
+      "WYSIWYG Editor",
+      "Real-Time Chat",
+      "Admin Controlled",
+      "Countdown Timer",
+    ],
     category: ["fan"],
     link: "/cruise/dashboard",
   },
@@ -880,7 +1036,13 @@ export const FEATURES: FeatureCard[] = [
       "Cart mutations are client-side direct-to-Shopify — the cart ID is the session key",
       "The /api/shopify route proxies requests to avoid exposing the access token in client-side code",
     ],
-    tags: ["Shopify Storefront API", "GraphQL", "Headless Checkout", "Live Inventory", "No Data Storage"],
+    tags: [
+      "Shopify Storefront API",
+      "GraphQL",
+      "Headless Checkout",
+      "Live Inventory",
+      "No Data Storage",
+    ],
     demo: "/demos/store-merch.webp",
     category: ["ecommerce"],
     highlight: true,
@@ -910,7 +1072,13 @@ export const FEATURES: FeatureCard[] = [
       "The /claim page calls /api/raffle/claim with the PIN — the API queries Supabase and returns prize details if valid",
       "On successful claim, a PATCH updates is_claimed to true — subsequent requests return 'already claimed'",
     ],
-    tags: ["6-Digit PIN", "One-Time Token", "No-Login Claim", "Supabase", "Admin Verification"],
+    tags: [
+      "6-Digit PIN",
+      "One-Time Token",
+      "No-Login Claim",
+      "Supabase",
+      "Admin Verification",
+    ],
     demo: "/demos/claim.webp",
     category: ["ecommerce", "live"],
     link: "/claim",
@@ -943,7 +1111,14 @@ export const FEATURES: FeatureCard[] = [
       "All templates are previewed and test-sent from /admin/emails — no code deployment needed to test",
       "RESEND_FROM_EMAIL env variable controls the sender address — switching to a custom domain requires one env change",
     ],
-    tags: ["Resend", "12 Templates", "React Email", "HTML", "Mobile Responsive", "Admin Preview"],
+    tags: [
+      "Resend",
+      "12 Templates",
+      "React Email",
+      "HTML",
+      "Mobile Responsive",
+      "Admin Preview",
+    ],
     demo: "/demos/email-templates.webp",
     category: ["comms"],
     highlight: true,
@@ -971,13 +1146,20 @@ export const FEATURES: FeatureCard[] = [
       "Geolocation engine matches fan coordinates with upcoming show venue locations",
       "Notifications tester page (/notifications) lets admins test push alerts in real time",
     ],
-    tags: ["Web Push API", "Browser Push", "Resend Email", "Proximity Alerts", "Service Worker"],
+    tags: [
+      "Web Push API",
+      "Browser Push",
+      "Resend Email",
+      "Proximity Alerts",
+      "Service Worker",
+    ],
     category: ["comms"],
   },
   {
     icon: "📰",
     title: "Newsletter Blast",
-    tagline: "Reach every fan and subscriber in one click from the admin dashboard.",
+    tagline:
+      "Reach every fan and subscriber in one click from the admin dashboard.",
     description:
       "Admin composes a newsletter directly in the admin dashboard and sends it to the entire fan database and newsletter subscriber list in one action. The email is sent via Resend using the branded Newsletter Blast template. No third-party email marketing platform needed — it's built directly into the admin panel.",
     whyItMatters:
@@ -996,7 +1178,13 @@ export const FEATURES: FeatureCard[] = [
       "For each email, a Resend send call is made with the newsletter template rendered with the admin's content",
       "Unsubscribe processing updates opted_in=false in Supabase when a link is clicked",
     ],
-    tags: ["Resend", "Admin Dashboard", "Bulk Email", "GDPR Unsubscribe", "Instant Delivery"],
+    tags: [
+      "Resend",
+      "Admin Dashboard",
+      "Bulk Email",
+      "GDPR Unsubscribe",
+      "Instant Delivery",
+    ],
     category: ["comms"],
   },
   {
@@ -1030,7 +1218,13 @@ export const FEATURES: FeatureCard[] = [
       "The audit log writes a record to Supabase on every significant admin action",
       "Cruise tab data is stored in Supabase's site_settings table as structured JSONB",
     ],
-    tags: ["Role-Based", "WYSIWYG Editors", "Shopify Admin API", "Audit Log", "CSV Export"],
+    tags: [
+      "Role-Based",
+      "WYSIWYG Editors",
+      "Shopify Admin API",
+      "Audit Log",
+      "CSV Export",
+    ],
     demo: "/demos/admin-dashboard.webp",
     category: ["platform"],
     highlight: true,
@@ -1039,7 +1233,8 @@ export const FEATURES: FeatureCard[] = [
   {
     icon: "🧠",
     title: "AI Photo Moderation",
-    tagline: "Client-side AI that blocks inappropriate images before they ever leave the browser.",
+    tagline:
+      "Client-side AI that blocks inappropriate images before they ever leave the browser.",
     description:
       "Fan photo submissions are screened by an AI model that runs entirely in the browser using TensorFlow.js. The NSFW.js model analyzes the image in under 500ms and scores it across several categories. If the score exceeds the threshold for inappropriate content, the upload is blocked immediately with a friendly error message — before any data is sent to the server.",
     whyItMatters:
@@ -1061,7 +1256,13 @@ export const FEATURES: FeatureCard[] = [
       "Only images that pass the AI check are submitted to the /api/fans/memories endpoint",
       "Supabase Storage receives only pre-screened images — admin approval is the second gate",
     ],
-    tags: ["TensorFlow.js", "NSFW.js", "Client-Side AI", "Zero Server Exposure", "Real-Time Screening"],
+    tags: [
+      "TensorFlow.js",
+      "NSFW.js",
+      "Client-Side AI",
+      "Zero Server Exposure",
+      "Real-Time Screening",
+    ],
     category: ["platform"],
   },
   {
@@ -1089,7 +1290,13 @@ export const FEATURES: FeatureCard[] = [
       "When content changes in Sanity Studio, the live channel pushes an update — the page re-renders without a full reload",
       "For static paths (e.g. /members/[slug]), Next.js generateStaticParams is used to pre-render all member pages at build time, with on-demand revalidation when Sanity content changes",
     ],
-    tags: ["Sanity Studio", "GROQ Queries", "Live Content API", "Draft Preview", "No-Code Updates"],
+    tags: [
+      "Sanity Studio",
+      "GROQ Queries",
+      "Live Content API",
+      "Draft Preview",
+      "No-Code Updates",
+    ],
     category: ["platform"],
     link: "/studio",
   },
@@ -1118,13 +1325,21 @@ export const FEATURES: FeatureCard[] = [
       "Supabase RLS policies use the authenticated user's JWT sub claim to enforce data access rules",
       "The 60-day cruise expiry is implemented via a scheduled Supabase function that updates cruise_member_expires_at",
     ],
-    tags: ["JWT", "Supabase Auth", "Row-Level Security", "4 Roles", "60-Day Expiry", "Server-Side Validation"],
+    tags: [
+      "JWT",
+      "Supabase Auth",
+      "Row-Level Security",
+      "4 Roles",
+      "60-Day Expiry",
+      "Server-Side Validation",
+    ],
     category: ["platform"],
   },
   {
     icon: "🛡️",
     title: "API Security Layer",
-    tagline: "Every API route hardened — rate-limited, validated, and sanitized.",
+    tagline:
+      "Every API route hardened — rate-limited, validated, and sanitized.",
     description:
       "Every public and protected API route is built with a security-first mindset. Rate limiting prevents abuse, input validation prevents bad data, role enforcement prevents privilege escalation, XSS sanitization prevents injection attacks, and spam detection keeps the chat clean. No API route trusts anything the client sends.",
     whyItMatters:
@@ -1146,24 +1361,91 @@ export const FEATURES: FeatureCard[] = [
       "Role validation happens server-side: the user's role is read from the Supabase profiles table, not from the request body",
       "Input validation returns a 400 immediately for any missing/invalid field before reaching database code",
     ],
-    tags: ["Rate Limiting", "Input Validation", "XSS Protection", "Role Enforcement", "Spam Detection", "Singleton Client"],
+    tags: [
+      "Rate Limiting",
+      "Input Validation",
+      "XSS Protection",
+      "Role Enforcement",
+      "Spam Detection",
+      "Singleton Client",
+    ],
     category: ["platform"],
   },
 ];
 
 export const TECH: TechItem[] = [
-  { name: "Next.js 15", desc: "React framework with App Router, SSR, ISR, and API routes — every page and API endpoint.", icon: "▲", color: "#ffffff" },
-  { name: "Supabase", desc: "Auth, Postgres database, real-time subscriptions, Row-Level Security, and Storage.", icon: "⚡", color: "#3ecf8e" },
-  { name: "LiveKit", desc: "WebRTC rooms, participant tracking, and token generation for crew broadcasts and fan viewing.", icon: "📡", color: "#818cf8" },
-  { name: "Direct Store Engine", desc: "Custom merchant storefront with direct gateway processing, real-time stock sync & per-variant control.", icon: "🛒", color: "#c084fc" },
-  { name: "Web Push API", desc: "Browser push notifications & Service Workers for show proximity, live broadcasts, and fan updates.", icon: "🔔", color: "#f59e0b" },
-  { name: "Resend", desc: "All 12 transactional email templates — delivery, bounce handling, and test previews.", icon: "📧", color: "#60a5fa" },
-  { name: "Sanity CMS", desc: "Tour dates, news, band bios, member profiles, site settings, and media library.", icon: "📝", color: "#f43f5e" },
-  { name: "TensorFlow.js", desc: "Client-side NSFW image detection for fan photo submissions — zero server exposure.", icon: "🧠", color: "#fb923c" },
-  { name: "Leaflet.js", desc: "Interactive tour maps — venue pins, geo-coordinates, popups, and filtering.", icon: "🗺️", color: "#a3e635" },
-  { name: "TypeScript", desc: "End-to-end type safety across all 977 lines of the features page alone.", icon: "🔷", color: "#93c5fd" },
-  { name: "Vercel", desc: "Edge deployment, CDN, environment management, and Cron Jobs for auto SMS blasts.", icon: "🚀", color: "#ffffff" },
-  { name: "Tailwind CSS v4", desc: "Custom design system with brand tokens, glassmorphism utilities, and responsive layouts.", icon: "🎨", color: "#38bdf8" },
+  {
+    name: "Next.js 15",
+    desc: "React framework with App Router, SSR, ISR, and API routes — every page and API endpoint.",
+    icon: "▲",
+    color: "#ffffff",
+  },
+  {
+    name: "Supabase",
+    desc: "Auth, Postgres database, real-time subscriptions, Row-Level Security, and Storage.",
+    icon: "⚡",
+    color: "#3ecf8e",
+  },
+  {
+    name: "LiveKit",
+    desc: "WebRTC rooms, participant tracking, and token generation for crew broadcasts and fan viewing.",
+    icon: "📡",
+    color: "#818cf8",
+  },
+  {
+    name: "Direct Store Engine",
+    desc: "Custom merchant storefront with direct gateway processing, real-time stock sync & per-variant control.",
+    icon: "🛒",
+    color: "#c084fc",
+  },
+  {
+    name: "Web Push API",
+    desc: "Browser push notifications & Service Workers for show proximity, live broadcasts, and fan updates.",
+    icon: "🔔",
+    color: "#f59e0b",
+  },
+  {
+    name: "Resend",
+    desc: "All 12 transactional email templates — delivery, bounce handling, and test previews.",
+    icon: "📧",
+    color: "#60a5fa",
+  },
+  {
+    name: "Sanity CMS",
+    desc: "Tour dates, news, band bios, member profiles, site settings, and media library.",
+    icon: "📝",
+    color: "#f43f5e",
+  },
+  {
+    name: "TensorFlow.js",
+    desc: "Client-side NSFW image detection for fan photo submissions — zero server exposure.",
+    icon: "🧠",
+    color: "#fb923c",
+  },
+  {
+    name: "Leaflet.js",
+    desc: "Interactive tour maps — venue pins, geo-coordinates, popups, and filtering.",
+    icon: "🗺️",
+    color: "#a3e635",
+  },
+  {
+    name: "TypeScript",
+    desc: "End-to-end type safety across all 977 lines of the features page alone.",
+    icon: "🔷",
+    color: "#93c5fd",
+  },
+  {
+    name: "Vercel",
+    desc: "Edge deployment, CDN, environment management, and Cron Jobs for auto SMS blasts.",
+    icon: "🚀",
+    color: "#ffffff",
+  },
+  {
+    name: "Tailwind CSS v4",
+    desc: "Custom design system with brand tokens, glassmorphism utilities, and responsive layouts.",
+    icon: "🎨",
+    color: "#38bdf8",
+  },
 ];
 
 export const CATEGORIES: CategoryItem[] = [

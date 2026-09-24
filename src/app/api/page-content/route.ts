@@ -8,7 +8,13 @@ export async function GET(req: NextRequest) {
     const data = await fetchPageContent(key);
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    console.error("[API/page-content] Error fetching Sanity page content:", error);
-    return NextResponse.json({ success: false, data: null, error: "Failed to fetch page content" }, { status: 500 });
+    console.error(
+      "[API/page-content] Error fetching Sanity page content:",
+      error,
+    );
+    return NextResponse.json(
+      { success: false, data: null, error: "Failed to fetch page content" },
+      { status: 500 },
+    );
   }
 }

@@ -1,7 +1,12 @@
 "use client";
 
 import Link, { LinkProps } from "next/link";
-import { AnchorHTMLAttributes, MouseEvent, ReactNode, useCallback } from "react";
+import {
+  AnchorHTMLAttributes,
+  MouseEvent,
+  ReactNode,
+  useCallback,
+} from "react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "@/context/TransitionContext";
 import { Loader2 } from "lucide-react";
@@ -33,8 +38,12 @@ export default function TransitionLink({
   const { requestTransition, pendingHref, mode } = useTransition();
 
   const handlePrefetch = useCallback(() => {
-    const targetHref = typeof href === "string" ? href : href.pathname ?? "";
-    if (targetHref && !targetHref.includes("#") && !targetHref.startsWith("/studio")) {
+    const targetHref = typeof href === "string" ? href : (href.pathname ?? "");
+    if (
+      targetHref &&
+      !targetHref.includes("#") &&
+      !targetHref.startsWith("/studio")
+    ) {
       router.prefetch(targetHref);
     }
   }, [href, router]);
@@ -46,16 +55,22 @@ export default function TransitionLink({
       return;
     }
 
-    const targetHref = typeof href === "string" ? href : href.pathname ?? "";
-    if (!targetHref || targetHref.includes("#") || targetHref.startsWith("/studio")) return; // anchor scroll or studio link
-    const currentPathname = typeof window !== "undefined" ? window.location.pathname : "";
+    const targetHref = typeof href === "string" ? href : (href.pathname ?? "");
+    if (
+      !targetHref ||
+      targetHref.includes("#") ||
+      targetHref.startsWith("/studio")
+    )
+      return; // anchor scroll or studio link
+    const currentPathname =
+      typeof window !== "undefined" ? window.location.pathname : "";
     if (targetHref === currentPathname) return; // already there
 
     e.preventDefault();
     requestTransition(targetHref);
   };
 
-  const targetHref = typeof href === "string" ? href : href.pathname ?? "";
+  const targetHref = typeof href === "string" ? href : (href.pathname ?? "");
   const isPending =
     showSpinner &&
     mode !== "idle" &&
@@ -65,9 +80,9 @@ export default function TransitionLink({
 
   return (
     <Link
- href={href}
- onClick={handleClick}
- onMouseEnter={(e) => {
+      href={href}
+      onClick={handleClick}
+      onMouseEnter={(e) => {
         onMouseEnter?.(e);
         handlePrefetch();
       }}
@@ -84,9 +99,9 @@ export default function TransitionLink({
         handlePrefetch();
       }}
       className={className}
-      {...rest}>
+      {...rest}
+    >
       {children}
     </Link>
   );
 }
-

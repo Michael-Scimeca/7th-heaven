@@ -42,14 +42,15 @@ export const AuroraText = memo(
       <span className={`relative inline-block ${className}`}>
         <span className="sr-only">{children}</span>
         <span
- className="aurora-text-aurora relative bg-clip-text text-transparent"
- style={gradientStyle}
- aria-hidden="true">
+          className="aurora-text-aurora relative bg-clip-text text-transparent"
+          style={gradientStyle}
+          aria-hidden="true"
+        >
           {children}
         </span>
       </span>
     );
-  }
+  },
 );
 
 AuroraText.displayName = "AuroraText";

@@ -18,7 +18,7 @@ const CATEGORIES = [
       { path: "/book", label: "Book Band" },
       { path: "/contact", label: "Contact" },
       { path: "/notifications", label: "🔔 Push Alerts Tester" },
-    ]
+    ],
   },
   {
     name: "Footer Nav Pages",
@@ -29,32 +29,26 @@ const CATEGORIES = [
       { path: "/privacy", label: "Privacy Policy" },
       { path: "/terms", label: "Terms of Service" },
       { path: "/returns", label: "Returns & Refunds" },
-    ]
+    ],
   },
   {
     name: "Fan Pages",
     pages: [
       { path: "/fans", label: "Fan Dashboard" },
       { path: "/fan-media-wall", label: "Fan Media Wall" },
-    ]
+    ],
   },
   {
     name: "Crew Pages",
-    pages: [
-      { path: "/crew", label: "Crew Dashboard" },
-    ]
+    pages: [{ path: "/crew", label: "Crew Dashboard" }],
   },
   {
     name: "Planner Pages",
-    pages: [
-      { path: "/planner", label: "Planner Dashboard" },
-    ]
+    pages: [{ path: "/planner", label: "Planner Dashboard" }],
   },
   {
     name: "Cruise Pages",
-    pages: [
-      { path: "/cruise/dashboard", label: "Cruise Dashboard" },
-    ]
+    pages: [{ path: "/cruise/dashboard", label: "Cruise Dashboard" }],
   },
   {
     name: "Verification Pages",
@@ -63,7 +57,7 @@ const CATEGORIES = [
       { path: "/planner/verify", label: "Planner Verify" },
       { path: "/cruise/verify", label: "Cruise Verify" },
       { path: "/claim/123456", label: "Raffle Claim Verify" },
-    ]
+    ],
   },
   {
     name: "Admin Pages",
@@ -71,7 +65,7 @@ const CATEGORIES = [
       { path: "/admin", label: "Admin Dashboard" },
       { path: "/admin/shop-inventory", label: "Shop Inventory" },
       { path: "/studio", label: "Sanity Studio" },
-    ]
+    ],
   },
   {
     name: "Email Pages",
@@ -79,7 +73,7 @@ const CATEGORIES = [
       { path: "/admin/emails", label: "Email Templates" },
       { path: "/admin/email-map", label: "Email Map" },
       { path: "/cruise/email-preview", label: "Email Preview" },
-    ]
+    ],
   },
   {
     name: "Merch Pages",
@@ -87,7 +81,7 @@ const CATEGORIES = [
       { path: "/merch", label: "Merch Store" },
       { path: "/qr/merch", label: "QR Merch" },
       { path: "/payment-test", label: "Test Shop (North/EPX)" },
-    ]
+    ],
   },
   {
     name: "Misc",
@@ -95,10 +89,9 @@ const CATEGORIES = [
       { path: "/admin/legal", label: "Legal & Compliance Verify" },
       { path: "/features", label: "Features" },
       { path: "/style-guide", label: "Style Guide" },
-    ]
+    ],
   },
 ];
-
 
 export function PageNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -145,19 +138,39 @@ export function PageNav() {
 
   if (pathname?.startsWith("/studio")) return null;
   // Only available in development mode or when explicitly enabled
-  if (process.env.NODE_ENV !== "development" && process.env.NEXT_PUBLIC_SHOW_DEV_NAV !== "true") return null;
+  if (
+    process.env.NODE_ENV !== "development" &&
+    process.env.NEXT_PUBLIC_SHOW_DEV_NAV !== "true"
+  )
+    return null;
 
   return (
-
-    <div className="fixed bottom-8 left-8 z-[999999] pointer-events-auto select-none" ref={menuRef}>
+    <div
+      className="pointer-events-auto fixed bottom-8 left-8 z-[999999] select-none"
+      ref={menuRef}
+    >
       {isOpen && (
         <div
-          className="absolute bottom-full mb-6 left-0 w-[320px] sm:w-[340px] backdrop-blur-[18px] rounded-lg animate-[fade-in-up_0.2s_ease-out_both] origin-bottom-left flex flex-col overflow-hidden pointer-events-auto bg-[#0a00653b] backdrop-blur-[45px] border-l border-white/10"
-          style={{ maxHeight: 'min(80vh, 600px)' }}>
+          className="pointer-events-auto absolute bottom-full left-0 mb-6 flex w-[320px] origin-bottom-left animate-[fade-in-up_0.2s_ease-out_both] flex-col overflow-hidden rounded-lg border-l border-white/10 bg-[#0a00653b] backdrop-blur-[18px] backdrop-blur-[45px] sm:w-[340px]"
+          style={{ maxHeight: "min(80vh, 600px)" }}
+        >
           {/* Header — fixed, translucent blur */}
-          <div className="py-4 border-b border-white/10 bg-white/[0.04] backdrop-blur-[45px] shrink-0">
+          <div className="shrink-0 border-b border-white/10 bg-white/[0.04] py-4 backdrop-blur-[45px]">
             <h3 className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-purple-400"
+              >
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
               Dev Navigator
             </h3>
             <p className=" ">Jump to any page instantly</p>
@@ -166,15 +179,19 @@ export function PageNav() {
           {/* Scrollable list — grows to fill remaining height with visible custom scrollbar */}
           <div
             ref={listRef}
-            className="p-3 flex flex-col gap-3 overflow-y-auto custom-scrollbar rounded-b-2xl"
+            className="custom-scrollbar flex flex-col gap-3 overflow-y-auto rounded-b-2xl p-3"
             style={{
-              overscrollBehavior: 'contain',
-              scrollbarWidth: 'thin',
-              scrollbarColor: 'rgba(168, 85, 247, 0.6) rgba(255, 255, 255, 0.05)'
-            }}>
+              overscrollBehavior: "contain",
+              scrollbarWidth: "thin",
+              scrollbarColor:
+                "rgba(168, 85, 247, 0.6) rgba(255, 255, 255, 0.05)",
+            }}
+          >
             {CATEGORIES.map((category) => (
               <div key={category.name} className="flex flex-col gap-1">
-                <h4 className="pl-2 mt-2 mb-1 border-b border-white/10 pb-1">{category.name}</h4>
+                <h4 className="mt-2 mb-1 border-b border-white/10 pb-1 pl-2">
+                  {category.name}
+                </h4>
                 {category.pages.map((page) => {
                   const isActive = pathname === page.path;
                   return (
@@ -184,11 +201,23 @@ export function PageNav() {
                       onClick={() => {
                         setIsOpen(false);
                         // Bypasses login for Restricted pages in dev mode
-                        if (['/crew', '/admin', '/admin/MikeyS', '/admin/RichH', '/admin/emails', '/admin/legal', '/fans', '/planner'].includes(page.path)) {
-                          localStorage.setItem('7h_dev_bypass', 'true');
+                        if (
+                          [
+                            "/crew",
+                            "/admin",
+                            "/admin/MikeyS",
+                            "/admin/RichH",
+                            "/admin/emails",
+                            "/admin/legal",
+                            "/fans",
+                            "/planner",
+                          ].includes(page.path)
+                        ) {
+                          localStorage.setItem("7h_dev_bypass", "true");
                         }
                       }}
-                      className={`px-3 py-2 rounded-lg transition-colors flex items-center justify-between group ${isActive ? "bg-purple-600 shadow-purple-600/30" : "   hover:bg-white/10 hover:text-white "}`}>
+                      className={`group flex items-center justify-between rounded-lg px-3 py-2 transition-colors ${isActive ? "bg-purple-600 shadow-purple-600/30" : "hover:bg-white/10 hover:text-white"}`}
+                    >
                       <span>{page.label}</span>
                     </Link>
                   );
@@ -205,18 +234,31 @@ export function PageNav() {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
         }}
-        className={`flex items-center gap-2 px-6 h-12 rounded-lg transition-colors duration-300 cursor-pointer pointer-events-auto select-none ${isOpen ? "bg-white   shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"}`}
-        title="Page Navigator">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300">
+        className={`pointer-events-auto flex h-12 cursor-pointer items-center gap-2 rounded-lg px-6 transition-colors duration-300 select-none ${isOpen ? "bg-white shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:bg-gray-200" : "bg-[var(--color-accent)] shadow-[0_0_30px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"}`}
+        title="Page Navigator"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="transition-transform duration-300"
+        >
           {isOpen ? (
             <path d="M18 6L6 18M6 6l12 12" />
           ) : (
             <>
-              <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
             </>
           )}
         </svg>
-        {isOpen ? 'Close' : 'Pages'}
+        {isOpen ? "Close" : "Pages"}
       </button>
     </div>
   );

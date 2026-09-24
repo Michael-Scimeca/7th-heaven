@@ -77,11 +77,15 @@ function hexToRgba(color: string, alpha: number = 1.0): string {
     const a = parseInt(c.slice(6, 8), 16) / 255;
     return `rgba(${r}, ${g}, ${b}, ${a * alpha})`;
   }
-  if (c.length === 3) c = c.split("").map((x) => x + x).join("");
+  if (c.length === 3)
+    c = c
+      .split("")
+      .map((x) => x + x)
+      .join("");
   const num = parseInt(c, 16);
   if (isNaN(num)) return color;
-  const r = (num>> 16) & 255;
-  const g = (num>> 8) & 255;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
   const b = num & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
@@ -173,126 +177,163 @@ export default function GooeyDropdown({
   // downward, never bulge past the trigger's left/right edges.
   const panelWidth = triggerSize.width;
   const contentHeight = PANEL_PADDING_Y * 2 + items.length * ROW_HEIGHT;
-  const targetHeight = maxHeight ? Math.min(contentHeight, maxHeight) : contentHeight;
+  const targetHeight = maxHeight
+    ? Math.min(contentHeight, maxHeight)
+    : contentHeight;
 
   const panelStyle = open
-    ? { width: panelWidth, height: triggerSize.height + targetHeight, borderRadius: 16 }
-    : { width: triggerSize.width, height: triggerSize.height, borderRadius: 999 };
+    ? {
+        width: panelWidth,
+        height: triggerSize.height + targetHeight,
+        borderRadius: 16,
+      }
+    : {
+        width: triggerSize.width,
+        height: triggerSize.height,
+        borderRadius: 999,
+      };
 
   return (
-    <div ref={wrapRef} className={`gooey-drop-wrap ${className}`} data-open={open}>
+    <div
+      ref={wrapRef}
+      className={`gooey-drop-wrap ${className}`}
+      data-open={open}
+    >
       {/* Filter lives once per instance so multiple dropdowns don't fight
           over the same id. Zero-size + hidden so it renders nothing itself. */}
-      <svg width="0" height="0" aria-hidden="true" focusable="false" className="gooey-drop-svgDefs">
+      <svg
+        width="0"
+        height="0"
+        aria-hidden="true"
+        focusable="false"
+        className="gooey-drop-svgDefs"
+      >
         <defs>
           <filter id={filterId}>
             <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
             <feColorMatrix
- in="blur"
- mode="matrix"
- values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 22 -11"
- result="goo"
- />
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 22 -11"
+              result="goo"
+            />
             <feBlend in="SourceGraphic" in2="goo" />
           </filter>
         </defs>
       </svg>
 
-      <div className="gooey-drop-shapes" style={{ filter: `url(#${filterId})` }}>
+      <div
+        className="gooey-drop-shapes"
+        style={{ filter: `url(#${filterId})` }}
+      >
         <div
- className="gooey-drop-panelShape"
- style={{
- ...panelStyle,
- background: bgGlassColor,
- backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
- WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
- transition: isClicking
- ? "width 480ms cubic-bezier(0.65, 0, 0.35, 1), height 480ms cubic-bezier(0.65, 0, 0.35, 1), border-radius 480ms cubic-bezier(0.65, 0, 0.35, 1)"
- : "none",
- }}
- onTransitionEnd={(e) => {
-            if (open && (e.propertyName === "height" || e.propertyName === "width")) {
+          className="gooey-drop-panelShape"
+          style={{
+            ...panelStyle,
+            background: bgGlassColor,
+            backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            transition: isClicking
+              ? "width 480ms cubic-bezier(0.65, 0, 0.35, 1), height 480ms cubic-bezier(0.65, 0, 0.35, 1), border-radius 480ms cubic-bezier(0.65, 0, 0.35, 1)"
+              : "none",
+          }}
+          onTransitionEnd={(e) => {
+            if (
+              open &&
+              (e.propertyName === "height" || e.propertyName === "width")
+            ) {
               setIsMorphComplete(true);
             }
           }}
         />
         <div
- className="gooey-drop-triggerShape"
- style={{
- width: triggerSize.width,
- height: triggerSize.height,
- background: bgGlassColor,
- backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
- WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
- transition: "none",
- }}
- />
+          className="gooey-drop-triggerShape"
+          style={{
+            width: triggerSize.width,
+            height: triggerSize.height,
+            background: bgGlassColor,
+            backdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            WebkitBackdropFilter: `blur(${backdropBlur}px) saturate(180%)`,
+            transition: "none",
+          }}
+        />
       </div>
 
       <div className="gooey-drop-content">
         <button
- ref={triggerRef}
- type="button"
- className={`gooey-drop-trigger ${buttonClassName}`}
- style={{ color: textColor }}
- onClick={toggle}
- aria-haspopup="menu"
- aria-expanded={open}>
+          ref={triggerRef}
+          type="button"
+          className={`gooey-drop-trigger ${buttonClassName}`}
+          style={{ color: textColor }}
+          onClick={toggle}
+          aria-haspopup="menu"
+          aria-expanded={open}
+        >
           <span>{label}</span>
           {showChevron && (
             <svg
- width="10"
- height="6"
- viewBox="0 0 10 6"
- fill="none"
- className="gooey-drop-chevron"
- data-open={open}>
+              width="10"
+              height="6"
+              viewBox="0 0 10 6"
+              fill="none"
+              className="gooey-drop-chevron"
+              data-open={open}
+            >
               <path
- d="M1 1L5 5L9 1"
- stroke={chevronColor}
- fill="none"
- strokeWidth="1.6"
- strokeLinecap="round"
- strokeLinejoin="round"
- />
+                d="M1 1L5 5L9 1"
+                stroke={chevronColor}
+                fill="none"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           )}
         </button>
 
         <ul
- className="gooey-drop-menu"
- data-open={open && isMorphComplete}
- role="menu"
- aria-hidden={!open || !isMorphComplete}
- style={{
- width: panelWidth,
- paddingTop: triggerSize.height + 6,
- maxHeight: maxHeight ? targetHeight + triggerSize.height : undefined,
- overflowY: maxHeight && contentHeight> maxHeight ? "auto" : "visible",
-          }}>
+          className="gooey-drop-menu"
+          data-open={open && isMorphComplete}
+          role="menu"
+          aria-hidden={!open || !isMorphComplete}
+          style={{
+            width: panelWidth,
+            paddingTop: triggerSize.height + 6,
+            maxHeight: maxHeight
+              ? targetHeight + triggerSize.height
+              : undefined,
+            overflowY:
+              maxHeight && contentHeight > maxHeight ? "auto" : "visible",
+          }}
+        >
           {items.map((item, i) => {
             const delay = open ? 70 + i * 45 : 0;
             return (
-              <li key={item.label + i} style={{ transitionDelay: `${delay}ms` }}>
+              <li
+                key={item.label + i}
+                style={{ transitionDelay: `${delay}ms` }}
+              >
                 {item.href ? (
                   <a
- href={item.href}
- role="menuitem"
- tabIndex={open ? 0 : -1}
- style={{ color: panelTextColor ?? textColor }}
- onClick={() => setOpen(false)}>
+                    href={item.href}
+                    role="menuitem"
+                    tabIndex={open ? 0 : -1}
+                    style={{ color: panelTextColor ?? textColor }}
+                    onClick={() => setOpen(false)}
+                  >
                     {item.label}
                   </a>
                 ) : (
                   <button
- type="button"
- role="menuitem"
- tabIndex={open ? 0 : -1}
- style={{ color: panelTextColor ?? textColor }}
- onClick={() => {
+                    type="button"
+                    role="menuitem"
+                    tabIndex={open ? 0 : -1}
+                    style={{ color: panelTextColor ?? textColor }}
+                    onClick={() => {
                       item.onClick?.();
                       setOpen(false);
-                    }}>
+                    }}
+                  >
                     {item.label}
                   </button>
                 )}

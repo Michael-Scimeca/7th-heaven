@@ -1,72 +1,160 @@
 /* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
-'use client';
+"use client";
 /* eslint-disable react-doctor/prefer-useReducer */
-import Image from 'next/image';
+import Image from "next/image";
 
-import React, { useState, useEffect, useRef, useCallback, useMemo, useSyncExternalStore } from 'react';
-import { createPortal } from 'react-dom';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+  useSyncExternalStore,
+} from "react";
+import { createPortal } from "react-dom";
 import {
-  Music, Ticket, Trophy, Eye, Ban, VolumeX, MessageSquare, Users, ClipboardList,
-  ScrollText, Smile, ShoppingBag, Package, Mail, Guitar, Piano, Drum, Mic, Heart,
-  Radio, Shield, Pin, Zap, Clock, Sparkles, BarChart3, AlertTriangle
-} from 'lucide-react';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
-const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mod => mod.LiveKitStream), { ssr: false });
-import { useRouter } from 'next/navigation';
-import { useMember } from '@/context/MemberContext';
-import { useAuth } from '@/context/AuthContext';
-import { supabase } from '@/lib/supabase-client';
-import ChatInputBar from '@/components/ChatInputBar';
-import CruiseChat from '@/components/CruiseChat';
-import SeventhButton from '@/components/SeventhButton';
-import PushSubscribeModal from '@/components/PushSubscribeModal';
+  Music,
+  Ticket,
+  Trophy,
+  Eye,
+  Ban,
+  VolumeX,
+  MessageSquare,
+  Users,
+  ClipboardList,
+  ScrollText,
+  Smile,
+  ShoppingBag,
+  Package,
+  Mail,
+  Guitar,
+  Piano,
+  Drum,
+  Mic,
+  Heart,
+  Radio,
+  Shield,
+  Pin,
+  Zap,
+  Clock,
+  Sparkles,
+  BarChart3,
+  AlertTriangle,
+} from "lucide-react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+const LiveKitStream = dynamic(
+  () => import("@/components/LiveKitStream").then((mod) => mod.LiveKitStream),
+  { ssr: false },
+);
+import { useRouter } from "next/navigation";
+import { useMember } from "@/context/MemberContext";
+import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/lib/supabase-client";
+import ChatInputBar from "@/components/ChatInputBar";
+import CruiseChat from "@/components/CruiseChat";
+import SeventhButton from "@/components/SeventhButton";
+import PushSubscribeModal from "@/components/PushSubscribeModal";
 
-const getInstrumentIcon = (nameOrInstrument: string, className = "w-3.5 h-3.5") => {
-  const key = (nameOrInstrument || '').toLowerCase();
-  if (key.includes('guitar') || key.includes('mike') || key.includes('michael')) return <Guitar className={className} />;
-  if (key.includes('drum') || key.includes('sammy')) return <Drum className={className} />;
-  if (key.includes('key') || key.includes('piano') || key.includes('ryan')) return <Piano className={className} />;
-  if (key.includes('vocal') || key.includes('mic') || key.includes('tony')) return <Mic className={className} />;
+const getInstrumentIcon = (
+  nameOrInstrument: string,
+  className = "w-3.5 h-3.5",
+) => {
+  const key = (nameOrInstrument || "").toLowerCase();
+  if (key.includes("guitar") || key.includes("mike") || key.includes("michael"))
+    return <Guitar className={className} />;
+  if (key.includes("drum") || key.includes("sammy"))
+    return <Drum className={className} />;
+  if (key.includes("key") || key.includes("piano") || key.includes("ryan"))
+    return <Piano className={className} />;
+  if (key.includes("vocal") || key.includes("mic") || key.includes("tony"))
+    return <Mic className={className} />;
   return <Music className={className} />;
 };
 
 // ── Sub-components extracted from this file ──
-import { CameraFeed } from './CameraFeed';
-import { GoingLiveOverlay } from './GoingLiveOverlay';
-import { RaffleClaimModal } from './RaffleClaimModal';
+import { CameraFeed } from "./CameraFeed";
+import { GoingLiveOverlay } from "./GoingLiveOverlay";
+import { RaffleClaimModal } from "./RaffleClaimModal";
 
 // ── Shared constants & types ──
 import {
-  CREW_ACCOUNTS, FAN_ACCOUNTS, FAN_MESSAGES, CREW_MESSAGES, SYSTEM_EVENTS,
-  REACTION_EMOJIS, CREW_CONFIG, DEMO_VIOLATIONS, MERCH_PRODUCTS, MERCH_DURATIONS,
-  FEED_STATS, FLAG_KEYWORDS, CHAT_EMOJIS,
-  type FakeAccount, type CrewConfig, type ChatMsg, type FloatingEmoji, type SetlistSong,
-} from './constants';
-
+  CREW_ACCOUNTS,
+  FAN_ACCOUNTS,
+  FAN_MESSAGES,
+  CREW_MESSAGES,
+  SYSTEM_EVENTS,
+  REACTION_EMOJIS,
+  CREW_CONFIG,
+  DEMO_VIOLATIONS,
+  MERCH_PRODUCTS,
+  MERCH_DURATIONS,
+  FEED_STATS,
+  FLAG_KEYWORDS,
+  CHAT_EMOJIS,
+  type FakeAccount,
+  type CrewConfig,
+  type ChatMsg,
+  type FloatingEmoji,
+  type SetlistSong,
+} from "./constants";
 
 const formatTime = (s: number) => {
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
-  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-  return `${m}:${String(sec).padStart(2, '0')}`;
+  if (h > 0)
+    return `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  return `${m}:${String(sec).padStart(2, "0")}`;
 };
 
 const CONTENT_RULES: { pattern: RegExp; reason: string }[] = [
-  { pattern: /\b(maga|trump|biden|obama|tds|sleepy joe|sleeply joe|vote|republican|democrat|election|political|gop|dnc|roe v wade|abortion)\b/i, reason: '🚫 Political content isn\'t allowed in this chat.' },
-  { pattern: /\b(nigger|nigga|faggot|kike|spic|chink|tranny|retard|cunt)\b/i, reason: '🚫 Hate speech isn\'t allowed here.' },
-  { pattern: /\b(onlyfans|pornhub|xvideos|sex|nude|nsfw|xxx)\b/i, reason: '🔞 Adult content isn\'t allowed here.' },
-  { pattern: /\b(follow me|check my (bio|link|profile)|discord\.gg|t\.me\/|bit\.ly|giveaway|free (nitro|robux|gift))\b/i, reason: '📢 Spam links or promotions aren\'t allowed.' },
-  { pattern: /\b(shoot|kill|bomb|threat|die|stab|murder)\b/i, reason: '⚠️ Threatening language isn\'t allowed.' },
-  { pattern: /(.)(\1{6,})/i, reason: '🤖 Repeated characters detected — slow down!' },
-  { pattern: /(https?:\/\/(?!7thheavenband\.com))/i, reason: '🔗 External links aren\'t allowed in this chat.' },
+  {
+    pattern:
+      /\b(maga|trump|biden|obama|tds|sleepy joe|sleeply joe|vote|republican|democrat|election|political|gop|dnc|roe v wade|abortion)\b/i,
+    reason: "🚫 Political content isn't allowed in this chat.",
+  },
+  {
+    pattern: /\b(nigger|nigga|faggot|kike|spic|chink|tranny|retard|cunt)\b/i,
+    reason: "🚫 Hate speech isn't allowed here.",
+  },
+  {
+    pattern: /\b(onlyfans|pornhub|xvideos|sex|nude|nsfw|xxx)\b/i,
+    reason: "🔞 Adult content isn't allowed here.",
+  },
+  {
+    pattern:
+      /\b(follow me|check my (bio|link|profile)|discord\.gg|t\.me\/|bit\.ly|giveaway|free (nitro|robux|gift))\b/i,
+    reason: "📢 Spam links or promotions aren't allowed.",
+  },
+  {
+    pattern: /\b(shoot|kill|bomb|threat|die|stab|murder)\b/i,
+    reason: "⚠️ Threatening language isn't allowed.",
+  },
+  {
+    pattern: /(.)(\1{6,})/i,
+    reason: "🤖 Repeated characters detected — slow down!",
+  },
+  {
+    pattern: /(https?:\/\/(?!7thheavenband\.com))/i,
+    reason: "🔗 External links aren't allowed in this chat.",
+  },
 ];
 
-const emptySubscribe = () => () => { };
+const emptySubscribe = () => () => {};
 
-export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { memberId?: string; adminMode?: boolean }) {
-  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+export function FakeLiveStream({
+  memberId = "mike",
+  adminMode = false,
+}: {
+  memberId?: string;
+  adminMode?: boolean;
+}) {
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
   const router = useRouter();
   const auth = useAuth();
   const crew = CREW_CONFIG[memberId] ?? CREW_CONFIG.mike;
@@ -82,48 +170,80 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         contextMember ||
         auth?.isAuthenticated ||
         auth?.user ||
-        localStorage.getItem('7h_member_v1') ||
-        localStorage.getItem('7h_member') ||
-        localStorage.getItem('7h_user') ||
-        localStorage.getItem('7h_fan_user') ||
-        localStorage.getItem('7h_crew_account') ||
-        localStorage.getItem('7h_auth_token') ||
-        localStorage.getItem('sb-1dg5ciuj-auth-token')
+        localStorage.getItem("7h_member_v1") ||
+        localStorage.getItem("7h_member") ||
+        localStorage.getItem("7h_user") ||
+        localStorage.getItem("7h_fan_user") ||
+        localStorage.getItem("7h_crew_account") ||
+        localStorage.getItem("7h_auth_token") ||
+        localStorage.getItem("sb-1dg5ciuj-auth-token"),
       );
       setIsSignedInUser(isAuth);
     };
     checkAuth();
-    window.addEventListener('storage', checkAuth);
-    return () => window.removeEventListener('storage', checkAuth);
+    window.addEventListener("storage", checkAuth);
+    return () => window.removeEventListener("storage", checkAuth);
   }, [contextMember, auth?.isAuthenticated, auth?.user]);
 
   // ── Crew live status: check localStorage on mount to know if crew is actually streaming ──
   const [crewIsLive, setCrewIsLive] = useState(false);
   useEffect(() => {
-    const membSlug = memberId === 'mike' ? 'michael' : memberId;
-    setCrewIsLive(localStorage.getItem(`is_live_${membSlug}`) === 'true');
+    const membSlug = memberId === "mike" ? "michael" : memberId;
+    setCrewIsLive(localStorage.getItem(`is_live_${membSlug}`) === "true");
   }, [memberId]);
   const [showOverlay, setShowOverlay] = useState(false);
   const [notifyingFans, setNotifyingFans] = useState(false);
   const [notifySuccess, setNotifySuccess] = useState(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
-  const [liveFeedStatuses, setLiveFeedStatuses] = useState<Record<string, string>>({});
+  const [liveFeedStatuses, setLiveFeedStatuses] = useState<
+    Record<string, string>
+  >({});
   useEffect(() => {
-    const slugs = { mike: 'michael', sammy: 'sammy', ryan: 'ryan', tony: 'tony' };
+    const slugs = {
+      mike: "michael",
+      sammy: "sammy",
+      ryan: "ryan",
+      tony: "tony",
+    };
     const statuses: Record<string, string> = {};
     for (const slug of Object.values(slugs)) {
-      statuses[slug] = localStorage.getItem(`is_live_${slug}`) || 'false';
+      statuses[slug] = localStorage.getItem(`is_live_${slug}`) || "false";
     }
     setLiveFeedStatuses(statuses);
   }, []);
   const [messages, setMessages] = useState<ChatMsg[]>(() => [
-    { id: 'seed-1', account: FAN_ACCOUNTS[0], text: 'LETS GOOOO 7TH HEAVEN! 🔥🔥', timestamp: Date.now() - 120000 },
-    { id: 'seed-2', account: FAN_ACCOUNTS[1], text: 'streaming this to my whole family rn lmao', timestamp: Date.now() - 90000 },
-    { id: 'seed-3', account: CREW_ACCOUNTS[0], text: '🔴 Soundcheck done — we are LOCKED IN tonight 🔥', timestamp: Date.now() - 60000 },
-    { id: 'seed-4', account: FAN_ACCOUNTS[3], text: 'those guitar riffs hit different live!!', timestamp: Date.now() - 30000 },
-    { id: 'seed-5', account: FAN_ACCOUNTS[5], text: 'THIS IS MY FAVORITE SONG ❤️‍🔥', timestamp: Date.now() - 15000 },
+    {
+      id: "seed-1",
+      account: FAN_ACCOUNTS[0],
+      text: "LETS GOOOO 7TH HEAVEN! 🔥🔥",
+      timestamp: Date.now() - 120000,
+    },
+    {
+      id: "seed-2",
+      account: FAN_ACCOUNTS[1],
+      text: "streaming this to my whole family rn lmao",
+      timestamp: Date.now() - 90000,
+    },
+    {
+      id: "seed-3",
+      account: CREW_ACCOUNTS[0],
+      text: "🔴 Soundcheck done — we are LOCKED IN tonight 🔥",
+      timestamp: Date.now() - 60000,
+    },
+    {
+      id: "seed-4",
+      account: FAN_ACCOUNTS[3],
+      text: "those guitar riffs hit different live!!",
+      timestamp: Date.now() - 30000,
+    },
+    {
+      id: "seed-5",
+      account: FAN_ACCOUNTS[5],
+      text: "THIS IS MY FAVORITE SONG ❤️‍🔥",
+      timestamp: Date.now() - 15000,
+    },
   ]);
-  const [userMessage, setUserMessage] = useState('');
+  const [userMessage, setUserMessage] = useState("");
   const [hype, setHype] = useState(20);
   const [hypeBurst, setHypeBurst] = useState(false);
   const [floating, setFloating] = useState<FloatingEmoji[]>([]);
@@ -134,113 +254,176 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const [reactionsVisible, setReactionsVisible] = useState(true);
 
   // ── Pinned message from crew dashboard ──
-  const [pinnedMessage, setPinnedMessage] = useState<{ text: string; by: string } | null>(null);
+  const [pinnedMessage, setPinnedMessage] = useState<{
+    text: string;
+    by: string;
+  } | null>(null);
 
   /* ── Admin panel state — pre-seeded so demo loads instantly ── */
   const [showAdminPanel, setShowAdminPanel] = useState(adminMode);
   const [bannedUsers, setBannedUsers] = useState<Set<string>>(new Set());
   const [mutedUsers, setMutedUsers] = useState<Set<string>>(new Set());
-  const [warnedUsers, setWarnedUsers] = useState<Set<string>>(() => new Set(['fan-rockerdan']));
-  const [modLog, setModLog] = useState<{ id: string; action: string; user: string; time: number; reason?: string }[]>(() => [
-    { id: 'seed-log-1', action: '🔇 Muted', user: 'troll_acc22', time: Date.now() - 8 * 60000 },
-    { id: 'seed-log-2', action: '🚫 Banned', user: 'hate_user99', time: Date.now() - 22 * 60000, reason: '⚠️ Hate speech / slur' },
+  const [warnedUsers, setWarnedUsers] = useState<Set<string>>(
+    () => new Set(["fan-rockerdan"]),
+  );
+  const [modLog, setModLog] = useState<
+    {
+      id: string;
+      action: string;
+      user: string;
+      time: number;
+      reason?: string;
+    }[]
+  >(() => [
+    {
+      id: "seed-log-1",
+      action: "🔇 Muted",
+      user: "troll_acc22",
+      time: Date.now() - 8 * 60000,
+    },
+    {
+      id: "seed-log-2",
+      action: "🚫 Banned",
+      user: "hate_user99",
+      time: Date.now() - 22 * 60000,
+      reason: "⚠️ Hate speech / slur",
+    },
   ]);
-  const [flaggedMsgs, setFlaggedMsgs] = useState<{ msg: ChatMsg; reason: string }[]>(() =>
+  const [flaggedMsgs, setFlaggedMsgs] = useState<
+    { msg: ChatMsg; reason: string }[]
+  >(() =>
     DEMO_VIOLATIONS.slice(0, 3).map((v, i) => ({
       msg: {
         id: `seed-flag-${i}`,
-        account: FAN_ACCOUNTS.find(a => a.id === v.fanId) ?? FAN_ACCOUNTS[i],
+        account: FAN_ACCOUNTS.find((a) => a.id === v.fanId) ?? FAN_ACCOUNTS[i],
         text: v.text,
         timestamp: Date.now() - (3 - i) * 45000,
       },
       reason: v.reason,
-    }))
+    })),
   );
-  const [adminTab, setAdminTab] = useState<'live' | 'flagged' | 'merch' | 'users' | 'log' | 'policy' | 'stats'>(adminMode ? 'merch' : 'live');
+  const [adminTab, setAdminTab] = useState<
+    "live" | "flagged" | "merch" | "users" | "log" | "policy" | "stats"
+  >(adminMode ? "merch" : "live");
   const [blockedReason, setBlockedReason] = useState<string | null>(null);
   const adminAutoTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const adminViolationIdxRef = useRef(3); // start after the 3 pre-seeded ones
 
   // ── Multi-cam switcher ──
-  const normalizedId = memberId.toLowerCase() === 'michael' ? 'mike' : memberId.toLowerCase();
-  const [activeFeedId, setActiveFeedId] = useState<string>(CREW_CONFIG[normalizedId] ? normalizedId : 'mike');
+  const normalizedId =
+    memberId.toLowerCase() === "michael" ? "mike" : memberId.toLowerCase();
+  const [activeFeedId, setActiveFeedId] = useState<string>(
+    CREW_CONFIG[normalizedId] ? normalizedId : "mike",
+  );
   const activeFeedCrew = CREW_CONFIG[activeFeedId] ?? crew;
 
   // ── Fan spotlight lower-third ──
-  const [spotlight, setSpotlight] = useState<{ account: FakeAccount; text: string } | null>(null);
+  const [spotlight, setSpotlight] = useState<{
+    account: FakeAccount;
+    text: string;
+  } | null>(null);
   const spotlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Custom Flagged Words ──
   const [customWords, setCustomWords] = useState<string[]>(() => {
-    if (typeof window === 'undefined') return [];
+    if (typeof window === "undefined") return [];
     try {
-      const stored = localStorage.getItem('7h_custom_flagged_words_v1') || localStorage.getItem('7h_custom_flagged_words');
+      const stored =
+        localStorage.getItem("7h_custom_flagged_words_v1") ||
+        localStorage.getItem("7h_custom_flagged_words");
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
     }
   });
-  const [newCustomWord, setNewCustomWord] = useState('');
+  const [newCustomWord, setNewCustomWord] = useState("");
 
   // Sync custom words with other tabs of the same browser via storage events
   useEffect(() => {
     const handleStorage = (e: StorageEvent) => {
-      if (e.key === '7h_custom_flagged_words') {
+      if (e.key === "7h_custom_flagged_words") {
         try {
           if (e.newValue) {
             setCustomWords(JSON.parse(e.newValue));
           } else {
             setCustomWords([]);
           }
-        } catch { }
+        } catch {}
       }
     };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   // 🎰 Live Raffle States
   const { member, isLoggedIn, openModal } = useMember();
-  const [raffleState, setRaffleState] = useState<{ status: string, entrants: any[], prizes: any[], winners: any[], timer: number, minEntrants?: number, countdown?: number, winnerPins?: string[], timestamp?: number } | null>(null);
+  const [raffleState, setRaffleState] = useState<{
+    status: string;
+    entrants: any[];
+    prizes: any[];
+    winners: any[];
+    timer: number;
+    minEntrants?: number;
+    countdown?: number;
+    winnerPins?: string[];
+    timestamp?: number;
+  } | null>(null);
   const [hasEnteredRaffle, setHasEnteredRaffle] = useState(false);
   const [raffleWidgetClosed, setRaffleWidgetClosed] = useState(false);
   const [showClaimModal, setShowClaimModal] = useState(false);
 
-
-  const [nextRaffleCountdown, setNextRaffleCountdown] = useState<number | null>(null);
+  const [nextRaffleCountdown, setNextRaffleCountdown] = useState<number | null>(
+    null,
+  );
 
   // 🛍️ Live Merch Drop Checkout States
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
-  const [checkoutStep, setCheckoutStep] = useState<'form' | 'processing' | 'success'>('form');
-  const [checkoutSelectedSize, setCheckoutSelectedSize] = useState('L');
-  const [checkoutSelectedColor, setCheckoutSelectedColor] = useState('Black');
-  const [shippingDetails, setShippingDetails] = useState({ name: '', email: '', address: '', city: '', zip: '', card: '•••• •••• •••• 4242' });
-  const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<'shipping' | 'merch_table'>('merch_table');
+  const [checkoutStep, setCheckoutStep] = useState<
+    "form" | "processing" | "success"
+  >("form");
+  const [checkoutSelectedSize, setCheckoutSelectedSize] = useState("L");
+  const [checkoutSelectedColor, setCheckoutSelectedColor] = useState("Black");
+  const [shippingDetails, setShippingDetails] = useState({
+    name: "",
+    email: "",
+    address: "",
+    city: "",
+    zip: "",
+    card: "•••• •••• •••• 4242",
+  });
+  const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<
+    "shipping" | "merch_table"
+  >("merch_table");
 
   // 🎵 Live Setlist States
   const [setlist, setSetlist] = useState<SetlistSong[]>([
-    { id: 's1', title: 'Sing', likes: 0, isPlaying: false },
-    { id: 's2', title: 'This Is My Life', likes: 0, isPlaying: false },
-    { id: 's3', title: 'Better This Way', likes: 0, isPlaying: false },
-    { id: 's4', title: 'Gravity', likes: 0, isPlaying: false },
-    { id: 's5', title: 'Beautiful Life', likes: 0, isPlaying: false },
-    { id: 's6', title: 'Stop Shillin', likes: 0, isPlaying: false },
+    { id: "s1", title: "Sing", likes: 0, isPlaying: false },
+    { id: "s2", title: "This Is My Life", likes: 0, isPlaying: false },
+    { id: "s3", title: "Better This Way", likes: 0, isPlaying: false },
+    { id: "s4", title: "Gravity", likes: 0, isPlaying: false },
+    { id: "s5", title: "Beautiful Life", likes: 0, isPlaying: false },
+    { id: "s6", title: "Stop Shillin", likes: 0, isPlaying: false },
   ]);
-  const [activeSidebarTab, setActiveSidebarTab] = useState<'chat' | 'setlist'>('chat');
-  const [setlistSort, setSetlistSort] = useState<'order' | 'likes'>('order');
+  const [activeSidebarTab, setActiveSidebarTab] = useState<"chat" | "setlist">(
+    "chat",
+  );
+  const [setlistSort, setSetlistSort] = useState<"order" | "likes">("order");
   const [prevMemberId, setPrevMemberId] = useState(memberId);
   const [likedSongs, setLikedSongs] = useState<Set<string>>(() => {
     const liked = new Set<string>();
     try {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         for (let i = 0; i < localStorage.length; i++) {
           const k = localStorage.key(i);
-          if (k?.startsWith(`liked_song_${memberId}_`) && localStorage.getItem(k) === 'true') {
+          if (
+            k?.startsWith(`liked_song_${memberId}_`) &&
+            localStorage.getItem(k) === "true"
+          ) {
             liked.add(k.slice(`liked_song_${memberId}_`.length));
           }
         }
       }
-    } catch { }
+    } catch {}
     return liked;
   });
 
@@ -248,26 +431,33 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     setPrevMemberId(memberId);
     const liked = new Set<string>();
     try {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         for (let i = 0; i < localStorage.length; i++) {
           const k = localStorage.key(i);
-          if (k?.startsWith(`liked_song_${memberId}_`) && localStorage.getItem(k) === 'true') {
+          if (
+            k?.startsWith(`liked_song_${memberId}_`) &&
+            localStorage.getItem(k) === "true"
+          ) {
             liked.add(k.slice(`liked_song_${memberId}_`.length));
           }
         }
       }
-    } catch { }
+    } catch {}
     setLikedSongs(liked);
   }
 
   // ── Merch drop (admin-controlled) ──
   const [merchTimerActive, setMerchTimerActive] = useState(false);
   const [merchTimeLeft, setMerchTimeLeft] = useState(0);
-  const [merchSelectedProduct, setMerchSelectedProduct] = useState(MERCH_PRODUCTS[0].id);
+  const [merchSelectedProduct, setMerchSelectedProduct] = useState(
+    MERCH_PRODUCTS[0].id,
+  );
   const [merchSelectedDuration, setMerchSelectedDuration] = useState(300);
-  const [activeMerchDrop, setActiveMerchDrop] = useState<{ product: typeof MERCH_PRODUCTS[0] & { image?: string; imageUrl?: string }; totalTime: number } | null>(null);
+  const [activeMerchDrop, setActiveMerchDrop] = useState<{
+    product: (typeof MERCH_PRODUCTS)[0] & { image?: string; imageUrl?: string };
+    totalTime: number;
+  } | null>(null);
   const MERCH_TIMER_DURATION = 300; // legacy fallback
-
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -288,7 +478,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     }
   }, []);
 
-
   /* ── Stage gradient ── */
   const stageGradient = useMemo(() => {
     const h1 = lightPhaseRef.current % 360;
@@ -305,7 +494,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   /* ── Light phase ── */
   useEffect(() => {
-    const t = setInterval(() => { lightPhaseRef.current = (lightPhaseRef.current + 1) % 360; }, 80);
+    const t = setInterval(() => {
+      lightPhaseRef.current = (lightPhaseRef.current + 1) % 360;
+    }, 80);
     return () => clearInterval(t);
   }, []);
 
@@ -314,8 +505,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   /* only fire in OTHER tabs, and BroadcastChannel can fail silently.   */
   useEffect(() => {
     const checkLive = () => {
-      const feedSlug = activeFeedId === 'mike' ? 'michael' : activeFeedId;
-      const nowLive = localStorage.getItem(`is_live_${feedSlug}`) === 'true';
+      const feedSlug = activeFeedId === "mike" ? "michael" : activeFeedId;
+      const nowLive = localStorage.getItem(`is_live_${feedSlug}`) === "true";
       if (nowLive && !crewIsLive && activeFeedId === normalizedId) {
         setShowOverlay(true);
       }
@@ -327,41 +518,44 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     const t = setInterval(checkLive, 1000);
     // Also listen for storage events as a bonus (fires faster than polling)
     const handleStorage = (e: StorageEvent) => {
-      const feedSlug = activeFeedId === 'mike' ? 'michael' : activeFeedId;
+      const feedSlug = activeFeedId === "mike" ? "michael" : activeFeedId;
       if (e.key === `is_live_${feedSlug}`) {
         checkLive();
       }
     };
-    window.addEventListener('storage', handleStorage);
+    window.addEventListener("storage", handleStorage);
     return () => {
       clearInterval(t);
-      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener("storage", handleStorage);
     };
   }, [activeFeedId, normalizedId, crewIsLive]);
 
   // LocalStorage Namespace helper
-  const LS = useCallback((key: string) => `${key}_${memberId?.toString().toLowerCase().trim()}`, [memberId]);
+  const LS = useCallback(
+    (key: string) => `${key}_${memberId?.toString().toLowerCase().trim()}`,
+    [memberId],
+  );
 
   // Initial raffle state load and 1s poll (to sync across tabs/processes)
   useEffect(() => {
     const checkRaffle = () => {
       try {
         if (!crewIsLive) {
-          localStorage.removeItem(LS('live_raffle_sync'));
+          localStorage.removeItem(LS("live_raffle_sync"));
           setRaffleState(null);
           return;
         }
-        const raw = localStorage.getItem(LS('live_raffle_sync'));
+        const raw = localStorage.getItem(LS("live_raffle_sync"));
         if (raw) {
           const pb = JSON.parse(raw);
-          if (pb && (pb.userId === memberId || memberId === 'michael')) {
-            if (pb.status === 'idle') setRaffleState(null);
+          if (pb && (pb.userId === memberId || memberId === "michael")) {
+            if (pb.status === "idle") setRaffleState(null);
             else setRaffleState(pb);
           }
         } else {
           setRaffleState(null);
         }
-      } catch { }
+      } catch {}
     };
 
     checkRaffle();
@@ -371,89 +565,140 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   // Safety net: if fan sees countdown=0, force re-read after 2s to catch 'complete' write
   useEffect(() => {
-    if (raffleState?.status === 'countdown' && (raffleState.countdown ?? 1) <= 0) {
+    if (
+      raffleState?.status === "countdown" &&
+      (raffleState.countdown ?? 1) <= 0
+    ) {
       const t = setTimeout(() => {
         try {
-          const raw = localStorage.getItem(LS('live_raffle_sync'));
+          const raw = localStorage.getItem(LS("live_raffle_sync"));
           if (raw) {
             const pb = JSON.parse(raw);
-            if (pb.status !== 'idle') setRaffleState(pb);
+            if (pb.status !== "idle") setRaffleState(pb);
           }
-        } catch { }
+        } catch {}
       }, 2000);
       return () => clearTimeout(t);
     }
   }, [raffleState?.status, raffleState?.countdown, LS]);
 
-  const sendWinnerEmail = useCallback((targetEmail: string, prizeName: string, pin: string, claimUrl: string, pinDigits: string) => {
-    fetch('/api/email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        to: targetEmail,
-        subject: '🏆 You Won the 7th Heaven Raffle!',
-        html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Barlow',Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ''}<a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`
-      })
-    }).catch(console.error);
-  }, []);
+  const sendWinnerEmail = useCallback(
+    (
+      targetEmail: string,
+      prizeName: string,
+      pin: string,
+      claimUrl: string,
+      pinDigits: string,
+    ) => {
+      fetch("/api/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: targetEmail,
+          subject: "🏆 You Won the 7th Heaven Raffle!",
+          html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Barlow',Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ""}<a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`,
+        }),
+      }).catch(console.error);
+    },
+    [],
+  );
 
   // Auto-reopen widget + fire winner email when raffle completes and current user won
   const winnerEmailSent = useRef(false);
   useEffect(() => {
-    if (!raffleState || raffleState.status !== 'complete') {
+    if (!raffleState || raffleState.status !== "complete") {
       if (!raffleState) winnerEmailSent.current = false;
       return;
     }
-    const isWinner = hasEnteredRaffle && !!member?.name &&
-      raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member.name.toLowerCase().trim());
+    const isWinner =
+      hasEnteredRaffle &&
+      !!member?.name &&
+      raffleState.winners?.some(
+        (w: any) =>
+          (w?.name || w)?.toLowerCase().trim() ===
+          member.name.toLowerCase().trim(),
+      );
 
     if (isWinner && raffleWidgetClosed) setRaffleWidgetClosed(false);
 
     if (isWinner && !winnerEmailSent.current) {
       winnerEmailSent.current = true;
-      const prizeName = raffleState.prizes[0]?.name || 'your prize';
-      const winnerIndex = raffleState.winners.findIndex((w: any) => (w?.name || w) === member.name);
-      const pin = (raffleState.winnerPins?.[winnerIndex >= 0 ? winnerIndex : 0]) || '';
+      const prizeName = raffleState.prizes[0]?.name || "your prize";
+      const winnerIndex = raffleState.winners.findIndex(
+        (w: any) => (w?.name || w) === member.name,
+      );
+      const pin =
+        raffleState.winnerPins?.[winnerIndex >= 0 ? winnerIndex : 0] || "";
 
-      const claimUrl = `${typeof window !== 'undefined' ? window.location.origin : 'https://7thheavenband.com'}/claim/${pin}`;
-      const pinDigits = pin.split('').map((d: string) =>
-        `<td style="padding:0 3px;"><div style="width:40px;height:52px;background:#0a0a0a;border:2px solid rgba(192, 132, 252,0.4);border-radius:8px;display:flex;align-items:center;justify-content:center;"><span style="color:#c084fc;font-size:24px;font-weight:900;font-family:monospace;">${d}</span></div></td>`
-      ).join('');
+      const claimUrl = `${typeof window !== "undefined" ? window.location.origin : "https://7thheavenband.com"}/claim/${pin}`;
+      const pinDigits = pin
+        .split("")
+        .map(
+          (d: string) =>
+            `<td style="padding:0 3px;"><div style="width:40px;height:52px;background:#0a0a0a;border:2px solid rgba(192, 132, 252,0.4);border-radius:8px;display:flex;align-items:center;justify-content:center;"><span style="color:#c084fc;font-size:24px;font-weight:900;font-family:monospace;">${d}</span></div></td>`,
+        )
+        .join("");
 
-      const fallbackEmail = 'fan@7thheavenband.com';
-      const promptEmail = typeof window !== 'undefined' ? window.prompt("Testing Dispatch: What is your exact Resend account email address to receive the test?", member?.email || fallbackEmail) : null;
+      const fallbackEmail = "fan@7thheavenband.com";
+      const promptEmail =
+        typeof window !== "undefined"
+          ? window.prompt(
+              "Testing Dispatch: What is your exact Resend account email address to receive the test?",
+              member?.email || fallbackEmail,
+            )
+          : null;
       const targetEmail = promptEmail ? promptEmail.trim() : fallbackEmail;
 
       sendWinnerEmail(targetEmail, prizeName, pin, claimUrl, pinDigits);
 
       try {
-        const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages_v1') || localStorage.getItem('vip_inbox_messages') || '[]');
-        inbox.unshift({ id: Date.now(), icon: '🏆', title: 'You Won the Raffle!', desc: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`, time: 'Just now', isNew: true, color: 'yellow' });
-        localStorage.setItem('vip_inbox_messages_v1', JSON.stringify(inbox));
+        const inbox = JSON.parse(
+          localStorage.getItem("vip_inbox_messages_v1") ||
+            localStorage.getItem("vip_inbox_messages") ||
+            "[]",
+        );
+        inbox.unshift({
+          id: Date.now(),
+          icon: "🏆",
+          title: "You Won the Raffle!",
+          desc: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`,
+          time: "Just now",
+          isNew: true,
+          color: "yellow",
+        });
+        localStorage.setItem("vip_inbox_messages_v1", JSON.stringify(inbox));
 
-        Promise.resolve(supabase.from('notifications').insert({
-          user_email: member?.email || 'unknown@fan.7thheaven.com',
-          type: 'raffle_win',
-          title: `🏆 You Won the Raffle!`,
-          body: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`,
-          pin: pin,
-          prize: prizeName,
-        })).catch(() => { });
-      } catch { }
+        Promise.resolve(
+          supabase.from("notifications").insert({
+            user_email: member?.email || "unknown@fan.7thheaven.com",
+            type: "raffle_win",
+            title: `🏆 You Won the Raffle!`,
+            body: `Congratulations! You won: ${prizeName}. Your PIN: ${pin}. Check your email for claim instructions.`,
+            pin: pin,
+            prize: prizeName,
+          }),
+        ).catch(() => {});
+      } catch {}
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [raffleState?.status, raffleState?.winners, raffleWidgetClosed, hasEnteredRaffle, member, supabase]);
+  }, [
+    raffleState?.status,
+    raffleState?.winners,
+    raffleWidgetClosed,
+    hasEnteredRaffle,
+    member,
+    supabase,
+  ]);
 
   // Reset entry state for new raffles
   const prevRaffleStatus = useRef<string | null>(null);
   useEffect(() => {
     const prev = prevRaffleStatus.current;
     const curr = raffleState?.status ?? null;
-    if (curr === 'open' && (prev === 'complete' || prev === null)) {
+    if (curr === "open" && (prev === "complete" || prev === null)) {
       setHasEnteredRaffle(false);
       setRaffleWidgetClosed(false);
       setShowClaimModal(false);
-
     }
     if (curr === null && prev !== null) {
       setHasEnteredRaffle(false);
@@ -464,18 +709,23 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   // Auto-dismiss winner display after 3 minutes for everyone
   useEffect(() => {
-    if (raffleState?.status !== 'complete') return;
-    const t = setTimeout(() => {
-      setRaffleWidgetClosed(true);
-    }, 3 * 60 * 1000);
+    if (raffleState?.status !== "complete") return;
+    const t = setTimeout(
+      () => {
+        setRaffleWidgetClosed(true);
+      },
+      3 * 60 * 1000,
+    );
     return () => clearTimeout(t);
   }, [raffleState?.status]);
 
   // Next Raffle Countdown
   useEffect(() => {
-    if (raffleState?.status === 'complete' && raffleState.timestamp) {
+    if (raffleState?.status === "complete" && raffleState.timestamp) {
       const t = setInterval(() => {
-        const diff = Math.floor((raffleState.timestamp! + 120000 - Date.now()) / 1000);
+        const diff = Math.floor(
+          (raffleState.timestamp! + 120000 - Date.now()) / 1000,
+        );
         setNextRaffleCountdown(Math.max(0, diff));
       }, 1000);
       return () => clearInterval(t);
@@ -486,52 +736,57 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   // Supabase live_events subscription for raffle state, setlist state, custom flagged words, AND flash drops
   useEffect(() => {
-    const eventsChannel = supabase.channel('live_events')
-      .on('broadcast', { event: 'raffle_sync' }, (p: any) => {
+    const eventsChannel = supabase
+      .channel("live_events")
+      .on("broadcast", { event: "raffle_sync" }, (p: any) => {
         const pb = p.payload;
-        if (pb && (pb.userId === memberId || memberId === 'michael')) {
-          if (pb.status === 'idle') {
+        if (pb && (pb.userId === memberId || memberId === "michael")) {
+          if (pb.status === "idle") {
             setRaffleState(null);
           } else {
             setRaffleState(pb);
           }
         }
       })
-      .on('broadcast', { event: 'setlist_sync' }, (p: any) => {
+      .on("broadcast", { event: "setlist_sync" }, (p: any) => {
         const pb = p.payload;
-        if (pb && (pb.userId === memberId || memberId === 'michael')) {
+        if (pb && (pb.userId === memberId || memberId === "michael")) {
           if (pb.setlist) setSetlist(pb.setlist);
         }
       })
-      .on('broadcast', { event: 'custom_words_sync' }, (p: any) => {
+      .on("broadcast", { event: "custom_words_sync" }, (p: any) => {
         const pb = p.payload;
         if (pb && pb.words) {
           setCustomWords(pb.words);
         }
       })
-      .on('broadcast', { event: 'flash_drop' }, (p: any) => {
+      .on("broadcast", { event: "flash_drop" }, (p: any) => {
         if (adminMode) return;
         const payload = p.payload;
         if (!payload) return;
-        const { name, price, stock, duration, image, description, variants } = payload;
+        const { name, price, stock, duration, image, description, variants } =
+          payload;
         const syntheticProduct = {
           id: `flash-${Date.now()}`,
-          name: name || 'Flash Merch Drop',
-          price: price ? `$${parseFloat(price).toFixed(2)}` : '$45.00',
+          name: name || "Flash Merch Drop",
+          price: price ? `$${parseFloat(price).toFixed(2)}` : "$45.00",
           stock: stock || 15,
-          emoji: '🛍',
-          color: '#ec4899',
-          badge: 'LIMITED',
-          image: image || '/images/mockups/merch-hoodie.png',
-          description: description || '',
+          emoji: "🛍",
+          color: "#ec4899",
+          badge: "LIMITED",
+          image: image || "/images/mockups/merch-hoodie.png",
+          description: description || "",
           variants: variants || [],
         };
-        setActiveMerchDrop({ product: syntheticProduct as any, totalTime: duration || 300 });
+        setActiveMerchDrop({
+          product: syntheticProduct as any,
+          totalTime: duration || 300,
+        });
         setMerchTimerActive(true);
         setMerchTimeLeft(duration || 300);
-        setHype(h => Math.min(100, h + 40));
+        setHype((h) => Math.min(100, h + 40));
       })
-      .on('broadcast', { event: 'cancel_flash_drop' }, () => {
+      .on("broadcast", { event: "cancel_flash_drop" }, () => {
         if (adminMode) return;
         setMerchTimerActive(false);
         setActiveMerchDrop(null);
@@ -548,14 +803,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   useEffect(() => {
     const checkSetlist = () => {
       try {
-        const raw = localStorage.getItem(LS('live_setlist_sync'));
+        const raw = localStorage.getItem(LS("live_setlist_sync"));
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed && Array.isArray(parsed)) {
             setSetlist(parsed);
           }
         }
-      } catch { }
+      } catch {}
     };
 
     checkSetlist();
@@ -567,46 +822,51 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   const likeSong = (songId: string) => {
     // Save locally to prevent double hearting
     const userLikedKey = `liked_song_${memberId}_${songId}`;
-    if (localStorage.getItem(userLikedKey) === 'true') return; // already liked
-    localStorage.setItem(userLikedKey, 'true');
-    setLikedSongs(prev => new Set(prev).add(songId));
+    if (localStorage.getItem(userLikedKey) === "true") return; // already liked
+    localStorage.setItem(userLikedKey, "true");
+    setLikedSongs((prev) => new Set(prev).add(songId));
 
     // Update local setlist count
-    setSetlist(prev => prev.map(s => s.id === songId ? { ...s, likes: s.likes + 1 } : s));
+    setSetlist((prev) =>
+      prev.map((s) => (s.id === songId ? { ...s, likes: s.likes + 1 } : s)),
+    );
 
     // Broadcast the like event to crew via Supabase Realtime
     try {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'song_like',
-        payload: { songId, crewId: memberId }
+      supabase.channel("live_events").send({
+        type: "broadcast",
+        event: "song_like",
+        payload: { songId, crewId: memberId },
       });
-    } catch { }
+    } catch {}
 
     // Broadcast the like event to crew via LocalStorage for same-browser testing
     try {
-      localStorage.setItem('song_like_sync_v1', JSON.stringify({
-        songId,
-        crewId: memberId,
-        ts: Date.now()
-      }));
-    } catch { }
+      localStorage.setItem(
+        "song_like_sync_v1",
+        JSON.stringify({
+          songId,
+          crewId: memberId,
+          ts: Date.now(),
+        }),
+      );
+    } catch {}
 
     // Float a heart reaction
     const floatHeart = {
       id: `heart-like-${Date.now()}-${Math.random()}`,
-      emoji: '💖',
+      emoji: "💖",
       x: 20 + Math.random() * 60,
       createdAt: Date.now(),
     };
-    setFloating(prev => [...prev, floatHeart]);
+    setFloating((prev) => [...prev, floatHeart]);
     // Also increment hype slightly for fun!
-    setHype(h => Math.min(100, h + 2));
+    setHype((h) => Math.min(100, h + 2));
   };
 
   /* ── BroadcastChannel: cross-tab sync between /live/[member] and /crew-[member] ── */
   useEffect(() => {
-    const channelKey = `7h_live_${memberId.replace('michael', 'michael')}`;
+    const channelKey = `7h_live_${memberId.replace("michael", "michael")}`;
     const bc = new BroadcastChannel(channelKey);
     bcRef.current = bc;
 
@@ -614,22 +874,22 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       const { type, payload } = evt.data ?? {};
       if (!type) return;
 
-      if (type === 'CUSTOM_WORDS_SYNC') {
+      if (type === "CUSTOM_WORDS_SYNC") {
         setCustomWords(payload);
       }
 
-      if (type === 'CHAT_MSG') {
+      if (type === "CHAT_MSG") {
         // Receive chat messages from the other tab
         if (seenMsgIds.current.has(payload.id)) return;
         seenMsgIds.current.add(payload.id);
-        setMessages(prev => {
-          if (prev.find(m => m.id === payload.id)) return prev;
+        setMessages((prev) => {
+          if (prev.find((m) => m.id === payload.id)) return prev;
           const next = [...prev, payload];
           return next.length > 80 ? next.slice(-80) : next;
         });
       }
 
-      if (type === 'MERCH_DROP_START' && !adminMode) {
+      if (type === "MERCH_DROP_START" && !adminMode) {
         // Fan page receives drop → show banner
         const { product, totalTime, timeLeft } = payload;
         setActiveMerchDrop({ product, totalTime });
@@ -637,76 +897,88 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         setMerchTimeLeft(timeLeft);
       }
 
-      if (type === 'MERCH_DROP_END' && !adminMode) {
+      if (type === "MERCH_DROP_END" && !adminMode) {
         setMerchTimerActive(false);
         setActiveMerchDrop(null);
         setMerchTimeLeft(0);
       }
 
-      if (type === 'MERCH_STOCK_DECREMENT') {
+      if (type === "MERCH_STOCK_DECREMENT") {
         const { newStock } = payload;
-        setActiveMerchDrop(current => {
+        setActiveMerchDrop((current) => {
           if (current && current.product) {
             return {
               ...current,
               product: {
                 ...current.product,
-                stock: newStock
-              }
+                stock: newStock,
+              },
             };
           }
           return current;
         });
       }
 
-      if (type === 'MOD_SYSTEM_MSG') {
+      if (type === "MOD_SYSTEM_MSG") {
         // System moderation messages (warn/mute/ban/kick) from crew page
         if (seenMsgIds.current.has(payload.id)) return;
         seenMsgIds.current.add(payload.id);
-        setMessages(prev => {
-          if (prev.find(m => m.id === payload.id)) return prev;
+        setMessages((prev) => {
+          if (prev.find((m) => m.id === payload.id)) return prev;
           return [...prev, payload];
         });
       }
 
-      if (type === 'FLASH_DROP' && !adminMode) {
+      if (type === "FLASH_DROP" && !adminMode) {
         // Real CrewDashboard launched a flash drop → show it on the fan page
-        const { name, price, stock, duration, image, description, variants, products } = payload;
+        const {
+          name,
+          price,
+          stock,
+          duration,
+          image,
+          description,
+          variants,
+          products,
+        } = payload;
         const syntheticProduct = {
           id: `flash-${Date.now()}`,
-          name: name || 'Flash Merch Drop',
-          price: price ? `$${parseFloat(price).toFixed(2)}` : '$45.00',
+          name: name || "Flash Merch Drop",
+          price: price ? `$${parseFloat(price).toFixed(2)}` : "$45.00",
           stock: stock || 15,
-          emoji: '🛍',
-          color: '#ec4899',
-          badge: 'LIMITED',
-          image: image || '/images/mockups/merch-hoodie.png',
-          description: description || '',
+          emoji: "🛍",
+          color: "#ec4899",
+          badge: "LIMITED",
+          image: image || "/images/mockups/merch-hoodie.png",
+          description: description || "",
           variants: variants || [],
-          products: products || []
+          products: products || [],
         };
-        setActiveMerchDrop({ product: syntheticProduct as any, totalTime: duration || 300 });
+        setActiveMerchDrop({
+          product: syntheticProduct as any,
+          totalTime: duration || 300,
+        });
         setMerchTimerActive(true);
         setMerchTimeLeft(duration || 300);
         // Fire a hype message in chat
         const dropMsg: ChatMsg = {
           id: `flash-drop-${Date.now()}`,
           account: CREW_ACCOUNTS[0],
-          text: `🛍 FLASH DROP! ${name} — $${parseFloat(price || '45').toFixed(2)} · ${stock || 15} in stock. Limited time only! 🔥`,
+          text: `🛍 FLASH DROP! ${name} — $${parseFloat(price || "45").toFixed(2)} · ${stock || 15} in stock. Limited time only! 🔥`,
           timestamp: Date.now(),
         };
         seenMsgIds.current.add(dropMsg.id);
-        setMessages(prev => [...prev, dropMsg]);
-        setHype(h => Math.min(100, h + 40));
+        setMessages((prev) => [...prev, dropMsg]);
+        setHype((h) => Math.min(100, h + 40));
       }
 
-      if (type === 'CANCEL_FLASH_DROP' && !adminMode) {
+      if (type === "CANCEL_FLASH_DROP" && !adminMode) {
         setMerchTimerActive(false);
         setActiveMerchDrop(null);
         setMerchTimeLeft(0);
       }
 
-      if (type === 'STREAM_STATE') {
+      if (type === "STREAM_STATE") {
         // Crew dashboard went live or ended — sync the fan page
         if (payload?.isLive) {
           setCrewIsLive(true);
@@ -716,10 +988,10 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         }
       }
 
-      if (type === 'PIN_MSG') {
+      if (type === "PIN_MSG") {
         // Crew pinned a message — show it on the fan page
         if (payload?.text) {
-          setPinnedMessage({ text: payload.text, by: payload.by || 'Crew' });
+          setPinnedMessage({ text: payload.text, by: payload.by || "Crew" });
         } else {
           setPinnedMessage(null);
         }
@@ -728,50 +1000,67 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
     bc.onmessage = handleBcMessage;
 
-    const globalBc = new BroadcastChannel('7h_live_global');
+    const globalBc = new BroadcastChannel("7h_live_global");
     globalBc.onmessage = handleBcMessage;
 
     // ── localStorage recovery: if a flash drop was launched BEFORE this tab opened,
     //    pick it up immediately so the fan page never misses an active drop. ──
     if (!adminMode) {
       try {
-        const stored = localStorage.getItem('7h_flash_drop_v1') || localStorage.getItem('7h_flash_drop');
+        const stored =
+          localStorage.getItem("7h_flash_drop_v1") ||
+          localStorage.getItem("7h_flash_drop");
         if (stored) {
           const data = JSON.parse(stored);
           // Only hydrate if the drop was set within the last hour (safety guard)
-          if (data && data.ts && (Date.now() - data.ts) < 3600_000) {
-            const { name, price, stock, duration, image, description, variants } = data;
+          if (data && data.ts && Date.now() - data.ts < 3600_000) {
+            const {
+              name,
+              price,
+              stock,
+              duration,
+              image,
+              description,
+              variants,
+            } = data;
             const elapsed = Math.floor((Date.now() - data.ts) / 1000);
             const remaining = (duration || 300) - elapsed;
             if (remaining > 0) {
               const syntheticProduct = {
                 id: `flash-${data.ts}`,
-                name: name || 'Flash Merch Drop',
-                price: price ? `$${parseFloat(price).toFixed(2)}` : '$45.00',
+                name: name || "Flash Merch Drop",
+                price: price ? `$${parseFloat(price).toFixed(2)}` : "$45.00",
                 stock: stock || 15,
-                emoji: '🛍',
-                color: '#ec4899',
-                badge: 'LIMITED',
-                image: image || '/images/mockups/merch-hoodie.png',
-                description: description || '',
+                emoji: "🛍",
+                color: "#ec4899",
+                badge: "LIMITED",
+                image: image || "/images/mockups/merch-hoodie.png",
+                description: description || "",
                 variants: variants || [],
               };
-              setActiveMerchDrop({ product: syntheticProduct as any, totalTime: duration || 300 });
+              setActiveMerchDrop({
+                product: syntheticProduct as any,
+                totalTime: duration || 300,
+              });
               setMerchTimerActive(true);
               setMerchTimeLeft(remaining);
             } else {
               // Drop expired — clean up
-              localStorage.removeItem('7h_flash_drop_v1');
-              localStorage.removeItem('7h_flash_drop');
+              localStorage.removeItem("7h_flash_drop_v1");
+              localStorage.removeItem("7h_flash_drop");
             }
           }
         }
       } catch (e) {
-        console.error('Failed to recover flash drop from localStorage:', e);
+        console.error("Failed to recover flash drop from localStorage:", e);
       }
     }
 
-    return () => { bc.close(); globalBc.close(); bcRef.current = null; };
+    return () => {
+      bc.close();
+      globalBc.close();
+      bcRef.current = null;
+    };
   }, [memberId, adminMode]);
 
   /* ── Elapsed timer ── */
@@ -787,11 +1076,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   useEffect(() => {
     if (showOverlay) return;
     const t = setInterval(() => {
-      setViewerCount(prev => {
+      setViewerCount((prev) => {
         const delta = Math.floor(Math.random() * 7) - 2; // -2 to +4
         const newCount = Math.max(800, Math.min(1400, prev + delta));
         if (bcRef.current) {
-          bcRef.current.postMessage({ type: 'VIEWER_COUNT', payload: newCount });
+          bcRef.current.postMessage({
+            type: "VIEWER_COUNT",
+            payload: newCount,
+          });
         }
         return newCount;
       });
@@ -801,7 +1093,7 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   /* ── Hype decay ── */
   useEffect(() => {
-    const t = setInterval(() => setHype(h => Math.max(0, h - 0.4)), 200);
+    const t = setInterval(() => setHype((h) => Math.max(0, h - 0.4)), 200);
     return () => clearInterval(t);
   }, []);
 
@@ -811,12 +1103,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       setHypeBurst(true);
       const burstEmojis = Array.from({ length: 14 }, (_, i) => ({
         id: `burst-${Date.now()}-${i}`,
-        emoji: REACTION_EMOJIS[Math.floor(Math.random() * REACTION_EMOJIS.length)],
+        emoji:
+          REACTION_EMOJIS[Math.floor(Math.random() * REACTION_EMOJIS.length)],
         x: 5 + Math.random() * 85,
         createdAt: Date.now(),
       }));
-      setFloating(prev => [...prev, ...burstEmojis]);
-      const t = setTimeout(() => { setHype(0); setHypeBurst(false); }, 3000);
+      setFloating((prev) => [...prev, ...burstEmojis]);
+      const t = setTimeout(() => {
+        setHype(0);
+        setHypeBurst(false);
+      }, 3000);
       return () => clearTimeout(t);
     }
   }, [hype, hypeBurst]);
@@ -825,14 +1121,19 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   useEffect(() => {
     const container = chatContainerRef.current;
     if (!container) return;
-    const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 140;
-    if (isNearBottom) chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const isNearBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight <
+      140;
+    if (isNearBottom)
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   /* ── Clean up old floating emojis ── */
   useEffect(() => {
     const t = setInterval(() => {
-      setFloating(prev => prev.filter(e => Date.now() - e.createdAt < 3200));
+      setFloating((prev) =>
+        prev.filter((e) => Date.now() - e.createdAt < 3200),
+      );
     }, 500);
     return () => clearInterval(t);
   }, []);
@@ -844,10 +1145,19 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     // First 4 messages: crew "going live" sequence
     if (msgCountRef.current <= 4) {
       const crewIntros = [
-        { account: CREW_ACCOUNTS[0], text: '🔴 Soundcheck done — we are LOCKED IN tonight 🔥' },
-        { account: CREW_ACCOUNTS[0], text: 'Chicago — you ready for this?! 🏙️' },
-        { account: CREW_ACCOUNTS[1], text: 'DRUMS ARE PRIMED. LET\'S GOO 🥁🥁' },
-        { account: CREW_ACCOUNTS[3], text: 'Vocal check ✅ Mic\'s hot. This crowd is INSANE already' },
+        {
+          account: CREW_ACCOUNTS[0],
+          text: "🔴 Soundcheck done — we are LOCKED IN tonight 🔥",
+        },
+        {
+          account: CREW_ACCOUNTS[0],
+          text: "Chicago — you ready for this?! 🏙️",
+        },
+        { account: CREW_ACCOUNTS[1], text: "DRUMS ARE PRIMED. LET'S GOO 🥁🥁" },
+        {
+          account: CREW_ACCOUNTS[3],
+          text: "Vocal check ✅ Mic's hot. This crowd is INSANE already",
+        },
       ];
       const intro = crewIntros[msgCountRef.current - 1];
       const msg: ChatMsg = {
@@ -856,16 +1166,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         text: intro.text,
         timestamp: Date.now(),
       };
-      setMessages(prev => {
+      setMessages((prev) => {
         const next = [...prev, msg];
         return next.length > 80 ? next.slice(-80) : next;
       });
       // Also broadcast intro messages to the crew dashboard
       if (!seenMsgIds.current.has(msg.id)) {
         seenMsgIds.current.add(msg.id);
-        bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: msg });
+        bcRef.current?.postMessage({ type: "CHAT_MSG", payload: msg });
       }
-      setHype(h => Math.min(100, h + 8));
+      setHype((h) => Math.min(100, h + 8));
       return;
     }
 
@@ -886,25 +1196,29 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     // Broadcast to the other tab (fan ↔ crew)
     if (!seenMsgIds.current.has(msg.id)) {
       seenMsgIds.current.add(msg.id);
-      bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: msg });
+      bcRef.current?.postMessage({ type: "CHAT_MSG", payload: msg });
     }
 
-    setMessages(prev => {
+    setMessages((prev) => {
       const next = [...prev, msg];
       return next.length > 80 ? next.slice(-80) : next;
     });
 
-    if (isCrew) setHype(h => Math.min(100, h + 6));
+    if (isCrew) setHype((h) => Math.min(100, h + 6));
     else if (Math.random() < 0.3) {
       // Random floating emoji from fan message
-      const emoji = REACTION_EMOJIS[Math.floor(Math.random() * REACTION_EMOJIS.length)];
-      setFloating(prev => [...prev, {
-        id: `auto-emoji-${Date.now()}`,
-        emoji,
-        x: 5 + Math.random() * 85,
-        createdAt: Date.now(),
-      }]);
-      setHype(h => Math.min(100, h + 1.5));
+      const emoji =
+        REACTION_EMOJIS[Math.floor(Math.random() * REACTION_EMOJIS.length)];
+      setFloating((prev) => [
+        ...prev,
+        {
+          id: `auto-emoji-${Date.now()}`,
+          emoji,
+          x: 5 + Math.random() * 85,
+          createdAt: Date.now(),
+        },
+      ]);
+      setHype((h) => Math.min(100, h + 1.5));
     }
   }, []);
 
@@ -918,10 +1232,18 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     let t4: ReturnType<typeof setTimeout> | undefined;
 
     if (!showOverlay) {
-      t1 = setTimeout(() => { if (active) addAutoMessage(); }, 400);
-      t2 = setTimeout(() => { if (active) addAutoMessage(); }, 1800);
-      t3 = setTimeout(() => { if (active) addAutoMessage(); }, 3200);
-      t4 = setTimeout(() => { if (active) addAutoMessage(); }, 5000);
+      t1 = setTimeout(() => {
+        if (active) addAutoMessage();
+      }, 400);
+      t2 = setTimeout(() => {
+        if (active) addAutoMessage();
+      }, 1800);
+      t3 = setTimeout(() => {
+        if (active) addAutoMessage();
+      }, 3200);
+      t4 = setTimeout(() => {
+        if (active) addAutoMessage();
+      }, 5000);
 
       autoInterval = setInterval(() => {
         if (active) addAutoMessage();
@@ -940,17 +1262,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
   /* ── Auto-flag new messages ── */
   useEffect(() => {
-    if (messages.length === 0) return () => { };
+    if (messages.length === 0) return () => {};
 
-    messages.forEach(msg => {
+    messages.forEach((msg) => {
       if (msg.isSystem || !msg.account) return;
 
       // 1. Check default regex keywords
       let flagged = false;
       for (const { kw, reason } of FLAG_KEYWORDS) {
         if (kw.test(msg.text)) {
-          setFlaggedMsgs(prev => {
-            if (prev.some(f => f.msg.id === msg.id)) return prev;
+          setFlaggedMsgs((prev) => {
+            if (prev.some((f) => f.msg.id === msg.id)) return prev;
             return [...prev, { msg, reason }];
           });
           flagged = true;
@@ -963,8 +1285,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
         const lowerText = msg.text.toLowerCase();
         for (const word of customWords) {
           if (lowerText.includes(word)) {
-            setFlaggedMsgs(prev => {
-              if (prev.some(f => f.msg.id === msg.id)) return prev;
+            setFlaggedMsgs((prev) => {
+              if (prev.some((f) => f.msg.id === msg.id)) return prev;
               return [...prev, { msg, reason: `🚫 Flagged word: "${word}"` }];
             });
             break;
@@ -975,14 +1297,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
   }, [messages, customWords]);
 
   const syncCustomWords = (words: string[]) => {
-    bcRef.current?.postMessage({ type: 'CUSTOM_WORDS_SYNC', payload: words });
+    bcRef.current?.postMessage({ type: "CUSTOM_WORDS_SYNC", payload: words });
     try {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'custom_words_sync',
-        payload: { words, crewId: memberId }
+      supabase.channel("live_events").send({
+        type: "broadcast",
+        event: "custom_words_sync",
+        payload: { words, crewId: memberId },
       });
-    } catch { }
+    } catch {}
   };
 
   const handleAddCustomWord = (wordToAdd: string) => {
@@ -991,74 +1313,127 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     if (!customWords.includes(word)) {
       const next = [...customWords, word];
       setCustomWords(next);
-      localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
+      localStorage.setItem("7h_custom_flagged_words_v1", JSON.stringify(next));
       syncCustomWords(next);
     }
   };
 
   const handleRemoveCustomWord = (wordToRemove: string) => {
-    const next = customWords.filter(w => w !== wordToRemove);
+    const next = customWords.filter((w) => w !== wordToRemove);
     setCustomWords(next);
-    localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
+    localStorage.setItem("7h_custom_flagged_words_v1", JSON.stringify(next));
     syncCustomWords(next);
   };
 
-  const addModAction = useCallback((action: string, user: string, reason?: string) => {
-    setModLog(prev => [{ id: `mod-${Date.now()}`, action, user, time: Date.now(), reason }, ...prev.slice(0, 49)]);
-  }, []);
+  const addModAction = useCallback(
+    (action: string, user: string, reason?: string) => {
+      setModLog((prev) => [
+        { id: `mod-${Date.now()}`, action, user, time: Date.now(), reason },
+        ...prev.slice(0, 49),
+      ]);
+    },
+    [],
+  );
 
-  const handleWarn = useCallback((acc: FakeAccount) => {
-    setWarnedUsers(s => new Set(s).add(acc.id));
-    addModAction('⚠️ Warned', acc.displayName);
-    setMessages(prev => [...prev, {
-      id: `mod-warn-${Date.now()}`, account: null, text: `🛡️ ${acc.displayName} has been warned by a moderator.`,
-      timestamp: Date.now(), isSystem: true,
-    }]);
-  }, [addModAction]);
+  const handleWarn = useCallback(
+    (acc: FakeAccount) => {
+      setWarnedUsers((s) => new Set(s).add(acc.id));
+      addModAction("⚠️ Warned", acc.displayName);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `mod-warn-${Date.now()}`,
+          account: null,
+          text: `🛡️ ${acc.displayName} has been warned by a moderator.`,
+          timestamp: Date.now(),
+          isSystem: true,
+        },
+      ]);
+    },
+    [addModAction],
+  );
 
-  const handleMute = useCallback((acc: FakeAccount) => {
-    setMutedUsers(s => new Set(s).add(acc.id));
-    addModAction('🔇 Muted', acc.displayName);
-    setMessages(prev => [...prev, {
-      id: `mod-mute-${Date.now()}`, account: null, text: `🔇 ${acc.displayName} has been muted.`,
-      timestamp: Date.now(), isSystem: true,
-    }]);
-  }, [addModAction]);
+  const handleMute = useCallback(
+    (acc: FakeAccount) => {
+      setMutedUsers((s) => new Set(s).add(acc.id));
+      addModAction("🔇 Muted", acc.displayName);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `mod-mute-${Date.now()}`,
+          account: null,
+          text: `🔇 ${acc.displayName} has been muted.`,
+          timestamp: Date.now(),
+          isSystem: true,
+        },
+      ]);
+    },
+    [addModAction],
+  );
 
-  const handleKick = useCallback((acc: FakeAccount) => {
-    addModAction('👢 Kicked', acc.displayName);
-    setMessages(prev => [...prev, {
-      id: `mod-kick-${Date.now()}`, account: null, text: `👢 ${acc.displayName} was removed from the stream.`,
-      timestamp: Date.now(), isSystem: true,
-    }].filter(m => !m.account || m.account.id !== acc.id));
-  }, [addModAction]);
+  const handleKick = useCallback(
+    (acc: FakeAccount) => {
+      addModAction("👢 Kicked", acc.displayName);
+      setMessages((prev) =>
+        [
+          ...prev,
+          {
+            id: `mod-kick-${Date.now()}`,
+            account: null,
+            text: `👢 ${acc.displayName} was removed from the stream.`,
+            timestamp: Date.now(),
+            isSystem: true,
+          },
+        ].filter((m) => !m.account || m.account.id !== acc.id),
+      );
+    },
+    [addModAction],
+  );
 
-  const handleBan = useCallback((acc: FakeAccount, reason?: string) => {
-    setBannedUsers(s => new Set(s).add(acc.id));
-    addModAction('🚫 Banned', acc.displayName, reason);
-    setMessages(prev => [
-      ...prev.filter(m => !m.account || m.account.id !== acc.id),
-      { id: `mod-ban-${Date.now()}`, account: null, text: `🚫 ${acc.displayName} has been permanently banned.`, timestamp: Date.now(), isSystem: true },
-    ]);
-    setFlaggedMsgs(prev => prev.filter(f => f.msg.account?.id !== acc.id));
-  }, [addModAction]);
-
+  const handleBan = useCallback(
+    (acc: FakeAccount, reason?: string) => {
+      setBannedUsers((s) => new Set(s).add(acc.id));
+      addModAction("🚫 Banned", acc.displayName, reason);
+      setMessages((prev) => [
+        ...prev.filter((m) => !m.account || m.account.id !== acc.id),
+        {
+          id: `mod-ban-${Date.now()}`,
+          account: null,
+          text: `🚫 ${acc.displayName} has been permanently banned.`,
+          timestamp: Date.now(),
+          isSystem: true,
+        },
+      ]);
+      setFlaggedMsgs((prev) =>
+        prev.filter((f) => f.msg.account?.id !== acc.id),
+      );
+    },
+    [addModAction],
+  );
 
   const handleDismissFlag = useCallback((msgId: string) => {
-    setFlaggedMsgs(prev => prev.filter(f => f.msg.id !== msgId));
+    setFlaggedMsgs((prev) => prev.filter((f) => f.msg.id !== msgId));
   }, []);
 
-  const handleSpotlight = useCallback((acc: FakeAccount, text: string) => {
-    if (spotlightTimerRef.current) clearTimeout(spotlightTimerRef.current);
-    setSpotlight({ account: acc, text });
-    addModAction('📌 Spotlighted', acc.displayName);
-    setMessages(prev => [...prev, {
-      id: `spot-${Date.now()}`, account: null,
-      text: `📌 ${acc.displayName}'s message was spotlighted on stream.`,
-      timestamp: Date.now(), isSystem: true,
-    }]);
-    spotlightTimerRef.current = setTimeout(() => setSpotlight(null), 12000);
-  }, [addModAction]);
+  const handleSpotlight = useCallback(
+    (acc: FakeAccount, text: string) => {
+      if (spotlightTimerRef.current) clearTimeout(spotlightTimerRef.current);
+      setSpotlight({ account: acc, text });
+      addModAction("📌 Spotlighted", acc.displayName);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `spot-${Date.now()}`,
+          account: null,
+          text: `📌 ${acc.displayName}'s message was spotlighted on stream.`,
+          timestamp: Date.now(),
+          isSystem: true,
+        },
+      ]);
+      spotlightTimerRef.current = setTimeout(() => setSpotlight(null), 12000);
+    },
+    [addModAction],
+  );
 
   /* ── Merch drop countdown ── */
   useEffect(() => {
@@ -1067,14 +1442,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     const targetEndTime = Date.now() + merchTimeLeft * 1000;
 
     const t = setInterval(() => {
-      const remainingSeconds = Math.max(0, Math.round((targetEndTime - Date.now()) / 1000));
+      const remainingSeconds = Math.max(
+        0,
+        Math.round((targetEndTime - Date.now()) / 1000),
+      );
       setMerchTimeLeft(remainingSeconds);
 
       if (remainingSeconds <= 0) {
         setMerchTimerActive(false);
         setActiveMerchDrop(null);
         // Broadcast drop ended to the fan page
-        if (adminMode) bcRef.current?.postMessage({ type: 'MERCH_DROP_END' });
+        if (adminMode) bcRef.current?.postMessage({ type: "MERCH_DROP_END" });
         clearInterval(t);
       }
     }, 1000);
@@ -1082,52 +1460,65 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [merchTimerActive, adminMode, activeMerchDrop]);
 
-  const handleMerchDrop = useCallback((productId: string, duration: number) => {
-    const product = MERCH_PRODUCTS.find(p => p.id === productId);
-    if (!product) return;
-    setMerchTimeLeft(duration);
-    setMerchTimerActive(true);
-    setActiveMerchDrop({ product, totalTime: duration });
+  const handleMerchDrop = useCallback(
+    (productId: string, duration: number) => {
+      const product = MERCH_PRODUCTS.find((p) => p.id === productId);
+      if (!product) return;
+      setMerchTimeLeft(duration);
+      setMerchTimerActive(true);
+      setActiveMerchDrop({ product, totalTime: duration });
 
-    // Broadcast drop to the fan page tab
-    bcRef.current?.postMessage({
-      type: 'MERCH_DROP_START',
-      payload: { product, totalTime: duration, timeLeft: duration },
-    });
+      // Broadcast drop to the fan page tab
+      bcRef.current?.postMessage({
+        type: "MERCH_DROP_START",
+        payload: { product, totalTime: duration, timeLeft: duration },
+      });
 
-    // Hype chat message — also broadcast it
-    const dropMsg: ChatMsg = {
-      id: `merch-drop-${Date.now()}`,
-      account: CREW_ACCOUNTS[0],
-      text: `🛍 MERCH DROP LIVE NOW! ${product.emoji} ${product.name} — only ${product.price} while supplies last → shop.7thheavenband.com`,
-      timestamp: Date.now(),
-    };
-    seenMsgIds.current.add(dropMsg.id);
-    bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: dropMsg });
-    setMessages(prev => [...prev, dropMsg]);
+      // Hype chat message — also broadcast it
+      const dropMsg: ChatMsg = {
+        id: `merch-drop-${Date.now()}`,
+        account: CREW_ACCOUNTS[0],
+        text: `🛍 MERCH DROP LIVE NOW! ${product.emoji} ${product.name} — only ${product.price} while supplies last → shop.7thheavenband.com`,
+        timestamp: Date.now(),
+      };
+      seenMsgIds.current.add(dropMsg.id);
+      bcRef.current?.postMessage({ type: "CHAT_MSG", payload: dropMsg });
+      setMessages((prev) => [...prev, dropMsg]);
 
-    setHype(h => Math.min(100, h + 30));
-    addModAction('🛍 Merch Drop', product.name, `${product.price} · ${Math.floor(duration / 60)}min timer`);
-  }, [addModAction]);
+      setHype((h) => Math.min(100, h + 30));
+      addModAction(
+        "🛍 Merch Drop",
+        product.name,
+        `${product.price} · ${Math.floor(duration / 60)}min timer`,
+      );
+    },
+    [addModAction],
+  );
 
   /* ── Admin auto-inject: drop a new violation every ~18s while panel is open ── */
   useEffect(() => {
     if (!showAdminPanel) {
-      if (adminAutoTimerRef.current) { clearInterval(adminAutoTimerRef.current); adminAutoTimerRef.current = null; }
+      if (adminAutoTimerRef.current) {
+        clearInterval(adminAutoTimerRef.current);
+        adminAutoTimerRef.current = null;
+      }
       return;
     }
     // Also inject the pre-seeded violation messages into the live chat so Users tab shows them
-    setMessages(prev => {
-      const existingIds = new Set(prev.map(m => m.id));
+    setMessages((prev) => {
+      const existingIds = new Set(prev.map((m) => m.id));
       const toAdd = DEMO_VIOLATIONS.slice(0, 3).flatMap((v, i) => {
         const id = `seed-flag-${i}`;
         if (existingIds.has(id)) return [];
-        return [{
-          id,
-          account: FAN_ACCOUNTS.find(a => a.id === v.fanId) ?? FAN_ACCOUNTS[i],
-          text: v.text,
-          timestamp: Date.now() - (3 - i) * 45000,
-        }];
+        return [
+          {
+            id,
+            account:
+              FAN_ACCOUNTS.find((a) => a.id === v.fanId) ?? FAN_ACCOUNTS[i],
+            text: v.text,
+            timestamp: Date.now() - (3 - i) * 45000,
+          },
+        ];
       });
       return toAdd.length > 0 ? [...prev, ...toAdd] : prev;
     });
@@ -1136,16 +1527,27 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       const idx = adminViolationIdxRef.current % DEMO_VIOLATIONS.length;
       adminViolationIdxRef.current++;
       const v = DEMO_VIOLATIONS[idx];
-      const acc = FAN_ACCOUNTS.find(a => a.id === v.fanId) ?? FAN_ACCOUNTS[Math.floor(Math.random() * FAN_ACCOUNTS.length)];
-      const newMsg: ChatMsg = { id: `auto-flag-${Date.now()}`, account: acc, text: v.text, timestamp: Date.now() };
-      setFlaggedMsgs(prev => [...prev, { msg: newMsg, reason: v.reason }]);
-      setMessages(prev => [...prev, newMsg]);
-      setAdminTab('flagged');
+      const acc =
+        FAN_ACCOUNTS.find((a) => a.id === v.fanId) ??
+        FAN_ACCOUNTS[Math.floor(Math.random() * FAN_ACCOUNTS.length)];
+      const newMsg: ChatMsg = {
+        id: `auto-flag-${Date.now()}`,
+        account: acc,
+        text: v.text,
+        timestamp: Date.now(),
+      };
+      setFlaggedMsgs((prev) => [...prev, { msg: newMsg, reason: v.reason }]);
+      setMessages((prev) => [...prev, newMsg]);
+      setAdminTab("flagged");
     }, 18000);
 
-    return () => { if (adminAutoTimerRef.current) { clearInterval(adminAutoTimerRef.current); adminAutoTimerRef.current = null; } };
+    return () => {
+      if (adminAutoTimerRef.current) {
+        clearInterval(adminAutoTimerRef.current);
+        adminAutoTimerRef.current = null;
+      }
+    };
   }, [showAdminPanel]);
-
 
   const handleSend = () => {
     const text = userMessage.trim();
@@ -1160,17 +1562,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       }
     }
 
-    setUserMessage('');
+    setUserMessage("");
     setShowEmojiPicker(false);
     setBlockedReason(null);
 
     const userAcc: FakeAccount = {
-      id: 'user-you',
-      displayName: 'You',
-      role: 'fan',
-      color: '#8b5cf6',
-      avatar: 'YO',
-      tier: '🥇 Gold',
+      id: "user-you",
+      displayName: "You",
+      role: "fan",
+      color: "#8b5cf6",
+      avatar: "YO",
+      tier: "🥇 Gold",
     };
 
     const msg: ChatMsg = {
@@ -1183,14 +1585,14 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
     if (!seenMsgIds.current.has(msg.id)) {
       seenMsgIds.current.add(msg.id);
-      bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: msg });
+      bcRef.current?.postMessage({ type: "CHAT_MSG", payload: msg });
     }
 
-    setMessages(prev => {
+    setMessages((prev) => {
       const next = [...prev, msg];
       return next.length > 80 ? next.slice(-80) : next;
     });
-    setHype(h => Math.min(100, h + 5));
+    setHype((h) => Math.min(100, h + 5));
     inputRef.current?.focus();
   };
 
@@ -1202,68 +1604,92 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
       x: 10 + Math.random() * 70,
       createdAt: Date.now(),
     };
-    setFloating(prev => [...prev, reactionInfo]);
-    setHype(h => Math.min(100, h + 3));
+    setFloating((prev) => [...prev, reactionInfo]);
+    setHype((h) => Math.min(100, h + 3));
   };
 
   /* ── Hype color ── */
-  const hypeColor = hype > 80 ? '#ef4444' : hype > 50 ? '#f97316' : hype > 25 ? '#eab308' : '#a855f7';
+  const hypeColor =
+    hype > 80
+      ? "#ef4444"
+      : hype > 50
+        ? "#f97316"
+        : hype > 25
+          ? "#eab308"
+          : "#a855f7";
 
   useEffect(() => {
-
-    document.body.classList.add('fake-livestream-active');
+    document.body.classList.add("fake-livestream-active");
     return () => {
-      document.body.classList.remove('fake-livestream-active');
+      document.body.classList.remove("fake-livestream-active");
     };
   }, []);
 
   const content = (
     <>
-
-
       {/* ── Going Live overlay ── */}
       {showOverlay && (
-        <GoingLiveOverlay crew={crew} onComplete={() => {
-          startTimeRef.current = Date.now();
-          setShowOverlay(false);
-        }} />
+        <GoingLiveOverlay
+          crew={crew}
+          onComplete={() => {
+            startTimeRef.current = Date.now();
+            setShowOverlay(false);
+          }}
+        />
       )}
 
-
       {/* ── Main layout ── */}
-      <main id="live-stream-room" className="fixed inset-0 top-[95px] z-[99999] flex flex-col overflow-hidden">
-
+      <main
+        id="live-stream-room"
+        className="fixed inset-0 top-[95px] z-[99999] flex flex-col overflow-hidden"
+      >
         {/* ── TOP BAR ── */}
         <header
-          className="shrink-0 flex items-center justify-between gap-2 site-container pb-1"
-          style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          className="site-container flex shrink-0 items-center justify-between gap-2 pb-1"
+          style={{
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
           {/* Left */}
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex min-w-0 items-center gap-3">
             <Link
               href="/live"
               className="flex items-center gap-1.5 transition-colors hover:text-white"
               style={{
-                color: 'rgba(255,255,255,0.85)',
-              }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
+                color: "rgba(255,255,255,0.85)",
+              }}
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
               </svg>
               <span className="hidden sm:inline">Back</span>
             </Link>
 
             {/* Stream identity — updates with active cam */}
-            <div className="flex items-center gap-2 min-w-0">
+            <div className="flex min-w-0 items-center gap-2">
               <div className="relative shrink-0">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br from-purple-500/30 to-purple-800/20 border-2 border-white/20">{activeFeedCrew.avatar}</div>
-                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[9px] text-purple-300 bg-purple-600/50 border border-purple-500/50 rounded-full">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-white/20 bg-gradient-to-br from-purple-500/30 to-purple-800/20">
+                  {activeFeedCrew.avatar}
+                </div>
+                <span className="absolute -right-1 -bottom-1 rounded-full border border-purple-500/50 bg-purple-600/50 px-1.5 py-0.5 text-[9px] text-purple-300">
                   Crew
                 </span>
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="/95 truncate">{activeFeedCrew.name} — {activeFeedCrew.cameraLabel}</span>
-
+                  <span className="/95 truncate">
+                    {activeFeedCrew.name} — {activeFeedCrew.cameraLabel}
+                  </span>
                 </div>
                 <p className="hidden sm:block">
                   7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}
@@ -1273,18 +1699,19 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           </div>
 
           {/* Right — crew member link + notify me push button + crew side button + demo badge */}
-          <div className="shrink-0 flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             {/* Live Stream Push Alert Button — Restricted to Admin & Crew */}
-            {(contextMember?.role === 'crew' || contextMember?.role === 'admin') && (
+            {(contextMember?.role === "crew" ||
+              contextMember?.role === "admin") && (
               <SeventhButton
                 disabled={notifyingFans}
                 onClick={async () => {
                   if (notifyingFans) return;
                   setNotifyingFans(true);
                   try {
-                    await fetch('/api/notifications/trigger', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
+                    await fetch("/api/notifications/trigger", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
                         crewName: activeFeedCrew.name,
                         title: `🔴 ${activeFeedCrew.name} is LIVE on 7th Heaven!`,
@@ -1295,15 +1722,16 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     setNotifySuccess(true);
                     setTimeout(() => setNotifySuccess(false), 4500);
                   } catch (err) {
-                    console.error('Failed to notify fans:', err);
+                    console.error("Failed to notify fans:", err);
                   } finally {
                     setNotifyingFans(false);
                   }
                 }}
-                className="!py-1.5 !px-3 text-xs"
-                title="Broadcast push alert to all subscribed fans">
+                className="!px-3 !py-1.5 text-xs"
+                title="Broadcast push alert to all subscribed fans"
+              >
                 <span className="flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
+                  <Zap className="h-3.5 w-3.5 animate-pulse text-yellow-300" />
                   {notifySuccess
                     ? "✓ Push Sent to Fans! 🔔"
                     : notifyingFans
@@ -1314,20 +1742,23 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             )}
 
             <Link
-              href={`/live/${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
-              className="flex items-center gap-2 text-purple-300 hover:text-white transition-colors no-underline">
+              href={`/live/${activeFeedId === "mike" ? "michael" : activeFeedId}`}
+              className="flex items-center gap-2 text-purple-300 no-underline transition-colors hover:text-white"
+            >
               <div className="relative shrink-0">
-                <div
-                  className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-br from-purple-500/30 to-purple-800/20 border border-white/10">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-gradient-to-br from-purple-500/30 to-purple-800/20">
                   {activeFeedCrew.avatar}
                 </div>
-                <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[8px] text-purple-200 bg-purple-600/70 border border-purple-400/50 rounded-full backdrop-blur-sm text-[var(--color-accent)]">
+                <span className="absolute -right-1 -bottom-1 rounded-full border border-purple-400/50 bg-purple-600/70 px-1.5 py-0.5 text-[8px] text-[var(--color-accent)] text-purple-200 backdrop-blur-sm">
                   CREW
                 </span>
               </div>
               <span className="hidden sm:inline">{activeFeedCrew.name}</span>
               {flaggedMsgs.length > 0 && (
-                <span className="w-4 h-4 rounded-lg flex items-center justify-center text-black" style={{ background: '#ef4444', fontSize: 9 }}>
+                <span
+                  className="flex h-4 w-4 items-center justify-center rounded-lg text-black"
+                  style={{ background: "#ef4444", fontSize: 9 }}
+                >
                   {flaggedMsgs.length}
                 </span>
               )}
@@ -1336,43 +1767,38 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
             {/* Crew side button — goes to this crew member's own admin dashboard */}
             <Link
               href={
-                activeFeedId === 'mike' || activeFeedId === 'michael' ? '/crew-michael' :
-                  activeFeedId === 'sammy' ? '/crew-sam' :
-                    activeFeedId === 'ryan' ? '/crew-ryan' :
-                      activeFeedId === 'tony' ? '/crew-tony' : '/crew'
+                activeFeedId === "mike" || activeFeedId === "michael"
+                  ? "/crew-michael"
+                  : activeFeedId === "sammy"
+                    ? "/crew-sam"
+                    : activeFeedId === "ryan"
+                      ? "/crew-ryan"
+                      : activeFeedId === "tony"
+                        ? "/crew-tony"
+                        : "/crew"
               }
-              className="flex items-center gap-1.5 r"
+              className="r flex items-center gap-1.5"
               style={{
-
-                color: '#c084fc',
-                textDecoration: 'none',
-              }}>
-
+                color: "#c084fc",
+                textDecoration: "none",
+              }}
+            >
               <span className="hidden sm:inline">Crew Side</span>
             </Link>
 
-            <div
-              className="shrink-0 flex items-center gap-2"
-              style={{
-
-              }}>
-
-            </div>
+            <div className="flex shrink-0 items-center gap-2" style={{}}></div>
           </div>
         </header>
 
-
         {/* ── MAIN: video + chat ── */}
-        <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">
-
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
           {/* ── VIDEO PLAYER ── */}
-          <div className="w-full lg:flex-1 relative aspect-video lg:aspect-auto shrink-0 max-h-[40vh] lg:max-h-none">
+          <div className="relative aspect-video max-h-[40vh] w-full shrink-0 lg:aspect-auto lg:max-h-none lg:flex-1">
             {/* Canvas-based fake live camera feed — updates with cam switcher */}
-            <div className="absolute inset-0 overflow-hidden h-full">
-
+            <div className="absolute inset-0 h-full overflow-hidden">
               {crewIsLive && (
                 <LiveKitStream
-                  room={`live_${activeFeedId === 'mike' ? 'michael' : activeFeedId}`}
+                  room={`live_${activeFeedId === "mike" ? "michael" : activeFeedId}`}
                   username="fan"
                   isPublisher={false}
                 />
@@ -1380,12 +1806,17 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
               {/* Floating emojis */}
               {reactionsVisible && (
-                <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
-                  {floating.map(item => (
+                <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+                  {floating.map((item) => (
                     <span
                       key={item.id}
-                      className="absolute text-2xl animate-float-up"
-                      style={{ left: `${item.x}%`, bottom: '8%', animationDuration: '2800ms' }}>
+                      className="animate-float-up absolute text-2xl"
+                      style={{
+                        left: `${item.x}%`,
+                        bottom: "8%",
+                        animationDuration: "2800ms",
+                      }}
+                    >
                       {item.emoji}
                     </span>
                   ))}
@@ -1393,353 +1824,642 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
               )}
 
               {/* ── LIVE badge + viewer count ── */}
-              <h1 className="sr-only">7th Heaven Live Stream - {activeFeedCrew?.name || 'Band'}</h1>
-              <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-30 flex items-center gap-2">
+              <h1 className="sr-only">
+                7th Heaven Live Stream - {activeFeedCrew?.name || "Band"}
+              </h1>
+              <div className="absolute top-2 left-2 z-30 flex items-center gap-2 sm:top-3 sm:left-3">
                 {crewIsLive ? (
                   <>
                     <span
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg   animate-in fade-in"
-                      style={{ background: '#dc2626', boxShadow: '0 0 12px rgba(220,38,38,0.5)' }}>
-                      <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
+                      className="animate-in fade-in flex items-center gap-1.5 rounded-lg px-2.5 py-1"
+                      style={{
+                        background: "#dc2626",
+                        boxShadow: "0 0 12px rgba(220,38,38,0.5)",
+                      }}
+                    >
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-white" />
                       LIVE
                     </span>
 
                     <div
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg   animate-in fade-in"
-                      style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.85)' }}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
+                      className="animate-in fade-in flex items-center gap-1.5 rounded-lg px-2.5 py-1"
+                      style={{
+                        background: "rgba(0,0,0,0.6)",
+                        backdropFilter: "blur(8px)",
+                        WebkitBackdropFilter: "blur(8px)",
+                        color: "rgba(255,255,255,0.85)",
+                      }}
+                    >
+                      <svg
+                        width="11"
+                        height="11"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
                       </svg>
                       {viewerCount.toLocaleString()}
                     </div>
                   </>
                 ) : (
                   <span
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg r"
-                    style={{ background: 'rgba(255,255,255,0.1)' }}>
+                    className="r flex items-center gap-1.5 rounded-lg px-2.5 py-1"
+                    style={{ background: "rgba(255,255,255,0.1)" }}
+                  >
                     Offline
                   </span>
                 )}
 
                 <button
-                  onClick={() => setReactionsVisible(v => !v)}
-                  className="hidden sm:flex items-center px-2.5 py-1 rounded-lg   transition-colors"
+                  onClick={() => setReactionsVisible((v) => !v)}
+                  className="hidden items-center rounded-lg px-2.5 py-1 transition-colors sm:flex"
                   style={{
-                    background: 'rgba(0,0,0,0.6)',
-                    backdropFilter: 'blur(8px)',
-                    WebkitBackdropFilter: 'blur(8px)',
-                    color: reactionsVisible ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)',
-                  }}>
-                  {reactionsVisible ? 'Hide Reactions' : 'Show Reactions'}
+                    background: "rgba(0,0,0,0.6)",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    color: reactionsVisible
+                      ? "rgba(255,255,255,0.7)"
+                      : "rgba(255,255,255,0.3)",
+                  }}
+                >
+                  {reactionsVisible ? "Hide Reactions" : "Show Reactions"}
                 </button>
               </div>
 
               {/* ── Elapsed time ── */}
-              <div className="absolute top-2 sm:top-3 right-2 sm:right-3 z-30">
+              <div className="absolute top-2 right-2 z-30 sm:top-3 sm:right-3">
                 <div
-                  className="px-2.5 py-1 rounded-lg r"
-                  style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.8)' }}>
+                  className="r rounded-lg px-2.5 py-1"
+                  style={{
+                    background: "rgba(0,0,0,0.6)",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    color: "rgba(255,255,255,0.8)",
+                  }}
+                >
                   ⏱ {formatTime(elapsed)}
                 </div>
               </div>
 
-
               {/* NOW PLAYING OVERLAY BADGE */}
               {(() => {
-                const activeSong = setlist.find(s => s.isPlaying);
+                const activeSong = setlist.find((s) => s.isPlaying);
                 if (!activeSong) return null;
                 return (
-                  <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 max-w-[calc(100%-2rem)] transition-opacity duration-300 ease-out">
+                  <div className="absolute bottom-3 left-3 z-30 flex max-w-[calc(100%-2rem)] items-center gap-2 transition-opacity duration-300 ease-out">
                     <div
-                      className="flex items-center gap-2 px-3 py-1.5   border border-white/10 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
+                      className="flex items-center gap-2 border border-white/10 px-3 py-1.5 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
                       style={{
-                        background: 'linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                      }}>
-                      <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)] animate-ping shrink-0" />
-                      <span className="text-[var(--color-accent)] shrink-0">Now Playing:</span>
-                      <span className="  truncate">{activeSong.title}</span>
-                      <Music className="w-3.5 h-3.5 shrink-0" />
+                        background:
+                          "linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))",
+                        backdropFilter: "blur(8px)",
+                        WebkitBackdropFilter: "blur(8px)",
+                      }}
+                    >
+                      <span className="h-2 w-2 shrink-0 animate-ping rounded-lg bg-[var(--color-accent)]" />
+                      <span className="shrink-0 text-[var(--color-accent)]">
+                        Now Playing:
+                      </span>
+                      <span className="truncate">{activeSong.title}</span>
+                      <Music className="h-3.5 w-3.5 shrink-0" />
                     </div>
                   </div>
                 );
               })()}
 
               {/* LIVE RAFFLE WIDGET */}
-              {crewIsLive && raffleState && !raffleWidgetClosed && (() => {
-                const isCurrentUserWinner = hasEnteredRaffle && !!member?.name &&
-                  raffleState.winners?.some((w: any) => (w?.name || w)?.toLowerCase().trim() === member!.name.toLowerCase().trim());
-                return (
-                  <div className="absolute top-20 left-4 sm:left-auto sm:right-4 z-40 w-[calc(100%-2rem)] sm:w-full sm:max-w-xs transition-opacity duration-500 ease-out">
-                    <div className="bg-gray-50/95 backdrop-blur-xl border-2 border-yellow-500/50 overflow-hidden shadow-[0_0_40px_rgba(234,179,8,0.3)]   relative flex flex-col px-4 py-5 pointer-events-auto">
+              {crewIsLive &&
+                raffleState &&
+                !raffleWidgetClosed &&
+                (() => {
+                  const isCurrentUserWinner =
+                    hasEnteredRaffle &&
+                    !!member?.name &&
+                    raffleState.winners?.some(
+                      (w: any) =>
+                        (w?.name || w)?.toLowerCase().trim() ===
+                        member!.name.toLowerCase().trim(),
+                    );
+                  return (
+                    <div className="absolute top-20 left-4 z-40 w-[calc(100%-2rem)] transition-opacity duration-500 ease-out sm:right-4 sm:left-auto sm:w-full sm:max-w-xs">
+                      <div className="pointer-events-auto relative flex flex-col overflow-hidden border-2 border-yellow-500/50 bg-gray-50/95 px-4 py-5 shadow-[0_0_40px_rgba(234,179,8,0.3)] backdrop-blur-xl">
+                        <button
+                          aria-label="Close live raffle widget"
+                          onClick={() => setRaffleWidgetClosed(true)}
+                          className="hover: absolute top-3 right-3 z-10 flex h-6 w-6 items-center justify-center rounded-lg bg-gray-50 text-black/40 transition-colors hover:bg-white/15"
+                        >
+                          <svg
+                            width="10"
+                            height="10"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                        </button>
 
-                      <button aria-label="Close live raffle widget"
-                        onClick={() => setRaffleWidgetClosed(true)}
-                        className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center bg-gray-50 hover:bg-white/15 text-black/40 hover:  rounded-lg transition-colors z-10">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                      </button>
-
-                      {raffleState.status === 'open' && (
-                        <>
-                          <div className="flex items-center gap-2 text-purple-300 mb-6 pr-6">
-                            <Ticket className="w-5 h-5 text-yellow-400 animate-pulse" />
-                            <span >Live Raffle</span>
-                            <span className="ml-auto px-2.5 py-1 bg- purple-white/20 text-purple-300 border border-purple-500/30 rounded animate-pulse">OPEN</span>
-                          </div>
-
-                          <div className="mb-6">
-                            <div className="flex items-center justify-between mb-1.5">
-                              <span className="text-black/40">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entered</span>
-                              <span className="text-[var(--color-accent)]/70">{raffleState.minEntrants ?? 10} needed</span>
+                        {raffleState.status === "open" && (
+                          <>
+                            <div className="mb-6 flex items-center gap-2 pr-6 text-purple-300">
+                              <Ticket className="h-5 w-5 animate-pulse text-yellow-400" />
+                              <span>Live Raffle</span>
+                              <span className="bg- purple-white/20 ml-auto animate-pulse rounded border border-purple-500/30 px-2.5 py-1 text-purple-300">
+                                OPEN
+                              </span>
                             </div>
-                            <div className="w-full h-1.5 bg-gray-100 rounded-lg overflow-hidden">
-                              <div className="h-full bg-yellow-400 rounded-lg transition-colors duration-500"
-                                style={{ width: `${Math.min(100, ((Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)) / (raffleState.minEntrants || 1)) * 100)}%` }} />
-                            </div>
-                          </div>
 
-                          {raffleState.prizes[0]?.name && (
-                            <div className="mb-6 px-3 py-2.5 bg-purple-500/10 border border-white/20">
-                              <p className="text-[var(--color-accent)]/60 mb-1">You could win</p>
-                              <p className="text-yellow-300">
-                                {raffleState.prizes[0].qty > 1 ? <span className="  bg-yellow-500/30 px-1.5 py-0.5 rounded mr-2">{raffleState.prizes[0].qty}x</span> : null}
-                                {raffleState.prizes[0].name}
-                              </p>
-                              {raffleState.prizes.filter((p: any) => p.name).length > 1 && (
-                                <p className="text-[var(--color-accent)]/70">+ {raffleState.prizes.filter((p: any) => p.name).length - 1} more prizes</p>
-                              )}
-                            </div>
-                          )}
-
-                          {!hasEnteredRaffle ? (
-                            <button type="button" aria-label="Enter live raffle" onClick={() => {
-                              if (!isLoggedIn) { openModal('login'); return; }
-                              setHasEnteredRaffle(true);
-                              setRaffleWidgetClosed(false);
-                              const fanName = member?.name || 'Fan';
-                              localStorage.setItem('raffle_enter_sync_v1', JSON.stringify({ fanName, email: member?.email || 'fan@7thheavenband.com', id: member?.id || 'unknown', crewId: memberId, ts: Date.now() }));
-                              try { supabase.channel('live_events').send({ type: 'broadcast', event: 'raffle_enter', payload: { fanName, email: member?.email || 'fan@7thheavenband.com', fanId: member?.id || 'unknown', crewId: memberId } }); } catch { }
-                              fetch('/api/email', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                  to: member?.email || 'fan@7thheavenband.com',
-                                  subject: '🎟️ You are entered into the 7th Heaven Raffle!',
-                                  html: `<div style="font-family:'Barlow',sans-serif;background:#000;color:#fff;padding:40px 20px;text-align:center;"><h1 style="color:#c084fc;">RAFFLE ENTRY CONFIRMED</h1><p>You entered the raffle for <strong>${raffleState?.prizes[0]?.name || 'the live drop'}</strong>.</p></div>`
-                                })
-                              }).catch(console.error);
-                              try {
-                                const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages_v1') || localStorage.getItem('vip_inbox_messages') || '[]');
-                                inbox.unshift({ id: Date.now(), icon: '🎰', title: 'Raffle Entry Confirmed!', desc: `You've entered the live raffle. Stay tuned!`, time: 'Just now', isNew: true, color: 'yellow' });
-                                localStorage.setItem('vip_inbox_messages_v1', JSON.stringify(inbox));
-                              } catch { }
-                            }} className="w-full py-3 bg-[var(--color-purple-primary)] hover:bg-[var(--color-purple-hover)] transition-colors shadow-[0_0_15px_var(--color-purple-glow)]">
-                              Enter Raffle
-                            </button>
-                          ) : (
-                            <div className="w-full py-3 bg-[var(--color-purple-glow)] text-[var(--color-purple-light)] border border-[var(--color-border-purple)] text-center flex items-center justify-center gap-2">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-                              You're Entered!
-                            </div>
-                          )}
-                        </>
-                      )}
-
-                      {raffleState.status === 'countdown' && (
-                        <div className="py-8 text-center flex flex-col items-center gap-3">
-                          <Ticket className="w-11 h-11 text-yellow-400" />
-                          <p className="text-yellow-300 r">Drawing Coming Up!</p>
-                          <p className="text-black/40">{Array.isArray(raffleState.entrants) ? raffleState.entrants.length : (raffleState.entrants || 0)} entries locked in</p>
-                          {hasEnteredRaffle && (
-                            <div className="px-4 py-2 bg-purple-500/10 border border-white/20">
-                              <p className="text-purple-300">✓ You're in the drawing!</p>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {raffleState.status === 'drawing' && (
-                        <div className="py-8 text-center flex flex-col items-center justify-center">
-                          <Ticket className="w-11 h-11 text-yellow-400 animate-spin mb-6" />
-                          <p className="text-purple-300 animate-pulse">Drawing Winner...</p>
-                        </div>
-                      )}
-
-                      {raffleState.status === 'complete' && (
-                        <div className="py-2">
-                          <div className="flex items-center gap-2 text-purple-300 mb-6 pr-6">
-                            <Trophy className="w-5 h-5 text-yellow-400" />
-                            <span >Raffle Winner</span>
-                          </div>
-                          <div className="space-y-2">
-                            {Array.from(raffleState.winners, (wObj: any, i: number) => ({ wObj, i })).map(({ wObj, i }) => {
-                              const w = wObj?.name || wObj;
-                              const isMine = isCurrentUserWinner && i === 0;
-                              return (
-                                <div key={wObj?.name || wObj?.id || i} className={`overflow-hidden border ${isMine ? 'border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]' : 'border-black/10'}`}>
-                                  <div className={`px-3 py-1 text-[var(--font-size-2xs)] text-center ${isMine ? 'bg-purple-600 ' : 'bg-gray-50 text-black/30'}`}>
-                                    {i === 0 ? '1st Place' : i === 1 ? '2nd Place' : '3rd Place'}{raffleState.prizes[i]?.name ? ` · ${raffleState.prizes[i].name}` : ''}
-                                  </div>
-                                  <div className={`px-4 py-3 text-center ${isMine ? 'bg-purple-500/10' : ''}`}>
-                                    <p className={`${isMine ? 'text-purple-300' : 'text-black'}`}>{w}</p>
-                                    {isMine && (
-                                      <button onClick={() => setShowClaimModal(true)}
-                                        className="mt-2 w-full py-2 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors">
-                                        Claim Reward
-                                      </button>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-
-                          <div className="mt-4 p-3 bg-gray-50 border border-black/10 text-center">
-                            <p className="text-black/70  ">
-                              <span className="text-purple-300 block mb-1">How to Claim</span>
-                              Winners: Check your <strong className="text-black">Email</strong> or your <strong className="text-black">Fan Profile Dashboard</strong> for your unique Verification PIN. Show your PIN to the crew at the merch table!
-                            </p>
-                          </div>
-
-                          {nextRaffleCountdown !== null && nextRaffleCountdown > 0 && (
-                            <div className="mt-5 pt-5 border-t border-black/10 text-center px-4 relative">
-                              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                              <p className="text-black/40 mb-2">Next Raffle Drawing In</p>
-                              <div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded border border-black/10 shadow-inner">
-                                <span className="animate-pulse">⏳</span>
-                                <span className="text-lg text-emerald-500">
-                                  {Math.floor(nextRaffleCountdown / 60)}:{(nextRaffleCountdown % 60).toString().padStart(2, '0')}
+                            <div className="mb-6">
+                              <div className="mb-1.5 flex items-center justify-between">
+                                <span className="text-black/40">
+                                  {Array.isArray(raffleState.entrants)
+                                    ? raffleState.entrants.length
+                                    : raffleState.entrants || 0}{" "}
+                                  entered
+                                </span>
+                                <span className="text-[var(--color-accent)]/70">
+                                  {raffleState.minEntrants ?? 10} needed
                                 </span>
                               </div>
+                              <div className="h-1.5 w-full overflow-hidden rounded-lg bg-gray-100">
+                                <div
+                                  className="h-full rounded-lg bg-yellow-400 transition-colors duration-500"
+                                  style={{
+                                    width: `${Math.min(100, ((Array.isArray(raffleState.entrants) ? raffleState.entrants.length : raffleState.entrants || 0) / (raffleState.minEntrants || 1)) * 100)}%`,
+                                  }}
+                                />
+                              </div>
                             </div>
-                          )}
-                        </div>
-                      )}
 
+                            {raffleState.prizes[0]?.name && (
+                              <div className="mb-6 border border-white/20 bg-purple-500/10 px-3 py-2.5">
+                                <p className="mb-1 text-[var(--color-accent)]/60">
+                                  You could win
+                                </p>
+                                <p className="text-yellow-300">
+                                  {raffleState.prizes[0].qty > 1 ? (
+                                    <span className="mr-2 rounded bg-yellow-500/30 px-1.5 py-0.5">
+                                      {raffleState.prizes[0].qty}x
+                                    </span>
+                                  ) : null}
+                                  {raffleState.prizes[0].name}
+                                </p>
+                                {raffleState.prizes.filter((p: any) => p.name)
+                                  .length > 1 && (
+                                  <p className="text-[var(--color-accent)]/70">
+                                    +{" "}
+                                    {raffleState.prizes.filter(
+                                      (p: any) => p.name,
+                                    ).length - 1}{" "}
+                                    more prizes
+                                  </p>
+                                )}
+                              </div>
+                            )}
+
+                            {!hasEnteredRaffle ? (
+                              <button
+                                type="button"
+                                aria-label="Enter live raffle"
+                                onClick={() => {
+                                  if (!isLoggedIn) {
+                                    openModal("login");
+                                    return;
+                                  }
+                                  setHasEnteredRaffle(true);
+                                  setRaffleWidgetClosed(false);
+                                  const fanName = member?.name || "Fan";
+                                  localStorage.setItem(
+                                    "raffle_enter_sync_v1",
+                                    JSON.stringify({
+                                      fanName,
+                                      email:
+                                        member?.email ||
+                                        "fan@7thheavenband.com",
+                                      id: member?.id || "unknown",
+                                      crewId: memberId,
+                                      ts: Date.now(),
+                                    }),
+                                  );
+                                  try {
+                                    supabase
+                                      .channel("live_events")
+                                      .send({
+                                        type: "broadcast",
+                                        event: "raffle_enter",
+                                        payload: {
+                                          fanName,
+                                          email:
+                                            member?.email ||
+                                            "fan@7thheavenband.com",
+                                          fanId: member?.id || "unknown",
+                                          crewId: memberId,
+                                        },
+                                      });
+                                  } catch {}
+                                  fetch("/api/email", {
+                                    method: "POST",
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                      to:
+                                        member?.email ||
+                                        "fan@7thheavenband.com",
+                                      subject:
+                                        "🎟️ You are entered into the 7th Heaven Raffle!",
+                                      html: `<div style="font-family:'Barlow',sans-serif;background:#000;color:#fff;padding:40px 20px;text-align:center;"><h1 style="color:#c084fc;">RAFFLE ENTRY CONFIRMED</h1><p>You entered the raffle for <strong>${raffleState?.prizes[0]?.name || "the live drop"}</strong>.</p></div>`,
+                                    }),
+                                  }).catch(console.error);
+                                  try {
+                                    const inbox = JSON.parse(
+                                      localStorage.getItem(
+                                        "vip_inbox_messages_v1",
+                                      ) ||
+                                        localStorage.getItem(
+                                          "vip_inbox_messages",
+                                        ) ||
+                                        "[]",
+                                    );
+                                    inbox.unshift({
+                                      id: Date.now(),
+                                      icon: "🎰",
+                                      title: "Raffle Entry Confirmed!",
+                                      desc: `You've entered the live raffle. Stay tuned!`,
+                                      time: "Just now",
+                                      isNew: true,
+                                      color: "yellow",
+                                    });
+                                    localStorage.setItem(
+                                      "vip_inbox_messages_v1",
+                                      JSON.stringify(inbox),
+                                    );
+                                  } catch {}
+                                }}
+                                className="w-full bg-[var(--color-purple-primary)] py-3 shadow-[0_0_15px_var(--color-purple-glow)] transition-colors hover:bg-[var(--color-purple-hover)]"
+                              >
+                                Enter Raffle
+                              </button>
+                            ) : (
+                              <div className="flex w-full items-center justify-center gap-2 border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] py-3 text-center text-[var(--color-purple-light)]">
+                                <svg
+                                  width="14"
+                                  height="14"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="3"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path d="M20 6 9 17l-5-5" />
+                                </svg>
+                                You're Entered!
+                              </div>
+                            )}
+                          </>
+                        )}
+
+                        {raffleState.status === "countdown" && (
+                          <div className="flex flex-col items-center gap-3 py-8 text-center">
+                            <Ticket className="h-11 w-11 text-yellow-400" />
+                            <p className="r text-yellow-300">
+                              Drawing Coming Up!
+                            </p>
+                            <p className="text-black/40">
+                              {Array.isArray(raffleState.entrants)
+                                ? raffleState.entrants.length
+                                : raffleState.entrants || 0}{" "}
+                              entries locked in
+                            </p>
+                            {hasEnteredRaffle && (
+                              <div className="border border-white/20 bg-purple-500/10 px-4 py-2">
+                                <p className="text-purple-300">
+                                  ✓ You're in the drawing!
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {raffleState.status === "drawing" && (
+                          <div className="flex flex-col items-center justify-center py-8 text-center">
+                            <Ticket className="mb-6 h-11 w-11 animate-spin text-yellow-400" />
+                            <p className="animate-pulse text-purple-300">
+                              Drawing Winner...
+                            </p>
+                          </div>
+                        )}
+
+                        {raffleState.status === "complete" && (
+                          <div className="py-2">
+                            <div className="mb-6 flex items-center gap-2 pr-6 text-purple-300">
+                              <Trophy className="h-5 w-5 text-yellow-400" />
+                              <span>Raffle Winner</span>
+                            </div>
+                            <div className="space-y-2">
+                              {Array.from(
+                                raffleState.winners,
+                                (wObj: any, i: number) => ({ wObj, i }),
+                              ).map(({ wObj, i }) => {
+                                const w = wObj?.name || wObj;
+                                const isMine = isCurrentUserWinner && i === 0;
+                                return (
+                                  <div
+                                    key={wObj?.name || wObj?.id || i}
+                                    className={`overflow-hidden border ${isMine ? "border-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.3)]" : "border-black/10"}`}
+                                  >
+                                    <div
+                                      className={`px-3 py-1 text-center text-[var(--font-size-2xs)] ${isMine ? "bg-purple-600" : "bg-gray-50 text-black/30"}`}
+                                    >
+                                      {i === 0
+                                        ? "1st Place"
+                                        : i === 1
+                                          ? "2nd Place"
+                                          : "3rd Place"}
+                                      {raffleState.prizes[i]?.name
+                                        ? ` · ${raffleState.prizes[i].name}`
+                                        : ""}
+                                    </div>
+                                    <div
+                                      className={`px-4 py-3 text-center ${isMine ? "bg-purple-500/10" : ""}`}
+                                    >
+                                      <p
+                                        className={`${isMine ? "text-purple-300" : "text-black"}`}
+                                      >
+                                        {w}
+                                      </p>
+                                      {isMine && (
+                                        <button
+                                          onClick={() =>
+                                            setShowClaimModal(true)
+                                          }
+                                          className="mt-2 w-full rounded-lg bg-purple-600 py-2 transition-colors hover:bg-purple-500"
+                                        >
+                                          Claim Reward
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+
+                            <div className="mt-4 border border-black/10 bg-gray-50 p-3 text-center">
+                              <p className="text-black/70">
+                                <span className="mb-1 block text-purple-300">
+                                  How to Claim
+                                </span>
+                                Winners: Check your{" "}
+                                <strong className="text-black">Email</strong> or
+                                your{" "}
+                                <strong className="text-black">
+                                  Fan Profile Dashboard
+                                </strong>{" "}
+                                for your unique Verification PIN. Show your PIN
+                                to the crew at the merch table!
+                              </p>
+                            </div>
+
+                            {nextRaffleCountdown !== null &&
+                              nextRaffleCountdown > 0 && (
+                                <div className="relative mt-5 border-t border-black/10 px-4 pt-5 text-center">
+                                  <div className="absolute top-0 left-1/2 h-[1px] w-8 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                                  <p className="mb-2 text-black/40">
+                                    Next Raffle Drawing In
+                                  </p>
+                                  <div className="inline-flex items-center gap-2 rounded border border-black/10 bg-gray-100 px-3 py-1.5 shadow-inner">
+                                    <span className="animate-pulse">⏳</span>
+                                    <span className="text-lg text-emerald-500">
+                                      {Math.floor(nextRaffleCountdown / 60)}:
+                                      {(nextRaffleCountdown % 60)
+                                        .toString()
+                                        .padStart(2, "0")}
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })()}
+                  );
+                })()}
 
               {/* ── Merch Drop Live Banner ── */}
-              {merchTimerActive && activeMerchDrop && merchTimeLeft > 0 && (() => {
-                const pct = activeMerchDrop.totalTime > 0 ? (activeMerchDrop.totalTime - merchTimeLeft) / activeMerchDrop.totalTime : 0;
-                return (
-                  <div
-                    className="absolute bottom-16 left-3 right-3 z-30"
-                    style={{ animation: 'lowerThirdIn 0.4s ease forwards' }}>
+              {merchTimerActive &&
+                activeMerchDrop &&
+                merchTimeLeft > 0 &&
+                (() => {
+                  const pct =
+                    activeMerchDrop.totalTime > 0
+                      ? (activeMerchDrop.totalTime - merchTimeLeft) /
+                        activeMerchDrop.totalTime
+                      : 0;
+                  return (
                     <div
-                      className="flex items-center gap-3 px-4 py-3"
-                      style={{
-                        background: 'rgba(0,0,0,0.88)',
-                        backdropFilter: 'blur(16px)',
-                        WebkitBackdropFilter: 'blur(16px)',
-                        border: `1px solid ${activeMerchDrop.product.color}55`,
-                        boxShadow: `0 0 30px ${activeMerchDrop.product.color}22`,
-                      }}>
-                      {/* Product emoji */}
+                      className="absolute right-3 bottom-16 left-3 z-30"
+                      style={{ animation: "lowerThirdIn 0.4s ease forwards" }}
+                    >
                       <div
-                        className="w-12 h-12 flex items-center justify-center text-2xl shrink-0"
-                        style={{ background: `${activeMerchDrop.product.color}22`, border: `1px solid ${activeMerchDrop.product.color}44` }}>
-                        {activeMerchDrop.product.emoji}
-                      </div>
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="px-1.5 py-0.5 rounded-lg r"
-                            style={{ background: `${activeMerchDrop.product.color}33`, color: activeMerchDrop.product.color, fontSize: 9 }}>
-                            🛍 LIVE DROP
-                          </span>
-                          <span
-                            className="px-1.5 py-0.5 rounded-lg"
-                            style={{ background: 'rgba(192, 132, 252,0.2)', color: '#c084fc', fontSize: 9 }}>
-                            {activeMerchDrop.product.badge}
-                          </span>
+                        className="flex items-center gap-3 px-4 py-3"
+                        style={{
+                          background: "rgba(0,0,0,0.88)",
+                          backdropFilter: "blur(16px)",
+                          WebkitBackdropFilter: "blur(16px)",
+                          border: `1px solid ${activeMerchDrop.product.color}55`,
+                          boxShadow: `0 0 30px ${activeMerchDrop.product.color}22`,
+                        }}
+                      >
+                        {/* Product emoji */}
+                        <div
+                          className="flex h-12 w-12 shrink-0 items-center justify-center text-2xl"
+                          style={{
+                            background: `${activeMerchDrop.product.color}22`,
+                            border: `1px solid ${activeMerchDrop.product.color}44`,
+                          }}
+                        >
+                          {activeMerchDrop.product.emoji}
                         </div>
-                        <p className="  truncate">{activeMerchDrop.product.name}</p>
-                        <p style={{ color: activeMerchDrop.product.color }}>Only {activeMerchDrop.product.stock} left · shop.7thheavenband.com</p>
-                      </div>
-                      {/* Price + countdown + action button */}
-                      <div className="shrink-0 flex items-center gap-3">
-                        <div className="text-right">
-                          <p style={{ color: activeMerchDrop.product.color }}>{activeMerchDrop.product.price}</p>
-                          <p className="tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                            {String(Math.floor(merchTimeLeft / 60)).padStart(2, '0')}:{String(merchTimeLeft % 60).padStart(2, '0')}
+                        {/* Info */}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="r rounded-lg px-1.5 py-0.5"
+                              style={{
+                                background: `${activeMerchDrop.product.color}33`,
+                                color: activeMerchDrop.product.color,
+                                fontSize: 9,
+                              }}
+                            >
+                              🛍 LIVE DROP
+                            </span>
+                            <span
+                              className="rounded-lg px-1.5 py-0.5"
+                              style={{
+                                background: "rgba(192, 132, 252,0.2)",
+                                color: "#c084fc",
+                                fontSize: 9,
+                              }}
+                            >
+                              {activeMerchDrop.product.badge}
+                            </span>
+                          </div>
+                          <p className="truncate">
+                            {activeMerchDrop.product.name}
+                          </p>
+                          <p style={{ color: activeMerchDrop.product.color }}>
+                            Only {activeMerchDrop.product.stock} left ·
+                            shop.7thheavenband.com
                           </p>
                         </div>
-                        <button aria-label="Buy merch drop now"
-                          onClick={() => {
-                            setCheckoutStep('form');
-                            // Reset size/color based on product type
-                            const pName = activeMerchDrop.product.name.toLowerCase();
-                            const isClo = pName.includes('shirt') || pName.includes('tee') || pName.includes('hood') || pName.includes('sweat') || pName.includes('jersey') || pName.includes('jacket') || pName.includes('tank') || pName.includes('hat') || pName.includes('cap');
-                            if (isClo) {
-                              setCheckoutSelectedSize(prev => prev || 'L');
-                              setCheckoutSelectedColor(prev => prev || 'Black');
-                            } else {
-                              setCheckoutSelectedSize('');
-                              setCheckoutSelectedColor('');
-                            }
-                            setShowCheckoutModal(true);
-                          }}
+                        {/* Price + countdown + action button */}
+                        <div className="flex shrink-0 items-center gap-3">
+                          <div className="text-right">
+                            <p style={{ color: activeMerchDrop.product.color }}>
+                              {activeMerchDrop.product.price}
+                            </p>
+                            <p
+                              className="tabular-nums"
+                              style={{ color: "rgba(255,255,255,0.5)" }}
+                            >
+                              {String(Math.floor(merchTimeLeft / 60)).padStart(
+                                2,
+                                "0",
+                              )}
+                              :{String(merchTimeLeft % 60).padStart(2, "0")}
+                            </p>
+                          </div>
+                          <button
+                            aria-label="Buy merch drop now"
+                            onClick={() => {
+                              setCheckoutStep("form");
+                              // Reset size/color based on product type
+                              const pName =
+                                activeMerchDrop.product.name.toLowerCase();
+                              const isClo =
+                                pName.includes("shirt") ||
+                                pName.includes("tee") ||
+                                pName.includes("hood") ||
+                                pName.includes("sweat") ||
+                                pName.includes("jersey") ||
+                                pName.includes("jacket") ||
+                                pName.includes("tank") ||
+                                pName.includes("hat") ||
+                                pName.includes("cap");
+                              if (isClo) {
+                                setCheckoutSelectedSize((prev) => prev || "L");
+                                setCheckoutSelectedColor(
+                                  (prev) => prev || "Black",
+                                );
+                              } else {
+                                setCheckoutSelectedSize("");
+                                setCheckoutSelectedColor("");
+                              }
+                              setShowCheckoutModal(true);
+                            }}
+                            style={{
+                              background: activeMerchDrop.product.color,
+                              boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`,
+                            }}
+                            className="shrink-0 cursor-pointer border-none px-3.5 py-1.5 transition-colors active:scale-95"
+                          >
+                            BUY NOW
+                          </button>
+                        </div>
+                      </div>
+                      {/* Progress bar */}
+                      <div
+                        className="h-0.5 overflow-hidden rounded-lg"
+                        style={{ background: "rgba(255,255,255,0.08)" }}
+                      >
+                        <div
+                          className="h-full rounded-lg transition-colors"
                           style={{
+                            width: `${(1 - pct) * 100}%`,
                             background: activeMerchDrop.product.color,
-                            boxShadow: `0 0 15px ${activeMerchDrop.product.color}88`
+                            opacity: 0.7,
                           }}
-                          className="px-3.5 py-1.5   active:scale-95 transition-colors cursor-pointer border-none shrink-0">
-                          BUY NOW
-                        </button>
+                        />
                       </div>
                     </div>
-                    {/* Progress bar */}
-                    <div className="h-0.5 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                      <div
-                        className="h-full rounded-lg transition-colors"
-                        style={{ width: `${(1 - pct) * 100}%`, background: activeMerchDrop.product.color, opacity: 0.7 }}
-                      />
-                    </div>
-                  </div>
-                );
-              })()}
+                  );
+                })()}
 
               {/* ── Fan Spotlight Lower-Third ── */}
               {spotlight && (
                 <div
-                  className="lower-third absolute bottom-14 left-3 right-3 z-30 flex items-center gap-3 px-4 py-3"
+                  className="lower-third absolute right-3 bottom-14 left-3 z-30 flex items-center gap-3 px-4 py-3"
                   style={{
-                    background: 'rgba(0,0,0,0.82)',
-                    backdropFilter: 'blur(14px)',
-                    WebkitBackdropFilter: 'blur(14px)',
+                    background: "rgba(0,0,0,0.82)",
+                    backdropFilter: "blur(14px)",
+                    WebkitBackdropFilter: "blur(14px)",
                     border: `1px solid ${spotlight.account.color}55`,
                     boxShadow: `0 0 24px ${spotlight.account.color}18`,
-                  }}>
+                  }}
+                >
                   <div
-                    className="w-11 h-11 rounded-lg flex items-center justify-center   shrink-0"
-                    style={{ background: spotlight.account.color }}>
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
+                    style={{ background: spotlight.account.color }}
+                  >
                     {spotlight.account.avatar}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <span style={{ color: spotlight.account.color }}>{spotlight.account.displayName}</span>
-                      {spotlight.account.tier && <span style={{ color: 'rgba(255,255,255,0.35)' }}>{spotlight.account.tier}</span>}
-                      <span className="px-1.5 py-0.5 rounded-lg" style={{ background: 'rgba(255,10,61,0.2)', color: '#c084fc', fontSize: 9 }}>📌 SPOTLIGHT</span>
+                      <span style={{ color: spotlight.account.color }}>
+                        {spotlight.account.displayName}
+                      </span>
+                      {spotlight.account.tier && (
+                        <span style={{ color: "rgba(255,255,255,0.35)" }}>
+                          {spotlight.account.tier}
+                        </span>
+                      )}
+                      <span
+                        className="rounded-lg px-1.5 py-0.5"
+                        style={{
+                          background: "rgba(255,10,61,0.2)",
+                          color: "#c084fc",
+                          fontSize: 9,
+                        }}
+                      >
+                        📌 SPOTLIGHT
+                      </span>
                     </div>
-                    <p className="text-black/80  " style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>&#8220;{spotlight.text}&#8221;</p>
+                    <p
+                      className="text-black/80"
+                      style={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      &#8220;{spotlight.text}&#8221;
+                    </p>
                   </div>
                   <button
                     onClick={() => setSpotlight(null)}
-                    className="text-black/30 hover:text-black/70 transition-colors shrink-0">✕</button>
+                    className="shrink-0 text-black/30 transition-colors hover:text-black/70"
+                  >
+                    ✕
+                  </button>
                 </div>
               )}
 
               {/* Hype burst overlay */}
               {hypeBurst && (
-                <div className="absolute inset-0 z-25 pointer-events-none" style={{
-                  background: 'radial-gradient(circle at center, rgba(239,68,68,0.15) 0%, transparent 70%)',
-                  animation: 'hypePulse 0.5s ease-in-out',
-                }} />
+                <div
+                  className="pointer-events-none absolute inset-0 z-25"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, rgba(239,68,68,0.15) 0%, transparent 70%)",
+                    animation: "hypePulse 0.5s ease-in-out",
+                  }}
+                />
               )}
             </div>
           </div>
@@ -1748,117 +2468,344 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           {showAdminPanel ? (
             /* ─────────────── ADMIN DASHBOARD ─────────────── */
             <div
-              className="w-full lg:w-[440px] xl:w-[500px] flex-1 lg:flex-none flex flex-col min-h-0 overflow-hidden"
-              style={{ background: '#ffffff', borderLeft: '1px solid rgba(239,68,68,0.2)' }}>
+              className="flex min-h-0 w-full flex-1 flex-col overflow-hidden lg:w-[440px] lg:flex-none xl:w-[500px]"
+              style={{
+                background: "#ffffff",
+                borderLeft: "1px solid rgba(239,68,68,0.2)",
+              }}
+            >
               {/* Admin header */}
-              <div className="shrink-0 px-4 py-3" style={{ borderBottom: '1px solid rgba(239,68,68,0.15)', background: 'rgba(239,68,68,0.05)' }}>
-                <div className="flex items-center justify-between mb-3">
+              <div
+                className="shrink-0 px-4 py-3"
+                style={{
+                  borderBottom: "1px solid rgba(239,68,68,0.15)",
+                  background: "rgba(239,68,68,0.05)",
+                }}
+              >
+                <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                    <span className="r" style={{ color: '#f87171' }}>Moderation Dashboard</span>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#f87171"
+                      strokeWidth="2.5"
+                    >
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    <span className="r" style={{ color: "#f87171" }}>
+                      Moderation Dashboard
+                    </span>
                   </div>
-                  <div className="flex items-center gap-3" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    <span className="flex items-center gap-1"><Eye className="w-3.5 h-3.5 text-white/50" /> {viewerCount.toLocaleString()}</span>
-                    <span className="flex items-center gap-1" style={{ color: bannedUsers.size > 0 ? '#f87171' : 'rgba(255,255,255,0.3)' }}><Ban className="w-3.5 h-3.5" /> {bannedUsers.size}</span>
-                    <span className="flex items-center gap-1" style={{ color: mutedUsers.size > 0 ? '#c084fc' : 'rgba(255,255,255,0.3)' }}><VolumeX className="w-3.5 h-3.5" /> {mutedUsers.size}</span>
+                  <div
+                    className="flex items-center gap-3"
+                    style={{ color: "rgba(255,255,255,0.35)" }}
+                  >
+                    <span className="flex items-center gap-1">
+                      <Eye className="h-3.5 w-3.5 text-white/50" />{" "}
+                      {viewerCount.toLocaleString()}
+                    </span>
+                    <span
+                      className="flex items-center gap-1"
+                      style={{
+                        color:
+                          bannedUsers.size > 0
+                            ? "#f87171"
+                            : "rgba(255,255,255,0.3)",
+                      }}
+                    >
+                      <Ban className="h-3.5 w-3.5" /> {bannedUsers.size}
+                    </span>
+                    <span
+                      className="flex items-center gap-1"
+                      style={{
+                        color:
+                          mutedUsers.size > 0
+                            ? "#c084fc"
+                            : "rgba(255,255,255,0.3)",
+                      }}
+                    >
+                      <VolumeX className="h-3.5 w-3.5" /> {mutedUsers.size}
+                    </span>
                   </div>
                 </div>
                 {/* Tabs */}
-                <div className="flex gap-1 flex-wrap">
-                  {(['live', 'flagged', 'merch', 'users', 'log', 'policy', 'stats'] as const).map(tab => (
-                    <button key={tab} onClick={() => setAdminTab(tab as typeof adminTab)}
-                      className="flex-1 py-1.5 rounded-lg transition-colors"
+                <div className="flex flex-wrap gap-1">
+                  {(
+                    [
+                      "live",
+                      "flagged",
+                      "merch",
+                      "users",
+                      "log",
+                      "policy",
+                      "stats",
+                    ] as const
+                  ).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setAdminTab(tab as typeof adminTab)}
+                      className="flex-1 rounded-lg py-1.5 transition-colors"
                       style={{
-                        background: adminTab === tab
-                          ? tab === 'live' ? 'rgba(34,197,94,0.18)'
-                            : tab === 'flagged' ? 'rgba(239,68,68,0.2)'
-                              : tab === 'merch' ? 'rgba(192, 132, 252,0.18)'
-                                : tab === 'stats' ? 'rgba(16,185,129,0.15)'
-                                  : 'rgba(255,10,61,0.15)'
-                          : 'rgba(255,255,255,0.04)',
-                        color: adminTab === tab
-                          ? tab === 'live' ? '#4ade80'
-                            : tab === 'flagged' ? '#f87171'
-                              : tab === 'merch' ? '#c084fc'
-                                : tab === 'stats' ? '#34d399'
-                                  : '#c084fc'
-                          : 'rgba(255,255,255,0.35)',
-                        border: adminTab === tab
-                          ? tab === 'live' ? '1px solid rgba(34,197,94,0.35)'
-                            : tab === 'flagged' ? '1px solid rgba(239,68,68,0.3)'
-                              : tab === 'merch' ? '1px solid rgba(192, 132, 252,0.35)'
-                                : tab === 'stats' ? '1px solid rgba(16,185,129,0.3)'
-                                  : '1px solid rgba(255,10,61,0.25)'
-                          : '1px solid transparent',
-                      }}>
-                      {tab === 'live' && <span className="inline-flex items-center gap-1"><MessageSquare className="w-3 h-3" /> Live{messages.filter(m => !m.isSystem).length > 0 ? ` (${messages.filter(m => !m.isSystem).length})` : ''}</span>}
-                      {tab === 'flagged' && <span className="inline-flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Flagged{flaggedMsgs.length > 0 ? ` (${flaggedMsgs.length})` : ''}</span>}
-                      {tab === 'merch' && <span className="inline-flex items-center gap-1"><ShoppingBag className="w-3 h-3" /> Merch{merchTimerActive ? ' ●' : ''}</span>}
-                      {tab === 'users' && <span className="inline-flex items-center gap-1"><Users className="w-3 h-3" /> Users</span>}
-                      {tab === 'log' && <span className="inline-flex items-center gap-1"><ClipboardList className="w-3 h-3" /> Log</span>}
-                      {tab === 'policy' && <span className="inline-flex items-center gap-1"><ScrollText className="w-3 h-3" /> Policy</span>}
-                      {tab === 'stats' && <span className="inline-flex items-center gap-1"><BarChart3 className="w-3 h-3" /> Stats</span>}
+                        background:
+                          adminTab === tab
+                            ? tab === "live"
+                              ? "rgba(34,197,94,0.18)"
+                              : tab === "flagged"
+                                ? "rgba(239,68,68,0.2)"
+                                : tab === "merch"
+                                  ? "rgba(192, 132, 252,0.18)"
+                                  : tab === "stats"
+                                    ? "rgba(16,185,129,0.15)"
+                                    : "rgba(255,10,61,0.15)"
+                            : "rgba(255,255,255,0.04)",
+                        color:
+                          adminTab === tab
+                            ? tab === "live"
+                              ? "#4ade80"
+                              : tab === "flagged"
+                                ? "#f87171"
+                                : tab === "merch"
+                                  ? "#c084fc"
+                                  : tab === "stats"
+                                    ? "#34d399"
+                                    : "#c084fc"
+                            : "rgba(255,255,255,0.35)",
+                        border:
+                          adminTab === tab
+                            ? tab === "live"
+                              ? "1px solid rgba(34,197,94,0.35)"
+                              : tab === "flagged"
+                                ? "1px solid rgba(239,68,68,0.3)"
+                                : tab === "merch"
+                                  ? "1px solid rgba(192, 132, 252,0.35)"
+                                  : tab === "stats"
+                                    ? "1px solid rgba(16,185,129,0.3)"
+                                    : "1px solid rgba(255,10,61,0.25)"
+                            : "1px solid transparent",
+                      }}
+                    >
+                      {tab === "live" && (
+                        <span className="inline-flex items-center gap-1">
+                          <MessageSquare className="h-3 w-3" /> Live
+                          {messages.filter((m) => !m.isSystem).length > 0
+                            ? ` (${messages.filter((m) => !m.isSystem).length})`
+                            : ""}
+                        </span>
+                      )}
+                      {tab === "flagged" && (
+                        <span className="inline-flex items-center gap-1">
+                          <AlertTriangle className="h-3 w-3" /> Flagged
+                          {flaggedMsgs.length > 0
+                            ? ` (${flaggedMsgs.length})`
+                            : ""}
+                        </span>
+                      )}
+                      {tab === "merch" && (
+                        <span className="inline-flex items-center gap-1">
+                          <ShoppingBag className="h-3 w-3" /> Merch
+                          {merchTimerActive ? " ●" : ""}
+                        </span>
+                      )}
+                      {tab === "users" && (
+                        <span className="inline-flex items-center gap-1">
+                          <Users className="h-3 w-3" /> Users
+                        </span>
+                      )}
+                      {tab === "log" && (
+                        <span className="inline-flex items-center gap-1">
+                          <ClipboardList className="h-3 w-3" /> Log
+                        </span>
+                      )}
+                      {tab === "policy" && (
+                        <span className="inline-flex items-center gap-1">
+                          <ScrollText className="h-3 w-3" /> Policy
+                        </span>
+                      )}
+                      {tab === "stats" && (
+                        <span className="inline-flex items-center gap-1">
+                          <BarChart3 className="h-3 w-3" /> Stats
+                        </span>
+                      )}
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Tab content */}
-              <div data-lenis-prevent className="flex-1 overflow-y-scroll" style={{ minHeight: 0 }}>
-
+              <div
+                data-lenis-prevent
+                className="flex-1 overflow-y-scroll"
+                style={{ minHeight: 0 }}
+              >
                 {/* ── LIVE FEED TAB ── */}
-                {adminTab === 'live' && (
-                  <div className="flex flex-col h-full">
+                {adminTab === "live" && (
+                  <div className="flex h-full flex-col">
                     {messages.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <MessageSquare className="w-8 h-8 text-black/30 mb-3" />
+                        <MessageSquare className="mb-3 h-8 w-8 text-black/30" />
                         <p className="text-black/30">Waiting for messages...</p>
                       </div>
                     ) : (
-                      <div className="p-2 space-y-0.5">
+                      <div className="space-y-0.5 p-2">
                         {messages.map((msg, i) => {
-                          const isFlagged = flaggedMsgs.some(f => f.msg.id === msg.id);
-                          const isBanned = msg.account ? bannedUsers.has(msg.account.id) : false;
-                          const isMuted = msg.account ? mutedUsers.has(msg.account.id) : false;
+                          const isFlagged = flaggedMsgs.some(
+                            (f) => f.msg.id === msg.id,
+                          );
+                          const isBanned = msg.account
+                            ? bannedUsers.has(msg.account.id)
+                            : false;
+                          const isMuted = msg.account
+                            ? mutedUsers.has(msg.account.id)
+                            : false;
                           return (
                             <div
                               key={msg.id}
-                              className="group flex items-start gap-2.5 px-3 py-2 mb-2 transition-colors shadow-2xs"
+                              className="group mb-2 flex items-start gap-2.5 px-3 py-2 shadow-2xs transition-colors"
                               style={{
-                                background: isFlagged ? 'rgba(239,68,68,0.1)' : 'rgba(0,0,0,0.04)',
-                                border: isFlagged ? '1px solid rgba(239,68,68,0.25)' : '1px solid rgba(0,0,0,0.08)',
+                                background: isFlagged
+                                  ? "rgba(239,68,68,0.1)"
+                                  : "rgba(0,0,0,0.04)",
+                                border: isFlagged
+                                  ? "1px solid rgba(239,68,68,0.25)"
+                                  : "1px solid rgba(0,0,0,0.08)",
                                 opacity: isBanned ? 0.4 : 1,
-                                animationName: i === messages.length - 1 ? 'slideInMsg' : 'none',
-                                animationDuration: '0.25s',
-                                animationFillMode: 'forwards',
-                              }}>
+                                animationName:
+                                  i === messages.length - 1
+                                    ? "slideInMsg"
+                                    : "none",
+                                animationDuration: "0.25s",
+                                animationFillMode: "forwards",
+                              }}
+                            >
                               {msg.isSystem ? (
-                                <p className="w-full text-center py-0.5" style={{ color: 'rgba(255,255,255,0.25)' }}>{msg.text}</p>
+                                <p
+                                  className="w-full py-0.5 text-center"
+                                  style={{ color: "rgba(255,255,255,0.25)" }}
+                                >
+                                  {msg.text}
+                                </p>
                               ) : (
                                 <>
                                   <div
-                                    className="w-6 h-6 rounded-lg flex items-center justify-center   shrink-0 mt-0.5"
-                                    style={{ background: msg.account?.color ?? '#555', fontSize: 9 }}>
+                                    className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg"
+                                    style={{
+                                      background: msg.account?.color ?? "#555",
+                                      fontSize: 9,
+                                    }}
+                                  >
                                     {msg.account?.avatar}
                                   </div>
                                   <div className="min-w-0 flex-1">
-                                    <div className="flex items-center gap-1.5 flex-wrap">
-                                      <span style={{ color: msg.account?.color ?? '#888' }}>{msg.account?.displayName}</span>
-                                      {msg.account?.tier && <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }}>{msg.account.tier}</span>}
-                                      {isFlagged && <span className="px-1 rounded" style={{ background: 'rgba(239,68,68,0.2)', color: '#f87171', fontSize: 9 }}>🚨 FLAGGED</span>}
-                                      {isBanned && <span className="px-1 rounded" style={{ background: 'rgba(239,68,68,0.15)', color: '#f87171', fontSize: 9 }}>BANNED</span>}
-                                      {isMuted && <span className="px-1 rounded" style={{ background: 'rgba(156,163,175,0.15)', color: '#9ca3af', fontSize: 9 }}>MUTED</span>}
+                                    <div className="flex flex-wrap items-center gap-1.5">
+                                      <span
+                                        style={{
+                                          color: msg.account?.color ?? "#888",
+                                        }}
+                                      >
+                                        {msg.account?.displayName}
+                                      </span>
+                                      {msg.account?.tier && (
+                                        <span
+                                          style={{
+                                            color: "rgba(255,255,255,0.25)",
+                                            fontSize: 9,
+                                          }}
+                                        >
+                                          {msg.account.tier}
+                                        </span>
+                                      )}
+                                      {isFlagged && (
+                                        <span
+                                          className="rounded px-1"
+                                          style={{
+                                            background: "rgba(239,68,68,0.2)",
+                                            color: "#f87171",
+                                            fontSize: 9,
+                                          }}
+                                        >
+                                          🚨 FLAGGED
+                                        </span>
+                                      )}
+                                      {isBanned && (
+                                        <span
+                                          className="rounded px-1"
+                                          style={{
+                                            background: "rgba(239,68,68,0.15)",
+                                            color: "#f87171",
+                                            fontSize: 9,
+                                          }}
+                                        >
+                                          BANNED
+                                        </span>
+                                      )}
+                                      {isMuted && (
+                                        <span
+                                          className="rounded px-1"
+                                          style={{
+                                            background:
+                                              "rgba(156,163,175,0.15)",
+                                            color: "#9ca3af",
+                                            fontSize: 9,
+                                          }}
+                                        >
+                                          MUTED
+                                        </span>
+                                      )}
                                     </div>
-                                    <div className="inline-block px-2.5 py-1.5 rounded-tl-sm" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                                      <p className=" " style={{ color: 'rgba(255,255,255,0.75)' }}>{msg.text}</p>
+                                    <div
+                                      className="inline-block rounded-tl-sm px-2.5 py-1.5"
+                                      style={{
+                                        background: "rgba(255,255,255,0.06)",
+                                        border:
+                                          "1px solid rgba(255,255,255,0.08)",
+                                      }}
+                                    >
+                                      <p
+                                        className=" "
+                                        style={{
+                                          color: "rgba(255,255,255,0.75)",
+                                        }}
+                                      >
+                                        {msg.text}
+                                      </p>
                                     </div>
                                   </div>
                                   {/* Quick-action buttons on hover */}
                                   {msg.account && !isBanned && (
-                                    <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                                      <button onClick={() => msg.account && handleSpotlight(msg.account, msg.text)} title="Spotlight" className="w-6 h-6 rounded flex items-center justify-center hover:bg-[var(--color-accent)]/20 transition-colors">📌</button>
-                                      {!isMuted && <button onClick={() => msg.account && handleMute(msg.account)} title="Mute" className="w-6 h-6 rounded flex items-center justify-center hover:bg-gray-500/20 transition-colors">🔇</button>}
-                                      <button onClick={() => msg.account && handleBan(msg.account)} title="Ban" className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-500/20 transition-colors">🚫</button>
+                                    <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                                      <button
+                                        onClick={() =>
+                                          msg.account &&
+                                          handleSpotlight(msg.account, msg.text)
+                                        }
+                                        title="Spotlight"
+                                        className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-[var(--color-accent)]/20"
+                                      >
+                                        📌
+                                      </button>
+                                      {!isMuted && (
+                                        <button
+                                          onClick={() =>
+                                            msg.account &&
+                                            handleMute(msg.account)
+                                          }
+                                          title="Mute"
+                                          className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-gray-500/20"
+                                        >
+                                          🔇
+                                        </button>
+                                      )}
+                                      <button
+                                        onClick={() =>
+                                          msg.account && handleBan(msg.account)
+                                        }
+                                        title="Ban"
+                                        className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-red-500/20"
+                                      >
+                                        🚫
+                                      </button>
                                     </div>
                                   )}
                                 </>
@@ -1873,202 +2820,502 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 )}
 
                 {/* ── FLAGGED MESSAGES TAB ── */}
-                {adminTab === 'flagged' && (
-                  <div className="p-3 space-y-2">
+                {adminTab === "flagged" && (
+                  <div className="space-y-2 p-3">
                     {flaggedMsgs.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <span className="text-4xl mb-3">✅</span>
+                        <span className="mb-3 text-4xl">✅</span>
                         <p className="text-black/30">No flagged messages</p>
-                        <p className="text-black/15">Chat is clean — use the Demo buttons below to test</p>
+                        <p className="text-black/15">
+                          Chat is clean — use the Demo buttons below to test
+                        </p>
                       </div>
-                    ) : flaggedMsgs.map(({ msg, reason }) => (
-                      <div key={msg.id} className="p-3" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)' }}>
-                        <div className="mb-2">
-                          <div className="flex items-center gap-1.5 mb-1">
-                            <div className="w-5 h-5 rounded-lg flex items-center justify-center text-black" style={{ background: msg.account?.color ?? '#555', fontSize: 8 }}>
-                              {msg.account?.avatar}
+                    ) : (
+                      flaggedMsgs.map(({ msg, reason }) => (
+                        <div
+                          key={msg.id}
+                          className="p-3"
+                          style={{
+                            background: "rgba(239,68,68,0.08)",
+                            border: "1px solid rgba(239,68,68,0.25)",
+                          }}
+                        >
+                          <div className="mb-2">
+                            <div className="mb-1 flex items-center gap-1.5">
+                              <div
+                                className="flex h-5 w-5 items-center justify-center rounded-lg text-black"
+                                style={{
+                                  background: msg.account?.color ?? "#555",
+                                  fontSize: 8,
+                                }}
+                              >
+                                {msg.account?.avatar}
+                              </div>
+                              <span
+                                style={{ color: msg.account?.color ?? "#888" }}
+                              >
+                                {msg.account?.displayName}
+                              </span>
+                              {msg.account?.tier && (
+                                <span className="opacity-40">
+                                  {msg.account.tier}
+                                </span>
+                              )}
                             </div>
-                            <span style={{ color: msg.account?.color ?? '#888' }}>{msg.account?.displayName}</span>
-                            {msg.account?.tier && <span className="opacity-40">{msg.account.tier}</span>}
+                            <p className="text-black/70 italic">
+                              &ldquo;{msg.text}&rdquo;
+                            </p>
+                            <span
+                              className=".5 inline-block rounded-lg px-2 py-0.5"
+                              style={{
+                                background: "rgba(239,68,68,0.15)",
+                                color: "#fca5a5",
+                                fontSize: 10,
+                              }}
+                            >
+                              {reason}
+                            </span>
                           </div>
-                          <p className="text-black/70   italic">&ldquo;{msg.text}&rdquo;</p>
-                          <span className=".5 inline-block px-2 py-0.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.15)', color: '#fca5a5', fontSize: 10 }}>
-                            {reason}
-                          </span>
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {msg.account &&
+                              !warnedUsers.has(msg.account.id) && (
+                                <button
+                                  onClick={() =>
+                                    msg.account && handleWarn(msg.account)
+                                  }
+                                  className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                  style={{
+                                    background: "rgba(192, 132, 252,0.15)",
+                                    border: "1px solid rgba(192, 132, 252,0.3)",
+                                    color: "#c084fc",
+                                  }}
+                                >
+                                  ⚠️ Warn
+                                </button>
+                              )}
+                            {msg.account && !mutedUsers.has(msg.account.id) && (
+                              <button
+                                onClick={() =>
+                                  msg.account && handleMute(msg.account)
+                                }
+                                className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                style={{
+                                  background: "rgba(156,163,175,0.1)",
+                                  border: "1px solid rgba(156,163,175,0.2)",
+                                  color: "#9ca3af",
+                                }}
+                              >
+                                🔇 Mute
+                              </button>
+                            )}
+                            {msg.account && (
+                              <button
+                                onClick={() =>
+                                  msg.account && handleKick(msg.account)
+                                }
+                                className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                style={{
+                                  background: "rgba(249,115,22,0.12)",
+                                  border: "1px solid rgba(249,115,22,0.25)",
+                                  color: "#fb923c",
+                                }}
+                              >
+                                👢 Kick
+                              </button>
+                            )}
+                            {msg.account &&
+                              !bannedUsers.has(msg.account.id) && (
+                                <button
+                                  onClick={() =>
+                                    msg.account &&
+                                    handleBan(msg.account, reason)
+                                  }
+                                  className="flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                                  style={{
+                                    background: "rgba(239,68,68,0.15)",
+                                    border: "1px solid rgba(239,68,68,0.35)",
+                                    color: "#f87171",
+                                  }}
+                                >
+                                  🚫 Ban
+                                </button>
+                              )}
+                            <button
+                              onClick={() => handleDismissFlag(msg.id)}
+                              className="ml-auto flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors"
+                              style={{
+                                background: "rgba(255,255,255,0.04)",
+                                border: "1px solid rgba(255,255,255,0.1)",
+                                color: "rgba(255,255,255,0.3)",
+                              }}
+                            >
+                              ✓ Dismiss
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex gap-1.5 flex-wrap mt-2">
-                          {msg.account && !warnedUsers.has(msg.account.id) && (
-                            <button onClick={() => msg.account && handleWarn(msg.account)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors"
-                              style={{ background: 'rgba(192, 132, 252,0.15)', border: '1px solid rgba(192, 132, 252,0.3)', color: '#c084fc' }}>
-                              ⚠️ Warn
-                            </button>
-                          )}
-                          {msg.account && !mutedUsers.has(msg.account.id) && (
-                            <button onClick={() => msg.account && handleMute(msg.account)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors"
-                              style={{ background: 'rgba(156,163,175,0.1)', border: '1px solid rgba(156,163,175,0.2)', color: '#9ca3af' }}>
-                              🔇 Mute
-                            </button>
-                          )}
-                          {msg.account && (
-                            <button onClick={() => msg.account && handleKick(msg.account)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors"
-                              style={{ background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.25)', color: '#fb923c' }}>
-                              👢 Kick
-                            </button>
-                          )}
-                          {msg.account && !bannedUsers.has(msg.account.id) && (
-                            <button onClick={() => msg.account && handleBan(msg.account, reason)}
-                              className="flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors"
-                              style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.35)', color: '#f87171' }}>
-                              🚫 Ban
-                            </button>
-                          )}
-                          <button onClick={() => handleDismissFlag(msg.id)}
-                            className="flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors ml-auto"
-                            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.3)' }}>
-                            ✓ Dismiss
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </div>
                 )}
 
-
                 {/* ── USERS TAB ── */}
-                {adminTab === 'users' && (
-                  <div className="p-3 space-y-1.5">
-                    <p className="mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>Active in chat — click to moderate</p>
-                    {FAN_ACCOUNTS.map(acc => {
+                {adminTab === "users" && (
+                  <div className="space-y-1.5 p-3">
+                    <p
+                      className="mb-2"
+                      style={{ color: "rgba(255,255,255,0.2)" }}
+                    >
+                      Active in chat — click to moderate
+                    </p>
+                    {FAN_ACCOUNTS.map((acc) => {
                       const isBanned = bannedUsers.has(acc.id);
                       const isMuted = mutedUsers.has(acc.id);
                       const isWarned = warnedUsers.has(acc.id);
-                      const msgCount = messages.filter(m => m.account?.id === acc.id).length;
-                      if (msgCount === 0 && !isBanned && !isMuted && !isWarned) return null;
-                      const lastMsg = messages.filter(m => m.account?.id === acc.id && !m.isSystem).slice(-1)[0];
+                      const msgCount = messages.filter(
+                        (m) => m.account?.id === acc.id,
+                      ).length;
+                      if (msgCount === 0 && !isBanned && !isMuted && !isWarned)
+                        return null;
+                      const lastMsg = messages
+                        .filter((m) => m.account?.id === acc.id && !m.isSystem)
+                        .slice(-1)[0];
                       return (
-                        <div key={acc.id} className="p-3"
+                        <div
+                          key={acc.id}
+                          className="p-3"
                           style={{
-                            background: isBanned ? 'rgba(239,68,68,0.06)' : isMuted ? 'rgba(156,163,175,0.05)' : 'rgba(255,255,255,0.03)',
-                            border: isBanned ? '1px solid rgba(239,68,68,0.2)' : isMuted ? '1px solid rgba(156,163,175,0.12)' : '1px solid rgba(255,255,255,0.06)',
+                            background: isBanned
+                              ? "rgba(239,68,68,0.06)"
+                              : isMuted
+                                ? "rgba(156,163,175,0.05)"
+                                : "rgba(255,255,255,0.03)",
+                            border: isBanned
+                              ? "1px solid rgba(239,68,68,0.2)"
+                              : isMuted
+                                ? "1px solid rgba(156,163,175,0.12)"
+                                : "1px solid rgba(255,255,255,0.06)",
                             opacity: isBanned ? 0.65 : 1,
-                          }}>
+                          }}
+                        >
                           <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-2 min-w-0">
-                              <div className="w-7 h-7 rounded-lg flex items-center justify-center   shrink-0" style={{ background: acc.color, fontSize: 10 }}>
+                            <div className="flex min-w-0 items-center gap-2">
+                              <div
+                                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+                                style={{ background: acc.color, fontSize: 10 }}
+                              >
                                 {acc.avatar}
                               </div>
                               <div className="min-w-0">
-                                <div className="flex items-center gap-1.5 flex-wrap">
-                                  <span style={{ color: acc.color }}>{acc.displayName}</span>
-                                  {acc.tier && <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 10 }}>{acc.tier}</span>}
-                                  {isBanned && <span className="px-1.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.2)', color: '#f87171', fontSize: 9 }}>BANNED</span>}
-                                  {isMuted && !isBanned && <span className="px-1.5 rounded-lg" style={{ background: 'rgba(156,163,175,0.15)', color: '#9ca3af', fontSize: 9 }}>MUTED</span>}
-                                  {isWarned && !isBanned && <span className="px-1.5 rounded-lg" style={{ background: 'rgba(192, 132, 252,0.15)', color: '#c084fc', fontSize: 9 }}>WARNED</span>}
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <span style={{ color: acc.color }}>
+                                    {acc.displayName}
+                                  </span>
+                                  {acc.tier && (
+                                    <span
+                                      style={{
+                                        color: "rgba(255,255,255,0.25)",
+                                        fontSize: 10,
+                                      }}
+                                    >
+                                      {acc.tier}
+                                    </span>
+                                  )}
+                                  {isBanned && (
+                                    <span
+                                      className="rounded-lg px-1.5"
+                                      style={{
+                                        background: "rgba(239,68,68,0.2)",
+                                        color: "#f87171",
+                                        fontSize: 9,
+                                      }}
+                                    >
+                                      BANNED
+                                    </span>
+                                  )}
+                                  {isMuted && !isBanned && (
+                                    <span
+                                      className="rounded-lg px-1.5"
+                                      style={{
+                                        background: "rgba(156,163,175,0.15)",
+                                        color: "#9ca3af",
+                                        fontSize: 9,
+                                      }}
+                                    >
+                                      MUTED
+                                    </span>
+                                  )}
+                                  {isWarned && !isBanned && (
+                                    <span
+                                      className="rounded-lg px-1.5"
+                                      style={{
+                                        background: "rgba(192, 132, 252,0.15)",
+                                        color: "#c084fc",
+                                        fontSize: 9,
+                                      }}
+                                    >
+                                      WARNED
+                                    </span>
+                                  )}
                                 </div>
-                                <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: 10 }}>{msgCount} message{msgCount !== 1 ? 's' : ''}</p>
+                                <p
+                                  style={{
+                                    color: "rgba(255,255,255,0.2)",
+                                    fontSize: 10,
+                                  }}
+                                >
+                                  {msgCount} message{msgCount !== 1 ? "s" : ""}
+                                </p>
                               </div>
                             </div>
                             {!isBanned && (
-                              <div className="flex items-center gap-1 shrink-0">
-                                {!isWarned && <button onClick={() => handleWarn(acc)} title="Warn" className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:scale-110" style={{ background: 'rgba(192, 132, 252,0.1)' }}>⚠️</button>}
-                                {!isMuted && <button onClick={() => handleMute(acc)} title="Mute" className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:scale-110" style={{ background: 'rgba(156,163,175,0.08)' }}>🔇</button>}
-                                <button onClick={() => handleKick(acc)} title="Kick" className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:scale-110" style={{ background: 'rgba(249,115,22,0.1)' }}>👢</button>
-                                <button onClick={() => handleBan(acc)} title="Ban" className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:scale-110" style={{ background: 'rgba(239,68,68,0.12)' }}>🚫</button>
-                                {lastMsg && <button onClick={() => handleSpotlight(acc, lastMsg.text)} title="Spotlight" className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:scale-110" style={{ background: 'rgba(255,10,61,0.12)' }}>📌</button>}
+                              <div className="flex shrink-0 items-center gap-1">
+                                {!isWarned && (
+                                  <button
+                                    onClick={() => handleWarn(acc)}
+                                    title="Warn"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                    style={{
+                                      background: "rgba(192, 132, 252,0.1)",
+                                    }}
+                                  >
+                                    ⚠️
+                                  </button>
+                                )}
+                                {!isMuted && (
+                                  <button
+                                    onClick={() => handleMute(acc)}
+                                    title="Mute"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                    style={{
+                                      background: "rgba(156,163,175,0.08)",
+                                    }}
+                                  >
+                                    🔇
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => handleKick(acc)}
+                                  title="Kick"
+                                  className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                  style={{ background: "rgba(249,115,22,0.1)" }}
+                                >
+                                  👢
+                                </button>
+                                <button
+                                  onClick={() => handleBan(acc)}
+                                  title="Ban"
+                                  className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                  style={{ background: "rgba(239,68,68,0.12)" }}
+                                >
+                                  🚫
+                                </button>
+                                {lastMsg && (
+                                  <button
+                                    onClick={() =>
+                                      handleSpotlight(acc, lastMsg.text)
+                                    }
+                                    title="Spotlight"
+                                    className="flex h-7 w-7 items-center justify-center rounded-lg transition-colors hover:scale-110"
+                                    style={{
+                                      background: "rgba(255,10,61,0.12)",
+                                    }}
+                                  >
+                                    📌
+                                  </button>
+                                )}
                               </div>
                             )}
                           </div>
                         </div>
                       );
                     })}
-                    {FAN_ACCOUNTS.every(acc => messages.filter(m => m.account?.id === acc.id).length === 0) && (
+                    {FAN_ACCOUNTS.every(
+                      (acc) =>
+                        messages.filter((m) => m.account?.id === acc.id)
+                          .length === 0,
+                    ) && (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <Users className="w-8 h-8 text-black/30 mb-3" />
-                        <p className="text-black/30">Waiting for chat activity...</p>
+                        <Users className="mb-3 h-8 w-8 text-black/30" />
+                        <p className="text-black/30">
+                          Waiting for chat activity...
+                        </p>
                       </div>
                     )}
                   </div>
                 )}
 
                 {/* ── MOD LOG TAB ── */}
-                {adminTab === 'log' && (
-                  <div className="p-3 space-y-1">
+                {adminTab === "log" && (
+                  <div className="space-y-1 p-3">
                     {modLog.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
-                        <ClipboardList className="w-8 h-8 text-black/30 mb-3" />
+                        <ClipboardList className="mb-3 h-8 w-8 text-black/30" />
                         <p className="text-black/30">No actions taken yet</p>
                       </div>
-                    ) : modLog.map(entry => (
-                      <div key={entry.id} className="flex items-start gap-2 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                        <span className=" shrink-0">{entry.action.split(' ')[0]}</span>
-                        <div className="min-w-0">
-                          <p className="text-black/70">{entry.action} — <span style={{ color: '#c084fc' }}>{entry.user}</span></p>
-                          {entry.reason && <p style={{ color: 'rgba(255,255,255,0.3)' }}>{entry.reason}</p>}
-                          <p style={{ color: 'rgba(255,255,255,0.2)' }}>{new Date(entry.time).toLocaleTimeString('en-US', { timeZone: 'America/Chicago' })}</p>
+                    ) : (
+                      modLog.map((entry) => (
+                        <div
+                          key={entry.id}
+                          className="flex items-start gap-2 py-2"
+                          style={{
+                            borderBottom: "1px solid rgba(255,255,255,0.04)",
+                          }}
+                        >
+                          <span className="shrink-0">
+                            {entry.action.split(" ")[0]}
+                          </span>
+                          <div className="min-w-0">
+                            <p className="text-black/70">
+                              {entry.action} —{" "}
+                              <span style={{ color: "#c084fc" }}>
+                                {entry.user}
+                              </span>
+                            </p>
+                            {entry.reason && (
+                              <p style={{ color: "rgba(255,255,255,0.3)" }}>
+                                {entry.reason}
+                              </p>
+                            )}
+                            <p style={{ color: "rgba(255,255,255,0.2)" }}>
+                              {new Date(entry.time).toLocaleTimeString(
+                                "en-US",
+                                { timeZone: "America/Chicago" },
+                              )}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </div>
                 )}
 
                 {/* ── POLICY TAB ── */}
-                {adminTab === 'policy' && (
-                  <div className="p-4 space-y-4">
+                {adminTab === "policy" && (
+                  <div className="space-y-4 p-4">
                     <div>
-                      <p className="mb-3" style={{ color: '#f87171' }}>🚫 Zero-Tolerance — Instant Ban</p>
+                      <p className="mb-3" style={{ color: "#f87171" }}>
+                        🚫 Zero-Tolerance — Instant Ban
+                      </p>
                       {[
-                        { icon: '🔞', rule: 'Adult / pornographic content', desc: 'Any explicit sexual content, NSFW images, or adult platform links (e.g. OnlyFans).' },
-                        { icon: '⚠️', rule: 'Hate speech & slurs', desc: 'Racist, homophobic, antisemitic, or discriminatory language of any kind.' },
-                        { icon: '🚨', rule: 'Threats & violence', desc: 'Threats toward any person, band members, venue staff, or other fans.' },
+                        {
+                          icon: "🔞",
+                          rule: "Adult / pornographic content",
+                          desc: "Any explicit sexual content, NSFW images, or adult platform links (e.g. OnlyFans).",
+                        },
+                        {
+                          icon: "⚠️",
+                          rule: "Hate speech & slurs",
+                          desc: "Racist, homophobic, antisemitic, or discriminatory language of any kind.",
+                        },
+                        {
+                          icon: "🚨",
+                          rule: "Threats & violence",
+                          desc: "Threats toward any person, band members, venue staff, or other fans.",
+                        },
                       ].map(({ icon, rule, desc }) => (
-                        <div key={rule} className="mb-2 p-3" style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)' }}>
-                          <p className="text-black/80">{icon} {rule}</p>
-                          <p className="mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{desc}</p>
+                        <div
+                          key={rule}
+                          className="mb-2 p-3"
+                          style={{
+                            background: "rgba(239,68,68,0.07)",
+                            border: "1px solid rgba(239,68,68,0.18)",
+                          }}
+                        >
+                          <p className="text-black/80">
+                            {icon} {rule}
+                          </p>
+                          <p
+                            className="mt-0.5"
+                            style={{ color: "rgba(255,255,255,0.35)" }}
+                          >
+                            {desc}
+                          </p>
                         </div>
                       ))}
                     </div>
                     <div>
-                      <p className="mb-3" style={{ color: '#c084fc' }}>⚠️ Warn First — Then Mute / Kick</p>
+                      <p className="mb-3" style={{ color: "#c084fc" }}>
+                        ⚠️ Warn First — Then Mute / Kick
+                      </p>
                       {[
-                        { icon: '🏛️', rule: 'Political commentary', desc: 'No political debate, party references, campaign talk, or electoral content.' },
-                        { icon: '📢', rule: 'Spam & self-promotion', desc: 'Posting links, social handles, cashapp/venmo tags, or soliciting followers.' },
-                        { icon: '🔄', rule: 'Excessive repetition', desc: 'Flooding the chat with the same message, phrase, or emoji spam.' },
-                        { icon: '💊', rule: 'Drug / substance references', desc: 'Discussion of illegal substances or encouraging drug use during the event.' },
+                        {
+                          icon: "🏛️",
+                          rule: "Political commentary",
+                          desc: "No political debate, party references, campaign talk, or electoral content.",
+                        },
+                        {
+                          icon: "📢",
+                          rule: "Spam & self-promotion",
+                          desc: "Posting links, social handles, cashapp/venmo tags, or soliciting followers.",
+                        },
+                        {
+                          icon: "🔄",
+                          rule: "Excessive repetition",
+                          desc: "Flooding the chat with the same message, phrase, or emoji spam.",
+                        },
+                        {
+                          icon: "💊",
+                          rule: "Drug / substance references",
+                          desc: "Discussion of illegal substances or encouraging drug use during the event.",
+                        },
                       ].map(({ icon, rule, desc }) => (
-                        <div key={rule} className="mb-2 p-3" style={{ background: 'rgba(192, 132, 252,0.06)', border: '1px solid rgba(192, 132, 252,0.15)' }}>
-                          <p className="text-black/80">{icon} {rule}</p>
-                          <p className="mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{desc}</p>
+                        <div
+                          key={rule}
+                          className="mb-2 p-3"
+                          style={{
+                            background: "rgba(192, 132, 252,0.06)",
+                            border: "1px solid rgba(192, 132, 252,0.15)",
+                          }}
+                        >
+                          <p className="text-black/80">
+                            {icon} {rule}
+                          </p>
+                          <p
+                            className="mt-0.5"
+                            style={{ color: "rgba(255,255,255,0.35)" }}
+                          >
+                            {desc}
+                          </p>
                         </div>
                       ))}
                     </div>
-                    <div className="p-3" style={{ background: 'rgba(255,10,61,0.08)', border: '1px solid rgba(255,10,61,0.2)' }}>
-                      <p className="text-black/60 mb-1">✅ Keep It Positive</p>
-                      <p style={{ color: 'rgba(255,255,255,0.35)' }}>This is a fan space for music lovers. Keep the energy high, support the artists, and spread love. 🎸</p>
+                    <div
+                      className="p-3"
+                      style={{
+                        background: "rgba(255,10,61,0.08)",
+                        border: "1px solid rgba(255,10,61,0.2)",
+                      }}
+                    >
+                      <p className="mb-1 text-black/60">✅ Keep It Positive</p>
+                      <p style={{ color: "rgba(255,255,255,0.35)" }}>
+                        This is a fan space for music lovers. Keep the energy
+                        high, support the artists, and spread love. 🎸
+                      </p>
                     </div>
 
                     {/* CUSTOM FLAGGED WORDS MANAGER */}
-                    <div className="pt-4 border-t border-black/10 space-y-3">
+                    <div className="space-y-3 border-t border-black/10 pt-4">
                       <div>
-                        <p >🔍 Custom Flagged Keywords</p>
-                        <p className="text-black/40 mt-0.5">
-                          Add specific keywords or phrases. Any message containing these (case-insensitive) will be flagged for review.
+                        <p>🔍 Custom Flagged Keywords</p>
+                        <p className="mt-0.5 text-black/40">
+                          Add specific keywords or phrases. Any message
+                          containing these (case-insensitive) will be flagged
+                          for review.
                         </p>
                       </div>
 
-                      <div className="flex gap-2 no-glow">
+                      <div className="no-glow flex gap-2">
                         <div className="input-glow-border flex-1">
-                          <input aria-label="Custom flagged keyword input"
+                          <input
+                            aria-label="Custom flagged keyword input"
                             type="text"
                             value={newCustomWord}
-                            onChange={e => setNewCustomWord(e.target.value)}
-                            onKeyDown={e => {
-                              if (e.key === 'Enter') {
+                            onChange={(e) => setNewCustomWord(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
                                 e.preventDefault();
                                 handleAddCustomWord(newCustomWord);
-                                setNewCustomWord('');
+                                setNewCustomWord("");
                               }
                             }}
                             placeholder="e.g. ticket-scalper"
@@ -2079,26 +3326,31 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           type="button"
                           onClick={() => {
                             handleAddCustomWord(newCustomWord);
-                            setNewCustomWord('');
+                            setNewCustomWord("");
                           }}
-                          className="px-4 py-1.5 bg-[var(--color-accent-pink)]/20 hover:bg-[var(--color-accent-pink)]/30 border border-[#ec4899]/30 hover:border-[#ec4899]/50 text-[var(--color-accent-pink)] rounded-lg transition-colors shrink-0 cursor-pointer">
+                          className="shrink-0 cursor-pointer rounded-lg border border-[#ec4899]/30 bg-[var(--color-accent-pink)]/20 px-4 py-1.5 text-[var(--color-accent-pink)] transition-colors hover:border-[#ec4899]/50 hover:bg-[var(--color-accent-pink)]/30"
+                        >
                           Add
                         </button>
                       </div>
 
                       {customWords.length === 0 ? (
-                        <p className="text-black/25 italic text-center py-2">No custom keywords added yet.</p>
+                        <p className="py-2 text-center text-black/25 italic">
+                          No custom keywords added yet.
+                        </p>
                       ) : (
-                        <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1">
-                          {customWords.map(word => (
+                        <div className="flex max-h-28 flex-wrap gap-1.5 overflow-y-auto pr-1">
+                          {customWords.map((word) => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-2.5 pr-1 py-1 bg-gray-50 border border-black/10 rounded-lg text-[var(--font-size-2xs)] text-black/80">
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-black/10 bg-gray-50 py-1 pr-1 pl-2.5 text-[var(--font-size-2xs)] text-black/80"
+                            >
                               <span>{word}</span>
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="w-4 h-4 flex items-center justify-center rounded-lg hover:bg-gray-100 text-black/30 hover:  transition-colors">
+                                className="hover: flex h-4 w-4 items-center justify-center rounded-lg text-black/30 transition-colors hover:bg-gray-100"
+                              >
                                 &times;
                               </button>
                             </span>
@@ -2110,54 +3362,159 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 )}
 
                 {/* ── STATS TAB ── */}
-                {adminTab === 'stats' && (
-                  <div className="p-3 space-y-3">
-                    <p className="mb-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Feed performance — tonight&#39;s show</p>
+                {adminTab === "stats" && (
+                  <div className="space-y-3 p-3">
+                    <p
+                      className="mb-1"
+                      style={{ color: "rgba(255,255,255,0.2)" }}
+                    >
+                      Feed performance — tonight&#39;s show
+                    </p>
                     {Object.entries(FEED_STATS).map(([key, s]) => {
-                      const maxPeak = Math.max(...Object.values(FEED_STATS).map(f => f.peakViewers));
+                      const maxPeak = Math.max(
+                        ...Object.values(FEED_STATS).map((f) => f.peakViewers),
+                      );
                       const barW = Math.round((s.peakViewers / maxPeak) * 100);
                       const isTop = s.peakViewers === maxPeak;
                       return (
-                        <div key={key} className="p-3"
+                        <div
+                          key={key}
+                          className="p-3"
                           style={{
-                            background: isTop ? `${s.color}0d` : 'rgba(255,255,255,0.03)',
-                            border: isTop ? `1px solid ${s.color}33` : '1px solid rgba(255,255,255,0.07)',
-                          }}>
-                          <div className="flex items-center justify-between mb-2">
+                            background: isTop
+                              ? `${s.color}0d`
+                              : "rgba(255,255,255,0.03)",
+                            border: isTop
+                              ? `1px solid ${s.color}33`
+                              : "1px solid rgba(255,255,255,0.07)",
+                          }}
+                        >
+                          <div className="mb-2 flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <span>{s.badge}</span>
-                              <span style={{ color: isTop ? s.color : 'rgba(255,255,255,0.7)' }}>{s.label}</span>
-                              {isTop && <span className="px-1.5 py-0.5 rounded-lg" style={{ background: `${s.color}22`, color: s.color, fontSize: 9 }}>🏆 TOP</span>}
+                              <span
+                                style={{
+                                  color: isTop
+                                    ? s.color
+                                    : "rgba(255,255,255,0.7)",
+                                }}
+                              >
+                                {s.label}
+                              </span>
+                              {isTop && (
+                                <span
+                                  className="rounded-lg px-1.5 py-0.5"
+                                  style={{
+                                    background: `${s.color}22`,
+                                    color: s.color,
+                                    fontSize: 9,
+                                  }}
+                                >
+                                  🏆 TOP
+                                </span>
+                              )}
                             </div>
-                            <span style={{ color: 'rgba(255,255,255,0.3)' }}>{s.duration}</span>
+                            <span style={{ color: "rgba(255,255,255,0.3)" }}>
+                              {s.duration}
+                            </span>
                           </div>
-                          <div className="grid grid-cols-2 gap-2 mb-2">
-                            <div className="p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} >Peak</p>
-                              <p style={{ color: s.color }}>{s.peakViewers.toLocaleString()}</p>
+                          <div className="mb-2 grid grid-cols-2 gap-2">
+                            <div
+                              className="rounded-lg p-2"
+                              style={{ background: "rgba(255,255,255,0.04)" }}
+                            >
+                              <p
+                                style={{
+                                  color: "rgba(255,255,255,0.25)",
+                                  fontSize: 9,
+                                }}
+                              >
+                                Peak
+                              </p>
+                              <p style={{ color: s.color }}>
+                                {s.peakViewers.toLocaleString()}
+                              </p>
                             </div>
-                            <div className="p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} >Avg</p>
-                              <p className="text-black/70">{s.avgViewers.toLocaleString()}</p>
+                            <div
+                              className="rounded-lg p-2"
+                              style={{ background: "rgba(255,255,255,0.04)" }}
+                            >
+                              <p
+                                style={{
+                                  color: "rgba(255,255,255,0.25)",
+                                  fontSize: 9,
+                                }}
+                              >
+                                Avg
+                              </p>
+                              <p className="text-black/70">
+                                {s.avgViewers.toLocaleString()}
+                              </p>
                             </div>
                           </div>
-                          <div className="h-1 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
-                            <div className="h-full rounded-lg" style={{ width: `${barW}%`, background: s.color, opacity: 0.7 }} />
+                          <div
+                            className="h-1 overflow-hidden rounded-lg"
+                            style={{ background: "rgba(255,255,255,0.07)" }}
+                          >
+                            <div
+                              className="h-full rounded-lg"
+                              style={{
+                                width: `${barW}%`,
+                                background: s.color,
+                                opacity: 0.7,
+                              }}
+                            />
                           </div>
                         </div>
                       );
                     })}
-                    <div className="p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                      <p className="mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Session Summary</p>
+                    <div
+                      className="p-3"
+                      style={{
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      <p
+                        className="mb-2"
+                        style={{ color: "rgba(255,255,255,0.3)" }}
+                      >
+                        Session Summary
+                      </p>
                       <div className="grid grid-cols-3 gap-2">
                         {[
-                          { label: 'Total Views', val: Object.values(FEED_STATS).reduce((a, b) => a + b.peakViewers, 0).toLocaleString() },
-                          { label: 'Mod Actions', val: modLog.length.toString() },
-                          { label: 'Chat Msgs', val: messages.filter(m => !m.isSystem).length.toString() },
+                          {
+                            label: "Total Views",
+                            val: Object.values(FEED_STATS)
+                              .reduce((a, b) => a + b.peakViewers, 0)
+                              .toLocaleString(),
+                          },
+                          {
+                            label: "Mod Actions",
+                            val: modLog.length.toString(),
+                          },
+                          {
+                            label: "Chat Msgs",
+                            val: messages
+                              .filter((m) => !m.isSystem)
+                              .length.toString(),
+                          },
                         ].map(({ label, val }) => (
-                          <div key={label} className="p-2 rounded-lg text-center" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                          <div
+                            key={label}
+                            className="rounded-lg p-2 text-center"
+                            style={{ background: "rgba(255,255,255,0.04)" }}
+                          >
                             <p className="text-black/80">{val}</p>
-                            <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }} className="mt-0.5">{label}</p>
+                            <p
+                              style={{
+                                color: "rgba(255,255,255,0.25)",
+                                fontSize: 9,
+                              }}
+                              className="mt-0.5"
+                            >
+                              {label}
+                            </p>
                           </div>
                         ))}
                       </div>
@@ -2166,9 +3523,8 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                 )}
 
                 {/* ── MERCH DROP TAB ── */}
-                {adminTab === 'merch' && (
-                  <div className="p-3 space-y-4">
-
+                {adminTab === "merch" && (
+                  <div className="space-y-4 p-3">
                     {/* Active drop status */}
                     {merchTimerActive && activeMerchDrop ? (
                       <div
@@ -2177,35 +3533,72 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           background: `${activeMerchDrop.product.color}12`,
                           border: `1px solid ${activeMerchDrop.product.color}44`,
                           boxShadow: `0 0 20px ${activeMerchDrop.product.color}12`,
-                        }}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="w-2 h-2 rounded-lg animate-pulse" style={{ background: '#4ade80' }} />
-                          <span className="" style={{ color: '#4ade80' }}>Drop Live Now</span>
+                        }}
+                      >
+                        <div className="mb-3 flex items-center gap-2">
+                          <span
+                            className="h-2 w-2 animate-pulse rounded-lg"
+                            style={{ background: "#4ade80" }}
+                          />
+                          <span className="" style={{ color: "#4ade80" }}>
+                            Drop Live Now
+                          </span>
                         </div>
-                        <div className="flex items-center gap-3 mb-3">
+                        <div className="mb-3 flex items-center gap-3">
                           <div
-                            className="w-14 h-14 flex items-center justify-center text-3xl shrink-0"
-                            style={{ background: `${activeMerchDrop.product.color}22`, border: `1px solid ${activeMerchDrop.product.color}44` }}>
+                            className="flex h-14 w-14 shrink-0 items-center justify-center text-3xl"
+                            style={{
+                              background: `${activeMerchDrop.product.color}22`,
+                              border: `1px solid ${activeMerchDrop.product.color}44`,
+                            }}
+                          >
                             {activeMerchDrop.product.emoji}
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-black">{activeMerchDrop.product.name}</p>
-                            <p className="mt-0.5" style={{ color: activeMerchDrop.product.color }}>{activeMerchDrop.product.price} · {activeMerchDrop.product.stock} in stock</p>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-black">
+                              {activeMerchDrop.product.name}
+                            </p>
+                            <p
+                              className="mt-0.5"
+                              style={{ color: activeMerchDrop.product.color }}
+                            >
+                              {activeMerchDrop.product.price} ·{" "}
+                              {activeMerchDrop.product.stock} in stock
+                            </p>
                             <div className="flex items-center gap-1.5">
-                              <span className="px-1.5 py-0.5 rounded-lg" style={{ background: `${activeMerchDrop.product.color}22`, color: activeMerchDrop.product.color, fontSize: 9 }}>
+                              <span
+                                className="rounded-lg px-1.5 py-0.5"
+                                style={{
+                                  background: `${activeMerchDrop.product.color}22`,
+                                  color: activeMerchDrop.product.color,
+                                  fontSize: 9,
+                                }}
+                              >
                                 {activeMerchDrop.product.badge}
                               </span>
                             </div>
                           </div>
                           <div className="shrink-0 text-right">
-                            <p className="tabular-nums" style={{ color: activeMerchDrop.product.color }}>
-                              {String(Math.floor(merchTimeLeft / 60)).padStart(2, '0')}:{String(merchTimeLeft % 60).padStart(2, '0')}
+                            <p
+                              className="tabular-nums"
+                              style={{ color: activeMerchDrop.product.color }}
+                            >
+                              {String(Math.floor(merchTimeLeft / 60)).padStart(
+                                2,
+                                "0",
+                              )}
+                              :{String(merchTimeLeft % 60).padStart(2, "0")}
                             </p>
-                            <p style={{ color: 'rgba(255,255,255,0.3)' }}>remaining</p>
+                            <p style={{ color: "rgba(255,255,255,0.3)" }}>
+                              remaining
+                            </p>
                           </div>
                         </div>
                         {/* Progress bar */}
-                        <div className="h-1.5 rounded-lg overflow-hidden mb-3" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                        <div
+                          className="mb-3 h-1.5 overflow-hidden rounded-lg"
+                          style={{ background: "rgba(255,255,255,0.08)" }}
+                        >
                           <div
                             className="h-full rounded-lg transition-colors duration-1000"
                             style={{
@@ -2219,45 +3612,100 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                             setMerchTimerActive(false);
                             setActiveMerchDrop(null);
                             setMerchTimeLeft(0);
-                            bcRef.current?.postMessage({ type: 'MERCH_DROP_END' });
-                            addModAction('🛍 Drop Ended', activeMerchDrop.product.name);
+                            bcRef.current?.postMessage({
+                              type: "MERCH_DROP_END",
+                            });
+                            addModAction(
+                              "🛍 Drop Ended",
+                              activeMerchDrop.product.name,
+                            );
                           }}
                           className="w-full py-2 transition-colors hover:scale-[1.02]"
-                          style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', color: '#f87171' }}>
+                          style={{
+                            background: "rgba(239,68,68,0.12)",
+                            border: "1px solid rgba(239,68,68,0.25)",
+                            color: "#f87171",
+                          }}
+                        >
                           ⏹ End Drop Early
                         </button>
                       </div>
                     ) : (
-                      <div className="p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                        <p className="text-center" style={{ color: 'rgba(255,255,255,0.25)' }}>No active drop — launch one below</p>
+                      <div
+                        className="p-3"
+                        style={{
+                          background: "rgba(255,255,255,0.03)",
+                          border: "1px solid rgba(255,255,255,0.07)",
+                        }}
+                      >
+                        <p
+                          className="text-center"
+                          style={{ color: "rgba(255,255,255,0.25)" }}
+                        >
+                          No active drop — launch one below
+                        </p>
                       </div>
                     )}
 
                     {/* Product picker */}
                     <div>
-                      <p className="mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Select Product</p>
+                      <p
+                        className="mb-2"
+                        style={{ color: "rgba(255,255,255,0.3)" }}
+                      >
+                        Select Product
+                      </p>
                       <div className="grid grid-cols-2 gap-2">
-                        {MERCH_PRODUCTS.map(product => {
-                          const isSelected = merchSelectedProduct === product.id;
+                        {MERCH_PRODUCTS.map((product) => {
+                          const isSelected =
+                            merchSelectedProduct === product.id;
                           return (
                             <button
                               key={product.id}
-                              onClick={() => setMerchSelectedProduct(product.id)}
+                              onClick={() =>
+                                setMerchSelectedProduct(product.id)
+                              }
                               className="p-3 text-left transition-colors hover:scale-[1.02]"
                               style={{
-                                background: isSelected ? `${product.color}18` : 'rgba(255,255,255,0.03)',
-                                border: isSelected ? `1px solid ${product.color}55` : '1px solid rgba(255,255,255,0.07)',
-                                boxShadow: isSelected ? `0 0 12px ${product.color}18` : 'none',
-                              }}>
-                              <div className="text-2xl mb-1.5">{product.emoji}</div>
+                                background: isSelected
+                                  ? `${product.color}18`
+                                  : "rgba(255,255,255,0.03)",
+                                border: isSelected
+                                  ? `1px solid ${product.color}55`
+                                  : "1px solid rgba(255,255,255,0.07)",
+                                boxShadow: isSelected
+                                  ? `0 0 12px ${product.color}18`
+                                  : "none",
+                              }}
+                            >
+                              <div className="mb-1.5 text-2xl">
+                                {product.emoji}
+                              </div>
                               <p className="text-black/80">{product.name}</p>
                               <div className="flex items-center justify-between">
-                                <span style={{ color: product.color }}>{product.price}</span>
-                                <span className="px-1.5 py-0.5 rounded-lg" style={{ background: `${product.color}22`, color: product.color, fontSize: 8 }}>
+                                <span style={{ color: product.color }}>
+                                  {product.price}
+                                </span>
+                                <span
+                                  className="rounded-lg px-1.5 py-0.5"
+                                  style={{
+                                    background: `${product.color}22`,
+                                    color: product.color,
+                                    fontSize: 8,
+                                  }}
+                                >
                                   {product.badge}
                                 </span>
                               </div>
-                              <p className="" style={{ color: 'rgba(255,255,255,0.25)', fontSize: 10 }}>{product.stock} left</p>
+                              <p
+                                className=""
+                                style={{
+                                  color: "rgba(255,255,255,0.25)",
+                                  fontSize: 10,
+                                }}
+                              >
+                                {product.stock} left
+                              </p>
                             </button>
                           );
                         })}
@@ -2266,18 +3714,33 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
                     {/* Duration picker */}
                     <div>
-                      <p className="mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Drop Duration</p>
-                      <div className="flex gap-1.5 flex-wrap">
-                        {MERCH_DURATIONS.map(d => (
+                      <p
+                        className="mb-2"
+                        style={{ color: "rgba(255,255,255,0.3)" }}
+                      >
+                        Drop Duration
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {MERCH_DURATIONS.map((d) => (
                           <button
                             key={d.seconds}
                             onClick={() => setMerchSelectedDuration(d.seconds)}
-                            className="px-3 py-1.5 rounded-lg transition-colors"
+                            className="rounded-lg px-3 py-1.5 transition-colors"
                             style={{
-                              background: merchSelectedDuration === d.seconds ? 'rgba(192, 132, 252,0.18)' : 'rgba(255,255,255,0.04)',
-                              border: merchSelectedDuration === d.seconds ? '1px solid rgba(192, 132, 252,0.45)' : '1px solid rgba(255,255,255,0.08)',
-                              color: merchSelectedDuration === d.seconds ? '#c084fc' : 'rgba(255,255,255,0.4)',
-                            }}>
+                              background:
+                                merchSelectedDuration === d.seconds
+                                  ? "rgba(192, 132, 252,0.18)"
+                                  : "rgba(255,255,255,0.04)",
+                              border:
+                                merchSelectedDuration === d.seconds
+                                  ? "1px solid rgba(192, 132, 252,0.45)"
+                                  : "1px solid rgba(255,255,255,0.08)",
+                              color:
+                                merchSelectedDuration === d.seconds
+                                  ? "#c084fc"
+                                  : "rgba(255,255,255,0.4)",
+                            }}
+                          >
                             {d.label}
                           </button>
                         ))}
@@ -2287,86 +3750,168 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                     {/* Action buttons */}
                     <div className="space-y-2">
                       <button
-                        onClick={() => handleMerchDrop(merchSelectedProduct, merchSelectedDuration)}
+                        onClick={() =>
+                          handleMerchDrop(
+                            merchSelectedProduct,
+                            merchSelectedDuration,
+                          )
+                        }
                         disabled={merchTimerActive}
-                        className="w-full py-3 transition-colors hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-full py-3 transition-colors hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                         style={{
-                          background: 'linear-gradient(135deg, rgba(192, 132, 252,0.25), rgba(249,115,22,0.2))',
-                          border: '1px solid rgba(192, 132, 252,0.5)',
-                          color: '#c084fc',
-                          boxShadow: '0 0 20px rgba(192, 132, 252,0.15)',
-                        }}>
+                          background:
+                            "linear-gradient(135deg, rgba(192, 132, 252,0.25), rgba(249,115,22,0.2))",
+                          border: "1px solid rgba(192, 132, 252,0.5)",
+                          color: "#c084fc",
+                          boxShadow: "0 0 20px rgba(192, 132, 252,0.15)",
+                        }}
+                      >
                         🛍 Start Drop with Timer
                       </button>
                       <button
                         onClick={() => handleMerchDrop(merchSelectedProduct, 0)}
                         disabled={merchTimerActive}
-                        className="w-full py-2.5 transition-colors hover:scale-[1.02] disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-full py-2.5 transition-colors hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                         style={{
-                          background: 'rgba(255,10,61,0.12)',
-                          border: '1px solid rgba(255,10,61,0.3)',
-                          color: '#c084fc',
-                        }}>
+                          background: "rgba(255,10,61,0.12)",
+                          border: "1px solid rgba(255,10,61,0.3)",
+                          color: "#c084fc",
+                        }}
+                      >
                         ⚡ Drop Now (No Timer)
                       </button>
                     </div>
 
                     {/* Past drops from log */}
-                    {modLog.filter(e => e.action === '🛍 Merch Drop').length > 0 && (
+                    {modLog.filter((e) => e.action === "🛍 Merch Drop").length >
+                      0 && (
                       <div>
-                        <p className="mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>Drop History</p>
+                        <p
+                          className="mb-2"
+                          style={{ color: "rgba(255,255,255,0.2)" }}
+                        >
+                          Drop History
+                        </p>
                         <div className="space-y-1">
-                          {modLog.flatMap(e => e.action === '🛍 Merch Drop' ? [
-                            <div key={e.id} className="flex items-center justify-between py-1.5 px-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                              <span className="text-black/60">{e.user}</span>
-                              <div className="flex items-center gap-2">
-                                {e.reason && <span style={{ color: 'rgba(255,255,255,0.3)' }}>{e.reason}</span>}
-                                <span style={{ color: 'rgba(255,255,255,0.2)' }}>{new Date(e.time).toLocaleTimeString('en-US', { timeZone: 'America/Chicago' })}</span>
-                              </div>
-                            </div>
-                          ] : [])}
+                          {modLog.flatMap((e) =>
+                            e.action === "🛍 Merch Drop"
+                              ? [
+                                  <div
+                                    key={e.id}
+                                    className="flex items-center justify-between rounded-lg px-2 py-1.5"
+                                    style={{
+                                      background: "rgba(255,255,255,0.03)",
+                                    }}
+                                  >
+                                    <span className="text-black/60">
+                                      {e.user}
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                      {e.reason && (
+                                        <span
+                                          style={{
+                                            color: "rgba(255,255,255,0.3)",
+                                          }}
+                                        >
+                                          {e.reason}
+                                        </span>
+                                      )}
+                                      <span
+                                        style={{
+                                          color: "rgba(255,255,255,0.2)",
+                                        }}
+                                      >
+                                        {new Date(e.time).toLocaleTimeString(
+                                          "en-US",
+                                          { timeZone: "America/Chicago" },
+                                        )}
+                                      </span>
+                                    </div>
+                                  </div>,
+                                ]
+                              : [],
+                          )}
                         </div>
                       </div>
                     )}
-
                   </div>
                 )}
-
               </div>
 
               {/* Demo inject bar */}
-              <div className="shrink-0 px-3 py-3" style={{ borderTop: '1px solid rgba(239,68,68,0.12)', background: 'rgba(239,68,68,0.03)' }}>
-                <p className="mb-2" style={{ color: 'rgba(255,255,255,0.2)' }}>🎭 Demo: inject a flagged message</p>
-                <div className="flex gap-1.5 flex-wrap">
+              <div
+                className="shrink-0 px-3 py-3"
+                style={{
+                  borderTop: "1px solid rgba(239,68,68,0.12)",
+                  background: "rgba(239,68,68,0.03)",
+                }}
+              >
+                <p className="mb-2" style={{ color: "rgba(255,255,255,0.2)" }}>
+                  🎭 Demo: inject a flagged message
+                </p>
+                <div className="flex flex-wrap gap-1.5">
                   {[
-                    { label: '🔞 NSFW', text: 'check my onlyfans.com profile lol' },
-                    { label: '🏛️ Politics', text: 'MAGA forever! vote republican 2024!' },
-                    { label: '📢 Spam', text: 'follow me @myhandle for giveaway' },
-                    { label: '🚨 Threat', text: 'gonna shoot up this whole venue lol' },
+                    {
+                      label: "🔞 NSFW",
+                      text: "check my onlyfans.com profile lol",
+                    },
+                    {
+                      label: "🏛️ Politics",
+                      text: "MAGA forever! vote republican 2024!",
+                    },
+                    {
+                      label: "📢 Spam",
+                      text: "follow me @myhandle for giveaway",
+                    },
+                    {
+                      label: "🚨 Threat",
+                      text: "gonna shoot up this whole venue lol",
+                    },
                   ].map(({ label, text }) => (
-                    <button aria-label={`Inject demo ${label} violation`} key={label}
+                    <button
+                      aria-label={`Inject demo ${label} violation`}
+                      key={label}
                       onClick={() => {
-                        const demoAcc = FAN_ACCOUNTS[Math.floor(Math.random() * FAN_ACCOUNTS.length)];
-                        setMessages(prev => [...prev, {
-                          id: `demo-flag-${Date.now()}`,
-                          account: demoAcc,
-                          text,
-                          timestamp: Date.now(),
-                        }]);
-                        setAdminTab('flagged');
+                        const demoAcc =
+                          FAN_ACCOUNTS[
+                            Math.floor(Math.random() * FAN_ACCOUNTS.length)
+                          ];
+                        setMessages((prev) => [
+                          ...prev,
+                          {
+                            id: `demo-flag-${Date.now()}`,
+                            account: demoAcc,
+                            text,
+                            timestamp: Date.now(),
+                          },
+                        ]);
+                        setAdminTab("flagged");
                       }}
-                      className="px-2.5 py-1.5 rounded-lg transition-colors"
-                      style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#fca5a5' }}>
+                      className="rounded-lg px-2.5 py-1.5 transition-colors"
+                      style={{
+                        background: "rgba(239,68,68,0.1)",
+                        border: "1px solid rgba(239,68,68,0.2)",
+                        color: "#fca5a5",
+                      }}
+                    >
                       {label}
                     </button>
                   ))}
                 </div>
                 {/* Quick merch shortcut */}
-                <div className="mt-2 pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <div
+                  className="mt-2 pt-2"
+                  style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+                >
                   <button
-                    onClick={() => setAdminTab('merch')}
-                    className="w-full px-3 py-1.5 rounded-lg transition-colors flex items-center justify-center gap-2"
-                    style={{ background: 'rgba(192, 132, 252,0.08)', border: '1px solid rgba(192, 132, 252,0.2)', color: '#c084fc' }}>
+                    onClick={() => setAdminTab("merch")}
+                    className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-1.5 transition-colors"
+                    style={{
+                      background: "rgba(192, 132, 252,0.08)",
+                      border: "1px solid rgba(192, 132, 252,0.2)",
+                      color: "#c084fc",
+                    }}
+                  >
                     🛍 Go to Merch Drop Tab
                   </button>
                 </div>
@@ -2375,38 +3920,44 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           ) : (
             /* ─────────────── NORMAL CHAT PANEL ─────────────── */
             <div
-              className="w-full lg:w-[360px] xl:w-[400px] flex-1 lg:flex-none flex flex-col min-h-0 overflow-hidden"
+              className="flex min-h-0 w-full flex-1 flex-col overflow-hidden lg:w-[360px] lg:flex-none xl:w-[400px]"
               style={{
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                borderLeft: '1px solid rgba(255,255,255,0.08)',
-              }}>
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+                borderLeft: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
               {/* Chat header with Tab toggling */}
               <div
-                className="shrink-0 flex flex-col px-4 pt-3 pb-2"
-                style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="flex items-center justify-between mb-1.5">
+                className="flex shrink-0 flex-col px-4 pt-3 pb-2"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+              >
+                <div className="mb-1.5 flex items-center justify-between">
                   <div className="flex gap-4">
                     <button
-                      onClick={() => setActiveSidebarTab('chat')}
-                      className={`transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab === 'chat' ? ' ' : ' text-white/40 hover:text-white text-white/70'}`}>
-                      <MessageSquare className="w-3.5 h-3.5 text-purple-400" /> Chat
+                      onClick={() => setActiveSidebarTab("chat")}
+                      className={`inline-flex items-center gap-1.5 transition-colors ${activeSidebarTab === "chat" ? " " : "text-white/40 text-white/70 hover:text-white"}`}
+                    >
+                      <MessageSquare className="h-3.5 w-3.5 text-purple-400" />{" "}
+                      Chat
                     </button>
                     <button
-                      onClick={() => setActiveSidebarTab('setlist')}
-                      className={`transition-colors inline-flex items-center gap-1.5 ${activeSidebarTab === 'setlist' ? ' ' : ' text-white/40 hover:text-white text-white/70'}`}>
-                      <Music className="w-3.5 h-3.5 text-purple-400" /> Setlist
+                      onClick={() => setActiveSidebarTab("setlist")}
+                      className={`inline-flex items-center gap-1.5 transition-colors ${activeSidebarTab === "setlist" ? " " : "text-white/40 text-white/70 hover:text-white"}`}
+                    >
+                      <Music className="h-3.5 w-3.5 text-purple-400" /> Setlist
                     </button>
                   </div>
 
                   {/* Mini crew list */}
                   <div className="flex items-center gap-1">
-                    {CREW_ACCOUNTS.map(c => (
+                    {CREW_ACCOUNTS.map((c) => (
                       <div
                         key={c.id}
                         title={`${c.displayName} is live`}
-                        className="w-6 h-6 rounded-full flex items-center justify-center ring-2 ring-white/20"
-                        style={{ background: c.color, fontSize: 9 }}>
+                        className="flex h-6 w-6 items-center justify-center rounded-full ring-2 ring-white/20"
+                        style={{ background: c.color, fontSize: 9 }}
+                      >
                         {c.avatar}
                       </div>
                     ))}
@@ -2416,64 +3967,84 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
 
               {!isSignedInUser ? (
                 /* ─────────────── GUEST LOCKED CHAT PANEL ─────────────── */
-                <div className="flex-1 flex flex-col items-center justify-center p-6 text-center bg-[#07040d]/50 backdrop-blur-xl space-y-6 pb-1">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600/30 to-pink-600/30 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-pulse">
-                    <MessageSquare className="w-8 h-8" />
+                <div className="flex flex-1 flex-col items-center justify-center space-y-6 bg-[#07040d]/50 p-6 pb-1 text-center backdrop-blur-xl">
+                  <div className="flex h-16 w-16 animate-pulse items-center justify-center rounded-full border border-purple-500/40 bg-gradient-to-tr from-purple-600/30 to-pink-600/30 text-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                    <MessageSquare className="h-8 w-8" />
                   </div>
 
-                  <div className="space-y-2 max-w-xs">
-                    <h3 >
-                      Join the Live Chat
-                    </h3>
+                  <div className="max-w-xs space-y-2">
+                    <h3>Join the Live Chat</h3>
                     <p className=" ">
-                      Sign in or register as a 7th Heaven fan, crew member, or admin to participate in live stream chat and setlist voting!
+                      Sign in or register as a 7th Heaven fan, crew member, or
+                      admin to participate in live stream chat and setlist
+                      voting!
                     </p>
                   </div>
 
-                  <div className="flex flex-col gap-2.5 w-full max-w-xs pt-2">
+                  <div className="flex w-full max-w-xs flex-col gap-2.5 pt-2">
                     <SeventhButton
                       onClick={() => {
-                        window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "signup" } }));
+                        window.dispatchEvent(
+                          new CustomEvent("open-auth-modal", {
+                            detail: { mode: "signup" },
+                          }),
+                        );
                       }}
-                      className="w-full py-3 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] rounded-xl transition-all duration-300 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 border border-white/25">
+                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/25 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] py-3 shadow-[0_0_25px_rgba(217,70,239,0.5)] transition-all duration-300 hover:scale-[1.02] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] active:scale-[0.98]"
+                    >
                       Sign Up as a Fan
                     </SeventhButton>
 
                     <button
                       type="button"
                       onClick={() => {
-                        window.dispatchEvent(new CustomEvent("open-auth-modal", { detail: { mode: "login" } }));
+                        window.dispatchEvent(
+                          new CustomEvent("open-auth-modal", {
+                            detail: { mode: "login" },
+                          }),
+                        );
                       }}
-                      className="w-full py-2.5 bg-[#00000029] hover:bg-white/10   hover:text-white rounded-lg border border-white/10 transition-all cursor-pointer">
+                      className="w-full cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 transition-all hover:bg-white/10 hover:text-white"
+                    >
                       Sign In to Account
                     </button>
                   </div>
                 </div>
-              ) : activeSidebarTab === 'setlist' ? (
-                <div className="flex-1 flex flex-col min-h-0 bg-[#07040d]">
+              ) : activeSidebarTab === "setlist" ? (
+                <div className="flex min-h-0 flex-1 flex-col bg-[#07040d]">
                   {/* Sort Toggle header */}
-                  <div className="shrink-0 flex items-center justify-between px-4 py-2 bg-white/[0.02] border-b border-white/10">
-                    <span className="text-[var(--font-size-2xs)] text-white/40">Sort View</span>
+                  <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-white/[0.02] px-4 py-2">
+                    <span className="text-[var(--font-size-2xs)] text-white/40">
+                      Sort View
+                    </span>
                     <div className="flex gap-1.5">
                       <button
-                        onClick={() => setSetlistSort('order')}
-                        className={`px-2 py-1 rounded text-3xs transition-colors ${setlistSort === 'order' ? 'bg-white/10 ' : ' text-white/30 '}`}>
+                        onClick={() => setSetlistSort("order")}
+                        className={`text-3xs rounded px-2 py-1 transition-colors ${setlistSort === "order" ? "bg-white/10" : "text-white/30"}`}
+                      >
                         Setlist Order
                       </button>
                       <button
-                        onClick={() => setSetlistSort('likes')}
-                        className={`px-2 py-1 rounded text-3xs transition-colors ${setlistSort === 'likes' ? 'bg-[var(--color-accent)]/20 border border-[var(--color-accent)]/30' : ' text-white/30 border border-transparent'}`}>
+                        onClick={() => setSetlistSort("likes")}
+                        className={`text-3xs rounded px-2 py-1 transition-colors ${setlistSort === "likes" ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20" : "border border-transparent text-white/30"}`}
+                      >
                         Most Liked
                       </button>
                     </div>
                   </div>
 
                   {/* List of songs */}
-                  <div data-lenis-prevent className="flex-1 overflow-y-auto p-3 space-y-2">
+                  <div
+                    data-lenis-prevent
+                    className="flex-1 space-y-2 overflow-y-auto p-3"
+                  >
                     {(() => {
                       const sorted = [...setlist].sort((a, b) => {
-                        if (setlistSort === 'likes') {
-                          return b.likes - a.likes || setlist.indexOf(a) - setlist.indexOf(b);
+                        if (setlistSort === "likes") {
+                          return (
+                            b.likes - a.likes ||
+                            setlist.indexOf(a) - setlist.indexOf(b)
+                          );
                         }
                         return 0; // retain original setlist order
                       });
@@ -2483,29 +4054,40 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         return (
                           <div
                             key={song.id}
-                            className={`p-3 flex items-center justify-between gap-3 transition-colors ${song.isPlaying ? 'bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]' : 'hover:bg-white/[0.03]'}`}
-                            style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.12)' }}>
+                            className={`flex items-center justify-between gap-3 p-3 transition-colors ${song.isPlaying ? "bg-purple-950/40 shadow-[0_0_15px_rgba(192,132,252,0.15)]" : "hover:bg-white/[0.03]"}`}
+                            style={{
+                              borderBottom:
+                                "1px solid rgba(255, 255, 255, 0.12)",
+                            }}
+                          >
                             <div className="min-w-0 flex-1">
-                              <p className={`truncate ${song.isPlaying ? 'text-purple-300 ' : ' /90'}`}>
+                              <p
+                                className={`truncate ${song.isPlaying ? "text-purple-300" : "/90"}`}
+                              >
                                 {song.title}
                               </p>
                               {song.isPlaying && (
-                                <span className="inline-block text-purple-300 mt-0.5 animate-pulse">
+                                <span className="mt-0.5 inline-block animate-pulse text-purple-300">
                                   Now Playing
                                 </span>
                               )}
                             </div>
 
-                            <div className="flex items-center gap-2 shrink-0">
+                            <div className="flex shrink-0 items-center gap-2">
                               <span className="text-[var(--font-size-2xs)] text-white/50">
                                 {song.likes}
                               </span>
                               <button
                                 onClick={() => likeSong(song.id)}
                                 disabled={hasLiked}
-                                className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${hasLiked ? 'bg-red-500/10 text-red-500 cursor-not-allowed' : 'bg-white/10 border border-white/10 hover:border-white/25 text-white/70 hover:text-white active:scale-95'}`}
-                                title={hasLiked ? 'Already Liked!' : 'Like this song'}>
-                                <Heart className={`w-3.5 h-3.5 ${hasLiked ? 'text-red-500 fill-current' : ' '}`} />
+                                className={`flex h-7 w-7 items-center justify-center rounded-lg transition-colors ${hasLiked ? "cursor-not-allowed bg-red-500/10 text-red-500" : "border border-white/10 bg-white/10 text-white/70 hover:border-white/25 hover:text-white active:scale-95"}`}
+                                title={
+                                  hasLiked ? "Already Liked!" : "Like this song"
+                                }
+                              >
+                                <Heart
+                                  className={`h-3.5 w-3.5 ${hasLiked ? "fill-current text-red-500" : " "}`}
+                                />
                               </button>
                             </div>
                           </div>
@@ -2515,11 +4097,11 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                   </div>
                 </div>
               ) : (
-                <div className="flex-1 flex flex-col min-h-0 relative">
+                <div className="relative flex min-h-0 flex-1 flex-col">
                   <CruiseChat
                     activeChannel={memberId}
                     showHeader={false}
-                    className="h-full max-h-none border-none rounded-none  "
+                    className="h-full max-h-none rounded-none border-none"
                   />
                 </div>
               )}
@@ -2536,161 +4118,232 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
           />
         )}
 
-
         {/* ── LIVE DROP CHECKOUT MODAL OVERLAY ── */}
-        {showCheckoutModal && activeMerchDrop && (() => {
-          const handleCheckoutSubmit = (e: React.FormEvent) => {
-            e.preventDefault();
-            setCheckoutStep('processing');
+        {showCheckoutModal &&
+          activeMerchDrop &&
+          (() => {
+            const handleCheckoutSubmit = (e: React.FormEvent) => {
+              e.preventDefault();
+              setCheckoutStep("processing");
 
-            const claimPin = Math.floor(1000 + Math.random() * 9000).toString();
+              const claimPin = Math.floor(
+                1000 + Math.random() * 9000,
+              ).toString();
 
-            // Simulate payment processing for 1.8 seconds
-            setTimeout(async () => {
-              // Decrement the stock of the product in the local state or product catalog
-              let newStock = 0;
-              if (activeMerchDrop.product) {
-                newStock = Math.max(0, activeMerchDrop.product.stock - 1);
-                setActiveMerchDrop(prev => prev ? {
-                  ...prev,
-                  product: prev.product ? { ...prev.product, stock: newStock } : prev.product
-                } : null);
-              }
-
-              // Broadcast stock update
-              bcRef.current?.postMessage({
-                type: 'MERCH_STOCK_DECREMENT',
-                payload: { newStock }
-              });
-
-              // Simulate adding a chat notification
-              const purchaseMsg: ChatMsg = {
-                id: 'msg_' + Date.now() + '_purchase',
-                account: member ? {
-                  id: member.id,
-                  name: shippingDetails.name || member.name,
-                  avatar: member.avatar || '',
-                  role: 'FAN',
-                  badge: 'FAN'
-                } as any : {
-                  id: 'anonymous',
-                  name: shippingDetails.name || 'Anonymous Fan',
-                  avatar: '',
-                  role: 'FAN',
-                  badge: 'FAN'
-                } as any,
-                text: `🛍️ just purchased the ${activeMerchDrop.product.name}${checkoutSelectedSize ? ` (${checkoutSelectedSize}` : ''}${checkoutSelectedColor ? `${checkoutSelectedSize ? ' / ' : ' ('}${checkoutSelectedColor})` : checkoutSelectedSize ? ')' : ''} [${checkoutDeliveryMethod === 'merch_table' ? 'Merch Table Pickup' : 'Shipped to Home'}]!`,
-                timestamp: Date.now(),
-                isUser: !member
-              };
-
-              // Broadcast chat message
-              seenMsgIds.current.add(purchaseMsg.id);
-              bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: purchaseMsg });
-              setMessages(prev => [...prev, purchaseMsg]);
-
-              // Write persistent row to chat_messages database table so crew dashboard gets the update
-              const currentRoomSlug = activeFeedId === 'mike' ? 'michael' : activeFeedId;
-              await supabase.from('chat_messages').insert({
-                room: currentRoomSlug,
-                sender_name: 'Shopify Bot',
-                sender_role: 'system',
-                sender_avatar: '🛍️',
-                content: `🛍️ ${shippingDetails.name || 'A fan'} purchased the ${activeMerchDrop.product.name}${checkoutSelectedSize ? ` (${checkoutSelectedSize}` : ''}${checkoutSelectedColor ? `${checkoutSelectedSize ? ' / ' : ' ('}${checkoutSelectedColor})` : checkoutSelectedSize ? ')' : ''} [${checkoutDeliveryMethod === 'merch_table' ? `Merch Table Pickup - PIN: ${claimPin}` : 'Shipped to Home'}]!`,
-              });
-
-              // Save order to global admin_orders_list in localStorage
-              const isClothing = activeMerchDrop.product.name.toLowerCase().match(/shirt|tee|hoodie|sweat|jersey|jacket|tank|hat|cap/);
-              const newOrder = {
-                id: Date.now(),
-                customer: shippingDetails.name || 'Anonymous Fan',
-                email: shippingDetails.email,
-                address: checkoutDeliveryMethod === 'shipping' ? shippingDetails.address : '',
-                city: checkoutDeliveryMethod === 'shipping' ? shippingDetails.city : '',
-                zip: checkoutDeliveryMethod === 'shipping' ? shippingDetails.zip : '',
-                item: activeMerchDrop.product.name,
-                price: activeMerchDrop.product.price,
-                size: isClothing ? checkoutSelectedSize : null,
-                color: isClothing ? checkoutSelectedColor : null,
-                method: checkoutDeliveryMethod,
-                source: 'Flash Drop',
-                status: checkoutDeliveryMethod === 'merch_table' ? 'Ready for Pickup' : 'Pending',
-                image: activeMerchDrop.product.image || '/images/merch/vinyl.png',
-                ts: Date.now()
-              };
-
-              try {
-                const currentOrders = JSON.parse(localStorage.getItem('admin_orders_list_v1') || localStorage.getItem('admin_orders_list') || '[]');
-                currentOrders.unshift(newOrder);
-                localStorage.setItem('admin_orders_list_v1', JSON.stringify(currentOrders));
-              } catch (e) {
-                console.error('Failed to save to admin orders list:', e);
-              }
-
-              // Notify dashboard
-              bcRef.current?.postMessage({ type: 'ORDER_CREATED', payload: newOrder });
-
-              // Decrement inventory in Shopify storefront for flash drop
-              // Match product by name
-              fetch('/api/shopify/inventory')
-                .then(res => res.ok ? res.json() : null)
-                .then(data => {
-                  const productList = data.products || data || [];
-                  const matchedProduct = productList.find((p: any) =>
-                    p.title.toLowerCase().includes(activeMerchDrop.product.name.toLowerCase()) ||
-                    activeMerchDrop.product.name.toLowerCase().includes(p.title.toLowerCase())
+              // Simulate payment processing for 1.8 seconds
+              setTimeout(async () => {
+                // Decrement the stock of the product in the local state or product catalog
+                let newStock = 0;
+                if (activeMerchDrop.product) {
+                  newStock = Math.max(0, activeMerchDrop.product.stock - 1);
+                  setActiveMerchDrop((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          product: prev.product
+                            ? { ...prev.product, stock: newStock }
+                            : prev.product,
+                        }
+                      : null,
                   );
-                  const matchedVariant = matchedProduct?.variants?.edges?.find((edge: any) => {
-                    const title = edge.node.title.toLowerCase();
-                    const matchesSize = !checkoutSelectedSize || title.includes(checkoutSelectedSize.toLowerCase());
-                    const matchesColor = !checkoutSelectedColor || title.includes(checkoutSelectedColor.toLowerCase());
-                    return matchesSize && matchesColor;
-                  })?.node || matchedProduct?.variants?.edges?.[0]?.node;
-
-                  if (matchedVariant?.id) {
-                    fetch('/api/shopify/inventory/adjust', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ variantId: matchedVariant.id, quantity: 1 })
-                    }).then(res => res.ok ? res.json() : null)
-                      .then(d => console.log('[Shopify Flash Drop Sync Success]', d))
-                      .catch(err => console.error('[Shopify Flash Drop Sync Error]', err));
-                  }
-                })
-                .catch(err => console.error('[Shopify Inventory Load Error]', err));
-
-              // Save order to merch_pickup_queue in localStorage if choosing pickup
-              if (checkoutDeliveryMethod === 'merch_table') {
-                try {
-                  const queue = JSON.parse(localStorage.getItem('merch_pickup_queue_v1') || localStorage.getItem('merch_pickup_queue') || '[]');
-                  queue.unshift({
-                    id: newOrder.id,
-                    code: `PU-${claimPin}`,
-                    item: activeMerchDrop.product.name,
-                    size: checkoutSelectedSize || null,
-                    color: checkoutSelectedColor || null,
-                    price: activeMerchDrop.product.price,
-                    customer: shippingDetails.name || 'Fan',
-                    email: shippingDetails.email,
-                    ts: Date.now(),
-                    claimed: false
-                  });
-                  localStorage.setItem('merch_pickup_queue_v1', JSON.stringify(queue));
-                } catch (e) {
-                  console.error('Failed to update merch queue:', e);
                 }
-              }
 
-              // Send email confirmation
-              if (shippingDetails.email) {
-                const emailSubject = checkoutDeliveryMethod === 'merch_table'
-                  ? `🎫 Merch Pickup Confirmation [PIN: ${claimPin}] — 7th Heaven`
-                  : `📦 Merch Order Confirmed — 7th Heaven`;
+                // Broadcast stock update
+                bcRef.current?.postMessage({
+                  type: "MERCH_STOCK_DECREMENT",
+                  payload: { newStock },
+                });
 
-                const emailHtml = checkoutDeliveryMethod === 'merch_table'
-                  ? `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
+                // Simulate adding a chat notification
+                const purchaseMsg: ChatMsg = {
+                  id: "msg_" + Date.now() + "_purchase",
+                  account: member
+                    ? ({
+                        id: member.id,
+                        name: shippingDetails.name || member.name,
+                        avatar: member.avatar || "",
+                        role: "FAN",
+                        badge: "FAN",
+                      } as any)
+                    : ({
+                        id: "anonymous",
+                        name: shippingDetails.name || "Anonymous Fan",
+                        avatar: "",
+                        role: "FAN",
+                        badge: "FAN",
+                      } as any),
+                  text: `🛍️ just purchased the ${activeMerchDrop.product.name}${checkoutSelectedSize ? ` (${checkoutSelectedSize}` : ""}${checkoutSelectedColor ? `${checkoutSelectedSize ? " / " : " ("}${checkoutSelectedColor})` : checkoutSelectedSize ? ")" : ""} [${checkoutDeliveryMethod === "merch_table" ? "Merch Table Pickup" : "Shipped to Home"}]!`,
+                  timestamp: Date.now(),
+                  isUser: !member,
+                };
+
+                // Broadcast chat message
+                seenMsgIds.current.add(purchaseMsg.id);
+                bcRef.current?.postMessage({
+                  type: "CHAT_MSG",
+                  payload: purchaseMsg,
+                });
+                setMessages((prev) => [...prev, purchaseMsg]);
+
+                // Write persistent row to chat_messages database table so crew dashboard gets the update
+                const currentRoomSlug =
+                  activeFeedId === "mike" ? "michael" : activeFeedId;
+                await supabase.from("chat_messages").insert({
+                  room: currentRoomSlug,
+                  sender_name: "Shopify Bot",
+                  sender_role: "system",
+                  sender_avatar: "🛍️",
+                  content: `🛍️ ${shippingDetails.name || "A fan"} purchased the ${activeMerchDrop.product.name}${checkoutSelectedSize ? ` (${checkoutSelectedSize}` : ""}${checkoutSelectedColor ? `${checkoutSelectedSize ? " / " : " ("}${checkoutSelectedColor})` : checkoutSelectedSize ? ")" : ""} [${checkoutDeliveryMethod === "merch_table" ? `Merch Table Pickup - PIN: ${claimPin}` : "Shipped to Home"}]!`,
+                });
+
+                // Save order to global admin_orders_list in localStorage
+                const isClothing = activeMerchDrop.product.name
+                  .toLowerCase()
+                  .match(/shirt|tee|hoodie|sweat|jersey|jacket|tank|hat|cap/);
+                const newOrder = {
+                  id: Date.now(),
+                  customer: shippingDetails.name || "Anonymous Fan",
+                  email: shippingDetails.email,
+                  address:
+                    checkoutDeliveryMethod === "shipping"
+                      ? shippingDetails.address
+                      : "",
+                  city:
+                    checkoutDeliveryMethod === "shipping"
+                      ? shippingDetails.city
+                      : "",
+                  zip:
+                    checkoutDeliveryMethod === "shipping"
+                      ? shippingDetails.zip
+                      : "",
+                  item: activeMerchDrop.product.name,
+                  price: activeMerchDrop.product.price,
+                  size: isClothing ? checkoutSelectedSize : null,
+                  color: isClothing ? checkoutSelectedColor : null,
+                  method: checkoutDeliveryMethod,
+                  source: "Flash Drop",
+                  status:
+                    checkoutDeliveryMethod === "merch_table"
+                      ? "Ready for Pickup"
+                      : "Pending",
+                  image:
+                    activeMerchDrop.product.image || "/images/merch/vinyl.png",
+                  ts: Date.now(),
+                };
+
+                try {
+                  const currentOrders = JSON.parse(
+                    localStorage.getItem("admin_orders_list_v1") ||
+                      localStorage.getItem("admin_orders_list") ||
+                      "[]",
+                  );
+                  currentOrders.unshift(newOrder);
+                  localStorage.setItem(
+                    "admin_orders_list_v1",
+                    JSON.stringify(currentOrders),
+                  );
+                } catch (e) {
+                  console.error("Failed to save to admin orders list:", e);
+                }
+
+                // Notify dashboard
+                bcRef.current?.postMessage({
+                  type: "ORDER_CREATED",
+                  payload: newOrder,
+                });
+
+                // Decrement inventory in Shopify storefront for flash drop
+                // Match product by name
+                fetch("/api/shopify/inventory")
+                  .then((res) => (res.ok ? res.json() : null))
+                  .then((data) => {
+                    const productList = data.products || data || [];
+                    const matchedProduct = productList.find(
+                      (p: any) =>
+                        p.title
+                          .toLowerCase()
+                          .includes(
+                            activeMerchDrop.product.name.toLowerCase(),
+                          ) ||
+                        activeMerchDrop.product.name
+                          .toLowerCase()
+                          .includes(p.title.toLowerCase()),
+                    );
+                    const matchedVariant =
+                      matchedProduct?.variants?.edges?.find((edge: any) => {
+                        const title = edge.node.title.toLowerCase();
+                        const matchesSize =
+                          !checkoutSelectedSize ||
+                          title.includes(checkoutSelectedSize.toLowerCase());
+                        const matchesColor =
+                          !checkoutSelectedColor ||
+                          title.includes(checkoutSelectedColor.toLowerCase());
+                        return matchesSize && matchesColor;
+                      })?.node || matchedProduct?.variants?.edges?.[0]?.node;
+
+                    if (matchedVariant?.id) {
+                      fetch("/api/shopify/inventory/adjust", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          variantId: matchedVariant.id,
+                          quantity: 1,
+                        }),
+                      })
+                        .then((res) => (res.ok ? res.json() : null))
+                        .then((d) =>
+                          console.log("[Shopify Flash Drop Sync Success]", d),
+                        )
+                        .catch((err) =>
+                          console.error("[Shopify Flash Drop Sync Error]", err),
+                        );
+                    }
+                  })
+                  .catch((err) =>
+                    console.error("[Shopify Inventory Load Error]", err),
+                  );
+
+                // Save order to merch_pickup_queue in localStorage if choosing pickup
+                if (checkoutDeliveryMethod === "merch_table") {
+                  try {
+                    const queue = JSON.parse(
+                      localStorage.getItem("merch_pickup_queue_v1") ||
+                        localStorage.getItem("merch_pickup_queue") ||
+                        "[]",
+                    );
+                    queue.unshift({
+                      id: newOrder.id,
+                      code: `PU-${claimPin}`,
+                      item: activeMerchDrop.product.name,
+                      size: checkoutSelectedSize || null,
+                      color: checkoutSelectedColor || null,
+                      price: activeMerchDrop.product.price,
+                      customer: shippingDetails.name || "Fan",
+                      email: shippingDetails.email,
+                      ts: Date.now(),
+                      claimed: false,
+                    });
+                    localStorage.setItem(
+                      "merch_pickup_queue_v1",
+                      JSON.stringify(queue),
+                    );
+                  } catch (e) {
+                    console.error("Failed to update merch queue:", e);
+                  }
+                }
+
+                // Send email confirmation
+                if (shippingDetails.email) {
+                  const emailSubject =
+                    checkoutDeliveryMethod === "merch_table"
+                      ? `🎫 Merch Pickup Confirmation [PIN: ${claimPin}] — 7th Heaven`
+                      : `📦 Merch Order Confirmed — 7th Heaven`;
+
+                  const emailHtml =
+                    checkoutDeliveryMethod === "merch_table"
+                      ? `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
                       <h2 style="color: #10b981; margin-top: 0; text-transform: ;">Merch Ready for Pickup</h2>
-                      <p>Hello <strong>${shippingDetails.name || 'Fan'}</strong>,</p>
+                      <p>Hello <strong>${shippingDetails.name || "Fan"}</strong>,</p>
                       <p>Thank you for purchasing live! Your order has been registered for <strong>Merch Table Pickup</strong> at the venue.</p>
                       
                       <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; text-align: center; margin: 20px 0;">
@@ -2698,9 +4351,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <Image width={200} height={200} unoptimized src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
                         </div>
                         <p style="font-weight: bold; font-size: 16px; margin: 0 0 4px 0; color: #000;">${activeMerchDrop.product.name}</p>
-                        ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ''}
-                        ${checkoutSelectedSize ? `<p style="font-size: 13px; color: #333; margin: 4px 0 4px 0;"><strong>Size:</strong> ${checkoutSelectedSize}</p>` : ''}
-                        ${checkoutSelectedColor ? `<p style="font-size: 13px; color: #333; margin: 4px 0 8px 0;"><strong>Color:</strong> ${checkoutSelectedColor}</p>` : ''}
+                        ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ""}
+                        ${checkoutSelectedSize ? `<p style="font-size: 13px; color: #333; margin: 4px 0 4px 0;"><strong>Size:</strong> ${checkoutSelectedSize}</p>` : ""}
+                        ${checkoutSelectedColor ? `<p style="font-size: 13px; color: #333; margin: 4px 0 8px 0;"><strong>Color:</strong> ${checkoutSelectedColor}</p>` : ""}
                         <p style="font-size: 12px; color: #666; margin: 0 0 24px 0;">Price Paid: ${activeMerchDrop.product.price}</p>
 
                         <p style="text-transform: ; font-size: 11px; color: #666; margin: 0 0 8px 0; letter-spacing: 0.1em; font-weight: 800;">Your Single-Use QR Code</p>
@@ -2713,9 +4366,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                         7th Heaven Band Live Stream. Thank you for your support!
                       </p>
                     </div>`
-                  : `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
+                      : `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
                       <h2 style="color: #3b82f6; margin-top: 0; text-transform: ;">Order Confirmed</h2>
-                      <p>Hello <strong>${shippingDetails.name || 'Fan'}</strong>,</p>
+                      <p>Hello <strong>${shippingDetails.name || "Fan"}</strong>,</p>
                       <p>Your order has been successfully confirmed. It will be shipped to you shortly.</p>
                       
                       <div style="background: #f4f4f5; padding: 24px; border-radius: 8px; margin: 20px 0; text-align: center;">
@@ -2723,9 +4376,9 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                           <Image width={200} height={200} unoptimized src="${activeMerchDrop.product.image}" alt="${activeMerchDrop.product.name}" width="140" height="140" style="border-radius: 12px; border: 1px solid #eaeaea; display: inline-block; object-fit: cover;" />
                         </div>
                         <p style="font-weight: bold; font-size: 16px; margin: 0 0 4px 0; color: #000;">${activeMerchDrop.product.name}</p>
-                        ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ''}
-                        ${checkoutSelectedSize ? `<p style="font-size: 13px; color: #333; margin: 4px 0 4px 0;"><strong>Size:</strong> ${checkoutSelectedSize}</p>` : ''}
-                        ${checkoutSelectedColor ? `<p style="font-size: 13px; color: #333; margin: 4px 0 8px 0;"><strong>Color:</strong> ${checkoutSelectedColor}</p>` : ''}
+                        ${activeMerchDrop.product.description ? `<p style="font-size: 12px; color: #666; margin: 4px 0 8px 0;">${activeMerchDrop.product.description}</p>` : ""}
+                        ${checkoutSelectedSize ? `<p style="font-size: 13px; color: #333; margin: 4px 0 4px 0;"><strong>Size:</strong> ${checkoutSelectedSize}</p>` : ""}
+                        ${checkoutSelectedColor ? `<p style="font-size: 13px; color: #333; margin: 4px 0 8px 0;"><strong>Color:</strong> ${checkoutSelectedColor}</p>` : ""}
                         <p style="font-size: 12px; color: #666; margin: 0;">Price Paid: ${activeMerchDrop.product.price}</p>
                       </div>
 
@@ -2740,343 +4393,636 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
                       </p>
                     </div>`;
 
-                fetch('/api/email', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ to: shippingDetails.email, subject: emailSubject, html: emailHtml })
-                }).catch(err => console.error('Failed to send confirmation email:', err));
-              }
+                  fetch("/api/email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      to: shippingDetails.email,
+                      subject: emailSubject,
+                      html: emailHtml,
+                    }),
+                  }).catch((err) =>
+                    console.error("Failed to send confirmation email:", err),
+                  );
+                }
 
-              setCheckoutStep('success');
-            }, 1800);
-          };
+                setCheckoutStep("success");
+              }, 1800);
+            };
 
-          return (
-            <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
-              <div className="bg-white/98 backdrop-blur-xl border p-6 w-full max-w-sm relative transition-opacity duration-200 ease-out max-h-[90vh] overflow-y-auto   text-left"
-                style={{ borderColor: `${activeMerchDrop.product.color}55`, boxShadow: `0 0 40px ${activeMerchDrop.product.color}15` }}>
+            return (
+              <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+                <div
+                  className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border bg-white/98 p-6 text-left backdrop-blur-xl transition-opacity duration-200 ease-out"
+                  style={{
+                    borderColor: `${activeMerchDrop.product.color}55`,
+                    boxShadow: `0 0 40px ${activeMerchDrop.product.color}15`,
+                  }}
+                >
+                  {/* Close Button */}
+                  <button
+                    onClick={() => setShowCheckoutModal(false)}
+                    className="hover: absolute top-3 right-3 cursor-pointer rounded-lg border-none bg-gray-50 p-1 text-black/50 transition-colors hover:bg-gray-100"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
 
-                {/* Close Button */}
-                <button onClick={() => setShowCheckoutModal(false)} className="absolute top-3 right-3 text-black/50 hover:  transition-colors p-1 bg-gray-50 hover:bg-gray-100 rounded-lg border-none cursor-pointer">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
-
-                {checkoutStep === 'form' && (
-                  <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                    <div className="text-center mb-2 flex flex-col items-center">
-                      <div className="w-20 h-20 border border-black/10 bg-gray-50 overflow-hidden mb-2.5 shrink-0">
-                        <Image width={200} height={200} unoptimized
-                          src={activeMerchDrop.product.image || '/images/merch/vinyl.png'}
-                          alt={activeMerchDrop.product.name}
-                          onError={(e) => {
-                            const name = activeMerchDrop.product.name.toLowerCase();
-                            if (name.includes('shirt') || name.includes('tee')) {
-                              e.currentTarget.src = '/images/merch/logo-tee.png';
-                            } else if (name.includes('hood') || name.includes('sweat')) {
-                              e.currentTarget.src = '/images/merch/hoodie.png';
-                            } else {
-                              e.currentTarget.src = '/images/merch/vinyl.png';
+                  {checkoutStep === "form" && (
+                    <form onSubmit={handleCheckoutSubmit} className="space-y-4">
+                      <div className="mb-2 flex flex-col items-center text-center">
+                        <div className="mb-2.5 h-20 w-20 shrink-0 overflow-hidden border border-black/10 bg-gray-50">
+                          <Image
+                            width={200}
+                            height={200}
+                            unoptimized
+                            src={
+                              activeMerchDrop.product.image ||
+                              "/images/merch/vinyl.png"
                             }
-                          }}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <span className="px-2 py-0.5 rounded-lg flex items-center gap-1"
-                        style={{ background: `${activeMerchDrop.product.color}22`, color: activeMerchDrop.product.color }}>
-                        <ShoppingBag className="w-3.5 h-3.5 inline" /> LIVE DROP MERCH
-                      </span>
-                      <h3 className="  mt-2">
-                        {activeMerchDrop.product.name}
-                      </h3>
-                      {activeMerchDrop.product.description && (
-                        <p className="text-black/50 max-w-[280px]">
-                          {activeMerchDrop.product.description}
-                        </p>
-                      )}
-                      <p className=".5" style={{ color: activeMerchDrop.product.color }}>
-                        {activeMerchDrop.product.price}
-                      </p>
-                      <p className="text-black/40 mt-0.5">Only {activeMerchDrop.product.stock} items left in stock</p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div>
-                        <span className="text-black/40 block mb-1.5">Delivery Option</span>
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setCheckoutDeliveryMethod('merch_table')}
-                            className={`py-2.5 px-3 border transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'merch_table' ? 'bg-white   border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
-                            <span className="flex items-center gap-1"><ShoppingBag className="w-3.5 h-3.5 text-purple-600" /> Pickup</span>
-                            <span className="opacity-60 normal-case font-normal">Merch Table</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setCheckoutDeliveryMethod('shipping')}
-                            className={`py-2.5 px-3 border transition-colors flex flex-col items-center justify-center gap-1 cursor-pointer ${checkoutDeliveryMethod === 'shipping' ? 'bg-white   border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
-                            <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5 text-purple-600" /> Ship Home</span>
-                            <span className="opacity-60 normal-case font-normal">Standard Delivery</span>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Size Selector */}
-                      {(() => {
-                        const name = activeMerchDrop.product.name.toLowerCase();
-                        const isClothing = name.includes('shirt') || name.includes('tee') || name.includes('hood') || name.includes('sweat') || name.includes('jersey') || name.includes('jacket') || name.includes('tank');
-                        const hasVariants = (activeMerchDrop.product as any).variants && (activeMerchDrop.product as any).variants.length > 0;
-                        const sizeOptions = hasVariants
-                          ? (activeMerchDrop.product as any).variants.map((v: any) => v.title)
-                          : (isClothing ? ['S', 'M', 'L', 'XL', 'XXL'] : null);
-                        if (!sizeOptions) return null;
-                        return (
-                          <div>
-                            <span className="text-black/40 block mb-1.5">Select Size</span>
-                            <div className="flex flex-wrap gap-1.5">
-                              {sizeOptions.map((size: string) => (
-                                <button
-                                  key={size}
-                                  type="button"
-                                  onClick={() => setCheckoutSelectedSize(size)}
-                                  className={`px-3 py-1.5 rounded-lg border transition-colors cursor-pointer ${checkoutSelectedSize === size ? 'bg-white   border-white' : ' text-black/60 border-black/10 hover:border-black/15'}`}>
-                                  {size}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })()}
-
-                      {/* Color Selector */}
-                      {(() => {
-                        const name = activeMerchDrop.product.name.toLowerCase();
-                        const isClothing = name.includes('shirt') || name.includes('tee') || name.includes('hood') || name.includes('sweat') || name.includes('jersey') || name.includes('jacket') || name.includes('tank') || name.includes('hat') || name.includes('cap');
-                        if (!isClothing) return null;
-                        const COLORS = [
-                          { name: 'Black', hex: '#1a1a1a' },
-                          { name: 'White', hex: '#f5f5f5' },
-                          { name: 'Heather Grey', hex: '#9ca3af' },
-                          { name: 'Navy', hex: '#1e3a5f' },
-                          { name: 'Red', hex: '#dc2626' },
-                          { name: 'Forest Green', hex: '#166534' },
-                        ];
-                        return (
-                          <div>
-                            <span className="text-black/40 block mb-1.5">Select Color</span>
-                            <div className="flex flex-wrap gap-2">
-                              {COLORS.map((c) => (
-                                <button
-                                  key={c.name}
-                                  type="button"
-                                  onClick={() => setCheckoutSelectedColor(c.name)}
-                                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border transition-colors cursor-pointer ${checkoutSelectedColor === c.name ? 'bg-gray-100   border-white' : ' text-black/50 border-black/10 hover:border-black/15'}`}>
-                                  <span
-                                    className="w-3.5 h-3.5 rounded-lg shrink-0 border"
-                                    style={{ background: c.hex, borderColor: c.name === 'White' ? '#d1d5db' : c.hex }}
-                                  />
-                                  {c.name}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })()}
-
-                      <div>
-                        <label htmlFor="live-checkout-name" className="text-black/40 block mb-1">Full Name</label>
-                        <input
-                          id="live-checkout-name"
-                          type="text"
-                          required
-                          value={shippingDetails.name}
-                          onChange={e => setShippingDetails(prev => ({ ...prev, name: e.target.value }))}
-                          placeholder="John Doe"
-                          className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="live-checkout-email" className="text-black/40 block mb-1">Email Address</label>
-                        <input
-                          id="live-checkout-email"
-                          type="email"
-                          required
-                          value={shippingDetails.email}
-                          onChange={e => setShippingDetails(prev => ({ ...prev, email: e.target.value }))}
-                          placeholder="john@example.com"
-                          className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
-                        />
-                      </div>
-
-                      {checkoutDeliveryMethod === 'shipping' && (
-                        <>
-                          <div>
-                            <label htmlFor="live-checkout-address" className="text-black/40 block mb-1">Shipping Address</label>
-                            <input
-                              id="live-checkout-address"
-                              type="text"
-                              required
-                              value={shippingDetails.address}
-                              onChange={e => setShippingDetails(prev => ({ ...prev, address: e.target.value }))}
-                              placeholder="123 Main St"
-                              className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
-                            />
-                          </div>
-                          <div className="grid grid-cols-2 gap-2">
-                            <div>
-                              <label htmlFor="live-checkout-city" className="text-black/40 block mb-1">City</label>
-                              <input
-                                id="live-checkout-city"
-                                type="text"
-                                required
-                                value={shippingDetails.city}
-                                onChange={e => setShippingDetails(prev => ({ ...prev, city: e.target.value }))}
-                                placeholder="Chicago"
-                                className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
-                              />
-                            </div>
-                            <div>
-                              <label htmlFor="live-checkout-zip" className="text-black/40 block mb-1">ZIP Code</label>
-                              <input
-                                id="live-checkout-zip"
-                                type="text"
-                                required
-                                value={shippingDetails.zip}
-                                onChange={e => setShippingDetails(prev => ({ ...prev, zip: e.target.value }))}
-                                placeholder="60601"
-                                className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
-                              />
-                            </div>
-                          </div>
-                        </>
-                      )}
-
-                      <div>
-                        <label htmlFor="live-checkout-card" className="text-black/40 block mb-1">Card Details (Mock)</label>
-                        <input
-                          id="live-checkout-card"
-                          type="text"
-                          required
-                          value={shippingDetails.card}
-                          onChange={e => setShippingDetails(prev => ({ ...prev, card: e.target.value }))}
-                          placeholder="4242 4242 4242 4242"
-                          className="w-full bg-gray-50 border border-black/10 p-2.5   placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    <button
-                      type="submit"
-                      style={{
-                        background: activeMerchDrop.product.color,
-                        boxShadow: `0 0 15px ${activeMerchDrop.product.color}44`
-                      }}
-                      className="w-full py-3   hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none mt-2">
-                      Authorize Payment
-                    </button>
-                  </form>
-                )}
-
-                {checkoutStep === 'processing' && (
-                  <div className="text-center py-10 space-y-4">
-                    <div className="w-12 h-12 border-4 border-black/10 border-t-white rounded-lg animate-spin mx-auto"
-                      style={{ borderTopColor: activeMerchDrop.product.color }} />
-                    <h3 className="text-black/80">Securing payment</h3>
-                    <p className="text-black/40 max-w-[200px] mx-auto">Connecting to Shopify checkout secure gateways...</p>
-                  </div>
-                )}
-
-                {checkoutStep === 'success' && (() => {
-                  const successProdName = activeMerchDrop.product.name.toLowerCase();
-                  const successIsClothing = successProdName.includes('shirt') || successProdName.includes('tee') || successProdName.includes('hood') || successProdName.includes('sweat') || successProdName.includes('jersey') || successProdName.includes('jacket') || successProdName.includes('tank') || successProdName.includes('hat') || successProdName.includes('cap');
-                  return (
-                    <div className="text-center py-4 space-y-4">
-                      <div className="w-16 h-16 rounded-lg bg-emerald-500/20 flex items-center justify-center mx-auto"
-                        style={{ boxShadow: '0 0 20px rgba(16,185,129,0.1)' }}>
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
-                      </div>
-                      <div>
-                        <h3 className="text-black">Purchase Successful!</h3>
-                        <p className="text-black/50 max-w-[240px] mx-auto">
-                          {checkoutDeliveryMethod === 'merch_table' ? (
-                            <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed. Please check your email for your single-use QR code to claim your item.</span>
-                          ) : (
-                            <span>Your order for the <strong>{activeMerchDrop.product.name}</strong> is confirmed.</span>
-                          )}
-                        </p>
-                      </div>
-
-                      <div className="bg-gray-50 border border-black/10 p-4 text-left space-y-3">
-                        {/* Product Image - large and prominent */}
-                        <div className="flex justify-center">
-                          <Image width={200} height={200} unoptimized
-                            src={activeMerchDrop.product.image || '/images/merch/vinyl.png'}
                             alt={activeMerchDrop.product.name}
                             onError={(e) => {
-                              const name = activeMerchDrop.product.name.toLowerCase();
-                              if (name.includes('shirt') || name.includes('tee')) {
-                                e.currentTarget.src = '/images/merch/logo-tee.png';
-                              } else if (name.includes('hood') || name.includes('sweat')) {
-                                e.currentTarget.src = '/images/merch/hoodie.png';
+                              const name =
+                                activeMerchDrop.product.name.toLowerCase();
+                              if (
+                                name.includes("shirt") ||
+                                name.includes("tee")
+                              ) {
+                                e.currentTarget.src =
+                                  "/images/merch/logo-tee.png";
+                              } else if (
+                                name.includes("hood") ||
+                                name.includes("sweat")
+                              ) {
+                                e.currentTarget.src =
+                                  "/images/merch/hoodie.png";
                               } else {
-                                e.currentTarget.src = '/images/merch/vinyl.png';
+                                e.currentTarget.src = "/images/merch/vinyl.png";
                               }
                             }}
-                            className="w-28 h-28 object-cover border border-black/10"
+                            className="h-full w-full object-cover"
                           />
                         </div>
-
-                        {/* Product Description */}
+                        <span
+                          className="flex items-center gap-1 rounded-lg px-2 py-0.5"
+                          style={{
+                            background: `${activeMerchDrop.product.color}22`,
+                            color: activeMerchDrop.product.color,
+                          }}
+                        >
+                          <ShoppingBag className="inline h-3.5 w-3.5" /> LIVE
+                          DROP MERCH
+                        </span>
+                        <h3 className="mt-2">{activeMerchDrop.product.name}</h3>
                         {activeMerchDrop.product.description && (
-                          <p className="text-black/50 text-center px-2">
+                          <p className="max-w-[280px] text-black/50">
                             {activeMerchDrop.product.description}
                           </p>
                         )}
+                        <p
+                          className=".5"
+                          style={{ color: activeMerchDrop.product.color }}
+                        >
+                          {activeMerchDrop.product.price}
+                        </p>
+                        <p className="mt-0.5 text-black/40">
+                          Only {activeMerchDrop.product.stock} items left in
+                          stock
+                        </p>
+                      </div>
 
-                        {/* Order Details */}
-                        <div className="space-y-1.5 pt-2 border-t border-black/10">
-                          <p className="text-black/40 mb-1.5">Order Details</p>
-                          <p className="text-black/90">Recipient: <span className="font-normal text-black/60">{shippingDetails.name}</span></p>
-                          <p className="text-black/90 truncate">Product: <span className="font-normal text-black/60">{activeMerchDrop.product.name}</span></p>
-                          {successIsClothing && checkoutSelectedSize && (
-                            <p className="text-black/90">Size: <span className="font-normal text-black/60">{checkoutSelectedSize}</span></p>
-                          )}
-                          {successIsClothing && checkoutSelectedColor && (
-                            <p className="text-black/90">Color: <span className="font-normal text-black/60 inline-flex items-center gap-1.5">
-                              <span className="inline-block w-2.5 h-2.5 rounded-lg border border-black/15" style={{ background: checkoutSelectedColor === 'Black' ? '#1a1a1a' : checkoutSelectedColor === 'White' ? '#f5f5f5' : checkoutSelectedColor === 'Heather Grey' ? '#9ca3af' : checkoutSelectedColor === 'Navy' ? '#1e3a5f' : checkoutSelectedColor === 'Red' ? '#dc2626' : checkoutSelectedColor === 'Forest Green' ? '#166534' : '#888' }} />
-                              {checkoutSelectedColor}
-                            </span></p>
-                          )}
-                          <p className="text-black/90">Method: <span className="font-normal text-black/60">{checkoutDeliveryMethod === 'merch_table' ? 'Merch Table Pickup' : 'Shipped to Home'}</span></p>
-                          {checkoutDeliveryMethod === 'shipping' && (
-                            <p className="text-black/90 truncate">Ship To: <span className="font-normal text-black/60">{shippingDetails.address}, {shippingDetails.city}</span></p>
-                          )}
-                          <p className="text-black/90">Price Paid: <span className="font-normal text-black/60">{activeMerchDrop.product.price}</span></p>
+                      <div className="space-y-3">
+                        <div>
+                          <span className="mb-1.5 block text-black/40">
+                            Delivery Option
+                          </span>
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setCheckoutDeliveryMethod("merch_table")
+                              }
+                              className={`flex cursor-pointer flex-col items-center justify-center gap-1 border px-3 py-2.5 transition-colors ${checkoutDeliveryMethod === "merch_table" ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
+                            >
+                              <span className="flex items-center gap-1">
+                                <ShoppingBag className="h-3.5 w-3.5 text-purple-600" />{" "}
+                                Pickup
+                              </span>
+                              <span className="font-normal normal-case opacity-60">
+                                Merch Table
+                              </span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setCheckoutDeliveryMethod("shipping")
+                              }
+                              className={`flex cursor-pointer flex-col items-center justify-center gap-1 border px-3 py-2.5 transition-colors ${checkoutDeliveryMethod === "shipping" ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
+                            >
+                              <span className="flex items-center gap-1">
+                                <Package className="h-3.5 w-3.5 text-purple-600" />{" "}
+                                Ship Home
+                              </span>
+                              <span className="font-normal normal-case opacity-60">
+                                Standard Delivery
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Size Selector */}
+                        {(() => {
+                          const name =
+                            activeMerchDrop.product.name.toLowerCase();
+                          const isClothing =
+                            name.includes("shirt") ||
+                            name.includes("tee") ||
+                            name.includes("hood") ||
+                            name.includes("sweat") ||
+                            name.includes("jersey") ||
+                            name.includes("jacket") ||
+                            name.includes("tank");
+                          const hasVariants =
+                            (activeMerchDrop.product as any).variants &&
+                            (activeMerchDrop.product as any).variants.length >
+                              0;
+                          const sizeOptions = hasVariants
+                            ? (activeMerchDrop.product as any).variants.map(
+                                (v: any) => v.title,
+                              )
+                            : isClothing
+                              ? ["S", "M", "L", "XL", "XXL"]
+                              : null;
+                          if (!sizeOptions) return null;
+                          return (
+                            <div>
+                              <span className="mb-1.5 block text-black/40">
+                                Select Size
+                              </span>
+                              <div className="flex flex-wrap gap-1.5">
+                                {sizeOptions.map((size: string) => (
+                                  <button
+                                    key={size}
+                                    type="button"
+                                    onClick={() =>
+                                      setCheckoutSelectedSize(size)
+                                    }
+                                    className={`cursor-pointer rounded-lg border px-3 py-1.5 transition-colors ${checkoutSelectedSize === size ? "border-white bg-white" : "border-black/10 text-black/60 hover:border-black/15"}`}
+                                  >
+                                    {size}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })()}
+
+                        {/* Color Selector */}
+                        {(() => {
+                          const name =
+                            activeMerchDrop.product.name.toLowerCase();
+                          const isClothing =
+                            name.includes("shirt") ||
+                            name.includes("tee") ||
+                            name.includes("hood") ||
+                            name.includes("sweat") ||
+                            name.includes("jersey") ||
+                            name.includes("jacket") ||
+                            name.includes("tank") ||
+                            name.includes("hat") ||
+                            name.includes("cap");
+                          if (!isClothing) return null;
+                          const COLORS = [
+                            { name: "Black", hex: "#1a1a1a" },
+                            { name: "White", hex: "#f5f5f5" },
+                            { name: "Heather Grey", hex: "#9ca3af" },
+                            { name: "Navy", hex: "#1e3a5f" },
+                            { name: "Red", hex: "#dc2626" },
+                            { name: "Forest Green", hex: "#166534" },
+                          ];
+                          return (
+                            <div>
+                              <span className="mb-1.5 block text-black/40">
+                                Select Color
+                              </span>
+                              <div className="flex flex-wrap gap-2">
+                                {COLORS.map((c) => (
+                                  <button
+                                    key={c.name}
+                                    type="button"
+                                    onClick={() =>
+                                      setCheckoutSelectedColor(c.name)
+                                    }
+                                    className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 py-1.5 transition-colors ${checkoutSelectedColor === c.name ? "border-white bg-gray-100" : "border-black/10 text-black/50 hover:border-black/15"}`}
+                                  >
+                                    <span
+                                      className="h-3.5 w-3.5 shrink-0 rounded-lg border"
+                                      style={{
+                                        background: c.hex,
+                                        borderColor:
+                                          c.name === "White"
+                                            ? "#d1d5db"
+                                            : c.hex,
+                                      }}
+                                    />
+                                    {c.name}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })()}
+
+                        <div>
+                          <label
+                            htmlFor="live-checkout-name"
+                            className="mb-1 block text-black/40"
+                          >
+                            Full Name
+                          </label>
+                          <input
+                            id="live-checkout-name"
+                            type="text"
+                            required
+                            value={shippingDetails.name}
+                            onChange={(e) =>
+                              setShippingDetails((prev) => ({
+                                ...prev,
+                                name: e.target.value,
+                              }))
+                            }
+                            placeholder="John Doe"
+                            className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="live-checkout-email"
+                            className="mb-1 block text-black/40"
+                          >
+                            Email Address
+                          </label>
+                          <input
+                            id="live-checkout-email"
+                            type="email"
+                            required
+                            value={shippingDetails.email}
+                            onChange={(e) =>
+                              setShippingDetails((prev) => ({
+                                ...prev,
+                                email: e.target.value,
+                              }))
+                            }
+                            placeholder="john@example.com"
+                            className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                          />
+                        </div>
+
+                        {checkoutDeliveryMethod === "shipping" && (
+                          <>
+                            <div>
+                              <label
+                                htmlFor="live-checkout-address"
+                                className="mb-1 block text-black/40"
+                              >
+                                Shipping Address
+                              </label>
+                              <input
+                                id="live-checkout-address"
+                                type="text"
+                                required
+                                value={shippingDetails.address}
+                                onChange={(e) =>
+                                  setShippingDetails((prev) => ({
+                                    ...prev,
+                                    address: e.target.value,
+                                  }))
+                                }
+                                placeholder="123 Main St"
+                                className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                              />
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label
+                                  htmlFor="live-checkout-city"
+                                  className="mb-1 block text-black/40"
+                                >
+                                  City
+                                </label>
+                                <input
+                                  id="live-checkout-city"
+                                  type="text"
+                                  required
+                                  value={shippingDetails.city}
+                                  onChange={(e) =>
+                                    setShippingDetails((prev) => ({
+                                      ...prev,
+                                      city: e.target.value,
+                                    }))
+                                  }
+                                  placeholder="Chicago"
+                                  className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor="live-checkout-zip"
+                                  className="mb-1 block text-black/40"
+                                >
+                                  ZIP Code
+                                </label>
+                                <input
+                                  id="live-checkout-zip"
+                                  type="text"
+                                  required
+                                  value={shippingDetails.zip}
+                                  onChange={(e) =>
+                                    setShippingDetails((prev) => ({
+                                      ...prev,
+                                      zip: e.target.value,
+                                    }))
+                                  }
+                                  placeholder="60601"
+                                  className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                        <div>
+                          <label
+                            htmlFor="live-checkout-card"
+                            className="mb-1 block text-black/40"
+                          >
+                            Card Details (Mock)
+                          </label>
+                          <input
+                            id="live-checkout-card"
+                            type="text"
+                            required
+                            value={shippingDetails.card}
+                            onChange={(e) =>
+                              setShippingDetails((prev) => ({
+                                ...prev,
+                                card: e.target.value,
+                              }))
+                            }
+                            placeholder="4242 4242 4242 4242"
+                            className="w-full border border-black/10 bg-gray-50 p-2.5 placeholder-white/20 focus:border-[var(--color-accent)] focus:outline-none"
+                          />
                         </div>
                       </div>
 
-                      {/* Email confirmation notice */}
-                      {shippingDetails.email && (
-                        <p className="text-[var(--color-accent)]/80 flex items-center justify-center gap-1.5">
-                          <span>📧</span>
-                          <span>Confirmation email sent to <span className="underline-offset-2">{shippingDetails.email}</span></span>
-                        </p>
-                      )}
-
                       <button
-                        onClick={() => setShowCheckoutModal(false)}
+                        type="submit"
                         style={{
-                          background: activeMerchDrop.product.color
+                          background: activeMerchDrop.product.color,
+                          boxShadow: `0 0 15px ${activeMerchDrop.product.color}44`,
                         }}
-                        className="w-full py-3   hover:scale-[1.02] active:scale-[0.98] transition-colors cursor-pointer border-none">
-                        Return to Stream
+                        className="mt-2 w-full cursor-pointer border-none py-3 transition-colors hover:scale-[1.02] active:scale-[0.98]"
+                      >
+                        Authorize Payment
                       </button>
+                    </form>
+                  )}
+
+                  {checkoutStep === "processing" && (
+                    <div className="space-y-4 py-10 text-center">
+                      <div
+                        className="mx-auto h-12 w-12 animate-spin rounded-lg border-4 border-black/10 border-t-white"
+                        style={{
+                          borderTopColor: activeMerchDrop.product.color,
+                        }}
+                      />
+                      <h3 className="text-black/80">Securing payment</h3>
+                      <p className="mx-auto max-w-[200px] text-black/40">
+                        Connecting to Shopify checkout secure gateways...
+                      </p>
                     </div>
-                  );
-                })()}
+                  )}
+
+                  {checkoutStep === "success" &&
+                    (() => {
+                      const successProdName =
+                        activeMerchDrop.product.name.toLowerCase();
+                      const successIsClothing =
+                        successProdName.includes("shirt") ||
+                        successProdName.includes("tee") ||
+                        successProdName.includes("hood") ||
+                        successProdName.includes("sweat") ||
+                        successProdName.includes("jersey") ||
+                        successProdName.includes("jacket") ||
+                        successProdName.includes("tank") ||
+                        successProdName.includes("hat") ||
+                        successProdName.includes("cap");
+                      return (
+                        <div className="space-y-4 py-4 text-center">
+                          <div
+                            className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20"
+                            style={{
+                              boxShadow: "0 0 20px rgba(16,185,129,0.1)",
+                            }}
+                          >
+                            <svg
+                              width="32"
+                              height="32"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="3"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 className="text-black">Purchase Successful!</h3>
+                            <p className="mx-auto max-w-[240px] text-black/50">
+                              {checkoutDeliveryMethod === "merch_table" ? (
+                                <span>
+                                  Your order for the{" "}
+                                  <strong>
+                                    {activeMerchDrop.product.name}
+                                  </strong>{" "}
+                                  is confirmed. Please check your email for your
+                                  single-use QR code to claim your item.
+                                </span>
+                              ) : (
+                                <span>
+                                  Your order for the{" "}
+                                  <strong>
+                                    {activeMerchDrop.product.name}
+                                  </strong>{" "}
+                                  is confirmed.
+                                </span>
+                              )}
+                            </p>
+                          </div>
+
+                          <div className="space-y-3 border border-black/10 bg-gray-50 p-4 text-left">
+                            {/* Product Image - large and prominent */}
+                            <div className="flex justify-center">
+                              <Image
+                                width={200}
+                                height={200}
+                                unoptimized
+                                src={
+                                  activeMerchDrop.product.image ||
+                                  "/images/merch/vinyl.png"
+                                }
+                                alt={activeMerchDrop.product.name}
+                                onError={(e) => {
+                                  const name =
+                                    activeMerchDrop.product.name.toLowerCase();
+                                  if (
+                                    name.includes("shirt") ||
+                                    name.includes("tee")
+                                  ) {
+                                    e.currentTarget.src =
+                                      "/images/merch/logo-tee.png";
+                                  } else if (
+                                    name.includes("hood") ||
+                                    name.includes("sweat")
+                                  ) {
+                                    e.currentTarget.src =
+                                      "/images/merch/hoodie.png";
+                                  } else {
+                                    e.currentTarget.src =
+                                      "/images/merch/vinyl.png";
+                                  }
+                                }}
+                                className="h-28 w-28 border border-black/10 object-cover"
+                              />
+                            </div>
+
+                            {/* Product Description */}
+                            {activeMerchDrop.product.description && (
+                              <p className="px-2 text-center text-black/50">
+                                {activeMerchDrop.product.description}
+                              </p>
+                            )}
+
+                            {/* Order Details */}
+                            <div className="space-y-1.5 border-t border-black/10 pt-2">
+                              <p className="mb-1.5 text-black/40">
+                                Order Details
+                              </p>
+                              <p className="text-black/90">
+                                Recipient:{" "}
+                                <span className="font-normal text-black/60">
+                                  {shippingDetails.name}
+                                </span>
+                              </p>
+                              <p className="truncate text-black/90">
+                                Product:{" "}
+                                <span className="font-normal text-black/60">
+                                  {activeMerchDrop.product.name}
+                                </span>
+                              </p>
+                              {successIsClothing && checkoutSelectedSize && (
+                                <p className="text-black/90">
+                                  Size:{" "}
+                                  <span className="font-normal text-black/60">
+                                    {checkoutSelectedSize}
+                                  </span>
+                                </p>
+                              )}
+                              {successIsClothing && checkoutSelectedColor && (
+                                <p className="text-black/90">
+                                  Color:{" "}
+                                  <span className="inline-flex items-center gap-1.5 font-normal text-black/60">
+                                    <span
+                                      className="inline-block h-2.5 w-2.5 rounded-lg border border-black/15"
+                                      style={{
+                                        background:
+                                          checkoutSelectedColor === "Black"
+                                            ? "#1a1a1a"
+                                            : checkoutSelectedColor === "White"
+                                              ? "#f5f5f5"
+                                              : checkoutSelectedColor ===
+                                                  "Heather Grey"
+                                                ? "#9ca3af"
+                                                : checkoutSelectedColor ===
+                                                    "Navy"
+                                                  ? "#1e3a5f"
+                                                  : checkoutSelectedColor ===
+                                                      "Red"
+                                                    ? "#dc2626"
+                                                    : checkoutSelectedColor ===
+                                                        "Forest Green"
+                                                      ? "#166534"
+                                                      : "#888",
+                                      }}
+                                    />
+                                    {checkoutSelectedColor}
+                                  </span>
+                                </p>
+                              )}
+                              <p className="text-black/90">
+                                Method:{" "}
+                                <span className="font-normal text-black/60">
+                                  {checkoutDeliveryMethod === "merch_table"
+                                    ? "Merch Table Pickup"
+                                    : "Shipped to Home"}
+                                </span>
+                              </p>
+                              {checkoutDeliveryMethod === "shipping" && (
+                                <p className="truncate text-black/90">
+                                  Ship To:{" "}
+                                  <span className="font-normal text-black/60">
+                                    {shippingDetails.address},{" "}
+                                    {shippingDetails.city}
+                                  </span>
+                                </p>
+                              )}
+                              <p className="text-black/90">
+                                Price Paid:{" "}
+                                <span className="font-normal text-black/60">
+                                  {activeMerchDrop.product.price}
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Email confirmation notice */}
+                          {shippingDetails.email && (
+                            <p className="flex items-center justify-center gap-1.5 text-[var(--color-accent)]/80">
+                              <span>📧</span>
+                              <span>
+                                Confirmation email sent to{" "}
+                                <span className="underline-offset-2">
+                                  {shippingDetails.email}
+                                </span>
+                              </span>
+                            </p>
+                          )}
+
+                          <button
+                            onClick={() => setShowCheckoutModal(false)}
+                            style={{
+                              background: activeMerchDrop.product.color,
+                            }}
+                            className="w-full cursor-pointer border-none py-3 transition-colors hover:scale-[1.02] active:scale-[0.98]"
+                          >
+                            Return to Stream
+                          </button>
+                        </div>
+                      );
+                    })()}
+                </div>
               </div>
-            </div>
-          );
-        })()}
+            );
+          })()}
 
         {/* ── Push Subscribe Modal (collects Name & Email + sets up live alerts) ── */}
         <PushSubscribeModal
@@ -3089,7 +5035,6 @@ export function FakeLiveStream({ memberId = 'mike', adminMode = false }: { membe
     </>
   );
 
-  if (!mounted || typeof window === 'undefined') return null;
+  if (!mounted || typeof window === "undefined") return null;
   return createPortal(content, document.body);
 }
-

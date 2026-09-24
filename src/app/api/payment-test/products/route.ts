@@ -11,10 +11,13 @@ export async function GET() {
   try {
     const products = await fetchProductsWithVariants({ activeOnly: true });
     // Only surface products that still have at least one purchasable variant.
-    const purchasable = products.filter((p) => p.variants.length> 0);
+    const purchasable = products.filter((p) => p.variants.length > 0);
     return NextResponse.json(purchasable);
   } catch (err) {
     console.error("[payment-test/products] GET error:", err);
-    return NextResponse.json({ error: "Failed to load products." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to load products." },
+      { status: 500 },
+    );
   }
 }

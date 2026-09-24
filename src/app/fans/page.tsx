@@ -28,7 +28,7 @@ function FansRedirectContent() {
     }
 
     if (!isLoggedIn) {
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === "development") {
         login("fan@7thheaven.com", "password123");
       } else {
         openModal("login");
@@ -37,12 +37,19 @@ function FansRedirectContent() {
   }, [hydrated, isDemo, isLoggedIn, member, router, openModal, login]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center" id="fans-page">
+    <main
+      className="flex min-h-screen items-center justify-center"
+      id="fans-page"
+    >
       <div className="text-center">
         <h1 className="sr-only">7th Heaven Fan Portal</h1>
-        <div className="w-11 h-11 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin mx-auto mb-6" />
-        <p >
-          {isDemo ? "Loading Demo..." : isLoggedIn ? "Redirecting to your dashboard..." : "Please sign in to continue"}
+        <div className="mx-auto mb-6 h-11 w-11 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+        <p>
+          {isDemo
+            ? "Loading Demo..."
+            : isLoggedIn
+              ? "Redirecting to your dashboard..."
+              : "Please sign in to continue"}
         </p>
       </div>
     </main>
@@ -51,7 +58,13 @@ function FansRedirectContent() {
 
 export default function FansRedirectPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-11 h-11 border-2 border-[var(--color-accent)] border-t-transparent rounded-lg animate-spin" /></div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-11 w-11 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+        </div>
+      }
+    >
       <FansRedirectContent />
     </Suspense>
   );

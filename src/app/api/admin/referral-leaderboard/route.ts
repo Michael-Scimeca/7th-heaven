@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin, maskEmail } from "@/lib/api-utils";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-key";
 const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
@@ -24,21 +25,28 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("[referral-leaderboard] query error:", error);
-      return NextResponse.json({ leaderboard: [], totalReferrals: 0, totalConverted: 0 });
+      return NextResponse.json({
+        leaderboard: [],
+        totalReferrals: 0,
+        totalConverted: 0,
+      });
     }
 
     // Build aggregation map
-    const referrerMap: Record<string, {
- referrer_id: string | null;
- referrer_code: string;
- total: number;
- signed_up: number;
- rewarded: number;
- pending: number;
- recent: string[];
- }> = {};
+    const referrerMap: Record<
+      string,
+      {
+        referrer_id: string | null;
+        referrer_code: string;
+        total: number;
+        signed_up: number;
+        rewarded: number;
+        pending: number;
+        recent: string[];
+      }
+    > = {};
 
-    for (const r of (referrals || [])) {
+    for (const r of referrals || []) {
       const key = r.referrer_code;
       if (!referrerMap[key]) {
         referrerMap[key] = {
@@ -61,10 +69,12 @@ export async function GET(request: Request) {
     }
 
     // Get profile names for all referrer IDs
-    const referrerIds = Object.values(referrerMap).flatMap(r => r.referrer_id ? [r.referrer_id] : []);
+    const referrerIds = Object.values(referrerMap).flatMap((r) =>
+      r.referrer_id ? [r.referrer_id] : [],
+    );
 
     let nameMap: Record<string, string> = {};
-    if (referrerIds.length> 0) {
+    if (referrerIds.length > 0) {
       const { data: profiles } = await supabaseAdmin
         .from("profiles")
         .select("id, full_name, email")
@@ -81,12 +91,16 @@ export async function GET(request: Request) {
     const leaderboard = Object.values(referrerMap)
       .map((r) => ({
         ...r,
-        name: r.referrer_id ? nameMap[r.referrer_id] || r.referrer_code : r.referrer_code,
+        name: r.referrer_id
+          ? nameMap[r.referrer_id] || r.referrer_code
+          : r.referrer_code,
       }))
       .sort((a, b) => b.total - a.total);
 
     const totalReferrals = (referrals || []).length;
-    const totalConverted = (referrals || []).filter((r) => r.status === "signed_up" || r.status === "rewarded").length;
+    const totalConverted = (referrals || []).filter(
+      (r) => r.status === "signed_up" || r.status === "rewarded",
+    ).length;
 
     return NextResponse.json({
       leaderboard,
@@ -95,7 +109,10 @@ export async function GET(request: Request) {
     });
   } catch (err) {
     console.error("[referral-leaderboard] error:", err);
-    return NextResponse.json({ leaderboard: [], totalReferrals: 0, totalConverted: 0 }, { status: 500 });
+    return NextResponse.json(
+      { leaderboard: [], totalReferrals: 0, totalConverted: 0 },
+      { status: 500 },
+    );
   }
 }
 
@@ -118,7 +135,8 @@ export async function POST(request: Request) {
         .eq("referrer_code", referrer_code)
         .eq("status", "signed_up");
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error)
+        return NextResponse.json({ error: error.message }, { status: 500 });
       return NextResponse.json({ success: true });
     }
 

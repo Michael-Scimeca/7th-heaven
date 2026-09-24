@@ -10,18 +10,22 @@ export default function CruiseWaveAnimation() {
 
     Promise.all([
       import("lottie-web"),
-      fetch("/lottie/cruise-wave.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
-    ]).then(([lottieModule, waveData]) => {
-      if (!isMounted || !containerRef.current || !waveData) return;
-      const lottie = lottieModule.default || lottieModule;
-      anim = lottie.loadAnimation({
-        container: containerRef.current,
-        renderer: "svg",
-        loop: true,
-        autoplay: true,
-        animationData: waveData,
-      });
-    }).catch(() => {});
+      fetch("/lottie/cruise-wave.json")
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null),
+    ])
+      .then(([lottieModule, waveData]) => {
+        if (!isMounted || !containerRef.current || !waveData) return;
+        const lottie = lottieModule.default || lottieModule;
+        anim = lottie.loadAnimation({
+          container: containerRef.current,
+          renderer: "svg",
+          loop: true,
+          autoplay: true,
+          animationData: waveData,
+        });
+      })
+      .catch(() => {});
 
     return () => {
       isMounted = false;
@@ -31,9 +35,9 @@ export default function CruiseWaveAnimation() {
 
   return (
     <div
- ref={containerRef}
- className="absolute -bottom-0.5 left-0 right-0 h-3 flex items-center justify-center pointer-events-none opacity-80 overflow-hidden transform-gpu translate-z-0"
- style={{ transform: "translate3d(0, 0, 0)" }}
- />
+      ref={containerRef}
+      className="pointer-events-none absolute right-0 -bottom-0.5 left-0 flex h-3 translate-z-0 transform-gpu items-center justify-center overflow-hidden opacity-80"
+      style={{ transform: "translate3d(0, 0, 0)" }}
+    />
   );
 }

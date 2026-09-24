@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Bell, Check, Sparkles, User, Mail, ExternalLink, QrCode } from "lucide-react";
+import {
+  Bell,
+  Check,
+  Sparkles,
+  User,
+  Mail,
+  ExternalLink,
+  QrCode,
+} from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import SquishyToggle from "@/components/SquishyToggle";
 import { useMember } from "@/context/MemberContext";
@@ -87,15 +95,19 @@ export default function LiveStreamInlineSubscribe({
 
   if (subscribed) {
     return (
-      <div className={`w-full ${maxWidth} p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
+      <div
+        className={`w-full ${maxWidth} flex flex-col items-center justify-between gap-4 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] p-6 backdrop-blur-xl sm:flex-row ${className}`}
+      >
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg- purple-white/20 text-purple-300 border border-purple-500/40 flex items-center justify-center shrink-0 animate-pulse">
-            <Mail className="w-6 h-6" />
+          <div className="bg- purple-white/20 flex h-12 w-12 shrink-0 animate-pulse items-center justify-center rounded-lg border border-purple-500/40 text-purple-300">
+            <Mail className="h-6 w-6" />
           </div>
           <div>
-            <h4 >Verification Email Sent to {email}! ✉️</h4>
-            <p className="text-gray-300 mt-0.5">
-              To prevent unauthorized signups, we sent a verification link to <strong >{email}</strong>. Click the link in your email to activate live alerts!
+            <h4>Verification Email Sent to {email}! ✉️</h4>
+            <p className="mt-0.5 text-gray-300">
+              To prevent unauthorized signups, we sent a verification link to{" "}
+              <strong>{email}</strong>. Click the link in your email to activate
+              live alerts!
             </p>
           </div>
         </div>
@@ -104,9 +116,10 @@ export default function LiveStreamInlineSubscribe({
           href={topicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-purple-300 hover:text-white rounded-lg transition-all border border-purple-500/30 flex items-center gap-2 shrink-0">
+          className="flex shrink-0 items-center gap-2 rounded-lg border border-purple-500/30 bg-white/10 px-4 py-2.5 text-purple-300 transition-all hover:bg-white/20 hover:text-white"
+        >
           <span>Web Alerts Feed</span>
-          <ExternalLink className="w-3.5 h-3.5" />
+          <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </div>
     );
@@ -116,64 +129,65 @@ export default function LiveStreamInlineSubscribe({
     <>
       <div className={`w-full ${maxWidth} ${className}`}>
         {/* Header Title & Pill */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-yellow-300 shrink-0 shadow-inner">
-              <Bell className="w-5 h-5 animate-bounce" />
+            <div className="bg- purple-white/20 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-purple-500/40 text-yellow-300 shadow-inner">
+              <Bell className="h-5 w-5 animate-bounce" />
             </div>
             <div>
               <h3 className="r">
                 {title || "Crew Member Live Stream Push & Email Alerts"}
               </h3>
               <p className="text-purple-200/70">
-                {subtitle || "Enter your details below to get instant push notifications on your phone & email whenever a 7th Heaven crew member goes live!"}
+                {subtitle ||
+                  "Enter your details below to get instant push notifications on your phone & email whenever a 7th Heaven crew member goes live!"}
               </p>
             </div>
           </div>
 
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 self-start sm:self-auto shrink-0">
-            <span className="h-2 w-2 rounded-lg bg-emerald-400 animate-ping" />
+          <span className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] text-emerald-400 sm:self-auto">
+            <span className="h-2 w-2 animate-ping rounded-lg bg-emerald-400" />
             100% Free Push Alerts
           </span>
         </div>
 
         {error && (
-          <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300  ">
+          <div className="mb-6 rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
             ⚠️ {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="relative w-full">
-              <div className="input-glow-border  w-full">
+              <div className="input-glow-border w-full">
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your Full Name"
-                  className="w-full bg-[#0d071b] border border-white/10 rounded-lg placeholder: text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
                 />
               </div>
-              <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
-                <User className="w-4 h-4" />
+              <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
+                <User className="h-4 w-4" />
               </div>
             </div>
 
             <div className="relative w-full">
-              <div className="input-glow-border  w-full">
+              <div className="input-glow-border w-full">
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your Email Address"
-                  className="w-full bg-[#0d071b] border border-white/10 rounded-lg placeholder: text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                  className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
                 />
               </div>
-              <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
-                <Mail className="w-4 h-4" />
+              <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
+                <Mail className="h-4 w-4" />
               </div>
             </div>
           </div>
@@ -186,13 +200,26 @@ export default function LiveStreamInlineSubscribe({
               checked={agreedToTerms}
               onChange={(checked) => setAgreedToTerms(checked)}
             />
-            <label htmlFor="inline-terms-toggle" className="text-gray-300/90 cursor-pointer select-none">
+            <label
+              htmlFor="inline-terms-toggle"
+              className="cursor-pointer text-gray-300/90 select-none"
+            >
               I agree to the{" "}
-              <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
+              <a
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:text-purple-300"
+              >
                 Terms of Service
               </a>{" "}
               &{" "}
-              <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
+              <a
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:text-purple-300"
+              >
                 Privacy Policy
               </a>{" "}
               for instant push & email alerts.
@@ -204,9 +231,12 @@ export default function LiveStreamInlineSubscribe({
             <SeventhButton
               type="submit"
               disabled={loading}
-              icon={<Sparkles className="w-4 h-4 text-yellow-300" />}
-              className="w-full py-3 flex items-center justify-center gap-2">
-              {loading ? "SUBSCRIBING & ENABLING PUSH ALERTS..." : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
+              icon={<Sparkles className="h-4 w-4 text-yellow-300" />}
+              className="flex w-full items-center justify-center gap-2 py-3"
+            >
+              {loading
+                ? "SUBSCRIBING & ENABLING PUSH ALERTS..."
+                : "SUBSCRIBE & ENABLE PUSH ALERTS 🔔"}
             </SeventhButton>
           </div>
         </form>

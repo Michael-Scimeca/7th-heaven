@@ -17,16 +17,50 @@ import type { Config } from "dompurify";
 /** Allowed HTML tags for rich-text WYSIWYG output. */
 const WYSIWYG_CONFIG: Config = {
   ALLOWED_TAGS: [
-    "p", "br", "b", "i", "strong", "em", "u", "s", "strike",
-    "h1", "h2", "h3", "h4", "h5", "h6",
-    "ul", "ol", "li",
-    "a", "span", "div", "blockquote", "pre", "code",
-    "hr", "table", "thead", "tbody", "tr", "th", "td",
+    "p",
+    "br",
+    "b",
+    "i",
+    "strong",
+    "em",
+    "u",
+    "s",
+    "strike",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "ul",
+    "ol",
+    "li",
+    "a",
+    "span",
+    "div",
+    "blockquote",
+    "pre",
+    "code",
+    "hr",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
     "img",
   ],
   ALLOWED_ATTR: [
-    "href", "target", "rel", "class", "id", "style",
-    "src", "alt", "width", "height",
+    "href",
+    "target",
+    "rel",
+    "class",
+    "id",
+    "style",
+    "src",
+    "alt",
+    "width",
+    "height",
   ],
   // Force rel="noopener noreferrer" on every <a> that opens in a new tab.
   ADD_ATTR: ["target"],
@@ -46,7 +80,7 @@ const BANNER_CONFIG: Config = {
  */
 export function sanitizeHtml(
   html: string,
-  config: Config = WYSIWYG_CONFIG
+  config: Config = WYSIWYG_CONFIG,
 ): string {
   if (!html) return "";
 

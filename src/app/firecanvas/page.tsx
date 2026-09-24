@@ -44,9 +44,9 @@ function Slider({
 }) {
   return (
     <div>
-      <div className="flex justify-between mb-1">
-        <span className="text-white/70 text-sm  ">{label}</span>
-        <span className="font-mono text-amber-400 text-sm">
+      <div className="mb-1 flex justify-between">
+        <span className="text-sm text-white/70">{label}</span>
+        <span className="font-mono text-sm text-amber-400">
           {format ? format(value) : value}
         </span>
       </div>
@@ -57,7 +57,7 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full accent-amber-500 cursor-pointer"
+        className="w-full cursor-pointer accent-amber-500"
         aria-label={label}
       />
     </div>
@@ -75,9 +75,7 @@ function ColorField({
 }) {
   return (
     <div>
-      <label className="block text-[11px]   text-white/50 mb-1">
-        {label}
-      </label>
+      <label className="mb-1 block text-[11px] text-white/50">{label}</label>
       <div className="flex items-center gap-2">
         <input
           type="color"
@@ -89,7 +87,7 @@ function ColorField({
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-[11px] font-mono focus:outline-none focus:border-amber-400"
+          className="w-full rounded border border-white/15 bg-black/50 px-2 py-1 font-mono text-[11px] focus:border-amber-400 focus:outline-none"
         />
       </div>
     </div>
@@ -102,7 +100,9 @@ export default function FireCanvasTunerPage() {
   const [sparkDensity, setSparkDensity] = useState(DEFAULTS.sparkDensity);
   const [sparkScale, setSparkScale] = useState(DEFAULTS.sparkScale);
   const [paletteTheme, setPaletteTheme] = useState(DEFAULTS.paletteTheme);
-  const [useCustomColors, setUseCustomColors] = useState(DEFAULTS.useCustomColors);
+  const [useCustomColors, setUseCustomColors] = useState(
+    DEFAULTS.useCustomColors,
+  );
   const [colorBaseHex, setColorBaseHex] = useState(DEFAULTS.colorBaseHex);
   const [colorMidHex, setColorMidHex] = useState(DEFAULTS.colorMidHex);
   const [colorCoreHex, setColorCoreHex] = useState(DEFAULTS.colorCoreHex);
@@ -139,7 +139,7 @@ export default function FireCanvasTunerPage() {
         `  colorBaseHex="${colorBaseHex}"`,
         `  colorMidHex="${colorMidHex}"`,
         `  colorCoreHex="${colorCoreHex}"`,
-        `  colorSparkHex="${colorSparkHex}"`
+        `  colorSparkHex="${colorSparkHex}"`,
       );
     }
     lines.push("/>");
@@ -182,15 +182,15 @@ export default function FireCanvasTunerPage() {
           colorCoreHex={colorCoreHex}
           colorSparkHex={colorSparkHex}
         />
-        <div className="pointer-events-none absolute top-4 left-4 text-xs    text-white/40">
+        <div className="pointer-events-none absolute top-4 left-4 text-xs text-white/40">
           Fire Canvas Tuner
         </div>
       </div>
 
       {/* Controls */}
-      <div className="mx-auto max-w-3xl px-4 py-8 space-y-8">
+      <div className="mx-auto max-w-3xl space-y-8 px-4 py-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg  ">Pixel Fireplace — Live Tuner</h1>
+          <h1 className="text-lg">Pixel Fireplace — Live Tuner</h1>
           <div className="flex gap-2">
             <button
               type="button"
@@ -202,7 +202,7 @@ export default function FireCanvasTunerPage() {
             <button
               type="button"
               onClick={copyProps}
-              className="rounded-md bg-amber-500 px-3 py-1.5 text-sm     hover:bg-amber-400 whitespace-nowrap"
+              className="rounded-md bg-amber-500 px-3 py-1.5 text-sm whitespace-nowrap hover:bg-amber-400"
             >
               {copied ? "Copied!" : "Copy JSX props"}
             </button>
@@ -210,9 +210,11 @@ export default function FireCanvasTunerPage() {
         </div>
 
         <p className="text-sm text-white/50">
-          Tune the effect here, then hit &ldquo;Copy JSX props&rdquo; and paste the
-          block onto the <code className="text-white/70">&lt;PixelFireplaceCanvas /&gt;</code>{" "}
-          instance in <code className="text-white/70">BioParallaxSlider.tsx</code>.
+          Tune the effect here, then hit &ldquo;Copy JSX props&rdquo; and paste
+          the block onto the{" "}
+          <code className="text-white/70">&lt;PixelFireplaceCanvas /&gt;</code>{" "}
+          instance in{" "}
+          <code className="text-white/70">BioParallaxSlider.tsx</code>.
         </p>
 
         <div className="grid gap-6 sm:grid-cols-2">
@@ -264,7 +266,7 @@ export default function FireCanvasTunerPage() {
         </div>
 
         <div>
-          <div className="mb-2 text-sm   text-white/70">Palette Theme</div>
+          <div className="mb-2 text-sm text-white/70">Palette Theme</div>
           <div className="flex flex-wrap gap-2">
             {PALETTE_THEMES.map((theme) => (
               <button
@@ -290,11 +292,27 @@ export default function FireCanvasTunerPage() {
         </div>
 
         {useCustomColors && (
-          <div className="grid gap-4 sm:grid-cols-2 rounded-lg border border-white/10 bg-white/[0.03] p-4">
-            <ColorField label="Base (coolest)" value={colorBaseHex} onChange={setColorBaseHex} />
-            <ColorField label="Mid" value={colorMidHex} onChange={setColorMidHex} />
-            <ColorField label="Core (hottest)" value={colorCoreHex} onChange={setColorCoreHex} />
-            <ColorField label="Spark" value={colorSparkHex} onChange={setColorSparkHex} />
+          <div className="grid gap-4 rounded-lg border border-white/10 bg-white/[0.03] p-4 sm:grid-cols-2">
+            <ColorField
+              label="Base (coolest)"
+              value={colorBaseHex}
+              onChange={setColorBaseHex}
+            />
+            <ColorField
+              label="Mid"
+              value={colorMidHex}
+              onChange={setColorMidHex}
+            />
+            <ColorField
+              label="Core (hottest)"
+              value={colorCoreHex}
+              onChange={setColorCoreHex}
+            />
+            <ColorField
+              label="Spark"
+              value={colorSparkHex}
+              onChange={setColorSparkHex}
+            />
           </div>
         )}
       </div>

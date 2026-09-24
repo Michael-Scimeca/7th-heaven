@@ -25,19 +25,19 @@ async function fetchTourDates() {
 }
 
 const formatICalDate = (dateStr: string, hourDecimal: number) => {
-  const parts = dateStr.split('-');
+  const parts = dateStr.split("-");
   if (parts.length !== 3) return "";
-  
+
   const yyyy = parts[0];
   const mm = parts[1];
   const dd = parts[2];
-  
+
   const h = Math.floor(hourDecimal);
   const m = Math.round((hourDecimal - h) * 60);
-  
-  const hourStr = String(h).padStart(2, '0');
-  const minStr = String(m).padStart(2, '0');
-  
+
+  const hourStr = String(h).padStart(2, "0");
+  const minStr = String(m).padStart(2, "0");
+
   return `${yyyy}${mm}${dd}T${hourStr}${minStr}00`;
 };
 
@@ -45,23 +45,26 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const crewId = searchParams.get("crewId");
-    
+
     const [schedules, tourDates] = await Promise.all([
       readSchedules(),
-      fetchTourDates()
+      fetchTourDates(),
     ]);
-    
-    const filtered = crewId 
+
+    const filtered = crewId
       ? schedules.filter((s: any) => s.crewId === crewId)
       : schedules;
-      
+
     let icsContent = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
       "PRODID:-//7thHeaven//Crew Scheduling Feed//EN",
       "CALSCALE:GREGORIAN",
       "METHOD:PUBLISH",
-      "X-WR-CALNAME:" + (crewId ? `7th Heaven - ${filtered[0]?.crewName || crewId}` : "7th Heaven - Crew Schedule"),
+      "X-WR-CALNAME:" +
+        (crewId
+          ? `7th Heaven - ${filtered[0]?.crewName || crewId}`
+          : "7th Heaven - Crew Schedule"),
       "X-WR-TIMEZONE:America/Chicago",
       "BEGIN:VTIMEZONE",
       "TZID:America/Chicago",
@@ -79,68 +82,75 @@ export async function GET(request: NextRequest) {
       "DTSTART:19701101T020000",
       "RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU",
       "END:STANDARD",
-      "END:VTIMEZONE"
+      "END:VTIMEZONE",
     ];
 
-    const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    const stamp =
+      new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
 
     const tourDatesByDate = new Map<string, any>();
-    for (const show of (tourDates || [])) {
+    for (const show of tourDates || []) {
       if (show && show.date) tourDatesByDate.set(show.date, show);
     }
 
     for (const shift of filtered) {
       const dtStart = formatICalDate(shift.date, shift.startHour);
       const dtEnd = formatICalDate(shift.date, shift.endHour);
-      
+
       if (!dtStart || !dtEnd) continue;
-      
+
       const matchingShow = tourDatesByDate.get(shift.date);
-      
+
       const uid = `${shift.id || Math.random().toString(36).substring(2)}@7thheavenband.com`;
-      
+
       icsContent.push("BEGIN:VEVENT");
       icsContent.push(`UID:${uid}`);
       icsContent.push(`DTSTAMP:${stamp}`);
       icsContent.push(`DTSTART;TZID=America/Chicago:${dtStart}`);
       icsContent.push(`DTEND;TZID=America/Chicago:${dtEnd}`);
-      
+
       // Dynamic Summary
-      const summary = matchingShow 
+      const summary = matchingShow
         ? `${shift.role} @ 7th Heaven Gig (${matchingShow.venue})`
         : `${shift.role} - ${shift.crewName}`;
       icsContent.push(`SUMMARY:${summary}`);
-      
+
       // Dynamic Location
-      const location = matchingShow 
+      const location = matchingShow
         ? `${matchingShow.venue}, ${matchingShow.city || ""}, ${matchingShow.state || ""}`
         : shift.location;
       icsContent.push(`LOCATION:${location}`);
-      
+
       // Dynamic Description with rich fields
       const descLines = [
         `Role / Duty: ${shift.role}`,
         `Working Hours: ${shift.time}`,
-        `Location: ${location}`
+        `Location: ${location}`,
       ];
-      
+
       if (shift.notes) {
         descLines.push(`Crew Instructions: ${shift.notes}`);
       }
-      
+
       if (matchingShow) {
         descLines.push(`--- SHOW DETAILS ---`);
-        if (matchingShow.time) descLines.push(`Official Showtime: ${matchingShow.time}`);
+        if (matchingShow.time)
+          descLines.push(`Official Showtime: ${matchingShow.time}`);
         if (matchingShow.day) descLines.push(`Gig Day: ${matchingShow.day}`);
-        if (matchingShow.notes) descLines.push(`Setlist / Show Notes: ${matchingShow.notes}`);
-        if (matchingShow.ticketLink) descLines.push(`Ticket Link: ${matchingShow.ticketLink}`);
-        if (matchingShow.directionsLink) descLines.push(`Google Maps Directions: ${matchingShow.directionsLink}`);
+        if (matchingShow.notes)
+          descLines.push(`Setlist / Show Notes: ${matchingShow.notes}`);
+        if (matchingShow.ticketLink)
+          descLines.push(`Ticket Link: ${matchingShow.ticketLink}`);
+        if (matchingShow.directionsLink)
+          descLines.push(
+            `Google Maps Directions: ${matchingShow.directionsLink}`,
+          );
       }
-      
+
       const descCleaned = descLines
-        .map(line => line.replace(/[,;]/g, "\\$1"))
+        .map((line) => line.replace(/[,;]/g, "\\$1"))
         .join("\\n");
-        
+
       icsContent.push(`DESCRIPTION:${descCleaned}`);
       icsContent.push("END:VEVENT");
     }
@@ -154,11 +164,13 @@ export async function GET(request: NextRequest) {
         "Content-Type": "text/calendar; charset=utf-8",
         "Content-Disposition": `attachment; filename="${crewId ? crewId : "crew"}-schedule.ics"`,
         "Cache-Control": "no-cache, no-store, must-revalidate",
-        "Pragma": "no-cache",
-        "Expires": "0"
-      }
+        Pragma: "no-cache",
+        Expires: "0",
+      },
     });
   } catch (error: any) {
-    return new Response("Error generating calendar feed: " + error.message, { status: 500 });
+    return new Response("Error generating calendar feed: " + error.message, {
+      status: 500,
+    });
   }
 }

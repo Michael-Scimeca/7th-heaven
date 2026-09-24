@@ -2,19 +2,34 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 /* oxlint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
 /* eslint-disable react-doctor/control-has-associated-label, react-doctor/label-has-associated-control */
-'use client';
-import Image from 'next/image';
+"use client";
+import Image from "next/image";
 
-import React, { useEffect, useRef, useState, Fragment, Suspense, useSyncExternalStore } from 'react';
-const emptySubscribe = () => () => { };
-import { createPortal } from 'react-dom';
-import { MapPin, Waves, Guitar, Ship, Palmtree, Compass, Anchor } from 'lucide-react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { StatsGl, useGLTF } from '@react-three/drei';
-import Lenis from 'lenis';
-import type * as THREE from 'three';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  Fragment,
+  Suspense,
+  useSyncExternalStore,
+} from "react";
+const emptySubscribe = () => () => {};
+import { createPortal } from "react-dom";
+import {
+  MapPin,
+  Waves,
+  Guitar,
+  Ship,
+  Palmtree,
+  Compass,
+  Anchor,
+} from "lucide-react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { StatsGl, useGLTF } from "@react-three/drei";
+import Lenis from "lenis";
+import type * as THREE from "three";
 
-import { suppressBlobTextureErrors } from '@/lib/suppressBlobTextureErrors';
+import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
 
 // Suppress blob URL texture errors that occur during page transitions
 suppressBlobTextureErrors();
@@ -32,7 +47,7 @@ function ShipModel({
   shipRotYRef: React.RefObject<number>;
   shipScaleFactorRef: React.RefObject<number>;
 }) {
-  const { scene } = useGLTF('/objects/ship.glb');
+  const { scene } = useGLTF("/objects/ship.glb");
   const clonedScene = React.useMemo(() => scene.clone(), [scene]);
   const groupRef = useRef<THREE.Group>(null);
   const scaleVelRef = useRef(0);
@@ -63,15 +78,17 @@ function ShipModel({
 
   return (
     <group ref={groupRef}>
-      <primitive
-        object={clonedScene}
-        position={[0, offsetY, 0]}
-      />
+      <primitive object={clonedScene} position={[0, offsetY, 0]} />
     </group>
   );
 }
 
-type ItineraryEvent = { id: string; time: string; title: string; subtitle: string };
+type ItineraryEvent = {
+  id: string;
+  time: string;
+  title: string;
+  subtitle: string;
+};
 type ItineraryDay = {
   id: string;
   dayLabel: string;
@@ -81,7 +98,11 @@ type ItineraryDay = {
   colorTheme: string;
   photo?: string;
 };
-type Props = { itinerary: ItineraryDay[]; hideHeader?: boolean; sanityContent?: any };
+type Props = {
+  itinerary: ItineraryDay[];
+  hideHeader?: boolean;
+  sanityContent?: any;
+};
 
 function CircleVideoNode({
   src,
@@ -97,7 +118,7 @@ function CircleVideoNode({
     if (!video) return;
 
     if (shouldPlay) {
-      video.play().catch(() => { });
+      video.play().catch(() => {});
     } else {
       video.pause();
     }
@@ -111,7 +132,7 @@ function CircleVideoNode({
       muted
       playsInline
       preload="auto"
-      className="w-full h-full object-cover rounded-lg pointer-events-none scale-125 transition-transform duration-500"
+      className="pointer-events-none h-full w-full scale-125 rounded-lg object-cover transition-transform duration-500"
     >
       <track kind="captions" />
     </video>
@@ -121,44 +142,44 @@ function CircleVideoNode({
 /* ── Layout constants (SVG coordinate space) ── */
 const SVG_W = 1400;
 const STEP_H = 460;
-const LEFT_X = 68;   // Safe left margin (prevents circle border clipping)
+const LEFT_X = 68; // Safe left margin (prevents circle border clipping)
 const RIGHT_X = 1332; // Safe right margin (prevents circle border clipping)
 const NODE_R = 32;
 
-const DAY_ICONS = ['📍', '🎸', '🏝️', '🥂', '⚓', '🌊', '🌴'];
+const DAY_ICONS = ["📍", "🎸", "🏝️", "🥂", "⚓", "🌊", "🌴"];
 
 const DAY_IMAGES: Record<number, string> = {
-  0: '/images/cruise/port-canaveral-docked.png',
-  1: '/images/cruise/cococay-beach-party.png',
-  2: '/images/cruise/at-sea.png',
-  3: '/images/cruise/st-thomas-island.png',
-  4: '/images/cruise/roatan.png',
-  5: '/images/cruise/at-sea.png',
-  6: '/images/cruise/at-sea.png',
-  7: '/images/cruise/port-canaveral-docked.png',
+  0: "/images/cruise/port-canaveral-docked.png",
+  1: "/images/cruise/cococay-beach-party.png",
+  2: "/images/cruise/at-sea.png",
+  3: "/images/cruise/st-thomas-island.png",
+  4: "/images/cruise/roatan.png",
+  5: "/images/cruise/at-sea.png",
+  6: "/images/cruise/at-sea.png",
+  7: "/images/cruise/port-canaveral-docked.png",
 };
 
 export type CruiseTuningConfig = {
-  rippleAmp: number;       // Wave ripple height amplitude (0 to 40px)
-  waveSpeed: number;       // Wave ripple animation speed (0.0001 to 0.0050)
-  lerpSpeed: number;       // Boat tracking lerp speed (0.05 to 1.0)
-  scrollStartMul: number;  // Scroll start threshold (0.0 to 1.0)
-  scrollEndMul: number;    // Scroll end threshold (0.0 to 1.0)
+  rippleAmp: number; // Wave ripple height amplitude (0 to 40px)
+  waveSpeed: number; // Wave ripple animation speed (0.0001 to 0.0050)
+  lerpSpeed: number; // Boat tracking lerp speed (0.05 to 1.0)
+  scrollStartMul: number; // Scroll start threshold (0.0 to 1.0)
+  scrollEndMul: number; // Scroll end threshold (0.0 to 1.0)
   speedMultiplier: number; // Cruise boat & line travel speed multiplier (0.2 to 4.0x)
-  shipScale: number;       // 3D Ship scale (0.5 to 4.0)
-  shipOffsetY: number;     // 3D Hull Y position offset (0.0 to 3.0)
-  anchorOffsetX: number;   // Anchor X position offset (-100 to +100px)
-  anchorOffsetY: number;   // Anchor Y position offset (-100 to +100px)
-  minShipDist: number;     // Start node padding (0 to 400px)
-  maxShipDistPad: number;  // End node padding (0 to 400px)
-  lineWidth: number;       // SVG path stroke width (2 to 20px)
-  glowBlur: number;        // SVG path glow blur radius (0 to 25px)
-  nodeDipRadius: number;   // Distance from port circle center to trigger scale down (20 to 250px)
-  nodeMinScale: number;    // Minimum scale factor over port circle center (0.0 to 1.0)
-  nodeAction: string;      // Action mode: 'hide' | 'bounce' | 'spin'
-  nodePopDist: number;     // Distance past port circle to pop back up (20 to 200px)
-  shipAdvancePx: number;   // Advance ship front bow along path (-200 to +300px)
-  lineFillLeadPx: number;  // Blue line lead/lag offset relative to ship (-200 to +200px)
+  shipScale: number; // 3D Ship scale (0.5 to 4.0)
+  shipOffsetY: number; // 3D Hull Y position offset (0.0 to 3.0)
+  anchorOffsetX: number; // Anchor X position offset (-100 to +100px)
+  anchorOffsetY: number; // Anchor Y position offset (-100 to +100px)
+  minShipDist: number; // Start node padding (0 to 400px)
+  maxShipDistPad: number; // End node padding (0 to 400px)
+  lineWidth: number; // SVG path stroke width (2 to 20px)
+  glowBlur: number; // SVG path glow blur radius (0 to 25px)
+  nodeDipRadius: number; // Distance from port circle center to trigger scale down (20 to 250px)
+  nodeMinScale: number; // Minimum scale factor over port circle center (0.0 to 1.0)
+  nodeAction: string; // Action mode: 'hide' | 'bounce' | 'spin'
+  nodePopDist: number; // Distance past port circle to pop back up (20 to 200px)
+  shipAdvancePx: number; // Advance ship front bow along path (-200 to +300px)
+  lineFillLeadPx: number; // Blue line lead/lag offset relative to ship (-200 to +200px)
 };
 
 const DEFAULT_TUNING: CruiseTuningConfig = {
@@ -166,7 +187,7 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   waveSpeed: 0.0011,
   lerpSpeed: 1.0,
   scrollStartMul: 0.45,
-  scrollEndMul: 0.50,
+  scrollEndMul: 0.5,
   speedMultiplier: 1.0,
   shipScale: 1.8,
   shipOffsetY: 0.0,
@@ -178,24 +199,34 @@ const DEFAULT_TUNING: CruiseTuningConfig = {
   glowBlur: 0,
   nodeDipRadius: 65,
   nodeMinScale: 1.0,
-  nodeAction: 'none',
+  nodeAction: "none",
   nodePopDist: 60,
   shipAdvancePx: 0,
   lineFillLeadPx: 0,
 };
 
-type LayoutMode = 'alternating' | 'harbor' | 'center' | 'zigzag';
+type LayoutMode = "alternating" | "harbor" | "center" | "zigzag";
 
 const isAtSeaDay = (day?: ItineraryDay) => {
   if (!day) return false;
-  const loc = (day.location || '').toLowerCase();
-  const theme = (day.theme || '').toLowerCase();
-  const label = (day.dayLabel || '').toLowerCase();
-  return loc.includes('sea') || theme.includes('sea') || label.includes('sea') || loc.includes('cruising') || theme.includes('cruising');
+  const loc = (day.location || "").toLowerCase();
+  const theme = (day.theme || "").toLowerCase();
+  const label = (day.dayLabel || "").toLowerCase();
+  return (
+    loc.includes("sea") ||
+    theme.includes("sea") ||
+    label.includes("sea") ||
+    loc.includes("cruising") ||
+    theme.includes("cruising")
+  );
 };
 
-const fadeAudioIn = (audio: HTMLAudioElement, targetVolume = 0.25, durationMs = 800) => {
-  audio.play().catch(() => { });
+const fadeAudioIn = (
+  audio: HTMLAudioElement,
+  targetVolume = 0.25,
+  durationMs = 800,
+) => {
+  audio.play().catch(() => {});
   const startTime = performance.now();
   const startVol = audio.volume;
 
@@ -235,8 +266,12 @@ const fadeAudioOut = (audio: HTMLAudioElement | null, durationMs = 800) => {
   requestAnimationFrame(fade);
 };
 
-export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sanityContent }: Props) {
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>('alternating');
+export default function CruiseSnakeItinerary({
+  itinerary,
+  hideHeader = false,
+  sanityContent,
+}: Props) {
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>("alternating");
   const [showSettings, setShowSettings] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
   const [tuning, setTuning] = useState<CruiseTuningConfig>(DEFAULT_TUNING);
@@ -261,45 +296,48 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('7h_cruise_hero_mask_v4');
+      const saved = localStorage.getItem("7h_cruise_hero_mask_v4");
       if (saved) {
-        setMaskSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
+        setMaskSettings((prev) => ({ ...prev, ...JSON.parse(saved) }));
       }
-    } catch { }
+    } catch {}
 
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent;
       if (customEvent.detail) {
-        setMaskSettings(prev => ({ ...prev, ...customEvent.detail }));
+        setMaskSettings((prev) => ({ ...prev, ...customEvent.detail }));
       }
     };
-    window.addEventListener('hero-mask-update', handleUpdate);
-    return () => window.removeEventListener('hero-mask-update', handleUpdate);
+    window.addEventListener("hero-mask-update", handleUpdate);
+    return () => window.removeEventListener("hero-mask-update", handleUpdate);
   }, []);
-  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
   const isMobile = useSyncExternalStore(
     (callback) => {
-      window.addEventListener('resize', callback);
-      return () => window.removeEventListener('resize', callback);
+      window.addEventListener("resize", callback);
+      return () => window.removeEventListener("resize", callback);
     },
     () => window.innerWidth < 768,
-    () => false
+    () => false,
   );
   const portAudioRef = useRef<HTMLAudioElement | null>(null);
   const seaAudioRef = useRef<HTMLAudioElement | null>(null);
   const [soundMuted, setSoundMuted] = useState(false);
 
-
   // Preload audio elements on mount
   useEffect(() => {
-    if (typeof window === 'undefined') return () => { };
+    if (typeof window === "undefined") return () => {};
     if (!portAudioRef.current) {
-      portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
+      portAudioRef.current = new Audio("/audio/ship-at-port.mp3");
       portAudioRef.current.loop = true;
       portAudioRef.current.volume = 0.25;
     }
     if (!seaAudioRef.current) {
-      seaAudioRef.current = new Audio('/audio/ship-sea.mp3');
+      seaAudioRef.current = new Audio("/audio/ship-sea.mp3");
       seaAudioRef.current.loop = true;
       seaAudioRef.current.volume = 0.25;
     }
@@ -307,30 +345,30 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   // Unlock browser autoplay policy on first user interaction anywhere on page
   useEffect(() => {
-    if (soundMuted || typeof window === 'undefined') return () => { };
+    if (soundMuted || typeof window === "undefined") return () => {};
 
     const unlockAudio = () => {
       if (soundMuted || !hasScrolledIntoRangeRef.current) return;
       const currentDay = itinerary[activeNodeIndex];
       const isSea = isAtSeaDay(currentDay);
       if (isSea && seaAudioRef.current) {
-        seaAudioRef.current.play().catch(() => { });
+        seaAudioRef.current.play().catch(() => {});
       } else if (portAudioRef.current) {
-        portAudioRef.current.play().catch(() => { });
+        portAudioRef.current.play().catch(() => {});
       }
     };
 
-    window.addEventListener('pointerdown', unlockAudio, { once: true });
-    window.addEventListener('keydown', unlockAudio, { once: true });
+    window.addEventListener("pointerdown", unlockAudio, { once: true });
+    window.addEventListener("keydown", unlockAudio, { once: true });
     return () => {
-      window.removeEventListener('pointerdown', unlockAudio);
-      window.removeEventListener('keydown', unlockAudio);
+      window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("keydown", unlockAudio);
     };
   }, [activeNodeIndex, itinerary, soundMuted]);
 
   // Keep playing sound of current location continuously when in section range
   useEffect(() => {
-    if (!itinerary || itinerary.length === 0) return () => { };
+    if (!itinerary || itinerary.length === 0) return () => {};
 
     if (soundMuted || !hasScrolledIntoRange) {
       fadeAudioOut(portAudioRef.current);
@@ -345,7 +383,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       // Location is "At Sea" -> crossfade to ship-sea.mp3 and keep playing continuously
       fadeAudioOut(portAudioRef.current);
       if (!seaAudioRef.current) {
-        seaAudioRef.current = new Audio('/audio/ship-sea.mp3');
+        seaAudioRef.current = new Audio("/audio/ship-sea.mp3");
         seaAudioRef.current.loop = true;
         seaAudioRef.current.volume = 0;
       }
@@ -354,7 +392,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       // Location is a "Port" -> crossfade to ship-at-port.mp3 and keep playing continuously
       fadeAudioOut(seaAudioRef.current);
       if (!portAudioRef.current) {
-        portAudioRef.current = new Audio('/audio/ship-at-port.mp3');
+        portAudioRef.current = new Audio("/audio/ship-at-port.mp3");
         portAudioRef.current.loop = true;
         portAudioRef.current.volume = 0;
       }
@@ -375,7 +413,6 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
     };
   }, []);
 
-
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const shipContainerRef = useRef<HTMLDivElement>(null);
@@ -384,21 +421,23 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
   // Load saved tuning from localStorage on mount (position boat cleanly on the path line)
   useEffect(() => {
     try {
-      const savedStr = localStorage.getItem('7h_cruise_tuning_v1') || localStorage.getItem('7h_cruise_tuning');
+      const savedStr =
+        localStorage.getItem("7h_cruise_tuning_v1") ||
+        localStorage.getItem("7h_cruise_tuning");
       if (savedStr) {
         const parsed = JSON.parse(savedStr);
-        setTuning(prev => ({
+        setTuning((prev) => ({
           ...prev,
           ...parsed,
           shipScale: 1.8,
           shipOffsetY: 0.0,
           shipAdvancePx: 0,
           nodeMinScale: 1.0,
-          nodeAction: 'none',
+          nodeAction: "none",
           anchorOffsetX: 0,
         }));
       }
-    } catch { }
+    } catch {}
   }, []);
 
   // ── Sync tuning state to ref for requestAnimationFrame loop ──
@@ -409,20 +448,20 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   const handleSaveTuning = () => {
     try {
-      localStorage.setItem('7h_cruise_tuning_v1', JSON.stringify(tuning));
+      localStorage.setItem("7h_cruise_tuning_v1", JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch { }
+    } catch {}
   };
 
   const handleResetTuning = () => {
     setTuning(DEFAULT_TUNING);
     try {
-      localStorage.removeItem('7h_cruise_tuning_v1');
-      localStorage.removeItem('7h_cruise_tuning');
+      localStorage.removeItem("7h_cruise_tuning_v1");
+      localStorage.removeItem("7h_cruise_tuning");
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch { }
+    } catch {}
   };
 
   // Canvas height: scaled for mobile vs desktop so cards have clean vertical spacing without excess trailing gap at bottom
@@ -433,17 +472,22 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
   /* ── Node positions dynamically computed based on layoutMode ── */
   const nodes = itinerary.map((_, i) => {
     let x = i % 2 === 0 ? LEFT_X : RIGHT_X;
-    if (layoutMode === 'harbor') {
+    if (layoutMode === "harbor") {
       x = 120 + (i % 2 === 0 ? 0 : 40); // Left harbor channel
-    } else if (layoutMode === 'center') {
+    } else if (layoutMode === "center") {
       x = 700 + (i % 2 === 0 ? -30 : 30); // Center passage
-    } else if (layoutMode === 'zigzag') {
+    } else if (layoutMode === "zigzag") {
       x = i % 2 === 0 ? 300 : 1100; // Compact zig-zag
     }
     return {
       x,
       y: i * stepH + 90,
-      isLeft: layoutMode === 'harbor' ? false : layoutMode === 'center' ? i % 2 === 0 : i % 2 === 0,
+      isLeft:
+        layoutMode === "harbor"
+          ? false
+          : layoutMode === "center"
+            ? i % 2 === 0
+            : i % 2 === 0,
     };
   });
 
@@ -454,7 +498,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
   const highlightRef = useRef<SVGPathElement>(null);
 
   const buildWavyPath = (phase: number, amp?: number) => {
-    if (nodes.length === 0) return '';
+    if (nodes.length === 0) return "";
     const STEPS = 24;
     const RIPPLE = amp ?? tuneRef.current.rippleAmp;
     const FREQ = 3;
@@ -473,7 +517,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
         const angle = Math.atan2(curr.y - prev.y, curr.x - prev.x);
         // Phase shifts over time → organic flowing motion
         const envelope = 1 - Math.abs(t - 0.5) * 1.2;
-        const ripple = Math.sin(t * Math.PI * 2 * FREQ + phase + i * 1.5) * RIPPLE * Math.max(0, envelope);
+        const ripple =
+          Math.sin(t * Math.PI * 2 * FREQ + phase + i * 1.5) *
+          RIPPLE *
+          Math.max(0, envelope);
         const rx = baseX + Math.cos(angle + Math.PI / 2) * ripple;
         const ry = baseY + Math.sin(angle + Math.PI / 2) * ripple;
 
@@ -538,7 +585,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
         const getSample = (dist: number) => {
           const clamped = Math.max(0, Math.min(totalLen, dist));
-          const idx = Math.min(SAMPLES - 1, Math.max(0, Math.round((clamped / totalLen) * (SAMPLES - 1))));
+          const idx = Math.min(
+            SAMPLES - 1,
+            Math.max(0, Math.round((clamped / totalLen) * (SAMPLES - 1))),
+          );
           return cachedPathPoints[idx] || { x: 0, y: 0 };
         };
 
@@ -548,25 +598,35 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
         // Lock boat 1:1 with viewport scroll position matching first node to last node
         const startY = nodes[0]?.y ?? 50;
-        const endY = nodes[nodes.length - 1]?.y ?? (totalH - 300);
+        const endY = nodes[nodes.length - 1]?.y ?? totalH - 300;
 
         const viewportFocusY = viewH * (t.scrollStartMul ?? 0.45);
         const relativeScrollY = viewportFocusY - rectTop;
 
         // Calculate maximum reachable relative Y on current viewport height so progress reaches 1.0 at full scroll
-        const maxReachableY = Math.min(endY, Math.max(startY + 100, totalH - viewH + viewportFocusY));
-        const rawProgress = (relativeScrollY - startY) / Math.max(1, maxReachableY - startY);
-        const progress = Math.max(0, Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)));
+        const maxReachableY = Math.min(
+          endY,
+          Math.max(startY + 100, totalH - viewH + viewportFocusY),
+        );
+        const rawProgress =
+          (relativeScrollY - startY) / Math.max(1, maxReachableY - startY);
+        const progress = Math.max(
+          0,
+          Math.min(1, rawProgress * (t.speedMultiplier ?? 1.0)),
+        );
         const shipAdvance = t.shipAdvancePx ?? 80;
         const lineLead = t.lineFillLeadPx ?? 0;
         // Calculate target ship position along path (stops 40px back from totalLen end point)
         const maxPathTravel = Math.max(0, totalLen - 40);
-        const rawShipDist = Math.max(0, Math.min(maxPathTravel, progress * totalLen + shipAdvance));
+        const rawShipDist = Math.max(
+          0,
+          Math.min(maxPathTravel, progress * totalLen + shipAdvance),
+        );
         // Sync solid blue line fill length with ship position + line lead offset
         const targetOffset = totalLen - (rawShipDist + lineLead);
 
         // Section is in range when the scroll focus position reaches the canvas top and bottom hasn't completely scrolled out
-        const isSectionInRange = relativeScrollY > 0 && (rectTop + totalH) > -200;
+        const isSectionInRange = relativeScrollY > 0 && rectTop + totalH > -200;
         if (hasScrolledIntoRangeRef.current !== isSectionInRange) {
           hasScrolledIntoRangeRef.current = isSectionInRange;
           setHasScrolledIntoRange(isSectionInRange);
@@ -579,7 +639,10 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
         }
         fill.style.strokeDashoffset = `${currentFillOffset}`;
 
-        const shipDist = Math.max(0, Math.min(maxPathTravel, totalLen - currentFillOffset));
+        const shipDist = Math.max(
+          0,
+          Math.min(maxPathTravel, totalLen - currentFillOffset),
+        );
         const pt = getSample(shipDist);
 
         // Scale boat down when directly over day circle node, controlled by nodeDipRadius & nodeAction
@@ -598,14 +661,19 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
           // Node i is active/passed if section is in range AND (ship is within 90px OR progress reaches node i)
           if (isSectionInRange) {
-            if (dist < 90 || (i === 0 ? progress > 0.005 : pt.y >= node.y - 30)) {
+            if (
+              dist < 90 ||
+              (i === 0 ? progress > 0.005 : pt.y >= node.y - 30)
+            ) {
               nextVisited[i] = true;
             }
           }
         });
 
         // Update visited nodes state if changed during forward or reverse scrolling
-        const visitedChanged = nodes.some((_, i) => !!visitedNodesRef.current[i] !== !!nextVisited[i]);
+        const visitedChanged = nodes.some(
+          (_, i) => !!visitedNodesRef.current[i] !== !!nextVisited[i],
+        );
         if (visitedChanged) {
           visitedNodesRef.current = nextVisited;
           setVisitedNodes(nextVisited);
@@ -631,7 +699,9 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
         const dx = pNext.x - pPrev.x;
         const dy = pNext.y - pPrev.y;
         const headingLeft = dx < 0;
-        const rawAngle = headingLeft ? Math.atan2(-dy, -dx) : Math.atan2(dy, dx);
+        const rawAngle = headingLeft
+          ? Math.atan2(-dy, -dx)
+          : Math.atan2(dy, dx);
 
         // Clamp maximum pitch angle to max ±22 degrees (0.38 rad) so the boat never nose-dives or looks like it's sinking
         const MAX_TILT = (22 * Math.PI) / 180;
@@ -658,21 +728,28 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
     let isVisible = true;
     let observer: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== "undefined" && canvasRef.current) {
-      observer = new IntersectionObserver(([entry]) => {
-        isVisible = entry.isIntersecting;
-        if (isVisible && running) {
-          cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(tick);
-        }
-      }, { rootMargin: "200px 0px" });
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible && running) {
+            cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(tick);
+          }
+        },
+        { rootMargin: "200px 0px" },
+      );
       observer.observe(canvasRef.current);
     }
 
-    const startLoop = () => { if (running && isVisible) rafId = requestAnimationFrame(tick); };
+    const startLoop = () => {
+      if (running && isVisible) rafId = requestAnimationFrame(tick);
+    };
 
     let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
     if ((window as any).__pageTransitionActive) {
-      window.addEventListener('7h:pagetransition:done', startLoop, { once: true });
+      window.addEventListener("7h:pagetransition:done", startLoop, {
+        once: true,
+      });
       fallbackTimer = setTimeout(startLoop, 3000);
     } else {
       startLoop();
@@ -683,13 +760,12 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
       cancelAnimationFrame(rafId);
       if (observer) observer.disconnect();
       if (fallbackTimer) clearTimeout(fallbackTimer);
-      window.removeEventListener('7h:pagetransition:done', startLoop);
+      window.removeEventListener("7h:pagetransition:done", startLoop);
       if (typeof window !== "undefined") {
-        window.removeEventListener('resize', onResize);
+        window.removeEventListener("resize", onResize);
       }
     };
   }, [itinerary.length, layoutMode, nodes, totalH]);
-
 
   /* ── Scroll-driven card reveal ── */
   useEffect(() => {
@@ -702,7 +778,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     const cards = cardRefs.current;
@@ -717,8 +793,15 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
   if (!itinerary || itinerary.length === 0) return null;
 
-  const itinTopEnd = Math.max(maskSettings.itinTopFadeStart, maskSettings.itinTopFadeEnd, 3);
-  const itinBottomEnd = Math.max(maskSettings.itinBottomFadeStart, maskSettings.itinBottomFadeEnd);
+  const itinTopEnd = Math.max(
+    maskSettings.itinTopFadeStart,
+    maskSettings.itinTopFadeEnd,
+    3,
+  );
+  const itinBottomEnd = Math.max(
+    maskSettings.itinBottomFadeStart,
+    maskSettings.itinBottomFadeEnd,
+  );
 
   return (
     <section
@@ -727,12 +810,13 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
     >
       {/* Deep Ocean Video Background — 100vh height (max 800px) & sticks to window */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
         style={{
           marginLeft: "calc(-1 * var(--page-padding-x))",
           marginRight: "calc(-1 * var(--page-padding-x))",
           width: "calc(100% + 2 * var(--page-padding-x))",
-        }}>
+        }}
+      >
         <div className="sticky top-0 h-screen max-h-[800px] w-full overflow-hidden">
           <video
             src="/movie/deep.mp4"
@@ -743,370 +827,547 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             preload="auto"
             onEnded={(e) => {
               e.currentTarget.currentTime = 0;
-              e.currentTarget.play().catch(() => { });
+              e.currentTarget.play().catch(() => {});
             }}
-            className="w-full h-screen max-h-[800px] object-cover"
+            className="h-screen max-h-[800px] w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#05030a]/60 via-transparent to-[#05030a]/70 pointer-events-none" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#05030a]/60 via-transparent to-[#05030a]/70" />
         </div>
       </div>
 
       {/* ── Header (Inside Blue Container Box) ── */}
       {!hideHeader && (
         <div className="snake-itinerary-header">
-          <span className="snake-itinerary-eyebrow"><span>—</span> Your Voyage <span>—</span></span>
-          <h2 id="itinerary" className="snake-itinerary-title">Official Itinerary</h2>
+          <span className="snake-itinerary-eyebrow">
+            <span>—</span> Your Voyage <span>—</span>
+          </span>
+          <h2 id="itinerary" className="snake-itinerary-title">
+            Official Itinerary
+          </h2>
         </div>
       )}
 
       {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
-      {showSettings && mounted && createPortal(
-        <div
-          data-settings-panel
-          className="fixed top-16 right-4 w-[820px] max-w-[94vw] max-h-[90vh] overflow-y-auto p-5 text-white/40 border-2 border-purple-400/50 rounded-lg shadow-[0_0_70px_rgba(6,182,212,0.35)] text-left transition-opacity duration-300 ease-out opacity-100 z-[999999] pointer-events-auto"
-        >
-
-
-          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-6 sticky top-0 text-white/60 pt-1 z-10">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">⚙️</span>
-              <div>
-                <h3 className="    ">SVG Path, Speed & Boat Controls</h3>
-                <p>All real-time physics tuning parameters</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setShowSettings(false)}
-              className="hover:text-white    bg-white/10 hover:bg-white/20 px-3 py-1.5 cursor-pointer transition-colors"
-            >
-              ✕ Close
-            </button>
-          </div>
-
-          {/* Controls Sliders Grid — 2-Column organized sections */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-
-            {/* SECTION 1: Velocity & Viewport Triggers */}
-            <div className="md:col-span-2 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-purple-400/40 p-3.5 space-y-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-              <div className="flex justify-between items-center   ">
-                <span>⚡ Cruise Boat & Line Travel Speed</span>
-                <span >{((tuning.speedMultiplier ?? 1.0)).toFixed(1)}x</span>
-              </div>
-              <input type="range" min="0.2" max="4.0" step="0.1"
-                value={tuning.speedMultiplier ?? 1.0}
-                onChange={e => setTuning({ ...tuning, speedMultiplier: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer h-2"
-              />
-              <div className="flex justify-between text-white/50   ">
-                <span>0.2x (Slow Motion)</span>
-                <span>1.0x (1:1 Viewport Lock)</span>
-                <span>4.0x (Hyper Speed)</span>
-              </div>
-            </div>
-
-            {/* Ship Bow Path Advance Offset */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>🚢 Ship Bow Path Advance Offset</span>
-                <span >{(tuning.shipAdvancePx ?? 80)}px</span>
-              </div>
-              <input type="range" min="-200" max="300" step="5"
-                value={tuning.shipAdvancePx ?? 80}
-                onChange={e => setTuning({ ...tuning, shipAdvancePx: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* Blue Line Lead / Lag Offset */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>🌊 Blue Line Lead/Lag Offset</span>
-                <span >{(tuning.lineFillLeadPx ?? 0)}px</span>
-              </div>
-              <input type="range" min="-200" max="200" step="5"
-                value={tuning.lineFillLeadPx ?? 0}
-                onChange={e => setTuning({ ...tuning, lineFillLeadPx: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* Start Trigger Location */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>📍 Start Trigger Location</span>
-                <span >{((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen</span>
-              </div>
-              <input type="range" min="0.0" max="1.0" step="0.01"
-                value={tuning.scrollStartMul ?? 0.48}
-                onChange={e => setTuning({ ...tuning, scrollStartMul: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* End Trigger Location */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>📍 End Trigger Location</span>
-                <span >{((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen</span>
-              </div>
-              <input type="range" min="0.0" max="1.0" step="0.01"
-                value={tuning.scrollEndMul ?? 0.5}
-                onChange={e => setTuning({ ...tuning, scrollEndMul: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* Start Node Padding */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>🛑 Start Path Padding</span>
-                <span >{tuning.minShipDist ?? 0}px</span>
-              </div>
-              <input type="range" min="0" max="400" step="10"
-                value={tuning.minShipDist ?? 0}
-                onChange={e => setTuning({ ...tuning, minShipDist: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* End Node Padding */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>🏁 End Path Finish Padding</span>
-                <span >{tuning.maxShipDistPad ?? 0}px</span>
-              </div>
-              <input type="range" min="0" max="400" step="10"
-                value={tuning.maxShipDistPad ?? 0}
-                onChange={e => setTuning({ ...tuning, maxShipDistPad: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* Anchor X Offset */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>⚓ Anchor X Offset</span>
-                <span >{tuning.anchorOffsetX ?? 0}px</span>
-              </div>
-              <input type="range" min="-100" max="100" step="1"
-                value={tuning.anchorOffsetX ?? 0}
-                onChange={e => setTuning({ ...tuning, anchorOffsetX: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* Anchor Y Offset */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>⚓ Anchor Y Offset</span>
-                <span >{tuning.anchorOffsetY ?? 0}px</span>
-              </div>
-              <input type="range" min="-100" max="100" step="1"
-                value={tuning.anchorOffsetY ?? 0}
-                onChange={e => setTuning({ ...tuning, anchorOffsetY: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* 3D Ship Model Scale */}
-            <div className="bg-black/30 border border-white/10 p-3 space-y-1.5 backdrop-blur-sm">
-              <div className="flex justify-between items-center /90   ">
-                <span>🔎 3D Ship Scale</span>
-                <span >{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
-              </div>
-              <input type="range" min="0.05" max="8.0" step="0.05"
-                value={tuning.shipScale ?? 1.8}
-                onChange={e => setTuning({ ...tuning, shipScale: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* 3D Hull Y Offset */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>⚓ Hull Y Path Offset</span>
-                <span >{(tuning.shipOffsetY ?? 0.0).toFixed(1)}</span>
-              </div>
-              <input type="range" min="0.0" max="3.0" step="0.1"
-                value={tuning.shipOffsetY ?? 0.0}
-                onChange={e => setTuning({ ...tuning, shipOffsetY: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
-            <div className="col-span-1 md:col-span-2 bg-cyan-950/40 border border-purple-500/30 p-4 space-y-3 mt-2">
-              <div className="flex items-center gap-2 border-b border-purple-500/20 pb-2">
-                <span className="text-lg">📍</span>
-                <h3 className="  ">Port Circle & Corner Arrival Controls</h3>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* Action Mode Toggle */}
-                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <span className="block    /90">Port Circle Action</span>
-                  <div className="flex gap-1.5 pt-1">
-                    {[
-                      { id: 'hide', label: '🙈 Hide & Flip' },
-                      { id: 'bounce', label: '🏀 Elastic Bounce' },
-                      { id: 'spin', label: '🌀 Spin & Dock' },
-                    ].map(act => (
-                      <button
-                        key={act.id}
-                        onClick={() => setTuning({ ...tuning, nodeAction: act.id })}
-                        className={`flex-1 py-1.5 px-2 rounded-lg    transition-colors ${(tuning.nodeAction ?? 'hide') === act.id ? 'bg-cyan-500   shadow-[0_0_10px_rgba(6,182,212,0.5)]' : ' bg-[#00000029] hover:bg-white/10'}`}
-                      >
-                        {act.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Min Scale Over Circle */}
-                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <div className="flex justify-between items-center    /90">
-                    <span>🔎 Min Scale Over Circle</span>
-                    <span >{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
-                  </div>
-                  <input type="range" min="0.0" max="1.0" step="0.05"
-                    value={tuning.nodeMinScale ?? 0.0}
-                    onChange={e => setTuning({ ...tuning, nodeMinScale: Number(e.target.value) })}
-                    className="w-full accent-cyan-400 cursor-pointer"
-                  />
-                </div>
-
-                {/* Scale Down Distance */}
-                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <div className="flex justify-between items-center    /90">
-                    <span>📏 Scale Down Trigger Radius</span>
-                    <span >{tuning.nodeDipRadius ?? 65}px</span>
-                  </div>
-                  <input type="range" min="20" max="250" step="5"
-                    value={tuning.nodeDipRadius ?? 65}
-                    onChange={e => setTuning({ ...tuning, nodeDipRadius: Number(e.target.value) })}
-                    className="w-full accent-cyan-400 cursor-pointer"
-                  />
-                </div>
-
-                {/* Re-appear Pop Distance */}
-                <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-                  <div className="flex justify-between items-center    /90">
-                    <span>🚀 Re-appear Pop Distance</span>
-                    <span >{tuning.nodePopDist ?? 60}px</span>
-                  </div>
-                  <input type="range" min="20" max="200" step="5"
-                    value={tuning.nodePopDist ?? 60}
-                    onChange={e => setTuning({ ...tuning, nodePopDist: Number(e.target.value) })}
-                    className="w-full accent-cyan-400 cursor-pointer"
-                  />
+      {showSettings &&
+        mounted &&
+        createPortal(
+          <div
+            data-settings-panel
+            className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto rounded-lg border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)] transition-opacity duration-300 ease-out"
+          >
+            <div className="sticky top-0 z-10 mb-6 flex items-center justify-between border-b border-white/10 pt-1 pb-3 text-white/60">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">⚙️</span>
+                <div>
+                  <h3 className=" ">SVG Path, Speed & Boat Controls</h3>
+                  <p>All real-time physics tuning parameters</p>
                 </div>
               </div>
-            </div>
-
-            {/* Boat Smoothness Lerp */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>🚢 Tracking Smoothness Lerp</span>
-                <span >{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
-              </div>
-              <input type="range" min="0.05" max="1.0" step="0.05"
-                value={tuning.lerpSpeed ?? 0.85}
-                onChange={e => setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* Wave Ripple Height */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>🌊 Wave Ripple Height</span>
-                <span >{tuning.rippleAmp ?? 7}px</span>
-              </div>
-              <input type="range" min="0" max="40" step="1"
-                value={tuning.rippleAmp ?? 7}
-                onChange={e => setTuning({ ...tuning, rippleAmp: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* Wave Animation Speed */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>⏱️ Wave Motion Speed</span>
-                <span >{((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}</span>
-              </div>
-              <input type="range" min="0.0001" max="0.0050" step="0.0001"
-                value={tuning.waveSpeed ?? 0.0011}
-                onChange={e => setTuning({ ...tuning, waveSpeed: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* SVG Line Thickness */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>📏 SVG Line Thickness</span>
-                <span >{tuning.lineWidth ?? 6}px</span>
-              </div>
-              <input type="range" min="2" max="20" step="1"
-                value={tuning.lineWidth ?? 6}
-                onChange={e => setTuning({ ...tuning, lineWidth: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-            {/* SVG Glow Radius */}
-            <div className="bg-black/60 border border-white/10 p-3 space-y-1.5">
-              <div className="flex justify-between items-center /90   ">
-                <span>✨ Neon Glow Blur</span>
-                <span >{tuning.glowBlur ?? 6}px</span>
-              </div>
-              <input type="range" min="0" max="25" step="1"
-                value={tuning.glowBlur ?? 6}
-                onChange={e => setTuning({ ...tuning, glowBlur: Number(e.target.value) })}
-                className="w-full accent-cyan-400 cursor-pointer"
-              />
-            </div>
-
-          </div>
-
-          {/* Actions Bar */}
-          <div className="flex items-center justify-between gap-3 pt-4 mt-4 border-t border-white/10 sticky bottom-0 text-white/40 backdrop-blur-[45px] pb-1 z-10">
-            <button
-              onClick={handleResetTuning}
-              className="btn-secondary px-4 py-2.5 rounded-lg cursor-pointer"
-            >
-              🔄 Reset to Defaults
-            </button>
-
-            <div className="flex items-center gap-3">
-              {saveToast && (
-                <span className="   transition-opacity duration-300 ease-out">
-                  ✓ Settings Saved!
-                </span>
-              )}
               <button
-                onClick={handleSaveTuning}
-                className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400      transition-colors shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer"
+                onClick={() => setShowSettings(false)}
+                className="cursor-pointer bg-white/10 px-3 py-1.5 transition-colors hover:bg-white/20 hover:text-white"
               >
-                💾 Save Settings
+                ✕ Close
               </button>
             </div>
-          </div>
 
-        </div>,
-        document.body
-      )}
+            {/* Controls Sliders Grid — 2-Column organized sections */}
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {/* SECTION 1: Velocity & Viewport Triggers */}
+              <div className="space-y-2 border border-purple-400/40 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 p-3.5 shadow-[0_0_15px_rgba(6,182,212,0.2)] md:col-span-2">
+                <div className="flex items-center justify-between">
+                  <span>⚡ Cruise Boat & Line Travel Speed</span>
+                  <span>{(tuning.speedMultiplier ?? 1.0).toFixed(1)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.2"
+                  max="4.0"
+                  step="0.1"
+                  value={tuning.speedMultiplier ?? 1.0}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      speedMultiplier: Number(e.target.value),
+                    })
+                  }
+                  className="h-2 w-full cursor-pointer accent-cyan-400"
+                />
+                <div className="flex justify-between text-white/50">
+                  <span>0.2x (Slow Motion)</span>
+                  <span>1.0x (1:1 Viewport Lock)</span>
+                  <span>4.0x (Hyper Speed)</span>
+                </div>
+              </div>
+
+              {/* Ship Bow Path Advance Offset */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>🚢 Ship Bow Path Advance Offset</span>
+                  <span>{tuning.shipAdvancePx ?? 80}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-200"
+                  max="300"
+                  step="5"
+                  value={tuning.shipAdvancePx ?? 80}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      shipAdvancePx: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* Blue Line Lead / Lag Offset */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>🌊 Blue Line Lead/Lag Offset</span>
+                  <span>{tuning.lineFillLeadPx ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-200"
+                  max="200"
+                  step="5"
+                  value={tuning.lineFillLeadPx ?? 0}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      lineFillLeadPx: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* Start Trigger Location */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>📍 Start Trigger Location</span>
+                  <span>
+                    {((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0.0"
+                  max="1.0"
+                  step="0.01"
+                  value={tuning.scrollStartMul ?? 0.48}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      scrollStartMul: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* End Trigger Location */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>📍 End Trigger Location</span>
+                  <span>
+                    {((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0.0"
+                  max="1.0"
+                  step="0.01"
+                  value={tuning.scrollEndMul ?? 0.5}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      scrollEndMul: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* Start Node Padding */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>🛑 Start Path Padding</span>
+                  <span>{tuning.minShipDist ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="400"
+                  step="10"
+                  value={tuning.minShipDist ?? 0}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      minShipDist: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* End Node Padding */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>🏁 End Path Finish Padding</span>
+                  <span>{tuning.maxShipDistPad ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="400"
+                  step="10"
+                  value={tuning.maxShipDistPad ?? 0}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      maxShipDistPad: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* Anchor X Offset */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>⚓ Anchor X Offset</span>
+                  <span>{tuning.anchorOffsetX ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-100"
+                  max="100"
+                  step="1"
+                  value={tuning.anchorOffsetX ?? 0}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      anchorOffsetX: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* Anchor Y Offset */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>⚓ Anchor Y Offset</span>
+                  <span>{tuning.anchorOffsetY ?? 0}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="-100"
+                  max="100"
+                  step="1"
+                  value={tuning.anchorOffsetY ?? 0}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      anchorOffsetY: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* 3D Ship Model Scale */}
+              <div className="space-y-1.5 border border-white/10 bg-black/30 p-3 backdrop-blur-sm">
+                <div className="/90 flex items-center justify-between">
+                  <span>🔎 3D Ship Scale</span>
+                  <span>{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.05"
+                  max="8.0"
+                  step="0.05"
+                  value={tuning.shipScale ?? 1.8}
+                  onChange={(e) =>
+                    setTuning({ ...tuning, shipScale: Number(e.target.value) })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* 3D Hull Y Offset */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>⚓ Hull Y Path Offset</span>
+                  <span>{(tuning.shipOffsetY ?? 0.0).toFixed(1)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.0"
+                  max="3.0"
+                  step="0.1"
+                  value={tuning.shipOffsetY ?? 0.0}
+                  onChange={(e) =>
+                    setTuning({
+                      ...tuning,
+                      shipOffsetY: Number(e.target.value),
+                    })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
+              <div className="col-span-1 mt-2 space-y-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
+                <div className="flex items-center gap-2 border-b border-purple-500/20 pb-2">
+                  <span className="text-lg">📍</span>
+                  <h3 className=" ">Port Circle & Corner Arrival Controls</h3>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  {/* Action Mode Toggle */}
+                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <span className="/90 block">Port Circle Action</span>
+                    <div className="flex gap-1.5 pt-1">
+                      {[
+                        { id: "hide", label: "🙈 Hide & Flip" },
+                        { id: "bounce", label: "🏀 Elastic Bounce" },
+                        { id: "spin", label: "🌀 Spin & Dock" },
+                      ].map((act) => (
+                        <button
+                          key={act.id}
+                          onClick={() =>
+                            setTuning({ ...tuning, nodeAction: act.id })
+                          }
+                          className={`flex-1 rounded-lg px-2 py-1.5 transition-colors ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"}`}
+                        >
+                          {act.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Min Scale Over Circle */}
+                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <div className="/90 flex items-center justify-between">
+                      <span>🔎 Min Scale Over Circle</span>
+                      <span>{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.0"
+                      max="1.0"
+                      step="0.05"
+                      value={tuning.nodeMinScale ?? 0.0}
+                      onChange={(e) =>
+                        setTuning({
+                          ...tuning,
+                          nodeMinScale: Number(e.target.value),
+                        })
+                      }
+                      className="w-full cursor-pointer accent-cyan-400"
+                    />
+                  </div>
+
+                  {/* Scale Down Distance */}
+                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <div className="/90 flex items-center justify-between">
+                      <span>📏 Scale Down Trigger Radius</span>
+                      <span>{tuning.nodeDipRadius ?? 65}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="20"
+                      max="250"
+                      step="5"
+                      value={tuning.nodeDipRadius ?? 65}
+                      onChange={(e) =>
+                        setTuning({
+                          ...tuning,
+                          nodeDipRadius: Number(e.target.value),
+                        })
+                      }
+                      className="w-full cursor-pointer accent-cyan-400"
+                    />
+                  </div>
+
+                  {/* Re-appear Pop Distance */}
+                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <div className="/90 flex items-center justify-between">
+                      <span>🚀 Re-appear Pop Distance</span>
+                      <span>{tuning.nodePopDist ?? 60}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="20"
+                      max="200"
+                      step="5"
+                      value={tuning.nodePopDist ?? 60}
+                      onChange={(e) =>
+                        setTuning({
+                          ...tuning,
+                          nodePopDist: Number(e.target.value),
+                        })
+                      }
+                      className="w-full cursor-pointer accent-cyan-400"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Boat Smoothness Lerp */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>🚢 Tracking Smoothness Lerp</span>
+                  <span>{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.05"
+                  max="1.0"
+                  step="0.05"
+                  value={tuning.lerpSpeed ?? 0.85}
+                  onChange={(e) =>
+                    setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* Wave Ripple Height */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>🌊 Wave Ripple Height</span>
+                  <span>{tuning.rippleAmp ?? 7}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  step="1"
+                  value={tuning.rippleAmp ?? 7}
+                  onChange={(e) =>
+                    setTuning({ ...tuning, rippleAmp: Number(e.target.value) })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* Wave Animation Speed */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>⏱️ Wave Motion Speed</span>
+                  <span>
+                    {((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0.0001"
+                  max="0.0050"
+                  step="0.0001"
+                  value={tuning.waveSpeed ?? 0.0011}
+                  onChange={(e) =>
+                    setTuning({ ...tuning, waveSpeed: Number(e.target.value) })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* SVG Line Thickness */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>📏 SVG Line Thickness</span>
+                  <span>{tuning.lineWidth ?? 6}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="2"
+                  max="20"
+                  step="1"
+                  value={tuning.lineWidth ?? 6}
+                  onChange={(e) =>
+                    setTuning({ ...tuning, lineWidth: Number(e.target.value) })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+
+              {/* SVG Glow Radius */}
+              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="/90 flex items-center justify-between">
+                  <span>✨ Neon Glow Blur</span>
+                  <span>{tuning.glowBlur ?? 6}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="25"
+                  step="1"
+                  value={tuning.glowBlur ?? 6}
+                  onChange={(e) =>
+                    setTuning({ ...tuning, glowBlur: Number(e.target.value) })
+                  }
+                  className="w-full cursor-pointer accent-cyan-400"
+                />
+              </div>
+            </div>
+
+            {/* Actions Bar */}
+            <div className="sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 pb-1 text-white/40 backdrop-blur-[45px]">
+              <button
+                onClick={handleResetTuning}
+                className="btn-secondary cursor-pointer rounded-lg px-4 py-2.5"
+              >
+                🔄 Reset to Defaults
+              </button>
+
+              <div className="flex items-center gap-3">
+                {saveToast && (
+                  <span className="transition-opacity duration-300 ease-out">
+                    ✓ Settings Saved!
+                  </span>
+                )}
+                <button
+                  onClick={handleSaveTuning}
+                  className="cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-colors hover:bg-cyan-400"
+                >
+                  💾 Save Settings
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
 
       {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
-      <div ref={canvasRef} className="snake-itinerary-canvas  " style={{ position: 'relative', height: totalH, width: '100%', maxWidth: '100%' }}>
+      <div
+        ref={canvasRef}
+        className="snake-itinerary-canvas"
+        style={{
+          position: "relative",
+          height: totalH,
+          width: "100%",
+          maxWidth: "100%",
+        }}
+      >
         {/* SVG — path + nodes */}
         <svg
           className="snake-itinerary-svg"
           viewBox={`0 0 ${SVG_W} ${totalH}`}
           preserveAspectRatio="none"
           aria-hidden="true"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+          }}
         >
           {/* FULL ROUTE GUIDE TRACK — Translucent route track line */}
           <path
@@ -1116,7 +1377,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             stroke="rgba(6, 182, 212, 0.25)"
             strokeWidth={tuning.lineWidth ?? 6}
             strokeLinecap="round"
-            style={{ fill: 'none' }}
+            style={{ fill: "none" }}
           />
 
           {/* BRIGHT FILL — scroll-driven, fills as you travel */}
@@ -1127,7 +1388,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             stroke="#06b6d4"
             strokeWidth={tuning.lineWidth ?? 6}
             strokeLinecap="round"
-            style={{ fill: 'none' }}
+            style={{ fill: "none" }}
           />
 
           {/* Flowing current dashes on the fill */}
@@ -1140,7 +1401,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             strokeLinecap="round"
             strokeDasharray="12 24 6 18"
             className="snake-itinerary-waterCurrent"
-            style={{ fill: 'none' }}
+            style={{ fill: "none" }}
           />
 
           {/* Bright flowing highlights */}
@@ -1153,9 +1414,8 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             strokeLinecap="round"
             strokeDasharray="4 40 2 50"
             className="snake-itinerary-waterHighlight"
-            style={{ fill: 'none' }}
+            style={{ fill: "none" }}
           />
-
         </svg>
 
         {/* HTML cards — absolutely positioned at each node's coordinates according to layoutMode */}
@@ -1164,58 +1424,93 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           if (!day) return null;
           const topPct = (node.y / totalH) * 100;
           const leftPct = (node.x / SVG_W) * 100;
-          const themeColor = day.colorTheme || (node.isLeft ? '#fff' : '#fff');
+          const themeColor = day.colorTheme || (node.isLeft ? "#fff" : "#fff");
           const dayImage = isAtSeaDay(day)
-            ? '/images/cruise/at-sea.png'
-            : (day?.photo || DAY_IMAGES[i % 6]);
+            ? "/images/cruise/at-sea.png"
+            : day?.photo || DAY_IMAGES[i % 6];
 
           const cardContent = (
             <div className="group">
               {dayImage && (
-                <div className="relative aspect-[21/9] w-full  overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500">
-                  <Image width={200} height={200} unoptimized
+                <div className="relative aspect-[21/9] w-full overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)] transition-colors duration-500">
+                  <Image
+                    width={200}
+                    height={200}
+                    unoptimized
                     src={dayImage}
                     alt={day.theme}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 </div>
               )}
               {/* Card content header & events list with responsive inner padding */}
-              <div className="p-5 md:p-6 bg-black/60 backdrop-blur-xl border border-white/10 rounded-b-2xl rounded-r-2xl shadow-2xl">
-                <div className="flex items-center justify-between gap-3 mb-6 pb-3 border-b border-white/10">
-                  <h3 className="text-xl md:text-2xl font-black  ">{day.theme}</h3>
+              <div className="rounded-r-2xl rounded-b-2xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur-xl md:p-6">
+                <div className="mb-6 flex items-center justify-between gap-3 border-b border-white/10 pb-3">
+                  <h3 className="text-xl font-black md:text-2xl">
+                    {day.theme}
+                  </h3>
                   {day.location && (
-                    <span className="text-[10px] md:text-xs    px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full shrink-0">
+                    <span className="shrink-0 rounded-full border border-purple-500/30 bg-purple-500/20 px-2.5 py-1 text-[10px] text-purple-300 md:text-xs">
                       {day.location}
                     </span>
                   )}
                 </div>
                 <div className="space-y-4">
-                  {day.events.map(ev => {
-                    const isGuitar = ev.title.includes('🎸') || (ev as any).cat === 'band' || ev.title.toLowerCase().includes('concert') || ev.title.toLowerCase().includes('live') || ev.title.toLowerCase().includes('unplugged') || ev.title.toLowerCase().includes('jam') || ev.title.toLowerCase().includes('set');
-                    const isShip = ev.title.includes('🚢') || ev.title.toLowerCase().includes('check-in') || ev.title.toLowerCase().includes('boarding') || ev.title.toLowerCase().includes('sail');
-                    const isIsland = ev.title.includes('🏝️') || ev.title.toLowerCase().includes('cococay') || ev.title.toLowerCase().includes('beach') || ev.title.toLowerCase().includes('island') || ev.title.toLowerCase().includes('excursion');
-                    const cleanTitle = ev.title.replace(/^[🎸🚢🏝️🌊⚓📍🎤🍹🥂⭐]\s*/u, '');
+                  {day.events.map((ev) => {
+                    const isGuitar =
+                      ev.title.includes("🎸") ||
+                      (ev as any).cat === "band" ||
+                      ev.title.toLowerCase().includes("concert") ||
+                      ev.title.toLowerCase().includes("live") ||
+                      ev.title.toLowerCase().includes("unplugged") ||
+                      ev.title.toLowerCase().includes("jam") ||
+                      ev.title.toLowerCase().includes("set");
+                    const isShip =
+                      ev.title.includes("🚢") ||
+                      ev.title.toLowerCase().includes("check-in") ||
+                      ev.title.toLowerCase().includes("boarding") ||
+                      ev.title.toLowerCase().includes("sail");
+                    const isIsland =
+                      ev.title.includes("🏝️") ||
+                      ev.title.toLowerCase().includes("cococay") ||
+                      ev.title.toLowerCase().includes("beach") ||
+                      ev.title.toLowerCase().includes("island") ||
+                      ev.title.toLowerCase().includes("excursion");
+                    const cleanTitle = ev.title.replace(
+                      /^[🎸🚢🏝️🌊⚓📍🎤🍹🥂⭐]\s*/u,
+                      "",
+                    );
 
                     return (
-                      <div key={ev.id} className="relative pl-3.5 border-l-2 border-purple-500/40 hover:border-cyan-400 transition-colors py-0.5">
+                      <div
+                        key={ev.id}
+                        className="relative border-l-2 border-purple-500/40 py-0.5 pl-3.5 transition-colors hover:border-cyan-400"
+                      >
                         {ev.time && (
-                          <div className="inline-flex items-center px-2 py-0.5 mb-1 text-[11px] font-mono    text-cyan-300 bg-cyan-950/80 border border-cyan-500/30 rounded">
+                          <div className="mb-1 inline-flex items-center rounded border border-cyan-500/30 bg-cyan-950/80 px-2 py-0.5 font-mono text-[11px] text-cyan-300">
                             {ev.time}
                           </div>
                         )}
-                        <div className="flex items-start gap-2 text-sm md:text-base     ">
+                        <div className="flex items-start gap-2 text-sm md:text-base">
                           <span className="mt-0.5 shrink-0">
-                            {isGuitar && <Guitar className="w-4 h-4 text-purple-400" />}
-                            {!isGuitar && isShip && <Ship className="w-4 h-4 text-cyan-400" />}
-                            {!isGuitar && !isShip && isIsland && <Palmtree className="w-4 h-4 text-emerald-400" />}
-                            {!isGuitar && !isShip && !isIsland && <Compass className="w-4 h-4 text-purple-300" />}
+                            {isGuitar && (
+                              <Guitar className="h-4 w-4 text-purple-400" />
+                            )}
+                            {!isGuitar && isShip && (
+                              <Ship className="h-4 w-4 text-cyan-400" />
+                            )}
+                            {!isGuitar && !isShip && isIsland && (
+                              <Palmtree className="h-4 w-4 text-emerald-400" />
+                            )}
+                            {!isGuitar && !isShip && !isIsland && (
+                              <Compass className="h-4 w-4 text-purple-300" />
+                            )}
                           </span>
                           <span>{cleanTitle}</span>
                         </div>
                         {ev.subtitle && (
-                          <div className="mt-0.5 pl-6 text-xs   text-white/60  ">
+                          <div className="mt-0.5 pl-6 text-xs text-white/60">
                             {ev.subtitle}
                           </div>
                         )}
@@ -1229,7 +1524,7 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
 
           // Card layout positioning logic per layoutMode
           let cardStyle: React.CSSProperties = {
-            position: 'absolute',
+            position: "absolute",
             top: `${topPct}%`,
             zIndex: 20,
           };
@@ -1238,54 +1533,52 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
             // Straight full-width card layout on mobile
             cardStyle = {
               ...cardStyle,
-              left: '0px',
-              right: '0px',
-              width: '100%',
-              maxWidth: '100%',
+              left: "0px",
+              right: "0px",
+              width: "100%",
+              maxWidth: "100%",
             };
-          } else if (layoutMode === 'harbor') {
+          } else if (layoutMode === "harbor") {
             // All cards aligned cleanly to the right of the harbor channel
             cardStyle = {
               ...cardStyle,
-              left: '220px',
-              width: '740px',
+              left: "220px",
+              width: "740px",
             };
-          } else if (layoutMode === 'center') {
+          } else if (layoutMode === "center") {
             // Cards centered directly along the central channel
             cardStyle = {
               ...cardStyle,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '760px',
-              maxWidth: '760px',
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "760px",
+              maxWidth: "760px",
             };
-          } else if (layoutMode === 'zigzag') {
+          } else if (layoutMode === "zigzag") {
             // Compact zig-zag cards
             cardStyle = {
               ...cardStyle,
               ...(node.isLeft
                 ? { left: `${leftPct}%` }
-                : { right: `${100 - leftPct}%` }
-              ),
-              width: '640px',
+                : { right: `${100 - leftPct}%` }),
+              width: "640px",
             };
           } else {
             // Wide Screen Sweep (default) — 0px edge alignment
             cardStyle = {
               ...cardStyle,
-              ...(node.isLeft
-                ? { left: '0px' }
-                : { right: '0px' }
-              ),
-              width: 'min(620px, 42vw)',
-              maxWidth: '620px',
+              ...(node.isLeft ? { left: "0px" } : { right: "0px" }),
+              width: "min(620px, 42vw)",
+              maxWidth: "620px",
             };
           }
           return (
             <div
-              key={`card-${i}-${day?.theme || day?.location || 'day'}`}
-              ref={el => { cardRefs.current[i] = el; }}
-              className={`snake-itinerary-card overflow-hidden rounded-[28px] ${(!isMobile && !node.isLeft) ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"}`}
+              key={`card-${i}-${day?.theme || day?.location || "day"}`}
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
+              className={`snake-itinerary-card overflow-hidden rounded-[28px] ${!isMobile && !node.isLeft ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"}`}
               style={cardStyle}
             >
               {cardContent}
@@ -1297,21 +1590,32 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
         <div
           ref={shipContainerRef}
           style={{
-            position: 'absolute',
+            position: "absolute",
             width: isMobile ? 220 : 380,
             height: isMobile ? 220 : 380,
-            pointerEvents: 'none',
+            pointerEvents: "none",
             zIndex: 5,
-            overflow: 'visible',
-            transition: 'none',
-            filter: 'none',
+            overflow: "visible",
+            transition: "none",
+            filter: "none",
           }}
         >
           <Canvas
             orthographic
-            gl={{ powerPreference: 'high-performance', antialias: true, alpha: true }}
-            camera={{ left: -250, right: 250, top: 250, bottom: -250, zoom: isMobile ? 42 : 55, position: [0, 0, 100] }}
-            style={{ width: '100%', height: '100%', overflow: 'visible' }}
+            gl={{
+              powerPreference: "high-performance",
+              antialias: true,
+              alpha: true,
+            }}
+            camera={{
+              left: -250,
+              right: 250,
+              top: 250,
+              bottom: -250,
+              zoom: isMobile ? 42 : 55,
+              position: [0, 0, 100],
+            }}
+            style={{ width: "100%", height: "100%", overflow: "visible" }}
           >
             {process.env.NODE_ENV === "development" && (
               <StatsGl className="r3f-gpu-stats" />
@@ -1336,79 +1640,86 @@ export default function CruiseSnakeItinerary({ itinerary, hideHeader = false, sa
           const isSea = isAtSeaDay(day);
           const isActive = activeNodeIndex === i;
           const isPassed = visitedNodes[i];
-          const videoSrc = isSea ? "/movie/ship-sea.mp4" : "/movie/ship-port.mp4";
+          const videoSrc = isSea
+            ? "/movie/ship-sea.mp4"
+            : "/movie/ship-port.mp4";
 
-          const themeColor = day.colorTheme || (node.isLeft ? '#06b6d4' : '#fff');
+          const themeColor =
+            day.colorTheme || (node.isLeft ? "#06b6d4" : "#fff");
           const formatNodeBadgeText = (d: ItineraryDay, idx: number) => {
             const isSeaDay = isAtSeaDay(d);
-            const loc = (d.location || '').toLowerCase();
-            let locName = 'PORT';
-            if (isSeaDay) locName = 'DAY AT SEA';
-            else if (loc.includes('maarten')) locName = 'ST. MAARTEN';
-            else if (loc.includes('thomas')) locName = 'ST. THOMAS';
-            else if (loc.includes('cococay')) locName = 'COCOCAY';
-            else if (loc.includes('canaveral')) locName = 'PORT CANAVERAL';
-            else if (loc.includes('roatan')) locName = 'ROATAN';
-            else if (loc.includes('cozumel')) locName = 'COZUMEL';
-            else locName = (d.location || '').split(',')[0].trim().toUpperCase();
+            const loc = (d.location || "").toLowerCase();
+            let locName = "PORT";
+            if (isSeaDay) locName = "DAY AT SEA";
+            else if (loc.includes("maarten")) locName = "ST. MAARTEN";
+            else if (loc.includes("thomas")) locName = "ST. THOMAS";
+            else if (loc.includes("cococay")) locName = "COCOCAY";
+            else if (loc.includes("canaveral")) locName = "PORT CANAVERAL";
+            else if (loc.includes("roatan")) locName = "ROATAN";
+            else if (loc.includes("cozumel")) locName = "COZUMEL";
+            else
+              locName = (d.location || "").split(",")[0].trim().toUpperCase();
 
             return `DAY ${idx + 1} · ${locName}`;
           };
 
           return (
-            <React.Fragment key={`node-group-${day?.id || i}-${day?.location || day?.theme || 'day'}`}>
+            <React.Fragment
+              key={`node-group-${day?.id || i}-${day?.location || day?.theme || "day"}`}
+            >
               {/* Day Badge — aligned flush on left for mobile */}
               <div
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   ...(isMobile
-                    ? { left: '0px', right: 'auto' }
+                    ? { left: "0px", right: "auto" }
                     : node.isLeft
-                      ? { left: '0px' }
-                      : { right: '0px', left: 'auto' }
-                  ),
-                  top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : (isActive ? 76 : 68)}px)`,
-                  transform: 'none',
+                      ? { left: "0px" }
+                      : { right: "0px", left: "auto" }),
+                  top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 64 : 56) : isActive ? 76 : 68}px)`,
+                  transform: "none",
                   zIndex: 35,
-                  pointerEvents: 'none',
+                  pointerEvents: "none",
 
-                  backgroundColor: '#060614',
-                  boxShadow: 'none',
+                  backgroundColor: "#060614",
+                  boxShadow: "none",
                 }}
-                className={`whitespace-nowrap border border-white/10 text-[var(--font-size-2xs)]    px-4 py-1.5 rounded-lg backdrop-blur-[45px] flex items-center gap-1.5 bg-[#00000029] transition-colors duration-300 ${isActive ? 'scale-105 opacity-100' : 'opacity-85'}`}
+                className={`flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-4 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] backdrop-blur-[45px] transition-colors duration-300 ${isActive ? "scale-105 opacity-100" : "opacity-85"}`}
               >
                 {isSea ? (
-                  <Waves className="w-3.5 h-3.5 shrink-0 inline-block" />
+                  <Waves className="inline-block h-3.5 w-3.5 shrink-0" />
                 ) : (
-                  <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0 inline-block" />
-                )} {formatNodeBadgeText(day, i)}
+                  <MapPin className="inline-block h-3.5 w-3.5 shrink-0 text-rose-400" />
+                )}{" "}
+                {formatNodeBadgeText(day, i)}
               </div>
               {/* Circle Video Node — aligned flush on left for mobile */}
               <div
-                key={`node-ring-${day?.id || i}-${day?.location || day?.theme || 'day'}`}
+                key={`node-ring-${day?.id || i}-${day?.location || day?.theme || "day"}`}
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   ...(isMobile
-                    ? { left: '0px', right: 'auto' }
+                    ? { left: "0px", right: "auto" }
                     : node.isLeft
-                      ? { left: '0px' }
-                      : { right: '0px', left: 'auto' }
-                  ),
+                      ? { left: "0px" }
+                      : { right: "0px", left: "auto" }),
                   top: `${(node.y / totalH) * 100}%`,
-                  transform: 'translate(0, -50%)',
-                  width: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
-                  height: isMobile ? (isActive ? 89 : 73) : (isActive ? 109 : 93),
-                  borderRadius: '50%',
-                  backgroundColor: '#0a0a12',
-                  border: isActive ? '3px solid #06b6d4' : '2px solid rgba(6,182,212,0.4)',
-                  boxShadow: 'none',
+                  transform: "translate(0, -50%)",
+                  width: isMobile ? (isActive ? 89 : 73) : isActive ? 109 : 93,
+                  height: isMobile ? (isActive ? 89 : 73) : isActive ? 109 : 93,
+                  borderRadius: "50%",
+                  backgroundColor: "#0a0a12",
+                  border: isActive
+                    ? "3px solid #06b6d4"
+                    : "2px solid rgba(6,182,212,0.4)",
+                  boxShadow: "none",
                   zIndex: isActive ? 30 : 25,
-                  overflow: 'hidden',
-                  transition: 'all 0.3s ease',
-                  pointerEvents: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  overflow: "hidden",
+                  transition: "all 0.3s ease",
+                  pointerEvents: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <CircleVideoNode

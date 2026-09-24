@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback, useRef } from "react";
 /**
  * Reusable custom hook for reading/writing values to localStorage with SSR safety.
  */
-export function useLocalStorageState<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
+export function useLocalStorageState<T>(
+  key: string,
+  initialValue: T,
+): [T, (value: T | ((prev: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === "undefined") {
       return initialValue;

@@ -3,8 +3,15 @@ import { fetchPageContent } from "@/lib/sanity";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("live");
-  const title = content?.seo?.metaTitle || (content?.title ? `${content.title} — 7th Heaven` : "Live Stream Hub — 7th Heaven");
-  const description = content?.seo?.metaDescription || content?.heroSubheading || "Watch 7th Heaven crew members broadcast live from backstage, rehearsals, and shows. Real-time video feeds powered by LiveKit.";
+  const title =
+    content?.seo?.metaTitle ||
+    (content?.title
+      ? `${content.title} — 7th Heaven`
+      : "Live Stream Hub — 7th Heaven");
+  const description =
+    content?.seo?.metaDescription ||
+    content?.heroSubheading ||
+    "Watch 7th Heaven crew members broadcast live from backstage, rehearsals, and shows. Real-time video feeds powered by LiveKit.";
 
   return {
     title,
@@ -18,6 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function LiveLayout({ children }: { children: React.ReactNode }) {
+export default function LiveLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return children;
 }

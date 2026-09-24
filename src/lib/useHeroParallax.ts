@@ -183,7 +183,7 @@ export function useHeroParallax({
             end: "bottom top",
             scrub: pxScrub,
           },
-        }
+        },
       );
 
       // Foreground counter-drift: moves the opposite direction at half the
@@ -203,7 +203,7 @@ export function useHeroParallax({
               end: "bottom top",
               scrub: pxScrub,
             },
-          }
+          },
         );
       }
     });

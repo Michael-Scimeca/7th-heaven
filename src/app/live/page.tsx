@@ -4,7 +4,8 @@ import LiveHubClient from "./LiveHubClient";
 
 export const metadata: Metadata = {
   title: "Live Stream Hub — 7th Heaven",
-  description: "Watch 7th Heaven live streams, soundchecks, backstage streams, and concert broadcasts.",
+  description:
+    "Watch 7th Heaven live streams, soundchecks, backstage streams, and concert broadcasts.",
 };
 
 export const revalidate = 60;

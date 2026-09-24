@@ -13,12 +13,22 @@ const sanityWriteClient = createClient({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { code, title, year, price, status, badge, inclusions, imagePath, selectValue } = body;
+    const {
+      code,
+      title,
+      year,
+      price,
+      status,
+      badge,
+      inclusions,
+      imagePath,
+      selectValue,
+    } = body;
 
     if (!title || !price || !year) {
       return NextResponse.json(
         { error: "Stateroom Title, Price, and Sailing Year are required." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -31,14 +41,16 @@ export async function POST(req: Request) {
       status: status || "info",
       badge: badge ? badge.trim() : "Available",
       inclusions: inclusions ? inclusions.trim() : "Gratuities Included",
-      imagePath: imagePath ? imagePath.trim() : "/images/cruise/q2_interior_plus.jpg",
+      imagePath: imagePath
+        ? imagePath.trim()
+        : "/images/cruise/q2_interior_plus.jpg",
       selectValue: selectValue || `group_${(code || "rm").toLowerCase()}`,
     };
 
     if (process.env.SANITY_API_TOKEN) {
       // 1. Check if pageContent-cruise document exists
       const doc = await sanityWriteClient.fetch(
-        `*[_type == "pageContent" && (pageKey == "cruise" || _id == "pageContent-cruise")][0]._id`
+        `*[_type == "pageContent" && (pageKey == "cruise" || _id == "pageContent-cruise")][0]._id`,
       );
       const targetId = doc || "pageContent-cruise";
 
@@ -68,7 +80,7 @@ export async function POST(req: Request) {
     console.error("Error saving stateroom cabin to Sanity:", err);
     return NextResponse.json(
       { error: err.message || "Failed to save stateroom to Sanity." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

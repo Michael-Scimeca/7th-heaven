@@ -35,17 +35,21 @@ function ProductCard({
   cartQuantities: Map<string, number>;
   onAdd: (variantId: string) => void;
 }) {
-  const [userSelectedVariantId, setUserSelectedVariantId] = useState<string | null>(null);
+  const [userSelectedVariantId, setUserSelectedVariantId] = useState<
+    string | null
+  >(null);
   const selectedVariant =
-    product.variants.find((v) => v.id === userSelectedVariantId) || product.variants[0];
+    product.variants.find((v) => v.id === userSelectedVariantId) ||
+    product.variants[0];
   const selectedStock = Number(selectedVariant.stock_quantity);
   const inCart = cartQuantities.get(selectedVariant.id) || 0;
   const soldOut = selectedStock <= 0;
   const maxedOut = inCart >= selectedStock;
-  const lowStock = !soldOut && selectedStock <= Number(selectedVariant.low_stock_threshold);
+  const lowStock =
+    !soldOut && selectedStock <= Number(selectedVariant.low_stock_threshold);
 
   return (
-    <div className="bg-white/[0.04] border border-white/[0.12] rounded-lg overflow-hidden flex flex-col">
+    <div className="flex flex-col overflow-hidden rounded-lg border border-white/[0.12] bg-white/[0.04]">
       <div className="relative aspect-square bg-black/40">
         <Image
           src={product.image_url}
@@ -55,29 +59,29 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 text-[10px] bg-black/70 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10">
+        <span className="absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-[45px]">
           {product.category}
         </span>
         {soldOut && (
-          <span className="absolute top-3 right-3 text-[10px] bg-rose-600/90 px-2.5 py-1 rounded-lg">
+          <span className="absolute top-3 right-3 rounded-lg bg-rose-600/90 px-2.5 py-1 text-[10px]">
             Sold Out
           </span>
         )}
         {lowStock && (
-          <span className="absolute bottom-3 left-3 text-[10px] bg-yellow-500/90   px-2.5 py-1 rounded-lg">
+          <span className="absolute bottom-3 left-3 rounded-lg bg-yellow-500/90 px-2.5 py-1 text-[10px]">
             Only {selectedStock} left
           </span>
         )}
       </div>
 
-      <div className="p-5 flex flex-col gap-3 flex-1">
+      <div className="flex flex-1 flex-col gap-3 p-5">
         <div>
-          <h3 >{product.title}</h3>
-          <p >{product.description}</p>
+          <h3>{product.title}</h3>
+          <p>{product.description}</p>
         </div>
 
         <div>
-          <span className="text-[10px] text-white/40 block mb-1.5">
+          <span className="mb-1.5 block text-[10px] text-white/40">
             {product.variant_kind}
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -89,7 +93,8 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`px-3 py-1.5 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:line-through ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)] " : " bg-[#00000029] border border-white/10 hover:text-white "}`}>
+                  className={`rounded-lg px-3 py-1.5 transition-colors disabled:cursor-not-allowed disabled:line-through disabled:opacity-30 ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+                >
                   {variant.label}
                 </button>
               );
@@ -105,7 +110,8 @@ function ProductCard({
             type="button"
             disabled={soldOut || maxedOut}
             onClick={() => onAdd(selectedVariant.id)}
-            className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+            className="rounded-lg bg-[var(--color-accent)] px-4 py-2 transition-colors hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
+          >
             {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
         </div>
@@ -120,7 +126,8 @@ export default function PaymentTestShopPage() {
   const [products, setProducts] = useState<ApiProduct[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [productsError, setProductsError] = useState("");
-  const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number]>("All");
+  const [activeCategory, setActiveCategory] =
+    useState<(typeof CATEGORIES)[number]>("All");
   const [showCart, setShowCart] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
   const [startingCheckout, setStartingCheckout] = useState(false);
@@ -188,7 +195,9 @@ export default function PaymentTestShopPage() {
   }, [cart.items]);
 
   const filteredProducts =
-    activeCategory === "All" ? products : products.filter((p) => p.category === activeCategory);
+    activeCategory === "All"
+      ? products
+      : products.filter((p) => p.category === activeCategory);
 
   const handleAdd = (variantId: string) => {
     const entry = variantLookup.get(variantId);
@@ -259,56 +268,65 @@ export default function PaymentTestShopPage() {
       localStorage.setItem("7h_north_mock_v1", data.mock ? "1" : "0");
       requestTransition("/payment-test/checkout");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Something went wrong starting checkout.";
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Something went wrong starting checkout.";
       setCheckoutError(message);
       setStartingCheckout(false);
     }
   };
 
-
   return (
-    <div className="min-h-screen page-container pb-24">
+    <div className="page-container min-h-screen pb-24">
       {/* Header */}
-      <div className="site-container max-w-5xl mx-auto px-6">
+      <div className="site-container mx-auto max-w-5xl px-6">
         <Link
           href="/"
-          className="text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+          className="mb-6 flex items-center gap-2 text-purple-400 transition-colors hover:text-white"
+        >
           ← Back to Home
         </Link>
 
         <div className="mb-8">
-          <span className="inline-block text-[10px] mb-1">
+          <span className="mb-1 inline-block text-[10px]">
             Official Band Store &amp; Apparel
           </span>
           <h1 className="text-3xl md:text-4xl">
             7th Heaven Official Merch Store
           </h1>
           <p className="mt-2 max-w-xl">
-            Get official 7th Heaven shirts, CDs, albums, hats, and exclusive band gear with secure direct checkout and fast shipping.
+            Get official 7th Heaven shirts, CDs, albums, hats, and exclusive
+            band gear with secure direct checkout and fast shipping.
           </p>
 
           {mockMode && (
-            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 rounded-lg max-w-xl">
-              🧪 TEST MODE — checkout using simulated TAC for testing payment processing.
+            <div className="mt-4 max-w-xl rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-yellow-300">
+              🧪 TEST MODE — checkout using simulated TAC for testing payment
+              processing.
             </div>
           )}
 
-          <div className="flex flex-wrap gap-2 mt-4">
+          <div className="mt-4 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => setShowCreditGuide(!showCreditGuide)}
-              className="flex items-center gap-1.5 text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-2 rounded-lg border border-emerald-500/30 transition-colors  ">
-              💳 Credit System &amp; Processing Guide {showCreditGuide ? "▲" : "▼"}
+              className="flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-emerald-300 transition-colors hover:bg-emerald-500/20"
+            >
+              💳 Credit System &amp; Processing Guide{" "}
+              {showCreditGuide ? "▲" : "▼"}
             </button>
             <button
               type="button"
               onClick={() => setShowLimitations(!showLimitations)}
-              className="flex items-center gap-1.5 text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors">
+              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 text-purple-300 transition-colors hover:bg-purple-500/20"
+            >
               ✨ Store Features &amp; Architecture
             </button>
             <Link
               href="/admin/shop-inventory"
-              className="flex items-center gap-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-1.5 rounded-lg border border-purple-500/30 transition-colors">
+              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-cyan-500/10 px-3 py-1.5 transition-colors hover:bg-cyan-500/20"
+            >
               🛠️ Manage Inventory
             </Link>
           </div>
@@ -316,70 +334,99 @@ export default function PaymentTestShopPage() {
 
         {/* ── Credit System Setup & Architecture Discussion ── */}
         {showCreditGuide && (
-          <div className="mb-8 bg-[#0a0f1d] border border-emerald-500/40 rounded-2xl p-6 relative overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between border-b border-emerald-500/20 pb-4 mb-6">
+          <div className="relative mb-8 overflow-hidden rounded-2xl border border-emerald-500/40 bg-[#0a0f1d] p-6 shadow-2xl">
+            <div className="mb-6 flex items-center justify-between border-b border-emerald-500/20 pb-4">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">💳</span>
                 <div>
-                  <h2 className="   text-lg">
+                  <h2 className="text-lg">
                     Credit Processing &amp; Merchant System Setup
                   </h2>
-                  <p className="text-xs text-emerald-400/90 mt-0.5">
-                    Step-by-step technical breakdown for configuring North Merchant Processing &amp; Fan Store Credits
+                  <p className="mt-0.5 text-xs text-emerald-400/90">
+                    Step-by-step technical breakdown for configuring North
+                    Merchant Processing &amp; Fan Store Credits
                   </p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setShowCreditGuide(false)}
-                className="text-white/40 hover:text-white shrink-0 ml-4 text-xs  ">
+                className="ml-4 shrink-0 text-xs text-white/40 hover:text-white"
+              >
                 ✕ Close
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+            <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">1</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                    1
+                  </span>
                   <h4 className=" ">Merchant Environment Setup</h4>
                 </div>
-                <p className="text-white/70 text-xs leading-relaxed">
-                  To accept live credit card transactions, configure server credentials in your <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">.env.local</code>:
+                <p className="text-xs leading-relaxed text-white/70">
+                  To accept live credit card transactions, configure server
+                  credentials in your{" "}
+                  <code className="rounded bg-black/60 px-1.5 py-0.5 text-emerald-300">
+                    .env.local
+                  </code>
+                  :
                 </p>
-                <div className="bg-black/80 rounded-lg p-2.5 font-mono text-[11px] text-emerald-300 border border-white/5 space-y-1">
+                <div className="space-y-1 rounded-lg border border-white/5 bg-black/80 p-2.5 font-mono text-[11px] text-emerald-300">
                   <div>NORTH_MERCHANT_ID=your_merchant_id</div>
                   <div>NORTH_TERMINAL_ID=your_terminal_id</div>
                   <div>NORTH_API_SECRET=your_secret_key</div>
                 </div>
               </div>
 
-              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">2</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                    2
+                  </span>
                   <h4 className=" ">TAC Tokenization Flow</h4>
                 </div>
-                <p className="text-white/70 text-xs leading-relaxed">
-                  Cart checkout triggers <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">/api/payment-test/north/tac</code> to request a temporary <strong>Transaction Access Code (TAC)</strong>. Card numbers are posted directly to North&apos;s SSL gateway endpoint so PCI compliance remains zero-overhead for our server.
+                <p className="text-xs leading-relaxed text-white/70">
+                  Cart checkout triggers{" "}
+                  <code className="rounded bg-black/60 px-1.5 py-0.5 text-emerald-300">
+                    /api/payment-test/north/tac
+                  </code>{" "}
+                  to request a temporary{" "}
+                  <strong>Transaction Access Code (TAC)</strong>. Card numbers
+                  are posted directly to North&apos;s SSL gateway endpoint so
+                  PCI compliance remains zero-overhead for our server.
                 </p>
               </div>
 
-              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">3</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                    3
+                  </span>
                   <h4 className=" ">Verification &amp; Inventory Sync</h4>
                 </div>
-                <p className="text-white/70 text-xs leading-relaxed">
-                  Upon gateway approval, North redirects to <code className="text-emerald-300 bg-black/60 px-1.5 py-0.5 rounded">/api/payment-test/north/result</code>. The route verifies gateway signatures, decrements stock for each variant, and marks the order paid in Supabase.
+                <p className="text-xs leading-relaxed text-white/70">
+                  Upon gateway approval, North redirects to{" "}
+                  <code className="rounded bg-black/60 px-1.5 py-0.5 text-emerald-300">
+                    /api/payment-test/north/result
+                  </code>
+                  . The route verifies gateway signatures, decrements stock for
+                  each variant, and marks the order paid in Supabase.
                 </p>
               </div>
 
-              <div className="bg-black/50 border border-emerald-500/20 rounded-xl p-4 flex flex-col gap-2">
+              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs   ">4</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-xs text-emerald-300">
+                    4
+                  </span>
                   <h4 className=" ">Fan Loyalty &amp; Store Credit</h4>
                 </div>
-                <p className="text-white/70 text-xs leading-relaxed">
-                  Fans earn 5% back in store credits on every purchase. Credits automatically convert to discount tokens redeemable at checkout or applied towards VIP meet-and-greet passes.
+                <p className="text-xs leading-relaxed text-white/70">
+                  Fans earn 5% back in store credits on every purchase. Credits
+                  automatically convert to discount tokens redeemable at
+                  checkout or applied towards VIP meet-and-greet passes.
                 </p>
               </div>
             </div>
@@ -388,88 +435,103 @@ export default function PaymentTestShopPage() {
 
         {/* ── Store Features Breakdown ── */}
         {showLimitations && (
-          <div className="mb-8 bg-[#0e0e18] border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+          <div className="relative mb-8 overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0e18] p-6">
+            <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3 >
-                  7th Heaven Direct Store Features &amp; Architecture
-                </h3>
-                <p >
-                  Custom high-speed merchandise storefront with direct merchant payment routing and real-time inventory synchronization.
+                <h3>7th Heaven Direct Store Features &amp; Architecture</h3>
+                <p>
+                  Custom high-speed merchandise storefront with direct merchant
+                  payment routing and real-time inventory synchronization.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setShowLimitations(false)}
-                className="text-white/40 hover:text-white shrink-0 ml-4">
+                className="ml-4 shrink-0 text-white/40 hover:text-white"
+              >
                 ✕ Close
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+            <div className="grid grid-cols-1 gap-3 text-white/70 md:grid-cols-2">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   ✅ Real-Time Inventory Tracking
                 </span>
                 <p>
-                  Products and variants sync live with per-variant stock counts. Sold-out sizes/formats/colors disable themselves automatically.
+                  Products and variants sync live with per-variant stock counts.
+                  Sold-out sizes/formats/colors disable themselves
+                  automatically.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   ✅ Order Snapshot &amp; Stock Decrement
                 </span>
                 <p>
-                  Checkout creates a pending order with full line-item snapshots. Once payment confirms, stock decrements automatically.
+                  Checkout creates a pending order with full line-item
+                  snapshots. Once payment confirms, stock decrements
+                  automatically.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   ✅ Catalog Admin &amp; Stock Control
                 </span>
                 <p>
-                  <Link href="/admin/shop-inventory" className="hover:text-white">
+                  <Link
+                    href="/admin/shop-inventory"
+                    className="hover:text-white"
+                  >
                     /admin/shop-inventory
                   </Link>{" "}
-                  lets admins add products, set prices, and adjust stock limits seamlessly.
+                  lets admins add products, set prices, and adjust stock limits
+                  seamlessly.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300 text-[10px] block mb-1">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-purple-300">
                   ⚡ Streamlined Fast Checkout
                 </span>
                 <p>
-                  Direct guest payment gateway allowing fans to complete orders instantly without mandatory account creation or password friction.
+                  Direct guest payment gateway allowing fans to complete orders
+                  instantly without mandatory account creation or password
+                  friction.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300 text-[10px] block mb-1">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-purple-300">
                   ⚡ Direct Merchant Security
                 </span>
                 <p>
-                  Payment credentials route securely to merchant servers so sensitive card data is never stored locally on application servers.
+                  Payment credentials route securely to merchant servers so
+                  sensitive card data is never stored locally on application
+                  servers.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-purple-300 text-[10px] block mb-1">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-purple-300">
                   ⚡ Instant Email Order Confirmation
                 </span>
                 <p>
-                  Every order generates an itemized receipt email for the buyer and alerts band staff for quick packing and shipping.
+                  Every order generates an itemized receipt email for the buyer
+                  and alerts band staff for quick packing and shipping.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-[10px] block mb-1">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px]">
                   ✅ Concert QR Code Ordering
                 </span>
                 <p>
-                  Concertgoers can scan official QR codes at live shows to order apparel directly from their mobile phones for venue pickup or delivery.
+                  Concertgoers can scan official QR codes at live shows to order
+                  apparel directly from their mobile phones for venue pickup or
+                  delivery.
                 </p>
               </div>
             </div>
@@ -478,110 +540,126 @@ export default function PaymentTestShopPage() {
 
         {/* ── Roadmap: features buildable on North's actual API suite ── */}
         {showRoadmap && (
-          <div className="mb-8 bg-[#0e0e18] border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+          <div className="relative mb-8 overflow-hidden rounded-2xl border border-emerald-500/30 bg-[#0e0e18] p-6">
+            <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3 >
+                <h3>
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
                 <p className="max-w-2xl">
-                  This page only uses North&apos;s Browser Post API — one product in a larger
-                  suite. North (EPX) also publishes a Recurring Billing API, Gateway Invoicing
-                  API, Embedded Checkout, and reporting APIs. Combined with the inventory/order
-                  system already built here, most of the &quot;❌&quot; items above have a real,
-                  buildable path — no Shopify migration required.
+                  This page only uses North&apos;s Browser Post API — one
+                  product in a larger suite. North (EPX) also publishes a
+                  Recurring Billing API, Gateway Invoicing API, Embedded
+                  Checkout, and reporting APIs. Combined with the
+                  inventory/order system already built here, most of the
+                  &quot;❌&quot; items above have a real, buildable path — no
+                  Shopify migration required.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setShowRoadmap(false)}
-                className="text-white/40 hover:text-white shrink-0 ml-4">
+                className="ml-4 shrink-0 text-white/40 hover:text-white"
+              >
                 ✕ Close
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-white/70">
-              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+            <div className="grid grid-cols-1 gap-3 text-white/70 md:grid-cols-2">
+              <div className="rounded-lg border border-emerald-500/20 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   🔁 Fan Club / Merch Subscriptions
                 </span>
                 <p>
-                  North&apos;s <strong >Recurring Billing API</strong>{" "}
-                  supports weekly/bi-weekly/monthly charges with pause, resume, and cancel at any
-                  time. Could power a &quot;merch box of the month&quot; or paid fan-club tier —
-                  something Shopify needs a subscriptions app for.
+                  North&apos;s <strong>Recurring Billing API</strong> supports
+                  weekly/bi-weekly/monthly charges with pause, resume, and
+                  cancel at any time. Could power a &quot;merch box of the
+                  month&quot; or paid fan-club tier — something Shopify needs a
+                  subscriptions app for.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+              <div className="rounded-lg border border-emerald-500/20 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   💳 Saved Cards &amp; Refunds
                 </span>
                 <p>
-                  Every transaction through North&apos;s Recurring Billing API is tokenized. That
-                  token can issue refunds against a past charge and, longer-term, let a returning
-                  fan skip re-entering their card. Refunds today would need to go through North&apos;s
-                  merchant portal or a tokenized-refund call, not this page.
+                  Every transaction through North&apos;s Recurring Billing API
+                  is tokenized. That token can issue refunds against a past
+                  charge and, longer-term, let a returning fan skip re-entering
+                  their card. Refunds today would need to go through
+                  North&apos;s merchant portal or a tokenized-refund call, not
+                  this page.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+              <div className="rounded-lg border border-emerald-500/20 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   🧾 Custom / VIP Order Invoicing
                 </span>
                 <p>
-                  North&apos;s <strong >Gateway Invoicing API</strong> is
-                  built for mail-order/telephone-order flows — send a fan a payment link for a
-                  custom bundle, signed vinyl, or VIP package without them touching the storefront.
+                  North&apos;s <strong>Gateway Invoicing API</strong> is built
+                  for mail-order/telephone-order flows — send a fan a payment
+                  link for a custom bundle, signed vinyl, or VIP package without
+                  them touching the storefront.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+              <div className="rounded-lg border border-emerald-500/20 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   📊 Real Sales Dashboard
                 </span>
                 <p>
-                  North&apos;s Merchant Reporting and Gateway Business Reporting APIs expose
-                  settlement and transaction data that could feed a revenue dashboard inside{" "}
-                  <Link href="/admin/shop-inventory" className="hover:text-white">
+                  North&apos;s Merchant Reporting and Gateway Business Reporting
+                  APIs expose settlement and transaction data that could feed a
+                  revenue dashboard inside{" "}
+                  <Link
+                    href="/admin/shop-inventory"
+                    className="hover:text-white"
+                  >
                     /admin/shop-inventory
                   </Link>{" "}
-                  — closer to Shopify Analytics than the raw order list is today.
+                  — closer to Shopify Analytics than the raw order list is
+                  today.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+              <div className="rounded-lg border border-emerald-500/20 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   🖥️ Embedded Checkout Upgrade
                 </span>
                 <p>
-                  North offers a hosted <strong >Embedded Checkout</strong>{" "}
-                  widget as an alternative to a raw Browser Post form — same PCI-scope benefit,
-                  nicer built-in card-entry UI, without hand-rolling every field.
+                  North offers a hosted <strong>Embedded Checkout</strong>{" "}
+                  widget as an alternative to a raw Browser Post form — same
+                  PCI-scope benefit, nicer built-in card-entry UI, without
+                  hand-rolling every field.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-emerald-500/20 rounded-lg p-3">
-                <span className="text-emerald-400 text-[10px] block mb-1">
+              <div className="rounded-lg border border-emerald-500/20 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-emerald-400">
                   🏬 In-Person + Online, One Inventory
                 </span>
                 <p>
-                  North also does card-present/in-person payments. Ringing up merch-table sales
-                  against the same Supabase stock table this shop already uses would keep online
-                  and in-person inventory in sync — genuine Shopify POS parity.
+                  North also does card-present/in-person payments. Ringing up
+                  merch-table sales against the same Supabase stock table this
+                  shop already uses would keep online and in-person inventory in
+                  sync — genuine Shopify POS parity.
                 </p>
               </div>
 
-              <div className="bg-black/40 border border-white/10 rounded-lg p-3">
-                <span className="text-yellow-300 text-[10px] block mb-1">
+              <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+                <span className="mb-1 block text-[10px] text-yellow-300">
                   🛠️ Not North — Custom-Built Only
                 </span>
                 <p>
-                  Customer accounts/order history (hook into the site&apos;s existing member
-                  login), discount codes and sales tax (apply before requesting the TAC), and
-                  abandoned-cart emails (the site already has Resend/Twilio wired up elsewhere)
-                  are all outside North&apos;s API — they&apos;d be built on this app&apos;s own
-                  infrastructure, same as Shopify apps bolt on top of Shopify&apos;s core.
+                  Customer accounts/order history (hook into the site&apos;s
+                  existing member login), discount codes and sales tax (apply
+                  before requesting the TAC), and abandoned-cart emails (the
+                  site already has Resend/Twilio wired up elsewhere) are all
+                  outside North&apos;s API — they&apos;d be built on this
+                  app&apos;s own infrastructure, same as Shopify apps bolt on
+                  top of Shopify&apos;s core.
                 </p>
               </div>
             </div>
@@ -589,14 +667,15 @@ export default function PaymentTestShopPage() {
         )}
 
         {/* Category tabs + cart button */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 overflow-x-auto">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg transition-colors shrink-0 ${activeCategory === cat ? "bg-cyan-500 text-black" : " bg-[#00000029] border border-white/10 hover:text-white "}`}>
+                className={`shrink-0 rounded-lg px-4 py-2 transition-colors ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+              >
                 {cat}
               </button>
             ))}
@@ -605,7 +684,8 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="px-4 py-2.5 bg-[#00000029] border border-white/10 hover:border-[var(--color-accent)] rounded-lg transition-colors flex items-center gap-2">
+            className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 transition-colors hover:border-[var(--color-accent)]"
+          >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
         </div>
@@ -614,7 +694,7 @@ export default function PaymentTestShopPage() {
         {loadingProducts ? (
           <p className="py-12 text-center">Loading products…</p>
         ) : productsError ? (
-          <p className="text-rose-400 py-12 text-center">⚠️ {productsError}</p>
+          <p className="py-12 text-center text-rose-400">⚠️ {productsError}</p>
         ) : filteredProducts.length === 0 ? (
           <p className="py-12 text-center">
             No products yet.{" "}
@@ -623,7 +703,7 @@ export default function PaymentTestShopPage() {
             </Link>
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -638,14 +718,15 @@ export default function PaymentTestShopPage() {
 
       {/* Cart drawer */}
       {showCart && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[45px] flex items-center justify-center p-4">
-          <div className="bg-[#0e0e18] border border-white/[0.12] rounded-lg max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+          <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto rounded-lg border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <h2 >My Cart</h2>
+              <h2>My Cart</h2>
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="text-white/40 hover:text-white text-lg p-1">
+                className="p-1 text-lg text-white/40 hover:text-white"
+              >
                 ✕
               </button>
             </div>
@@ -656,45 +737,56 @@ export default function PaymentTestShopPage() {
               <div className="space-y-3">
                 {cart.items.map((item) => {
                   const entry = variantLookup.get(item.id);
-                  const stock = entry ? Number(entry.variant.stock_quantity) : Infinity;
+                  const stock = entry
+                    ? Number(entry.variant.stock_quantity)
+                    : Infinity;
                   const atMax = item.quantity >= stock;
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-lg p-3">
-                      <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden bg-black/40">
-                        <Image src={item.imageUrl} alt={item.title} fill sizes="56px" unoptimized className="object-cover" />
+                      className="flex items-center gap-3 rounded-lg border border-white/[0.08] bg-white/[0.03] p-3"
+                    >
+                      <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-black/40">
+                        <Image
+                          src={item.imageUrl}
+                          alt={item.title}
+                          fill
+                          sizes="56px"
+                          unoptimized
+                          className="object-cover"
+                        />
                       </div>
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <p className="truncate">{item.title}</p>
                         <p>{item.variantLabel}</p>
                         <p className="mt-0.5">
                           ${item.unitPrice.toFixed(2)} each
                         </p>
                       </div>
-                      <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex shrink-0 items-center gap-2">
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white">
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-white/70 hover:text-white"
+                        >
                           −
                         </button>
-                        <span className="w-5 text-center">
-                          {item.quantity}
-                        </span>
+                        <span className="w-5 text-center">{item.quantity}</span>
                         <button
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="w-7 h-7 flex items-center justify-center bg-[#00000029] border border-white/10 rounded-lg text-white/70 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed">
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-white/70 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                        >
                           +
                         </button>
                       </div>
                       <button
                         type="button"
                         onClick={() => cart.deleteItemFromCart(item.id)}
-                        className="text-white/30 hover:text-rose-400 px-1"
-                        aria-label={`Remove ${item.title}`}>
+                        className="px-1 text-white/30 hover:text-rose-400"
+                        aria-label={`Remove ${item.title}`}
+                      >
                         ✕
                       </button>
                     </div>
@@ -704,13 +796,13 @@ export default function PaymentTestShopPage() {
             )}
 
             {checkoutError && (
-              <div className="p-3 border border-rose-500/20 bg-rose-500/10 text-rose-400 leading-normal">
+              <div className="border border-rose-500/20 bg-rose-500/10 p-3 leading-normal text-rose-400">
                 ⚠️ {checkoutError}
               </div>
             )}
 
-            <div className="border-t border-white/10 pt-4 flex items-center justify-between">
-              <span className="text-white/50 r">Total</span>
+            <div className="flex items-center justify-between border-t border-white/10 pt-4">
+              <span className="r text-white/50">Total</span>
               <span className="text-2xl text-[var(--color-accent)]">
                 ${cart.getTotalCost().toFixed(2)}
               </span>
@@ -720,14 +812,16 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg transition-colors">
+                className="flex-1 rounded-lg border border-white/10 bg-[#00000029] py-3 transition-colors hover:bg-white/10"
+              >
                 Continue Shopping
               </button>
               <button
                 type="button"
                 disabled={cart.items.length === 0 || startingCheckout}
                 onClick={handleCheckout}
-                className="flex-1 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-lg transition-colors disabled:opacity-40">
+                className="flex-1 rounded-lg bg-[var(--color-accent)] py-3 transition-colors hover:bg-[var(--color-accent)]/80 disabled:opacity-40"
+              >
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>
             </div>

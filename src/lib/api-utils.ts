@@ -9,11 +9,20 @@ import { Redis } from "@upstash/redis";
 // ── Rate limiters (per-route, keyed by prefix) ──
 const limiters = new Map<string, Ratelimit | null>();
 
-function getLimiter(prefix: string, requests: number, window: string): Ratelimit | null {
+function getLimiter(
+  prefix: string,
+  requests: number,
+  window: string,
+): Ratelimit | null {
   if (limiters.has(prefix)) return limiters.get(prefix)!;
 
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
-    console.warn(`[rate-limit] Upstash not configured for ${prefix}, skipping.`);
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    console.warn(
+      `[rate-limit] Upstash not configured for ${prefix}, skipping.`,
+    );
     limiters.set(prefix, null);
     return null;
   }
@@ -25,7 +34,10 @@ function getLimiter(prefix: string, requests: number, window: string): Ratelimit
 
   const limiter = new Ratelimit({
     redis,
-    limiter: Ratelimit.slidingWindow(requests, window as `${number} ${"ms" | "s" | "m" | "h" | "d"}`),
+    limiter: Ratelimit.slidingWindow(
+      requests,
+      window as `${number} ${"ms" | "s" | "m" | "h" | "d"}`,
+    ),
     analytics: true,
     prefix,
   });
@@ -48,7 +60,7 @@ export async function applyRateLimit(
   ip: string,
   prefix: string,
   requests = 5,
-  window = "60 s"
+  window = "60 s",
 ): Promise<NextResponse | null> {
   const limiter = getLimiter(prefix, requests, window);
   if (!limiter) return null; // dev fallback
@@ -64,7 +76,7 @@ export async function applyRateLimit(
           "X-RateLimit-Limit": String(result.limit),
           "X-RateLimit-Remaining": String(result.remaining),
         },
-      }
+      },
     );
   }
   return null;
@@ -73,13 +85,19 @@ export async function applyRateLimit(
 /** Validate email format server-side */
 export function isValidEmail(email: unknown): email is string {
   if (typeof email !== "string") return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()) && email.length <= 254;
+  return (
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()) && email.length <= 254
+  );
 }
 
 /** Strip HTML tags and trim — server-safe sanitizer */
 export function sanitizeText(input: unknown, maxLen = 500): string {
   if (typeof input !== "string") return "";
-  return input.replace(/<[^>]*>/g, "").replace(/[<>&"']/g, "").trim().slice(0, maxLen);
+  return input
+    .replace(/<[^>]*>/g, "")
+    .replace(/[<>&"']/g, "")
+    .trim()
+    .slice(0, maxLen);
 }
 
 /** Check admin secret header for protecting admin-only API routes */
@@ -99,20 +117,24 @@ export function requireAdminSecret(req: Request): NextResponse | null {
  * Uses the @supabase/ssr server client which reads cookies natively via next/headers.
  * Returns a 401/403 NextResponse if unauthorized, or null if OK.
  */
-export async function requireAdmin(_req: Request): Promise<NextResponse | null> {
+export async function requireAdmin(
+  _req: Request,
+): Promise<NextResponse | null> {
   try {
     // Use the project's SSR server client — handles cookie parsing automatically
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
 
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
     if (error || !user) {
-      if (process.env.NODE_ENV !== "production") {
-        console.log("[requireAdmin] Dev Mode: Bypassing authentication check.");
-        return null;
-      }
-      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 },
+      );
     }
 
     // Check if user has admin or crew role in profiles table
@@ -123,29 +145,27 @@ export async function requireAdmin(_req: Request): Promise<NextResponse | null> 
       .single();
 
     if (!profile || (profile.role !== "admin" && profile.role !== "crew")) {
-      if (process.env.NODE_ENV !== "production") {
-        console.log("[requireAdmin] Dev Mode: Bypassing role authorization check.");
-        return null;
-      }
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
+      return NextResponse.json(
+        { error: "Admin access required" },
+        { status: 403 },
+      );
     }
 
     return null; // Authorized
   } catch (err) {
     console.error("[requireAdmin] Auth check error:", err);
-    // Fail open in dev, fail closed in production
-    if (process.env.NODE_ENV === "production") {
-      return NextResponse.json({ error: "Auth verification failed" }, { status: 500 });
-    }
-    return null;
+    return NextResponse.json(
+      { error: "Auth verification failed" },
+      { status: 500 },
+    );
   }
 }
 
 /** Detect likely bot/spam submissions via timing and honeypot field */
 export function isSpam(body: Record<string, unknown>): boolean {
   // Honeypot: bots fill hidden fields, humans don't
-  if (body._hp && String(body._hp).length> 0) return true;
-  if (body.website && String(body.website).length> 0) return true;
+  if (body._hp && String(body._hp).length > 0) return true;
+  if (body.website && String(body.website).length > 0) return true;
   // Block suspiciously fast submissions (< 2s from page load)
   if (body._t && typeof body._t === "number") {
     const elapsed = Date.now() - body._t;
@@ -171,4 +191,3 @@ export function maskPhone(phone: string): string {
   if (!phone || phone.length < 7) return "***";
   return phone.slice(0, 3) + "*".repeat(phone.length - 7) + phone.slice(-4);
 }
-

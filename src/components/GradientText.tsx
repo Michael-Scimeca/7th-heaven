@@ -55,16 +55,19 @@ export default function GradientText({
   };
 
   return (
-    <div className={`animated-gradient-text ${showBorder ? "with-border" : ""} ${className}`}>
+    <div
+      className={`animated-gradient-text ${showBorder ? "with-border" : ""} ${className}`}
+    >
       {showBorder && (
         <div
- className={`gradient-overlay ${animClass} ${pauseOnHover ? "pause-hover" : ""}`}
- style={gradientStyle}
- />
+          className={`gradient-overlay ${animClass} ${pauseOnHover ? "pause-hover" : ""}`}
+          style={gradientStyle}
+        />
       )}
       <div
- className={`text-content ${animClass} ${pauseOnHover ? "pause-hover" : ""}`}
- style={gradientStyle}>
+        className={`text-content ${animClass} ${pauseOnHover ? "pause-hover" : ""}`}
+        style={gradientStyle}
+      >
         {children}
       </div>
     </div>

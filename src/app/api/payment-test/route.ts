@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     if (!cents || cents < 50) {
       return NextResponse.json(
         { error: "Enter a valid amount of at least $0.50." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -57,7 +57,10 @@ export async function GET(req: NextRequest) {
   try {
     const sessionId = req.nextUrl.searchParams.get("session_id");
     if (!sessionId) {
-      return NextResponse.json({ error: "session_id is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "session_id is required" },
+        { status: 400 },
+      );
     }
 
     const stripe = getStripe();
@@ -70,6 +73,9 @@ export async function GET(req: NextRequest) {
     });
   } catch (err: any) {
     console.error("[payment-test] Stripe lookup error:", err);
-    return NextResponse.json({ error: err?.message || "Lookup failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: err?.message || "Lookup failed" },
+      { status: 500 },
+    );
   }
 }

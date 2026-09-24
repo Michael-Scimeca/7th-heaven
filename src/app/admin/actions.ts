@@ -1,32 +1,41 @@
 "use server";
 
-import crypto from 'crypto';
+import crypto from "crypto";
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
-import { RoomServiceClient } from 'livekit-server-sdk';
+import { RoomServiceClient } from "livekit-server-sdk";
 import { requireAdminSession, requireCrewSession } from "@/lib/supabase/server";
 
 // Create a Supabase admin client that bypasses RLS
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 ) as any;
 
 const roomService = new RoomServiceClient(
   process.env.NEXT_PUBLIC_LIVEKIT_URL!,
   process.env.LIVEKIT_API_KEY!,
-  process.env.LIVEKIT_API_SECRET!
+  process.env.LIVEKIT_API_SECRET!,
 );
 
 export async function adminKillStream(streamId: string) {
   await requireAdminSession();
-  after(() => { console.log(`[Admin] Aggressively terminating stream ${streamId}`); });
-  
+  after(() => {
+    console.log(`[Admin] Aggressively terminating stream ${streamId}`);
+  });
+
   // 1 & 2. Get stream details and update Supabase status concurrently
   const [streamResult, updateResult] = await Promise.all([
-    supabaseAdmin.from("live_streams").select("user_id, stream_url").eq("id", streamId).single(),
-    supabaseAdmin.from("live_streams").update({ status: "ended", ended_at: new Date().toISOString() }).eq("id", streamId),
+    supabaseAdmin
+      .from("live_streams")
+      .select("user_id, stream_url")
+      .eq("id", streamId)
+      .single(),
+    supabaseAdmin
+      .from("live_streams")
+      .update({ status: "ended", ended_at: new Date().toISOString() })
+      .eq("id", streamId),
   ]);
 
   const stream = streamResult.data;
@@ -42,13 +51,15 @@ export async function adminKillStream(streamId: string) {
     const roomName = stream.stream_url || `live_${stream.user_id}`;
     try {
       await roomService.deleteRoom(roomName);
-      after(() => { console.log(`[Admin] LiveKit room ${roomName} deleted.`); });
+      after(() => {
+        console.log(`[Admin] LiveKit room ${roomName} deleted.`);
+      });
     } catch (lkErr) {
       console.error("Failed to delete LiveKit room:", lkErr);
       // Not a fatal error, maybe the room was already empty
     }
   }
-  
+
   revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
@@ -56,12 +67,21 @@ export async function adminKillStream(streamId: string) {
 
 export async function adminBanUser(userId: string) {
   await requireAdminSession();
-  after(() => { console.log(`[Admin] Removing user ${userId}`); });
-  
+  after(() => {
+    console.log(`[Admin] Removing user ${userId}`);
+  });
+
   // SECURE GUARD: Prevent deletion of Admin accounts
-  const { data: profile } = await supabaseAdmin.from("profiles").select("role").eq("id", userId).single();
-  if (profile?.role === 'admin') {
-    return { success: false, error: "System Administrators cannot be deleted via the dashboard." };
+  const { data: profile } = await supabaseAdmin
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .single();
+  if (profile?.role === "admin") {
+    return {
+      success: false,
+      error: "System Administrators cannot be deleted via the dashboard.",
+    };
   }
 
   // In Supabase Auth, removing a user from `auth.users` automatically cascades to `profiles`.
@@ -74,10 +94,10 @@ export async function adminBanUser(userId: string) {
       .from("profiles")
       .delete()
       .eq("id", userId);
-      
+
     if (profileError) return { success: false, error: profileError.message };
   }
-  
+
   revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
@@ -86,11 +106,20 @@ export async function adminBanUser(userId: string) {
 // Crew-level action: can only remove fans
 export async function crewBanUser(userId: string) {
   await requireCrewSession();
-  after(() => { console.log(`[Crew] Attempting to remove user ${userId}`); });
-  
-  const { data: profile } = await supabaseAdmin.from("profiles").select("role").eq("id", userId).single();
-  if (profile?.role !== 'fan') {
-    return { success: false, error: "Crew members can only remove fan accounts." };
+  after(() => {
+    console.log(`[Crew] Attempting to remove user ${userId}`);
+  });
+
+  const { data: profile } = await supabaseAdmin
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .single();
+  if (profile?.role !== "fan") {
+    return {
+      success: false,
+      error: "Crew members can only remove fan accounts.",
+    };
   }
 
   const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
@@ -101,10 +130,10 @@ export async function crewBanUser(userId: string) {
       .from("profiles")
       .delete()
       .eq("id", userId);
-      
+
     if (profileError) return { success: false, error: profileError.message };
   }
-  
+
   revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
@@ -112,95 +141,150 @@ export async function crewBanUser(userId: string) {
 
 export async function seedMockData() {
   await requireAdminSession();
-  after(() => { console.log("[Admin] Seeding mock users for testing..."); });
-  
+  after(() => {
+    console.log("[Admin] Seeding mock users for testing...");
+  });
+
   const postfix = Math.floor(Math.random() * 100000);
   const mockUsers = [
-    { email: `fan1_${postfix}@seventhheaven.com`, name: "Sarah Connor", role: "fan" },
-    { email: `fan2_${postfix}@seventhheaven.com`, name: "John Wick", role: "fan" },
-    { email: `crew_${postfix}@seventhheaven.com`, name: "Stage Manager", role: "crew" },
-    { email: `admin_${postfix}@seventhheaven.com`, name: "System Admin", role: "admin" }
+    {
+      email: `fan1_${postfix}@seventhheaven.com`,
+      name: "Sarah Connor",
+      role: "fan",
+    },
+    {
+      email: `fan2_${postfix}@seventhheaven.com`,
+      name: "John Wick",
+      role: "fan",
+    },
+    {
+      email: `crew_${postfix}@seventhheaven.com`,
+      name: "Stage Manager",
+      role: "crew",
+    },
+    {
+      email: `admin_${postfix}@seventhheaven.com`,
+      name: "System Admin",
+      role: "admin",
+    },
   ];
 
-  await Promise.all(mockUsers.map(async (u) => {
-    // Generate secure random password
-    const password = crypto.randomUUID().slice(0, 12) + "!A1";
-    const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
-      email: u.email,
-      password,
-      email_confirm: true,
-      user_metadata: { full_name: u.name }
-    });
+  await Promise.all(
+    mockUsers.map(async (u) => {
+      // Generate secure random password
+      const password = crypto.randomUUID().slice(0, 12) + "!A1";
+      const { data: authData, error: authErr } =
+        await supabaseAdmin.auth.admin.createUser({
+          email: u.email,
+          password,
+          email_confirm: true,
+          user_metadata: { full_name: u.name },
+        });
 
-    if (authErr) {
-      console.error("Auth error creating user:", authErr);
-    }
+      if (authErr) {
+        console.error("Auth error creating user:", authErr);
+      }
 
-    if (authData?.user && !authErr) {
-      // Force update their role in profiles
-      const { error } = await supabaseAdmin.from("profiles").update({ role: u.role }).eq("id", authData.user.id);
-      if (error) console.error("Profile update error:", error);
-    }
-  }));
+      if (authData?.user && !authErr) {
+        // Force update their role in profiles
+        const { error } = await supabaseAdmin
+          .from("profiles")
+          .update({ role: u.role })
+          .eq("id", authData.user.id);
+        if (error) console.error("Profile update error:", error);
+      }
+    }),
+  );
 
   revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
   return { success: true };
 }
 
-export async function adminCreateCrewMember({ name, email, password: providedPassword, phone, username }: { name: string; email: string; password?: string; phone?: string; username?: string }) {
+export async function adminCreateCrewMember({
+  name,
+  email,
+  password: providedPassword,
+  phone,
+  username,
+}: {
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  username?: string;
+}) {
   await requireAdminSession();
-  if (!phone || phone.replace(/\D/g, '').length !== 10) {
-    return { success: false, error: 'A valid 10-digit phone number is required to create a crew account.' };
+  if (!phone || phone.replace(/\D/g, "").length !== 10) {
+    return {
+      success: false,
+      error:
+        "A valid 10-digit phone number is required to create a crew account.",
+    };
   }
-  after(() => { console.log(`[Admin] Creating crew member ${email}`); });
-  // Use provided password or generate a secure temporary one
-  const password = providedPassword || (crypto.randomBytes(8).toString('hex') + "!A1");
-  // Create auth user
-  const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-    user_metadata: {
-      full_name: name,
-      username: username || '',
-      needs_password_reset: true,   // triggers Set-Your-Password modal on first login
-    },
+  after(() => {
+    console.log(`[Admin] Creating crew member ${email}`);
   });
+  // Use provided password or generate a secure temporary one
+  const password =
+    providedPassword || crypto.randomBytes(8).toString("hex") + "!A1";
+  // Create auth user
+  const { data: authData, error: authErr } =
+    await supabaseAdmin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: {
+        full_name: name,
+        username: username || "",
+        needs_password_reset: true, // triggers Set-Your-Password modal on first login
+      },
+    });
   if (authErr) {
-    console.error('Auth error creating crew member:', authErr);
+    console.error("Auth error creating crew member:", authErr);
     return { success: false, error: authErr.message };
   }
   // Assign crew role and phone in profiles table
   if (authData?.user) {
-    const updateData: any = { role: 'crew' };
+    const updateData: any = { role: "crew" };
     if (phone) updateData.phone = phone;
     if (username) updateData.username = username;
     const { error } = await supabaseAdmin
-      .from('profiles')
+      .from("profiles")
       .update(updateData)
-      .eq('id', authData.user.id);
+      .eq("id", authData.user.id);
     if (error) {
-      console.error('Profile update error for crew member:', error);
+      console.error("Profile update error for crew member:", error);
       return { success: false, error: error.message };
     }
   }
 
   // ── Send emails ──
   try {
-    const [{ welcomeCrew, newAccountAdminAlert }, { sendEmail }] = await Promise.all([
-      import('@/lib/email-templates'),
-      import('@/lib/email'),
-    ]);
-    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.RESEND_FROM_EMAIL || '';
+    const [{ welcomeCrew, newAccountAdminAlert }, { sendEmail }] =
+      await Promise.all([
+        import("@/lib/email-templates"),
+        import("@/lib/email"),
+      ]);
+    const adminEmail =
+      process.env.ADMIN_NOTIFICATION_EMAIL ||
+      process.env.RESEND_FROM_EMAIL ||
+      "";
 
     // 1. Welcome email to the new crew member
     await sendEmail({
       to: email,
-      subject: '🛡️ Welcome to the 7th Heaven Crew',
-      html: welcomeCrew({ name, email, username: username || undefined, tempPassword: password }),
+      subject: "🛡️ Welcome to the 7th Heaven Crew",
+      html: welcomeCrew({
+        name,
+        email,
+        username: username || undefined,
+        tempPassword: password,
+      }),
     });
-    after(() => { console.log(`[Admin] Welcome email sent to crew member ${email}`); });
+    after(() => {
+      console.log(`[Admin] Welcome email sent to crew member ${email}`);
+    });
 
     // 2. Alert email to site admin
     if (adminEmail) {
@@ -211,62 +295,77 @@ export async function adminCreateCrewMember({ name, email, password: providedPas
           accountName: name,
           accountEmail: email,
           accountUsername: username || undefined,
-          accountRole: 'crew',
-          createdBy: 'Admin Dashboard',
+          accountRole: "crew",
+          createdBy: "Admin Dashboard",
         }),
       });
-      after(() => { console.log(`[Admin] Account alert sent to ${adminEmail}`); });
+      after(() => {
+        console.log(`[Admin] Account alert sent to ${adminEmail}`);
+      });
     }
   } catch (emailErr) {
     // Don't fail the account creation if email fails
-    console.error('[Admin] Email send failed (non-fatal):', emailErr);
+    console.error("[Admin] Email send failed (non-fatal):", emailErr);
   }
 
-  revalidatePath('/admin/[username]', 'page');
-  revalidatePath('/crew');
+  revalidatePath("/admin/[username]", "page");
+  revalidatePath("/crew");
   return { success: true, password };
 }
 
-export async function adminCreateAdmin({ name, email, username }: { name: string; email: string; username: string }) {
+export async function adminCreateAdmin({
+  name,
+  email,
+  username,
+}: {
+  name: string;
+  email: string;
+  username: string;
+}) {
   await requireAdminSession();
-  after(() => { console.log(`[Admin] Creating admin account for ${email} with username ${username}`); });
+  after(() => {
+    console.log(
+      `[Admin] Creating admin account for ${email} with username ${username}`,
+    );
+  });
   // Generate a secure temporary password
-  const password = crypto.randomBytes(8).toString('hex') + '!A7';
+  const password = crypto.randomBytes(8).toString("hex") + "!A7";
 
   // Create Supabase auth user
-  const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-    user_metadata: {
-      full_name: name,
-      needs_password_reset: true,
-    },
-  });
+  const { data: authData, error: authErr } =
+    await supabaseAdmin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: {
+        full_name: name,
+        needs_password_reset: true,
+      },
+    });
   if (authErr) {
-    console.error('[Admin] Auth error creating admin:', authErr);
+    console.error("[Admin] Auth error creating admin:", authErr);
     return { success: false, error: authErr.message };
   }
 
   // Set role = admin and username in profiles table
   if (authData?.user) {
     const { error: profileErr } = await supabaseAdmin
-      .from('profiles')
-      .update({ role: 'admin', username })
-      .eq('id', authData.user.id);
+      .from("profiles")
+      .update({ role: "admin", username })
+      .eq("id", authData.user.id);
     if (profileErr) {
-      console.error('[Admin] Profile role update error:', profileErr);
+      console.error("[Admin] Profile role update error:", profileErr);
       return { success: false, error: profileErr.message };
     }
   }
 
   // Send welcome email
   try {
-    const { sendEmail } = await import('@/lib/email');
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const { sendEmail } = await import("@/lib/email");
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     await sendEmail({
       to: email,
-      subject: '🔐 Your 7th Heaven Admin Account',
+      subject: "🔐 Your 7th Heaven Admin Account",
       html: `
         <div style="font-family:-apple-system,system-ui,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0f;color:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);">
           <div style="padding:36px 32px 24px;background:linear-gradient(135deg,#1a1200,#0a0a0f);text-align:center;">
@@ -288,26 +387,30 @@ export async function adminCreateAdmin({ name, email, username }: { name: string
           </div>
         </div>`,
     });
-    after(() => { console.log(`[Admin] Welcome email sent to new admin ${email}`); });
+    after(() => {
+      console.log(`[Admin] Welcome email sent to new admin ${email}`);
+    });
   } catch (emailErr) {
-    console.error('[Admin] Admin welcome email failed (non-fatal):', emailErr);
+    console.error("[Admin] Admin welcome email failed (non-fatal):", emailErr);
   }
 
-  revalidatePath('/admin/[username]', 'page');
+  revalidatePath("/admin/[username]", "page");
   return { success: true, password };
 }
 
 export async function adminResetPassword(userId: string, email: string) {
   await requireAdminSession();
-  after(() => { console.log(`[Admin] Resetting password for ${email}`); });
-  const newPassword = crypto.randomBytes(8).toString('hex') + "!A1";
-  
+  after(() => {
+    console.log(`[Admin] Resetting password for ${email}`);
+  });
+  const newPassword = crypto.randomBytes(8).toString("hex") + "!A1";
+
   const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
-    password: newPassword
+    password: newPassword,
   });
 
   if (error) {
-    console.error('Reset error:', error);
+    console.error("Reset error:", error);
     return { success: false, error: error.message };
   }
 
@@ -316,79 +419,114 @@ export async function adminResetPassword(userId: string, email: string) {
 
 export async function seed20CrewMembers() {
   await requireAdminSession();
-  after(() => { console.log("[Admin] Seeding 20 mock crew members..."); });
-  
+  after(() => {
+    console.log("[Admin] Seeding 20 mock crew members...");
+  });
+
   const mockNames = [
-    "Alice Smith", "Bob Jones", "Charlie Brown", "David Miller", "Emma Wilson",
-    "Frank Thomas", "Grace Taylor", "Henry Anderson", "Ivy Thomas", "Jack Jackson",
-    "Katie White", "Liam Harris", "Mia Martin", "Noah Clark", "Olivia Lewis",
-    "Peter Walker", "Quinn Hall", "Ryan Allen", "Sophia Young", "Tyler King"
+    "Alice Smith",
+    "Bob Jones",
+    "Charlie Brown",
+    "David Miller",
+    "Emma Wilson",
+    "Frank Thomas",
+    "Grace Taylor",
+    "Henry Anderson",
+    "Ivy Thomas",
+    "Jack Jackson",
+    "Katie White",
+    "Liam Harris",
+    "Mia Martin",
+    "Noah Clark",
+    "Olivia Lewis",
+    "Peter Walker",
+    "Quinn Hall",
+    "Ryan Allen",
+    "Sophia Young",
+    "Tyler King",
   ];
-  
+
   const postfix = Math.floor(Math.random() * 1000);
-  const createdCrewResults = await Promise.all(mockNames.map(async (name, i) => {
-    const email = `crew_${i}_${postfix}@seventhheaven.com`;
-    const password = `tempPass123!A${i}`;
-    const phone = `1555555${String(i + 1).padStart(4, '0')}`;
-    const username = `crew_${i}_${postfix}`;
+  const createdCrewResults = await Promise.all(
+    mockNames.map(async (name, i) => {
+      const email = `crew_${i}_${postfix}@seventhheaven.com`;
+      const password = `tempPass123!A${i}`;
+      const phone = `1555555${String(i + 1).padStart(4, "0")}`;
+      const username = `crew_${i}_${postfix}`;
 
-    // Check if profile with this email or phone already exists to avoid auth error
-    const { data: existing } = await supabaseAdmin.from('profiles').select('id, full_name').eq('email', email);
-    if (existing && existing.length> 0) {
-      return {
-        id: existing[0].id,
-        name: existing[0].full_name || name,
-        phone
-      };
-    }
-
-    // Create auth user
-    const { data: authData, error: authErr } = await supabaseAdmin.auth.admin.createUser({
-      email,
-      password,
-      email_confirm: true,
-      user_metadata: {
-        full_name: name,
-        username,
-        needs_password_reset: false
-      }
-    });
-
-    if (authErr) {
-      console.error(`Auth error creating mock crew member ${name}:`, authErr);
-      return null;
-    }
-
-    if (authData?.user) {
-      // Set role and phone in profiles table
-      const { error } = await supabaseAdmin
-        .from('profiles')
-        .update({
-          role: 'crew',
-          phone,
-          username,
-          crew_duty: ['SOUND', 'EQUIPMENT SETUP', 'STAGE HAND', 'MERCH', 'LIGHTS'][i % 5]
-        })
-        .eq('id', authData.user.id);
-
-      if (error) {
-        console.error(`Profile update error for mock crew member ${name}:`, error);
-        return null;
-      } else {
+      // Check if profile with this email or phone already exists to avoid auth error
+      const { data: existing } = await supabaseAdmin
+        .from("profiles")
+        .select("id, full_name")
+        .eq("email", email);
+      if (existing && existing.length > 0) {
         return {
-          id: authData.user.id,
-          name,
-          phone
+          id: existing[0].id,
+          name: existing[0].full_name || name,
+          phone,
         };
       }
-    }
-    return null;
-  }));
 
-  const createdCrew = createdCrewResults.filter((c): c is { id: string; name: string; phone: string } => c !== null);
-  
+      // Create auth user
+      const { data: authData, error: authErr } =
+        await supabaseAdmin.auth.admin.createUser({
+          email,
+          password,
+          email_confirm: true,
+          user_metadata: {
+            full_name: name,
+            username,
+            needs_password_reset: false,
+          },
+        });
+
+      if (authErr) {
+        console.error(`Auth error creating mock crew member ${name}:`, authErr);
+        return null;
+      }
+
+      if (authData?.user) {
+        // Set role and phone in profiles table
+        const { error } = await supabaseAdmin
+          .from("profiles")
+          .update({
+            role: "crew",
+            phone,
+            username,
+            crew_duty: [
+              "SOUND",
+              "EQUIPMENT SETUP",
+              "STAGE HAND",
+              "MERCH",
+              "LIGHTS",
+            ][i % 5],
+          })
+          .eq("id", authData.user.id);
+
+        if (error) {
+          console.error(
+            `Profile update error for mock crew member ${name}:`,
+            error,
+          );
+          return null;
+        } else {
+          return {
+            id: authData.user.id,
+            name,
+            phone,
+          };
+        }
+      }
+      return null;
+    }),
+  );
+
+  const createdCrew = createdCrewResults.filter(
+    (c): c is { id: string; name: string; phone: string } => c !== null,
+  );
+
   revalidatePath("/admin/[username]", "page");
   revalidatePath("/crew");
-  
+
   return { success: true, crew: createdCrew };
 }

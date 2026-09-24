@@ -19,25 +19,29 @@ const FAQ_DATA: FAQItem[] = [
     id: "arrive-time",
     category: "booking",
     question: "What time should I arrive?",
-    answer: "Please be sure to arrive promptly at the time booked on your ticket to be sure to get the most out of your experience and screening."
+    answer:
+      "Please be sure to arrive promptly at the time booked on your ticket to be sure to get the most out of your experience and screening.",
   },
   {
     id: "light-sensitivity",
     category: "booking",
     question: "Is this experience suitable for people with light sensitivity?",
-    answer: "This film and installation includes flashing lights and strobe effects that may not be suitable for photosensitive individuals."
+    answer:
+      "This film and installation includes flashing lights and strobe effects that may not be suitable for photosensitive individuals.",
   },
   {
     id: "how-to-book",
     category: "booking",
     question: "How do I book tickets or hire the band for an event?",
-    answer: "Navigate to our Book Us page, fill out the booking request form with your event details (date, venue, and time), and submit it. Our system will immediately trigger an admin alert, and you will receive a status confirmation email once our team reviews the event details."
+    answer:
+      "Navigate to our Book Us page, fill out the booking request form with your event details (date, venue, and time), and submit it. Our system will immediately trigger an admin alert, and you will receive a status confirmation email once our team reviews the event details.",
   },
   {
     id: "booking-status-changes",
     category: "booking",
     question: "How will I track updates on my booking?",
-    answer: "Whenever our event planner changes the status of your booking (e.g., from pending to confirmed), you will automatically receive a detailed status update email outlining all schedule details, venue name, and event setup."
+    answer:
+      "Whenever our event planner changes the status of your booking (e.g., from pending to confirmed), you will automatically receive a detailed status update email outlining all schedule details, venue name, and event setup.",
   },
 
   // Merch & Store
@@ -45,19 +49,22 @@ const FAQ_DATA: FAQItem[] = [
     id: "delivery-methods",
     category: "merch",
     question: "What delivery options are available for merchandise?",
-    answer: "We support two options during checkout: standard home delivery via our Shopify Storefront API, and Merch Table Pickup. Pickups allow you to collect your items directly at the merch table of our next live concert, saving you shipping costs!"
+    answer:
+      "We support two options during checkout: standard home delivery via our Shopify Storefront API, and Merch Table Pickup. Pickups allow you to collect your items directly at the merch table of our next live concert, saving you shipping costs!",
   },
   {
     id: "pickup-verification",
     category: "merch",
     question: "How do I verify and collect my pickup orders?",
-    answer: "Once you place a pickup order, our system generates a unique QR code and sends it to you via email. Simply present this QR code on your mobile device at the show's merch table, where our crew will scan it to verify and release your items."
+    answer:
+      "Once you place a pickup order, our system generates a unique QR code and sends it to you via email. Simply present this QR code on your mobile device at the show's merch table, where our crew will scan it to verify and release your items.",
   },
   {
     id: "shipping-timeframes",
     category: "merch",
     question: "How long does home shipping take?",
-    answer: "Standard shipping orders processed via our Shopify API typically ship within 2 to 3 business days, and home delivery takes about 5 to 7 business days depending on your location."
+    answer:
+      "Standard shipping orders processed via our Shopify API typically ship within 2 to 3 business days, and home delivery takes about 5 to 7 business days depending on your location.",
   },
 
   // Cruise
@@ -65,19 +72,22 @@ const FAQ_DATA: FAQItem[] = [
     id: "cruise-signup",
     category: "cruise",
     question: "How do I join the 7th Heaven Cruise community?",
-    answer: "Head over to the Cruise page, select the guest count you are planning to bring, fill out your guest contact list, and check the option to join our newsletter. You will receive an immediate welcome invitation email to our cruise hub."
+    answer:
+      "Head over to the Cruise page, select the guest count you are planning to bring, fill out your guest contact list, and check the option to join our newsletter. You will receive an immediate welcome invitation email to our cruise hub.",
   },
   {
     id: "cruise-cancel",
     category: "cruise",
     question: "What if I need to cancel my cruise signup?",
-    answer: "Your Cruise Confirmation email contains a secure cancellation link. Clicking it allows you to cancel your signup instantly without needing to contact support, updating the admin roster in real-time."
+    answer:
+      "Your Cruise Confirmation email contains a secure cancellation link. Clicking it allows you to cancel your signup instantly without needing to contact support, updating the admin roster in real-time.",
   },
   {
     id: "cruise-blasts",
     category: "cruise",
     question: "What is the Cruise Community Blast?",
-    answer: "It's our dedicated news broadcast sent to all signed-up cruisers. These emails keep you up to date on cabin pricing previews, medley setlist votes, shore excursions, and cabin booking timelines."
+    answer:
+      "It's our dedicated news broadcast sent to all signed-up cruisers. These emails keep you up to date on cabin pricing previews, medley setlist votes, shore excursions, and cabin booking timelines.",
   },
 
   // Fan Club & Portal
@@ -85,80 +95,204 @@ const FAQ_DATA: FAQItem[] = [
     id: "fan-perks",
     category: "fan",
     question: "What perks do Fan Members get?",
-    answer: "Fan members enjoy exclusive perks including a custom Fan Dashboard, VIP rewards, early access to cruise announcements, proximity notifications for nearby concerts, entries into our live-show merch table raffles, and the ability to upload media to our Fan Photo/Video Wall."
+    answer:
+      "Fan members enjoy exclusive perks including a custom Fan Dashboard, VIP rewards, early access to cruise announcements, proximity notifications for nearby concerts, entries into our live-show merch table raffles, and the ability to upload media to our Fan Photo/Video Wall.",
   },
   {
     id: "upload-moderation",
     category: "fan",
     question: "What happens when I upload photos to the Fan Wall?",
-    answer: "To ensure content suitability, all uploaded photos and videos are placed in a moderation queue. Once our crew reviews your media, you will receive an automatic email notifying you if it was approved or rejected (with the specific rejection reason included in the alert)."
+    answer:
+      "To ensure content suitability, all uploaded photos and videos are placed in a moderation queue. Once our crew reviews your media, you will receive an automatic email notifying you if it was approved or rejected (with the specific rejection reason included in the alert).",
   },
   {
     id: "pin-number-purpose",
     category: "fan",
     question: "What is the security PIN email for?",
-    answer: "To keep account creation simple and password-less, we send a secure 6-digit verification PIN to your email address during signup, password reset, or when verifying a new device. This applies to all system roles, including Fans, Planners, Crew, and Admins."
-  }
+    answer:
+      "To keep account creation simple and password-less, we send a secure 6-digit verification PIN to your email address during signup, password reset, or when verifying a new device. This applies to all system roles, including Fans, Planners, Crew, and Admins.",
+  },
 ];
 
 const HelpIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+    <line x1="12" y1="17" x2="12.01" y2="17" />
+  </svg>
 );
 
 const TicketIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M13 5v2" /><path d="M13 17v2" /><path d="M13 11v2" /></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+    <path d="M13 5v2" />
+    <path d="M13 17v2" />
+    <path d="M13 11v2" />
+  </svg>
 );
 
 const StoreIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <path d="M16 10a4 4 0 0 1-8 0" />
+  </svg>
 );
 
 const ShipIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 21h20" /><path d="M19.3 14.8C21.1 13.5 22 11.7 22 9.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 9.5c0 2.2.9 4 2.7 5.3L12 21Z" /><path d="M12 8V2l4 2-4 2" /></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M2 21h20" />
+    <path d="M19.3 14.8C21.1 13.5 22 11.7 22 9.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 9.5c0 2.2.9 4 2.7 5.3L12 21Z" />
+    <path d="M12 8V2l4 2-4 2" />
+  </svg>
 );
 
 const UsersIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
 );
 
 const ChevronRightIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
 );
 
 const CATEGORIES = [
-  { id: "all", label: "All Questions", icon: HelpIcon, color: "text-[#8a1cfc]" },
-  { id: "booking", label: "Booking & Shows", icon: TicketIcon, color: "text-emerald-400" },
-  { id: "merch", label: "Store & Merch", icon: StoreIcon, color: "text-purple-300" },
-  { id: "cruise", label: "Cruise Community", icon: ShipIcon, color: "text-sky-400" },
-  { id: "fan", label: "Fan Portal & Club", icon: UsersIcon, color: "text-rose-400" }
+  {
+    id: "all",
+    label: "All Questions",
+    icon: HelpIcon,
+    color: "text-[#8a1cfc]",
+  },
+  {
+    id: "booking",
+    label: "Booking & Shows",
+    icon: TicketIcon,
+    color: "text-emerald-400",
+  },
+  {
+    id: "merch",
+    label: "Store & Merch",
+    icon: StoreIcon,
+    color: "text-purple-300",
+  },
+  {
+    id: "cruise",
+    label: "Cruise Community",
+    icon: ShipIcon,
+    color: "text-sky-400",
+  },
+  {
+    id: "fan",
+    label: "Fan Portal & Club",
+    icon: UsersIcon,
+    color: "text-rose-400",
+  },
 ];
 
 export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
+    {},
+  );
 
   const toggleExpand = (id: string) => {
-    setExpandedItems(prev => (prev[id] ? {} : { [id]: true }));
+    setExpandedItems((prev) => (prev[id] ? {} : { [id]: true }));
   };
 
   const combinedFAQs = useMemo(() => {
-    if (sanityContent?.faqs && Array.isArray(sanityContent.faqs) && sanityContent.faqs.length > 0) {
-      const sanityItems: FAQItem[] = sanityContent.faqs.map((f: any, idx: number) => ({
-        id: f.id || f._key || `sanity-faq-${idx}`,
-        category: f.category || "booking",
-        question: f.question,
-        answer: f.answer,
-      }));
-      const sanityQuestions = new Set(sanityItems.map(s => s.question.toLowerCase().trim()));
-      const fallbackRemaining = FAQ_DATA.filter(f => !sanityQuestions.has(f.question.toLowerCase().trim()));
+    if (
+      sanityContent?.faqs &&
+      Array.isArray(sanityContent.faqs) &&
+      sanityContent.faqs.length > 0
+    ) {
+      const sanityItems: FAQItem[] = sanityContent.faqs.map(
+        (f: any, idx: number) => ({
+          id: f.id || f._key || `sanity-faq-${idx}`,
+          category: f.category || "booking",
+          question: f.question,
+          answer: f.answer,
+        }),
+      );
+      const sanityQuestions = new Set(
+        sanityItems.map((s) => s.question.toLowerCase().trim()),
+      );
+      const fallbackRemaining = FAQ_DATA.filter(
+        (f) => !sanityQuestions.has(f.question.toLowerCase().trim()),
+      );
       return [...sanityItems, ...fallbackRemaining];
     }
     return FAQ_DATA;
   }, [sanityContent]);
 
   const filteredFAQs = useMemo(() => {
-    return combinedFAQs.filter(faq => {
+    return combinedFAQs.filter((faq) => {
       const matchesCategory = activeTab === "all" || faq.category === activeTab;
       const matchesSearch =
         faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -168,19 +302,26 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
   }, [combinedFAQs, activeTab, searchQuery]);
 
   return (
-    <main className="site-container min-h-screen page-container relative overflow-hidden" id="faq-page">
+    <main
+      className="site-container page-container relative min-h-screen overflow-hidden"
+      id="faq-page"
+    >
       {/* Page Header */}
-      <header className="text-center mb-6 ">
+      <header className="mb-6 text-center">
         <h1 className="mb-6">
-          {sanityContent?.heroHeading || sanityContent?.title || "FREQUENTLY ASKED QUESTIONS"}
+          {sanityContent?.heroHeading ||
+            sanityContent?.title ||
+            "FREQUENTLY ASKED QUESTIONS"}
         </h1>
-        <p className="max-w-xl mx-auto  ">
-          {sanityContent?.heroSubheading || sanityContent?.subtitle || "Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise."}
+        <p className="mx-auto max-w-xl">
+          {sanityContent?.heroSubheading ||
+            sanityContent?.subtitle ||
+            "Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise."}
         </p>
       </header>
 
       {/* Search Bar */}
-      <div className="mb-6 max-w-[500px] mx-auto flex justify-center">
+      <div className="mx-auto mb-6 flex max-w-[500px] justify-center">
         <SearchInput
           value={searchQuery}
           onChange={setSearchQuery}
@@ -190,8 +331,11 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       </div>
 
       {/* Category Navigation Tabs */}
-      <nav aria-label="FAQ Categories" className="flex flex-wrap justify-center gap-2 mb-6">
-        {CATEGORIES.map(cat => {
+      <nav
+        aria-label="FAQ Categories"
+        className="mb-6 flex flex-wrap justify-center gap-2"
+      >
+        {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
           const isActive = activeTab === cat.id;
           return (
@@ -200,7 +344,8 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
               type="button"
               onClick={() => setActiveTab(cat.id)}
               isActive={isActive}
-              className="!w-auto flex items-center gap-2">
+              className="flex !w-auto items-center gap-2"
+            >
               <span className={isActive ? " " : cat.color}>
                 <Icon />
               </span>
@@ -218,27 +363,34 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             return (
               <div
                 key={faq.id}
-                className="overflow-hidden transition-colors duration-300 border-b border-white/10"
+                className="overflow-hidden border-b border-white/10 transition-colors duration-300"
                 style={{
-                  borderBottomColor: isExpanded ? 'rgba(192, 132, 252, 0.6)' : undefined
-                }}>
+                  borderBottomColor: isExpanded
+                    ? "rgba(192, 132, 252, 0.6)"
+                    : undefined,
+                }}
+              >
                 <button
                   onClick={() => toggleExpand(faq.id)}
-                  className="w-full text-left py-6 flex items-center justify-between gap-4 focus:outline-none cursor-pointer">
-                  <span className="transition duration-200   ">
+                  className="flex w-full cursor-pointer items-center justify-between gap-4 py-6 text-left focus:outline-none"
+                >
+                  <span className="transition duration-200">
                     {faq.question}
                   </span>
-                  <div className={`p-1.5 rounded-lg bg-white/10 text-white/70 transform transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""}`}>
+                  <div
+                    className={`transform rounded-lg bg-white/10 p-1.5 text-white/70 transition-transform duration-200 ${isExpanded ? "rotate-90 text-purple-400" : ""}`}
+                  >
                     <ChevronRightIcon />
                   </div>
                 </button>
 
                 {/* Expanded Answer with smooth grid-rows height transition */}
                 <div
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                >
                   <div className="overflow-hidden">
                     <div className="pb-6">
-                      <p className="leading-relaxed text-sm md:text-base">
+                      <p className="text-sm leading-relaxed md:text-base">
                         {faq.answer}
                       </p>
                     </div>
@@ -248,24 +400,28 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             );
           })
         ) : (
-          <div className="text-center py-16 bg-[#00000029] backdrop-blur-xl rounded-lg p-8">
-            <span className="text-white/20 inline-block mb-6 scale-150">
+          <div className="rounded-lg bg-[#00000029] p-8 py-16 text-center backdrop-blur-xl">
+            <span className="mb-6 inline-block scale-150 text-white/20">
               <HelpIcon />
             </span>
             <h3 className="mb-1">No matches found</h3>
-            <p className="max-w-xs mx-auto">
-              We couldn&apos;t find any FAQs matching &quot;{searchQuery}&quot;. Try using different terms or browse standard categories.
+            <p className="mx-auto max-w-xs">
+              We couldn&apos;t find any FAQs matching &quot;{searchQuery}&quot;.
+              Try using different terms or browse standard categories.
             </p>
           </div>
         )}
       </section>
 
       {/* Live Support Banner */}
-      <aside className="bg-[#00000029] backdrop-blur-xl mt-6 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <aside className="mt-6 flex flex-col items-center justify-between gap-6 rounded-lg bg-[#00000029] p-6 text-center backdrop-blur-xl sm:flex-row sm:p-8 sm:text-left">
         <div>
-          <h4 className="mb-1">{sanityContent?.supportTitle || "Still need help?"}</h4>
+          <h4 className="mb-1">
+            {sanityContent?.supportTitle || "Still need help?"}
+          </h4>
           <p className=" ">
-            {sanityContent?.supportBody || "Can't find the answer you are looking for? Reach out to our direct support."}
+            {sanityContent?.supportBody ||
+              "Can't find the answer you are looking for? Reach out to our direct support."}
           </p>
         </div>
         <TransitionLink href="/contact">

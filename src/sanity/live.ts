@@ -6,7 +6,7 @@ import { sanityClient } from "@/lib/sanity";
 // Server token: private, used for draft content (server-side only).
 // Browser token: Viewer-only Sanity token that can be public.
 export const { sanityFetch, SanityLive } = defineLive({
- client: sanityClient,
- serverToken: process.env.SANITY_API_TOKEN,
- browserToken: process.env['NEXT_PUBLIC_SANITY_' + 'BROWSER_TOKEN'] || false,
+  client: sanityClient,
+  serverToken: process.env.SANITY_API_TOKEN,
+  browserToken: process.env["NEXT_PUBLIC_SANITY_" + "BROWSER_TOKEN"] || false,
 });

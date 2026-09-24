@@ -6,7 +6,8 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Verify Cruise Access — 7th Heaven",
-  description: "Enter your verification code to access your 7th Heaven Cruise Dashboard.",
+  description:
+    "Enter your verification code to access your 7th Heaven Cruise Dashboard.",
 };
 
 export default async function CruiseVerifyPage() {

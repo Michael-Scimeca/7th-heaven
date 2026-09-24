@@ -1,12 +1,22 @@
 "use client";
-import Image from 'next/image';
+import Image from "next/image";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
+import {
+  supabase,
+  isSupabaseConfigured,
+  type FeedPostDB,
+} from "@/lib/supabase-client";
 
 // ─── Tour schedule for LIVE NOW detection ───
 const tourDates = [
-  { date: "April 17, 2026", time: "8:00pm", venue: "Joe's Live", city: "Rosemont", state: "IL" },
+  {
+    date: "April 17, 2026",
+    time: "8:00pm",
+    venue: "Joe's Live",
+    city: "Rosemont",
+    state: "IL",
+  },
   // Add more dates as needed — or fetch from tour data
 ];
 
@@ -35,7 +45,10 @@ function isShowLiveNow(): { live: boolean; venue?: string } {
 }
 
 // ─── Post types config ───
-const typeConfig: Record<string, { color: string; label: string; icon: string }> = {
+const typeConfig: Record<
+  string,
+  { color: string; label: string; icon: string }
+> = {
   text: { color: "#851DEF", label: "Update", icon: "✍️" },
   photo: { color: "#22c55e", label: "Photo", icon: "📸" },
   video: { color: "#ef4444", label: "Video", icon: "🎬" },
@@ -51,7 +64,8 @@ const mockPosts: FeedPostDB[] = [
     member_name: "Adam Heisler",
     member_role: "Lead Vocals",
     member_avatar: "AH",
-    content: "Sound check at Joe's Live! This venue has incredible acoustics. Can't wait for Thursday night 🔥🎤",
+    content:
+      "Sound check at Joe's Live! This venue has incredible acoustics. Can't wait for Thursday night 🔥🎤",
     post_type: "photo",
     reactions: { "🔥": 47, "🤘": 32, "❤️": 18 },
     is_live: true,
@@ -62,7 +76,8 @@ const mockPosts: FeedPostDB[] = [
     member_name: "Richard Hofherr",
     member_role: "Guitar / Keys",
     member_avatar: "RH",
-    content: "Working on some new arrangements for the summer shows. Adding a few surprises to the setlist that I think you're all going to love. Stay tuned 🎸🎹",
+    content:
+      "Working on some new arrangements for the summer shows. Adding a few surprises to the setlist that I think you're all going to love. Stay tuned 🎸🎹",
     post_type: "text",
     reactions: { "🎸": 28, "❤️": 41 },
     is_live: true,
@@ -73,7 +88,8 @@ const mockPosts: FeedPostDB[] = [
     member_name: "Nick Cox",
     member_role: "Guitar / Vocals",
     member_avatar: "NC",
-    content: "Caught some amazing deep sky shots last night between rehearsals. The Orion Nebula was on full display 🌌🔭 Music and astrophotography — the two best things in life.",
+    content:
+      "Caught some amazing deep sky shots last night between rehearsals. The Orion Nebula was on full display 🌌🔭 Music and astrophotography — the two best things in life.",
     post_type: "photo",
     reactions: { "🌌": 55, "🔥": 22, "❤️": 34 },
     is_live: true,
@@ -84,7 +100,8 @@ const mockPosts: FeedPostDB[] = [
     member_name: "7th Heaven",
     member_role: "Official",
     member_avatar: "7H",
-    content: "🚨 NEW DATES ADDED! We just locked in 5 more summer shows across the Midwest. Check the tour page for all the details. See you out there!",
+    content:
+      "🚨 NEW DATES ADDED! We just locked in 5 more summer shows across the Midwest. Check the tour page for all the details. See you out there!",
     post_type: "announcement",
     reactions: { "🤘": 89, "🔥": 67, "❤️": 45 },
     is_live: true,
@@ -95,7 +112,8 @@ const mockPosts: FeedPostDB[] = [
     member_name: "Mark Kennetz",
     member_role: "Bass / Vocals",
     member_avatar: "MK",
-    content: "New bass strings on and dialed in. There's nothing like the sound of fresh rounds on a P-Bass. Thursday is going to hit different 🎸💪",
+    content:
+      "New bass strings on and dialed in. There's nothing like the sound of fresh rounds on a P-Bass. Thursday is going to hit different 🎸💪",
     post_type: "text",
     reactions: { "🎸": 19, "🔥": 14 },
     is_live: true,
@@ -106,7 +124,8 @@ const mockPosts: FeedPostDB[] = [
     member_name: "Frankie Harchut",
     member_role: "Drums",
     member_avatar: "FH",
-    content: "Just got the kit re-tuned and ready for the next run of shows. New heads on the snare — punchy and crisp, just the way I like it 🥁🔥 Let's go!",
+    content:
+      "Just got the kit re-tuned and ready for the next run of shows. New heads on the snare — punchy and crisp, just the way I like it 🥁🔥 Let's go!",
     post_type: "text",
     reactions: { "🥁": 33, "🤘": 21 },
     is_live: true,
@@ -132,7 +151,10 @@ function timeAgo(dateStr: string): string {
 
 export default function CrewFeed() {
   const [posts, setPosts] = useState<FeedPostDB[]>([]);
-  const [liveStatus, setLiveStatus] = useState<{ live: boolean; venue?: string }>({ live: false });
+  const [liveStatus, setLiveStatus] = useState<{
+    live: boolean;
+    venue?: string;
+  }>({ live: false });
   const [newPostIds, setNewPostIds] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
   const feedRef = useRef<HTMLDivElement>(null);
@@ -185,7 +207,7 @@ export default function CrewFeed() {
               return next;
             });
           }, 3000);
-        }
+        },
       )
       .subscribe();
 
@@ -208,7 +230,10 @@ export default function CrewFeed() {
         <div className="site-container !max-w-[800px]">
           <div className="flex flex-col gap-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-40 bg-white/[0.03] border border-white/[0.06] animate-pulse" />
+              <div
+                key={i}
+                className="h-40 animate-pulse border border-white/[0.06] bg-white/[0.03]"
+              />
             ))}
           </div>
         </div>
@@ -220,15 +245,15 @@ export default function CrewFeed() {
     <section className="py-20">
       <div className="site-container !max-w-[800px]">
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-10">
+        <div className="mb-10 flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-3 mb-3 flex-wrap">
+            <div className="mb-3 flex flex-wrap items-center gap-3">
               {/* LIVE NOW badge */}
               {liveStatus.live ? (
-                <div className="flex items-center gap-2 bg-red-500/20 border border-red-500/40 px-3 py-1">
+                <div className="flex items-center gap-2 border border-red-500/40 bg-red-500/20 px-3 py-1">
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
-                    <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-red-500" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-lg bg-red-500" />
                   </span>
                   <span className="text-red-400">
                     Live Now{liveStatus.venue ? ` — ${liveStatus.venue}` : ""}
@@ -236,7 +261,7 @@ export default function CrewFeed() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-500 rounded-lg animate-pulse" />
+                  <span className="h-2 w-2 animate-pulse rounded-lg bg-green-500" />
                   <span className="text-green-500">Crew Feed</span>
                 </div>
               )}
@@ -245,9 +270,16 @@ export default function CrewFeed() {
             </div>
             <h2>
               {liveStatus.live ? (
-                <>Live from <span className="gradient-text">{liveStatus.venue || "the show"}</span></>
+                <>
+                  Live from{" "}
+                  <span className="gradient-text">
+                    {liveStatus.venue || "the show"}
+                  </span>
+                </>
               ) : (
-                <>Crew <span className="gradient-text">Feed</span></>
+                <>
+                  Crew <span className="gradient-text">Feed</span>
+                </>
               )}
             </h2>
             <p className="mt-2">
@@ -261,74 +293,94 @@ export default function CrewFeed() {
         {/* Feed Timeline */}
         <div className="relative" ref={feedRef}>
           {/* Timeline line */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-white/10" />
+          <div className="absolute top-0 bottom-0 left-6 w-px bg-white/10" />
 
           <div className="flex flex-col gap-0">
             {posts.map((post) => {
               const config = typeConfig[post.post_type] || typeConfig.text;
               const isNew = newPostIds.has(post.id);
-              const reactions = typeof post.reactions === "object" ? post.reactions : {};
+              const reactions =
+                typeof post.reactions === "object" ? post.reactions : {};
 
               return (
                 <article
                   key={post.id}
-                  className={`relative pl-16 pb-8 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""}`}
+                  className={`relative pb-8 pl-16 transition-colors duration-700 ${isNew ? "animate-slide-in-feed" : ""}`}
                   id={`crew-feed-${post.id}`}
-                  style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
+                  style={
+                    isNew
+                      ? {
+                          animation:
+                            "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                        }
+                      : undefined
+                  }
+                >
                   {/* Timeline dot */}
                   <div
-                    className="absolute left-[18px] top-3 w-3 h-3 rounded-lg border-2 z-10 transition-colors duration-300"
+                    className="absolute top-3 left-[18px] z-10 h-3 w-3 rounded-lg border-2 transition-colors duration-300"
                     style={{
                       borderColor: config.color,
-                      background: isNew ? config.color : "var(--color-bg-primary)",
+                      background: isNew
+                        ? config.color
+                        : "var(--color-bg-primary)",
                     }}
                   />
 
                   {/* New post glow */}
                   {isNew && (
                     <div
-                      className="absolute -inset-2 opacity-20 pointer-events-none transition-opacity duration-3000"
-                      style={{ background: `radial-gradient(ellipse at left, ${config.color}40, transparent 70%)` }}
+                      className="pointer-events-none absolute -inset-2 opacity-20 transition-opacity duration-3000"
+                      style={{
+                        background: `radial-gradient(ellipse at left, ${config.color}40, transparent 70%)`,
+                      }}
                     />
                   )}
 
                   {/* Post Card */}
                   <div
-                    className={`border bg-white/[0.02] p-6 transition-colors duration-300 border-white/10 hover:bg-white/[0.04] ${isNew ? " border-white/10 " : "border-white/[0.06]"}`}>
+                    className={`border border-white/10 bg-white/[0.02] p-6 transition-colors duration-300 hover:bg-white/[0.04] ${isNew ? "border-white/10" : "border-white/[0.06]"}`}
+                  >
                     {/* Header: Avatar + Name + Time */}
-                    <div className="flex items-start justify-between mb-6">
+                    <div className="mb-6 flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-11 h-11 rounded-lg flex items-center justify-center border"
+                          className="flex h-11 w-11 items-center justify-center rounded-lg border"
                           style={{
                             borderColor: config.color,
                             color: config.color,
                             background: `${config.color}15`,
-                          }}>
+                          }}
+                        >
                           {post.member_avatar}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="  ">{post.member_name}</span>
+                            <span className=" ">{post.member_name}</span>
                             {post.post_type === "announcement" && (
-                              <span className="text-[var(--font-size-2xs)] px-2 py-0.5 bg-purple-600/20 text-purple-300 border border-purple-500/30">
+                              <span className="border border-purple-500/30 bg-purple-600/20 px-2 py-0.5 text-[var(--font-size-2xs)] text-purple-300">
                                 Official
                               </span>
                             )}
                           </div>
-                          <span className="text-white/30">{post.member_role}</span>
+                          <span className="text-white/30">
+                            {post.member_role}
+                          </span>
                         </div>
                       </div>
 
                       <div className="flex flex-col items-end gap-1">
-                        <span className="text-white/30">{timeAgo(post.created_at)}</span>
+                        <span className="text-white/30">
+                          {timeAgo(post.created_at)}
+                        </span>
                         <span
-                          className="text-[var(--font-size-2xs)] px-2 py-0.5"
+                          className="px-2 py-0.5 text-[var(--font-size-2xs)]"
                           style={{
                             color: config.color,
                             background: `${config.color}15`,
                             border: `1px solid ${config.color}30`,
-                          }}>
+                          }}
+                        >
                           {config.icon} {config.label}
                         </span>
                       </div>
@@ -339,8 +391,16 @@ export default function CrewFeed() {
 
                     {/* Image attachment */}
                     {post.image_url && (
-                      <div className="mb-6 border border-white/10 overflow-hidden">
-                        <Image width={200} height={200} unoptimized src={post.image_url} alt="7th Heaven Media" className="w-full h-auto" loading="lazy" />
+                      <div className="mb-6 overflow-hidden border border-white/10">
+                        <Image
+                          width={200}
+                          height={200}
+                          unoptimized
+                          src={post.image_url}
+                          alt="7th Heaven Media"
+                          className="h-auto w-full"
+                          loading="lazy"
+                        />
                       </div>
                     )}
 
@@ -348,9 +408,14 @@ export default function CrewFeed() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         {Object.entries(reactions).map(([emoji, count], ri) => (
-                          <span key={ri} className="flex items-center gap-1 transition-colors cursor-pointer">
+                          <span
+                            key={ri}
+                            className="flex cursor-pointer items-center gap-1 transition-colors"
+                          >
                             <span>{emoji}</span>
-                            <span className="tabular-nums">{count as number}</span>
+                            <span className="tabular-nums">
+                              {count as number}
+                            </span>
                           </span>
                         ))}
                       </div>
@@ -363,14 +428,12 @@ export default function CrewFeed() {
         </div>
 
         {/* Load More */}
-        <div className="text-center mt-8">
-          <button className="btn-outline btn-outline-hover py-2.5 px-8">
+        <div className="mt-8 text-center">
+          <button className="btn-outline btn-outline-hover px-8 py-2.5">
             Load More Posts
           </button>
         </div>
       </div>
-
-
     </section>
   );
 }

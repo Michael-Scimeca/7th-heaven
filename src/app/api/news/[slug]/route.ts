@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params;
 
@@ -21,7 +21,7 @@ export async function GET(
         publishedAt?: string;
       } | null>(
         `*[_type == "newsPost" && _id == $id][0] { _id, title, content, date, category, publishedAt }`,
-        { id: slug }
+        { id: slug },
       ),
       sanityClient.fetch<{
         _id: string;
@@ -32,18 +32,24 @@ export async function GET(
         publishedAt?: string;
       } | null>(
         `*[_type == "newsPost" && slug.current == $slug][0] { _id, title, content, date, category, publishedAt }`,
-        { slug }
+        { slug },
       ),
     ]);
 
     const article = byId ?? bySlug;
 
     if (!article) {
-      return NextResponse.json({ success: false, error: "Not found" }, { status: 404 });
+      return NextResponse.json(
+        { success: false, error: "Not found" },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ success: true, article });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }

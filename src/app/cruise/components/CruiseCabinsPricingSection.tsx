@@ -5,7 +5,25 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { Ship, Globe, Map, Video, FileText, Film, Flame, AlertTriangle, Check, HelpCircle, CreditCard, Calendar as CalendarIcon, Compass, X, Plus, Loader2, CheckCircle2 } from "lucide-react";
+import {
+  Ship,
+  Globe,
+  Map,
+  Video,
+  FileText,
+  Film,
+  Flame,
+  AlertTriangle,
+  Check,
+  HelpCircle,
+  CreditCard,
+  Calendar as CalendarIcon,
+  Compass,
+  X,
+  Plus,
+  Loader2,
+  CheckCircle2,
+} from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
 
 const FacebookIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -15,7 +33,15 @@ const FacebookIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 );
 
 const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -50,8 +76,17 @@ interface CruiseCabinsPricingSectionProps {
   joinedFans: any[];
   CruiseCard1Section: React.ComponentType<{ formData: any; setFormData: any }>;
   CruiseCard2Section: React.ComponentType<{ formData: any; setFormData: any }>;
-  CruiseNotesAndSignatureSection: React.ComponentType<{ formData: any; setFormData: any; signature: string; setSignature: any; signatureDate: string }>;
-  PaymentPortalDropdownPanel: React.ComponentType<{ isOpen: boolean; onClose: () => void }>;
+  CruiseNotesAndSignatureSection: React.ComponentType<{
+    formData: any;
+    setFormData: any;
+    signature: string;
+    setSignature: any;
+    signatureDate: string;
+  }>;
+  PaymentPortalDropdownPanel: React.ComponentType<{
+    isOpen: boolean;
+    onClose: () => void;
+  }>;
   sanityContent?: any;
 }
 
@@ -63,22 +98,22 @@ function RoomModalFooterButtons({
   onCancel: () => void;
 }) {
   return (
-    <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+    <div className="flex items-center justify-end gap-3 border-t border-white/10 pt-4">
       <button
         type="button"
         onClick={onCancel}
-        className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm   transition-colors cursor-pointer"
+        className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 text-sm transition-colors hover:bg-white/15"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={isSaving}
-        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500    text-sm transition-[background-color,box-shadow] shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+        className="flex cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 text-sm shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-[background-color,box-shadow] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
       >
         {isSaving ? (
           <>
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="h-4 w-4 animate-spin" />
             <span>Saving to Sanity...</span>
           </>
         ) : (
@@ -104,16 +139,14 @@ function ModalInputField({
 }) {
   return (
     <div>
-      <label className="block text-xs   text-purple-200/80 mb-1.5">
-        {label}
-      </label>
+      <label className="mb-1.5 block text-xs text-purple-200/80">{label}</label>
       <input
         type="text"
         required={required}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+        className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:outline-none"
       />
     </div>
   );
@@ -144,15 +177,22 @@ function CruiseCabinsPricingSectionComponent({
   sanityContent,
 }: CruiseCabinsPricingSectionProps) {
   const { member, isLoggedIn } = useMember();
-  const isAdmin = Boolean(isLoggedIn && (member?.role === "admin" || member?.role === "crew" || (member as any)?.isAdmin === true));
+  const isAdmin = Boolean(
+    isLoggedIn &&
+    (member?.role === "admin" ||
+      member?.role === "crew" ||
+      (member as any)?.isAdmin === true),
+  );
   const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);
-  const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
+  const [stateroomTab, setStateroomTab] = useState<
+    "suites" | "balcony" | "ocean" | "interior"
+  >("suites");
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
 
   const mounted = React.useSyncExternalStore(
-    () => () => { },
+    () => () => {},
     () => true,
-    () => false
+    () => false,
   );
 
   const [isAddRoomModalOpen, setIsAddRoomModalOpen] = useState(false);
@@ -217,17 +257,26 @@ function CruiseCabinsPricingSectionComponent({
   return (
     <>
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <LazyMount as="section" id="pricing" className="site-container relative z-20 -mt-85 lg:-mt-[460px]" minHeight="800px" rootMargin="300px 0px">
-        <div className="text-left max-w-3xl">
+      <LazyMount
+        as="section"
+        id="pricing"
+        className="site-container relative z-20 -mt-85 lg:-mt-[460px]"
+        minHeight="800px"
+        rootMargin="300px 0px"
+      >
+        <div className="max-w-3xl text-left">
           <h2>
-            {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.title || "Staterooms & Cruise Rates"}
+            {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
+              ?.title || "Staterooms & Cruise Rates"}
           </h2>
-          <p className="mt-4  ">
-            {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")?.subtitle || "Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms."}
+          <p className="mt-4">
+            {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
+              ?.subtitle ||
+              "Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms."}
           </p>
 
           {/* Pricing Year Toggle */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-start mt-8">
+          <div className="mt-8 flex flex-col items-stretch justify-start gap-3 sm:flex-row sm:items-center">
             <SeventhButton
               type="button"
               onClick={() => setActivePriceYear(2027)}
@@ -246,12 +295,12 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Guidelines Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 text-left border-b border-white/10 py-section-fluid">
+        <div className="py-section-fluid grid grid-cols-1 gap-6 border-b border-white/10 text-left md:grid-cols-12">
           {/* Column 1: Ship Resources */}
-          <div className="relative text-left rounded-2xl flex flex-col justify-between md:col-span-4 lg:col-span-3 min-[1600px]:col-span-3">
+          <div className="relative flex flex-col justify-between rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-4 lg:col-span-3">
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Ship className="w-6 h-6 text-purple-400 shrink-0" />
+              <div className="mb-6 flex items-center gap-3">
+                <Ship className="h-6 w-6 shrink-0 text-purple-400" />
                 <h3>Ship Resources</h3>
               </div>
 
@@ -261,10 +310,15 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open("https://en.wikipedia.org/wiki/Star_of_the_Seas", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://en.wikipedia.org/wiki/Star_of_the_Seas",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5">
-                    <Globe className="w-4 h-4 text-purple-400 shrink-0" />
+                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                  >
+                    <Globe className="h-4 w-4 shrink-0 text-purple-400" />
                     <span>WIKI</span>
                   </SeventhButton>
                 </li>
@@ -273,10 +327,15 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open("https://www.royalcaribbean.com/cruise-ships/star-of-the-seas", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://www.royalcaribbean.com/cruise-ships/star-of-the-seas",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5">
-                    <Ship className="w-4 h-4 shrink-0" />
+                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                  >
+                    <Ship className="h-4 w-4 shrink-0" />
                     <span>ROYAL CARIBBEAN PAGE</span>
                   </SeventhButton>
                 </li>
@@ -285,10 +344,15 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open("https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://www.chicagomusiccruise.com/assets/staroftheseasdeckplanjan2026.jpg",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5">
-                    <Map className="w-4 h-4 text-emerald-400 shrink-0" />
+                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                  >
+                    <Map className="h-4 w-4 shrink-0 text-emerald-400" />
                     <span>DECK PLAN</span>
                   </SeventhButton>
                 </li>
@@ -297,10 +361,15 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open("https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://youtu.be/SOf67Ysk04U?si=bduc0EEkLhYFD7GH",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5">
-                    <Video className="w-4 h-4 text-rose-400 shrink-0" />
+                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                  >
+                    <Video className="h-4 w-4 shrink-0 text-rose-400" />
                     <span>VIDEO OF THE SHIP</span>
                   </SeventhButton>
                 </li>
@@ -309,10 +378,15 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open("https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://www.chicagomusiccruise.com/assets/star-of-the-seas_cruisecompass-basic.pdf",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5">
-                    <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                  >
+                    <FileText className="h-4 w-4 shrink-0 text-amber-400" />
                     <span>PAST CRUISE COMPASS</span>
                   </SeventhButton>
                 </li>
@@ -321,10 +395,15 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open("https://youtu.be/0LxUHSdFDtY", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://youtu.be/0LxUHSdFDtY",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5">
-                    <Film className="w-4 h-4 text-indigo-400 shrink-0" />
+                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                  >
+                    <Film className="h-4 w-4 shrink-0 text-indigo-400" />
                     <span>SHIP TOUR VIDEO</span>
                   </SeventhButton>
                 </li>
@@ -333,10 +412,15 @@ function CruiseCabinsPricingSectionComponent({
                     type="button"
                     onClick={(e) => {
                       (e.currentTarget as HTMLElement).blur();
-                      window.open("https://youtu.be/6xCQ4xE7L38", "_blank", "noopener,noreferrer");
+                      window.open(
+                        "https://youtu.be/6xCQ4xE7L38",
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5">
-                    <Flame className="w-4 h-4 text-orange-400 shrink-0" />
+                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                  >
+                    <Flame className="h-4 w-4 shrink-0 text-orange-400" />
                     <span>PROMO VIDEO</span>
                   </SeventhButton>
                 </li>
@@ -345,8 +429,9 @@ function CruiseCabinsPricingSectionComponent({
                     href="https://www.facebook.com/chicagomusiccruise/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-left">
-                    <FacebookIcon className="w-4 h-4 text-blue-400 shrink-0" />
+                    className="flex items-center gap-2 text-left"
+                  >
+                    <FacebookIcon className="h-4 w-4 shrink-0 text-blue-400" />
                     <span>Facebook</span>
                   </SeventhButton>
                 </li>
@@ -355,8 +440,9 @@ function CruiseCabinsPricingSectionComponent({
                     href="https://www.instagram.com/chicagomusiccruise"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-left">
-                    <InstagramIcon className="w-4 h-4 text-pink-400 shrink-0" />
+                    className="flex items-center gap-2 text-left"
+                  >
+                    <InstagramIcon className="h-4 w-4 shrink-0 text-pink-400" />
                     <span>Instagram</span>
                   </SeventhButton>
                 </li>
@@ -368,75 +454,156 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Column 2: Booking Policy */}
-          <div className="relative text-left rounded-2xl md:col-span-8 lg:col-span-5 min-[1600px]:col-span-3">
-            <div className="flex items-center gap-3 mb-6">
-              <AlertTriangle className="w-6 h-6 text-yellow-400 shrink-0" />
-              <h3>{sanityContent?.cruiseInfo?.bookingPolicyTitle || "Booking Policy"}</h3>
+          <div className="relative rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-8 lg:col-span-5">
+            <div className="mb-6 flex items-center gap-3">
+              <AlertTriangle className="h-6 w-6 shrink-0 text-yellow-400" />
+              <h3>
+                {sanityContent?.cruiseInfo?.bookingPolicyTitle ||
+                  "Booking Policy"}
+              </h3>
             </div>
             <p className="mb-6">
-              {sanityContent?.cruiseInfo?.bookingPolicyHeading || "Book through us to participate & lock in best rates"}
+              {sanityContent?.cruiseInfo?.bookingPolicyHeading ||
+                "Book through us to participate & lock in best rates"}
             </p>
             <p className="mb-6">
               {sanityContent?.cruiseInfo?.bookingPolicyBody || (
-                <>To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong >must</strong> be placed under our official group booking.</>
+                <>
+                  To be part of our events, eat dinner together with the band
+                  and fans, and for us to assist you, your reservation{" "}
+                  <strong>must</strong> be placed under our official group
+                  booking.
+                </>
               )}
             </p>
-            <ul className="space-y-2.5 mb-6">
+            <ul className="mb-6 space-y-2.5">
               <li className="flex items-start gap-2">
-                <CheckMarkIcon className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                <span>Multiple booking options: Group Rate, Prevailing Rate, Sales &amp; Promotions.</span>
+                <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+                <span>
+                  Multiple booking options: Group Rate, Prevailing Rate, Sales
+                  &amp; Promotions.
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckMarkIcon className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                <span>We match rates &amp; re-roll your room if prices drop before final payment!</span>
+                <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+                <span>
+                  We match rates &amp; re-roll your room if prices drop before
+                  final payment!
+                </span>
               </li>
               <li className="flex items-start gap-2">
-                <HelpCircle className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Double Occupancy).</span>
+                <HelpCircle className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+                <span>
+                  <strong>ALL-INCLUSIVE:</strong> Prices include Cabin,
+                  Gratuities, Taxes, and Port Fees (Double Occupancy).
+                </span>
               </li>
             </ul>
-            <div className="pt-3 border-t border-white/10 space-y-1.5">
-              <p><strong>Email:</strong> <a href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`} className="a-btn">{sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}</a></p>
-              <p><strong>Call Us:</strong> <a href={`tel:${(sanityContent?.cruiseInfo?.bookingPhone || "877-683-9753").replace(/[^0-9]/g, "")}`} className="hover:underline transition-colors">{sanityContent?.cruiseInfo?.bookingPhone || "(877) 683-9753 - opt 5"}</a></p>
-              <p><CreditCard className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Deposit:</strong> {sanityContent?.cruiseInfo?.depositInfo || "$250/person ($500/room)."}</p>
-              <p className="!mt-1"><CalendarIcon className="w-3.5 h-3.5 text-purple-400 inline mr-1" /><strong>Final Payment:</strong> {activePriceYear === 2027 ? (sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026") : (sanityContent?.cruiseInfo?.finalPayment2028 || "Oct 1, 2027")}.</p>
+            <div className="space-y-1.5 border-t border-white/10 pt-3">
+              <p>
+                <strong>Email:</strong>{" "}
+                <a
+                  href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`}
+                  className="a-btn"
+                >
+                  {sanityContent?.cruiseInfo?.bookingEmail ||
+                    "info@NTDVacations.com"}
+                </a>
+              </p>
+              <p>
+                <strong>Call Us:</strong>{" "}
+                <a
+                  href={`tel:${(sanityContent?.cruiseInfo?.bookingPhone || "877-683-9753").replace(/[^0-9]/g, "")}`}
+                  className="transition-colors hover:underline"
+                >
+                  {sanityContent?.cruiseInfo?.bookingPhone ||
+                    "(877) 683-9753 - opt 5"}
+                </a>
+              </p>
+              <p>
+                <CreditCard className="mr-1 inline h-3.5 w-3.5 text-purple-400" />
+                <strong>Deposit:</strong>{" "}
+                {sanityContent?.cruiseInfo?.depositInfo ||
+                  "$250/person ($500/room)."}
+              </p>
+              <p className="!mt-1">
+                <CalendarIcon className="mr-1 inline h-3.5 w-3.5 text-purple-400" />
+                <strong>Final Payment:</strong>{" "}
+                {activePriceYear === 2027
+                  ? sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026"
+                  : sanityContent?.cruiseInfo?.finalPayment2028 ||
+                    "Oct 1, 2027"}
+                .
+              </p>
             </div>
           </div>
 
           {/* Column 3: Passport Guidelines (3rd column until 1600px, then stacked / 4-col at 1600px+) */}
-          <div className="relative text-left rounded-2xl md:col-span-6 lg:col-span-4 min-[1600px]:col-span-3">
-            <div className="flex items-center gap-3 mb-6">
-              <Compass className="w-6 h-6 text-purple-400 shrink-0" />
-              <h3 >{sanityContent?.cruiseInfo?.passportTitle || "Passport Guidelines"}</h3>
+          <div className="relative rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-6 lg:col-span-4">
+            <div className="mb-6 flex items-center gap-3">
+              <Compass className="h-6 w-6 shrink-0 text-purple-400" />
+              <h3>
+                {sanityContent?.cruiseInfo?.passportTitle ||
+                  "Passport Guidelines"}
+              </h3>
             </div>
-            <p className="text-purple-400 mb-6">{sanityContent?.cruiseInfo?.passportSubheading || "Essential travel document guidelines"}</p>
-            <div className="space-y-4  ">
-              <p>{sanityContent?.cruiseInfo?.passportBody || "A physical passport book valid for 6 months post-cruise is highly recommended for all travelers."}</p>
-              <p>For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable.</p>
+            <p className="mb-6 text-purple-400">
+              {sanityContent?.cruiseInfo?.passportSubheading ||
+                "Essential travel document guidelines"}
+            </p>
+            <div className="space-y-4">
+              <p>
+                {sanityContent?.cruiseInfo?.passportBody ||
+                  "A physical passport book valid for 6 months post-cruise is highly recommended for all travelers."}
+              </p>
+              <p>
+                For closed-loop U.S. sailings, a certified state birth
+                certificate accompanied by a government-issued photo ID is
+                legally acceptable.
+              </p>
             </div>
           </div>
 
           {/* Column 4: Cancellation Policy */}
-          <div className="relative text-left md:col-span-6 lg:col-span-12 min-[1600px]:col-span-3">
-            <div className="flex items-center gap-3 mb-6">
-              <CalendarIcon className="w-6 h-6 text-purple-400 shrink-0" />
-              <h3 >{sanityContent?.cruiseInfo?.cancellationTitle || "Cancellation Policy"}</h3>
+          <div className="relative text-left min-[1600px]:col-span-3 md:col-span-6 lg:col-span-12">
+            <div className="mb-6 flex items-center gap-3">
+              <CalendarIcon className="h-6 w-6 shrink-0 text-purple-400" />
+              <h3>
+                {sanityContent?.cruiseInfo?.cancellationTitle ||
+                  "Cancellation Policy"}
+              </h3>
             </div>
-            <p className="mb-6">{sanityContent?.cruiseInfo?.cancellationSubheading || "Refund terms before booking"}</p>
-            <div className="space-y-4  ">
+            <p className="mb-6">
+              {sanityContent?.cruiseInfo?.cancellationSubheading ||
+                "Refund terms before booking"}
+            </p>
+            <div className="space-y-4">
               <div>
                 <h4 className="mb-1">Group Rate Rooms:</h4>
                 {activePriceYear === 2027 ? (
-                  <ul className="list-disc pl-4 space-y-1  ">
-                    <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
-                    <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
-                    <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
-                    <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
+                  <ul className="list-disc space-y-1 pl-4">
+                    <li>
+                      Cancel before May 12, 2026: <strong>No penalty</strong>
+                    </li>
+                    <li>
+                      May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong>
+                    </li>
+                    <li>
+                      July 13, 2026 – Sept 10, 2026:{" "}
+                      <strong>$100 pp fee</strong>
+                    </li>
+                    <li>
+                      Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong>
+                    </li>
                   </ul>
                 ) : (
-                  <ul className="list-disc pl-4 space-y-1  ">
-                    <li>Cancel before May 13, 2027: <strong>No penalty</strong></li>
-                    <li>May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong></li>
+                  <ul className="list-disc space-y-1 pl-4">
+                    <li>
+                      Cancel before May 13, 2027: <strong>No penalty</strong>
+                    </li>
+                    <li>
+                      May 13, 2027 – July 13, 2027: <strong>$50 pp fee</strong>
+                    </li>
                   </ul>
                 )}
               </div>
@@ -445,11 +612,11 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="space-y-16 py-section-fluid">
-          <div className="p-0 relative text-left">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-2">
+        <div className="py-section-fluid space-y-16">
+          <div className="relative p-0 text-left">
+            <div className="mb-8 flex flex-col items-start justify-between gap-4 pb-2 md:flex-row md:items-center">
               <div>
-                <h3 >Limited Group Rate Cabins ({activePriceYear})</h3>
+                <h3>Limited Group Rate Cabins ({activePriceYear})</h3>
               </div>
               {isAdmin && (
                 <AddCmsButton
@@ -459,110 +626,250 @@ function CruiseCabinsPricingSectionComponent({
               )}
             </div>
 
-            <div key={`group-${activePriceYear}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fade-in_0.35s_ease-out_both]">
-              {((([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).length > 0
-                ? ([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]).flatMap((c: any) =>
-                  String(c.year) === String(activePriceYear)
-                    ? [{
-                      code: c.code,
-                      title: c.title,
-                      price: c.price,
-                      status: c.status,
-                      badge: c.badge,
-                      image: c.imagePath || c.image || "/images/cruise/q2_interior_plus.jpg",
-                      inclusions: c.inclusions,
-                      selectValue: c.selectValue || `group_${(c.code || "room").toLowerCase()}`,
-                    }]
-                    : []
-                )
-                : null) || (activePriceYear === 2027
+            <div
+              key={`group-${activePriceYear}`}
+              className="grid animate-[fade-in_0.35s_ease-out_both] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              {(
+                ([...(sanityContent?.cruiseInfo?.cabins || []), ...addedCabins]
+                  .length > 0
                   ? [
-                    { code: "Q2", title: "Interior Plus", price: "$1,683.27", status: "soldout", badge: "Group Rate Sold Out - Book Prevailing", image: "/images/cruise/q2_interior_plus.jpg", selectValue: "group_n5" },
-                    { code: "N5", title: "Ocean View", price: "$1,883.27", status: "warning", badge: "1 Cabin Left!", image: "/images/cruise/n5.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                    { code: "IF", title: "Infinite Central Park", price: "$2,033.27", status: "warning", badge: "2 Cabins Left!", image: "/images/cruise/if.jpg", inclusions: "Gratuities Included", selectValue: "group_if" },
-                    { code: "D4", title: "Ocean View Balcony", price: "$2,433.27", status: "info", badge: "10 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d4" },
-                    { code: "D2", title: "Ocean View Balcony", price: "$2,483.27", status: "info", badge: "11 Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d2" },
-                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,583.27", status: "warning", badge: "5 Cabins Left!", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_i1" },
-                  ]
+                      ...(sanityContent?.cruiseInfo?.cabins || []),
+                      ...addedCabins,
+                    ].flatMap((c: any) =>
+                      String(c.year) === String(activePriceYear)
+                        ? [
+                            {
+                              code: c.code,
+                              title: c.title,
+                              price: c.price,
+                              status: c.status,
+                              badge: c.badge,
+                              image:
+                                c.imagePath ||
+                                c.image ||
+                                "/images/cruise/q2_interior_plus.jpg",
+                              inclusions: c.inclusions,
+                              selectValue:
+                                c.selectValue ||
+                                `group_${(c.code || "room").toLowerCase()}`,
+                            },
+                          ]
+                        : [],
+                    )
+                  : null) ||
+                (activePriceYear === 2027
+                  ? [
+                      {
+                        code: "Q2",
+                        title: "Interior Plus",
+                        price: "$1,683.27",
+                        status: "soldout",
+                        badge: "Group Rate Sold Out - Book Prevailing",
+                        image: "/images/cruise/q2_interior_plus.jpg",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "N5",
+                        title: "Ocean View",
+                        price: "$1,883.27",
+                        status: "warning",
+                        badge: "1 Cabin Left!",
+                        image: "/images/cruise/n5.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "IF",
+                        title: "Infinite Central Park",
+                        price: "$2,033.27",
+                        status: "warning",
+                        badge: "2 Cabins Left!",
+                        image: "/images/cruise/if.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_if",
+                      },
+                      {
+                        code: "D4",
+                        title: "Ocean View Balcony",
+                        price: "$2,433.27",
+                        status: "info",
+                        badge: "10 Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d4",
+                      },
+                      {
+                        code: "D2",
+                        title: "Ocean View Balcony",
+                        price: "$2,483.27",
+                        status: "info",
+                        badge: "11 Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d2",
+                      },
+                      {
+                        code: "I1",
+                        title: "Infinite Ocean View Balcony",
+                        price: "$2,583.27",
+                        status: "warning",
+                        badge: "5 Cabins Left!",
+                        image:
+                          "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_i1",
+                      },
+                    ]
                   : [
-                    { code: "Q2", title: "Interior Plus", price: "$1,832.98", status: "info", badge: "Available", image: "/images/cruise/q2_interior_plus.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                    { code: "IF", title: "Infinite Central Park", price: "$2,032.98", status: "info", badge: "Available", image: "/images/cruise/if.jpg", inclusions: "Gratuities Included", selectValue: "group_if" },
-                    { code: "N5", title: "Ocean View", price: "$2,162.98", status: "info", badge: "Available", image: "/images/cruise/n5.jpg", inclusions: "Gratuities Included", selectValue: "group_n5" },
-                    { code: "D4", title: "Ocean View Balcony", price: "$2,472.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d4" },
-                    { code: "D2", title: "Ocean View Balcony", price: "$2,492.98", status: "info", badge: "Available", image: "/images/cruise/d1_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_d2" },
-                    { code: "I1", title: "Infinite Ocean View Balcony", price: "$2,522.98", status: "info", badge: "Available", image: "/images/cruise/i1_infinite_ocean_view_balcony.jpg", inclusions: "Gratuities Included", selectValue: "group_i1" },
-                  ]
-                )).map((room: any, idx: number) => (
-                  <div
-                    key={(room.code || room.selectValue) + idx}
-                    onClick={() => handleSelectCabin(room.selectValue)}
-                    className="w-full text-left border-0 flex flex-col justify-between cursor-pointer group  ">
-                    <div>
-                      {room.image && (
-                        <div className="relative h-44 w-full overflow-hidden text-center">
-                          <Image width={200} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
-                        </div>
-                      )}
-                      <div className="px-0 py-5">
-                        <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                          <SectionBadge label={room.badge} />
-                        </div>
-                        <span className="block   ">{room.code} Category</span>
-                        <h4 className="text-left">{room.title}</h4>
+                      {
+                        code: "Q2",
+                        title: "Interior Plus",
+                        price: "$1,832.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/q2_interior_plus.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "IF",
+                        title: "Infinite Central Park",
+                        price: "$2,032.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/if.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_if",
+                      },
+                      {
+                        code: "N5",
+                        title: "Ocean View",
+                        price: "$2,162.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/n5.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_n5",
+                      },
+                      {
+                        code: "D4",
+                        title: "Ocean View Balcony",
+                        price: "$2,472.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d4",
+                      },
+                      {
+                        code: "D2",
+                        title: "Ocean View Balcony",
+                        price: "$2,492.98",
+                        status: "info",
+                        badge: "Available",
+                        image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_d2",
+                      },
+                      {
+                        code: "I1",
+                        title: "Infinite Ocean View Balcony",
+                        price: "$2,522.98",
+                        status: "info",
+                        badge: "Available",
+                        image:
+                          "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                        inclusions: "Gratuities Included",
+                        selectValue: "group_i1",
+                      },
+                    ])
+              ).map((room: any, idx: number) => (
+                <div
+                  key={(room.code || room.selectValue) + idx}
+                  onClick={() => handleSelectCabin(room.selectValue)}
+                  className="group flex w-full cursor-pointer flex-col justify-between border-0 text-left"
+                >
+                  <div>
+                    {room.image && (
+                      <div className="relative h-44 w-full overflow-hidden text-center">
+                        <Image
+                          width={200}
+                          height={200}
+                          unoptimized
+                          src={room.image}
+                          alt={room.title}
+                          className="h-full w-full object-cover"
+                        />
                       </div>
-                    </div>
-
-                    <div className="px-0 pt-0 text-left">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="text-xl">{room.price}</span>
-                        <span className="text-white/50     ">USD pp</span>
+                    )}
+                    <div className="px-0 py-5">
+                      <div className="mb-3 flex items-start justify-between gap-2 text-left">
+                        <SectionBadge label={room.badge} />
                       </div>
-                      {room.inclusions && (
-                        <span className="text-purple-400 flex items-center gap-1">
-                          <CheckMarkIcon className="w-3.5 h-3.5 shrink-0" />
-                          <span>{room.inclusions}</span>
-                        </span>
-                      )}
-                      <SeventhButton
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSelectCabin(room.selectValue);
-                        }}
-                        className="!mt-3 w-full">
-                        SELECT &amp; BOOK CABIN
-                      </SeventhButton>
+                      <span className="block">{room.code} Category</span>
+                      <h4 className="text-left">{room.title}</h4>
                     </div>
                   </div>
-                ))}
+
+                  <div className="px-0 pt-0 text-left">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-xl">{room.price}</span>
+                      <span className="text-white/50">USD pp</span>
+                    </div>
+                    {room.inclusions && (
+                      <span className="flex items-center gap-1 text-purple-400">
+                        <CheckMarkIcon className="h-3.5 w-3.5 shrink-0" />
+                        <span>{room.inclusions}</span>
+                      </span>
+                    )}
+                    <SeventhButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSelectCabin(room.selectValue);
+                      }}
+                      className="!mt-3 w-full"
+                    >
+                      SELECT &amp; BOOK CABIN
+                    </SeventhButton>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </LazyMount>
 
       {/* ── CRUISE RESERVATION & SIGNUP FORM SECTION ── */}
-      <section id="signup" className="site-container py-section-fluid relative z-20 border-b border-white/10">
+      <section
+        id="signup"
+        className="site-container py-section-fluid relative z-20 border-b border-white/10"
+      >
         <div id="booking" />
         <div id="book-now" />
         <div id="payment-portal" />
 
         <div>
-          <div className="text-center mb-8 border-b border-white/10 pb-6">
-            <div className="flex items-center justify-center gap-3 flex-wrap mb-3">
-              <span className="inline-block text-xs     st px-3.5 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-500/30">
+          <div className="mb-8 border-b border-white/10 pb-6 text-center">
+            <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
+              <span className="st inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1 text-xs text-purple-300">
                 Official Booking Form
               </span>
               <button
                 type="button"
                 onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                className="inline-flex items-center gap-2 text-xs    px-4 py-1.5 rounded-full bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 transition-colors cursor-pointer">
-                💳 {isPaymentDropdownOpen ? "Hide Payment Form" : "Make A Payment On Existing Booking"}
+                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-xs text-rose-200 transition-colors hover:bg-rose-600/50"
+              >
+                💳{" "}
+                {isPaymentDropdownOpen
+                  ? "Hide Payment Form"
+                  : "Make A Payment On Existing Booking"}
               </button>
             </div>
-            <h2>
-              RESERVE YOUR CRUISE STATEROOM
-            </h2>
-            <p className="text-white/70 text-sm sm:text-base mt-2 max-w-xl mx-auto">
-              Every booking requires a $500 deposit per room ($250 per person). Complete the form below to lock in your cabin rate.
+            <h2>RESERVE YOUR CRUISE STATEROOM</h2>
+            <p className="mx-auto mt-2 max-w-xl text-sm text-white/70 sm:text-base">
+              Every booking requires a $500 deposit per room ($250 per person).
+              Complete the form below to lock in your cabin rate.
             </p>
           </div>
 
@@ -576,28 +883,39 @@ function CruiseCabinsPricingSectionComponent({
           )}
 
           {signupStatus === "success" ? (
-            <div className="p-8 text-center space-y-4 bg-emerald-950/40 border border-emerald-500/40 rounded-2xl animate-fade-in">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto text-2xl">
-                <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+            <div className="animate-fade-in space-y-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/40 p-8 text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-2xl text-emerald-400">
+                <CheckCircle2 className="h-8 w-8 text-emerald-400" />
               </div>
-              <h3 className="text-2xl   ">Reservation Submitted!</h3>
-              <p className="  text-sm max-w-md mx-auto leading-relaxed">
-                Thank you, <strong className="text-emerald-400">{formData.name}</strong>! Your cruise booking request for cabin <strong className="text-purple-300">{formData.cabinPreference || "selected stateroom"}</strong> has been received by NTD Vacations concierge.
+              <h3 className="text-2xl">Reservation Submitted!</h3>
+              <p className="mx-auto max-w-md text-sm leading-relaxed">
+                Thank you,{" "}
+                <strong className="text-emerald-400">{formData.name}</strong>!
+                Your cruise booking request for cabin{" "}
+                <strong className="text-purple-300">
+                  {formData.cabinPreference || "selected stateroom"}
+                </strong>{" "}
+                has been received by NTD Vacations concierge.
               </p>
-              <p className="text-xs text-white/50">A confirmation email has been dispatched to {formData.email}.</p>
+              <p className="text-xs text-white/50">
+                A confirmation email has been dispatched to {formData.email}.
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSignup} className="space-y-8 text-left">
               {formError && (
-                <div className="p-4 rounded-xl bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-3">
-                  <AlertTriangle className="w-5 h-5 text-red-400 shrink-0" />
+                <div className="flex items-center gap-3 rounded-xl border border-red-500/50 bg-red-900/40 p-4 text-sm text-red-200">
+                  <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
                   <span>{formError}</span>
                 </div>
               )}
 
               {/* ROOM CATEGORY SELECTION */}
               <div>
-                <label htmlFor="cabinPreference" className="block    text-purple-300 mb-2">
+                <label
+                  htmlFor="cabinPreference"
+                  className="mb-2 block text-purple-300"
+                >
                   Room Category / Cabin Preference *
                 </label>
                 <div className="input-glow-border rounded-xl">
@@ -606,34 +924,46 @@ function CruiseCabinsPricingSectionComponent({
                     type="text"
                     required
                     value={formData.cabinPreference || ""}
-                    onChange={(e) => setFormData((prev: any) => ({ ...prev, cabinPreference: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((prev: any) => ({
+                        ...prev,
+                        cabinPreference: e.target.value,
+                      }))
+                    }
                     placeholder="e.g. Ocean View Balcony (D4) or Suite"
-                    className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-3 text-base focus:outline-none"
+                    className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-3 text-base focus:outline-none"
                   />
                 </div>
-                <p className="text-[11px] text-white/50 mt-1.5  ">
+                <p className="mt-1.5 text-[11px] text-white/50">
                   EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
                 </p>
               </div>
 
               {/* GUEST 1 DETAILS & PAYMENT */}
               <div className="space-y-5">
-                <div className="border-b border-white/10 pb-3 flex items-center justify-between">
-                  <h3 className="text-lg   ">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
-                  <span className="text-xs text-purple-400  ">Primary Guest</span>
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <h3 className="text-lg">
+                    GUEST 1 (PRIMARY RESERVATION HOLDER)
+                  </h3>
+                  <span className="text-xs text-purple-400">Primary Guest</span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label >Full Legal Name *</label>
+                    <label>Full Legal Name *</label>
                     <div className="input-glow-border rounded-xl">
                       <input
                         type="text"
                         required
                         value={formData.name}
-                        onChange={(e) => setFormData((prev: any) => ({ ...prev, name: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
                         placeholder="First &amp; Last Name (as on Passport/ID)"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -644,15 +974,20 @@ function CruiseCabinsPricingSectionComponent({
                         type="email"
                         required
                         value={formData.email}
-                        onChange={(e) => setFormData((prev: any) => ({ ...prev, email: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }))
+                        }
                         placeholder="your@email.com"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                   <div>
                     <label>Cell Phone *</label>
                     <div className="input-glow-border rounded-xl">
@@ -660,9 +995,14 @@ function CruiseCabinsPricingSectionComponent({
                         type="tel"
                         required
                         value={formData.phone}
-                        onChange={(e) => setFormData((prev: any) => ({ ...prev, phone: formatPhoneDisplay(e.target.value) }))}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            phone: formatPhoneDisplay(e.target.value),
+                          }))
+                        }
                         placeholder="(555) 000-0000"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -672,9 +1012,14 @@ function CruiseCabinsPricingSectionComponent({
                       <input
                         type="text"
                         value={formData.crownAnchor1 || ""}
-                        onChange={(e) => setFormData((prev: any) => ({ ...prev, crownAnchor1: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            crownAnchor1: e.target.value,
+                          }))
+                        }
                         placeholder="Royal Caribbean Loyalty #"
-                        className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                        className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                       />
                     </div>
                   </div>
@@ -682,7 +1027,12 @@ function CruiseCabinsPricingSectionComponent({
                     <label>T-Shirt Size</label>
                     <CustomDropdown
                       value={formData.tshirtSize1 || "L"}
-                      onChange={(val) => setFormData((prev: any) => ({ ...prev, tshirtSize1: val }))}
+                      onChange={(val) =>
+                        setFormData((prev: any) => ({
+                          ...prev,
+                          tshirtSize1: val,
+                        }))
+                      }
                       options={[
                         { value: "S", label: "Small (S)" },
                         { value: "M", label: "Medium (M)" },
@@ -699,79 +1049,97 @@ function CruiseCabinsPricingSectionComponent({
 
                 {/* GUEST 1 PAYMENT CARD */}
                 <div className="pt-3">
-                  <CruiseCard1Section formData={formData} setFormData={setFormData} />
+                  <CruiseCard1Section
+                    formData={formData}
+                    setFormData={setFormData}
+                  />
                 </div>
               </div>
 
               {/* GUEST 2 DETAILS (OPTIONAL / TOGGLEABLE) */}
               <div className="space-y-5">
-                <div className="border-b border-white/10 pb-3 flex items-center justify-between flex-wrap gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                   <div>
-                    <h3 className="text-lg   ">GUEST 2 (IF NEEDED)</h3>
-                    <p className="text-[11px] mt-0.5">
-                      YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
+                    <h3 className="text-lg">GUEST 2 (IF NEEDED)</h3>
+                    <p className="mt-0.5 text-[11px]">
+                      YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF
+                      YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                    className={`px-4 py-1.5 rounded-full text-xs    transition-[background-color,border-color,color] cursor-pointer border ${guests[0]?.active ? "bg-purple-600 border-purple-400 " : "bg-white/10 border-white/20 text-white/70 hover:text-white "}`}
+                    className={`cursor-pointer rounded-full border px-4 py-1.5 text-xs transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600" : "border-white/20 bg-white/10 text-white/70 hover:text-white"}`}
                   >
                     {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
                   </button>
                 </div>
 
                 {guests[0]?.active && (
-                  <div className="space-y-4 animate-fade-in">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="animate-fade-in space-y-4">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                       <div>
                         <label className="mb-1">Guest 2 Full Legal Name</label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="text"
                             value={guests[0].name}
-                            onChange={(e) => updateGuest(0, "name", e.target.value)}
+                            onChange={(e) =>
+                              updateGuest(0, "name", e.target.value)
+                            }
                             placeholder="Guest 2 First &amp; Last Name"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
                       <div>
-                        <label className="block mb-1">Guest 2 Email</label>
+                        <label className="mb-1 block">Guest 2 Email</label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="email"
                             value={guests[0].email}
-                            onChange={(e) => updateGuest(0, "email", e.target.value)}
+                            onChange={(e) =>
+                              updateGuest(0, "email", e.target.value)
+                            }
                             placeholder="guest2@email.com"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                       <div>
                         <label className="mb-1">Guest 2 Phone</label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="tel"
                             value={guests[0].phone}
-                            onChange={(e) => updateGuest(0, "phone", formatPhoneDisplay(e.target.value))}
+                            onChange={(e) =>
+                              updateGuest(
+                                0,
+                                "phone",
+                                formatPhoneDisplay(e.target.value),
+                              )
+                            }
                             placeholder="(555) 000-0000"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
                       <div>
-                        <label className="mb-1">Guest 2 Crown &amp; Anchor #</label>
+                        <label className="mb-1">
+                          Guest 2 Crown &amp; Anchor #
+                        </label>
                         <div className="input-glow-border rounded-xl">
                           <input
                             type="text"
                             value={guests[0].crownAnchor}
-                            onChange={(e) => updateGuest(0, "crownAnchor", e.target.value)}
+                            onChange={(e) =>
+                              updateGuest(0, "crownAnchor", e.target.value)
+                            }
                             placeholder="Loyalty #"
-                            className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                            className="w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 text-sm focus:outline-none"
                           />
                         </div>
                       </div>
@@ -796,21 +1164,32 @@ function CruiseCabinsPricingSectionComponent({
 
                     {/* OPTIONAL SPLIT PAYMENT FOR GUEST 2 */}
                     <div className="pt-2">
-                      <div className="flex items-center gap-2 mb-3">
+                      <div className="mb-3 flex items-center gap-2">
                         <input
                           type="checkbox"
                           id="splitPayment"
                           checked={formData.splitPayment}
-                          onChange={(e) => setFormData((prev: any) => ({ ...prev, splitPayment: e.target.checked }))}
-                          className="rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500 cursor-pointer"
+                          onChange={(e) =>
+                            setFormData((prev: any) => ({
+                              ...prev,
+                              splitPayment: e.target.checked,
+                            }))
+                          }
+                          className="cursor-pointer rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500"
                         />
-                        <label htmlFor="splitPayment" className="text-xs   text-purple-200 cursor-pointer">
+                        <label
+                          htmlFor="splitPayment"
+                          className="cursor-pointer text-xs text-purple-200"
+                        >
                           Split deposit onto 2 separate credit cards?
                         </label>
                       </div>
 
                       {formData.splitPayment && (
-                        <CruiseCard2Section formData={formData} setFormData={setFormData} />
+                        <CruiseCard2Section
+                          formData={formData}
+                          setFormData={setFormData}
+                        />
                       )}
                     </div>
                   </div>
@@ -819,21 +1198,27 @@ function CruiseCabinsPricingSectionComponent({
 
               {/* EXTRA / OPTIONS & NOTES */}
               <div className="space-y-4">
-                <h3 className="text-lg    border-b border-white/10 pb-3">
+                <h3 className="border-b border-white/10 pb-3 text-lg">
                   EXTRA &amp; SPECIAL REQUESTS
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label>
-                      Travel Insurance? (Yes / No)
-                    </label>
+                    <label>Travel Insurance? (Yes / No)</label>
                     <CustomDropdown
                       value={formData.insurance || "no"}
-                      onChange={(val) => setFormData((prev: any) => ({ ...prev, insurance: val }))}
+                      onChange={(val) =>
+                        setFormData((prev: any) => ({
+                          ...prev,
+                          insurance: val,
+                        }))
+                      }
                       options={[
                         { value: "no", label: "No - I decline insurance" },
-                        { value: "yes", label: "Yes - Send me insurance quote options" },
+                        {
+                          value: "yes",
+                          label: "Yes - Send me insurance quote options",
+                        },
                       ]}
                       chevronColor="#f43f5e"
                       className=""
@@ -841,20 +1226,30 @@ function CruiseCabinsPricingSectionComponent({
                   </div>
 
                   <div>
-                    <label>
-                      Pre-Paid Gratuities? (Y/N?) *
-                    </label>
+                    <label>Pre-Paid Gratuities? (Y/N?) *</label>
                     <CustomDropdown
                       value={formData.prepaidGratuities || "yes"}
-                      onChange={(val) => setFormData((prev: any) => ({ ...prev, prepaidGratuities: val }))}
+                      onChange={(val) =>
+                        setFormData((prev: any) => ({
+                          ...prev,
+                          prepaidGratuities: val,
+                        }))
+                      }
                       options={[
-                        { value: "yes", label: "Yes - Add pre-paid gratuities" },
-                        { value: "no", label: "No - Pay gratuities onboard ship" },
+                        {
+                          value: "yes",
+                          label: "Yes - Add pre-paid gratuities",
+                        },
+                        {
+                          value: "no",
+                          label: "No - Pay gratuities onboard ship",
+                        },
                       ]}
                       chevronColor="#f43f5e"
-
                     />
-                    <p className="text-[11px] text-white/50 mt-1">GROUP RATE ROOMS MUST HAVE THIS</p>
+                    <p className="mt-1 text-[11px] text-white/50">
+                      GROUP RATE ROOMS MUST HAVE THIS
+                    </p>
                   </div>
                 </div>
 
@@ -871,11 +1266,11 @@ function CruiseCabinsPricingSectionComponent({
                   <SeventhButton
                     type="submit"
                     disabled={signupStatus === "submitting"}
-                    className="  w-full sm:w-auto justify-center"
+                    className="w-full justify-center sm:w-auto"
                   >
                     {signupStatus === "submitting" ? (
                       <div className="flex items-center gap-2">
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="h-5 w-5 animate-spin" />
                         <span>SUBMITTING RESERVATION...</span>
                       </div>
                     ) : (
@@ -884,45 +1279,55 @@ function CruiseCabinsPricingSectionComponent({
                   </SeventhButton>
                 </div>
               </div>
-
-
             </form>
           )}
         </div>
       </section>
 
       {/* Cruise Support Team */}
-      <LazyMount as="section" id="concierge" className="site-container py-section-fluid text-center relative z-20 border-b border-white/10" minHeight="400px" rootMargin="300px 0px">
-        <h2>
-          Official Cruise Concierge &amp; Booking Team
-        </h2>
-        <p className="text-white/70 max-w-2xl mx-auto mt-3   text-sm sm:text-base">
-          Have questions about your booking, cabin options, group travel, or excursions? Our dedicated 7th Heaven Cruise concierge team is here to assist you every step of the way.
+      <LazyMount
+        as="section"
+        id="concierge"
+        className="site-container py-section-fluid relative z-20 border-b border-white/10 text-center"
+        minHeight="400px"
+        rootMargin="300px 0px"
+      >
+        <h2>Official Cruise Concierge &amp; Booking Team</h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm text-white/70 sm:text-base">
+          Have questions about your booking, cabin options, group travel, or
+          excursions? Our dedicated 7th Heaven Cruise concierge team is here to
+          assist you every step of the way.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-8 lg:gap-6 pt-6 md:pt-12 text-center">
-          {((sanityContent?.founders?.length ? sanityContent.founders : sanityContent?.contacts?.length ? sanityContent.contacts : null) || [
-            {
-              name: "RICHARD HOFHERR",
-              role: "CEO / BOOKING / BANDS",
-              desc: "Marketing / Media",
-              phone: "(847) 551-5363",
-              email: "info@NTDVacations.com",
-            },
-            {
-              name: "MARY GRIVAS",
-              role: "GROUP EXCURSIONS / GROUP HOTELS",
-              desc: "Group Air / Charters / Shuttles",
-              phone: "(877) 683-9753 - Ext 5",
-              email: "Mary@NTDVacations.com",
-            },
-            {
-              name: "ALAN MCRAE",
-              role: "SCHEDULE",
-              desc: "Activities / Logistics",
-              phone: "(630) 842-9129",
-              email: "alan@NTDVacations.com",
-            },
-          ]).map((member: any) => {
+        <div className="grid grid-cols-1 gap-10 pt-6 text-center sm:grid-cols-2 sm:gap-8 md:pt-12 lg:grid-cols-3 lg:gap-6">
+          {(
+            (sanityContent?.founders?.length
+              ? sanityContent.founders
+              : sanityContent?.contacts?.length
+                ? sanityContent.contacts
+                : null) || [
+              {
+                name: "RICHARD HOFHERR",
+                role: "CEO / BOOKING / BANDS",
+                desc: "Marketing / Media",
+                phone: "(847) 551-5363",
+                email: "info@NTDVacations.com",
+              },
+              {
+                name: "MARY GRIVAS",
+                role: "GROUP EXCURSIONS / GROUP HOTELS",
+                desc: "Group Air / Charters / Shuttles",
+                phone: "(877) 683-9753 - Ext 5",
+                email: "Mary@NTDVacations.com",
+              },
+              {
+                name: "ALAN MCRAE",
+                role: "SCHEDULE",
+                desc: "Activities / Logistics",
+                phone: "(630) 842-9129",
+                email: "alan@NTDVacations.com",
+              },
+            ]
+          ).map((member: any) => {
             const nameStr = member.name || "Team Member";
             const roleStr = member.role || member.category || "Concierge";
             const descStr = member.desc || member.company || "";
@@ -930,46 +1335,59 @@ function CruiseCabinsPricingSectionComponent({
             const emailStr = member.email || "";
 
             const photoSrc =
-              nameStr.toLowerCase().includes("mary") || nameStr.toLowerCase().includes("grivas")
+              nameStr.toLowerCase().includes("mary") ||
+              nameStr.toLowerCase().includes("grivas")
                 ? "/images/contact/Mary-contact.png"
-                : nameStr.toLowerCase().includes("alan") || nameStr.toLowerCase().includes("mcrae")
+                : nameStr.toLowerCase().includes("alan") ||
+                    nameStr.toLowerCase().includes("mcrae")
                   ? "/images/contact/Alan-contact.png"
                   : "/images/contact/Dickie-contact.png";
 
             return (
-              <div key={nameStr + emailStr} className="flex flex-col items-center">
+              <div
+                key={nameStr + emailStr}
+                className="flex flex-col items-center"
+              >
                 <div
-                  className="w-full overflow-hidden flex items-end justify-center relative  "
+                  className="relative flex w-full items-end justify-center overflow-hidden"
                   style={{
-                    WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
-                    maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
-                  }}>
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                  }}
+                >
                   <Image
                     width={408}
                     height={408}
                     unoptimized
                     src={photoSrc}
                     alt={nameStr}
-                    className="w-full h-full object-contain object-bottom"
+                    className="h-full w-full object-contain object-bottom"
                     style={{
-                      WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
-                      maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                      maskImage:
+                        "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
                     }}
                   />
                 </div>
-                <h4 >{nameStr}</h4>
-                <div className="mt-2 flex flex-col items-center gap-1 w-full">
+                <h4>{nameStr}</h4>
+                <div className="mt-2 flex w-full flex-col items-center gap-1">
                   <SectionBadge label={roleStr} isActive />
-                  {descStr && <p className="text-white/70 mt-0.5">{descStr}</p>}
+                  {descStr && <p className="mt-0.5 text-white/70">{descStr}</p>}
                 </div>
-                <div className="mt-3 flex flex-col items-center gap-1.5 w-full">
+                <div className="mt-3 flex w-full flex-col items-center gap-1.5">
                   {phoneStr && (
-                    <a href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`} className="! hover:text-white   transition-colors">
+                    <a
+                      href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`}
+                      className="! transition-colors hover:text-white"
+                    >
                       <span>{phoneStr}</span>
                     </a>
                   )}
                   {emailStr && (
-                    <a href={`mailto:${emailStr}`} className="a-btn  ">
+                    <a href={`mailto:${emailStr}`} className="a-btn">
                       <span>{emailStr}</span>
                     </a>
                   )}
@@ -981,42 +1399,58 @@ function CruiseCabinsPricingSectionComponent({
       </LazyMount>
 
       {/* FEATURED ARTISTS */}
-      <LazyMount as="section" id="artists" className="site-container py-section-fluid border-b border-white/10" minHeight="500px" rootMargin="300px 0px">
-        <div className="text-left w-full mb-10 max-w-3xl">
+      <LazyMount
+        as="section"
+        id="artists"
+        className="site-container py-section-fluid border-b border-white/10"
+        minHeight="500px"
+        rootMargin="300px 0px"
+      >
+        <div className="mb-10 w-full max-w-3xl text-left">
           <h2 className="mt-2">
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
-          <p className="text-white/70 mt-2.5   text-sm sm:text-base leading-relaxed">
-            Get ready for non-stop live music! Join 7th Heaven along with an extraordinary lineup of world-class performers and special guest bands across multiple stages throughout the voyage.
+          <p className="mt-2.5 text-sm leading-relaxed text-white/70 sm:text-base">
+            Get ready for non-stop live music! Join 7th Heaven along with an
+            extraordinary lineup of world-class performers and special guest
+            bands across multiple stages throughout the voyage.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {BANDS_DATA.map((band) => (
-            <div key={band.name} className="relative overflow-hidden group border-0 flex flex-col justify-between">
+            <div
+              key={band.name}
+              className="group relative flex flex-col justify-between overflow-hidden border-0"
+            >
               {band.photo && (
                 <div
-                  className="relative flex items-end justify-center w-full overflow-hidden"
+                  className="relative flex w-full items-end justify-center overflow-hidden"
                   style={{
-                    WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
-                    maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
-                  }}>
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                  }}
+                >
                   <Image
                     width={400}
                     height={400}
                     unoptimized
                     src={band.photo}
                     alt={band.name}
-                    className="w-full h-full object-contain object-bottom"
+                    className="h-full w-full object-contain object-bottom"
                     style={{
-                      WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
-                      maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
+                      maskImage:
+                        "linear-gradient(to bottom, black 0%, black 55%, transparent 95%)",
                     }}
                   />
                 </div>
               )}
-              <div className="relative z-10 pt-3 pb-2 flex flex-col text-left">
-                <h3 >{band.name}</h3>
+              <div className="relative z-10 flex flex-col pt-3 pb-2 text-left">
+                <h3>{band.name}</h3>
                 {band.role && (
                   <div className="mt-2">
                     <SectionBadge label={band.role} />
@@ -1027,86 +1461,105 @@ function CruiseCabinsPricingSectionComponent({
             </div>
           ))}
         </div>
-      </LazyMount >
+      </LazyMount>
 
       {/* ── ADD ROOM MODAL PORTAL ── */}
-      {
-        mounted && isAddRoomModalOpen && createPortal(
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fade-in_0.2s_ease-out]">
-            <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 text-left max-h-[90vh] overflow-y-auto">
+      {mounted &&
+        isAddRoomModalOpen &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-md">
+            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-[#12071f] p-6 text-left sm:p-8">
               <button
                 type="button"
                 onClick={() => setIsAddRoomModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               </button>
 
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
-                  <Ship className="w-5 h-5" />
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                  <Ship className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl     ">Add Stateroom to Sanity CMS</h3>
-                  <p className="text-xs text-purple-300/70">Create and publish a stateroom rate card directly to Sanity CMS.</p>
+                  <h3 className="text-xl">Add Stateroom to Sanity CMS</h3>
+                  <p className="text-xs text-purple-300/70">
+                    Create and publish a stateroom rate card directly to Sanity
+                    CMS.
+                  </p>
                 </div>
               </div>
 
               {roomError && (
-                <div className="mb-6 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+                <div className="mb-6 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-sm text-red-200">
+                  <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
                   <span>{roomError}</span>
                 </div>
               )}
 
               {roomSuccess && (
-                <div className="mb-6 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="mb-6 flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-900/40 p-3 text-sm text-emerald-200">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Stateroom saved successfully to Sanity!</span>
                 </div>
               )}
 
               <form onSubmit={handleSaveRoom} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label className="block text-xs   text-purple-200/80 mb-1.5">
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
                       Stateroom Title *
                     </label>
                     <input
                       type="text"
                       required
                       value={roomForm.title}
-                      onChange={(e) => setRoomForm((prev) => ({ ...prev, title: e.target.value }))}
+                      onChange={(e) =>
+                        setRoomForm((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
+                      }
                       placeholder="e.g. Ocean View Balcony"
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
+                      className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs   text-purple-200/80 mb-1.5">
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
                       Category Code *
                     </label>
                     <input
                       type="text"
                       required
                       value={roomForm.code}
-                      onChange={(e) => setRoomForm((prev) => ({ ...prev, code: e.target.value.toUpperCase() }))}
+                      onChange={(e) =>
+                        setRoomForm((prev) => ({
+                          ...prev,
+                          code: e.target.value.toUpperCase(),
+                        }))
+                      }
                       placeholder="e.g. D4, N5, IF, GS"
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                      className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label className="block text-xs   text-purple-200/80 mb-1.5">
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
                       Cruise Year *
                     </label>
                     <select
                       value={roomForm.year}
-                      onChange={(e) => setRoomForm((prev) => ({ ...prev, year: e.target.value }))}
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                      onChange={(e) =>
+                        setRoomForm((prev) => ({
+                          ...prev,
+                          year: e.target.value,
+                        }))
+                      }
+                      className="w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
                     >
                       <option value="2027">2027 (Star of the Seas)</option>
                       <option value="2028">2028 (Legend of the Seas)</option>
@@ -1116,31 +1569,42 @@ function CruiseCabinsPricingSectionComponent({
                   <ModalInputField
                     label="Price Per Person (USD) *"
                     value={roomForm.price}
-                    onChange={(val) => setRoomForm((prev) => ({ ...prev, price: val }))}
+                    onChange={(val) =>
+                      setRoomForm((prev) => ({ ...prev, price: val }))
+                    }
                     placeholder="e.g. $2,433.27"
                     required
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <ModalInputField
                     label="Availability Badge Text"
                     value={roomForm.badge}
-                    onChange={(val) => setRoomForm((prev) => ({ ...prev, badge: val }))}
+                    onChange={(val) =>
+                      setRoomForm((prev) => ({ ...prev, badge: val }))
+                    }
                     placeholder="e.g. 5 Cabins Left! or Available"
                   />
 
                   <div>
-                    <label className="block text-xs   text-purple-200/80 mb-1.5">
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
                       Badge Status Color
                     </label>
                     <select
                       value={roomForm.status}
-                      onChange={(e) => setRoomForm((prev) => ({ ...prev, status: e.target.value }))}
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
+                      onChange={(e) =>
+                        setRoomForm((prev) => ({
+                          ...prev,
+                          status: e.target.value,
+                        }))
+                      }
+                      className="w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
                     >
                       <option value="info">Info / Cyan (Available)</option>
-                      <option value="warning">Warning / Amber (Few Left)</option>
+                      <option value="warning">
+                        Warning / Amber (Few Left)
+                      </option>
                       <option value="soldout">Sold Out / Red</option>
                     </select>
                   </div>
@@ -1149,14 +1613,18 @@ function CruiseCabinsPricingSectionComponent({
                 <ModalInputField
                   label="Inclusions &amp; Perks"
                   value={roomForm.inclusions}
-                  onChange={(val) => setRoomForm((prev) => ({ ...prev, inclusions: val }))}
+                  onChange={(val) =>
+                    setRoomForm((prev) => ({ ...prev, inclusions: val }))
+                  }
                   placeholder="e.g. Gratuities Included"
                 />
 
                 <ModalInputField
                   label="Image Path / URL"
                   value={roomForm.imagePath}
-                  onChange={(val) => setRoomForm((prev) => ({ ...prev, imagePath: val }))}
+                  onChange={(val) =>
+                    setRoomForm((prev) => ({ ...prev, imagePath: val }))
+                  }
                   placeholder="e.g. /images/cruise/d1_ocean_view_balcony.jpg"
                 />
 
@@ -1167,12 +1635,13 @@ function CruiseCabinsPricingSectionComponent({
               </form>
             </div>
           </div>,
-          document.body
-        )
-      }
+          document.body,
+        )}
     </>
   );
 }
 
-const CruiseCabinsPricingSection = React.memo(CruiseCabinsPricingSectionComponent);
+const CruiseCabinsPricingSection = React.memo(
+  CruiseCabinsPricingSectionComponent,
+);
 export default CruiseCabinsPricingSection;

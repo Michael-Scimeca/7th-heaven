@@ -7,11 +7,13 @@ export async function GET(req: NextRequest) {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
     const showId = req.nextUrl.searchParams.get("showId");
-    if (!showId) return NextResponse.json({ error: "showId required" }, { status: 400 });
+    if (!showId)
+      return NextResponse.json({ error: "showId required" }, { status: 400 });
 
     const { data: attendees, error } = await supabase
       .from("show_attendance")
-      .select(`
+      .select(
+        `
         id,
         status,
         anonymous,
@@ -22,20 +24,22 @@ export async function GET(req: NextRequest) {
           profile_photo_url,
           tier
         )
-      `)
+      `,
+      )
       .eq("show_id", showId)
       .order("created_at", { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
 
     // Filter out "Here Now" check-ins that are older than 12 hours
     const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
     const now = Date.now();
-    
+
     const validAttendees = (attendees || []).filter((a: any) => {
-      if (a.status === 'there' && a.checked_in_at) {
+      if (a.status === "there" && a.checked_in_at) {
         const checkInTime = new Date(a.checked_in_at).getTime();
-        if (now - checkInTime> TWELVE_HOURS_MS) return false; // Expired
+        if (now - checkInTime > TWELVE_HOURS_MS) return false; // Expired
       }
       return true;
     });
@@ -51,8 +55,11 @@ export async function POST(req: NextRequest) {
   try {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
     const { showId, status, anonymous } = body; // status: "going" | "there", anonymous: boolean
@@ -65,10 +72,11 @@ export async function POST(req: NextRequest) {
         anonymous: anonymous ?? false,
         checked_in_at: status === "there" ? new Date().toISOString() : null,
       },
-      { onConflict: "show_id,user_id" }
+      { onConflict: "show_id,user_id" },
     );
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
@@ -80,13 +88,21 @@ export async function DELETE(req: NextRequest) {
   try {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const showId = req.nextUrl.searchParams.get("showId");
-    if (!showId) return NextResponse.json({ error: "showId required" }, { status: 400 });
+    if (!showId)
+      return NextResponse.json({ error: "showId required" }, { status: 400 });
 
-    await supabase.from("show_attendance").delete().eq("show_id", showId).eq("user_id", user.id);
+    await supabase
+      .from("show_attendance")
+      .delete()
+      .eq("show_id", showId)
+      .eq("user_id", user.id);
     return NextResponse.json({ success: true });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

@@ -37,21 +37,60 @@ const CATEGORIES = [
 const matchesCategory = (show: PastShowItem, categoryId: string) => {
   if (categoryId === "ALL") return true;
   const venueLower = show.venue.toLowerCase();
-  if (categoryId === "FEST") return venueLower.includes("fest") || venueLower.includes("fair") || venueLower.includes("oktoberfest") || venueLower.includes("jubilee") || venueLower.includes("days");
-  if (categoryId === "CASINO") return venueLower.includes("casino") || venueLower.includes("resort") || venueLower.includes("wind creek") || venueLower.includes("hard rock") || venueLower.includes("rivers");
-  if (categoryId === "CLUB") return venueLower.includes("saloon") || venueLower.includes("pub") || venueLower.includes("bar") || venueLower.includes("tavern") || venueLower.includes("live") || venueLower.includes("nellie");
-  if (categoryId === "UNPLUGGED") return venueLower.includes("unplugged") || venueLower.includes("acoustic");
-  if (categoryId === "PRIVATE") return venueLower.includes("private") || venueLower.includes("corporate") || venueLower.includes("gala") || venueLower.includes("party");
-  if (categoryId === "CRUISE") return venueLower.includes("cruise") || venueLower.includes("greece") || venueLower.includes("london") || venueLower.includes("amsterdam") || venueLower.includes("seas");
+  if (categoryId === "FEST")
+    return (
+      venueLower.includes("fest") ||
+      venueLower.includes("fair") ||
+      venueLower.includes("oktoberfest") ||
+      venueLower.includes("jubilee") ||
+      venueLower.includes("days")
+    );
+  if (categoryId === "CASINO")
+    return (
+      venueLower.includes("casino") ||
+      venueLower.includes("resort") ||
+      venueLower.includes("wind creek") ||
+      venueLower.includes("hard rock") ||
+      venueLower.includes("rivers")
+    );
+  if (categoryId === "CLUB")
+    return (
+      venueLower.includes("saloon") ||
+      venueLower.includes("pub") ||
+      venueLower.includes("bar") ||
+      venueLower.includes("tavern") ||
+      venueLower.includes("live") ||
+      venueLower.includes("nellie")
+    );
+  if (categoryId === "UNPLUGGED")
+    return venueLower.includes("unplugged") || venueLower.includes("acoustic");
+  if (categoryId === "PRIVATE")
+    return (
+      venueLower.includes("private") ||
+      venueLower.includes("corporate") ||
+      venueLower.includes("gala") ||
+      venueLower.includes("party")
+    );
+  if (categoryId === "CRUISE")
+    return (
+      venueLower.includes("cruise") ||
+      venueLower.includes("greece") ||
+      venueLower.includes("london") ||
+      venueLower.includes("amsterdam") ||
+      venueLower.includes("seas")
+    );
   return true;
 };
 
-export default function PastShowsClient({ years, totalShowsCount, sanityContent }: PastShowsClientProps) {
+export default function PastShowsClient({
+  years,
+  totalShowsCount,
+  sanityContent,
+}: PastShowsClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState<string>("ALL");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
   const [openYears, setOpenYears] = useState<Record<string, boolean>>({});
-
 
   // Filtered shows logic
   const filteredYears = useMemo(() => {
@@ -72,10 +111,12 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
 
       if (filteredShows.length === 0) return [];
 
-      return [{
-        year: yGroup.year,
-        shows: filteredShows,
-      }];
+      return [
+        {
+          year: yGroup.year,
+          shows: filteredShows,
+        },
+      ];
     });
   }, [years, searchQuery, selectedYear, selectedCategory]);
 
@@ -104,65 +145,75 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
 
   return (
     <>
-
       {/* ── BREADCRUMB & HEADER SECTION ── */}
-      <header >
-
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-0 md:pb-6">
+      <header>
+        <div className="flex flex-col justify-between gap-6 pb-0 md:flex-row md:items-end md:pb-6">
           <div>
             <h1 className="mb-3">
-              {sanityContent?.heroHeading || sanityContent?.title || "Past Shows Archive"}
+              {sanityContent?.heroHeading ||
+                sanityContent?.title ||
+                "Past Shows Archive"}
             </h1>
-            <p className="max-w-2xl  ">
-              {sanityContent?.heroSubheading || sanityContent?.subtitle || "A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985."}
+            <p className="max-w-2xl">
+              {sanityContent?.heroSubheading ||
+                sanityContent?.subtitle ||
+                "A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985."}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-          </div>
+          <div className="flex shrink-0 items-center gap-3"></div>
         </div>
       </header>
 
       {/* ── STATS BAR ── */}
-      <section aria-label="Archive Statistics" className="flex flex-wrap items-center justify-start gap-4 mb-6">
+      <section
+        aria-label="Archive Statistics"
+        className="mb-6 flex flex-wrap items-center justify-start gap-4"
+      >
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl   ">{totalShowsCount}+</span>
-          <span className="  ">Concerts Cataloged</span>
+          <span className="text-3xl sm:text-4xl">{totalShowsCount}+</span>
+          <span className=" ">Concerts Cataloged</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl   ">40+</span>
-          <span className="  ">Years of Live Rock</span>
+          <span className="text-3xl sm:text-4xl">40+</span>
+          <span className=" ">Years of Live Rock</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl   ">500+</span>
-          <span className="  ">Unique Venues</span>
+          <span className="text-3xl sm:text-4xl">500+</span>
+          <span className=" ">Unique Venues</span>
         </div>
         <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl   ">5+</span>
-          <span className="  ">Countries Played</span>
+          <span className="text-3xl sm:text-4xl">5+</span>
+          <span className=" ">Countries Played</span>
         </div>
       </section>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
-      <nav aria-label="Archive Search and Year Filters" className="p-0 border-0 flex flex-col">
+      <nav
+        aria-label="Archive Search and Year Filters"
+        className="flex flex-col border-0 p-0"
+      >
         {/* Search Input Bar */}
-        <div className="w-full max-w-md mb-6">
+        <div className="mb-6 w-full max-w-md">
           <SearchInput
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder={sanityContent?.searchPlaceholder || "Search venue, city, year..."}
+            placeholder={
+              sanityContent?.searchPlaceholder || "Search venue, city, year..."
+            }
             containerClassName="w-full"
           />
         </div>
 
         {/* Years Pill List Stacked Below Search */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="shrink-0 mr-1     ">
+          <span className="mr-1 shrink-0">
             {sanityContent?.jumpToYearLabel || "Jump to Year:"}
           </span>
           <button
             onClick={() => setSelectedYear("ALL")}
-            className={`px-3 py-1.5 rounded-lg color-transition cursor-pointer     ${selectedYear === "ALL" || selectedYear === "All" ? "bg-[var(--color-accent)] " : "bg-[#00000029] text-white/70 hover- border-0"}`}>
+            className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === "ALL" || selectedYear === "All" ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029] text-white/70"}`}
+          >
             {sanityContent?.allYearsLabel || "All Years"}
           </button>
           {years.map((y) => (
@@ -172,54 +223,67 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                 setSelectedYear(y.year);
                 setOpenYears((prev) => ({ ...prev, [y.year]: true }));
               }}
-              className={`px-3 py-1.5 rounded-lg     color-transition cursor-pointer ${selectedYear === y.year ? "bg-[var(--color-accent)] " : "bg-[#00000029] text-white/70 hover- border-0"}`}>
+              className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === y.year ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029] text-white/70"}`}
+            >
               {y.year}
             </button>
           ))}
         </div>
 
-        <div className="  text-white/60 text-sm my-6  ">
-          Showing <span className="  ">{displayedCount}</span> of {totalShowsCount} shows
+        <div className="my-6 text-sm text-white/60">
+          Showing <span className=" ">{displayedCount}</span> of{" "}
+          {totalShowsCount} shows
         </div>
       </nav>
 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
-        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg p-12 text-center my-8">
-          <Music className="w-11 h-11 text-purple-400mx-auto mb-6" />
-          <h3 className="mb-2">{sanityContent?.noShowsTitle || "No Past Shows Found"}</h3>
-          <p className="max-w-md mx-auto mb-6">
-            We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;. Try adjusting your search query or selecting a different year/category.
+        <div className="my-8 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-12 text-center">
+          <Music className="text-purple-400mx-auto mb-6 h-11 w-11" />
+          <h3 className="mb-2">
+            {sanityContent?.noShowsTitle || "No Past Shows Found"}
+          </h3>
+          <p className="mx-auto mb-6 max-w-md">
+            We couldn&apos;t find any shows matching &quot;{searchQuery}&quot;.
+            Try adjusting your search query or selecting a different
+            year/category.
           </p>
-          <button aria-label="Search"
+          <button
+            aria-label="Search"
             onClick={() => {
               setSearchQuery("");
               setSelectedYear("ALL");
               setSelectedCategory("ALL");
             }}
-            className="px-6 py-2.5 bg-[var(--color-accent)] color-transition">
+            className="color-transition bg-[var(--color-accent)] px-6 py-2.5"
+          >
             {sanityContent?.resetFiltersText || "Reset Filters"}
           </button>
         </div>
       ) : (
-        <section aria-label="Past Shows Accordion Archive" className="space-y-0">
+        <section
+          aria-label="Past Shows Accordion Archive"
+          className="space-y-0"
+        >
           {filteredYears.map((yGroup) => {
             const isOpen = !!openYears[yGroup.year];
             return (
-              <article
-                key={yGroup.year}
-                className="overflow-hidden">
+              <article key={yGroup.year} className="overflow-hidden">
                 {/* Year Header Accordion Bar */}
                 <button
                   onClick={() => toggleYear(yGroup.year)}
-                  className="w-full pr-6 py-2.5 flex items-center justify-between cursor-pointer !rounded-none text-left color-transition  "
-                  style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.15)" }}>
-                  <div className="flex items-center gap-3  ">
-                    <span className="px-3 py-1 bg-[var(--color-accent)] rounded-lg   ">
+                  className="color-transition flex w-full cursor-pointer items-center justify-between !rounded-none py-2.5 pr-6 text-left"
+                  style={{
+                    borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1">
                       {yGroup.year}
                     </span>
-                    <span className='  '>
-                      {yGroup.shows.length} {yGroup.shows.length === 1 ? "Show" : "Shows"}
+                    <span className=" ">
+                      {yGroup.shows.length}{" "}
+                      {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>
                   </div>
                 </button>
@@ -228,46 +292,59 @@ export default function PastShowsClient({ years, totalShowsCount, sanityContent 
                 {isOpen && (
                   <ul className="divide-y divide-[var(--border-color)]">
                     {yGroup.shows.map((show, idx) => {
-                      const isCancelled = show.venue.toLowerCase().includes("cancelled");
-                      const isUnplugged = show.venue.toLowerCase().includes("unplugged");
-                      const isPrivate = show.venue.toLowerCase().includes("private");
-                      const isCruise = show.venue.toLowerCase().includes("cruise") || show.venue.toLowerCase().includes("greece") || show.venue.toLowerCase().includes("london") || show.venue.toLowerCase().includes("amsterdam");
+                      const isCancelled = show.venue
+                        .toLowerCase()
+                        .includes("cancelled");
+                      const isUnplugged = show.venue
+                        .toLowerCase()
+                        .includes("unplugged");
+                      const isPrivate = show.venue
+                        .toLowerCase()
+                        .includes("private");
+                      const isCruise =
+                        show.venue.toLowerCase().includes("cruise") ||
+                        show.venue.toLowerCase().includes("greece") ||
+                        show.venue.toLowerCase().includes("london") ||
+                        show.venue.toLowerCase().includes("amsterdam");
 
                       return (
                         <li
                           key={`${yGroup.year}-${idx}`}
-                          className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:text-white color-transition group"
-                          style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
+                          className="color-transition group flex flex-col justify-between gap-2 py-3.5 hover:text-white sm:flex-row sm:items-center"
+                          style={{
+                            borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
+                          }}
+                        >
                           {/* Date & Day */}
-                          <time className="w-full sm:w-48 shrink-0 flex items-center gap-2 font-medium">
-                            <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)] color-transition"></span>
+                          <time className="flex w-full shrink-0 items-center gap-2 font-medium sm:w-48">
+                            <span className="color-transition h-2 w-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
                             {show.date || yGroup.year}
                           </time>
 
                           {/* Venue Name */}
-                          <span className="flex-1 sm:text-base font-medium">
+                          <span className="flex-1 font-medium sm:text-base">
                             {show.venue}
                           </span>
 
                           {/* Badges */}
-                          <div className="flex items-center gap-1.5 shrink-0 pt-1 sm:pt-0">
+                          <div className="flex shrink-0 items-center gap-1.5 pt-1 sm:pt-0">
                             {isCancelled && (
-                              <span className="px-2 py-0.5 text-[10px] bg-rose-500/20 text-rose-600 rounded-lg border border-rose-500/30">
+                              <span className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-2 py-0.5 text-[10px] text-rose-600">
                                 Cancelled
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="px-2 py-0.5 text-[10px] bg-purple-600/20 rounded-lg border border-purple-500/30">
+                              <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-2 py-0.5 text-[10px]">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="px-2 py-0.5 text-[10px] bg-[var(--color-accent)]/20 rounded-lg border border-[var(--color-accent)]/30">
+                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20 px-2 py-0.5 text-[10px]">
                                 Private Event
                               </span>
                             )}
                             {isCruise && (
-                              <span className="px-2 py-0.5 text-[10px] bg-sky-500/20 text-sky-600 rounded-lg border border-sky-500/30">
+                              <span className="rounded-lg border border-sky-500/30 bg-sky-500/20 px-2 py-0.5 text-[10px] text-sky-600">
                                 Special Tour
                               </span>
                             )}

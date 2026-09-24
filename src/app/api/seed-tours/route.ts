@@ -25,16 +25,38 @@ async function fetchAndParseTourDates() {
     const day = $(tds[0]).text().trim();
     const dateStr = $(tds[1]).text().trim();
     const venue = $(tds[2]).text().trim();
-    const city = $(tds[3]).text().trim().replace(/&nbsp;/g, "").trim();
-    const state = $(tds[4]).text().trim().replace(/&nbsp;/g, "").trim();
-    const time = $(tds[5]).text().trim().replace(/&nbsp;/g, "").trim();
-    const info = $(tds[6]).text().trim().replace(/&nbsp;/g, "").trim();
+    const city = $(tds[3])
+      .text()
+      .trim()
+      .replace(/&nbsp;/g, "")
+      .trim();
+    const state = $(tds[4])
+      .text()
+      .trim()
+      .replace(/&nbsp;/g, "")
+      .trim();
+    const time = $(tds[5])
+      .text()
+      .trim()
+      .replace(/&nbsp;/g, "")
+      .trim();
+    const info = $(tds[6])
+      .text()
+      .trim()
+      .replace(/&nbsp;/g, "")
+      .trim();
     const mapAnchor = $(tds[7]).find("a");
     const directionsLink = mapAnchor.attr("href") || "";
     const ticketAnchor = $(tds[8]).find("a");
     const ticketLink = ticketAnchor.attr("href") || "";
 
-    if (!venue || venue === "Day" || venue === "Venue" || venue.includes("CHECK BACK")) return;
+    if (
+      !venue ||
+      venue === "Day" ||
+      venue === "Venue" ||
+      venue.includes("CHECK BACK")
+    )
+      return;
 
     let isoDate = "";
     if (dateStr) {
@@ -92,7 +114,7 @@ export async function runSanityTourSeed() {
   const [scrapedDates, existingDocs] = await Promise.all([
     fetchAndParseTourDates(),
     sanityWriteClient.fetch(
-      `*[_type == "tourDate"] { _id, venue, city, state, date, time }`
+      `*[_type == "tourDate"] { _id, venue, city, state, date, time }`,
     ),
   ]);
 
@@ -121,7 +143,7 @@ export async function runSanityTourSeed() {
           mapUrl: td.directionsLink || "",
           isFestival: td.isFestival,
           isPrivate: td.isPrivate,
-        })
+        }),
       );
       updatedCount++;
     } else {
@@ -131,7 +153,12 @@ export async function runSanityTourSeed() {
   }
 
   await tx.commit();
-  return { success: true, scrapedTotal: scrapedDates.length, createdCount, updatedCount };
+  return {
+    success: true,
+    scrapedTotal: scrapedDates.length,
+    createdCount,
+    updatedCount,
+  };
 }
 
 export async function POST() {
@@ -139,25 +166,31 @@ export async function POST() {
     const res = await runSanityTourSeed();
     return NextResponse.json(res);
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
 
 export async function GET() {
   try {
     const existingDocs = await sanityWriteClient.fetch(
-      `*[_type == "tourDate"] { _id, venue, city, state, date, time }`
+      `*[_type == "tourDate"] { _id, venue, city, state, date, time }`,
     );
     const missingTimeCount = existingDocs.filter((d: any) => !d.time).length;
 
     return NextResponse.json({
       status: "ready",
-      message: "Send a POST request to this endpoint to re-seed and update all Sanity tour dates & times from official schedule.",
+      message:
+        "Send a POST request to this endpoint to re-seed and update all Sanity tour dates & times from official schedule.",
       totalSanityTourDates: existingDocs.length,
       missingTimeCount,
     });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 },
+    );
   }
 }
-

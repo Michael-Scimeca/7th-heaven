@@ -47,7 +47,9 @@ export default function PushSubscribeModal({
       return;
     }
     if (!agreedToTerms) {
-      setError("You must agree to the Terms of Service & Privacy Policy to subscribe.");
+      setError(
+        "You must agree to the Terms of Service & Privacy Policy to subscribe.",
+      );
       return;
     }
 
@@ -77,86 +79,87 @@ export default function PushSubscribeModal({
       setSubscribed(true);
       if (onSuccess) onSuccess();
     } catch (err: any) {
-      setError(err?.message || "Failed to process subscription. Please try again.");
+      setError(
+        err?.message || "Failed to process subscription. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] transition-opacity">
-      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0a1a] p-6 sm:p-8 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px] transition-opacity">
+      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0a1a] p-6 shadow-2xl sm:p-8">
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1 rounded-lg bg-[#00000029] hover:bg-white/10">
-          <X className="w-5 h-5" />
+          className="absolute top-4 right-4 rounded-lg bg-[#00000029] p-1 text-white/40 transition-colors hover:bg-white/10 hover:text-white"
+        >
+          <X className="h-5 w-5" />
         </button>
 
         {!subscribed ? (
           <div>
-            <div className="flex items-center gap-3 mb-6">
-
+            <div className="mb-6 flex items-center gap-3">
               <div>
-                <h3 >
-                  Live Stream Push Alerts
-                </h3>
+                <h3>Live Stream Push Alerts</h3>
                 <span className="text-purple-400">
                   7th Heaven Official Notifications
                 </span>
               </div>
             </div>
 
-            <p className="text-gray-300/90 mb-6">
-              Enter your details below to get instant push notifications whenever 7th Heaven or a crew member goes live!
+            <p className="mb-6 text-gray-300/90">
+              Enter your details below to get instant push notifications
+              whenever 7th Heaven or a crew member goes live!
             </p>
 
             {error && (
-              <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-300  ">
+              <div className="mb-6 rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
                 ⚠️ {error}
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-gray-300 mb-1.5">
+                <label className="mb-1.5 block text-gray-300">
                   Your Full Name
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border  w-full">
+                  <div className="input-glow-border w-full">
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Michael Scimeca"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg placeholder: text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
                     />
                   </div>
-                  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
-                    <User className="w-4 h-4" />
+                  <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
+                    <User className="h-4 w-4" />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-gray-300 mb-1.5">
+                <label className="mb-1.5 block text-gray-300">
                   Your Email Address
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border  w-full">
+                  <div className="input-glow-border w-full">
                     <input
                       type="email"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="michael@example.com"
-                      className="w-full bg-[#0d071b] border border-white/10 rounded-lg placeholder: text-white/40 !pl-10 pr-4 py-3 outline-none transition-all"
+                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 transition-all outline-none"
                     />
                   </div>
-                  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 z-20 flex items-center justify-center">
-                    <Mail className="w-4 h-4" />
+                  <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
+                    <Mail className="h-4 w-4" />
                   </div>
                 </div>
               </div>
@@ -169,13 +172,26 @@ export default function PushSubscribeModal({
                   checked={agreedToTerms}
                   onChange={(checked) => setAgreedToTerms(checked)}
                 />
-                <label htmlFor="modal-terms-toggle" className="text-gray-300/90 leading-normal cursor-pointer select-none">
+                <label
+                  htmlFor="modal-terms-toggle"
+                  className="cursor-pointer leading-normal text-gray-300/90 select-none"
+                >
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
+                  <a
+                    href="/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-400 hover:text-purple-300"
+                  >
                     Terms of Service
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300">
+                  <a
+                    href="/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-400 hover:text-purple-300"
+                  >
                     Privacy Policy
                   </a>{" "}
                   to receive live stream push & email notifications.
@@ -186,7 +202,8 @@ export default function PushSubscribeModal({
                 <SeventhButton
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 flex items-center justify-center gap-2">
+                  className="flex w-full items-center justify-center gap-2 py-3.5"
+                >
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS "}
                 </SeventhButton>
               </div>
@@ -194,24 +211,28 @@ export default function PushSubscribeModal({
 
             <div className="mt-6 border-t border-white/10 pt-4 text-center">
               <p>
-                🔒 100% Free · We value your privacy. Every alert email includes a 1-click unsubscribe link.
+                🔒 100% Free · We value your privacy. Every alert email includes
+                a 1-click unsubscribe link.
               </p>
             </div>
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-6">
-              <Check className="w-8 h-8" />
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/20 text-emerald-400">
+              <Check className="h-8 w-8" />
             </div>
             <h3 className="mb-2">You&apos;re Subscribed! 🔔</h3>
-            <p className="text-gray-300 max-w-sm mx-auto mb-6">
-              We sent a welcome confirmation email to <strong >{email}</strong> with details on how your live stream alerts work and how to manage or unsubscribe anytime.
+            <p className="mx-auto mb-6 max-w-sm text-gray-300">
+              We sent a welcome confirmation email to <strong>{email}</strong>{" "}
+              with details on how your live stream alerts work and how to manage
+              or unsubscribe anytime.
             </p>
 
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
+              className="rounded-lg bg-white/10 px-6 py-2.5 transition-colors hover:bg-white/20"
+            >
               DONE
             </button>
           </div>

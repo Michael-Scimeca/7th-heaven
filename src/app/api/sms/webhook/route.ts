@@ -4,7 +4,7 @@ import twilio from "twilio";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 /**
@@ -30,7 +30,8 @@ export async function POST(request: Request) {
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   if (authToken) {
     const twilioSignature = request.headers.get("x-twilio-signature") ?? "";
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
     const webhookUrl = `${siteUrl}/api/sms/webhook`;
 
     // Clone the request so we can read the body for signature validation
@@ -44,7 +45,12 @@ export async function POST(request: Request) {
       params[key] = value;
     }
 
-    const isValid = twilio.validateRequest(authToken, twilioSignature, webhookUrl, params);
+    const isValid = twilio.validateRequest(
+      authToken,
+      twilioSignature,
+      webhookUrl,
+      params,
+    );
     if (!isValid) {
       console.warn("SMS webhook: invalid Twilio signature — request rejected");
       return new NextResponse("Forbidden", { status: 403 });
@@ -52,10 +58,14 @@ export async function POST(request: Request) {
   } else {
     // No auth token configured — block in production, warn in dev.
     if (process.env.NODE_ENV === "production") {
-      console.error("SMS webhook: TWILIO_AUTH_TOKEN is not set — rejecting request in production");
+      console.error(
+        "SMS webhook: TWILIO_AUTH_TOKEN is not set — rejecting request in production",
+      );
       return new NextResponse("Service unavailable", { status: 503 });
     }
-    console.warn("SMS webhook: TWILIO_AUTH_TOKEN not set — skipping signature check (dev only)");
+    console.warn(
+      "SMS webhook: TWILIO_AUTH_TOKEN not set — skipping signature check (dev only)",
+    );
   }
   // ── End Signature Verification ─────────────────────────────────────────
 
@@ -71,7 +81,9 @@ export async function POST(request: Request) {
         .update({ opted_in: false, opted_out_at: new Date().toISOString() })
         .eq("phone", from);
 
-      return twimlResponse("You've been unsubscribed from 7th Heaven alerts. Reply START to resubscribe anytime. 🎸");
+      return twimlResponse(
+        "You've been unsubscribed from 7th Heaven alerts. Reply START to resubscribe anytime. 🎸",
+      );
     }
 
     // ── START / SUBSCRIBE ───────────────────────────────────────────
@@ -81,7 +93,9 @@ export async function POST(request: Request) {
         .update({ opted_in: true, opted_out_at: null })
         .eq("phone", from);
 
-      return twimlResponse("Welcome back! You're subscribed to 7th Heaven show alerts. 🎸🔥 Reply STOP anytime to unsubscribe.");
+      return twimlResponse(
+        "Welcome back! You're subscribed to 7th Heaven show alerts. 🎸🔥 Reply STOP anytime to unsubscribe.",
+      );
     }
 
     // ── GOING (reply "1") ───────────────────────────────────────────
@@ -95,9 +109,10 @@ export async function POST(request: Request) {
         .single();
 
       if (show) {
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+        const siteUrl =
+          process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
         return twimlResponse(
-          `🔥 You're going to ${show.venue_name}! See who else is going & RSVP:\n${siteUrl}/shows/${show.id}?rsvp=going`
+          `🔥 You're going to ${show.venue_name}! See who else is going & RSVP:\n${siteUrl}/shows/${show.id}?rsvp=going`,
         );
       }
       return twimlResponse("No upcoming shows found right now. Stay tuned! 🎸");
@@ -114,11 +129,12 @@ export async function POST(request: Request) {
         .single();
 
       if (show) {
-        const mapsUrl = show.latitude && show.longitude
-          ? `https://www.google.com/maps/search/?api=1&query=${show.latitude},${show.longitude}`
-          : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue_name} ${show.city} ${show.state}`)}`;
+        const mapsUrl =
+          show.latitude && show.longitude
+            ? `https://www.google.com/maps/search/?api=1&query=${show.latitude},${show.longitude}`
+            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue_name} ${show.city} ${show.state}`)}`;
         return twimlResponse(
-          `📍 Directions to ${show.venue_name}:\n${mapsUrl}`
+          `📍 Directions to ${show.venue_name}:\n${mapsUrl}`,
         );
       }
       return twimlResponse("No upcoming shows found right now. Stay tuned! 🎸");
@@ -126,7 +142,7 @@ export async function POST(request: Request) {
 
     // ── Default reply ───────────────────────────────────────────────
     return twimlResponse(
-      "🎸 7th Heaven Alerts\nReply 1=GOING, 2=DIRECTIONS, STOP=unsubscribe"
+      "🎸 7th Heaven Alerts\nReply 1=GOING, 2=DIRECTIONS, STOP=unsubscribe",
     );
   } catch (error) {
     console.error("SMS webhook error:", error);
@@ -143,5 +159,9 @@ function twimlResponse(message: string) {
 }
 
 function escapeXml(s: string) {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }

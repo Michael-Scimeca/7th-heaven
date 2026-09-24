@@ -1,6 +1,12 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback, type ReactNode } from "react";
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  type ReactNode,
+} from "react";
 
 interface CustomScrollbarProps {
   children: ReactNode;
@@ -51,15 +57,20 @@ export default function CustomScrollbar({
 
     if (showHorizontal) {
       const { scrollWidth, clientWidth, scrollLeft } = el;
-      const scrollable = scrollWidth> clientWidth + 2;
+      const scrollable = scrollWidth > clientWidth + 2;
       setHasScrollableX(scrollable);
       const minThumb = 48;
       const ratio = clientWidth / Math.max(clientWidth, scrollWidth);
       const maxThumb = Math.max(minThumb, clientWidth - 16);
-      const size = scrollable ? Math.min(maxThumb, Math.max(minThumb, ratio * clientWidth)) : minThumb;
+      const size = scrollable
+        ? Math.min(maxThumb, Math.max(minThumb, ratio * clientWidth))
+        : minThumb;
       const trackSpace = Math.max(0, clientWidth - size);
       const scrollRange = scrollWidth - clientWidth;
-      const pos = scrollable && scrollRange> 0 ? (scrollLeft / scrollRange) * trackSpace : 0;
+      const pos =
+        scrollable && scrollRange > 0
+          ? (scrollLeft / scrollRange) * trackSpace
+          : 0;
       if (hThumbRef.current) {
         hThumbRef.current.style.transform = `translate3d(${pos}px, 0, 0)`;
         hThumbRef.current.style.width = `${size}px`;
@@ -71,17 +82,25 @@ export default function CustomScrollbar({
 
     if (showVertical) {
       const { scrollHeight, clientHeight, scrollTop } = el;
-      const scrollable = scrollHeight> clientHeight + 2;
+      const scrollable = scrollHeight > clientHeight + 2;
       setHasScrollableY(scrollable);
       const minThumb = 48;
       const trackBottom = showHorizontal ? thumbWidth + 8 : 4;
-      const availableHeight = Math.max(0, clientHeight - (4 + topOffset) - trackBottom);
+      const availableHeight = Math.max(
+        0,
+        clientHeight - (4 + topOffset) - trackBottom,
+      );
       const ratio = availableHeight / Math.max(availableHeight, scrollHeight);
       const maxThumb = Math.max(minThumb, availableHeight - 16);
-      const size = scrollable ? Math.min(maxThumb, Math.max(minThumb, ratio * availableHeight)) : minThumb;
+      const size = scrollable
+        ? Math.min(maxThumb, Math.max(minThumb, ratio * availableHeight))
+        : minThumb;
       const trackSpace = Math.max(0, availableHeight - size);
       const scrollRange = scrollHeight - clientHeight;
-      const pos = scrollable && scrollRange> 0 ? (scrollTop / scrollRange) * trackSpace : 0;
+      const pos =
+        scrollable && scrollRange > 0
+          ? (scrollTop / scrollRange) * trackSpace
+          : 0;
       if (vThumbRef.current) {
         vThumbRef.current.style.transform = `translate3d(-50%, ${pos}px, 0)`;
         vThumbRef.current.style.height = `${size}px`;
@@ -119,7 +138,9 @@ export default function CustomScrollbar({
     };
   }, [updateThumb]);
 
-  const [activeDragAxis, setActiveDragAxis] = useState<"vertical" | "horizontal" | null>(null);
+  const [activeDragAxis, setActiveDragAxis] = useState<
+    "vertical" | "horizontal" | null
+  >(null);
 
   const onThumbMouseDownVertical = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -152,16 +173,21 @@ export default function CustomScrollbar({
         const trackSpace = clientWidth - hThumbSize;
         if (trackSpace <= 0) return;
         const scrollRange = scrollWidth - clientWidth;
-        el.scrollLeft = dragStartScrollPos.current + (dx / trackSpace) * scrollRange;
+        el.scrollLeft =
+          dragStartScrollPos.current + (dx / trackSpace) * scrollRange;
       } else {
         const dy = e.clientY - dragStartPos.current;
         const { scrollHeight, clientHeight } = el;
         const trackBottom = showHorizontal ? thumbWidth + 8 : 4;
-        const availableHeight = Math.max(0, clientHeight - (4 + topOffset) - trackBottom);
+        const availableHeight = Math.max(
+          0,
+          clientHeight - (4 + topOffset) - trackBottom,
+        );
         const trackSpace = availableHeight - thumbSize;
         if (trackSpace <= 0) return;
         const scrollRange = scrollHeight - clientHeight;
-        el.scrollTop = dragStartScrollPos.current + (dy / trackSpace) * scrollRange;
+        el.scrollTop =
+          dragStartScrollPos.current + (dy / trackSpace) * scrollRange;
       }
     };
     const onMouseUp = () => {
@@ -174,7 +200,15 @@ export default function CustomScrollbar({
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
     };
-  }, [isDragging, activeDragAxis, thumbSize, hThumbSize, topOffset, thumbWidth, showHorizontal]);
+  }, [
+    isDragging,
+    activeDragAxis,
+    thumbSize,
+    hThumbSize,
+    topOffset,
+    thumbWidth,
+    showHorizontal,
+  ]);
 
   const onVerticalTrackClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -204,136 +238,142 @@ export default function CustomScrollbar({
 
   const inner = (
     <div
- ref={wrapperRef}
- style={{
- position: "relative",
- display: "flex",
- flexDirection: "column",
- flex: 1,
- minHeight: 0,
- minWidth: 0,
- overflow: "hidden",
- }}
- onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}>
+      ref={wrapperRef}
+      style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        minHeight: 0,
+        minWidth: 0,
+        overflow: "hidden",
+      }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       {/* Scrollable content with hidden native scrollbar */}
       <div
- ref={containerRef}
- className={className}
- data-lenis-prevent
- style={{
- flex: 1,
- minHeight: 0,
- minWidth: 0,
- overflowY: showVertical ? "scroll" : "hidden",
- overflowX: showHorizontal ? "auto" : "hidden",
- paddingBottom: showHorizontal ? 0 : undefined,
- scrollbarWidth: "none",
- // @ts-ignore
- msOverflowStyle: "none",
- WebkitOverflowScrolling: "touch",
- }}>
+        ref={containerRef}
+        className={className}
+        data-lenis-prevent
+        style={{
+          flex: 1,
+          minHeight: 0,
+          minWidth: 0,
+          overflowY: showVertical ? "scroll" : "hidden",
+          overflowX: showHorizontal ? "auto" : "hidden",
+          paddingBottom: showHorizontal ? 0 : undefined,
+          scrollbarWidth: "none",
+          // @ts-ignore
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
         {children}
       </div>
-
-
 
       {/* Vertical Track — rendered if showVertical AND content has vertical scroll space */}
       {showVertical && hasScrollableY && (
         <div
- role="region"
- aria-label="Vertical scrollbar track"
- onClick={onVerticalTrackClick}
- onMouseDown={(e) => e.stopPropagation()}
+          role="region"
+          aria-label="Vertical scrollbar track"
+          onClick={onVerticalTrackClick}
+          onMouseDown={(e) => e.stopPropagation()}
           style={{
             position: "absolute",
             top: 4 + topOffset,
             right: 0,
-            bottom: (showHorizontal && hasScrollableX) ? thumbWidth + 8 : 4,
+            bottom: showHorizontal && hasScrollableX ? thumbWidth + 8 : 4,
             width: 7,
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,
-          }}>
+          }}
+        >
           <button
- ref={vThumbRef}
- type="button"
- aria-label="Vertical scrollbar thumb"
- onMouseDown={onThumbMouseDownVertical}
- style={{
- position: "absolute",
- top: thumbPos,
- left: "50%",
- transform: "translateX(-50%)",
- width: 5,
- height: thumbSize,
- background: "linear-gradient(180deg, #f0abfc 0%, #c084fc 50%, #9333ea 100%)",
- borderRadius: 9999,
- opacity: thumbOpacity,
- transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
- cursor: isDragging ? "grabbing" : "grab",
- pointerEvents: "auto",
- backdropFilter: "blur(12px)",
- WebkitBackdropFilter: "blur(12px)",
-
- }}
- />
+            ref={vThumbRef}
+            type="button"
+            aria-label="Vertical scrollbar thumb"
+            onMouseDown={onThumbMouseDownVertical}
+            style={{
+              position: "absolute",
+              top: thumbPos,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 5,
+              height: thumbSize,
+              background:
+                "linear-gradient(180deg, #f0abfc 0%, #c084fc 50%, #9333ea 100%)",
+              borderRadius: 9999,
+              opacity: thumbOpacity,
+              transition: isDragging
+                ? "none"
+                : "opacity 0.2s ease, box-shadow 0.2s ease",
+              cursor: isDragging ? "grabbing" : "grab",
+              pointerEvents: "auto",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}
+          />
         </div>
       )}
 
       {/* Horizontal Mask Strip */}
       {showHorizontal && hasScrollableX && (
         <div
- style={{
- position: "absolute",
- bottom: 0,
- left: 0,
- right: 0,
- height: thumbWidth + 10,
- zIndex: 90,
- pointerEvents: "none",
- }}
- />
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: thumbWidth + 10,
+            zIndex: 90,
+            pointerEvents: "none",
+          }}
+        />
       )}
 
       {/* Horizontal Track — rendered if showHorizontal AND content has horizontal scroll space */}
       {showHorizontal && hasScrollableX && (
         <div
- role="region"
- aria-label="Horizontal scrollbar track"
- onClick={onHorizontalTrackClick}
- onMouseDown={(e) => e.stopPropagation()}
+          role="region"
+          aria-label="Horizontal scrollbar track"
+          onClick={onHorizontalTrackClick}
+          onMouseDown={(e) => e.stopPropagation()}
           style={{
             position: "absolute",
             left: 4,
-            right: (showVertical && hasScrollableY) ? thumbWidth + 8 : 4,
+            right: showVertical && hasScrollableY ? thumbWidth + 8 : 4,
             bottom: 0,
             height: 8,
             borderRadius: 9999,
             cursor: "pointer",
             zIndex: 100,
-          }}>
+          }}
+        >
           <button
- type="button"
- aria-label="Horizontal scrollbar thumb"
- onMouseDown={onThumbMouseDownHorizontal}
- style={{
- position: "absolute",
- left: hThumbPos,
- top: "50%",
- transform: "translateY(-50%)",
- width: hThumbSize,
- height: 6,
- background: "linear-gradient(90deg, #d8b4fe 0%, #9333ea 100%)",
- borderRadius: 9999,
- opacity: thumbOpacity,
- transition: isDragging ? "none" : "opacity 0.2s ease, box-shadow 0.2s ease",
- cursor: isDragging ? "grabbing" : "grab",
- pointerEvents: "auto",
- }}
- />
+            type="button"
+            aria-label="Horizontal scrollbar thumb"
+            onMouseDown={onThumbMouseDownHorizontal}
+            style={{
+              position: "absolute",
+              left: hThumbPos,
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: hThumbSize,
+              height: 6,
+              background: "linear-gradient(90deg, #d8b4fe 0%, #9333ea 100%)",
+              borderRadius: 9999,
+              opacity: thumbOpacity,
+              transition: isDragging
+                ? "none"
+                : "opacity 0.2s ease, box-shadow 0.2s ease",
+              cursor: isDragging ? "grabbing" : "grab",
+              pointerEvents: "auto",
+            }}
+          />
         </div>
       )}
     </div>
@@ -342,12 +382,13 @@ export default function CustomScrollbar({
   if (height !== undefined) {
     return (
       <div
- style={{
- height: typeof height === "number" ? `${height}px` : height,
- display: "flex",
- flexDirection: "column",
- overflow: "hidden",
- }}>
+        style={{
+          height: typeof height === "number" ? `${height}px` : height,
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
         {inner}
       </div>
     );

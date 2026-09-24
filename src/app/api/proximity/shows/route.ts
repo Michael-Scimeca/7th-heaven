@@ -14,14 +14,19 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number) {
 }
 
 // Convert zip code to lat/lng via free zippopotam.us API
-async function zipToLatLng(zip: string): Promise<{ lat: number; lng: number } | null> {
+async function zipToLatLng(
+  zip: string,
+): Promise<{ lat: number; lng: number } | null> {
   try {
     const res = await fetch(`https://api.zippopotam.us/us/${zip}`);
     if (!res.ok) return null;
     const data = await res.json();
     const place = data.places?.[0];
     if (!place) return null;
-    return { lat: parseFloat(place.latitude), lng: parseFloat(place.longitude) };
+    return {
+      lat: parseFloat(place.latitude),
+      lng: parseFloat(place.longitude),
+    };
   } catch {
     return null;
   }
@@ -34,12 +39,15 @@ export async function GET(req: NextRequest) {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
     const userId = req.nextUrl.searchParams.get("userId");
-    if (!userId) return NextResponse.json({ error: "userId required" }, { status: 400 });
+    if (!userId)
+      return NextResponse.json({ error: "userId required" }, { status: 400 });
 
     // Fetch user profile
     const { data: profile, error: profError } = await supabase
       .from("profiles")
-      .select("zip, notification_radius, latitude, longitude, notifications_enabled")
+      .select(
+        "zip, notification_radius, latitude, longitude, notifications_enabled",
+      )
       .eq("id", userId)
       .single();
 
@@ -48,7 +56,10 @@ export async function GET(req: NextRequest) {
     }
 
     if (!profile.notifications_enabled) {
-      return NextResponse.json({ shows: [], message: "Notifications disabled" });
+      return NextResponse.json({
+        shows: [],
+        message: "Notifications disabled",
+      });
     }
 
     // Get/geocode user location
@@ -77,17 +88,20 @@ export async function GET(req: NextRequest) {
       .eq("status", "upcoming")
       .not("latitude", "is", null);
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
 
     const nearbyShows = (shows || []).flatMap((show: any) => {
       if (!show.latitude || !show.longitude) return [];
       const dist = haversine(userLat!, userLng!, show.latitude, show.longitude);
-      if (dist> radius) return [];
-      return [{
-        ...show,
-        distanceMiles: Math.round(dist),
-        showPageUrl: `${baseUrl}/shows/${show.id}`,
-      }];
+      if (dist > radius) return [];
+      return [
+        {
+          ...show,
+          distanceMiles: Math.round(dist),
+          showPageUrl: `${baseUrl}/shows/${show.id}`,
+        },
+      ];
     });
 
     return NextResponse.json({ shows: nearbyShows });

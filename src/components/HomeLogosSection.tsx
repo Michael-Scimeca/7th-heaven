@@ -1,12 +1,23 @@
 "use client";
 
 import { useMemo } from "react";
-import LogoTicker, { ARTIST_LOGOS, PRESS_LOGOS, TickerItem } from "@/components/LogoTicker";
+import LogoTicker, {
+  ARTIST_LOGOS,
+  PRESS_LOGOS,
+  TickerItem,
+} from "@/components/LogoTicker";
 import { urlFor } from "@/lib/sanity";
 
-export default function HomeLogosSection({ sanityContent }: { sanityContent?: any }) {
+export default function HomeLogosSection({
+  sanityContent,
+}: {
+  sanityContent?: any;
+}) {
   const artistItems: TickerItem[] = useMemo(() => {
-    if (Array.isArray(sanityContent?.artistLogos) && sanityContent.artistLogos.length > 0) {
+    if (
+      Array.isArray(sanityContent?.artistLogos) &&
+      sanityContent.artistLogos.length > 0
+    ) {
       const mapped: TickerItem[] = [];
       for (let i = 0; i < sanityContent.artistLogos.length; i++) {
         const item = sanityContent.artistLogos[i];
@@ -23,7 +34,10 @@ export default function HomeLogosSection({ sanityContent }: { sanityContent?: an
   }, [sanityContent?.artistLogos]);
 
   const pressItems: TickerItem[] = useMemo(() => {
-    if (Array.isArray(sanityContent?.pressLogos) && sanityContent.pressLogos.length > 0) {
+    if (
+      Array.isArray(sanityContent?.pressLogos) &&
+      sanityContent.pressLogos.length > 0
+    ) {
       const mapped: TickerItem[] = [];
       for (let i = 0; i < sanityContent.pressLogos.length; i++) {
         const item = sanityContent.pressLogos[i];
@@ -40,14 +54,19 @@ export default function HomeLogosSection({ sanityContent }: { sanityContent?: an
   }, [sanityContent?.pressLogos]);
 
   return (
-    <section id="logos" className="relative w-full py-section-fluid px-4 flex flex-col items-center text-center border-b border-white/10 ">
-      <div className="inline-flex items-center gap-2 bg-[#00000029] border border-white/10 px-4 py-1.5 rounded-xl mb-2.5">
+    <section
+      id="logos"
+      className="py-section-fluid relative flex w-full flex-col items-center border-b border-white/10 px-4 text-center"
+    >
+      <div className="mb-2.5 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#00000029] px-4 py-1.5">
         <span className="font-black">
-          {sanityContent?.logosBadge || "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
+          {sanityContent?.logosBadge ||
+            "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
         </span>
       </div>
       <p className="mt-2 max-w-2xl text-purple-200/80">
-        {sanityContent?.logosSubtitle || "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
+        {sanityContent?.logosSubtitle ||
+          "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
       </p>
 
       <div className="w-full space-y-6">

@@ -7,7 +7,7 @@ import { publishToGroup } from "@/lib/ntfy";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 /**
@@ -37,16 +37,25 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const {
-      venue, city, state,
-      date, time, doorsTime, playTime,
-      allAges, cover,
+      venue,
+      city,
+      state,
+      date,
+      time,
+      doorsTime,
+      playTime,
+      allAges,
+      cover,
       showId,
       message: customMessage,
-      lat, lng, radius: overrideRadius,
+      lat,
+      lng,
+      radius: overrideRadius,
     } = body;
 
     // Build show page URL
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
     const showUrl = showId ? `${siteUrl}/shows/${showId}` : null;
 
     // Build the SMS body — either from show details or a custom message
@@ -58,9 +67,13 @@ export async function POST(request: Request) {
     } else {
       // Auto-build from show details
       if (!venue || !city) {
-        return NextResponse.json({
-          error: "Provide venue + city (for auto-message) or a custom message.",
-        }, { status: 400 });
+        return NextResponse.json(
+          {
+            error:
+              "Provide venue + city (for auto-message) or a custom message.",
+          },
+          { status: 400 },
+        );
       }
 
       const location = state ? `${city}, ${state}` : city;
@@ -85,7 +98,11 @@ export async function POST(request: Request) {
 
       if (cover) {
         const lowerCover = cover.toLowerCase();
-        if (lowerCover === "free" || lowerCover === "no cover" || lowerCover === "$0") {
+        if (
+          lowerCover === "free" ||
+          lowerCover === "no cover" ||
+          lowerCover === "$0"
+        ) {
           lines.push(`🎟️ FREE — No Cover`);
         } else {
           lines.push(`🎟️ Cover: ${cover}`);
@@ -98,7 +115,7 @@ export async function POST(request: Request) {
           .from("show_attendance")
           .select("*", { count: "exact", head: true })
           .eq("show_id", showId);
-        if (count && count> 0) {
+        if (count && count > 0) {
           lines.push(`🔥 ${count} fan${count === 1 ? "" : "s"} already going!`);
         }
       }
@@ -120,23 +137,31 @@ export async function POST(request: Request) {
     // Parse custom recipients list if provided
     let customPhoneList: string[] = [];
     if (body.recipients) {
-      const raw = typeof body.recipients === "string"
-        ? body.recipients.split(/[\n,;]+/)
-        : Array.isArray(body.recipients) ? body.recipients : [];
-      customPhoneList = Array.from(new Set(raw.flatMap((r: any) => {
-        const digits = String(r).replace(/\D/g, "");
-        if (digits.length === 10) return [`+1${digits}`];
-        if (digits.length === 11 && digits.startsWith("1")) return [`+${digits}`];
-        return digits ? [`+${digits}`] : [];
-      })));
+      const raw =
+        typeof body.recipients === "string"
+          ? body.recipients.split(/[\n,;]+/)
+          : Array.isArray(body.recipients)
+            ? body.recipients
+            : [];
+      customPhoneList = Array.from(
+        new Set(
+          raw.flatMap((r: any) => {
+            const digits = String(r).replace(/\D/g, "");
+            if (digits.length === 10) return [`+1${digits}`];
+            if (digits.length === 11 && digits.startsWith("1"))
+              return [`+${digits}`];
+            return digits ? [`+${digits}`] : [];
+          }),
+        ),
+      );
     }
 
     let nearbySubscribers: { phone: string }[] = [];
     let allSubscribersCount = 0;
 
-    if (customPhoneList.length> 0) {
+    if (customPhoneList.length > 0) {
       // Use custom recipients list directly
-      nearbySubscribers = customPhoneList.map(phone => ({ phone }));
+      nearbySubscribers = customPhoneList.map((phone) => ({ phone }));
       allSubscribersCount = customPhoneList.length;
     } else {
       // Resolve venue coordinates if sending to nearby subscribers
@@ -167,13 +192,13 @@ export async function POST(request: Request) {
     }
 
     // Always dispatch instant ntfy push notification to fans group
-    const pushResult = await publishToGroup('fans', {
-      title: venue ? `🎸 7th Heaven at ${venue}` : '🚨 7th Heaven Alert',
+    const pushResult = await publishToGroup("fans", {
+      title: venue ? `🎸 7th Heaven at ${venue}` : "🚨 7th Heaven Alert",
       message: customMessage || smsBody,
-      priority: 'high',
-      tags: ['guitar', 'bell'],
+      priority: "high",
+      tags: ["guitar", "bell"],
     }).catch((err) => {
-      console.error('[ntfy] Push dispatch failed:', err);
+      console.error("[ntfy] Push dispatch failed:", err);
       return false;
     });
 
@@ -185,18 +210,20 @@ export async function POST(request: Request) {
     if (accountSid && authToken && twilioPhone) {
       const twilio = (await import("twilio")).default;
       const client = twilio(accountSid, authToken);
-      const smsResults = await Promise.all(nearbySubscribers.map(async (sub) => {
-        try {
-          await client.messages.create({
-            body: smsBody,
-            from: twilioPhone,
-            to: sub.phone,
-          });
-          return true;
-        } catch {
-          return false;
-        }
-      }));
+      const smsResults = await Promise.all(
+        nearbySubscribers.map(async (sub) => {
+          try {
+            await client.messages.create({
+              body: smsBody,
+              from: twilioPhone,
+              to: sub.phone,
+            });
+            return true;
+          } catch {
+            return false;
+          }
+        }),
+      );
 
       let sent = smsResults.filter(Boolean).length;
       let failed = smsResults.length - sent;
@@ -228,7 +255,13 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error("SMS send error:", error?.message || error);
-    return NextResponse.json({ error: "Failed to send messages", detail: error?.message || String(error) }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: "Failed to send messages",
+        detail: error?.message || String(error),
+      },
+      { status: 500 },
+    );
   }
 }
 

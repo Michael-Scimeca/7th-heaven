@@ -1,54 +1,106 @@
 import type { Metadata } from "next";
-import { sanityClient, queries, fetchPageContent, SanitySiteSettings } from "@/lib/sanity";
+import {
+  sanityClient,
+  queries,
+  fetchPageContent,
+  SanitySiteSettings,
+} from "@/lib/sanity";
 import ContactClient from "./ContactClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("contact");
   return {
-    title: content?.seo?.metaTitle || (content?.title ? `${content.title} — 7th Heaven` : "Contact — 7th Heaven"),
-    description: content?.seo?.metaDescription || content?.heroSubheading || "Contact 7th Heaven for booking, press inquiries, technical & production advance.",
+    title:
+      content?.seo?.metaTitle ||
+      (content?.title
+        ? `${content.title} — 7th Heaven`
+        : "Contact — 7th Heaven"),
+    description:
+      content?.seo?.metaDescription ||
+      content?.heroSubheading ||
+      "Contact 7th Heaven for booking, press inquiries, technical & production advance.",
   };
 }
 
 export const revalidate = 60;
 
 const MARY_CONTACT = {
-    category: "Cruise • Excursions / Hotels & Air",
-    company: "NTD Vacations",
-    name: "Mary Grivas",
-    email: "Mary@NTDVacations.com",
-    phone: "877-683-9753 Ext 5",
-    note: null
+  category: "Cruise • Excursions / Hotels & Air",
+  company: "NTD Vacations",
+  name: "Mary Grivas",
+  email: "Mary@NTDVacations.com",
+  phone: "877-683-9753 Ext 5",
+  note: null,
 };
 
 const FALLBACK_CONTACTS = [
-    { category: "Booking", company: "NTD Management", name: null, email: "info@NTDManagement.com", phone: "847-551-5363", note: null },
-    { category: "Press • Media", company: "NTD Records", name: "Lenny Rago", email: "LRago@NTDRecords.com", phone: "847-269-6200", note: null },
-    { category: "Technical • Production • Advance", company: null, name: "Jeff Dobbs", email: "jeffdobbs64@yahoo.com", phone: "847-772-5333", note: null },
-    { category: "Advance — Non-Technical", company: null, name: "Alan McRae", email: "Alan@NTDManagement.com", phone: "630-842-9129", note: null },
-    MARY_CONTACT,
+  {
+    category: "Booking",
+    company: "NTD Management",
+    name: null,
+    email: "info@NTDManagement.com",
+    phone: "847-551-5363",
+    note: null,
+  },
+  {
+    category: "Press • Media",
+    company: "NTD Records",
+    name: "Lenny Rago",
+    email: "LRago@NTDRecords.com",
+    phone: "847-269-6200",
+    note: null,
+  },
+  {
+    category: "Technical • Production • Advance",
+    company: null,
+    name: "Jeff Dobbs",
+    email: "jeffdobbs64@yahoo.com",
+    phone: "847-772-5333",
+    note: null,
+  },
+  {
+    category: "Advance — Non-Technical",
+    company: null,
+    name: "Alan McRae",
+    email: "Alan@NTDManagement.com",
+    phone: "630-842-9129",
+    note: null,
+  },
+  MARY_CONTACT,
 ];
 
 export default async function ContactPage() {
-    const [settingsData, pageContent] = await Promise.all([
-        sanityClient.fetch<SanitySiteSettings | null>(queries.siteSettings, {}, { next: { revalidate: 60, tags: ['sanity:settings'] } }),
-        fetchPageContent("contact")
-    ]);
+  const [settingsData, pageContent] = await Promise.all([
+    sanityClient.fetch<SanitySiteSettings | null>(
+      queries.siteSettings,
+      {},
+      { next: { revalidate: 60, tags: ["sanity:settings"] } },
+    ),
+    fetchPageContent("contact"),
+  ]);
 
-    const settings = settingsData as SanitySiteSettings | null;
-    const baseContacts = pageContent?.contacts?.length
-      ? pageContent.contacts
-      : settings?.contacts?.length
+  const settings = settingsData as SanitySiteSettings | null;
+  const baseContacts = pageContent?.contacts?.length
+    ? pageContent.contacts
+    : settings?.contacts?.length
       ? settings.contacts
       : FALLBACK_CONTACTS;
 
-    const contacts = [...baseContacts];
-    if (!contacts.some(c => c.email?.toLowerCase().includes("mary@ntdvacations.com"))) {
-        contacts.push(MARY_CONTACT);
-    }
+  const contacts = [...baseContacts];
+  if (
+    !contacts.some((c) =>
+      c.email?.toLowerCase().includes("mary@ntdvacations.com"),
+    )
+  ) {
+    contacts.push(MARY_CONTACT);
+  }
 
-    const title = pageContent?.heroHeading || pageContent?.title || "CONTACT";
-    const subtitle = pageContent?.heroSubheading || "Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.";
+  const title = pageContent?.heroHeading || pageContent?.title || "CONTACT";
+  const subtitle =
+    pageContent?.heroSubheading ||
+    "Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.";
 
-    return <ContactClient contacts={contacts} title={title} subtitle={subtitle} />;
+  return (
+    <ContactClient contacts={contacts} title={title} subtitle={subtitle} />
+  );
 }

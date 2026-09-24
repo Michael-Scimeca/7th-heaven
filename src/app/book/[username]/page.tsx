@@ -18,14 +18,24 @@ export default function PlannerDashboardPage() {
   const router = useRouter();
   const { requestTransition } = useTransition();
   const params = useParams();
-  const urlUsername = typeof params?.username === 'string' ? params.username : '';
-  const isDemoMode = urlUsername === 'demo';
+  const urlUsername =
+    typeof params?.username === "string" ? params.username : "";
+  const isDemoMode = urlUsername === "demo";
 
-  const mounted = useSyncExternalStore(() => () => { }, () => true, () => false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   // Redirect to correct username URL if logged in planner visits wrong username
   useEffect(() => {
-    if (!isDemoMode && isLoggedIn && member?.username && member.username !== urlUsername) {
+    if (
+      !isDemoMode &&
+      isLoggedIn &&
+      member?.username &&
+      member.username !== urlUsername
+    ) {
       router.replace(`/book/${member.username}`);
     }
   }, [isDemoMode, isLoggedIn, member, urlUsername, router]);
@@ -37,20 +47,37 @@ export default function PlannerDashboardPage() {
     }
   }, [hydrated, isDemoMode, isLoggedIn, openModal]);
 
-  const effectiveMember = isDemoMode ? {
-    id: 'demo-planner-001',
-    name: 'Event Planner',
-    email: 'planner@example.com',
-    role: 'event_planner',
-    signup_source: 'planner_signup',
-    username: 'demo',
-    avatar: 'EP'
-  } as any : member;
+  const effectiveMember = isDemoMode
+    ? ({
+        id: "demo-planner-001",
+        name: "Event Planner",
+        email: "planner@example.com",
+        role: "event_planner",
+        signup_source: "planner_signup",
+        username: "demo",
+        avatar: "EP",
+      } as any)
+    : member;
 
-  const displayName = effectiveMember?.name || 'Event Planner';
-  const initials = displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
-  const isAvatarUrl = effectiveMember?.avatar && (effectiveMember.avatar.startsWith('http') || effectiveMember.avatar.startsWith('/') || effectiveMember.avatar.startsWith('data:'));
-  const hasAccess = isDemoMode || (isLoggedIn && ((member?.role as string) === 'event_planner' || (member?.role as string) === 'planner' || member?.role === 'admin' || member?.role === 'crew'));
+  const displayName = effectiveMember?.name || "Event Planner";
+  const initials = displayName
+    .split(" ")
+    .map((n: string) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+  const isAvatarUrl =
+    effectiveMember?.avatar &&
+    (effectiveMember.avatar.startsWith("http") ||
+      effectiveMember.avatar.startsWith("/") ||
+      effectiveMember.avatar.startsWith("data:"));
+  const hasAccess =
+    isDemoMode ||
+    (isLoggedIn &&
+      ((member?.role as string) === "event_planner" ||
+        (member?.role as string) === "planner" ||
+        member?.role === "admin" ||
+        member?.role === "crew"));
 
   if (!mounted) return null;
 
@@ -58,9 +85,13 @@ export default function PlannerDashboardPage() {
     const p = new URLSearchParams();
     p.set("from", "planner");
     const name = effectiveMember?.name || member?.name || "Event Planner";
-    const email = effectiveMember?.email || member?.email || "planner@7thheavenband.com";
+    const email =
+      effectiveMember?.email || member?.email || "planner@7thheavenband.com";
     const phone = effectiveMember?.phone || member?.phone || "(847) 555-0199";
-    const organization = effectiveMember?.organization || member?.organization || "Scoreboard Entertainment";
+    const organization =
+      effectiveMember?.organization ||
+      member?.organization ||
+      "Scoreboard Entertainment";
     const venueName = effectiveMember?.venueName || "Bridges Scoreboard";
     const venueCity = effectiveMember?.venueCity || "Chicago";
     const venueState = effectiveMember?.venueState || "IL";
@@ -70,7 +101,8 @@ export default function PlannerDashboardPage() {
     const stageAvailable = "Yes";
     const loadInTime = "3:00 PM";
     const parkingAddress = "980 S Bartlett Rd, Lot B";
-    const parkingNotes = "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.";
+    const parkingNotes =
+      "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.";
 
     if (name) p.set("name", name);
     if (email) p.set("email", email);
@@ -91,13 +123,15 @@ export default function PlannerDashboardPage() {
   };
 
   return (
-    <main id="planner-dashboard-page" className="site-container page-container selection:bg-[var(--color-accent)] selection:">
-
+    <main
+      id="planner-dashboard-page"
+      className="site-container page-container selection: selection:bg-[var(--color-accent)]"
+    >
       {/* Planner Profile Header */}
-      <header className="mb-6 pb-6 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <header className="mb-6 flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-6 md:flex-row md:items-center">
         <MemberHeaderBadge
           name={displayName}
-          email={effectiveMember?.email || ''}
+          email={effectiveMember?.email || ""}
           avatar={effectiveMember?.avatar}
           badgeLabel="PLANNER"
           badgeColorClass="bg-purple-600/70 border-purple-400/50 text-purple-200"
@@ -107,9 +141,10 @@ export default function PlannerDashboardPage() {
         {/* Plus Sign Create New Event Button */}
         <div className="flex items-center self-start md:self-auto">
           <SeventhButton
-            icon={<Plus className="w-4 h-4" />}
+            icon={<Plus className="h-4 w-4" />}
             onClick={handleCreateNewEvent}
-            className="px-5 py-2.5 rounded-lg flex items-center gap-2 cursor-pointer">
+            className="flex cursor-pointer items-center gap-2 rounded-lg px-5 py-2.5"
+          >
             Create New Event
           </SeventhButton>
         </div>
@@ -117,7 +152,6 @@ export default function PlannerDashboardPage() {
 
       {/* Planner Dashboard Content */}
       <PlannerDashboard />
-
     </main>
   );
 }

@@ -74,11 +74,11 @@ async function getArticle(slug: string): Promise<NewsPost | null> {
     const [byId, bySlug] = await Promise.all([
       sanityClient.fetch<NewsPost | null>(
         `*[_type == "newsPost" && _id == $id][0] { _id, title, content, date, category, publishedAt, "slug": slug.current }`,
-        { id: slug }
+        { id: slug },
       ),
       sanityClient.fetch<NewsPost | null>(
         `*[_type == "newsPost" && slug.current == $slug][0] { _id, title, content, date, category, publishedAt, "slug": slug.current }`,
-        { slug }
+        { slug },
       ),
     ]);
     if (byId ?? bySlug) return byId ?? bySlug;
@@ -87,14 +87,20 @@ async function getArticle(slug: string): Promise<NewsPost | null> {
   }
 
   // Check fallback list
-  return FALLBACK_NEWS.find((n) => toSlug(n.title) === slug || n._id === slug) ?? null;
+  return (
+    FALLBACK_NEWS.find((n) => toSlug(n.title) === slug || n._id === slug) ??
+    null
+  );
 }
 
-async function getOtherArticles(currentArticle: NewsPost, currentSlug: string): Promise<NewsPost[]> {
+async function getOtherArticles(
+  currentArticle: NewsPost,
+  currentSlug: string,
+): Promise<NewsPost[]> {
   let sanityPosts: NewsPost[] = [];
   try {
     sanityPosts = await sanityClient.fetch<NewsPost[]>(
-      `*[_type == "newsPost"] | order(publishedAt desc) { _id, title, content, date, category, publishedAt, "slug": slug.current }`
+      `*[_type == "newsPost"] | order(publishedAt desc) { _id, title, content, date, category, publishedAt, "slug": slug.current }`,
     );
   } catch {
     sanityPosts = [];
@@ -113,11 +119,15 @@ async function getOtherArticles(currentArticle: NewsPost, currentSlug: string): 
       item._id !== currentArticle._id &&
       toSlug(item.title) !== toSlug(currentArticle.title) &&
       item._id !== currentSlug &&
-      toSlug(item.title) !== currentSlug
+      toSlug(item.title) !== currentSlug,
   );
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const article = await getArticle(slug);
   if (!article) return { title: "News Article | 7th Heaven" };
@@ -139,17 +149,18 @@ export default async function NewsArticlePage({
 
   const otherArticles = await getOtherArticles(article, slug);
 
-  const categoryLabel = CATEGORY_LABELS[article.category ?? ""] ?? article.category ?? "";
+  const categoryLabel =
+    CATEGORY_LABELS[article.category ?? ""] ?? article.category ?? "";
 
   return (
-    <main className="min-h-screen page-container">
+    <main className="page-container min-h-screen">
       {/* Top nav bar */}
       <div className="site-container py-3">
         <Link
           href="/#news"
-          className="inline-flex items-center gap-2 text-purple-300 hover:text-white transition-colors text-sm  "
+          className="inline-flex items-center gap-2 text-sm text-purple-300 transition-colors hover:text-white"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" />
           Back to News
         </Link>
       </div>
@@ -157,40 +168,43 @@ export default async function NewsArticlePage({
       {/* Article */}
       <article className="site-container pb-24">
         {/* Meta row */}
-        <div className="flex flex-wrap items-center gap-4 mb-6">
+        <div className="mb-6 flex flex-wrap items-center gap-4">
           {article.date && (
-            <span className="inline-flex items-center gap-1.5 text-sm  ">
-              <Calendar className="w-3.5 h-3.5" />
+            <span className="inline-flex items-center gap-1.5 text-sm">
+              <Calendar className="h-3.5 w-3.5" />
               {article.date}
             </span>
           )}
           {categoryLabel && (
-            <span className="inline-flex items-center gap-1.5 text-xs    px-3 py-1 rounded-full bg-purple-500/15 border border-purple-400/30 text-purple-300">
-              <Tag className="w-3 h-3" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-400/30 bg-purple-500/15 px-3 py-1 text-xs text-purple-300">
+              <Tag className="h-3 w-3" />
               {categoryLabel}
             </span>
           )}
         </div>
 
         {/* Title */}
-        <h1 className="max-w-3xl mb-4">{article.title}</h1>
+        <h1 className="mb-4 max-w-3xl">{article.title}</h1>
 
         {/* Body */}
         <div className="max-w-2xl space-y-5">
           {article.content.split("\n").map((paragraph) =>
             paragraph.trim() ? (
-              <p key={`para-${paragraph.slice(0, 24)}`} className="  leading-relaxed">
+              <p
+                key={`para-${paragraph.slice(0, 24)}`}
+                className="leading-relaxed"
+              >
                 {paragraph}
               </p>
-            ) : null
+            ) : null,
           )}
         </div>
 
         {/* Footer CTA */}
-        <div className="mt-6 border-t border-white/10 pt-6 flex flex-wrap gap-4">
+        <div className="mt-6 flex flex-wrap gap-4 border-t border-white/10 pt-6">
           <TransitionLink href="/#news">
             <SeventhButton className="flex items-center gap-2">
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="h-4 w-4" />
               <span>ALL NEWS</span>
             </SeventhButton>
           </TransitionLink>
@@ -204,58 +218,60 @@ export default async function NewsArticlePage({
         {/* Other Articles Section */}
         {otherArticles.length > 0 && (
           <section className="mt-6 border-t border-white/10">
-            <div className="flex items-center justify-between mb-8">
+            <div className="mb-8 flex items-center justify-between">
               <div>
-                <h2 className="text-2xl    flex items-center gap-2">
-                  <Newspaper className="w-5 h-5 text-[var(--color-accent)]" />
+                <h2 className="flex items-center gap-2 text-2xl">
+                  <Newspaper className="h-5 w-5 text-[var(--color-accent)]" />
                   Other Articles
                 </h2>
-                <p className="text-sm text-purple-200/70 mt-1">
-                  Explore more updates, tour announcements, and news from 7th heaven
+                <p className="mt-1 text-sm text-purple-200/70">
+                  Explore more updates, tour announcements, and news from 7th
+                  heaven
                 </p>
               </div>
               <Link
                 href="/#news"
-                className="hidden sm:inline-flex items-center gap-1.5 text-sm   text-purple-300 hover:text-white transition-colors"
+                className="hidden items-center gap-1.5 text-sm text-purple-300 transition-colors hover:text-white sm:inline-flex"
               >
-                View All <ArrowRight className="w-4 h-4" />
+                View All <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {otherArticles.map((other) => {
                 const itemSlug = other.slug || other._id || toSlug(other.title);
-                const category = CATEGORY_LABELS[other.category ?? ""] ?? other.category ?? "";
+                const category =
+                  CATEGORY_LABELS[other.category ?? ""] ?? other.category ?? "";
                 return (
                   <Link
                     key={other._id || other.title}
                     href={`/news/${itemSlug}`}
-                    className="group block p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/[0.08] transition-all duration-300 flex flex-col justify-between"
+                    className="group block flex flex-col justify-between rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-300 hover:border-purple-500/50 hover:bg-white/[0.08]"
                   >
                     <div>
-                      <div className="flex items-center justify-between gap-2 mb-3">
+                      <div className="mb-3 flex items-center justify-between gap-2">
                         {other.date && (
-                          <span className="text-xs   flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
+                          <span className="flex items-center gap-1 text-xs">
+                            <Calendar className="h-3 w-3" />
                             {other.date}
                           </span>
                         )}
                         {category && (
-                          <span className="text-[10px]    px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-400/20">
+                          <span className="rounded-full border border-purple-400/20 bg-purple-500/15 px-2.5 py-0.5 text-[10px] text-purple-300">
                             {category}
                           </span>
                         )}
                       </div>
-                      <h3 className="text-lg    group-hover:text-purple-300 transition-colors line-clamp-2 mb-2">
+                      <h3 className="mb-2 line-clamp-2 text-lg transition-colors group-hover:text-purple-300">
                         {other.title}
                       </h3>
-                      <p className="text-xs text-white/70 line-clamp-3 leading-relaxed mb-6">
+                      <p className="mb-6 line-clamp-3 text-xs leading-relaxed text-white/70">
                         {other.content}
                       </p>
                     </div>
-                    <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs   text-purple-300 group-hover:text-white transition-colors">
+                    <div className="flex items-center justify-between border-t border-white/5 pt-3 text-xs text-purple-300 transition-colors group-hover:text-white">
                       <span>Read Article</span>
-                      <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-3.5 w-3.5 transform transition-transform group-hover:translate-x-1" />
                     </div>
                   </Link>
                 );

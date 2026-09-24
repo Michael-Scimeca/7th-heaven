@@ -2,7 +2,14 @@
 /* oxlint-disable react-doctor/no-fetch-in-effect */
 /* eslint-disable react-doctor/no-fetch-in-effect */
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   ThemeTokens,
   DEFAULT_THEME_TOKENS,
@@ -15,7 +22,11 @@ interface ThemeContextType {
   tokens: ThemeTokens;
   isSaving: boolean;
   hasUnsavedChanges: boolean;
-  updateToken: (category: keyof ThemeTokens, tokenKey: string, value: string) => void;
+  updateToken: (
+    category: keyof ThemeTokens,
+    tokenKey: string,
+    value: string,
+  ) => void;
   updateTokens: (newTokens: ThemeTokens) => void;
   saveTheme: () => Promise<boolean>;
   resetToDefaults: () => Promise<boolean>;
@@ -32,20 +43,31 @@ export function ThemeProvider({
   children: React.ReactNode;
   initialTokens?: ThemeTokens;
 }) {
-  const [tokens, setTokens] = useState<ThemeTokens>(initialTokens || DEFAULT_THEME_TOKENS);
-  const [savedTokens, setSavedTokens] = useState<ThemeTokens>(initialTokens || DEFAULT_THEME_TOKENS);
+  const [tokens, setTokens] = useState<ThemeTokens>(
+    initialTokens || DEFAULT_THEME_TOKENS,
+  );
+  const [savedTokens, setSavedTokens] = useState<ThemeTokens>(
+    initialTokens || DEFAULT_THEME_TOKENS,
+  );
   const [isSaving, setIsSaving] = useState(false);
 
   // Only apply dynamic inline CSS custom property overrides on admin routes when editing theme
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.pathname.startsWith("/admin")) {
+    if (
+      typeof window !== "undefined" &&
+      window.location.pathname.startsWith("/admin")
+    ) {
       applyThemeTokensToDocument(tokens);
     }
   }, [tokens]);
 
   // Fetch persisted tokens from API only on admin routes to prevent full-page CSS variable flicker on public loads
   useEffect(() => {
-    if (typeof window === "undefined" || !window.location.pathname.startsWith("/admin")) return;
+    if (
+      typeof window === "undefined" ||
+      !window.location.pathname.startsWith("/admin")
+    )
+      return;
 
     async function fetchTokens() {
       try {
@@ -90,15 +112,18 @@ export function ThemeProvider({
     fetchTokens();
   }, []);
 
-  const updateToken = useCallback((category: keyof ThemeTokens, tokenKey: string, value: string) => {
-    setTokens((prev) => ({
-      ...prev,
-      [category]: {
-        ...prev[category],
-        [tokenKey]: value,
-      },
-    }));
-  }, []);
+  const updateToken = useCallback(
+    (category: keyof ThemeTokens, tokenKey: string, value: string) => {
+      setTokens((prev) => ({
+        ...prev,
+        [category]: {
+          ...prev[category],
+          [tokenKey]: value,
+        },
+      }));
+    },
+    [],
+  );
 
   const updateTokens = useCallback((newTokens: ThemeTokens) => {
     setTokens(newTokens);
@@ -151,26 +176,45 @@ export function ThemeProvider({
     return exportTokensAsJson(tokens);
   }, [tokens]);
 
-  const importThemeJson = useCallback(async (jsonString: string): Promise<boolean> => {
-    const parsed = parseAndValidateThemeJson(jsonString);
-    if (!parsed) return false;
-    setTokens(parsed);
-    return true;
-  }, []);
+  const importThemeJson = useCallback(
+    async (jsonString: string): Promise<boolean> => {
+      const parsed = parseAndValidateThemeJson(jsonString);
+      if (!parsed) return false;
+      setTokens(parsed);
+      return true;
+    },
+    [],
+  );
 
-  const hasUnsavedChanges = useMemo(() => JSON.stringify(tokens) !== JSON.stringify(savedTokens), [tokens, savedTokens]);
+  const hasUnsavedChanges = useMemo(
+    () => JSON.stringify(tokens) !== JSON.stringify(savedTokens),
+    [tokens, savedTokens],
+  );
 
-  const contextValue = useMemo(() => ({
-    tokens,
-    isSaving,
-    hasUnsavedChanges,
-    updateToken,
-    updateTokens,
-    saveTheme,
-    resetToDefaults,
-    exportThemeJson,
-    importThemeJson,
-  }), [tokens, isSaving, hasUnsavedChanges, updateToken, updateTokens, saveTheme, resetToDefaults, exportThemeJson, importThemeJson]);
+  const contextValue = useMemo(
+    () => ({
+      tokens,
+      isSaving,
+      hasUnsavedChanges,
+      updateToken,
+      updateTokens,
+      saveTheme,
+      resetToDefaults,
+      exportThemeJson,
+      importThemeJson,
+    }),
+    [
+      tokens,
+      isSaving,
+      hasUnsavedChanges,
+      updateToken,
+      updateTokens,
+      saveTheme,
+      resetToDefaults,
+      exportThemeJson,
+      importThemeJson,
+    ],
+  );
 
   return (
     <ThemeContext.Provider value={contextValue}>

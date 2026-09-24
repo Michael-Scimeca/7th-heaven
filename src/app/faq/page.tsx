@@ -4,7 +4,8 @@ import FaqClient from "./FaqClient";
 
 export const metadata: Metadata = {
   title: "FAQ — 7th Heaven",
-  description: "Frequently asked questions about 7th Heaven shows, booking, merchandise, fan perks, and cruise.",
+  description:
+    "Frequently asked questions about 7th Heaven shows, booking, merchandise, fan perks, and cruise.",
 };
 
 export const revalidate = 60;

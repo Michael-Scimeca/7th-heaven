@@ -16,7 +16,9 @@ if (typeof window !== "undefined") {
           args[0].includes("Clock: This module has been deprecated") ||
           args[0].includes("GSAP target") ||
           args[0].includes("gsap.com") ||
-          args[0].includes("has either width or height modified, but not the other"))
+          args[0].includes(
+            "has either width or height modified, but not the other",
+          ))
       ) {
         return;
       }
@@ -36,4 +38,3 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     </AuthProvider>
   );
 }
-

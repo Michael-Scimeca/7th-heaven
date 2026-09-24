@@ -5,7 +5,7 @@
 
 /* eslint-disable react-doctor/prefer-useReducer */
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
-import Image from 'next/image';
+import Image from "next/image";
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -14,7 +14,15 @@ import { SquishyToggle } from "@/components/SquishyToggle";
 import SeventhButton from "@/components/SeventhButton";
 import { GlowInput } from "@/components/GlowInput";
 import IphoneClipMask from "@/components/IphoneClipMask";
-import { User, Mail, MapPin, Sliders, Music, Check, Guitar } from "lucide-react";
+import {
+  User,
+  Mail,
+  MapPin,
+  Sliders,
+  Music,
+  Check,
+  Guitar,
+} from "lucide-react";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 
 const RADIUS_OPTIONS = [
@@ -49,10 +57,14 @@ interface ProximityNotifyProps {
 }
 
 function CrispCheckIcon() {
-  return <CheckMarkIcon className="w-3.5 h-3.5 text-purple-200 ml-0.5 shrink-0 inline-block" />;
+  return (
+    <CheckMarkIcon className="ml-0.5 inline-block h-3.5 w-3.5 shrink-0 text-purple-200" />
+  );
 }
 
-export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {}) {
+export default function ProximityNotify({
+  nextShow,
+}: ProximityNotifyProps = {}) {
   const showVenue = nextShow?.venue || "Station 34";
   const showCity = nextShow?.city || "Mt. Prospect";
   const showState = nextShow?.state || "IL";
@@ -60,17 +72,24 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   const showInfo = nextShow?.info || "F.A.N. Show - Unplugged";
 
   const isAllAges = nextShow
-    ? (nextShow.allAges === true || showInfo.toLowerCase().includes("all age") || showInfo.toLowerCase().includes("all-age"))
+    ? nextShow.allAges === true ||
+      showInfo.toLowerCase().includes("all age") ||
+      showInfo.toLowerCase().includes("all-age")
     : false;
   const is21Plus = nextShow
-    ? (nextShow.allAges === false || showInfo.toLowerCase().includes("21 &") || showInfo.toLowerCase().includes("21+"))
+    ? nextShow.allAges === false ||
+      showInfo.toLowerCase().includes("21 &") ||
+      showInfo.toLowerCase().includes("21+")
     : true;
 
   const ageLabel = isAllAges ? "All Ages" : "21+";
 
-  const coverLabel = showInfo.toLowerCase().includes("free") || showInfo.toLowerCase().includes("festival") || showInfo.toLowerCase().includes("casino")
-    ? "Free Admission"
-    : "$5 cover";
+  const coverLabel =
+    showInfo.toLowerCase().includes("free") ||
+    showInfo.toLowerCase().includes("festival") ||
+    showInfo.toLowerCase().includes("casino")
+      ? "Free Admission"
+      : "$5 cover";
 
   const showVenueSlug = showVenue.toLowerCase().replace(/[^a-z0-9]/g, "");
 
@@ -80,7 +99,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   const [radius, setRadius] = useState("50");
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [notifyAreaShows, setNotifyAreaShows] = useState(true);
@@ -112,12 +133,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           if (video) {
             video.src = "/movie/notefication.mp4";
             video.load();
-            video.play().catch(() => { });
+            video.play().catch(() => {});
           }
           observer.disconnect();
         }
       },
-      { rootMargin: "200px 0px" }
+      { rootMargin: "200px 0px" },
     );
 
     observer.observe(video);
@@ -134,7 +155,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           }
         });
       } else if (Notification.permission === "denied") {
-        alert("Notification permission is blocked. Please enable it in browser settings.");
+        alert(
+          "Notification permission is blocked. Please enable it in browser settings.",
+        );
         setNotifyBrowser(false);
       }
     }
@@ -169,10 +192,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
       radius,
       notifyAreaShows,
       notifyNextShow,
-      showTypes: selectedShowTypes
+      showTypes: selectedShowTypes,
     });
     if (!validation.success) {
-      setFieldErrors(validation.error.flatten().fieldErrors as Record<string, string[]>);
+      setFieldErrors(
+        validation.error.flatten().fieldErrors as Record<string, string[]>,
+      );
       return;
     }
 
@@ -188,14 +213,21 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           radius,
           notifyAreaShows,
           notifyNextShow,
-          showTypes: selectedShowTypes
+          showTypes: selectedShowTypes,
         }),
       });
 
       if (res.ok) {
         setStatus("success");
-        setName(""); setEmail(""); setZip(""); setProfilePic(null);
-        if (notifyBrowser && typeof window !== "undefined" && "Notification" in window) {
+        setName("");
+        setEmail("");
+        setZip("");
+        setProfilePic(null);
+        if (
+          notifyBrowser &&
+          typeof window !== "undefined" &&
+          "Notification" in window
+        ) {
           if (Notification.permission === "granted") {
             new Notification("7th Heaven Alerts", {
               body: `Proximity alerts successfully activated for ${showVenue}!`,
@@ -207,7 +239,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
         setErrorMsg("Too many attempts. Please wait a moment and try again.");
       } else if (res.status === 409) {
         setStatus("error");
-        setErrorMsg("An account with this email already exists. Please sign in.");
+        setErrorMsg(
+          "An account with this email already exists. Please sign in.",
+        );
       } else {
         const data = await res.json().catch(() => ({}));
         setStatus("error");
@@ -220,22 +254,24 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
   };
 
   return (
-    <section id="proximity-notify" className="site-container relative py-section-fluid bg-transparent overflow-hidden">
-
+    <section
+      id="proximity-notify"
+      className="site-container py-section-fluid relative overflow-hidden bg-transparent"
+    >
       {/* ═══ Content — Two Column Layout Matching Reference Image ═══ */}
       <div className="relative z-10 max-w-6xl md:mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           {/* ── LEFT COLUMN: Concert Video Showcase (5 Cols) ── */}
-          <div className="md:col-span-5 flex justify-center md:justify-end items-center w-full h-full my-auto">
-            <div className="relative w-full h-full max-h-[900px] flex items-center justify-center md:justify-end">
+          <div className="my-auto flex h-full w-full items-center justify-center md:col-span-5 md:justify-end">
+            <div className="relative flex h-full max-h-[900px] w-full items-center justify-center md:justify-end">
               <IphoneClipMask
                 insetXPercent={0}
                 insetTopPercent={0}
                 insetBottomPercent={0}
                 borderRadiusPx={48}
-                className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] h-full max-h-[900px] flex items-center justify-center md:justify-end">
-                <div className="relative w-full h-full max-h-[900px] aspect-[9/18] rounded-[44px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-black flex items-center justify-center transition-opacity duration-300">
+                className="flex h-full max-h-[900px] w-full max-w-[340px] items-center justify-center sm:max-w-[380px] md:max-w-[420px] md:justify-end"
+              >
+                <div className="relative flex aspect-[9/18] h-full max-h-[900px] w-full items-center justify-center overflow-hidden rounded-[44px] bg-black shadow-[0_20px_60px_rgba(0,0,0,0.8)] transition-opacity duration-300">
                   <video
                     ref={phoneVideoRef}
                     src={videoLoaded ? "/movie/notefication.mp4" : undefined}
@@ -245,14 +281,14 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     playsInline
                     preload={videoLoaded ? "auto" : "none"}
                     aria-label="7th Heaven Concert Live Stream"
-                    className="w-full h-full object-cover rounded-[40px]"
+                    className="h-full w-full rounded-[40px] object-cover"
                     onCanPlay={(e) => {
                       e.currentTarget.muted = true;
-                      e.currentTarget.play().catch(() => { });
+                      e.currentTarget.play().catch(() => {});
                     }}
                     onLoadedMetadata={(e) => {
                       e.currentTarget.muted = true;
-                      e.currentTarget.play().catch(() => { });
+                      e.currentTarget.play().catch(() => {});
                     }}
                   />
                 </div>
@@ -261,58 +297,43 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
           </div>
 
           {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
-          <div className="md:col-span-7 flex flex-col justify-center items-start space-y-6 w-full md:mx-0 md:pl-0">
+          <div className="flex w-full flex-col items-start justify-center space-y-6 md:col-span-7 md:mx-0 md:pl-0">
             {/* Header Title */}
             <div>
-              <h2 className="lg:text-6xl mb-3">
-                Never Miss a Show
-              </h2>
-              <p className="text-purple-200/70 max-w-xl">
-                Get exclusives. Stay connected to the 7th Heaven community. Join 1,000s of fans getting proximity alerts &amp; show updates.
+              <h2 className="mb-3 lg:text-6xl">Never Miss a Show</h2>
+              <p className="max-w-xl text-purple-200/70">
+                Get exclusives. Stay connected to the 7th Heaven community. Join
+                1,000s of fans getting proximity alerts &amp; show updates.
               </p>
             </div>
 
             {/* Metrics Counter Display (2 Clean Vertical Columns) */}
-            <div className="flex flex-row gap-8 sm:gap-12 py-1 w-full">
+            <div className="flex w-full flex-row gap-8 py-1 sm:gap-12">
               {/* Left Column */}
-              <div className="flex flex-col space-y-3 min-w-[110px]">
+              <div className="flex min-w-[110px] flex-col space-y-3">
                 <div>
-                  <p className="text-amber-200/60   mb-0.5">
-                    Countries
-                  </p>
-                  <p className="text-amber-200">
-                    7
-                  </p>
+                  <p className="mb-0.5 text-amber-200/60">Countries</p>
+                  <p className="text-amber-200">7</p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60   mb-0.5">
-                    Impressions
-                  </p>
-                  <p className="text-amber-200">
-                    2,100,000
-                  </p>
+                  <p className="mb-0.5 text-amber-200/60">Impressions</p>
+                  <p className="text-amber-200">2,100,000</p>
                 </div>
               </div>
 
               {/* Right Column */}
               <div className="flex flex-col space-y-3">
                 <div>
-                  <p className="text-amber-200/60   mb-0.5">
+                  <p className="mb-0.5 text-amber-200/60">
                     Followers &amp; Fans
                   </p>
-                  <p className="text-amber-200">
-                    +18,000
-                  </p>
+                  <p className="text-amber-200">+18,000</p>
                 </div>
 
                 <div>
-                  <p className="text-amber-200/60   mb-0.5">
-                    Live Engagements
-                  </p>
-                  <p className="text-amber-200">
-                    160,000
-                  </p>
+                  <p className="mb-0.5 text-amber-200/60">Live Engagements</p>
+                  <p className="text-amber-200">160,000</p>
                 </div>
               </div>
             </div>
@@ -320,22 +341,41 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
             {/* Glass Form Card */}
             <div className="w-full max-w-xl">
               {status === "success" ? (
-                <div className="bg-purple-950/40 backdrop-blur-xl border border-purple-500/30 p-8 rounded-lg text-center shadow-2xl">
-                  <div className="flex items-center justify-center gap-2.5 mb-3">
-                    <div className="w-12 h-12 rounded-lg bg- purple-white/20 flex items-center justify-center text-purple-400">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                <div className="rounded-lg border border-purple-500/30 bg-purple-950/40 p-8 text-center shadow-2xl backdrop-blur-xl">
+                  <div className="mb-3 flex items-center justify-center gap-2.5">
+                    <div className="bg- purple-white/20 flex h-12 w-12 items-center justify-center rounded-lg text-purple-400">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
                     </div>
                     <span className="text-xl">Check your email!</span>
                   </div>
-                  <p className="text-purple-200/70 mb-1">We&apos;ve sent a confirmation link to your inbox.</p>
-                  <p>Click the link to confirm your account and start getting show alerts.</p>
+                  <p className="mb-1 text-purple-200/70">
+                    We&apos;ve sent a confirmation link to your inbox.
+                  </p>
+                  <p>
+                    Click the link to confirm your account and start getting
+                    show alerts.
+                  </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="bg-transparent p-0 space-y-4">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-4 bg-transparent p-0"
+                >
                   {/* Input Fields (Matching Footer Setup) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
-                      <label className="block mb-1 flex items-center gap-1">
+                      <label className="mb-1 block flex items-center gap-1">
                         Full Name
                       </label>
                       <GlowInput
@@ -347,7 +387,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                       />
                     </div>
                     <div>
-                      <label className="block text- mb-1 flex items-center gap-1">
+                      <label className="text- mb-1 block flex items-center gap-1">
                         Email address
                       </label>
                       <GlowInput
@@ -358,9 +398,9 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         wrapperClassName="w-full"
                       />
                     </div>
-                    <div className="sm:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <div className="flex flex-col items-start gap-3 sm:col-span-2 sm:flex-row sm:items-center">
                       <div className="w-full sm:w-[220px]">
-                        <label className="block mb-1 flex items-center gap-1">
+                        <label className="mb-1 block flex items-center gap-1">
                           Zip Code / City
                         </label>
                         <GlowInput
@@ -372,10 +412,10 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         />
                       </div>
                       <div className="w-full flex-1">
-                        <label className="block mb-1 flex items-center gap-1">
+                        <label className="mb-1 block flex items-center gap-1">
                           Distance Radius
                         </label>
-                        <div className="inline-flex flex-wrap gap-1 items-center w-fit max-w-full">
+                        <div className="inline-flex w-fit max-w-full flex-wrap items-center gap-1">
                           {RADIUS_OPTIONS.map((opt) => {
                             const active = radius === opt.value;
                             return (
@@ -384,7 +424,8 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
                                 isActive={active}
-                                className="!w-auto px-2.5 py-1.5 text-xs">
+                                className="!w-auto px-2.5 py-1.5 text-xs"
+                              >
                                 {opt.label}
                               </SeventhButton>
                             );
@@ -395,7 +436,7 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   </div>
 
                   {/* Show Type Preferences */}
-                  <div className="pt-2 border-t border-white/10 space-y-1.5">
+                  <div className="space-y-1.5 border-t border-white/10 pt-2">
                     <label className="block flex items-center gap-1">
                       Notification Types
                     </label>
@@ -407,18 +448,28 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                             key={type.id}
                             type="button"
                             onClick={() => {
-                              if (type.id === "all") { setSelectedShowTypes(["all"]); return; }
-                              let next = selectedShowTypes.filter((t) => t !== "all");
-                              next = next.includes(type.id) ? next.filter((t) => t !== type.id) : [...next, type.id];
-                              setSelectedShowTypes(next.length === 0 ? ["all"] : next);
+                              if (type.id === "all") {
+                                setSelectedShowTypes(["all"]);
+                                return;
+                              }
+                              let next = selectedShowTypes.filter(
+                                (t) => t !== "all",
+                              );
+                              next = next.includes(type.id)
+                                ? next.filter((t) => t !== type.id)
+                                : [...next, type.id];
+                              setSelectedShowTypes(
+                                next.length === 0 ? ["all"] : next,
+                              );
                             }}
                             isActive={isSelected}
-                            className="!w-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs">
+                            className="inline-flex !w-auto items-center gap-1 px-2.5 py-1.5 text-xs"
+                          >
                             {type.iconType === "guitar" ? (
-                              <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
+                              <Guitar className="inline-block h-3.5 w-3.5 shrink-0 text-purple-300" />
                             ) : (
                               <span
-                                className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
+                                className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
                                 style={{
                                   backgroundColor: type.color,
                                   boxShadow: `0 0 6px ${type.color}80`,
@@ -434,11 +485,12 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                   </div>
 
                   {/* Agreements */}
-                  <div className="pt-2 space-y-2">
+                  <div className="space-y-2 pt-2">
                     <div
-                      className="flex items-start gap-2.5 cursor-pointer text-left w-full select-none"
-                      onClick={() => setAgreeTerms(!agreeTerms)}>
-                      <div className="shrink-0 mt-0.5">
+                      className="flex w-full cursor-pointer items-start gap-2.5 text-left select-none"
+                      onClick={() => setAgreeTerms(!agreeTerms)}
+                    >
+                      <div className="mt-0.5 shrink-0">
                         <SquishyToggle
                           id="agree-terms"
                           label="Agree to terms and privacy policy"
@@ -447,7 +499,23 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                         />
                       </div>
                       <span className="text-white/40">
-                        I agree to the <Link href="/terms" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
+                        I agree to the{" "}
+                        <Link
+                          href="/terms"
+                          className="hover:text-white"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Terms
+                        </Link>{" "}
+                        and{" "}
+                        <Link
+                          href="/privacy"
+                          className="hover:text-white"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Privacy Policy
+                        </Link>
+                        .
                       </span>
                     </div>
                   </div>
@@ -457,29 +525,34 @@ export default function ProximityNotify({ nextShow }: ProximityNotifyProps = {})
                     type="submit"
                     icon={false}
                     disabled={status === "loading" || !agreeTerms}
-                    className="w-full cursor-pointer transition disabled:opacity-60">
-                    {status === "loading" ? "Activating Proximity Alerts..." : "Activate Show Alerts"}
+                    className="w-full cursor-pointer transition disabled:opacity-60"
+                  >
+                    {status === "loading"
+                      ? "Activating Proximity Alerts..."
+                      : "Activate Show Alerts"}
                   </SeventhButton>
 
                   {/* Errors */}
                   {Object.keys(fieldErrors).length > 0 && (
                     <div className="space-y-1 pt-1">
                       {Object.entries(fieldErrors).map(([field, errors]) => (
-                        <p key={field} className="text-red-400 text-center">
-                          <span className="capitalize">{field}</span>: {errors.join(", ")}
+                        <p key={field} className="text-center text-red-400">
+                          <span className="capitalize">{field}</span>:{" "}
+                          {errors.join(", ")}
                         </p>
                       ))}
                     </div>
                   )}
 
                   {status === "error" && (
-                    <p className="text-red-400 text-center pt-1">{errorMsg || "Something went wrong. Try again."}</p>
+                    <p className="pt-1 text-center text-red-400">
+                      {errorMsg || "Something went wrong. Try again."}
+                    </p>
                   )}
                 </form>
               )}
             </div>
           </div>
-
         </div>
       </div>
     </section>

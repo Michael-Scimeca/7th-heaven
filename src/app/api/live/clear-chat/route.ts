@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
 /**
  * POST /api/live/clear-chat
@@ -10,21 +10,21 @@ export async function POST(req: NextRequest) {
   try {
     const { room } = await req.json();
     if (!room) {
-      return NextResponse.json({ error: 'Missing room' }, { status: 400 });
+      return NextResponse.json({ error: "Missing room" }, { status: 400 });
     }
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
     const { error, count } = await supabase
-      .from('chat_messages')
+      .from("chat_messages")
       .delete()
-      .eq('room', room);
+      .eq("room", room);
 
     if (error) {
-      console.error('clear-chat error:', error);
+      console.error("clear-chat error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 

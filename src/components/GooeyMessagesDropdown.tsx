@@ -72,7 +72,9 @@ export default function GooeyMessagesDropdown({
   const elementId = id || autoId;
 
   const [open, setOpen] = useState(false);
-  const [selectedIdState, setSelectedIdState] = useState<string | undefined>(defaultSelectedId);
+  const [selectedIdState, setSelectedIdState] = useState<string | undefined>(
+    defaultSelectedId,
+  );
   const wrapRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -81,11 +83,15 @@ export default function GooeyMessagesDropdown({
 
   let normalizedCustomers: GooeyCustomer[] =
     options && options.length > 0
-      ? options.map((opt) => (typeof opt === "string" ? { id: opt, name: opt } : { id: opt.value, name: opt.label }))
+      ? options.map((opt) =>
+          typeof opt === "string"
+            ? { id: opt, name: opt }
+            : { id: opt.value, name: opt.label },
+        )
       : customers;
 
   const hasAllOption = normalizedCustomers.some(
-    (c) => c.id.toLowerCase() === "all" || c.name.toLowerCase() === "all"
+    (c) => c.id.toLowerCase() === "all" || c.name.toLowerCase() === "all",
   );
 
   if (showAllOption && !hasAllOption) {
@@ -94,7 +100,9 @@ export default function GooeyMessagesDropdown({
 
   const activeSelectedId = selected !== undefined ? selected : selectedIdState;
   const selectedItem = normalizedCustomers.find(
-    (c) => c.id === activeSelectedId || (activeSelectedId === "All" && c.id.toLowerCase() === "all")
+    (c) =>
+      c.id === activeSelectedId ||
+      (activeSelectedId === "All" && c.id.toLowerCase() === "all"),
   );
   const triggerText = selectedItem ? selectedItem.name : placeholder;
 
@@ -139,12 +147,12 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`relative ${fullWidth ? "w-full block" : "inline-block"} ${open ? "z-[99999]" : "z-10"} [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}>
+      className={`relative ${fullWidth ? "block w-full" : "inline-block"} ${open ? "z-[99999]" : "z-10"} [font-family:Inter,var(--font-inter,sans-serif)] ${className}`}
+    >
       {/* Hidden SVG Gooey Filter Definition */}
 
-
       {label && (
-        <label className="text-[0.65rem] text-black/60 dark: text-white/40 block mb-1">
+        <label className="dark: mb-1 block text-[0.65rem] text-black/60 text-white/40">
           {label}
         </label>
       )}
@@ -153,15 +161,17 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`backdrop-blur-xl bg-[#00000029] border-[#ffffff1a] relative z-50 border border-white/10 min-h-[46px] shadow-[0_24px_60px_#0000008c] ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"} ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open ? "   bg-[#8d73d71c] rounded-t-lg rounded-b-none" : "bg-[#8d73d71c]    border-white/10 /90 hover:bg-[#8d73d71c]"} ${noBorder ? "!border-none" : ""} flex items-center gap-3 cursor-pointer transition-[background-color,border-color,transform,box-shadow] duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_3px_9px_#0000008c]`}
+        className={`relative z-50 min-h-[46px] border border-[#ffffff1a] border-white/10 bg-[#00000029] shadow-[0_24px_60px_#0000008c] backdrop-blur-xl ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"} ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open ? "rounded-t-lg rounded-b-none bg-[#8d73d71c]" : "/90 border-white/10 bg-[#8d73d71c] hover:bg-[#8d73d71c]"} ${noBorder ? "!border-none" : ""} flex cursor-pointer items-center gap-3 shadow-[0_3px_9px_#0000008c] transition-[background-color,border-color,transform,box-shadow] duration-300 disabled:cursor-not-allowed disabled:opacity-50`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={triggerText}
         id={elementId}
-        name={name}>
+        name={name}
+      >
         <span
-          className={`whitespace-normal break-words flex-1    ${triggerTextClassName}`}>
+          className={`flex-1 break-words whitespace-normal ${triggerTextClassName}`}
+        >
           {triggerText}
         </span>
         <svg
@@ -173,8 +183,9 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0   transition-transform duration-300 ease-out ${open ? "rotate-90 " : "rotate-0"}`}
-          aria-hidden="true">
+          className={`shrink-0 transition-transform duration-300 ease-out ${open ? "rotate-90" : "rotate-0"}`}
+          aria-hidden="true"
+        >
           <path d="M4 2l4 4-4 4" />
         </svg>
       </button>
@@ -182,12 +193,15 @@ export default function GooeyMessagesDropdown({
       {/* Gooey Options Menu Panel (Crisp Foreground Layer) */}
       {open && (
         <div
-          className="absolute !left-0 top-full min-w-full w-max max-w-md    border border-white/10 border-t-0 rounded-lg bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-[18px] z-[99999] overflow-hidden transition-[opacity,transform] duration-300 origin-top animate-in fade-in zoom-in-95 slide-in-from-top-2 ease-[cubic-bezier(0.34,1.56,0.64,1)] rounded-b-lg rounded-t-none"
-          role="listbox">
+          className="animate-in fade-in zoom-in-95 slide-in-from-top-2 absolute top-full !left-0 z-[99999] w-max max-w-md min-w-full origin-top overflow-hidden rounded-lg rounded-t-none rounded-b-lg border border-t-0 border-white/10 bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-[18px] transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+          role="listbox"
+        >
           {(title || badge) && (
-            <div className="flex items-center justify-between px-3 py-1.5 border-b border-white/10 mb-1">
+            <div className="mb-1 flex items-center justify-between border-b border-white/10 px-3 py-1.5">
               {title && <span className="text-purple-300">{title}</span>}
-              {badge && <span className="text-[10px] text-white/50">{badge}</span>}
+              {badge && (
+                <span className="text-[10px] text-white/50">{badge}</span>
+              )}
             </div>
           )}
 
@@ -196,8 +210,9 @@ export default function GooeyMessagesDropdown({
             <div
               ref={listRef}
               onScroll={handleScroll}
-              className="max-h-46 overflow-y-auto no-scrollbar space-y-1 pr-1"
-              data-lenis-prevent="true">
+              className="no-scrollbar max-h-46 space-y-1 overflow-y-auto pr-1"
+              data-lenis-prevent="true"
+            >
               {normalizedCustomers.map((c) => {
                 const isSelected = c.id === activeSelectedId;
                 return (
@@ -206,33 +221,35 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`w-full !m-0 text-left px-4 py-2 !rounded-none transition-[background-color,color] duration-150 flex items-center justify-between cursor-pointer ${isSelected ? " bg-gradient-to-l from-purple-700 to-purple-900  " : "   hover:text-white hover:bg-gradient-to-l from-purple-900 to-purple-500/90"}`}
+                    className={`!m-0 flex w-full cursor-pointer items-center justify-between !rounded-none px-4 py-2 text-left transition-[background-color,color] duration-150 ${isSelected ? "bg-gradient-to-l from-purple-700 to-purple-900" : "from-purple-900 to-purple-500/90 hover:bg-gradient-to-l hover:text-white"}`}
                     onClick={() => {
                       setSelectedIdState(c.id);
                       onSelect?.(c);
                       onChange?.(c.id);
                       setOpen(false);
-                    }}>
-                    <span className="whitespace-normal text-[14px] break-words">
+                    }}
+                  >
+                    <span className="text-[14px] break-words whitespace-normal">
                       {c.name}
                     </span>
-
                   </button>
                 );
               })}
             </div>
 
             {/* Permanent Custom React DOM Scrollbar Indicator */}
-            <div className="absolute right-0 top-1 bottom-1 w-1.5 bg-white/10 rounded-lg pointer-events-none z-30">
+            <div className="pointer-events-none absolute top-1 right-0 bottom-1 z-30 w-1.5 rounded-lg bg-white/10">
               <div
-                className="w-full bg-purple-600 rounded-lg transition-[height,margin-top] duration-75"
+                className="w-full rounded-lg bg-purple-600 transition-[height,margin-top] duration-75"
                 style={{
                   height: `${Math.max(20, Math.min(100, thumbHeightRatio * 100))}%`,
-                  marginTop: `${scrollProgress *
-                    (100 - Math.max(20, Math.min(100, thumbHeightRatio * 100))) *
+                  marginTop: `${
+                    scrollProgress *
+                    (100 -
+                      Math.max(20, Math.min(100, thumbHeightRatio * 100))) *
                     0.01 *
                     (listRef.current ? listRef.current.clientHeight - 8 : 150)
-                    }px`,
+                  }px`,
                 }}
               />
             </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
-import GooeyMessagesDropdown, { type GooeyCustomer } from "./GooeyMessagesDropdown";
+import GooeyMessagesDropdown, {
+  type GooeyCustomer,
+} from "./GooeyMessagesDropdown";
 
 export interface CustomDropdownOption<T extends string | number> {
   value: T;

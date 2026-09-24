@@ -51,10 +51,10 @@ export function getNorthConfig(): NorthConfig {
     if (!val) missing.push(key);
   }
 
-  if (missing.length> 0) {
+  if (missing.length > 0) {
     throw new Error(
       `North (EPX) is not configured — missing env var(s): ${missing.join(", ")}. ` +
-        `Add them to .env.local (see the North section near the Stripe config).`
+        `Add them to .env.local (see the North section near the Stripe config).`,
     );
   }
 
@@ -108,7 +108,7 @@ export function parseTacFromXml(xml: string): string {
  * isNorthMockMode() above.
  */
 export async function requestTac(
-  amount: string
+  amount: string,
 ): Promise<{ tac: string; tranNbr: string; mock: boolean }> {
   const tranNbr = generateTranNbr();
 

@@ -13,7 +13,10 @@ async function MerchQRContent() {
   try {
     products = await getProducts();
   } catch (err) {
-    console.warn("[QR Merch Page] Shopify fetch warning, using fallback products catalog:", err);
+    console.warn(
+      "[QR Merch Page] Shopify fetch warning, using fallback products catalog:",
+      err,
+    );
   }
 
   return <MerchQRClient initialProducts={products} />;
@@ -21,7 +24,7 @@ async function MerchQRContent() {
 
 function MerchQRFallback() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center">
       <div className="animate-pulse text-sm text-white/50">Loading merch…</div>
     </div>
   );

@@ -1,30 +1,46 @@
-import { createClient as createSupabaseClient, SupabaseClient } from '@supabase/supabase-js';
-import { createClient as createBrowserClient } from './supabase/client';
+import {
+  createClient as createSupabaseClient,
+  SupabaseClient,
+} from "@supabase/supabase-js";
+import { createClient as createBrowserClient } from "./supabase/client";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseKey =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key";
 
 const globalForSupabase = globalThis as unknown as {
   supabase: SupabaseClient | any;
 };
 
-export const supabase = globalForSupabase.supabase ?? (
-  typeof window !== 'undefined'
+export const supabase =
+  globalForSupabase.supabase ??
+  (typeof window !== "undefined"
     ? createBrowserClient()
-    : createSupabaseClient(supabaseUrl, supabaseKey)
-);
+    : createSupabaseClient(supabaseUrl, supabaseKey));
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   globalForSupabase.supabase = supabase;
 }
-export const isSupabaseConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co');
+export const isSupabaseConfigured = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  process.env.NEXT_PUBLIC_SUPABASE_URL !== "https://placeholder.supabase.co",
+);
 
 /**
  * Gets the public CDN URL for a file stored in a Supabase Storage bucket.
  */
-export function getSupabaseStorageUrl(bucket: string, path: string | null | undefined, fallback: string = ""): string {
+export function getSupabaseStorageUrl(
+  bucket: string,
+  path: string | null | undefined,
+  fallback: string = "",
+): string {
   if (!path) return fallback;
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("/")
+  ) {
     return path;
   }
   if (!isSupabaseConfigured) return fallback;
@@ -38,18 +54,18 @@ export function getSupabaseStorageUrl(bucket: string, path: string | null | unde
 
 // Database types for the live feed
 export interface FeedPostDB {
- id: string;
- member_name: string;
- member_role: string;
- member_avatar: string;
- content: string;
- post_type: 'text' | 'photo' | 'video' | 'setlist' | 'crowd' | 'announcement';
- image_url?: string;
- video_url?: string;
- show_id?: string; // links to a specific tour date
- reactions: Record<string, number>;
- is_live: boolean;
- created_at: string;
+  id: string;
+  member_name: string;
+  member_role: string;
+  member_avatar: string;
+  content: string;
+  post_type: "text" | "photo" | "video" | "setlist" | "crowd" | "announcement";
+  image_url?: string;
+  video_url?: string;
+  show_id?: string; // links to a specific tour date
+  reactions: Record<string, number>;
+  is_live: boolean;
+  created_at: string;
 }
 
 /*

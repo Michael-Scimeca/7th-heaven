@@ -1,23 +1,23 @@
-import { createClient } from '@supabase/supabase-js';
-import { NextResponse } from 'next/server';
+import { createClient } from "@supabase/supabase-js";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const { postId, currentLikes } = await req.json();
 
     if (!postId) {
-      return NextResponse.json({ error: 'Missing postId' }, { status: 400 });
+      return NextResponse.json({ error: "Missing postId" }, { status: 400 });
     }
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
     const { error } = await supabase
-      .from('live_feed')
+      .from("live_feed")
       .update({ likes_count: currentLikes + 1 })
-      .eq('id', postId);
+      .eq("id", postId);
 
     if (error) {
       console.error("Error updating likes:", error);

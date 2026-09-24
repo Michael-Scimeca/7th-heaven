@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface AdminAuthGateProps {
   isWrongRole: boolean;
@@ -26,9 +26,12 @@ export function AdminAuthGate({
   router,
 }: AdminAuthGateProps) {
   return (
-    <main id="admin-auth-gate-page" className="min-h-screen bg-[var(--color-bg-base)] flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[var(--color-bg-surface)] border border-white/10 p-8 rounded-lg text-center">
-        <div className="w-16 h-16 bg-purple-500/10 border border-white/10 rounded-lg flex items-center justify-center mx-auto mb-6 text-2xl">
+    <main
+      id="admin-auth-gate-page"
+      className="flex min-h-screen items-center justify-center bg-[var(--color-bg-base)] p-4"
+    >
+      <div className="w-full max-w-md rounded-lg border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg border border-white/10 bg-purple-500/10 text-2xl">
           🔒
         </div>
         <h1 className="mb-2">
@@ -42,32 +45,41 @@ export function AdminAuthGate({
 
         <form onSubmit={handleAdminLoginSubmit} className="space-y-4 text-left">
           <div>
-            <label htmlFor="admin-gate-email" className="text-4xs mb-1.5 block">Email</label>
+            <label htmlFor="admin-gate-email" className="text-4xs mb-1.5 block">
+              Email
+            </label>
             <input
               id="admin-gate-email"
               type="email"
               value={adminLoginEmail}
               onChange={(e) => setAdminLoginEmail(e.target.value)}
               placeholder="admin@7thheaven.com"
-              className="w-full px-4 py-2.5 bg-black/60 border border-white/10 placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors"
+              autoComplete="email"
+              className="w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 transition-colors outline-none focus:border-purple-500"
               required
             />
           </div>
           <div>
-            <label htmlFor="admin-gate-password" className="text-4xs mb-1.5 block">Password</label>
+            <label
+              htmlFor="admin-gate-password"
+              className="text-4xs mb-1.5 block"
+            >
+              Password
+            </label>
             <input
               id="admin-gate-password"
               type="password"
               value={adminLoginPassword}
               onChange={(e) => setAdminLoginPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 bg-black/60 border border-white/10 placeholder-white/30 rounded-lg outline-none focus:border-purple-500 transition-colors"
+              autoComplete="current-password"
+              className="w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 transition-colors outline-none focus:border-purple-500"
               required
             />
           </div>
 
           {adminLoginError && (
-            <p className="text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-lg text-center">
+            <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-2.5 text-center text-rose-400">
               {adminLoginError}
             </p>
           )}
@@ -75,22 +87,25 @@ export function AdminAuthGate({
           <button
             type="submit"
             disabled={adminLoginLoading}
-            className="btn-primary w-full py-3 rounded-lg cursor-pointer disabled:opacity-50">
+            className="btn-primary w-full cursor-pointer rounded-lg py-3 disabled:opacity-50"
+          >
             {adminLoginLoading ? "Authenticating..." : "Sign In to Admin"}
           </button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-white/40">
+        <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4 text-white/40">
           <button
             type="button"
-            onClick={() => router.push('/')}
-            className="hover:text-white transition-colors cursor-pointer border-none p-0 text-white/40">
+            onClick={() => router.push("/")}
+            className="cursor-pointer border-none p-0 text-white/40 transition-colors hover:text-white"
+          >
             ← Back to Home
           </button>
           <button
             type="button"
-            onClick={() => openModal('login')}
-            className="hover:text-purple-300 transition-colors cursor-pointer border-none p-0 text-purple-400">
+            onClick={() => openModal("login")}
+            className="cursor-pointer border-none p-0 text-purple-400 transition-colors hover:text-purple-300"
+          >
             Switch Account
           </button>
         </div>

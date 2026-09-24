@@ -4,7 +4,7 @@ import { requireAdmin, maskPhone } from "@/lib/api-utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 // POST: Blast all opted-in subscribers that a live stream has started
@@ -18,9 +18,9 @@ export async function POST(request: Request) {
 
     // Fetch from Supabase instead of file
     const { data: subscribers } = await supabase
-      .from('sms_subscribers')
-      .select('phone, name')
-      .eq('opted_in', true);
+      .from("sms_subscribers")
+      .select("phone, name")
+      .eq("opted_in", true);
 
     const targets = subscribers || [];
 
@@ -38,8 +38,12 @@ export async function POST(request: Request) {
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const twilioPhone = process.env.TWILIO_PHONE_NUMBER;
 
-    if (!accountSid?.startsWith('AC') || !authToken || !twilioPhone) {
-      console.log("\n📲 [LIVE ALERT] DEV MODE — would notify:", targets.length, "subscribers");
+    if (!accountSid?.startsWith("AC") || !authToken || !twilioPhone) {
+      console.log(
+        "\n📲 [LIVE ALERT] DEV MODE — would notify:",
+        targets.length,
+        "subscribers",
+      );
       return NextResponse.json({
         success: true,
         sent: targets.length,
@@ -49,20 +53,26 @@ export async function POST(request: Request) {
     }
 
     // Send real SMS via Twilio
-    const twilio = (await import('twilio')).default;
+    const twilio = (await import("twilio")).default;
     const client = twilio(accountSid, authToken);
-    const results = await Promise.all(targets.map(async (sub) => {
-      try {
-        await client.messages.create({
-          body: message,
-          from: twilioPhone,
-          to: sub.phone,
-        });
-        return { phone: maskPhone(sub.phone), status: "sent" };
-      } catch (err: any) {
-        return { phone: maskPhone(sub.phone), status: "failed", error: err.message };
-      }
-    }));
+    const results = await Promise.all(
+      targets.map(async (sub) => {
+        try {
+          await client.messages.create({
+            body: message,
+            from: twilioPhone,
+            to: sub.phone,
+          });
+          return { phone: maskPhone(sub.phone), status: "sent" };
+        } catch (err: any) {
+          return {
+            phone: maskPhone(sub.phone),
+            status: "failed",
+            error: err.message,
+          };
+        }
+      }),
+    );
 
     const sentCount = results.filter((r) => r.status === "sent").length;
     return NextResponse.json({
@@ -73,6 +83,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Live alert error:", error);
-    return NextResponse.json({ error: "Failed to send live alerts" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to send live alerts" },
+      { status: 500 },
+    );
   }
 }

@@ -37,7 +37,9 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
     if (!selectedShowId) return;
     setLoading(true);
     try {
-      const r = await fetch(`/api/admin/invite-challenge?showId=${selectedShowId}`);
+      const r = await fetch(
+        `/api/admin/invite-challenge?showId=${selectedShowId}`,
+      );
       if (r.ok) {
         const data = await r.json();
         if (data) {
@@ -45,14 +47,21 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             enabled: data.enabled ?? false,
             threshold: data.threshold ?? 20,
             reward_name: data.reward_name ?? "",
-            reward_description: data.reward_description ?? "Claim at the merch table, night of show",
+            reward_description:
+              data.reward_description ??
+              "Claim at the merch table, night of show",
           });
         } else {
-          setChallenge({ enabled: false, threshold: 20, reward_name: "", reward_description: "Claim at the merch table, night of show" });
+          setChallenge({
+            enabled: false,
+            threshold: 20,
+            reward_name: "",
+            reward_description: "Claim at the merch table, night of show",
+          });
         }
       }
-    } catch { }
-    finally {
+    } catch {
+    } finally {
       setLoading(false);
     }
   }, [selectedShowId]);
@@ -80,46 +89,56 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
   const selectedShow = shows.find((s) => s._id === selectedShowId);
 
   return (
-    <div className="relative bg-[var(--color-bg-surface)] border border-white/[0.06] overflow-hidden transition-colors duration-300">
+    <div className="relative overflow-hidden border border-white/[0.06] bg-[var(--color-bg-surface)] transition-colors duration-300">
       {/* Accent glow */}
-      <div className="absolute top-0 left-0 w-64 h-32 bg-[var(--color-accent)]/10 blur-[60px] pointer-events-none" />
+      <div className="pointer-events-none absolute top-0 left-0 h-32 w-64 bg-[var(--color-accent)]/10 blur-[60px]" />
 
       {/* Accordion Toggle Header */}
       <button
         type="button"
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full text-left relative p-6 cursor-pointer select-none hover:bg-white/[0.02] transition-colors flex items-center justify-between group border-0">
+        className="group relative flex w-full cursor-pointer items-center justify-between border-0 p-6 text-left transition-colors select-none hover:bg-white/[0.02]"
+      >
         <div>
-          <p >Show Promotions</p>
+          <p>Show Promotions</p>
           <h3 className="flex items-center gap-2">
             Invite Challenge
             {challenge.enabled && selectedShowId && (
-              <span className="border border-emerald-500/30 px-2 py-0.5 bg-emerald-500/5 rounded">
+              <span className="rounded border border-emerald-500/30 bg-emerald-500/5 px-2 py-0.5">
                 Active
               </span>
             )}
           </h3>
-          <p className="mt-0.5">Fans who invite N friends unlock a free merch item at the door</p>
+          <p className="mt-0.5">
+            Fans who invite N friends unlock a free merch item at the door
+          </p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-white/40 hidden sm:inline">
-            {isCollapsed ? 'Expand' : 'Collapse'}
+          <span className="hidden text-white/40 sm:inline">
+            {isCollapsed ? "Expand" : "Collapse"}
           </span>
-          <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center transition-transform duration-300 ${!isCollapsed ? 'rotate-180' : ''}`}>
-
-          </div>
+          <div
+            className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${!isCollapsed ? "rotate-180" : ""}`}
+          ></div>
         </div>
       </button>
 
       {!isCollapsed && (
-        <div className="relative p-6 pt-0 border-t border-white/[0.04] space-y-5 animate-[fadeIn_0.2s_ease-out]">
+        <div className="relative animate-[fadeIn_0.2s_ease-out] space-y-5 border-t border-white/[0.04] p-6 pt-0">
           {/* Show picker */}
-          <div className="mb-6 mt-4">
-            <label htmlFor="invite-challenge-show-select" className="text-white/40 mb-1.5 block">Select Show</label>
-            <select id="invite-challenge-show-select"
+          <div className="mt-4 mb-6">
+            <label
+              htmlFor="invite-challenge-show-select"
+              className="mb-1.5 block text-white/40"
+            >
+              Select Show
+            </label>
+            <select
+              id="invite-challenge-show-select"
               value={selectedShowId}
               onChange={(e) => setSelectedShowId(e.target.value)}
-              className="w-full bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50">
+              className="w-full border border-white/10 bg-white/[0.04] px-4 py-3 focus:border-[var(--color-accent)]/50 focus:outline-none"
+            >
               <option value="">— Pick a show —</option>
               {shows.map((s) => (
                 <option key={s._id} value={s._id}>
@@ -132,20 +151,26 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           {selectedShowId && (
             <div className="space-y-4">
               {loading ? (
-                <div className="text-white/30 text-center py-4">Loading challenge config…</div>
+                <div className="py-4 text-center text-white/30">
+                  Loading challenge config…
+                </div>
               ) : (
                 <>
                   {/* Enable toggle */}
-                  <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.05]">
+                  <div className="flex items-center justify-between border border-white/[0.05] bg-white/[0.02] p-4">
                     <div>
                       <p>Enable challenge for this show</p>
-                      <p className="mt-0.5">Fans will see this on the show page</p>
+                      <p className="mt-0.5">
+                        Fans will see this on the show page
+                      </p>
                     </div>
                     <SquishyToggle
                       id="challenge-enabled"
                       label="Enable challenge for this show"
                       checked={!!challenge.enabled}
-                      onChange={(v) => setChallenge((c) => ({ ...c, enabled: v }))}
+                      onChange={(v) =>
+                        setChallenge((c) => ({ ...c, enabled: v }))
+                      }
                     />
                   </div>
 
@@ -153,66 +178,101 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                     <>
                       {/* Threshold */}
                       <div>
-                        <label htmlFor="invite-challenge-threshold" className="text-white/40 mb-1.5 block">
+                        <label
+                          htmlFor="invite-challenge-threshold"
+                          className="mb-1.5 block text-white/40"
+                        >
                           Invite Threshold
                         </label>
                         <div className="flex items-center gap-3">
-                          <input id="invite-challenge-threshold"
+                          <input
+                            id="invite-challenge-threshold"
                             type="number"
                             min={1}
                             max={500}
                             value={challenge.threshold}
-                            onChange={(e) => setChallenge((c) => ({ ...c, threshold: parseInt(e.target.value) || 20 }))}
-                            className="w-24 bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50"
+                            onChange={(e) =>
+                              setChallenge((c) => ({
+                                ...c,
+                                threshold: parseInt(e.target.value) || 20,
+                              }))
+                            }
+                            className="w-24 border border-white/10 bg-white/[0.04] px-4 py-3 focus:border-[var(--color-accent)]/50 focus:outline-none"
                           />
-                          <span className="text-white/30">fans invited to unlock reward</span>
+                          <span className="text-white/30">
+                            fans invited to unlock reward
+                          </span>
                         </div>
                       </div>
 
                       {/* Reward name */}
                       <div>
-                        <label htmlFor="invite-challenge-reward-name" className="text-white/40 mb-1.5 block">
+                        <label
+                          htmlFor="invite-challenge-reward-name"
+                          className="mb-1.5 block text-white/40"
+                        >
                           Reward Name
                         </label>
-                        <input id="invite-challenge-reward-name"
+                        <input
+                          id="invite-challenge-reward-name"
                           type="text"
                           value={challenge.reward_name}
-                          onChange={(e) => setChallenge((c) => ({ ...c, reward_name: e.target.value }))}
+                          onChange={(e) =>
+                            setChallenge((c) => ({
+                              ...c,
+                              reward_name: e.target.value,
+                            }))
+                          }
                           placeholder="e.g. Free Band Tee, Signed Poster, Backstage Pass"
-                          className="w-full bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder: text-white/20"
+                          className="placeholder: w-full border border-white/10 bg-white/[0.04] px-4 py-3 text-white/20 focus:border-[var(--color-accent)]/50 focus:outline-none"
                         />
                       </div>
 
                       {/* Reward description */}
                       <div>
-                        <label htmlFor="invite-challenge-claim-instructions" className="text-white/40 mb-1.5 block">
+                        <label
+                          htmlFor="invite-challenge-claim-instructions"
+                          className="mb-1.5 block text-white/40"
+                        >
                           Claim Instructions
                         </label>
-                        <textarea aria-label="Text input"
+                        <textarea
+                          aria-label="Text input"
                           id="invite-challenge-claim-instructions"
                           value={challenge.reward_description}
-                          onChange={(e) => setChallenge((c) => ({ ...c, reward_description: e.target.value }))}
+                          onChange={(e) =>
+                            setChallenge((c) => ({
+                              ...c,
+                              reward_description: e.target.value,
+                            }))
+                          }
                           rows={2}
                           placeholder="e.g. Claim at the merch table, night of show"
-                          className="w-full bg-white/[0.04] border border-white/10 px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]/50 placeholder: text-white/20 resize-none"
+                          className="placeholder: w-full resize-none border border-white/10 bg-white/[0.04] px-4 py-3 text-white/20 focus:border-[var(--color-accent)]/50 focus:outline-none"
                         />
                       </div>
 
                       {/* Preview */}
-                      <div className="p-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04]">
+                      <div className="border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04] p-4">
                         <p className="mb-2">Fan-facing preview</p>
                         <div className="flex items-start gap-3">
                           <span className="text-2xl"></span>
                           <div>
                             <p>
                               Invite {challenge.threshold} fans → get a free{" "}
-                              <span className="text-[var(--color-accent)]">{challenge.reward_name || "merch item"}</span>
+                              <span className="text-[var(--color-accent)]">
+                                {challenge.reward_name || "merch item"}
+                              </span>
                             </p>
-                            <p className="mt-0.5">{challenge.reward_description}</p>
-                            <div className="mt-2 h-1.5 bg-white/10 w-48">
-                              <div className="h-full bg-[var(--color-accent)] w-[30%]" />
+                            <p className="mt-0.5">
+                              {challenge.reward_description}
+                            </p>
+                            <div className="mt-2 h-1.5 w-48 bg-white/10">
+                              <div className="h-full w-[30%] bg-[var(--color-accent)]" />
                             </div>
-                            <p className="mt-0.5">6 / {challenge.threshold} fans invited</p>
+                            <p className="mt-0.5">
+                              6 / {challenge.threshold} fans invited
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -223,8 +283,13 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 transition-colors ${saved ? "bg-[var(--color-accent)] " : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40"}`}>
-                    {saved ? " Challenge Saved" : saving ? "Saving…" : "Save Challenge"}
+                    className={`w-full py-3.5 transition-colors ${saved ? "bg-[var(--color-accent)]" : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40"}`}
+                  >
+                    {saved
+                      ? " Challenge Saved"
+                      : saving
+                        ? "Saving…"
+                        : "Save Challenge"}
                   </button>
                 </>
               )}

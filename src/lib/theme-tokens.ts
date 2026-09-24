@@ -33,12 +33,15 @@ export interface ThemeTokens {
   breakpoints: BreakpointTokens;
 }
 
-export const DEFAULT_THEME_TOKENS: ThemeTokens = defaultThemeJson as ThemeTokens;
+export const DEFAULT_THEME_TOKENS: ThemeTokens =
+  defaultThemeJson as ThemeTokens;
 
 /**
  * Returns a flat key-value map of all CSS variable names to their values.
  */
-export function flattenThemeTokens(tokens: ThemeTokens): Record<string, string> {
+export function flattenThemeTokens(
+  tokens: ThemeTokens,
+): Record<string, string> {
   return {
     ...tokens.colors,
     ...tokens.typography,
@@ -85,18 +88,26 @@ export function exportTokensAsJson(tokens: ThemeTokens): string {
 /**
  * Validates and merges an imported JSON payload into a ThemeTokens object.
  */
-export function parseAndValidateThemeJson(jsonString: string): ThemeTokens | null {
+export function parseAndValidateThemeJson(
+  jsonString: string,
+): ThemeTokens | null {
   try {
     const parsed = JSON.parse(jsonString);
     if (typeof parsed !== "object" || parsed === null) return null;
 
     const merged: ThemeTokens = {
       colors: { ...DEFAULT_THEME_TOKENS.colors, ...(parsed.colors || {}) },
-      typography: { ...DEFAULT_THEME_TOKENS.typography, ...(parsed.typography || {}) },
+      typography: {
+        ...DEFAULT_THEME_TOKENS.typography,
+        ...(parsed.typography || {}),
+      },
       spacing: { ...DEFAULT_THEME_TOKENS.spacing, ...(parsed.spacing || {}) },
       radii: { ...DEFAULT_THEME_TOKENS.radii, ...(parsed.radii || {}) },
       shadows: { ...DEFAULT_THEME_TOKENS.shadows, ...(parsed.shadows || {}) },
-      breakpoints: { ...DEFAULT_THEME_TOKENS.breakpoints, ...(parsed.breakpoints || {}) },
+      breakpoints: {
+        ...DEFAULT_THEME_TOKENS.breakpoints,
+        ...(parsed.breakpoints || {}),
+      },
     };
 
     return merged;
@@ -128,7 +139,9 @@ export function colorToHex(colorStr: string): string {
   }
 
   // Handle rgb(...) or rgba(...)
-  const rgbaMatch = trimmed.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)$/i);
+  const rgbaMatch = trimmed.match(
+    /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)$/i,
+  );
   if (rgbaMatch) {
     const r = Math.min(255, Math.max(0, parseInt(rgbaMatch[1], 10)));
     const g = Math.min(255, Math.max(0, parseInt(rgbaMatch[2], 10)));
@@ -145,9 +158,14 @@ export function colorToHex(colorStr: string): string {
 /**
  * Updates a color string from a color picker selection, preserving RGBA opacity if original was RGBA.
  */
-export function updateColorFromPicker(originalColorStr: string, newHex: string): string {
+export function updateColorFromPicker(
+  originalColorStr: string,
+  newHex: string,
+): string {
   const trimmed = (originalColorStr || "").trim();
-  const rgbaMatch = trimmed.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)$/i);
+  const rgbaMatch = trimmed.match(
+    /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)$/i,
+  );
 
   if (rgbaMatch && rgbaMatch[4] !== undefined) {
     // Preserve opacity from original RGBA string
@@ -161,4 +179,3 @@ export function updateColorFromPicker(originalColorStr: string, newHex: string):
 
   return newHex;
 }
-

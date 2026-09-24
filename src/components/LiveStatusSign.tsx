@@ -40,28 +40,37 @@ export default function LiveStatusSign() {
   if (!isLive) return null;
 
   return (
-    <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[100] animate-[fade-in-down_0.8s_var(--ease-out-expo)]">
+    <div className="fixed top-24 left-1/2 z-[100] -translate-x-1/2 animate-[fade-in-down_0.8s_var(--ease-out-expo)]">
       <Link href="/live" className="group">
-        <div className="relative bg-black/60 backdrop-blur-xl border border-white/10 px-6 py-2.5 rounded-lg flex items-center gap-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] hover:border-red-500/50 transition-colors duration-500 overflow-hidden">
+        <div className="relative flex items-center gap-4 overflow-hidden rounded-lg border border-white/10 bg-black/60 px-6 py-2.5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-colors duration-500 hover:border-red-500/50">
           {/* Background Glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+          <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-red-500/0 via-red-500/10 to-red-500/0 transition-transform duration-1000 group-hover:translate-x-[100%]" />
 
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
-              <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-lg bg-red-500" />
             </span>
-            <span >Live Now</span>
+            <span>Live Now</span>
           </div>
 
           <div className="h-4 w-px bg-white/10" />
 
           <div className="flex items-center gap-3">
-            <span >
-              {liveCount} Active {liveCount === 1 ? 'Feed' : 'Feeds'}
+            <span>
+              {liveCount} Active {liveCount === 1 ? "Feed" : "Feeds"}
             </span>
-            <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-[#00000029] border border-white/10 group-hover:bg-red-500 group-hover:border-red-500 transition-colors duration-300">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-colors duration-300 group-hover:border-red-500 group-hover:bg-red-500">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>

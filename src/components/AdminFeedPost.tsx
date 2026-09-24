@@ -18,7 +18,12 @@ const postTypes = [
   { value: "video", label: "Video", icon: "🎬", color: "#ef4444" },
   { value: "setlist", label: "Setlist", icon: "🎵", color: "#9333ea" },
   { value: "crowd", label: "Crowd", icon: "🤘", color: "#06b6d4" },
-  { value: "announcement", label: "Announcement", icon: "🚨", color: "#9333ea" },
+  {
+    value: "announcement",
+    label: "Announcement",
+    icon: "🚨",
+    color: "#9333ea",
+  },
 ];
 
 export default function AdminFeedPost() {
@@ -27,26 +32,31 @@ export default function AdminFeedPost() {
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isPosting, setIsPosting] = useState(false);
-  const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
-  const [recentPosts, setRecentPosts] = useState<{ content: string; time: string; member: string }[]>([]);
+  const [status, setStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+  const [recentPosts, setRecentPosts] = useState<
+    { content: string; time: string; member: string }[]
+  >([]);
   const [onlineMembers, setOnlineMembers] = useState<any[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // ─── Real-time Presence (Who's online) ───
   useEffect(() => {
-    if (!supabase) return () => { };
+    if (!supabase) return () => {};
     let active = true;
 
-    const channel = supabase.channel('crew_dashboard_presence', {
-      config: { presence: { key: selectedMember.name } }
+    const channel = supabase.channel("crew_dashboard_presence", {
+      config: { presence: { key: selectedMember.name } },
     });
 
     const subscription = channel.subscribe((status: any) => {
-      if (status === 'SUBSCRIBED' && active) {
+      if (status === "SUBSCRIBED" && active) {
         channel.track({
           name: selectedMember.name,
           avatar: selectedMember.avatar,
-          onlineAt: new Date().toISOString()
+          onlineAt: new Date().toISOString(),
         });
       }
     });
@@ -82,16 +92,27 @@ export default function AdminFeedPost() {
 
       setStatus({ type: "success", message: "Posted to live feed!" });
       setRecentPosts((prev) => [
-        { content: content.trim(), time: "Just now", member: selectedMember.name },
+        {
+          content: content.trim(),
+          time: "Just now",
+          member: selectedMember.name,
+        },
         ...prev.slice(0, 4),
       ]);
       setContent("");
       setImageUrl("");
       textareaRef.current?.focus();
     } catch {
-      setStatus({ type: "success", message: "Posted! (Dev Mode — not persisted)" });
+      setStatus({
+        type: "success",
+        message: "Posted! (Dev Mode — not persisted)",
+      });
       setRecentPosts((prev) => [
-        { content: content.trim(), time: "Just now", member: selectedMember.name },
+        {
+          content: content.trim(),
+          time: "Just now",
+          member: selectedMember.name,
+        },
         ...prev.slice(0, 4),
       ]);
       setContent("");
@@ -102,23 +123,29 @@ export default function AdminFeedPost() {
     setTimeout(() => setStatus(null), 4000);
   };
 
-  const currentType = postTypes.find((t) => t.value === postType) || postTypes[0];
+  const currentType =
+    postTypes.find((t) => t.value === postType) || postTypes[0];
 
   return (
     <div className="min-h-screen pt-[72px]">
-      <div className="max-w-[600px] mx-auto px-4 py-8">
+      <div className="mx-auto max-w-[600px] px-4 py-8">
         {/* Presence Header */}
-        <div className="mb-6 flex items-center justify-between p-3 bg-white/[0.02] border border-white/10 rounded-sm">
+        <div className="mb-6 flex items-center justify-between rounded-sm border border-white/10 bg-white/[0.02] p-3">
           <div className="flex -space-x-2">
-            {Array.from(onlineMembers, (m: any, i) => ({ m, i })).map(({ m, i }) => (
-              <div
-                key={m.id || m.name || i}
-                title={m.name}
-                className="w-8 h-8 rounded-lg flex items-center justify-center border-2 border-[#0a0a0f] bg-[var(--color-accent)]">
-                {m.avatar}
-              </div>
-            ))}
-            <div className="w-8 h-8 rounded-lg border-2 border-dashed border-white/10 flex items-center justify-center text-white/20">+</div>
+            {Array.from(onlineMembers, (m: any, i) => ({ m, i })).map(
+              ({ m, i }) => (
+                <div
+                  key={m.id || m.name || i}
+                  title={m.name}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-[#0a0a0f] bg-[var(--color-accent)]"
+                >
+                  {m.avatar}
+                </div>
+              ),
+            )}
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-dashed border-white/10 text-white/20">
+              +
+            </div>
           </div>
           <span className="text-white/30">
             {onlineMembers.length} Crew Active
@@ -127,35 +154,43 @@ export default function AdminFeedPost() {
 
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="mb-3 flex items-center gap-2">
             <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
-              <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-red-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-lg bg-red-500" />
             </span>
             <span className="text-red-400">Collaborative Live Feed</span>
           </div>
           <h1>Post to Feed</h1>
-          <p >Updates are synchronized across all crew devices</p>
+          <p>Updates are synchronized across all crew devices</p>
         </div>
 
         {/* Post Form */}
         <form onSubmit={handlePost} className="space-y-5">
           {/* Who's posting */}
           <div>
-            <span className="text-white/40 mb-2 block">I am</span>
+            <span className="mb-2 block text-white/40">I am</span>
             <div className="grid grid-cols-3 gap-2">
               {crewMembers.map((m) => (
                 <button
                   key={m.avatar}
                   type="button"
                   onClick={() => setSelectedMember(m)}
-                  className={`p-3 border text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}>
+                  className={`border p-3 text-center transition-colors duration-200 ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
+                >
                   <div
-                    className="w-8 h-8 mx-auto rounded-lg flex items-center justify-center mb-1 border"
+                    className="mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-lg border"
                     style={{
-                      borderColor: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.1)",
-                      color: selectedMember.avatar === m.avatar ? "var(--color-accent)" : "rgba(255,255,255,0.5)",
-                    }}>
+                      borderColor:
+                        selectedMember.avatar === m.avatar
+                          ? "var(--color-accent)"
+                          : "rgba(255,255,255,0.1)",
+                      color:
+                        selectedMember.avatar === m.avatar
+                          ? "var(--color-accent)"
+                          : "rgba(255,255,255,0.5)",
+                    }}
+                  >
                     {m.avatar}
                   </div>
                   <span className="block truncate">{m.name.split(" ")[0]}</span>
@@ -166,15 +201,20 @@ export default function AdminFeedPost() {
 
           {/* Post type */}
           <div>
-            <span className="text-white/40 mb-2 block">Post Type</span>
+            <span className="mb-2 block text-white/40">Post Type</span>
             <div className="flex flex-wrap gap-2">
               {postTypes.map((t) => (
                 <button
                   key={t.value}
                   type="button"
                   onClick={() => setPostType(t.value)}
-                  className={`flex items-center gap-1.5 px-3 py-2 border transition-colors duration-200 ${postType === t.value ? " border-white/10 bg-white/[0.06]" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
-                  style={postType === t.value ? { color: t.color } : { color: "rgba(255,255,255,0.5)" }}>
+                  className={`flex items-center gap-1.5 border px-3 py-2 transition-colors duration-200 ${postType === t.value ? "border-white/10 bg-white/[0.06]" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
+                  style={
+                    postType === t.value
+                      ? { color: t.color }
+                      : { color: "rgba(255,255,255,0.5)" }
+                  }
+                >
                   <span>{t.icon}</span>
                   <span>{t.label}</span>
                 </button>
@@ -184,11 +224,15 @@ export default function AdminFeedPost() {
 
           {/* Content */}
           <div>
-            <label htmlFor="admin-feed-post-content" className="text-white/40 mb-2 block">
+            <label
+              htmlFor="admin-feed-post-content"
+              className="mb-2 block text-white/40"
+            >
               What&apos;s happening?
             </label>
             <div className="input-glow-border rounded-xl">
-              <textarea aria-label="Text input"
+              <textarea
+                aria-label="Text input"
                 id="admin-feed-post-content"
                 ref={textareaRef}
                 value={content}
@@ -201,7 +245,7 @@ export default function AdminFeedPost() {
                       : "Share what's happening..."
                 }
                 rows={4}
-                className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-base placeholder: text-white/20 outline-none resize-none transition-colors"
+                className="placeholder: w-full resize-none rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-base text-white/20 transition-colors outline-none"
                 maxLength={500}
               />
             </div>
@@ -216,14 +260,20 @@ export default function AdminFeedPost() {
           {/* Image URL (for photo type) */}
           {(postType === "photo" || postType === "crowd") && (
             <div>
-              <label htmlFor="admin-feed-post-image-url" className="text-white/40 mb-2 block">Image URL</label>
+              <label
+                htmlFor="admin-feed-post-image-url"
+                className="mb-2 block text-white/40"
+              >
+                Image URL
+              </label>
               <div className="input-glow-border rounded-xl">
-                <input id="admin-feed-post-image-url"
+                <input
+                  id="admin-feed-post-image-url"
                   type="url"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="https://..."
-                  className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 placeholder: text-white/20 outline-none transition-colors"
+                  className="placeholder: w-full rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-white/20 transition-colors outline-none"
                 />
               </div>
             </div>
@@ -233,10 +283,11 @@ export default function AdminFeedPost() {
           <button
             type="submit"
             disabled={!content.trim() || isPosting}
-            className={`w-full py-3 transition-colors duration-300 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover" : "bg-white/[0.05] text-white/20 cursor-not-allowed"}`}>
+            className={`w-full py-3 transition-colors duration-300 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover" : "cursor-not-allowed bg-white/[0.05] text-white/20"}`}
+          >
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="w-3 h-3 border border-white/10 border-t-white rounded-lg animate-spin" />
+                <span className="h-3 w-3 animate-spin rounded-lg border border-white/10 border-t-white" />
                 Posting...
               </span>
             ) : (
@@ -248,7 +299,8 @@ export default function AdminFeedPost() {
         {/* Status Message */}
         {status && (
           <div
-            className={`mt-4 p-3 text-center border transition-colors duration-300 ${status.type === "success" ? "bg-green-500/10 border-green-500/30 text-green-400" : "bg-red-500/10 border-red-500/30 text-red-400"}`}>
+            className={`mt-4 border p-3 text-center transition-colors duration-300 ${status.type === "success" ? "border-green-500/30 bg-green-500/10 text-green-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+          >
             {status.message}
           </div>
         )}
@@ -256,11 +308,15 @@ export default function AdminFeedPost() {
         {/* Recent Posts */}
         {recentPosts.length > 0 && (
           <div className="mt-8">
-            <h3 className="text-white/30 mb-3">Recently Posted</h3>
+            <h3 className="mb-3 text-white/30">Recently Posted</h3>
             <div className="space-y-2">
               {recentPosts.map((p) => (
-                <div key={p.content || p.member} className="p-3 border border-white/[0.06] bg-white/[0.02] text-white/50">
-                  <span className="text-white/70  ">{p.member}:</span> {p.content.slice(0, 80)}
+                <div
+                  key={p.content || p.member}
+                  className="border border-white/[0.06] bg-white/[0.02] p-3 text-white/50"
+                >
+                  <span className="text-white/70">{p.member}:</span>{" "}
+                  {p.content.slice(0, 80)}
                   {p.content.length > 80 ? "…" : ""}{" "}
                   <span className="text-white/20">· {p.time}</span>
                 </div>

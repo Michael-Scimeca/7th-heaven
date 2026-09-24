@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
@@ -14,7 +20,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(CustomEase);
   try {
     CustomEase.create("exo", "0.496, 0.004, 0, 1");
-  } catch { }
+  } catch {}
 }
 
 const EXO_EASE = "exo";
@@ -76,7 +82,7 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipRevealPath: true,
   revealX: 0,
   revealY: 30,
-  revealScale: 1.00,
+  revealScale: 1.0,
   revealRotation: 0,
   revealOrigin: "center center",
   revealEase: "circ.out",
@@ -98,7 +104,7 @@ function buildRevealClipPath(
   progress: number,
   ratio: number,
   flip: boolean,
-  rampFraction = 0.05
+  rampFraction = 0.05,
 ): string {
   const p = Math.min(1, Math.max(0, progress));
   const mainY = 100 * (1 - p);
@@ -113,7 +119,7 @@ function buildExitClipPath(
   progress: number,
   ratio: number,
   flip: boolean,
-  rampFraction = 0.05
+  rampFraction = 0.05,
 ): string {
   const p = Math.min(1, Math.max(0, progress));
   const mainY = 100 * (1 - p);
@@ -132,7 +138,9 @@ function shouldSkip(): boolean {
   );
 }
 
-async function waitForNewPageContent(container: HTMLElement | null): Promise<void> {
+async function waitForNewPageContent(
+  container: HTMLElement | null,
+): Promise<void> {
   if (!container) return;
 
   // 0. Poll for DOM content population (text / elements mounted inside new route, max 500ms)
@@ -140,7 +148,11 @@ async function waitForNewPageContent(container: HTMLElement | null): Promise<voi
   while (performance.now() - pollStart < 500) {
     const textLen = (container.textContent || "").trim().length;
     const childCount = container.children.length;
-    if (textLen > 10 || childCount > 1 || container.querySelector("h1, h2, img, video, svg")) {
+    if (
+      textLen > 10 ||
+      childCount > 1 ||
+      container.querySelector("h1, h2, img, video, svg")
+    ) {
       break;
     }
     await new Promise((r) => setTimeout(r, 20));
@@ -154,7 +166,9 @@ async function waitForNewPageContent(container: HTMLElement | null): Promise<voi
   });
 
   // 2. Wait for hero/above-the-fold images in the new page container to complete loading (max 350ms)
-  const images = Array.from(container.querySelectorAll<HTMLImageElement>("img"));
+  const images = Array.from(
+    container.querySelectorAll<HTMLImageElement>("img"),
+  );
   if (images.length > 0) {
     const uncompleted = images.filter((img) => !img.complete && img.src);
     if (uncompleted.length > 0) {
@@ -165,8 +179,8 @@ async function waitForNewPageContent(container: HTMLElement | null): Promise<voi
               new Promise<void>((resolve) => {
                 img.onload = () => resolve();
                 img.onerror = () => resolve();
-              })
-          )
+              }),
+          ),
         ),
         new Promise<void>((resolve) => setTimeout(resolve, 350)),
       ]);
@@ -174,7 +188,9 @@ async function waitForNewPageContent(container: HTMLElement | null): Promise<voi
   }
 
   // 3. Wait for hero videos in the container to reach readyState >= 2 (max 300ms)
-  const videos = Array.from(container.querySelectorAll<HTMLVideoElement>("video"));
+  const videos = Array.from(
+    container.querySelectorAll<HTMLVideoElement>("video"),
+  );
   if (videos.length > 0) {
     const unready = videos.filter((v) => v.readyState < 2);
     if (unready.length > 0) {
@@ -187,8 +203,8 @@ async function waitForNewPageContent(container: HTMLElement | null): Promise<voi
                 v.addEventListener("loadeddata", onReady, { once: true });
                 v.addEventListener("canplay", onReady, { once: true });
                 v.addEventListener("error", onReady, { once: true });
-              })
-          )
+              }),
+          ),
         ),
         new Promise<void>((resolve) => setTimeout(resolve, 300)),
       ]);
@@ -222,13 +238,24 @@ function cubicBezier(p1x: number, p1y: number, p2x: number, p2y: number) {
     if (t >= 1) return 1;
     let sampleT = t;
     for (let i = 0; i < 8; i++) {
-      const currentX = 3 * (1 - sampleT) * (1 - sampleT) * sampleT * p1x + 3 * (1 - sampleT) * sampleT * sampleT * p2x + sampleT * sampleT * sampleT - t;
+      const currentX =
+        3 * (1 - sampleT) * (1 - sampleT) * sampleT * p1x +
+        3 * (1 - sampleT) * sampleT * sampleT * p2x +
+        sampleT * sampleT * sampleT -
+        t;
       if (Math.abs(currentX) < 0.0001) break;
-      const currentSlope = 3 * (1 - sampleT) * (1 - sampleT) * p1x + 6 * (1 - sampleT) * sampleT * (p2x - p1x) + 3 * sampleT * sampleT * (1 - p2x);
+      const currentSlope =
+        3 * (1 - sampleT) * (1 - sampleT) * p1x +
+        6 * (1 - sampleT) * sampleT * (p2x - p1x) +
+        3 * sampleT * sampleT * (1 - p2x);
       if (Math.abs(currentSlope) < 0.00001) break;
       sampleT -= currentX / currentSlope;
     }
-    return 3 * (1 - sampleT) * (1 - sampleT) * sampleT * p1y + 3 * (1 - sampleT) * sampleT * sampleT * p2y + sampleT * sampleT * sampleT;
+    return (
+      3 * (1 - sampleT) * (1 - sampleT) * sampleT * p1y +
+      3 * (1 - sampleT) * sampleT * sampleT * p2y +
+      sampleT * sampleT * sampleT
+    );
   };
 }
 
@@ -238,8 +265,8 @@ const EASE_MAP: Record<string, (t: number) => number> = {
   "power2.out": (t) => 1 - Math.pow(1 - t, 2),
   "circ.out": (t) => Math.sqrt(1 - Math.pow(t - 1, 2)),
   "sine.out": (t) => Math.sin((t * Math.PI) / 2),
-  "exo": cubicBezier(0.496, 0.004, 0, 1),
-  "linear": (t) => t,
+  exo: cubicBezier(0.496, 0.004, 0, 1),
+  linear: (t) => t,
 };
 
 function solveEase(name: string): (t: number) => number {
@@ -333,7 +360,7 @@ function CurtainGradientOverlay({ active }: { active: boolean }) {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none z-[850]"
+      className="pointer-events-none fixed inset-0 z-[850] h-full w-full"
       style={{ opacity: 0.85 }}
     />
   );
@@ -342,7 +369,8 @@ function CurtainGradientOverlay({ active }: { active: boolean }) {
 export default function PageTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { mode, pendingHref, setMode, clearPendingHref, requestTransition } = useTransition();
+  const { mode, pendingHref, setMode, clearPendingHref, requestTransition } =
+    useTransition();
 
   const outerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -352,8 +380,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const outgoingTweensRef = useRef<any[]>([]);
 
   // Live tuning settings & persistence
-  const [settings, setSettings] = useState<TransitionSettings>(DEFAULT_SETTINGS);
-  const [activeTab, setActiveTab] = useState<"master" | "exit" | "reveal">("master");
+  const [settings, setSettings] =
+    useState<TransitionSettings>(DEFAULT_SETTINGS);
+  const [activeTab, setActiveTab] = useState<"master" | "exit" | "reveal">(
+    "master",
+  );
   const [showControls, setShowControls] = useState<boolean>(true);
   const settingsRef = useRef<TransitionSettings>(DEFAULT_SETTINGS);
 
@@ -377,10 +408,13 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           settingsRef.current = merged;
         }
       }
-    } catch { }
+    } catch {}
   }, []);
 
-  const updateSetting = <K extends keyof TransitionSettings>(key: K, val: TransitionSettings[K]) => {
+  const updateSetting = <K extends keyof TransitionSettings>(
+    key: K,
+    val: TransitionSettings[K],
+  ) => {
     let next = { ...settings, [key]: val };
     if (next.syncPaths) {
       if (key === "exitSpeed") {
@@ -402,21 +436,30 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v18", JSON.stringify(next));
-    } catch { }
+      localStorage.setItem(
+        "7h_page_transition_settings_v18",
+        JSON.stringify(next),
+      );
+    } catch {}
   };
 
   const resetDefaults = () => {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
-      localStorage.setItem("7h_page_transition_settings_v18", JSON.stringify(DEFAULT_SETTINGS));
-    } catch { }
+      localStorage.setItem(
+        "7h_page_transition_settings_v18",
+        JSON.stringify(DEFAULT_SETTINGS),
+      );
+    } catch {}
   };
 
   const triggerReplay = useCallback(() => {
-    const currentPath = typeof window !== "undefined" ? window.location.pathname : "/";
-    document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
+    const currentPath =
+      typeof window !== "undefined" ? window.location.pathname : "/";
+    document
+      .querySelectorAll(".exoape-snapshot-outer")
+      .forEach((node) => node.remove());
     document.documentElement.classList.remove("is-page-transitioning");
 
     clearPendingHref();
@@ -432,8 +475,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(next);
     settingsRef.current = next;
     try {
-      localStorage.setItem("7h_page_transition_settings_v16", JSON.stringify(next));
-    } catch { }
+      localStorage.setItem(
+        "7h_page_transition_settings_v16",
+        JSON.stringify(next),
+      );
+    } catch {}
 
     setTimeout(() => {
       triggerReplay();
@@ -454,7 +500,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined" && (window as any).__lenis) {
       try {
         (window as any).__lenis.stop();
-      } catch { }
+      } catch {}
     }
 
     if (shouldSkip()) {
@@ -463,7 +509,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch { }
+        } catch {}
       }
       // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
       router.push(pendingHref);
@@ -472,7 +518,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       return;
     }
 
-    document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
+    document
+      .querySelectorAll(".exoape-snapshot-outer")
+      .forEach((node) => node.remove());
 
     const s = settingsRef.current;
 
@@ -510,7 +558,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       const clone = contentRef.current.cloneNode(true) as HTMLElement;
       clone.style.transform = "none";
       clone.querySelectorAll("iframe").forEach((iframe) => iframe.remove());
-      const origVideos = Array.from(contentRef.current.querySelectorAll("video"));
+      const origVideos = Array.from(
+        contentRef.current.querySelectorAll("video"),
+      );
       clone.querySelectorAll("video").forEach((v, idx) => {
         const orig = origVideos[idx];
         if (orig) {
@@ -522,8 +572,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             v.setAttribute("autoplay", "");
             v.setAttribute("muted", "");
             v.setAttribute("playsinline", "");
-            v.play().catch(() => { });
-          } catch { }
+            v.play().catch(() => {});
+          } catch {}
         }
       });
       snapshotInner.appendChild(clone);
@@ -559,7 +609,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (mode !== "covering" || !pendingHref) return;
 
     const targetPath = pathOf(pendingHref);
-    const isNewPageLoaded = pathname === targetPath || pathOf(pathname) === targetPath;
+    const isNewPageLoaded =
+      pathname === targetPath || pathOf(pathname) === targetPath;
 
     let animStarted = false;
     let animId = 0;
@@ -569,9 +620,15 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       if (animStarted) return;
       animStarted = true;
 
-      const snapshotOuter = document.querySelector(".exoape-snapshot-outer") as HTMLElement | null;
-      const snapshotInner = snapshotOuter?.querySelector(".exoape-snapshot-inner") as HTMLElement | null;
-      const snapshotOverlay = snapshotOuter?.querySelector(".exoape-snapshot-overlay") as HTMLElement | null;
+      const snapshotOuter = document.querySelector(
+        ".exoape-snapshot-outer",
+      ) as HTMLElement | null;
+      const snapshotInner = snapshotOuter?.querySelector(
+        ".exoape-snapshot-inner",
+      ) as HTMLElement | null;
+      const snapshotOverlay = snapshotOuter?.querySelector(
+        ".exoape-snapshot-overlay",
+      ) as HTMLElement | null;
 
       const s = settingsRef.current;
       const durationMs = s.exitSpeed * s.speedMult * 1000;
@@ -653,7 +710,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             try {
               (window as any).__lenis.start();
               (window as any).__lenis.resize();
-            } catch { }
+            } catch {}
           }
 
           navPushedRef.current = null;
@@ -680,20 +737,26 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     };
   }, [mode, pendingHref, pathname, clearPendingHref, setMode]);
 
-
   useEffect(() => {
     if (mode === "idle") return;
     const s = settingsRef.current;
-    const watchdogMs = Math.max(FAILSAFE_MS, (s.exitSpeed + (s.exitSpeed + 0.25)) * s.speedMult * 1000 + 5000);
+    const watchdogMs = Math.max(
+      FAILSAFE_MS,
+      (s.exitSpeed + (s.exitSpeed + 0.25)) * s.speedMult * 1000 + 5000,
+    );
     const id = setTimeout(() => {
       tweenRef.current?.kill();
       contentTweenRef.current?.kill();
       outgoingTweensRef.current.forEach((t) => t.kill());
       outgoingTweensRef.current = [];
-      document.querySelectorAll(".exoape-snapshot-inner, .exoape-snapshot-overlay").forEach((el) => {
-        gsap.killTweensOf(el);
-      });
-      document.querySelectorAll(".exoape-snapshot-outer").forEach((node) => node.remove());
+      document
+        .querySelectorAll(".exoape-snapshot-inner, .exoape-snapshot-overlay")
+        .forEach((el) => {
+          gsap.killTweensOf(el);
+        });
+      document
+        .querySelectorAll(".exoape-snapshot-outer")
+        .forEach((node) => node.remove());
       document.documentElement.classList.remove("is-page-transitioning");
       if (outerRef.current) {
         outerRef.current.style.position = "";
@@ -711,7 +774,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch { }
+        } catch {}
       }
       revealStartedForRef.current = null;
       clearPendingHref();
@@ -753,44 +816,78 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       if (!target) return;
 
       const href = target.getAttribute("href");
-      if (!href || href.startsWith("#") || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;
-      if (target.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      if (
+        !href ||
+        href.startsWith("#") ||
+        href.startsWith("http") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        href.startsWith("javascript:")
+      )
+        return;
+      if (
+        target.target === "_blank" ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.shiftKey ||
+        e.altKey ||
+        e.button !== 0
+      )
+        return;
 
-      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
-      if (currentPath.startsWith("/studio") || href.startsWith("/studio")) return;
+      const currentPath =
+        typeof window !== "undefined" ? window.location.pathname : "";
+      if (currentPath.startsWith("/studio") || href.startsWith("/studio"))
+        return;
       if (href === currentPath) return;
 
       try {
         router.prefetch(href);
-      } catch { }
+      } catch {}
 
       e.preventDefault();
       requestTransitionRef.current(href);
     };
 
     const handleGlobalHover = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement)?.closest<HTMLAnchorElement>("a[href]");
+      const target = (e.target as HTMLElement)?.closest<HTMLAnchorElement>(
+        "a[href]",
+      );
       if (!target) return;
       const href = target.getAttribute("href");
-      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+      const currentPath =
+        typeof window !== "undefined" ? window.location.pathname : "";
       if (currentPath.startsWith("/studio")) return;
       if (href && href.startsWith("/") && !href.startsWith("/studio")) {
         try {
           router.prefetch(href);
-        } catch { }
+        } catch {}
       }
     };
 
     document.addEventListener("click", handleGlobalClick, { capture: true });
-    document.addEventListener("mouseover", handleGlobalHover as unknown as EventListener, { passive: true });
+    document.addEventListener(
+      "mouseover",
+      handleGlobalHover as unknown as EventListener,
+      { passive: true },
+    );
     return () => {
-      document.removeEventListener("click", handleGlobalClick, { capture: true });
-      document.removeEventListener("mouseover", handleGlobalHover as unknown as EventListener);
+      document.removeEventListener("click", handleGlobalClick, {
+        capture: true,
+      });
+      document.removeEventListener(
+        "mouseover",
+        handleGlobalHover as unknown as EventListener,
+      );
     };
   }, [router]);
 
-  const revealOffset = settings.revealDurationOffset !== undefined ? settings.revealDurationOffset : 0.25;
-  const revealDuration = (settings.exitSpeed + revealOffset) * settings.speedMult;
+  const revealOffset =
+    settings.revealDurationOffset !== undefined
+      ? settings.revealDurationOffset
+      : 0.25;
+  const revealDuration =
+    (settings.exitSpeed + revealOffset) * settings.speedMult;
   const exitDuration = settings.exitSpeed * settings.speedMult;
 
   if (pathname?.startsWith("/studio")) {
@@ -819,7 +916,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           width: "100%",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
-        }}>
+        }}
+      >
         <div
           ref={contentRef}
           className="exoape-page-inner transform-gpu"
@@ -828,7 +926,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             transformOrigin: "center center",
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
-          }}>
+          }}
+        >
           {children}
         </div>
       </div>
@@ -856,7 +955,10 @@ interface TransitionTunerPanelProps {
   activeTab: "master" | "exit" | "reveal";
   setShowControls: (val: boolean) => void;
   setActiveTab: (val: "master" | "exit" | "reveal") => void;
-  updateSetting: <K extends keyof TransitionSettings>(key: K, val: TransitionSettings[K]) => void;
+  updateSetting: <K extends keyof TransitionSettings>(
+    key: K,
+    val: TransitionSettings[K],
+  ) => void;
   resetDefaults: () => void;
   handleSpeedPreset: (m: number) => void;
   triggerReplay: () => void;
@@ -896,33 +998,41 @@ function TransitionTunerPanel({
       data-lenis-prevent
       onWheel={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
-      className="fixed bottom-20 right-4 z-[99999] flex flex-col gap-2 rounded-2xl border border-white/20 bg-black/95 p-3.5 backdrop-blur-md text-xs select-none pointer-events-auto max-w-[320px] w-[320px] max-h-[75vh] overflow-y-auto overscroll-contain custom-scrollbar">
+      className="custom-scrollbar pointer-events-auto fixed right-4 bottom-20 z-[99999] flex max-h-[75vh] w-[320px] max-w-[320px] flex-col gap-2 overflow-y-auto overscroll-contain rounded-2xl border border-white/20 bg-black/95 p-3.5 text-xs backdrop-blur-md select-none"
+    >
       <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
-        <div className="flex items-center gap-1.5 r text-[11px] text-purple-400">
-          <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
+        <div className="r flex items-center gap-1.5 text-[11px] text-purple-400">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-purple-400" />
           Transition Tuner UI
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={() => {
               if (typeof navigator !== "undefined" && navigator.clipboard) {
-                navigator.clipboard.writeText(JSON.stringify(settings, null, 2));
-                alert("Transition settings copied to clipboard! Share this JSON with me to save permanently in code.");
+                navigator.clipboard.writeText(
+                  JSON.stringify(settings, null, 2),
+                );
+                alert(
+                  "Transition settings copied to clipboard! Share this JSON with me to save permanently in code.",
+                );
               }
             }}
             title="Copy current settings JSON to clipboard"
-            className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-purple-500/40 text-purple-300 hover:text-white hover:border-purple-400 transition bg-purple-950/40">
+            className="rounded border border-purple-500/40 bg-purple-950/40 px-1.5 py-0.5 font-mono text-[10px] text-purple-300 transition hover:border-purple-400 hover:text-white"
+          >
             Copy JSON
           </button>
           <button
             onClick={resetDefaults}
             title="Reset all settings to default"
-            className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-white/15 text-white/50 hover:text-white hover:border-white/30 transition bg-white/5">
+            className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-white/50 transition hover:border-white/30 hover:text-white"
+          >
             Reset
           </button>
           <button
             onClick={() => setShowControls(!showControls)}
-            className="text-[10px] font-mono px-2 py-0.5 rounded border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 transition bg-purple-950/40">
+            className="rounded border border-purple-500/30 bg-purple-950/40 px-2 py-0.5 font-mono text-[10px] text-purple-300 transition hover:bg-purple-600/30 hover:text-white"
+          >
             {showControls ? "Collapse" : "Expand"}
           </button>
         </div>
@@ -931,27 +1041,34 @@ function TransitionTunerPanel({
       {showControls && (
         <div className="flex flex-col gap-3 pt-1">
           {/* ── TAB BAR SWITCHER ── */}
-          <div className="grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 border border-white/10">
+          <div className="grid grid-cols-3 gap-1 rounded-xl border border-white/10 bg-white/5 p-1">
             <button
               onClick={() => setActiveTab("master")}
-              className={`py-1.5 rounded-lg text-[10px] r transition ${activeTab === "master" ? "bg-purple-600 shadow" : " text-white/60 hover:text-white hover:bg-white/5"}`}>
+              className={`r rounded-lg py-1.5 text-[10px] transition ${activeTab === "master" ? "bg-purple-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+            >
               ⚡ Master
             </button>
             <button
               onClick={() => setActiveTab("exit")}
-              className={`py-1.5 rounded-lg text-[10px] r transition ${activeTab === "exit" ? "bg-fuchsia-600 shadow" : " text-white/60 hover:text-white hover:bg-white/5"}`}>
+              className={`r rounded-lg py-1.5 text-[10px] transition ${activeTab === "exit" ? "bg-fuchsia-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+            >
               📤 Exit Path
             </button>
             <button
               onClick={() => setActiveTab("reveal")}
-              className={`py-1.5 rounded-lg text-[10px] r transition ${activeTab === "reveal" ? "bg-cyan-600 shadow" : " text-white/60 hover:text-white hover:bg-white/5"}`}>
+              className={`r rounded-lg py-1.5 text-[10px] transition ${activeTab === "reveal" ? "bg-cyan-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+            >
               📥 Reveal Path
             </button>
           </div>
 
           {/* ── TAB 1: MASTER PATH & TIMING ── */}
           {activeTab === "master" && (
-            <MasterTabSection settings={settings} exitDuration={exitDuration} updateSetting={updateSetting} />
+            <MasterTabSection
+              settings={settings}
+              exitDuration={exitDuration}
+              updateSetting={updateSetting}
+            />
           )}
 
           {/* ── TAB 2: OLD PAGE EXIT PATH & MOTION ── */}
@@ -961,13 +1078,18 @@ function TransitionTunerPanel({
 
           {/* ── TAB 3: NEW PAGE REVEAL PATH & MOTION ── */}
           {activeTab === "reveal" && (
-            <RevealTabSection settings={settings} updateSetting={updateSetting} />
+            <RevealTabSection
+              settings={settings}
+              updateSetting={updateSetting}
+            />
           )}
 
           {/* ── SLOW-MO SPEED & REPLAY SECTION (ALWAYS VISIBLE) ── */}
           <div className="flex flex-col gap-2 rounded-xl border border-purple-500/20 bg-purple-950/20 p-3">
-            <div className="flex items-center justify-between text-[11px] font-mono">
-              <span className="text-white/70 r text-[10px] text-purple-400">Slow-Mo Speed</span>
+            <div className="flex items-center justify-between font-mono text-[11px]">
+              <span className="r text-[10px] text-purple-400 text-white/70">
+                Slow-Mo Speed
+              </span>
               <strong className="text-purple-300">{settings.speedMult}x</strong>
             </div>
 
@@ -976,7 +1098,8 @@ function TransitionTunerPanel({
                 <button
                   key={m}
                   onClick={() => handleSpeedPreset(m)}
-                  className={`flex-1 py-1 rounded text-[10px] font-mono transition ${settings.speedMult === m ? "bg-purple-600 shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black  " : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white "}`}>
+                  className={`flex-1 rounded py-1 font-mono text-[10px] transition ${settings.speedMult === m ? "bg-purple-600 shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black" : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"}`}
+                >
                   {m}x
                 </button>
               ))}
@@ -988,13 +1111,16 @@ function TransitionTunerPanel({
               max={15}
               step={0.5}
               value={settings.speedMult}
-              onChange={(e) => updateSetting("speedMult", parseFloat(e.target.value))}
-              className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+              onChange={(e) =>
+                updateSetting("speedMult", parseFloat(e.target.value))
+              }
+              className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-purple-500"
             />
 
             <button
               onClick={triggerReplay}
-              className="w-full py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-[11px] r transition active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer">
+              className="r flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2 text-[11px] transition hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
+            >
               <span>🎬 Replay Transition ({settings.speedMult}x)</span>
             </button>
           </div>
@@ -1007,55 +1133,62 @@ function TransitionTunerPanel({
 interface TabSectionProps {
   settings: TransitionSettings;
   exitDuration?: number;
-  updateSetting: <K extends keyof TransitionSettings>(key: K, val: TransitionSettings[K]) => void;
+  updateSetting: <K extends keyof TransitionSettings>(
+    key: K,
+    val: TransitionSettings[K],
+  ) => void;
 }
 
-function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionProps) {
+function MasterTabSection({
+  settings,
+  exitDuration,
+  updateSetting,
+}: TabSectionProps) {
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-purple-500/30 bg-purple-950/30 p-3">
       <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
-        <p className="text-[11px] text-purple-300">
-          Master Path & Sync
-        </p>
-        <span className="text-[9px] font-mono text-purple-400 bg-purple-900/60 px-1.5 py-0.5 rounded border border-purple-500/30">
+        <p className="text-[11px] text-purple-300">Master Path & Sync</p>
+        <span className="rounded border border-purple-500/30 bg-purple-900/60 px-1.5 py-0.5 font-mono text-[9px] text-purple-400">
           {settings.syncPaths ? "Paths Synced" : "Paths Independent"}
         </span>
       </div>
 
-      <label className="flex items-center gap-2 text-[11px] text-purple-200 cursor-pointer select-none">
+      <label className="flex cursor-pointer items-center gap-2 text-[11px] text-purple-200 select-none">
         <input
           type="checkbox"
           checked={settings.syncPaths}
           onChange={(e) => updateSetting("syncPaths", e.target.checked)}
-          className="accent-purple-400 rounded"
+          className="rounded accent-purple-400"
         />
         <span>Lock Exit & Reveal Paths (1:1 Sync)</span>
       </label>
 
-      <div className="grid grid-cols-2 gap-2 pt-1 border-t border-purple-500/15">
-        <label className="flex items-center gap-1.5 text-[10px]   cursor-pointer select-none">
+      <div className="grid grid-cols-2 gap-2 border-t border-purple-500/15 pt-1">
+        <label className="flex cursor-pointer items-center gap-1.5 text-[10px] select-none">
           <input
             type="checkbox"
             checked={settings.clipExitPath}
             onChange={(e) => updateSetting("clipExitPath", e.target.checked)}
-            className="accent-purple-400 rounded"
+            className="rounded accent-purple-400"
           />
           <span>Clip Exit Path</span>
         </label>
-        <label className="flex items-center gap-1.5 text-[10px]   cursor-pointer select-none">
+        <label className="flex cursor-pointer items-center gap-1.5 text-[10px] select-none">
           <input
             type="checkbox"
             checked={settings.clipRevealPath}
             onChange={(e) => updateSetting("clipRevealPath", e.target.checked)}
-            className="accent-purple-400 rounded"
+            className="rounded accent-purple-400"
           />
           <span>Clip Reveal Path</span>
         </label>
       </div>
 
-      <div className="flex items-center justify-between text-[11px] pt-1">
+      <div className="flex items-center justify-between pt-1 text-[11px]">
         <span className="text-white/70">Base duration</span>
-        <span className="font-mono text-purple-300">{(exitDuration || 0).toFixed(2)}s</span>
+        <span className="font-mono text-purple-300">
+          {(exitDuration || 0).toFixed(2)}s
+        </span>
       </div>
       <input
         type="range"
@@ -1064,18 +1197,22 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
         step={0.05}
         value={settings.exitSpeed}
         onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
-        className="w-full accent-purple-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-purple-400"
       />
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="master-ease-select" className="text-[11px] text-white/70">
+        <label
+          htmlFor="master-ease-select"
+          className="text-[11px] text-white/70"
+        >
           Transition easing
         </label>
         <select
           id="master-ease-select"
           value={settings.exitEase}
           onChange={(e) => updateSetting("exitEase", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:outline-none focus:border-purple-400">
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:border-purple-400 focus:outline-none"
+        >
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black">
               {o.label}
@@ -1086,7 +1223,9 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Slant ratio</span>
-        <span className="font-mono text-purple-300">{settings.exitSlantRatio.toFixed(3)}</span>
+        <span className="font-mono text-purple-300">
+          {settings.exitSlantRatio.toFixed(3)}
+        </span>
       </div>
       <input
         type="range"
@@ -1094,18 +1233,23 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
         max={0.3}
         step={0.005}
         value={settings.exitSlantRatio}
-        onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
-        className="w-full accent-purple-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        onChange={(e) =>
+          updateSetting("exitSlantRatio", parseFloat(e.target.value))
+        }
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-purple-400"
       />
 
-      <label className="flex items-center gap-2 text-[11px]   cursor-pointer pt-0.5 select-none">
+      <label className="flex cursor-pointer items-center gap-2 pt-0.5 text-[11px] select-none">
         <input
           type="checkbox"
           checked={settings.exitFlipSlant}
           onChange={(e) => updateSetting("exitFlipSlant", e.target.checked)}
-          className="accent-purple-400 rounded"
+          className="rounded accent-purple-400"
         />
-        <span>Flip slant direction {settings.exitFlipSlant ? "(left leads)" : "(right leads)"}</span>
+        <span>
+          Flip slant direction{" "}
+          {settings.exitFlipSlant ? "(left leads)" : "(right leads)"}
+        </span>
       </label>
     </div>
   );
@@ -1114,16 +1258,16 @@ function MasterTabSection({ settings, exitDuration, updateSetting }: TabSectionP
 function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
-      <p className="text-[11px] text-fuchsia-400 border-b border-fuchsia-500/20 pb-1.5">
+      <p className="border-b border-fuchsia-500/20 pb-1.5 text-[11px] text-fuchsia-400">
         Old Page Exit Controls
       </p>
 
-      <label className="flex items-center gap-2 text-[11px] text-fuchsia-200 cursor-pointer select-none">
+      <label className="flex cursor-pointer items-center gap-2 text-[11px] text-fuchsia-200 select-none">
         <input
           type="checkbox"
           checked={settings.clipExitPath}
           onChange={(e) => updateSetting("clipExitPath", e.target.checked)}
-          className="accent-fuchsia-400 rounded"
+          className="rounded accent-fuchsia-400"
         />
         <span>Enable Old Page Clip Path</span>
       </label>
@@ -1136,7 +1280,8 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           id="exit-ease-select"
           value={settings.exitEase}
           onChange={(e) => updateSetting("exitEase", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:outline-none focus:border-fuchsia-400">
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:border-fuchsia-400 focus:outline-none"
+        >
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black">
               {o.label}
@@ -1147,7 +1292,9 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Exit slant ratio</span>
-        <span className="font-mono text-fuchsia-300">{settings.exitSlantRatio.toFixed(3)}</span>
+        <span className="font-mono text-fuchsia-300">
+          {settings.exitSlantRatio.toFixed(3)}
+        </span>
       </div>
       <input
         type="range"
@@ -1155,13 +1302,17 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         max={0.3}
         step={0.005}
         value={settings.exitSlantRatio}
-        onChange={(e) => updateSetting("exitSlantRatio", parseFloat(e.target.value))}
-        className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        onChange={(e) =>
+          updateSetting("exitSlantRatio", parseFloat(e.target.value))
+        }
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Exit scale</span>
-        <span className="font-mono text-fuchsia-300">{settings.exitScale.toFixed(2)}x</span>
+        <span className="font-mono text-fuchsia-300">
+          {settings.exitScale.toFixed(2)}x
+        </span>
       </div>
       <input
         type="range"
@@ -1170,12 +1321,14 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={0.05}
         value={settings.exitScale}
         onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
-        className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Exit X translation</span>
-        <span className="font-mono text-fuchsia-300">{settings.exitX || 0}px</span>
+        <span className="font-mono text-fuchsia-300">
+          {settings.exitX || 0}px
+        </span>
       </div>
       <input
         type="range"
@@ -1184,12 +1337,14 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.exitX || 0}
         onChange={(e) => updateSetting("exitX", parseFloat(e.target.value))}
-        className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Exit Y translation</span>
-        <span className="font-mono text-fuchsia-300">{settings.exitY || 0}px</span>
+        <span className="font-mono text-fuchsia-300">
+          {settings.exitY || 0}px
+        </span>
       </div>
       <input
         type="range"
@@ -1198,12 +1353,14 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.exitY || 0}
         onChange={(e) => updateSetting("exitY", parseFloat(e.target.value))}
-        className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Exit rotation</span>
-        <span className="font-mono text-fuchsia-300">{settings.exitRotation}°</span>
+        <span className="font-mono text-fuchsia-300">
+          {settings.exitRotation}°
+        </span>
       </div>
       <input
         type="range"
@@ -1211,19 +1368,25 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         max={45}
         step={1}
         value={settings.exitRotation}
-        onChange={(e) => updateSetting("exitRotation", parseFloat(e.target.value))}
-        className="w-full accent-fuchsia-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        onChange={(e) =>
+          updateSetting("exitRotation", parseFloat(e.target.value))
+        }
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="exit-origin-select" className="text-[11px] text-white/70">
+        <label
+          htmlFor="exit-origin-select"
+          className="text-[11px] text-white/70"
+        >
           Exit pivot origin
         </label>
         <select
           id="exit-origin-select"
           value={settings.exitOrigin}
           onChange={(e) => updateSetting("exitOrigin", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:outline-none focus:border-fuchsia-400">
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:border-fuchsia-400 focus:outline-none"
+        >
           {ORIGIN_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black">
               {o.label}
@@ -1238,29 +1401,33 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
     <div className="flex flex-col gap-2.5 rounded-xl border border-purple-500/20 bg-cyan-950/20 p-3">
-      <p className="text-[11px] text-cyan-400 border-b border-purple-500/20 pb-1.5">
+      <p className="border-b border-purple-500/20 pb-1.5 text-[11px] text-cyan-400">
         New Page Reveal Controls
       </p>
 
-      <label className="flex items-center gap-2 text-[11px] text-cyan-200 cursor-pointer select-none">
+      <label className="flex cursor-pointer items-center gap-2 text-[11px] text-cyan-200 select-none">
         <input
           type="checkbox"
           checked={settings.clipRevealPath}
           onChange={(e) => updateSetting("clipRevealPath", e.target.checked)}
-          className="accent-cyan-400 rounded"
+          className="rounded accent-cyan-400"
         />
         <span>Enable New Page Clip Path</span>
       </label>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="reveal-ease-select" className="text-[11px] text-white/70">
+        <label
+          htmlFor="reveal-ease-select"
+          className="text-[11px] text-white/70"
+        >
           Reveal easing curve
         </label>
         <select
           id="reveal-ease-select"
           value={settings.revealEase}
           onChange={(e) => updateSetting("revealEase", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:outline-none focus:border-purple-400">
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:border-purple-400 focus:outline-none"
+        >
           {EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black">
               {o.label}
@@ -1271,7 +1438,9 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Reveal slant ratio</span>
-        <span className="font-mono text-cyan-300">{settings.revealSlantRatio.toFixed(3)}</span>
+        <span className="font-mono text-cyan-300">
+          {settings.revealSlantRatio.toFixed(3)}
+        </span>
       </div>
       <input
         type="range"
@@ -1279,13 +1448,17 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         max={0.3}
         step={0.005}
         value={settings.revealSlantRatio}
-        onChange={(e) => updateSetting("revealSlantRatio", parseFloat(e.target.value))}
-        className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        onChange={(e) =>
+          updateSetting("revealSlantRatio", parseFloat(e.target.value))
+        }
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Reveal scale</span>
-        <span className="font-mono text-cyan-300">{settings.revealScale.toFixed(2)}x</span>
+        <span className="font-mono text-cyan-300">
+          {settings.revealScale.toFixed(2)}x
+        </span>
       </div>
       <input
         type="range"
@@ -1293,13 +1466,17 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         max={2}
         step={0.05}
         value={settings.revealScale}
-        onChange={(e) => updateSetting("revealScale", parseFloat(e.target.value))}
-        className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        onChange={(e) =>
+          updateSetting("revealScale", parseFloat(e.target.value))
+        }
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Reveal X translation</span>
-        <span className="font-mono text-cyan-300">{settings.revealX || 0}px</span>
+        <span className="font-mono text-cyan-300">
+          {settings.revealX || 0}px
+        </span>
       </div>
       <input
         type="range"
@@ -1308,12 +1485,14 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.revealX || 0}
         onChange={(e) => updateSetting("revealX", parseFloat(e.target.value))}
-        className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Reveal Y translation</span>
-        <span className="font-mono text-cyan-300">{settings.revealY !== undefined ? settings.revealY : 40}px</span>
+        <span className="font-mono text-cyan-300">
+          {settings.revealY !== undefined ? settings.revealY : 40}px
+        </span>
       </div>
       <input
         type="range"
@@ -1322,12 +1501,14 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.revealY !== undefined ? settings.revealY : 40}
         onChange={(e) => updateSetting("revealY", parseFloat(e.target.value))}
-        className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between text-[11px]">
         <span className="text-white/70">Reveal rotation</span>
-        <span className="font-mono text-cyan-300">{settings.revealRotation || 0}°</span>
+        <span className="font-mono text-cyan-300">
+          {settings.revealRotation || 0}°
+        </span>
       </div>
       <input
         type="range"
@@ -1335,19 +1516,25 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         max={45}
         step={1}
         value={settings.revealRotation || 0}
-        onChange={(e) => updateSetting("revealRotation", parseFloat(e.target.value))}
-        className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-white/20 rounded-lg"
+        onChange={(e) =>
+          updateSetting("revealRotation", parseFloat(e.target.value))
+        }
+        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
       />
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="reveal-origin-select" className="text-[11px] text-white/70">
+        <label
+          htmlFor="reveal-origin-select"
+          className="text-[11px] text-white/70"
+        >
           Reveal pivot origin
         </label>
         <select
           id="reveal-origin-select"
           value={settings.revealOrigin || "center center"}
           onChange={(e) => updateSetting("revealOrigin", e.target.value)}
-          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:outline-none focus:border-purple-400">
+          className="w-full rounded border border-white/20 bg-black/60 px-2 py-1 text-[11px] focus:border-purple-400 focus:outline-none"
+        >
           {ORIGIN_OPTIONS.map((o) => (
             <option key={o.value} value={o.value} className="bg-black">
               {o.label}

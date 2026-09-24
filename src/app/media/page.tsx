@@ -4,7 +4,8 @@ import MediaClient from "./MediaClient";
 
 export const metadata: Metadata = {
   title: "Media Vault — 7th Heaven",
-  description: "40 years of music, live performances, official music videos, and press highlights.",
+  description:
+    "40 years of music, live performances, official music videos, and press highlights.",
 };
 
 export const revalidate = 0;

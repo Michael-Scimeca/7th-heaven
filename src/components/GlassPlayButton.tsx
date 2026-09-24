@@ -3,8 +3,7 @@
 import React, { memo } from "react";
 import { Play, Pause } from "lucide-react";
 
-export interface GlassPlayButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface GlassPlayButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg" | "xl";
   variant?: "purple" | "amber" | "emerald" | "cyan" | "rose" | "dark";
   isPlaying?: boolean;
@@ -17,7 +16,8 @@ export interface GlassPlayButtonProps
 const DEFAULT_VARIANT_STYLE = {
   bg: "bg-[#3b154c]/70 hover:bg-[#521c6b]/90",
   border: "border-white/25 hover:border-purple-300/70",
-  shadow: "shadow-[0_4px_20px_rgba(59,21,76,0.5)] hover:shadow-[0_0_24px_rgba(192,132,252,0.45)]",
+  shadow:
+    "shadow-[0_4px_20px_rgba(59,21,76,0.5)] hover:shadow-[0_0_24px_rgba(192,132,252,0.45)]",
 };
 
 const VARIANT_CLASSES: Record<
@@ -79,7 +79,7 @@ export const GlassPlayButton = memo(
       <button
         type={type}
         disabled={disabled}
-        className={`seventh--btn w-15 h-15 group relative inline-flex items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] duration-300 cursor-pointer select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : ""} ${pulse ? "animate-pulse" : ""} ${disabled ? "opacity-40 cursor-not-allowed pointer-events-none" : "hover:scale-105"} ${className}`}
+        className={`seventh--btn group relative inline-flex h-15 w-15 cursor-pointer items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] duration-300 select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : ""} ${pulse ? "animate-pulse" : ""} ${disabled ? "pointer-events-none cursor-not-allowed opacity-40" : "hover:scale-105"} ${className}`}
         {...props}
       >
         {isPlaying ? (
@@ -88,13 +88,13 @@ export const GlassPlayButton = memo(
           />
         ) : (
           <Play
-            className={`fill-white ml-0.5 transition-transform group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
+            className={`ml-0.5 fill-white transition-transform group-hover:scale-110 ${sizeStyles.icon} ${iconClassName}`}
           />
         )}
-        {children && <span className="ml-2    text-xs">{children}</span>}
+        {children && <span className="ml-2 text-xs">{children}</span>}
       </button>
     );
-  }
+  },
 );
 
 GlassPlayButton.displayName = "GlassPlayButton";

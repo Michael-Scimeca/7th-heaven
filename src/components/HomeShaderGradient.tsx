@@ -7,12 +7,66 @@ import React, { useEffect, useRef, useSyncExternalStore } from "react";
 const GRADIENT_SETTINGS = {
   colorMovePeriod: 12,
   colors: [
-    { color: '#151150', enabled: true, posX: 15, posY: 20, moveX: 120, moveY: 90, opacity: 0.6, size: 50 },
-    { color: '#850FB7', enabled: true, posX: 35, posY: 45, moveX: 140, moveY: 100, opacity: 0.6, size: 50 },
-    { color: '#A43E17', enabled: true, posX: 55, posY: 30, moveX: 110, moveY: 85, opacity: 0.6, size: 50 },
-    { color: '#4A1B6F', enabled: true, posX: 75, posY: 65, moveX: 130, moveY: 110, opacity: 0.6, size: 50 },
-    { color: '#611EBD', enabled: true, posX: 30, posY: 75, moveX: 125, moveY: 95, opacity: 0.6, size: 50 },
-    { color: '#600C7F', enabled: true, posX: 70, posY: 85, moveX: 135, moveY: 105, opacity: 0.6, size: 50 },
+    {
+      color: "#151150",
+      enabled: true,
+      posX: 15,
+      posY: 20,
+      moveX: 120,
+      moveY: 90,
+      opacity: 0.6,
+      size: 50,
+    },
+    {
+      color: "#850FB7",
+      enabled: true,
+      posX: 35,
+      posY: 45,
+      moveX: 140,
+      moveY: 100,
+      opacity: 0.6,
+      size: 50,
+    },
+    {
+      color: "#A43E17",
+      enabled: true,
+      posX: 55,
+      posY: 30,
+      moveX: 110,
+      moveY: 85,
+      opacity: 0.6,
+      size: 50,
+    },
+    {
+      color: "#4A1B6F",
+      enabled: true,
+      posX: 75,
+      posY: 65,
+      moveX: 130,
+      moveY: 110,
+      opacity: 0.6,
+      size: 50,
+    },
+    {
+      color: "#611EBD",
+      enabled: true,
+      posX: 30,
+      posY: 75,
+      moveX: 125,
+      moveY: 95,
+      opacity: 0.6,
+      size: 50,
+    },
+    {
+      color: "#600C7F",
+      enabled: true,
+      posX: 70,
+      posY: 85,
+      moveX: 135,
+      moveY: 105,
+      opacity: 0.6,
+      size: 50,
+    },
   ],
   speed: 4,
   horizontalPressure: 4,
@@ -33,7 +87,7 @@ const GRADIENT_SETTINGS = {
   wireframe: false,
   antialias: false,
   colorBlending: 10,
-  backgroundColor: '#000000',
+  backgroundColor: "#000000",
   backgroundAlpha: 1,
   grainScale: 0,
   grainSparsity: 0,
@@ -52,7 +106,7 @@ const GRADIENT_SETTINGS = {
   flowEnabled: false,
   enableProceduralTexture: false,
   transparentTextureVoid: false,
-  textureMode: 'bitmap',
+  textureMode: "bitmap",
   bakeEdgeSoftness: 1,
   textureVoidLikelihood: 0.45,
   textureVoidWidthMin: 200,
@@ -61,7 +115,7 @@ const GRADIENT_SETTINGS = {
   textureColorBlending: 0.01,
   textureSeed: 333,
   textureEase: 0.5,
-  proceduralBackgroundColor: '#000000',
+  proceduralBackgroundColor: "#000000",
   textureShapeTriangles: 20,
   textureShapeCircles: 15,
   textureShapeBars: 15,
@@ -74,7 +128,7 @@ const GRADIENT_SETTINGS = {
   fresnelEnabled: false,
   fresnelPower: 2,
   fresnelIntensity: 0.5,
-  fresnelColor: '#FFFFFF',
+  fresnelColor: "#FFFFFF",
   iridescenceEnabled: false,
   iridescenceIntensity: 0.5,
   iridescenceSpeed: 1,
@@ -87,7 +141,7 @@ const GRADIENT_SETTINGS = {
   bloomIntensity: 0,
   bloomThreshold: 0.7,
   chromaticAberration: 0,
-  shapeType: 'plane' as const,
+  shapeType: "plane" as const,
   shapeRotationX: 0,
   shapeRotationY: 0,
   shapeRotationZ: 0,
@@ -123,15 +177,24 @@ function hexToRgba(hex: string, alpha: number) {
 }
 
 const mobileSubscribe = (cb: () => void) => {
-  const mq = typeof window !== "undefined" ? window.matchMedia("(max-width: 1023px), (pointer: coarse)") : null;
+  const mq =
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 1023px), (pointer: coarse)")
+      : null;
   mq?.addEventListener("change", cb);
   return () => mq?.removeEventListener("change", cb);
 };
-const mobileSnapshot = () => typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches);
+const mobileSnapshot = () =>
+  typeof window !== "undefined" &&
+  (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches);
 const mobileServerSnapshot = () => false;
 
 function HomeShaderGradientComponent() {
-  const isMobileOrTablet = useSyncExternalStore(mobileSubscribe, mobileSnapshot, mobileServerSnapshot);
+  const isMobileOrTablet = useSyncExternalStore(
+    mobileSubscribe,
+    mobileSnapshot,
+    mobileServerSnapshot,
+  );
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const positionLayerRef = useRef<HTMLDivElement>(null);
   const grainCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -164,7 +227,10 @@ function HomeShaderGradientComponent() {
 
     const initNeat = async () => {
       if (!canvasRef.current) return;
-      if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
         return;
       }
       try {
@@ -175,7 +241,7 @@ function HomeShaderGradientComponent() {
         if (typeof window !== "undefined" && (window as any).__neatInstance) {
           try {
             (window as any).__neatInstance?.destroy?.();
-          } catch { }
+          } catch {}
           (window as any).__neatInstance = null;
         }
 
@@ -187,7 +253,7 @@ function HomeShaderGradientComponent() {
         // Completely disable WebGL watermark rendering pass inside NeatGradient canvas
         if (neatInstance) {
           (neatInstance as any)._licensed = true;
-          (neatInstance as any)._renderWatermark = () => { };
+          (neatInstance as any)._renderWatermark = () => {};
           // Expose instance globally so style guide canvas controls can update it live
           (window as any).__neatInstance = neatInstance;
         }
@@ -198,7 +264,9 @@ function HomeShaderGradientComponent() {
             const links = canvasRef.current.parentElement.querySelectorAll("a");
             links.forEach((l) => l.remove());
           }
-          document.querySelectorAll('a[href*="neat"], a[href*="firecms"], .neat-link').forEach((l) => l.remove());
+          document
+            .querySelectorAll('a[href*="neat"], a[href*="firecms"], .neat-link')
+            .forEach((l) => l.remove());
         }, 100);
       } catch (e) {
         console.warn("NeatGradient init fallback:", e);
@@ -218,7 +286,8 @@ function HomeShaderGradientComponent() {
     const onScroll = () => {
       isScrolling = true;
       if (neatInstance) {
-        neatInstance.yOffset = (GRADIENT_SETTINGS.yOffset || 50041) + window.scrollY;
+        neatInstance.yOffset =
+          (GRADIENT_SETTINGS.yOffset || 50041) + window.scrollY;
       }
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
@@ -239,10 +308,13 @@ function HomeShaderGradientComponent() {
 
     let observer: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== "undefined" && canvasRef.current) {
-      observer = new IntersectionObserver(([entry]) => {
-        isVisible = entry.isIntersecting;
-        if (isVisible) startLoop();
-      }, { threshold: 0.01 });
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) startLoop();
+        },
+        { threshold: 0.01 },
+      );
       observer.observe(canvasRef.current);
     }
 
@@ -275,8 +347,8 @@ function HomeShaderGradientComponent() {
       const layers = GRADIENT_SETTINGS.colors.flatMap((c: any, idx: number) => {
         if (!c.enabled) return [];
         const phase = basePhase + idx * (Math.PI / 3);
-        const posX = c.posX ?? (15 + (idx * 15) % 70);
-        const posY = c.posY ?? (20 + (idx * 25) % 60);
+        const posX = c.posX ?? 15 + ((idx * 15) % 70);
+        const posY = c.posY ?? 20 + ((idx * 25) % 60);
         const moveX = c.moveX ?? 120;
         const moveY = c.moveY ?? 90;
         const opacity = c.opacity ?? 0.6;
@@ -299,7 +371,8 @@ function HomeShaderGradientComponent() {
         animFrameId = null;
         return;
       }
-      const baseCap = (typeof window !== "undefined" && window.innerWidth < 768) ? 66 : 40;
+      const baseCap =
+        typeof window !== "undefined" && window.innerWidth < 768 ? 66 : 40;
       const frameCap = isScrolling ? baseCap * 2 : baseCap;
       if (t - lastFrameTime > frameCap) {
         updatePositionLayer(t);
@@ -359,13 +432,15 @@ function HomeShaderGradientComponent() {
         try {
           neatInstance?.destroy?.();
           if (canvasRef.current) {
-            const gl = canvasRef.current.getContext("webgl2") || canvasRef.current.getContext("webgl");
+            const gl =
+              canvasRef.current.getContext("webgl2") ||
+              canvasRef.current.getContext("webgl");
             if (gl) {
               const loseCtx = gl.getExtension("WEBGL_lose_context");
               if (loseCtx) loseCtx.loseContext();
             }
           }
-        } catch { }
+        } catch {}
       };
 
       return cleanupWebGL;
@@ -387,17 +462,22 @@ function HomeShaderGradientComponent() {
       }
       try {
         neatInstance?.destroy?.();
-        if (typeof window !== "undefined" && (window as any).__neatInstance === neatInstance) {
+        if (
+          typeof window !== "undefined" &&
+          (window as any).__neatInstance === neatInstance
+        ) {
           (window as any).__neatInstance = null;
         }
         if (canvasRef.current) {
-          const gl = canvasRef.current.getContext("webgl2") || canvasRef.current.getContext("webgl");
+          const gl =
+            canvasRef.current.getContext("webgl2") ||
+            canvasRef.current.getContext("webgl");
           if (gl) {
             const loseCtx = gl.getExtension("WEBGL_lose_context");
             if (loseCtx) loseCtx.loseContext();
           }
         }
-      } catch { }
+      } catch {}
     };
 
     return cleanupWebGL;
@@ -409,12 +489,15 @@ function HomeShaderGradientComponent() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
-    const sync = () => { };
+    const sync = () => {};
 
     sync();
 
     const observer = new MutationObserver(sync);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
     return () => observer.disconnect();
   }, []);
@@ -429,31 +512,53 @@ function HomeShaderGradientComponent() {
     const applySettings = (settings: any) => {
       if (!settings || typeof window === "undefined") return;
       if (settings.grainOpacity !== undefined) {
-        document.documentElement.style.setProperty("--canvas-grain-opacity", `${settings.grainOpacity / 100}`);
+        document.documentElement.style.setProperty(
+          "--canvas-grain-opacity",
+          `${settings.grainOpacity / 100}`,
+        );
       }
       if (settings.grainBlend) {
-        document.documentElement.style.setProperty("--canvas-grain-blend", settings.grainBlend);
+        document.documentElement.style.setProperty(
+          "--canvas-grain-blend",
+          settings.grainBlend,
+        );
       }
       if (settings.grainSize !== undefined) {
-        document.documentElement.style.setProperty("--canvas-grain-size", `${settings.grainSize}`);
-        const feTurbEl = document.querySelector("#globalGrainFilter feTurbulence");
-        if (feTurbEl) feTurbEl.setAttribute("baseFrequency", `${settings.grainSize}`);
+        document.documentElement.style.setProperty(
+          "--canvas-grain-size",
+          `${settings.grainSize}`,
+        );
+        const feTurbEl = document.querySelector(
+          "#globalGrainFilter feTurbulence",
+        );
+        if (feTurbEl)
+          feTurbEl.setAttribute("baseFrequency", `${settings.grainSize}`);
       }
       const neat = (window as any).__neatInstance;
       if (neat) {
         if (settings.speed !== undefined) neat.speed = settings.speed;
-        if (settings.waveAmp !== undefined) neat.waveAmplitude = settings.waveAmp;
-        if (settings.waveFreqX !== undefined) neat.waveFrequencyX = settings.waveFreqX;
-        if (settings.waveFreqY !== undefined) neat.waveFrequencyY = settings.waveFreqY;
-        if (settings.colorBlending !== undefined) neat.colorBlending = settings.colorBlending;
-        if (settings.colorSaturation !== undefined) neat.colorSaturation = settings.colorSaturation;
-        if (settings.colorBrightness !== undefined) neat.colorBrightness = settings.colorBrightness;
+        if (settings.waveAmp !== undefined)
+          neat.waveAmplitude = settings.waveAmp;
+        if (settings.waveFreqX !== undefined)
+          neat.waveFrequencyX = settings.waveFreqX;
+        if (settings.waveFreqY !== undefined)
+          neat.waveFrequencyY = settings.waveFreqY;
+        if (settings.colorBlending !== undefined)
+          neat.colorBlending = settings.colorBlending;
+        if (settings.colorSaturation !== undefined)
+          neat.colorSaturation = settings.colorSaturation;
+        if (settings.colorBrightness !== undefined)
+          neat.colorBrightness = settings.colorBrightness;
         if (settings.shadows !== undefined) neat.shadows = settings.shadows;
-        if (settings.highlights !== undefined) neat.highlights = settings.highlights;
-        if (settings.hPressure !== undefined) neat.horizontalPressure = settings.hPressure;
-        if (settings.vPressure !== undefined) neat.verticalPressure = settings.vPressure;
-        if (settings.bgColor && settings.bgColor !== '#003FFF') neat.backgroundColor = settings.bgColor;
-        else neat.backgroundColor = '#05030a';
+        if (settings.highlights !== undefined)
+          neat.highlights = settings.highlights;
+        if (settings.hPressure !== undefined)
+          neat.horizontalPressure = settings.hPressure;
+        if (settings.vPressure !== undefined)
+          neat.verticalPressure = settings.vPressure;
+        if (settings.bgColor && settings.bgColor !== "#003FFF")
+          neat.backgroundColor = settings.bgColor;
+        else neat.backgroundColor = "#05030a";
       }
     };
 
@@ -464,16 +569,28 @@ function HomeShaderGradientComponent() {
 
     window.addEventListener("canvas-settings-changed", handleSettingsChange);
     return () => {
-      window.removeEventListener("canvas-settings-changed", handleSettingsChange);
+      window.removeEventListener(
+        "canvas-settings-changed",
+        handleSettingsChange,
+      );
     };
   }, []);
 
   return (
     <>
       {/* Background Shader Canvas Container */}
-      <div ref={wrapperRef} className="fixed inset-0 z-0 pointer-events-none overflow-hidden ">
-        <canvas ref={canvasRef} className="fixed inset-0 w-full h-full block pointer-events-none" />
-        <div ref={positionLayerRef} className="fixed inset-0 z-0 pointer-events-none" />
+      <div
+        ref={wrapperRef}
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      >
+        <canvas
+          ref={canvasRef}
+          className="pointer-events-none fixed inset-0 block h-full w-full"
+        />
+        <div
+          ref={positionLayerRef}
+          className="pointer-events-none fixed inset-0 z-0"
+        />
       </div>
     </>
   );

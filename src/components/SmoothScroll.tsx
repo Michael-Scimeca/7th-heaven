@@ -5,17 +5,25 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
-export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+export default function SmoothScroll({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
-  const isDashboard = pathname?.startsWith("/admin") || pathname?.startsWith("/crew") || pathname?.startsWith("/planner") || pathname?.startsWith("/studio");
+  const isDashboard =
+    pathname?.startsWith("/admin") ||
+    pathname?.startsWith("/crew") ||
+    pathname?.startsWith("/planner") ||
+    pathname?.startsWith("/studio");
 
   useEffect(() => {
-    const isTouchDevice = typeof window !== "undefined" && (
-      window.innerWidth < 1024 ||
-      window.matchMedia("(pointer: coarse)").matches ||
-      "ontouchstart" in window ||
-      (navigator && navigator.maxTouchPoints > 0)
-    );
+    const isTouchDevice =
+      typeof window !== "undefined" &&
+      (window.innerWidth < 1024 ||
+        window.matchMedia("(pointer: coarse)").matches ||
+        "ontouchstart" in window ||
+        (navigator && navigator.maxTouchPoints > 0));
     if (typeof window === "undefined" || isDashboard || isTouchDevice) return;
 
     const lenis = new Lenis({

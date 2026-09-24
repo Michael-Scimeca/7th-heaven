@@ -30,30 +30,47 @@ const FALLBACK_NEWS: NewsItem[] = [
   {
     date: "January 2026",
     title: "2026 Tour Dates Announced",
-    content: "It's winter time, and besides our annual cruise we do every year, we are working in the studio on numerous things. We are also booking more dates, so stay tuned for that. We have most of our summer booked already. Thanks for taking this musical journey with us, and we look forward to making more memories with you in 2026.",
+    content:
+      "It's winter time, and besides our annual cruise we do every year, we are working in the studio on numerous things. We are also booking more dates, so stay tuned for that. We have most of our summer booked already. Thanks for taking this musical journey with us, and we look forward to making more memories with you in 2026.",
   },
   {
     date: "January 2026",
     title: "Website Updates",
-    content: "Q1 2026 dates are now on our tour page. Jukebox has been updated on the music section — added Pop Medley 5, Pop Medley 6 and Club Medley; as well as updated Pop Medley 3, added artwork to Time Has Come, Media Overkill, Pop Life and Dance Media.",
+    content:
+      "Q1 2026 dates are now on our tour page. Jukebox has been updated on the music section — added Pop Medley 5, Pop Medley 6 and Club Medley; as well as updated Pop Medley 3, added artwork to Time Has Come, Media Overkill, Pop Life and Dance Media.",
   },
   {
     date: "December 2025",
     title: "History Page Launched",
-    content: "We've started building our history page, documenting 7th heaven's journey from 1985 to 2025. The 2025 page is live and we're working on the 1985 page. More years coming soon!",
+    content:
+      "We've started building our history page, documenting 7th heaven's journey from 1985 to 2025. The 2025 page is live and we're working on the 1985 page. More years coming soon!",
   },
   {
     date: "November 2025",
     title: "Bio Page Updated",
-    content: "We've refreshed the band bio to reflect our latest accomplishments and milestones. 40 years of rocking and still going strong!",
+    content:
+      "We've refreshed the band bio to reflect our latest accomplishments and milestones. 40 years of rocking and still going strong!",
   },
 ];
 
-export default function HomeNewsSection({ items, sanityContent }: { items?: NewsItem[]; sanityContent?: any }) {
+export default function HomeNewsSection({
+  items,
+  sanityContent,
+}: {
+  items?: NewsItem[];
+  sanityContent?: any;
+}) {
   const { member, isLoggedIn } = useMember();
-  const isAdmin = Boolean(isLoggedIn && (member?.role === 'admin' || member?.role === 'crew' || (member as any)?.isAdmin === true));
+  const isAdmin = Boolean(
+    isLoggedIn &&
+    (member?.role === "admin" ||
+      member?.role === "crew" ||
+      (member as any)?.isAdmin === true),
+  );
 
-  const [news, setNews] = useState<NewsItem[]>(items && items.length > 0 ? items : FALLBACK_NEWS);
+  const [news, setNews] = useState<NewsItem[]>(
+    items && items.length > 0 ? items : FALLBACK_NEWS,
+  );
   const [selectedArticle, setSelectedArticle] = useState<NewsItem | null>(null);
 
   // Add News Modal State
@@ -69,7 +86,20 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
   // Hydrate news items live from Sanity
   useEffect(() => {
     const now = new Date();
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
     setNewDate(`${months[now.getMonth()]} ${now.getFullYear()}`);
 
     fetch("/api/news")
@@ -87,12 +117,14 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
 
           setNews((prev) => {
             const existingTitles = new Set(sanityItems.map((n) => n.title));
-            const remainingFallback = prev.filter((n) => !existingTitles.has(n.title));
+            const remainingFallback = prev.filter(
+              (n) => !existingTitles.has(n.title),
+            );
             return [...sanityItems, ...remainingFallback];
           });
         }
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   const handleAddNewsSubmit = async (e: React.FormEvent) => {
@@ -100,7 +132,9 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
     setModalError(null);
 
     if (!newTitle.trim() || !newContent.trim()) {
-      setModalError("Please provide both a Title and Content for the news post.");
+      setModalError(
+        "Please provide both a Title and Content for the news post.",
+      );
       return;
     }
 
@@ -127,11 +161,16 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
           category: data.article.category,
         };
 
-        setNews((prev) => [addedArticle, ...prev.filter((n) => n.title !== addedArticle.title)]);
+        setNews((prev) => [
+          addedArticle,
+          ...prev.filter((n) => n.title !== addedArticle.title),
+        ]);
         setIsAddModalOpen(false);
         setNewTitle("");
         setNewContent("");
-        setToastMessage(`🎉 News article "${addedArticle.title}" published to Sanity!`);
+        setToastMessage(
+          `🎉 News article "${addedArticle.title}" published to Sanity!`,
+        );
         setTimeout(() => setToastMessage(null), 4500);
       } else {
         setModalError(data.error || "Failed to save news article to Sanity.");
@@ -146,16 +185,17 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
   const featured = news[0];
 
   return (
-    <section id="news" className="site-container relative py-section-fluid">
+    <section id="news" className="site-container py-section-fluid relative">
       <>
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-6 gap-6">
+        <div className="mb-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div className="max-w-2xl text-left">
             <h2 className="font-[family-name:var(--font-rockstar)]">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
             <p className="mt-2">
-              {sanityContent?.newsSubtitle || "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
+              {sanityContent?.newsSubtitle ||
+                "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
             </p>
           </div>
           <AddCmsButton
@@ -166,53 +206,49 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
         </div>
 
         {/* Featured Article + Remaining Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
-            <article className="lg:col-span-7 border-0 pb-4 md:pb-6 relative overflow-hidden group transition-colors">
-              <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
-                <span className="text-[var(--color-accent)]   ">
+            <article className="group relative overflow-hidden border-0 pb-4 transition-colors md:pb-6 lg:col-span-7">
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-[var(--color-accent)]">
                   {featured.date}
                 </span>
               </div>
               <h3 className="mb-6 transition-colors">
                 <Link
                   href={`/news/${featured.slug || featured.id || toSlug(featured.title)}`}
-                  className="hover:text-[var(--color-accent)] transition-colors"
+                  className="transition-colors hover:text-[var(--color-accent)]"
                 >
                   {featured.title}
                 </Link>
               </h3>
-              <p className="font-normal">
-                {featured.content}
-              </p>
+              <p className="font-normal">{featured.content}</p>
             </article>
           )}
 
           {/* Remaining Articles List (Right - 5 Cols) */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="space-y-4 lg:col-span-5">
             {news.slice(1).map((item) => {
               const href = `/news/${item.slug || item.id || toSlug(item.title)}`;
               return (
                 <Link
                   key={item.title}
                   href={href}
-                  className="block w-full text-left border-0 pb-3 md:pb-2 group font-normal hover:opacity-90 transition-opacity"
+                  className="group block w-full border-0 pb-3 text-left font-normal transition-opacity hover:opacity-90 md:pb-2"
                 >
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-[var(--color-accent)]   ">
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-[var(--color-accent)]">
                       {item.date}
                     </span>
-                    <span className="a-btn transition-colors text-sm  ">
+                    <span className="a-btn text-sm transition-colors">
                       Read
                     </span>
                   </div>
-                  <h4 className="transition-colors line-clamp-1">
+                  <h4 className="line-clamp-1 transition-colors">
                     {item.title}
                   </h4>
-                  <p className="line-clamp-2">
-                    {item.content}
-                  </p>
+                  <p className="line-clamp-2">{item.content}</p>
                 </Link>
               );
             })}
@@ -223,152 +259,152 @@ export default function HomeNewsSection({ items, sanityContent }: { items?: News
       {/* Article Detail Modal */}
       {selectedArticle && (
         <div
-          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
           onClick={() => setSelectedArticle(null)}
         >
           <div
-            className="bg-[var(--card-bg)] border-0 max-w-xl w-full p-8 relative shadow-2xl rounded-2xl"
+            className="relative w-full max-w-xl rounded-2xl border-0 bg-[var(--card-bg)] p-8 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-6">
+            <div className="mb-6 flex items-center justify-between">
               <span className="text-[var(--color-accent)]">
                 {selectedArticle.date}
               </span>
               <button
                 aria-label="Close modal"
                 onClick={() => setSelectedArticle(null)}
-                className="text-xl w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-xl transition-colors hover:bg-white/10"
               >
                 ✕
               </button>
             </div>
-            <h3 className="mb-6">
-              {selectedArticle.title}
-            </h3>
-            <p className="whitespace-pre-line">
-              {selectedArticle.content}
-            </p>
+            <h3 className="mb-6">{selectedArticle.title}</h3>
+            <p className="whitespace-pre-line">{selectedArticle.content}</p>
           </div>
         </div>
       )}
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
-          <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
-          <span className="  text-sm">{toastMessage}</span>
+        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-xl border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
+          <CheckCircle2 className="h-5 w-5 shrink-0 text-green-400" />
+          <span className="text-sm">{toastMessage}</span>
         </div>
       )}
 
       {/* Add News Modal */}
-      {isAddModalOpen && typeof window !== "undefined" && createPortal(
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setIsAddModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+      {isAddModalOpen &&
+        typeof window !== "undefined" &&
+        createPortal(
+          <div className="animate-fade-in fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md">
+            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-neutral-900 p-6 shadow-2xl sm:p-8">
+              <button
+                onClick={() => setIsAddModalOpen(false)}
+                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
 
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
-                <Newspaper className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-xl   ">Add Band News to Sanity</h3>
-                <p className="text-xs text-purple-300/70">Publish a new band announcement or update to Sanity CMS.</p>
-              </div>
-            </div>
-
-            {modalError && (
-              <div className="mb-6 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm">
-                {modalError}
-              </div>
-            )}
-
-            <form onSubmit={handleAddNewsSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs   text-purple-200/80 mb-1.5">
-                  Article Title *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder="e.g. New Single Released or Summer 2026 Tour Announcement"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                  <Newspaper className="h-5 w-5" />
+                </div>
                 <div>
-                  <label className="block text-xs   text-purple-200/80 mb-1.5">
-                    Display Date *
+                  <h3 className="text-xl">Add Band News to Sanity</h3>
+                  <p className="text-xs text-purple-300/70">
+                    Publish a new band announcement or update to Sanity CMS.
+                  </p>
+                </div>
+              </div>
+
+              {modalError && (
+                <div className="mb-6 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-sm text-red-200">
+                  {modalError}
+                </div>
+              )}
+
+              <form onSubmit={handleAddNewsSubmit} className="space-y-4">
+                <div>
+                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                    Article Title *
                   </label>
                   <input
                     type="text"
                     required
-                    value={newDate}
-                    onChange={(e) => setNewDate(e.target.value)}
-                    placeholder="e.g. September 2026"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    placeholder="e.g. New Single Released or Summer 2026 Tour Announcement"
+                    className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs   text-purple-200/80 mb-1.5">
-                    Category
-                  </label>
-                  <select
-                    value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
-                  >
-                    <option value="announcement">Announcement</option>
-                    <option value="update">Update</option>
-                    <option value="press">Press</option>
-                    <option value="release">Release</option>
-                  </select>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                      Display Date *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={newDate}
+                      onChange={(e) => setNewDate(e.target.value)}
+                      placeholder="e.g. September 2026"
+                      className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                      Category
+                    </label>
+                    <select
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                      className="w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
+                    >
+                      <option value="announcement">Announcement</option>
+                      <option value="update">Update</option>
+                      <option value="press">Press</option>
+                      <option value="release">Release</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs   text-purple-200/80 mb-1.5">
-                  Content / Article Body *
-                </label>
-                <textarea
-                  rows={5}
-                  required
-                  value={newContent}
-                  onChange={(e) => setNewContent(e.target.value)}
-                  placeholder="Write the news update content here..."
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                />
-              </div>
+                <div>
+                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                    Content / Article Body *
+                  </label>
+                  <textarea
+                    rows={5}
+                    required
+                    value={newContent}
+                    onChange={(e) => setNewContent(e.target.value)}
+                    placeholder="Write the news update content here..."
+                    className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                  />
+                </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
-                <button
-                  type="button"
-                  onClick={() => setIsAddModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm   transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500    text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
-                >
-                  {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>,
-        document.body
-      )}
+                <div className="flex items-center justify-end gap-3 border-t border-white/10 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddModalOpen(false)}
+                    className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 text-sm transition-colors hover:bg-white/15"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 text-sm shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-all hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                  >
+                    {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }

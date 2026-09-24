@@ -5,9 +5,9 @@ import config from "../../../../sanity.config";
 import "./studio.css";
 
 export default function StudioPage() {
- return (
-  <div style={{ minHeight: '100vh' }}>
-   <NextStudio config={config} />
-  </div>
- );
+  return (
+    <div style={{ minHeight: "100vh" }}>
+      <NextStudio config={config} />
+    </div>
+  );
 }

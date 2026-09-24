@@ -4,15 +4,18 @@ import { sanityWriteClient } from "@/lib/sanity";
 import { requireAdmin } from "@/lib/api-utils";
 import { revalidatePath } from "next/cache";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 // Helper to geocode city + state to lat/lng using free OpenStreetMap Nominatim API
-async function geocodeCity(city: string, state: string): Promise<{ lat: number; lng: number } | null> {
+async function geocodeCity(
+  city: string,
+  state: string,
+): Promise<{ lat: number; lng: number } | null> {
   try {
     const query = encodeURIComponent(`${city}, ${state}, USA`);
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
-      { headers: { "User-Agent": "7thHeavenBand/1.0" } }
+      { headers: { "User-Agent": "7thHeavenBand/1.0" } },
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -28,7 +31,7 @@ async function geocodeCity(city: string, state: string): Promise<{ lat: number; 
 // Helper to calculate the day of the week from a date string (YYYY-MM-DD)
 function getDayOfWeek(dateStr: string): string {
   try {
-    const dateObj = new Date(dateStr + 'T12:00:00');
+    const dateObj = new Date(dateStr + "T12:00:00");
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return dayNames[dateObj.getDay()];
   } catch {
@@ -42,13 +45,13 @@ function getDayOfWeek(dateStr: string): string {
  */
 export async function GET() {
   try {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     const { data: shows } = await sanityFetch({
       query: `*[_type == "tourDate" && date>= "${today}" && isPrivate != true && !("private" in coalesce(tags, [])) && !("corporate" in coalesce(tags, []))] | order(date asc) {
         _id, venue, city, state, date, time, day,
         doorsTime, allAges, cover, ticketLink, directionsLink,
         lat, lng, isSoldOut, tags, notes
-      }`
+      }`,
     });
 
     return NextResponse.json(shows || []);
@@ -68,13 +71,29 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const {
-      venue, city, state, date, time, doorsTime, playTime,
-      allAges, cover, ticketLink, directionsLink,
-      isSoldOut, isFestival, isPrivate, notes, tags
+      venue,
+      city,
+      state,
+      date,
+      time,
+      doorsTime,
+      playTime,
+      allAges,
+      cover,
+      ticketLink,
+      directionsLink,
+      isSoldOut,
+      isFestival,
+      isPrivate,
+      notes,
+      tags,
     } = body;
 
     if (!venue || !city || !state || !date) {
-      return NextResponse.json({ error: "Missing required fields (venue, city, state, date)" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields (venue, city, state, date)" },
+        { status: 400 },
+      );
     }
 
     // Geocode coordinates
@@ -128,13 +147,30 @@ export async function PATCH(request: Request) {
 
     const body = await request.json();
     const {
-      _id, venue, city, state, date, time, doorsTime, playTime,
-      allAges, cover, ticketLink, directionsLink,
-      isSoldOut, isFestival, isPrivate, notes, tags
+      _id,
+      venue,
+      city,
+      state,
+      date,
+      time,
+      doorsTime,
+      playTime,
+      allAges,
+      cover,
+      ticketLink,
+      directionsLink,
+      isSoldOut,
+      isFestival,
+      isPrivate,
+      notes,
+      tags,
     } = body;
 
     if (!_id) {
-      return NextResponse.json({ error: "Missing show ID (_id)" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing show ID (_id)" },
+        { status: 400 },
+      );
     }
 
     // Prepare fields to set
@@ -152,7 +188,8 @@ export async function PATCH(request: Request) {
     if (allAges !== undefined) updateFields.allAges = allAges;
     if (cover !== undefined) updateFields.cover = cover;
     if (ticketLink !== undefined) updateFields.ticketLink = ticketLink;
-    if (directionsLink !== undefined) updateFields.directionsLink = directionsLink;
+    if (directionsLink !== undefined)
+      updateFields.directionsLink = directionsLink;
     if (isSoldOut !== undefined) updateFields.isSoldOut = isSoldOut;
     if (isFestival !== undefined) updateFields.isFestival = isFestival;
     if (isPrivate !== undefined) updateFields.isPrivate = isPrivate;
@@ -173,7 +210,10 @@ export async function PATCH(request: Request) {
       }
     }
 
-    const result = await sanityWriteClient.patch(_id).set(updateFields).commit();
+    const result = await sanityWriteClient
+      .patch(_id)
+      .set(updateFields)
+      .commit();
     revalidatePath("/tour");
 
     return NextResponse.json({ success: true, show: result });
@@ -195,7 +235,10 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json({ error: "Missing show ID (id)" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing show ID (id)" },
+        { status: 400 },
+      );
     }
 
     await sanityWriteClient.delete(id);

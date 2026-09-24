@@ -21,7 +21,8 @@
 
 export type NtfyGroup = "fans" | "crew" | "admins" | "cruise";
 
-export type NtfyPriority = "min" | "low" | "default" | "high" | "urgent" | "max";
+export type NtfyPriority =
+  "min" | "low" | "default" | "high" | "urgent" | "max";
 
 export interface PublishNtfyOptions {
   title?: string;
@@ -39,7 +40,9 @@ export interface NtfyResult {
   error?: string;
 }
 
-export const NTFY_SERVER = (process.env.NTFY_SERVER || "https://ntfy.sh").replace(/\/+$/, "");
+export const NTFY_SERVER = (
+  process.env.NTFY_SERVER || "https://ntfy.sh"
+).replace(/\/+$/, "");
 
 /** Returns the configured topic name for a group, or null if it isn't set. */
 export function getNtfyTopic(group: NtfyGroup): string | null {
@@ -76,7 +79,10 @@ const PRIORITY_TO_NUMBER: Record<NtfyPriority, number> = {
   max: 5,
 };
 
-export async function publishNtfy(topic: string, opts: PublishNtfyOptions): Promise<NtfyResult> {
+export async function publishNtfy(
+  topic: string,
+  opts: PublishNtfyOptions,
+): Promise<NtfyResult> {
   try {
     const payload: Record<string, unknown> = { topic, message: opts.message };
     if (opts.title) payload.title = opts.title;
@@ -94,8 +100,14 @@ export async function publishNtfy(topic: string, opts: PublishNtfyOptions): Prom
 
     if (!res.ok) {
       const text = await res.text().catch(() => "");
-      console.error(`[ntfy] Publish to "${topic}" failed (${res.status}): ${text}`);
-      return { ok: false, status: res.status, error: text || `HTTP ${res.status}` };
+      console.error(
+        `[ntfy] Publish to "${topic}" failed (${res.status}): ${text}`,
+      );
+      return {
+        ok: false,
+        status: res.status,
+        error: text || `HTTP ${res.status}`,
+      };
     }
     return { ok: true, status: res.status };
   } catch (err: unknown) {
@@ -112,12 +124,12 @@ export async function publishNtfy(topic: string, opts: PublishNtfyOptions): Prom
  */
 export async function publishToGroup(
   group: NtfyGroup,
-  opts: PublishNtfyOptions
+  opts: PublishNtfyOptions,
 ): Promise<NtfyResult & { group: NtfyGroup }> {
   const topic = getNtfyTopic(group);
   if (!topic) {
     console.warn(
-      `[ntfy] Skipped "${group}" push — NTFY_TOPIC_${group.toUpperCase()} is not set in the environment.`
+      `[ntfy] Skipped "${group}" push — NTFY_TOPIC_${group.toUpperCase()} is not set in the environment.`,
     );
     return { ok: false, skipped: true, group };
   }
@@ -126,6 +138,9 @@ export async function publishToGroup(
 }
 
 /** Publish the same message to several groups at once, in parallel. */
-export async function publishToGroups(groups: NtfyGroup[], opts: PublishNtfyOptions) {
+export async function publishToGroups(
+  groups: NtfyGroup[],
+  opts: PublishNtfyOptions,
+) {
   return Promise.all(groups.map((g) => publishToGroup(g, opts)));
 }

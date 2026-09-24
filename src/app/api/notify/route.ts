@@ -34,11 +34,13 @@ export async function POST(request: Request) {
         {
           status: 429,
           headers: {
-            "Retry-After": String(Math.ceil((rateLimitResult.reset - Date.now()) / 1000)),
+            "Retry-After": String(
+              Math.ceil((rateLimitResult.reset - Date.now()) / 1000),
+            ),
             "X-RateLimit-Limit": String(rateLimitResult.limit),
             "X-RateLimit-Remaining": String(rateLimitResult.remaining),
           },
-        }
+        },
       );
     }
 
@@ -47,7 +49,10 @@ export async function POST(request: Request) {
     try {
       body = await request.json();
     } catch {
-      return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 },
+      );
     }
 
     // ── 3. Validate & Sanitize with Zod ──
@@ -55,11 +60,20 @@ export async function POST(request: Request) {
     if (!validation.success) {
       return NextResponse.json(
         { error: "Validation failed", details: validation.errors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const { name, email, phone, zip, radius, notifyAreaShows, notifyNextShow, showTypes } = validation.data;
+    const {
+      name,
+      email,
+      phone,
+      zip,
+      radius,
+      notifyAreaShows,
+      notifyNextShow,
+      showTypes,
+    } = validation.data;
 
     // ── 4. Optional: Verify hCaptcha token ──
     const captchaToken = (body as Record<string, unknown>)?.captchaToken;
@@ -70,11 +84,17 @@ export async function POST(request: Request) {
         body: `response=${captchaToken}&secret=${process.env.HCAPTCHA_SECRET}`,
       });
       if (!captchaRes.ok) {
-        return NextResponse.json({ error: "CAPTCHA verification request failed" }, { status: 403 });
+        return NextResponse.json(
+          { error: "CAPTCHA verification request failed" },
+          { status: 403 },
+        );
       }
       const captchaData = await captchaRes.json();
       if (!captchaData.success) {
-        return NextResponse.json({ error: "CAPTCHA verification failed" }, { status: 403 });
+        return NextResponse.json(
+          { error: "CAPTCHA verification failed" },
+          { status: 403 },
+        );
       }
     }
 
@@ -97,7 +117,8 @@ export async function POST(request: Request) {
     };
 
     // ── 6. Save to data store ──
-    if (!fs.existsSync(ACCOUNTS_DIR)) fs.mkdirSync(ACCOUNTS_DIR, { recursive: true });
+    if (!fs.existsSync(ACCOUNTS_DIR))
+      fs.mkdirSync(ACCOUNTS_DIR, { recursive: true });
 
     let accounts = await readAccounts();
 
@@ -106,12 +127,15 @@ export async function POST(request: Request) {
     if (existing) {
       return NextResponse.json(
         { error: "An account with this email already exists. Please sign in." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
     accounts.push(account);
-    await fs.promises.writeFile(ACCOUNTS_FILE_PATH, JSON.stringify(accounts, null, 2));
+    await fs.promises.writeFile(
+      ACCOUNTS_FILE_PATH,
+      JSON.stringify(accounts, null, 2),
+    );
 
     // ── 7. Send Push Notification Welcome & Management Guide Email ──
     try {
@@ -125,7 +149,8 @@ export async function POST(request: Request) {
 
       await sendEmail({
         to: email,
-        subject: "Welcome to 7th Heaven Show Alerts! 🎸 How Your Notifications Work",
+        subject:
+          "Welcome to 7th Heaven Show Alerts! 🎸 How Your Notifications Work",
         html,
       });
     } catch (emailErr) {
@@ -143,10 +168,13 @@ export async function POST(request: Request) {
           "X-RateLimit-Limit": String(rateLimitResult.limit),
           "X-RateLimit-Remaining": String(rateLimitResult.remaining),
         },
-      }
+      },
     );
   } catch (error) {
     console.error("Signup API error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

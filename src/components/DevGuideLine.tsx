@@ -18,7 +18,10 @@ export default function DevGuideLine() {
   }, []);
 
   // Only render in development mode or if explicitly enabled
-  if (process.env.NODE_ENV !== "development" && process.env.NEXT_PUBLIC_SHOW_DEV_NAV !== "true") {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    process.env.NEXT_PUBLIC_SHOW_DEV_NAV !== "true"
+  ) {
     return null;
   }
 
@@ -28,33 +31,46 @@ export default function DevGuideLine() {
     <>
       {/* Horizontal laser guide line */}
       <div
-        className="fixed left-0 right-0 z-[999999] pointer-events-none transition-colors duration-150"
-        style={{ top: `${topPos}px` }}>
+        className="pointer-events-none fixed right-0 left-0 z-[999999] transition-colors duration-150"
+        style={{ top: `${topPos}px` }}
+      >
         {/* Bright laser line */}
-        <div className="w-full h-[2px] bg-cyan-400 shadow-[0_0_12px_#22d3ee,0_0_4px_#22d3ee]" />
+        <div className="h-[2px] w-full bg-cyan-400 shadow-[0_0_12px_#22d3ee,0_0_4px_#22d3ee]" />
 
         {/* Developer badge indicator */}
-        <div className="absolute right-6 top-1 pointer-events-auto flex items-center gap-2 bg-black/95 border border-purple-400/60 px-3 py-1 text-[11px] rounded-lg shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-[45px] select-none z-[9999999]">
-          <span className="w-2 h-2 rounded-lg bg-cyan-400 animate-pulse" />
+        <div className="pointer-events-auto absolute top-1 right-6 z-[9999999] flex items-center gap-2 rounded-lg border border-purple-400/60 bg-black/95 px-3 py-1 text-[11px] shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-[45px] select-none">
+          <span className="h-2 w-2 animate-pulse rounded-lg bg-cyan-400" />
           <span>DEV GUIDE: {topPos}PX</span>
-          <button aria-label="Previous"
-            onClick={(e) => { e.stopPropagation(); setTopPos((prev) => (prev === 122 ? 120 : 122)); }}
-            className="ml-1 px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/40 border border-purple-400/40 rounded text-[10px] transition-colors cursor-pointer">
+          <button
+            aria-label="Previous"
+            onClick={(e) => {
+              e.stopPropagation();
+              setTopPos((prev) => (prev === 122 ? 120 : 122));
+            }}
+            className="ml-1 cursor-pointer rounded border border-purple-400/40 bg-cyan-500/20 px-2 py-0.5 text-[10px] transition-colors hover:bg-cyan-500/40"
+          >
             Toggle {topPos === 122 ? "120px" : "122px"}
           </button>
-          <button aria-label="Previous"
-            onClick={(e) => { e.stopPropagation(); setShowVerticalGuides((prev) => !prev); }}
-            className="ml-1 px-2 py-0.5 bg-[var(--color-accent)]/20 hover:bg-[var(--color-accent)]/40 border border-[var(--color-accent)]/40 rounded text-[10px] transition-colors cursor-pointer">
+          <button
+            aria-label="Previous"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowVerticalGuides((prev) => !prev);
+            }}
+            className="ml-1 cursor-pointer rounded border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20 px-2 py-0.5 text-[10px] transition-colors hover:bg-[var(--color-accent)]/40"
+          >
             Guides: {showVerticalGuides ? "ON" : "OFF"}
           </button>
-          <button aria-label="Previous"
+          <button
+            aria-label="Previous"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
               setEnabled(false);
             }}
-            className="ml-1.5 px-2 py-1 text-purple-400hover:text-red-400 hover:bg-red-500/20 rounded transition-colors cursor-pointer z-[9999999]"
-            title="Hide guide overlay (Press Alt+G to restore)">
+            className="text-purple-400hover:text-red-400 z-[9999999] ml-1.5 cursor-pointer rounded px-2 py-1 transition-colors hover:bg-red-500/20"
+            title="Hide guide overlay (Press Alt+G to restore)"
+          >
             ✕
           </button>
         </div>
@@ -62,18 +78,18 @@ export default function DevGuideLine() {
 
       {/* Vertical side margin guide lines (25px mobile / 32px desktop) */}
       {showVerticalGuides && (
-        <div className="fixed inset-0 z-[999998] pointer-events-none overflow-hidden">
+        <div className="pointer-events-none fixed inset-0 z-[999998] overflow-hidden">
           {/* Left guideline (25px mobile, 32px desktop) */}
-          <div className="absolute top-0 bottom-0 left-[25px] md:left-[32px] w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee]">
-            <span className="absolute top-2 left-1 bg-cyan-950/90 text-[12px] px-1.5 py-0.5 rounded border border-purple-400/40 whitespace-nowrap">
+          <div className="absolute top-0 bottom-0 left-[25px] w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee] md:left-[32px]">
+            <span className="absolute top-2 left-1 rounded border border-purple-400/40 bg-cyan-950/90 px-1.5 py-0.5 text-[12px] whitespace-nowrap">
               <span className="md:hidden">25px Left</span>
               <span className="hidden md:inline">32px Left</span>
             </span>
           </div>
 
           {/* Right guideline (25px mobile, 32px desktop) */}
-          <div className="absolute top-0 bottom-0 right-[25px] md:right-[32px] w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee]">
-            <span className="absolute top-2 right-1 bg-cyan-950/90 text-[12px] px-1.5 py-0.5 rounded border border-purple-400/40 whitespace-nowrap">
+          <div className="absolute top-0 right-[25px] bottom-0 w-[1px] bg-cyan-400/80 shadow-[0_0_8px_#22d3ee] md:right-[32px]">
+            <span className="absolute top-2 right-1 rounded border border-purple-400/40 bg-cyan-950/90 px-1.5 py-0.5 text-[12px] whitespace-nowrap">
               <span className="md:hidden">25px Right</span>
               <span className="hidden md:inline">32px Right</span>
             </span>

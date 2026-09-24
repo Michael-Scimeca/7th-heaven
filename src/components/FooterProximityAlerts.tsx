@@ -3,7 +3,16 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Bell, MapPin, Check, Sliders, Music, Mail, User, Guitar } from "lucide-react";
+import {
+  Bell,
+  MapPin,
+  Check,
+  Sliders,
+  Music,
+  Mail,
+  User,
+  Guitar,
+} from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import GlowInput from "@/components/GlowInput";
 import { SquishyToggle } from "@/components/SquishyToggle";
@@ -11,7 +20,8 @@ import IphoneClipMask from "@/components/IphoneClipMask";
 
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 
-const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
+const VAPID_PUBLIC_KEY =
+  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ||
   "BA0R-Cg3zpKyTmnWjOf3-Qci37ibBA7rY3BDqRZ-8JPkHezdQOU5fSx_p7__FUqG4Tf0znMa5LpoObodxLpOuxc";
 
 const RADIUS_OPTIONS = [
@@ -47,7 +57,8 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
 
 /** Get the current push subscription from the active service worker */
 async function getExistingSubscription(): Promise<PushSubscription | null> {
-  if (typeof window === "undefined" || !("serviceWorker" in navigator)) return null;
+  if (typeof window === "undefined" || !("serviceWorker" in navigator))
+    return null;
   try {
     const reg = await navigator.serviceWorker.ready;
     return await reg.pushManager.getSubscription();
@@ -58,12 +69,15 @@ async function getExistingSubscription(): Promise<PushSubscription | null> {
 
 /** Create a new push subscription */
 async function createSubscription(): Promise<PushSubscription | null> {
-  if (typeof window === "undefined" || !("serviceWorker" in navigator)) return null;
+  if (typeof window === "undefined" || !("serviceWorker" in navigator))
+    return null;
   try {
     const reg = await navigator.serviceWorker.ready;
     return await reg.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) as unknown as ArrayBuffer,
+      applicationServerKey: urlBase64ToUint8Array(
+        VAPID_PUBLIC_KEY,
+      ) as unknown as ArrayBuffer,
     });
   } catch (e) {
     console.warn("[push] subscribe failed:", e);
@@ -72,7 +86,9 @@ async function createSubscription(): Promise<PushSubscription | null> {
 }
 
 function CrispCheckIcon() {
-  return <CheckMarkIcon className="w-3.5 h-3.5 text-purple-200 ml-0.5 shrink-0 inline-block" />;
+  return (
+    <CheckMarkIcon className="ml-0.5 inline-block h-3.5 w-3.5 shrink-0 text-purple-200" />
+  );
 }
 
 export default function FooterProximityAlerts() {
@@ -82,8 +98,12 @@ export default function FooterProximityAlerts() {
   const [radius, setRadius] = useState("50");
   const [selectedTypes, setSelectedTypes] = useState<string[]>(["all"]);
   const [agreeTerms, setAgreeTerms] = useState(true);
-  const [permission, setPermission] = useState<NotificationPermission | "unsupported">("default");
-  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [permission, setPermission] = useState<
+    NotificationPermission | "unsupported"
+  >("default");
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">(
+    "idle",
+  );
   const [errorMsg, setErrorMsg] = useState("");
 
   // Hydrate from localStorage on mount
@@ -97,7 +117,9 @@ export default function FooterProximityAlerts() {
     }
     // Restore saved prefs
     try {
-      const saved = localStorage.getItem("7h_alert_prefs_v1") || localStorage.getItem("7h_alert_prefs");
+      const saved =
+        localStorage.getItem("7h_alert_prefs_v1") ||
+        localStorage.getItem("7h_alert_prefs");
       if (saved) {
         const prefs = JSON.parse(saved);
         if (prefs.name) setName(prefs.name);
@@ -106,7 +128,7 @@ export default function FooterProximityAlerts() {
         if (prefs.radius) setRadius(prefs.radius);
         if (prefs.selectedTypes?.length) setSelectedTypes(prefs.selectedTypes);
       }
-    } catch { }
+    } catch {}
   }, []);
 
   const toggleType = (id: string) => {
@@ -126,7 +148,9 @@ export default function FooterProximityAlerts() {
       activeSet.add(id);
     }
 
-    const specificTypes = SHOW_TYPES.map((t) => t.id).filter((tId) => tId !== "all");
+    const specificTypes = SHOW_TYPES.map((t) => t.id).filter(
+      (tId) => tId !== "all",
+    );
     const hasAllSpecific = specificTypes.every((tId) => activeSet.has(tId));
 
     if (activeSet.size === 0 || hasAllSpecific) {
@@ -139,7 +163,10 @@ export default function FooterProximityAlerts() {
   /** Save prefs locally and POST the subscription to the server */
   async function persistSubscription(pushSub: PushSubscription) {
     // Save locally
-    localStorage.setItem("7h_alert_prefs_v1", JSON.stringify({ name, zip, email, radius, selectedTypes }));
+    localStorage.setItem(
+      "7h_alert_prefs_v1",
+      JSON.stringify({ name, zip, email, radius, selectedTypes }),
+    );
 
     // Convert PushSubscription to plain object
     const subJson = pushSub.toJSON();
@@ -182,7 +209,10 @@ export default function FooterProximityAlerts() {
       if (pushSub) {
         await persistSubscription(pushSub);
       } else {
-        localStorage.setItem("7h_alert_prefs_v1", JSON.stringify({ name, zip, email, radius, selectedTypes }));
+        localStorage.setItem(
+          "7h_alert_prefs_v1",
+          JSON.stringify({ name, zip, email, radius, selectedTypes }),
+        );
         await fetch("/api/web-push/subscribe", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -216,7 +246,10 @@ export default function FooterProximityAlerts() {
       if (pushSub) {
         await persistSubscription(pushSub);
       } else {
-        localStorage.setItem("7h_alert_prefs_v1", JSON.stringify({ name, zip, email, radius, selectedTypes }));
+        localStorage.setItem(
+          "7h_alert_prefs_v1",
+          JSON.stringify({ name, zip, email, radius, selectedTypes }),
+        );
       }
       setStatus("saved");
       setTimeout(() => setStatus("idle"), 3000);
@@ -231,19 +264,20 @@ export default function FooterProximityAlerts() {
   const isBusy = status === "saving";
 
   return (
-    <div className="w-full relative z-10 flex flex-col md:flex-row items-start md:items-start gap-6">
+    <div className="relative z-10 flex w-full flex-col items-start gap-6 md:flex-row md:items-start">
       {/* ── LEFT COLUMN: iPhone Mobile Preview Device Mockup (Hidden on mobile, shown on tablet/desktop) ── */}
-      <div className="hidden md:flex shrink-0 w-full md:w-auto justify-start items-start my-auto">
-        <div className="relative w-[190px] sm:w-[210px] lg:w-[230px] aspect-[9/19.5] select-none filter">
+      <div className="my-auto hidden w-full shrink-0 items-start justify-start md:flex md:w-auto">
+        <div className="relative aspect-[9/19.5] w-[190px] filter select-none sm:w-[210px] lg:w-[230px]">
           <IphoneClipMask
             insetXPercent={0}
             insetTopPercent={0}
             insetBottomPercent={0}
             borderRadiusPx={36}
-            className="w-full h-full flex items-center justify-center">
-            <div className="relative w-full h-full rounded-[34px] overflow-hidden bg-[#12071f] flex flex-col justify-between p-2 border border-purple-500/30 shadow-[inset_0_0_20px_rgba(168,85,247,0.15)]">
+            className="flex h-full w-full items-center justify-center"
+          >
+            <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-[34px] border border-purple-500/30 bg-[#12071f] p-2 shadow-[inset_0_0_20px_rgba(168,85,247,0.15)]">
               {/* Phone Content Screen */}
-              <div className="relative w-full h-full rounded-[28px] overflow-hidden bg-black flex items-center justify-center">
+              <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[28px] bg-black">
                 <video
                   src="/movie/notefication.mp4"
                   autoPlay
@@ -251,7 +285,7 @@ export default function FooterProximityAlerts() {
                   muted
                   playsInline
                   aria-label="7th Heaven Concert Live Stream"
-                  className="w-full h-full object-contain bg-black rounded-[28px]"
+                  className="h-full w-full rounded-[28px] bg-black object-contain"
                 />
               </div>
             </div>
@@ -260,10 +294,9 @@ export default function FooterProximityAlerts() {
       </div>
 
       {/* ── RIGHT COLUMN: Proximity Alert Filters Form ── */}
-      <div className="flex-1 min-w-0 w-full">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6  border-b border-white/10 relative z-10">
+      <div className="w-full min-w-0 flex-1">
+        <div className="relative z-10 mb-6 flex flex-col items-start justify-between gap-4 border-b border-white/10 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
-
             <div>
               <h3 className="flex items-center gap-2">
                 Proximity & Show Alert Filters
@@ -276,48 +309,67 @@ export default function FooterProximityAlerts() {
         </div>
 
         {status === "error" && errorMsg && (
-          <div className="mb-6 px-4 py-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          <div className="mb-6 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-rose-300">
             ⚠️ {errorMsg}
           </div>
         )}
 
         {permission === "denied" && (
-          <div className="mb-6 px-4 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300">
-            🔒 Notifications are blocked in your browser settings. Enable them to receive show alerts.
+          <div className="mb-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-amber-300">
+            🔒 Notifications are blocked in your browser settings. Enable them
+            to receive show alerts.
           </div>
         )}
 
         {/* Top Row: Form Inputs */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 relative z-10">
+        <div className="relative z-10 mb-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
           <div>
-            <label className="block mb-2 flex items-center gap-1.5">
+            <label className="mb-2 block flex items-center gap-1.5">
               Full Name
             </label>
-            <GlowInput type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. John Doe" wrapperClassName="w-full" />
+            <GlowInput
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. John Doe"
+              wrapperClassName="w-full"
+            />
           </div>
 
           <div>
-            <label className="block mb-2 flex items-center gap-1.5">
+            <label className="mb-2 block flex items-center gap-1.5">
               Your Zip Code / City
             </label>
-            <GlowInput type="text" value={zip} onChange={(e) => setZip(e.target.value)} placeholder="e.g. 60056 or Chicago" wrapperClassName="w-full" />
+            <GlowInput
+              type="text"
+              value={zip}
+              onChange={(e) => setZip(e.target.value)}
+              placeholder="e.g. 60056 or Chicago"
+              wrapperClassName="w-full"
+            />
           </div>
 
           <div>
-            <label className="block mb-2 flex items-center gap-1.5">
+            <label className="mb-2 block flex items-center gap-1.5">
               Email
             </label>
-            <GlowInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" wrapperClassName="w-full" />
+            <GlowInput
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              wrapperClassName="w-full"
+            />
           </div>
         </div>
 
         {/* Stacked Rows: Maximum Distance Radius on Top, Notification Types Below */}
-        <div className="flex flex-col gap-6 mb-6 relative z-10">
+        <div className="relative z-10 mb-6 flex flex-col gap-6">
           <div>
-            <label className="block mb-2 flex items-center gap-1.5">
+            <label className="mb-2 block flex items-center gap-1.5">
               Maximum Distance Radius
             </label>
-            <div className="inline-flex flex-wrap gap-1.5 w-fit max-w-full">
+            <div className="inline-flex w-fit max-w-full flex-wrap gap-1.5">
               {RADIUS_OPTIONS.map((opt) => {
                 const isSelected = radius === opt.value;
                 return (
@@ -335,7 +387,7 @@ export default function FooterProximityAlerts() {
           </div>
 
           <div>
-            <label className="block mb-2 flex items-center gap-1.5">
+            <label className="mb-2 block flex items-center gap-1.5">
               Which Types of Show Notifications?
             </label>
             <div className="flex flex-wrap gap-2">
@@ -350,12 +402,13 @@ export default function FooterProximityAlerts() {
                       type="button"
                       onClick={() => toggleType(type.id)}
                       isActive={isSelected}
-                      className="!w-auto inline-flex items-center gap-1.5">
+                      className="inline-flex !w-auto items-center gap-1.5"
+                    >
                       {type.iconType === "guitar" ? (
-                        <Guitar className="w-3.5 h-3.5 text-purple-300 shrink-0 inline-block" />
+                        <Guitar className="inline-block h-3.5 w-3.5 shrink-0 text-purple-300" />
                       ) : (
                         <span
-                          className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
+                          className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
                           style={{
                             backgroundColor: type.color,
                             boxShadow: `0 0 6px ${type.color}80`,
@@ -363,7 +416,6 @@ export default function FooterProximityAlerts() {
                         />
                       )}
                       <span>{type.label}</span>
-
                     </SeventhButton>
                   );
                 });
@@ -381,30 +433,57 @@ export default function FooterProximityAlerts() {
               setAgreeTerms(!agreeTerms);
             }
           }}
-          className="mb-5 flex items-center gap-3 cursor-pointer select-none relative z-10"
-          onClick={() => setAgreeTerms(!agreeTerms)}>
-          <SquishyToggle id="footer-agree-terms" label="Agree to terms and privacy policy" checked={agreeTerms} onChange={setAgreeTerms} />
+          className="relative z-10 mb-5 flex cursor-pointer items-center gap-3 select-none"
+          onClick={() => setAgreeTerms(!agreeTerms)}
+        >
+          <SquishyToggle
+            id="footer-agree-terms"
+            label="Agree to terms and privacy policy"
+            checked={agreeTerms}
+            onChange={setAgreeTerms}
+          />
           <span className=" ">
-            I agree to the <Link href="/terms" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Terms</Link> and <Link href="/privacy" className="hover:text-white" onClick={(e) => e.stopPropagation()}>Privacy Policy</Link>.
+            I agree to the{" "}
+            <Link
+              href="/terms"
+              className="hover:text-white"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="/privacy"
+              className="hover:text-white"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Privacy Policy
+            </Link>
+            .
           </span>
         </div>
 
-        <div className="border-t border-white/10 flex flex-col items-start justify-start gap-3 relative z-10">
+        <div className="relative z-10 flex flex-col items-start justify-start gap-3 border-t border-white/10">
           {permission === "granted" ? (
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <span className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 whitespace-nowrap shrink-0">
-                <Check className="w-4 h-4 text-emerald-400 shrink-0" /> Push Enabled
+            <div className="flex shrink-0 flex-wrap items-center gap-3">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 whitespace-nowrap text-emerald-300">
+                <Check className="h-4 w-4 shrink-0 text-emerald-400" /> Push
+                Enabled
               </span>
               <SeventhButton
                 icon={false}
                 onClick={handleSavePrefs}
                 disabled={isBusy}
-                className="!px-6 !py-3 !text-xs ! rounded-lg shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
-                <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
+                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg !px-6 !py-3 !text-xs whitespace-nowrap transition-all disabled:opacity-60"
+              >
+                <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                   {status === "saving" ? (
-                    <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
+                    <span className="inline-block h-4 w-4 shrink-0 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
                   ) : status === "saved" ? (
-                    <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Saved!</span></>
+                    <>
+                      <Check className="h-4 w-4 shrink-0 text-emerald-300" />{" "}
+                      <span className="whitespace-nowrap">Saved!</span>
+                    </>
                   ) : (
                     <span className="whitespace-nowrap">Save Preferences</span>
                   )}
@@ -416,23 +495,32 @@ export default function FooterProximityAlerts() {
               icon={false}
               onClick={handleEnableAlerts}
               disabled={isBusy || permission === "denied"}
-              className="shrink-0 cursor-pointer transition-all disabled:opacity-60 whitespace-nowrap flex-nowrap">
-              <span className="flex items-center justify-center gap-2 whitespace-nowrap flex-nowrap shrink-0">
+              className="shrink-0 cursor-pointer flex-nowrap whitespace-nowrap transition-all disabled:opacity-60"
+            >
+              <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                 {status === "saving" ? (
-                  <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin inline-block shrink-0" />
+                  <span className="inline-block h-4 w-4 shrink-0 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
                 ) : status === "saved" ? (
-                  <><Check className="w-4 h-4 text-emerald-300 shrink-0" /> <span className="whitespace-nowrap">Preferences Saved!</span></>
+                  <>
+                    <Check className="h-4 w-4 shrink-0 text-emerald-300" />{" "}
+                    <span className="whitespace-nowrap">
+                      Preferences Saved!
+                    </span>
+                  </>
                 ) : (
                   <>
-                    <Bell className="w-4 h-4 text-amber-300 shrink-0" />
-                    <span className="whitespace-nowrap">ENABLE ALERTS ({radius === "all" ? "ALL SHOWS" : `${radius} MI`})</span>
+                    <Bell className="h-4 w-4 shrink-0 text-amber-300" />
+                    <span className="whitespace-nowrap">
+                      ENABLE ALERTS (
+                      {radius === "all" ? "ALL SHOWS" : `${radius} MI`})
+                    </span>
                   </>
                 )}
               </span>
             </SeventhButton>
           )}
 
-          <p className="text-xs text-white/70  ">
+          <p className="text-xs text-white/70">
             {permission === "granted"
               ? "Your notifications are enabled. Update filters above and save anytime."
               : "Click to enable instant browser & proximity alerts for nearby shows."}

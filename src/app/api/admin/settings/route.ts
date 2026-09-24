@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminSecret, sanitizeText } from "@/lib/api-utils";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-key";
 const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
@@ -17,7 +18,11 @@ export async function GET(request: Request) {
 
   if (key) {
     // Single-key reads are public (used by frontend banner, etc.)
-    const { data } = await supabaseAdmin.from("site_settings").select("value").eq("key", key).single();
+    const { data } = await supabaseAdmin
+      .from("site_settings")
+      .select("value")
+      .eq("key", key)
+      .single();
     return NextResponse.json({ key, value: data?.value || null });
   }
 
@@ -35,14 +40,19 @@ export async function POST(request: Request) {
     if (authError) return authError;
 
     const { key, value } = await request.json();
-    if (!key) return NextResponse.json({ error: "Missing key" }, { status: 400 });
+    if (!key)
+      return NextResponse.json({ error: "Missing key" }, { status: 400 });
     const safeKey = sanitizeText(key, 100);
 
     const { error } = await supabaseAdmin
       .from("site_settings")
-      .upsert({ key: safeKey, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
+      .upsert(
+        { key: safeKey, value, updated_at: new Date().toISOString() },
+        { onConflict: "key" },
+      );
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ success: true, key: safeKey, value });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });

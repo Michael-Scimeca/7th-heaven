@@ -1,7 +1,7 @@
 "use client";
 /* oxlint-disable react-doctor/no-prevent-default */
 /* eslint-disable react-doctor/no-prevent-default */
-import Image from 'next/image';
+import Image from "next/image";
 
 import TransitionLink from "@/components/TransitionLink";
 import { Smartphone, Check, Bell } from "lucide-react";
@@ -15,17 +15,28 @@ import SeventhButton from "@/components/SeventhButton";
 import dynamic from "next/dynamic";
 import FooterProximityAlerts from "@/components/FooterProximityAlerts";
 
-
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
   { name: "Amazon", url: "https://music.amazon.com", label: "Amazon" },
   { name: "YouTube", url: "https://www.youtube.com", label: "YouTube" },
-  { name: "Facebook", url: "https://www.facebook.com/7thheavenband", label: "Facebook" },
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/7thheavenband",
+    label: "Facebook",
+  },
   { name: "Instagram", url: "https://www.instagram.com", label: "Instagram" },
   { name: "X", url: "https://x.com", label: "X / Twitter" },
   { name: "Myspace", url: "https://myspace.com", label: "Myspace" },
-  { name: "ReverbNation", url: "https://www.reverbnation.com", label: "ReverbNation" },
-  { name: "Spotify", url: "https://open.spotify.com/artist/7thheavenband", label: "Spotify" },
+  {
+    name: "ReverbNation",
+    url: "https://www.reverbnation.com",
+    label: "ReverbNation",
+  },
+  {
+    name: "Spotify",
+    url: "https://open.spotify.com/artist/7thheavenband",
+    label: "Spotify",
+  },
   { name: "Shazam", url: "https://www.shazam.com", label: "Shazam" },
   { name: "SoundCloud", url: "https://soundcloud.com", label: "SoundCloud" },
 ];
@@ -33,10 +44,16 @@ const FALLBACK_PLATFORM_LINKS = [
 const FALLBACK_ENDORSEMENTS = [
   { name: "Shure", logoPath: "/images/sponsor-logos/SHURE.svg" },
   { name: "Dunlop", logoPath: "/images/sponsor-logos/DUNLOP.svg" },
-  { name: "Mesa/Boogie", logoPath: "/images/sponsor-logos/Mesa_Boogie_Engineering_Logo.svg.svg" },
+  {
+    name: "Mesa/Boogie",
+    logoPath: "/images/sponsor-logos/Mesa_Boogie_Engineering_Logo.svg.svg",
+  },
   { name: "Paiste", logoPath: "/images/sponsor-logos/PRASISTE.svg" },
   { name: "Ernie Ball", logoPath: "/images/sponsor-logos/ERNIEBALL.svg" },
-  { name: "Dean Markley", logoPath: "/images/sponsor-logos/Dean-Markley-logo.svg" },
+  {
+    name: "Dean Markley",
+    logoPath: "/images/sponsor-logos/Dean-Markley-logo.svg",
+  },
   { name: "Vic Firth", logoPath: "/images/sponsor-logos/VIC.svg" },
   { name: "Parker", logoPath: "/images/sponsor-logos/Parker_guitars_logo.svg" },
   { name: "Grundorf", logoPath: "/images/sponsor-logos/groundorf.svg" },
@@ -66,7 +83,7 @@ const FALLBACK_SOCIAL_LINKS = [
 ];
 
 const formatPhone = (value: string) => {
-  const digits = value.replace(/\D/g, '').slice(0, 10);
+  const digits = value.replace(/\D/g, "").slice(0, 10);
   if (digits.length <= 3) return digits;
   if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
   return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
@@ -76,21 +93,25 @@ export function Footer() {
   const { member, openModal } = useMember();
   const router = useRouter();
   const pathname = usePathname();
-  const isPlanner = member?.role === 'event_planner';
+  const isPlanner = member?.role === "event_planner";
 
-  const [nlEmail, setNlEmail] = useState('');
-  const [nlStatus, setNlStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [nlEmail, setNlEmail] = useState("");
+  const [nlStatus, setNlStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   // SMS Text Alerts
-  const [smsPhone, setSmsPhone] = useState('');
-  const [smsZip, setSmsZip] = useState('');
-  const [smsDistance, setSmsDistance] = useState('50');
-  const [smsStatus, setSmsStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [smsPhone, setSmsPhone] = useState("");
+  const [smsZip, setSmsZip] = useState("");
+  const [smsDistance, setSmsDistance] = useState("50");
+  const [smsStatus, setSmsStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   const [endorsements, setEndorsements] = useState(FALLBACK_ENDORSEMENTS);
   const [socialLinks, setSocialLinks] = useState(FALLBACK_SOCIAL_LINKS);
-  const [bookingPhone, setBookingPhone] = useState('847-551-5363');
-  const [bookingEmail, setBookingEmail] = useState('Rich@7thheaven.com');
+  const [bookingPhone, setBookingPhone] = useState("847-551-5363");
+  const [bookingEmail, setBookingEmail] = useState("Rich@7thheaven.com");
 
   // Shared with HomeDataLoader (and any other consumer) via useSettings --
   // one deduplicated /api/settings fetch instead of each component running
@@ -125,13 +146,12 @@ export function Footer() {
     member?.role === "admin";
 
   return (
-
     <footer
-      className={`relative overflow-hidden ${isCovered ? "hidden opacity-0 pointer-events-none" : "block opacity-100"}`}
+      className={`relative overflow-hidden ${isCovered ? "pointer-events-none hidden opacity-0" : "block opacity-100"}`}
       id="footer"
-      suppressHydrationWarning>
-
-      <div className="relative z-10 site-container">
+      suppressHydrationWarning
+    >
+      <div className="site-container relative z-10">
         {/* Proximity Distance & Free Push Alerts Section */}
         {!isCrewOrAdmin && (
           <div id="push-alerts-footer">
@@ -142,13 +162,16 @@ export function Footer() {
         {/* Endorsements */}
         <div className="py-6 text-left">
           <p className="mb-2">Official Gear Endorsements</p>
-          <div className="flex flex-wrap justify-start items-center gap-x-4 sm:gap-x-6 gap-y-4 sm:gap-y-6">
+          <div className="flex flex-wrap items-center justify-start gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">
             {endorsements.map((brand) => (
-              <Image width={200} height={200} unoptimized
+              <Image
+                width={200}
+                height={200}
+                unoptimized
                 key={brand.name}
                 src={`${brand.logoPath}?v=3`}
                 alt={brand.name}
-                className="h-[clamp(16px,4.5vw,28px)] md:h-7 max-w-[28vw] sm:max-w-none w-auto object-contain opacity-100 shrink-0"
+                className="h-[clamp(16px,4.5vw,28px)] w-auto max-w-[28vw] shrink-0 object-contain opacity-100 sm:max-w-none md:h-7"
                 loading="lazy"
               />
             ))}
@@ -166,7 +189,9 @@ export function Footer() {
                     {link.label}
                   </TransitionLink>
                   {i < footerLinks.length - 1 && (
-                    <span className="text-[var(--color-accent)] mx-2 text-[13px]">/</span>
+                    <span className="mx-2 text-[13px] text-[var(--color-accent)]">
+                      /
+                    </span>
                   )}
                 </span>
               ))}
@@ -176,11 +201,18 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-1">
               {socialLinks.map((link, i) => (
                 <span key={link.name} className="flex items-center">
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="footer-nav-link">
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-nav-link"
+                  >
                     {link.name}
                   </a>
                   {i < socialLinks.length - 1 && (
-                    <span className="text-[var(--color-accent)] mx-2 text-[13px]">/</span>
+                    <span className="mx-2 text-[13px] text-[var(--color-accent)]">
+                      /
+                    </span>
                   )}
                 </span>
               ))}
@@ -189,12 +221,13 @@ export function Footer() {
         </nav>
 
         {/* Credit Line */}
-        <div className="absolute bottom-0 right-0 site-container flex items-center justify-end text-[10px]">
+        <div className="site-container absolute right-0 bottom-0 flex items-center justify-end text-[10px]">
           <a
             href="https://michaelscimeca.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="  ! hover:text-white transition-colors">
+            className="! transition-colors hover:text-white"
+          >
             Hey Mom Look I Built This Thing
           </a>
         </div>

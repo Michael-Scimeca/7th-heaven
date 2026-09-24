@@ -47,19 +47,25 @@ export async function GET(request: Request) {
     const email = searchParams.get("email");
 
     if (!email) {
-      return NextResponse.json({ error: "Missing email parameter" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing email parameter" },
+        { status: 400 },
+      );
     }
 
     const filePath = getFilePath();
     const notifies = readNotifies(filePath);
     const userNotifies = notifies.filter(
-      (n: any) => n.email.toLowerCase() === email.trim().toLowerCase()
+      (n: any) => n.email.toLowerCase() === email.trim().toLowerCase(),
     );
 
     return NextResponse.json({ success: true, subscriptions: userNotifies });
   } catch (error) {
     console.error("GET show notifications error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 
@@ -70,19 +76,28 @@ export async function POST(request: Request) {
     try {
       body = await request.json();
     } catch {
-      return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 },
+      );
     }
 
     const { showId, email, venueName, showDate, city, state } = body;
 
     if (!showId || !email || !venueName) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 },
+      );
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     if (!emailRegex.test(email.trim())) {
-      return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 },
+      );
     }
 
     const filePath = getFilePath();
@@ -90,7 +105,8 @@ export async function POST(request: Request) {
 
     // Avoid duplicate subscriptions for the same show/email combination
     const isDuplicate = notifies.some(
-      (n: any) => n.showId === showId && n.email.toLowerCase() === email.toLowerCase()
+      (n: any) =>
+        n.showId === showId && n.email.toLowerCase() === email.toLowerCase(),
     );
 
     if (!isDuplicate) {
@@ -102,15 +118,21 @@ export async function POST(request: Request) {
         city: city || "",
         state: state || "",
         email: email.trim().toLowerCase(),
-        subscribedAt: new Date().toISOString()
+        subscribedAt: new Date().toISOString(),
       });
       writeNotifies(filePath, notifies);
     }
 
-    return NextResponse.json({ success: true, message: "Subscribed successfully!" });
+    return NextResponse.json({
+      success: true,
+      message: "Subscribed successfully!",
+    });
   } catch (error) {
     console.error("POST show notifications error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 
@@ -122,7 +144,10 @@ export async function DELETE(request: Request) {
     const showId = searchParams.get("showId");
 
     if (!email || !showId) {
-      return NextResponse.json({ error: "Missing required parameters (email, showId)" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required parameters (email, showId)" },
+        { status: 400 },
+      );
     }
 
     const filePath = getFilePath();
@@ -130,17 +155,30 @@ export async function DELETE(request: Request) {
 
     const initialLength = notifies.length;
     notifies = notifies.filter(
-      (n: any) => !(n.showId === showId && n.email.toLowerCase() === email.trim().toLowerCase())
+      (n: any) =>
+        !(
+          n.showId === showId &&
+          n.email.toLowerCase() === email.trim().toLowerCase()
+        ),
     );
 
     if (notifies.length < initialLength) {
       writeNotifies(filePath, notifies);
-      return NextResponse.json({ success: true, message: "Unsubscribed successfully!" });
+      return NextResponse.json({
+        success: true,
+        message: "Unsubscribed successfully!",
+      });
     } else {
-      return NextResponse.json({ success: true, message: "No subscription found to delete." });
+      return NextResponse.json({
+        success: true,
+        message: "No subscription found to delete.",
+      });
     }
   } catch (error) {
     console.error("DELETE show notification error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

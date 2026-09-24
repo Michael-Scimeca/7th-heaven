@@ -1,13 +1,19 @@
 /* eslint-disable react-doctor/no-giant-component */
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
-import Image from 'next/image';
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import { Loader2 } from "lucide-react";
 
 import TransitionLink from "@/components/TransitionLink";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import { useMember } from "@/context/MemberContext";
 import Logo from "@/components/Logo";
 import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
@@ -15,7 +21,7 @@ import { useTransition } from "@/context/TransitionContext";
 import SeventhButton from "@/components/SeventhButton";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
 
-const emptySubscribe = () => () => { };
+const emptySubscribe = () => () => {};
 
 const leftNavLinks = [
   { href: "/payment-test", label: "MERCH" },
@@ -161,7 +167,10 @@ export function Header() {
         if (raw) {
           const items = JSON.parse(raw);
           if (Array.isArray(items) && items.length > 0) {
-            const count = items.reduce((sum: number, item: any) => sum + (Number(item.quantity) || 1), 0);
+            const count = items.reduce(
+              (sum: number, item: any) => sum + (Number(item.quantity) || 1),
+              0,
+            );
             setCartCount(count);
             return;
           }
@@ -195,7 +204,7 @@ export function Header() {
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false
+    () => false,
   );
 
   // Open/close animation for the mobile overlay. Two states instead of one
@@ -271,9 +280,13 @@ export function Header() {
     // currently is, instead of the element's own vertical center. See
     // getUntransformedViewportTop's comment for why this reads offsetTop
     // rather than clearing/restoring the transform to measure it.
-    const originY = window.innerHeight / 2 - getUntransformedViewportTop(content);
+    const originY =
+      window.innerHeight / 2 - getUntransformedViewportTop(content);
 
-    const isMobileOrTouch = typeof window !== "undefined" && (window.innerWidth < 1024 || window.matchMedia("(pointer: coarse)").matches);
+    const isMobileOrTouch =
+      typeof window !== "undefined" &&
+      (window.innerWidth < 1024 ||
+        window.matchMedia("(pointer: coarse)").matches);
 
     if (overlayVisible) {
       if (!isMobileOrTouch) {
@@ -325,34 +338,54 @@ export function Header() {
       ? pendingHref
       : pathname;
 
-  const isNavActive = useCallback((targetHref: string) => {
-    if (!effectivePathname) return false;
-    if (targetHref === "/") return effectivePathname === "/";
+  const isNavActive = useCallback(
+    (targetHref: string) => {
+      if (!effectivePathname) return false;
+      if (targetHref === "/") return effectivePathname === "/";
 
-    // Dashboard subroutes (/book/demo, /book/[username], /cruise/demo) are user dashboards, not main nav pages
-    if (targetHref === "/book") {
-      return effectivePathname === "/book" || (effectivePathname.startsWith("/book?") && !effectivePathname.startsWith("/book/"));
-    }
-    if (targetHref === "/cruise") {
-      return effectivePathname === "/cruise" || (effectivePathname.startsWith("/cruise?") && !effectivePathname.startsWith("/cruise/"));
-    }
-    if (targetHref === "/fans") {
-      return effectivePathname === "/fans" || (effectivePathname.startsWith("/fans?") && !effectivePathname.startsWith("/fans/"));
-    }
+      // Dashboard subroutes (/book/demo, /book/[username], /cruise/demo) are user dashboards, not main nav pages
+      if (targetHref === "/book") {
+        return (
+          effectivePathname === "/book" ||
+          (effectivePathname.startsWith("/book?") &&
+            !effectivePathname.startsWith("/book/"))
+        );
+      }
+      if (targetHref === "/cruise") {
+        return (
+          effectivePathname === "/cruise" ||
+          (effectivePathname.startsWith("/cruise?") &&
+            !effectivePathname.startsWith("/cruise/"))
+        );
+      }
+      if (targetHref === "/fans") {
+        return (
+          effectivePathname === "/fans" ||
+          (effectivePathname.startsWith("/fans?") &&
+            !effectivePathname.startsWith("/fans/"))
+        );
+      }
 
-    return (
-      effectivePathname === targetHref ||
-      effectivePathname.startsWith(targetHref + "/") ||
-      effectivePathname.startsWith(targetHref + "?")
-    );
-  }, [effectivePathname]);
+      return (
+        effectivePathname === targetHref ||
+        effectivePathname.startsWith(targetHref + "/") ||
+        effectivePathname.startsWith(targetHref + "?")
+      );
+    },
+    [effectivePathname],
+  );
 
   const isAdminRoute = pathname?.startsWith("/admin");
   const isCrewRoute = pathname?.startsWith("/crew");
   const isDemoFanPage = pathname === "/fans/demo";
   const isDemoCruisePage = pathname === "/cruise/demo";
   const isDemoPlannerPage = pathname === "/book/demo";
-  const isDemoPage = isDemoFanPage || isDemoCruisePage || isDemoPlannerPage || isAdminRoute || isCrewRoute;
+  const isDemoPage =
+    isDemoFanPage ||
+    isDemoCruisePage ||
+    isDemoPlannerPage ||
+    isAdminRoute ||
+    isCrewRoute;
 
   const showUserAuth = isLoggedIn || !!member || isDemoPage;
 
@@ -397,13 +430,17 @@ export function Header() {
       html.style.overflow = "hidden";
       body.style.overflow = "hidden";
       if ((window as any).__lenis) {
-        try { (window as any).__lenis.stop(); } catch { }
+        try {
+          (window as any).__lenis.stop();
+        } catch {}
       }
     } else {
       html.style.overflow = "";
       body.style.overflow = "";
       if ((window as any).__lenis) {
-        try { (window as any).__lenis.start(); } catch { }
+        try {
+          (window as any).__lenis.start();
+        } catch {}
       }
     }
     return () => {
@@ -425,9 +462,9 @@ export function Header() {
             : member?.role || "fan";
 
   const displayName = isAdminRoute
-    ? (member?.name || "Admin User")
+    ? member?.name || "Admin User"
     : isCrewRoute
-      ? (member?.name || "Crew Member")
+      ? member?.name || "Crew Member"
       : isDemoFanPage
         ? "Demo Fan"
         : isDemoCruisePage
@@ -451,26 +488,43 @@ export function Header() {
           ? "/admin"
           : displayRole === "crew"
             ? "/crew"
-            : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
+            : (displayRole as string) === "event_planner" ||
+                (displayRole as string) === "planner"
               ? `/book/${member?.username || "me"}`
               : displayRole === "cruise"
                 ? `/cruise/${member?.username || "dashboard"}`
                 : `/fans/${member?.username || "me"}`;
 
   const studioHref = (() => {
-    if (!pathname || pathname === "/" || pathname.startsWith("/studio")) return "/studio/structure/pageContent;homePage";
-    if (pathname.startsWith("/cruise")) return "/studio/structure/pageContent;caribbeanCruise";
-    if (pathname.startsWith("/live")) return "/studio/structure/pageContent;liveConcertHub";
-    if (pathname.startsWith("/contact")) return "/studio/structure/pageContent;contactUs";
-    if (pathname.startsWith("/media")) return "/studio/structure/pageContent;mediaVault";
-    if (pathname.startsWith("/book")) return "/studio/structure/pageContent;bookUs";
-    if (pathname.startsWith("/fan-photo-wall") || pathname.startsWith("/fan-media-wall")) return "/studio/structure/pageContent;fanPhotoWall";
-    if (pathname.startsWith("/rock-and-roll-kids")) return "/studio/structure/pageContent;rockAndRollKids";
-    if (pathname.startsWith("/faq")) return "/studio/structure/pageContent;faqPage";
-    if (pathname.startsWith("/shows")) return "/studio/structure/pageContent;pastShowsArchive";
-    if (pathname.startsWith("/privacy")) return "/studio/structure/pageContent;privacyPolicy";
-    if (pathname.startsWith("/terms")) return "/studio/structure/pageContent;termsOfService";
-    if (pathname.startsWith("/returns")) return "/studio/structure/pageContent;returnsPolicy";
+    if (!pathname || pathname === "/" || pathname.startsWith("/studio"))
+      return "/studio/structure/pageContent;homePage";
+    if (pathname.startsWith("/cruise"))
+      return "/studio/structure/pageContent;caribbeanCruise";
+    if (pathname.startsWith("/live"))
+      return "/studio/structure/pageContent;liveConcertHub";
+    if (pathname.startsWith("/contact"))
+      return "/studio/structure/pageContent;contactUs";
+    if (pathname.startsWith("/media"))
+      return "/studio/structure/pageContent;mediaVault";
+    if (pathname.startsWith("/book"))
+      return "/studio/structure/pageContent;bookUs";
+    if (
+      pathname.startsWith("/fan-photo-wall") ||
+      pathname.startsWith("/fan-media-wall")
+    )
+      return "/studio/structure/pageContent;fanPhotoWall";
+    if (pathname.startsWith("/rock-and-roll-kids"))
+      return "/studio/structure/pageContent;rockAndRollKids";
+    if (pathname.startsWith("/faq"))
+      return "/studio/structure/pageContent;faqPage";
+    if (pathname.startsWith("/shows"))
+      return "/studio/structure/pageContent;pastShowsArchive";
+    if (pathname.startsWith("/privacy"))
+      return "/studio/structure/pageContent;privacyPolicy";
+    if (pathname.startsWith("/terms"))
+      return "/studio/structure/pageContent;termsOfService";
+    if (pathname.startsWith("/returns"))
+      return "/studio/structure/pageContent;returnsPolicy";
     return "/studio";
   })();
 
@@ -479,15 +533,24 @@ export function Header() {
     (member?.email && member.email.toLowerCase().includes("michael")) ||
     (member?.name && member.name.toLowerCase().includes("michael"));
 
-  const customAvatar = mounted ? localStorage.getItem("7h_profile_avatar_v1") : null;
+  const customAvatar = mounted
+    ? localStorage.getItem("7h_profile_avatar_v1")
+    : null;
 
   const avatarSrc =
     member?.avatar &&
-      (member.avatar.startsWith("http") || member.avatar.startsWith("/") || member.avatar.startsWith("data:"))
+    (member.avatar.startsWith("http") ||
+      member.avatar.startsWith("/") ||
+      member.avatar.startsWith("data:"))
       ? member.avatar
       : customAvatar
         ? customAvatar
-        : isMichael || isAdminRoute || isCrewRoute || displayRole === "admin" || displayRole === "crew" || (member && (member.role === "admin" || member.role === "crew"))
+        : isMichael ||
+            isAdminRoute ||
+            isCrewRoute ||
+            displayRole === "admin" ||
+            displayRole === "crew" ||
+            (member && (member.role === "admin" || member.role === "crew"))
           ? "/michaelscimeca.png"
           : displayRole === "cruise" || isDemoCruisePage
             ? "/images/members/dicky.webp"
@@ -502,7 +565,8 @@ export function Header() {
       ? "ADMIN"
       : displayRole === "crew"
         ? "CREW"
-        : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
+        : (displayRole as string) === "event_planner" ||
+            (displayRole as string) === "planner"
           ? "PLANNER"
           : displayRole === "cruise"
             ? "CRUISE"
@@ -515,7 +579,8 @@ export function Header() {
       ? "bg-[var(--color-purple-primary)]"
       : displayRole === "crew"
         ? "bg-[var(--color-accent)] "
-        : (displayRole as string) === "event_planner" || (displayRole as string) === "planner"
+        : (displayRole as string) === "event_planner" ||
+            (displayRole as string) === "planner"
           ? "bg-[var(--color-accent)]"
           : displayRole === "cruise"
             ? "bg-sky-500"
@@ -527,14 +592,15 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} transition-colors duration-300 pointer-events-none`}
-      suppressHydrationWarning>
-      <div className="w-full max-w-full site-container">
+      className={`fixed top-0 right-0 left-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none transition-colors duration-300`}
+      suppressHydrationWarning
+    >
+      <div className="site-container w-full max-w-full">
         <div
           id="nav-inner-card"
           suppressHydrationWarning
-          className="w-full h-[60px] md:h-[70px] flex items-center justify-between relative pointer-events-auto gap-4 z-[30000]">
-
+          className="pointer-events-auto relative z-[30000] flex h-[60px] w-full items-center justify-between gap-4 md:h-[70px]"
+        >
           {/* ── LOGO (Left-aligned on mobile; dead-centered on desktop>= 1024px) ── */}
           <TransitionLink
             href="/"
@@ -547,20 +613,22 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`shrink-0 min-w-0 flex items-center justify-center group transition-colors duration-[250ms] pt-2 select-none pointer-events-auto relative z-50 ${effectivePathname === "/" ? "!text-[#9333ea] active cursor-default" : "cursor-pointer"}`}
-            title="7th Heaven — Go to Home Page">
-            <div className="w-[clamp(130px,13.5vw,250px)] h-[clamp(24px,2.5vw,46px)] flex items-center justify-center pointer-events-auto select-none transition-[width,height] duration-150">
-              <Logo className="w-full h-full text-current transition-colors duration-[250ms] pointer-events-auto" />
+            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 transition-colors duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"}`}
+            title="7th Heaven — Go to Home Page"
+          >
+            <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] duration-150 select-none">
+              <Logo className="pointer-events-auto h-full w-full text-current transition-colors duration-[250ms]" />
             </div>
           </TransitionLink>
-          <nav className="hidden lg:flex lg:flex-1 lg:justify-start items-center gap-3 lg:gap-5 xl:gap-8 relative z-50">
+          <nav className="relative z-50 hidden items-center gap-3 lg:flex lg:flex-1 lg:justify-start lg:gap-5 xl:gap-8">
             {leftNavLinks.map((link) => {
               const active = isNavActive(link.href);
               return (
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link relative ${active ? "active" : ""}`}>
+                  className={`nav-header-link relative text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${active ? "active" : ""}`}
+                >
                   {link.label}
                 </TransitionLink>
               );
@@ -568,39 +636,46 @@ export function Header() {
             {showUserAuth && (
               <TransitionLink
                 href={studioHref}
-                className={`text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    transition-all duration-200 relative inline-flex items-center pb-0.5 border-b-2 ${effectivePathname.startsWith("/studio") ? "text-[var(--color-purple-light)] border-[#c084fc] active cursor-default" : "text-[var(--color-purple-light)] hover:text-white border-[#c084fc]/70 hover:border-white cursor-pointer"}`}>
+                className={`relative inline-flex items-center border-b-2 pb-0.5 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap transition-all duration-200 ${effectivePathname.startsWith("/studio") ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]" : "cursor-pointer border-[#c084fc]/70 text-[var(--color-purple-light)] hover:border-white hover:text-white"}`}
+              >
                 STUDIO
               </TransitionLink>
             )}
           </nav>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
-          <nav className={`flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 md:flex-1 ml-auto shrink-0 relative ${mobileOpen ? "z-[10001]" : "z-50"}`}>
+          <nav
+            className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
+          >
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 z-50 ${isNavActive("/live") ? "active" : ""}`}>
+              className={`nav-header-link relative z-50 hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""}`}
+            >
               LIVE
             </TransitionLink>
 
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 ${isNavActive("/cruise") ? "active" : ""}`}>
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""}`}
+            >
               CRUISE
             </TransitionLink>
 
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 ${isNavActive("/book") ? "active" : ""}`}>
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/book") ? "active" : ""}`}
+            >
               BOOK US
             </TransitionLink>
 
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`hidden lg:inline-flex relative flex-col items-center justify-center text-[clamp(12px,0.95vw,17px)] whitespace-nowrap    nav-header-link py-1 ${isNavActive("/contact") ? "active" : ""}`}>
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""}`}
+            >
               CONTACT
             </TransitionLink>
 
@@ -608,14 +683,24 @@ export function Header() {
             {cartCount > 0 && (
               <TransitionLink
                 href="/payment-test"
-                className="relative nav-header-link p-0.5 mx-0.5 shrink-0 flex items-center justify-center"
-                title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}>
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                className="nav-header-link relative mx-0.5 flex shrink-0 items-center justify-center p-0.5"
+                title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}
+              >
+                <svg
+                  width="19"
+                  height="19"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <circle cx="9" cy="21" r="1" />
                   <circle cx="20" cy="21" r="1" />
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
-                <span className="absolute -top-1.5 -right-2 bg-[#9333ea] text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                <span className="absolute -top-1.5 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#9333ea] text-[9px] shadow-sm">
                   {cartCount}
                 </span>
               </TransitionLink>
@@ -624,41 +709,78 @@ export function Header() {
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {showUserAuth ? (
               <div className="flex items-center gap-1 sm:gap-1.5">
-                <div className="relative shrink-0 aspect-square flex items-center justify-center">
+                <div className="relative flex aspect-square shrink-0 items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
                     showSpinner={false}
-                    className="relative flex items-center justify-center shrink-0 aspect-square transition-transform w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 min-w-8 min-h-8 sm:min-w-10 sm:min-h-10 md:min-w-11 md:min-h-11"
-                    style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}
-                    title={displayName}>
+                    className="relative flex aspect-square h-8 min-h-8 w-8 min-w-8 shrink-0 items-center justify-center transition-transform sm:h-10 sm:min-h-10 sm:w-10 sm:min-w-10 md:h-11 md:min-h-11 md:w-11 md:min-w-11"
+                    style={{
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      clipPath: "circle(50% at 50% 50%)",
+                      aspectRatio: "1 / 1",
+                    }}
+                    title={displayName}
+                  >
                     {isAvatarUrl ? (
-                      <Image width={200} height={200} unoptimized src={avatarSrc} alt={displayName} className="w-full h-full object-cover shrink-0 aspect-square" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }} />
+                      <Image
+                        width={200}
+                        height={200}
+                        unoptimized
+                        src={avatarSrc}
+                        alt={displayName}
+                        className="aspect-square h-full w-full shrink-0 object-cover"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "50%",
+                          clipPath: "circle(50% at 50% 50%)",
+                          aspectRatio: "1 / 1",
+                        }}
+                      />
                     ) : (
-                      <div className="w-full h-full shrink-0 aspect-square bg-black/40 backdrop-blur-[45px] border border-white/10 flex items-center justify-center text-[clamp(10px,1.2vw,14px)] shadow-inner" style={{ width: "100%", height: "100%", borderRadius: "50%", clipPath: "circle(50% at 50% 50%)", aspectRatio: "1 / 1" }}>
+                      <div
+                        className="flex aspect-square h-full w-full shrink-0 items-center justify-center border border-white/10 bg-black/40 text-[clamp(10px,1.2vw,14px)] shadow-inner backdrop-blur-[45px]"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "50%",
+                          clipPath: "circle(50% at 50% 50%)",
+                          aspectRatio: "1 / 1",
+                        }}
+                      >
                         {initials}
                       </div>
                     )}
-                    {mode !== "idle" && (pendingHref === dashboardHref || (pendingHref && pendingHref.startsWith(dashboardHref))) && (
-                      <div className="absolute inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center rounded-full z-20">
-                        <span className="w-5 h-5 rounded-full border-[3.5px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_12px_rgba(217,70,239,0.9)]" />
-                      </div>
-                    )}
+                    {mode !== "idle" &&
+                      (pendingHref === dashboardHref ||
+                        (pendingHref &&
+                          pendingHref.startsWith(dashboardHref))) && (
+                        <div className="absolute inset-0 z-20 flex items-center justify-center rounded-full bg-black/75 backdrop-blur-xs">
+                          <span className="h-5 w-5 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_12px_rgba(217,70,239,0.9)]" />
+                        </div>
+                      )}
                   </TransitionLink>
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`absolute -bottom-0.5 -right-2 sm:-right-3 px-1 sm:px-1.5 py-0.5 h-4 sm:h-5 text-[9px] sm: text-[11px] text-white flex items-center justify-center border    border-[#3c0366] ${badgeBg}`}
-                    style={{ borderRadius: "9999px" }}>
+                    className={`sm: absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border border-[#3c0366] px-1 py-0.5 text-[9px] text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
+                    style={{ borderRadius: "9999px" }}
+                  >
                     {badgeText}
                   </span>
                 </div>
                 <button
-                  onClick={() => { logout(); requestTransition('/'); }}
-                  className="flex items-center gap-1.5 text-[12px]    text-[#9333ea] transition-colors cursor-pointer ml-1 sm:ml-2"
-                  title="Sign Out">
+                  onClick={() => {
+                    logout();
+                    requestTransition("/");
+                  }}
+                  className="ml-1 flex cursor-pointer items-center gap-1.5 text-[12px] text-[#9333ea] transition-colors sm:ml-2"
+                  title="Sign Out"
+                >
                   <span>SIGN OUT</span>
                   {mode !== "idle" && pendingHref === "/" && (
-                    <span className="w-4 h-4 rounded-full border-[3px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.8)] shrink-0" />
+                    <span className="h-4 w-4 shrink-0 animate-spin rounded-full border-[3px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.8)]" />
                   )}
                 </button>
               </div>
@@ -666,28 +788,31 @@ export function Header() {
               <SeventhButton
                 icon={false}
                 onClick={() => openModal("login")}
-                className="shrink-0 flex items-center   "
-                id="header-sign-in">
+                className="flex shrink-0 items-center"
+                id="header-sign-in"
+              >
                 <span className="!text-[13px]">SIGN IN</span>
                 {isModalOpen && (
-                  <span className="w-4.5 h-4.5 rounded-full border-[3.5px] border-[#d946ef] border-t-transparent animate-spin shadow-[0_0_10px_rgba(217,70,239,0.9)] shrink-0 ml-0.5" />
+                  <span className="ml-0.5 h-4.5 w-4.5 shrink-0 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.9)]" />
                 )}
               </SeventhButton>
             )}
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="flex lg:hidden w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 items-center justify-center relative cursor-pointer hover:text-[var(--color-accent)] transition-colors p-0 shrink-0"
+              className="relative flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-0 transition-colors hover:text-[var(--color-accent)] sm:h-9 sm:w-9 md:h-10 md:w-10 lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              id="mobile-menu-toggle">
+              id="mobile-menu-toggle"
+            >
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
-                className="w-full h-full overflow-visible">
+                className="h-full w-full overflow-visible"
+              >
                 {/* Burger — 3 lines, draw themselves off + fade out on open.
                     Staggered 0.1s apart on open (matches exoape); collapsed
                     to no stagger on close, same convention already used for
@@ -757,169 +882,231 @@ export function Header() {
               approach used there.
               Portaled to document.body — see the `mounted` note above for
               why this can't just render inline here. */}
-          {overlayMounted && mounted && createPortal(
-            <div
-              // The panel itself is revealed by wiping clip-path open, not by
-              // fading opacity — this sidesteps the globals.css PageSpeed hack
-              // (`html body> *{ opacity:1 !important }`, meant to force
-              // above-the-fold content visible on first paint) that used to
-              // flatten any opacity transition on a direct child of <body>
-              // to a permanent 1 no matter what we set — clip-path isn't
-              // touched by that rule at all, so there was nothing left to
-              // fight. Closed = a flat line at the top; open = the full
-              // panel, with the bottom-right corner pushed to 110% height —
-              // that's exoape's own shape, not a guess (see the const
-              // comment above): it makes the wipe edge read as a slight
-              // diagonal that self-levels as it finishes, rather than a
-              // flat curtain.
-              className="fixed inset-0 z-[9999] pointer-events-auto flex flex-col overflow-y-auto bg-black/30 backdrop-blur-[21px]"
-              style={{
-                backdropFilter: "blur(21px)",
-                WebkitBackdropFilter: "blur(21px)",
-                clipPath: overlayVisible
-                  ? "polygon(0% 0%, 100% 0%, 100% 110%, 0% 100%)"
-                  : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-                transition: `clip-path ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
-              }}>
-              {/* exoape's second half of the "enter" tween: a wrapper around
+          {overlayMounted &&
+            mounted &&
+            createPortal(
+              <div
+                // The panel itself is revealed by wiping clip-path open, not by
+                // fading opacity — this sidesteps the globals.css PageSpeed hack
+                // (`html body> *{ opacity:1 !important }`, meant to force
+                // above-the-fold content visible on first paint) that used to
+                // flatten any opacity transition on a direct child of <body>
+                // to a permanent 1 no matter what we set — clip-path isn't
+                // touched by that rule at all, so there was nothing left to
+                // fight. Closed = a flat line at the top; open = the full
+                // panel, with the bottom-right corner pushed to 110% height —
+                // that's exoape's own shape, not a guess (see the const
+                // comment above): it makes the wipe edge read as a slight
+                // diagonal that self-levels as it finishes, rather than a
+                // flat curtain.
+                className="pointer-events-auto fixed inset-0 z-[9999] flex flex-col overflow-y-auto bg-black/30 backdrop-blur-[21px]"
+                style={{
+                  backdropFilter: "blur(21px)",
+                  WebkitBackdropFilter: "blur(21px)",
+                  clipPath: overlayVisible
+                    ? "polygon(0% 0%, 100% 0%, 100% 110%, 0% 100%)"
+                    : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+                  transition: `clip-path ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
+                }}
+              >
+                {/* exoape's second half of the "enter" tween: a wrapper around
                   the actual content settles in from scale:1.3 rotate:-7deg
                   translateY(-50vh) opacity:.3 down to identity, at the same
                   time and with the same ease as the clip-path wipe above —
                   the wipe reveals the panel while its contents are visibly
                   still "falling into place" underneath it. */}
-              <div
-                className="flex-1 flex flex-col min-h-0"
-                style={{
-                  transform: overlayVisible
-                    ? "scale(1) rotate(0deg) translateY(0)"
-                    : "scale(1.3) rotate(-7deg) translateY(-12%)",
-                  opacity: overlayVisible ? 1 : 0.3,
-                  transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
-                }}>
-                <div className="pt-[87px]" />
+                <div
+                  className="flex min-h-0 flex-1 flex-col"
+                  style={{
+                    transform: overlayVisible
+                      ? "scale(1) rotate(0deg) translateY(0)"
+                      : "scale(1.3) rotate(-7deg) translateY(-12%)",
+                    opacity: overlayVisible ? 1 : 0.3,
+                    transition: `transform ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}, opacity ${OVERLAY_TRANSITION_MS}ms ${EASE_IN_OUT_LINEAR}`,
+                  }}
+                >
+                  <div className="pt-[87px]" />
 
-                {/* Main: portrait media panel + stacked links, side by side
+                  {/* Main: portrait media panel + stacked links, side by side
                   from sm up; panel drops out on phones so links get full
                   width rather than getting cramped. */}
-                <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-14 lg:gap-20 px-6 sm:px-10 py-6 sm:py-8 min-h-0">
-                  <div className="hidden sm:block w-[180px] md:w-[220px] lg:w-[260px] shrink-0 aspect-[4/5] overflow-hidden rounded-lg relative group">
-                    {mobileOpen && (
-                      <video
-                        src="/movie/fest1-clip.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
-                        className="w-full h-full object-cover"
-                        onCanPlay={(e) => {
-                          e.currentTarget.muted = true;
-                          e.currentTarget.play().catch(() => { });
-                        }}
-                      />
-                    )}
-                    <div className="absolute inset-0 pointer-events-none" />
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[12px]">
-                      <span>7H FESTIVAL STAGE</span>
+                  <div className="flex min-h-0 flex-1 flex-col gap-8 px-6 py-6 sm:flex-row sm:items-center sm:gap-14 sm:px-10 sm:py-8 lg:gap-20">
+                    <div className="group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-lg sm:block md:w-[220px] lg:w-[260px]">
+                      {mobileOpen && (
+                        <video
+                          src="/movie/fest1-clip.mp4"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="auto"
+                          className="h-full w-full object-cover"
+                          onCanPlay={(e) => {
+                            e.currentTarget.muted = true;
+                            e.currentTarget.play().catch(() => {});
+                          }}
+                        />
+                      )}
+                      <div className="pointer-events-none absolute inset-0" />
+                      <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-[12px]">
+                        <span>7H FESTIVAL STAGE</span>
+                      </div>
                     </div>
+
+                    <nav className="flex w-fit max-w-full flex-col items-start gap-1.5">
+                      {[
+                        { href: "/payment-test", label: "MERCH" },
+                        { href: "/media", label: "MEDIA" },
+                        { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
+                        {
+                          href: "/rock-and-roll-kids",
+                          label: "ROCK & ROLL KIDS",
+                        },
+                        ...(showUserAuth
+                          ? [{ href: studioHref, label: "STUDIO" }]
+                          : []),
+                        { href: "/live", label: "LIVE" },
+                        { href: "/cruise", label: "CRUISE" },
+                        { href: "/book", label: "BOOK US" },
+                        { href: "/contact", label: "CONTACT" },
+                        { href: "/features", label: "FEATURES" },
+                      ].map((link, i) => (
+                        <TransitionLink
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={`inline-flex w-fit max-w-full items-start self-start text-[clamp(2.375rem,10vw,6.25rem)] leading-[1.02] transition-colors duration-300 sm:text-5xl lg:text-6xl xl:text-7xl ${link.href === studioHref ? "decoration-[#c084fc] decoration-4 underline-offset-8" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "active cursor-default !text-[#c084fc]" : "! cursor-pointer hover:!text-[#c084fc]"}`}
+                          style={{
+                            // exoape's own per-link reveal: rotate:7deg -> 0 and
+                            // yPercent:100 -> 0 (a full line-height slide, not a
+                            // token nudge) with their easeOut curve, staggered
+                            // 0.1s apart starting half a second into the wipe.
+                            // Their site has ~4 links so the full 0.1s/1s combo
+                            // reads great; ours has 10, so the stagger/duration
+                            // are trimmed a bit to keep the last link's reveal
+                            // from lagging the wipe by seconds — same shape,
+                            // tuned for length.
+                            opacity: overlayVisible ? 1 : 0,
+                            transform: overlayVisible
+                              ? "translateY(0) rotate(0deg)"
+                              : "translateY(100%) rotate(7deg)",
+                            transformOrigin: "0% 100%",
+                            transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
+                            transitionDelay: overlayVisible
+                              ? `${450 + i * 70}ms`
+                              : "0ms",
+                          }}
+                        >
+                          {link.label}
+                        </TransitionLink>
+                      ))}
+                    </nav>
                   </div>
 
-                  <nav className="flex flex-col gap-1.5 items-start w-fit max-w-full">
-                    {[
-                      { href: "/payment-test", label: "MERCH" },
-                      { href: "/media", label: "MEDIA" },
-                      { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
-                      { href: "/rock-and-roll-kids", label: "ROCK & ROLL KIDS" },
-                      ...(showUserAuth ? [{ href: studioHref, label: "STUDIO" }] : []),
-                      { href: "/live", label: "LIVE" },
-                      { href: "/cruise", label: "CRUISE" },
-                      { href: "/book", label: "BOOK US" },
-                      { href: "/contact", label: "CONTACT" },
-                      { href: "/features", label: "FEATURES" },
-                    ].map((link, i) => (
-                      <TransitionLink
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={`inline-flex w-fit max-w-full self-start items-start text-[clamp(2.375rem,10vw,6.25rem)] sm:text-5xl lg:text-6xl xl:text-7xl    leading-[1.02] transition-colors duration-300 ${link.href === studioHref ? " underline-offset-8 decoration-[#c084fc] decoration-4" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "!text-[#c084fc] active cursor-default" : "! hover:!text-[#c084fc] cursor-pointer"}`}
-                        style={{
-                          // exoape's own per-link reveal: rotate:7deg -> 0 and
-                          // yPercent:100 -> 0 (a full line-height slide, not a
-                          // token nudge) with their easeOut curve, staggered
-                          // 0.1s apart starting half a second into the wipe.
-                          // Their site has ~4 links so the full 0.1s/1s combo
-                          // reads great; ours has 10, so the stagger/duration
-                          // are trimmed a bit to keep the last link's reveal
-                          // from lagging the wipe by seconds — same shape,
-                          // tuned for length.
-                          opacity: overlayVisible ? 1 : 0,
-                          transform: overlayVisible ? "translateY(0) rotate(0deg)" : "translateY(100%) rotate(7deg)",
-                          transformOrigin: "0% 100%",
-                          transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
-                          transitionDelay: overlayVisible ? `${450 + i * 70}ms` : "0ms",
-                        }}>
-                        {link.label}
-                      </TransitionLink>
-                    ))}
-                  </nav>
-                </div>
-
-                {/* Bottom utility row: social links + account action, below a
+                  {/* Bottom utility row: social links + account action, below a
                   hairline divider — same structural beat as exoape's
                   Play Reel / Our Story / Now Hiring! row, filled in with
                   this site's own links rather than copying its wording. */}
-                <div className="shrink-0 flex items-center justify-between gap-4 px-6 sm:px-10 py-5 border-t border-white/10">
-                  <div className="flex items-center gap-4 sm:gap-6 text-[11px]">
-                    <a href="https://www.instagram.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="! hover:!text-[#c084fc] transition-colors">Instagram</a>
-                    <a href="https://www.facebook.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="! hover:!text-[#c084fc] transition-colors">Facebook</a>
-                    <a href="https://twitter.com/7thheavenband" target="_blank" rel="noopener noreferrer" className="! hover:!text-[#c084fc] transition-colors">Twitter</a>
-                    <a href="https://www.youtube.com/user/7thheavenband" target="_blank" rel="noopener noreferrer" className="hidden sm:inline ! hover:!text-[#c084fc] transition-colors">YouTube</a>
-                  </div>
-
-                  {showUserAuth ? (
-                    <div className="flex items-center gap-2">
-                      <div className="relative shrink-0 aspect-square flex items-center justify-center">
-                        <TransitionLink
-                          href={dashboardHref}
-                          showSpinner={false}
-                          onClick={() => setMobileOpen(false)}
-                          className="relative flex items-center justify-center shrink-0 aspect-square w-8 h-8 min-w-8 min-h-8"
-                          style={{ borderRadius: "50%", overflow: "hidden", clipPath: "circle(50% at 50% 50%)" }}>
-                          {isAvatarUrl ? (
-                            <Image width={100} height={100} unoptimized src={avatarSrc} alt={displayName} className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full bg-black/60 border border-white/20 flex items-center justify-center text-xs">
-                              {initials}
-                            </div>
-                          )}
-                        </TransitionLink>
-                        <span className={`absolute -bottom-0.5 -right-2 px-1.5 py-0.5 h-4 text-[9px]   flex items-center justify-center ${badgeBg}`} style={{ borderRadius: "9999px" }}>
-                          {badgeText}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => { setMobileOpen(false); logout(); requestTransition('/'); }}
-                        className="text-[12px] text-purple-400 hover:text-white transition-colors cursor-pointer ml-1">
-                        SIGN OUT
-                      </button>
+                  <div className="flex shrink-0 items-center justify-between gap-4 border-t border-white/10 px-6 py-5 sm:px-10">
+                    <div className="flex items-center gap-4 text-[11px] sm:gap-6">
+                      <a
+                        href="https://www.instagram.com/7thheavenband"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="! transition-colors hover:!text-[#c084fc]"
+                      >
+                        Instagram
+                      </a>
+                      <a
+                        href="https://www.facebook.com/7thheavenband"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="! transition-colors hover:!text-[#c084fc]"
+                      >
+                        Facebook
+                      </a>
+                      <a
+                        href="https://twitter.com/7thheavenband"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="! transition-colors hover:!text-[#c084fc]"
+                      >
+                        Twitter
+                      </a>
+                      <a
+                        href="https://www.youtube.com/user/7thheavenband"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="! hidden transition-colors hover:!text-[#c084fc] sm:inline"
+                      >
+                        YouTube
+                      </a>
                     </div>
-                  ) : (
-                    <SeventhButton
-                      icon={false}
-                      onClick={() => {
-                        setMobileOpen(false);
-                        openModal("login");
-                      }}
-                      className="px-3.5 py-1.5 text-xs rounded-lg shrink-0">
-                      SIGN IN
-                    </SeventhButton>
-                  )}
-                </div>
-              </div>
-            </div>,
-            document.body
-          )}
 
+                    {showUserAuth ? (
+                      <div className="flex items-center gap-2">
+                        <div className="relative flex aspect-square shrink-0 items-center justify-center">
+                          <TransitionLink
+                            href={dashboardHref}
+                            showSpinner={false}
+                            onClick={() => setMobileOpen(false)}
+                            className="relative flex aspect-square h-8 min-h-8 w-8 min-w-8 shrink-0 items-center justify-center"
+                            style={{
+                              borderRadius: "50%",
+                              overflow: "hidden",
+                              clipPath: "circle(50% at 50% 50%)",
+                            }}
+                          >
+                            {isAvatarUrl ? (
+                              <Image
+                                width={100}
+                                height={100}
+                                unoptimized
+                                src={avatarSrc}
+                                alt={displayName}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center border border-white/20 bg-black/60 text-xs">
+                                {initials}
+                              </div>
+                            )}
+                          </TransitionLink>
+                          <span
+                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center px-1.5 py-0.5 text-[9px] ${badgeBg}`}
+                            style={{ borderRadius: "9999px" }}
+                          >
+                            {badgeText}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setMobileOpen(false);
+                            logout();
+                            requestTransition("/");
+                          }}
+                          className="ml-1 cursor-pointer text-[12px] text-purple-400 transition-colors hover:text-white"
+                        >
+                          SIGN OUT
+                        </button>
+                      </div>
+                    ) : (
+                      <SeventhButton
+                        icon={false}
+                        onClick={() => {
+                          setMobileOpen(false);
+                          openModal("login");
+                        }}
+                        className="shrink-0 rounded-lg px-3.5 py-1.5 text-xs"
+                      >
+                        SIGN IN
+                      </SeventhButton>
+                    )}
+                  </div>
+                </div>
+              </div>,
+              document.body,
+            )}
         </div>
       </div>
     </header>

@@ -39,11 +39,15 @@ export default function ChatInputBar({
   className = "",
 }: ChatInputBarProps) {
   const rightPadding =
-    showEmojiBtn && showAtBtn ? "pr-28" : showEmojiBtn || showAtBtn ? "pr-20" : "pr-12";
+    showEmojiBtn && showAtBtn
+      ? "pr-28"
+      : showEmojiBtn || showAtBtn
+        ? "pr-20"
+        : "pr-12";
 
   return (
     <div className={`flex flex-col ${className}`}>
-      <form onSubmit={onSubmit} className="relative flex items-center w-full">
+      <form onSubmit={onSubmit} className="relative flex w-full items-center">
         <InputField
           aria-label="Chat message input"
           type="text"
@@ -64,7 +68,8 @@ export default function ChatInputBar({
               type="button"
               onClick={onEmojiToggle}
               title="Insert Emoji"
-              className="w-7 h-7 rounded-lg bg-[#00000029] hover:text-whitebg-white-10 text-white/70 flex items-center justify-center color-transition cursor-pointer">
+              className="hover:text-whitebg-white-10 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/70"
+            >
               😀
             </button>
           )}
@@ -75,7 +80,8 @@ export default function ChatInputBar({
               type="button"
               onClick={onAtToggle}
               title="Tag Admin or Crew"
-              className="px-2 py-1 rounded bg-purple-600/10 hover:text-whitebg-purple-light border border-purple-500/30 color-transition cursor-pointer">
+              className="hover:text-whitebg-purple-light color-transition cursor-pointer rounded border border-purple-500/30 bg-purple-600/10 px-2 py-1"
+            >
               @
             </button>
           )}
@@ -84,8 +90,18 @@ export default function ChatInputBar({
             aria-label="Send message"
             type="submit"
             disabled={disabled || !value.trim()}
-            className="w-7 h-7 rounded-lg bg-purple-700/50 hover:text-whitebg-purple-600 text-purple-300 flex items-center justify-center color-transition shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30 cursor-pointer">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            className="hover:text-whitebg-purple-600 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-purple-700/50 text-purple-300 shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <line x1="22" y1="2" x2="11" y2="13" />
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
@@ -94,14 +110,15 @@ export default function ChatInputBar({
       </form>
 
       {showRulesFooter && (
-        <div className="flex items-center justify-between mt-2 px-1">
+        <div className="mt-2 flex items-center justify-between px-1">
           <span>KEEP IT RATED PG-13 · NO POLITICS</span>
           {onAdminTag && (
             <button
               aria-label="Tag admin for help"
               type="button"
               onClick={onAdminTag}
-              className="hover- color-transition cursor-pointer lowercase tracking-normal">
+              className="hover- color-transition cursor-pointer tracking-normal lowercase"
+            >
               tag @admin for help
             </button>
           )}

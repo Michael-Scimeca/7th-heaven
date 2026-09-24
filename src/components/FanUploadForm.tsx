@@ -1,7 +1,6 @@
 /* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 "use client";
 
-
 import { useState, useRef, useEffect } from "react";
 import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
@@ -26,7 +25,7 @@ const compressImage = async (file: File, maxWidth = 1920): Promise<File> => {
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
         if (width > maxWidth) {
@@ -35,12 +34,23 @@ const compressImage = async (file: File, maxWidth = 1920): Promise<File> => {
         }
         canvas.width = width;
         canvas.height = height;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         ctx?.drawImage(img, 0, 0, width, height);
-        canvas.toBlob((blob) => {
-          if (blob) resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + outputExt, { type: outputType }));
-          else reject(new Error('Canvas compression failed'));
-        }, outputType, quality);
+        canvas.toBlob(
+          (blob) => {
+            if (blob)
+              resolve(
+                new File(
+                  [blob],
+                  file.name.replace(/\.[^/.]+$/, "") + outputExt,
+                  { type: outputType },
+                ),
+              );
+            else reject(new Error("Canvas compression failed"));
+          },
+          outputType,
+          quality,
+        );
       };
       img.onerror = reject;
       img.src = e.target?.result as string;
@@ -50,7 +60,9 @@ const compressImage = async (file: File, maxWidth = 1920): Promise<File> => {
   });
 };
 
-const moderateImage = async (file: File): Promise<"allow" | "flag" | "block"> => {
+const moderateImage = async (
+  file: File,
+): Promise<"allow" | "flag" | "block"> => {
   try {
     const fd = new FormData();
     fd.append("image", file);
@@ -65,7 +77,10 @@ const moderateImage = async (file: File): Promise<"allow" | "flag" | "block"> =>
 
 export default function FanUploadForm() {
   const { member, isLoggedIn, openModal } = useMember();
-  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const searchParams =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : null;
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(() => {
     return searchParams?.get("mockSuccess") === "true";
@@ -75,18 +90,22 @@ export default function FanUploadForm() {
     return searchParams?.get("mockScanning") === "true";
   });
   const [scanStatus, setScanStatus] = useState<string>(() => {
-    return searchParams?.get("mockScanning") === "true" ? "Scanning 1/1: concert-moment.jpg" : "";
+    return searchParams?.get("mockScanning") === "true"
+      ? "Scanning 1/1: concert-moment.jpg"
+      : "";
   });
   const [previews, setPreviews] = useState<string[]>(() => {
-    return searchParams?.get("mockScanning") === "true" ? ["/sitemap-screenshots/fan-photo-wall.png"] : [];
+    return searchParams?.get("mockScanning") === "true"
+      ? ["/sitemap-screenshots/fan-photo-wall.png"]
+      : [];
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileSafetyFlagsRef = useRef<Record<string, string>>({});
 
   useEffect(() => {
     return () => {
-      previews.forEach(url => {
-        if (url.startsWith('blob:')) {
+      previews.forEach((url) => {
+        if (url.startsWith("blob:")) {
           URL.revokeObjectURL(url);
         }
       });
@@ -95,23 +114,27 @@ export default function FanUploadForm() {
   const fileRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-
   const handleFilesChange = async (files: FileList | null | File[]) => {
     if (!isLoggedIn) {
-      openModal('login');
+      openModal("login");
       return;
     }
     if (!files || files.length === 0) return;
     const filesArray = Array.from(files);
 
-    const hasImages = filesArray.some(file => {
-      const isVideo = file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov');
-      return !isVideo && (file.type === 'image/jpeg' || file.type === 'image/png');
+    const hasImages = filesArray.some((file) => {
+      const isVideo =
+        file.type.startsWith("video/") ||
+        file.name.endsWith(".mp4") ||
+        file.name.endsWith(".mov");
+      return (
+        !isVideo && (file.type === "image/jpeg" || file.type === "image/png")
+      );
     });
 
     if (hasImages) {
       setIsScanning(true);
-      setScanStatus('Checking image safety…');
+      setScanStatus("Checking image safety…");
     }
 
     const compressedFiles: File[] = [];
@@ -120,17 +143,22 @@ export default function FanUploadForm() {
 
     const results = await Promise.all(
       filesArray.map(async (file) => {
-        const isVideo = file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov');
-        const isImage = file.type === 'image/jpeg' || file.type === 'image/png';
+        const isVideo =
+          file.type.startsWith("video/") ||
+          file.name.endsWith(".mp4") ||
+          file.name.endsWith(".mov");
+        const isImage = file.type === "image/jpeg" || file.type === "image/png";
 
         if (!isImage && !isVideo) {
-          alert(`"${file.name}" is not a valid image (JPG, PNG) or video (MP4, MOV). It was skipped.`);
+          alert(
+            `"${file.name}" is not a valid image (JPG, PNG) or video (MP4, MOV). It was skipped.`,
+          );
           return null;
         }
 
         if (isVideo) {
           const previewUrl = await fileToDataUrl(file);
-          return { file, preview: previewUrl, flag: 'video_review' };
+          return { file, preview: previewUrl, flag: "video_review" };
         }
 
         try {
@@ -139,20 +167,22 @@ export default function FanUploadForm() {
           const decision = await moderateImage(compressed);
 
           if (decision === "block") {
-            alert(`⛔ "${file.name}" was blocked by our safety filter.\n\nThis image appears to contain explicit content and cannot be uploaded. All submissions must be concert/event-related photos.`);
+            alert(
+              `⛔ "${file.name}" was blocked by our safety filter.\n\nThis image appears to contain explicit content and cannot be uploaded. All submissions must be concert/event-related photos.`,
+            );
             return null;
           }
 
           return {
             file: compressed,
             preview: previewUrl,
-            flag: decision === "flag" ? 'flagged_for_review' : undefined,
+            flag: decision === "flag" ? "flagged_for_review" : undefined,
           };
         } catch (err) {
           console.error("Compression or scanning failed", err);
           return null;
         }
-      })
+      }),
     );
 
     for (const res of results) {
@@ -162,13 +192,12 @@ export default function FanUploadForm() {
       if (res.flag) newFlags[res.file.name] = res.flag;
     }
 
-    setSelectedFiles(prev => [...prev, ...compressedFiles]);
-    setPreviews(prev => [...prev, ...newPreviews]);
+    setSelectedFiles((prev) => [...prev, ...compressedFiles]);
+    setPreviews((prev) => [...prev, ...newPreviews]);
     fileSafetyFlagsRef.current = { ...fileSafetyFlagsRef.current, ...newFlags };
     setIsScanning(false);
-    setScanStatus('');
+    setScanStatus("");
   };
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,8 +208,8 @@ export default function FanUploadForm() {
     }
 
     const fd = new FormData(formRef.current);
-    const venueValue = (fd.get("venue") as string || '').trim();
-    const dateValue = (fd.get("date") as string || '').trim();
+    const venueValue = ((fd.get("venue") as string) || "").trim();
+    const dateValue = ((fd.get("date") as string) || "").trim();
 
     if (!venueValue) {
       alert("Please enter a venue or event name.");
@@ -201,12 +230,12 @@ export default function FanUploadForm() {
 
     setUploading(true);
 
-    fd.delete('photo');
-    selectedFiles.forEach(file => fd.append('photo', file));
-    fd.append('name', member?.name || 'Authorized Fan');
+    fd.delete("photo");
+    selectedFiles.forEach((file) => fd.append("photo", file));
+    fd.append("name", member?.name || "Authorized Fan");
     // Send safety flags so the server can tag flagged uploads for priority review
     if (Object.keys(fileSafetyFlagsRef.current).length > 0) {
-      fd.append('safety_flags', JSON.stringify(fileSafetyFlagsRef.current));
+      fd.append("safety_flags", JSON.stringify(fileSafetyFlagsRef.current));
     }
 
     try {
@@ -227,21 +256,38 @@ export default function FanUploadForm() {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-6">
+      <div className="mb-6 flex items-center gap-3">
         <div>
           <h2>Submit to Fan Wall</h2>
-          <p >Share your concert moments</p>
+          <p>Share your concert moments</p>
         </div>
       </div>
 
       {uploadSuccess ? (
-        <div className="text-center py-8">
-          <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/20 flex items-center justify-center border border-[var(--color-accent)]/30">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+        <div className="py-8 text-center">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--color-accent)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
           </div>
           <h3 className="mb-2">Moments Submitted!</h3>
-          <p className="mb-6">They are now live on your account and will appear on the global wall after admin review.</p>
-          <button onClick={() => setUploadSuccess(false)} className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer border border-[var(--color-accent)] px-6 py-2 rounded">
+          <p className="mb-6">
+            They are now live on your account and will appear on the global wall
+            after admin review.
+          </p>
+          <button
+            onClick={() => setUploadSuccess(false)}
+            className="cursor-pointer rounded border border-[var(--color-accent)] px-6 py-2 text-[var(--color-accent)] transition-colors hover:text-white"
+          >
             Upload Another
           </button>
         </div>
@@ -253,79 +299,145 @@ export default function FanUploadForm() {
                 role={previews.length === 0 ? "button" : undefined}
                 tabIndex={previews.length === 0 ? 0 : undefined}
                 onClick={(e) => {
-                  if ((e.target as HTMLElement).closest('.plus-button')) return;
-                  if (!isLoggedIn) { openModal('login'); return; }
+                  if ((e.target as HTMLElement).closest(".plus-button")) return;
+                  if (!isLoggedIn) {
+                    openModal("login");
+                    return;
+                  }
                   fileRef.current?.click();
                 }}
                 onKeyDown={(e) => {
                   if (previews.length > 0) return;
-                  if (e.key === 'Enter' || e.key === ' ') {
+                  if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    if (!isLoggedIn) { openModal('login'); return; }
+                    if (!isLoggedIn) {
+                      openModal("login");
+                      return;
+                    }
                     fileRef.current?.click();
                   }
                 }}
-                onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setDragOver(true);
+                }}
                 onDragLeave={() => setDragOver(false)}
-                onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFilesChange(e.dataTransfer.files); }}
-                className={`relative w-full transition-all duration-200 cursor-pointer flex items-center justify-center overflow-hidden rounded-lg group ${dragOver ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 scale-[1.01]" : "border-white/40 hover:border-[var(--color-accent)] bg-black/30 bg-[#00000029] "}`}>
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setDragOver(false);
+                  handleFilesChange(e.dataTransfer.files);
+                }}
+                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg transition-all duration-200 ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
+              >
                 {previews.length > 0 ? (
-                  <div className="absolute inset-0 p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 overflow-y-auto bg-black/90 z-20">
-                    {Array.from(previews, (src, i) => ({ src, i })).map(({ src, i }) => {
-                      const file = selectedFiles[i];
-                      const isVideo = file && (file.type.startsWith('video/') || file.name.endsWith('.mp4') || file.name.endsWith('.mov'));
-                      return (
-                        <div key={src} className="relative aspect-square rounded-lg overflow-hidden border border-white/10 group">
-                          {isVideo ? (
-                            <video src={src} className="w-full h-full object-cover" muted playsInline>
-                              <track kind="captions" />
-                            </video>
-                          ) : (
-                            <img src={src} alt={`Preview ${i}`} className="w-full h-full object-cover" />
-                          )}
-                        </div>
-                      );
-                    })}
-                    <button type="button"
+                  <div className="absolute inset-0 z-20 grid grid-cols-3 gap-3 overflow-y-auto bg-black/90 p-4 sm:grid-cols-4 md:grid-cols-5">
+                    {Array.from(previews, (src, i) => ({ src, i })).map(
+                      ({ src, i }) => {
+                        const file = selectedFiles[i];
+                        const isVideo =
+                          file &&
+                          (file.type.startsWith("video/") ||
+                            file.name.endsWith(".mp4") ||
+                            file.name.endsWith(".mov"));
+                        return (
+                          <div
+                            key={src}
+                            className="group relative aspect-square overflow-hidden rounded-lg border border-white/10"
+                          >
+                            {isVideo ? (
+                              <video
+                                src={src}
+                                className="h-full w-full object-cover"
+                                muted
+                                playsInline
+                              >
+                                <track kind="captions" />
+                              </video>
+                            ) : (
+                              <img
+                                src={src}
+                                alt={`Preview ${i}`}
+                                className="h-full w-full object-cover"
+                              />
+                            )}
+                          </div>
+                        );
+                      },
+                    )}
+                    <button
+                      type="button"
                       aria-label="Add more files"
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (!isLoggedIn) { openModal('login'); return; }
+                        if (!isLoggedIn) {
+                          openModal("login");
+                          return;
+                        }
                         fileRef.current?.click();
                       }}
-                      className="plus-button aspect-square rounded-lg border-2 border-dashed border-white/10 flex flex-col items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
+                      className="plus-button flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                    >
                       <span className="text-2xl font-light">+</span>
                     </button>
                   </div>
                 ) : (
                   <>
-                    <div className="absolute inset-2.5 border-2 border-dashed border-white/10 rounded-lg pointer-events-none group-hover:border-[var(--color-accent)]/50 transition-colors" />
-                    <div className="text-center p-6 relative z-10 flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-lg bg-[var(--color-accent)]/15 border border-[var(--color-accent)]/40 flex items-center justify-center mb-3 text-[var(--color-accent)]">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
+                    <div className="pointer-events-none absolute inset-2.5 rounded-lg border-2 border-dashed border-white/10 transition-colors group-hover:border-[var(--color-accent)]/50" />
+                    <div className="relative z-10 flex flex-col items-center p-6 text-center">
+                      <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="17 8 12 3 7 8" />
+                          <line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                       </div>
-                      <p className="mb-1 group-hover:text-[var(--color-accent)] transition-colors">Upload Hero Moment</p>
-                      <p className=" ">Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
+                      <p className="mb-1 transition-colors group-hover:text-[var(--color-accent)]">
+                        Upload Hero Moment
+                      </p>
+                      <p className=" ">
+                        Max file size: 10MB | HQ JPG/PNG/MP4/MOV
+                      </p>
                     </div>
                   </>
                 )}
                 {isScanning && (
-                  <div className="absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-30">
-                    <div className="w-11 h-11 border-2 border-white/10 border-t-emerald-500 rounded-lg animate-spin mb-3" />
-                    <p >Safety Scan</p>
+                  <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm">
+                    <div className="mb-3 h-11 w-11 animate-spin rounded-lg border-2 border-white/10 border-t-emerald-500" />
+                    <p>Safety Scan</p>
                     <p className="text-emerald-400">{scanStatus}</p>
                   </div>
                 )}
-                <input ref={fileRef} type="file" name="photo" accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime" multiple className="hidden" onChange={(e) => handleFilesChange(e.target.files)} />
+                <input
+                  ref={fileRef}
+                  type="file"
+                  name="photo"
+                  accept=".jpg, .jpeg, .png, .mp4, .mov, image/jpeg, image/png, video/mp4, video/quicktime"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => handleFilesChange(e.target.files)}
+                />
               </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row flex-wrap items-end gap-3 p-0">
-              <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="flex flex-col flex-wrap items-end gap-3 p-0 lg:flex-row">
+              <div className="grid w-full flex-1 grid-cols-1 gap-3 md:grid-cols-2">
                 <div>
-                  <label htmlFor="fan-upload-venue" className="block mb-1.5 px-1">Venue / Event <span className="text-[var(--color-accent)]">*</span></label>
+                  <label
+                    htmlFor="fan-upload-venue"
+                    className="mb-1.5 block px-1"
+                  >
+                    Venue / Event{" "}
+                    <span className="text-[var(--color-accent)]">*</span>
+                  </label>
                   <GlowInput
                     id="fan-upload-venue"
                     type="text"
@@ -336,18 +448,28 @@ export default function FanUploadForm() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="fan-upload-date" className="block mb-1.5 px-1">Date <span className="text-[var(--color-accent)]">*</span></label>
+                  <label
+                    htmlFor="fan-upload-date"
+                    className="mb-1.5 block px-1"
+                  >
+                    Date <span className="text-[var(--color-accent)]">*</span>
+                  </label>
                   <GlowInput
                     id="fan-upload-date"
                     type="date"
                     name="date"
                     required
                     aria-label="Date of Event"
-                    className="[color-scheme:dark] cursor-pointer"
+                    className="cursor-pointer [color-scheme:dark]"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label htmlFor="fan-upload-caption" className="block mb-1.5 px-1">Caption</label>
+                  <label
+                    htmlFor="fan-upload-caption"
+                    className="mb-1.5 block px-1"
+                  >
+                    Caption
+                  </label>
                   <GlowInput
                     id="fan-upload-caption"
                     type="text"
@@ -358,20 +480,23 @@ export default function FanUploadForm() {
                 </div>
               </div>
 
-
               <SeventhButton
                 type={isLoggedIn ? "submit" : "button"}
-                onClick={() => !isLoggedIn && openModal('login')}
+                onClick={() => !isLoggedIn && openModal("login")}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="w-full lg:w-32 shrink-0 flex items-center justify-center h-[40px] px-4 rounded-lg disabled:opacity-50 disabled:pointer-events-none mt-2 lg:mt-0 cursor-pointer">
-                {uploading ? "Uploading…" : isScanning ? "Scanning…" : "Publish"}
+                className="mt-2 flex h-[40px] w-full shrink-0 cursor-pointer items-center justify-center rounded-lg px-4 disabled:pointer-events-none disabled:opacity-50 lg:mt-0 lg:w-32"
+              >
+                {uploading
+                  ? "Uploading…"
+                  : isScanning
+                    ? "Scanning…"
+                    : "Publish"}
               </SeventhButton>
             </div>
           </div>
-        </form >
-      )
-      }
-    </div >
+        </form>
+      )}
+    </div>
   );
 }

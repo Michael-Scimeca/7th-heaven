@@ -14,18 +14,24 @@ export async function POST(req: Request) {
       zip,
       wantNotifications,
       wantNewsletter,
-      inviteBypass
+      inviteBypass,
     } = await req.json();
 
     if (!email || (!pin && !inviteBypass)) {
-      return NextResponse.json({ error: "Email and verification code are required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email and verification code are required." },
+        { status: 400 },
+      );
     }
 
     // Skip PIN verification for invite flow (clicking the email link proves ownership)
     if (!inviteBypass) {
       const isVerified = verifyPin(email, pin);
       if (!isVerified) {
-        return NextResponse.json({ error: "Invalid or expired verification code." }, { status: 400 });
+        return NextResponse.json(
+          { error: "Invalid or expired verification code." },
+          { status: 400 },
+        );
       }
     }
 
@@ -35,24 +41,25 @@ export async function POST(req: Request) {
     const supabaseAdmin: any = createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
-        persistSession: false
-      }
+        persistSession: false,
+      },
     });
 
     console.log(`Creating pre-confirmed user ${email} in Supabase Auth...`);
 
     // Create the user via Admin API (auto-confirms email)
-    const { data: userData, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email,
-      password,
-      email_confirm: true,
-      user_metadata: {
-        full_name: name,
-        username: username || '',
-        role: 'fan',
-        phone: ''
-      }
-    });
+    const { data: userData, error: createError } =
+      await supabaseAdmin.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+        user_metadata: {
+          full_name: name,
+          username: username || "",
+          role: "fan",
+          phone: "",
+        },
+      });
 
     if (createError) {
       console.error("Supabase Admin createUser error:", createError.message);
@@ -86,13 +93,13 @@ export async function POST(req: Request) {
     const { error: profileError } = await supabaseAdmin
       .from("profiles")
       .update({
-        role: 'fan',
+        role: "fan",
         zip: zip || null,
         notification_radius: 50,
         notifications_enabled: !!wantNotifications,
         latitude: lat,
         longitude: lng,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq("id", userId);
 
@@ -104,32 +111,43 @@ export async function POST(req: Request) {
     if (wantNewsletter) {
       console.log(`Adding ${email} to newsletter subscriber list...`);
       const { error: newsletterError } = await supabaseAdmin
-        .from('newsletter_subscribers')
-        .upsert({
-          email: email.toLowerCase().trim(),
-          name,
-          source: 'signup',
-          user_id: userId,
-          subscribed: true,
-          unsubscribed_at: null,
-        }, { onConflict: 'email' });
+        .from("newsletter_subscribers")
+        .upsert(
+          {
+            email: email.toLowerCase().trim(),
+            name,
+            source: "signup",
+            user_id: userId,
+            subscribed: true,
+            unsubscribed_at: null,
+          },
+          { onConflict: "email" },
+        );
 
       if (newsletterError) {
-        console.error("Failed to add newsletter subscription:", newsletterError.message);
+        console.error(
+          "Failed to add newsletter subscription:",
+          newsletterError.message,
+        );
       }
     }
 
     // Push ntfy alert to admins about new fan signup
-    publishToGroup('admins', {
-      title: '🎉 New Fan Account Registered',
+    publishToGroup("admins", {
+      title: "🎉 New Fan Account Registered",
       message: `${name || email} registered as a Fan (${email})`,
-      priority: 'high',
-      tags: ['partying_face', 'user'],
-    }).catch((err) => console.error('[ntfy] Failed to notify admins of fan signup:', err));
+      priority: "high",
+      tags: ["partying_face", "user"],
+    }).catch((err) =>
+      console.error("[ntfy] Failed to notify admins of fan signup:", err),
+    );
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Verification processing failed:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

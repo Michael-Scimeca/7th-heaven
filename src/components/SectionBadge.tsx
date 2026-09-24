@@ -35,10 +35,11 @@ export function SectionBadge({
             }
           : undefined
       }
-      className={`btn-pill-glass ${isInteractive ? "cursor-pointer active:scale-95 select-none" : ""} ${
+      className={`btn-pill-glass ${isInteractive ? "cursor-pointer select-none active:scale-95" : ""} ${
         isActive ? "active" : ""
       } ${className}`}
-      {...props}>
+      {...props}
+    >
       {children || label}
     </span>
   );

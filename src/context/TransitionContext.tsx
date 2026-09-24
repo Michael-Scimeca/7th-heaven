@@ -46,17 +46,15 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<TransitionMode>("idle");
   const [pendingHref, setPendingHref] = useState<string | null>(null);
 
-  const requestTransition = useCallback(
-    (href: string) => {
-      const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
-      if (href.startsWith("/studio") || currentPath.startsWith("/studio")) {
-        return;
-      }
-      setPendingHref(href);
-      setMode("covering");
-    },
-    []
-  );
+  const requestTransition = useCallback((href: string) => {
+    const currentPath =
+      typeof window !== "undefined" ? window.location.pathname : "";
+    if (href.startsWith("/studio") || currentPath.startsWith("/studio")) {
+      return;
+    }
+    setPendingHref(href);
+    setMode("covering");
+  }, []);
 
   const clearPendingHref = useCallback(() => setPendingHref(null), []);
 
@@ -71,7 +69,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       isCovered: mode === "covered",
       isPending: mode === "covering",
     }),
-    [mode, pendingHref, requestTransition, clearPendingHref]
+    [mode, pendingHref, requestTransition, clearPendingHref],
   );
 
   return (

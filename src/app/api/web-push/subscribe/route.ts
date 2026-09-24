@@ -10,10 +10,14 @@ export async function POST(request: Request) {
     // Expect: { subscription: PushSubscription JSON, zip?, radius?, selectedTypes?, email?, name? }
     const { subscription, zip, radius, selectedTypes, email, name } = body;
 
-    if (!subscription?.endpoint || !subscription?.keys?.p256dh || !subscription?.keys?.auth) {
+    if (
+      !subscription?.endpoint ||
+      !subscription?.keys?.p256dh ||
+      !subscription?.keys?.auth
+    ) {
       return NextResponse.json(
         { ok: false, error: "Invalid push subscription object" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -42,11 +46,15 @@ export async function POST(request: Request) {
 
         await sendEmail({
           to: email,
-          subject: "Welcome to 7th Heaven Show Alerts! 🎸 How Your Notifications Work",
+          subject:
+            "Welcome to 7th Heaven Show Alerts! 🎸 How Your Notifications Work",
           html,
         });
       } catch (emailErr) {
-        console.warn("[web-push/subscribe] Failed to send welcome email:", emailErr);
+        console.warn(
+          "[web-push/subscribe] Failed to send welcome email:",
+          emailErr,
+        );
       }
     }
 
@@ -59,7 +67,7 @@ export async function POST(request: Request) {
     console.error("[web-push/subscribe] Error:", err);
     return NextResponse.json(
       { ok: false, error: err.message || "Failed to save subscription" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

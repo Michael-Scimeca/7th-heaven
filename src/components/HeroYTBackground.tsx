@@ -15,14 +15,18 @@ export default function HeroYTBackground({
   end = 29,
 }: HeroYTBackgroundProps) {
   const playerRef = useRef<any>(null);
-  const playerDivId = useRef(`hero-yt-bg-${Math.random().toString(36).substring(2, 9)}`);
+  const playerDivId = useRef(
+    `hero-yt-bg-${Math.random().toString(36).substring(2, 9)}`,
+  );
 
   useEffect(() => {
     let loopInterval: ReturnType<typeof setInterval> | null = null;
 
     loadYouTubeAPI(() => {
       if (playerRef.current) {
-        try { playerRef.current.destroy(); } catch {}
+        try {
+          playerRef.current.destroy();
+        } catch {}
       }
 
       const player = new window.YT.Player(playerDivId.current, {
@@ -51,7 +55,10 @@ export default function HeroYTBackground({
             } catch {}
           },
           onStateChange: (e: any) => {
-            if (e.data === window.YT.PlayerState.ENDED || e.data === window.YT.PlayerState.PAUSED) {
+            if (
+              e.data === window.YT.PlayerState.ENDED ||
+              e.data === window.YT.PlayerState.PAUSED
+            ) {
               try {
                 e.target.seekTo(start, true);
                 e.target.playVideo();
@@ -64,7 +71,10 @@ export default function HeroYTBackground({
 
       // Continuously monitor and replay the 8-second clip (from 28s to 36s)
       loopInterval = setInterval(() => {
-        if (playerRef.current && typeof playerRef.current.getCurrentTime === "function") {
+        if (
+          playerRef.current &&
+          typeof playerRef.current.getCurrentTime === "function"
+        ) {
           try {
             const curr = playerRef.current.getCurrentTime();
             if (curr >= end || curr < start) {
@@ -78,17 +88,19 @@ export default function HeroYTBackground({
     return () => {
       if (loopInterval) clearInterval(loopInterval);
       if (playerRef.current) {
-        try { playerRef.current.destroy(); } catch {}
+        try {
+          playerRef.current.destroy();
+        } catch {}
         playerRef.current = null;
       }
     };
   }, [videoId, start, end]);
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none bg-black">
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-black select-none">
       <div
         id={playerDivId.current}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-[100vh] min-h-[56.25vw] pointer-events-none scale-105"
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[100vh] min-h-[56.25vw] w-[177.77vh] min-w-full -translate-x-1/2 -translate-y-1/2 scale-105"
       />
     </div>
   );

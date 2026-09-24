@@ -17,7 +17,9 @@ export default function NorthCheckoutPage() {
   const [tranNbr, setTranNbr] = useState<string | null>(null);
   const [mockMode, setMockMode] = useState(false);
   const [ready, setReady] = useState(false);
-  const [simulating, setSimulating] = useState<"approved" | "declined" | null>(null);
+  const [simulating, setSimulating] = useState<"approved" | "declined" | null>(
+    null,
+  );
 
   // North sandbox test card defaults (see the tutorial's Payment.jsx) —
   // safe to prefill since this only works against North's test environment.
@@ -44,7 +46,8 @@ export default function NorthCheckoutPage() {
       const body = new URLSearchParams({
         TRAN_NBR: tranNbr || "",
         AUTH_RESP: outcome === "approved" ? "00" : "05",
-        AUTH_RESP_TEXT: outcome === "approved" ? "APPROVAL" : "DECLINED — simulated decline",
+        AUTH_RESP_TEXT:
+          outcome === "approved" ? "APPROVAL" : "DECLINED — simulated decline",
         AUTH_AMOUNT_REQUESTED: amount || "0.00",
         AUTH_MASKED_ACCOUNT_NBR: maskedAccount,
       });
@@ -66,14 +69,16 @@ export default function NorthCheckoutPage() {
 
   if (ready && (!tac || !amount)) {
     return (
-      <div className="min-h-screen bg-[#06060b] pt-32 pb-24 flex items-center justify-center">
-        <div className="max-w-md text-center px-6">
+      <div className="flex min-h-screen items-center justify-center bg-[#06060b] pt-32 pb-24">
+        <div className="max-w-md px-6 text-center">
           <p className="mb-6">
-            No active checkout found. Head back to the shop and add something to your cart first.
+            No active checkout found. Head back to the shop and add something to
+            your cart first.
           </p>
           <Link
             href="/payment-test"
-            className="inline-block px-5 py-2.5 bg-[var(--color-accent)] rounded-lg">
+            className="inline-block rounded-lg bg-[var(--color-accent)] px-5 py-2.5"
+          >
             ← Back to Shop
           </Link>
         </div>
@@ -83,31 +88,31 @@ export default function NorthCheckoutPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-24">
-      <div className="site-container max-w-xl mx-auto px-6">
+      <div className="site-container mx-auto max-w-xl px-6">
         <Link
           href="/payment-test"
-          className="text-purple-400 hover:text-white transition-colors flex items-center gap-2 mb-6">
+          className="mb-6 flex items-center gap-2 text-purple-400 transition-colors hover:text-white"
+        >
           ← Back to Shop
         </Link>
 
-        <div className="bg-white/[0.04]backdrop-blur-[18px] border border-white/[0.12] rounded-lg p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04]backdrop-blur-[18px] rounded-lg border border-white/[0.12] p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
-            <span className="inline-block text-[10px] mb-1">
+            <span className="mb-1 inline-block text-[10px]">
               North (EPX) Browser Post
             </span>
-            <h1>
-              Card Payment
-            </h1>
+            <h1>Card Payment</h1>
             {mockMode ? (
               <p className="text-yellow-300">
-                🧪 Test mode: no real North credentials are configured, so this won&apos;t
-                contact EPX. Use the simulate buttons below instead of a real submit.
+                🧪 Test mode: no real North credentials are configured, so this
+                won&apos;t contact EPX. Use the simulate buttons below instead
+                of a real submit.
               </p>
             ) : (
-              <p >
-                Submitting this form sends your card details directly to North&apos;s servers —
-                they never pass through this site. This uses North&apos;s sandbox test card by
-                default.
+              <p>
+                Submitting this form sends your card details directly to
+                North&apos;s servers — they never pass through this site. This
+                uses North&apos;s sandbox test card by default.
               </p>
             )}
           </div>
@@ -117,10 +122,17 @@ export default function NorthCheckoutPage() {
             <div className="mb-6 space-y-2">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
-                  <div className="relative w-11 h-11 shrink-0 rounded-lg overflow-hidden bg-black/40">
-                    <Image src={item.imageUrl} alt={item.title} fill sizes="36px" unoptimized className="object-cover" />
+                  <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-black/40">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      fill
+                      sizes="36px"
+                      unoptimized
+                      className="object-cover"
+                    />
                   </div>
-                  <span className="text-white/70 flex-1 truncate">
+                  <span className="flex-1 truncate text-white/70">
                     {item.title} ({item.variantLabel}) × {item.quantity}
                   </span>
                   <span className="text-white/50">
@@ -131,11 +143,11 @@ export default function NorthCheckoutPage() {
             </div>
           )}
 
-          <div className="flex items-center justify-between mb-6 pt-4 border-t border-white/10">
-            <span className="text-white/50 r">
-              Amount Due
+          <div className="mb-6 flex items-center justify-between border-t border-white/10 pt-4">
+            <span className="r text-white/50">Amount Due</span>
+            <span className="text-2xl text-[var(--color-accent)]">
+              ${amount}
             </span>
-            <span className="text-2xl text-[var(--color-accent)]">${amount}</span>
           </div>
 
           {/* Card fields — shown either way so the UI looks/feels the same,
@@ -143,7 +155,7 @@ export default function NorthCheckoutPage() {
               the account number get used, for the fake masked receipt). */}
           <div className="space-y-4">
             <div>
-              <label className="block text-[10px] text-white/40 mb-1">
+              <label className="mb-1 block text-[10px] text-white/40">
                 Account Number
               </label>
               <input
@@ -151,13 +163,13 @@ export default function NorthCheckoutPage() {
                 required
                 value={accountNbr}
                 onChange={(e) => setAccountNbr(e.target.value)}
-                className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]"
+                className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3 focus:border-[var(--color-accent)] focus:outline-none"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] text-white/40 mb-1">
+                <label className="mb-1 block text-[10px] text-white/40">
                   Expiry (YYMM)
                 </label>
                 <input
@@ -166,11 +178,11 @@ export default function NorthCheckoutPage() {
                   placeholder="YYMM"
                   value={expDate}
                   onChange={(e) => setExpDate(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]"
+                  className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3 focus:border-[var(--color-accent)] focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[10px] text-white/40 mb-1">
+                <label className="mb-1 block text-[10px] text-white/40">
                   CVV
                 </label>
                 <input
@@ -179,7 +191,7 @@ export default function NorthCheckoutPage() {
                   placeholder="123"
                   value={cvv2}
                   onChange={(e) => setCvv2(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.12] rounded-lg px-4 py-3 focus:outline-none focus:border-[var(--color-accent)]"
+                  className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3 focus:border-[var(--color-accent)] focus:outline-none"
                 />
               </div>
             </div>
@@ -191,15 +203,21 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("approved")}
-                className="flex-1 py-3.5 bg-emerald-500 hover:bg-emerald-400   rounded-lg transition-colors disabled:opacity-50">
-                {simulating === "approved" ? "Simulating…" : `✅ Simulate Approved — $${amount}`}
+                className="flex-1 rounded-lg bg-emerald-500 py-3.5 transition-colors hover:bg-emerald-400 disabled:opacity-50"
+              >
+                {simulating === "approved"
+                  ? "Simulating…"
+                  : `✅ Simulate Approved — $${amount}`}
               </button>
               <button
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("declined")}
-                className="flex-1 py-3.5 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 rounded-lg transition-colors disabled:opacity-50">
-                {simulating === "declined" ? "Simulating…" : "❌ Simulate Declined"}
+                className="flex-1 rounded-lg border border-rose-500/40 bg-rose-500/20 py-3.5 text-rose-300 transition-colors hover:bg-rose-500/30 disabled:opacity-50"
+              >
+                {simulating === "declined"
+                  ? "Simulating…"
+                  : "❌ Simulate Declined"}
               </button>
             </div>
           ) : (
@@ -210,18 +228,43 @@ export default function NorthCheckoutPage() {
               <input type="hidden" name="ACCOUNT_NBR" value={accountNbr} />
               <input type="hidden" name="EXP_DATE" value={expDate} />
               <input type="hidden" name="CVV2" value={cvv2} />
-              <input type="hidden" name="TRAN_CODE" value={process.env.NEXT_PUBLIC_NORTH_TRAN_CODE || "SALE"} />
-              <input type="hidden" name="CUST_NBR" value={process.env.NEXT_PUBLIC_NORTH_CUST_NBR || ""} />
-              <input type="hidden" name="MERCH_NBR" value={process.env.NEXT_PUBLIC_NORTH_MERCH_NBR || ""} />
-              <input type="hidden" name="DBA_NBR" value={process.env.NEXT_PUBLIC_NORTH_DBA_NBR || ""} />
-              <input type="hidden" name="TERMINAL_NBR" value={process.env.NEXT_PUBLIC_NORTH_TERMINAL_NBR || ""} />
-              <input type="hidden" name="INDUSTRY_TYPE" value={process.env.NEXT_PUBLIC_NORTH_INDUSTRY_TYPE || "E"} />
+              <input
+                type="hidden"
+                name="TRAN_CODE"
+                value={process.env.NEXT_PUBLIC_NORTH_TRAN_CODE || "SALE"}
+              />
+              <input
+                type="hidden"
+                name="CUST_NBR"
+                value={process.env.NEXT_PUBLIC_NORTH_CUST_NBR || ""}
+              />
+              <input
+                type="hidden"
+                name="MERCH_NBR"
+                value={process.env.NEXT_PUBLIC_NORTH_MERCH_NBR || ""}
+              />
+              <input
+                type="hidden"
+                name="DBA_NBR"
+                value={process.env.NEXT_PUBLIC_NORTH_DBA_NBR || ""}
+              />
+              <input
+                type="hidden"
+                name="TERMINAL_NBR"
+                value={process.env.NEXT_PUBLIC_NORTH_TERMINAL_NBR || ""}
+              />
+              <input
+                type="hidden"
+                name="INDUSTRY_TYPE"
+                value={process.env.NEXT_PUBLIC_NORTH_INDUSTRY_TYPE || "E"}
+              />
               <input type="hidden" name="TAC" value={tac || ""} />
               <input type="hidden" name="AMOUNT" value={amount || ""} />
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-lg transition-colors">
+                className="w-full rounded-lg bg-[var(--color-accent)] py-3.5 transition-colors hover:bg-[var(--color-accent)]/80"
+              >
                 Submit Payment — ${amount}
               </button>
             </form>

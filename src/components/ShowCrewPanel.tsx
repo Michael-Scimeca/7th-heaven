@@ -1,9 +1,29 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 import { useState } from "react";
-import { Users, Clock, Guitar, FileText, Sparkles, Check, Square, X } from "lucide-react";
+import {
+  Users,
+  Clock,
+  Guitar,
+  FileText,
+  Sparkles,
+  Check,
+  Square,
+  X,
+} from "lucide-react";
 
-const CREW_ROLES = ["Sound", "Lights", "Merch", "Roadie", "Stage Tech", "FOH", "Photography", "Video", "DJ", "Other"] as const;
+const CREW_ROLES = [
+  "Sound",
+  "Lights",
+  "Merch",
+  "Roadie",
+  "Stage Tech",
+  "FOH",
+  "Photography",
+  "Video",
+  "DJ",
+  "Other",
+] as const;
 
 const DEFAULT_GEAR = [
   "PA System (Mains + Subs)",
@@ -49,7 +69,15 @@ interface ShowCrewData {
   notes: LogisticsNote[];
 }
 
-export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { bookingId: string; eventDate: string; venueName: string }) {
+export default function ShowCrewPanel({
+  bookingId,
+  eventDate,
+  venueName,
+}: {
+  bookingId: string;
+  eventDate: string;
+  venueName: string;
+}) {
   const [data, setData] = useState<ShowCrewData>({
     crew: [],
     timeline: [
@@ -59,7 +87,7 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
       { label: "Showtime", time: "" },
       { label: "Load-out", time: "" },
     ],
-    gear: DEFAULT_GEAR.map(g => ({ name: g, loaded: false })),
+    gear: DEFAULT_GEAR.map((g) => ({ name: g, loaded: false })),
     notes: [],
   });
 
@@ -69,99 +97,162 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
   const [newNote, setNewNote] = useState("");
   const [addingGear, setAddingGear] = useState(false);
   const [newGearName, setNewGearName] = useState("");
-  const [activeSection, setActiveSection] = useState<"crew" | "timeline" | "gear" | "notes">("crew");
+  const [activeSection, setActiveSection] = useState<
+    "crew" | "timeline" | "gear" | "notes"
+  >("crew");
 
   const addCrew = () => {
     if (!newName.trim()) return;
-    setData(prev => ({ ...prev, crew: [...prev.crew, { name: newName.trim(), role: newRole, confirmed: false }] }));
+    setData((prev) => ({
+      ...prev,
+      crew: [
+        ...prev.crew,
+        { name: newName.trim(), role: newRole, confirmed: false },
+      ],
+    }));
     setNewName("");
     setAddingCrew(false);
   };
 
   const toggleConfirm = (i: number) => {
-    setData(prev => ({
+    setData((prev) => ({
       ...prev,
-      crew: prev.crew.map((c, idx) => idx === i ? { ...c, confirmed: !c.confirmed } : c),
+      crew: prev.crew.map((c, idx) =>
+        idx === i ? { ...c, confirmed: !c.confirmed } : c,
+      ),
     }));
   };
 
   const removeCrew = (i: number) => {
-    setData(prev => ({ ...prev, crew: prev.crew.filter((_, idx) => idx !== i) }));
+    setData((prev) => ({
+      ...prev,
+      crew: prev.crew.filter((_, idx) => idx !== i),
+    }));
   };
 
   const updateTimeline = (i: number, time: string) => {
-    setData(prev => ({
+    setData((prev) => ({
       ...prev,
-      timeline: prev.timeline.map((t, idx) => idx === i ? { ...t, time } : t),
+      timeline: prev.timeline.map((t, idx) => (idx === i ? { ...t, time } : t)),
     }));
   };
 
   const toggleGear = (i: number) => {
-    setData(prev => ({
+    setData((prev) => ({
       ...prev,
-      gear: prev.gear.map((g, idx) => idx === i ? { ...g, loaded: !g.loaded } : g),
+      gear: prev.gear.map((g, idx) =>
+        idx === i ? { ...g, loaded: !g.loaded } : g,
+      ),
     }));
   };
 
   const removeGear = (i: number) => {
-    setData(prev => ({ ...prev, gear: prev.gear.filter((_, idx) => idx !== i) }));
+    setData((prev) => ({
+      ...prev,
+      gear: prev.gear.filter((_, idx) => idx !== i),
+    }));
   };
 
   const addGearItem = () => {
     if (!newGearName.trim()) return;
-    setData(prev => ({ ...prev, gear: [...prev.gear, { name: newGearName.trim(), loaded: false }] }));
+    setData((prev) => ({
+      ...prev,
+      gear: [...prev.gear, { name: newGearName.trim(), loaded: false }],
+    }));
     setNewGearName("");
     setAddingGear(false);
   };
 
   const addNote = () => {
     if (!newNote.trim()) return;
-    setData(prev => ({
+    setData((prev) => ({
       ...prev,
-      notes: [{ text: newNote.trim(), author: "Band Manager", time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }, ...prev.notes],
+      notes: [
+        {
+          text: newNote.trim(),
+          author: "Band Manager",
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        },
+        ...prev.notes,
+      ],
     }));
     setNewNote("");
   };
 
-  const confirmedCount = data.crew.filter(c => c.confirmed).length;
-  const gearLoaded = data.gear.filter(g => g.loaded).length;
-  const gearPct = data.gear.length > 0 ? Math.round((gearLoaded / data.gear.length) * 100) : 0;
+  const confirmedCount = data.crew.filter((c) => c.confirmed).length;
+  const gearLoaded = data.gear.filter((g) => g.loaded).length;
+  const gearPct =
+    data.gear.length > 0
+      ? Math.round((gearLoaded / data.gear.length) * 100)
+      : 0;
 
   const tabs = [
-    { id: "crew" as const, label: "Crew", count: `${confirmedCount}/${data.crew.length}`, Icon: Users },
-    { id: "timeline" as const, label: "Schedule", count: data.timeline.filter(t => t.time).length + "/" + data.timeline.length, Icon: Clock },
+    {
+      id: "crew" as const,
+      label: "Crew",
+      count: `${confirmedCount}/${data.crew.length}`,
+      Icon: Users,
+    },
+    {
+      id: "timeline" as const,
+      label: "Schedule",
+      count:
+        data.timeline.filter((t) => t.time).length + "/" + data.timeline.length,
+      Icon: Clock,
+    },
     { id: "gear" as const, label: "Gear", count: `${gearPct}%`, Icon: Guitar },
-    { id: "notes" as const, label: "Notes", count: String(data.notes.length), Icon: FileText },
+    {
+      id: "notes" as const,
+      label: "Notes",
+      count: String(data.notes.length),
+      Icon: FileText,
+    },
   ];
 
   return (
-    <div className="border border-white/10 overflow-hidden">
+    <div className="overflow-hidden border border-white/10">
       {/* Header */}
-      <div className="px-5 py-3 bg-white/[0.02] border-b border-white/10 flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.02] px-5 py-3">
         <div className="flex items-center gap-3">
           <div>
             <span className=" ">Show Crew — {bookingId}</span>
-            <span className="text-white/30 ml-2">{eventDate} · {venueName}</span>
+            <span className="ml-2 text-white/30">
+              {eventDate} · {venueName}
+            </span>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-[var(--font-size-2xs)] text-white/20">Headcount:</span>
-          <span className={`${confirmedCount > 0 ? 'text-emerald-400' : ' text-white/30'}`}>{confirmedCount}</span>
+          <span className="text-[var(--font-size-2xs)] text-white/20">
+            Headcount:
+          </span>
+          <span
+            className={`${confirmedCount > 0 ? "text-emerald-400" : "text-white/30"}`}
+          >
+            {confirmedCount}
+          </span>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="flex border-b border-white/5">
-        {tabs.map(tab => {
+        {tabs.map((tab) => {
           const TabIcon = tab.Icon;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
-              className={`flex-1 px-4 py-2.5 transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${activeSection === tab.id ? ' bg-[var(--color-accent)]/5 border-b-2 border-[var(--color-accent)]' : ' hover:text-white text-white/50 hover:bg-white/[0.02]'}`}>
-              <TabIcon className="w-3.5 h-3.5" />
+              className={`flex flex-1 cursor-pointer items-center justify-center gap-1.5 px-4 py-2.5 transition-colors ${activeSection === tab.id ? "border-b-2 border-[var(--color-accent)] bg-[var(--color-accent)]/5" : "text-white/50 hover:bg-white/[0.02] hover:text-white"}`}
+            >
+              <TabIcon className="h-3.5 w-3.5" />
               {tab.label}
-              <span className={`ml-1 px-1.5 py-0.5 rounded text-[var(--font-size-2xs)] ${activeSection === tab.id ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)]' : ' bg-[#00000029] text-white/30'}`}>{tab.count}</span>
+              <span
+                className={`ml-1 rounded px-1.5 py-0.5 text-[var(--font-size-2xs)] ${activeSection === tab.id ? "bg-[var(--color-accent)]/20 text-[var(--color-accent)]" : "bg-[#00000029] text-white/30"}`}
+              >
+                {tab.count}
+              </span>
             </button>
           );
         })}
@@ -169,49 +260,121 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
 
       {/* Content */}
       <div className="p-4">
-
         {/* CREW ROSTER */}
         {activeSection === "crew" && (
           <div>
             {data.crew.length === 0 && !addingCrew ? (
-              <div className="text-center py-8">
+              <div className="py-8 text-center">
                 <p className="mb-3">No crew assigned yet</p>
-                <button onClick={() => setAddingCrew(true)} className="text-[var(--color-accent)] cursor-pointer transition-colors">+ Add First Crew Member</button>
+                <button
+                  onClick={() => setAddingCrew(true)}
+                  className="cursor-pointer text-[var(--color-accent)] transition-colors"
+                >
+                  + Add First Crew Member
+                </button>
               </div>
             ) : (
               <>
-                <div className="space-y-1.5 mb-3">
-                  {Array.from(data.crew, (c, i) => ({ c, i })).map(({ c, i }) => (
-                    <div key={c.name || i} className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-colors ${c.confirmed ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.01] border-white/5'}`}>
-                      <button onClick={() => toggleConfirm(i)} className="cursor-pointer shrink-0" title={c.confirmed ? 'Confirmed' : 'Click to confirm'}>
-                        {c.confirmed ? <Check className="w-4 h-4 text-emerald-400" /> : <Square className="w-4 h-4 /15" />}
-                      </button>
-                      <div className="flex-1 min-w-0">
-                        <span className={`${c.confirmed ? ' text-white/70' : ' text-white/40'}`}>{c.name}</span>
+                <div className="mb-3 space-y-1.5">
+                  {Array.from(data.crew, (c, i) => ({ c, i })).map(
+                    ({ c, i }) => (
+                      <div
+                        key={c.name || i}
+                        className={`flex items-center gap-3 rounded-lg border px-3 py-2 transition-colors ${c.confirmed ? "border-emerald-500/15 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
+                      >
+                        <button
+                          onClick={() => toggleConfirm(i)}
+                          className="shrink-0 cursor-pointer"
+                          title={c.confirmed ? "Confirmed" : "Click to confirm"}
+                        >
+                          {c.confirmed ? (
+                            <Check className="h-4 w-4 text-emerald-400" />
+                          ) : (
+                            <Square className="/15 h-4 w-4" />
+                          )}
+                        </button>
+                        <div className="min-w-0 flex-1">
+                          <span
+                            className={`${c.confirmed ? "text-white/70" : "text-white/40"}`}
+                          >
+                            {c.name}
+                          </span>
+                        </div>
+                        <span
+                          className={`shrink-0 rounded px-2 py-0.5 text-[var(--font-size-2xs)] ${c.confirmed ? "border border-[var(--color-accent)]/30 bg-emerald-500/15" : "border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60"}`}
+                        >
+                          {c.role}
+                        </span>
+                        <button
+                          onClick={() => removeCrew(i)}
+                          className="shrink-0 cursor-pointer text-white/10 transition-colors hover:text-rose-400"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
                       </div>
-                      <span className={`px-2 py-0.5 rounded text-[var(--font-size-2xs)] shrink-0 ${c.confirmed ? 'bg-emerald-500/15 border border-[var(--color-accent)]/30' : 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60 border border-[var(--color-accent)]/15'}`}>{c.role}</span>
-                      <button onClick={() => removeCrew(i)} className="text-white/10 hover:text-rose-400 cursor-pointer transition-colors shrink-0"><X className="w-3.5 h-3.5" /></button>
-                    </div>
-                  ))}
+                    ),
+                  )}
                 </div>
 
                 {addingCrew ? (
-                  <div className="flex gap-2 items-end bg-white/[0.02] p-3 rounded-lg border border-white/5">
+                  <div className="flex items-end gap-2 rounded-lg border border-white/5 bg-white/[0.02] p-3">
                     <div className="flex-1">
-                      <label htmlFor="show-crew-new-name" className="text-[var(--font-size-2xs)] text-white/30 block mb-1">Name</label>
-                      <input id="show-crew-new-name" value={newName} onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCrew()} autoFocus placeholder="Crew member name" className="w-full border border-white/10 px-3 py-2 rounded-lg placeholder: /15 outline-none focus:border-[var(--color-accent)]" />
+                      <label
+                        htmlFor="show-crew-new-name"
+                        className="mb-1 block text-[var(--font-size-2xs)] text-white/30"
+                      >
+                        Name
+                      </label>
+                      <input
+                        id="show-crew-new-name"
+                        value={newName}
+                        onChange={(e) => setNewName(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && addCrew()}
+                        autoFocus
+                        placeholder="Crew member name"
+                        className="placeholder: /15 w-full rounded-lg border border-white/10 px-3 py-2 outline-none focus:border-[var(--color-accent)]"
+                      />
                     </div>
                     <div>
-                      <label htmlFor="show-crew-new-role" className="text-[var(--font-size-2xs)] text-white/30 block mb-1">Role</label>
-                      <select id="show-crew-new-role" value={newRole} onChange={e => setNewRole(e.target.value)} className="border border-white/10 px-3 py-2 rounded-lg outline-none focus:border-[var(--color-accent)] [color-scheme:dark]">
-                        {CREW_ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+                      <label
+                        htmlFor="show-crew-new-role"
+                        className="mb-1 block text-[var(--font-size-2xs)] text-white/30"
+                      >
+                        Role
+                      </label>
+                      <select
+                        id="show-crew-new-role"
+                        value={newRole}
+                        onChange={(e) => setNewRole(e.target.value)}
+                        className="rounded-lg border border-white/10 px-3 py-2 [color-scheme:dark] outline-none focus:border-[var(--color-accent)]"
+                      >
+                        {CREW_ROLES.map((r) => (
+                          <option key={r} value={r}>
+                            {r}
+                          </option>
+                        ))}
                       </select>
                     </div>
-                    <button onClick={addCrew} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] rounded-lg cursor-pointer transition-colors shrink-0">Add</button>
-                    <button onClick={() => setAddingCrew(false)} className="text-white/30 hover:text-white text-white/50 cursor-pointer shrink-0 py-2"><X className="w-4 h-4" /></button>
+                    <button
+                      onClick={addCrew}
+                      className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 transition-colors hover:bg-[var(--color-accent)]"
+                    >
+                      Add
+                    </button>
+                    <button
+                      onClick={() => setAddingCrew(false)}
+                      className="shrink-0 cursor-pointer py-2 text-white/30 text-white/50 hover:text-white"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
                   </div>
                 ) : (
-                  <button onClick={() => setAddingCrew(true)} className="text-[var(--color-accent)]/60 cursor-pointer transition-colors">+ Add Crew</button>
+                  <button
+                    onClick={() => setAddingCrew(true)}
+                    className="cursor-pointer text-[var(--color-accent)]/60 transition-colors"
+                  >
+                    + Add Crew
+                  </button>
                 )}
               </>
             )}
@@ -221,21 +384,33 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
         {/* TIMELINE */}
         {activeSection === "timeline" && (
           <div className="space-y-2">
-            {Array.from(data.timeline, (event, i) => ({ event, i })).map(({ event, i }) => (
-              <div key={event.label} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/[0.01] border border-white/5">
-                <div className="relative flex flex-col items-center shrink-0">
-                  <div className={`w-3 h-3 rounded-lg border-2 ${event.time ? 'bg-[var(--color-accent)] border-[var(--color-accent)]' : ' border-white/10 '}`} />
-                  {i < data.timeline.length - 1 && <div className="w-px h-6 bg-[#00000029] absolute top-3.5" />}
+            {Array.from(data.timeline, (event, i) => ({ event, i })).map(
+              ({ event, i }) => (
+                <div
+                  key={event.label}
+                  className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.01] px-3 py-2"
+                >
+                  <div className="relative flex shrink-0 flex-col items-center">
+                    <div
+                      className={`h-3 w-3 rounded-lg border-2 ${event.time ? "border-[var(--color-accent)] bg-[var(--color-accent)]" : "border-white/10"}`}
+                    />
+                    {i < data.timeline.length - 1 && (
+                      <div className="absolute top-3.5 h-6 w-px bg-[#00000029]" />
+                    )}
+                  </div>
+                  <span className="w-24 shrink-0 text-white/50">
+                    {event.label}
+                  </span>
+                  <input
+                    type="text"
+                    value={event.time}
+                    onChange={(e) => updateTimeline(i, e.target.value)}
+                    placeholder="e.g. 3:00 PM"
+                    className="placeholder: flex-1 border-b border-white/10 px-1 py-1 text-white/10 transition-colors outline-none focus:border-[var(--color-accent)]/50"
+                  />
                 </div>
-                <span className="text-white/50 w-24 shrink-0">{event.label}</span>
-                <input type="text"
-                  value={event.time}
-                  onChange={e => updateTimeline(i, e.target.value)}
-                  placeholder="e.g. 3:00 PM"
-                  className="flex-1 border-b border-white/10 focus:border-[var(--color-accent)]/50 px-1 py-1 outline-none placeholder: text-white/10 transition-colors"
-                />
-              </div>
-            ))}
+              ),
+            )}
           </div>
         )}
 
@@ -244,31 +419,81 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
           <div>
             {/* Progress bar */}
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex-1 h-1.5 bg-[#00000029] rounded-lg overflow-hidden">
-                <div className={`h-full rounded-lg transition-colors ${gearPct === 100 ? 'bg-emerald-500' : gearPct >= 50 ? 'bg-purple-600' : 'bg-rose-500'}`} style={{ width: `${gearPct}%` }} />
+              <div className="h-1.5 flex-1 overflow-hidden rounded-lg bg-[#00000029]">
+                <div
+                  className={`h-full rounded-lg transition-colors ${gearPct === 100 ? "bg-emerald-500" : gearPct >= 50 ? "bg-purple-600" : "bg-rose-500"}`}
+                  style={{ width: `${gearPct}%` }}
+                />
               </div>
-              <span className={`${gearPct === 100 ? 'text-emerald-400' : ' text-white/30'}`}>{gearLoaded}/{data.gear.length} loaded</span>
+              <span
+                className={`${gearPct === 100 ? "text-emerald-400" : "text-white/30"}`}
+              >
+                {gearLoaded}/{data.gear.length} loaded
+              </span>
             </div>
             <div className="grid grid-cols-2 gap-1.5">
-              {Array.from(data.gear, (item, i) => ({ item, i })).map(({ item, i }) => (
-                <div key={item.name} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border transition-colors ${item.loaded ? 'bg-emerald-500/5 border-emerald-500/10' : 'bg-white/[0.01] border-white/5'}`}>
-                  <button onClick={() => toggleGear(i)} className="cursor-pointer shrink-0">
-                    {item.loaded ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Square className="w-3.5 h-3.5 /15" />}
-                  </button>
-                  <span className={`flex-1 truncate ${item.loaded ? ' text-white/50 line-through' : ' '}`}>{item.name}</span>
-                  <button onClick={() => removeGear(i)} className="text-white/10 hover:text-rose-400 text-[var(--font-size-2xs)] cursor-pointer transition-colors shrink-0"><X className="w-3.5 h-3.5" /></button>
-                </div>
-              ))}
+              {Array.from(data.gear, (item, i) => ({ item, i })).map(
+                ({ item, i }) => (
+                  <div
+                    key={item.name}
+                    className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 transition-colors ${item.loaded ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
+                  >
+                    <button
+                      onClick={() => toggleGear(i)}
+                      className="shrink-0 cursor-pointer"
+                    >
+                      {item.loaded ? (
+                        <Check className="h-3.5 w-3.5 text-emerald-400" />
+                      ) : (
+                        <Square className="/15 h-3.5 w-3.5" />
+                      )}
+                    </button>
+                    <span
+                      className={`flex-1 truncate ${item.loaded ? "text-white/50 line-through" : " "}`}
+                    >
+                      {item.name}
+                    </span>
+                    <button
+                      onClick={() => removeGear(i)}
+                      className="shrink-0 cursor-pointer text-[var(--font-size-2xs)] text-white/10 transition-colors hover:text-rose-400"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                ),
+              )}
             </div>
             <div className="mt-3">
               {addingGear ? (
                 <div className="flex gap-2">
-                  <input value={newGearName} onChange={e => setNewGearName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addGearItem()} autoFocus placeholder="Gear item name" className="flex-1 border border-white/10 px-3 py-1.5 rounded-lg placeholder: /15 outline-none focus:border-[var(--color-accent)]" />
-                  <button onClick={addGearItem} className="text-[var(--color-accent)] cursor-pointer px-2">Add</button>
-                  <button onClick={() => setAddingGear(false)} className="text-white/30 cursor-pointer px-1"><X className="w-3.5 h-3.5" /></button>
+                  <input
+                    value={newGearName}
+                    onChange={(e) => setNewGearName(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && addGearItem()}
+                    autoFocus
+                    placeholder="Gear item name"
+                    className="placeholder: /15 flex-1 rounded-lg border border-white/10 px-3 py-1.5 outline-none focus:border-[var(--color-accent)]"
+                  />
+                  <button
+                    onClick={addGearItem}
+                    className="cursor-pointer px-2 text-[var(--color-accent)]"
+                  >
+                    Add
+                  </button>
+                  <button
+                    onClick={() => setAddingGear(false)}
+                    className="cursor-pointer px-1 text-white/30"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
                 </div>
               ) : (
-                <button onClick={() => setAddingGear(true)} className="text-[var(--color-accent)]/60 cursor-pointer transition-colors">+ Add Gear</button>
+                <button
+                  onClick={() => setAddingGear(true)}
+                  className="cursor-pointer text-[var(--color-accent)]/60 transition-colors"
+                >
+                  + Add Gear
+                </button>
               )}
             </div>
           </div>
@@ -277,26 +502,42 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
         {/* LOGISTICS NOTES */}
         {activeSection === "notes" && (
           <div>
-            <div className="flex gap-2 mb-3">
-              <input value={newNote}
-                onChange={e => setNewNote(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && addNote()}
+            <div className="mb-3 flex gap-2">
+              <input
+                value={newNote}
+                onChange={(e) => setNewNote(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="flex-1 border border-white/10 px-3 py-2 rounded-lg placeholder: /15 outline-none focus:border-[var(--color-accent)]"
+                className="placeholder: /15 flex-1 rounded-lg border border-white/10 px-3 py-2 outline-none focus:border-[var(--color-accent)]"
               />
-              <button onClick={addNote} disabled={!newNote.trim()} className="px-3 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)] rounded-lg cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0">Post</button>
+              <button
+                onClick={addNote}
+                disabled={!newNote.trim()}
+                className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 transition-colors hover:bg-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                Post
+              </button>
             </div>
             {data.notes.length === 0 ? (
-              <div className="text-center py-6 /15">No notes yet — add logistics info for the crew</div>
+              <div className="/15 py-6 text-center">
+                No notes yet — add logistics info for the crew
+              </div>
             ) : (
-              <div className="space-y-2 max-h-48 overflow-y-auto">
+              <div className="max-h-48 space-y-2 overflow-y-auto">
                 {data.notes.map((note) => (
-                  <div key={note.text} className="px-3 py-2.5 bg-white/[0.02] border border-white/10 rounded-lg">
+                  <div
+                    key={note.text}
+                    className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2.5"
+                  >
                     <p>{note.text}</p>
-                    <div className="flex items-center gap-2 .5">
-                      <span className="text-[var(--font-size-2xs)] text-[var(--color-accent)]/50">{note.author}</span>
-                      <span className="text-[var(--font-size-2xs)] /15">·</span>
-                      <span className="text-[var(--font-size-2xs)] text-white/20">{note.time}</span>
+                    <div className=".5 flex items-center gap-2">
+                      <span className="text-[var(--color-accent)]/50 text-[var(--font-size-2xs)]">
+                        {note.author}
+                      </span>
+                      <span className="/15 text-[var(--font-size-2xs)]">·</span>
+                      <span className="text-[var(--font-size-2xs)] text-white/20">
+                        {note.time}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -304,7 +545,6 @@ export default function ShowCrewPanel({ bookingId, eventDate, venueName }: { boo
             )}
           </div>
         )}
-
       </div>
     </div>
   );

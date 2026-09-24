@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface CruiseLivePreviewProps {
   livePreviewTab: string;
@@ -17,48 +17,62 @@ export function CruiseLivePreview({
   cleanWysiwygHtml,
   cruiseCommunityBlast,
 }: CruiseLivePreviewProps) {
-  const cleanedContent = cleanWysiwygHtml(cruiseMessage || '');
+  const cleanedContent = cleanWysiwygHtml(cruiseMessage || "");
 
-  if (livePreviewTab === 'wall' || livePreviewTab === 'dashboard') {
+  if (livePreviewTab === "wall" || livePreviewTab === "dashboard") {
     return (
-      <div className="bg-black/60 border border-white/10 rounded-lg p-5 shadow-inner min-h-[220px]">
-        <div className="flex items-center gap-3 mb-6 pb-3 border-b border-white/10">
-          <div className="w-11 h-11 rounded-lg bg- purple-white/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+      <div className="min-h-[220px] rounded-lg border border-white/10 bg-black/60 p-5 shadow-inner">
+        <div className="mb-6 flex items-center gap-3 border-b border-white/10 pb-3">
+          <div className="bg- purple-white/20 flex h-11 w-11 items-center justify-center rounded-lg border border-purple-500/40 text-purple-300">
             7H
           </div>
           <div>
             <div className="flex items-center gap-2">
               7th Heaven Official
-              <span className="text-[12px] bg- purple-white/20 text-purple-300 px-1.5 py-0.5 rounded">Admin Post</span>
+              <span className="bg- purple-white/20 rounded px-1.5 py-0.5 text-[12px] text-purple-300">
+                Admin Post
+              </span>
             </div>
-            <div className="text-[10px] text-white/40">Just now • Cruise Wall Feed</div>
+            <div className="text-[10px] text-white/40">
+              Just now • Cruise Wall Feed
+            </div>
           </div>
         </div>
         <div
-          className="prose prose-invert max-w-none /90"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(cleanedContent || '<p class="">Start typing above to see live preview...</p>') }}
+          className="prose prose-invert /90 max-w-none"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHtml(
+              cleanedContent ||
+                '<p class="">Start typing above to see live preview...</p>',
+            ),
+          }}
         />
       </div>
     );
   }
 
   return (
-    <div className="bg-[#0f0a1c] rounded-lg overflow-hidden border border-white/10 min-h-[300px]">
-      <div className="bg-[#180e2b] px-4 py-2.5 flex items-center justify-between border-b border-white/10">
-        <span className="text-[11px] text-purple-300">📧 Email Dispatch Mockup</span>
+    <div className="min-h-[300px] overflow-hidden rounded-lg border border-white/10 bg-[#0f0a1c]">
+      <div className="flex items-center justify-between border-b border-white/10 bg-[#180e2b] px-4 py-2.5">
+        <span className="text-[11px] text-purple-300">
+          📧 Email Dispatch Mockup
+        </span>
         <span className="text-[10px] text-white/50">To: All Cruise Guests</span>
       </div>
-      <div className="p-4 bg-[#140b24] border-b border-white/10 text-purple-200 text-[11px]">
-        <strong>Subject:</strong> {cruiseBlastSubject || '7th Heaven Cruise Update'}
+      <div className="border-b border-white/10 bg-[#140b24] p-4 text-[11px] text-purple-200">
+        <strong>Subject:</strong>{" "}
+        {cruiseBlastSubject || "7th Heaven Cruise Update"}
       </div>
       <div
-        className="p-6 bg-[#090412] prose prose-invert max-w-none /90"
+        className="prose prose-invert /90 max-w-none bg-[#090412] p-6"
         dangerouslySetInnerHTML={{
           __html: sanitizeHtml(
             cruiseCommunityBlast({
-              subject: cruiseBlastSubject || '7th Heaven Cruise Update',
-              body: cleanedContent || '<p style="color:#888;">Live email message body will appear here as you type...</p>',
-            })
+              subject: cruiseBlastSubject || "7th Heaven Cruise Update",
+              body:
+                cleanedContent ||
+                '<p style="color:#888;">Live email message body will appear here as you type...</p>',
+            }),
           ),
         }}
       />

@@ -1,8 +1,12 @@
 import { draftMode } from "next/headers";
 import dynamic from "next/dynamic";
 
-const SanityLive = dynamic(() => import("@/sanity/live").then((m) => m.SanityLive));
-const VisualEditing = dynamic(() => import("next-sanity/visual-editing").then((m) => m.VisualEditing));
+const SanityLive = dynamic(() =>
+  import("@/sanity/live").then((m) => m.SanityLive),
+);
+const VisualEditing = dynamic(() =>
+  import("next-sanity/visual-editing").then((m) => m.VisualEditing),
+);
 
 // Isolates the one dynamic API read (draftMode()) that used to sit directly
 // in the root layout's body. Cache Components requires any uncached dynamic

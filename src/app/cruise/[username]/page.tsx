@@ -11,7 +11,11 @@ import Image from "next/image";
 import { useEffect, useState, useCallback, useRef } from "react";
 import DOMPurify from "dompurify";
 import CruiseChat from "@/components/CruiseChat";
-import { EmbarkationCountdown, ImportantLinksWidget, BookingManager } from "@/components/CruiseWidgets";
+import {
+  EmbarkationCountdown,
+  ImportantLinksWidget,
+  BookingManager,
+} from "@/components/CruiseWidgets";
 import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
@@ -19,8 +23,15 @@ import PushAlertsCard from "@/components/PushAlertsCard";
 import SeventhButton from "@/components/SeventhButton";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 
-const CruiseSnakeItinerary = dynamic(() => import("@/components/CruiseSnakeItinerary"), { ssr: false });
-import { ITINERARY_2027, ITINERARY_2028, mapToSnakeItinerary } from "@/app/cruise/cruiseData";
+const CruiseSnakeItinerary = dynamic(
+  () => import("@/components/CruiseSnakeItinerary"),
+  { ssr: false },
+);
+import {
+  ITINERARY_2027,
+  ITINERARY_2028,
+  mapToSnakeItinerary,
+} from "@/app/cruise/cruiseData";
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import { sanitizeHtml } from "@/lib/sanitize-html";
 const ReactQuill = dynamic(
@@ -31,17 +42,30 @@ const ReactQuill = dynamic(
         const link = document.createElement("link");
         link.id = id;
         link.rel = "stylesheet";
-        link.href = "https://cdn.jsdelivr.net/npm/react-quill-new@2.0.0/dist/quill.snow.css";
+        link.href =
+          "https://cdn.jsdelivr.net/npm/react-quill-new@2.0.0/dist/quill.snow.css";
         document.head.appendChild(link);
       }
     }
     return import("react-quill-new");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
-type ItineraryEvent = { id: string; time: string; title: string; subtitle: string; };
-type ItineraryDay = { id: string; dayLabel: string; location: string; theme: string; events: ItineraryEvent[]; colorTheme: string; };
+type ItineraryEvent = {
+  id: string;
+  time: string;
+  title: string;
+  subtitle: string;
+};
+type ItineraryDay = {
+  id: string;
+  dayLabel: string;
+  location: string;
+  theme: string;
+  events: ItineraryEvent[];
+  colorTheme: string;
+};
 
 const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
   {
@@ -51,10 +75,25 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Welcome Aboard & Sail Away",
     colorTheme: "#06b6d4",
     events: [
-      { id: "e1-1", time: "12:00 PM", title: "VIP Boarding & Check-In", subtitle: "Port Canaveral Terminal (Orlando)" },
-      { id: "e1-2", time: "4:30 PM", title: "Ship Depart & Lido Deck Sail Away", subtitle: "Set sail with 7th Heaven live acoustic kick-off" },
-      { id: "e1-3", time: "9:00 PM", title: "7th Heaven: The Classics Live", subtitle: "Main Theater — First full rock set!" },
-    ]
+      {
+        id: "e1-1",
+        time: "12:00 PM",
+        title: "VIP Boarding & Check-In",
+        subtitle: "Port Canaveral Terminal (Orlando)",
+      },
+      {
+        id: "e1-2",
+        time: "4:30 PM",
+        title: "Ship Depart & Lido Deck Sail Away",
+        subtitle: "Set sail with 7th Heaven live acoustic kick-off",
+      },
+      {
+        id: "e1-3",
+        time: "9:00 PM",
+        title: "7th Heaven: The Classics Live",
+        subtitle: "Main Theater — First full rock set!",
+      },
+    ],
   },
   {
     id: "day2",
@@ -63,10 +102,25 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Rock the Ocean",
     colorTheme: "#3b82f6",
     events: [
-      { id: "e2-1", time: "11:00 AM", title: "Q&A Session with 7th Heaven", subtitle: "Main Theater — Ask the band anything!" },
-      { id: "e2-2", time: "3:00 PM", title: "Acoustic Poolside Jam", subtitle: "Lido Deck Pool — Sunshine & acoustic vibes" },
-      { id: "e2-3", time: "10:00 PM", title: "Late Night Rock Karaoke", subtitle: "Star Lounge — Sing with band members" },
-    ]
+      {
+        id: "e2-1",
+        time: "11:00 AM",
+        title: "Q&A Session with 7th Heaven",
+        subtitle: "Main Theater — Ask the band anything!",
+      },
+      {
+        id: "e2-2",
+        time: "3:00 PM",
+        title: "Acoustic Poolside Jam",
+        subtitle: "Lido Deck Pool — Sunshine & acoustic vibes",
+      },
+      {
+        id: "e2-3",
+        time: "10:00 PM",
+        title: "Late Night Rock Karaoke",
+        subtitle: "Star Lounge — Sing with band members",
+      },
+    ],
   },
   {
     id: "day3",
@@ -75,10 +129,25 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Island Party",
     colorTheme: "#10b981",
     events: [
-      { id: "e3-1", time: "9:00 AM", title: "Disembark at Private Island", subtitle: "Beach day, watersports & tropical drinks" },
-      { id: "e3-2", time: "1:00 PM", title: "Beachside Concert", subtitle: "Private Island Stage — Barefoot rock show!" },
-      { id: "e3-3", time: "5:00 PM", title: "All Aboard — Sail for St. Thomas", subtitle: "Lido Deck sunset party" },
-    ]
+      {
+        id: "e3-1",
+        time: "9:00 AM",
+        title: "Disembark at Private Island",
+        subtitle: "Beach day, watersports & tropical drinks",
+      },
+      {
+        id: "e3-2",
+        time: "1:00 PM",
+        title: "Beachside Concert",
+        subtitle: "Private Island Stage — Barefoot rock show!",
+      },
+      {
+        id: "e3-3",
+        time: "5:00 PM",
+        title: "All Aboard — Sail for St. Thomas",
+        subtitle: "Lido Deck sunset party",
+      },
+    ],
   },
   {
     id: "day4",
@@ -87,10 +156,25 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Tropical Excursions",
     colorTheme: "#f59e0b",
     events: [
-      { id: "e4-1", time: "8:00 AM", title: "Dock at St. Thomas", subtitle: "Explore Magens Bay, shopping & catamaran tours" },
-      { id: "e4-2", time: "4:30 PM", title: "All Aboard St. Thomas", subtitle: "Prep for 80s Rock Theme Night" },
-      { id: "e4-3", time: "9:00 PM", title: "80s Rock Costume Party & Show", subtitle: "Main Theater — Dress in your best 80s gear!" },
-    ]
+      {
+        id: "e4-1",
+        time: "8:00 AM",
+        title: "Dock at St. Thomas",
+        subtitle: "Explore Magens Bay, shopping & catamaran tours",
+      },
+      {
+        id: "e4-2",
+        time: "4:30 PM",
+        title: "All Aboard St. Thomas",
+        subtitle: "Prep for 80s Rock Theme Night",
+      },
+      {
+        id: "e4-3",
+        time: "9:00 PM",
+        title: "80s Rock Costume Party & Show",
+        subtitle: "Main Theater — Dress in your best 80s gear!",
+      },
+    ],
   },
   {
     id: "day5",
@@ -99,10 +183,25 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Island Vibes & Acoustic Sunset",
     colorTheme: "#9333ea",
     events: [
-      { id: "e5-1", time: "8:00 AM", title: "Dock at Philipsburg, St. Maarten", subtitle: "Maho Beach plane watching & shopping" },
-      { id: "e5-2", time: "5:00 PM", title: "Ship Departs St. Maarten", subtitle: "Set sail for evening theater show" },
-      { id: "e5-3", time: "9:00 PM", title: "7th Heaven Unplugged: Deep Cuts", subtitle: "Intimate acoustic theater performance" },
-    ]
+      {
+        id: "e5-1",
+        time: "8:00 AM",
+        title: "Dock at Philipsburg, St. Maarten",
+        subtitle: "Maho Beach plane watching & shopping",
+      },
+      {
+        id: "e5-2",
+        time: "5:00 PM",
+        title: "Ship Departs St. Maarten",
+        subtitle: "Set sail for evening theater show",
+      },
+      {
+        id: "e5-3",
+        time: "9:00 PM",
+        title: "7th Heaven Unplugged: Deep Cuts",
+        subtitle: "Intimate acoustic theater performance",
+      },
+    ],
   },
   {
     id: "day6",
@@ -111,10 +210,25 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Caribbean Cruising",
     colorTheme: "#ec4899",
     events: [
-      { id: "e6-1", time: "1:00 PM", title: "Fan Rock Trivia & Prize Raffle", subtitle: "Win autographed merchandise & VIP passes" },
-      { id: "e6-2", time: "4:00 PM", title: "Deck Party & Cocktail Hour", subtitle: "Poolside grooves with 7th Heaven" },
-      { id: "e6-3", time: "9:30 PM", title: "Rock the Ocean Showcase", subtitle: "Main Deck Concert" },
-    ]
+      {
+        id: "e6-1",
+        time: "1:00 PM",
+        title: "Fan Rock Trivia & Prize Raffle",
+        subtitle: "Win autographed merchandise & VIP passes",
+      },
+      {
+        id: "e6-2",
+        time: "4:00 PM",
+        title: "Deck Party & Cocktail Hour",
+        subtitle: "Poolside grooves with 7th Heaven",
+      },
+      {
+        id: "e6-3",
+        time: "9:30 PM",
+        title: "Rock the Ocean Showcase",
+        subtitle: "Main Deck Concert",
+      },
+    ],
   },
   {
     id: "day7",
@@ -123,10 +237,25 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Grand Finale Celebration",
     colorTheme: "#8b5cf6",
     events: [
-      { id: "e7-1", time: "2:00 PM", title: "Farewell Fan Photo & Autographs", subtitle: "Deck 5 Atrium" },
-      { id: "e7-2", time: "9:00 PM", title: "7th Heaven Farewell Concert", subtitle: "Grand Theater — All the mega hits!" },
-      { id: "e7-3", time: "11:30 PM", title: "After-Party Jam Session", subtitle: "Lounge 360" },
-    ]
+      {
+        id: "e7-1",
+        time: "2:00 PM",
+        title: "Farewell Fan Photo & Autographs",
+        subtitle: "Deck 5 Atrium",
+      },
+      {
+        id: "e7-2",
+        time: "9:00 PM",
+        title: "7th Heaven Farewell Concert",
+        subtitle: "Grand Theater — All the mega hits!",
+      },
+      {
+        id: "e7-3",
+        time: "11:30 PM",
+        title: "After-Party Jam Session",
+        subtitle: "Lounge 360",
+      },
+    ],
   },
   {
     id: "day8",
@@ -135,33 +264,43 @@ const DEFAULT_CARIBBEAN_ITINERARY: ItineraryDay[] = [
     theme: "Disembarkation & Farewell",
     colorTheme: "#64748b",
     events: [
-      { id: "e8-1", time: "6:00 AM", title: "Ship Arrives Port Canaveral", subtitle: "Docking at Orlando Cruise Terminal" },
-      { id: "e8-2", time: "8:00 AM", title: "Farewell Breakfast & Disembarkation", subtitle: "Safe travels home — see you next voyage!" },
-    ]
-  }
+      {
+        id: "e8-1",
+        time: "6:00 AM",
+        title: "Ship Arrives Port Canaveral",
+        subtitle: "Docking at Orlando Cruise Terminal",
+      },
+      {
+        id: "e8-2",
+        time: "8:00 AM",
+        title: "Farewell Breakfast & Disembarkation",
+        subtitle: "Safe travels home — see you next voyage!",
+      },
+    ],
+  },
 ];
 
 const DEFAULT_PASSENGERS = [
-  { id: 'p-1', name: 'John', extra: 0, initial: 'J' },
-  { id: 'p-2', name: 'Jake', extra: 0, initial: 'J' },
-  { id: 'p-3', name: 'Jake', extra: 0, initial: 'J' },
-  { id: 'p-4', name: 'John', extra: 3, initial: 'J' },
-  { id: 'p-5', name: 'Anonymous', extra: 0, initial: '?' },
-  { id: 'p-6', name: 'Test', extra: 0, initial: 'T' },
-  { id: 'p-7', name: 'Cruise', extra: 21, initial: 'C' },
-  { id: 'p-8', name: 'Tester', extra: 1, initial: 'T' },
-  { id: 'p-9', name: 'Super', extra: 1, initial: 'S' },
-  { id: 'p-10', name: 'Michael', extra: 1, initial: 'M' },
-  { id: 'p-11', name: 'Tester', extra: 1, initial: 'T' },
-  { id: 'p-12', name: 'Anonymous', extra: 0, initial: '?' },
-  { id: 'p-13', name: 'Alice', extra: 0, initial: 'A' },
-  { id: 'p-14', name: 'Cruise', extra: 0, initial: 'C' },
-  { id: 'p-15', name: 'Michael', extra: 0, initial: 'M' },
-  { id: 'p-16', name: 'E2E', extra: 0, initial: 'E' },
-  { id: 'p-17', name: 'Michael', extra: 0, initial: 'M' },
-  { id: 'p-18', name: 'd', extra: 1, initial: 'D' },
-  { id: 'p-19', name: 'Test', extra: 2, initial: 'T' },
-  { id: 'p-20', name: 'Test', extra: 1, initial: 'T' },
+  { id: "p-1", name: "John", extra: 0, initial: "J" },
+  { id: "p-2", name: "Jake", extra: 0, initial: "J" },
+  { id: "p-3", name: "Jake", extra: 0, initial: "J" },
+  { id: "p-4", name: "John", extra: 3, initial: "J" },
+  { id: "p-5", name: "Anonymous", extra: 0, initial: "?" },
+  { id: "p-6", name: "Test", extra: 0, initial: "T" },
+  { id: "p-7", name: "Cruise", extra: 21, initial: "C" },
+  { id: "p-8", name: "Tester", extra: 1, initial: "T" },
+  { id: "p-9", name: "Super", extra: 1, initial: "S" },
+  { id: "p-10", name: "Michael", extra: 1, initial: "M" },
+  { id: "p-11", name: "Tester", extra: 1, initial: "T" },
+  { id: "p-12", name: "Anonymous", extra: 0, initial: "?" },
+  { id: "p-13", name: "Alice", extra: 0, initial: "A" },
+  { id: "p-14", name: "Cruise", extra: 0, initial: "C" },
+  { id: "p-15", name: "Michael", extra: 0, initial: "M" },
+  { id: "p-16", name: "E2E", extra: 0, initial: "E" },
+  { id: "p-17", name: "Michael", extra: 0, initial: "M" },
+  { id: "p-18", name: "d", extra: 1, initial: "D" },
+  { id: "p-19", name: "Test", extra: 2, initial: "T" },
+  { id: "p-20", name: "Test", extra: 1, initial: "T" },
 ];
 
 function PassengersWidget() {
@@ -172,47 +311,50 @@ function PassengersWidget() {
   const extraAvatarsCount = Math.max(0, totalCount - topAvatars.length);
 
   return (
-    <div className="p-2 relative overflow-hidden group">
-      <div className="flex justify-between items-end mb-6 relative z-10">
+    <div className="group relative overflow-hidden p-2">
+      <div className="relative z-10 mb-6 flex items-end justify-between">
         <div>
           <h2 className="mb-1 text-xs">Community</h2>
           <div className="flex items-center gap-2">
             <span className="text-2xl">{totalCount}</span>
-            <span className="text-[var(--color-accent)] text-sm sm:text-base">Cruise Members Onboard</span>
+            <span className="text-sm text-[var(--color-accent)] sm:text-base">
+              Cruise Members Onboard
+            </span>
           </div>
         </div>
       </div>
 
       {/* Avatar Circle Row */}
-      <div className="flex items-center gap-2 flex-wrap mb-6 relative z-10">
+      <div className="relative z-10 mb-6 flex flex-wrap items-center gap-2">
         {topAvatars.map((p) => (
           <div
             key={`avatar-${p.id}`}
-            className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/40 text-sm flex items-center justify-center cursor-pointer">
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/40 text-sm sm:h-10 sm:w-10"
+          >
             {p.initial}
           </div>
         ))}
         {extraAvatarsCount > 0 && (
-          <div className="w-11 h-11 sm:w-10 sm:h-10 rounded-full border border-purple-400/30 bg-purple-900/60 text-purple-300 text-xs flex items-center justify-center shadow-sm">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/60 text-xs text-purple-300 shadow-sm sm:h-10 sm:w-10">
             +{extraAvatarsCount}
           </div>
         )}
       </div>
 
       {/* Member Names Dot-Separated List */}
-      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 relative z-10 text-sm sm:text-base">
+      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm sm:text-base">
         {passengers.map((p, idx) => (
           <div key={`passenger-${p.id}`} className="inline-flex items-center">
             <span className=" ">
               {p.name}
               {p.extra > 0 && (
-                <span className="text-purple-300 ml-1 text-xs sm:text-sm">
+                <span className="ml-1 text-xs text-purple-300 sm:text-sm">
                   +{p.extra}
                 </span>
               )}
             </span>
             {idx < passengers.length - 1 && (
-              <span className="text-white/30 ml-1.5 mr-0.5">·</span>
+              <span className="mr-0.5 ml-1.5 text-white/30">·</span>
             )}
           </div>
         ))}
@@ -223,13 +365,19 @@ function PassengersWidget() {
 
 const loadCruiseItineraryData = async (): Promise<any[]> => {
   try {
-    const res = await fetch(`/api/cruise/itinerary?t=${Date.now()}`, { cache: 'no-store' });
+    const res = await fetch(`/api/cruise/itinerary?t=${Date.now()}`, {
+      cache: "no-store",
+    });
     const data = res.ok ? await res.json() : null;
     if (!data) return mapToSnakeItinerary(ITINERARY_2027);
     let actualData = data;
     let attempts = 0;
-    while (typeof actualData === 'string' && attempts < 3) {
-      try { actualData = JSON.parse(actualData); } catch { break; }
+    while (typeof actualData === "string" && attempts < 3) {
+      try {
+        actualData = JSON.parse(actualData);
+      } catch {
+        break;
+      }
       attempts++;
     }
     if (Array.isArray(actualData) && actualData.length > 0) {
@@ -241,18 +389,27 @@ const loadCruiseItineraryData = async (): Promise<any[]> => {
   }
 };
 
-const loadCruiseAnnouncementData = async (): Promise<{ message: string; title: string } | null> => {
+const loadCruiseAnnouncementData = async (): Promise<{
+  message: string;
+  title: string;
+} | null> => {
   try {
-    const res = await fetch(`/api/cruise/announcement?t=${Date.now()}`, { cache: 'no-store' });
+    const res = await fetch(`/api/cruise/announcement?t=${Date.now()}`, {
+      cache: "no-store",
+    });
     const data = res.ok ? await res.json() : null;
     let actualData = data;
     let attempts = 0;
-    while (typeof actualData === 'string' && attempts < 3) {
-      try { actualData = JSON.parse(actualData); } catch { break; }
+    while (typeof actualData === "string" && attempts < 3) {
+      try {
+        actualData = JSON.parse(actualData);
+      } catch {
+        break;
+      }
       attempts++;
     }
     if (actualData?.message) {
-      const subj = actualData?.subject || actualData?.title || '';
+      const subj = actualData?.subject || actualData?.title || "";
       return { message: actualData.message, title: subj };
     }
     return null;
@@ -261,15 +418,21 @@ const loadCruiseAnnouncementData = async (): Promise<{ message: string; title: s
   }
 };
 
-const loadCruiseGuidelinesData = async (): Promise<{ title: string; subtitle: string; content: string } | null> => {
+const loadCruiseGuidelinesData = async (): Promise<{
+  title: string;
+  subtitle: string;
+  content: string;
+} | null> => {
   try {
-    const res = await fetch(`/api/cruise/guidelines?t=${Date.now()}`, { cache: 'no-store' });
+    const res = await fetch(`/api/cruise/guidelines?t=${Date.now()}`, {
+      cache: "no-store",
+    });
     const data = res.ok ? await res.json() : null;
     if (data?.title) {
       return {
         title: data.title || "Cruise Information & Guidelines",
         subtitle: data.subtitle || "Cruiser Welcome Pack",
-        content: data.content || ""
+        content: data.content || "",
       };
     }
     return null;
@@ -284,58 +447,104 @@ export default function CruiseDashboard() {
   const params = useParams();
   const supabase = createClient();
 
-  const urlUsername = typeof params?.username === 'string' ? params.username : '';
-  const isDemoMode = urlUsername === 'demo';
+  const urlUsername =
+    typeof params?.username === "string" ? params.username : "";
+  const isDemoMode = urlUsername === "demo";
 
   useEffect(() => {
-    if (!isDemoMode && isLoggedIn && member?.role === 'cruise' && member?.username && member.username !== urlUsername) {
+    if (
+      !isDemoMode &&
+      isLoggedIn &&
+      member?.role === "cruise" &&
+      member?.username &&
+      member.username !== urlUsername
+    ) {
       router.replace(`/cruise/${member.username}`);
     }
   }, [isDemoMode, isLoggedIn, member, urlUsername, router]);
 
   const [announcement, setAnnouncement] = useState<string | null>(null);
-  const [announcementTitle, setAnnouncementTitle] = useState<string>('');
-  const [announcementTitleInput, setAnnouncementTitleInput] = useState<string>('');
+  const [announcementTitle, setAnnouncementTitle] = useState<string>("");
+  const [announcementTitleInput, setAnnouncementTitleInput] =
+    useState<string>("");
   const [isEditingAnnouncement, setIsEditingAnnouncement] = useState(false);
-  const [announcementInput, setAnnouncementInput] = useState('');
+  const [announcementInput, setAnnouncementInput] = useState("");
 
-  const [itinerary, setItinerary] = useState<ItineraryDay[]>(DEFAULT_CARIBBEAN_ITINERARY);
+  const [itinerary, setItinerary] = useState<ItineraryDay[]>(
+    DEFAULT_CARIBBEAN_ITINERARY,
+  );
 
   // Auth panel states
-  const [authTab, setAuthTab] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [authTab, setAuthTab] = useState<"login" | "register">("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [authError, setAuthError] = useState('');
+  const [authError, setAuthError] = useState("");
   const [regSuccess, setRegSuccess] = useState(false);
   const [verifyingPin, setVerifyingPin] = useState(false);
-  const [pinInput, setPinInput] = useState('');
+  const [pinInput, setPinInput] = useState("");
   const [activeItinYear, setActiveItinYear] = useState<2027 | 2028>(2027);
 
-  const rawUsername = params?.username ? String(params.username) : 'cruise_guest';
-  const derivedName = member?.name || rawUsername.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  const rawUsername = params?.username
+    ? String(params.username)
+    : "cruise_guest";
+  const derivedName =
+    member?.name ||
+    rawUsername.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
   const showAuth = false; // Always grant access on /cruise/[username]
-  const effectiveMember = isDemoMode ? {
-    id: 'demo-cruise-001',
-    name: 'Demo Cruiser',
-    email: 'demo@7thheavenband.com',
-    role: 'cruise',
-    signup_source: 'cruise_member_signup',
-    username: 'demo',
-    avatar: 'DC'
-  } as any : ((member && member.role === 'cruise') ? { ...member, avatar: member.avatar || (rawUsername.toLowerCase().includes('michael') ? '/michaelscimeca.png' : undefined) } : {
-    id: `cruise-${rawUsername}`,
-    name: (rawUsername.toLowerCase().includes('michael') || member?.email?.toLowerCase().includes('michael')) ? 'Michael Scimeca' : (member?.name || derivedName || 'Cruise Guest'),
-    email: member?.email || (rawUsername.toLowerCase().includes('michael') ? 'michael@7thheaven.com' : `${rawUsername.toLowerCase()}@7thheaven.com`),
-    role: 'cruise',
-    signup_source: 'cruise_member_signup',
-    username: rawUsername,
-    avatar: (rawUsername.toLowerCase().includes('michael') || member?.email?.toLowerCase().includes('michael')) ? '/michaelscimeca.png' : (member?.avatar || (member?.name || derivedName || 'CG').split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2))
-  } as any);
-  const isAdmin = effectiveMember?.role === 'admin' || effectiveMember?.role === 'crew' || member?.role === 'admin';
+  const effectiveMember = isDemoMode
+    ? ({
+        id: "demo-cruise-001",
+        name: "Demo Cruiser",
+        email: "demo@7thheavenband.com",
+        role: "cruise",
+        signup_source: "cruise_member_signup",
+        username: "demo",
+        avatar: "DC",
+      } as any)
+    : member && member.role === "cruise"
+      ? {
+          ...member,
+          avatar:
+            member.avatar ||
+            (rawUsername.toLowerCase().includes("michael")
+              ? "/michaelscimeca.png"
+              : undefined),
+        }
+      : ({
+          id: `cruise-${rawUsername}`,
+          name:
+            rawUsername.toLowerCase().includes("michael") ||
+            member?.email?.toLowerCase().includes("michael")
+              ? "Michael Scimeca"
+              : member?.name || derivedName || "Cruise Guest",
+          email:
+            member?.email ||
+            (rawUsername.toLowerCase().includes("michael")
+              ? "michael@7thheaven.com"
+              : `${rawUsername.toLowerCase()}@7thheaven.com`),
+          role: "cruise",
+          signup_source: "cruise_member_signup",
+          username: rawUsername,
+          avatar:
+            rawUsername.toLowerCase().includes("michael") ||
+            member?.email?.toLowerCase().includes("michael")
+              ? "/michaelscimeca.png"
+              : member?.avatar ||
+                (member?.name || derivedName || "CG")
+                  .split(" ")
+                  .map((n: string) => n[0])
+                  .join("")
+                  .toUpperCase()
+                  .slice(0, 2),
+        } as any);
+  const isAdmin =
+    effectiveMember?.role === "admin" ||
+    effectiveMember?.role === "crew" ||
+    member?.role === "admin";
 
   const refreshCruiseData = useCallback(() => {
     let isMounted = true;
@@ -343,7 +552,7 @@ export default function CruiseDashboard() {
     Promise.all([
       loadCruiseItineraryData(),
       loadCruiseAnnouncementData(),
-      loadCruiseGuidelinesData()
+      loadCruiseGuidelinesData(),
     ]).then(([itinData, annData, guideData]) => {
       if (!isMounted) return;
       setItinerary(itinData);
@@ -355,9 +564,9 @@ export default function CruiseDashboard() {
         setAnnouncementTitleInput(annData.title);
       } else {
         setAnnouncement(null);
-        setAnnouncementInput('');
-        setAnnouncementTitle('');
-        setAnnouncementTitleInput('');
+        setAnnouncementInput("");
+        setAnnouncementTitle("");
+        setAnnouncementTitleInput("");
       }
 
       if (guideData) {
@@ -368,7 +577,9 @@ export default function CruiseDashboard() {
       }
     });
 
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -376,19 +587,24 @@ export default function CruiseDashboard() {
     return refreshCruiseData();
   }, [showAuth, refreshCruiseData]);
 
-  const [guidelines, setGuidelines] = useState<{ title: string; subtitle: string; content: string }>({
+  const [guidelines, setGuidelines] = useState<{
+    title: string;
+    subtitle: string;
+    content: string;
+  }>({
     title: "Cruise Information & Guidelines",
     subtitle: "Cruiser Welcome Pack",
-    content: `<p>Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.</p><p>As we prepare to embark, make sure you review the official <a href="/cruise">travel check-list</a> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.</p><p>Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary">official itinerary schedule</a> below to plan your days and nights around these highlight events.</p><p>Beyond the music, this cruise offers incredible opportunities to explore beautiful tropical destinations, coordinate group excursions, and participate in fun community activities. Whether you are relaxing by the pool, dining with friends, or exploring local ports of call, there is always something exciting to do with the 7th Heaven community.</p><p>Lastly, don't forget to use the Passenger Lounge Chat on the right to introduce yourself, coordinate plans, and share your excitement! Connecting with other fans before and during the cruise is a huge part of what makes this trip so special. We can't wait to see you onboard and rock the high seas together!</p>`
+    content: `<p>Welcome to the official 7th Heaven Cruise Passenger Portal! We are absolutely thrilled to have you join us for this one-of-a-kind rock-and-roll voyage. This portal is your exclusive gateway to everything happening during our journey, designed to keep you connected with the band, the crew, and your fellow passengers from the moment you book until we return to port.</p><p>As we prepare to embark, make sure you review the official <a href="/cruise">travel check-list</a> and itinerary details. From shipboard safety drills to themed concert nights, staying informed ensures you won't miss a single beat of the action. Keep an eye on the Captain's Log and priority updates above for any real-time adjustments or exciting announcements from the band.</p><p>Onboard entertainment is the heart of the 7th Heaven cruise experience. We have a stellar lineup of main stage concert performances, intimate acoustic lounge sets, Q&A sessions, and exclusive deck parties scheduled throughout the trip. Be sure to check the <a href="#itinerary">official itinerary schedule</a> below to plan your days and nights around these highlight events.</p><p>Beyond the music, this cruise offers incredible opportunities to explore beautiful tropical destinations, coordinate group excursions, and participate in fun community activities. Whether you are relaxing by the pool, dining with friends, or exploring local ports of call, there is always something exciting to do with the 7th Heaven community.</p><p>Lastly, don't forget to use the Passenger Lounge Chat on the right to introduce yourself, coordinate plans, and share your excitement! Connecting with other fans before and during the cruise is a huge part of what makes this trip so special. We can't wait to see you onboard and rock the high seas together!</p>`,
   });
   const [isEditingGuidelines, setIsEditingGuidelines] = useState(false);
-  const [guidelinesTitleInput, setGuidelinesTitleInput] = useState('');
-  const [guidelinesSubtitleInput, setGuidelinesSubtitleInput] = useState('');
-  const [guidelinesContentInput, setGuidelinesContentInput] = useState('');
-  const [sanitizedGuidelinesContent, setSanitizedGuidelinesContent] = useState('');
+  const [guidelinesTitleInput, setGuidelinesTitleInput] = useState("");
+  const [guidelinesSubtitleInput, setGuidelinesSubtitleInput] = useState("");
+  const [guidelinesContentInput, setGuidelinesContentInput] = useState("");
+  const [sanitizedGuidelinesContent, setSanitizedGuidelinesContent] =
+    useState("");
 
   useEffect(() => {
-    if (guidelines.content && typeof window !== 'undefined') {
+    if (guidelines.content && typeof window !== "undefined") {
       const clean = cleanWysiwygHtml(guidelines.content);
       setSanitizedGuidelinesContent(DOMPurify.sanitize(clean));
     }
@@ -400,20 +616,20 @@ export default function CruiseDashboard() {
     isSavingGuidelinesRef.current = true;
     try {
       const cleanContent = cleanWysiwygHtml(guidelinesContentInput);
-      const res = await fetch('/api/cruise/guidelines', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/cruise/guidelines", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: guidelinesTitleInput,
           subtitle: guidelinesSubtitleInput,
-          content: cleanContent
-        })
+          content: cleanContent,
+        }),
       });
       if (res.ok) {
         setGuidelines({
           title: guidelinesTitleInput,
           subtitle: guidelinesSubtitleInput,
-          content: cleanContent
+          content: cleanContent,
         });
         setIsEditingGuidelines(false);
       }
@@ -424,10 +640,12 @@ export default function CruiseDashboard() {
     }
   };
 
-  const [sanitizedAnnouncement, setSanitizedAnnouncement] = useState<string | null>(null);
+  const [sanitizedAnnouncement, setSanitizedAnnouncement] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
-    if (announcement && typeof window !== 'undefined') {
+    if (announcement && typeof window !== "undefined") {
       const clean = cleanWysiwygHtml(announcement);
       setSanitizedAnnouncement(DOMPurify.sanitize(clean));
     } else {
@@ -438,18 +656,18 @@ export default function CruiseDashboard() {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setAuthError('Email and Password are required.');
+      setAuthError("Email and Password are required.");
       return;
     }
     setSubmitting(true);
-    setAuthError('');
+    setAuthError("");
     try {
       const success = await login(email, password);
       if (!success) {
-        setAuthError('Invalid email or password.');
+        setAuthError("Invalid email or password.");
       }
     } catch (err: any) {
-      setAuthError(err.message || 'An error occurred during log in.');
+      setAuthError(err.message || "An error occurred during log in.");
     } finally {
       setSubmitting(false);
     }
@@ -458,26 +676,26 @@ export default function CruiseDashboard() {
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !password || !phone) {
-      setAuthError('All fields are required.');
+      setAuthError("All fields are required.");
       return;
     }
     if (password.length < 6) {
-      setAuthError('Password must be at least 6 characters.');
+      setAuthError("Password must be at least 6 characters.");
       return;
     }
     setSubmitting(true);
-    setAuthError('');
+    setAuthError("");
     try {
-      const res = await fetch('/api/cruise/register-pin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/cruise/register-pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: 'request',
+          action: "request",
           name,
           email,
           phone,
-          password
-        })
+          password,
+        }),
       });
 
       if (res.ok) {
@@ -485,10 +703,10 @@ export default function CruiseDashboard() {
         setVerifyingPin(true);
       } else {
         const data = await res.json().catch(() => ({}));
-        setAuthError(data.error || 'Failed to submit registration request.');
+        setAuthError(data.error || "Failed to submit registration request.");
       }
     } catch (err: any) {
-      setAuthError(err.message || 'An error occurred during registration.');
+      setAuthError(err.message || "An error occurred during registration.");
     } finally {
       setSubmitting(false);
     }
@@ -497,20 +715,20 @@ export default function CruiseDashboard() {
   const handleVerifyPinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!pinInput) {
-      setAuthError('PIN code is required.');
+      setAuthError("PIN code is required.");
       return;
     }
     setSubmitting(true);
-    setAuthError('');
+    setAuthError("");
     try {
-      const res = await fetch('/api/cruise/register-pin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/cruise/register-pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: 'confirm',
+          action: "confirm",
           email,
-          pin: pinInput
-        })
+          pin: pinInput,
+        }),
       });
 
       if (res.ok) {
@@ -518,18 +736,20 @@ export default function CruiseDashboard() {
         const success = await login(email, password);
         if (success) {
           setVerifyingPin(false);
-          setPinInput('');
+          setPinInput("");
         } else {
-          setAuthError('Verification successful, but automatic log in failed. Please sign in via the Log In tab.');
+          setAuthError(
+            "Verification successful, but automatic log in failed. Please sign in via the Log In tab.",
+          );
           setVerifyingPin(false);
-          setAuthTab('login');
+          setAuthTab("login");
         }
       } else {
         const data = await res.json().catch(() => ({}));
-        setAuthError(data.error || 'Verification failed.');
+        setAuthError(data.error || "Verification failed.");
       }
     } catch (err: any) {
-      setAuthError(err.message || 'An error occurred during verification.');
+      setAuthError(err.message || "An error occurred during verification.");
     } finally {
       setSubmitting(false);
     }
@@ -540,14 +760,17 @@ export default function CruiseDashboard() {
     if (isSavingAnnouncementRef.current) return;
     isSavingAnnouncementRef.current = true;
     try {
-      const res = await fetch('/api/cruise/announcement', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: announcementInput, subject: announcementTitleInput })
+      const res = await fetch("/api/cruise/announcement", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: announcementInput,
+          subject: announcementTitleInput,
+        }),
       });
       if (res.ok) {
         setAnnouncement(announcementInput || null);
-        setAnnouncementTitle(announcementTitleInput || '');
+        setAnnouncementTitle(announcementTitleInput || "");
         setIsEditingAnnouncement(false);
       }
     } catch (err) {
@@ -557,67 +780,112 @@ export default function CruiseDashboard() {
     }
   };
 
-  if (isLoggedIn === undefined) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (isLoggedIn === undefined)
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
 
   if (showAuth) {
     return (
-      <div className="min-h-screen pt-32 pb-20 px-6 flex items-center justify-center relative overflow-hidden">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-32 pb-20">
         {/* Subtle background elements */}
-        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[var(--color-accent)]/5 rounded-lg blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-lg blur-[100px] pointer-events-none" />
+        <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-[100px]" />
+        <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-[100px]" />
 
-        <div className="w-full max-w-md relative z-10 animate-[fadeIn_0.3s_ease-out]">
-          <div className="text-center mb-8">
+        <div className="relative z-10 w-full max-w-md animate-[fadeIn_0.3s_ease-out]">
+          <div className="mb-8 text-center">
             <h1>Cruise Hub</h1>
-            <p >Exclusive Passenger Community</p>
+            <p>Exclusive Passenger Community</p>
           </div>
 
-          <div className="bg-white border border-black/10 overflow-hidden">
+          <div className="overflow-hidden border border-black/10 bg-white">
             {verifyingPin ? (
-              <div className="p-8 animate-[fadeIn_0.3s_ease-out]">
-                <div className="text-center mb-6">
-                  <span className="text-4xl block mb-3 animate-[pulse_1.5s_infinite]">🔑</span>
-                  <h3 className="  mb-2">Verify Your Email</h3>
+              <div className="animate-[fadeIn_0.3s_ease-out] p-8">
+                <div className="mb-6 text-center">
+                  <span className="mb-3 block animate-[pulse_1.5s_infinite] text-4xl">
+                    🔑
+                  </span>
+                  <h3 className="mb-2">Verify Your Email</h3>
                   <p className="text-black/60">
-                    We've sent a 6-digit verification PIN to <strong>{email}</strong>. Enter it below to activate your account.
+                    We've sent a 6-digit verification PIN to{" "}
+                    <strong>{email}</strong>. Enter it below to activate your
+                    account.
                   </p>
                 </div>
 
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="cruise-user-pin-input" className="block text-black/50 mb-1.5">6-Digit Verification PIN</label>
-                    <input id="cruise-user-pin-input"
+                    <label
+                      htmlFor="cruise-user-pin-input"
+                      className="mb-1.5 block text-black/50"
+                    >
+                      6-Digit Verification PIN
+                    </label>
+                    <input
+                      id="cruise-user-pin-input"
                       type="text"
                       required
                       placeholder="123456"
                       maxLength={6}
                       value={pinInput}
-                      onChange={e => setPinInput(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-white border border-black/15 px-4 py-3 text-center text-lg     focus:border-purple-500 outline-none transition-colors"
+                      onChange={(e) =>
+                        setPinInput(e.target.value.replace(/\D/g, ""))
+                      }
+                      className="w-full border border-black/15 bg-white px-4 py-3 text-center text-lg transition-colors outline-none focus:border-purple-500"
                     />
                   </div>
 
-                  {authError && <p className="text-rose-500 mt-2 text-center">{authError}</p>}
+                  {authError && (
+                    <p className="mt-2 text-center text-rose-500">
+                      {authError}
+                    </p>
+                  )}
 
-                  <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 transition-colors shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                    {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Verify PIN & Access Hub →"}
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 transition-colors hover:bg-purple-500 disabled:opacity-50"
+                  >
+                    {submitting ? (
+                      <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                    ) : (
+                      "Verify PIN & Access Hub →"
+                    )}
                   </button>
 
-                  <div className="text-center mt-4">
-                    <button type="button" onClick={() => { setVerifyingPin(false); setAuthError(''); }} className="text-black/40 hover:  text-[var(--font-size-2xs)] transition-colors cursor-pointer">
+                  <div className="mt-4 text-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setVerifyingPin(false);
+                        setAuthError("");
+                      }}
+                      className="hover: cursor-pointer text-[var(--font-size-2xs)] text-black/40 transition-colors"
+                    >
                       ← Cancel and Back
                     </button>
                   </div>
                 </form>
               </div>
             ) : regSuccess ? (
-              <div className="p-8 text-center animate-[fadeIn_0.3s_ease-out]">
-                <span className="text-4xl block mb-6">📧</span>
-                <h3 className="  mb-2">Check Your Email</h3>
-                <p className="text-black/60 mb-6">
-                  We've sent a verification link to <strong className="text-black">{email}</strong>. Please check your inbox and click the link to activate your Cruise Hub account.
+              <div className="animate-[fadeIn_0.3s_ease-out] p-8 text-center">
+                <span className="mb-6 block text-4xl">📧</span>
+                <h3 className="mb-2">Check Your Email</h3>
+                <p className="mb-6 text-black/60">
+                  We've sent a verification link to{" "}
+                  <strong className="text-black">{email}</strong>. Please check
+                  your inbox and click the link to activate your Cruise Hub
+                  account.
                 </p>
-                <button onClick={() => { setRegSuccess(false); setAuthTab('login'); }} className="w-full py-2.5 bg-gray-50 border border-black/10 text-black/80 hover:bg-gray-100 hover:  transition-colors cursor-pointer">
+                <button
+                  onClick={() => {
+                    setRegSuccess(false);
+                    setAuthTab("login");
+                  }}
+                  className="hover: w-full cursor-pointer border border-black/10 bg-gray-50 py-2.5 text-black/80 transition-colors hover:bg-gray-100"
+                >
                   Go to Log In
                 </button>
               </div>
@@ -625,57 +893,175 @@ export default function CruiseDashboard() {
               <>
                 {/* Tabs */}
                 <div className="flex border-b border-black/10">
-                  <button onClick={() => { setAuthTab('login'); setAuthError(''); }} className={`flex-1 py-4 transition-colors cursor-pointer ${authTab === 'login' ? 'border-b-2 border-purple-500   bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button
+                    onClick={() => {
+                      setAuthTab("login");
+                      setAuthError("");
+                    }}
+                    className={`flex-1 cursor-pointer py-4 transition-colors ${authTab === "login" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
+                  >
                     Log In
                   </button>
-                  <button onClick={() => { setAuthTab('register'); setAuthError(''); }} className={`flex-1 py-4 transition-colors cursor-pointer ${authTab === 'register' ? 'border-b-2 border-purple-500   bg-gray-50' : 'text-black/40 hover:text-black/70'}`}>
+                  <button
+                    onClick={() => {
+                      setAuthTab("register");
+                      setAuthError("");
+                    }}
+                    className={`flex-1 cursor-pointer py-4 transition-colors ${authTab === "register" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
+                  >
                     Register
                   </button>
                 </div>
 
                 <div className="p-6 md:p-8">
-                  {authTab === 'login' ? (
+                  {authTab === "login" ? (
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
-                      <p className="text-black/50 mb-6">Sign in using your Cruise Hub credentials to access your booking, lounge chat, and itinerary.</p>
+                      <p className="mb-6 text-black/50">
+                        Sign in using your Cruise Hub credentials to access your
+                        booking, lounge chat, and itinerary.
+                      </p>
                       <div>
-                        <label htmlFor="cruise-hub-login-email" className="block text-black/50 mb-1.5">Email Address</label>
-                        <input id="cruise-hub-login-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
+                        <label
+                          htmlFor="cruise-hub-login-email"
+                          className="mb-1.5 block text-black/50"
+                        >
+                          Email Address
+                        </label>
+                        <input
+                          id="cruise-hub-login-email"
+                          type="email"
+                          required
+                          placeholder="name@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                        />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-login-password" className="block text-black/50 mb-1.5">Password</label>
-                        <input id="cruise-hub-login-password" type="password" required placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
+                        <label
+                          htmlFor="cruise-hub-login-password"
+                          className="mb-1.5 block text-black/50"
+                        >
+                          Password
+                        </label>
+                        <input
+                          id="cruise-hub-login-password"
+                          type="password"
+                          required
+                          placeholder="••••••••"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                        />
                       </div>
 
-                      {authError && <p className="text-rose-500 mt-2">{authError}</p>}
+                      {authError && (
+                        <p className="mt-2 text-rose-500">{authError}</p>
+                      )}
 
-                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-purple-600 hover:bg-purple-500 transition-colors shadow-purple-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Access Cruise Hub →"}
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 transition-colors hover:bg-purple-500 disabled:opacity-50"
+                      >
+                        {submitting ? (
+                          <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                        ) : (
+                          "Access Cruise Hub →"
+                        )}
                       </button>
                     </form>
                   ) : (
                     <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                      <p className="text-black/50 mb-6">Sign up as a Cruise Member to register for the priority booking list and unlock access to the hub.</p>
+                      <p className="mb-6 text-black/50">
+                        Sign up as a Cruise Member to register for the priority
+                        booking list and unlock access to the hub.
+                      </p>
                       <div>
-                        <label htmlFor="cruise-hub-reg-name" className="block text-black/50 mb-1.5">Full Legal Name *</label>
-                        <input id="cruise-hub-reg-name" type="text" required placeholder="John Doe" value={name} onChange={e => setName(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
+                        <label
+                          htmlFor="cruise-hub-reg-name"
+                          className="mb-1.5 block text-black/50"
+                        >
+                          Full Legal Name *
+                        </label>
+                        <input
+                          id="cruise-hub-reg-name"
+                          type="text"
+                          required
+                          placeholder="John Doe"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                        />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-email" className="block text-black/50 mb-1.5">Email Address *</label>
-                        <input id="cruise-hub-reg-email" type="email" required placeholder="name@example.com" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
+                        <label
+                          htmlFor="cruise-hub-reg-email"
+                          className="mb-1.5 block text-black/50"
+                        >
+                          Email Address *
+                        </label>
+                        <input
+                          id="cruise-hub-reg-email"
+                          type="email"
+                          required
+                          placeholder="name@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                        />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-phone" className="block text-black/50 mb-1.5">Phone Number *</label>
-                        <input id="cruise-hub-reg-phone" type="tel" required placeholder="(555) 123-4567" value={phone} onChange={e => setPhone(formatPhoneDisplay(e.target.value))} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
+                        <label
+                          htmlFor="cruise-hub-reg-phone"
+                          className="mb-1.5 block text-black/50"
+                        >
+                          Phone Number *
+                        </label>
+                        <input
+                          id="cruise-hub-reg-phone"
+                          type="tel"
+                          required
+                          placeholder="(555) 123-4567"
+                          value={phone}
+                          onChange={(e) =>
+                            setPhone(formatPhoneDisplay(e.target.value))
+                          }
+                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                        />
                       </div>
                       <div>
-                        <label htmlFor="cruise-hub-reg-password" className="block text-black/50 mb-1.5">Choose Password *</label>
-                        <input id="cruise-hub-reg-password" type="password" required placeholder="Min 6 characters" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white border border-black/15 px-4 py-3   focus:border-purple-500 outline-none transition-colors" />
+                        <label
+                          htmlFor="cruise-hub-reg-password"
+                          className="mb-1.5 block text-black/50"
+                        >
+                          Choose Password *
+                        </label>
+                        <input
+                          id="cruise-hub-reg-password"
+                          type="password"
+                          required
+                          placeholder="Min 6 characters"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="w-full border border-black/15 bg-white px-4 py-3 transition-colors outline-none focus:border-purple-500"
+                        />
                       </div>
 
-                      {authError && <p className="text-rose-500 mt-2">{authError}</p>}
+                      {authError && (
+                        <p className="mt-2 text-rose-500">{authError}</p>
+                      )}
 
-                      <button type="submit" disabled={submitting} className="w-full mt-4 py-3 bg-[var(--color-accent)] hover:brightness-110 transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                        {submitting ? <span className="w-4 h-4 border-2 border-white/10 border-t-white rounded-lg animate-spin" /> : "Register & Access Hub →"}
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 transition-colors hover:brightness-110 disabled:opacity-50"
+                      >
+                        {submitting ? (
+                          <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                        ) : (
+                          "Register & Access Hub →"
+                        )}
                       </button>
                     </form>
                   )}
@@ -684,8 +1070,11 @@ export default function CruiseDashboard() {
             )}
           </div>
 
-          <div className="text-center mt-6">
-            <Link href="/cruise" className="text-black/40 hover:  transition-colors">
+          <div className="mt-6 text-center">
+            <Link
+              href="/cruise"
+              className="hover: text-black/40 transition-colors"
+            >
               ← Back to Cruise Information
             </Link>
           </div>
@@ -695,12 +1084,12 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="site-container min-h-screen page-container selection:bg-cyan-500 selection:text-black">
+    <div className="site-container page-container min-h-screen selection:bg-cyan-500 selection:text-black">
       <div>
-        <header className="mb-5 border-b border-white/10 flex flex-col md:flex-row justify-between gap-8">
+        <header className="mb-5 flex flex-col justify-between gap-8 border-b border-white/10 md:flex-row">
           <MemberHeaderBadge
-            name={effectiveMember?.name || 'Cruise Guest'}
-            email={effectiveMember?.email || ''}
+            name={effectiveMember?.name || "Cruise Guest"}
+            email={effectiveMember?.email || ""}
             avatar={effectiveMember?.avatar}
             badgeLabel="Cruise"
             badgeColorClass="bg-sky-500 border-sky-400/50"
@@ -711,18 +1100,18 @@ export default function CruiseDashboard() {
           </div>
         </header>
 
-
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
           {/* Main Content Column (Left 2 Cols) */}
-          <div className="lg:col-span-2 flex flex-col gap-8 min-w-0 max-w-full">
+          <div className="flex max-w-full min-w-0 flex-col gap-8 lg:col-span-2">
             {/* 1. Cruise Information & Guidelines */}
-            <div className="h-fit min-w-0 max-w-full overflow-hidden">
-              <div className="relative z-10 min-w-0 max-w-full">
-                <div className="flex items-center gap-3 mb-6 border-b border-white/10 flex-wrap">
+            <div className="h-fit max-w-full min-w-0 overflow-hidden">
+              <div className="relative z-10 max-w-full min-w-0">
+                <div className="mb-6 flex flex-wrap items-center gap-3 border-b border-white/10">
                   <div>
                     <h2>{guidelines.title}</h2>
-                    <p className="text-purple-400 mt-0.5">{guidelines.subtitle}</p>
+                    <p className="mt-0.5 text-purple-400">
+                      {guidelines.subtitle}
+                    </p>
                   </div>
                   {isAdmin && !isEditingGuidelines && (
                     <button
@@ -732,51 +1121,86 @@ export default function CruiseDashboard() {
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto hover:text-white cursor-pointer transition-colors px-3 py-1.5 rounded-lg border border-purple-500/30">
+                      className="ml-auto cursor-pointer rounded-lg border border-purple-500/30 px-3 py-1.5 transition-colors hover:text-white"
+                    >
                       ✏️ Edit Guidelines
                     </button>
                   )}
                 </div>
 
                 {isEditingGuidelines ? (
-                  <div className="space-y-4 min-w-0 max-w-full">
+                  <div className="max-w-full min-w-0 space-y-4">
                     <div>
-                      <label htmlFor="cruise-hub-guidelines-title" className="block text-white/50 mb-1">Section Title</label>
-                      <input id="cruise-hub-guidelines-title"
+                      <label
+                        htmlFor="cruise-hub-guidelines-title"
+                        className="mb-1 block text-white/50"
+                      >
+                        Section Title
+                      </label>
+                      <input
+                        id="cruise-hub-guidelines-title"
                         type="text"
                         value={guidelinesTitleInput}
-                        onChange={e => setGuidelinesTitleInput(e.target.value)}
+                        onChange={(e) =>
+                          setGuidelinesTitleInput(e.target.value)
+                        }
                         className="form-input"
                       />
                     </div>
                     <div>
-                      <label htmlFor="cruise-hub-guidelines-sub" className="block text-white/50 mb-1">Subtitle / Badge</label>
-                      <input id="cruise-hub-guidelines-sub"
+                      <label
+                        htmlFor="cruise-hub-guidelines-sub"
+                        className="mb-1 block text-white/50"
+                      >
+                        Subtitle / Badge
+                      </label>
+                      <input
+                        id="cruise-hub-guidelines-sub"
                         type="text"
                         value={guidelinesSubtitleInput}
-                        onChange={e => setGuidelinesSubtitleInput(e.target.value)}
+                        onChange={(e) =>
+                          setGuidelinesSubtitleInput(e.target.value)
+                        }
                         className="form-input text-purple-400"
                       />
                     </div>
                     <div>
-                      <span className="block text-white/50 mb-1">Content (WYSIWYG - Reflects Live Card Colors)</span>
-                      <div className="w-full guidelines-wysiwyg-editor [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill theme="snow" value={guidelinesContentInput} onChange={setGuidelinesContentInput} placeholder="Type guidelines & welcome pack information here..." className="form-input overflow-hidden" />
+                      <span className="mb-1 block text-white/50">
+                        Content (WYSIWYG - Reflects Live Card Colors)
+                      </span>
+                      <div className="guidelines-wysiwyg-editor w-full [&_.ql-editor]:min-h-[180px]">
+                        <ReactQuill
+                          theme="snow"
+                          value={guidelinesContentInput}
+                          onChange={setGuidelinesContentInput}
+                          placeholder="Type guidelines & welcome pack information here..."
+                          className="form-input overflow-hidden"
+                        />
                       </div>
                     </div>
-                    <div className="flex gap-3 justify-end">
-                      <button onClick={() => setIsEditingGuidelines(false)} className="px-4 py-2 bg-white/10 hover:bg-white/20   transition-colors cursor-pointer rounded-xl">
+                    <div className="flex justify-end gap-3">
+                      <button
+                        onClick={() => setIsEditingGuidelines(false)}
+                        className="cursor-pointer rounded-xl bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                      >
                         Cancel
                       </button>
-                      <button onClick={handleSaveGuidelines} className="px-5 py-2 bg-purple-600 hover:bg-purple-500 transition-colors cursor-pointer rounded-lg shadow-purple-600/30">
+                      <button
+                        onClick={handleSaveGuidelines}
+                        className="cursor-pointer rounded-lg bg-purple-600 px-5 py-2 shadow-purple-600/30 transition-colors hover:bg-purple-500"
+                      >
                         Save Guidelines
                       </button>
                     </div>
                   </div>
                 ) : (
                   <div
-                    className="space-y-4   md:text-base min-w-0 max-w-full [overflow-wrap:break-word] break-words [hyphens:manual] overflow-hidden [&_a]: [&_a]: [&_a]: [&_a]:underline-offset-4 [&_a]: [&_p]:   [&_p]:max-w-full [&_h1]: [&_h1]: [&_h2]: [&_h2]: [&_h3]: [&_h3]: [&_strong]: [&_span]:   [&_li]:   [&_div]:  "
-                    dangerouslySetInnerHTML={{ __html: sanitizedGuidelinesContent || sanitizeHtml(cleanWysiwygHtml(guidelines.content)) }}
+                    className="[&_a]: [&_a]: [&_a]: [&_a]: [&_p]: [&_h1]: [&_h1]: [&_h2]: [&_h2]: [&_h3]: [&_h3]: [&_strong]: [&_span]: [&_li]: [&_div]: max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] md:text-base [&_a]:underline-offset-4 [&_p]:max-w-full"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        sanitizedGuidelinesContent ||
+                        sanitizeHtml(cleanWysiwygHtml(guidelines.content)),
+                    }}
                   />
                 )}
               </div>
@@ -792,7 +1216,10 @@ export default function CruiseDashboard() {
           {/* Right Sidebar Column (1 Col) */}
           <div className="lg:col-span-1">
             <div className="flex flex-col gap-6">
-              <CruiseChat memberOverride={effectiveMember} className="h-[750px] min-h-[600px]" />
+              <CruiseChat
+                memberOverride={effectiveMember}
+                className="h-[750px] min-h-[600px]"
+              />
               <PassengersWidget />
             </div>
           </div>
@@ -802,7 +1229,7 @@ export default function CruiseDashboard() {
       {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
       <section
         id="itinerary"
-        className="pt-16 md:pt-24 w-full max-w-none px-0 overflow-x-clip"
+        className="w-full max-w-none overflow-x-clip px-0 pt-16 md:pt-24"
         style={{
           position: "relative",
           left: "50%",
@@ -812,24 +1239,27 @@ export default function CruiseDashboard() {
           width: "100vw",
           maxWidth: "100vw",
           backgroundColor: "#070d1e",
-          backgroundImage: "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
-          maskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
-        }}>
-        <div className="w-full mx-auto px-4 md:px-8 xl:px-12">
-          <div className="text-center mb-12 max-w-3xl mx-auto px-4">
-            <span>
-              Interactive Voyage Map
-            </span>
+          backgroundImage:
+            "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
+        }}
+      >
+        <div className="mx-auto w-full px-4 md:px-8 xl:px-12">
+          <div className="mx-auto mb-12 max-w-3xl px-4 text-center">
+            <span>Interactive Voyage Map</span>
             <h2>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
             </h2>
-            <p className="mt-4  ">
-              Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts.
+            <p className="mt-4">
+              Explore daily port calls, cruising coordinates, sail-away party
+              times, and exclusive fan concerts.
             </p>
 
             {/* Itinerary Year Toggle */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mt-8">
+            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
               <SeventhButton
                 type="button"
                 onClick={() => setActiveItinYear(2027)}
@@ -848,7 +1278,12 @@ export default function CruiseDashboard() {
           </div>
 
           <div className="w-full">
-            <CruiseSnakeItinerary key={`itin-${activeItinYear}`} itinerary={mapToSnakeItinerary(activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028)} />
+            <CruiseSnakeItinerary
+              key={`itin-${activeItinYear}`}
+              itinerary={mapToSnakeItinerary(
+                activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028,
+              )}
+            />
           </div>
         </div>
       </section>

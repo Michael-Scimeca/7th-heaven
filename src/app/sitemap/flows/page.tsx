@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function UserFlowsPage() {
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 max-w-[1700px] mx-auto">
+    <div className="mx-auto min-h-screen max-w-[1700px] px-4 pt-24 pb-12">
       <h1 className="sr-only">7th Heaven User Flow Map & Journey Diagrams</h1>
       <UserFlowMap />
     </div>

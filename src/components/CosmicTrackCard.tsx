@@ -4,8 +4,10 @@ import React, { useRef, useEffect, type ButtonHTMLAttributes } from "react";
 import gsap from "gsap";
 import { Play } from "lucide-react";
 
-export interface CosmicTrackCardProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "title"> {
+export interface CosmicTrackCardProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "title"
+> {
   tag?: string;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
@@ -18,9 +20,9 @@ function hexToRgb(hex: string): [number, number, number] {
   const full =
     clean.length === 3
       ? clean
-        .split("")
-        .map((c) => c + c)
-        .join("")
+          .split("")
+          .map((c) => c + c)
+          .join("")
       : clean;
   const num = parseInt(full, 16);
   if (Number.isNaN(num)) return [255, 255, 255];
@@ -56,14 +58,16 @@ export const CosmicTrackCard = React.forwardRef<
       style,
       ...buttonProps
     },
-    forwardedRef
+    forwardedRef,
   ) => {
     const internalRef = useRef<HTMLButtonElement>(null);
     const buttonRef =
-      (forwardedRef as React.RefObject<HTMLButtonElement | null>) || internalRef;
+      (forwardedRef as React.RefObject<HTMLButtonElement | null>) ||
+      internalRef;
 
     useEffect(() => {
-      const button = (buttonRef as React.RefObject<HTMLButtonElement | null>).current;
+      const button = (buttonRef as React.RefObject<HTMLButtonElement | null>)
+        .current;
       if (!button) return;
 
       const handlePointerMove = (e: PointerEvent) => {
@@ -78,11 +82,13 @@ export const CosmicTrackCard = React.forwardRef<
         });
 
         const start =
-          getComputedStyle(button).getPropertyValue("--button-glow-start").trim() ||
-          "#B000E8";
+          getComputedStyle(button)
+            .getPropertyValue("--button-glow-start")
+            .trim() || "#B000E8";
         const end =
-          getComputedStyle(button).getPropertyValue("--button-glow-end").trim() ||
-          "#009FFD";
+          getComputedStyle(button)
+            .getPropertyValue("--button-glow-end")
+            .trim() || "#009FFD";
 
         gsap.to(button, {
           "--button-glow": mixHex(start, end, rect.width ? x / rect.width : 0),
@@ -103,29 +109,29 @@ export const CosmicTrackCard = React.forwardRef<
         {...buttonProps}
       >
         <div className="gob-gradient" aria-hidden="true" />
-        <span className="!p-4 sm:!p-5 !min-w-0 !w-full !block text-left">
-          <div className="flex items-center justify-between gap-2 mb-2">
+        <span className="!block !w-full !min-w-0 !p-4 text-left sm:!p-5">
+          <div className="mb-2 flex items-center justify-between gap-2">
             {tag ? (
-              <span className="text-[11px]    text-purple-300/90 truncate">
+              <span className="truncate text-[11px] text-purple-300/90">
                 {tag}
               </span>
-            ) : <span />}
-            <span className="text-xs     flex items-center gap-1.5 shrink-0 ml-auto">
-              <Play className="w-3 h-3 fill-current /90" /> Play
+            ) : (
+              <span />
+            )}
+            <span className="ml-auto flex shrink-0 items-center gap-1.5 text-xs">
+              <Play className="/90 h-3 w-3 fill-current" /> Play
             </span>
           </div>
-          <h4 className=" sm:text-lg      truncate  ">
-            {title}
-          </h4>
+          <h4 className="truncate sm:text-lg">{title}</h4>
           {subtitle && (
-            <p className="/65 text-xs sm:text-sm truncate mt-1 font-normal">
+            <p className="/65 mt-1 truncate text-xs font-normal sm:text-sm">
               {subtitle}
             </p>
           )}
         </span>
       </button>
     );
-  }
+  },
 );
 
 CosmicTrackCard.displayName = "CosmicTrackCard";

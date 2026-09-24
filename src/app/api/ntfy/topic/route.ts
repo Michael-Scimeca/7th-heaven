@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   if (!PUBLIC_GROUPS.includes(groupParam as NtfyGroup)) {
     return NextResponse.json(
       { ok: false, error: "Unknown or restricted group." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

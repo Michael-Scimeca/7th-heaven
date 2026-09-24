@@ -26,7 +26,10 @@ export async function POST(req: NextRequest) {
     const numericAmount = parseFloat(amount);
 
     if (!numericAmount || numericAmount <= 0) {
-      return NextResponse.json({ error: "Cart total must be greater than $0." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Cart total must be greater than $0." },
+        { status: 400 },
+      );
     }
     if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty." }, { status: 400 });
@@ -39,27 +42,37 @@ export async function POST(req: NextRequest) {
     const { data: variants, error: variantsError } = await shopDb
       .from("north_shop_variants")
       .select("id, label, stock_quantity")
-      .in("id", cartItems.map((i) => i.variantId));
+      .in(
+        "id",
+        cartItems.map((i) => i.variantId),
+      );
 
     if (variantsError) {
-      return NextResponse.json({ error: "Failed to verify stock." }, { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to verify stock." },
+        { status: 500 },
+      );
     }
 
-    const stockById = new Map((variants || []).map((v) => [v.id, v.stock_quantity]));
+    const stockById = new Map(
+      (variants || []).map((v) => [v.id, v.stock_quantity]),
+    );
     for (const item of cartItems) {
       const available = stockById.get(item.variantId);
       if (available === undefined) {
         return NextResponse.json(
-          { error: `${item.title} (${item.variantLabel}) is no longer available.` },
-          { status: 409 }
+          {
+            error: `${item.title} (${item.variantLabel}) is no longer available.`,
+          },
+          { status: 409 },
         );
       }
-      if (item.quantity> available) {
+      if (item.quantity > available) {
         return NextResponse.json(
           {
             error: `Only ${available} left of ${item.title} (${item.variantLabel}) — update your cart.`,
           },
-          { status: 409 }
+          { status: 409 },
         );
       }
     }
@@ -67,14 +80,19 @@ export async function POST(req: NextRequest) {
     const formattedAmount = numericAmount.toFixed(2);
     const { tac, tranNbr, mock } = await requestTac(formattedAmount);
 
-    const { error: orderError } = await shopDb.from("north_shop_orders").insert({
-      tran_nbr: tranNbr,
-      status: "pending",
-      line_items: cartItems,
-      total_amount: formattedAmount,
-    });
+    const { error: orderError } = await shopDb
+      .from("north_shop_orders")
+      .insert({
+        tran_nbr: tranNbr,
+        status: "pending",
+        line_items: cartItems,
+        total_amount: formattedAmount,
+      });
     if (orderError) {
-      console.error("[payment-test/north/tac] Failed to save pending order:", orderError);
+      console.error(
+        "[payment-test/north/tac] Failed to save pending order:",
+        orderError,
+      );
       // Not fatal to checkout — payment can still proceed — but stock won't
       // auto-decrement for this order if we couldn't record it.
     }
@@ -82,7 +100,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ tac, amount: formattedAmount, tranNbr, mock });
   } catch (err) {
     console.error("[payment-test/north/tac] error:", err);
-    const message = err instanceof Error ? err.message : "Failed to get a TAC from North.";
+    const message =
+      err instanceof Error ? err.message : "Failed to get a TAC from North.";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

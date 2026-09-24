@@ -1,9 +1,15 @@
 /* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 "use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
-import { useState, useEffect, useCallback, useSyncExternalStore, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useSyncExternalStore,
+  useRef,
+} from "react";
 import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -73,7 +79,9 @@ export default function ShowPageClient({
   const [rsvpLoading, setRsvpLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [attendeeListOpen, setAttendeeListOpen] = useState(false);
-  const [goingFilter, setGoingFilter] = useState<"all" | "going" | "there">("all");
+  const [goingFilter, setGoingFilter] = useState<"all" | "going" | "there">(
+    "all",
+  );
   const [wantAnonymous, setWantAnonymous] = useState(false);
   const [liveFeeds, setLiveFeeds] = useState<LiveFeed[]>([]);
   const autoRsvpDoneRef = useRef(false);
@@ -96,8 +104,8 @@ export default function ShowPageClient({
         body: JSON.stringify({
           showId: show.id,
           email: notifyEmail,
-          venueName: show.venue_name
-        })
+          venueName: show.venue_name,
+        }),
       });
       if (res.ok) {
         setNotifySuccess(true);
@@ -114,21 +122,28 @@ export default function ShowPageClient({
   };
 
   // ── Auto-RSVP from ?rsvp=going|there SMS link ──────────────────
-  const handleAutoRsvp = useCallback(async (rsvpParam: string) => {
-    try {
-      await fetch("/api/proximity/attendees", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ showId: show.id, status: rsvpParam, anonymous: false }),
-      });
-      const r = await fetch(`/api/proximity/attendees?showId=${show.id}`);
-      if (r.ok) {
-        const d = await r.json();
-        setAttendees(d.attendees || []);
-        setAttendeeListOpen(true);
-      }
-    } catch { }
-  }, [show.id]);
+  const handleAutoRsvp = useCallback(
+    async (rsvpParam: string) => {
+      try {
+        await fetch("/api/proximity/attendees", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            showId: show.id,
+            status: rsvpParam,
+            anonymous: false,
+          }),
+        });
+        const r = await fetch(`/api/proximity/attendees?showId=${show.id}`);
+        if (r.ok) {
+          const d = await r.json();
+          setAttendees(d.attendees || []);
+          setAttendeeListOpen(true);
+        }
+      } catch {}
+    },
+    [show.id],
+  );
 
   useEffect(() => {
     if (autoRsvpDoneRef.current) return;
@@ -153,18 +168,23 @@ export default function ShowPageClient({
   const showDate = new Date(show.date + "T12:00:00Z");
   const isPast = showDate < new Date();
   const dateStr = showDate.toLocaleDateString("en-US", {
-    weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "UTC"
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
   });
 
-  const mapsUrl = show.latitude && show.longitude
-    ? `https://www.google.com/maps/search/?api=1&query=${show.latitude},${show.longitude}`
-    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue_name} ${show.city} ${show.state}`)}`;
+  const mapsUrl =
+    show.latitude && show.longitude
+      ? `https://www.google.com/maps/search/?api=1&query=${show.latitude},${show.longitude}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${show.venue_name} ${show.city} ${show.state}`)}`;
 
   // shareUrl: use a safe default on SSR, update to real URL after hydration
   const shareUrl = useSyncExternalStore(
-    () => () => { },
+    () => () => {},
     () => window.location.href,
-    () => `https://7thheavenband.com/shows/${show.id}`
+    () => `https://7thheavenband.com/shows/${show.id}`,
   );
 
   // ── Live feed polling ────────────────────────────────────────────
@@ -179,9 +199,12 @@ export default function ShowPageClient({
         const res = await fetch("/api/live-rooms");
         if (res.ok) {
           const data = await res.json();
-          if (data.rooms?.length) data.rooms.forEach((r: { name: string }) => activeLkRooms.add(r.name));
+          if (data.rooms?.length)
+            data.rooms.forEach((r: { name: string }) =>
+              activeLkRooms.add(r.name),
+            );
         }
-      } catch { }
+      } catch {}
 
       // Check Supabase live_streams
       try {
@@ -203,51 +226,70 @@ export default function ShowPageClient({
             }
           }
         }
-      } catch { }
+      } catch {}
 
       // Fallback: raw LiveKit rooms not matched in Supabase
       activeLkRooms.forEach((roomName) => {
         if (!seenRooms.has(roomName)) {
           seenRooms.add(roomName);
-          const hostName = roomName.replace(/^live_/, "").replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-          feeds.push({ room: roomName, title: "Crew Broadcast", viewers: 0, host: hostName });
+          const hostName = roomName
+            .replace(/^live_/, "")
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, (c) => c.toUpperCase());
+          feeds.push({
+            room: roomName,
+            title: "Crew Broadcast",
+            viewers: 0,
+            host: hostName,
+          });
         }
       });
 
       setLiveFeeds(feeds);
-    } catch { }
+    } catch {}
   }, [supabase]);
 
   useEffect(() => {
     checkLiveFeeds();
     const interval = setInterval(() => {
-      if (document.visibilityState === 'visible') checkLiveFeeds();
+      if (document.visibilityState === "visible") checkLiveFeeds();
     }, 60000);
 
     const handleVisibility = () => {
-      if (document.visibilityState === 'visible') checkLiveFeeds();
+      if (document.visibilityState === "visible") checkLiveFeeds();
     };
-    document.addEventListener('visibilitychange', handleVisibility);
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       clearInterval(interval);
-      document.removeEventListener('visibilitychange', handleVisibility);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, [checkLiveFeeds]);
 
   // ── RSVP ────────────────────────────────────────────────────────
   const handleRsvp = async () => {
-    if (!isLoggedIn) { openModal("login"); return; }
+    if (!isLoggedIn) {
+      openModal("login");
+      return;
+    }
     setRsvpLoading(true);
     try {
       if (isGoing) {
-        await fetch(`/api/proximity/attendees?showId=${show.id}`, { method: "DELETE" });
-        setAttendees((prev) => prev.filter((a) => a.profiles?.id !== member?.id));
+        await fetch(`/api/proximity/attendees?showId=${show.id}`, {
+          method: "DELETE",
+        });
+        setAttendees((prev) =>
+          prev.filter((a) => a.profiles?.id !== member?.id),
+        );
       } else {
         await fetch("/api/proximity/attendees", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ showId: show.id, status: "going", anonymous: wantAnonymous }),
+          body: JSON.stringify({
+            showId: show.id,
+            status: "going",
+            anonymous: wantAnonymous,
+          }),
         });
         const res = await fetch(`/api/proximity/attendees?showId=${show.id}`);
         if (res.ok) {
@@ -269,43 +311,75 @@ export default function ShowPageClient({
 
   // ── Filtered attendee list ───────────────────────────────────────
   const filteredAttendees = attendees.filter((a) =>
-    goingFilter === "all" ? true : a.status === goingFilter
+    goingFilter === "all" ? true : a.status === goingFilter,
   );
 
   const renderAttendee = (a: Attendee) => {
     const isMe = a.profiles?.id === member?.id;
     const isAnon = a.anonymous && !isMe;
     const tier = a.profiles?.tier || "Bronze";
-    const initials = isAnon ? "?" : (a.profiles?.full_name?.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) || "?");
+    const initials = isAnon
+      ? "?"
+      : a.profiles?.full_name
+          ?.split(" ")
+          .map((n) => n[0])
+          .join("")
+          .toUpperCase()
+          .slice(0, 2) || "?";
 
     return (
       <div
         key={a.id}
-        className={`flex items-center gap-4 p-4 border transition-colors ${a.status === "there"
-          ? "border-emerald-500/30 bg-emerald-500/[0.03]"
-          : isMe
-            ? "border-purple-500/40 bg-purple-500/5"
-            : `border-white/[0.06] bg-white/[0.02] border-white/10 ${tierGlow[tier] || ""}`
-          }`}>
+        className={`flex items-center gap-4 border p-4 transition-colors ${
+          a.status === "there"
+            ? "border-emerald-500/30 bg-emerald-500/[0.03]"
+            : isMe
+              ? "border-purple-500/40 bg-purple-500/5"
+              : `border-white/10 border-white/[0.06] bg-white/[0.02] ${tierGlow[tier] || ""}`
+        }`}
+      >
         {/* Avatar */}
-        <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 border-2 ${isAnon ? " border-white/10 text-white/30" : tierColors[tier] || " border-white/10 "} bg-white/[0.04]`}>
+        <div
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10"} bg-white/[0.04]`}
+        >
           {!isAnon && a.profiles?.profile_photo_url ? (
-            <Image width={200} height={200} unoptimized src={a.profiles.profile_photo_url} alt="7th Heaven Media" className="w-full h-full object-cover rounded-lg" />
-          ) : isAnon ? "👤" : initials}
+            <Image
+              width={200}
+              height={200}
+              unoptimized
+              src={a.profiles.profile_photo_url}
+              alt="7th Heaven Media"
+              className="h-full w-full rounded-lg object-cover"
+            />
+          ) : isAnon ? (
+            "👤"
+          ) : (
+            initials
+          )}
         </div>
 
         {/* Info */}
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <p className="truncate">
-            {isAnon ? "Anonymous Fan" : (a.profiles?.full_name || "Fan")}
-            {isMe && <span className="ml-2 text-[var(--font-size-2xs)] text-[var(--color-accent)]">You</span>}
+            {isAnon ? "Anonymous Fan" : a.profiles?.full_name || "Fan"}
+            {isMe && (
+              <span className="ml-2 text-[var(--color-accent)] text-[var(--font-size-2xs)]">
+                You
+              </span>
+            )}
           </p>
-          <div className="flex items-center gap-2 mt-0.5">
+          <div className="mt-0.5 flex items-center gap-2">
             {!isAnon && tier !== "Bronze" && (
-              <span className={`text-[var(--font-size-2xs)] ${tierColors[tier]?.split(" ")[1] || " text-white/30"}`}>{tier}</span>
+              <span
+                className={`text-[var(--font-size-2xs)] ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}
+              >
+                {tier}
+              </span>
             )}
             {a.status === "there" ? (
-              <span className="text-[var(--font-size-2xs)] text-[var(--color-accent)]">✓ Here Now</span>
+              <span className="text-[var(--color-accent)] text-[var(--font-size-2xs)]">
+                ✓ Here Now
+              </span>
             ) : (
               <span className="text-[var(--font-size-2xs)]">Going</span>
             )}
@@ -316,28 +390,38 @@ export default function ShowPageClient({
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] pt-[123px]" id="show-details-page">
-
+    <main
+      className="min-h-screen bg-[#050505] pt-[123px]"
+      id="show-details-page"
+    >
       {/* ── LIVE FEED BANNER ─────────────────────────────────────── */}
       {liveFeeds.length > 0 && (
-        <div className="bg-gradient-to-r from-red-950/60 via-red-900/40 to-red-950/60 border-b border-red-500/20">
+        <div className="border-b border-red-500/20 bg-gradient-to-r from-red-950/60 via-red-900/40 to-red-950/60">
           <div className="site-container py-3">
             {liveFeeds.map((feed) => (
-              <Link key={feed.room} href={`/live/${feed.room}`} className="flex items-center justify-between gap-4 group">
+              <Link
+                key={feed.room}
+                href={`/live/${feed.room}`}
+                className="group flex items-center justify-between gap-4"
+              >
                 <div className="flex items-center gap-3">
                   <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
-                    <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3 rounded-lg bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
-                  <span >
+                  <span>
                     🎥 {feed.host} is LIVE from the show
-                    {feed.title && feed.title !== "Crew Broadcast" ? ` — ${feed.title}` : ""}
+                    {feed.title && feed.title !== "Crew Broadcast"
+                      ? ` — ${feed.title}`
+                      : ""}
                   </span>
                   {feed.viewers > 0 && (
-                    <span className="text-red-300/70">{feed.viewers} watching</span>
+                    <span className="text-red-300/70">
+                      {feed.viewers} watching
+                    </span>
                   )}
                 </div>
-                <span className="px-4 py-1.5 bg-red-500 rounded-lg group-hover:bg-white group-hover:text-red-600 transition-colors shrink-0">
+                <span className="shrink-0 rounded-lg bg-red-500 px-4 py-1.5 transition-colors group-hover:bg-white group-hover:text-red-600">
                   Watch Now →
                 </span>
               </Link>
@@ -347,22 +431,25 @@ export default function ShowPageClient({
       )}
 
       {/* ── HERO ──────────────────────────────────────────────────── */}
-      <div className="relative bg-gradient-to-b from-[#0d0718] to-[#050505] border-b border-white/10 overflow-hidden">
+      <div className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#0d0718] to-[#050505]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.2)_0%,_transparent_60%)]" />
-        <div className="site-container py-14 md:py-20 relative z-10">
-          <Link href="/#tour" className="inline-flex items-center gap-2 text-white/30 transition-colors mb-8">
+        <div className="site-container relative z-10 py-14 md:py-20">
+          <Link
+            href="/#tour"
+            className="mb-8 inline-flex items-center gap-2 text-white/30 transition-colors"
+          >
             ← All Shows
           </Link>
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <div>
               {/* Status badge */}
-              <div className="flex flex-wrap items-center gap-2 mb-6">
+              <div className="mb-6 flex flex-wrap items-center gap-2">
                 {isPast ? (
                   <SectionBadge label="Past Show" />
                 ) : show.status === "live" ? (
                   <SectionBadge className="gap-2 border-purple-500/40 text-purple-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                     <span>HAPPENING NOW</span>
                   </SectionBadge>
                 ) : (
@@ -371,28 +458,33 @@ export default function ShowPageClient({
               </div>
 
               <h1 className="mb-3">{show.venue_name}</h1>
-              <p>{show.city}{show.state ? `, ${show.state}` : ""}</p>
-              <p >{dateStr}</p>
+              <p>
+                {show.city}
+                {show.state ? `, ${show.state}` : ""}
+              </p>
+              <p>{dateStr}</p>
 
               {/* Detail pills */}
-              <div className="flex flex-wrap items-center gap-2 mt-4">
+              <div className="mt-4 flex flex-wrap items-center gap-2">
                 {show.doors_time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10">
+                  <span className="flex items-center gap-1.5 border border-white/10 bg-white/[0.04] px-3 py-1.5">
                     🚪 Doors {show.doors_time}
                   </span>
                 )}
                 {show.time && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10">
+                  <span className="flex items-center gap-1.5 border border-white/10 bg-white/[0.04] px-3 py-1.5">
                     🎸 Show {show.time}
                   </span>
                 )}
                 {show.all_ages !== null && (
-                  <span className={`flex items-center gap-1.5 px-3 py-1.5 border ${show.all_ages ? "bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]" : "bg-purple-600/10 border-purple-500/30 text-purple-300"}`}>
+                  <span
+                    className={`flex items-center gap-1.5 border px-3 py-1.5 ${show.all_ages ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-purple-500/30 bg-purple-600/10 text-purple-300"}`}
+                  >
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
                 )}
                 {show.cover && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.04] border border-white/10">
+                  <span className="flex items-center gap-1.5 border border-white/10 bg-white/[0.04] px-3 py-1.5">
                     💵 Cover: {show.cover}
                   </span>
                 )}
@@ -400,7 +492,7 @@ export default function ShowPageClient({
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-col gap-3 shrink-0 min-w-[200px]">
+            <div className="flex min-w-[200px] shrink-0 flex-col gap-3">
               {!isPast && (
                 <>
                   {isGoing ? (
@@ -408,7 +500,8 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="px-8 py-4 transition-colors disabled:opacity-50 cursor-pointer bg-white/10 border border-white/10 hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-400">
+                      className="cursor-pointer border border-white/10 bg-white/10 px-8 py-4 transition-colors hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-50"
+                    >
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
                   ) : (
@@ -417,14 +510,15 @@ export default function ShowPageClient({
                       disabled={rsvpLoading}
                       icon={false}
                       id="rsvp-btn"
-                      className="disabled:opacity-50">
+                      className="disabled:opacity-50"
+                    >
                       {rsvpLoading ? "…" : "🎸 I'm Going"}
                     </SeventhButton>
                   )}
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg bg-[#00000029]">
+                    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5">
                       <GradientToggle
                         id="show-anonymous-toggle"
                         label="Go anonymously"
@@ -435,10 +529,20 @@ export default function ShowPageClient({
                   )}
                 </>
               )}
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" id="directions-btn" className="px-6 py-3 border border-white/10 hover:border-white/30 hover:text-white transition-colors text-center">
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                id="directions-btn"
+                className="border border-white/10 px-6 py-3 text-center transition-colors hover:border-white/30 hover:text-white"
+              >
                 📍 Directions
               </a>
-              <button onClick={copyLink} id="share-show-btn" className="px-6 py-3 border border-white/10 hover:border-white/30 hover:text-white transition-colors">
+              <button
+                onClick={copyLink}
+                id="share-show-btn"
+                className="border border-white/10 px-6 py-3 transition-colors hover:border-white/30 hover:text-white"
+              >
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
             </div>
@@ -448,32 +552,35 @@ export default function ShowPageClient({
 
       {/* ── ATTENDANCE SECTION ────────────────────────────────────── */}
       <div className="site-container py-14">
-        <div className="max-w-[900px] mx-auto">
-
+        <div className="mx-auto max-w-[900px]">
           {/* Past Show - Notify Me & Video Embed */}
           {isPast && (
-            <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <div className="mb-12 grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
               {/* Notify Me Column */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)]/5 rounded-lg blur-[40px] pointer-events-none" />
+              <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-[var(--color-accent)]/5 blur-[40px]" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-500/10 border border-white/10 rounded-lg text-[var(--font-size-2xs)] mb-6">
+                  <span className="mb-6 inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-purple-500/10 px-3 py-1 text-[var(--font-size-2xs)]">
                     Missed this show?
                   </span>
                   <h3 className="mb-2">Notify Me Next Time</h3>
                   <p className="mb-6">
-                    Enter your email to receive priority alerts when 7th Heaven schedules a new tour date at <strong >{show.venue_name}</strong>.
+                    Enter your email to receive priority alerts when 7th Heaven
+                    schedules a new tour date at{" "}
+                    <strong>{show.venue_name}</strong>.
                   </p>
                 </div>
                 <div>
                   {notifySuccess ? (
-                    <div className="p-4 bg-emerald-500/10 border border-white/10 text-center">
-                      <p className="text-emerald-400">✓ Successfully subscribed!</p>
-                      <p >We will alert you when new dates are announced.</p>
+                    <div className="border border-white/10 bg-emerald-500/10 p-4 text-center">
+                      <p className="text-emerald-400">
+                        ✓ Successfully subscribed!
+                      </p>
+                      <p>We will alert you when new dates are announced.</p>
                     </div>
                   ) : (
                     <form onSubmit={handleNotifyMe} className="space-y-3">
-                      <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="flex flex-col gap-3 sm:flex-row">
                         <InputField
                           type="email"
                           required
@@ -488,21 +595,26 @@ export default function ShowPageClient({
                           type="submit"
                           disabled={notifyLoading}
                           icon={false}
-                          className="px-6 py-3 disabled:opacity-50 shrink-0 rounded-lg">
+                          className="shrink-0 rounded-lg px-6 py-3 disabled:opacity-50"
+                        >
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </SeventhButton>
                       </div>
-                      {notifyError && <p className="text-rose-400 bg-rose-400/10 px-3 py-2 border border-rose-400/20 rounded">{notifyError}</p>}
+                      {notifyError && (
+                        <p className="rounded border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
+                          {notifyError}
+                        </p>
+                      )}
                     </form>
                   )}
                 </div>
               </div>
 
               {/* Video Embed Column */}
-              <div className="bg-[var(--color-bg-surface)] border border-white/10 p-6 flex flex-col justify-between relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-lg blur-[40px] pointer-events-none" />
+              <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-red-500/5 blur-[40px]" />
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-lg text-[var(--font-size-2xs)] text-red-400 mb-6">
+                  <span className="mb-6 inline-flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1 text-[var(--font-size-2xs)] text-red-400">
                     Live Performance
                   </span>
                   <h3 className="mb-3">Live Show Clips</h3>
@@ -511,7 +623,7 @@ export default function ShowPageClient({
                   <iframe
                     src="https://www.youtube.com/embed/Dnic7xeXrQo?autoplay=0&rel=0&modestbranding=1"
                     title="7th Heaven Live Performance Video"
-                    className="w-full h-full border-0"
+                    className="h-full w-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     sandbox="allow-scripts allow-presentation allow-popups allow-forms"
                     allowFullScreen
@@ -525,7 +637,8 @@ export default function ShowPageClient({
           <button
             id="attendee-toggle-btn"
             onClick={() => setAttendeeListOpen(!attendeeListOpen)}
-            className="w-full flex items-center justify-between p-5 bg-white/[0.02] border border-white/[0.06] border-white/10 transition-colors mb-1 group cursor-pointer">
+            className="group mb-1 flex w-full cursor-pointer items-center justify-between border border-white/10 border-white/[0.06] bg-white/[0.02] p-5 transition-colors"
+          >
             <div className="flex items-center gap-6">
               <div className="text-left">
                 <p className="mb-1">Fans Going</p>
@@ -533,24 +646,26 @@ export default function ShowPageClient({
               </div>
               {thereCount > 0 && (
                 <>
-                  <div className="w-px h-10 bg-white/10" />
+                  <div className="h-10 w-px bg-white/10" />
                   <div className="text-left">
-                    <p className="text-[var(--color-accent)]/60 mb-1">Here Now</p>
+                    <p className="mb-1 text-[var(--color-accent)]/60">
+                      Here Now
+                    </p>
                     <p>{thereCount}</p>
                   </div>
                 </>
               )}
-              {totalCount === 0 && (
-                <p>Be the first to RSVP!</p>
-              )}
+              {totalCount === 0 && <p>Be the first to RSVP!</p>}
             </div>
             <div className="flex items-center gap-3">
               {!isLoggedIn && (
-                <span className="border border-purple-500/30 px-3 py-1 bg-purple-500/5">
+                <span className="border border-purple-500/30 bg-purple-500/5 px-3 py-1">
                   Login to RSVP
                 </span>
               )}
-              <span className={`text-white/40 transition-transform duration-300 text-xl ${attendeeListOpen ? "rotate-180" : ""}`}>
+              <span
+                className={`text-xl text-white/40 transition-transform duration-300 ${attendeeListOpen ? "rotate-180" : ""}`}
+              >
                 ↓
               </span>
             </div>
@@ -559,51 +674,60 @@ export default function ShowPageClient({
           {/* Expandable attendee list */}
           {attendeeListOpen && (
             <div className="border border-t-0 border-white/[0.06] bg-white/[0.01] p-6">
-
               {/* Filter tabs */}
               {totalCount > 0 && (
-                <div className="flex items-center gap-1 mb-6 bg-white/[0.03] border border-white/10 p-1 w-fit">
+                <div className="mb-6 flex w-fit items-center gap-1 border border-white/10 bg-white/[0.03] p-1">
                   {(["all", "going", "there"] as const).map((f) => (
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`px-4 py-1.5 transition-colors cursor-pointer ${goingFilter === f ? "bg-white/10 " : " text-white/30 "}`}>
-                      {f === "all" ? `All (${totalCount})` : f === "going" ? `Going (${goingCount})` : `Here Now (${thereCount})`}
+                      className={`cursor-pointer px-4 py-1.5 transition-colors ${goingFilter === f ? "bg-white/10" : "text-white/30"}`}
+                    >
+                      {f === "all"
+                        ? `All (${totalCount})`
+                        : f === "going"
+                          ? `Going (${goingCount})`
+                          : `Here Now (${thereCount})`}
                     </button>
                   ))}
                 </div>
               )}
 
               {totalCount === 0 ? (
-                <div className="py-16 flex flex-col items-center">
-                  <span className="text-5xl mb-6 opacity-20">🎸</span>
+                <div className="flex flex-col items-center py-16">
+                  <span className="mb-6 text-5xl opacity-20">🎸</span>
                   <p>Nobody&apos;s RSVPed yet.</p>
-                  <p className="mt-2">Be the first — hit &ldquo;I&apos;m Going&rdquo; above!</p>
+                  <p className="mt-2">
+                    Be the first — hit &ldquo;I&apos;m Going&rdquo; above!
+                  </p>
                 </div>
               ) : filteredAttendees.length === 0 ? (
-                <p className="py-8 text-center">No fans in this category yet.</p>
+                <p className="py-8 text-center">
+                  No fans in this category yet.
+                </p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                   {filteredAttendees.map(renderAttendee)}
                 </div>
               )}
 
               {/* Anonymous note */}
               <p className="mt-4 text-center">
-                Fans who chose to go anonymously appear as &ldquo;Anonymous Fan&rdquo;
+                Fans who chose to go anonymously appear as &ldquo;Anonymous
+                Fan&rdquo;
               </p>
             </div>
           )}
 
           {/* Share CTA */}
           {!isPast && (
-            <div className="2 p-8 bg-white/[0.02] border border-white/[0.06] text-center">
+            <div className="2 border border-white/[0.06] bg-white/[0.02] p-8 text-center">
               <p className="mb-1">Know someone who might be going?</p>
               <p className="mb-6">Share this show page</p>
 
               {/* QR Code */}
-              <div className="flex flex-col items-center mb-8">
-                <div className="p-4 bg-white inline-block shadow-[0_0_40px_rgba(255,10,61,0.25)] mb-3">
+              <div className="mb-8 flex flex-col items-center">
+                <div className="mb-3 inline-block bg-white p-4 shadow-[0_0_40px_rgba(255,10,61,0.25)]">
                   <QRCode
                     value={shareUrl}
                     size={140}
@@ -612,19 +736,21 @@ export default function ShowPageClient({
                     level="M"
                   />
                 </div>
-                <p >Scan to open the show page</p>
+                <p>Scan to open the show page</p>
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <SeventhButton
                   onClick={copyLink}
                   icon={false}
-                  className="px-6 py-3 rounded-lg">
+                  className="rounded-lg px-6 py-3"
+                >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </SeventhButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="px-6 py-3 border border-white/10 text-white/50 hover:border-white/30 hover:text-white transition-colors">
+                  className="border border-white/10 px-6 py-3 text-white/50 transition-colors hover:border-white/30 hover:text-white"
+                >
                   💬 Text a Friend
                 </a>
               </div>

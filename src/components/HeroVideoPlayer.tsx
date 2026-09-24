@@ -2,20 +2,32 @@
 /* eslint-disable react-doctor/no-giant-component */
 "use client";
 
-import { useState, useRef, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useSyncExternalStore,
+  useMemo,
+} from "react";
 import { createPortal } from "react-dom";
 import { useHeroParallax } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import HeroUpNextBanner from "@/components/HeroUpNextBanner";
-const emptySubscribe = () => () => { };
+const emptySubscribe = () => () => {};
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
 const mqSubscribe = (cb: () => void) => {
-  const mq = typeof window !== "undefined" ? window.matchMedia("(min-width: 1024px)") : null;
+  const mq =
+    typeof window !== "undefined"
+      ? window.matchMedia("(min-width: 1024px)")
+      : null;
   mq?.addEventListener("change", cb);
   return () => mq?.removeEventListener("change", cb);
 };
-const mqSnapshot = () => typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches;
+const mqSnapshot = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(min-width: 1024px)").matches;
 const mqServerSnapshot = () => false; // Server always returns false (no video on SSR)
 import type { ReactNode, ComponentType } from "react";
 import Image from "next/image";
@@ -29,7 +41,7 @@ const ALBUM_VIDEOS: Record<string, string> = {
   "01-be-here": "/movie/be-here-clip.mp4",
   "color-in-motion": "/movie/color-in-motion-clip.mp4",
   "07-color-in-motion": "/movie/color-in-motion-clip.mp4",
-  "luminous": "/movie/luminous-clip.mp4",
+  luminous: "/movie/luminous-clip.mp4",
   "09-luminous": "/movie/luminous-clip.mp4",
 };
 
@@ -51,7 +63,11 @@ const TINT_PRESETS = [
 
 function hexToRgba(hex: string, alpha: number): string {
   let c = hex.replace("#", "");
-  if (c.length === 3) c = c.split("").map((x) => x + x).join("");
+  if (c.length === 3)
+    c = c
+      .split("")
+      .map((x) => x + x)
+      .join("");
   const num = parseInt(c, 16);
   if (isNaN(num)) return `rgba(0, 0, 0, ${alpha})`;
   const r = (num >> 16) & 255;
@@ -61,14 +77,44 @@ function hexToRgba(hex: string, alpha: number): string {
 }
 
 const GRADIENT_PRESETS = [
-  { name: "My Custom Choice", height: 46, opacity: 0.95, midstop: 37, color: "#000000" },
-  { name: "Cinematic Dark", height: 75, opacity: 0.95, midstop: 35, color: "#000000" },
-  { name: "Smooth Fade", height: 60, opacity: 0.85, midstop: 25, color: "#000000" },
-  { name: "Deep Violet Shadow", height: 70, opacity: 0.95, midstop: 30, color: "#090314" },
+  {
+    name: "My Custom Choice",
+    height: 46,
+    opacity: 0.95,
+    midstop: 37,
+    color: "#000000",
+  },
+  {
+    name: "Cinematic Dark",
+    height: 75,
+    opacity: 0.95,
+    midstop: 35,
+    color: "#000000",
+  },
+  {
+    name: "Smooth Fade",
+    height: 60,
+    opacity: 0.85,
+    midstop: 25,
+    color: "#000000",
+  },
+  {
+    name: "Deep Violet Shadow",
+    height: 70,
+    opacity: 0.95,
+    midstop: 30,
+    color: "#090314",
+  },
 ];
 
 // eslint-disable-next-line react-doctor/no-high-complexity-react-function
-export default function HeroVideoPlayer({ children, sanityContent }: { children?: ReactNode; sanityContent?: any }) {
+export default function HeroVideoPlayer({
+  children,
+  sanityContent,
+}: {
+  children?: ReactNode;
+  sanityContent?: any;
+}) {
   const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
   const [isVideoFading, setIsVideoFading] = useState(false);
   const [videoReady, setVideoReady] = useState(true);
@@ -78,7 +124,11 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   const [snapshots, setSnapshots] = useState<string[]>([]);
 
   // SSR-safe desktop detection — server always returns false, client reads matchMedia
-  const isDesktop = useSyncExternalStore(mqSubscribe, mqSnapshot, mqServerSnapshot);
+  const isDesktop = useSyncExternalStore(
+    mqSubscribe,
+    mqSnapshot,
+    mqServerSnapshot,
+  );
   const activeMediaRef = isDesktop ? videoRef : mobileVideoRef;
 
   const isYouTube = !videoSrc.includes(".mp4");
@@ -92,25 +142,34 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
       done = true;
       PREFETCH_URLS.forEach((url) => {
         if (url === DEFAULT_VIDEO) return; // already loading
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.as = 'video';
+        const link = document.createElement("link");
+        link.rel = "prefetch";
+        link.as = "video";
         link.href = url;
         document.head.appendChild(link);
       });
       cleanup();
     };
     const cleanup = () => {
-      window.removeEventListener('scroll', prefetch);
-      window.removeEventListener('pointerdown', prefetch);
-      window.removeEventListener('touchstart', prefetch);
+      window.removeEventListener("scroll", prefetch);
+      window.removeEventListener("pointerdown", prefetch);
+      window.removeEventListener("touchstart", prefetch);
     };
-    window.addEventListener('scroll', prefetch, { passive: true, once: true });
-    window.addEventListener('pointerdown', prefetch, { passive: true, once: true });
-    window.addEventListener('touchstart', prefetch, { passive: true, once: true });
+    window.addEventListener("scroll", prefetch, { passive: true, once: true });
+    window.addEventListener("pointerdown", prefetch, {
+      passive: true,
+      once: true,
+    });
+    window.addEventListener("touchstart", prefetch, {
+      passive: true,
+      once: true,
+    });
     // Fallback: prefetch after 4 seconds if no interaction
     const t = setTimeout(prefetch, 4000);
-    return () => { clearTimeout(t); cleanup(); };
+    return () => {
+      clearTimeout(t);
+      cleanup();
+    };
   }, [isDesktop]);
 
   const ytId = isYouTube ? videoSrc.replace(/^.*[=/]/, "") : "";
@@ -118,10 +177,16 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   // ── Tint Customizer states ──────────────────────────────────────────────────
   const [tintColor, setTintColor] = useState("#0d0914");
   const [tintOpacity, setTintOpacity] = useState(0.52);
-  const [mixBlendMode, setMixBlendMode] = useState<"normal" | "multiply" | "screen" | "overlay" | "color" | "darken">("normal");
+  const [mixBlendMode, setMixBlendMode] = useState<
+    "normal" | "multiply" | "screen" | "overlay" | "color" | "darken"
+  >("normal");
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   useEffect(() => {
@@ -130,7 +195,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
       setIsMusicPlaying(Boolean(customEvt.detail));
     };
     window.addEventListener("cursor:song-playing", handleSongPlaying);
-    return () => window.removeEventListener("cursor:song-playing", handleSongPlaying);
+    return () =>
+      window.removeEventListener("cursor:song-playing", handleSongPlaying);
   }, []);
 
   // ── Bottom-Up & Video Mask Customizer states ───────────────────────────────
@@ -213,8 +279,12 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     const loadWidgets = () => {
       if (loaded) return;
       loaded = true;
-      import("@/components/VinylHeroPlayer").then((mod) => setVinylComp(() => mod.default));
-      import("@/components/HeroYTBackground").then((mod) => setYTComp(() => mod.default));
+      import("@/components/VinylHeroPlayer").then((mod) =>
+        setVinylComp(() => mod.default),
+      );
+      import("@/components/HeroYTBackground").then((mod) =>
+        setYTComp(() => mod.default),
+      );
     };
 
     const cleanup = () => {
@@ -225,7 +295,10 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     };
 
     // Load immediately on desktop viewports so hero vinyl renders at 0ms
-    const isDesktop = typeof window !== "undefined" ? window.matchMedia("(min-width: 768px)").matches : true;
+    const isDesktop =
+      typeof window !== "undefined"
+        ? window.matchMedia("(min-width: 768px)").matches
+        : true;
     if (isDesktop) {
       loadWidgets();
     } else {
@@ -321,19 +394,22 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
   }, [captureFrame, videoSrc]); // re-run when source changes
 
   // ── Album → video sync with smooth fade crossfade transition ────────────────
-  const handleAlbumChange = useCallback((albumId: string) => {
-    const next = ALBUM_VIDEOS[albumId] ?? DEFAULT_VIDEO;
-    if (next === videoSrc) return;
+  const handleAlbumChange = useCallback(
+    (albumId: string) => {
+      const next = ALBUM_VIDEOS[albumId] ?? DEFAULT_VIDEO;
+      if (next === videoSrc) return;
 
-    // 1. Smoothly fade out current video
-    setIsVideoFading(true);
+      // 1. Smoothly fade out current video
+      setIsVideoFading(true);
 
-    if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
-    fadeTimerRef.current = setTimeout(() => {
-      // 2. Swap video source while hidden
-      setVideoSrc(next);
-    }, 280);
-  }, [videoSrc]);
+      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+      fadeTimerRef.current = setTimeout(() => {
+        // 2. Swap video source while hidden
+        setVideoSrc(next);
+      }, 280);
+    },
+    [videoSrc],
+  );
 
   useEffect(() => {
     return () => {
@@ -350,7 +426,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
       }
     };
     window.addEventListener("7h-album-change", handleCustomAlbumChange);
-    return () => window.removeEventListener("7h-album-change", handleCustomAlbumChange);
+    return () =>
+      window.removeEventListener("7h-album-change", handleCustomAlbumChange);
   }, [handleAlbumChange]);
 
   useEffect(() => {
@@ -374,16 +451,19 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
       const triggerPlay = () => {
         const target = activeMediaRef.current;
         if (target) {
-          target.play().then(() => {
-            handlePlayStart();
-          }).catch(() => {
-            setIsVideoFading(false);
-            setVideoReady(true);
-            if (typeof window !== "undefined") {
-              (window as any).__7hHeroVideoReady = true;
-              window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
-            }
-          });
+          target
+            .play()
+            .then(() => {
+              handlePlayStart();
+            })
+            .catch(() => {
+              setIsVideoFading(false);
+              setVideoReady(true);
+              if (typeof window !== "undefined") {
+                (window as any).__7hHeroVideoReady = true;
+                window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
+              }
+            });
         }
       };
 
@@ -412,13 +492,13 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            video.play().catch(() => { });
+            video.play().catch(() => {});
           } else {
             video.pause();
           }
         });
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
 
     observer.observe(video);
@@ -434,25 +514,29 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     foregroundRef,
     triggerSelector: "#hero",
     enabled: !isYouTube,
-    remountKey: `${videoSrc}-${isDesktop ? 'dt' : 'mb'}`,
+    remountKey: `${videoSrc}-${isDesktop ? "dt" : "mb"}`,
   });
 
   const ctxValue: VideoSnapshotContextValue = useMemo(
     () => ({ snapshots }),
-    [snapshots]
+    [snapshots],
   );
 
   const handleLoadedMetadata = useCallback(() => {
     const video = videoRef.current;
     if (video && video.currentTime < 15) {
-      try { video.currentTime = 15; } catch (_) { }
+      try {
+        video.currentTime = 15;
+      } catch (_) {}
     }
   }, []);
 
   const handleCanPlay = useCallback(() => {
     const video = videoRef.current;
     if (video && video.currentTime < 15) {
-      try { video.currentTime = 15; } catch (_) { }
+      try {
+        video.currentTime = 15;
+      } catch (_) {}
     }
     captureFrame();
   }, [captureFrame]);
@@ -462,10 +546,13 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
     if (!video) return;
     const START_TIME = 15;
     const MAX_DURATION = 8; // Exactly 8 seconds long loop
-    if (video.currentTime >= START_TIME + MAX_DURATION || video.currentTime < START_TIME) {
+    if (
+      video.currentTime >= START_TIME + MAX_DURATION ||
+      video.currentTime < START_TIME
+    ) {
       try {
         video.currentTime = START_TIME;
-      } catch (_) { }
+      } catch (_) {}
     }
   }, []);
 
@@ -476,7 +563,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
         video.currentTime = 15;
       }
       video.muted = true;
-      video.play().catch(() => { });
+      video.play().catch(() => {});
     }
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("7h-play-hero-music"));
@@ -485,20 +572,18 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
 
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
-      <div
-        className="relative w-full h-full flex flex-col justify-between"
-
-      >
+      <div className="relative flex h-full w-full flex-col justify-between">
         {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
         {!isDesktop ? (
           <div
-            className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden"
             style={{
-              WebkitMaskImage: 'linear-gradient(black 0%, black 75%, transparent 94%)',
-              maskImage: 'linear-gradient(black 0%, black 75%, transparent 94%)',
+              WebkitMaskImage:
+                "linear-gradient(black 0%, black 75%, transparent 94%)",
+              maskImage:
+                "linear-gradient(black 0%, black 75%, transparent 94%)",
             }}
           >
-
             <video
               ref={mobileVideoRef}
               src="/movie/hero-mobile.mp4"
@@ -507,7 +592,7 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               loop
               playsInline
               preload="auto"
-              className={`absolute inset-0 w-full h-full object-cover z-10 scale-[1.38] transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "opacity-0 translate-y-[30px]" : "opacity-90 translate-y-0"}`}
+              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
@@ -515,20 +600,24 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           </div>
         ) : isYouTube && YTComp ? (
           <div
-            className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden"
             style={{
-              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 45%, transparent 97%)',
-              maskImage: 'linear-gradient(to bottom, black 0%, black 45%, transparent 97%)',
+              WebkitMaskImage:
+                "linear-gradient(to bottom, black 0%, black 45%, transparent 97%)",
+              maskImage:
+                "linear-gradient(to bottom, black 0%, black 45%, transparent 97%)",
             }}
           >
             <YTComp videoId={ytId || "UQBvl_wZ0ak"} start={20} end={29} />
           </div>
         ) : (
           <div
-            className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden"
             style={{
-              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 97%)',
-              maskImage: 'linear-gradient(to bottom, black 0%, black 65%, transparent 97%)',
+              WebkitMaskImage:
+                "linear-gradient(to bottom, black 0%, black 65%, transparent 97%)",
+              maskImage:
+                "linear-gradient(to bottom, black 0%, black 65%, transparent 97%)",
             }}
           >
             <video
@@ -549,10 +638,11 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
               muted
               loop
               playsInline
-              className={`absolute inset-0 w-full h-full object-cover z-10 pointer-events-none transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "opacity-0 translate-y-[30px] scale-[1.50] filter blur-sm" : "opacity-100 translate-y-0 scale-[1.43] filter blur-0"}`}
+              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover transition-all duration-[250ms] ease-out ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
-              }}>
+              }}
+            >
               <source src={videoSrc} type="video/mp4" />
               <track kind="captions" />
             </video>
@@ -562,29 +652,32 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
           role="button"
           tabIndex={0}
           aria-label="Play video audio and music player"
-          className="absolute inset-0 z-[1] w-full h-full min-w-[48px] min-h-[48px] cursor-pointer transition-all duration-700 ease-in-out"
+          className="absolute inset-0 z-[1] h-full min-h-[48px] w-full min-w-[48px] cursor-pointer transition-all duration-700 ease-in-out"
           onClick={handleHeroClick}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
               handleHeroClick();
             }
           }}
           title="Click to play video audio & music player"
           style={{
-            opacity: isMusicPlaying ? Math.min(tintOpacity * 0.35, 0.18) : tintOpacity,
+            opacity: isMusicPlaying
+              ? Math.min(tintOpacity * 0.35, 0.18)
+              : tintOpacity,
             mixBlendMode: mixBlendMode,
           }}
         />
 
         {/* ── Tint Customizer Floating Panel (Dev/Tester Only) ── */}
         {mounted && localStorage.getItem("7h_tint_tester") === "true" && (
-          <div className="absolute top-[104px] right-6 z-40 md:right-8 flex flex-col items-end">
+          <div className="absolute top-[104px] right-6 z-40 flex flex-col items-end md:right-8">
             {!isCustomizerOpen ? (
               <button
                 onClick={() => setIsCustomizerOpen(true)}
-                className="w-11 h-11 rounded-lg bg-black/60 backdrop-blur-[45px] border border-white/10 flex items-center justify-center cursor-pointer hover:bg-black/85 active:scale-95 transition-colors shadow-[0_4px_20px_rgba(0,0,0,0.4)] group"
-                title="Open Video Tint Customizer">
+                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-[45px] transition-colors hover:bg-black/85 active:scale-95"
+                title="Open Video Tint Customizer"
+              >
                 <svg
                   width="18"
                   height="18"
@@ -594,7 +687,8 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="  group- group-hover:rotate-45 transition-colors duration-300">
+                  className="group- transition-colors duration-300 group-hover:rotate-45"
+                >
                   <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
                   <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
                   <path d="M12 2v2" />
@@ -608,22 +702,32 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                 </svg>
               </button>
             ) : (
-              <div
-                className="w-[280px] bg-black/75 backdrop-blur-xl border border-white/10 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col gap-4 select-none animate-[scaleIn_0.2s_ease-out] text-left">
+              <div className="flex w-[280px] animate-[scaleIn_0.2s_ease-out] flex-col gap-4 border border-white/10 bg-black/75 p-4 text-left shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl select-none">
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
                   <div className="flex flex-col">
-                    <span className="font-[family-name:var(--font-rockstar)] text-[var(--font-size-2xs)] text-[var(--color-accent)]">
+                    <span className="font-[family-name:var(--font-rockstar)] text-[var(--color-accent)] text-[var(--font-size-2xs)]">
                       Video Tint Tester
                     </span>
-                    <span className="text-white/40  ">
+                    <span className="text-white/40">
                       Customize background tint
                     </span>
                   </div>
                   <button
                     onClick={() => setIsCustomizerOpen(false)}
-                    className="w-6 h-6 rounded-lg hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                   </button>
                 </div>
 
@@ -635,44 +739,62 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                       <button
                         key={preset.color}
                         onClick={() => updateColor(preset.color)}
-                        className={`w-6 h-6 rounded-lg border transition-colors hover:scale-115 relative cursor-pointer flex items-center justify-center`}
+                        className={`relative flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border transition-colors hover:scale-115`}
                         style={{
                           backgroundColor: preset.color,
-                          borderColor: tintColor === preset.color ? '#9333ea' : 'rgba(255,255,255,0.2)'
+                          borderColor:
+                            tintColor === preset.color
+                              ? "#9333ea"
+                              : "rgba(255,255,255,0.2)",
                         }}
-                        title={preset.name}>
+                        title={preset.name}
+                      >
                         {tintColor === preset.color && (
-                          <div className="w-1.5 h-1.5 rounded-lg bg-purple-600 shadow-[0_0_4px_rgba(147, 51, 234,0.8)]" />
+                          <div className="shadow-[0_0_4px_rgba(147, 51, 234,0.8)] h-1.5 w-1.5 rounded-lg bg-purple-600" />
                         )}
                       </button>
                     ))}
                     {/* Custom Color Selector */}
                     <div
-                      className="w-6 h-6 rounded-lg border border-white/10 relative overflow-hidden cursor-pointer hover:scale-115 transition-transform flex items-center justify-center bg-[var(--color-accent)]/80"
-                      title="Custom Color">
-                      <input type="color"
+                      className="relative flex h-6 w-6 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-[var(--color-accent)]/80 transition-transform hover:scale-115"
+                      title="Custom Color"
+                    >
+                      <input
+                        type="color"
                         value={tintColor}
                         onChange={(e) => updateColor(e.target.value)}
-                        className="absolute -inset-1 w-[200%] h-[200%] cursor-pointer border-none p-0 opacity-0"
+                        className="absolute -inset-1 h-[200%] w-[200%] cursor-pointer border-none p-0 opacity-0"
                       />
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" ><path d="M12 5v14M5 12h14" /></svg>
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                      >
+                        <path d="M12 5v14M5 12h14" />
+                      </svg>
                     </div>
                   </div>
                 </div>
 
                 {/* Opacity Slider */}
                 <div className="space-y-1.5">
-                  <div className="flex justify-between /45 r">
+                  <div className="/45 r flex justify-between">
                     <span>Opacity</span>
-                    <span className="text-[var(--color-accent)]">{Math.round(tintOpacity * 100)}%</span>
+                    <span className="text-[var(--color-accent)]">
+                      {Math.round(tintOpacity * 100)}%
+                    </span>
                   </div>
-                  <input type="range"
+                  <input
+                    type="range"
                     min="0"
                     max="1"
                     step="0.02"
                     value={tintOpacity}
                     onChange={(e) => updateOpacity(parseFloat(e.target.value))}
-                    className="w-full accent-amber-500 bg-white/10 h-1.5 rounded-lg appearance-none cursor-pointer"
+                    className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-amber-500"
                   />
                 </div>
 
@@ -680,11 +802,21 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                 <div className="space-y-1.5">
                   <span className="/45 block">Mix Blend Mode</span>
                   <div className="grid grid-cols-3 gap-1">
-                    {(["normal", "multiply", "overlay", "screen", "color", "darken"] as const).map((mode) => (
+                    {(
+                      [
+                        "normal",
+                        "multiply",
+                        "overlay",
+                        "screen",
+                        "color",
+                        "darken",
+                      ] as const
+                    ).map((mode) => (
                       <button
                         key={mode}
                         onClick={() => updateBlend(mode)}
-                        className={`px-1 py-1 rounded border transition-colors cursor-pointer ${mixBlendMode === mode ? "bg-[var(--color-purple-primary)] border-[var(--color-border-purple)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)] " : " bg-[#00000029] border-white/10 hover:bg-white/10 hover:border-white/10"}`}>
+                        className={`cursor-pointer rounded border px-1 py-1 transition-colors ${mixBlendMode === mode ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
+                      >
                         {mode}
                       </button>
                     ))}
@@ -692,24 +824,62 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
                 </div>
 
                 {/* Active Values HUD */}
-                <div className="bg-white/[0.02] border border-white/10 rounded-lg p-2 text-white/40 space-y-0.5">
-                  <div>Color: <span >{tintColor}</span></div>
-                  <div>Opacity: <span >{tintOpacity}</span></div>
-                  <div>Blend: <span >{mixBlendMode}</span></div>
+                <div className="space-y-0.5 rounded-lg border border-white/10 bg-white/[0.02] p-2 text-white/40">
+                  <div>
+                    Color: <span>{tintColor}</span>
+                  </div>
+                  <div>
+                    Opacity: <span>{tintOpacity}</span>
+                  </div>
+                  <div>
+                    Blend: <span>{mixBlendMode}</span>
+                  </div>
                 </div>
 
                 {/* Copy CSS Button */}
                 <button
                   onClick={copyCSS}
-                  className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700   text-[var(--font-size-2xs)] transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] active:scale-97 flex items-center justify-center gap-1.5 cursor-pointer">
+                  className="shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 py-2 text-[var(--font-size-2xs)] transition-colors hover:from-amber-600 hover:to-orange-700 active:scale-97"
+                >
                   {copied ? (
                     <>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scaleIn_0.15s_ease-out]"><polyline points="20 6 9 17 4 12" /></svg>
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="animate-[scaleIn_0.15s_ease-out]"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
                       Copied!
                     </>
                   ) : (
                     <>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
+                      <svg
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect
+                          x="9"
+                          y="9"
+                          width="13"
+                          height="13"
+                          rx="2"
+                          ry="2"
+                        />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </svg>
                       Copy CSS Snippet
                     </>
                   )}
@@ -720,37 +890,40 @@ export default function HeroVideoPlayer({ children, sanityContent }: { children?
         )}
 
         {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts.
-       * Positioned lower than the tint panel above so the two don't overlap. */}
-        <HeroParallaxCustomizer {...parallax} positionClassName="top-[160px] right-6 md:right-8" />
+         * Positioned lower than the tint panel above so the two don't overlap. */}
+        <HeroParallaxCustomizer
+          {...parallax}
+          positionClassName="top-[160px] right-6 md:right-8"
+        />
 
         {/* ── Hero Foreground Content & Text Overlay (Parallaxes UP on scroll) ── */}
-        <div ref={foregroundRef} className="relative z-[10] flex flex-col justify-end w-full h-full pointer-events-none site-container pb-20">
+        <div
+          ref={foregroundRef}
+          className="site-container pointer-events-none relative z-[10] flex h-full w-full flex-col justify-end pb-20"
+        >
           {/* Two-column layout on Desktop (lg+), stacked on Tablet & Mobile */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-8 w-full">
+          <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             {/* Left Column: Hero Title & Subheading Content */}
-            <div className="pointer-events-auto max-w-[750px] lg:max-w-[50%] flex-1 flex flex-col gap-3">
+            <div className="pointer-events-auto flex max-w-[750px] flex-1 flex-col gap-3 lg:max-w-[50%]">
               {/* Hero Main Headline */}
-              <h1>
-                {sanityContent?.heroHeading || "7TH HEAVEN"}
-              </h1>
+              <h1>{sanityContent?.heroHeading || "7TH HEAVEN"}</h1>
 
               {/* Hero Subheading */}
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl   /90 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] leading-relaxed">
-                {sanityContent?.heroSubheading || "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
+              <p className="/90 text-sm leading-relaxed drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] sm:text-base md:text-lg lg:text-xl">
+                {sanityContent?.heroSubheading ||
+                  "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
               </p>
             </div>
 
             {/* Right Column: UP NEXT Show Banner (Smaller & Compact) */}
-            <div className="w-full lg:w-auto lg:max-w-[550px] shrink-0 pointer-events-auto">
+            <div className="pointer-events-auto w-full shrink-0 lg:w-auto lg:max-w-[550px]">
               <HeroUpNextBanner />
             </div>
           </div>
 
           {children && (
-            <div className="flex flex-col md:flex-row items-end gap-6 w-full pointer-events-auto mt-4">
-              <div className="relative z-30 flex justify-start">
-                {children}
-              </div>
+            <div className="pointer-events-auto mt-4 flex w-full flex-col items-end gap-6 md:flex-row">
+              <div className="relative z-30 flex justify-start">{children}</div>
             </div>
           )}
         </div>

@@ -1,10 +1,14 @@
 "use client";
-import Image from 'next/image';
+import Image from "next/image";
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
-import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
+import {
+  supabase,
+  isSupabaseConfigured,
+  type FeedPostDB,
+} from "@/lib/supabase-client";
 import { useVideoSnapshots } from "@/context/VideoSnapshotContext";
 
 const mockThumbs: FeedPostDB[] = [
@@ -118,14 +122,13 @@ export default function HeroLiveThumbs() {
     return (
       <button
         onClick={handleOpen}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--color-bg-surface)]/80 border border-white/10 border-white/10 backdrop-blur-[45px] select-none group cursor-pointer">
+        className="group flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-[45px] select-none"
+      >
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
-          <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-600" />
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-lg bg-red-600" />
         </span>
-        <span className="  group-hover:text-white  ">
-          Show Live Streams
-        </span>
+        <span className="group-hover:text-white">Show Live Streams</span>
       </button>
     );
   }
@@ -136,21 +139,28 @@ export default function HeroLiveThumbs() {
   if (loading) {
     return (
       <div
-        className="relative flex justify-start items-end"
+        className="relative flex items-end justify-start"
         style={{
-          width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
-          height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-        }}>
+          width:
+            scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
+          height:
+            scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
+        }}
+      >
         <div
-          className="absolute left-0 bottom-0 select-none animate-pulse flex items-end gap-3"
+          className="absolute bottom-0 left-0 flex animate-pulse items-end gap-3 select-none"
           style={{
             width: `${unscaledWidth}px`,
             height: `${unscaledHeight}px`,
             transform: scale < 1 ? `scale(${scale})` : undefined,
             transformOrigin: "bottom left",
-          }}>
+          }}
+        >
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="w-[220px] h-[250px] bg-[#00000029] shrink-0" />
+            <div
+              key={i}
+              className="h-[250px] w-[220px] shrink-0 bg-[#00000029]"
+            />
           ))}
         </div>
       </div>
@@ -162,42 +172,58 @@ export default function HeroLiveThumbs() {
 
   return (
     <div
-      className="relative flex justify-start items-end"
+      className="relative flex items-end justify-start"
       style={{
         width: scale < 1 ? `${unscaledWidth * scale}px` : `${unscaledWidth}px`,
-        height: scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
-      }}>
+        height:
+          scale < 1 ? `${unscaledHeight * scale}px` : `${unscaledHeight}px`,
+      }}
+    >
       <div
-        className="absolute left-0 bottom-0 select-none animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both]"
+        className="absolute bottom-0 left-0 animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both] select-none"
         style={{
           width: `${unscaledWidth}px`,
           height: `${unscaledHeight}px`,
           transform: scale < 1 ? `scale(${scale})` : undefined,
           transformOrigin: "bottom left",
-        }}>
+        }}
+      >
         {/* ── LIVE NOW header ── */}
-        <div className="relative flex items-center justify-between mb-3 px-1 w-full">
+        <div className="relative mb-3 flex w-full items-center justify-between px-1">
           <div className="flex items-center gap-2 pr-7">
             <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
-              <span className="relative inline-flex rounded-lg h-3 w-3 bg-red-600" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
+              <span className="relative inline-flex h-3 w-3 rounded-lg bg-red-600" />
             </span>
-            <span className="text-[var(--font-size-2xs)]   whitespace-nowrap">
+            <span className="whitespace-nowrap text-[var(--font-size-2xs)]">
               Crew Streaming
             </span>
             {mediaPosts.length > 2 && (
               <Link
                 href="/live"
-                className="text-red-500 hover:text-red-400 transition-colors ml-2 cursor-pointer flex items-center gap-0.5 hover:text-white whitespace-nowrap">
+                className="ml-2 flex cursor-pointer items-center gap-0.5 whitespace-nowrap text-red-500 transition-colors hover:text-red-400 hover:text-white"
+              >
                 + {mediaPosts.length - 2} More →
               </Link>
             )}
           </div>
-          <button onClick={handleClose}
-            className="text-white/40 hover:text-white transition-colors duration-200 p-2.5 min-w-[48px] min-h-[48px] rounded hover:bg-white/10 flex items-center justify-center cursor-pointer shrink-0"
-            aria-label="Hide Live Streams">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+          <button
+            onClick={handleClose}
+            className="flex min-h-[48px] min-w-[48px] shrink-0 cursor-pointer items-center justify-center rounded p-2.5 text-white/40 transition-colors duration-200 hover:bg-white/10 hover:text-white"
+            aria-label="Hide Live Streams"
+          >
+            <svg
+              className="h-3.5 w-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -205,7 +231,8 @@ export default function HeroLiveThumbs() {
         {/* ── Card Row ── */}
         <div className="flex items-end gap-3 select-none">
           {mediaPosts.slice(0, 2).map((post, idx) => {
-            const fallbackSrc = post.image_url || "/images/hero/band-performance.webp";
+            const fallbackSrc =
+              post.image_url || "/images/hero/band-performance.webp";
             // Prefer the live canvas snapshot if available, else fall back
             const thumbSrc = snapshots[idx] ?? fallbackSrc;
 
@@ -217,54 +244,62 @@ export default function HeroLiveThumbs() {
               <Link
                 key={post.id}
                 href="/live"
-                className="group shrink-0 w-[220px] h-[250px] overflow-hidden bg-[var(--color-bg-surface)] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)] transition-colors duration-300 flex flex-col">
+                className="group flex h-[250px] w-[220px] shrink-0 flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] transition-colors duration-300 hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)]"
+              >
                 {/* Thumbnail */}
-                <div className="relative w-full h-[195px] overflow-hidden bg-zinc-950">
-                  <Image width={220} height={195}
+                <div className="relative h-[195px] w-full overflow-hidden bg-zinc-950">
+                  <Image
+                    width={220}
+                    height={195}
                     src={thumbSrc}
                     alt={crewName}
                     priority={idx === 0}
                     quality={65}
                     sizes="220px"
-                    className="w-full h-full object-cover brightness-90"
+                    className="h-full w-full object-cover brightness-90"
                   />
 
                   {/* Red gradient bottom fade */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(220,38,38,0.7)]">
-                    <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 rounded-lg bg-red-600 px-2.5 py-1 shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-white" />
                     LIVE
                   </div>
 
                   {/* Viewer count — top right */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded-lg">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" /></svg>
+                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 rounded-lg bg-black/70 px-2 py-0.5 backdrop-blur-sm">
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                    </svg>
                     {viewers}
                   </div>
 
                   {/* Stream duration — bottom left */}
-                  <div className="absolute bottom-3 left-3.5  ">
-                    {timeText}
-                  </div>
+                  <div className="absolute bottom-3 left-3.5">{timeText}</div>
                 </div>
 
                 {/* Info row */}
-                <div className="flex items-center justify-between px-4 py-3 flex-1 bg-black/30 border-t border-white/5">
-                  <div className="flex items-center gap-2 min-w-0">
+                <div className="flex flex-1 items-center justify-between border-t border-white/5 bg-black/30 px-4 py-3">
+                  <div className="flex min-w-0 items-center gap-2">
                     {/* Green dot + name */}
                     <span className="relative flex h-2.5 w-2.5 shrink-0">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-emerald-400 opacity-60" />
-                      <span className="relative inline-flex rounded-lg h-2.5 w-2.5 bg-emerald-500" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-emerald-400 opacity-60" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-lg bg-emerald-500" />
                     </span>
-                    <span className="text-[var(--font-size-2xs)] truncate">
+                    <span className="truncate text-[var(--font-size-2xs)]">
                       {crewName}
                     </span>
                   </div>
 
                   {/* Watch now cta */}
-                  <span className="text-red-400 group-hover:text-red-300 transition-colors shrink-0">
+                  <span className="shrink-0 text-red-400 transition-colors group-hover:text-red-300">
                     WATCH →
                   </span>
                 </div>

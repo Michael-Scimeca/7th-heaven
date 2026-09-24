@@ -49,7 +49,9 @@ export default function ProximityPanel() {
   const [radius, setRadius] = useState(50);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "error">("idle");
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "error">(
+    "idle",
+  );
 
   const [nearbyShows, setNearbyShows] = useState<NearbyShow[]>([]);
   const [loadingShows, setLoadingShows] = useState(false);
@@ -86,7 +88,7 @@ export default function ProximityPanel() {
         const data = await res.json();
         setNearbyShows(data.shows || []);
       }
-    } catch { }
+    } catch {}
     setLoadingShows(false);
   }, [member?.id, notificationsEnabled]);
 
@@ -103,7 +105,11 @@ export default function ProximityPanel() {
       const res = await fetch("/api/proximity/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ zip, notificationRadius: radius, notificationsEnabled }),
+        body: JSON.stringify({
+          zip,
+          notificationRadius: radius,
+          notificationsEnabled,
+        }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -132,19 +138,23 @@ export default function ProximityPanel() {
       if (res.ok) {
         const data = await res.json();
         setAttendees(data.attendees || []);
-        const mine = (data.attendees || []).find((a: Attendee) => a.profiles?.id === member?.id);
+        const mine = (data.attendees || []).find(
+          (a: Attendee) => a.profiles?.id === member?.id,
+        );
         setMyStatus(mine?.status || null);
       }
-    } catch { }
+    } catch {}
     setAttendeeLoading(false);
   };
 
   const toggleGoing = async (show: NearbyShow) => {
     if (!member?.id) return;
     if (myStatus) {
-      await fetch(`/api/proximity/attendees?showId=${show.id}`, { method: "DELETE" });
+      await fetch(`/api/proximity/attendees?showId=${show.id}`, {
+        method: "DELETE",
+      });
       setMyStatus(null);
-      setAttendees(prev => prev.filter(a => a.profiles?.id !== member.id));
+      setAttendees((prev) => prev.filter((a) => a.profiles?.id !== member.id));
     } else {
       await fetch("/api/proximity/attendees", {
         method: "POST",
@@ -160,16 +170,15 @@ export default function ProximityPanel() {
     <div className="space-y-6">
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
-        <div className="flex items-center gap-2 mb-6">
-
-        </div>
+        <div className="mb-6 flex items-center gap-2"></div>
         <h3 className="mb-1">Shows Near You</h3>
         <p className="mb-6 max-w-md">
-          Get notified when 7th Heaven is performing within your chosen radius. See who else is going!
+          Get notified when 7th Heaven is performing within your chosen radius.
+          See who else is going!
         </p>
 
         {/* Notification Toggle */}
-        <div className="flex items-center justify-between py-3 border-b border-white/10 mb-6">
+        <div className="mb-6 flex items-center justify-between border-b border-white/10 py-3">
           <div>
             <p>Enable Proximity Notifications</p>
             <p className="mt-0.5">SMS & email alerts for nearby shows</p>
@@ -183,9 +192,11 @@ export default function ProximityPanel() {
         </div>
 
         {/* Zip + Radius */}
-        <div className="grid grid-cols-2 gap-3 mb-6">
+        <div className="mb-6 grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="proximity-zip-input" className="mb-2 block">Your Zip Code</label>
+            <label htmlFor="proximity-zip-input" className="mb-2 block">
+              Your Zip Code
+            </label>
             <GlowInput
               id="proximity-zip-input"
               aria-label="Your zip code"
@@ -193,18 +204,22 @@ export default function ProximityPanel() {
               maxLength={5}
               placeholder="60601"
               value={zip}
-              onChange={e => setZip(e.target.value.replace(/\D/g, ""))}
-
+              onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))}
             />
           </div>
           <div>
-            <label htmlFor="proximity-radius-select" className="mb-2 block">Radius</label>
+            <label htmlFor="proximity-radius-select" className="mb-2 block">
+              Radius
+            </label>
             <CustomDropdown
               id="proximity-radius-select"
               ariaLabel="Radius"
               value={radius}
-              options={RADIUS_OPTIONS.map(r => ({ value: r, label: `${r} miles` }))}
-              onChange={val => setRadius(val)}
+              options={RADIUS_OPTIONS.map((r) => ({
+                value: r,
+                label: `${r} miles`,
+              }))}
+              onChange={(val) => setRadius(val)}
             />
           </div>
         </div>
@@ -213,112 +228,156 @@ export default function ProximityPanel() {
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
           icon={false}
-          className="w-full py-3 cursor-pointer">
-          {saving ? "Saving…" : saveStatus === "saved" ? "Saved!" : saveStatus === "error" ? "Error — Try Again" : "Save Preferences"}
+          className="w-full cursor-pointer py-3"
+        >
+          {saving
+            ? "Saving…"
+            : saveStatus === "saved"
+              ? "Saved!"
+              : saveStatus === "error"
+                ? "Error — Try Again"
+                : "Save Preferences"}
         </SeventhButton>
       </div>
 
       {/* Nearby Shows */}
       {notificationsEnabled && (
         <div className="pt-2">
-          <div className="flex items-center justify-between mb-6">
+          <div className="mb-6 flex items-center justify-between">
             <span className="text-[var(--color-accent)]">
               Shows Within {radius} Miles
             </span>
             <button
               onClick={fetchNearbyShows}
-              className="text-white/40 hover:text-white transition-colors">
+              className="text-white/40 transition-colors hover:text-white"
+            >
               Refresh
             </button>
           </div>
 
           {loadingShows ? (
-            <div className="py-8 flex items-center justify-center">
-              <span className="text-white/40 animate-pulse">Checking nearby shows…</span>
+            <div className="flex items-center justify-center py-8">
+              <span className="animate-pulse text-white/40">
+                Checking nearby shows…
+              </span>
             </div>
           ) : nearbyShows.length === 0 ? (
-            <div className="py-8 flex flex-col items-center rounded-lg border border-white/10 bg-[#00000029] border-dashed">
+            <div className="flex flex-col items-center rounded-lg border border-dashed border-white/10 bg-[#00000029] py-8">
               <p>No shows in your area yet.</p>
               <p>We&apos;ll alert you the moment one is booked near you!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              {nearbyShows.map(show => (
+              {nearbyShows.map((show) => (
                 <div
                   key={show.id}
-                  className="p-4 bg-[#00000029] border border-white/10 hover:border-blue-500/40 transition-colors group">
+                  className="group border border-white/10 bg-[#00000029] p-4 transition-colors hover:border-blue-500/40"
+                >
                   <div className="flex items-center justify-between">
                     <button
                       type="button"
                       onClick={() => loadAttendees(show)}
-                      className="flex items-center gap-4 text-left cursor-pointer flex-1">
-                      <div className="flex flex-col items-center justify-center w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-lg shrink-0">
+                      className="flex flex-1 cursor-pointer items-center gap-4 text-left"
+                    >
+                      <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg border border-blue-500/20 bg-blue-500/10">
                         <span className="text-blue-400">
-                          {new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { month: "short" })}
+                          {new Date(show.date + "T12:00:00").toLocaleDateString(
+                            "en-US",
+                            { month: "short" },
+                          )}
                         </span>
                         <span className="text-lg">
                           {new Date(show.date + "T12:00:00").getDate()}
                         </span>
                       </div>
                       <div>
-                        <p className="group-hover:text-blue-400 transition-colors">{show.venue_name}</p>
-                        <p>
-                          {show.city ? `${show.city}${show.state ? `, ${show.state}` : ""}` : show.state || ""}
+                        <p className="transition-colors group-hover:text-blue-400">
+                          {show.venue_name}
                         </p>
-                        <p className="text-blue-400 mt-0.5">{show.distanceMiles} miles away</p>
+                        <p>
+                          {show.city
+                            ? `${show.city}${show.state ? `, ${show.state}` : ""}`
+                            : show.state || ""}
+                        </p>
+                        <p className="mt-0.5 text-blue-400">
+                          {show.distanceMiles} miles away
+                        </p>
                       </div>
                     </button>
                     <button
                       type="button"
-                      onClick={e => { e.stopPropagation(); toggleGoing(show); }}
-                      className={`px-4 py-2 rounded-lg transition-colors border ${myStatus && selectedShow?.id === show.id ? "bg-blue-600 border-blue-600" : "bg-white/10 border-white/10 hover:bg-blue-500 hover:  hover:border-blue-500"}`}>
-                      {myStatus && selectedShow?.id === show.id ? "Going" : "I'm Going"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleGoing(show);
+                      }}
+                      className={`rounded-lg border px-4 py-2 transition-colors ${myStatus && selectedShow?.id === show.id ? "border-blue-600 bg-blue-600" : "hover: border-white/10 bg-white/10 hover:border-blue-500 hover:bg-blue-500"}`}
+                    >
+                      {myStatus && selectedShow?.id === show.id
+                        ? "Going"
+                        : "I'm Going"}
                     </button>
                   </div>
 
                   {/* Attendees preview */}
                   {selectedShow?.id === show.id && (
-                    <div className="mt-4 pt-4 border-t border-white/10">
-                      <div className="flex items-center justify-between mb-3">
-                        <p >
-                          {attendees.length} fan{attendees.length !== 1 ? "s" : ""} going
+                    <div className="mt-4 border-t border-white/10 pt-4">
+                      <div className="mb-3 flex items-center justify-between">
+                        <p>
+                          {attendees.length} fan
+                          {attendees.length !== 1 ? "s" : ""} going
                         </p>
                         <div className="flex items-center gap-2">
                           <a
                             href={show.showPageUrl || `/shows/${show.id}`}
-                            className="text-blue-400 hover:text-white transition-colors">
+                            className="text-blue-400 transition-colors hover:text-white"
+                          >
                             View Show Page →
                           </a>
                           <span className="text-white/20">·</span>
                           <a
                             href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="text-white/40 hover:text-white transition-colors">
+                            className="text-white/40 transition-colors hover:text-white"
+                          >
                             Share
                           </a>
                         </div>
                       </div>
                       {attendeeLoading ? (
-                        <span className="text-black/40 animate-pulse">Loading…</span>
+                        <span className="animate-pulse text-black/40">
+                          Loading…
+                        </span>
                       ) : attendees.length === 0 ? (
-                        <p className="text-black/40">Be the first to say you&apos;re going!</p>
+                        <p className="text-black/40">
+                          Be the first to say you&apos;re going!
+                        </p>
                       ) : (
                         <div className="flex flex-wrap gap-2">
-                          {attendees.slice(0, 12).map(a => (
-                            <div key={a.id} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-black/10 rounded-lg">
-                              <div className="w-5 h-5 rounded-lg bg-[var(--color-accent)] flex items-center justify-center text-[var(--font-size-2xs)] text-[var(--color-accent)]">
+                          {attendees.slice(0, 12).map((a) => (
+                            <div
+                              key={a.id}
+                              className="flex items-center gap-2 rounded-lg border border-black/10 bg-white px-3 py-1.5"
+                            >
+                              <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-[var(--color-accent)] text-[var(--color-accent)] text-[var(--font-size-2xs)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
-                              <span className="text-black/70  ">{a.profiles?.full_name?.split(" ")[0]}</span>
-                              {a.profiles?.tier && a.profiles.tier !== "Bronze" && (
-                                <span className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]}`}>
-                                  {a.profiles.tier}
-                                </span>
-                              )}
+                              <span className="text-black/70">
+                                {a.profiles?.full_name?.split(" ")[0]}
+                              </span>
+                              {a.profiles?.tier &&
+                                a.profiles.tier !== "Bronze" && (
+                                  <span
+                                    className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]}`}
+                                  >
+                                    {a.profiles.tier}
+                                  </span>
+                                )}
                             </div>
                           ))}
                           {attendees.length > 12 && (
-                            <div className="px-3 py-1.5 bg-white border border-black/10 rounded-lg">
-                              <span className="text-black/50">+{attendees.length - 12} more</span>
+                            <div className="rounded-lg border border-black/10 bg-white px-3 py-1.5">
+                              <span className="text-black/50">
+                                +{attendees.length - 12} more
+                              </span>
                             </div>
                           )}
                         </div>

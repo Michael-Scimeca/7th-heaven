@@ -45,29 +45,45 @@ export default function StickyNotesOverlay() {
   const [hiddenNoteIds, setHiddenNoteIds] = useState<string[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isWidgetHidden, setIsWidgetHidden] = useState<boolean>(false);
-  const [activeFilter, setActiveFilter] = useState<"all" | "open" | "resolved">("open");
-  const [highlightedNoteId, setHighlightedNoteId] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<"all" | "open" | "resolved">(
+    "open",
+  );
+  const [highlightedNoteId, setHighlightedNoteId] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     const isRoleAdmin = member?.role === "admin";
     const isPathAdmin = pathname?.startsWith("/admin");
-    const isCookieAdmin = typeof document !== "undefined" && document.cookie.includes("admin_authenticated=true");
-    const isQueryAdmin = typeof window !== "undefined" && window.location.search.includes("admin=true");
-    setIsAdmin(Boolean(isRoleAdmin || isPathAdmin || isCookieAdmin || isQueryAdmin));
+    const isCookieAdmin =
+      typeof document !== "undefined" &&
+      document.cookie.includes("admin_authenticated=true");
+    const isQueryAdmin =
+      typeof window !== "undefined" &&
+      window.location.search.includes("admin=true");
+    setIsAdmin(
+      Boolean(isRoleAdmin || isPathAdmin || isCookieAdmin || isQueryAdmin),
+    );
   }, [member, pathname]);
 
   // Load saved visibility preferences post-hydration (React Doctor safe)
   useEffect(() => {
     try {
-      const savedVisible = localStorage.getItem("7th_heaven_sticky_notes_visible_v1");
+      const savedVisible = localStorage.getItem(
+        "7th_heaven_sticky_notes_visible_v1",
+      );
       if (savedVisible !== null) {
         setVisible(savedVisible === "true");
       }
-      const savedWidgetHidden = localStorage.getItem("7th_heaven_sticky_notes_widget_hidden_v1");
+      const savedWidgetHidden = localStorage.getItem(
+        "7th_heaven_sticky_notes_widget_hidden_v1",
+      );
       if (savedWidgetHidden !== null) {
         setIsWidgetHidden(savedWidgetHidden === "true");
       }
-      const savedHiddenIds = localStorage.getItem("7th_heaven_hidden_note_ids_v1");
+      const savedHiddenIds = localStorage.getItem(
+        "7th_heaven_hidden_note_ids_v1",
+      );
       if (savedHiddenIds) {
         setHiddenNoteIds(JSON.parse(savedHiddenIds));
       }
@@ -79,7 +95,10 @@ export default function StickyNotesOverlay() {
   const handleToggleWidgetHidden = (hide: boolean) => {
     setIsWidgetHidden(hide);
     try {
-      localStorage.setItem("7th_heaven_sticky_notes_widget_hidden_v1", String(hide));
+      localStorage.setItem(
+        "7th_heaven_sticky_notes_widget_hidden_v1",
+        String(hide),
+      );
     } catch {
       // LocalStorage fallback
     }
@@ -88,11 +107,15 @@ export default function StickyNotesOverlay() {
   // Fetch active notes for current route & set up real-time listener
   const fetchNotes = useCallback(async () => {
     try {
-      const res = await fetch(`/api/client-notes?pagePath=${encodeURIComponent(pathname)}`);
+      const res = await fetch(
+        `/api/client-notes?pagePath=${encodeURIComponent(pathname)}`,
+      );
       if (res.ok) {
         const data = await res.json();
         if (data.notes) {
-          setNotes(data.notes.filter((n: ClientNoteItem) => n.page_path === pathname));
+          setNotes(
+            data.notes.filter((n: ClientNoteItem) => n.page_path === pathname),
+          );
         }
       }
     } catch {
@@ -107,9 +130,13 @@ export default function StickyNotesOverlay() {
       const supabase = createClient();
       const channel = supabase
         .channel("client_notes_realtime")
-        .on("postgres_changes", { event: "*", schema: "public", table: "client_notes" }, () => {
-          fetchNotes();
-        })
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "client_notes" },
+          () => {
+            fetchNotes();
+          },
+        )
         .subscribe();
 
       return () => {
@@ -130,12 +157,18 @@ export default function StickyNotesOverlay() {
     }
   };
 
-  const hiddenNoteSet = React.useMemo(() => new Set(hiddenNoteIds), [hiddenNoteIds]);
+  const hiddenNoteSet = React.useMemo(
+    () => new Set(hiddenNoteIds),
+    [hiddenNoteIds],
+  );
 
   // Save hidden IDs to localStorage when changed
   useEffect(() => {
     try {
-      localStorage.setItem("7th_heaven_hidden_note_ids_v1", JSON.stringify(hiddenNoteIds));
+      localStorage.setItem(
+        "7th_heaven_hidden_note_ids_v1",
+        JSON.stringify(hiddenNoteIds),
+      );
     } catch {
       // LocalStorage fallback
     }
@@ -149,7 +182,9 @@ export default function StickyNotesOverlay() {
   }, []);
 
   const handleUpdateNote = async (updatedNote: ClientNoteItem) => {
-    setNotes((prev) => prev.map((n) => (n.id === updatedNote.id ? updatedNote : n)));
+    setNotes((prev) =>
+      prev.map((n) => (n.id === updatedNote.id ? updatedNote : n)),
+    );
 
     try {
       await fetch("/api/client-notes", {
@@ -166,7 +201,8 @@ export default function StickyNotesOverlay() {
   const handleAddInstantNote = () => {
     const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
     const scrollX = typeof window !== "undefined" ? window.scrollX : 0;
-    const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1200;
+    const viewportWidth =
+      typeof window !== "undefined" ? window.innerWidth : 1200;
 
     // Page relative coordinates (so it scrolls naturally with page)
     const pageX = Math.round(scrollX + Math.max(30, viewportWidth / 2 - 144));
@@ -200,7 +236,9 @@ export default function StickyNotesOverlay() {
     setNotes((prev) => prev.filter((n) => n.id !== id));
     setHiddenNoteIds((prev) => prev.filter((i) => i !== id));
     try {
-      await fetch(`/api/client-notes?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+      await fetch(`/api/client-notes?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
     } catch {
       // Memory fallback
     }
@@ -214,7 +252,10 @@ export default function StickyNotesOverlay() {
     setHighlightedNoteId(noteId);
     const note = notes.find((n) => n.id === noteId);
     if (note && note.custom_y !== undefined) {
-      window.scrollTo({ top: Math.max(0, note.custom_y - 200), behavior: "smooth" });
+      window.scrollTo({
+        top: Math.max(0, note.custom_y - 200),
+        behavior: "smooth",
+      });
     }
     setTimeout(() => setHighlightedNoteId(null), 3000);
   };
@@ -246,17 +287,19 @@ export default function StickyNotesOverlay() {
           type="button"
           onClick={() => handleToggleWidgetHidden(false)}
           title="Show Sticky Notes Toolbar"
-          className="fixed bottom-5 right-5 z-[99999] flex items-center gap-1.5 bg-black/90 hover:bg-black backdrop-blur-xl border border-amber-500/40 p-2.5 rounded-lg text-amber-400 hover:text-amber-300 transition-[background-color,color,transform] hover:scale-110 active:scale-95 cursor-pointer">
-          <StickyNote className="w-4 h-4 text-amber-400" />
-          <span className="text-[10px] text-amber-300 pr-1">Sticky Notes</span>
+          className="fixed right-5 bottom-5 z-[99999] flex cursor-pointer items-center gap-1.5 rounded-lg border border-amber-500/40 bg-black/90 p-2.5 text-amber-400 backdrop-blur-xl transition-[background-color,color,transform] hover:scale-110 hover:bg-black hover:text-amber-300 active:scale-95"
+        >
+          <StickyNote className="h-4 w-4 text-amber-400" />
+          <span className="pr-1 text-[10px] text-amber-300">Sticky Notes</span>
         </button>
       ) : (
-        <div className="fixed bottom-5 right-5 z-[99999] flex items-center gap-2 bg-black/90 backdrop-blur-xl border border-white/10 p-2 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+        <div className="fixed right-5 bottom-5 z-[99999] flex items-center gap-2 rounded-2xl border border-white/10 bg-black/90 p-2 shadow-[0_0_30px_rgba(0,0,0,0.8)] backdrop-blur-xl">
           <button
             type="button"
             onClick={handleAddInstantNote}
-            className="px-3.5 py-2 rounded-lg transition-[background-color,transform,box-shadow] flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500   border border-amber-400/50 shadow-amber-500/20 active:scale-95 cursor-pointer">
-            <Plus className="w-4 h-4" />
+            className="flex cursor-pointer items-center gap-2 rounded-lg border border-amber-400/50 bg-gradient-to-r from-amber-500 to-amber-600 px-3.5 py-2 shadow-amber-500/20 transition-[background-color,transform,box-shadow] hover:from-amber-400 hover:to-amber-500 active:scale-95"
+          >
+            <Plus className="h-4 w-4" />
             <span>Add Sticky Note</span>
           </button>
 
@@ -264,17 +307,23 @@ export default function StickyNotesOverlay() {
             type="button"
             onClick={handleToggleGlobalVisibility}
             title={visible ? "Hide All Sticky Notes" : "Show All Sticky Notes"}
-            className={`p-2 rounded-lg border transition cursor-pointer ${visible ? "bg-white/10 border-white/10 hover:bg-white/20" : "bg-red-500/20 border-red-500/40 text-red-300"}`}>
-            {visible ? <Eye className="w-4 h-4 text-emerald-400" /> : <EyeOff className="w-4 h-4 text-red-400" />}
+            className={`cursor-pointer rounded-lg border p-2 transition ${visible ? "border-white/10 bg-white/10 hover:bg-white/20" : "border-red-500/40 bg-red-500/20 text-red-300"}`}
+          >
+            {visible ? (
+              <Eye className="h-4 w-4 text-emerald-400" />
+            ) : (
+              <EyeOff className="h-4 w-4 text-red-400" />
+            )}
           </button>
 
           <button
             type="button"
             onClick={() => setIsDrawerOpen(true)}
-            className="px-3 py-2 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 flex items-center gap-1.5 transition cursor-pointer">
-            <List className="w-4 h-4 text-amber-400" />
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 transition hover:bg-white/10"
+          >
+            <List className="h-4 w-4 text-amber-400" />
             <span className="hidden sm:inline">Notes</span>
-            <span className="bg-amber-400   px-1.5 py-0.5 rounded-lg text-[10px]">
+            <span className="rounded-lg bg-amber-400 px-1.5 py-0.5 text-[10px]">
               {notes.length}
             </span>
           </button>
@@ -283,8 +332,9 @@ export default function StickyNotesOverlay() {
             type="button"
             onClick={() => handleToggleWidgetHidden(true)}
             title="Minimize Sticky Notes Toolbar"
-            className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition cursor-pointer ml-0.5">
-            <X className="w-4 h-4" />
+            className="ml-0.5 cursor-pointer rounded-lg p-1.5 text-white/40 transition hover:bg-white/10 hover:text-white"
+          >
+            <X className="h-4 w-4" />
           </button>
         </div>
       )}
@@ -292,60 +342,69 @@ export default function StickyNotesOverlay() {
       {/* Admin Notes Slide-Over Drawer */}
       {isDrawerOpen && (
         <div className="fixed inset-0 z-[100000] flex justify-end bg-black/70 backdrop-blur-md">
-          <div className="w-full max-w-md bg-[#0a0713] border-l border-white/10 h-full flex flex-col p-6 space-y-6 overflow-hidden">
+          <div className="flex h-full w-full max-w-md flex-col space-y-6 overflow-hidden border-l border-white/10 bg-[#0a0713] p-6">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2 text-amber-400">
-                <StickyNote className="w-5 h-5" />
-                <h3 >Client Sticky Notes Log</h3>
+                <StickyNote className="h-5 w-5" />
+                <h3>Client Sticky Notes Log</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen(false)}
-                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer">
-                <X className="w-4 h-4" />
+                className="cursor-pointer rounded-lg bg-white/10 p-1.5 hover:bg-white/20"
+              >
+                <X className="h-4 w-4" />
               </button>
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-1.5 p-1 bg-[#00000029] rounded-lg border border-white/10">
+            <div className="flex gap-1.5 rounded-lg border border-white/10 bg-[#00000029] p-1">
               {(["open", "resolved", "all"] as const).map((f) => (
                 <button
                   key={f}
                   type="button"
                   onClick={() => setActiveFilter(f)}
-                  className={`flex-1 py-1.5 rounded-lg text-[11px] transition cursor-pointer ${activeFilter === f ? "bg-amber-400   " : " hover:text-white "}`}>
+                  className={`flex-1 cursor-pointer rounded-lg py-1.5 text-[11px] transition ${activeFilter === f ? "bg-amber-400" : "hover:text-white"}`}
+                >
                   {f}
                 </button>
               ))}
             </div>
 
             {/* Notes List */}
-            <div className="flex-1 overflow-y-auto space-y-3 pr-1">
+            <div className="flex-1 space-y-3 overflow-y-auto pr-1">
               {notes.reduce<React.ReactNode[]>((acc, n) => {
-                if (activeFilter === "open" && n.status === "resolved") return acc;
-                if (activeFilter === "resolved" && n.status !== "resolved") return acc;
+                if (activeFilter === "open" && n.status === "resolved")
+                  return acc;
+                if (activeFilter === "resolved" && n.status !== "resolved")
+                  return acc;
 
                 const isNoteHidden = hiddenNoteSet.has(n.id);
 
                 acc.push(
                   <div
                     key={n.id}
-                    className="p-4 rounded-lg bg-white/[0.03] border border-white/10 space-y-2 hover:border-amber-400/40 transition">
+                    className="space-y-2 rounded-lg border border-white/10 bg-white/[0.03] p-4 transition hover:border-amber-400/40"
+                  >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-amber-400">Sticky Note #{n.id.slice(-4)}</span>
+                        <span className="text-amber-400">
+                          Sticky Note #{n.id.slice(-4)}
+                        </span>
                         {isNoteHidden && (
-                          <span className="text-[12px] text-rose-400 bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded">
+                          <span className="rounded border border-rose-500/20 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
                             Hidden
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] text-white/40">{n.created_at ? n.created_at.substring(11, 16) : ""}</span>
+                      <span className="text-[10px] text-white/40">
+                        {n.created_at ? n.created_at.substring(11, 16) : ""}
+                      </span>
                     </div>
 
-                    <p >{n.note_text || "(No text written yet)"}</p>
+                    <p>{n.note_text || "(No text written yet)"}</p>
 
-                    <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                    <div className="flex items-center justify-between border-t border-white/5 pt-2">
                       <div className="flex items-center gap-3">
                         <button
                           type="button"
@@ -353,15 +412,21 @@ export default function StickyNotesOverlay() {
                             setIsDrawerOpen(false);
                             handleScrollToNote(n.id);
                           }}
-                          className="text-[10px] text-amber-300 hover:text-white flex items-center gap-1 cursor-pointer">
-                          <CornerDownRight className="w-3 h-3" /> Go To Note
+                          className="flex cursor-pointer items-center gap-1 text-[10px] text-amber-300 hover:text-white"
+                        >
+                          <CornerDownRight className="h-3 w-3" /> Go To Note
                         </button>
 
                         <button
                           type="button"
                           onClick={() => handleToggleHideNote(n.id)}
-                          className="text-[10px] hover:text-white flex items-center gap-1 cursor-pointer">
-                          {isNoteHidden ? <Eye className="w-3 h-3 text-emerald-400" /> : <EyeOff className="w-3 h-3 text-amber-400" />}
+                          className="flex cursor-pointer items-center gap-1 text-[10px] hover:text-white"
+                        >
+                          {isNoteHidden ? (
+                            <Eye className="h-3 w-3 text-emerald-400" />
+                          ) : (
+                            <EyeOff className="h-3 w-3 text-amber-400" />
+                          )}
                           <span>{isNoteHidden ? "Unhide" : "Hide"}</span>
                         </button>
                       </div>
@@ -369,17 +434,20 @@ export default function StickyNotesOverlay() {
                       <button
                         type="button"
                         onClick={() => handleDeleteNote(n.id)}
-                        className="text-white/40 hover:text-red-400 p-1 cursor-pointer">
-                        <Trash2 className="w-3.5 h-3.5" />
+                        className="cursor-pointer p-1 text-white/40 hover:text-red-400"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
-                  </div>
+                  </div>,
                 );
                 return acc;
               }, [])}
 
               {notes.length === 0 && (
-                <div className="py-12 text-center text-white/40">No sticky notes created yet.</div>
+                <div className="py-12 text-center text-white/40">
+                  No sticky notes created yet.
+                </div>
               )}
             </div>
           </div>
@@ -411,7 +479,8 @@ function SingleStickyCard({
     const scrollX = typeof window !== "undefined" ? window.scrollX : 0;
     const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
 
-    const pageX = note.custom_x ?? Math.round(scrollX + Math.max(30, vw / 2 - 144));
+    const pageX =
+      note.custom_x ?? Math.round(scrollX + Math.max(30, vw / 2 - 144));
     const pageY = note.custom_y ?? Math.round(scrollY + 180);
 
     return {
@@ -420,9 +489,16 @@ function SingleStickyCard({
     };
   }, [note.custom_x, note.custom_y]);
 
-  const [pos, setPos] = useState<{ left: number; top: number }>(defaultViewportPos);
+  const [pos, setPos] = useState<{ left: number; top: number }>(
+    defaultViewportPos,
+  );
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const dragRef = useRef<{ startX: number; startY: number; initialLeft: number; initialTop: number }>({ startX: 0, startY: 0, initialLeft: 0, initialTop: 0 });
+  const dragRef = useRef<{
+    startX: number;
+    startY: number;
+    initialLeft: number;
+    initialTop: number;
+  }>({ startX: 0, startY: 0, initialLeft: 0, initialTop: 0 });
 
   useEffect(() => {
     setText(note.note_text);
@@ -440,7 +516,8 @@ function SingleStickyCard({
     const scrollX = window.scrollX;
     const vw = window.innerWidth;
 
-    const pageX = note.custom_x ?? Math.round(scrollX + Math.max(30, vw / 2 - 144));
+    const pageX =
+      note.custom_x ?? Math.round(scrollX + Math.max(30, vw / 2 - 144));
     const pageY = note.custom_y ?? Math.round(scrollY + 180);
 
     setPos({
@@ -463,7 +540,12 @@ function SingleStickyCard({
   // Drag handler on entire card
   const handlePointerDown = (e: React.PointerEvent) => {
     const target = e.target as HTMLElement;
-    if (target.closest("textarea") || target.closest("button") || target.closest("a")) return;
+    if (
+      target.closest("textarea") ||
+      target.closest("button") ||
+      target.closest("a")
+    )
+      return;
     e.preventDefault();
     setIsDragging(true);
     dragRef.current = {
@@ -533,23 +615,25 @@ function SingleStickyCard({
   return (
     <div
       onPointerDown={handlePointerDown}
-      className={`sticky-note-card fixed z-[99990] w-72 rounded-2xl p-4 bg-[#0c0915]/95backdrop-blur-[18px] border transition-shadow duration-300 cursor-grab active:cursor-grabbing ${isHighlighted ? "border-amber-300 ring-4 ring-amber-400/50 shadow-[0_0_40px_rgba(245,158,11,0.8)] scale-105" : note.status === "submitted" ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]" : "border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.25)]"}`}
+      className={`sticky-note-card bg-[#0c0915]/95backdrop-blur-[18px] fixed z-[99990] w-72 cursor-grab rounded-2xl border p-4 transition-shadow duration-300 active:cursor-grabbing ${isHighlighted ? "scale-105 border-amber-300 shadow-[0_0_40px_rgba(245,158,11,0.8)] ring-4 ring-amber-400/50" : note.status === "submitted" ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]" : "border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.25)]"}`}
       style={{
         left: `${pos.left}px`,
         top: `${pos.top}px`,
-      }}>
+      }}
+    >
       {/* Note Header */}
-      <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 select-none">
-        <div className="flex items-center gap-1.5 text-amber-400 min-w-0 shrink">
-          <Move className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-          <span className="text-[10px] text-amber-300 truncate">
+      <div className="mb-2 flex items-center justify-between border-b border-white/10 pb-2 select-none">
+        <div className="flex min-w-0 shrink items-center gap-1.5 text-amber-400">
+          <Move className="h-3.5 w-3.5 shrink-0 text-amber-400" />
+          <span className="truncate text-[10px] text-amber-300">
             Sticky Note #{note.id.slice(-4)}
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex shrink-0 items-center gap-1.5">
           <span
-            className={`text-[12px] px-2 py-0.5 rounded-lg whitespace-nowrap shrink-0 ${note.status === "submitted" ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" : "bg-amber-500/20 text-amber-300 border border-amber-500/40"}`}>
+            className={`shrink-0 rounded-lg px-2 py-0.5 text-[12px] whitespace-nowrap ${note.status === "submitted" ? "border border-emerald-500/40 bg-emerald-500/20 text-emerald-300" : "border border-amber-500/40 bg-amber-500/20 text-amber-300"}`}
+          >
             {note.status === "submitted" ? "✓ Submitted" : "Draft"}
           </span>
 
@@ -557,16 +641,18 @@ function SingleStickyCard({
             type="button"
             onClick={() => onHideNote(note.id)}
             title="Hide Note"
-            className="text-white/40 hover:text-amber-400 p-0.5 transition cursor-pointer">
-            <Minus className="w-3.5 h-3.5" />
+            className="cursor-pointer p-0.5 text-white/40 transition hover:text-amber-400"
+          >
+            <Minus className="h-3.5 w-3.5" />
           </button>
 
           <button
             type="button"
             onClick={() => onDelete(note.id)}
             title="Delete Note"
-            className="text-white/40 hover:text-red-400 p-0.5 transition cursor-pointer">
-            <X className="w-3.5 h-3.5" />
+            className="cursor-pointer p-0.5 text-white/40 transition hover:text-red-400"
+          >
+            <X className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
@@ -578,19 +664,18 @@ function SingleStickyCard({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Type your sticky note message or feedback here..."
-          className="form-input focus:border-amber-400 resize-none"
+          className="form-input resize-none focus:border-amber-400"
         />
 
         <div className="flex items-center justify-between pt-1">
-          <span className="text-[12px] text-white/40">
-            {formattedTime}
-          </span>
+          <span className="text-[12px] text-white/40">{formattedTime}</span>
 
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300   text-[10px] transition flex items-center gap-1.5 shadow-amber-400/20 cursor-pointer">
-            <Send className="w-3 h-3" />
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-amber-400 px-3 py-1.5 text-[10px] shadow-amber-400/20 transition hover:bg-amber-300"
+          >
+            <Send className="h-3 w-3" />
             <span>Submit Note</span>
           </button>
         </div>

@@ -67,21 +67,19 @@ function BioScrollRevealComponent({
   };
 
   return (
-    <section ref={containerRef} className="relative w-full py-20 px-6 site-container">
+    <section
+      ref={containerRef}
+      className="site-container relative w-full px-6 py-20"
+    >
       {/* Header */}
       <div className="mb-16 max-w-2xl">
-        <span className="  mb-2 flex items-center gap-2">
-          {subtitle}
-        </span>
-        <h2
-          className="md:text-6xl er">
-          {title}
-        </h2>
+        <span className="mb-2 flex items-center gap-2">{subtitle}</span>
+        <h2 className="er md:text-6xl">{title}</h2>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+      <div className="flex flex-col items-start gap-12 lg:flex-row lg:gap-16">
         {/* Left Column: Interactive Name List */}
-        <div className="w-full lg:w-3/5 space-y-12 md:space-y-20 py-8">
+        <div className="w-full space-y-12 py-8 md:space-y-20 lg:w-3/5">
           {members.map((member, index) => {
             const isActive = activeIndex === index;
             return (
@@ -91,24 +89,27 @@ function BioScrollRevealComponent({
                   itemRefs.current[index] = el;
                 }}
                 onClick={() => handleNameClick(index)}
-                className="group cursor-pointer transition-all duration-300 select-none">
-                <div className="flex items-baseline gap-4 mb-2">
+                className="group cursor-pointer transition-all duration-300 select-none"
+              >
+                <div className="mb-2 flex items-baseline gap-4">
                   <span className="text-purple-400 opacity-60">
                     0{index + 1}
                   </span>
-                  <span className="text-white/50 group-hover:text-white transition-colors">
+                  <span className="text-white/50 transition-colors group-hover:text-white">
                     {member.role}
                   </span>
                 </div>
 
                 <h3
-                  className={`md:text-7xl transition-all duration-300 ${isActive ? " scale-[1.02] translate-x-2 drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : " text-white/30 group-hover:text-white text-white/70"}`}>
+                  className={`transition-all duration-300 md:text-7xl ${isActive ? "translate-x-2 scale-[1.02] drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : "text-white/30 text-white/70 group-hover:text-white"}`}
+                >
                   {member.name}
                 </h3>
 
                 {member.description && (
                   <p
-                    className={`mt-3 max-w-lg transition-opacity duration-300    ${isActive ? "   opacity-100" : " text-white/30 opacity-40"}`}>
+                    className={`mt-3 max-w-lg transition-opacity duration-300 ${isActive ? "opacity-100" : "text-white/30 opacity-40"}`}
+                  >
                     {member.description}
                   </p>
                 )}
@@ -117,9 +118,17 @@ function BioScrollRevealComponent({
                   <Link
                     href={member.linkHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`inline-flex items-center gap-2 mt-4    hover:text-white transition-opacity ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+                    className={`mt-4 inline-flex items-center gap-2 transition-opacity hover:text-white ${isActive ? "opacity-100" : "pointer-events-none opacity-0"}`}
+                  >
                     <span>View Full Bio</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
                   </Link>
@@ -130,14 +139,15 @@ function BioScrollRevealComponent({
         </div>
 
         {/* Right Column: Sticky Portrait Image Reveal Container */}
-        <div className="w-full lg:w-2/5 shrink-0 lg:sticky lg:top-28 z-20">
-          <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] bg-purple-950/20">
+        <div className="z-20 w-full shrink-0 lg:sticky lg:top-28 lg:w-2/5">
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-white/10 bg-purple-950/20 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
             {members.map((member, index) => {
               const isActive = activeIndex === index;
               return (
                 <div
                   key={member.id}
-                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${isActive ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-105 pointer-events-none"}`}>
+                  className={`absolute inset-0 h-full w-full transition-all duration-700 ease-out ${isActive ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-105 opacity-0"}`}
+                >
                   <Image
                     src={member.imageUrl}
                     alt={member.name}
@@ -145,18 +155,16 @@ function BioScrollRevealComponent({
                     height={1000}
                     unoptimized
                     priority={index === 0}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80" />
 
                   {/* Portrait Caption Overlay */}
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <span className="bg-black/60 backdrop-blur-[45px] px-2.5 py-1 rounded-lg border border-white/10">
+                  <div className="absolute right-6 bottom-6 left-6">
+                    <span className="rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 backdrop-blur-[45px]">
                       {member.role}
                     </span>
-                    <h4 className="mt-2 drop-">
-                      {member.name}
-                    </h4>
+                    <h4 className="drop- mt-2">{member.name}</h4>
                   </div>
                 </div>
               );

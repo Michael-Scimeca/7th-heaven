@@ -5,7 +5,8 @@ import { sendEmail } from "@/lib/email";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
 export async function GET(request: Request) {
@@ -15,7 +16,9 @@ export async function GET(request: Request) {
     const token = searchParams.get("token");
 
     if (!email || !isValidEmail(email) || !token) {
-      return NextResponse.redirect(new URL("/live?error=invalid_token", request.url));
+      return NextResponse.redirect(
+        new URL("/live?error=invalid_token", request.url),
+      );
     }
 
     const cleanEmail = email.toLowerCase().trim();
@@ -33,18 +36,16 @@ export async function GET(request: Request) {
     }
 
     // 2. Mark subscriber as verified & active
-    await supabase
-      .from("newsletter_subscribers")
-      .upsert(
-        {
-          email: cleanEmail,
-          subscribed: true,
-          verified: true,
-          verified_at: new Date().toISOString(),
-          unsubscribed_at: null,
-        },
-        { onConflict: "email" }
-      );
+    await supabase.from("newsletter_subscribers").upsert(
+      {
+        email: cleanEmail,
+        subscribed: true,
+        verified: true,
+        verified_at: new Date().toISOString(),
+        unsubscribed_at: null,
+      },
+      { onConflict: "email" },
+    );
 
     // 3. Send final welcome email
     const unsubscribeUrl = `${siteUrl}/api/ntfy/unsubscribe?email=${encodeURIComponent(cleanEmail)}`;
@@ -100,6 +101,8 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${siteUrl}/live?verified=true`);
   } catch (err: any) {
     console.error("[api/ntfy/verify] error:", err);
-    return NextResponse.redirect(new URL("/live?error=verify_failed", request.url));
+    return NextResponse.redirect(
+      new URL("/live?error=verify_failed", request.url),
+    );
   }
 }

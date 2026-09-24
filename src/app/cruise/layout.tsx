@@ -3,7 +3,11 @@ import { fetchPageContent, getMediaUrl } from "@/lib/sanity";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("cruise");
-  const title = content?.seo?.metaTitle || (content?.title ? `${content.title} — 7th Heaven` : "7th Heaven Caribbean Cruise — Set Sail With The Band");
+  const title =
+    content?.seo?.metaTitle ||
+    (content?.title
+      ? `${content.title} — 7th Heaven`
+      : "7th Heaven Caribbean Cruise — Set Sail With The Band");
   const description =
     content?.seo?.metaDescription ||
     content?.heroSubheading ||
@@ -21,7 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url: "https://7thheavenband.com/cruise",
       siteName: "7th Heaven",
-      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: "7th Heaven Cruise" }],
+      images: [
+        { url: ogImageUrl, width: 1200, height: 630, alt: "7th Heaven Cruise" },
+      ],
     },
   };
 }

@@ -5,7 +5,10 @@ import { useState } from "react";
 import { EMAIL_TEMPLATES } from "@/lib/email-templates";
 import CustomScrollbar from "@/components/CustomScrollbar";
 
-const categories = ["All", ...Array.from(new Set(EMAIL_TEMPLATES.map(t => t.category)))];
+const categories = [
+  "All",
+  ...Array.from(new Set(EMAIL_TEMPLATES.map((t) => t.category))),
+];
 
 export default function EmailPreviewPage() {
   const [activeId, setActiveId] = useState(EMAIL_TEMPLATES[0].id);
@@ -13,10 +16,17 @@ export default function EmailPreviewPage() {
   const [viewMode, setViewMode] = useState<"preview" | "code">("preview");
   const [testEmail, setTestEmail] = useState("");
   const [sending, setSending] = useState(false);
-  const [sendResult, setSendResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [sendResult, setSendResult] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
 
-  const filtered = activeCategory === "All" ? EMAIL_TEMPLATES : EMAIL_TEMPLATES.filter(t => t.category === activeCategory);
-  const active = EMAIL_TEMPLATES.find(t => t.id === activeId) || EMAIL_TEMPLATES[0];
+  const filtered =
+    activeCategory === "All"
+      ? EMAIL_TEMPLATES
+      : EMAIL_TEMPLATES.filter((t) => t.category === activeCategory);
+  const active =
+    EMAIL_TEMPLATES.find((t) => t.id === activeId) || EMAIL_TEMPLATES[0];
   const html = active.render();
 
   const handleSendTest = async () => {
@@ -40,13 +50,22 @@ export default function EmailPreviewPage() {
       if (res.ok) {
         const data = await res.json();
         if (data.success) {
-          setSendResult({ success: true, message: `Successfully sent test to ${testEmail}` });
+          setSendResult({
+            success: true,
+            message: `Successfully sent test to ${testEmail}`,
+          });
         } else {
-          setSendResult({ success: false, message: data.error || "Failed to send email" });
+          setSendResult({
+            success: false,
+            message: data.error || "Failed to send email",
+          });
         }
       } else {
         const data = await res.json().catch(() => ({}));
-        setSendResult({ success: false, message: data.error || `HTTP error ${res.status}` });
+        setSendResult({
+          success: false,
+          message: data.error || `HTTP error ${res.status}`,
+        });
       }
       setTimeout(() => setSendResult(null), 5000);
     } catch (err: any) {
@@ -57,66 +76,88 @@ export default function EmailPreviewPage() {
   };
 
   return (
-    <div className="h-screen pt-[72px] overflow-hidden">
+    <div className="h-screen overflow-hidden pt-[72px]">
       <div className="flex h-full overflow-hidden">
-
         {/* ── Sidebar ── */}
-        <div className="w-[320px] border-r border-white/10 bg-[#08080c] flex flex-col shrink-0 min-h-0 overflow-hidden">
-          <div className="p-6 border-b border-white/5">
+        <div className="flex min-h-0 w-[320px] shrink-0 flex-col overflow-hidden border-r border-white/10 bg-[#08080c]">
+          <div className="border-b border-white/5 p-6">
             <h1 className="mb-1">Email Templates</h1>
-            <p>{EMAIL_TEMPLATES.length} templates • {EMAIL_TEMPLATES.filter(t => t.status === 'live').length} live</p>
+            <p>
+              {EMAIL_TEMPLATES.length} templates •{" "}
+              {EMAIL_TEMPLATES.filter((t) => t.status === "live").length} live
+            </p>
           </div>
 
           {/* Category tabs */}
-          <div className="px-4 pt-4 flex gap-1.5 flex-wrap">
-            {categories.map(c => (
-              <button key={c} onClick={() => setActiveCategory(c)}
-                className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${activeCategory === c ? 'bg-[var(--color-accent)] ' : 'bg-white/[0.03] text-white/30 '}`}>{c}</button>
+          <div className="flex flex-wrap gap-1.5 px-4 pt-4">
+            {categories.map((c) => (
+              <button
+                key={c}
+                onClick={() => setActiveCategory(c)}
+                className={`cursor-pointer rounded-lg px-3 py-1 transition-colors ${activeCategory === c ? "bg-[var(--color-accent)]" : "bg-white/[0.03] text-white/30"}`}
+              >
+                {c}
+              </button>
             ))}
           </div>
 
           {/* Template list */}
-          <CustomScrollbar className="p-4 space-y-1.5">
-            {filtered.map(t => (
-              <button key={t.id} onClick={() => setActiveId(t.id)}
-                className={`w-full text-left p-4 transition-colors cursor-pointer group ${activeId === t.id ? 'bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30' : 'border border-transparent'}`}>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className={`${activeId === t.id ? ' ' : ' text-white/70 group-hover:text-white '}`}>
+          <CustomScrollbar className="space-y-1.5 p-4">
+            {filtered.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setActiveId(t.id)}
+                className={`group w-full cursor-pointer p-4 text-left transition-colors ${activeId === t.id ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10" : "border border-transparent"}`}
+              >
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span
+                    className={`${activeId === t.id ? " " : "text-white/70 group-hover:text-white"}`}
+                  >
                     {t.name}
                   </span>
-                  <span className={`px-2 py-0.5 rounded-lg ${t.status === 'live' ? 'bg-emerald-500/10 border border-[var(--color-accent)]/30' : 'bg-purple-600/10 text-purple-300 border border-white/20'}`}>
+                  <span
+                    className={`rounded-lg px-2 py-0.5 ${t.status === "live" ? "border border-[var(--color-accent)]/30 bg-emerald-500/10" : "border border-white/20 bg-purple-600/10 text-purple-300"}`}
+                  >
                     {t.status}
                   </span>
                 </div>
                 <p>{t.description}</p>
-                <span className="text-[var(--color-accent)]/60 mt-2 block">{t.category}</span>
+                <span className="mt-2 block text-[var(--color-accent)]/60">
+                  {t.category}
+                </span>
               </button>
             ))}
           </CustomScrollbar>
         </div>
 
         {/* ── Preview Panel ── */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex flex-1 flex-col">
           {/* Toolbar */}
-          <div className="h-14 border-b border-white/10 bg-[#08080c] flex items-center justify-between px-6 shrink-0">
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-[#08080c] px-6">
             <div className="flex items-center gap-3">
               <h2>{active.name}</h2>
-              <span className={`px-2 py-0.5 rounded-lg ${active.status === 'live' ? 'bg-emerald-500/10 text-[var(--color-accent)]' : 'bg-purple-600/10 text-purple-300'}`}>{active.status}</span>
+              <span
+                className={`rounded-lg px-2 py-0.5 ${active.status === "live" ? "bg-emerald-500/10 text-[var(--color-accent)]" : "bg-purple-600/10 text-purple-300"}`}
+              >
+                {active.status}
+              </span>
             </div>
 
             <div className="flex items-center gap-4">
               {/* Test Email Form */}
-              <div className="flex items-center gap-2 bg-white/[0.03] border border-white/10 rounded-lg pl-3 pr-1 py-1 group focus-within:border-[var(--color-accent)]/50 transition-colors">
-                <input type="email"
+              <div className="group flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] py-1 pr-1 pl-3 transition-colors focus-within:border-[var(--color-accent)]/50">
+                <input
+                  type="email"
                   placeholder="test@example.com"
                   value={testEmail}
                   onChange={(e) => setTestEmail(e.target.value)}
-                  className="placeholder: text-white/20 outline-none w-[180px]"
+                  className="placeholder: w-[180px] text-white/20 outline-none"
                 />
                 <button
                   onClick={handleSendTest}
                   disabled={sending}
-                  className="bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 disabled:opacity-50 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+                  className="cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-1.5 transition-colors hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+                >
                   {sending ? "Sending..." : "Send Test"}
                 </button>
               </div>
@@ -124,23 +165,34 @@ export default function EmailPreviewPage() {
               <div className="h-4 w-px bg-[#00000029]" />
 
               <div className="flex items-center gap-2">
-                <button aria-label="Previous" onClick={() => setViewMode("preview")}
-                  className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${viewMode === 'preview' ? 'bg-[var(--color-accent)] ' : ' text-white/30 '}`}>Preview</button>
-                <button onClick={() => setViewMode("code")}
-                  className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${viewMode === 'code' ? 'bg-[var(--color-accent)] ' : ' text-white/30 '}`}>HTML</button>
+                <button
+                  aria-label="Previous"
+                  onClick={() => setViewMode("preview")}
+                  className={`cursor-pointer rounded-lg px-3 py-1.5 transition-colors ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
+                >
+                  Preview
+                </button>
+                <button
+                  onClick={() => setViewMode("code")}
+                  className={`cursor-pointer rounded-lg px-3 py-1.5 transition-colors ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
+                >
+                  HTML
+                </button>
               </div>
             </div>
           </div>
 
           {/* Feedback Toast */}
           {sendResult && (
-            <div className={`px-6 py-2 text-center animate-[fade-in_0.3s_ease-out] ${sendResult.success ? 'bg-emerald-500/10 border-b border-[var(--color-accent)]/30' : 'bg-red-500/10 text-red-400 border-b border-red-500/20'}`}>
+            <div
+              className={`animate-[fade-in_0.3s_ease-out] px-6 py-2 text-center ${sendResult.success ? "border-b border-[var(--color-accent)]/30 bg-emerald-500/10" : "border-b border-red-500/20 bg-red-500/10 text-red-400"}`}
+            >
               {sendResult.message}
             </div>
           )}
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto bg-[var(--color-bg-card)] flex justify-center p-8">
+          <div className="flex flex-1 justify-center overflow-y-auto bg-[var(--color-bg-card)] p-8">
             {viewMode === "preview" ? (
               <div className="w-full max-w-[620px]">
                 <div className="overflow-hidden border border-white/5">
@@ -154,7 +206,7 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] bg-[var(--color-bg-surface)] border border-white/10 p-6 text-white/50 overflow-x-auto whitespace-pre-wrap">
+              <pre className="w-full max-w-[900px] overflow-x-auto border border-white/10 bg-[var(--color-bg-surface)] p-6 whitespace-pre-wrap text-white/50">
                 {html}
               </pre>
             )}

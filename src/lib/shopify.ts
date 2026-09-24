@@ -1,6 +1,6 @@
 /**
  * Shopify Headless Commerce Integration
- * 
+ *
  * Instructions for the Band:
  * 1. Create a Shopify account.
  * 2. Go to Settings> Apps and sales channels> Develop apps.
@@ -11,13 +11,26 @@
  *    NEXT_PUBLIC_SHOPIFY_STOREFRONT_KEY="xxxxx"
  */
 
-const domain = (process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || 'demo-7thheaven.myshopify.com').replace(/"/g, '');
+const domain = (
+  process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "demo-7thheaven.myshopify.com"
+).replace(/"/g, "");
 // No hardcoded token fallback — missing token will cause a 401 from Shopify,
 // which is the correct and visible failure mode for misconfiguration.
-const storefrontAccessToken = (process.env['NEXT_PUBLIC_SHOPIFY_STOREFRONT_' + 'ACCESS_TOKEN'] || '').replace(/"/g, '');
+const storefrontAccessToken = (
+  process.env["NEXT_PUBLIC_SHOPIFY_STOREFRONT_" + "ACCESS_TOKEN"] || ""
+).replace(/"/g, "");
 
-async function shopifyFetch<T>({ query, variables }: { query: string; variables?: any }): Promise<{ status: number; body: T }> {
-  if (!storefrontAccessToken || process.env.NEXT_PUBLIC_DISABLE_SHOPIFY === 'true') {
+async function shopifyFetch<T>({
+  query,
+  variables,
+}: {
+  query: string;
+  variables?: any;
+}): Promise<{ status: number; body: T }> {
+  if (
+    !storefrontAccessToken ||
+    process.env.NEXT_PUBLIC_DISABLE_SHOPIFY === "true"
+  ) {
     return { status: 200, body: {} as T };
   }
 
@@ -25,17 +38,19 @@ async function shopifyFetch<T>({ query, variables }: { query: string; variables?
 
   try {
     const result = await fetch(endpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': storefrontAccessToken,
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
       },
       body: JSON.stringify({ query, variables }),
       // Always fetch fresh data — inventory changes in real-time
-      cache: 'no-store',
+      cache: "no-store",
     });
 
-    const body = result.ok ? await result.json() : await result.json().catch(() => ({} as T));
+    const body = result.ok
+      ? await result.json()
+      : await result.json().catch(() => ({}) as T);
     return { status: result.status, body };
   } catch {
     // Silently return fallback without flooding browser error console
@@ -89,10 +104,13 @@ export async function getProducts() {
 
   try {
     const response = await shopifyFetch<any>({ query });
-    return response.body?.data?.products?.edges?.map((e: any) => ({
-      ...e.node,
-      quantityAvailable: e.node.variants?.edges?.[0]?.node?.quantityAvailable ?? null,
-    })) || [];
+    return (
+      response.body?.data?.products?.edges?.map((e: any) => ({
+        ...e.node,
+        quantityAvailable:
+          e.node.variants?.edges?.[0]?.node?.quantityAvailable ?? null,
+      })) || []
+    );
   } catch {
     return [];
   }
@@ -142,20 +160,24 @@ export async function getShopifyProductForPrize(prizeName: string) {
     const matched = products.find((p: any) => {
       const title = p.title.toLowerCase().trim();
       const handle = p.handle.toLowerCase().trim();
-      return title.includes(lowerPrize) || lowerPrize.includes(title) || handle.includes(lowerPrize) || lowerPrize.includes(handle);
+      return (
+        title.includes(lowerPrize) ||
+        lowerPrize.includes(title) ||
+        handle.includes(lowerPrize) ||
+        lowerPrize.includes(handle)
+      );
     });
 
     if (matched) {
-      const imgUrl = matched.images?.edges?.[0]?.node?.url || '';
+      const imgUrl = matched.images?.edges?.[0]?.node?.url || "";
       return {
         title: matched.title,
-        description: matched.description || 'Exclusive 7th Heaven Merch',
+        description: matched.description || "Exclusive 7th Heaven Merch",
         imageUrl: imgUrl,
       };
     }
   } catch (err) {
-    console.error('Error fetching Shopify product for prize:', err);
+    console.error("Error fetching Shopify product for prize:", err);
   }
   return null;
 }
-

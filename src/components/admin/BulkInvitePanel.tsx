@@ -18,7 +18,10 @@ export default function BulkInvitePanel() {
   const [invites, setInvites] = useState<ParsedInvite[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [sending, setSending] = useState(false);
-  const [results, setResults] = useState<{ success: number; failed: number } | null>(null);
+  const [results, setResults] = useState<{
+    success: number;
+    failed: number;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Simple client-side parser for CSV/Text input
@@ -54,7 +57,10 @@ export default function BulkInvitePanel() {
         if (emailIdx !== -1) {
           email = parts[emailIdx].trim();
           // The other part is assumed to be the name
-          name = parts.filter((_, idx) => idx !== emailIdx).join(" ").trim();
+          name = parts
+            .filter((_, idx) => idx !== emailIdx)
+            .join(" ")
+            .trim();
         } else {
           // Fallback: first column email, second name
           email = parts[0].trim();
@@ -64,7 +70,11 @@ export default function BulkInvitePanel() {
 
       // Basic regex check and duplicate check
       const cleanEmail = email.toLowerCase().replace(/[<>'"\s]/g, "");
-      if (cleanEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail) && !seenEmails.has(cleanEmail)) {
+      if (
+        cleanEmail &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail) &&
+        !seenEmails.has(cleanEmail)
+      ) {
         seenEmails.add(cleanEmail);
         parsed.push({
           email: cleanEmail,
@@ -127,19 +137,30 @@ export default function BulkInvitePanel() {
 
     try {
       // Reset status to sending/pending
-      setInvites((prev) => prev.map((inv) => ({ ...inv, status: "pending", error: undefined })));
+      setInvites((prev) =>
+        prev.map((inv) => ({ ...inv, status: "pending", error: undefined })),
+      );
 
       let successCount = 0;
       let failedCount = 0;
 
       // Send in batches of 10 for safety and rate limiting
       const batchSize = 10;
-      const payloadInvites = invites.map((inv) => ({ email: inv.email, name: inv.name || "" }));
+      const payloadInvites = invites.map((inv) => ({
+        email: inv.email,
+        name: inv.name || "",
+      }));
 
       // Split invites into batches and process in parallel
-      const batches: { start: number; batch: { email: string; name: string }[] }[] = [];
+      const batches: {
+        start: number;
+        batch: { email: string; name: string }[];
+      }[] = [];
       for (let i = 0; i < payloadInvites.length; i += batchSize) {
-        batches.push({ start: i, batch: payloadInvites.slice(i, i + batchSize) });
+        batches.push({
+          start: i,
+          batch: payloadInvites.slice(i, i + batchSize),
+        });
       }
 
       setInvites((prev) => prev.map((inv) => ({ ...inv, status: "sending" })));
@@ -160,7 +181,7 @@ export default function BulkInvitePanel() {
           } catch (err: any) {
             return { start, batch, error: err.message || "Network error" };
           }
-        })
+        }),
       );
 
       for (const { start, batch, data, error } of batchResults) {
@@ -180,7 +201,7 @@ export default function BulkInvitePanel() {
                 return { ...inv, status: "success" };
               }
               return inv;
-            })
+            }),
           );
         } else {
           failedCount += batch.length;
@@ -188,8 +209,8 @@ export default function BulkInvitePanel() {
             prev.map((inv, idx) =>
               idx >= start && idx < start + batch.length
                 ? { ...inv, status: "failed", error: error || "Batch failed" }
-                : inv
-            )
+                : inv,
+            ),
           );
         }
       }
@@ -210,7 +231,7 @@ export default function BulkInvitePanel() {
     <>
       {/* Input Form Stage */}
       {invites.length === 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* CSV File Upload Dropzone */}
           <button
             type="button"
@@ -218,17 +239,20 @@ export default function BulkInvitePanel() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`!border-2 !border-dashed p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-300 w-full border-white/10 ${isDragging ? "scale-[0.99]" : "border-black/20 ]"}`}>
-            <input type="file"
+            className={`flex w-full cursor-pointer flex-col items-center justify-center !border-2 !border-dashed border-white/10 p-8 text-center transition-colors duration-300 ${isDragging ? "scale-[0.99]" : "] border-black/20"}`}
+          >
+            <input
+              type="file"
               ref={fileInputRef}
               onChange={handleFileUpload}
               accept=".csv"
               className="hidden"
             />
-            <span className="text-3xl mb-3 block"></span>
-            <p className="  r">Drag & Drop CSV File</p>
-            <p className="text-black/60 .5 max-w-xs">
-              Supports standard comma/tab-separated files. We automatically search for Name and Email fields.
+            <span className="mb-3 block text-3xl"></span>
+            <p className="r">Drag & Drop CSV File</p>
+            <p className=".5 max-w-xs text-black/60">
+              Supports standard comma/tab-separated files. We automatically
+              search for Name and Email fields.
             </p>
             <SeventhButton
               type="button"
@@ -236,29 +260,34 @@ export default function BulkInvitePanel() {
                 e.stopPropagation();
                 fileInputRef.current?.click();
               }}
-              className="mt-4 !py-2 !px-5">
+              className="mt-4 !px-5 !py-2"
+            >
               Browse Files
             </SeventhButton>
           </button>
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col gap-3">
-            <label htmlFor="bulk-invite-text-input" className="text-white/70">Copy-Paste Contact List</label>
-            <div className="input-glow-border  w-full">
-              <textarea aria-label="Text input"
+            <label htmlFor="bulk-invite-text-input" className="text-white/70">
+              Copy-Paste Contact List
+            </label>
+            <div className="input-glow-border w-full">
+              <textarea
+                aria-label="Text input"
                 id="bulk-invite-text-input"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
                 rows={5}
-                className="w-full bg-black/40 border-white/10 outline-none px-4 py-3 rounded-lg resize-none placeholder: text-white/40 transition-colors"
+                className="placeholder: w-full resize-none rounded-lg border-white/10 bg-black/40 px-4 py-3 text-white/40 transition-colors outline-none"
               />
             </div>
             <SeventhButton
               type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full justify-center !py-3 !px-5 disabled:opacity-30">
+              className="w-full justify-center !px-5 !py-3 disabled:opacity-30"
+            >
               Parse & Import List
             </SeventhButton>
           </div>
@@ -267,12 +296,14 @@ export default function BulkInvitePanel() {
         /* Verification Preview / Progress Stage */
         <div className="space-y-6">
           {/* Status overview */}
-          <div className="p-4 border border-black/10 bg-black/[0.02] flex items-center justify-between flex-wrap gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-4 border border-black/10 bg-black/[0.02] p-4">
             <div className="flex items-center gap-3">
               <span className="text-2xl"></span>
               <div>
                 <p className="text-black">Parsed Invite Roster</p>
-                <p className="text-black/60 mt-0.5  ">Found {invites.length} prospective fans to invite.</p>
+                <p className="mt-0.5 text-black/60">
+                  Found {invites.length} prospective fans to invite.
+                </p>
               </div>
             </div>
 
@@ -281,64 +312,77 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="px-4 py-2 text-black/70 hover:  bg-black/5 hover:bg-black/10 rounded-lg border border-black/15 cursor-pointer disabled:opacity-30">
+                className="hover: cursor-pointer rounded-lg border border-black/15 bg-black/5 px-4 py-2 text-black/70 hover:bg-black/10 disabled:opacity-30"
+              >
                 Clear List
               </button>
               <SeventhButton
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="!py-3 !px-6 ! disabled:opacity-40">
-                {sending ? " Sending Invites..." : " Send Invitation Email Blasts"}
+                className="! !px-6 !py-3 disabled:opacity-40"
+              >
+                {sending
+                  ? " Sending Invites..."
+                  : " Send Invitation Email Blasts"}
               </SeventhButton>
             </div>
           </div>
 
           {/* Results Toast */}
           {results && (
-            <div className={`p-4 border flex items-center gap-3 ${results.failed > 0 ? "bg-rose-50 border-rose-200 text-rose-800" : "bg-emerald-50 border-emerald-200 text-emerald-800"}`}>
+            <div
+              className={`flex items-center gap-3 border p-4 ${results.failed > 0 ? "border-rose-200 bg-rose-50 text-rose-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}
+            >
               <span className="text-lg">{results.failed > 0 ? "" : ""}</span>
-              <p >
-                Dispatched: {results.success} invites sent successfully{results.failed > 0 && `, ${results.failed} failed`}.
+              <p>
+                Dispatched: {results.success} invites sent successfully
+                {results.failed > 0 && `, ${results.failed} failed`}.
               </p>
             </div>
           )}
 
           {/* Invite table */}
           <div className="max-h-[300px] overflow-y-auto border border-black/10 bg-white">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="bg-black/5 text-black/70 text-[0.65rem] border-b border-black/10">
-                  <th className="py-3 px-4">Email</th>
-                  <th className="py-3 px-4">Name</th>
-                  <th className="py-3 px-4 text-right">Status</th>
+                <tr className="border-b border-black/10 bg-black/5 text-[0.65rem] text-black/70">
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3 text-right">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-black/5">
                 {invites.map((inv) => (
-                  <tr key={inv.email} className="hover:bg-black/[0.01] transition-colors">
-                    <td className="py-3.5 px-4 text-black">{inv.email}</td>
-                    <td className="py-3.5 px-4 text-black/70  ">{inv.name || <span className="text-black/30">N/A</span>}</td>
-                    <td className="py-3.5 px-4 text-right">
+                  <tr
+                    key={inv.email}
+                    className="transition-colors hover:bg-black/[0.01]"
+                  >
+                    <td className="px-4 py-3.5 text-black">{inv.email}</td>
+                    <td className="px-4 py-3.5 text-black/70">
+                      {inv.name || <span className="text-black/30">N/A</span>}
+                    </td>
+                    <td className="px-4 py-3.5 text-right">
                       {inv.status === "pending" && (
-                        <span className="px-2.5 py-1 bg-black/5 text-black/60 rounded-lg text-[0.55rem]">
+                        <span className="rounded-lg bg-black/5 px-2.5 py-1 text-[0.55rem] text-black/60">
                           Pending
                         </span>
                       )}
                       {inv.status === "sending" && (
-                        <span className="px-2.5 py-1 bg-[var(--color-accent)] rounded-lg text-[0.55rem] animate-pulse">
+                        <span className="animate-pulse rounded-lg bg-[var(--color-accent)] px-2.5 py-1 text-[0.55rem]">
                           Sending…
                         </span>
                       )}
                       {inv.status === "success" && (
-                        <span className="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg text-[0.55rem] border border-emerald-300">
+                        <span className="rounded-lg border border-emerald-300 bg-emerald-100 px-2.5 py-1 text-[0.55rem] text-emerald-800">
                           Sent
                         </span>
                       )}
                       {inv.status === "failed" && (
                         <span
                           title={inv.error}
-                          className="px-2.5 py-1 bg-rose-100 text-rose-800 rounded-lg text-[0.55rem] border border-rose-300 cursor-help">
+                          className="cursor-help rounded-lg border border-rose-300 bg-rose-100 px-2.5 py-1 text-[0.55rem] text-rose-800"
+                        >
                           Failed
                         </span>
                       )}

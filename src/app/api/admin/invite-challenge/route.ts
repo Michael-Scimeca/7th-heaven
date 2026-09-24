@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "@/lib/api-utils";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-key";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -10,7 +11,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const showId = searchParams.get("showId");
-  if (!showId) return NextResponse.json({ error: "showId required" }, { status: 400 });
+  if (!showId)
+    return NextResponse.json({ error: "showId required" }, { status: 400 });
 
   const { data, error } = await supabase
     .from("show_invite_challenges")
@@ -34,18 +36,29 @@ export async function POST(req: Request) {
   const { show_id, enabled, threshold, reward_name, reward_description } = body;
 
   if (!show_id || !reward_name) {
-    return NextResponse.json({ error: "show_id and reward_name required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "show_id and reward_name required" },
+      { status: 400 },
+    );
   }
 
   const { data, error } = await supabase
     .from("show_invite_challenges")
     .upsert(
-      { show_id, enabled, threshold, reward_name, reward_description, updated_at: new Date().toISOString() },
-      { onConflict: "show_id" }
+      {
+        show_id,
+        enabled,
+        threshold,
+        reward_name,
+        reward_description,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "show_id" },
     )
     .select()
     .single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json(data);
 }

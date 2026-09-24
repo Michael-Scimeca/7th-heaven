@@ -26,7 +26,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   {
     id: "logo-tee",
     title: "Official 7th Heaven Logo Tee",
-    description: "100% ring-spun cotton crewneck tee with the classic band crest.",
+    description:
+      "100% ring-spun cotton crewneck tee with the classic band crest.",
     imageUrl: "/images/merch/logo-tee.png",
     category: "Shirts",
     variantKind: "Size",
@@ -41,7 +42,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   {
     id: "tour-hoodie",
     title: "2026 Tour Hoodie",
-    description: "Ultra-heavyweight fleece hoodie with tour dates printed on the back.",
+    description:
+      "Ultra-heavyweight fleece hoodie with tour dates printed on the back.",
     imageUrl: "/images/merch/hoodie.png",
     category: "Shirts",
     variantKind: "Size",

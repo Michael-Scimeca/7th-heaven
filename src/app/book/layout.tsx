@@ -3,8 +3,15 @@ import { fetchPageContent } from "@/lib/sanity";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("book");
-  const title = content?.seo?.metaTitle || (content?.title ? `${content.title} — 7th Heaven` : "Book 7th Heaven — Chicago's Premier Live Band");
-  const description = content?.seo?.metaDescription || content?.heroSubheading || "Book 7th Heaven for your next corporate event, wedding, festival, or private party. Premier live rock band serving Chicago, Illinois, and the Midwest. Fast quotes and seamless event planning.";
+  const title =
+    content?.seo?.metaTitle ||
+    (content?.title
+      ? `${content.title} — 7th Heaven`
+      : "Book 7th Heaven — Chicago's Premier Live Band");
+  const description =
+    content?.seo?.metaDescription ||
+    content?.heroSubheading ||
+    "Book 7th Heaven for your next corporate event, wedding, festival, or private party. Premier live rock band serving Chicago, Illinois, and the Midwest. Fast quotes and seamless event planning.";
 
   return {
     title,
@@ -27,7 +34,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function BookLayout({ children }: { children: React.ReactNode }) {
+export default function BookLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
       {/* We can inject structured data for local business/booking here if needed */}

@@ -1,48 +1,67 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { sendEmail } from '@/lib/email';
-import { protectAction, sanitize } from '@/lib/security';
-import { isValidEmail, isValidPhone, sanitizeName, sanitizeNotes } from '@/lib/validation';
-import { isSpam } from '@/lib/api-utils';
-import { encrypt } from '@/lib/encryption';
-import { savePin } from '@/lib/pins';
-import { publishToGroup } from '@/lib/ntfy';
-import crypto from 'crypto';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+import { sendEmail } from "@/lib/email";
+import { protectAction, sanitize } from "@/lib/security";
+import {
+  isValidEmail,
+  isValidPhone,
+  sanitizeName,
+  sanitizeNotes,
+} from "@/lib/validation";
+import { isSpam } from "@/lib/api-utils";
+import { encrypt } from "@/lib/encryption";
+import { savePin } from "@/lib/pins";
+import { publishToGroup } from "@/lib/ntfy";
+import crypto from "crypto";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
-import { cruiseCommunityWelcome } from '@/lib/email-templates';
+import { cruiseCommunityWelcome } from "@/lib/email-templates";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 function generateCancelToken(): string {
-  return crypto.randomBytes(24).toString('hex');
+  return crypto.randomBytes(24).toString("hex");
 }
 
-function buildConfirmationEmail(name: string, guests: number, cancelToken: string, guestList?: {name: string; email?: string; phone?: string; age?: string; type: string}[]): string {
+function buildConfirmationEmail(
+  name: string,
+  guests: number,
+  cancelToken: string,
+  guestList?: {
+    name: string;
+    email?: string;
+    phone?: string;
+    age?: string;
+    type: string;
+  }[],
+): string {
   const cancelUrl = `${SITE_URL}/cruise/cancel?token=${cancelToken}`;
 
   // Build guest roster rows
-  let guestRosterHtml = '';
-  if (guestList && guestList.length> 0) {
-    const guestRows = guestList.map((g, i) => {
-      const isChild = g.type === 'child';
-      const badge = isChild
-        ? `<span style="display:inline-block;padding:2px 8px;background:rgba(6,182,212,0.15);color:#06b6d4;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">🧒 Child${g.age ? ` · Age ${g.age}` : ''}</span>`
-        : `<span style="display:inline-block;padding:2px 8px;background:rgba(138,28,252,0.1);color:#8a1cfc;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">👤 Adult</span>`;
-      const contact = !isChild && (g.email || g.phone)
-        ? `<br/><span style="color:rgba(255,255,255,0.25);font-size:11px;">${g.email || ''}${g.email && g.phone ? ' · ' : ''}${g.phone || ''}</span>`
-        : '';
-      return `
+  let guestRosterHtml = "";
+  if (guestList && guestList.length > 0) {
+    const guestRows = guestList
+      .map((g, i) => {
+        const isChild = g.type === "child";
+        const badge = isChild
+          ? `<span style="display:inline-block;padding:2px 8px;background:rgba(6,182,212,0.15);color:#06b6d4;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">🧒 Child${g.age ? ` · Age ${g.age}` : ""}</span>`
+          : `<span style="display:inline-block;padding:2px 8px;background:rgba(138,28,252,0.1);color:#8a1cfc;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;letter-spacing:1px;">👤 Adult</span>`;
+        const contact =
+          !isChild && (g.email || g.phone)
+            ? `<br/><span style="color:rgba(255,255,255,0.25);font-size:11px;">${g.email || ""}${g.email && g.phone ? " · " : ""}${g.phone || ""}</span>`
+            : "";
+        return `
         <tr>
           <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);">
             <div style="display:flex;align-items:center;gap:10px;">
-              <span style="display:inline-block;width:28px;height:28px;border-radius:50%;background:${isChild ? '#06b6d4' : '#8a1cfc'};color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:28px;">${g.name ? g.name[0].toUpperCase() : (i + 2)}</span>
+              <span style="display:inline-block;width:28px;height:28px;border-radius:50%;background:${isChild ? "#06b6d4" : "#8a1cfc"};color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:28px;">${g.name ? g.name[0].toUpperCase() : i + 2}</span>
               <div>
-                <span style="color:#fff;font-size:13px;font-weight:600;">${g.name || 'Guest ' + (i + 2)}</span>
+                <span style="color:#fff;font-size:13px;font-weight:600;">${g.name || "Guest " + (i + 2)}</span>
                 ${contact}
               </div>
             </div>
@@ -51,7 +70,8 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
             ${badge}
           </td>
         </tr>`;
-    }).join('');
+      })
+      .join("");
 
     guestRosterHtml = `
       <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:0;margin-bottom:24px;overflow:hidden;">
@@ -64,7 +84,7 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
           <tr>
             <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);">
               <div>
-                <span style="display:inline-block;width:28px;height:28px;border-radius:50%;background:#8a1cfc;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:28px;">${name ? name[0].toUpperCase() : '1'}</span>
+                <span style="display:inline-block;width:28px;height:28px;border-radius:50%;background:#8a1cfc;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:28px;">${name ? name[0].toUpperCase() : "1"}</span>
                 <span style="color:#fff;font-size:13px;font-weight:600;margin-left:8px;">${name}</span>
                 <span style="color:rgba(255,255,255,0.25);font-size:11px;margin-left:4px;">(you)</span>
               </div>
@@ -101,7 +121,7 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
       </p>
       <p style="margin:0 0 16px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">
         Thanks for signing up for the <strong style="color:#fff;">7th Heaven Caribbean Cruise</strong>!
-        We've got you down for <strong style="color:#8a1cfc;">${guests} ${guests> 1 ? 'people' : 'person'}</strong> in your group.
+        We've got you down for <strong style="color:#8a1cfc;">${guests} ${guests > 1 ? "people" : "person"}</strong> in your group.
       </p>
       <p style="margin:0 0 24px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">
         This is <strong style="color:#fff;">not a booking</strong> — it's a free interest signup. The more fans who sign up,
@@ -143,7 +163,7 @@ function buildConfirmationEmail(name: string, guests: number, cancelToken: strin
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Duration</td><td style="color:#fff;font-size:13px;font-weight:600;">7 Nights</td></tr>
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Islands</td><td style="color:#fff;font-size:13px;font-weight:600;">Cozumel · Grand Cayman · Roatán</td></tr>
           <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Shows</td><td style="color:#fff;font-size:13px;font-weight:600;">6 Live Performances</td></tr>
-          <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Your Group</td><td style="color:#8a1cfc;font-size:13px;font-weight:700;">${guests} ${guests> 1 ? 'people' : 'person'}</td></tr>
+          <tr><td style="color:rgba(255,255,255,0.3);font-size:12px;">Your Group</td><td style="color:#8a1cfc;font-size:13px;font-weight:700;">${guests} ${guests > 1 ? "people" : "person"}</td></tr>
         </table>
       </div>
     </div>
@@ -175,14 +195,27 @@ export async function POST(req: NextRequest) {
   try {
     // Capture raw body before destructuring so isSpam can inspect timing (_t) and alt-honeypot (_hp)
     const body = await req.json();
-    const { name, email, phone, guest_count, notes, anonymous, guests, joinCommunity, cruiseNotifications, website, paymentDetails } = body;
+    const {
+      name,
+      email,
+      phone,
+      guest_count,
+      notes,
+      anonymous,
+      guests,
+      joinCommunity,
+      cruiseNotifications,
+      website,
+      paymentDetails,
+    } = body;
 
     // ── Protection ──
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
+    const ip =
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous";
 
     // Full-body spam check: honeypot (website), alt-honeypot (_hp), timing (_t)
     if (isSpam(body)) {
-      return NextResponse.json({ error: 'Spam detected' }, { status: 400 });
+      return NextResponse.json({ error: "Spam detected" }, { status: 400 });
     }
 
     // Sliding-window rate limit: 2 cruise signups per IP per hour
@@ -190,25 +223,37 @@ export async function POST(req: NextRequest) {
       identifier: `cruise:${ip}`,
       honeypotValue: website,
       requests: 2,
-      windowDuration: '60 m',
+      windowDuration: "60 m",
     });
     if (!protection.success) {
-      return NextResponse.json({ error: protection.error }, { status: protection.status });
+      return NextResponse.json(
+        { error: protection.error },
+        { status: protection.status },
+      );
     }
 
     // ── Validation ──
     if (!name || !email) {
-      return NextResponse.json({ error: 'Name and email are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name and email are required" },
+        { status: 400 },
+      );
     }
 
     // Validate email format
     if (!isValidEmail(email)) {
-      return NextResponse.json({ error: 'Please enter a valid email address' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Please enter a valid email address" },
+        { status: 400 },
+      );
     }
 
     // Validate phone format if provided (at least 10 digits)
     if (phone && !isValidPhone(phone)) {
-      return NextResponse.json({ error: 'Please enter a valid phone number (10+ digits)' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Please enter a valid phone number (10+ digits)" },
+        { status: 400 },
+      );
     }
 
     // Sanitize name to prevent injection
@@ -218,21 +263,27 @@ export async function POST(req: NextRequest) {
     const safeNotes = sanitizeNotes(notes);
 
     if (!safeName || safeName.length < 2) {
-      return NextResponse.json({ error: 'Name must be at least 2 characters' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name must be at least 2 characters" },
+        { status: 400 },
+      );
     }
 
     const cancelToken = generateCancelToken();
 
     // Build guest details JSON for storage — sanitize each guest
-    const guestDetails = guests && guests.length> 0
-      ? JSON.stringify(guests.map((g: any) => ({
-          name: sanitizeName(g.name),
-          email: g.email ? g.email.toLowerCase().trim() : null,
-          phone: g.phone || null,
-          age: g.age || null,
-          type: g.type === 'child' ? 'child' : 'adult',
-        })))
-      : null;
+    const guestDetails =
+      guests && guests.length > 0
+        ? JSON.stringify(
+            guests.map((g: any) => ({
+              name: sanitizeName(g.name),
+              email: g.email ? g.email.toLowerCase().trim() : null,
+              phone: g.phone || null,
+              age: g.age || null,
+              type: g.type === "child" ? "child" : "adult",
+            })),
+          )
+        : null;
 
     // Encrypt credit card data on the server
     let encryptedCCBlock = "";
@@ -264,37 +315,52 @@ card2_amount: ${encrypt(card2.amountCharged)}
       }
     }
 
-    let finalNotes = safeNotes ? `${safeNotes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ''}` : (guestDetails ? `Guest Details: ${guestDetails}` : '');
+    let finalNotes = safeNotes
+      ? `${safeNotes}${guestDetails ? `\n\nGuest Details: ${guestDetails}` : ""}`
+      : guestDetails
+        ? `Guest Details: ${guestDetails}`
+        : "";
     if (encryptedCCBlock) {
-      finalNotes = finalNotes ? `${finalNotes}\n\n${encryptedCCBlock}` : encryptedCCBlock;
+      finalNotes = finalNotes
+        ? `${finalNotes}\n\n${encryptedCCBlock}`
+        : encryptedCCBlock;
     }
 
     // Insert primary booker into Supabase
-    const { data, error } = await supabase.from('cruise_signups').insert({
-      name: safeName,
-      email: email.toLowerCase().trim(),
-      phone: phone || null,
-      guest_count: guest_count || 1,
-      notes: finalNotes || null,
-      cancel_token: cancelToken,
-      anonymous: anonymous || false,
-      cruise_notifications: cruiseNotifications !== false, // default true
-    }).select().single();
+    const { data, error } = await supabase
+      .from("cruise_signups")
+      .insert({
+        name: safeName,
+        email: email.toLowerCase().trim(),
+        phone: phone || null,
+        guest_count: guest_count || 1,
+        notes: finalNotes || null,
+        cancel_token: cancelToken,
+        anonymous: anonymous || false,
+        cruise_notifications: cruiseNotifications !== false, // default true
+      })
+      .select()
+      .single();
 
     if (error) {
-      if (error.code === '23505') {
-        return NextResponse.json({ error: 'This email has already signed up!' }, { status: 409 });
+      if (error.code === "23505") {
+        return NextResponse.json(
+          { error: "This email has already signed up!" },
+          { status: 409 },
+        );
       }
       throw error;
     }
 
     // Push ntfy alert to admins about new cruise registration
-    publishToGroup('admins', {
-      title: '🚢 New Cruise Passenger Registered',
+    publishToGroup("admins", {
+      title: "🚢 New Cruise Passenger Registered",
       message: `${safeName} (${email}) registered for Cruise 2026! (${guest_count || 1} guest(s))`,
-      priority: 'high',
-      tags: ['ship', 'sparkles'],
-    }).catch((err) => console.error('[ntfy] Failed to notify admins of cruise signup:', err));
+      priority: "high",
+      tags: ["ship", "sparkles"],
+    }).catch((err) =>
+      console.error("[ntfy] Failed to notify admins of cruise signup:", err),
+    );
 
     // ── PIN-based verification flow ──
     // Generate a 6-digit PIN, store it for 30 min, and email it.
@@ -322,30 +388,45 @@ card2_amount: ${encrypt(card2.amountCharged)}
 
     await sendEmail({
       to: email.toLowerCase().trim(),
-      subject: '🔑 Your 7th Heaven Cruise Verification Code',
+      subject: "🔑 Your 7th Heaven Cruise Verification Code",
       html: pinHtml,
     });
 
     // Send notification emails to each additional guest in parallel
-    if (guests && guests.length> 0) {
-      await Promise.all(guests.map(async (guest: any) => {
-        if (guest.email) {
-          try {
-            await sendEmail({
-              to: guest.email.toLowerCase().trim(),
-              subject: '🚢 You\'ve Been Added to the 7th Heaven Cruise List!',
-              html: buildConfirmationEmail(guest.name || 'Fan', guest_count || 1, cancelToken, guests || []),
-            });
-          } catch {}
-        }
-      }));
+    if (guests && guests.length > 0) {
+      await Promise.all(
+        guests.map(async (guest: any) => {
+          if (guest.email) {
+            try {
+              await sendEmail({
+                to: guest.email.toLowerCase().trim(),
+                subject: "🚢 You've Been Added to the 7th Heaven Cruise List!",
+                html: buildConfirmationEmail(
+                  guest.name || "Fan",
+                  guest_count || 1,
+                  cancelToken,
+                  guests || [],
+                ),
+              });
+            } catch {}
+          }
+        }),
+      );
     }
 
     // Return pendingVerification so the client redirects to /cruise/verify
-    return NextResponse.json({ success: true, pendingVerification: true, email: email.toLowerCase().trim(), signupId: data?.id });
+    return NextResponse.json({
+      success: true,
+      pendingVerification: true,
+      email: email.toLowerCase().trim(),
+      signupId: data?.id,
+    });
   } catch (err: any) {
-    console.error('Cruise signup error:', err);
-    return NextResponse.json({ error: err?.message || 'Signup failed' }, { status: 500 });
+    console.error("Cruise signup error:", err);
+    return NextResponse.json(
+      { error: err?.message || "Signup failed" },
+      { status: 500 },
+    );
   }
 }
 
@@ -353,27 +434,33 @@ card2_amount: ${encrypt(card2.amountCharged)}
 export async function DELETE(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const token = searchParams.get('token');
+    const token = searchParams.get("token");
 
     if (!token) {
-      return NextResponse.json({ error: 'Cancel token required' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Cancel token required" },
+        { status: 400 },
+      );
     }
 
     const { data, error } = await supabase
-      .from('cruise_signups')
+      .from("cruise_signups")
       .delete()
-      .eq('cancel_token', token)
+      .eq("cancel_token", token)
       .select()
       .single();
 
     if (error || !data) {
-      return NextResponse.json({ error: 'Invalid or expired cancel link' }, { status: 404 });
+      return NextResponse.json(
+        { error: "Invalid or expired cancel link" },
+        { status: 404 },
+      );
     }
 
     // Send cancellation confirmation email
     await sendEmail({
       to: data.email,
-      subject: 'Cruise Signup Cancelled — 7th Heaven',
+      subject: "Cruise Signup Cancelled — 7th Heaven",
       html: `
 <!DOCTYPE html>
 <html>
@@ -396,7 +483,10 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json({ success: true, name: data.name });
   } catch (err: any) {
-    console.error('Cruise cancel error:', err);
-    return NextResponse.json({ error: err?.message || 'Cancel failed' }, { status: 500 });
+    console.error("Cruise cancel error:", err);
+    return NextResponse.json(
+      { error: err?.message || "Cancel failed" },
+      { status: 500 },
+    );
   }
 }

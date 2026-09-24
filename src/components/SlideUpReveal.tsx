@@ -149,13 +149,23 @@ export default function SlideUpReveal({
       split?.revert();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children, replayKey, effectiveType, mask, delay, stagger, duration, ease, skew]);
+  }, [
+    children,
+    replayKey,
+    effectiveType,
+    mask,
+    delay,
+    stagger,
+    duration,
+    ease,
+    skew,
+  ]);
 
   // Use React.createElement to avoid TypeScript 'never' prop inference
   // that occurs when a polymorphic ElementType is used as a JSX tag directly.
   return React.createElement(
     as as string,
     { ref, className, style },
-    children as ReactNode
+    children as ReactNode,
   );
 }

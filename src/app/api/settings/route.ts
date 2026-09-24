@@ -11,8 +11,8 @@ export async function GET() {
       platformLinks: settings.platformLinks || [],
       endorsements: settings.endorsements || [],
       socialLinks: settings.socialLinks || [],
-      bookingPhone: settings.bookingPhone || '',
-      bookingEmail: settings.bookingEmail || '',
+      bookingPhone: settings.bookingPhone || "",
+      bookingEmail: settings.bookingEmail || "",
     });
   } catch {
     return NextResponse.json(null);

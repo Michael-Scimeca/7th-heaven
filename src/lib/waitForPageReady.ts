@@ -48,7 +48,9 @@ export async function waitForPageReady(): Promise<void> {
 export async function waitForHeroVideoReady(timeoutMs = 2000): Promise<void> {
   if (typeof window === "undefined" || typeof document === "undefined") return;
 
-  const heroVideo = document.querySelector("#hero video") as HTMLVideoElement | null;
+  const heroVideo = document.querySelector(
+    "#hero video",
+  ) as HTMLVideoElement | null;
   if (!heroVideo) return;
 
   if (

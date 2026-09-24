@@ -1,4 +1,7 @@
-export const tierColors: Record<"Bronze" | "Silver" | "Gold" | "Platinum", string> = {
+export const tierColors: Record<
+  "Bronze" | "Silver" | "Gold" | "Platinum",
+  string
+> = {
   Bronze: "#cd7f32",
   Silver: "#c0c0c0",
   Gold: "#ffd700",

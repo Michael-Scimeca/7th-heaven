@@ -8,14 +8,25 @@ import dynamic from "next/dynamic";
 import SearchInput from "@/components/SearchInput";
 import { CalendarBadgeIcon } from "@/components/CalendarBadgeIcon";
 
-const InputStyleEditor = dynamic(() => import("@/components/InputStyleEditor"), {
-  ssr: false,
-  loading: () => <div className="p-8 text-center text-white/40 bg-black/40 rounded-lg border border-white/10 animate-pulse">Loading Input Style Editor Studio...</div>
-});
+const InputStyleEditor = dynamic(
+  () => import("@/components/InputStyleEditor"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="animate-pulse rounded-lg border border-white/10 bg-black/40 p-8 text-center text-white/40">
+        Loading Input Style Editor Studio...
+      </div>
+    ),
+  },
+);
 
 const CruiseChat = dynamic(() => import("@/components/CruiseChat"), {
   ssr: false,
-  loading: () => <div className="p-12 text-center text-white/40 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] backdrop-blur-xl rounded-lg border border-purple-500/30 animate-pulse">Loading Live Cruise Chat Box...</div>
+  loading: () => (
+    <div className="animate-pulse rounded-lg border border-purple-500/30 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-12 text-center text-white/40 backdrop-blur-xl">
+      Loading Live Cruise Chat Box...
+    </div>
+  ),
 });
 
 const SquishyToggle = dynamic(() => import("@/components/SquishyToggle"), {
@@ -24,15 +35,24 @@ const SquishyToggle = dynamic(() => import("@/components/SquishyToggle"), {
 
 const GooeyDropdown = dynamic(() => import("@/components/GooeyDropdown"), {
   ssr: false,
-  loading: () => <div className="p-3 text-center text-white/40 bg-[#00000029] rounded-lg border border-white/10">Loading Dropdown...</div>
+  loading: () => (
+    <div className="rounded-lg border border-white/10 bg-[#00000029] p-3 text-center text-white/40">
+      Loading Dropdown...
+    </div>
+  ),
 });
 
-const GooeyMessagesDropdown = dynamic(() => import("@/components/GooeyMessagesDropdown"), {
-  ssr: false,
-  loading: () => <div className="p-3 text-center text-white/40 bg-[#00000029] rounded-lg border border-white/10">Loading Pill Dropdown...</div>
-});
-
-
+const GooeyMessagesDropdown = dynamic(
+  () => import("@/components/GooeyMessagesDropdown"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="rounded-lg border border-white/10 bg-[#00000029] p-3 text-center text-white/40">
+        Loading Pill Dropdown...
+      </div>
+    ),
+  },
+);
 
 import RoleBadge from "@/components/RoleBadge";
 import CustomScrollbar from "@/components/CustomScrollbar";
@@ -92,9 +112,20 @@ import {
 } from "lucide-react";
 
 // Compute exact CSS clamp values and parameters (Module Scope)
-const computeFluidClamp = (minFsPx: number, maxFsPx: number, minVwPx: number, maxVwPx: number) => {
+const computeFluidClamp = (
+  minFsPx: number,
+  maxFsPx: number,
+  minVwPx: number,
+  maxVwPx: number,
+) => {
   if (minFsPx === maxFsPx || minVwPx === maxVwPx) {
-    return { clampStr: `${(minFsPx / 16).toFixed(4)}rem`, minRem: minFsPx / 16, maxRem: maxFsPx / 16, slopeVw: 0, interceptRem: minFsPx / 16 };
+    return {
+      clampStr: `${(minFsPx / 16).toFixed(4)}rem`,
+      minRem: minFsPx / 16,
+      maxRem: maxFsPx / 16,
+      slopeVw: 0,
+      interceptRem: minFsPx / 16,
+    };
   }
   const minRem = minFsPx / 16;
   const maxRem = maxFsPx / 16;
@@ -150,7 +181,11 @@ const sections = [
   { id: "spacing", label: "10. Spacing & Padding", icon: Box },
   { id: "canvas-studio", label: "11. Canvas & Film Grain", icon: Sliders },
   { id: "stateroom-perks", label: "12. Staterooms & Perks", icon: Anchor },
-  { id: "crew-scheduling", label: "13. Crew Scheduling & Groups", icon: Calendar },
+  {
+    id: "crew-scheduling",
+    label: "13. Crew Scheduling & Groups",
+    icon: Calendar,
+  },
 ];
 
 /* ── Hold to Activate Button Demo Component ── */
@@ -196,12 +231,12 @@ function HoldToActivateButtonDemo() {
   };
 
   return (
-    <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+    <div className="space-y-3 rounded-lg border border-white/10 bg-white/[0.02] p-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-amber-400 r">
-          Hold to Activate Action Button
-        </h3>
-        <span className="text-[11px] text-white/40">Press &amp; hold for 1.5s to trigger</span>
+        <h3 className="r text-amber-400">Hold to Activate Action Button</h3>
+        <span className="text-[11px] text-white/40">
+          Press &amp; hold for 1.5s to trigger
+        </span>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
@@ -211,7 +246,8 @@ function HoldToActivateButtonDemo() {
           onMouseLeave={cancelHold}
           onTouchStart={startHold}
           onTouchEnd={cancelHold}
-          className={`relative overflow-hidden px-8 py-3.5 rounded-lg transition-all cursor-pointer select-none border ${activated ? "bg-emerald-600 border-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.6)]" : "bg-purple-950/80 border-purple-500/40 text-purple-200 hover:border-purple-400"}`}>
+          className={`relative cursor-pointer overflow-hidden rounded-lg border px-8 py-3.5 transition-all select-none ${activated ? "border-emerald-400 bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.6)]" : "border-purple-500/40 bg-purple-950/80 text-purple-200 hover:border-purple-400"}`}
+        >
           {holding && !activated && (
             <div
               className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 opacity-60 transition-all duration-75"
@@ -221,15 +257,14 @@ function HoldToActivateButtonDemo() {
           <span className="relative z-10 flex items-center gap-2">
             {activated ? (
               <>
-                <Check className="w-4 h-4" /> Action Activated!
+                <Check className="h-4 w-4" /> Action Activated!
               </>
             ) : holding ? (
-              <>
-                Holding... {Math.round(progress)}%
-              </>
+              <>Holding... {Math.round(progress)}%</>
             ) : (
               <>
-                <Lock className="w-4 h-4 text-purple-400" /> Press &amp; Hold to Activate
+                <Lock className="h-4 w-4 text-purple-400" /> Press &amp; Hold to
+                Activate
               </>
             )}
           </span>
@@ -238,7 +273,8 @@ function HoldToActivateButtonDemo() {
         {activated && (
           <button
             onClick={reset}
-            className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 transition">
+            className="rounded-lg bg-white/10 px-4 py-2 text-white/70 transition hover:bg-white/20"
+          >
             Reset
           </button>
         )}
@@ -254,41 +290,50 @@ function SparkleGenerateButtonDemo() {
   const [particleCount, setParticleCount] = useState(12);
 
   return (
-    <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
-      <div className="flex items-center justify-between gap-2 flex-wrap border-b border-white/10 pb-3">
+    <div className="space-y-5 rounded-lg border border-white/10 bg-white/[0.02] p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
         <div className="flex items-center gap-3">
-          <h3 className="text-violet-400 r text-sm sm:text-base">
+          <h3 className="r text-sm text-violet-400 sm:text-base">
             Sparkle Generate Button (GSAP Dust Particles)
           </h3>
           <span
-            className={`px-2 py-0.5 rounded text-[11px] border ${isActive ? "bg-purple-500/20 text-purple-300 border-purple-500/50" : "bg-white/5 text-white/50 border-white/10"}`}>
+            className={`rounded border px-2 py-0.5 text-[11px] ${isActive ? "border-purple-500/50 bg-purple-500/20 text-purple-300" : "border-white/10 bg-white/5 text-white/50"}`}
+          >
             {isActive ? "ACTIVE (LOCKED)" : "HOVER TRIGGER"}
           </span>
         </div>
-        <SectionBadge label={`Physics2D + ${particleCount} Particles`} color="purple" />
+        <SectionBadge
+          label={`Physics2D + ${particleCount} Particles`}
+          color="purple"
+        />
       </div>
 
       {/* Interactive Controls Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-lg bg-black/30 border border-purple-500/20">
+      <div className="grid grid-cols-1 gap-4 rounded-lg border border-purple-500/20 bg-black/30 p-4 sm:grid-cols-3">
         {/* Active Checkbox */}
-        <label className="flex items-center gap-3 cursor-pointer select-none group">
+        <label className="group flex cursor-pointer items-center gap-3 select-none">
           <input
             type="checkbox"
             checked={isActive}
             onChange={(e) => setIsActive(e.target.checked)}
-            className="w-5 h-5 rounded border-purple-400/50 text-purple-600 focus:ring-purple-500 focus:ring-offset-gray-900 bg-purple-950/40 cursor-pointer accent-purple-500"
+            className="h-5 w-5 cursor-pointer rounded border-purple-400/50 bg-purple-950/40 text-purple-600 accent-purple-500 focus:ring-purple-500 focus:ring-offset-gray-900"
           />
           <div>
-            <span className="text-sm   text-purple-200 group-hover:text-white transition">
+            <span className="text-sm text-purple-200 transition group-hover:text-white">
               Active State
             </span>
-            <p className="text-[11px] text-white/40">Lock active glow &amp; dust loop</p>
+            <p className="text-[11px] text-white/40">
+              Lock active glow &amp; dust loop
+            </p>
           </div>
         </label>
 
         {/* Button Label Text Input */}
         <div className="space-y-1">
-          <label htmlFor="sgb-button-text-input" className="block text-xs   text-purple-200 r">
+          <label
+            htmlFor="sgb-button-text-input"
+            className="r block text-xs text-purple-200"
+          >
             Button Text
           </label>
           <input
@@ -297,13 +342,13 @@ function SparkleGenerateButtonDemo() {
             value={buttonText}
             onChange={(e) => setButtonText(e.target.value)}
             placeholder="Generate Site"
-            className="w-full px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs focus:outline-none focus:border-purple-500"
+            className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs focus:border-purple-500 focus:outline-none"
           />
         </div>
 
         {/* Particle Count Slider */}
         <div className="space-y-1">
-          <div className="flex justify-between items-center text-xs   text-purple-200">
+          <div className="flex items-center justify-between text-xs text-purple-200">
             <label htmlFor="sgb-particle-count-slider">Particles</label>
             <span className="text-white/60">{particleCount} dots</span>
           </div>
@@ -315,20 +360,23 @@ function SparkleGenerateButtonDemo() {
             step="1"
             value={particleCount}
             onChange={(e) => setParticleCount(Number(e.target.value))}
-            className="w-full accent-purple-500 cursor-pointer"
+            className="w-full cursor-pointer accent-purple-500"
           />
         </div>
       </div>
 
       {/* Button Render Display Area */}
-      <div className="flex flex-col items-center justify-center py-8 rounded-lg bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 border border-white/5 min-h-[140px] relative overflow-hidden">
+      <div className="relative flex min-h-[140px] flex-col items-center justify-center overflow-hidden rounded-lg border border-white/5 bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 py-8">
         <SeventhButton active={isActive} dotCount={particleCount}>
           {buttonText || "Generate Site"}
         </SeventhButton>
       </div>
 
       <p className="text-[13px] text-white/40">
-        Check <strong className="text-purple-300">Active State</strong> above to lock the button into its continuous glowing hover state with Physics2D dust particles and animated stroke trace, allowing you to easily preview and edit it without holding the cursor over it.
+        Check <strong className="text-purple-300">Active State</strong> above to
+        lock the button into its continuous glowing hover state with Physics2D
+        dust particles and animated stroke trace, allowing you to easily preview
+        and edit it without holding the cursor over it.
       </p>
     </div>
   );
@@ -360,17 +408,17 @@ function CosmicTrackCardDemo() {
   ];
 
   return (
-    <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
-      <div className="flex items-center justify-between gap-2 flex-wrap border-b border-white/10 pb-3">
-        <h3 className="text-violet-400 text-sm sm:text-base   ">
+    <div className="space-y-5 rounded-lg border border-white/10 bg-white/[0.02] p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+        <h3 className="text-sm text-violet-400 sm:text-base">
           Cosmic Track Card (Media Grid Selector Component)
         </h3>
-        <span className="px-2 py-0.5 rounded text-[11px] bg-purple-500/20 text-purple-300 border border-purple-500/50 font-mono">
+        <span className="rounded border border-purple-500/50 bg-purple-500/20 px-2 py-0.5 font-mono text-[11px] text-purple-300">
           &lt;CosmicTrackCard /&gt;
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {demoTracks.map((track) => (
           <CosmicTrackCard
             key={track.id}
@@ -403,70 +451,86 @@ function GlassPlayButtonDemo() {
   };
 
   return (
-    <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 space-y-6">
+    <div className="space-y-6 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
-          <h3 className="    text-pink-400 flex items-center gap-2">
-            <Play className="w-4 h-4 fill-pink-400 text-pink-400" /> GlassPlayButton Control Studio
+          <h3 className="flex items-center gap-2 text-pink-400">
+            <Play className="h-4 w-4 fill-pink-400 text-pink-400" />{" "}
+            GlassPlayButton Control Studio
           </h3>
           <p className="text-xs text-white/50">
-            Interactive control studio for standardized video play &amp; media preview triggers
+            Interactive control studio for standardized video play &amp; media
+            preview triggers
           </p>
         </div>
         <button
           type="button"
           onClick={handleCopy}
-          className="px-3 py-1.5 text-xs rounded-md bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-400/30 flex items-center gap-1.5 transition cursor-pointer"
+          className="flex cursor-pointer items-center gap-1.5 rounded-md border border-purple-400/30 bg-purple-500/20 px-3 py-1.5 text-xs text-purple-200 transition hover:bg-purple-500/30"
         >
-          {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+          {copiedCode ? (
+            <Check className="h-3.5 w-3.5 text-emerald-400" />
+          ) : (
+            <Copy className="h-3.5 w-3.5" />
+          )}
           {copiedCode ? "Copied JSX Code" : "Copy JSX Code"}
         </button>
       </div>
 
       {/* Control Panel Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
+      <div className="grid grid-cols-1 gap-4 rounded-xl border border-white/5 bg-black/40 p-4 sm:grid-cols-3">
         <div>
-          <label className="text-[11px]   text-purple-300 block mb-1">Button Size</label>
+          <label className="mb-1 block text-[11px] text-purple-300">
+            Button Size
+          </label>
           <select
             value={playSize}
             onChange={(e: any) => setPlaySize(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-md px-2.5 py-1.5 text-xs outline-none cursor-pointer"
+            className="w-full cursor-pointer rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs outline-none"
           >
-            <option value="sm" className="bg-[#120721]">Small (sm)</option>
-            <option value="md" className="bg-[#120721]">Medium (md)</option>
-            <option value="lg" className="bg-[#120721]">Large (lg)</option>
-            <option value="xl" className="bg-[#120721]">Extra Large (xl)</option>
+            <option value="sm" className="bg-[#120721]">
+              Small (sm)
+            </option>
+            <option value="md" className="bg-[#120721]">
+              Medium (md)
+            </option>
+            <option value="lg" className="bg-[#120721]">
+              Large (lg)
+            </option>
+            <option value="xl" className="bg-[#120721]">
+              Extra Large (xl)
+            </option>
           </select>
         </div>
 
         <div className="flex flex-col justify-center gap-2">
-          <label className="inline-flex items-center gap-2 text-xs   cursor-pointer">
+          <label className="inline-flex cursor-pointer items-center gap-2 text-xs">
             <input
               type="checkbox"
               checked={isPlayingState}
               onChange={(e) => setIsPlayingState(e.target.checked)}
-              className="accent-purple-500 rounded cursor-pointer"
+              className="cursor-pointer rounded accent-purple-500"
             />
             Is Playing State
           </label>
-          <label className="inline-flex items-center gap-2 text-xs   cursor-pointer">
+          <label className="inline-flex cursor-pointer items-center gap-2 text-xs">
             <input
               type="checkbox"
               checked={hasGlow}
               onChange={(e) => setHasGlow(e.target.checked)}
-              className="accent-purple-500 rounded cursor-pointer"
+              className="cursor-pointer rounded accent-purple-500"
             />
             Aura Glow Ring
           </label>
         </div>
 
         <div className="flex flex-col justify-center gap-2">
-          <label className="inline-flex items-center gap-2 text-xs   cursor-pointer">
+          <label className="inline-flex cursor-pointer items-center gap-2 text-xs">
             <input
               type="checkbox"
               checked={hasPulse}
               onChange={(e) => setHasPulse(e.target.checked)}
-              className="accent-purple-500 rounded cursor-pointer"
+              className="cursor-pointer rounded accent-purple-500"
             />
             Pulsing Effect
           </label>
@@ -474,8 +538,8 @@ function GlassPlayButtonDemo() {
       </div>
 
       {/* Interactive Display Area */}
-      <div className="relative min-h-[160px] rounded-xl bg-gradient-to-br from-[#120a21] via-[#1c0d38] to-[#080214] border border-white/10 flex items-center justify-center overflow-hidden p-8 shadow-inner">
-        <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,_rgba(168,85,247,0.3)_0%,_transparent_70%)]" />
+      <div className="relative flex min-h-[160px] items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-[#120a21] via-[#1c0d38] to-[#080214] p-8 shadow-inner">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(168,85,247,0.3)_0%,_transparent_70%)] opacity-30" />
         <GlassPlayButton
           size={playSize}
           isPlaying={isPlayingState}
@@ -495,8 +559,12 @@ function ButtonMasterGalleryAndStudio() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isActiveState, setIsActiveState] = useState(false);
   const [isLoadingState, setIsLoadingState] = useState(false);
-  const [iconName, setIconName] = useState<"sparkles" | "zap" | "plus" | "check" | "star" | "arrow" | "none">("sparkles");
-  const [dotColor, setDotColor] = useState<"purple" | "emerald" | "rose" | "cyan" | "amber">("purple");
+  const [iconName, setIconName] = useState<
+    "sparkles" | "zap" | "plus" | "check" | "star" | "arrow" | "none"
+  >("sparkles");
+  const [dotColor, setDotColor] = useState<
+    "purple" | "emerald" | "rose" | "cyan" | "amber"
+  >("purple");
   const [squishyVal, setSquishyVal] = useState(true);
   const [copiedTag, setCopiedTag] = useState<string | null>(null);
   const [sanitySyncing, setSanitySyncing] = useState(false);
@@ -522,20 +590,25 @@ function ButtonMasterGalleryAndStudio() {
   };
 
   const getIcon = () => {
-    if (isLoadingState) return <Loader2 className="w-4 h-4 animate-spin shrink-0" />;
+    if (isLoadingState)
+      return <Loader2 className="h-4 w-4 shrink-0 animate-spin" />;
     switch (iconName) {
       case "sparkles":
-        return <Sparkles className="w-4 h-4 text-purple-300 animate-pulse shrink-0" />;
+        return (
+          <Sparkles className="h-4 w-4 shrink-0 animate-pulse text-purple-300" />
+        );
       case "zap":
-        return <Zap className="w-4 h-4 text-amber-300 animate-bounce shrink-0" />;
+        return (
+          <Zap className="h-4 w-4 shrink-0 animate-bounce text-amber-300" />
+        );
       case "plus":
-        return <Plus className="w-4 h-4 text-emerald-300 shrink-0" />;
+        return <Plus className="h-4 w-4 shrink-0 text-emerald-300" />;
       case "check":
-        return <Check className="w-4 h-4 text-cyan-300 shrink-0" />;
+        return <Check className="h-4 w-4 shrink-0 text-cyan-300" />;
       case "star":
-        return <Star className="w-4 h-4 text-yellow-300 shrink-0" />;
+        return <Star className="h-4 w-4 shrink-0 text-yellow-300" />;
       case "arrow":
-        return <ArrowRight className="w-4 h-4 text-purple-200 shrink-0" />;
+        return <ArrowRight className="h-4 w-4 shrink-0 text-purple-200" />;
       default:
         return null;
     }
@@ -565,48 +638,50 @@ function ButtonMasterGalleryAndStudio() {
       <CosmicTrackCardDemo />
 
       {/* Interactive Control Studio Header & Inputs */}
-      <div className="p-6 rounded-xl bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 border border-purple-500/30 shadow-[0_0_30px_rgba(168,85,247,0.2)] space-y-6">
-        <div className="flex items-center justify-between gap-4 flex-wrap border-b border-purple-500/20 pb-4">
+      <div className="space-y-6 rounded-xl border border-purple-500/30 bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 p-6 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-purple-500/20 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300">
-              <Sliders className="w-5 h-5" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-500/20 text-purple-300">
+              <Sliders className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="    flex items-center gap-2">
+              <h3 className="flex items-center gap-2">
                 Site Button Control Studio
               </h3>
-              <p className="text-xs text-purple-300/70">Tweak states live to inspect &amp; test all buttons on the site</p>
+              <p className="text-xs text-purple-300/70">
+                Tweak states live to inspect &amp; test all buttons on the site
+              </p>
             </div>
           </div>
-          <span className="text-[11px] font-mono text-purple-300 bg-purple-900/40 px-3 py-1 rounded-full border border-purple-400/30">
+          <span className="rounded-full border border-purple-400/30 bg-purple-900/40 px-3 py-1 font-mono text-[11px] text-purple-300">
             Interactive State Engine
           </span>
         </div>
 
         {/* Studio Form Controls Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {/* Label Input */}
           <div className="space-y-1.5">
-            <label className="text-xs   text-purple-300">Button Text</label>
+            <label className="text-xs text-purple-300">Button Text</label>
             <input
               type="text"
               value={buttonLabel}
               onChange={(e) => setButtonLabel(e.target.value)}
-              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 focus:outline-none focus:border-purple-400 transition"
+              className="w-full rounded-lg border border-purple-500/40 bg-black/60 px-3 py-2 text-xs transition focus:border-purple-400 focus:outline-none"
               placeholder="Button Label..."
             />
           </div>
 
           {/* Size Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs   text-purple-300">Size Variant</label>
-            <div className="flex items-center gap-1 p-1 bg-black/60 rounded-lg border border-purple-500/40">
+            <label className="text-xs text-purple-300">Size Variant</label>
+            <div className="flex items-center gap-1 rounded-lg border border-purple-500/40 bg-black/60 p-1">
               {(["sm", "md", "lg"] as const).map((sz) => (
                 <button
                   key={sz}
                   type="button"
                   onClick={() => setButtonSize(sz)}
-                  className={`flex-1 py-1 text-xs rounded transition    ${buttonSize === sz ? "bg-purple-600 shadow-[0_0_10px_rgba(168,85,247,0.6)]" : " text-white/60 hover:text-white hover:bg-white/5"}`}
+                  className={`flex-1 rounded py-1 text-xs transition ${buttonSize === sz ? "bg-purple-600 shadow-[0_0_10px_rgba(168,85,247,0.6)]" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
                 >
                   {sz}
                 </button>
@@ -616,11 +691,11 @@ function ButtonMasterGalleryAndStudio() {
 
           {/* Icon Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs   text-purple-300">Button Icon</label>
+            <label className="text-xs text-purple-300">Button Icon</label>
             <select
               value={iconName}
               onChange={(e) => setIconName(e.target.value as any)}
-              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 focus:outline-none focus:border-purple-400 transition"
+              className="w-full rounded-lg border border-purple-500/40 bg-black/60 px-3 py-2 text-xs transition focus:border-purple-400 focus:outline-none"
             >
               <option value="sparkles">Sparkles</option>
               <option value="zap">Zap</option>
@@ -634,11 +709,11 @@ function ButtonMasterGalleryAndStudio() {
 
           {/* Pill Dot Color */}
           <div className="space-y-1.5">
-            <label className="text-xs   text-purple-300">Pill Badge Dot</label>
+            <label className="text-xs text-purple-300">Pill Badge Dot</label>
             <select
               value={dotColor}
               onChange={(e) => setDotColor(e.target.value as any)}
-              className="w-full px-3 py-2 text-xs rounded-lg bg-black/60 border border-purple-500/40 focus:outline-none focus:border-purple-400 transition"
+              className="w-full rounded-lg border border-purple-500/40 bg-black/60 px-3 py-2 text-xs transition focus:border-purple-400 focus:outline-none"
             >
               <option value="purple">Purple Glow</option>
               <option value="emerald">Emerald Glow</option>
@@ -650,39 +725,43 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* Live Toggles Row */}
-        <div className="flex flex-wrap items-center gap-6 pt-3 border-t border-purple-500/20">
-          <label className="flex items-center gap-2.5 text-xs cursor-pointer select-none">
+        <div className="flex flex-wrap items-center gap-6 border-t border-purple-500/20 pt-3">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs select-none">
             <input
               type="checkbox"
               checked={isDisabled}
               onChange={(e) => setIsDisabled(e.target.checked)}
-              className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
+              className="h-4 w-4 cursor-pointer rounded accent-purple-500"
             />
-            <span className={isDisabled ? "text-rose-400  " : " text-white/70"}>
+            <span className={isDisabled ? "text-rose-400" : "text-white/70"}>
               Disabled State
             </span>
           </label>
 
-          <label className="flex items-center gap-2.5 text-xs cursor-pointer select-none">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs select-none">
             <input
               type="checkbox"
               checked={isActiveState}
               onChange={(e) => setIsActiveState(e.target.checked)}
-              className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
+              className="h-4 w-4 cursor-pointer rounded accent-purple-500"
             />
-            <span className={isActiveState ? "text-purple-300  " : " text-white/70"}>
+            <span
+              className={isActiveState ? "text-purple-300" : "text-white/70"}
+            >
               Active / Hover Locked
             </span>
           </label>
 
-          <label className="flex items-center gap-2.5 text-xs cursor-pointer select-none">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs select-none">
             <input
               type="checkbox"
               checked={isLoadingState}
               onChange={(e) => setIsLoadingState(e.target.checked)}
-              className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
+              className="h-4 w-4 cursor-pointer rounded accent-purple-500"
             />
-            <span className={isLoadingState ? "text-cyan-300  " : " text-white/70"}>
+            <span
+              className={isLoadingState ? "text-cyan-300" : "text-white/70"}
+            >
               Loading Spinner State
             </span>
           </label>
@@ -690,23 +769,33 @@ function ButtonMasterGalleryAndStudio() {
       </div>
 
       {/* Grid of All Site Buttons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* 1. SeventhButton (Credits & High-converting CTA) */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-amber-400">
+              <h4 className="text-sm text-amber-400">
                 SeventhButton / AlwaysButton
               </h4>
-              <p className="text-[11px] text-white/50">Credits system &amp; high-converting hero button</p>
+              <p className="text-[11px] text-white/50">
+                Credits system &amp; high-converting hero button
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<SeventhButton active={${isActiveState}} disabled={${isDisabled}}>${buttonLabel || "Credits"}</SeventhButton>`, "foolish")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<SeventhButton active={${isActiveState}} disabled={${isDisabled}}>${buttonLabel || "Credits"}</SeventhButton>`,
+                  "foolish",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "foolish" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "foolish" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "foolish" ? "Copied" : "Copy Code"}
             </button>
           </div>
@@ -716,35 +805,45 @@ function ButtonMasterGalleryAndStudio() {
               isActive={isActiveState}
               icon={currentIconNode}
             >
-              {isLoadingState ? "Processing..." : (buttonLabel || "Credits")}
+              {isLoadingState ? "Processing..." : buttonLabel || "Credits"}
             </SeventhButton>
             <SeventhButton
               disabled={isDisabled}
               isActive={true}
               icon={currentIconNode}
             >
-              {isLoadingState ? "Processing..." : (buttonLabel || "Credits")} (Always Active)
+              {isLoadingState ? "Processing..." : buttonLabel || "Credits"}{" "}
+              (Always Active)
             </SeventhButton>
           </div>
         </div>
 
-
-
         {/* 3. SparkleGenerateButton */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-violet-400">
+              <h4 className="text-sm text-violet-400">
                 SparkleGenerateButton (GSAP Particle)
               </h4>
-              <p className="text-[11px] text-white/50">GSAP Dust Particle generator button</p>
+              <p className="text-[11px] text-white/50">
+                GSAP Dust Particle generator button
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<SparkleGenerateButton active={${isActiveState}}>${buttonLabel || "Generate"}</SparkleGenerateButton>`, "sparkle")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<SparkleGenerateButton active={${isActiveState}}>${buttonLabel || "Generate"}</SparkleGenerateButton>`,
+                  "sparkle",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "sparkle" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "sparkle" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "sparkle" ? "Copied" : "Copy Code"}
             </button>
           </div>
@@ -756,20 +855,31 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4. PillBadgeButton Component */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-emerald-400">
+              <h4 className="text-sm text-emerald-400">
                 PillBadgeButton Component
               </h4>
-              <p className="text-[11px] text-white/50">Category pill button with customizable pulsing glowing dot</p>
+              <p className="text-[11px] text-white/50">
+                Category pill button with customizable pulsing glowing dot
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<PillBadgeButton dotColor="${dotColor}" isActive={${isActiveState}}>${buttonLabel || "PRESS & MEDIA"}</PillBadgeButton>`, "pill")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<PillBadgeButton dotColor="${dotColor}" isActive={${isActiveState}}>${buttonLabel || "PRESS & MEDIA"}</PillBadgeButton>`,
+                  "pill",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "pill" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "pill" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "pill" ? "Copied" : "Copy Code"}
             </button>
           </div>
@@ -785,20 +895,32 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4c. Unified GlassPlayButton Component */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-pink-400">
+              <h4 className="text-sm text-pink-400">
                 GlassPlayButton Component
               </h4>
-              <p className="text-[11px] text-white/50">Unified frosted glass capsule play button for all video &amp; media triggers</p>
+              <p className="text-[11px] text-white/50">
+                Unified frosted glass capsule play button for all video &amp;
+                media triggers
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<GlassPlayButton size="md" variant="purple" />`, "glassplaypill")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<GlassPlayButton size="md" variant="purple" />`,
+                  "glassplaypill",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "glassplaypill" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "glassplaypill" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "glassplaypill" ? "Copied" : "Copy Code"}
             </button>
           </div>
@@ -810,20 +932,31 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4b. Glass Pill Tag Badge Button (.btn-pill-glass / SectionBadge) */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-indigo-400">
+              <h4 className="text-sm text-indigo-400">
                 Glass Pill Tag Badge (.btn-pill-glass)
               </h4>
-              <p className="text-[11px] text-white/50">Global CSS pill tag button with hover glow &amp; 0.2s transition</p>
+              <p className="text-[11px] text-white/50">
+                Global CSS pill tag button with hover glow &amp; 0.2s transition
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="btn-pill-glass ${isActiveState ? "active" : ""}">\n  ${buttonLabel || "FEATURED TAG"}\n</button>`, "pillglass")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<button className="btn-pill-glass ${isActiveState ? "active" : ""}">\n  ${buttonLabel || "FEATURED TAG"}\n</button>`,
+                  "pillglass",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "pillglass" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "pillglass" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "pillglass" ? "Copied" : "Copy Code"}
             </button>
           </div>
@@ -831,7 +964,7 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`btn-pill-glass cursor-pointer ${isActiveState ? "active" : ""} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+              className={`btn-pill-glass cursor-pointer ${isActiveState ? "active" : ""} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}`}
             >
               {buttonLabel || "FEATURED TAG"}
             </button>
@@ -843,74 +976,98 @@ function ButtonMasterGalleryAndStudio() {
 
         {/* 4d. GlowOrbButton (Cursor-Tracking Glow) */}
 
-
-
-
         {/* 6. SquishyToggle Physics Switch */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-pink-400">
-                SquishyToggle Switch
-              </h4>
-              <p className="text-[11px] text-white/50">Spring-physics squishy state toggle switch</p>
+              <h4 className="text-sm text-pink-400">SquishyToggle Switch</h4>
+              <p className="text-[11px] text-white/50">
+                Spring-physics squishy state toggle switch
+              </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
-            <SquishyToggle id="button-studio-squishy" checked={squishyVal} onChange={setSquishyVal} label="Spring Toggle" />
+            <SquishyToggle
+              id="button-studio-squishy"
+              checked={squishyVal}
+              onChange={setSquishyVal}
+              label="Spring Toggle"
+            />
           </div>
         </div>
 
         {/* 7. AddCmsButton Admin Component */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-amber-300">
-                AddCmsButton Component
-              </h4>
-              <p className="text-[11px] text-white/50">Admin CMS item creation action button</p>
+              <h4 className="text-sm text-amber-300">AddCmsButton Component</h4>
+              <p className="text-[11px] text-white/50">
+                Admin CMS item creation action button
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<AddCmsButton label="${buttonLabel || "ADD ITEM"}" onClick={() => {}} />`, "addcms")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<AddCmsButton label="${buttonLabel || "ADD ITEM"}" onClick={() => {}} />`,
+                  "addcms",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "addcms" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "addcms" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "addcms" ? "Copied" : "Copy Code"}
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
             <AddCmsButton
               label={buttonLabel || "ADD PHOTO / VIDEO IN SANITY CMS"}
-              onClick={() => { }}
+              onClick={() => {}}
             />
           </div>
         </div>
 
         {/* 8. Update Sanity CMS Action Button */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-emerald-400 flex items-center gap-2">
-                <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""}`} />
+              <h4 className="flex items-center gap-2 text-sm text-emerald-400">
+                <RefreshCw
+                  className={`h-4 w-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""}`}
+                />
                 Update Sanity CMS Button
               </h4>
-              <p className="text-[11px] text-white/50">Triggers live sync &amp; updates to Sanity database</p>
+              <p className="text-[11px] text-white/50">
+                Triggers live sync &amp; updates to Sanity database
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <Link
                 href="/studio"
                 target="_blank"
-                className="px-2.5 py-1 text-[11px] rounded bg-purple-900/40 hover:bg-purple-800/60 text-purple-300 border border-purple-500/30 flex items-center gap-1 transition"
+                className="flex items-center gap-1 rounded border border-purple-500/30 bg-purple-900/40 px-2.5 py-1 text-[11px] text-purple-300 transition hover:bg-purple-800/60"
               >
                 Open Studio ↗
               </Link>
               <button
                 type="button"
-                onClick={() => handleCopyCode(`<button onClick={handleUpdateSanity} className="btn-primary inline-flex items-center gap-2 h-10 px-5 rounded-full">Update Sanity CMS</button>`, "updatesanity")}
-                className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+                onClick={() =>
+                  handleCopyCode(
+                    `<button onClick={handleUpdateSanity} className="btn-primary inline-flex items-center gap-2 h-10 px-5 rounded-full">Update Sanity CMS</button>`,
+                    "updatesanity",
+                  )
+                }
+                className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
               >
-                {copiedTag === "updatesanity" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                {copiedTag === "updatesanity" ? (
+                  <Check className="h-3 w-3 text-emerald-400" />
+                ) : (
+                  <Copy className="h-3 w-3" />
+                )}
                 {copiedTag === "updatesanity" ? "Copied" : "Copy Code"}
               </button>
             </div>
@@ -920,13 +1077,17 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={handleUpdateSanity}
               disabled={sanitySyncing || isDisabled}
-              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${sanitySyncing ? "opacity-90 bg-purple-800" : ""} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+              className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition ${sizePaddingClass} ${sanitySyncing ? "bg-purple-800 opacity-90" : ""} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}`}
             >
-              <RefreshCw className={`w-4 h-4 ${sanitySyncing ? "animate-spin text-cyan-300" : ""}`} />
-              <span>{sanitySyncing ? "UPDATING SANITY..." : "UPDATE SANITY CMS"}</span>
+              <RefreshCw
+                className={`h-4 w-4 ${sanitySyncing ? "animate-spin text-cyan-300" : ""}`}
+              />
+              <span>
+                {sanitySyncing ? "UPDATING SANITY..." : "UPDATE SANITY CMS"}
+              </span>
             </button>
             {sanityStatus && (
-              <span className="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-md border border-emerald-500/30">
+              <span className="rounded-md border border-emerald-500/30 bg-emerald-950/60 px-3 py-1 font-mono text-xs text-emerald-400">
                 {sanityStatus}
               </span>
             )}
@@ -934,20 +1095,31 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 9. Inline Table Action Buttons (EDIT & DEL) */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-blue-400">
+              <h4 className="text-sm text-blue-400">
                 Inline Action Buttons (EDIT &amp; DEL)
               </h4>
-              <p className="text-[11px] text-white/50">Compact table row &amp; item management action buttons</p>
+              <p className="text-[11px] text-white/50">
+                Compact table row &amp; item management action buttons
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white    text-xs transition">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white    text-xs transition">DEL</button>`, "editdel")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white    text-xs transition">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white    text-xs transition">DEL</button>`,
+                  "editdel",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "editdel" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "editdel" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "editdel" ? "Copied" : "Copy Code"}
             </button>
           </div>
@@ -955,14 +1127,14 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`px-3.5 py-1.5 rounded-full border border-blue-500/60 text-blue-400 bg-blue-950/40 hover:bg-blue-600 hover:text-white   text-xs transition cursor-pointer shadow-[0_0_12px_rgba(59,130,246,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-blue-600 border-blue-400 shadow-[0_0_18px_rgba(59,130,246,0.7)] scale-95" : ""}`}
+              className={`cursor-pointer rounded-full border border-blue-500/60 bg-blue-950/40 px-3.5 py-1.5 text-xs text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.3)] transition hover:bg-blue-600 hover:text-white ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 border-blue-400 bg-blue-600 shadow-[0_0_18px_rgba(59,130,246,0.7)]" : ""}`}
             >
               EDIT
             </button>
             <button
               type="button"
               disabled={isDisabled}
-              className={`px-3.5 py-1.5 rounded-full border border-red-500/60 text-red-400 bg-red-950/40 hover:bg-red-600 hover:text-white   text-xs transition cursor-pointer shadow-[0_0_12px_rgba(239,68,68,0.3)] ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-red-600 border-red-400 shadow-[0_0_18px_rgba(239,68,68,0.7)] scale-95" : ""}`}
+              className={`cursor-pointer rounded-full border border-red-500/60 bg-red-950/40 px-3.5 py-1.5 text-xs text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.3)] transition hover:bg-red-600 hover:text-white ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 border-red-400 bg-red-600 shadow-[0_0_18px_rgba(239,68,68,0.7)]" : ""}`}
             >
               DEL
             </button>
@@ -970,27 +1142,38 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 8. Primary Purple Glow CTA */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-purple-400">
+              <h4 className="text-sm text-purple-400">
                 Primary Glow CTA (.btn-primary)
               </h4>
-              <p className="text-[11px] text-white/50">Standard purple glow pill button style</p>
+              <p className="text-[11px] text-white/50">
+                Standard purple glow pill button style
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="btn-primary inline-flex items-center gap-2 ${sizePaddingClass}">${buttonLabel}</button>`, "btn-prim")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<button className="btn-primary inline-flex items-center gap-2 ${sizePaddingClass}">${buttonLabel}</button>`,
+                  "btn-prim",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "btn-prim" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "btn-prim" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "btn-prim" ? "Copied" : "Copy Code"}
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`btn-primary inline-flex items-center justify-center gap-2 rounded-full cursor-pointer transition ${sizePaddingClass} ${isDisabled ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "ring-4 ring-purple-400/50 scale-[0.98]" : ""}`}
+              className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full transition ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-50" : ""} ${isActiveState ? "scale-[0.98] ring-4 ring-purple-400/50" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -999,27 +1182,36 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 9. Cyan Neon Cyber Button */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-cyan-400">
-                Cyan Neon Cyber Action
-              </h4>
-              <p className="text-[11px] text-white/50">High-visibility cyan neon button with shadow glow</p>
+              <h4 className="text-sm text-cyan-400">Cyan Neon Cyber Action</h4>
+              <p className="text-[11px] text-white/50">
+                High-visibility cyan neon button with shadow glow
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] ${sizePaddingClass}">${buttonLabel}</button>`, "cyan-neon")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<button className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] ${sizePaddingClass}">${buttonLabel}</button>`,
+                  "cyan-neon",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "cyan-neon" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "cyan-neon" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "cyan-neon" ? "Copied" : "Copy Code"}
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950    shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "ring-2 ring-cyan-200 scale-95" : ""}`}
+              className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.4)] transition hover:bg-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 ring-2 ring-cyan-200" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1028,27 +1220,38 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 10. Secondary Glass Pill */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm     ">
+              <h4 className="text-sm">
                 Secondary Glass (.btn-secondary / .site-link)
               </h4>
-              <p className="text-[11px] text-white/50">Glassmorphism translucent button</p>
+              <p className="text-[11px] text-white/50">
+                Glassmorphism translucent button
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`, "glass")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<button className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`,
+                  "glass",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "glass" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "glass" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "glass" ? "Copied" : "Copy Code"}
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-white/10 hover:bg-white/20 border border-white/10   transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none bg-[#00000029]" : ""} ${isActiveState ? "bg-white/30 ring-2 ring-white/30 scale-95" : ""}`}
+              className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/10 transition hover:bg-white/20 ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed bg-[#00000029] opacity-30" : ""} ${isActiveState ? "scale-95 bg-white/30 ring-2 ring-white/30" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1057,27 +1260,36 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 11. Danger Destructive Action */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-rose-400">
-                Danger Action Button
-              </h4>
-              <p className="text-[11px] text-white/50">Destructive or critical alert action</p>
+              <h4 className="text-sm text-rose-400">Danger Action Button</h4>
+              <p className="text-[11px] text-white/50">
+                Destructive or critical alert action
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`, "danger")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<button className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`,
+                  "danger",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "danger" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "danger" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "danger" ? "Copied" : "Copy Code"}
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`rounded-full bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300   transition inline-flex items-center justify-center gap-2 cursor-pointer ${sizePaddingClass} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""} ${isActiveState ? "bg-red-600 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95" : ""}`}
+              className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-red-500/40 bg-red-500/20 text-red-300 transition hover:bg-red-500/30 ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 border-red-400 bg-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)]" : ""}`}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1086,28 +1298,55 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 12. Track & Animated Video Quick-Select Card Buttons */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40 md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-purple-300 flex items-center gap-2">
+              <h4 className="flex items-center gap-2 text-sm text-purple-300">
                 Track &amp; Video Quick-Select Card Buttons
               </h4>
-              <p className="text-[11px] text-white/50">Multi-line track card button selector (as seen on Rock &amp; Roll Kids)</p>
+              <p className="text-[11px] text-white/50">
+                Multi-line track card button selector (as seen on Rock &amp;
+                Roll Kids)
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<CosmicTrackCard\n  tag="FEATURED SINGLE"\n  title="WHO ARE YOU"\n  subtitle="Season 1 Featured Track"\n  isActive={true}\n  onClick={() => {}}\n/>`, "trackcard")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<CosmicTrackCard\n  tag="FEATURED SINGLE"\n  title="WHO ARE YOU"\n  subtitle="Season 1 Featured Track"\n  isActive={true}\n  onClick={() => {}}\n/>`,
+                  "trackcard",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "trackcard" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "trackcard" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "trackcard" ? "Copied" : "Copy Code"}
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 py-2">
+          <div className="grid grid-cols-1 gap-3 py-2 sm:grid-cols-3">
             {[
-              { tag: "FEATURED SINGLE", title: "WHO ARE YOU", subtitle: "Season 1 Featured Track", active: true },
-              { tag: "INSPIRATIONAL ANTHEM", title: "WHAT YOU GIVE", subtitle: "Social Consciousness Single", active: false },
-              { tag: "CONCERT ANTHEM", title: "TIME OF OUR LIVES", subtitle: "Animated Concert Finale", active: false },
+              {
+                tag: "FEATURED SINGLE",
+                title: "WHO ARE YOU",
+                subtitle: "Season 1 Featured Track",
+                active: true,
+              },
+              {
+                tag: "INSPIRATIONAL ANTHEM",
+                title: "WHAT YOU GIVE",
+                subtitle: "Social Consciousness Single",
+                active: false,
+              },
+              {
+                tag: "CONCERT ANTHEM",
+                title: "TIME OF OUR LIVES",
+                subtitle: "Animated Concert Finale",
+                active: false,
+              },
             ].map((item) => (
               <CosmicTrackCard
                 key={item.tag}
@@ -1122,41 +1361,77 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 13. Booking Show Format & Event Type Selector Pill Buttons */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40 md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-sm    text-violet-300 flex items-center gap-2">
+              <h4 className="flex items-center gap-2 text-sm text-violet-300">
                 Booking Show Format &amp; Event Type Selector Pills
               </h4>
-              <p className="text-[11px] text-white/50">Full Band, Unplugged, Private Event &amp; Custom Booking pills with icon badges</p>
+              <p className="text-[11px] text-white/50">
+                Full Band, Unplugged, Private Event &amp; Custom Booking pills
+                with icon badges
+              </p>
             </div>
             <button
               type="button"
-              onClick={() => handleCopyCode(`<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 transition-all flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="text-sm    mr-1.5">Full Band</span>\n    <span className="text-xs text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`, "bookingpills")}
-              className="px-2.5 py-1 text-[11px] rounded bg-white/5 hover:bg-white/10 text-white/70 border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              onClick={() =>
+                handleCopyCode(
+                  `<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 transition-all flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0 text-purple-300">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="text-sm    mr-1.5">Full Band</span>\n    <span className="text-xs text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`,
+                  "bookingpills",
+                )
+              }
+              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white/70 transition hover:bg-white/10"
             >
-              {copiedTag === "bookingpills" ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copiedTag === "bookingpills" ? (
+                <Check className="h-3 w-3 text-emerald-400" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
               {copiedTag === "bookingpills" ? "Copied" : "Copy Code"}
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-2">
+          <div className="grid grid-cols-1 gap-3 py-2 sm:grid-cols-2">
             {[
-              { id: "full_band", icon: <Guitar className="w-4 h-4 text-purple-300" />, title: "Full Band", desc: "High energy, full 5-piece concert setup", active: true },
-              { id: "unplugged", icon: <Mic className="w-4 h-4 text-pink-300" />, title: "Unplugged", desc: "Acoustic, intimate stripped-down set", active: false },
-              { id: "private", icon: <PartyPopper className="w-4 h-4 text-amber-300" />, title: "Private Event", desc: "Birthdays, corporate events, weddings", active: false },
-              { id: "custom", icon: <Sparkles className="w-4 h-4 text-cyan-300" />, title: "Custom Booking", desc: "Special requests, festivals, hybrid shows", active: false },
+              {
+                id: "full_band",
+                icon: <Guitar className="h-4 w-4 text-purple-300" />,
+                title: "Full Band",
+                desc: "High energy, full 5-piece concert setup",
+                active: true,
+              },
+              {
+                id: "unplugged",
+                icon: <Mic className="h-4 w-4 text-pink-300" />,
+                title: "Unplugged",
+                desc: "Acoustic, intimate stripped-down set",
+                active: false,
+              },
+              {
+                id: "private",
+                icon: <PartyPopper className="h-4 w-4 text-amber-300" />,
+                title: "Private Event",
+                desc: "Birthdays, corporate events, weddings",
+                active: false,
+              },
+              {
+                id: "custom",
+                icon: <Sparkles className="h-4 w-4 text-cyan-300" />,
+                title: "Custom Booking",
+                desc: "Special requests, festivals, hybrid shows",
+                active: false,
+              },
             ].map((opt) => (
               <button
                 key={opt.id}
                 type="button"
                 disabled={isDisabled}
-                className={`w-full text-left px-4 py-3 rounded-full border transition-all duration-200 cursor-pointer flex items-center gap-3 ${isActiveState || opt.active ? "border-purple-400/80 bg-purple-900/50 shadow-[0_0_20px_rgba(168,85,247,0.35)] scale-[1.01]" : "border-white/10 bg-white/[0.03] hover:border-purple-400/40 hover:bg-white/10"} ${isDisabled ? "opacity-30 cursor-not-allowed pointer-events-none" : ""}`}
+                className={`flex w-full cursor-pointer items-center gap-3 rounded-full border px-4 py-3 text-left transition-all duration-200 ${isActiveState || opt.active ? "scale-[1.01] border-purple-400/80 bg-purple-900/50 shadow-[0_0_20px_rgba(168,85,247,0.35)]" : "border-white/10 bg-white/[0.03] hover:border-purple-400/40 hover:bg-white/10"} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}`}
               >
-                <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-purple-400/40 bg-purple-500/20">
                   {opt.icon}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <span className="text-sm    mr-1.5">{opt.title}</span>
+                <div className="min-w-0 flex-1">
+                  <span className="mr-1.5 text-sm">{opt.title}</span>
                   <span className="text-xs text-white/60">{opt.desc}</span>
                 </div>
               </button>
@@ -1165,10 +1440,9 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 14. Hold To Activate Pressure Button */}
-        <div className="p-5 rounded-xl bg-white/[0.02] border border-white/10 space-y-4 hover:border-purple-500/40 transition md:col-span-2">
+        <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-5 transition hover:border-purple-500/40 md:col-span-2">
           <HoldToActivateButtonDemo />
         </div>
-
       </div>
     </div>
   );
@@ -1188,7 +1462,15 @@ const sgbDefaults = {
 
 export default function StyleGuidePage() {
   const { openModal } = useMember();
-  const { tokens, isSaving, hasUnsavedChanges, updateToken, saveTheme, resetToDefaults, exportThemeJson } = useThemeTokens();
+  const {
+    tokens,
+    isSaving,
+    hasUnsavedChanges,
+    updateToken,
+    saveTheme,
+    resetToDefaults,
+    exportThemeJson,
+  } = useThemeTokens();
 
   // Active section tab & search query for fast jumping
   const [activeSection, setActiveSection] = useState<string>("typography");
@@ -1197,7 +1479,9 @@ export default function StyleGuidePage() {
   // Sample interactive form states
   const [textInput, setTextInput] = useState("Michael Scimeca");
   const [searchInput, setSearchInput] = useState("");
-  const [textareaInput, setTextareaInput] = useState("Great performance at House of Blues! PA sound check scheduled for 4:30 PM.");
+  const [textareaInput, setTextareaInput] = useState(
+    "Great performance at House of Blues! PA sound check scheduled for 4:30 PM.",
+  );
   const [checkboxState, setCheckboxState] = useState(true);
   const [radioState, setRadioState] = useState("full_band");
   const [toggleState, setToggleState] = useState(true);
@@ -1206,14 +1490,34 @@ export default function StyleGuidePage() {
   const [previewNews, setPreviewNews] = useState(true);
   const [previewAge, setPreviewAge] = useState(true);
   const [previewRadius, setPreviewRadius] = useState("50");
-  const [signInRole, setSignInRole] = useState<'fan' | 'crew' | 'planner' | 'cruise'>('fan');
-  const [signUpRole, setSignUpRole] = useState<'fan' | 'planner' | 'cruise'>('fan');
+  const [signInRole, setSignInRole] = useState<
+    "fan" | "crew" | "planner" | "cruise"
+  >("fan");
+  const [signUpRole, setSignUpRole] = useState<"fan" | "planner" | "cruise">(
+    "fan",
+  );
 
   /* ── PIN Input Demo State ── */
-  const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>(["", "", "", "", "", ""]);
-  const [pinDefaultFocusedIndex, setPinDefaultFocusedIndex] = useState<number | null>(null);
+  const [pinDefaultDigits, setPinDefaultDigits] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
+  const [pinDefaultFocusedIndex, setPinDefaultFocusedIndex] = useState<
+    number | null
+  >(null);
   const pinDefaultRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const [pinDigits, setPinDigits] = useState<string[]>(["7", "H", "", "", "", ""]);
+  const [pinDigits, setPinDigits] = useState<string[]>([
+    "7",
+    "H",
+    "",
+    "",
+    "",
+    "",
+  ]);
   const [pinFocusedIndex, setPinFocusedIndex] = useState<number | null>(null);
   const [pinError, setPinError] = useState(false);
 
@@ -1225,25 +1529,45 @@ export default function StyleGuidePage() {
   const pinRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handlePinDigit = (idx: number, val: string) => {
-    const clean = val.replace(/[^0-9a-zA-Z]/g, "").slice(-1).toUpperCase();
-    setPinDigits(prev => { const n = [...prev]; n[idx] = clean; return n; });
+    const clean = val
+      .replace(/[^0-9a-zA-Z]/g, "")
+      .slice(-1)
+      .toUpperCase();
+    setPinDigits((prev) => {
+      const n = [...prev];
+      n[idx] = clean;
+      return n;
+    });
     setPinError(false);
     if (clean && idx < 5) pinRefs.current[idx + 1]?.focus();
   };
 
-  const handlePinKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handlePinKeyDown = (
+    idx: number,
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (e.key === "Backspace" && !pinDigits[idx] && idx > 0) {
       pinRefs.current[idx - 1]?.focus();
     }
   };
 
   const handlePinDefaultDigit = (idx: number, val: string) => {
-    const clean = val.replace(/[^0-9a-zA-Z]/g, "").slice(-1).toUpperCase();
-    setPinDefaultDigits(prev => { const n = [...prev]; n[idx] = clean; return n; });
+    const clean = val
+      .replace(/[^0-9a-zA-Z]/g, "")
+      .slice(-1)
+      .toUpperCase();
+    setPinDefaultDigits((prev) => {
+      const n = [...prev];
+      n[idx] = clean;
+      return n;
+    });
     if (clean && idx < 5) pinDefaultRefs.current[idx + 1]?.focus();
   };
 
-  const handlePinDefaultKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handlePinDefaultKeyDown = (
+    idx: number,
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (e.key === "Backspace" && !pinDefaultDigits[idx] && idx > 0) {
       pinDefaultRefs.current[idx - 1]?.focus();
     }
@@ -1251,13 +1575,15 @@ export default function StyleGuidePage() {
   // Interactive Chat Bubble UI Control States
   const [bubbleRadius, setBubbleRadius] = useState<number>(16);
   const [bubbleBorderWidth, setBubbleBorderWidth] = useState<number>(0);
-  const [bubbleBorderColor, setBubbleBorderColor] = useState<string>("transparent");
+  const [bubbleBorderColor, setBubbleBorderColor] =
+    useState<string>("transparent");
   const [bubbleBgStyle, setBubbleBgStyle] = useState<string>("classic");
   const [bubbleFontSize, setBubbleFontSize] = useState<number>(12);
   const [bubblePaddingY, setBubblePaddingY] = useState<number>(5);
   const [bubblePaddingX, setBubblePaddingX] = useState<number>(13);
   const [messageSpacing, setMessageSpacing] = useState<number>(13);
-  const [bubbleColorPalette, setBubbleColorPalette] = useState<string>("default");
+  const [bubbleColorPalette, setBubbleColorPalette] =
+    useState<string>("default");
   const [customHexColor, setCustomHexColor] = useState<string>("#9333ea");
   const [bubbleOpacity, setBubbleOpacity] = useState<number>(80);
   const [multiUserColorMode, setMultiUserColorMode] = useState<boolean>(true);
@@ -1273,8 +1599,10 @@ export default function StyleGuidePage() {
   const [canvasWaveFreqX, setCanvasWaveFreqX] = useState<number>(1.5);
   const [canvasWaveFreqY, setCanvasWaveFreqY] = useState<number>(2.0);
   const [canvasColorBlending, setCanvasColorBlending] = useState<number>(10);
-  const [canvasColorSaturation, setCanvasColorSaturation] = useState<number>(10);
-  const [canvasColorBrightness, setCanvasColorBrightness] = useState<number>(0.5);
+  const [canvasColorSaturation, setCanvasColorSaturation] =
+    useState<number>(10);
+  const [canvasColorBrightness, setCanvasColorBrightness] =
+    useState<number>(0.5);
   const [canvasShadows, setCanvasShadows] = useState<number>(10);
   const [canvasHighlights, setCanvasHighlights] = useState<number>(10);
   const [canvasHPressure, setCanvasHPressure] = useState<number>(3);
@@ -1288,27 +1616,39 @@ export default function StyleGuidePage() {
       const saved = localStorage.getItem("7th_heaven_canvas_settings_v1");
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.grainOpacity !== undefined) setCanvasGrainOpacity(parsed.grainOpacity);
+        if (parsed.grainOpacity !== undefined)
+          setCanvasGrainOpacity(parsed.grainOpacity);
         if (parsed.grainBlend) setCanvasGrainBlend(parsed.grainBlend);
-        if (parsed.grainSize !== undefined) setCanvasGrainSize(parsed.grainSize);
+        if (parsed.grainSize !== undefined)
+          setCanvasGrainSize(parsed.grainSize);
         if (parsed.speed !== undefined) setCanvasSpeed(parsed.speed);
         if (parsed.waveAmp !== undefined) setCanvasWaveAmp(parsed.waveAmp);
-        if (parsed.waveFreqX !== undefined) setCanvasWaveFreqX(parsed.waveFreqX);
-        if (parsed.waveFreqY !== undefined) setCanvasWaveFreqY(parsed.waveFreqY);
-        if (parsed.colorBlending !== undefined) setCanvasColorBlending(parsed.colorBlending);
-        if (parsed.colorSaturation !== undefined) setCanvasColorSaturation(parsed.colorSaturation);
-        if (parsed.colorBrightness !== undefined) setCanvasColorBrightness(parsed.colorBrightness);
+        if (parsed.waveFreqX !== undefined)
+          setCanvasWaveFreqX(parsed.waveFreqX);
+        if (parsed.waveFreqY !== undefined)
+          setCanvasWaveFreqY(parsed.waveFreqY);
+        if (parsed.colorBlending !== undefined)
+          setCanvasColorBlending(parsed.colorBlending);
+        if (parsed.colorSaturation !== undefined)
+          setCanvasColorSaturation(parsed.colorSaturation);
+        if (parsed.colorBrightness !== undefined)
+          setCanvasColorBrightness(parsed.colorBrightness);
         if (parsed.shadows !== undefined) setCanvasShadows(parsed.shadows);
-        if (parsed.highlights !== undefined) setCanvasHighlights(parsed.highlights);
-        if (parsed.hPressure !== undefined) setCanvasHPressure(parsed.hPressure);
-        if (parsed.vPressure !== undefined) setCanvasVPressure(parsed.vPressure);
+        if (parsed.highlights !== undefined)
+          setCanvasHighlights(parsed.highlights);
+        if (parsed.hPressure !== undefined)
+          setCanvasHPressure(parsed.hPressure);
+        if (parsed.vPressure !== undefined)
+          setCanvasVPressure(parsed.vPressure);
         if (parsed.bgColor) setCanvasBgColor(parsed.bgColor);
       }
-    } catch { }
+    } catch {}
   }, []);
 
   // Stateroom Catalog & Suite Perks interactive preview states
-  const [stateroomTab, setStateroomTab] = useState<"suites" | "balcony" | "ocean" | "interior">("suites");
+  const [stateroomTab, setStateroomTab] = useState<
+    "suites" | "balcony" | "ocean" | "interior"
+  >("suites");
   const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
   const [sgGuestInsurance, setSgGuestInsurance] = useState("yes");
   const [sgGuestGratuities, setSgGuestGratuities] = useState("yes");
@@ -1320,7 +1660,8 @@ export default function StyleGuidePage() {
   const [studioMinVw, setStudioMinVw] = useState<number>(1025);
   const [studioMaxVw, setStudioMaxVw] = useState<number>(1550);
   const [studioMode, setStudioMode] = useState<"locked" | "chained">("locked");
-  const [copiedStudioFormula, setCopiedStudioFormula] = useState<boolean>(false);
+  const [copiedStudioFormula, setCopiedStudioFormula] =
+    useState<boolean>(false);
   const [liveWinW, setLiveWinW] = useState<number>(1280);
 
   // Global CSS Export & Modal States
@@ -1338,16 +1679,16 @@ export default function StyleGuidePage() {
 
   // Scroll to hash anchor on initial load (Next.js doesn't do this automatically)
   useEffect(() => {
-    const hash = window.location.hash.replace('#', '');
+    const hash = window.location.hash.replace("#", "");
     if (!hash) return;
     const el = document.getElementById(hash);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
     const timer = setTimeout(() => {
       const target = document.getElementById(hash);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 300);
     return () => clearTimeout(timer);
   }, []);
@@ -1363,7 +1704,9 @@ export default function StyleGuidePage() {
     if (section) {
       const row = section.querySelector(`[data-tier="${studioSelectedTier}"]`);
       if (row) {
-        const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+        const inputs = row.querySelectorAll<HTMLInputElement>(
+          "input[type='range']",
+        );
         if (inputs[4]) inputs[4].value = (studioMinFs / 16).toString();
         if (inputs[5]) inputs[5].value = (studioMaxFs / 16).toString();
         const labelDMin = row.querySelector("[data-val='dMin']");
@@ -1378,13 +1721,29 @@ export default function StyleGuidePage() {
         }
       }
     }
-  }, [studioSelectedTier, studioMinFs, studioMaxFs, studioMinVw, studioMaxVw, studioMode]);
+  }, [
+    studioSelectedTier,
+    studioMinFs,
+    studioMaxFs,
+    studioMinVw,
+    studioMaxVw,
+    studioMode,
+  ]);
 
   // Sync grain overlay CSS vars + push shader values to the live NeatGradient instance & broadcast via event/localStorage
   useEffect(() => {
-    document.documentElement.style.setProperty("--canvas-grain-opacity", `${canvasGrainOpacity / 100}`);
-    document.documentElement.style.setProperty("--canvas-grain-blend", canvasGrainBlend);
-    document.documentElement.style.setProperty("--canvas-grain-size", `${canvasGrainSize}`);
+    document.documentElement.style.setProperty(
+      "--canvas-grain-opacity",
+      `${canvasGrainOpacity / 100}`,
+    );
+    document.documentElement.style.setProperty(
+      "--canvas-grain-blend",
+      canvasGrainBlend,
+    );
+    document.documentElement.style.setProperty(
+      "--canvas-grain-size",
+      `${canvasGrainSize}`,
+    );
     const feTurb = document.querySelector("#globalGrainFilter feTurbulence");
     if (feTurb) feTurb.setAttribute("baseFrequency", `${canvasGrainSize}`);
 
@@ -1423,10 +1782,31 @@ export default function StyleGuidePage() {
     };
 
     try {
-      localStorage.setItem("7th_heaven_canvas_settings_v1", JSON.stringify(payload));
-      window.dispatchEvent(new CustomEvent("canvas-settings-changed", { detail: payload }));
-    } catch { }
-  }, [canvasGrainOpacity, canvasGrainBlend, canvasGrainSize, canvasSpeed, canvasWaveAmp, canvasWaveFreqX, canvasWaveFreqY, canvasColorBlending, canvasColorSaturation, canvasColorBrightness, canvasShadows, canvasHighlights, canvasHPressure, canvasVPressure, canvasBgColor]);
+      localStorage.setItem(
+        "7th_heaven_canvas_settings_v1",
+        JSON.stringify(payload),
+      );
+      window.dispatchEvent(
+        new CustomEvent("canvas-settings-changed", { detail: payload }),
+      );
+    } catch {}
+  }, [
+    canvasGrainOpacity,
+    canvasGrainBlend,
+    canvasGrainSize,
+    canvasSpeed,
+    canvasWaveAmp,
+    canvasWaveFreqX,
+    canvasWaveFreqY,
+    canvasColorBlending,
+    canvasColorSaturation,
+    canvasColorBrightness,
+    canvasShadows,
+    canvasHighlights,
+    canvasHPressure,
+    canvasVPressure,
+    canvasBgColor,
+  ]);
 
   const handleCopyCanvasSpec = () => {
     const spec = `:root {
@@ -1460,42 +1840,48 @@ export default function StyleGuidePage() {
   };
 
   return (
-    <div id="style-guide-page" className="min-h-screen pt-24 pb-20 px-6 sm:px-8 lg:px-[42px]">
-      <div className="max-w-7xl mx-auto space-y-12">
-
+    <div
+      id="style-guide-page"
+      className="min-h-screen px-6 pt-24 pb-20 sm:px-8 lg:px-[42px]"
+    >
+      <div className="mx-auto max-w-7xl space-y-12">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-white/10 pb-8">
+        <div className="flex flex-col justify-between gap-6 border-b border-white/10 pb-8 md:flex-row md:items-center">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-1 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 flex items-center gap-1.5">
+            <div className="mb-2 flex items-center gap-2">
+              <span className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-purple-300">
                 7th Heaven Design System
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">
+            <h1 className="bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400 bg-clip-text text-4xl text-transparent sm:text-5xl">
               Master Style Guide
             </h1>
             <p className="mt-2 max-w-2xl">
-              The unified design specification for typography, color swatches, real shipping components, form controls, dropdowns, borders, and spacing tokens.
+              The unified design specification for typography, color swatches,
+              real shipping components, form controls, dropdowns, borders, and
+              spacing tokens.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={() => resetToDefaults()}
-              className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10   transition flex items-center gap-2">
-              <RefreshCw className="w-3.5 h-3.5" /> Reset Tokens
+              className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 transition hover:bg-white/10"
+            >
+              <RefreshCw className="h-3.5 w-3.5" /> Reset Tokens
             </button>
             <button
               onClick={() => saveTheme()}
               disabled={isSaving}
-              className={`px-5 py-2.5 rounded-lg transition flex items-center gap-2 ${hasUnsavedChanges ? "bg-purple-600 hover:bg-purple-500 shadow-[0_0_20px_rgba(147,51,234,0.4)]" : "bg-white/10 text-white/50 cursor-default"}`}>
+              className={`flex items-center gap-2 rounded-lg px-5 py-2.5 transition ${hasUnsavedChanges ? "bg-purple-600 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:bg-purple-500" : "cursor-default bg-white/10 text-white/50"}`}
+            >
               {isSaving ? "Saving..." : "Save Theme Tokens"}
             </button>
           </div>
         </div>
 
         {/* Sticky Section Quick Navigation Bar */}
-        <div className="sticky top-20 z-40 bg-[#070510]/90 backdrop-blur-xl border border-white/10 rounded-lg p-2 flex items-center gap-2 overflow-x-auto scrollbar-none">
+        <div className="sticky top-20 z-40 flex scrollbar-none items-center gap-2 overflow-x-auto rounded-lg border border-white/10 bg-[#070510]/90 p-2 backdrop-blur-xl">
           {sections.map((sec) => {
             const Icon = sec.icon;
             const isActive = activeSection === sec.id;
@@ -1504,8 +1890,9 @@ export default function StyleGuidePage() {
                 key={sec.id}
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
-                className={`px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2 border ${isActive ? "bg-purple-600/30 text-purple-300 border-purple-500/50 " : " hover:text-white border-transparent hover:border-white/10"}`}>
-                <Icon className="w-3.5 h-3.5" />
+                className={`flex items-center gap-2 rounded-lg border px-4 py-2.5 whitespace-nowrap transition ${isActive ? "border-purple-500/50 bg-purple-600/30 text-purple-300" : "border-transparent hover:border-white/10 hover:text-white"}`}
+              >
+                <Icon className="h-3.5 w-3.5" />
                 <span>{sec.label}</span>
               </a>
             );
@@ -1513,13 +1900,20 @@ export default function StyleGuidePage() {
         </div>
 
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
-        <section id="typography" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="typography"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
-              <Type className="w-6 h-6" /> 1. Fluid Typography System
+              <Type className="h-6 w-6" /> 1. Fluid Typography System
             </h2>
-            <p >
-              Every text size uses <code className="text-purple-400">clamp()</code> for fluid scaling. Edit <strong>Mobile</strong>, <strong>Tablet</strong>, and <strong>Desktop</strong> values — changes apply live to the entire site.
+            <p>
+              Every text size uses{" "}
+              <code className="text-purple-400">clamp()</code> for fluid
+              scaling. Edit <strong>Mobile</strong>, <strong>Tablet</strong>,
+              and <strong>Desktop</strong> values — changes apply live to the
+              entire site.
             </p>
           </div>
 
@@ -1527,66 +1921,100 @@ export default function StyleGuidePage() {
              DEDICATED FLUID TYPE STUDIO CONTROL PANEL
              ═══════════════════════════════════════════════════════════════════ */}
           {(() => {
-            const studioClamp = computeFluidClamp(studioMinFs, studioMaxFs, studioMinVw, studioMaxVw);
+            const studioClamp = computeFluidClamp(
+              studioMinFs,
+              studioMaxFs,
+              studioMinVw,
+              studioMaxVw,
+            );
             const currentComputedPx = (() => {
               if (liveWinW <= studioMinVw) return studioMinFs;
               if (liveWinW >= studioMaxVw) return studioMaxFs;
-              const ratio = (liveWinW - studioMinVw) / (studioMaxVw - studioMinVw);
-              return Math.round((studioMinFs + ratio * (studioMaxFs - studioMinFs)) * 10) / 10;
+              const ratio =
+                (liveWinW - studioMinVw) / (studioMaxVw - studioMinVw);
+              return (
+                Math.round(
+                  (studioMinFs + ratio * (studioMaxFs - studioMinFs)) * 10,
+                ) / 10
+              );
             })();
 
-            const tiersList = ["6xl", "5xl", "4xl", "3xl", "2xl", "xl", "base", "sm", "xs"];
+            const tiersList = [
+              "6xl",
+              "5xl",
+              "4xl",
+              "3xl",
+              "2xl",
+              "xl",
+              "base",
+              "sm",
+              "xs",
+            ];
 
             const handleCopyStudioFormula = () => {
-              navigator.clipboard.writeText(`font-size: ${studioClamp.clampStr} !important;`);
+              navigator.clipboard.writeText(
+                `font-size: ${studioClamp.clampStr} !important;`,
+              );
               setCopiedStudioFormula(true);
               setTimeout(() => setCopiedStudioFormula(false), 2000);
             };
 
             return (
-              <div className="relative overflow-hidden rounded-lg border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 sm:p-8 backdrop-blur-xl space-y-6">
+              <div className="relative space-y-6 overflow-hidden rounded-lg border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 backdrop-blur-xl sm:p-8">
                 {/* Glow Backdrop */}
                 <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-lg bg-purple-600/10 blur-3xl" />
                 <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-lg bg-pink-600/10 blur-3xl" />
 
                 {/* Studio Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+                <div className="relative z-10 flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg- purple-white/20 border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                    <div className="bg- purple-white/20 flex h-10 w-10 items-center justify-center rounded-lg border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                       <Sliders className="h-5 w-5 text-purple-300" />
                     </div>
                     <div>
                       <h3 className="flex items-center gap-2">
                         Fluid Type Studio Controls
-                        <span className="text-[10px] text-purple-400 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded-lg">
+                        <span className="rounded-lg border border-purple-500/30 bg-purple-500/10 px-2 py-0.5 text-[10px] text-purple-400">
                           .text-{studioSelectedTier}
                         </span>
                       </h3>
                       <p>
-                        Linear slope math engine for exact 40px @ 1025px $\rightarrow$ 56px @ 1550px continuous scaling.
+                        Linear slope math engine for exact 40px @ 1025px
+                        $\rightarrow$ 56px @ 1550px continuous scaling.
                       </p>
                     </div>
                   </div>
 
                   <button
                     onClick={handleCopyStudioFormula}
-                    className={`px-4 py-2.5 rounded-lg transition flex items-center gap-2 border self-start sm:self-auto ${copiedStudioFormula ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]" : "bg-purple-600/30 hover:bg-purple-600/50 border-purple-500/50 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)]"}`}>
-                    {copiedStudioFormula ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copiedStudioFormula ? "Formula Copied!" : "Copy CSS clamp()"}</span>
+                    className={`flex items-center gap-2 self-start rounded-lg border px-4 py-2.5 transition sm:self-auto ${copiedStudioFormula ? "border-emerald-500/50 bg-emerald-500/20 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]" : "border-purple-500/50 bg-purple-600/30 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)] hover:bg-purple-600/50"}`}
+                  >
+                    {copiedStudioFormula ? (
+                      <Check className="h-3.5 w-3.5" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                    <span>
+                      {copiedStudioFormula
+                        ? "Formula Copied!"
+                        : "Copy CSS clamp()"}
+                    </span>
                   </button>
                 </div>
 
                 {/* Target Element Selector */}
-                <div className="space-y-2 relative z-10">
-                  <span className="text-[10px] text-purple-300 flex items-center gap-1.5">
-                    <Layers className="w-3 h-3 text-purple-400" /> Target Typography Element / Utility Class:
+                <div className="relative z-10 space-y-2">
+                  <span className="flex items-center gap-1.5 text-[10px] text-purple-300">
+                    <Layers className="h-3 w-3 text-purple-400" /> Target
+                    Typography Element / Utility Class:
                   </span>
-                  <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+                  <div className="flex scrollbar-none items-center gap-2 overflow-x-auto pb-2">
                     {tiersList.map((t) => (
                       <button
                         key={t}
                         onClick={() => setStudioSelectedTier(t)}
-                        className={`px-3 py-1.5 rounded-lg transition-all ${studioSelectedTier === t ? "bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.5)] border border-purple-300 scale-105" : "bg-white/[0.04] hover:text-white hover:bg-white/10 border border-white/10"}`}>
+                        className={`rounded-lg px-3 py-1.5 transition-all ${studioSelectedTier === t ? "scale-105 border border-purple-300 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.5)]" : "border border-white/10 bg-white/[0.04] hover:bg-white/10 hover:text-white"}`}
+                      >
                         .text-{t}
                       </button>
                     ))}
@@ -1594,18 +2022,22 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* Controls Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* 1. Min Font Size */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-emerald-400 flex items-center gap-1">
+                      <span className="flex items-center gap-1 text-emerald-400">
                         1. Min Font Size:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMinFs}
-                          onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
+                          onChange={(e) =>
+                            setStudioMinFs(
+                              e.target.value ? Number(e.target.value) : 0,
+                            )
+                          }
                           className="w-12 text-right text-emerald-300 outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -1616,25 +2048,34 @@ export default function StyleGuidePage() {
                       min="12"
                       max="128"
                       value={studioMinFs}
-                      onChange={(e) => setStudioMinFs(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                      onChange={(e) =>
+                        setStudioMinFs(
+                          e.target.value ? Number(e.target.value) : 0,
+                        )
+                      }
+                      className="[&::-webkit-slider-thumb]: h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                     />
                     <p>
-                      Smallest font size rendered at or below Min Viewport Width ({studioMinVw}px).
+                      Smallest font size rendered at or below Min Viewport Width
+                      ({studioMinVw}px).
                     </p>
                   </div>
 
                   {/* 2. Max Font Size */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-purple-400 flex items-center gap-1">
+                      <span className="flex items-center gap-1 text-purple-400">
                         2. Max Font Size:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMaxFs}
-                          onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
+                          onChange={(e) =>
+                            setStudioMaxFs(
+                              e.target.value ? Number(e.target.value) : 0,
+                            )
+                          }
                           className="w-12 text-right text-purple-300 outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -1645,25 +2086,34 @@ export default function StyleGuidePage() {
                       min="12"
                       max="128"
                       value={studioMaxFs}
-                      onChange={(e) => setStudioMaxFs(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                      onChange={(e) =>
+                        setStudioMaxFs(
+                          e.target.value ? Number(e.target.value) : 0,
+                        )
+                      }
+                      className="[&::-webkit-slider-thumb]: h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                     />
                     <p>
-                      Largest font size rendered at or above Max Viewport Width ({studioMaxVw}px).
+                      Largest font size rendered at or above Max Viewport Width
+                      ({studioMaxVw}px).
                     </p>
                   </div>
 
                   {/* 3. Min Viewport Width */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-amber-400 flex items-center gap-1">
+                      <span className="flex items-center gap-1 text-amber-400">
                         3. Min Viewport Width:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMinVw}
-                          onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
+                          onChange={(e) =>
+                            setStudioMinVw(
+                              e.target.value ? Number(e.target.value) : 0,
+                            )
+                          }
                           className="w-16 text-right text-amber-300 outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -1675,25 +2125,34 @@ export default function StyleGuidePage() {
                       max="1920"
                       step="5"
                       value={studioMinVw}
-                      onChange={(e) => setStudioMinVw(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                      onChange={(e) =>
+                        setStudioMinVw(
+                          e.target.value ? Number(e.target.value) : 0,
+                        )
+                      }
+                      className="[&::-webkit-slider-thumb]: h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                     />
                     <p>
-                      Screen width at which text hits Min Font Size ({studioMinFs}px).
+                      Screen width at which text hits Min Font Size (
+                      {studioMinFs}px).
                     </p>
                   </div>
 
                   {/* 4. Max Viewport Width */}
-                  <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 space-y-2">
+                  <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1">
                         4. Max Viewport Width:
                       </span>
-                      <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg px-2 py-0.5">
+                      <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMaxVw}
-                          onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
+                          onChange={(e) =>
+                            setStudioMaxVw(
+                              e.target.value ? Number(e.target.value) : 0,
+                            )
+                          }
                           className="w-16 text-right outline-none"
                         />
                         <span className="text-white/40">px</span>
@@ -1705,42 +2164,50 @@ export default function StyleGuidePage() {
                       max="1920"
                       step="5"
                       value={studioMaxVw}
-                      onChange={(e) => setStudioMaxVw(e.target.value ? Number(e.target.value) : 0)}
-                      className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
+                      onChange={(e) =>
+                        setStudioMaxVw(
+                          e.target.value ? Number(e.target.value) : 0,
+                        )
+                      }
+                      className="[&::-webkit-slider-thumb]: h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
                     />
                     <p>
-                      Screen width at which text hits Max Font Size ({studioMaxFs}px).
+                      Screen width at which text hits Max Font Size (
+                      {studioMaxFs}px).
                     </p>
                   </div>
                 </div>
 
                 {/* 5. Below Min Viewport Behavior Toggle */}
-                <div className="rounded-lg bg-white/[0.03] border border-white/10 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                <div className="relative z-10 flex flex-col justify-between gap-4 rounded-lg border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center">
                   <div>
                     <h4 className="flex items-center gap-2">
                       5. Below {studioMinVw}px Boundary Behavior:
                     </h4>
                     <p>
-                      Choose whether font stays locked at {studioMinFs}px below {studioMinVw}px or chains into Tablet/Mobile ranges.
+                      Choose whether font stays locked at {studioMinFs}px below{" "}
+                      {studioMinVw}px or chains into Tablet/Mobile ranges.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 bg-black/40 p-1 rounded-lg border border-white/10 self-start sm:self-auto">
+                  <div className="flex items-center gap-2 self-start rounded-lg border border-white/10 bg-black/40 p-1 sm:self-auto">
                     <button
                       onClick={() => setStudioMode("locked")}
-                      className={`px-3 py-1.5 rounded-lg transition ${studioMode === "locked" ? "bg-purple-500 " : " text-white/50 hover:text-white "}`}>
+                      className={`rounded-lg px-3 py-1.5 transition ${studioMode === "locked" ? "bg-purple-500" : "text-white/50 hover:text-white"}`}
+                    >
                       🔒 Lock at {studioMinFs}px
                     </button>
                     <button
                       onClick={() => setStudioMode("chained")}
-                      className={`px-3 py-1.5 rounded-lg transition ${studioMode === "chained" ? "bg-purple-500 " : " text-white/50 hover:text-white "}`}>
+                      className={`rounded-lg px-3 py-1.5 transition ${studioMode === "chained" ? "bg-purple-500" : "text-white/50 hover:text-white"}`}
+                    >
                       🔗 Chain to Tablet ({studioMinFs}px $\rightarrow$ 25px)
                     </button>
                   </div>
                 </div>
 
                 {/* Live Formula & Computed Viewport Readout Card */}
-                <div className="rounded-lg bg-black/60 border border-purple-500/30 p-5 space-y-4 relative z-10">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+                <div className="relative z-10 space-y-4 rounded-lg border border-purple-500/30 bg-black/60 p-5">
+                  <div className="flex flex-col justify-between gap-2 border-b border-white/10 pb-3 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-2">
                       <span className="text-purple-300">
                         Generated CSS Formula & Live Inspection:
@@ -1749,48 +2216,64 @@ export default function StyleGuidePage() {
 
                     <div className="flex items-center gap-2">
                       <span className="text-white/40">Live Viewport:</span>
-                      <span className="bg-cyan-500/10 border border-purple-500/20 px-2 py-0.5 rounded-lg">
+                      <span className="rounded-lg border border-purple-500/20 bg-cyan-500/10 px-2 py-0.5">
                         {liveWinW}px
                       </span>
                       <span className="text-white/40">Computed Size:</span>
-                      <span className="text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-lg">
+                      <span className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-emerald-300">
                         {currentComputedPx}px
                       </span>
                     </div>
                   </div>
 
                   {/* Code snippet */}
-                  <div className="overflow-x-auto rounded-lg bg-black/80 pt-3 pb-3 text-purple-200 border border-white/20">
+                  <div className="overflow-x-auto rounded-lg border border-white/20 bg-black/80 pt-3 pb-3 text-purple-200">
                     <code className="text-purple-400">font-size</code>:{" "}
-                    <span >{studioClamp.clampStr}</span> !important;
+                    <span>{studioClamp.clampStr}</span> !important;
                   </div>
 
                   {/* Formula Math Breakdown */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[11px]">
-                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px]">Min Rem</span>
-                      <span className="text-emerald-300">{studioClamp.minRem.toFixed(4)}rem</span> ({studioMinFs}px)
+                  <div className="grid grid-cols-2 gap-3 text-[11px] md:grid-cols-4">
+                    <div className="rounded-lg border border-white/5 bg-white/[0.02] p-2">
+                      <span className="block text-[12px] text-white/30">
+                        Min Rem
+                      </span>
+                      <span className="text-emerald-300">
+                        {studioClamp.minRem.toFixed(4)}rem
+                      </span>{" "}
+                      ({studioMinFs}px)
                     </div>
-                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px]">Max Rem</span>
-                      <span className="text-purple-300">{studioClamp.maxRem.toFixed(4)}rem</span> ({studioMaxFs}px)
+                    <div className="rounded-lg border border-white/5 bg-white/[0.02] p-2">
+                      <span className="block text-[12px] text-white/30">
+                        Max Rem
+                      </span>
+                      <span className="text-purple-300">
+                        {studioClamp.maxRem.toFixed(4)}rem
+                      </span>{" "}
+                      ({studioMaxFs}px)
                     </div>
-                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px]">Slope (vw)</span>
+                    <div className="rounded-lg border border-white/5 bg-white/[0.02] p-2">
+                      <span className="block text-[12px] text-white/30">
+                        Slope (vw)
+                      </span>
                       <span>{studioClamp.slopeVw.toFixed(4)}vw</span>
                     </div>
-                    <div className="bg-white/[0.02] p-2 rounded-lg border border-white/5">
-                      <span className="block text-white/30 text-[12px]">Intercept (rem)</span>
-                      <span className="text-amber-300">{studioClamp.interceptRem.toFixed(4)}rem</span>
+                    <div className="rounded-lg border border-white/5 bg-white/[0.02] p-2">
+                      <span className="block text-[12px] text-white/30">
+                        Intercept (rem)
+                      </span>
+                      <span className="text-amber-300">
+                        {studioClamp.interceptRem.toFixed(4)}rem
+                      </span>
                     </div>
                   </div>
 
                   {/* Live Interactive Sample Node */}
-                  <div className="pt-2 border-t border-white/10">
-                    <span className="text-[10px] text-white/40 block mb-2">
+                  <div className="border-t border-white/10 pt-2">
+                    <span className="mb-2 block text-[10px] text-white/40">
                       Live Sample Render (`.text-{studioSelectedTier}`):
                     </span>
-                    <div className="rounded-lg bg-white/[0.02] border border-white/10 p-6 flex items-center justify-center overflow-x-auto min-h-[120px]">
+                    <div className="flex min-h-[120px] items-center justify-center overflow-x-auto rounded-lg border border-white/10 bg-white/[0.02] p-6">
                       <div className={`text-${studioSelectedTier} text-center`}>
                         {studioSelectedTier.toUpperCase()} FLUID SCALING SAMPLE
                       </div>
@@ -1804,24 +2287,151 @@ export default function StyleGuidePage() {
           {/* Fluid Type Scale Editor */}
           {(() => {
             const FLUID_SCALE = [
-              { key: "6xl", label: "text-6xl", cssProp: "--text-6xl", mobMin: "1.125", mobMax: "2.25", tabMin: "2.25", tabMax: "3.5", deskMin: "3.5", deskMax: "8.0", sample: "9XL HERO (NOW 6XL)", weight: "    ", extra: "" },
-              { key: "5xl", label: "text-5xl", cssProp: "--text-5xl", mobMin: "1.0625", mobMax: "2.0", tabMin: "2.0", tabMax: "3.0", deskMin: "3.0", deskMax: "6.0", sample: "8XL DISPLAY (NOW 5XL)", weight: "    ", extra: "" },
-              { key: "4xl", label: "text-4xl", cssProp: "--text-4xl", mobMin: "1.0", mobMax: "1.75", tabMin: "1.75", tabMax: "2.5", deskMin: "2.5", deskMax: "4.5", sample: "7TH HEAVEN (NOW 4XL)", weight: "    ", extra: "" },
-              { key: "3xl", label: "text-3xl", cssProp: "--text-3xl", mobMin: "0.875", mobMax: "1.0", tabMin: "1.0", tabMax: "1.25", deskMin: "1.25", deskMax: "1.75", sample: "VIP Backstage Package", weight: " ", extra: "" },
-              { key: "2xl", label: "text-2xl", cssProp: "--text-2xl", mobMin: "0.8125", mobMax: "0.9375", tabMin: "0.9375", tabMax: "1.125", deskMin: "1.125", deskMax: "1.5", sample: "Rocking Chicago & Nationwide Since 1985", weight: "  ", extra: "" },
-              { key: "xl", label: "text-xl", cssProp: "--text-xl", mobMin: "0.8125", mobMax: "0.875", tabMin: "0.875", tabMax: "1.0", deskMin: "1.0", deskMax: "1.25", sample: "Join over 50,000 fans across 100+ shows every single year (Unified XL).", weight: " ", extra: "" },
-              { key: "base", label: "text-base", cssProp: "--text-base", mobMin: "0.75", mobMax: "0.8125", tabMin: "0.8125", tabMax: "0.875", deskMin: "0.875", deskMax: "1.0", sample: "7th Heaven has processed over 1.5 million ticket requests. Book early for best availability.", weight: "font-normal", extra: "" },
-              { key: "sm", label: "text-sm", cssProp: "--text-sm", mobMin: "0.6875", mobMax: "0.75", tabMin: "0.75", tabMax: "0.8125", deskMin: "0.8125", deskMax: "0.875", sample: "Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable.", weight: "font-normal", extra: "" },
-              { key: "xs", label: "text-xs", cssProp: "--text-xs", mobMin: "0.625", mobMax: "0.6875", tabMin: "0.6875", tabMax: "0.75", deskMin: "0.75", deskMax: "0.75", sample: "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT", weight: "  ", extra: "  r" },
+              {
+                key: "6xl",
+                label: "text-6xl",
+                cssProp: "--text-6xl",
+                mobMin: "1.125",
+                mobMax: "2.25",
+                tabMin: "2.25",
+                tabMax: "3.5",
+                deskMin: "3.5",
+                deskMax: "8.0",
+                sample: "9XL HERO (NOW 6XL)",
+                weight: "    ",
+                extra: "",
+              },
+              {
+                key: "5xl",
+                label: "text-5xl",
+                cssProp: "--text-5xl",
+                mobMin: "1.0625",
+                mobMax: "2.0",
+                tabMin: "2.0",
+                tabMax: "3.0",
+                deskMin: "3.0",
+                deskMax: "6.0",
+                sample: "8XL DISPLAY (NOW 5XL)",
+                weight: "    ",
+                extra: "",
+              },
+              {
+                key: "4xl",
+                label: "text-4xl",
+                cssProp: "--text-4xl",
+                mobMin: "1.0",
+                mobMax: "1.75",
+                tabMin: "1.75",
+                tabMax: "2.5",
+                deskMin: "2.5",
+                deskMax: "4.5",
+                sample: "7TH HEAVEN (NOW 4XL)",
+                weight: "    ",
+                extra: "",
+              },
+              {
+                key: "3xl",
+                label: "text-3xl",
+                cssProp: "--text-3xl",
+                mobMin: "0.875",
+                mobMax: "1.0",
+                tabMin: "1.0",
+                tabMax: "1.25",
+                deskMin: "1.25",
+                deskMax: "1.75",
+                sample: "VIP Backstage Package",
+                weight: " ",
+                extra: "",
+              },
+              {
+                key: "2xl",
+                label: "text-2xl",
+                cssProp: "--text-2xl",
+                mobMin: "0.8125",
+                mobMax: "0.9375",
+                tabMin: "0.9375",
+                tabMax: "1.125",
+                deskMin: "1.125",
+                deskMax: "1.5",
+                sample: "Rocking Chicago & Nationwide Since 1985",
+                weight: "  ",
+                extra: "",
+              },
+              {
+                key: "xl",
+                label: "text-xl",
+                cssProp: "--text-xl",
+                mobMin: "0.8125",
+                mobMax: "0.875",
+                tabMin: "0.875",
+                tabMax: "1.0",
+                deskMin: "1.0",
+                deskMax: "1.25",
+                sample:
+                  "Join over 50,000 fans across 100+ shows every single year (Unified XL).",
+                weight: " ",
+                extra: "",
+              },
+              {
+                key: "base",
+                label: "text-base",
+                cssProp: "--text-base",
+                mobMin: "0.75",
+                mobMax: "0.8125",
+                tabMin: "0.8125",
+                tabMax: "0.875",
+                deskMin: "0.875",
+                deskMax: "1.0",
+                sample:
+                  "7th Heaven has processed over 1.5 million ticket requests. Book early for best availability.",
+                weight: "font-normal",
+                extra: "",
+              },
+              {
+                key: "sm",
+                label: "text-sm",
+                cssProp: "--text-sm",
+                mobMin: "0.6875",
+                mobMax: "0.75",
+                tabMin: "0.75",
+                tabMax: "0.8125",
+                deskMin: "0.8125",
+                deskMax: "0.875",
+                sample:
+                  "Doors open at 6:30 PM. All ages event subject to venue policies. Tickets non-refundable.",
+                weight: "font-normal",
+                extra: "",
+              },
+              {
+                key: "xs",
+                label: "text-xs",
+                cssProp: "--text-xs",
+                mobMin: "0.625",
+                mobMax: "0.6875",
+                tabMin: "0.6875",
+                tabMax: "0.75",
+                deskMin: "0.75",
+                deskMax: "0.75",
+                sample:
+                  "LAST UPDATED 2 HOURS AGO • VERIFIED BY BAND MANAGEMENT",
+                weight: "  ",
+                extra: "  r",
+              },
             ];
 
-            const remToPx = (rem: string | number) => Math.round(parseFloat(String(rem)) * 16);
+            const remToPx = (rem: string | number) =>
+              Math.round(parseFloat(String(rem)) * 16);
 
             // Calculate fluid clamp formula for a specific breakpoint segment
-            const calcSegmentClamp = (w1: number, fs1Rem: number, w2: number, fs2Rem: number) => {
+            const calcSegmentClamp = (
+              w1: number,
+              fs1Rem: number,
+              w2: number,
+              fs2Rem: number,
+            ) => {
               if (fs1Rem === fs2Rem) return `${fs1Rem}rem`;
               const slopeVw = (1600 * (fs2Rem - fs1Rem)) / (w2 - w1);
-              const interceptRem = fs1Rem - (slopeVw * (w1 / 1600));
+              const interceptRem = fs1Rem - slopeVw * (w1 / 1600);
               const min = Math.min(fs1Rem, fs2Rem);
               const max = Math.max(fs1Rem, fs2Rem);
               return `clamp(${min}rem, ${interceptRem.toFixed(4)}rem + ${slopeVw.toFixed(4)}vw, ${max}rem)`;
@@ -1842,7 +2452,9 @@ export default function StyleGuidePage() {
               FLUID_SCALE.forEach((tier) => {
                 const row = section.querySelector(`[data-tier="${tier.key}"]`);
                 if (!row) return;
-                const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                const inputs = row.querySelectorAll<HTMLInputElement>(
+                  "input[type='range']",
+                );
                 const mMin = parseFloat(inputs[0]?.value || tier.mobMin);
                 const mMax = parseFloat(inputs[1]?.value || tier.mobMax);
                 const tMin = mMax; // Strict segment continuity at 678px
@@ -1854,9 +2466,15 @@ export default function StyleGuidePage() {
                 const tClamp = calcSegmentClamp(678, tMin, 1024, tMax);
                 const dClamp = calcSegmentClamp(1025, dMin, 1560, dMax);
 
-                mobRules.push(`.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${mClamp} !important; }`);
-                tabRules.push(`.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${tClamp} !important; }`);
-                deskRules.push(`.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${dClamp} !important; }`);
+                mobRules.push(
+                  `.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${mClamp} !important; }`,
+                );
+                tabRules.push(
+                  `.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${tClamp} !important; }`,
+                );
+                deskRules.push(
+                  `.text-${tier.key}, [data-fluid-sample="${tier.key}"] { font-size: ${dClamp} !important; }`,
+                );
 
                 mobVars.push(`  ${tier.cssProp}: ${mClamp} !important;`);
                 tabVars.push(`  ${tier.cssProp}: ${tClamp} !important;`);
@@ -1884,7 +2502,9 @@ ${deskVars.join("\n")}
 ${deskRules.join("\n")}
 }`;
 
-              let tag = document.getElementById("fluid-type-overrides") as HTMLStyleElement;
+              let tag = document.getElementById(
+                "fluid-type-overrides",
+              ) as HTMLStyleElement;
               if (!tag) {
                 tag = document.createElement("style");
                 tag.id = "fluid-type-overrides";
@@ -1901,70 +2521,114 @@ ${deskRules.join("\n")}
             return (
               <div className="space-y-4">
                 {/* Column headers */}
-                <div className="hidden xl:grid grid-cols-[90px_1fr_220px_220px_220px] gap-4 px-4 pb-2 border-b border-white/10">
+                <div className="hidden grid-cols-[90px_1fr_220px_220px_220px] gap-4 border-b border-white/10 px-4 pb-2 xl:grid">
                   <span className="text-[10px] text-white/30">Utility</span>
                   <span className="text-[10px] text-white/30">Preview</span>
-                  <span className="text-[10px] text-emerald-400">📱 Mobile Range</span>
-                  <span className="text-[10px] text-amber-400">📟 Tablet Range</span>
-                  <span className="text-[10px] text-purple-400">🖥 Desktop Range</span>
+                  <span className="text-[10px] text-emerald-400">
+                    📱 Mobile Range
+                  </span>
+                  <span className="text-[10px] text-amber-400">
+                    📟 Tablet Range
+                  </span>
+                  <span className="text-[10px] text-purple-400">
+                    🖥 Desktop Range
+                  </span>
                 </div>
 
                 {FLUID_SCALE.map((tier) => {
-                  const isHero = tier.key === "9xl" || tier.key === "8xl" || tier.key === "7xl" || tier.key === "6xl";
+                  const isHero =
+                    tier.key === "9xl" ||
+                    tier.key === "8xl" ||
+                    tier.key === "7xl" ||
+                    tier.key === "6xl";
                   const maxLimit = isHero ? 8 : 4; // 128px max for hero display, 64px max for standard text
 
                   return (
-                    <div key={tier.key} data-tier={tier.key} className="group rounded-lg bg-white/[0.02] border border-white/10 hover:border-purple-500/30 transition-colors p-4">
-                      <div className="grid grid-cols-1 xl:grid-cols-[90px_1fr_220px_220px_220px] gap-4 items-center">
+                    <div
+                      key={tier.key}
+                      data-tier={tier.key}
+                      className="group rounded-lg border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-purple-500/30"
+                    >
+                      <div className="grid grid-cols-1 items-center gap-4 xl:grid-cols-[90px_1fr_220px_220px_220px]">
                         {/* Label */}
                         <div className="flex items-center gap-2">
-                          <code className="text-[11px] text-purple-400 bg-purple-500/10 px-2 py-1 rounded-lg border border-white/20">
+                          <code className="rounded-lg border border-white/20 bg-purple-500/10 px-2 py-1 text-[11px] text-purple-400">
                             {tier.label}
                           </code>
                         </div>
 
                         {/* Live Preview */}
-                        <div data-fluid-sample={tier.key} className={`text-${tier.key} ${tier.weight} ${tier.extra} min-w-0 overflow-visible py-1`}>
+                        <div
+                          data-fluid-sample={tier.key}
+                          className={`text-${tier.key} ${tier.weight} ${tier.extra} min-w-0 overflow-visible py-1`}
+                        >
                           {tier.sample}
                         </div>
 
                         {/* Mobile Pill (Green): Left = Min (320px), Right = Max (678px) */}
                         <div className="flex flex-col gap-1">
-                          <div className="flex items-center justify-between text-[11px] text-emerald-400 px-1">
-                            <span data-val="mMin">{remToPx(tier.mobMin)}px</span>
-                            <span data-val="mMax">{remToPx(tier.mobMax)}px</span>
+                          <div className="flex items-center justify-between px-1 text-[11px] text-emerald-400">
+                            <span data-val="mMin">
+                              {remToPx(tier.mobMin)}px
+                            </span>
+                            <span data-val="mMax">
+                              {remToPx(tier.mobMax)}px
+                            </span>
                           </div>
-                          <div className="flex items-center gap-2 bg-white/[0.02] border border-emerald-500/40 rounded-lg p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                          <div className="flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
+                            <div className="flex w-1/2 items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
-                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMin}
-                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                type="range"
+                                step="0.01"
+                                min="0.625"
+                                max={maxLimit}
+                                defaultValue={tier.mobMin}
+                                className="[&::-webkit-slider-thumb]: h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                                 onInput={(e) => {
-                                  const val = (e.target as HTMLInputElement).value;
-                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
-                                  const labelMMin = row?.querySelector("[data-val='mMin']");
-                                  if (labelMMin) labelMMin.textContent = `${remToPx(val)}px`;
+                                  const val = (e.target as HTMLInputElement)
+                                    .value;
+                                  const row = (e.target as HTMLElement).closest(
+                                    "[data-tier]",
+                                  ) as HTMLElement;
+                                  const labelMMin =
+                                    row?.querySelector("[data-val='mMin']");
+                                  if (labelMMin)
+                                    labelMMin.textContent = `${remToPx(val)}px`;
                                   rebuildStyleTag();
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="flex w-1/2 items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
-                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.mobMax}
-                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
+                                type="range"
+                                step="0.01"
+                                min="0.625"
+                                max={maxLimit}
+                                defaultValue={tier.mobMax}
+                                className="[&::-webkit-slider-thumb]: h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                                 onInput={(e) => {
-                                  const val = (e.target as HTMLInputElement).value;
-                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  const val = (e.target as HTMLInputElement)
+                                    .value;
+                                  const row = (e.target as HTMLElement).closest(
+                                    "[data-tier]",
+                                  ) as HTMLElement;
                                   if (!row) return;
-                                  const labelMMax = row.querySelector("[data-val='mMax']");
-                                  if (labelMMax) labelMMax.textContent = `${remToPx(val)}px`;
+                                  const labelMMax =
+                                    row.querySelector("[data-val='mMax']");
+                                  if (labelMMax)
+                                    labelMMax.textContent = `${remToPx(val)}px`;
 
                                   // Sync 678px boundary: Mobile Right (mMax) <-> Tablet Left (tMin)
-                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  const inputs =
+                                    row.querySelectorAll<HTMLInputElement>(
+                                      "input[type='range']",
+                                    );
                                   if (inputs[2] && inputs[2].value !== val) {
                                     inputs[2].value = val;
-                                    const labelTMin = row.querySelector("[data-val='tMin']");
-                                    if (labelTMin) labelTMin.textContent = `${remToPx(val)}px`;
+                                    const labelTMin =
+                                      row.querySelector("[data-val='tMin']");
+                                    if (labelTMin)
+                                      labelTMin.textContent = `${remToPx(val)}px`;
                                   }
 
                                   rebuildStyleTag();
@@ -1972,7 +2636,7 @@ ${deskRules.join("\n")}
                               />
                             </div>
                           </div>
-                          <div className="flex items-center justify-between text-[10px] text-emerald-400/60 px-1 pt-0.5">
+                          <div className="flex items-center justify-between px-1 pt-0.5 text-[10px] text-emerald-400/60">
                             <span>320px</span>
                             <span>678px</span>
                           </div>
@@ -1980,51 +2644,83 @@ ${deskRules.join("\n")}
 
                         {/* Tablet Pill (Amber): Left = Min (678px), Right = Max (1025px) */}
                         <div className="flex flex-col gap-1">
-                          <div className="flex items-center justify-between text-[11px] text-amber-400 px-1">
-                            <span data-val="tMin">{remToPx(tier.tabMin)}px</span>
-                            <span data-val="tMax">{remToPx(tier.tabMax)}px</span>
+                          <div className="flex items-center justify-between px-1 text-[11px] text-amber-400">
+                            <span data-val="tMin">
+                              {remToPx(tier.tabMin)}px
+                            </span>
+                            <span data-val="tMax">
+                              {remToPx(tier.tabMax)}px
+                            </span>
                           </div>
-                          <div className="flex items-center gap-2 bg-white/[0.02] border border-amber-500/40 rounded-lg p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                          <div className="flex items-center gap-2 rounded-lg border border-amber-500/40 bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
+                            <div className="flex w-1/2 items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
-                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMin}
-                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                type="range"
+                                step="0.01"
+                                min="0.625"
+                                max={maxLimit}
+                                defaultValue={tier.tabMin}
+                                className="[&::-webkit-slider-thumb]: h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                                 onInput={(e) => {
-                                  const val = (e.target as HTMLInputElement).value;
-                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  const val = (e.target as HTMLInputElement)
+                                    .value;
+                                  const row = (e.target as HTMLElement).closest(
+                                    "[data-tier]",
+                                  ) as HTMLElement;
                                   if (!row) return;
-                                  const labelTMin = row.querySelector("[data-val='tMin']");
-                                  if (labelTMin) labelTMin.textContent = `${remToPx(val)}px`;
+                                  const labelTMin =
+                                    row.querySelector("[data-val='tMin']");
+                                  if (labelTMin)
+                                    labelTMin.textContent = `${remToPx(val)}px`;
 
                                   // Sync 678px boundary: Tablet Left (tMin) <-> Mobile Right (mMax)
-                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  const inputs =
+                                    row.querySelectorAll<HTMLInputElement>(
+                                      "input[type='range']",
+                                    );
                                   if (inputs[1] && inputs[1].value !== val) {
                                     inputs[1].value = val;
-                                    const labelMMax = row.querySelector("[data-val='mMax']");
-                                    if (labelMMax) labelMMax.textContent = `${remToPx(val)}px`;
+                                    const labelMMax =
+                                      row.querySelector("[data-val='mMax']");
+                                    if (labelMMax)
+                                      labelMMax.textContent = `${remToPx(val)}px`;
                                   }
 
                                   rebuildStyleTag();
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="flex w-1/2 items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
-                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.tabMax}
-                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
+                                type="range"
+                                step="0.01"
+                                min="0.625"
+                                max={maxLimit}
+                                defaultValue={tier.tabMax}
+                                className="[&::-webkit-slider-thumb]: h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                                 onInput={(e) => {
-                                  const val = (e.target as HTMLInputElement).value;
-                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  const val = (e.target as HTMLInputElement)
+                                    .value;
+                                  const row = (e.target as HTMLElement).closest(
+                                    "[data-tier]",
+                                  ) as HTMLElement;
                                   if (!row) return;
-                                  const labelTMax = row.querySelector("[data-val='tMax']");
-                                  if (labelTMax) labelTMax.textContent = `${remToPx(val)}px`;
+                                  const labelTMax =
+                                    row.querySelector("[data-val='tMax']");
+                                  if (labelTMax)
+                                    labelTMax.textContent = `${remToPx(val)}px`;
 
                                   // Sync 1025px boundary: Tablet Right (tMax) <-> Desktop Left (dMin)
-                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  const inputs =
+                                    row.querySelectorAll<HTMLInputElement>(
+                                      "input[type='range']",
+                                    );
                                   if (inputs[4] && inputs[4].value !== val) {
                                     inputs[4].value = val;
-                                    const labelDMin = row.querySelector("[data-val='dMin']");
-                                    if (labelDMin) labelDMin.textContent = `${remToPx(val)}px`;
+                                    const labelDMin =
+                                      row.querySelector("[data-val='dMin']");
+                                    if (labelDMin)
+                                      labelDMin.textContent = `${remToPx(val)}px`;
                                   }
 
                                   rebuildStyleTag();
@@ -2032,7 +2728,7 @@ ${deskRules.join("\n")}
                               />
                             </div>
                           </div>
-                          <div className="flex items-center justify-between text-[10px] text-amber-400/60 px-1 pt-0.5">
+                          <div className="flex items-center justify-between px-1 pt-0.5 text-[10px] text-amber-400/60">
                             <span>678px</span>
                             <span>1025px</span>
                           </div>
@@ -2040,49 +2736,76 @@ ${deskRules.join("\n")}
 
                         {/* Desktop Pill (Purple): Left = Min (1025px), Right = Max (1560px) */}
                         <div className="flex flex-col gap-1">
-                          <div className="flex items-center justify-between text-[11px] text-purple-400 px-1">
-                            <span data-val="dMin">{remToPx(tier.deskMin)}px</span>
-                            <span data-val="dMax">{remToPx(tier.deskMax)}px</span>
+                          <div className="flex items-center justify-between px-1 text-[11px] text-purple-400">
+                            <span data-val="dMin">
+                              {remToPx(tier.deskMin)}px
+                            </span>
+                            <span data-val="dMax">
+                              {remToPx(tier.deskMax)}px
+                            </span>
                           </div>
-                          <div className="flex items-center gap-2 bg-white/[0.02] rounded-lg p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                          <div className="flex items-center gap-2 rounded-lg bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
+                            <div className="flex w-1/2 items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
-                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMin}
-                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                type="range"
+                                step="0.01"
+                                min="0.625"
+                                max={maxLimit}
+                                defaultValue={tier.deskMin}
+                                className="[&::-webkit-slider-thumb]: h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                                 onInput={(e) => {
-                                  const val = (e.target as HTMLInputElement).value;
-                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
+                                  const val = (e.target as HTMLInputElement)
+                                    .value;
+                                  const row = (e.target as HTMLElement).closest(
+                                    "[data-tier]",
+                                  ) as HTMLElement;
                                   if (!row) return;
-                                  const labelDMin = row.querySelector("[data-val='dMin']");
-                                  if (labelDMin) labelDMin.textContent = `${remToPx(val)}px`;
+                                  const labelDMin =
+                                    row.querySelector("[data-val='dMin']");
+                                  if (labelDMin)
+                                    labelDMin.textContent = `${remToPx(val)}px`;
 
                                   // Sync 1025px boundary: Desktop Left (dMin) <-> Tablet Right (tMax)
-                                  const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
+                                  const inputs =
+                                    row.querySelectorAll<HTMLInputElement>(
+                                      "input[type='range']",
+                                    );
                                   if (inputs[3] && inputs[3].value !== val) {
                                     inputs[3].value = val;
-                                    const labelTMax = row.querySelector("[data-val='tMax']");
-                                    if (labelTMax) labelTMax.textContent = `${remToPx(val)}px`;
+                                    const labelTMax =
+                                      row.querySelector("[data-val='tMax']");
+                                    if (labelTMax)
+                                      labelTMax.textContent = `${remToPx(val)}px`;
                                   }
 
                                   rebuildStyleTag();
                                 }}
                               />
                             </div>
-                            <div className="w-1/2 flex items-center bg-white/[0.04] border border-white/10 rounded-lg px-3 py-1.5">
+                            <div className="flex w-1/2 items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
-                                type="range" step="0.01" min="0.625" max={maxLimit} defaultValue={tier.deskMax}
-                                className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]: rounded-lg [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                                type="range"
+                                step="0.01"
+                                min="0.625"
+                                max={maxLimit}
+                                defaultValue={tier.deskMax}
+                                className="[&::-webkit-slider-thumb]: h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                                 onInput={(e) => {
-                                  const val = (e.target as HTMLInputElement).value;
-                                  const row = (e.target as HTMLElement).closest("[data-tier]") as HTMLElement;
-                                  const labelDMax = row?.querySelector("[data-val='dMax']");
-                                  if (labelDMax) labelDMax.textContent = `${remToPx(val)}px`;
+                                  const val = (e.target as HTMLInputElement)
+                                    .value;
+                                  const row = (e.target as HTMLElement).closest(
+                                    "[data-tier]",
+                                  ) as HTMLElement;
+                                  const labelDMax =
+                                    row?.querySelector("[data-val='dMax']");
+                                  if (labelDMax)
+                                    labelDMax.textContent = `${remToPx(val)}px`;
                                   rebuildStyleTag();
                                 }}
                               />
                             </div>
                           </div>
-                          <div className="flex items-center justify-between text-[10px] text-purple-400/60 px-1 pt-0.5">
+                          <div className="flex items-center justify-between px-1 pt-0.5 text-[10px] text-purple-400/60">
                             <span>1025px</span>
                             <span>1560px</span>
                           </div>
@@ -2093,10 +2816,11 @@ ${deskRules.join("\n")}
                 })}
 
                 {/* Action Toolbar */}
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/10">
+                <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4">
                   <div className="flex items-center gap-2">
                     <span className="text-[11px] text-white/40">
-                      💡 Changes update in real time. Click Save to copy global CSS.
+                      💡 Changes update in real time. Click Save to copy global
+                      CSS.
                     </span>
                   </div>
 
@@ -2111,23 +2835,51 @@ ${deskRules.join("\n")}
                         const deskRules: string[] = [];
 
                         FLUID_SCALE.forEach((tier) => {
-                          const row = section.querySelector(`[data-tier="${tier.key}"]`);
+                          const row = section.querySelector(
+                            `[data-tier="${tier.key}"]`,
+                          );
                           if (!row) return;
-                          const inputs = row.querySelectorAll<HTMLInputElement>("input[type='range']");
-                          const mMin = parseFloat(inputs[0]?.value || tier.mobMin);
-                          const mMax = parseFloat(inputs[1]?.value || tier.mobMax);
+                          const inputs = row.querySelectorAll<HTMLInputElement>(
+                            "input[type='range']",
+                          );
+                          const mMin = parseFloat(
+                            inputs[0]?.value || tier.mobMin,
+                          );
+                          const mMax = parseFloat(
+                            inputs[1]?.value || tier.mobMax,
+                          );
                           const tMin = mMax;
-                          const tMax = parseFloat(inputs[3]?.value || tier.tabMax);
+                          const tMax = parseFloat(
+                            inputs[3]?.value || tier.tabMax,
+                          );
                           const dMin = tMax;
-                          const dMax = parseFloat(inputs[5]?.value || tier.deskMax);
+                          const dMax = parseFloat(
+                            inputs[5]?.value || tier.deskMax,
+                          );
 
                           const mClamp = calcSegmentClamp(320, mMin, 678, mMax);
-                          const tClamp = calcSegmentClamp(678, tMin, 1024, tMax);
-                          const dClamp = calcSegmentClamp(1025, dMin, 1560, dMax);
+                          const tClamp = calcSegmentClamp(
+                            678,
+                            tMin,
+                            1024,
+                            tMax,
+                          );
+                          const dClamp = calcSegmentClamp(
+                            1025,
+                            dMin,
+                            1560,
+                            dMax,
+                          );
 
-                          mobRules.push(`  :root { ${tier.cssProp}: ${mClamp}; }\n  .${tier.label} { font-size: ${mClamp} !important; }`);
-                          tabRules.push(`  :root { ${tier.cssProp}: ${tClamp}; }\n  .${tier.label} { font-size: ${tClamp} !important; }`);
-                          deskRules.push(`  :root { ${tier.cssProp}: ${dClamp}; }\n  .${tier.label} { font-size: ${dClamp} !important; }`);
+                          mobRules.push(
+                            `  :root { ${tier.cssProp}: ${mClamp}; }\n  .${tier.label} { font-size: ${mClamp} !important; }`,
+                          );
+                          tabRules.push(
+                            `  :root { ${tier.cssProp}: ${tClamp}; }\n  .${tier.label} { font-size: ${tClamp} !important; }`,
+                          );
+                          deskRules.push(
+                            `  :root { ${tier.cssProp}: ${dClamp}; }\n  .${tier.label} { font-size: ${dClamp} !important; }`,
+                          );
                         });
 
                         const fullCss = `/* =========================================================================
@@ -2155,22 +2907,35 @@ ${deskRules.join("\n")}
                         setShowCssModal(true);
                         setTimeout(() => setCssCopied(false), 3000);
                       }}
-                      className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 hover:from-purple-500 hover:to-emerald-400 shadow-purple-500/25 transition-all transform hover:scale-[1.02] flex items-center gap-2">
+                      className="flex transform items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 px-6 py-2.5 shadow-purple-500/25 transition-all hover:scale-[1.02] hover:from-purple-500 hover:to-emerald-400"
+                    >
                       <span>💾 Save & Copy Global CSS</span>
-                      {cssCopied && <span className="text-emerald-300 animate-pulse">✓ Copied!</span>}
+                      {cssCopied && (
+                        <span className="animate-pulse text-emerald-300">
+                          ✓ Copied!
+                        </span>
+                      )}
                     </button>
 
                     <button
                       onClick={() => {
-                        const tag = document.getElementById("fluid-type-overrides");
+                        const tag = document.getElementById(
+                          "fluid-type-overrides",
+                        );
                         if (tag) tag.remove();
                         const section = document.getElementById("typography");
                         if (section) {
-                          section.querySelectorAll<HTMLInputElement>("input[type='range']").forEach((input) => {
-                            input.value = input.defaultValue;
-                          });
+                          section
+                            .querySelectorAll<HTMLInputElement>(
+                              "input[type='range']",
+                            )
+                            .forEach((input) => {
+                              input.value = input.defaultValue;
+                            });
                           FLUID_SCALE.forEach((tier) => {
-                            const row = section.querySelector(`[data-tier="${tier.key}"]`);
+                            const row = section.querySelector(
+                              `[data-tier="${tier.key}"]`,
+                            );
                             if (row) {
                               const mm = row.querySelector("[data-val='mMin']");
                               const mx = row.querySelector("[data-val='mMax']");
@@ -2178,17 +2943,24 @@ ${deskRules.join("\n")}
                               const tx = row.querySelector("[data-val='tMax']");
                               const dm = row.querySelector("[data-val='dMin']");
                               const dx = row.querySelector("[data-val='dMax']");
-                              if (mm) mm.textContent = `${remToPx(tier.mobMin)}px`;
-                              if (mx) mx.textContent = `${remToPx(tier.mobMax)}px`;
-                              if (tm) tm.textContent = `${remToPx(tier.tabMin)}px`;
-                              if (tx) tx.textContent = `${remToPx(tier.tabMax)}px`;
-                              if (dm) dm.textContent = `${remToPx(tier.deskMin)}px`;
-                              if (dx) dx.textContent = `${remToPx(tier.deskMax)}px`;
+                              if (mm)
+                                mm.textContent = `${remToPx(tier.mobMin)}px`;
+                              if (mx)
+                                mx.textContent = `${remToPx(tier.mobMax)}px`;
+                              if (tm)
+                                tm.textContent = `${remToPx(tier.tabMin)}px`;
+                              if (tx)
+                                tx.textContent = `${remToPx(tier.tabMax)}px`;
+                              if (dm)
+                                dm.textContent = `${remToPx(tier.deskMin)}px`;
+                              if (dx)
+                                dx.textContent = `${remToPx(tier.deskMax)}px`;
                             }
                           });
                         }
                       }}
-                      className="px-4 py-2.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 transition flex items-center gap-2">
+                      className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 transition hover:bg-white/10"
+                    >
                       ↺ Reset All to Defaults
                     </button>
                   </div>
@@ -2196,27 +2968,32 @@ ${deskRules.join("\n")}
 
                 {/* CSS Export Modal Drawer */}
                 {showCssModal && (
-                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] animate-fadeIn">
-                    <div className="relative w-full max-w-3xl bg-[#0d0914] border border-purple-500/30 rounded-lg p-6 space-y-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                  <div className="animate-fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+                    <div className="relative w-full max-w-3xl space-y-4 rounded-lg border border-purple-500/30 bg-[#0d0914] p-6">
+                      <div className="flex items-center justify-between border-b border-white/10 pb-3">
                         <div className="flex items-center gap-3">
-                          <span className="w-3 h-3 rounded-lg bg-emerald-400 animate-ping" />
-                          <h3 >
-                            Global CSS Saved to Clipboard
-                          </h3>
+                          <span className="h-3 w-3 animate-ping rounded-lg bg-emerald-400" />
+                          <h3>Global CSS Saved to Clipboard</h3>
                         </div>
                         <button
                           onClick={() => setShowCssModal(false)}
-                          className="text-white/40 hover:text-white text-xl p-1 transition">
+                          className="p-1 text-xl text-white/40 transition hover:text-white"
+                        >
                           ✕
                         </button>
                       </div>
 
                       <p>
-                        The CSS below has been copied to your clipboard. Paste this block directly into <code className="text-purple-400">src/app/globals.css</code> to make your fluid typography settings permanent globally across the entire site.
+                        The CSS below has been copied to your clipboard. Paste
+                        this block directly into{" "}
+                        <code className="text-purple-400">
+                          src/app/globals.css
+                        </code>{" "}
+                        to make your fluid typography settings permanent
+                        globally across the entire site.
                       </p>
 
-                      <pre className="p-4 rounded-lg bg-black/60 border border-white/10 text-emerald-400 text-[11px] max-h-80 overflow-y-auto select-all">
+                      <pre className="max-h-80 overflow-y-auto rounded-lg border border-white/10 bg-black/60 p-4 text-[11px] text-emerald-400 select-all">
                         {generatedCssExport}
                       </pre>
 
@@ -2227,12 +3004,14 @@ ${deskRules.join("\n")}
                             setCssCopied(true);
                             setTimeout(() => setCssCopied(false), 2000);
                           }}
-                          className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 transition">
+                          className="rounded-lg bg-purple-600 px-4 py-2 transition hover:bg-purple-500"
+                        >
                           📋 Copy Again
                         </button>
                         <button
                           onClick={() => setShowCssModal(false)}
-                          className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition">
+                          className="rounded-lg bg-white/10 px-4 py-2 transition hover:bg-white/20"
+                        >
                           Close
                         </button>
                       </div>
@@ -2245,67 +3024,88 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 2: COLORS */}
-        <section id="colors" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <section
+          id="colors"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
+          <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 md:flex-row md:items-center">
             <div>
-              <h2 className=" flex items-center gap-2">
-                <Palette className="w-6 h-6" /> 2. Full Color Palette & Swatches
+              <h2 className="flex items-center gap-2">
+                <Palette className="h-6 w-6" /> 2. Full Color Palette & Swatches
               </h2>
-              <p >
-                Standard CSS custom variables and live theme color tokens across background, text, accent, status, and borders.
+              <p>
+                Standard CSS custom variables and live theme color tokens across
+                background, text, accent, status, and borders.
               </p>
             </div>
           </div>
 
           {/* White Standard Callout */}
-          <div className="p-5 rounded-lg bg-white/[0.03] border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 rounded-lg border border-purple-500/30 bg-white/[0.03] p-5 md:flex-row md:items-center">
             <div>
-              <span className="text-purple-400 block mb-1">
+              <span className="mb-1 block text-purple-400">
                 Standardized White Palette Rules
               </span>
-              <h3 >The Two White Palette: Solid White & 0.5 White</h3>
-              <p >
-                Our site design strictly uses only two shades of white: <strong >Solid White (#ffffff / 100%)</strong> for primary text and titles, and <strong className="text-white/70">0.5 White (rgba(255, 255, 255, 0.5) / 50%)</strong> for secondary text, labels, and muted metadata.
+              <h3>The Two White Palette: Solid White & 0.5 White</h3>
+              <p>
+                Our site design strictly uses only two shades of white:{" "}
+                <strong>Solid White (#ffffff / 100%)</strong> for primary text
+                and titles, and{" "}
+                <strong className="text-white/70">
+                  0.5 White (rgba(255, 255, 255, 0.5) / 50%)
+                </strong>{" "}
+                for secondary text, labels, and muted metadata.
               </p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="px-4 py-2 rounded-lg bg-white text-black">
+            <div className="flex shrink-0 items-center gap-3">
+              <div className="rounded-lg bg-white px-4 py-2 text-black">
                 Solid White (#ffffff)
               </div>
-              <div className="px-4 py-2 rounded-lg bg-[#00000029] 0   border border-white/10">
+              <div className="0 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2">
                 0.5 White (50%)
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {Object.entries(tokens.colors || {}).map(([varName, colorVal]) => (
               <div
                 key={varName}
                 onClick={() => handleCopyToken(varName, colorVal)}
-                className="group relative p-3 rounded-lg bg-[#0d091a] border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex flex-col justify-between h-40">
+                className="group relative flex h-40 cursor-pointer flex-col justify-between rounded-lg border border-white/10 bg-[#0d091a] p-3 transition hover:border-purple-500/40"
+              >
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
-                  className="w-full h-20 rounded-lg border border-white/10 overflow-hidden relative flex items-center justify-center transition group-hover:scale-[1.02]"
+                  className="relative flex h-20 w-full items-center justify-center overflow-hidden rounded-lg border border-white/10 transition group-hover:scale-[1.02]"
                   style={{
                     backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
                     backgroundSize: "8px 8px",
                     backgroundColor: "#05030a",
-                  }}>
+                  }}
+                >
                   <div
                     className="absolute inset-0 flex items-center justify-center"
-                    style={{ backgroundColor: colorVal.startsWith("var(") ? "#9333ea" : colorVal }}>
-                    <span className="opacity-0 group-hover:opacity-100 transition text-[10px] bg-black/80 px-2 py-1 rounded flex items-center gap-1">
-                      {copiedToken === varName ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    style={{
+                      backgroundColor: colorVal.startsWith("var(")
+                        ? "#9333ea"
+                        : colorVal,
+                    }}
+                  >
+                    <span className="flex items-center gap-1 rounded bg-black/80 px-2 py-1 text-[10px] opacity-0 transition group-hover:opacity-100">
+                      {copiedToken === varName ? (
+                        <Check className="h-3 w-3 text-emerald-400" />
+                      ) : (
+                        <Copy className="h-3 w-3" />
+                      )}
                       {copiedToken === varName ? "Copied!" : "Copy"}
                     </span>
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] /90 truncate" title={varName}>
+                  <div className="/90 truncate text-[11px]" title={varName}>
                     {varName.replace("--color-", "").replace("--chat-", "")}
                   </div>
-                  <div className="text-[10px] text-white/50 truncate">
+                  <div className="truncate text-[10px] text-white/50">
                     {colorVal}
                   </div>
                 </div>
@@ -2314,36 +3114,52 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Inline Theme Token Editor */}
-          <div className="p-5 rounded-lg bg-black/40 border border-purple-500/30 space-y-4">
-            <h3 className=" flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-purple-400" /> Quick Theme Token Overrides
+          <div className="space-y-4 rounded-lg border border-purple-500/30 bg-black/40 p-5">
+            <h3 className="flex items-center gap-2">
+              <Sliders className="h-4 w-4 text-purple-400" /> Quick Theme Token
+              Overrides
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               <div>
-                <label className="block mb-1">Accent Glow Color</label>
+                <label className="mb-1 block">Accent Glow Color</label>
                 <input
                   type="text"
-                  value={tokens.colors["--color-accent-glow"] || "rgba(147, 51, 234, 0.4)"}
-                  onChange={(e) => updateToken("colors", "--color-accent-glow", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 focus:border-purple-500 outline-none"
+                  value={
+                    tokens.colors["--color-accent-glow"] ||
+                    "rgba(147, 51, 234, 0.4)"
+                  }
+                  onChange={(e) =>
+                    updateToken("colors", "--color-accent-glow", e.target.value)
+                  }
+                  className="w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 outline-none focus:border-purple-500"
                 />
               </div>
               <div>
-                <label className="block mb-1">Border Main Color</label>
+                <label className="mb-1 block">Border Main Color</label>
                 <input
                   type="text"
-                  value={tokens.colors["--color-border-main"] || "rgba(255, 255, 255, 0.08)"}
-                  onChange={(e) => updateToken("colors", "--color-border-main", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 focus:border-purple-500 outline-none"
+                  value={
+                    tokens.colors["--color-border-main"] ||
+                    "rgba(255, 255, 255, 0.08)"
+                  }
+                  onChange={(e) =>
+                    updateToken("colors", "--color-border-main", e.target.value)
+                  }
+                  className="w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 outline-none focus:border-purple-500"
                 />
               </div>
               <div>
-                <label className="block mb-1">Chat Glow Color</label>
+                <label className="mb-1 block">Chat Glow Color</label>
                 <input
                   type="text"
-                  value={tokens.colors["--chat-glow-color"] || "rgba(168, 85, 247, 0.35)"}
-                  onChange={(e) => updateToken("colors", "--chat-glow-color", e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#00000029] border border-white/10 focus:border-purple-500 outline-none"
+                  value={
+                    tokens.colors["--chat-glow-color"] ||
+                    "rgba(168, 85, 247, 0.35)"
+                  }
+                  onChange={(e) =>
+                    updateToken("colors", "--chat-glow-color", e.target.value)
+                  }
+                  className="w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 outline-none focus:border-purple-500"
                 />
               </div>
             </div>
@@ -2351,13 +3167,19 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 3: BUTTONS */}
-        <section id="buttons" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="buttons"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-emerald-400 flex items-center gap-2">
-              <MousePointer className="w-6 h-6" /> 3. Button Master Gallery & Interactive Studio
+            <h2 className="flex items-center gap-2 text-emerald-400">
+              <MousePointer className="h-6 w-6" /> 3. Button Master Gallery &
+              Interactive Studio
             </h2>
             <p className="text-sm text-white/60">
-              Interactive playground and visual control suite for every button component, style variant, and state across the entire 7th Heaven web app.
+              Interactive playground and visual control suite for every button
+              component, style variant, and state across the entire 7th Heaven
+              web app.
             </p>
           </div>
 
@@ -2365,80 +3187,93 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 4: FORM ELEMENTS */}
-        <section id="form-elements" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="form-elements"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-amber-400 flex items-center gap-2">
-              <Layout className="w-6 h-6" /> 4. Form Elements & Real Controls
+            <h2 className="flex items-center gap-2 text-amber-400">
+              <Layout className="h-6 w-6" /> 4. Form Elements & Real Controls
             </h2>
-            <p >
-              Text inputs, search inputs, textareas, checkboxes, radios, switches, and select dropdowns across Default, Focused, Filled, Error, and Disabled states.
+            <p>
+              Text inputs, search inputs, textareas, checkboxes, radios,
+              switches, and select dropdowns across Default, Focused, Filled,
+              Error, and Disabled states.
             </p>
           </div>
 
-
           {/* Interactive Form Controls grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Text Inputs */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <h3>Text Inputs</h3>
 
               {/* Default */}
               <div>
-                <label className="block text-white/70 mb-1">Default State</label>
+                <label className="mb-1 block text-white/70">
+                  Default State
+                </label>
                 <div className="input-glow-border rounded-lg">
                   <input
                     type="text"
                     placeholder="Enter full name..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10   placeholder-white/40 outline-none transition"
+                    className="w-full rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 placeholder-white/40 transition outline-none"
                   />
                 </div>
               </div>
 
               {/* Focused / Active */}
               <div>
-                <label className="block text-purple-300 mb-1">Focused / Active State</label>
-                <div className="input-glow-border rounded-lg active">
+                <label className="mb-1 block text-purple-300">
+                  Focused / Active State
+                </label>
+                <div className="input-glow-border active rounded-lg">
                   <input
                     type="text"
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/10 border-none   outline-none transition"
+                    className="w-full rounded-lg border-none bg-white/10 px-4 py-2.5 transition outline-none"
                   />
                 </div>
               </div>
 
               {/* Error */}
               <div>
-                <label className="block text-red-400 mb-1">Error State</label>
+                <label className="mb-1 block text-red-400">Error State</label>
                 <input
                   type="text"
                   value="invalid_email_format"
                   readOnly
-                  className="w-full px-4 py-2.5 rounded-lg bg-red-500/10 border border-red-500/50 text-red-300 outline-none focus:ring-1 focus:ring-red-400/50 transition"
+                  className="w-full rounded-lg border border-red-500/50 bg-red-500/10 px-4 py-2.5 text-red-300 transition outline-none focus:ring-1 focus:ring-red-400/50"
                 />
-                <span className="text-[10px] text-red-400 block">Please enter a valid email address.</span>
+                <span className="block text-[10px] text-red-400">
+                  Please enter a valid email address.
+                </span>
               </div>
 
               {/* Disabled */}
               <div>
-                <label className="block text-white/40 mb-1">Disabled State</label>
+                <label className="mb-1 block text-white/40">
+                  Disabled State
+                </label>
                 <input
                   type="text"
                   value="Read-only System ID: 7H-ADMIN-99"
                   disabled
-                  className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10 text-white/30 cursor-not-allowed"
+                  className="w-full cursor-not-allowed rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 text-white/30"
                 />
               </div>
             </div>
 
             {/* Search & Textarea */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <h3>Search & Textarea Controls</h3>
 
               {/* Search input with icon */}
               <div>
-                <label className="block text-white/70 mb-1">Search Bar (Global Reusable Component)</label>
+                <label className="mb-1 block text-white/70">
+                  Search Bar (Global Reusable Component)
+                </label>
                 <SearchInput
                   value={searchInput}
                   onChange={setSearchInput}
@@ -2449,26 +3284,30 @@ ${deskRules.join("\n")}
 
               {/* Textarea */}
               <div>
-                <label className="block text-white/70 mb-1">Textarea Input</label>
+                <label className="mb-1 block text-white/70">
+                  Textarea Input
+                </label>
                 <div className="input-glow-border w-full rounded-lg">
                   <textarea
                     rows={4}
                     value={textareaInput}
                     onChange={(e) => setTextareaInput(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border-none   placeholder-white/40 outline-none focus:ring-0 transition resize-none"
+                    className="w-full resize-none rounded-lg border-none bg-[#00000029] px-4 py-2.5 placeholder-white/40 transition outline-none focus:ring-0"
                   />
                 </div>
               </div>
             </div>
 
             {/* PIN / OTP Digit Input */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-5 md:col-span-2">
+            <div className="space-y-5 rounded-lg border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>PIN / OTP Digit Input</h3>
 
               {/* Default State */}
               <div>
-                <label className="block text-white/70 mb-2">Default State</label>
-                <div className="flex items-center gap-1.5 no-glow">
+                <label className="mb-2 block text-white/70">
+                  Default State
+                </label>
+                <div className="no-glow flex items-center gap-1.5">
                   {[
                     { id: "sg-def-slot-0", slotIndex: 0 },
                     { id: "sg-def-slot-1", slotIndex: 1 },
@@ -2479,10 +3318,15 @@ ${deskRules.join("\n")}
                   ].map(({ id, slotIndex: i }) => {
                     const digit = pinDefaultDigits[i];
                     return (
-                      <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0 transition-all duration-200">
+                      <div
+                        key={id}
+                        className="input-glow-border !h-14 !w-11 shrink-0 rounded-lg transition-all duration-200"
+                      >
                         <input
                           aria-label={`Default PIN digit ${i + 1}`}
-                          ref={el => { pinDefaultRefs.current[i] = el; }}
+                          ref={(el) => {
+                            pinDefaultRefs.current[i] = el;
+                          }}
                           type="text"
                           inputMode="numeric"
                           maxLength={1}
@@ -2491,9 +3335,11 @@ ${deskRules.join("\n")}
                           style={{ padding: 0 }}
                           onFocus={() => setPinDefaultFocusedIndex(i)}
                           onBlur={() => setPinDefaultFocusedIndex(null)}
-                          onChange={e => handlePinDefaultDigit(i, e.target.value)}
-                          onKeyDown={e => handlePinDefaultKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums placeholder-white/20 ${pinDefaultFocusedIndex === i ? 'border-white/40 ' : digit ? 'border-white/30 text-white/70' : ' border-white/10 text-white/40 hover:border-white/30'}`}
+                          onChange={(e) =>
+                            handlePinDefaultDigit(i, e.target.value)
+                          }
+                          onKeyDown={(e) => handlePinDefaultKeyDown(i, e)}
+                          className={`h-full w-full rounded-lg border-2 bg-black/70 !p-0 text-center text-xl tabular-nums placeholder-white/20 transition-all duration-200 outline-none ${pinDefaultFocusedIndex === i ? "border-white/40" : digit ? "border-white/30 text-white/70" : "border-white/10 text-white/40 hover:border-white/30"}`}
                         />
                       </div>
                     );
@@ -2503,8 +3349,10 @@ ${deskRules.join("\n")}
 
               {/* Interactive / Focused State */}
               <div>
-                <label className="block text-purple-300 mb-2">Interactive (Focus a box)</label>
-                <div className="flex items-center gap-1.5 no-glow">
+                <label className="mb-2 block text-purple-300">
+                  Interactive (Focus a box)
+                </label>
+                <div className="no-glow flex items-center gap-1.5">
                   {[
                     { id: "sg-foc-slot-0", slotIndex: 0 },
                     { id: "sg-foc-slot-1", slotIndex: 1 },
@@ -2515,10 +3363,15 @@ ${deskRules.join("\n")}
                   ].map(({ id, slotIndex: i }) => {
                     const digit = pinDigits[i];
                     return (
-                      <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0 transition-all duration-200">
+                      <div
+                        key={id}
+                        className="input-glow-border !h-14 !w-11 shrink-0 rounded-lg transition-all duration-200"
+                      >
                         <input
                           aria-label={`PIN digit ${i + 1}`}
-                          ref={el => { pinRefs.current[i] = el; }}
+                          ref={(el) => {
+                            pinRefs.current[i] = el;
+                          }}
                           type="text"
                           inputMode="numeric"
                           maxLength={1}
@@ -2526,9 +3379,9 @@ ${deskRules.join("\n")}
                           style={{ padding: 0 }}
                           onFocus={() => setPinFocusedIndex(i)}
                           onBlur={() => setPinFocusedIndex(null)}
-                          onChange={e => handlePinDigit(i, e.target.value)}
-                          onKeyDown={e => handlePinKeyDown(i, e)}
-                          className={`w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none transition-all duration-200 tabular-nums ${pinFocusedIndex === i ? 'border-purple-400 shadow-[0_0_25px_rgba(168,85,247,0.95)] bg-purple-950/80 scale-[1.08] z-10 relative' : digit ? 'border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]' : ' border-white/10 text-white/40 hover:border-white/40'}`}
+                          onChange={(e) => handlePinDigit(i, e.target.value)}
+                          onKeyDown={(e) => handlePinKeyDown(i, e)}
+                          className={`h-full w-full rounded-lg border-2 bg-black/70 !p-0 text-center text-xl tabular-nums transition-all duration-200 outline-none ${pinFocusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"}`}
                         />
                       </div>
                     );
@@ -2538,8 +3391,10 @@ ${deskRules.join("\n")}
 
               {/* Filled State */}
               <div>
-                <label className="block text-emerald-400 mb-2">Filled State</label>
-                <div className="flex items-center gap-1.5 no-glow">
+                <label className="mb-2 block text-emerald-400">
+                  Filled State
+                </label>
+                <div className="no-glow flex items-center gap-1.5">
                   {[
                     { id: "sg-filled-slot-0", char: "7" },
                     { id: "sg-filled-slot-1", char: "H" },
@@ -2548,7 +3403,10 @@ ${deskRules.join("\n")}
                     { id: "sg-filled-slot-4", char: "E" },
                     { id: "sg-filled-slot-5", char: "W" },
                   ].map(({ id, char: d }, i) => (
-                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
+                    <div
+                      key={id}
+                      className="input-glow-border !h-14 !w-11 shrink-0 rounded-lg"
+                    >
                       <input
                         aria-label={`Filled PIN digit ${i + 1}`}
                         type="text"
@@ -2557,7 +3415,7 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="w-full h-full text-center text-xl rounded-lg border-2 bg-black/70 !p-0 outline-none border-purple-500/80 text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] cursor-default"
+                        className="h-full w-full cursor-default rounded-lg border-2 border-purple-500/80 bg-black/70 !p-0 text-center text-xl text-purple-300 shadow-[0_0_14px_rgba(147,51,234,0.4)] outline-none"
                       />
                     </div>
                   ))}
@@ -2566,8 +3424,8 @@ ${deskRules.join("\n")}
 
               {/* Error State */}
               <div>
-                <label className="block text-red-400 mb-2">Error State</label>
-                <div className="flex items-center gap-1.5 no-glow">
+                <label className="mb-2 block text-red-400">Error State</label>
+                <div className="no-glow flex items-center gap-1.5">
                   {[
                     { id: "sg-err-slot-0", char: "X" },
                     { id: "sg-err-slot-1", char: "X" },
@@ -2576,7 +3434,10 @@ ${deskRules.join("\n")}
                     { id: "sg-err-slot-4", char: "X" },
                     { id: "sg-err-slot-5", char: "X" },
                   ].map(({ id, char: d }, i) => (
-                    <div key={id} className="input-glow-border !w-11 !h-14 rounded-lg shrink-0">
+                    <div
+                      key={id}
+                      className="input-glow-border !h-14 !w-11 shrink-0 rounded-lg"
+                    >
                       <input
                         aria-label={`Error PIN digit ${i + 1}`}
                         type="text"
@@ -2585,60 +3446,120 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="w-full h-full text-center text-xl rounded-lg border-2 bg-red-950/50 !p-0 outline-none border-red-500/70 text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] cursor-default animate-[shake_0.3s_ease-in-out]"
+                        className="h-full w-full animate-[shake_0.3s_ease-in-out] cursor-default rounded-lg border-2 border-red-500/70 bg-red-950/50 !p-0 text-center text-xl text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] outline-none"
                       />
                     </div>
                   ))}
                 </div>
-                <span className="text-[10px] text-red-400 .5 block">Invalid PIN. Please try again.</span>
+                <span className=".5 block text-[10px] text-red-400">
+                  Invalid PIN. Please try again.
+                </span>
               </div>
             </div>
 
             {/* Verify Module Cards */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+            <div className="space-y-6 rounded-lg border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
-              <p>Full glassmorphism verify card modules as used on <code className="text-purple-300">/crew/verify</code>, <code className="text-purple-300">/planner/verify</code>, <code className="text-purple-300">/cruise/verify</code>, and <code className="text-purple-300">/admin</code> (2FA).</p>
+              <p>
+                Full glassmorphism verify card modules as used on{" "}
+                <code className="text-purple-300">/crew/verify</code>,{" "}
+                <code className="text-purple-300">/planner/verify</code>,{" "}
+                <code className="text-purple-300">/cruise/verify</code>, and{" "}
+                <code className="text-purple-300">/admin</code> (2FA).
+              </p>
 
-              <div className="overflow-x-auto -mx-5 px-5">
-                <div className="grid grid-cols-4 gap-6 min-w-[900px]">
-
+              <div className="-mx-5 overflow-x-auto px-5">
+                <div className="grid min-w-[900px] grid-cols-4 gap-6">
                   {/* ── Crew Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="  mb-1">7th Heaven · Crew</p>
+                    <p className="mb-1">7th Heaven · Crew</p>
                     <h4 className="mb-1">Crew PIN Verification</h4>
-                    <p className="mb-6">Enter your 6-digit PIN to verify crew access</p>
+                    <p className="mb-6">
+                      Enter your 6-digit PIN to verify crew access
+                    </p>
                     <div
-                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      className="no-glow w-full rounded-lg px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(32px) saturate(180%)",
                         WebkitBackdropFilter: "blur(32px) saturate(180%)",
                         border: "1px solid rgba(168, 85, 247, 0.4)",
                         borderRadius: 24,
-                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                      }}>
-                      <p className="text-center mb-6">Enter 6-Digit PIN</p>
-                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                        boxShadow:
+                          "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
+                      <p className="mb-6 text-center">Enter 6-Digit PIN</p>
+                      <div className="no-glow mb-5 flex items-center justify-center gap-1.5">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`crew-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
-                            <input aria-label={`Crew PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          <div
+                            key={`crew-pin-${i}`}
+                            className="input-glow-border h-12 w-9 shrink-0 rounded-lg"
+                          >
+                            <input
+                              aria-label={`Crew PIN digit ${i + 1}`}
+                              type="text"
+                              inputMode="numeric"
+                              maxLength={1}
+                              style={{ padding: 0 }}
+                              className="h-full w-full rounded-lg border-2 border-white/10 bg-black/70 !p-0 text-center text-lg text-white/40 tabular-nums transition-all duration-200 outline-none hover:border-white/40"
+                            />
                           </div>
                         ))}
                       </div>
-                      <button disabled
-                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                      <button
+                        disabled
+                        style={{
+                          opacity: 0.35,
+                          background: "rgba(168,85,247,0.15)",
+                          border: "none",
+                          color: "rgba(255,255,255,0.4)",
+                        }}
+                        className="mb-3 w-full cursor-not-allowed rounded-lg py-3 text-[10px]"
+                      >
+                        Access My Dashboard →
+                      </button>
                       <div className="mt-3 text-center">
-                        <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
-                        <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                        <p
+                          style={{
+                            fontSize: 10,
+                            color: "rgba(255,255,255,0.35)",
+                            marginBottom: 4,
+                          }}
+                        >
+                          Didn&apos;t receive the code?
+                        </p>
+                        <button
+                          type="button"
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#a855f7",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Resend Code
+                        </button>
                       </div>
-                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer transition">← Back to Crew Page</p>
-                      <div className="flex items-center justify-center gap-2 mt-3">
-                        <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px]  ">7TH HEAVEN · CREW ACCESS</span>
-                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      <div
+                        style={{
+                          height: 1,
+                          background: "rgba(255,255,255,0.08)",
+                          margin: "14px 0",
+                        }}
+                      />
+                      <p className="cursor-pointer text-center transition">
+                        ← Back to Crew Page
+                      </p>
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        <div className="h-px flex-1 bg-white/[0.08]" />
+                        <span className="text-[8px]">
+                          7TH HEAVEN · CREW ACCESS
+                        </span>
+                        <div className="h-px flex-1 bg-white/[0.08]" />
                       </div>
                     </div>
                   </div>
@@ -2646,42 +3567,118 @@ ${deskRules.join("\n")}
                   {/* ── Planner Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <h4 className="mb-1">Planner Access PIN</h4>
-                    <p className="mb-6">Enter your 6-digit PIN to access your Planner Dashboard</p>
+                    <p className="mb-6">
+                      Enter your 6-digit PIN to access your Planner Dashboard
+                    </p>
                     <div
-                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      className="no-glow w-full rounded-lg px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(32px) saturate(180%)",
                         WebkitBackdropFilter: "blur(32px) saturate(180%)",
                         border: "1px solid rgba(168, 85, 247, 0.4)",
                         borderRadius: 24,
-                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                      }}>
-                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                        boxShadow:
+                          "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
+                      <div className="no-glow mb-5 flex items-center justify-center gap-1.5">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`planner-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
-                            <input aria-label={`Planner PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          <div
+                            key={`planner-pin-${i}`}
+                            className="input-glow-border h-12 w-9 shrink-0 rounded-lg"
+                          >
+                            <input
+                              aria-label={`Planner PIN digit ${i + 1}`}
+                              type="text"
+                              inputMode="numeric"
+                              maxLength={1}
+                              style={{ padding: 0 }}
+                              className="h-full w-full rounded-lg border-2 border-white/10 bg-black/70 !p-0 text-center text-lg text-white/40 tabular-nums transition-all duration-200 outline-none hover:border-white/40"
+                            />
                           </div>
                         ))}
                       </div>
-                      <button disabled
-                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
-                      <div className="space-y-1.5 mt-3 text-center">
-                        <button type="button" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.35)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Resend PIN</button>
-                        <button type="button" style={{ display: "block", margin: "4px auto 0", background: "none", border: "none", color: "rgba(168,85,247,0.8)", fontSize: 10, cursor: "pointer", textDecoration: "underline" }}>Need a PIN sent to your email?</button>
+                      <button
+                        disabled
+                        style={{
+                          opacity: 0.35,
+                          background: "rgba(168,85,247,0.15)",
+                          border: "none",
+                          color: "rgba(255,255,255,0.4)",
+                        }}
+                        className="mb-3 w-full cursor-not-allowed rounded-lg py-3 text-[10px]"
+                      >
+                        Access My Dashboard →
+                      </button>
+                      <div className="mt-3 space-y-1.5 text-center">
+                        <button
+                          type="button"
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "rgba(255,255,255,0.35)",
+                            fontSize: 10,
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Resend PIN
+                        </button>
+                        <button
+                          type="button"
+                          style={{
+                            display: "block",
+                            margin: "4px auto 0",
+                            background: "none",
+                            border: "none",
+                            color: "rgba(168,85,247,0.8)",
+                            fontSize: 10,
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Need a PIN sent to your email?
+                        </button>
                       </div>
-                      <p className="flex items-center justify-center gap-1.5 mt-4" style={{ color: "rgba(255,255,255,0.2)", fontSize: 9 }}>
-                        <svg className="w-3 h-3 opacity-60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <span>PIN expires in 10 minutes · Only admins can create planner accounts</span>
+                      <p
+                        className="mt-4 flex items-center justify-center gap-1.5"
+                        style={{ color: "rgba(255,255,255,0.2)", fontSize: 9 }}
+                      >
+                        <svg
+                          className="h-3 w-3 shrink-0 opacity-60"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <span>
+                          PIN expires in 10 minutes · Only admins can create
+                          planner accounts
+                        </span>
                       </p>
-                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer transition">← Back to Planner Page</p>
-                      <div className="flex items-center justify-center gap-2 mt-3">
-                        <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px]  ">7TH HEAVEN · PLANNER ACCESS</span>
-                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      <div
+                        style={{
+                          height: 1,
+                          background: "rgba(255,255,255,0.08)",
+                          margin: "14px 0",
+                        }}
+                      />
+                      <p className="cursor-pointer text-center transition">
+                        ← Back to Planner Page
+                      </p>
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        <div className="h-px flex-1 bg-white/[0.08]" />
+                        <span className="text-[8px]">
+                          7TH HEAVEN · PLANNER ACCESS
+                        </span>
+                        <div className="h-px flex-1 bg-white/[0.08]" />
                       </div>
                     </div>
                   </div>
@@ -2689,149 +3686,276 @@ ${deskRules.join("\n")}
                   {/* ── Cruise Verify Card ── */}
                   <div className="flex flex-col items-center">
                     <div className="mb-2">
-                      <span className="text-[12px] text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-3 py-1">7th Heaven Caribbean Cruise</span>
+                      <span className="rounded-lg border border-purple-500/30 bg-purple-500/15 px-3 py-1 text-[12px] text-purple-400">
+                        7th Heaven Caribbean Cruise
+                      </span>
                     </div>
                     <h4 className="mb-1">Check Your Email</h4>
-                    <p className="mb-1">We sent a 6-digit verification code to</p>
-                    <p className="text-purple-400 bg-purple-500/15 border border-purple-500/30 rounded-lg px-2.5 py-1 mb-6">your email address</p>
+                    <p className="mb-1">
+                      We sent a 6-digit verification code to
+                    </p>
+                    <p className="mb-6 rounded-lg border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 text-purple-400">
+                      your email address
+                    </p>
                     <div
-                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      className="no-glow w-full rounded-lg px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(32px) saturate(180%)",
                         WebkitBackdropFilter: "blur(32px) saturate(180%)",
                         border: "1px solid rgba(168, 85, 247, 0.4)",
                         borderRadius: 24,
-                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                      }}>
+                        boxShadow:
+                          "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
                       {/* Progress bar */}
-                      <div className="w-full h-0.5 bg-white/10 rounded-lg mb-5 overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg transition-all duration-300" style={{ width: "0%" }} />
+                      <div className="mb-5 h-0.5 w-full overflow-hidden rounded-lg bg-white/10">
+                        <div
+                          className="h-full rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
+                          style={{ width: "0%" }}
+                        />
                       </div>
-                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                      <div className="no-glow mb-5 flex items-center justify-center gap-1.5">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`cruise-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
-                            <input aria-label={`Cruise PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          <div
+                            key={`cruise-pin-${i}`}
+                            className="input-glow-border h-12 w-9 shrink-0 rounded-lg"
+                          >
+                            <input
+                              aria-label={`Cruise PIN digit ${i + 1}`}
+                              type="text"
+                              inputMode="numeric"
+                              maxLength={1}
+                              style={{ padding: 0 }}
+                              className="h-full w-full rounded-lg border-2 border-white/10 bg-black/70 !p-0 text-center text-lg text-white/40 tabular-nums transition-all duration-200 outline-none hover:border-white/40"
+                            />
                           </div>
                         ))}
                       </div>
-                      <button disabled
-                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                      <button
+                        disabled
+                        style={{
+                          opacity: 0.35,
+                          background: "rgba(168,85,247,0.15)",
+                          border: "none",
+                          color: "rgba(255,255,255,0.4)",
+                        }}
+                        className="mb-3 w-full cursor-not-allowed rounded-lg py-3 text-[10px]"
+                      >
+                        Access My Dashboard →
+                      </button>
                       <div className="mt-3 text-center">
-                        <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
-                        <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                        <p
+                          style={{
+                            fontSize: 10,
+                            color: "rgba(255,255,255,0.35)",
+                            marginBottom: 4,
+                          }}
+                        >
+                          Didn&apos;t receive the code?
+                        </p>
+                        <button
+                          type="button"
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#a855f7",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Resend Code
+                        </button>
                       </div>
-                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer transition">← Back to Cruise Page</p>
-                      <div className="flex items-center justify-center gap-2 mt-3">
-                        <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px]  ">7TH HEAVEN · CARIBBEAN CRUISE 2025</span>
-                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      <div
+                        style={{
+                          height: 1,
+                          background: "rgba(255,255,255,0.08)",
+                          margin: "14px 0",
+                        }}
+                      />
+                      <p className="cursor-pointer text-center transition">
+                        ← Back to Cruise Page
+                      </p>
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        <div className="h-px flex-1 bg-white/[0.08]" />
+                        <span className="text-[8px]">
+                          7TH HEAVEN · CARIBBEAN CRUISE 2025
+                        </span>
+                        <div className="h-px flex-1 bg-white/[0.08]" />
                       </div>
                     </div>
                   </div>
 
                   {/* ── Admin 2FA Verify Card ── */}
                   <div className="flex flex-col items-center">
-                    <p className="  mb-1">7th Heaven · Admin</p>
+                    <p className="mb-1">7th Heaven · Admin</p>
                     <h4 className="mb-1">Admin 2FA Verification</h4>
                     <p className="mb-6">Enter your 6-digit PIN after login</p>
                     <div
-                      className="rounded-lg px-4 py-6 w-full no-glow"
+                      className="no-glow w-full rounded-lg px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(32px) saturate(180%)",
                         WebkitBackdropFilter: "blur(32px) saturate(180%)",
                         border: "1px solid rgba(168, 85, 247, 0.4)",
                         borderRadius: 24,
-                        boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                      }}>
-                      <p className="text-center mb-6">Enter 6-Digit PIN</p>
-                      <div className="flex items-center justify-center gap-1.5 mb-5 no-glow">
+                        boxShadow:
+                          "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                      }}
+                    >
+                      <p className="mb-6 text-center">Enter 6-Digit PIN</p>
+                      <div className="no-glow mb-5 flex items-center justify-center gap-1.5">
                         {Array.from({ length: 6 }).map((_, i) => (
-                          <div key={`admin-pin-${i}`} className="input-glow-border w-9 h-12 rounded-lg shrink-0">
-                            <input aria-label={`Admin PIN digit ${i + 1}`} type="text" inputMode="numeric" maxLength={1} style={{ padding: 0 }}
-                              className="w-full h-full text-center text-lg rounded-lg border-2 bg-black/70 !p-0 outline-none border-white/10 text-white/40 hover:border-white/40 transition-all duration-200 tabular-nums" />
+                          <div
+                            key={`admin-pin-${i}`}
+                            className="input-glow-border h-12 w-9 shrink-0 rounded-lg"
+                          >
+                            <input
+                              aria-label={`Admin PIN digit ${i + 1}`}
+                              type="text"
+                              inputMode="numeric"
+                              maxLength={1}
+                              style={{ padding: 0 }}
+                              className="h-full w-full rounded-lg border-2 border-white/10 bg-black/70 !p-0 text-center text-lg text-white/40 tabular-nums transition-all duration-200 outline-none hover:border-white/40"
+                            />
                           </div>
                         ))}
                       </div>
-                      <button disabled
-                        style={{ opacity: 0.35, background: "rgba(168,85,247,0.15)", border: "none", color: "rgba(255,255,255,0.4)" }}
-                        className="w-full py-3 text-[10px] cursor-not-allowed rounded-lg mb-3">Access My Dashboard →</button>
+                      <button
+                        disabled
+                        style={{
+                          opacity: 0.35,
+                          background: "rgba(168,85,247,0.15)",
+                          border: "none",
+                          color: "rgba(255,255,255,0.4)",
+                        }}
+                        className="mb-3 w-full cursor-not-allowed rounded-lg py-3 text-[10px]"
+                      >
+                        Access My Dashboard →
+                      </button>
                       <div className="mt-3 text-center">
-                        <p style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>Didn&apos;t receive the code?</p>
-                        <button type="button" style={{ background: "none", border: "none", color: "#a855f7", fontSize: 10, fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}>Resend Code</button>
+                        <p
+                          style={{
+                            fontSize: 10,
+                            color: "rgba(255,255,255,0.35)",
+                            marginBottom: 4,
+                          }}
+                        >
+                          Didn&apos;t receive the code?
+                        </p>
+                        <button
+                          type="button"
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "#a855f7",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          Resend Code
+                        </button>
                       </div>
-                      <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "14px 0" }} />
-                      <p className="text-center cursor-pointer transition">← Back to Login</p>
-                      <div className="flex items-center justify-center gap-2 mt-3">
-                        <div className="flex-1 h-px bg-white/[0.08]" />
-                        <span className="text-[8px]  ">7TH HEAVEN · ADMIN ACCESS</span>
-                        <div className="flex-1 h-px bg-white/[0.08]" />
+                      <div
+                        style={{
+                          height: 1,
+                          background: "rgba(255,255,255,0.08)",
+                          margin: "14px 0",
+                        }}
+                      />
+                      <p className="cursor-pointer text-center transition">
+                        ← Back to Login
+                      </p>
+                      <div className="mt-3 flex items-center justify-center gap-2">
+                        <div className="h-px flex-1 bg-white/[0.08]" />
+                        <span className="text-[8px]">
+                          7TH HEAVEN · ADMIN ACCESS
+                        </span>
+                        <div className="h-px flex-1 bg-white/[0.08]" />
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
 
             {/* Auth Modal Modules */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-6 md:col-span-2">
+            <div className="space-y-6 rounded-lg border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>Auth Modal Modules (Sign In · Sign Up)</h3>
-              <p>Full glassmorphism authentication modal cards as used in <code className="text-purple-300">LoginModal.tsx</code> for fan and member login/signup.</p>
+              <p>
+                Full glassmorphism authentication modal cards as used in{" "}
+                <code className="text-purple-300">LoginModal.tsx</code> for fan
+                and member login/signup.
+              </p>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {/* ── Sign In Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="  mb-1">7th Heaven · Auth</p>
+                  <p className="mb-1">7th Heaven · Auth</p>
                   <h4 className="mb-1">Sign In Modal</h4>
                   <p className="mb-6">Existing member login interface</p>
                   <div
-                    className="rounded-lg p-6 w-full no-glow relative"
+                    className="no-glow relative w-full rounded-lg p-6"
                     style={{
                       background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(32px) saturate(180%)",
                       WebkitBackdropFilter: "blur(32px) saturate(180%)",
                       border: "1px solid rgba(168, 85, 247, 0.4)",
                       borderRadius: 24,
-                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                    }}>
+                      boxShadow:
+                        "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                    }}
+                  >
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition">✕</div>
+                    <div className="absolute top-4 right-4 flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-white/10 transition hover:bg-white/20">
+                      ✕
+                    </div>
 
                     {/* Logo Header */}
-                    <div className="text-center mb-5">
+                    <div className="mb-5 text-center">
                       <h2 className="er italic">
-                        <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
+                        <span className="text-[var(--color-accent)]">7</span>th{" "}
+                        <span className="text-[var(--color-accent)] not-italic">
+                          HEAVEN
+                        </span>
                       </h2>
-                      <div className=" ">
-                        SIGN IN TO YOUR ACCOUNT
-                      </div>
+                      <div className=" ">SIGN IN TO YOUR ACCOUNT</div>
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-6 select-none">
-                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
-                      <button className="relative z-10 py-2 text-center">Sign In</button>
-                      <button className="relative z-10 py-2 text-center">Sign Up</button>
+                    <div className="relative mb-6 grid grid-cols-2 rounded-lg border border-white/10 bg-white/10 p-1 backdrop-blur-[45px] select-none">
+                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-lg bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
+                      <button className="relative z-10 py-2 text-center">
+                        Sign In
+                      </button>
+                      <button className="relative z-10 py-2 text-center">
+                        Sign Up
+                      </button>
                     </div>
 
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-white/70 block text-left">ACCOUNT TYPE:</span>
+                        <span className="block text-left text-[10px] text-white/70">
+                          ACCOUNT TYPE:
+                        </span>
                       </div>
-                      <div className="grid grid-cols-5 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
-                        {(['fan', 'crew', 'planner', 'cruise', 'admin'] as const).map((r) => (
+                      <div className="grid grid-cols-5 gap-1 rounded-lg border border-white/10 bg-black/40 p-1 backdrop-blur-[45px] select-none">
+                        {(
+                          ["fan", "crew", "planner", "cruise", "admin"] as const
+                        ).map((r) => (
                           <button
                             key={r}
                             type="button"
                             onClick={() => setSignInRole(r as any)}
-                            className={`py-1.5 px-1 text-[10px] rounded-lg text-center transition-all cursor-pointer ${signInRole === (r as any) ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40" : " text-white/50 hover:text-white /90"}`}>
+                            className={`cursor-pointer rounded-lg px-1 py-1.5 text-center text-[10px] transition-all ${signInRole === (r as any) ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "/90 text-white/50 hover:text-white"}`}
+                          >
                             {r}
                           </button>
                         ))}
@@ -2839,45 +3963,96 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Form Fields */}
-                    <div className="space-y-3 mb-6">
+                    <div className="mb-6 space-y-3">
                       <div>
-                        <label className="text-[10px]   mb-1 block">EMAIL</label>
-                        <div className="input-glow-border  w-full">
-                          <input type="email" readOnly value="your@email.com" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                        <label className="mb-1 block text-[10px]">EMAIL</label>
+                        <div className="input-glow-border w-full">
+                          <input
+                            type="email"
+                            readOnly
+                            value="your@email.com"
+                            className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-white/50 outline-none"
+                          />
                         </div>
                       </div>
                       <div>
-                        <label className="text-[10px]   mb-1 block">PASSWORD</label>
-                        <div className="input-glow-border  w-full">
-                          <input type="password" readOnly value="••••••••" className="w-full px-4 py-2.5 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                        <label className="mb-1 block text-[10px]">
+                          PASSWORD
+                        </label>
+                        <div className="input-glow-border w-full">
+                          <input
+                            type="password"
+                            readOnly
+                            value="••••••••"
+                            className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-white/50 outline-none"
+                          />
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="text-[11px] text-purple-300 hover:text-white cursor-pointer">Forgot Password?</span>
+                        <span className="cursor-pointer text-[11px] text-purple-300 hover:text-white">
+                          Forgot Password?
+                        </span>
                       </div>
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 rounded-lg mb-6 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                    <button
+                      disabled
+                      style={{
+                        opacity: 0.9,
+                        background: "linear-gradient(135deg,#7c00ff,#a855f7)",
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      className="mb-6 w-full rounded-lg py-3 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                    >
                       SIGN IN
                     </button>
 
                     {/* Divider & Socials */}
-                    <div className="relative text-center my-4">
-                      <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
-                      <span className="relative bg-[#120a22] px-3 text-[12px] text-white/40">OR CONTINUE WITH</span>
+                    <div className="relative my-4 text-center">
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-white/10" />
+                      </div>
+                      <span className="relative bg-[#120a22] px-3 text-[12px] text-white/40">
+                        OR CONTINUE WITH
+                      </span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      <button className="py-2.5 bg-[#EA4335] hover:bg-[#d9382a] border border-red-500/30 rounded-lg text-center transition flex items-center justify-center gap-1.5">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" /></svg>
+                      <button className="flex items-center justify-center gap-1.5 rounded-lg border border-red-500/30 bg-[#EA4335] py-2.5 text-center transition hover:bg-[#d9382a]">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="#FFFFFF"
+                        >
+                          <path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" />
+                        </svg>
                         Google
                       </button>
-                      <button className="py-2.5 bg-[#1877F2] hover:bg-[#166fe5] border border-blue-400/30 rounded-lg text-center transition flex items-center justify-center gap-1.5">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                      <button className="flex items-center justify-center gap-1.5 rounded-lg border border-blue-400/30 bg-[#1877F2] py-2.5 text-center transition hover:bg-[#166fe5]">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="#FFFFFF"
+                        >
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
                         Facebook
                       </button>
-                      <button style={{ backgroundColor: "#000000" }} className="py-2.5 hover:bg-zinc-900 border-none rounded-lg text-center transition flex items-center justify-center gap-1.5">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" /></svg>
+                      <button
+                        style={{ backgroundColor: "#000000" }}
+                        className="flex items-center justify-center gap-1.5 rounded-lg border-none py-2.5 text-center transition hover:bg-zinc-900"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.641-.026 2.669-1.48 3.666-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.246-3.83-1.207.052-2.662.805-3.532 1.818-.688.792-1.35 2.233-1.168 3.61 1.343.104 2.61-.69 3.454-1.598z" />
+                        </svg>
                         Apple
                       </button>
                     </div>
@@ -2886,49 +4061,67 @@ ${deskRules.join("\n")}
 
                 {/* ── Sign Up Modal Card ── */}
                 <div className="flex flex-col items-center">
-                  <p className="  mb-1">7th Heaven · Auth</p>
+                  <p className="mb-1">7th Heaven · Auth</p>
                   <h4 className="mb-1">Sign Up Modal</h4>
                   <p className="mb-6">New fan registration interface</p>
                   <div
-                    className="rounded-lg p-6 w-full no-glow relative"
+                    className="no-glow relative w-full rounded-lg p-6"
                     style={{
                       background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(32px) saturate(180%)",
                       WebkitBackdropFilter: "blur(32px) saturate(180%)",
                       border: "1px solid rgba(168, 85, 247, 0.4)",
                       borderRadius: 24,
-                      boxShadow: "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
-                    }}>
+                      boxShadow:
+                        "0 0 35px rgba(168, 85, 247, 0.25), 0 30px 90px rgba(0, 0, 0, 0.7)",
+                    }}
+                  >
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition">✕</div>
+                    <div className="absolute top-4 right-4 flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-white/10 transition hover:bg-white/20">
+                      ✕
+                    </div>
 
                     {/* Logo Header */}
-                    <div className="text-center mb-5">
+                    <div className="mb-5 text-center">
                       <h2 className="er italic">
-                        <span className="text-[var(--color-accent)]">7</span>th <span className="text-[var(--color-accent)] not-italic">HEAVEN</span>
+                        <span className="text-[var(--color-accent)]">7</span>th{" "}
+                        <span className="text-[var(--color-accent)] not-italic">
+                          HEAVEN
+                        </span>
                       </h2>
-                      <div className="  flex items-center justify-center gap-1 flex-wrap">
-                        SIGN UP FOR FREE <span className="bg-[var(--color-accent)] px-2 py-0.5 rounded-lg border border-[var(--color-accent)]/40">FAN</span> MEMBERSHIP
+                      <div className="flex flex-wrap items-center justify-center gap-1">
+                        SIGN UP FOR FREE{" "}
+                        <span className="rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)] px-2 py-0.5">
+                          FAN
+                        </span>{" "}
+                        MEMBERSHIP
                       </div>
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative grid grid-cols-2 p-1 bg-white/10 backdrop-blur-[45px] border border-white/10 rounded-lg mb-6 select-none">
-                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] rounded-lg shadow-[0_0_15px_rgba(124,0,255,0.6)] translate-x-full" />
-                      <button className="relative z-10 py-2 text-center">Sign In</button>
-                      <button className="relative z-10 py-2 text-center">Sign Up</button>
+                    <div className="relative mb-6 grid grid-cols-2 rounded-lg border border-white/10 bg-white/10 p-1 backdrop-blur-[45px] select-none">
+                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] translate-x-full rounded-lg bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
+                      <button className="relative z-10 py-2 text-center">
+                        Sign In
+                      </button>
+                      <button className="relative z-10 py-2 text-center">
+                        Sign Up
+                      </button>
                     </div>
 
                     {/* Account Type Toggle */}
                     <div className="my-3 space-y-1.5">
-                      <span className="text-[10px] text-white/70 block text-left">ACCOUNT TYPE:</span>
-                      <div className="grid grid-cols-2 p-1 bg-black/40 backdrop-blur-[45px] border border-white/10 rounded-lg gap-1 select-none">
-                        {(['fan', 'planner'] as const).map((r) => (
+                      <span className="block text-left text-[10px] text-white/70">
+                        ACCOUNT TYPE:
+                      </span>
+                      <div className="grid grid-cols-2 gap-1 rounded-lg border border-white/10 bg-black/40 p-1 backdrop-blur-[45px] select-none">
+                        {(["fan", "planner"] as const).map((r) => (
                           <button
                             key={r}
                             type="button"
                             onClick={() => setSignUpRole(r)}
-                            className={`py-1.5 px-2 text-[10px] rounded-lg text-center transition-all cursor-pointer ${signUpRole === r ? "bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)] border border-purple-400/40" : " text-white/50 hover:text-white /90"}`}>
+                            className={`cursor-pointer rounded-lg px-2 py-1.5 text-center text-[10px] transition-all ${signUpRole === r ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "/90 text-white/50 hover:text-white"}`}
+                          >
                             {r}
                           </button>
                         ))}
@@ -2936,34 +4129,65 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Form Fields */}
-                    <div className="space-y-3 mb-6">
-                      {signUpRole === 'planner' ? (
+                    <div className="mb-6 space-y-3">
+                      {signUpRole === "planner" ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px]   mb-1 block">FULL NAME</label>
-                            <div className="input-glow-border  w-full">
-                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                            <label className="mb-1 block text-[10px]">
+                              FULL NAME
+                            </label>
+                            <div className="input-glow-border w-full">
+                              <input
+                                type="text"
+                                readOnly
+                                value="Your full name"
+                                className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                              />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px]   mb-1 block">COMPANY / VENUE NAME</label>
-                            <div className="input-glow-border  w-full">
-                              <input type="text" readOnly value="e.g. Dream Events / Venue" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                            <label className="mb-1 block text-[10px]">
+                              COMPANY / VENUE NAME
+                            </label>
+                            <div className="input-glow-border w-full">
+                              <input
+                                type="text"
+                                readOnly
+                                value="e.g. Dream Events / Venue"
+                                className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                              />
                             </div>
                           </div>
                         </div>
-                      ) : signUpRole === 'cruise' ? (
+                      ) : signUpRole === "cruise" ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="text-[10px]   mb-1 block">FULL NAME</label>
-                            <div className="input-glow-border  w-full">
-                              <input type="text" readOnly value="Your full name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                            <label className="mb-1 block text-[10px]">
+                              FULL NAME
+                            </label>
+                            <div className="input-glow-border w-full">
+                              <input
+                                type="text"
+                                readOnly
+                                value="Your full name"
+                                className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                              />
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px]   mb-1 block">STATEROOM # <span className="text-white/40 font-normal">(optional)</span></label>
-                            <div className="input-glow-border  w-full">
-                              <input type="text" readOnly value="e.g. Stateroom 7102" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                            <label className="mb-1 block text-[10px]">
+                              STATEROOM #{" "}
+                              <span className="font-normal text-white/40">
+                                (optional)
+                              </span>
+                            </label>
+                            <div className="input-glow-border w-full">
+                              <input
+                                type="text"
+                                readOnly
+                                value="e.g. Stateroom 7102"
+                                className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                              />
                             </div>
                           </div>
                         </div>
@@ -2971,48 +4195,99 @@ ${deskRules.join("\n")}
                         <>
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="text-[10px]   mb-1 block">FULL NAME</label>
-                              <div className="input-glow-border  w-full">
-                                <input type="text" readOnly value="Your name" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                              <label className="mb-1 block text-[10px]">
+                                FULL NAME
+                              </label>
+                              <div className="input-glow-border w-full">
+                                <input
+                                  type="text"
+                                  readOnly
+                                  value="Your name"
+                                  className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                />
                               </div>
                             </div>
                             <div>
-                              <label className="text-[10px]   mb-1 block">USERNAME <span className="text-white/40 font-normal">(optional)</span></label>
-                              <div className="input-glow-border  w-full">
-                                <input type="text" readOnly value="e.g. rocknroller_7h" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                              <label className="mb-1 block text-[10px]">
+                                USERNAME{" "}
+                                <span className="font-normal text-white/40">
+                                  (optional)
+                                </span>
+                              </label>
+                              <div className="input-glow-border w-full">
+                                <input
+                                  type="text"
+                                  readOnly
+                                  value="e.g. rocknroller_7h"
+                                  className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                />
                               </div>
                             </div>
                           </div>
 
                           <div className="grid grid-cols-2 gap-3 pt-1">
                             <div className="flex items-center gap-2">
-                              <SquishyToggle id="preview-alerts" checked={previewAlerts} onChange={setPreviewAlerts} label="Show alerts near me" />
-                              <span className="text-[10px]  ">Show alerts near me</span>
+                              <SquishyToggle
+                                id="preview-alerts"
+                                checked={previewAlerts}
+                                onChange={setPreviewAlerts}
+                                label="Show alerts near me"
+                              />
+                              <span className="text-[10px]">
+                                Show alerts near me
+                              </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <SquishyToggle id="preview-news" checked={previewNews} onChange={setPreviewNews} label="News & updates" />
-                              <span className="text-[10px]  ">News & updates</span>
+                              <SquishyToggle
+                                id="preview-news"
+                                checked={previewNews}
+                                onChange={setPreviewNews}
+                                label="News & updates"
+                              />
+                              <span className="text-[10px]">
+                                News & updates
+                              </span>
                             </div>
                           </div>
 
                           {previewAlerts && (
                             <div className="pt-1">
-                              <label className="text-[10px]   mb-1 block">Zip Code & Radius</label>
+                              <label className="mb-1 block text-[10px]">
+                                Zip Code & Radius
+                              </label>
                               <div className="flex items-center gap-2">
-                                <div className="input-glow-border rounded-lg flex-1">
-                                  <input type="text" readOnly value="60601" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" placeholder="Zip code" />
+                                <div className="input-glow-border flex-1 rounded-lg">
+                                  <input
+                                    type="text"
+                                    readOnly
+                                    value="60601"
+                                    className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                    placeholder="Zip code"
+                                  />
                                 </div>
-                                <div className="shrink-0 relative z-30">
+                                <div className="relative z-30 shrink-0">
                                   <GooeyDropdown
                                     label={`${previewRadius} MI`}
                                     accentColor="#242630"
                                     glassOpacity={1.0}
                                     backdropBlur={0}
                                     items={[
-                                      { label: "15 MI", onClick: () => setPreviewRadius("15") },
-                                      { label: "25 MI", onClick: () => setPreviewRadius("25") },
-                                      { label: "50 MI", onClick: () => setPreviewRadius("50") },
-                                      { label: "100 MI", onClick: () => setPreviewRadius("100") },
+                                      {
+                                        label: "15 MI",
+                                        onClick: () => setPreviewRadius("15"),
+                                      },
+                                      {
+                                        label: "25 MI",
+                                        onClick: () => setPreviewRadius("25"),
+                                      },
+                                      {
+                                        label: "50 MI",
+                                        onClick: () => setPreviewRadius("50"),
+                                      },
+                                      {
+                                        label: "100 MI",
+                                        onClick: () => setPreviewRadius("100"),
+                                      },
                                     ]}
                                   />
                                 </div>
@@ -3024,58 +4299,94 @@ ${deskRules.join("\n")}
 
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="text-[10px]   mb-1 block">EMAIL</label>
-                          <div className="input-glow-border  w-full">
-                            <input type="email" readOnly value="your@email.com" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                          <label className="mb-1 block text-[10px]">
+                            EMAIL
+                          </label>
+                          <div className="input-glow-border w-full">
+                            <input
+                              type="email"
+                              readOnly
+                              value="your@email.com"
+                              className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                            />
                           </div>
                         </div>
                         <div>
-                          <label className="text-[10px]   mb-1 block">PASSWORD</label>
-                          <div className="input-glow-border  w-full">
-                            <input type="password" readOnly value="••••••••" className="w-full px-3 py-2 bg-black/60 border border-white/10 text-white/50 outline-none rounded-xl" />
+                          <label className="mb-1 block text-[10px]">
+                            PASSWORD
+                          </label>
+                          <div className="input-glow-border w-full">
+                            <input
+                              type="password"
+                              readOnly
+                              value="••••••••"
+                              className="w-full rounded-xl border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                            />
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-2 pt-1">
-                        <SquishyToggle id="preview-age" checked={previewAge} onChange={setPreviewAge} label="Age confirmation" />
-                        <span className="text-[10px]  ">I confirm that I am <strong className="text-purple-300">18 years of age or older</strong></span>
+                        <SquishyToggle
+                          id="preview-age"
+                          checked={previewAge}
+                          onChange={setPreviewAge}
+                          label="Age confirmation"
+                        />
+                        <span className="text-[10px]">
+                          I confirm that I am{" "}
+                          <strong className="text-purple-300">
+                            18 years of age or older
+                          </strong>
+                        </span>
                       </div>
                     </div>
 
                     {/* Submit CTA */}
-                    <button disabled style={{ opacity: 0.9, background: "linear-gradient(135deg,#7c00ff,#a855f7)", border: "none", color: "#fff" }} className="w-full py-3 rounded-lg mb-2 bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E]">
+                    <button
+                      disabled
+                      style={{
+                        opacity: 0.9,
+                        background: "linear-gradient(135deg,#7c00ff,#a855f7)",
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      className="mb-2 w-full rounded-lg bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] py-3"
+                    >
                       CREATE ACCOUNT
                     </button>
                   </div>
                 </div>
-
               </div>
             </div>
 
             {/* Checkboxes & Radios */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-              <h3 className="text-emerald-400 r">Checkboxes & Radio Controls</h3>
+            <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-5">
+              <h3 className="r text-emerald-400">
+                Checkboxes & Radio Controls
+              </h3>
 
               <div className="space-y-3">
-                <div className="flex items-center gap-3 cursor-pointer">
+                <div className="flex cursor-pointer items-center gap-3">
                   <SquishyToggle
                     id="sg-newsletter-toggle"
                     label="Subscribe to official band newsletter announcements"
                     checked={checkboxState}
                     onChange={setCheckboxState}
                   />
-                  <span className="/90">Subscribe to official band newsletter announcements</span>
+                  <span className="/90">
+                    Subscribe to official band newsletter announcements
+                  </span>
                 </div>
 
-                <div className="flex items-center gap-3 cursor-pointer">
+                <div className="flex cursor-pointer items-center gap-3">
                   <SquishyToggle
                     id="sg-unchecked-toggle"
                     label="Unchecked state"
                     checked={false}
-                    onChange={() => { }}
+                    onChange={() => {}}
                   />
-                  <span >Unchecked state</span>
+                  <span>Unchecked state</span>
                 </div>
 
                 <div className="flex items-center gap-3 opacity-40">
@@ -3084,34 +4395,36 @@ ${deskRules.join("\n")}
                     label="Disabled checked state"
                     disabled={true}
                     checked={true}
-                    onChange={() => { }}
+                    onChange={() => {}}
                   />
                   <span className="text-white/40">Disabled checked state</span>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-white/10 space-y-2">
-                <span className="text-white/70 block mb-2">Performance Tier Radio Group</span>
+              <div className="space-y-2 border-t border-white/10 pt-3">
+                <span className="mb-2 block text-white/70">
+                  Performance Tier Radio Group
+                </span>
                 <div className="flex flex-col gap-2">
-                  <label className="flex items-center gap-3 cursor-pointer">
+                  <label className="flex cursor-pointer items-center gap-3">
                     <input
                       type="radio"
                       name="tier"
                       value="full_band"
                       checked={radioState === "full_band"}
                       onChange={(e) => setRadioState(e.target.value)}
-                      className="w-4 h-4 text-purple-600 accent-purple-600 cursor-pointer"
+                      className="h-4 w-4 cursor-pointer text-purple-600 accent-purple-600"
                     />
                     <span className="/90">Full Electric Band (6-Piece)</span>
                   </label>
-                  <label className="flex items-center gap-3 cursor-pointer">
+                  <label className="flex cursor-pointer items-center gap-3">
                     <input
                       type="radio"
                       name="tier"
                       value="acoustic"
                       checked={radioState === "acoustic"}
                       onChange={(e) => setRadioState(e.target.value)}
-                      className="w-4 h-4 text-purple-600 accent-purple-600 cursor-pointer"
+                      className="h-4 w-4 cursor-pointer text-purple-600 accent-purple-600"
                     />
                     <span className=" ">Acoustic Trio Setup</span>
                   </label>
@@ -3120,14 +4433,16 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Switches & Toggles */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
-              <h3 className="text-pink-400 r">Toggles & Switches</h3>
+            <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-5">
+              <h3 className="r text-pink-400">Toggles & Switches</h3>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="/90 block">Push Notifications</span>
-                    <span className="text-[11px] text-white/50 block">Receive live show reminders</span>
+                    <span className="block text-[11px] text-white/50">
+                      Receive live show reminders
+                    </span>
                   </div>
                   <SquishyToggle
                     id="style-guide-push-notifications"
@@ -3140,43 +4455,52 @@ ${deskRules.join("\n")}
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="block">Disabled Toggle (Off)</span>
-                    <span className="text-[11px] text-white/40 block">System locked</span>
+                    <span className="block text-[11px] text-white/40">
+                      System locked
+                    </span>
                   </div>
                   <SquishyToggle
                     id="style-guide-disabled-toggle"
                     checked={false}
-                    onChange={() => { }}
+                    onChange={() => {}}
                     disabled
                     label="Disabled toggle"
                   />
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
         {/* SECTION 5: DROPDOWNS */}
-        <section id="dropdowns" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="dropdowns"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
-            <h2 className=" flex items-center gap-2">
-              <ChevronDown className="w-6 h-6" /> 5. Standardized Global Dropdowns
+            <h2 className="flex items-center gap-2">
+              <ChevronDown className="h-6 w-6" /> 5. Standardized Global
+              Dropdowns
             </h2>
-            <p >
-              Standardized dropdown implementation using our global border standard <code>rgba(255,255,255,0.08)</code>.
+            <p>
+              Standardized dropdown implementation using our global border
+              standard <code>rgba(255,255,255,0.08)</code>.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
-            <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+            <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between">
                 <h3>Default Site Pill Dropdown (`CITY ▼`)</h3>
-                <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Site-Wide Standard</span>
+                <span className="rounded border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
+                  Site-Wide Standard
+                </span>
               </div>
               <p>
-                Gooey animated glass filter pill dropdown with selection popup menu. Used across Tour List filters, booking forms, and site-wide dropdown controls.
+                Gooey animated glass filter pill dropdown with selection popup
+                menu. Used across Tour List filters, booking forms, and
+                site-wide dropdown controls.
               </p>
               <div className="pt-2">
                 <GooeyMessagesDropdown
@@ -3191,23 +4515,28 @@ ${deskRules.join("\n")}
                 />
               </div>
             </div>
-
           </div>
         </section>
 
         {/* SECTION 6: CHAT BOX COMPONENT */}
-        <section id="chat" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="border-b border-white/10 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <section
+          id="chat"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
+          <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 md:flex-row md:items-center">
             <div>
-              <h2 className=" flex items-center gap-2">
-                <MessageSquare className="w-6 h-6" /> 6. Live Chat Box Component
+              <h2 className="flex items-center gap-2">
+                <MessageSquare className="h-6 w-6" /> 6. Live Chat Box Component
               </h2>
-              <p >
-                Live interactive preview of <code className="text-purple-300">CruiseChat</code> with real-time UI controls for bubble radius, borders, opacity, font size, and per-user colors.
+              <p>
+                Live interactive preview of{" "}
+                <code className="text-purple-300">CruiseChat</code> with
+                real-time UI controls for bubble radius, borders, opacity, font
+                size, and per-user colors.
               </p>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex shrink-0 items-center gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -3228,9 +4557,16 @@ ${deskRules.join("\n")}
                   setCopiedSpec(true);
                   setTimeout(() => setCopiedSpec(null as any), 2500);
                 }}
-                className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 transition flex items-center gap-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)]">
-                {copiedSpec ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedSpec ? "CSS Specs Copied!" : "Copy Chat Style Spec"}</span>
+                className="flex items-center gap-1.5 rounded-lg bg-purple-600 px-3.5 py-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)] transition hover:bg-purple-500"
+              >
+                {copiedSpec ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-300" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
+                <span>
+                  {copiedSpec ? "CSS Specs Copied!" : "Copy Chat Style Spec"}
+                </span>
               </button>
 
               <button
@@ -3248,36 +4584,41 @@ ${deskRules.join("\n")}
                   setMultiUserColorMode(true);
                   setBubbleColorPalette("default");
                 }}
-                className="px-3 py-1.5 rounded-lg bg-[#00000029] hover:bg-white/10 border border-white/10 hover:text-white transition">
+                className="rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 transition hover:bg-white/10 hover:text-white"
+              >
                 Reset Controls
               </button>
             </div>
           </div>
 
           {/* Chat Bubble Customizer UI Control Bar */}
-          <div className="p-5 rounded-lg bg-white/[0.03] border border-white/10 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <h3 className=" flex items-center gap-2">
-                <Sliders className="w-4 h-4" /> Chat Bubble UI Controls Studio
+          <div className="space-y-6 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+              <h3 className="flex items-center gap-2">
+                <Sliders className="h-4 w-4" /> Chat Bubble UI Controls Studio
               </h3>
 
               {/* Multi-User Distinct Color Mode Toggle */}
-              <div className="flex items-center gap-2 bg-[#00000029] border border-white/10 p-1.5 rounded-xl">
-                <span className="text-[11px]   pl-1">Multi-User Unique Colors:</span>
+              <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#00000029] p-1.5">
+                <span className="pl-1 text-[11px]">
+                  Multi-User Unique Colors:
+                </span>
                 <button
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] transition ${multiUserColorMode ? "bg-emerald-600 " : "bg-white/10 text-white/50"}`}>
-                  {multiUserColorMode ? "ON (Unique Per Person)" : "OFF (Single Swatch)"}
+                  className={`rounded-lg px-2.5 py-1 text-[10px] transition ${multiUserColorMode ? "bg-emerald-600" : "bg-white/10 text-white/50"}`}
+                >
+                  {multiUserColorMode
+                    ? "ON (Unique Per Person)"
+                    : "OFF (Single Swatch)"}
                 </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
               {/* 1. Corner Radius Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center  ">
+                <div className="flex items-center justify-between">
                   <span>Corner Radius</span>
                   <span className="text-purple-300">{bubbleRadius}px</span>
                 </div>
@@ -3287,7 +4628,7 @@ ${deskRules.join("\n")}
                   max="32"
                   value={bubbleRadius}
                   onChange={(e) => setBubbleRadius(Number(e.target.value))}
-                  className="w-full accent-purple-500 bg-white/10 rounded-lg cursor-pointer"
+                  className="w-full cursor-pointer rounded-lg bg-white/10 accent-purple-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[0, 8, 16, 24].map((r) => (
@@ -3295,7 +4636,8 @@ ${deskRules.join("\n")}
                       key={r}
                       type="button"
                       onClick={() => setBubbleRadius(r)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleRadius === r ? "bg-purple-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${bubbleRadius === r ? "border-purple-400 bg-purple-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {r === 0 ? "0px" : `${r}px`}
                     </button>
                   ))}
@@ -3304,7 +4646,7 @@ ${deskRules.join("\n")}
 
               {/* 2. Border Width Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center  ">
+                <div className="flex items-center justify-between">
                   <span>Border Width</span>
                   <span>{bubbleBorderWidth}px</span>
                 </div>
@@ -3314,7 +4656,7 @@ ${deskRules.join("\n")}
                   max="6"
                   value={bubbleBorderWidth}
                   onChange={(e) => setBubbleBorderWidth(Number(e.target.value))}
-                  className="w-full accent-cyan-500 bg-white/10 rounded-lg cursor-pointer"
+                  className="w-full cursor-pointer rounded-lg bg-white/10 accent-cyan-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[0, 1, 2, 3].map((w) => (
@@ -3322,7 +4664,8 @@ ${deskRules.join("\n")}
                       key={w}
                       type="button"
                       onClick={() => setBubbleBorderWidth(w)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleBorderWidth === w ? "bg-cyan-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${bubbleBorderWidth === w ? "border-purple-400 bg-cyan-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {w === 0 ? "0px" : `${w}px`}
                     </button>
                   ))}
@@ -3331,7 +4674,7 @@ ${deskRules.join("\n")}
 
               {/* 3. Font Size Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center  ">
+                <div className="flex items-center justify-between">
                   <span>Font Size</span>
                   <span className="text-emerald-300">{bubbleFontSize}px</span>
                 </div>
@@ -3341,7 +4684,7 @@ ${deskRules.join("\n")}
                   max="20"
                   value={bubbleFontSize}
                   onChange={(e) => setBubbleFontSize(Number(e.target.value))}
-                  className="w-full accent-emerald-500 bg-white/10 rounded-lg cursor-pointer"
+                  className="w-full cursor-pointer rounded-lg bg-white/10 accent-emerald-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[10, 12, 14, 16].map((s) => (
@@ -3349,7 +4692,8 @@ ${deskRules.join("\n")}
                       key={s}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleFontSize === s ? "bg-emerald-600 border-emerald-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${bubbleFontSize === s ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {s}px
                     </button>
                   ))}
@@ -3358,7 +4702,7 @@ ${deskRules.join("\n")}
 
               {/* 4. Padding Y Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center  ">
+                <div className="flex items-center justify-between">
                   <span>Padding Y (Vertical)</span>
                   <span>{bubblePaddingY}px</span>
                 </div>
@@ -3368,7 +4712,7 @@ ${deskRules.join("\n")}
                   max="24"
                   value={bubblePaddingY}
                   onChange={(e) => setBubblePaddingY(Number(e.target.value))}
-                  className="w-full accent-cyan-500 bg-white/10 rounded-lg cursor-pointer"
+                  className="w-full cursor-pointer rounded-lg bg-white/10 accent-cyan-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[6, 10, 14, 18].map((py) => (
@@ -3376,7 +4720,8 @@ ${deskRules.join("\n")}
                       key={py}
                       type="button"
                       onClick={() => setBubblePaddingY(py)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubblePaddingY === py ? "bg-cyan-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${bubblePaddingY === py ? "border-purple-400 bg-cyan-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {py}px
                     </button>
                   ))}
@@ -3385,7 +4730,7 @@ ${deskRules.join("\n")}
 
               {/* 5. Padding X Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center  ">
+                <div className="flex items-center justify-between">
                   <span>Padding X (Horizontal)</span>
                   <span className="text-purple-300">{bubblePaddingX}px</span>
                 </div>
@@ -3395,7 +4740,7 @@ ${deskRules.join("\n")}
                   max="32"
                   value={bubblePaddingX}
                   onChange={(e) => setBubblePaddingX(Number(e.target.value))}
-                  className="w-full accent-purple-500 bg-white/10 rounded-lg cursor-pointer"
+                  className="w-full cursor-pointer rounded-lg bg-white/10 accent-purple-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[12, 16, 20, 24].map((px) => (
@@ -3403,7 +4748,8 @@ ${deskRules.join("\n")}
                       key={px}
                       type="button"
                       onClick={() => setBubblePaddingX(px)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubblePaddingX === px ? "bg-purple-600 border-purple-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${bubblePaddingX === px ? "border-purple-400 bg-purple-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {px}px
                     </button>
                   ))}
@@ -3412,7 +4758,7 @@ ${deskRules.join("\n")}
 
               {/* 6. Message Spacing Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center  ">
+                <div className="flex items-center justify-between">
                   <span>Message Spacing (Gap)</span>
                   <span className="text-amber-300">{messageSpacing}px</span>
                 </div>
@@ -3422,7 +4768,7 @@ ${deskRules.join("\n")}
                   max="28"
                   value={messageSpacing}
                   onChange={(e) => setMessageSpacing(Number(e.target.value))}
-                  className="w-full accent-amber-500 bg-white/10 rounded-lg cursor-pointer"
+                  className="w-full cursor-pointer rounded-lg bg-white/10 accent-amber-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[8, 12, 16, 20].map((sp) => (
@@ -3430,7 +4776,8 @@ ${deskRules.join("\n")}
                       key={sp}
                       type="button"
                       onClick={() => setMessageSpacing(sp)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${messageSpacing === sp ? "bg-amber-600 border-amber-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${messageSpacing === sp ? "border-amber-400 bg-amber-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {sp}px
                     </button>
                   ))}
@@ -3439,7 +4786,7 @@ ${deskRules.join("\n")}
 
               {/* 7. Opacity Control */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center  ">
+                <div className="flex items-center justify-between">
                   <span>Bubble Opacity</span>
                   <span className="text-pink-300">{bubbleOpacity}%</span>
                 </div>
@@ -3449,7 +4796,7 @@ ${deskRules.join("\n")}
                   max="100"
                   value={bubbleOpacity}
                   onChange={(e) => setBubbleOpacity(Number(e.target.value))}
-                  className="w-full accent-pink-500 bg-white/10 rounded-lg cursor-pointer"
+                  className="w-full cursor-pointer rounded-lg bg-white/10 accent-pink-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[20, 50, 80, 100].map((o) => (
@@ -3457,7 +4804,8 @@ ${deskRules.join("\n")}
                       key={o}
                       type="button"
                       onClick={() => setBubbleOpacity(o)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${bubbleOpacity === o ? "bg-pink-600 border-pink-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${bubbleOpacity === o ? "border-pink-400 bg-pink-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {o}%
                     </button>
                   ))}
@@ -3466,8 +4814,8 @@ ${deskRules.join("\n")}
 
               {/* 8. Color Palette Swatches */}
               <div className="space-y-2">
-                <label className="block  ">Color Swatches</label>
-                <div className="flex items-center gap-1.5 flex-wrap">
+                <label className="block">Color Swatches</label>
+                <div className="flex flex-wrap items-center gap-1.5">
                   {[
                     { label: "Default", val: "default", bg: "#7e22ce" },
                     { label: "Purple", val: "#9333ea", bg: "#9333ea" },
@@ -3485,7 +4833,7 @@ ${deskRules.join("\n")}
                       }}
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
-                      className={`w-5 h-5 rounded-lg border-2 transition transform hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode ? "border-white ring-2 ring-white/50 scale-110" : "border-transparent opacity-80"}`}
+                      className={`h-5 w-5 transform rounded-lg border-2 transition hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode ? "scale-110 border-white ring-2 ring-white/50" : "border-transparent opacity-80"}`}
                     />
                   ))}
                 </div>
@@ -3498,10 +4846,10 @@ ${deskRules.join("\n")}
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
                     }}
-                    className="w-5 h-5 rounded-lg border border-white/10 cursor-pointer"
+                    className="h-5 w-5 cursor-pointer rounded-lg border border-white/10"
                     title="Custom Color Picker"
                   />
-                  <span className="text-[12px] truncate max-w-[80px]">
+                  <span className="max-w-[80px] truncate text-[12px]">
                     {multiUserColorMode ? "Multi-User" : bubbleColorPalette}
                   </span>
                 </div>
@@ -3509,7 +4857,7 @@ ${deskRules.join("\n")}
 
               {/* 9. Background Style Themes */}
               <div className="space-y-2">
-                <label className="block  ">Fill Theme</label>
+                <label className="block">Fill Theme</label>
                 <div className="grid grid-cols-2 gap-1.5">
                   {[
                     { label: "Classic", val: "classic" },
@@ -3521,57 +4869,80 @@ ${deskRules.join("\n")}
                       key={bg.val}
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
-                      className={`py-1 px-1.5 rounded text-[10px] border truncate transition ${bubbleBgStyle === bg.val ? "bg-purple-600/40 border-purple-400 text-purple-200" : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`truncate rounded border px-1.5 py-1 text-[10px] transition ${bubbleBgStyle === bg.val ? "border-purple-400 bg-purple-600/40 text-purple-200" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {bg.label}
                     </button>
                   ))}
                 </div>
               </div>
-
             </div>
           </div>
 
           <div
             style={{
-              ['--chat-bubble-radius' as any]: `${bubbleRadius}px`,
-              ['--chat-bubble-border-width' as any]: `${bubbleBorderWidth}px`,
-              ['--chat-bubble-font-size' as any]: `${bubbleFontSize}px`,
-              ['--chat-bubble-padding-y' as any]: `${bubblePaddingY}px`,
-              ['--chat-bubble-padding-x' as any]: `${bubblePaddingX}px`,
-              ['--chat-message-spacing' as any]: `${messageSpacing}px`,
-              ['--chat-bubble-member-border' as any]: bubbleBorderColor,
-              ['--chat-bubble-self-border' as any]: bubbleBorderColor,
-              ['--chat-bubble-admin-border' as any]: bubbleBorderColor,
-              ['--chat-bubble-override-bg' as any]: multiUserColorMode
+              ["--chat-bubble-radius" as any]: `${bubbleRadius}px`,
+              ["--chat-bubble-border-width" as any]: `${bubbleBorderWidth}px`,
+              ["--chat-bubble-font-size" as any]: `${bubbleFontSize}px`,
+              ["--chat-bubble-padding-y" as any]: `${bubblePaddingY}px`,
+              ["--chat-bubble-padding-x" as any]: `${bubblePaddingX}px`,
+              ["--chat-message-spacing" as any]: `${messageSpacing}px`,
+              ["--chat-bubble-member-border" as any]: bubbleBorderColor,
+              ["--chat-bubble-self-border" as any]: bubbleBorderColor,
+              ["--chat-bubble-admin-border" as any]: bubbleBorderColor,
+              ["--chat-bubble-override-bg" as any]: multiUserColorMode
                 ? undefined
-                : bubbleColorPalette !== 'default'
+                : bubbleColorPalette !== "default"
                   ? bubbleColorPalette
-                  : bubbleBgStyle === 'glass' ? `rgba(8, 145, 178, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#0f172a' : bubbleBgStyle === 'neon' ? '#0284c7' : `rgba(22, 101, 124, ${bubbleOpacity / 100})`,
-              ['--chat-bubble-self-bg' as any]: multiUserColorMode
+                  : bubbleBgStyle === "glass"
+                    ? `rgba(8, 145, 178, ${bubbleOpacity / 200})`
+                    : bubbleBgStyle === "midnight"
+                      ? "#0f172a"
+                      : bubbleBgStyle === "neon"
+                        ? "#0284c7"
+                        : `rgba(22, 101, 124, ${bubbleOpacity / 100})`,
+              ["--chat-bubble-self-bg" as any]: multiUserColorMode
                 ? undefined
-                : bubbleColorPalette !== 'default'
+                : bubbleColorPalette !== "default"
                   ? bubbleColorPalette
-                  : bubbleBgStyle === 'glass' ? `rgba(126, 34, 206, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#1e1b4b' : bubbleBgStyle === 'neon' ? '#9333ea' : `rgba(126, 34, 206, ${bubbleOpacity / 100})`,
-              ['--chat-bubble-admin-bg' as any]: multiUserColorMode
+                  : bubbleBgStyle === "glass"
+                    ? `rgba(126, 34, 206, ${bubbleOpacity / 200})`
+                    : bubbleBgStyle === "midnight"
+                      ? "#1e1b4b"
+                      : bubbleBgStyle === "neon"
+                        ? "#9333ea"
+                        : `rgba(126, 34, 206, ${bubbleOpacity / 100})`,
+              ["--chat-bubble-admin-bg" as any]: multiUserColorMode
                 ? undefined
-                : bubbleColorPalette !== 'default'
+                : bubbleColorPalette !== "default"
                   ? bubbleColorPalette
-                  : bubbleBgStyle === 'glass' ? `rgba(46, 16, 101, ${bubbleOpacity / 200})` : bubbleBgStyle === 'midnight' ? '#2e1065' : bubbleBgStyle === 'neon' ? '#581c87' : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
+                  : bubbleBgStyle === "glass"
+                    ? `rgba(46, 16, 101, ${bubbleOpacity / 200})`
+                    : bubbleBgStyle === "midnight"
+                      ? "#2e1065"
+                      : bubbleBgStyle === "neon"
+                        ? "#581c87"
+                        : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
             }}
-            className="morph-pick rounded-lg border border-white/10 overflow-hidden shadow-[0_0_30px_rgba(147,51,234,0.15)]"
-            data-pick-label="Live Chat">
+            className="morph-pick overflow-hidden rounded-lg border border-white/10 shadow-[0_0_30px_rgba(147,51,234,0.15)]"
+            data-pick-label="Live Chat"
+          >
             <CruiseChat activeChannel="general" />
           </div>
         </section>
 
         {/* SECTION 7: CARDS & BADGES */}
-        <section id="components" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="components"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-pink-400 flex items-center gap-2">
-              <Layers className="w-6 h-6" /> 7. Reusable Cards, Badges & Alerts
+            <h2 className="flex items-center gap-2 text-pink-400">
+              <Layers className="h-6 w-6" /> 7. Reusable Cards, Badges & Alerts
             </h2>
-            <p >
-              Actual shipping badges, announcement banners, cookie notices, and glass card containers.
+            <p>
+              Actual shipping badges, announcement banners, cookie notices, and
+              glass card containers.
             </p>
           </div>
 
@@ -3588,8 +4959,8 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Announcement Banner Component */}
-          <div className="space-y-3 pt-4 border-t border-white/10">
-            <h3 className="text-amber-400 r">Announcement Banner Component</h3>
+          <div className="space-y-3 border-t border-white/10 pt-4">
+            <h3 className="r text-amber-400">Announcement Banner Component</h3>
             <AnnouncementBanner
               text="⚡ 7TH HEAVEN CRUISE 2026 PRE-SALE IS NOW OPEN FOR VIP MEMBERS!"
               link="/cruise"
@@ -3599,142 +4970,163 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cards & Alerts Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-white/10">
-
+          <div className="grid grid-cols-1 gap-6 border-t border-white/10 pt-4 md:grid-cols-3">
             {/* Glass Card Container */}
-            <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-purple-500/40 transition space-y-3">
+            <div className="space-y-3 rounded-lg border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl transition hover:border-purple-500/40">
               <span className="text-purple-400">Glassmorphism Card</span>
-              <h4 >House of Blues Chicago</h4>
+              <h4>House of Blues Chicago</h4>
               <p>
-                Standard container card with 1px border <code className="text-purple-300">rgba(255,255,255,0.08)</code>.
+                Standard container card with 1px border{" "}
+                <code className="text-purple-300">rgba(255,255,255,0.08)</code>.
               </p>
-              <button className="px-4 py-2 rounded-lg bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/40 text-purple-300 transition">
+              <button className="rounded-lg border border-purple-500/40 bg-purple-600/30 px-4 py-2 text-purple-300 transition hover:bg-purple-600/40">
                 View Event Details
               </button>
             </div>
 
             {/* Alert Banner Callout */}
-            <div className="p-6 rounded-lg bg-amber-500/10 border border-amber-500/30 space-y-3">
-              <div className="flex items-center gap-2 text-amber-400 r">
-                <AlertTriangle className="w-4 h-4" /> System Warning Notice
+            <div className="space-y-3 rounded-lg border border-amber-500/30 bg-amber-500/10 p-6">
+              <div className="r flex items-center gap-2 text-amber-400">
+                <AlertTriangle className="h-4 w-4" /> System Warning Notice
               </div>
               <p className="text-amber-200/80">
-                Weather advisory in effect for outdoor amphitheater shows. Check live venue updates before departure.
+                Weather advisory in effect for outdoor amphitheater shows. Check
+                live venue updates before departure.
               </p>
             </div>
 
             {/* Modal Trigger */}
-            <div className="p-6 rounded-lg bg-white/[0.03] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="flex flex-col justify-between space-y-3 rounded-lg border border-white/10 bg-white/[0.03] p-6">
               <div>
                 <span className="text-emerald-400">Interactive Modal</span>
-                <h4 >Login & Authentication Modal</h4>
-                <p >
-                  Trigger the site-wide login/signup modal dialog.
-                </p>
+                <h4>Login & Authentication Modal</h4>
+                <p>Trigger the site-wide login/signup modal dialog.</p>
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 transition flex items-center justify-center gap-2">
-                <Lock className="w-3.5 h-3.5" /> Launch Login Modal
+                className="flex items-center justify-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 text-emerald-300 transition hover:bg-emerald-500/30"
+              >
+                <Lock className="h-3.5 w-3.5" /> Launch Login Modal
               </button>
             </div>
-
           </div>
         </section>
 
         {/* SECTION 8: MODALS & DIALOGS */}
-        <section id="modals" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="modals"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
-              <Maximize2 className="w-6 h-6" /> 8. Modals & Dialogs
+              <Maximize2 className="h-6 w-6" /> 8. Modals & Dialogs
             </h2>
-            <p >
-              Standard modal patterns: glassmorphism shell, confirmation/alert dialogs, and the global login/signup auth modal.
+            <p>
+              Standard modal patterns: glassmorphism shell, confirmation/alert
+              dialogs, and the global login/signup auth modal.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {/* 1 — Glassmorphism Modal Shell */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="flex flex-col justify-between space-y-3 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <div>
-                <span >Glass Shell</span>
-                <h4 >Glassmorphism Modal</h4>
-                <p >
-                  The frosted-glass card used for verify screens, PIN entry, and success states.
+                <span>Glass Shell</span>
+                <h4>Glassmorphism Modal</h4>
+                <p>
+                  The frosted-glass card used for verify screens, PIN entry, and
+                  success states.
                 </p>
               </div>
               <button
                 onClick={() => setShowGlassModal(true)}
-                className="px-4 py-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-purple-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
-                <Eye className="w-3.5 h-3.5" /> Preview Glass Modal
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-purple-500/40 bg-cyan-500/20 px-4 py-2.5 transition hover:bg-cyan-500/30"
+              >
+                <Eye className="h-3.5 w-3.5" /> Preview Glass Modal
               </button>
             </div>
 
             {/* 2 — Confirmation / Alert Dialog */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="flex flex-col justify-between space-y-3 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-amber-400">Confirm / Alert</span>
-                <h4 >Confirmation Dialog</h4>
-                <p >
+                <h4>Confirmation Dialog</h4>
+                <p>
                   Destructive action confirmation with cancel/confirm buttons.
                 </p>
                 {confirmResult && (
-                  <p className={`mt-2 ${confirmResult === 'confirmed' ? 'text-red-400' : ' text-white/50'}`}>
-                    Result: {confirmResult === 'confirmed' ? '✓ Confirmed' : '✕ Cancelled'}
+                  <p
+                    className={`mt-2 ${confirmResult === "confirmed" ? "text-red-400" : "text-white/50"}`}
+                  >
+                    Result:{" "}
+                    {confirmResult === "confirmed"
+                      ? "✓ Confirmed"
+                      : "✕ Cancelled"}
                   </p>
                 )}
               </div>
               <button
-                onClick={() => { setShowConfirmModal(true); setConfirmResult(null); }}
-                className="px-4 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 transition flex items-center justify-center gap-2 cursor-pointer">
-                <Trash2 className="w-3.5 h-3.5" /> Open Confirm Dialog
+                onClick={() => {
+                  setShowConfirmModal(true);
+                  setConfirmResult(null);
+                }}
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/20 px-4 py-2.5 text-amber-300 transition hover:bg-amber-500/30"
+              >
+                <Trash2 className="h-3.5 w-3.5" /> Open Confirm Dialog
               </button>
             </div>
 
             {/* 3 — Login / Auth Modal */}
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-3 flex flex-col justify-between">
+            <div className="flex flex-col justify-between space-y-3 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-emerald-400">Auth Modal</span>
-                <h4 >Login & Signup Modal</h4>
-                <p >
-                  Site-wide auth modal with login/signup toggle, form validation, and role selection.
+                <h4>Login & Signup Modal</h4>
+                <p>
+                  Site-wide auth modal with login/signup toggle, form
+                  validation, and role selection.
                 </p>
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="px-4 py-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 transition flex items-center justify-center gap-2 cursor-pointer">
-                <Lock className="w-3.5 h-3.5" /> Launch Login Modal
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 text-emerald-300 transition hover:bg-emerald-500/30"
+              >
+                <Lock className="h-3.5 w-3.5" /> Launch Login Modal
               </button>
             </div>
           </div>
 
           {/* Alert / Success Toast Demo (inline) */}
-          <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+          <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-5">
             <h3>Alert / Success Toast Patterns</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {/* Success */}
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
-                <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-4">
+                <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
                 <div>
                   <p className="text-emerald-300">Success</p>
-                  <p className="text-emerald-200/70 mt-0.5">Your PIN has been verified successfully.</p>
+                  <p className="mt-0.5 text-emerald-200/70">
+                    Your PIN has been verified successfully.
+                  </p>
                 </div>
               </div>
               {/* Warning */}
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-amber-500/10 border border-amber-500/30">
-                <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
                 <div>
                   <p className="text-amber-300">Warning</p>
-                  <p className="text-amber-200/70 mt-0.5">Your session will expire in 5 minutes.</p>
+                  <p className="mt-0.5 text-amber-200/70">
+                    Your session will expire in 5 minutes.
+                  </p>
                 </div>
               </div>
               {/* Error */}
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/30">
-                <X className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-lg border border-red-500/30 bg-red-500/10 p-4">
+                <X className="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
                 <div>
                   <p className="text-red-300">Error</p>
-                  <p className="text-red-200/70 mt-0.5">Invalid PIN. Please try again.</p>
+                  <p className="mt-0.5 text-red-200/70">
+                    Invalid PIN. Please try again.
+                  </p>
                 </div>
               </div>
             </div>
@@ -3746,43 +5138,47 @@ ${deskRules.join("\n")}
               <button
                 type="button"
                 aria-label="Close backdrop"
-                className="absolute inset-0 bg-black/60 backdrop-blur-[45px] border-0 p-0 cursor-default"
+                className="absolute inset-0 cursor-default border-0 bg-black/60 p-0 backdrop-blur-[45px]"
                 onClick={() => setShowGlassModal(false)}
               />
               <div
-                className="relative w-full max-w-sm rounded-lg px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease] text-center"
+                className="relative w-full max-w-sm animate-[fadeIn_0.3s_ease] rounded-lg px-6 py-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
                 style={{
                   background: "var(--color-bg-glass)",
                   backdropFilter: "blur(32px) saturate(180%)",
                   WebkitBackdropFilter: "blur(32px) saturate(180%)",
                   border: "1px solid var(--color-border-main)",
-                }}>
+                }}
+              >
                 <button
                   onClick={() => setShowGlassModal(false)}
                   aria-label="Close modal"
-                  className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer">
-                  <X className="w-3.5 h-3.5" />
+                  className="absolute top-3 right-3 flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+                >
+                  <X className="h-3.5 w-3.5" />
                 </button>
 
-                <div className="w-14 h-14 rounded-lg bg- purple-white/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-6">
-                  <Zap className="w-7 h-7 text-purple-400" />
+                <div className="bg- purple-white/20 mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-lg border border-purple-500/30">
+                  <Zap className="h-7 w-7 text-purple-400" />
                 </div>
                 <h3 className="mb-1">Glassmorphism Shell</h3>
                 <p className="mb-6">
-                  This is the standard frosted-glass modal card used across verify screens, PIN entry, and success states.
+                  This is the standard frosted-glass modal card used across
+                  verify screens, PIN entry, and success states.
                 </p>
 
                 <div className="space-y-3">
-                  <div className="input-glow-border  w-full">
+                  <div className="input-glow-border w-full">
                     <input
                       type="text"
                       placeholder="Enter your email..."
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#00000029] border border-white/10   placeholder-white/40 outline-none transition"
+                      className="w-full rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 placeholder-white/40 transition outline-none"
                     />
                   </div>
                   <button
                     onClick={() => setShowGlassModal(false)}
-                    className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 transition cursor-pointer">
+                    className="w-full cursor-pointer rounded-lg bg-purple-600 py-3 transition hover:bg-purple-500"
+                  >
                     Continue
                   </button>
                 </div>
@@ -3796,33 +5192,46 @@ ${deskRules.join("\n")}
               <button
                 type="button"
                 aria-label="Close backdrop"
-                className="absolute inset-0 bg-black/60 backdrop-blur-[45px] border-0 p-0 cursor-default"
-                onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
+                className="absolute inset-0 cursor-default border-0 bg-black/60 p-0 backdrop-blur-[45px]"
+                onClick={() => {
+                  setShowConfirmModal(false);
+                  setConfirmResult("cancelled");
+                }}
               />
               <div
-                className="relative w-full max-w-sm rounded-lg px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] animate-[fadeIn_0.3s_ease]"
+                className="relative w-full max-w-sm animate-[fadeIn_0.3s_ease] rounded-lg px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
                 style={{
                   background: "var(--color-bg-surface)",
                   backdropFilter: "blur(32px) saturate(180%)",
                   WebkitBackdropFilter: "blur(32px) saturate(180%)",
                   border: "1px solid var(--color-border-main)",
-                }}>
-                <div className="w-14 h-14 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center mx-auto mb-6">
-                  <Trash2 className="w-7 h-7 text-red-400" />
+                }}
+              >
+                <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-lg border border-red-500/30 bg-red-500/20">
+                  <Trash2 className="h-7 w-7 text-red-400" />
                 </div>
-                <h3 className="text-center mb-1">Delete Item?</h3>
-                <p className="text-center mb-6">
-                  This action cannot be undone. The item will be permanently removed from your account.
+                <h3 className="mb-1 text-center">Delete Item?</h3>
+                <p className="mb-6 text-center">
+                  This action cannot be undone. The item will be permanently
+                  removed from your account.
                 </p>
                 <div className="flex gap-3">
                   <button
-                    onClick={() => { setShowConfirmModal(false); setConfirmResult('cancelled'); }}
-                    className="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 transition cursor-pointer">
+                    onClick={() => {
+                      setShowConfirmModal(false);
+                      setConfirmResult("cancelled");
+                    }}
+                    className="flex-1 cursor-pointer rounded-lg border border-white/10 bg-white/10 py-3 transition hover:bg-white/20"
+                  >
                     Cancel
                   </button>
                   <button
-                    onClick={() => { setShowConfirmModal(false); setConfirmResult('confirmed'); }}
-                    className="flex-1 py-3 rounded-lg bg-red-600 hover:bg-red-500 transition cursor-pointer">
+                    onClick={() => {
+                      setShowConfirmModal(false);
+                      setConfirmResult("confirmed");
+                    }}
+                    className="flex-1 cursor-pointer rounded-lg bg-red-600 py-3 transition hover:bg-red-500"
+                  >
                     Delete
                   </button>
                 </div>
@@ -3832,32 +5241,41 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 9: BORDERS & GLASS */}
-        <section id="borders" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="borders"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
               9. Border & Glass Standard
             </h2>
-            <p >
-              Confirming all dividers and component boundaries use our standardized global border color: <code>rgba(255, 255, 255, 0.08)</code>.
+            <p>
+              Confirming all dividers and component boundaries use our
+              standardized global border color:{" "}
+              <code>rgba(255, 255, 255, 0.08)</code>.
             </p>
           </div>
 
-          <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-4">
+          <div className="space-y-4 rounded-lg border border-white/10 bg-white/[0.02] p-6">
             <div className="flex items-center justify-between">
-              <span>Variable: <strong >--color-border-main</strong></span>
-              <span>Computed Value: <strong>rgba(255, 255, 255, 0.08)</strong></span>
+              <span>
+                Variable: <strong>--color-border-main</strong>
+              </span>
+              <span>
+                Computed Value: <strong>rgba(255, 255, 255, 0.08)</strong>
+              </span>
             </div>
 
-            <div className="h-px bg-white/10 w-full" />
+            <div className="h-px w-full bg-white/10" />
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02]  ">
+            <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
+              <div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
                 Card Border: border-white/10
               </div>
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02]  ">
+              <div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
                 Divider: border-b border-white/10
               </div>
-              <div className="p-4 rounded-lg border border-white/10 bg-white/[0.02]  ">
+              <div className="rounded-lg border border-white/10 bg-white/[0.02] p-4">
                 Input Border: border-white/10
               </div>
             </div>
@@ -3865,27 +5283,36 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SCROLLBAR SHOWCASE */}
-        <section id="scrollbars" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="scrollbars"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
-              <Sliders className="w-6 h-6" /> Custom Scrollbars
+              <Sliders className="h-6 w-6" /> Custom Scrollbars
             </h2>
-            <p >
-              Apply <code className="text-purple-300">custom-scrollbar</code> or <code className="text-purple-300">custom-purple-scrollbar</code> to any scrollable container.
-              Both classes are identical — the glowing purple thumb always shows.
+            <p>
+              Apply <code className="text-purple-300">custom-scrollbar</code> or{" "}
+              <code className="text-purple-300">custom-purple-scrollbar</code>{" "}
+              to any scrollable container. Both classes are identical — the
+              glowing purple thumb always shows.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {/* Vertical scroll demo */}
             <div className="space-y-3">
               <p className="text-purple-400">Vertical Scroll</p>
-              <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
-                <CustomScrollbar height={256} className="p-4 space-y-3">
+              <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+                <CustomScrollbar height={256} className="space-y-3 p-4">
                   {Array.from({ length: 18 }).map((_, i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/[0.06]">
-                      <div className="w-7 h-7 rounded-lg bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] text-purple-300 shrink-0">{i + 1}</div>
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-lg border border-white/[0.06] bg-white/[0.03] p-3"
+                    >
+                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-purple-500/40 bg-purple-600/30 text-[10px] text-purple-300">
+                        {i + 1}
+                      </div>
                       <div>
                         <p>List item {i + 1}</p>
                         <p>Scroll down to see more items</p>
@@ -3900,13 +5327,20 @@ ${deskRules.join("\n")}
             {/* Horizontal scroll demo */}
             <div className="space-y-3">
               <p className="text-purple-400">Horizontal Scroll</p>
-              <div className="bg-white/[0.02] border border-white/10 rounded-lg overflow-hidden">
+              <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
                     {Array.from({ length: 12 }).map((_, i) => (
-                      <div key={i} className="shrink-0 w-28 h-24 rounded-lg bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-1">
-                        <div className="w-8 h-8 rounded-lg bg-purple-600/30 border border-purple-500/40 flex items-center justify-center text-[10px] text-purple-300">{i + 1}</div>
-                        <span className="text-[10px] text-white/40">Card {i + 1}</span>
+                      <div
+                        key={i}
+                        className="flex h-24 w-28 shrink-0 flex-col items-center justify-center gap-1 rounded-lg border border-white/[0.06] bg-white/[0.03]"
+                      >
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-purple-500/40 bg-purple-600/30 text-[10px] text-purple-300">
+                          {i + 1}
+                        </div>
+                        <span className="text-[10px] text-white/40">
+                          Card {i + 1}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -3920,12 +5354,16 @@ ${deskRules.join("\n")}
               <p className="text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
-                className="custom-scrollbar overflow-scroll max-h-48 bg-white/[0.02] border border-white/10 rounded-lg p-4">
+                className="custom-scrollbar max-h-48 overflow-scroll rounded-lg border border-white/10 bg-white/[0.02] p-4"
+              >
                 <div style={{ minWidth: 900 }} className="space-y-2">
                   {Array.from({ length: 10 }).map((_, row) => (
                     <div key={row} className="flex gap-2">
                       {Array.from({ length: 10 }).map((_, col) => (
-                        <div key={col} className="shrink-0 w-20 h-10 rounded-lg bg-purple-600/10 border border-white/10 flex items-center justify-center text-[12px] text-purple-300">
+                        <div
+                          key={col}
+                          className="flex h-10 w-20 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-purple-600/10 text-[12px] text-purple-300"
+                        >
                           {row},{col}
                         </div>
                       ))}
@@ -3935,13 +5373,12 @@ ${deskRules.join("\n")}
               </div>
               <p>className=&quot;custom-scrollbar overflow-auto&quot;</p>
             </div>
-
           </div>
 
           {/* Usage code block */}
-          <div className="bg-black/40 border border-white/10 rounded-lg p-5">
-            <p className="text-purple-400 mb-3">Usage</p>
-            <pre className="text-[11px] text-purple-200 overflow-x-auto custom-scrollbar">
+          <div className="rounded-lg border border-white/10 bg-black/40 p-5">
+            <p className="mb-3 text-purple-400">Usage</p>
+            <pre className="custom-scrollbar overflow-x-auto text-[11px] text-purple-200">
               {`// globals.css already defines:
 .custom-scrollbar::-webkit-scrollbar        { width: 10px; height: 10px; }
 .custom-scrollbar::-webkit-scrollbar-track  { background: rgba(147,51,234,0.25); border-radius: 9999px; }
@@ -3956,100 +5393,153 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 10: SPACING & PADDING TOKENS */}
-        <section id="spacing" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="spacing"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
-            <h2 className=" flex items-center gap-2">
-              <Box className="w-6 h-6" /> 10. Spacing & Page Padding Scale
+            <h2 className="flex items-center gap-2">
+              <Box className="h-6 w-6" /> 10. Spacing & Page Padding Scale
             </h2>
-            <p >
-              Standardized responsive page padding scale: <code className="text-purple-300">px-6 sm:px-8 lg:px-[42px]</code> (24px Mobile / 32px Tablet / 42px Desktop).
+            <p>
+              Standardized responsive page padding scale:{" "}
+              <code className="text-purple-300">px-6 sm:px-8 lg:px-[42px]</code>{" "}
+              (24px Mobile / 32px Tablet / 42px Desktop).
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <span>Mobile Page Padding</span>
-              <div className="text-2xl">16px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl">
+                16px (
+                <code className="text-white/50">var(--page-padding-x)</code>)
+              </div>
               <p>Used on screens below 768px viewport width.</p>
             </div>
 
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <span className="text-purple-400">Tablet Page Padding</span>
-              <div className="text-2xl">32px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl">
+                32px (
+                <code className="text-white/50">var(--page-padding-x)</code>)
+              </div>
               <p>Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
-            <div className="p-5 rounded-lg bg-white/[0.02] border border-white/10 space-y-2">
+            <div className="space-y-2 rounded-lg border border-white/10 bg-white/[0.02] p-5">
               <span className="text-emerald-400">Desktop Page Padding</span>
-              <div className="text-2xl">42px (<code className="text-white/50">var(--page-padding-x)</code>)</div>
+              <div className="text-2xl">
+                42px (
+                <code className="text-white/50">var(--page-padding-x)</code>)
+              </div>
               <p>Standardized max desktop horizontal container padding.</p>
             </div>
           </div>
 
           {/* Dedicated .site-container Utility Specification Card */}
-          <div className="p-6 rounded-lg bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 rounded-lg border border-purple-500/30 bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black p-6 md:flex-row md:items-center">
             <div className="space-y-1">
-              <span className="text-purple-400 block">
+              <span className="block text-purple-400">
                 Primary Layout Wrapper Class
               </span>
               <h3 className="flex items-center gap-2">
-                <code className="text-purple-300 bg- purple-white/20 px-2 py-0.5 rounded-lg border border-purple-500/40">.site-container</code>
-                <span className="text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-lg r">Active Globally</span>
+                <code className="bg- purple-white/20 rounded-lg border border-purple-500/40 px-2 py-0.5 text-purple-300">
+                  .site-container
+                </code>
+                <span className="r rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-emerald-400">
+                  Active Globally
+                </span>
               </h3>
               <p className="max-w-2xl">
-                The universal wrapper class <code className="text-purple-300">.site-container</code> enforces 100% full-bleed edge-to-edge layout width with responsive breakpoint padding (<code>16px</code> Mobile $\rightarrow$ <code className="text-purple-300">32px</code> Tablet $\rightarrow$ <code className="text-emerald-300">42px</code> Desktop).
+                The universal wrapper class{" "}
+                <code className="text-purple-300">.site-container</code>{" "}
+                enforces 100% full-bleed edge-to-edge layout width with
+                responsive breakpoint padding (<code>16px</code> Mobile
+                $\rightarrow$ <code className="text-purple-300">32px</code>{" "}
+                Tablet $\rightarrow${" "}
+                <code className="text-emerald-300">42px</code> Desktop).
               </p>
             </div>
-            <div className="shrink-0 p-4 rounded-lg bg-black/60 border border-white/10 text-purple-300 space-y-1">
-              <div><span className="text-white/40">width:</span> 100%;</div>
-              <div><span className="text-white/40">max-width:</span> 100% !important;</div>
-              <div><span className="text-white/40">padding:</span> 0 var(--page-padding-x);</div>
+            <div className="shrink-0 space-y-1 rounded-lg border border-white/10 bg-black/60 p-4 text-purple-300">
+              <div>
+                <span className="text-white/40">width:</span> 100%;
+              </div>
+              <div>
+                <span className="text-white/40">max-width:</span> 100%
+                !important;
+              </div>
+              <div>
+                <span className="text-white/40">padding:</span> 0
+                var(--page-padding-x);
+              </div>
             </div>
           </div>
         </section>
 
         {/* SECTION 11: CANVAS SHADER & FILM GRAIN STUDIO */}
-        <section id="canvas-studio" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+        <section
+          id="canvas-studio"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
+          <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
             <div>
-              <h2 className="text-emerald-400 flex items-center gap-2">
-                <Sliders className="w-6 h-6" /> 11. Canvas Shader & Full-Page Film Grain Studio
+              <h2 className="flex items-center gap-2 text-emerald-400">
+                <Sliders className="h-6 w-6" /> 11. Canvas Shader & Full-Page
+                Film Grain Studio
               </h2>
-              <p >
-                Interactive real-time controller for background WebGL shader parameters and full-page film grain overlay system.
+              <p>
+                Interactive real-time controller for background WebGL shader
+                parameters and full-page film grain overlay system.
               </p>
             </div>
             <button
               onClick={handleCopyCanvasSpec}
-              className={`px-4 py-2.5 rounded-lg transition flex items-center gap-2 border self-start sm:self-auto ${copiedCanvasSpec ? "bg-emerald-600 border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30"}`}>
-              {copiedCanvasSpec ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copiedCanvasSpec ? "Canvas Specs Copied!" : "Copy Canvas & Grain Spec"}</span>
+              className={`flex items-center gap-2 self-start rounded-lg border px-4 py-2.5 transition sm:self-auto ${copiedCanvasSpec ? "border-emerald-400 bg-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "border-emerald-500/40 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"}`}
+            >
+              {copiedCanvasSpec ? (
+                <Check className="h-3.5 w-3.5" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+              <span>
+                {copiedCanvasSpec
+                  ? "Canvas Specs Copied!"
+                  : "Copy Canvas & Grain Spec"}
+              </span>
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* Full-Page Film Grain Controls */}
-            <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-6">
-              <h3 className="text-emerald-400 flex items-center gap-2">
+            <div className="space-y-6 rounded-lg border border-white/10 bg-white/[0.02] p-6">
+              <h3 className="flex items-center gap-2 text-emerald-400">
                 Film Grain Controls
               </h3>
               <p>
-                Controls the fixed resolution-independent SVG fractal noise layer covering the entire viewport screen (<code className="text-emerald-300">z-[99999]</code>).
+                Controls the fixed resolution-independent SVG fractal noise
+                layer covering the entire viewport screen (
+                <code className="text-emerald-300">z-[99999]</code>).
               </p>
 
               {/* Grain Opacity Slider */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <span className=" ">Grain Opacity</span>
-                  <span className="text-emerald-400">{canvasGrainOpacity}% ({(canvasGrainOpacity / 100).toFixed(2)})</span>
+                  <span className="text-emerald-400">
+                    {canvasGrainOpacity}% (
+                    {(canvasGrainOpacity / 100).toFixed(2)})
+                  </span>
                 </div>
                 <input
                   type="range"
                   min="0"
                   max="30"
                   value={canvasGrainOpacity}
-                  onChange={(e) => setCanvasGrainOpacity(Number(e.target.value))}
-                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                  onChange={(e) =>
+                    setCanvasGrainOpacity(Number(e.target.value))
+                  }
+                  className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-emerald-500"
                 />
                 <div className="flex gap-1.5 pt-1">
                   {[0, 4, 6, 10, 18, 25].map((op) => (
@@ -4057,7 +5547,8 @@ ${deskRules.join("\n")}
                       key={op}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${canvasGrainOpacity === op ? "bg-emerald-600 border-emerald-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${canvasGrainOpacity === op ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {op}%
                     </button>
                   ))}
@@ -4066,7 +5557,7 @@ ${deskRules.join("\n")}
 
               {/* Grain Size Slider */}
               <div className="space-y-2">
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between">
                   <span className=" ">Grain Size (baseFrequency)</span>
                   <span className="text-emerald-400">{canvasGrainSize}</span>
                 </div>
@@ -4077,7 +5568,7 @@ ${deskRules.join("\n")}
                   step="0.05"
                   value={canvasGrainSize}
                   onChange={(e) => setCanvasGrainSize(Number(e.target.value))}
-                  className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                  className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-emerald-500"
                 />
                 <div className="flex gap-1.5 pt-1">
                   {[0.3, 0.5, 0.65, 0.85, 1.2, 2.0].map((sz) => (
@@ -4085,7 +5576,8 @@ ${deskRules.join("\n")}
                       key={sz}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
-                      className={`flex-1 py-1 rounded text-[10px] border transition ${canvasGrainSize === sz ? "bg-emerald-600 border-emerald-400 " : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`flex-1 rounded border py-1 text-[10px] transition ${canvasGrainSize === sz ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {sz}
                     </button>
                   ))}
@@ -4094,8 +5586,8 @@ ${deskRules.join("\n")}
 
               {/* Grain Blend Mode */}
               <div className="space-y-2">
-                <label className="block  ">Grain Blend Mode</label>
-                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
+                <label className="block">Grain Blend Mode</label>
+                <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
                   {[
                     { label: "Overlay", val: "overlay" },
                     { label: "Soft Light", val: "soft-light" },
@@ -4107,7 +5599,8 @@ ${deskRules.join("\n")}
                       key={mode.val}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
-                      className={`py-1.5 px-1 rounded text-[10px] border truncate transition ${canvasGrainBlend === mode.val ? "bg-emerald-600/40 border-emerald-400 text-emerald-200" : " bg-[#00000029] border-white/10 hover:text-white "}`}>
+                      className={`truncate rounded border px-1 py-1.5 text-[10px] transition ${canvasGrainBlend === mode.val ? "border-emerald-400 bg-emerald-600/40 text-emerald-200" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                    >
                       {mode.label}
                     </button>
                   ))}
@@ -4116,30 +5609,126 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
-            <div className="p-6 rounded-lg bg-white/[0.02] border border-white/10 space-y-5">
-              <h3 className=" flex items-center gap-2">
-                <Sliders className="w-4 h-4" /> 2. Background Shader Parameters (Live)
+            <div className="space-y-5 rounded-lg border border-white/10 bg-white/[0.02] p-6">
+              <h3 className="flex items-center gap-2">
+                <Sliders className="h-4 w-4" /> 2. Background Shader Parameters
+                (Live)
               </h3>
-              <p>All sliders update the WebGL canvas shader in real-time via <code className="text-purple-300">window.__neatInstance</code>.</p>
+              <p>
+                All sliders update the WebGL canvas shader in real-time via{" "}
+                <code className="text-purple-300">window.__neatInstance</code>.
+              </p>
 
               {/* Reusable slider helper */}
-              {([
-                { label: "Speed", value: canvasSpeed, set: setCanvasSpeed, min: 0, max: 10, step: 1, color: "purple" },
-                { label: "Wave Amplitude", value: canvasWaveAmp, set: setCanvasWaveAmp, min: 0, max: 3, step: 0.1, color: "cyan" },
-                { label: "Wave Freq X", value: canvasWaveFreqX, set: setCanvasWaveFreqX, min: 0, max: 5, step: 0.1, color: "cyan" },
-                { label: "Wave Freq Y", value: canvasWaveFreqY, set: setCanvasWaveFreqY, min: 0, max: 5, step: 0.1, color: "cyan" },
-                { label: "Color Blending", value: canvasColorBlending, set: setCanvasColorBlending, min: 0, max: 20, step: 1, color: "purple" },
-                { label: "Color Saturation", value: canvasColorSaturation, set: setCanvasColorSaturation, min: 0, max: 20, step: 1, color: "pink" },
-                { label: "Color Brightness", value: canvasColorBrightness, set: setCanvasColorBrightness, min: 0, max: 2, step: 0.05, color: "amber" },
-                { label: "Shadows", value: canvasShadows, set: setCanvasShadows, min: 0, max: 20, step: 1, color: "purple" },
-                { label: "Highlights", value: canvasHighlights, set: setCanvasHighlights, min: 0, max: 20, step: 1, color: "amber" },
-                { label: "H. Pressure", value: canvasHPressure, set: setCanvasHPressure, min: 0, max: 10, step: 1, color: "emerald" },
-                { label: "V. Pressure", value: canvasVPressure, set: setCanvasVPressure, min: 0, max: 10, step: 1, color: "emerald" },
-              ] as const).map((ctrl) => (
+              {(
+                [
+                  {
+                    label: "Speed",
+                    value: canvasSpeed,
+                    set: setCanvasSpeed,
+                    min: 0,
+                    max: 10,
+                    step: 1,
+                    color: "purple",
+                  },
+                  {
+                    label: "Wave Amplitude",
+                    value: canvasWaveAmp,
+                    set: setCanvasWaveAmp,
+                    min: 0,
+                    max: 3,
+                    step: 0.1,
+                    color: "cyan",
+                  },
+                  {
+                    label: "Wave Freq X",
+                    value: canvasWaveFreqX,
+                    set: setCanvasWaveFreqX,
+                    min: 0,
+                    max: 5,
+                    step: 0.1,
+                    color: "cyan",
+                  },
+                  {
+                    label: "Wave Freq Y",
+                    value: canvasWaveFreqY,
+                    set: setCanvasWaveFreqY,
+                    min: 0,
+                    max: 5,
+                    step: 0.1,
+                    color: "cyan",
+                  },
+                  {
+                    label: "Color Blending",
+                    value: canvasColorBlending,
+                    set: setCanvasColorBlending,
+                    min: 0,
+                    max: 20,
+                    step: 1,
+                    color: "purple",
+                  },
+                  {
+                    label: "Color Saturation",
+                    value: canvasColorSaturation,
+                    set: setCanvasColorSaturation,
+                    min: 0,
+                    max: 20,
+                    step: 1,
+                    color: "pink",
+                  },
+                  {
+                    label: "Color Brightness",
+                    value: canvasColorBrightness,
+                    set: setCanvasColorBrightness,
+                    min: 0,
+                    max: 2,
+                    step: 0.05,
+                    color: "amber",
+                  },
+                  {
+                    label: "Shadows",
+                    value: canvasShadows,
+                    set: setCanvasShadows,
+                    min: 0,
+                    max: 20,
+                    step: 1,
+                    color: "purple",
+                  },
+                  {
+                    label: "Highlights",
+                    value: canvasHighlights,
+                    set: setCanvasHighlights,
+                    min: 0,
+                    max: 20,
+                    step: 1,
+                    color: "amber",
+                  },
+                  {
+                    label: "H. Pressure",
+                    value: canvasHPressure,
+                    set: setCanvasHPressure,
+                    min: 0,
+                    max: 10,
+                    step: 1,
+                    color: "emerald",
+                  },
+                  {
+                    label: "V. Pressure",
+                    value: canvasVPressure,
+                    set: setCanvasVPressure,
+                    min: 0,
+                    max: 10,
+                    step: 1,
+                    color: "emerald",
+                  },
+                ] as const
+              ).map((ctrl) => (
                 <div key={ctrl.label} className="space-y-1">
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className=" ">{ctrl.label}</span>
-                    <span className={`text-${ctrl.color}-400`}>{ctrl.value}</span>
+                    <span className={`text-${ctrl.color}-400`}>
+                      {ctrl.value}
+                    </span>
                   </div>
                   <input
                     type="range"
@@ -4148,14 +5737,14 @@ ${deskRules.join("\n")}
                     step={ctrl.step}
                     value={ctrl.value}
                     onChange={(e) => ctrl.set(Number(e.target.value))}
-                    className={`w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-${ctrl.color}-500`}
+                    className={`h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-${ctrl.color}-500`}
                   />
                 </div>
               ))}
 
               {/* Background Color */}
               <div className="space-y-2">
-                <label className="block  ">Background Color</label>
+                <label className="block">Background Color</label>
                 <div className="flex items-center gap-3">
                   {[
                     { label: "Midnight", bg: "#05030a" },
@@ -4170,14 +5759,14 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasBgColor(bg.bg)}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
-                      className={`w-6 h-6 rounded-lg border-2 transition transform hover:scale-110 ${canvasBgColor === bg.bg ? "border-white ring-2 ring-white/50 scale-110" : " border-white/10 "}`}
+                      className={`h-6 w-6 transform rounded-lg border-2 transition hover:scale-110 ${canvasBgColor === bg.bg ? "scale-110 border-white ring-2 ring-white/50" : "border-white/10"}`}
                     />
                   ))}
                   <input
                     type="color"
                     value={canvasBgColor}
                     onChange={(e) => setCanvasBgColor(e.target.value)}
-                    className="w-6 h-6 rounded-lg border border-white/10 cursor-pointer ml-auto"
+                    className="ml-auto h-6 w-6 cursor-pointer rounded-lg border border-white/10"
                     title="Custom Hex Picker"
                   />
                 </div>
@@ -4187,73 +5776,169 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 11: GLOBAL CONTAINER STYLES */}
-        <section id="global-containers" className="scroll-mt-36 border border-white/10 rounded-lg p-6 sm:p-8 space-y-8">
+        <section
+          id="global-containers"
+          className="scroll-mt-36 space-y-8 rounded-lg border border-white/10 p-6 sm:p-8"
+        >
           <div className="border-b border-white/10 pb-4">
-            <h2 className="text-pink-400 flex items-center gap-2">
-              <Settings className="w-6 h-6" /> 11. Global Container, Border & Background Styles
+            <h2 className="flex items-center gap-2 text-pink-400">
+              <Settings className="h-6 w-6" /> 11. Global Container, Border &
+              Background Styles
             </h2>
-            <p >
-              Edit global CSS variables for section/card backgrounds, borders, and glass surfaces. Changes apply site-wide in real-time. Hit <strong >SAVE THEME TOKENS</strong> at the top to persist.
+            <p>
+              Edit global CSS variables for section/card backgrounds, borders,
+              and glass surfaces. Changes apply site-wide in real-time. Hit{" "}
+              <strong>SAVE THEME TOKENS</strong> at the top to persist.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Card / Section Background Token */}
-            {([
-              { label: "Section Background", token: "--color-section-bg", category: "colors" as const, desc: "Booking/calendar/form section fill (was #0c0817)" },
-              { label: "Section Border", token: "--color-section-border", category: "colors" as const, desc: "Border on booking/form containers" },
-              { label: "Input Background", token: "--color-input-bg", category: "colors" as const, desc: "Select/input field backgrounds" },
-              { label: "Input Border", token: "--color-input-border", category: "colors" as const, desc: "Select/input field borders" },
-              { label: "Card Background", token: "--color-bg-card", category: "colors" as const, desc: "All card & container fill" },
-              { label: "Glass Background", token: "--color-bg-glass", category: "colors" as const, desc: "Glassmorphism panels" },
-              { label: "Surface Background", token: "--color-bg-surface", category: "colors" as const, desc: "Deep surface layers" },
-              { label: "Primary Background", token: "--color-bg-primary", category: "colors" as const, desc: "Page-level base background" },
-              { label: "Deep Background", token: "--color-bg-deep", category: "colors" as const, desc: "Deepest background layer" },
-              { label: "Main Border", token: "--color-border-main", category: "colors" as const, desc: "Default border on all containers" },
-              { label: "Purple Border", token: "--color-border-purple", category: "colors" as const, desc: "Accent purple border" },
-              { label: "Accent Color", token: "--color-accent", category: "colors" as const, desc: "Primary brand accent" },
-            ]).map((item) => {
+            {[
+              {
+                label: "Section Background",
+                token: "--color-section-bg",
+                category: "colors" as const,
+                desc: "Booking/calendar/form section fill (was #0c0817)",
+              },
+              {
+                label: "Section Border",
+                token: "--color-section-border",
+                category: "colors" as const,
+                desc: "Border on booking/form containers",
+              },
+              {
+                label: "Input Background",
+                token: "--color-input-bg",
+                category: "colors" as const,
+                desc: "Select/input field backgrounds",
+              },
+              {
+                label: "Input Border",
+                token: "--color-input-border",
+                category: "colors" as const,
+                desc: "Select/input field borders",
+              },
+              {
+                label: "Card Background",
+                token: "--color-bg-card",
+                category: "colors" as const,
+                desc: "All card & container fill",
+              },
+              {
+                label: "Glass Background",
+                token: "--color-bg-glass",
+                category: "colors" as const,
+                desc: "Glassmorphism panels",
+              },
+              {
+                label: "Surface Background",
+                token: "--color-bg-surface",
+                category: "colors" as const,
+                desc: "Deep surface layers",
+              },
+              {
+                label: "Primary Background",
+                token: "--color-bg-primary",
+                category: "colors" as const,
+                desc: "Page-level base background",
+              },
+              {
+                label: "Deep Background",
+                token: "--color-bg-deep",
+                category: "colors" as const,
+                desc: "Deepest background layer",
+              },
+              {
+                label: "Main Border",
+                token: "--color-border-main",
+                category: "colors" as const,
+                desc: "Default border on all containers",
+              },
+              {
+                label: "Purple Border",
+                token: "--color-border-purple",
+                category: "colors" as const,
+                desc: "Accent purple border",
+              },
+              {
+                label: "Accent Color",
+                token: "--color-accent",
+                category: "colors" as const,
+                desc: "Primary brand accent",
+              },
+            ].map((item) => {
               const currentValue = tokens[item.category]?.[item.token] || "";
               return (
-                <div key={item.token} className="p-4 rounded-lg bg-white/[0.02] border border-white/10 space-y-3">
+                <div
+                  key={item.token}
+                  className="space-y-3 rounded-lg border border-white/10 bg-white/[0.02] p-4"
+                >
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-pink-400">{item.label}</span>
                       <p className="mt-0.5">{item.desc}</p>
                     </div>
-                    <code className="text-[10px] text-white/40 bg-black/40 px-2 py-1 rounded border border-white/5">{item.token}</code>
+                    <code className="rounded border border-white/5 bg-black/40 px-2 py-1 text-[10px] text-white/40">
+                      {item.token}
+                    </code>
                   </div>
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-8 h-8 rounded-lg border border-white/10 shrink-0"
+                      className="h-8 w-8 shrink-0 rounded-lg border border-white/10"
                       style={{ backgroundColor: currentValue }}
                     />
                     <input
                       type="text"
                       value={currentValue}
-                      onChange={(e) => updateToken(item.category, item.token, e.target.value)}
-                      className="flex-1 px-3 py-1.5 bg-[#00000029] border border-white/10 rounded-lg focus:border-pink-500 focus:outline-none transition"
+                      onChange={(e) =>
+                        updateToken(item.category, item.token, e.target.value)
+                      }
+                      className="flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 transition focus:border-pink-500 focus:outline-none"
                       placeholder="rgba(255,255,255,0.03)"
                     />
                     <button
                       type="button"
-                      onClick={() => updateToken(item.category, item.token, "transparent")}
-                      className="px-2 py-1.5 text-[10px] bg-[#00000029] border border-white/10 rounded-lg hover:text-white hover:border-white/30 transition">
+                      onClick={() =>
+                        updateToken(item.category, item.token, "transparent")
+                      }
+                      className="rounded-lg border border-white/10 bg-[#00000029] px-2 py-1.5 text-[10px] transition hover:border-white/30 hover:text-white"
+                    >
                       Clear
                     </button>
                   </div>
                   {/* Quick presets */}
-                  <div className="flex gap-1.5 flex-wrap">
+                  <div className="flex flex-wrap gap-1.5">
                     {(item.token.includes("border")
-                      ? ["transparent", "rgba(255,255,255,0.05)", "rgba(255,255,255,0.1)", "rgba(255,255,255,0.15)", "rgba(147,51,234,0.3)"]
-                      : ["transparent", "rgba(255,255,255,0.02)", "rgba(255,255,255,0.03)", "rgba(255,255,255,0.05)", "rgba(18,18,24,0.45)", "rgba(15,5,29,0.55)"]
+                      ? [
+                          "transparent",
+                          "rgba(255,255,255,0.05)",
+                          "rgba(255,255,255,0.1)",
+                          "rgba(255,255,255,0.15)",
+                          "rgba(147,51,234,0.3)",
+                        ]
+                      : [
+                          "transparent",
+                          "rgba(255,255,255,0.02)",
+                          "rgba(255,255,255,0.03)",
+                          "rgba(255,255,255,0.05)",
+                          "rgba(18,18,24,0.45)",
+                          "rgba(15,5,29,0.55)",
+                        ]
                     ).map((preset) => (
                       <button
                         key={preset}
                         type="button"
-                        onClick={() => updateToken(item.category, item.token, preset)}
-                        className={`px-2 py-1 rounded text-[12px] border transition ${currentValue === preset ? "bg-pink-600/40 border-pink-400 text-pink-200" : " bg-[#00000029] border-white/10 text-white/50 hover:text-white "}`}>
-                        {preset === "transparent" ? "none" : preset.length > 20 ? preset.slice(0, 18) + "…" : preset}
+                        onClick={() =>
+                          updateToken(item.category, item.token, preset)
+                        }
+                        className={`rounded border px-2 py-1 text-[12px] transition ${currentValue === preset ? "border-pink-400 bg-pink-600/40 text-pink-200" : "border-white/10 bg-[#00000029] text-white/50 hover:text-white"}`}
+                      >
+                        {preset === "transparent"
+                          ? "none"
+                          : preset.length > 20
+                            ? preset.slice(0, 18) + "…"
+                            : preset}
                       </button>
                     ))}
                   </div>
@@ -4264,54 +5949,112 @@ ${deskRules.join("\n")}
 
           {/* Live Preview Strip */}
           <div className="space-y-3">
-            <h3 >Live Preview</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-5 rounded-lg space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-card"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
+            <h3>Live Preview</h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div
+                className="space-y-2 rounded-lg p-5"
+                style={{
+                  backgroundColor: tokens.colors["--color-bg-card"],
+                  border: `1px solid ${tokens.colors["--color-border-main"]}`,
+                }}
+              >
                 <span className="text-pink-400">Card Container</span>
-                <p>Uses <code className="text-pink-300 text-[10px]">--color-bg-card</code> + <code className="text-pink-300 text-[10px]">--color-border-main</code></p>
+                <p>
+                  Uses{" "}
+                  <code className="text-[10px] text-pink-300">
+                    --color-bg-card
+                  </code>{" "}
+                  +{" "}
+                  <code className="text-[10px] text-pink-300">
+                    --color-border-main
+                  </code>
+                </p>
               </div>
-              <div className="p-5 rounded-lg backdrop-blur-xl space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-glass"], border: `1px solid ${tokens.colors["--color-border-main"]}` }}>
+              <div
+                className="space-y-2 rounded-lg p-5 backdrop-blur-xl"
+                style={{
+                  backgroundColor: tokens.colors["--color-bg-glass"],
+                  border: `1px solid ${tokens.colors["--color-border-main"]}`,
+                }}
+              >
                 <span className="text-purple-400">Glass Panel</span>
-                <p>Uses <code className="text-purple-300 text-[10px]">--color-bg-glass</code></p>
+                <p>
+                  Uses{" "}
+                  <code className="text-[10px] text-purple-300">
+                    --color-bg-glass
+                  </code>
+                </p>
               </div>
-              <div className="p-5 rounded-lg space-y-2" style={{ backgroundColor: tokens.colors["--color-bg-surface"], border: `1px solid ${tokens.colors["--color-border-purple"]}` }}>
+              <div
+                className="space-y-2 rounded-lg p-5"
+                style={{
+                  backgroundColor: tokens.colors["--color-bg-surface"],
+                  border: `1px solid ${tokens.colors["--color-border-purple"]}`,
+                }}
+              >
                 <span>Surface Panel</span>
-                <p>Uses <code className="text-[10px]">--color-bg-surface</code> + <code className="text-[10px]">--color-border-purple</code></p>
+                <p>
+                  Uses <code className="text-[10px]">--color-bg-surface</code> +{" "}
+                  <code className="text-[10px]">--color-border-purple</code>
+                </p>
               </div>
             </div>
           </div>
         </section>
 
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
-        <section id="stateroom-perks" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-6 overflow-hidden">
+        <section
+          id="stateroom-perks"
+          className="scroll-mt-36 space-y-6 overflow-hidden rounded-lg border-0 p-0"
+        >
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className=" flex items-center gap-2">
-              <Anchor className="w-6 h-6" /> 12. Stateroom Catalog & Suite Class Perks
+            <h2 className="flex items-center gap-2">
+              <Anchor className="h-6 w-6" /> 12. Stateroom Catalog & Suite Class
+              Perks
             </h2>
-            <p >
-              Interactive preview of the Stateroom Categories catalog and Suite Class Perks component (from the Cruise page). Responds to container, border, and accent theme token changes in real-time.
+            <p>
+              Interactive preview of the Stateroom Categories catalog and Suite
+              Class Perks component (from the Cruise page). Responds to
+              container, border, and accent theme token changes in real-time.
             </p>
           </div>
 
-          <div className="p-0 grid grid-cols-1 lg:grid-cols-3 gap-10 text-left">
+          <div className="grid grid-cols-1 gap-10 p-0 text-left lg:grid-cols-3">
             {/* Stateroom Categories Tab Column — borderless & unpadded */}
-            <div className="lg:col-span-1 flex flex-col justify-between p-0 border-0  ">
+            <div className="flex flex-col justify-between border-0 p-0 lg:col-span-1">
               <div>
                 <h3 className="mb-6">Stateroom Categories</h3>
                 <div className="flex flex-col gap-2.5">
                   {[
-                    { id: "suites", label: "Royal Suites", desc: "Star Class, Sky Class, and Sea Class accommodations." },
-                    { id: "balcony", label: "Balconies & Infinite", desc: "Private sliding glass doors opening to ocean breeze." },
-                    { id: "ocean", label: "Ocean View", desc: "Large windows overlooking port approaches." },
-                    { id: "interior", label: "Interior Rooms", desc: "Efficient, comfortable, and budget-friendly." },
-                  ].map(tab => (
+                    {
+                      id: "suites",
+                      label: "Royal Suites",
+                      desc: "Star Class, Sky Class, and Sea Class accommodations.",
+                    },
+                    {
+                      id: "balcony",
+                      label: "Balconies & Infinite",
+                      desc: "Private sliding glass doors opening to ocean breeze.",
+                    },
+                    {
+                      id: "ocean",
+                      label: "Ocean View",
+                      desc: "Large windows overlooking port approaches.",
+                    },
+                    {
+                      id: "interior",
+                      label: "Interior Rooms",
+                      desc: "Efficient, comfortable, and budget-friendly.",
+                    },
+                  ].map((tab) => (
                     <button
                       key={tab.id}
                       type="button"
                       onClick={() => setStateroomTab(tab.id as any)}
-                      className={`w-full p-4 rounded-lg text-left border-0 transition-colors cursor-pointer ${stateroomTab === tab.id ? "bg-purple-600/30 " : " bg-[#00000029] hover:bg-white/10  "}`}>
+                      className={`w-full cursor-pointer rounded-lg border-0 p-4 text-left transition-colors ${stateroomTab === tab.id ? "bg-purple-600/30" : "bg-[#00000029] hover:bg-white/10"}`}
+                    >
                       <h4 className="r">{tab.label}</h4>
-                      <p >{tab.desc}</p>
+                      <p>{tab.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -4320,7 +6063,7 @@ ${deskRules.join("\n")}
               <div className="mt-8 border-0 p-0">
                 <h4 className="mb-3">Available layouts:</h4>
                 {stateroomTab === "suites" && (
-                  <div className="space-y-2    ">
+                  <div className="space-y-2">
                     <p>• Ultimate Family Townhouse</p>
                     <p>• Royal Loft Suite</p>
                     <p>• Owner&apos;s Suite</p>
@@ -4330,7 +6073,7 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "balcony" && (
-                  <div className="space-y-2    ">
+                  <div className="space-y-2">
                     <p>• Infinite Ocean View Balcony</p>
                     <p>• Infinite Central Park Balcony</p>
                     <p>• Ocean View Balcony</p>
@@ -4339,13 +6082,13 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "ocean" && (
-                  <div className="space-y-2    ">
+                  <div className="space-y-2">
                     <p>• Panoramic Ocean View</p>
                     <p>• Ocean View</p>
                   </div>
                 )}
                 {stateroomTab === "interior" && (
-                  <div className="space-y-2    ">
+                  <div className="space-y-2">
                     <p>• Interior</p>
                     <p>• Spacious Interior</p>
                     <p>• Central Park View Interior</p>
@@ -4356,20 +6099,21 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Suite Class Benefits Column (Span 2) */}
-            <div className="lg:col-span-2 bg-[var(--color-section-bg)] backdrop-blur-xl border border-[var(--color-section-border)] p-6 md:p-8 rounded-lg flex flex-col justify-between">
+            <div className="flex flex-col justify-between rounded-lg border border-[var(--color-section-border)] bg-[var(--color-section-bg)] p-6 backdrop-blur-xl md:p-8 lg:col-span-2">
               <div>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+                <div className="mb-6 flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
                   <div>
                     <span className="]">VIP Experiences</span>
-                    <h3 >Suite Class Perks</h3>
+                    <h3>Suite Class Perks</h3>
                   </div>
-                  <div className="flex gap-1.5 bg-[#00000029] p-1.5 border border-white/10 rounded-xl">
-                    {(["sea", "sky", "star"] as const).map(perk => (
+                  <div className="flex gap-1.5 rounded-xl border border-white/10 bg-[#00000029] p-1.5">
+                    {(["sea", "sky", "star"] as const).map((perk) => (
                       <button
                         key={perk}
                         type="button"
                         onClick={() => setSuiteTab(perk)}
-                        className={`px-4 py-2 rounded-lg transition-colors cursor-pointer ${suiteTab === perk ? "bg-cyan-600 shadow-cyan-600/30" : " hover:text-white "}`}>
+                        className={`cursor-pointer rounded-lg px-4 py-2 transition-colors ${suiteTab === perk ? "bg-cyan-600 shadow-cyan-600/30" : "hover:text-white"}`}
+                      >
                         {perk} Class
                       </button>
                     ))}
@@ -4377,95 +6121,140 @@ ${deskRules.join("\n")}
                 </div>
 
                 {/* Benefits List */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3.5 md:text-base /90">
-                  {suiteTab === "sea" && [
-                    "Dedicated check-in line",
-                    "Priority boarding",
-                    "Dinner at Coastal Kitchen (subject to availability)*",
-                    "All-day access to Star | Sky | Sea dining",
-                    "Royal Caribbean plush bathrobes for use onboard",
-                    "Luxury pillow top mattress and linen",
-                    "Luxury bathroom amenities",
-                    "Lavazza Espresso coffee machine"
-                  ].map((perk) => (
-                    <div key={`sea-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className="text-purple-400 text-base shrink-0">✓</span>
-                      <span>{perk}</span>
-                    </div>
-                  ))}
+                <div className="/90 grid grid-cols-1 gap-x-6 gap-y-3.5 md:grid-cols-2 md:text-base">
+                  {suiteTab === "sea" &&
+                    [
+                      "Dedicated check-in line",
+                      "Priority boarding",
+                      "Dinner at Coastal Kitchen (subject to availability)*",
+                      "All-day access to Star | Sky | Sea dining",
+                      "Royal Caribbean plush bathrobes for use onboard",
+                      "Luxury pillow top mattress and linen",
+                      "Luxury bathroom amenities",
+                      "Lavazza Espresso coffee machine",
+                    ].map((perk) => (
+                      <div
+                        key={`sea-perk-${perk}`}
+                        className="flex items-center gap-2.5"
+                      >
+                        <span className="shrink-0 text-base text-purple-400">
+                          ✓
+                        </span>
+                        <span>{perk}</span>
+                      </div>
+                    ))}
 
-                  {suiteTab === "sky" && [
-                    "Concierge service",
-                    "All-day access to Coastal Kitchen*",
-                    "All-day access to Star & Sky dining",
-                    "Complimentary VOOM Surf + Stream (1 device pp)†",
-                    "Specialty bottled water upon arrival",
-                    "Flexible arrival boarding & priority departure",
-                    "Priority dining reservations",
-                    "Reserved seating in select entertainment venues",
-                    "Suite Lounge access (complimentary hors d’oeuvres/cocktails)",
-                    "Access to Suite Sun Deck (The Grove on Star)",
-                    "Royal Caribbean plush bathrobes for use onboard",
-                    "Luxury pillow top mattress and linen",
-                    "Luxury bathroom amenities",
-                    "Lavazza Espresso coffee machine"
-                  ].map((perk) => (
-                    <div key={`sky-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className=" shrink-0">✓</span>
-                      <span>{perk}</span>
-                    </div>
-                  ))}
+                  {suiteTab === "sky" &&
+                    [
+                      "Concierge service",
+                      "All-day access to Coastal Kitchen*",
+                      "All-day access to Star & Sky dining",
+                      "Complimentary VOOM Surf + Stream (1 device pp)†",
+                      "Specialty bottled water upon arrival",
+                      "Flexible arrival boarding & priority departure",
+                      "Priority dining reservations",
+                      "Reserved seating in select entertainment venues",
+                      "Suite Lounge access (complimentary hors d’oeuvres/cocktails)",
+                      "Access to Suite Sun Deck (The Grove on Star)",
+                      "Royal Caribbean plush bathrobes for use onboard",
+                      "Luxury pillow top mattress and linen",
+                      "Luxury bathroom amenities",
+                      "Lavazza Espresso coffee machine",
+                    ].map((perk) => (
+                      <div
+                        key={`sky-perk-${perk}`}
+                        className="flex items-center gap-2.5"
+                      >
+                        <span className="shrink-0">✓</span>
+                        <span>{perk}</span>
+                      </div>
+                    ))}
 
-                  {suiteTab === "star" && [
-                    "Exclusive access to Royal Genie service§",
-                    "All-day access to Coastal Kitchen*",
-                    "All-day access to Star & Sky dining",
-                    "Complimentary Deluxe Beverage Package (ages 21+)†",
-                    "Complimentary Refreshment Package (under legal age)†",
-                    "Still and sparkling water replenished daily",
-                    "Complimentary Gratuities for stateroom/dining staffΔ",
-                    "Complimentary VOOM Surf + Stream powered by Starlink",
-                    "Expedited boarding & departure",
-                    "Best seats in the house in select entertainment venues",
-                    "Priority entrance to many onboard activities††",
-                    "Suite Lounge access (complimentary hors d'oeuvres/cocktails)",
-                    "Access to Suite Sun Deck, and The Grove",
-                    "Complimentary minibar stocked with Coca-Cola & water",
-                    "Complimentary laundry and pressing services",
-                    "Luxury mattress, pillows, and linens",
-                    "Luxury bathroom amenities",
-                    "Luxury bathrobes for use onboard",
-                    "In-suite coffee machine"
-                  ].map((perk) => (
-                    <div key={`star-perk-${perk}`} className="flex items-center gap-2.5">
-                      <span className="text-[var(--color-accent)] text-base shrink-0">✓</span>
-                      <span>{perk}</span>
-                    </div>
-                  ))}
+                  {suiteTab === "star" &&
+                    [
+                      "Exclusive access to Royal Genie service§",
+                      "All-day access to Coastal Kitchen*",
+                      "All-day access to Star & Sky dining",
+                      "Complimentary Deluxe Beverage Package (ages 21+)†",
+                      "Complimentary Refreshment Package (under legal age)†",
+                      "Still and sparkling water replenished daily",
+                      "Complimentary Gratuities for stateroom/dining staffΔ",
+                      "Complimentary VOOM Surf + Stream powered by Starlink",
+                      "Expedited boarding & departure",
+                      "Best seats in the house in select entertainment venues",
+                      "Priority entrance to many onboard activities††",
+                      "Suite Lounge access (complimentary hors d'oeuvres/cocktails)",
+                      "Access to Suite Sun Deck, and The Grove",
+                      "Complimentary minibar stocked with Coca-Cola & water",
+                      "Complimentary laundry and pressing services",
+                      "Luxury mattress, pillows, and linens",
+                      "Luxury bathroom amenities",
+                      "Luxury bathrobes for use onboard",
+                      "In-suite coffee machine",
+                    ].map((perk) => (
+                      <div
+                        key={`star-perk-${perk}`}
+                        className="flex items-center gap-2.5"
+                      >
+                        <span className="shrink-0 text-base text-[var(--color-accent)]">
+                          ✓
+                        </span>
+                        <span>{perk}</span>
+                      </div>
+                    ))}
                 </div>
               </div>
 
               {/* Disclaimers & Notes */}
-              <div className="mt-8 border-t border-white/10 pt-4 space-y-1.5  ">
+              <div className="mt-8 space-y-1.5 border-t border-white/10 pt-4">
                 {suiteTab === "sea" && (
                   <>
-                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
-                    <p>** Sea Class guests do not have access to stateroom lounges.</p>
-                    <p>— Complimentary gratuities are not included for Sea Class guests.</p>
+                    <p>
+                      * Reservations required for dinner at Coastal Kitchen.
+                      Beverages are not included.
+                    </p>
+                    <p>
+                      ** Sea Class guests do not have access to stateroom
+                      lounges.
+                    </p>
+                    <p>
+                      — Complimentary gratuities are not included for Sea Class
+                      guests.
+                    </p>
                   </>
                 )}
                 {suiteTab === "sky" && (
                   <>
-                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages are not included.</p>
-                    <p>† VOOM Surf + Stream package: One device per person is included for guests booked in a Sky Suite (not included in Sky Junior Suite).</p>
+                    <p>
+                      * Reservations required for dinner at Coastal Kitchen.
+                      Beverages are not included.
+                    </p>
+                    <p>
+                      † VOOM Surf + Stream package: One device per person is
+                      included for guests booked in a Sky Suite (not included in
+                      Sky Junior Suite).
+                    </p>
                   </>
                 )}
                 {suiteTab === "star" && (
                   <>
-                    <p>§ Royal Genie services are for Star Class guests only and cannot be extended to friends/family in other staterooms.</p>
-                    <p>* Reservations required for dinner at Coastal Kitchen. Beverages not in Deluxe Package are charged.</p>
-                    <p>Δ Gratuities apply to standard housekeeping/dining. genie/concierge tipping is at guest discretion.</p>
-                    <p>†† Reduced wait times for select activities during published hours, excluding sea day peaks (1:00 PM – 4:00 PM).</p>
+                    <p>
+                      § Royal Genie services are for Star Class guests only and
+                      cannot be extended to friends/family in other staterooms.
+                    </p>
+                    <p>
+                      * Reservations required for dinner at Coastal Kitchen.
+                      Beverages not in Deluxe Package are charged.
+                    </p>
+                    <p>
+                      Δ Gratuities apply to standard housekeeping/dining.
+                      genie/concierge tipping is at guest discretion.
+                    </p>
+                    <p>
+                      †† Reduced wait times for select activities during
+                      published hours, excluding sea day peaks (1:00 PM – 4:00
+                      PM).
+                    </p>
                   </>
                 )}
               </div>
@@ -4473,42 +6262,80 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Stateroom Pricing & Rate Cards Showcase */}
-          <div className="pt-8 border-t border-white/10 space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="space-y-6 border-t border-white/10 pt-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
-                <span className="text-purple-400">Prevailing Market Pricing Cards</span>
-                <h3 >Stateroom & Cabin Rate Cards</h3>
+                <span className="text-purple-400">
+                  Prevailing Market Pricing Cards
+                </span>
+                <h3>Stateroom & Cabin Rate Cards</h3>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {[
-                { code: "ZI", title: "Inside GTY", price: "$1,430.77", label: "Guaranteed Cabin", image: "/images/cruise/q2_interior_plus.jpg", selectValue: "prev_zi" },
-                { code: "YO", title: "Ocean View GTY", price: "$1,691.27", label: "Guaranteed Cabin", image: "/images/cruise/n5.jpg", selectValue: "prev_yo", isHighlighted: true },
-                { code: "IF", title: "Infinite Central Park", price: "$1,907.27", label: "Central Park View", image: "/images/cruise/if.jpg", selectValue: "prev_if" },
+                {
+                  code: "ZI",
+                  title: "Inside GTY",
+                  price: "$1,430.77",
+                  label: "Guaranteed Cabin",
+                  image: "/images/cruise/q2_interior_plus.jpg",
+                  selectValue: "prev_zi",
+                },
+                {
+                  code: "YO",
+                  title: "Ocean View GTY",
+                  price: "$1,691.27",
+                  label: "Guaranteed Cabin",
+                  image: "/images/cruise/n5.jpg",
+                  selectValue: "prev_yo",
+                  isHighlighted: true,
+                },
+                {
+                  code: "IF",
+                  title: "Infinite Central Park",
+                  price: "$1,907.27",
+                  label: "Central Park View",
+                  image: "/images/cruise/if.jpg",
+                  selectValue: "prev_if",
+                },
               ].map((room) => {
                 const isYo = room.code === "YO";
                 return (
                   <div
                     key={room.code}
-                    className="overflow-hidden rounded-lg flex flex-col justify-between group relative   border-0">
+                    className="group relative flex flex-col justify-between overflow-hidden rounded-lg border-0"
+                  >
                     {isYo && (
-                      <div className="absolute top-3 right-3 bg-purple-600 text-[10px] px-2.5 py-1 rounded-lg flex items-center gap-1 border-0 z-10">
-                        <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
+                      <div className="absolute top-3 right-3 z-10 flex items-center gap-1 rounded-lg border-0 bg-purple-600 px-2.5 py-1 text-[10px]">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-white" />
                         <span>Popular</span>
                       </div>
                     )}
                     <div>
                       {room.image && (
                         <div className="relative h-44 w-full overflow-hidden text-center">
-                          <Image width={350} height={200} unoptimized src={room.image} alt={room.title} className="w-full h-full object-cover" />
+                          <Image
+                            width={350}
+                            height={200}
+                            unoptimized
+                            src={room.image}
+                            alt={room.title}
+                            className="h-full w-full object-cover"
+                          />
                         </div>
                       )}
                       <div className="px-0 py-5">
-                        <div className="flex justify-between items-start gap-2 mb-3 text-left">
-                          <span className={`text-[10px] px-2.5 py-0.5 rounded border-0 ${isYo ? 'bg-purple-500/30 text-purple-200' : 'bg-white/10 text-white/70'}`}>{room.label}</span>
+                        <div className="mb-3 flex items-start justify-between gap-2 text-left">
+                          <span
+                            className={`rounded border-0 px-2.5 py-0.5 text-[10px] ${isYo ? "bg-purple-500/30 text-purple-200" : "bg-white/10 text-white/70"}`}
+                          >
+                            {room.label}
+                          </span>
                         </div>
-                        <span className="text-[10px] text-white/50 block">{room.code} Category</span>
+                        <span className="block text-[10px] text-white/50">
+                          {room.code} Category
+                        </span>
                         <h4 className="mt-0.5 text-left">{room.title}</h4>
                       </div>
                     </div>
@@ -4516,14 +6343,16 @@ ${deskRules.join("\n")}
                     <div className="px-0 pt-0 pb-5 text-left">
                       <div className="flex items-baseline gap-1.5">
                         <span className="text-xl">{room.price}</span>
-                        <span >USD pp</span>
+                        <span>USD pp</span>
                       </div>
-                      <span className="text-[10px] text-white/50 block">Rates as of June 27, 2026</span>
+                      <span className="block text-[10px] text-white/50">
+                        Rates as of June 27, 2026
+                      </span>
                       <button
                         type="button"
-                        className={`mt-4 w-full py-2.5 px-4 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer border-0 ${isYo ? 'bg-purple-600 hover:bg-purple-500 ' : 'bg-purple-600 hover:bg-purple-500 '}`}>
+                        className={`mt-4 flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border-0 px-4 py-2.5 ${isYo ? "bg-purple-600 hover:bg-purple-500" : "bg-purple-600 hover:bg-purple-500"}`}
+                      >
                         <span>Select Prevailing Rate</span>
-
                       </button>
                     </div>
                   </div>
@@ -4533,78 +6362,189 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cruise Guest Reservation Form Card Showcase */}
-          <div className="pt-8 border-t border-white/10 space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="space-y-6 border-t border-white/10 pt-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <span className="]">Reservation Form Component</span>
-                <h3 >Cruise Guest Booking Registration Card</h3>
+                <h3>Cruise Guest Booking Registration Card</h3>
               </div>
             </div>
 
-            <div className="booking-form-card border-0 rounded-lg overflow-hidden   p-0 text-left">
+            <div className="booking-form-card overflow-hidden rounded-lg border-0 p-0 text-left">
               {/* Header Banner */}
               <div className="booking-header-banner border-0 px-0 py-2 text-left">
-                <h2 >7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST. THOMAS • ST. MAARTEN</h2>
-                <p className="text-purple-400">STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY 17, 2027)</p>
-                <p className="mt-0.5">GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS <a href="tel:8776839753" className="hover:underline transition-colors">(877-683-9753)</a></p>
+                <h2>
+                  7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST.
+                  THOMAS • ST. MAARTEN
+                </h2>
+                <p className="text-purple-400">
+                  STAR OF THE SEAS — ROYAL CARIBBEAN (JANUARY 10, 2027 - JANUARY
+                  17, 2027)
+                </p>
+                <p className="mt-0.5">
+                  GROUP I.D. 3325680 • OFFICIAL TRAVEL AGENCY: NTD VACATIONS{" "}
+                  <a
+                    href="tel:8776839753"
+                    className="transition-colors hover:underline"
+                  >
+                    (877-683-9753)
+                  </a>
+                </p>
               </div>
 
               {/* GUEST 1 (Primary Booker) */}
               <div className="booking-section-container border-0 p-0">
-                <div className="booking-section-header px-0 py-3 border-0 flex items-center justify-between">
-                  <span >Guest 1 (Primary Booker)</span>
-                  <span className="bg-purple-600 px-3 py-1 rounded-lg border-0">Primary</span>
+                <div className="booking-section-header flex items-center justify-between border-0 px-0 py-3">
+                  <span>Guest 1 (Primary Booker)</span>
+                  <span className="rounded-lg border-0 bg-purple-600 px-3 py-1">
+                    Primary
+                  </span>
                 </div>
-                <div className="booking-grid grid grid-cols-1 md:grid-cols-2 gap-y-2" suppressHydrationWarning>
+                <div
+                  className="booking-grid grid grid-cols-1 gap-y-2 md:grid-cols-2"
+                  suppressHydrationWarning
+                >
                   {/* Name */}
-                  <div className="booking-cell border-0 py-3 px-0 col-span-2" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-name" className="booking-label block text-purple-400 mb-1.5">Full Legal Name (as spelled on passport) *</label>
-                    <input aria-label="Full Legal Name" id="sg-guest1-name" type="text" defaultValue="Michael Scimeca" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
+                  <div
+                    className="booking-cell col-span-2 border-0 px-0 py-3"
+                    suppressHydrationWarning
+                  >
+                    <label
+                      htmlFor="sg-guest1-name"
+                      className="booking-label mb-1.5 block text-purple-400"
+                    >
+                      Full Legal Name (as spelled on passport) *
+                    </label>
+                    <input
+                      aria-label="Full Legal Name"
+                      id="sg-guest1-name"
+                      type="text"
+                      defaultValue="Michael Scimeca"
+                      suppressHydrationWarning
+                      className="booking-input placeholder: w-full rounded-lg border-0 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none"
+                    />
                   </div>
                   {/* Phone */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pr-3" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-phone" className="booking-label block text-purple-400 mb-1.5">Phone Number *</label>
-                    <input aria-label="Phone Number" id="sg-guest1-phone" type="tel" defaultValue="(555) 123-4567" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
+                  <div
+                    className="booking-cell border-0 px-0 py-3 md:pr-3"
+                    suppressHydrationWarning
+                  >
+                    <label
+                      htmlFor="sg-guest1-phone"
+                      className="booking-label mb-1.5 block text-purple-400"
+                    >
+                      Phone Number *
+                    </label>
+                    <input
+                      aria-label="Phone Number"
+                      id="sg-guest1-phone"
+                      type="tel"
+                      defaultValue="(555) 123-4567"
+                      suppressHydrationWarning
+                      className="booking-input placeholder: w-full rounded-lg border-0 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none"
+                    />
                   </div>
                   {/* Email */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pl-3" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-email" className="booking-label block text-purple-400 mb-1.5">Email Address *</label>
-                    <input aria-label="Email Address" id="sg-guest1-email" type="email" defaultValue="michael@7thheaven.com" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
+                  <div
+                    className="booking-cell border-0 px-0 py-3 md:pl-3"
+                    suppressHydrationWarning
+                  >
+                    <label
+                      htmlFor="sg-guest1-email"
+                      className="booking-label mb-1.5 block text-purple-400"
+                    >
+                      Email Address *
+                    </label>
+                    <input
+                      aria-label="Email Address"
+                      id="sg-guest1-email"
+                      type="email"
+                      defaultValue="michael@7thheaven.com"
+                      suppressHydrationWarning
+                      className="booking-input placeholder: w-full rounded-lg border-0 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none"
+                    />
                   </div>
                   {/* T-Shirt Size */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 relative" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-tshirt" className="booking-label block text-purple-400 mb-1.5">T-Shirt Size</label>
-                    <select aria-label="T-Shirt Size" id="sg-guest1-tshirt" defaultValue="L" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   focus:outline-none cursor-pointer appearance-none rounded-lg">
-                      {["S", "M", "L", "XL", "XXL", "3XL"].map(sz => <option key={sz} value={sz} className="bg-[#0c0817]">{sz}</option>)}
+                  <div
+                    className="booking-cell relative border-0 px-0 py-3 md:pr-3"
+                    suppressHydrationWarning
+                  >
+                    <label
+                      htmlFor="sg-guest1-tshirt"
+                      className="booking-label mb-1.5 block text-purple-400"
+                    >
+                      T-Shirt Size
+                    </label>
+                    <select
+                      aria-label="T-Shirt Size"
+                      id="sg-guest1-tshirt"
+                      defaultValue="L"
+                      suppressHydrationWarning
+                      className="booking-input w-full cursor-pointer appearance-none rounded-lg border-0 bg-black/50 px-3.5 py-2.5 text-base focus:outline-none"
+                    >
+                      {["S", "M", "L", "XL", "XXL", "3XL"].map((sz) => (
+                        <option key={sz} value={sz} className="bg-[#0c0817]">
+                          {sz}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   {/* Crown & Anchor */}
-                  <div className="booking-cell border-0 py-3 px-0 md:pl-3" suppressHydrationWarning>
-                    <label htmlFor="sg-guest1-crown" className="booking-label block text-purple-400 mb-1.5">Crown & Anchor Number (if applicable)</label>
-                    <input aria-label="Loyalty Number" id="sg-guest1-crown" type="text" placeholder="Loyalty Number" suppressHydrationWarning className="booking-input w-full bg-black/50 border-0 px-3.5 py-2.5 text-base   placeholder: text-white/40 focus:outline-none rounded-lg" />
+                  <div
+                    className="booking-cell border-0 px-0 py-3 md:pl-3"
+                    suppressHydrationWarning
+                  >
+                    <label
+                      htmlFor="sg-guest1-crown"
+                      className="booking-label mb-1.5 block text-purple-400"
+                    >
+                      Crown & Anchor Number (if applicable)
+                    </label>
+                    <input
+                      aria-label="Loyalty Number"
+                      id="sg-guest1-crown"
+                      type="text"
+                      placeholder="Loyalty Number"
+                      suppressHydrationWarning
+                      className="booking-input placeholder: w-full rounded-lg border-0 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none"
+                    />
                   </div>
                 </div>
 
                 {/* Toggles */}
-                <div className="grid grid-cols-1 md:grid-cols-2 border-0 gap-y-2 mt-2">
-                  <div className="booking-cell border-0 py-3 px-0 md:pr-3 flex flex-col justify-between">
-                    <span className="booking-label block text-purple-400 mb-2.5">Do you want travel protection insurance? *</span>
+                <div className="mt-2 grid grid-cols-1 gap-y-2 border-0 md:grid-cols-2">
+                  <div className="booking-cell flex flex-col justify-between border-0 px-0 py-3 md:pr-3">
+                    <span className="booking-label mb-2.5 block text-purple-400">
+                      Do you want travel protection insurance? *
+                    </span>
                     <div className="flex gap-3">
-                      {["yes", "no"].map(opt => (
-                        <button aria-label="Travel protection option" key={opt} type="button" onClick={() => setSgGuestInsurance(opt)}
-                          className={`flex-1 py-2.5 rounded-lg border-0 transition-colors cursor-pointer ${sgGuestInsurance === opt ? "bg-cyan-600 shadow-cyan-600/30" : " bg-[#00000029] text-white/70 hover:text-white hover:bg-white/10"}`}>
+                      {["yes", "no"].map((opt) => (
+                        <button
+                          aria-label="Travel protection option"
+                          key={opt}
+                          type="button"
+                          onClick={() => setSgGuestInsurance(opt)}
+                          className={`flex-1 cursor-pointer rounded-lg border-0 py-2.5 transition-colors ${sgGuestInsurance === opt ? "bg-cyan-600 shadow-cyan-600/30" : "bg-[#00000029] text-white/70 hover:bg-white/10 hover:text-white"}`}
+                        >
                           {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <div className="booking-cell border-0 py-3 px-0 md:pl-3 flex flex-col justify-between">
-                    <span className="booking-label block text-purple-400 mb-2.5">Do you want pre-paid gratuities? *</span>
+                  <div className="booking-cell flex flex-col justify-between border-0 px-0 py-3 md:pl-3">
+                    <span className="booking-label mb-2.5 block text-purple-400">
+                      Do you want pre-paid gratuities? *
+                    </span>
                     <div className="flex gap-3">
-                      {["yes", "no"].map(opt => (
-                        <button aria-label="Prepaid gratuities option" key={opt} type="button" onClick={() => setSgGuestGratuities(opt)}
-                          className={`flex-1 py-2.5 rounded-lg border-0 transition-colors cursor-pointer ${sgGuestGratuities === opt ? "bg-purple-600 shadow-purple-600/30" : " bg-[#00000029] text-white/70 hover:text-white hover:bg-white/10"}`}>
+                      {["yes", "no"].map((opt) => (
+                        <button
+                          aria-label="Prepaid gratuities option"
+                          key={opt}
+                          type="button"
+                          onClick={() => setSgGuestGratuities(opt)}
+                          className={`flex-1 cursor-pointer rounded-lg border-0 py-2.5 transition-colors ${sgGuestGratuities === opt ? "bg-purple-600 shadow-purple-600/30" : "bg-[#00000029] text-white/70 hover:bg-white/10 hover:text-white"}`}
+                        >
                           {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                         </button>
                       ))}
@@ -4616,103 +6556,165 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cruise Policies & Guidelines 3-Column Showcase */}
-          <div className="pt-8 border-t border-white/10 space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="space-y-6 border-t border-white/10 pt-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
-                <span className="text-purple-400">Policies & Terms Component</span>
-                <h3 >Cruise Booking, Passport & Cancellation Guidelines</h3>
+                <span className="text-purple-400">
+                  Policies & Terms Component
+                </span>
+                <h3>Cruise Booking, Passport & Cancellation Guidelines</h3>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-left">
+            <div className="grid grid-cols-1 gap-6 text-left lg:grid-cols-3">
               {/* Column 1: Booking Policy */}
-              <div className="border-0 p-0 relative text-left">
-                <div className="flex items-center gap-3 mb-6">
-                  <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
-                  <h3 >Booking Policy & Best Rate Guarantee</h3>
+              <div className="relative border-0 p-0 text-left">
+                <div className="mb-6 flex items-center gap-3">
+                  <AlertTriangle className="h-6 w-6 shrink-0 text-amber-400" />
+                  <h3>Booking Policy & Best Rate Guarantee</h3>
                 </div>
-                <p className="text-amber-400 mb-6">
+                <p className="mb-6 text-amber-400">
                   Book through us to participate & lock in best rates
                 </p>
                 <p className="mb-6">
-                  To be part of our events, eat dinner together with the band and fans, and for us to assist you, your reservation <strong className=" ">must</strong> be placed under our official group booking.
+                  To be part of our events, eat dinner together with the band
+                  and fans, and for us to assist you, your reservation{" "}
+                  <strong className=" ">must</strong> be placed under our
+                  official group booking.
                 </p>
-                <ul className="space-y-3   mb-6">
+                <ul className="mb-6 space-y-3">
                   <li className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
-                    <span>We book in multiple ways: Group Rate, Prevailing Rate, Sales, and Promotions.</span>
+                    <Check className="text-purple-400shrink-0 mt-0.5 h-4 w-4" />
+                    <span>
+                      We book in multiple ways: Group Rate, Prevailing Rate,
+                      Sales, and Promotions.
+                    </span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
-                    <span>We match rates & automatically re-roll your room if prices drop before final payment!</span>
+                    <Check className="text-purple-400shrink-0 mt-0.5 h-4 w-4" />
+                    <span>
+                      We match rates & automatically re-roll your room if prices
+                      drop before final payment!
+                    </span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <HelpCircle className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
-                    <span><strong>ALL-INCLUSIVE:</strong> Prices include Cabin, Gratuities, Taxes, and Port Fees (Based on Double Occupancy).</span>
+                    <HelpCircle className="text-purple-400shrink-0 mt-0.5 h-4 w-4" />
+                    <span>
+                      <strong>ALL-INCLUSIVE:</strong> Prices include Cabin,
+                      Gratuities, Taxes, and Port Fees (Based on Double
+                      Occupancy).
+                    </span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-purple-400shrink-0 mt-0.5" />
-                    <span><strong>Group Rate:</strong> Gratuities fully included.</span>
+                    <Check className="text-purple-400shrink-0 mt-0.5 h-4 w-4" />
+                    <span>
+                      <strong>Group Rate:</strong> Gratuities fully included.
+                    </span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-                    <span><strong>Prevailing Rates:</strong> Gratuities are <strong>NOT included</strong> (Pre-paid gratuities are $129.50 PP • $147 PP for Suites).</span>
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>
+                      <strong>Prevailing Rates:</strong> Gratuities are{" "}
+                      <strong>NOT included</strong> (Pre-paid gratuities are
+                      $129.50 PP • $147 PP for Suites).
+                    </span>
                   </li>
                 </ul>
-                <div className="pt-3 border-t border-white/10 space-y-2">
+                <div className="space-y-2 border-t border-white/10 pt-3">
                   <p>
-                    <strong>Need help?</strong> <a href="mailto:info@NTDVacations.com" className="hover:text-white transition-colors">info@NTDVacations.com</a> or <a href="mailto:Mary@NTDVacations.com" className="hover:text-white transition-colors">Mary@NTDVacations.com</a>
+                    <strong>Need help?</strong>{" "}
+                    <a
+                      href="mailto:info@NTDVacations.com"
+                      className="transition-colors hover:text-white"
+                    >
+                      info@NTDVacations.com
+                    </a>{" "}
+                    or{" "}
+                    <a
+                      href="mailto:Mary@NTDVacations.com"
+                      className="transition-colors hover:text-white"
+                    >
+                      Mary@NTDVacations.com
+                    </a>
                   </p>
                   <p>
-                    <CreditCard className="w-4 h-4 text-purple-400 inline mr-1.5" /><strong>Deposit:</strong> $250 per person to secure cabin (Min $500).
+                    <CreditCard className="mr-1.5 inline h-4 w-4 text-purple-400" />
+                    <strong>Deposit:</strong> $250 per person to secure cabin
+                    (Min $500).
                   </p>
                   <p>
-                    <Calendar className="w-4 h-4 text-purple-400inline mr-1.5" /><strong>Final Payment:</strong> October 1, 2026.
+                    <Calendar className="text-purple-400inline mr-1.5 h-4 w-4" />
+                    <strong>Final Payment:</strong> October 1, 2026.
                   </p>
                 </div>
               </div>
 
               {/* Column 2: Passport Requirements */}
-              <div className="border-0 p-0 relative text-left">
-                <div className="flex items-center gap-3 mb-6">
-                  <Compass className="w-6 h-6 text-purple-400shrink-0" />
-                  <h3 >Passport Requirements</h3>
+              <div className="relative border-0 p-0 text-left">
+                <div className="mb-6 flex items-center gap-3">
+                  <Compass className="text-purple-400shrink-0 h-6 w-6" />
+                  <h3>Passport Requirements</h3>
                 </div>
-                <p className="mb-6">
-                  Essential travel document guidelines
-                </p>
-                <div className="space-y-4  ">
+                <p className="mb-6">Essential travel document guidelines</p>
+                <div className="space-y-4">
                   <p>
-                    A physical passport book valid for 6 months post-cruise is <strong className="inline-block">highly recommended</strong> for all travelers.
+                    A physical passport book valid for 6 months post-cruise is{" "}
+                    <strong className="inline-block">highly recommended</strong>{" "}
+                    for all travelers.
                   </p>
                   <p>
-                    For closed-loop U.S. sailings, a certified state birth certificate accompanied by a government-issued photo ID is legally acceptable, but a passport is always the safest method.
+                    For closed-loop U.S. sailings, a certified state birth
+                    certificate accompanied by a government-issued photo ID is
+                    legally acceptable, but a passport is always the safest
+                    method.
                   </p>
                   <p>
-                    Visas may be required depending on nationality. Check <a href="http://travel.state.gov" target="_blank" rel="noopener noreferrer" className="hover:text-white inline-block">travel.state.gov</a> to ensure compliance.
+                    Visas may be required depending on nationality. Check{" "}
+                    <a
+                      href="http://travel.state.gov"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block hover:text-white"
+                    >
+                      travel.state.gov
+                    </a>{" "}
+                    to ensure compliance.
                   </p>
                 </div>
               </div>
 
               {/* Column 3: Cancellation Policy */}
-              <div className="border-0 p-0 relative text-left">
-                <div className="flex items-center gap-3 mb-6">
-                  <Calendar className="w-6 h-6 text-purple-400 shrink-0" />
-                  <h3 >Cancellation Policy</h3>
+              <div className="relative border-0 p-0 text-left">
+                <div className="mb-6 flex items-center gap-3">
+                  <Calendar className="h-6 w-6 shrink-0 text-purple-400" />
+                  <h3>Cancellation Policy</h3>
                 </div>
-                <p className=" mb-6">
-                  Refund terms before booking
-                </p>
-                <div className="space-y-4  ">
+                <p className="mb-6">Refund terms before booking</p>
+                <div className="space-y-4">
                   <div>
                     <h4 className="mb-1">Group Rate Rooms:</h4>
-                    <ul className="list-disc pl-5 space-y-1">
-                      <li>Cancel before May 12, 2026: <strong>No penalty</strong></li>
-                      <li>May 12, 2026 – July 12, 2026: <strong>$50 pp fee</strong></li>
-                      <li>July 13, 2026 – Sept 10, 2026: <strong>$100 pp fee</strong></li>
-                      <li>Sept 11, 2026 – Nov 10, 2026: <strong>$200 pp fee</strong></li>
-                      <li>After Nov 10, 2026: <strong>50% cost</strong></li>
-                      <li>After Dec 10, 2026: <strong>No refund</strong></li>
+                    <ul className="list-disc space-y-1 pl-5">
+                      <li>
+                        Cancel before May 12, 2026: <strong>No penalty</strong>
+                      </li>
+                      <li>
+                        May 12, 2026 – July 12, 2026:{" "}
+                        <strong>$50 pp fee</strong>
+                      </li>
+                      <li>
+                        July 13, 2026 – Sept 10, 2026:{" "}
+                        <strong>$100 pp fee</strong>
+                      </li>
+                      <li>
+                        Sept 11, 2026 – Nov 10, 2026:{" "}
+                        <strong>$200 pp fee</strong>
+                      </li>
+                      <li>
+                        After Nov 10, 2026: <strong>50% cost</strong>
+                      </li>
+                      <li>
+                        After Dec 10, 2026: <strong>No refund</strong>
+                      </li>
                     </ul>
                   </div>
                   <div>
@@ -4726,60 +6728,92 @@ ${deskRules.join("\n")}
         </section>
 
         {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
-        <section id="crew-scheduling" className="scroll-mt-36 border-0 rounded-lg p-0 space-y-8 overflow-hidden">
+        <section
+          id="crew-scheduling"
+          className="scroll-mt-36 space-y-8 overflow-hidden rounded-lg border-0 p-0"
+        >
           <div className="border-b border-white/10 px-0 py-4 pb-4">
-            <h2 className=" flex items-center gap-2">
-              <Calendar className="w-6 h-6" /> 13. Crew Scheduling & Crew Groups System
+            <h2 className="flex items-center gap-2">
+              <Calendar className="h-6 w-6" /> 13. Crew Scheduling & Crew Groups
+              System
             </h2>
-            <p >
-              Complete UI specification and live previews of the OpenShifts grid cell controls, Select Crew Group popover module, Create New Crew Group glass modal, and Shift Drawer candidate assignment cards.
+            <p>
+              Complete UI specification and live previews of the OpenShifts grid
+              cell controls, Select Crew Group popover module, Create New Crew
+              Group glass modal, and Shift Drawer candidate assignment cards.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
-            <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6 flex flex-col justify-between">
+            <div className="flex flex-col justify-between space-y-6 rounded-lg border border-white/10 bg-white/[0.02] p-6">
               <div>
-                <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
+                <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-3">
                   <div>
-                    <h3 >OpenShifts Cell & Group Popover</h3>
-                    <p>Grid cell action buttons & frosted glass group selection popover</p>
+                    <h3>OpenShifts Cell & Group Popover</h3>
+                    <p>
+                      Grid cell action buttons & frosted glass group selection
+                      popover
+                    </p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] border border-purple-500/30">Module Preview</span>
+                  <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-1 text-[10px] text-purple-300">
+                    Module Preview
+                  </span>
                 </div>
 
                 {/* OpenShifts Cell Controls Mockup */}
                 <div className="space-y-3">
-                  <span className="text-[10px] text-white/40 block">1. OpenShifts Grid Cell Buttons</span>
-                  <div className="p-3 bg-[#0d0d14] border border-white/10 rounded-lg space-y-2 max-w-sm">
-                    <div className="w-full py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
-                      <span className="text-purple-400 group-hover:text-purple-300">+</span>
-                      <span className="text-[12px] text-purple-400 group-hover:text-purple-300 mt-0.5">Add Crew Member</span>
+                  <span className="block text-[10px] text-white/40">
+                    1. OpenShifts Grid Cell Buttons
+                  </span>
+                  <div className="max-w-sm space-y-2 rounded-lg border border-white/10 bg-[#0d0d14] p-3">
+                    <div className="group flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-purple-500/40 py-1.5 shadow-2xs transition-colors hover:border-purple-400 hover:bg-purple-500/10">
+                      <span className="text-purple-400 group-hover:text-purple-300">
+                        +
+                      </span>
+                      <span className="mt-0.5 text-[12px] text-purple-400 group-hover:text-purple-300">
+                        Add Crew Member
+                      </span>
                     </div>
 
-                    <div className="flex gap-2 w-full">
-                      <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
-                        <span className="text-purple-400 group-hover:text-purple-300">+</span>
-                        <span className="text-[12px] text-purple-400 group-hover:text-purple-300 mt-0.5 text-center">Add Crew Group</span>
+                    <div className="flex w-full gap-2">
+                      <div className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-purple-500/40 py-1.5 shadow-2xs transition-colors hover:border-purple-400 hover:bg-purple-500/10">
+                        <span className="text-purple-400 group-hover:text-purple-300">
+                          +
+                        </span>
+                        <span className="mt-0.5 text-center text-[12px] text-purple-400 group-hover:text-purple-300">
+                          Add Crew Group
+                        </span>
                       </div>
-                      <div className="flex-1 py-1.5 flex flex-col items-center justify-center border border-dashed border-purple-500/40 hover:border-purple-400 rounded-lg hover:bg-purple-500/10 transition-colors cursor-pointer group shadow-2xs">
-                        <span className="text-purple-400 group-hover:text-purple-300">+</span>
-                        <span className="text-[12px] text-purple-400 group-hover:text-purple-300 mt-0.5 text-center">Create Group</span>
+                      <div className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-purple-500/40 py-1.5 shadow-2xs transition-colors hover:border-purple-400 hover:bg-purple-500/10">
+                        <span className="text-purple-400 group-hover:text-purple-300">
+                          +
+                        </span>
+                        <span className="mt-0.5 text-center text-[12px] text-purple-400 group-hover:text-purple-300">
+                          Create Group
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Select Crew Group Popover Spec */}
-                <div className="space-y-3 mt-6">
-                  <span className="text-[10px] text-white/40 block">2. Frosted Glass Select Crew Group Popover</span>
+                <div className="mt-6 space-y-3">
+                  <span className="block text-[10px] text-white/40">
+                    2. Frosted Glass Select Crew Group Popover
+                  </span>
                   <div
-                    className="w-full max-w-sm bg-[#14151f]/80backdrop-blur-[18px] border border-white/10 rounded-lg p-4 flex flex-col gap-2"
-                    style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
-                    <div className="/90 px-2 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
+                    className="bg-[#14151f]/80backdrop-blur-[18px] flex w-full max-w-sm flex-col gap-2 rounded-lg border border-white/10 p-4"
+                    style={{
+                      backdropFilter: "blur(24px)",
+                      WebkitBackdropFilter: "blur(24px)",
+                    }}
+                  >
+                    <div className="/90 mb-1 flex items-center justify-between border-b border-white/10 px-2 py-2">
                       <span>Select Crew Group</span>
-                      <span className="text-white/50 px-2 py-0.5 bg-[#00000029] rounded-lg border border-white/10">3 saved</span>
+                      <span className="rounded-lg border border-white/10 bg-[#00000029] px-2 py-0.5 text-white/50">
+                        3 saved
+                      </span>
                     </div>
 
                     <div className="space-y-1.5">
@@ -4791,11 +6825,16 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-all cursor-pointer border border-white/10 border-white/10 flex items-center gap-3">
-                          <span className="w-7 h-7 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300 flex items-center justify-center shrink-0 shadow-inner">+</span>
-                          <div className="min-w-0 flex-1 flex items-center justify-between">
-                            <span className="truncate  ">{grp.name}</span>
-                            <span className="text-[10px] text-white/40  ">{grp.count}</span>
+                          className="flex w-full cursor-pointer items-center gap-3 rounded-lg border border-white/10 px-4 py-3 text-left transition-all hover:bg-white/10"
+                        >
+                          <span className="bg- purple-white/20 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-purple-500/30 text-purple-300 shadow-inner">
+                            +
+                          </span>
+                          <div className="flex min-w-0 flex-1 items-center justify-between">
+                            <span className="truncate">{grp.name}</span>
+                            <span className="text-[10px] text-white/40">
+                              {grp.count}
+                            </span>
                           </div>
                         </button>
                       ))}
@@ -4806,78 +6845,115 @@ ${deskRules.join("\n")}
             </div>
 
             {/* MODULE 2: Create New Crew Group Modal Spec */}
-            <div className="bg-white/[0.02] border border-white/10 rounded-lg p-6 space-y-6">
+            <div className="space-y-6 rounded-lg border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
-                  <h3 >Create New Crew Group Glass Modal</h3>
-                  <p>Modal container, input spacing, toggle checklist & role preset pills</p>
+                  <h3>Create New Crew Group Glass Modal</h3>
+                  <p>
+                    Modal container, input spacing, toggle checklist & role
+                    preset pills
+                  </p>
                 </div>
-                <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 text-purple-300 text-[10px] border border-purple-500/30">Modal Spec</span>
+                <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-1 text-[10px] text-purple-300">
+                  Modal Spec
+                </span>
               </div>
 
               {/* Modal Frame Mockup */}
-              <div className="bg-black/30backdrop-blur-[18px] border border-white/10 rounded-lg overflow-hidden">
+              <div className="bg-black/30backdrop-blur-[18px] overflow-hidden rounded-lg border border-white/10">
                 {/* Header */}
-                <div className="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
+                <div className="flex shrink-0 items-center justify-between border-b border-white/10 p-4">
                   <div>
                     <h3 className="italic">Create New Crew Group</h3>
-                    <p className="mt-0.5">Select members and customize their shift slots</p>
+                    <p className="mt-0.5">
+                      Select members and customize their shift slots
+                    </p>
                   </div>
-                  <button type="button" className="text-white/40 hover:text-white transition-colors cursor-pointer border-none">✕</button>
+                  <button
+                    type="button"
+                    className="cursor-pointer border-none text-white/40 transition-colors hover:text-white"
+                  >
+                    ✕
+                  </button>
                 </div>
 
                 {/* Body */}
-                <CustomScrollbar height={384} className="px-4 pt-5 pb-3 space-y-3.5">
+                <CustomScrollbar
+                  height={384}
+                  className="space-y-3.5 px-4 pt-5 pb-3"
+                >
                   {/* Group Name input */}
                   <div className="space-y-1.5">
-                    <label className="text-[12px] text-white/50 block">Group Name</label>
+                    <label className="block text-[12px] text-white/50">
+                      Group Name
+                    </label>
                     <input
                       type="text"
                       readOnly
                       value="Weekend Tech Crew"
-                      className="w-full px-3.5 py-2.5 border border-white/10 rounded-lg"
+                      className="w-full rounded-lg border border-white/10 px-3.5 py-2.5"
                     />
                   </div>
 
                   {/* Member selection list item */}
                   <div className="space-y-1.5 pt-2">
-                    <span className="text-[12px] text-white/50 block">Select Crew Members</span>
-                    <div className="p-3 border border-white/10 rounded-lg space-y-3">
+                    <span className="block text-[12px] text-white/50">
+                      Select Crew Members
+                    </span>
+                    <div className="space-y-3 rounded-lg border border-white/10 p-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-4 bg-purple-600 rounded-lg relative cursor-pointer">
-                            <div className="w-3.5 h-3.5 bg-white rounded-lg absolute top-0.25 right-0.5" />
+                          <div className="relative h-4 w-8 cursor-pointer rounded-lg bg-purple-600">
+                            <div className="absolute top-0.25 right-0.5 h-3.5 w-3.5 rounded-lg bg-white" />
                           </div>
-                          <div className="w-7 h-7 rounded-lg bg-purple-600 border border-purple-400/40 text-[10px] flex items-center justify-center">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-600 text-[10px]">
                             AJ
                           </div>
                           <div>
                             <p>Abbie Janssen</p>
-                            <span className="text-[8px] text-white/40   block">STAGE MANAGER</span>
+                            <span className="block text-[8px] text-white/40">
+                              STAGE MANAGER
+                            </span>
                           </div>
                         </div>
                       </div>
 
                       {/* Time Frame box */}
-                      <div className="p-2.5 border border-white/10 space-y-2 rounded-lg">
+                      <div className="space-y-2 rounded-lg border border-white/10 p-2.5">
                         <div className="flex items-center justify-between">
-                          <span className="text-purple-300 text-[9.5px]">Time Frame 1</span>
+                          <span className="text-[9.5px] text-purple-300">
+                            Time Frame 1
+                          </span>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
-                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px]">5:00 PM</div>
-                          <div className="p-1.5 bg-[#00000029] border border-white/10 rounded text-[10px]">10:00 PM</div>
+                          <div className="rounded border border-white/10 bg-[#00000029] p-1.5 text-[10px]">
+                            5:00 PM
+                          </div>
+                          <div className="rounded border border-white/10 bg-[#00000029] p-1.5 text-[10px]">
+                            10:00 PM
+                          </div>
                         </div>
 
                         {/* Role Pills Showcase */}
                         <div className="pt-1">
-                          <span className="text-white/50 mb-1 block">Roles / Duties</span>
+                          <span className="mb-1 block text-white/50">
+                            Roles / Duties
+                          </span>
                           <div className="flex flex-wrap gap-1">
-                            {["STAGE HAND", "AUDIO MIX", "LIGHTS", "STAGE MANAGER"].map(preset => {
-                              const isSelected = preset === "STAGE MANAGER" || preset === "LIGHTS";
+                            {[
+                              "STAGE HAND",
+                              "AUDIO MIX",
+                              "LIGHTS",
+                              "STAGE MANAGER",
+                            ].map((preset) => {
+                              const isSelected =
+                                preset === "STAGE MANAGER" ||
+                                preset === "LIGHTS";
                               return (
                                 <span
                                   key={preset}
-                                  className={`px-2 py-0.5 rounded-lg text-[10.5px] border ${isSelected ? 'bg-purple-600 border-purple-500 ' : ' bg-[#00000029] border-white/10 text-white/70'}`}>
+                                  className={`rounded-lg border px-2 py-0.5 text-[10.5px] ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] text-white/70"}`}
+                                >
                                   {isSelected ? `✓ ${preset}` : preset}
                                 </span>
                               );
@@ -4890,11 +6966,17 @@ ${deskRules.join("\n")}
                 </CustomScrollbar>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
-                  <button type="button" className="px-4 py-2 border border-white/10 bg-[#00000029] text-white/70 rounded-lg transition-colors cursor-pointer">
+                <div className="flex shrink-0 items-center justify-between gap-3 border-t border-white/10 p-4">
+                  <button
+                    type="button"
+                    className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-white/70 transition-colors"
+                  >
                     Cancel
                   </button>
-                  <button type="button" className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors cursor-pointer border-none shadow-purple-900/30">
+                  <button
+                    type="button"
+                    className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 transition-colors hover:bg-purple-500"
+                  >
                     Save Group
                   </button>
                 </div>
@@ -4902,8 +6984,7 @@ ${deskRules.join("\n")}
             </div>
           </div>
         </section>
-
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }

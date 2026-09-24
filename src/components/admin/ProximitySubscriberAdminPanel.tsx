@@ -42,8 +42,12 @@ export default function ProximitySubscriberAdminPanel() {
   const [editRadius, setEditRadius] = useState("50");
   const [editName, setEditName] = useState("");
   const [actionStatus, setActionStatus] = useState<string | null>(null);
-  const [testTitle, setTestTitle] = useState("🚨 7th Heaven Special Show Alert");
-  const [testMessage, setTestMessage] = useState("Live show added within your area! Doors open at 8pm.");
+  const [testTitle, setTestTitle] = useState(
+    "🚨 7th Heaven Special Show Alert",
+  );
+  const [testMessage, setTestMessage] = useState(
+    "Live show added within your area! Doors open at 8pm.",
+  );
 
   const fetchSubscribers = async () => {
     try {
@@ -88,7 +92,9 @@ export default function ProximitySubscriberAdminPanel() {
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       const data = await res.json();
       if (data.ok) {
-        setActionStatus(`Updated preferences for subscriber ${id.substring(0, 8)}`);
+        setActionStatus(
+          `Updated preferences for subscriber ${id.substring(0, 8)}`,
+        );
         setEditingId(null);
         fetchSubscribers();
         setTimeout(() => setActionStatus(null), 3500);
@@ -99,7 +105,8 @@ export default function ProximitySubscriberAdminPanel() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to remove this subscriber preference?")) return;
+    if (!confirm("Are you sure you want to remove this subscriber preference?"))
+      return;
     try {
       const res = await fetch("/api/admin/push-subscribers", {
         method: "POST",
@@ -155,45 +162,47 @@ export default function ProximitySubscriberAdminPanel() {
   });
 
   return (
-    <div className="w-full rounded-lg relative my-8">
+    <div className="relative my-8 w-full rounded-lg">
       {/* Action Controls Bar */}
-      <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
-        <span className="px-3.5 py-1.5 rounded-lg bg-purple-900/60 border border-purple-500/30 text-purple-200 text-xs flex items-center gap-1.5">
-          <Users className="w-4 h-4 text-pink-400" /> {subscribers.length} Subscribers
+      <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+        <span className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-900/60 px-3.5 py-1.5 text-xs text-purple-200">
+          <Users className="h-4 w-4 text-pink-400" /> {subscribers.length}{" "}
+          Subscribers
         </span>
         <button
           type="button"
           onClick={fetchSubscribers}
-          className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs transition-colors cursor-pointer border border-white/10 flex items-center gap-1.5">
-          <RefreshCw className="w-3.5 h-3.5" />
+          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-white/10 px-3.5 py-1.5 text-xs transition-colors hover:bg-white/20"
+        >
+          <RefreshCw className="h-3.5 w-3.5" />
           <span>Refresh</span>
         </button>
       </div>
 
       {actionStatus && (
-        <div className="mb-6 p-4 rounded-lg bg-purple-950/80 border border-purple-500/40 text-purple-200 flex items-center gap-2 animate-pulse">
+        <div className="mb-6 flex animate-pulse items-center gap-2 rounded-lg border border-purple-500/40 bg-purple-950/80 p-4 text-purple-200">
           <span>{actionStatus}</span>
         </div>
       )}
 
       {/* Search & Filter Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 mb-6">
-        <div className="sm:col-span-7 relative flex items-center w-full">
-          <div className="input-glow-border  w-full">
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-12">
+        <div className="relative flex w-full items-center sm:col-span-7">
+          <div className="input-glow-border w-full">
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search subscribers by name, zip code, or device..."
-              className="w-full bg-black/40 border-none outline-none rounded-lg pl-10 pr-4 py-2.5 placeholder-white/30 transition-colors"
+              className="w-full rounded-lg border-none bg-black/40 py-2.5 pr-4 pl-10 placeholder-white/30 transition-colors outline-none"
             />
           </div>
-          <Search className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-20" />
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 z-20 h-4 w-4 -translate-y-1/2 text-white/40" />
         </div>
 
-        <div className="sm:col-span-5 flex items-center gap-2">
-          <label className="shrink-0 flex items-center gap-1">
-            <Sliders className="w-3.5 h-3.5 text-purple-400" /> Radius:
+        <div className="flex items-center gap-2 sm:col-span-5">
+          <label className="flex shrink-0 items-center gap-1">
+            <Sliders className="h-3.5 w-3.5 text-purple-400" /> Radius:
           </label>
           <div className="w-full">
             <GooeyMessagesDropdown
@@ -215,17 +224,17 @@ export default function ProximitySubscriberAdminPanel() {
 
       {/* Subscribers Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-white/10 bg-[#00000029]">
-              <th className="py-3.5 px-4">Fan / Device</th>
-              <th className="py-3.5 px-4">Zip Code</th>
-              <th className="py-3.5 px-4">Radius</th>
-              <th className="py-3.5 px-4">Types Allowed</th>
-              <th className="py-3.5 px-4 text-right">Admin Actions</th>
+              <th className="px-4 py-3.5">Fan / Device</th>
+              <th className="px-4 py-3.5">Zip Code</th>
+              <th className="px-4 py-3.5">Radius</th>
+              <th className="px-4 py-3.5">Types Allowed</th>
+              <th className="px-4 py-3.5 text-right">Admin Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5 /90">
+          <tbody className="/90 divide-y divide-white/5">
             {loading ? (
               <tr>
                 <td colSpan={5} className="py-8 text-center text-white/40">
@@ -245,21 +254,21 @@ export default function ProximitySubscriberAdminPanel() {
                 return (
                   <tr key={sub.id} className="bg-[#00000029] transition-colors">
                     {/* Fan / Device */}
-                    <td className="py-4 px-4  ">
+                    <td className="px-4 py-4">
                       {isEditing ? (
                         <input
                           type="text"
                           value={editName}
                           onChange={(e) => setEditName(e.target.value)}
-                          className="bg-black/60 border border-purple-500/50 rounded-lg px-2.5 py-1"
+                          className="rounded-lg border border-purple-500/50 bg-black/60 px-2.5 py-1"
                         />
                       ) : (
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span>{sub.fanName || "Anonymous Fan"}</span>
                           </div>
-                          <div className="text-[10px] text-white/50 flex items-center gap-1 mt-0.5">
-                            <Smartphone className="w-3 h-3 text-purple-400" />
+                          <div className="mt-0.5 flex items-center gap-1 text-[10px] text-white/50">
+                            <Smartphone className="h-3 w-3 text-purple-400" />
                             <span>{sub.deviceType || "Browser"}</span>
                           </div>
                         </div>
@@ -267,23 +276,24 @@ export default function ProximitySubscriberAdminPanel() {
                     </td>
 
                     {/* Zip Code */}
-                    <td className="py-4 px-4 text-purple-200">
+                    <td className="px-4 py-4 text-purple-200">
                       {isEditing ? (
                         <input
                           type="text"
                           value={editZip}
                           onChange={(e) => setEditZip(e.target.value)}
-                          className="bg-black/60 border border-purple-500/50 rounded-lg px-2.5 py-1 w-24"
+                          className="w-24 rounded-lg border border-purple-500/50 bg-black/60 px-2.5 py-1"
                         />
                       ) : (
                         <span className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-pink-400" /> {sub.zip || "60056"}
+                          <MapPin className="h-3.5 w-3.5 text-pink-400" />{" "}
+                          {sub.zip || "60056"}
                         </span>
                       )}
                     </td>
 
                     {/* Distance Radius */}
-                    <td className="py-4 px-4">
+                    <td className="px-4 py-4">
                       {isEditing ? (
                         <GooeyMessagesDropdown
                           options={[
@@ -299,19 +309,22 @@ export default function ProximitySubscriberAdminPanel() {
                           showAllOption={false}
                         />
                       ) : (
-                        <span className="px-2.5 py-1 rounded-lg bg- purple-white/20 border border-purple-500/30 text-purple-300 text-[11px]">
-                          {sub.radius === "all" ? "All Distance" : `${sub.radius} Mi`}
+                        <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-1 text-[11px] text-purple-300">
+                          {sub.radius === "all"
+                            ? "All Distance"
+                            : `${sub.radius} Mi`}
                         </span>
                       )}
                     </td>
 
                     {/* Types Allowed */}
-                    <td className="py-4 px-4">
+                    <td className="px-4 py-4">
                       <div className="flex flex-wrap gap-1">
                         {(sub.selectedTypes || ["all"]).map((t) => (
                           <span
                             key={t}
-                            className="px-2 py-0.5 rounded bg-white/10   text-[10px]">
+                            className="rounded bg-white/10 px-2 py-0.5 text-[10px]"
+                          >
                             {t}
                           </span>
                         ))}
@@ -319,22 +332,24 @@ export default function ProximitySubscriberAdminPanel() {
                     </td>
 
                     {/* Admin Actions */}
-                    <td className="py-4 px-4 text-right">
+                    <td className="px-4 py-4 text-right">
                       {isEditing ? (
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             type="button"
                             onClick={() => handleSaveEdit(sub.id)}
-                            className="p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 transition-colors cursor-pointer"
-                            title="Save Preference">
-                            <Check className="w-4 h-4" />
+                            className="cursor-pointer rounded-lg bg-emerald-600 p-1.5 transition-colors hover:bg-emerald-500"
+                            title="Save Preference"
+                          >
+                            <Check className="h-4 w-4" />
                           </button>
                           <button
                             type="button"
                             onClick={() => setEditingId(null)}
-                            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/70 transition-colors cursor-pointer"
-                            title="Cancel">
-                            <X className="w-4 h-4" />
+                            className="cursor-pointer rounded-lg bg-white/10 p-1.5 text-white/70 transition-colors hover:bg-white/20"
+                            title="Cancel"
+                          >
+                            <X className="h-4 w-4" />
                           </button>
                         </div>
                       ) : (
@@ -342,25 +357,28 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleSendTestPush(sub.id)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-purple-600/80 hover:bg-purple-600 transition-colors cursor-pointer"
-                            title="Send Targeted Test Push">
-                            <Send className="w-3.5 h-3.5" /> Test Push
+                            className="inline-flex cursor-pointer items-center gap-1 rounded-lg bg-purple-600/80 px-2.5 py-1.5 transition-colors hover:bg-purple-600"
+                            title="Send Targeted Test Push"
+                          >
+                            <Send className="h-3.5 w-3.5" /> Test Push
                           </button>
 
                           <button
                             type="button"
                             onClick={() => handleStartEdit(sub)}
-                            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20   hover:text-white transition-colors cursor-pointer"
-                            title="Edit Fan Preference">
-                            <Edit2 className="w-3.5 h-3.5" />
+                            className="cursor-pointer rounded-lg bg-white/10 p-1.5 transition-colors hover:bg-white/20 hover:text-white"
+                            title="Edit Fan Preference"
+                          >
+                            <Edit2 className="h-3.5 w-3.5" />
                           </button>
 
                           <button
                             type="button"
                             onClick={() => handleDelete(sub.id)}
-                            className="p-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 transition-colors cursor-pointer"
-                            title="Delete Subscriber">
-                            <Trash2 className="w-3.5 h-3.5" />
+                            className="cursor-pointer rounded-lg bg-rose-500/20 p-1.5 text-rose-300 transition-colors hover:bg-rose-500/40"
+                            title="Delete Subscriber"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
                           </button>
                         </div>
                       )}

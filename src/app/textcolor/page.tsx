@@ -45,23 +45,20 @@ export default function TextColorTestPage() {
     <div className="min-h-screen w-full bg-black px-6 pt-16 pb-[65vh]">
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
-          <p >
-            /textcolor test page
-          </p>
-          <h1 className="text-2xl    ">
-            Aurora Text playground
-          </h1>
+          <p>/textcolor test page</p>
+          <h1 className="text-2xl">Aurora Text playground</h1>
           <p className="max-w-xl">
             Testing MagicUI&apos;s{" "}
             <a
               className="decoration-white/30 underline-offset-4 hover:decoration-white/60"
               href="https://magicui.design/docs/components/aurora-text"
               target="_blank"
-              rel="noreferrer">
+              rel="noreferrer"
+            >
               Aurora Text
             </a>{" "}
-            component for a &ldquo;Ship beautiful&rdquo;-style animated
-            gradient headline.
+            component for a &ldquo;Ship beautiful&rdquo;-style animated gradient
+            headline.
           </p>
         </header>
 
@@ -77,14 +74,13 @@ export default function TextColorTestPage() {
 
         {/* Presets */}
         <section className="flex flex-col gap-6">
-          <h3 className="  text-white/40">
-            Presets
-          </h3>
+          <h3 className="text-white/40">Presets</h3>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {PRESETS.map((preset) => (
               <div
                 key={preset.name}
-                className="flex flex-col gap-2 rounded-lg border border-white/10 p-6">
+                className="flex flex-col gap-2 rounded-lg border border-white/10 p-6"
+              >
                 <p className=" ">
                   <AuroraText colors={preset.colors} speed={preset.speed}>
                     {text}
@@ -98,9 +94,7 @@ export default function TextColorTestPage() {
 
         {/* Playground */}
         <section className="flex flex-col gap-6">
-          <h3 className="  text-white/40">
-            Playground
-          </h3>
+          <h3 className="text-white/40">Playground</h3>
 
           <div className="flex flex-col gap-6 rounded-lg border border-white/10 p-6">
             <p>
@@ -142,9 +136,7 @@ export default function TextColorTestPage() {
                       onChange={(e) => updateColor(i, e.target.value)}
                       className="h-8 w-8 cursor-pointer rounded border border-white/10"
                     />
-                    <span className="text-white/50">
-                      {c}
-                    </span>
+                    <span className="text-white/50">{c}</span>
                   </label>
                 ))}
               </div>

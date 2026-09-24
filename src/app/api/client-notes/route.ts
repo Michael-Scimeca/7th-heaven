@@ -32,7 +32,10 @@ export async function GET(req: NextRequest) {
 
   try {
     const supabase = createClient();
-    let query = supabase.from("client_notes").select("*").order("created_at", { ascending: true });
+    let query = supabase
+      .from("client_notes")
+      .select("*")
+      .order("created_at", { ascending: true });
 
     if (pagePath) {
       query = query.eq("page_path", pagePath);
@@ -40,7 +43,7 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await query;
 
-    if (!error && data && data.length> 0) {
+    if (!error && data && data.length > 0) {
       return NextResponse.json({ notes: data });
     }
   } catch (err) {
@@ -49,7 +52,9 @@ export async function GET(req: NextRequest) {
 
   // Return memory store notes
   const allNotes = Array.from(memoryNotesStore.values());
-  const filtered = pagePath ? allNotes.filter((n) => n.page_path === pagePath) : allNotes;
+  const filtered = pagePath
+    ? allNotes.filter((n) => n.page_path === pagePath)
+    : allNotes;
   return NextResponse.json({ notes: filtered });
 }
 
@@ -61,7 +66,10 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as Partial<ClientNote>;
     if (!body.id || !body.page_path || !body.element_selector) {
-      return NextResponse.json({ error: "Missing required fields: id, page_path, element_selector" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields: id, page_path, element_selector" },
+        { status: 400 },
+      );
     }
 
     const now = new Date().toISOString();
@@ -96,7 +104,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ note: noteObj, success: true });
   } catch (err) {
     console.error("Error creating/updating client note:", err);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 

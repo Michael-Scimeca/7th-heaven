@@ -8,15 +8,25 @@ export const revalidate = 60;
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("past-shows");
   return {
-    title: content?.seo?.metaTitle || (content?.title ? `${content.title} | 7th Heaven` : "Past Shows & Concert Archive (1985–Present) | 7th Heaven"),
-    description: content?.seo?.metaDescription || content?.heroSubheading || "Explore 7th Heaven's historical performance archive containing over 1,200 past concerts, festivals, casinos, and events played since 1985.",
+    title:
+      content?.seo?.metaTitle ||
+      (content?.title
+        ? `${content.title} | 7th Heaven`
+        : "Past Shows & Concert Archive (1985–Present) | 7th Heaven"),
+    description:
+      content?.seo?.metaDescription ||
+      content?.heroSubheading ||
+      "Explore 7th Heaven's historical performance archive containing over 1,200 past concerts, festivals, casinos, and events played since 1985.",
   };
 }
 
 export default async function PastShowsPage() {
   const sanityContent = await fetchPageContent("past-shows");
   return (
-    <main className="site-container min-h-screen page-container" id="past-shows-page">
+    <main
+      className="site-container page-container min-h-screen"
+      id="past-shows-page"
+    >
       <PastShowsClient
         years={pastShowsData.years}
         totalShowsCount={pastShowsData.totalShows}

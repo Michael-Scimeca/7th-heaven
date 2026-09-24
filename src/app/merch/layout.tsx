@@ -3,8 +3,15 @@ import { fetchPageContent } from "@/lib/sanity";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("merch");
-  const title = content?.seo?.metaTitle || (content?.title ? `${content.title} — 7th Heaven` : "Merch — 7th Heaven Official Store");
-  const description = content?.seo?.metaDescription || content?.heroSubheading || "Shop official 7th Heaven band merchandise — tees, hoodies, vinyl, and more. Ships worldwide.";
+  const title =
+    content?.seo?.metaTitle ||
+    (content?.title
+      ? `${content.title} — 7th Heaven`
+      : "Merch — 7th Heaven Official Store");
+  const description =
+    content?.seo?.metaDescription ||
+    content?.heroSubheading ||
+    "Shop official 7th Heaven band merchandise — tees, hoodies, vinyl, and more. Ships worldwide.";
 
   return {
     title,

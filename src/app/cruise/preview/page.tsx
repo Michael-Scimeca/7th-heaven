@@ -2,36 +2,84 @@
 
 import React, { useState } from "react";
 
-const INPUT = "w-full bg-white/[0.03] border  border-white/10  rounded-lg px-3 py-2.5 text-sm   placeholder: text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
-const COLORS = ["#851DEF", "#3b82f6", "#06b6d4", "#9333ea", "#10b981", "#ec4899"];
+const INPUT =
+  "w-full bg-white/[0.03] border  border-white/10  rounded-lg px-3 py-2.5 text-sm   placeholder: text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
+const COLORS = [
+  "#851DEF",
+  "#3b82f6",
+  "#06b6d4",
+  "#9333ea",
+  "#10b981",
+  "#ec4899",
+];
 
 type Guest = { name: string; email: string; phone: string };
 const emptyGuest = (): Guest => ({ name: "", email: "", phone: "" });
 
 /* ═══════════ VERSION A — Tab Accordion ═══════════ */
 function VersionA() {
-  const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
+  const [guests, setGuests] = useState<Guest[]>([
+    emptyGuest(),
+    emptyGuest(),
+    emptyGuest(),
+  ]);
   const [activeTab, setActiveTab] = useState(0);
   const g = guests[activeTab];
-  const update = (f: string, v: string) => setGuests(prev => prev.map((gg, i) => i === activeTab ? { ...gg, [f]: v } : gg));
+  const update = (f: string, v: string) =>
+    setGuests((prev) =>
+      prev.map((gg, i) => (i === activeTab ? { ...gg, [f]: v } : gg)),
+    );
 
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        {Array.from(guests, (guest, i) => ({ guest, i })).map(({ guest, i }) => (
-          <button key={`guest-tab-${i}-${guest.name}`} type="button" onClick={() => setActiveTab(i)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors cursor-pointer ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "bg-white/[0.04] border border-white/10 text-white/40 "}`}>
-            <span className="w-5 h-5 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)]" style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}>
-              {i === 0 ? "Y" : guest.name ? guest.name[0].toUpperCase() : (i + 1)}
-            </span>
-            {i === 0 ? "You" : guest.name || `Guest ${i + 1}`}
-          </button>
-        ))}
+        {Array.from(guests, (guest, i) => ({ guest, i })).map(
+          ({ guest, i }) => (
+            <button
+              key={`guest-tab-${i}-${guest.name}`}
+              type="button"
+              onClick={() => setActiveTab(i)}
+              className={`flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 transition-colors ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"}`}
+            >
+              <span
+                className="flex h-5 w-5 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+                style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}
+              >
+                {i === 0
+                  ? "Y"
+                  : guest.name
+                    ? guest.name[0].toUpperCase()
+                    : i + 1}
+              </span>
+              {i === 0 ? "You" : guest.name || `Guest ${i + 1}`}
+            </button>
+          ),
+        )}
       </div>
-      <div className="p-4 bg-white/[0.02] border border-white/10 space-y-3 animate-[fade-in_0.2s_ease]">
-        <input type="text" placeholder={activeTab === 0 ? "Your Name" : `Guest ${activeTab + 1} Name`} value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
-        <input type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
-        <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
+      <div className="animate-[fade-in_0.2s_ease] space-y-3 border border-white/10 bg-white/[0.02] p-4">
+        <input
+          type="text"
+          placeholder={
+            activeTab === 0 ? "Your Name" : `Guest ${activeTab + 1} Name`
+          }
+          value={g.name}
+          onChange={(e) => update("name", e.target.value)}
+          className={INPUT}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={g.email}
+          onChange={(e) => update("email", e.target.value)}
+          className={INPUT}
+        />
+        <input
+          type="tel"
+          placeholder="Phone"
+          value={g.phone}
+          onChange={(e) => update("phone", e.target.value)}
+          className={INPUT}
+        />
       </div>
     </div>
   );
@@ -40,34 +88,88 @@ function VersionA() {
 /* ═══════════ VERSION B — Step Wizard ═══════════ */
 function VersionB() {
   const [step, setStep] = useState(0);
-  const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
+  const [guests, setGuests] = useState<Guest[]>([
+    emptyGuest(),
+    emptyGuest(),
+    emptyGuest(),
+  ]);
   const g = guests[step];
-  const update = (f: string, v: string) => setGuests(prev => prev.map((gg, i) => i === step ? { ...gg, [f]: v } : gg));
+  const update = (f: string, v: string) =>
+    setGuests((prev) =>
+      prev.map((gg, i) => (i === step ? { ...gg, [f]: v } : gg)),
+    );
 
   return (
     <div className="space-y-5">
       {/* Progress */}
       <div className="flex items-center justify-between">
-        {Array.from(STEP_LABELS, (label, i) => ({ label, i })).map(({ label, i }) => (
-          <React.Fragment key={`step-frag-${i}-${label}`}>
-            <button type="button" className="flex flex-col items-center gap-1 cursor-pointer border-0 p-0 text-left" onClick={() => setStep(i)}>
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30 " : " bg-[#00000029] border border-white/10 text-white/30"}`}>{step > i ? "✓" : i + 1}</div>
-              <span className={`text-[var(--font-size-2xs)] ${step === i ? " " : " text-white/20"}`}>{label}</span>
-            </button>
-            {i < STEP_LABELS.length - 1 && <div className={`flex-1 h-px mx-2 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`} />}
-          </React.Fragment>
-        ))}
+        {Array.from(STEP_LABELS, (label, i) => ({ label, i })).map(
+          ({ label, i }) => (
+            <React.Fragment key={`step-frag-${i}-${label}`}>
+              <button
+                type="button"
+                className="flex cursor-pointer flex-col items-center gap-1 border-0 p-0 text-left"
+                onClick={() => setStep(i)}
+              >
+                <div
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                >
+                  {step > i ? "✓" : i + 1}
+                </div>
+                <span
+                  className={`text-[var(--font-size-2xs)] ${step === i ? " " : "text-white/20"}`}
+                >
+                  {label}
+                </span>
+              </button>
+              {i < STEP_LABELS.length - 1 && (
+                <div
+                  className={`mx-2 h-px flex-1 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`}
+                />
+              )}
+            </React.Fragment>
+          ),
+        )}
       </div>
       {/* Fields */}
       <div className="space-y-3">
-        <input type="text" placeholder="Full Name" value={g.name} onChange={e => update("name", e.target.value)} className={INPUT} />
-        <input type="email" placeholder="Email" value={g.email} onChange={e => update("email", e.target.value)} className={INPUT} />
-        <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update("phone", e.target.value)} className={INPUT} />
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={g.name}
+          onChange={(e) => update("name", e.target.value)}
+          className={INPUT}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={g.email}
+          onChange={(e) => update("email", e.target.value)}
+          className={INPUT}
+        />
+        <input
+          type="tel"
+          placeholder="Phone"
+          value={g.phone}
+          onChange={(e) => update("phone", e.target.value)}
+          className={INPUT}
+        />
       </div>
       <div className="flex gap-3">
-        {step > 0 && <button type="button" onClick={() => setStep(s => s - 1)} className="flex-1 py-2.5 bg-[#00000029] border border-white/10 rounded-lg text-white/50 cursor-pointer transition-colors">← Back</button>}
-        <button type="button" onClick={() => setStep(s => Math.min(s + 1, 2))}
-          className="flex-1 py-2.5 bg-[var(--color-accent)] rounded-lg cursor-pointer hover:bg-[var(--color-accent)]/80 transition-colors">
+        {step > 0 && (
+          <button
+            type="button"
+            onClick={() => setStep((s) => s - 1)}
+            className="flex-1 cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 text-white/50 transition-colors"
+          >
+            ← Back
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={() => setStep((s) => Math.min(s + 1, 2))}
+          className="flex-1 cursor-pointer rounded-lg bg-[var(--color-accent)] py-2.5 transition-colors hover:bg-[var(--color-accent)]/80"
+        >
           {step === 2 ? "Submit" : "Next →"}
         </button>
       </div>
@@ -77,27 +179,61 @@ function VersionB() {
 
 /* ═══════════ VERSION C — Card Grid ═══════════ */
 function VersionC() {
-  const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
-  const update = (idx: number, f: string, v: string) => setGuests(prev => prev.map((g, i) => i === idx ? { ...g, [f]: v } : g));
+  const [guests, setGuests] = useState<Guest[]>([
+    emptyGuest(),
+    emptyGuest(),
+    emptyGuest(),
+  ]);
+  const update = (idx: number, f: string, v: string) =>
+    setGuests((prev) => prev.map((g, i) => (i === idx ? { ...g, [f]: v } : g)));
 
   return (
     <div className="grid grid-cols-2 gap-3">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
-        <div key={i} className={`p-4 border space-y-2.5 ${i === 0 ? "bg-[var(--color-accent)]/5 border-[var(--color-accent)]/30" : "bg-white/[0.02] border-white/5"}`}>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-6 h-6 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)]" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
+        <div
+          key={i}
+          className={`space-y-2.5 border p-4 ${i === 0 ? "border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5" : "border-white/5 bg-white/[0.02]"}`}
+        >
+          <div className="mb-1 flex items-center gap-2">
+            <span
+              className="flex h-6 w-6 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+              style={{ backgroundColor: COLORS[i] }}
+            >
+              {i + 1}
+            </span>
             <span className="text-white/50">
               <span>{COLLAPSIBLE_LABELS[i] || `Guest ${i + 1}`}</span>
             </span>
           </div>
-          <input type="text" placeholder="Name" value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
-          <input type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
-          <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
+          <input
+            type="text"
+            placeholder="Name"
+            value={g.name}
+            onChange={(e) => update(i, "name", e.target.value)}
+            className={INPUT}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={g.email}
+            onChange={(e) => update(i, "email", e.target.value)}
+            className={INPUT}
+          />
+          <input
+            type="tel"
+            placeholder="Phone"
+            value={g.phone}
+            onChange={(e) => update(i, "phone", e.target.value)}
+            className={INPUT}
+          />
         </div>
       ))}
-      <button type="button" className="p-4 border border-dashed border-white/10 flex items-center justify-center gap-2 text-white/20 hover:text-white text-white/40 border-white/10 transition-colors cursor-pointer">
+      <button
+        type="button"
+        className="flex cursor-pointer items-center justify-center gap-2 border border-dashed border-white/10 p-4 text-white/20 text-white/40 transition-colors hover:text-white"
+      >
         <span className="text-xl">+</span>
-        <span >Add Guest</span>
+        <span>Add Guest</span>
       </button>
     </div>
   );
@@ -105,12 +241,18 @@ function VersionC() {
 
 /* ═══════════ VERSION D — Inline Table ═══════════ */
 function VersionD() {
-  const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
-  const update = (idx: number, f: string, v: string) => setGuests(prev => prev.map((g, i) => i === idx ? { ...g, [f]: v } : g));
-  const SMALL = "   border-0 border-b  border-white/10  rounded-none px-2 py-2 text-sm   placeholder: /15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
+  const [guests, setGuests] = useState<Guest[]>([
+    emptyGuest(),
+    emptyGuest(),
+    emptyGuest(),
+  ]);
+  const update = (idx: number, f: string, v: string) =>
+    setGuests((prev) => prev.map((g, i) => (i === idx ? { ...g, [f]: v } : g)));
+  const SMALL =
+    "   border-0 border-b  border-white/10  rounded-none px-2 py-2 text-sm   placeholder: /15 focus:border-[var(--color-accent)] focus:outline-none transition-colors w-full";
 
   return (
-    <div className="border border-white/10 overflow-hidden">
+    <div className="overflow-hidden border border-white/10">
       <div className="grid grid-cols-[40px_1fr_1fr_1fr] bg-white/[0.03] px-3 py-2">
         <span className="text-[var(--font-size-2xs)] text-white/20">#</span>
         <span className="text-[var(--font-size-2xs)] text-white/20">Name</span>
@@ -118,76 +260,191 @@ function VersionD() {
         <span className="text-[var(--font-size-2xs)] text-white/20">Phone</span>
       </div>
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
-        <div key={i} className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? "bg-[var(--color-accent)]/10" : i % 2 === 0 ? "bg-white/[0.01]" : ""}`}>
-          <span className="w-6 h-6 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)]" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
-          <input type="text" placeholder={i === 0 ? "Your name" : "Guest name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={SMALL} />
-          <input type="email" placeholder="email@example.com" value={g.email} onChange={e => update(i, "email", e.target.value)} className={SMALL} />
-          <input type="tel" placeholder="(555) 123-4567" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={SMALL} />
+        <div
+          key={i}
+          className={`grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 ${i === 0 ? "bg-[var(--color-accent)]/10" : i % 2 === 0 ? "bg-white/[0.01]" : ""}`}
+        >
+          <span
+            className="flex h-6 w-6 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+            style={{ backgroundColor: COLORS[i] }}
+          >
+            {i + 1}
+          </span>
+          <input
+            type="text"
+            placeholder={i === 0 ? "Your name" : "Guest name"}
+            value={g.name}
+            onChange={(e) => update(i, "name", e.target.value)}
+            className={SMALL}
+          />
+          <input
+            type="email"
+            placeholder="email@example.com"
+            value={g.email}
+            onChange={(e) => update(i, "email", e.target.value)}
+            className={SMALL}
+          />
+          <input
+            type="tel"
+            placeholder="(555) 123-4567"
+            value={g.phone}
+            onChange={(e) => update(i, "phone", e.target.value)}
+            className={SMALL}
+          />
         </div>
       ))}
-      <button type="button" className="w-full py-2.5 text-[var(--color-accent)]/60 hover:bg-white/[0.02] transition-colors cursor-pointer">+ Add Guest</button>
+      <button
+        type="button"
+        className="w-full cursor-pointer py-2.5 text-[var(--color-accent)]/60 transition-colors hover:bg-white/[0.02]"
+      >
+        + Add Guest
+      </button>
     </div>
   );
 }
 
 /* ═══════════ VERSION E — Collapsible List ═══════════ */
 function VersionE() {
-  const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
+  const [guests, setGuests] = useState<Guest[]>([
+    emptyGuest(),
+    emptyGuest(),
+    emptyGuest(),
+  ]);
   const [open, setOpen] = useState(0);
-  const update = (idx: number, f: string, v: string) => setGuests(prev => prev.map((g, i) => i === idx ? { ...g, [f]: v } : g));
+  const update = (idx: number, f: string, v: string) =>
+    setGuests((prev) => prev.map((g, i) => (i === idx ? { ...g, [f]: v } : g)));
 
   return (
     <div className="space-y-2">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="overflow-hidden border border-white/5">
-          <button type="button" onClick={() => setOpen(open === i ? -1 : i)}
-            className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"}`}>
-            <span className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: COLORS[i] }}>
-              {g.name ? g.name[0].toUpperCase() : (i + 1)}
+          <button
+            type="button"
+            onClick={() => setOpen(open === i ? -1 : i)}
+            className={`flex w-full cursor-pointer items-center gap-3 px-4 py-3 transition-colors ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"}`}
+          >
+            <span
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+              style={{ backgroundColor: COLORS[i] }}
+            >
+              {g.name ? g.name[0].toUpperCase() : i + 1}
             </span>
             <div className="flex-1 text-left">
-              <p >{COLLAPSIBLE_LABELS[i]}</p>
+              <p>{COLLAPSIBLE_LABELS[i]}</p>
               <p>{g.name || "—"}</p>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-white/30 transition-transform ${open === i ? "rotate-90 text-purple-400" : ""}`}><polyline points="9 18 15 12 9 6" /></svg>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className={`text-white/30 transition-transform ${open === i ? "rotate-90 text-purple-400" : ""}`}
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
           </button>
           {open === i && (
-            <div className="px-4 pb-4 pt-2 space-y-2.5 bg-white/[0.01]">
-              <input type="text" placeholder="Full Name" value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
-              <input type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
-              <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
+            <div className="space-y-2.5 bg-white/[0.01] px-4 pt-2 pb-4">
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={g.name}
+                onChange={(e) => update(i, "name", e.target.value)}
+                className={INPUT}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={g.email}
+                onChange={(e) => update(i, "email", e.target.value)}
+                className={INPUT}
+              />
+              <input
+                type="tel"
+                placeholder="Phone"
+                value={g.phone}
+                onChange={(e) => update(i, "phone", e.target.value)}
+                className={INPUT}
+              />
             </div>
           )}
         </div>
       ))}
-      <button type="button" className="w-full py-3 border border-dashed border-white/10 text-white/20 border-white/10 transition-colors cursor-pointer">+ Add a Guest</button>
+      <button
+        type="button"
+        className="w-full cursor-pointer border border-dashed border-white/10 py-3 text-white/20 transition-colors"
+      >
+        + Add a Guest
+      </button>
     </div>
   );
 }
 
 /* ═══════════ VERSION F — Compact Rows ═══════════ */
 function VersionF() {
-  const [guests, setGuests] = useState<Guest[]>([emptyGuest(), emptyGuest(), emptyGuest()]);
-  const update = (idx: number, f: string, v: string) => setGuests(prev => prev.map((g, i) => i === idx ? { ...g, [f]: v } : g));
-  const remove = (idx: number) => setGuests(prev => prev.filter((_, i) => i !== idx));
+  const [guests, setGuests] = useState<Guest[]>([
+    emptyGuest(),
+    emptyGuest(),
+    emptyGuest(),
+  ]);
+  const update = (idx: number, f: string, v: string) =>
+    setGuests((prev) => prev.map((g, i) => (i === idx ? { ...g, [f]: v } : g)));
+  const remove = (idx: number) =>
+    setGuests((prev) => prev.filter((_, i) => i !== idx));
 
   return (
     <div className="space-y-3">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="flex items-start gap-2">
-          <span className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] shrink-0 mt-2" style={{ backgroundColor: COLORS[i] }}>{i + 1}</span>
-          <div className="flex-1 grid grid-cols-3 gap-2">
-            <input type="text" placeholder={i === 0 ? "Your Name" : "Guest Name"} value={g.name} onChange={e => update(i, "name", e.target.value)} className={INPUT} />
-            <input type="email" placeholder="Email" value={g.email} onChange={e => update(i, "email", e.target.value)} className={INPUT} />
-            <input type="tel" placeholder="Phone" value={g.phone} onChange={e => update(i, "phone", e.target.value)} className={INPUT} />
+          <span
+            className="mt-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+            style={{ backgroundColor: COLORS[i] }}
+          >
+            {i + 1}
+          </span>
+          <div className="grid flex-1 grid-cols-3 gap-2">
+            <input
+              type="text"
+              placeholder={i === 0 ? "Your Name" : "Guest Name"}
+              value={g.name}
+              onChange={(e) => update(i, "name", e.target.value)}
+              className={INPUT}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={g.email}
+              onChange={(e) => update(i, "email", e.target.value)}
+              className={INPUT}
+            />
+            <input
+              type="tel"
+              placeholder="Phone"
+              value={g.phone}
+              onChange={(e) => update(i, "phone", e.target.value)}
+              className={INPUT}
+            />
           </div>
           {i > 0 && (
-            <button type="button" onClick={() => remove(i)} className="w-7 h-7 rounded-lg bg-[#00000029] hover:bg-red-500/20 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors cursor-pointer mt-2 shrink-0">✕</button>
+            <button
+              type="button"
+              onClick={() => remove(i)}
+              className="mt-2 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/20 transition-colors hover:bg-red-500/20 hover:text-red-400"
+            >
+              ✕
+            </button>
           )}
         </div>
       ))}
-      <button type="button" onClick={() => setGuests(g => [...g, emptyGuest()])}
-        className="text-[var(--color-accent)]/60 transition-colors cursor-pointer">+ Add another guest</button>
+      <button
+        type="button"
+        onClick={() => setGuests((g) => [...g, emptyGuest()])}
+        className="cursor-pointer text-[var(--color-accent)]/60 transition-colors"
+      >
+        + Add another guest
+      </button>
     </div>
   );
 }
@@ -197,33 +454,67 @@ const STEP_LABELS = ["Your Info", "Guest 2", "Guest 3"];
 const COLLAPSIBLE_LABELS = ["Primary Booker", "Guest 2", "Guest 3"];
 
 const VERSIONS = [
-  { label: "A", title: "Tab Accordion", desc: "Click guest tabs to switch between forms", Component: VersionA },
-  { label: "B", title: "Step Wizard", desc: "Guided progress, one person at a time", Component: VersionB },
-  { label: "C", title: "Card Grid", desc: "Each person gets their own card", Component: VersionC },
-  { label: "D", title: "Inline Table", desc: "Spreadsheet-style, data-dense", Component: VersionD },
-  { label: "E", title: "Collapsible List", desc: "Expand/collapse like a contact list", Component: VersionE },
-  { label: "F", title: "Compact Rows", desc: "All fields inline per row", Component: VersionF },
+  {
+    label: "A",
+    title: "Tab Accordion",
+    desc: "Click guest tabs to switch between forms",
+    Component: VersionA,
+  },
+  {
+    label: "B",
+    title: "Step Wizard",
+    desc: "Guided progress, one person at a time",
+    Component: VersionB,
+  },
+  {
+    label: "C",
+    title: "Card Grid",
+    desc: "Each person gets their own card",
+    Component: VersionC,
+  },
+  {
+    label: "D",
+    title: "Inline Table",
+    desc: "Spreadsheet-style, data-dense",
+    Component: VersionD,
+  },
+  {
+    label: "E",
+    title: "Collapsible List",
+    desc: "Expand/collapse like a contact list",
+    Component: VersionE,
+  },
+  {
+    label: "F",
+    title: "Compact Rows",
+    desc: "All fields inline per row",
+    Component: VersionF,
+  },
 ];
 
 export default function CruisePreviewPage() {
-
   return (
     <div className="min-h-screen pt-28 pb-20">
       <div className="site-container">
-        <div className="text-center mb-12">
+        <div className="mb-12 text-center">
           <h1 className="text-4xl italic">
             Guest Form <span className="accent-gradient-text">Variants</span>
           </h1>
           <p className="mt-2">6 different UI approaches — pick your favorite</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {VERSIONS.map(({ label, title, desc, Component }) => (
-            <div key={label} className="bg-[var(--color-bg-surface)]/80 border border-white/10 overflow-hidden">
-              <div className="px-6 py-4 border-b border-white/10 flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-[var(--color-accent)] flex items-center justify-center">{label}</span>
+            <div
+              key={label}
+              className="overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/80"
+            >
+              <div className="flex items-center gap-3 border-b border-white/10 px-6 py-4">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-accent)]">
+                  {label}
+                </span>
                 <div>
-                  <h2 >{title}</h2>
+                  <h2>{title}</h2>
                   <p>{desc}</p>
                 </div>
               </div>

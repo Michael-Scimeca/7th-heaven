@@ -53,7 +53,7 @@ export default function LazyMount({
           observer.disconnect();
         }
       },
-      { rootMargin }
+      { rootMargin },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -62,7 +62,12 @@ export default function LazyMount({
   const Tag = Component as any;
 
   return (
-    <Tag ref={ref} id={id} className={className} style={{ minHeight, ...style }}>
+    <Tag
+      ref={ref}
+      id={id}
+      className={className}
+      style={{ minHeight, ...style }}
+    >
       {visible ? children : null}
     </Tag>
   );

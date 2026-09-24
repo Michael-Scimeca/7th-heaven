@@ -23,29 +23,44 @@ import { SectionBadge } from "./SectionBadge";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "./AddCmsButton";
 
-const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), { ssr: false });
+const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), {
+  ssr: false,
+});
 
-function ShowcaseMedia({ videoId, videoTitle, start, end }: { videoId: string; videoTitle: string; start: number; end: number; previewZoomPercent: number }) {
+function ShowcaseMedia({
+  videoId,
+  videoTitle,
+  start,
+  end,
+}: {
+  videoId: string;
+  videoTitle: string;
+  start: number;
+  end: number;
+  previewZoomPercent: number;
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
-      className="smooothy-parallax-media absolute inset-0 w-full h-full overflow-hidden transform-gpu"
+      className="smooothy-parallax-media absolute inset-0 h-full w-full transform-gpu overflow-hidden"
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}>
+      onMouseLeave={() => setHovered(false)}
+    >
       {hovered ? (
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&start=${start}&end=${end}&playsinline=1&enablejsapi=1&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1`}
           title={videoTitle}
-          className="w-[300%] h-[300%] -top-[100%] -left-[100%] absolute object-cover pointer-events-none border-0 z-10 transform-gpu"
+          className="pointer-events-none absolute -top-[100%] -left-[100%] z-10 h-[300%] w-[300%] transform-gpu border-0 object-cover"
           allow="autoplay; encrypted-media"
-        />) : (
+        />
+      ) : (
         <Image
           src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
           alt={videoTitle}
           fill
           sizes="(max-width: 768px) 100vw, 400px"
-          className="object-cover pointer-events-none transform-gpu"
+          className="pointer-events-none transform-gpu object-cover"
         />
       )}
     </div>
@@ -144,22 +159,36 @@ interface SmooothyInstance {
 }
 
 function extractYouTubeId(urlOrId: string): string {
-  const match = urlOrId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  const match = urlOrId.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/,
+  );
   if (match && match[1]) return match[1];
   const clean = urlOrId.trim();
   if (clean.length === 11 && /^[\w-]+$/.test(clean)) return clean;
   return clean;
 }
 
-export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: any }) {
+export default function HomeVideoShowcase({
+  sanityContent,
+}: {
+  sanityContent?: any;
+}) {
   const { member, isLoggedIn } = useMember();
-  const isAdmin = Boolean(isLoggedIn && (member?.role === 'admin' || member?.role === 'crew' || (member as any)?.isAdmin === true));
+  const isAdmin = Boolean(
+    isLoggedIn &&
+    (member?.role === "admin" ||
+      member?.role === "crew" ||
+      (member as any)?.isAdmin === true),
+  );
 
-  const [videos, setVideos] = useState<ShowcaseCategoryVideo[]>(CATEGORY_SHOWCASE);
+  const [videos, setVideos] =
+    useState<ShowcaseCategoryVideo[]>(CATEGORY_SHOWCASE);
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [activeSettingsTab, setActiveSettingsTab] = useState<"smooothy" | "layout" | "motion" | "video" | "style" | "ui">("smooothy");
+  const [activeSettingsTab, setActiveSettingsTab] = useState<
+    "smooothy" | "layout" | "motion" | "video" | "style" | "ui"
+  >("smooothy");
 
   // Add Video Modal State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -169,7 +198,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   const [customCategories, setCustomCategories] = useState<string[]>([]);
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [customCategoryInput, setCustomCategoryInput] = useState("");
-  const [newYear, setNewYear] = useState(() => new Date().getFullYear().toString());
+  const [newYear, setNewYear] = useState(() =>
+    new Date().getFullYear().toString(),
+  );
   const [newDuration, setNewDuration] = useState("3:30");
   const [newDesc, setNewDesc] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -194,7 +225,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     for (let i = 0; i < videos.length; i++) {
       if (videos[i].category) fromVideos.push(videos[i].category);
     }
-    return Array.from(new Set([...defaults, ...fromVideos, ...customCategories]));
+    return Array.from(
+      new Set([...defaults, ...fromVideos, ...customCategories]),
+    );
   }, [videos, customCategories]);
 
   // Hydrate live videos from Sanity
@@ -202,18 +235,24 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     fetch("/api/videos")
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        if (data?.success && Array.isArray(data.videos) && data.videos.length > 0) {
-          const sanityItems: ShowcaseCategoryVideo[] = data.videos.map((sv: any) => ({
-            id: sv.youtubeId,
-            title: sv.title,
-            category: sv.category || "Official Music Videos",
-            badges: [sv.category?.toUpperCase() || "FEATURED", "SANITY"],
-            viewCount: "Sanity",
-            year: sv.year || new Date().getFullYear(),
-            duration: sv.duration || "3:30",
-            previewStart: 0,
-            previewEnd: 30,
-          }));
+        if (
+          data?.success &&
+          Array.isArray(data.videos) &&
+          data.videos.length > 0
+        ) {
+          const sanityItems: ShowcaseCategoryVideo[] = data.videos.map(
+            (sv: any) => ({
+              id: sv.youtubeId,
+              title: sv.title,
+              category: sv.category || "Official Music Videos",
+              badges: [sv.category?.toUpperCase() || "FEATURED", "SANITY"],
+              viewCount: "Sanity",
+              year: sv.year || new Date().getFullYear(),
+              duration: sv.duration || "3:30",
+              previewStart: 0,
+              previewEnd: 30,
+            }),
+          );
 
           setVideos((prev) => {
             const existingIds = new Set(sanityItems.map((v) => v.id));
@@ -222,7 +261,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           });
         }
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
   const handleAddVideoSubmit = async (e: React.FormEvent) => {
@@ -231,11 +270,15 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
     const parsedId = extractYouTubeId(newUrl);
     if (!parsedId || parsedId.length !== 11) {
-      setModalError("Please enter a valid 11-character YouTube video URL or ID.");
+      setModalError(
+        "Please enter a valid 11-character YouTube video URL or ID.",
+      );
       return;
     }
 
-    const targetCategory = (isCustomCategory ? customCategoryInput : newCategory).trim();
+    const targetCategory = (
+      isCustomCategory ? customCategoryInput : newCategory
+    ).trim();
     if (!targetCategory) {
       setModalError("Please select or enter a video category.");
       return;
@@ -271,17 +314,24 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
         };
 
         if (isCustomCategory && customCategoryInput.trim()) {
-          setCustomCategories((prev) => Array.from(new Set([...prev, customCategoryInput.trim()])));
+          setCustomCategories((prev) =>
+            Array.from(new Set([...prev, customCategoryInput.trim()])),
+          );
         }
 
-        setVideos((prev) => [addedVid, ...prev.filter((v) => v.id !== addedVid.id)]);
+        setVideos((prev) => [
+          addedVid,
+          ...prev.filter((v) => v.id !== addedVid.id),
+        ]);
         setIsAddModalOpen(false);
         setIsCustomCategory(false);
         setCustomCategoryInput("");
         setNewTitle("");
         setNewUrl("");
         setNewDesc("");
-        setToastMessage(`🎉 Video "${addedVid.title}" successfully added under "${addedVid.category}"!`);
+        setToastMessage(
+          `🎉 Video "${addedVid.title}" successfully added under "${addedVid.category}"!`,
+        );
         setTimeout(() => setToastMessage(null), 4500);
       } else {
         setModalError(data.error || "Failed to save video to Sanity.");
@@ -292,7 +342,6 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       setSubmitting(false);
     }
   };
-
 
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -308,52 +357,75 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
   // ── PARALLAX + SPEED BOUNCY EFFECT STATE ──
   const [isParallaxEnabled, setIsParallaxEnabled] = useState<boolean>(false);
-  const [isSpeedBouncyEnabled, setIsSpeedBouncyEnabled] = useState<boolean>(true);
+  const [isSpeedBouncyEnabled, setIsSpeedBouncyEnabled] =
+    useState<boolean>(true);
   const lerpedSpeedRef = useRef<number>(0);
 
   // ── ALL 16 OFFICIAL SMOOOTHY ENGINE CONFIGURATION OPTIONS ──
   const [smooothyInfinite, setSmooothyInfinite] = useState<boolean>(true);
   const [smooothySnap, setSmooothySnap] = useState<boolean>(false); // false = Free Mode continuous parallax scrolling
-  const [smooothyVariableWidth, setSmooothyVariableWidth] = useState<boolean>(false);
+  const [smooothyVariableWidth, setSmooothyVariableWidth] =
+    useState<boolean>(false);
   const [smooothyVertical, setSmooothyVertical] = useState<boolean>(false);
-  const [smooothyScrollInput, setSmooothyScrollInput] = useState<boolean>(false);
-  const [smooothyDragSensitivity, setSmooothyDragSensitivity] = useState<number>(0.005);
-  const [smooothyLerpFactor, setSmooothyLerpFactor] = useState<number>(0.30);
-  const [smooothyScrollSensitivity, setSmooothyScrollSensitivity] = useState<number>(0);
-  const [smooothySnapStrength, setSmooothySnapStrength] = useState<number>(0.00);
+  const [smooothyScrollInput, setSmooothyScrollInput] =
+    useState<boolean>(false);
+  const [smooothyDragSensitivity, setSmooothyDragSensitivity] =
+    useState<number>(0.005);
+  const [smooothyLerpFactor, setSmooothyLerpFactor] = useState<number>(0.3);
+  const [smooothyScrollSensitivity, setSmooothyScrollSensitivity] =
+    useState<number>(0);
+  const [smooothySnapStrength, setSmooothySnapStrength] = useState<number>(0.0);
   const [smooothySpeedDecay, setSmooothySpeedDecay] = useState<number>(0.85);
   const [smooothyBounceLimit, setSmooothyBounceLimit] = useState<number>(2.5);
-  const [smooothyOffsetPreset, setSmooothyOffsetPreset] = useState<"standard" | "center" | "full">("standard");
-  const [smooothyVirtualScroll, setSmooothyVirtualScroll] = useState<boolean>(false);
+  const [smooothyOffsetPreset, setSmooothyOffsetPreset] = useState<
+    "standard" | "center" | "full"
+  >("standard");
+  const [smooothyVirtualScroll, setSmooothyVirtualScroll] =
+    useState<boolean>(false);
 
   // Callback event logs (onSlideChange, onResize, onUpdate)
-  const [lastSlideChangeEvent, setLastSlideChangeEvent] = useState<string>("Index #0 Active");
-  const [lastResizeEvent, setLastResizeEvent] = useState<string>("Observer Ready");
-  const [lastUpdateEvent, setLastUpdateEvent] = useState<string>("60 FPS Engine");
+  const [lastSlideChangeEvent, setLastSlideChangeEvent] =
+    useState<string>("Index #0 Active");
+  const [lastResizeEvent, setLastResizeEvent] =
+    useState<string>("Observer Ready");
+  const [lastUpdateEvent, setLastUpdateEvent] =
+    useState<string>("60 FPS Engine");
 
   // ── ULTIMATE SLIDER CONFIGURATION ENGINE STATE ──
   // 1. Layout & Grid Settings
   const [cardsVisible, setCardsVisible] = useState<number>(3);
-  const [aspectRatio, setAspectRatio] = useState<string>("h-[300px] sm:h-[400px] md:h-[500px]");
+  const [aspectRatio, setAspectRatio] = useState<string>(
+    "h-[300px] sm:h-[400px] md:h-[500px]",
+  );
   const [cardGap, setCardGap] = useState<string>("gap-6");
   const [borderRadius, setBorderRadius] = useState<string>("");
-  const [borderStyle, setBorderStyle] = useState<string>("border border-white/10");
+  const [borderStyle, setBorderStyle] = useState<string>(
+    "border border-white/10",
+  );
 
   // 2. Motion & Auto-Advance
   const [isAutoPlayEnabled, setIsAutoPlayEnabled] = useState<boolean>(false);
   const [autoAdvanceSpeed, setAutoAdvanceSpeed] = useState<number>(8); // seconds
-  const [autoAdvanceDirection, setAutoAdvanceDirection] = useState<"forward" | "reverse">("forward");
+  const [autoAdvanceDirection, setAutoAdvanceDirection] = useState<
+    "forward" | "reverse"
+  >("forward");
   const [transitionSpeed, setTransitionSpeed] = useState<number>(200); // ms
-  const [hoverAnimation, setHoverAnimation] = useState<string>("transition-transform duration-300 hover:-translate-y-2");
+  const [hoverAnimation, setHoverAnimation] = useState<string>(
+    "transition-transform duration-300 hover:-translate-y-2",
+  );
 
   // 3. YouTube Preview Engine
   const [previewStartSec, setPreviewStartSec] = useState<number>(0);
   const [previewDurationSec, setPreviewDurationSec] = useState<number>(30);
   const [previewZoomPercent, setPreviewZoomPercent] = useState<number>(130); // %
-  const [playButtonVisibility, setPlayButtonVisibility] = useState<"hover" | "always" | "hidden">("hover");
+  const [playButtonVisibility, setPlayButtonVisibility] = useState<
+    "hover" | "always" | "hidden"
+  >("hover");
 
   // 4. Styling, Colors & Buttons
-  const [playButtonColor, setPlayButtonColor] = useState<string>("bg-purple-600 hover:bg-purple-500");
+  const [playButtonColor, setPlayButtonColor] = useState<string>(
+    "bg-purple-600 hover:bg-purple-500",
+  );
   const [playButtonSize, setPlayButtonSize] = useState<string>("w-14 h-14");
   const [titleFontSize, setTitleFontSize] = useState<string>("text-[18px]");
   const [sectionTheme, setSectionTheme] = useState<string>("");
@@ -361,7 +433,8 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   // 5. Navigation & UI Elements
   const [showBadges, setShowBadges] = useState<boolean>(true);
   const [showMetadata, setShowMetadata] = useState<boolean>(true);
-  const [showBottomCategoryTabs, setShowBottomCategoryTabs] = useState<boolean>(true);
+  const [showBottomCategoryTabs, setShowBottomCategoryTabs] =
+    useState<boolean>(true);
 
   const startLoopRef = useRef<(() => void) | undefined>(undefined);
   const dragDistanceRef = useRef(0);
@@ -384,10 +457,10 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           startLoopRef.current?.();
           try {
             smooothyInstanceRef.current?.resize?.();
-          } catch { }
+          } catch {}
         }
       },
-      { rootMargin: "300px 0px" }
+      { rootMargin: "300px 0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -401,12 +474,12 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
     try {
       smooothyInstanceRef.current?.destroy?.();
-    } catch { }
+    } catch {}
 
     try {
       const SmooothyClass = Smooothy as unknown as new (
         elem: HTMLElement,
-        options: Record<string, unknown>
+        options: Record<string, unknown>,
       ) => SmooothyInstance;
 
       const instance = new SmooothyClass(trackRef.current, {
@@ -424,12 +497,18 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
         virtualScroll: smooothyVirtualScroll ? { enabled: true } : false,
         setOffset:
           smooothyOffsetPreset === "center"
-            ? ({ itemWidth, wrapperWidth }: { itemWidth: number; wrapperWidth: number }) => wrapperWidth / 2 - itemWidth / 2
+            ? ({
+                itemWidth,
+                wrapperWidth,
+              }: {
+                itemWidth: number;
+                wrapperWidth: number;
+              }) => wrapperWidth / 2 - itemWidth / 2
             : smooothyOffsetPreset === "full"
               ? ({ itemWidth }: { itemWidth: number }) => itemWidth
               : () => 0,
         onSlideChange: (idx: number) => {
-          const safeIndex = (idx % totalVideos + totalVideos) % totalVideos;
+          const safeIndex = ((idx % totalVideos) + totalVideos) % totalVideos;
           setStartIndex(safeIndex);
           setLastSlideChangeEvent(`Index #${safeIndex}`);
         },
@@ -442,12 +521,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
           const spd = (instance?.speed as number) ?? 0;
           const dt = (instance?.deltaTime as number) ?? 0.016;
 
-          lerpedSpeedRef.current = damp(
-            lerpedSpeedRef.current,
-            spd,
-            5,
-            dt
-          );
+          lerpedSpeedRef.current = damp(lerpedSpeedRef.current, spd, 5, dt);
 
           if (trackRef.current) {
             // Keep innerMedia stationary within rounded overflow-hidden container
@@ -493,7 +567,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
         if (animId) cancelAnimationFrame(animId);
         try {
           smooothyInstanceRef.current?.destroy?.();
-        } catch { }
+        } catch {}
       };
     } catch (err) {
       console.error("Smooothy initialization error:", err);
@@ -502,7 +576,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     return () => {
       try {
         smooothyInstanceRef.current?.destroy?.();
-      } catch { }
+      } catch {}
     };
   }, [
     smooothyInfinite,
@@ -554,19 +628,24 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     }
   }, [totalVideos, autoAdvanceDirection, cardsVisible]);
 
-  const handleGoToIndex = useCallback((idx: number) => {
-    if (smooothyInstanceRef.current?.goToIndex) {
-      smooothyInstanceRef.current.goToIndex(idx);
-    } else if (trackRef.current) {
-      const slideWidth = trackRef.current.clientWidth / cardsVisible;
-      trackRef.current.scrollTo({ left: idx * slideWidth, behavior: "smooth" });
-    } else {
-      setStartIndex(idx);
-    }
-  }, [cardsVisible]);
+  const handleGoToIndex = useCallback(
+    (idx: number) => {
+      if (smooothyInstanceRef.current?.goToIndex) {
+        smooothyInstanceRef.current.goToIndex(idx);
+      } else if (trackRef.current) {
+        const slideWidth = trackRef.current.clientWidth / cardsVisible;
+        trackRef.current.scrollTo({
+          left: idx * slideWidth,
+          behavior: "smooth",
+        });
+      } else {
+        setStartIndex(idx);
+      }
+    },
+    [cardsVisible],
+  );
 
   // Robust 60 FPS Pointer Drag & Speed Parallax Handler
-
 
   // Auto-rotation timer based on user speed setting
   const handleNextRef = useRef(handleNext);
@@ -599,9 +678,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
     setSmooothyVertical(false);
     setSmooothyScrollInput(false);
     setSmooothyDragSensitivity(0.005);
-    setSmooothyLerpFactor(0.30);
-    setSmooothyScrollSensitivity(1.00);
-    setSmooothySnapStrength(0.00);
+    setSmooothyLerpFactor(0.3);
+    setSmooothyScrollSensitivity(1.0);
+    setSmooothySnapStrength(0.0);
     setSmooothySpeedDecay(0.85);
     setSmooothyBounceLimit(2.5);
     setSmooothyOffsetPreset("standard");
@@ -657,22 +736,25 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
   const gapPx = getGapPx();
 
   return (
-    <section ref={sectionRef} id="video-slider" className={`py-section-fluid border-b border-white/10 relative overflow-hidden w-full select-none`}>
-
+    <section
+      ref={sectionRef}
+      id="video-slider"
+      className={`py-section-fluid relative w-full overflow-hidden border-b border-white/10 select-none`}
+    >
       {/* Section Header inside site-container */}
       <div className="site-container relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-6">
+        <div className="mb-6 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <div className="max-w-2xl">
             <h2 className="mb-2.5">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
             <p className="mb-5">
-              {sanityContent?.videoShowcaseSubtitle || "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
+              {sanityContent?.videoShowcaseSubtitle ||
+                "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
-
+          <div className="flex shrink-0 items-center gap-3 self-start sm:self-auto">
             {isAdmin && (
               <AddCmsButton
                 label="ADD VIDEO"
@@ -685,36 +767,41 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
       </div>
 
       {/* Pure Smooothy Engine DOM Slider Track (Edge-to-Edge) */}
-      <div className="relative w-full group/track">
+      <div className="group/track relative w-full">
         {/* Floating Side Arrow Controls */}
         <button
           type="button"
           onClick={handlePrev}
           aria-label="Previous Video Slide"
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
+          className="absolute top-1/2 left-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md transition-all duration-300 group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="h-6 w-6" />
         </button>
         <button
           type="button"
           onClick={handleNext}
           aria-label="Next Video Slide"
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/70 hover:bg-purple-600 border border-white/20 flex items-center justify-center opacity-0 group-hover/track:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-md shadow-2xl cursor-pointer"
+          className="absolute top-1/2 right-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md transition-all duration-300 group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="h-6 w-6" />
         </button>
 
         <div
           ref={trackRef}
           data-slider="true"
           data-vertical={smooothyVertical}
-          className={`w-full overflow-hidden select-none cursor-grab active:cursor-grabbing ${smooothyVertical ? "flex flex-col h-[750px]" : "flex flex-nowrap"}`}
+          className={`w-full cursor-grab overflow-hidden select-none active:cursor-grabbing ${smooothyVertical ? "flex h-[750px] flex-col" : "flex flex-nowrap"}`}
           style={{
             touchAction: "pan-y",
             ...(smooothyVertical
               ? {}
-              : { marginLeft: `-${gapPx / 2}px`, marginRight: `-${gapPx / 2}px`, width: `calc(100% + ${gapPx}px)` })
-          }}>
+              : {
+                  marginLeft: `-${gapPx / 2}px`,
+                  marginRight: `-${gapPx / 2}px`,
+                  width: `calc(100% + ${gapPx}px)`,
+                }),
+          }}
+        >
           {videos.map((video, idx) => {
             const start = video.previewStart ?? previewStartSec;
             const end = start + previewDurationSec;
@@ -722,7 +809,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
             return (
               <article
                 key={video.id + idx}
-                className="smooothy-slide group flex flex-col shrink-0 transform-gpu z-10"
+                className="smooothy-slide group z-10 flex shrink-0 transform-gpu flex-col"
                 style={{
                   width: smooothyVertical
                     ? "100%"
@@ -731,7 +818,8 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                   paddingRight: smooothyVertical ? 0 : `${gapPx / 2}px`,
                   paddingTop: smooothyVertical ? `${gapPx / 2}px` : 0,
                   paddingBottom: smooothyVertical ? `${gapPx / 2}px` : 0,
-                }}>
+                }}
+              >
                 {/* Video Card Container — Whole Card Clickable */}
                 <div
                   style={{
@@ -753,16 +841,20 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                     pointerStartRef.current = null;
                   }}
                   onClick={() => {
-                    if (dragDistanceRef.current > 8 || smooothyInstanceRef.current?.isDragging) {
+                    if (
+                      dragDistanceRef.current > 8 ||
+                      smooothyInstanceRef.current?.isDragging
+                    ) {
                       return;
                     }
                     if (playingVideoId !== video.id) {
                       setPlayingVideoId(video.id);
                     }
                   }}
-                  className={`relative w-full h-[300px] sm:h-[400px] md:h-[500px] ${borderRadius} overflow-hidden bg-black/60 transition-all duration-300 cursor-pointer ${playingVideoId === video.id ? "ring-2 ring-purple-400 shadow-[0_0_35px_rgba(217,70,239,0.6)]" : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"}`}>
+                  className={`relative h-[300px] w-full sm:h-[400px] md:h-[500px] ${borderRadius} cursor-pointer overflow-hidden bg-black/60 transition-all duration-300 ${playingVideoId === video.id ? "shadow-[0_0_35px_rgba(217,70,239,0.6)] ring-2 ring-purple-400" : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"}`}
+                >
                   {playingVideoId === video.id ? (
-                    <div className="relative w-full h-full bg-black z-30">
+                    <div className="relative z-30 h-full w-full bg-black">
                       <InlineYTPlayer
                         videoId={video.id}
                         title={video.title}
@@ -784,12 +876,13 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                       />
 
                       {/* Gradient shadow overlay for legibility */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20 pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-0" />
+                      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/30 to-black/20 transition-opacity duration-300 group-hover:opacity-0" />
 
                       {/* Interactive Play Button Overlay (Centered in Middle of Video Card) */}
                       {playButtonVisibility !== "hidden" && (
                         <div
-                          className={`media-hover-overlay z-20 group-hover:opacity-0 transition-opacity duration-300 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}>
+                          className={`media-hover-overlay z-20 transition-opacity duration-300 group-hover:opacity-0 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}
+                        >
                           <GlassPlayButton
                             size="lg"
                             aria-label={`Play full video for ${video.title}`}
@@ -800,9 +893,9 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                       )}
 
                       {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                      <div className="absolute bottom-0 left-0 right-0 z-20 p-5 sm:p-6 md:p-8 flex flex-col items-center justify-end text-center pointer-events-none transition-opacity duration-300 group-hover:opacity-0">
+                      <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex flex-col items-center justify-end p-5 text-center transition-opacity duration-300 group-hover:opacity-0 sm:p-6 md:p-8">
                         {showBadges && (
-                          <div className="flex items-center justify-center gap-2 flex-wrap mb-2.5">
+                          <div className="mb-2.5 flex flex-wrap items-center justify-center gap-2">
                             {video.badges.map((badge, bIdx) => (
                               <SectionBadge
                                 key={badge + bIdx}
@@ -813,7 +906,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                           </div>
                         )}
 
-                        <h3 className="font-black line-clamp-2 text-base sm:text-lg md:text-xl transition-colors">
+                        <h3 className="line-clamp-2 text-base font-black transition-colors sm:text-lg md:text-xl">
                           {video.title}
                         </h3>
                       </div>
@@ -823,7 +916,7 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
                 {/* Below Card Metadata */}
                 {showMetadata && (
-                  <div className="pt-2.5 flex items-center justify-between gap-2     w-full px-0.5 pointer-events-none">
+                  <div className="pointer-events-none flex w-full items-center justify-between gap-2 px-0.5 pt-2.5">
                     <span className="shrink-0">
                       Views <strong className="ml-1">{video.viewCount}</strong>
                     </span>
@@ -833,7 +926,6 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
                     </span>
                   </div>
                 )}
-
               </article>
             );
           })}
@@ -842,180 +934,186 @@ export default function HomeVideoShowcase({ sanityContent }: { sanityContent?: a
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[99999] bg-gradient-to-r from-purple-900/90 to-pink-900/90 border border-purple-400/50 px-6 py-3.5 rounded-xl shadow-2xl backdrop-blur-md flex items-center gap-3 animate-fade-in">
-          <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
-          <span className="  text-sm">{toastMessage}</span>
+        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-xl border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
+          <CheckCircle2 className="h-5 w-5 shrink-0 text-green-400" />
+          <span className="text-sm">{toastMessage}</span>
         </div>
       )}
 
       {/* Add Video Modal */}
-      {isAddModalOpen && typeof window !== "undefined" && createPortal(
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-xl bg-neutral-900 border border-purple-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setIsAddModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+      {isAddModalOpen &&
+        typeof window !== "undefined" &&
+        createPortal(
+          <div className="animate-fade-in fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md">
+            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-neutral-900 p-6 shadow-2xl sm:p-8">
+              <button
+                onClick={() => setIsAddModalOpen(false)}
+                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
 
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
-                <VideoIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-xl   ">Add Video to Sanity</h3>
-                <p className="text-xs text-purple-300/70">Publish a new YouTube video directly to the Sanity database.</p>
-              </div>
-            </div>
-
-            {modalError && (
-              <div className="mb-6 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm">
-                {modalError}
-              </div>
-            )}
-
-            <form onSubmit={handleAddVideoSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs   text-purple-200/80 mb-1.5">
-                  Video Title *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder="e.g. 7th Heaven - Live at Summerfest"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs   text-purple-200/80 mb-1.5">
-                  YouTube URL or Video ID *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newUrl}
-                  onChange={(e) => setNewUrl(e.target.value)}
-                  placeholder="e.g. https://www.youtube.com/watch?v=BzHUNTZ66zY or BzHUNTZ66zY"
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-sm"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs   text-purple-200/80">
-                      Category *
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsCustomCategory(!isCustomCategory);
-                        if (!isCustomCategory) {
-                          setCustomCategoryInput("");
-                        }
-                      }}
-                      className="text-xs   text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
-                    >
-                      {isCustomCategory ? "← Select List" : "+ New Category"}
-                    </button>
-                  </div>
-
-                  {isCustomCategory ? (
-                    <input
-                      type="text"
-                      required
-                      value={customCategoryInput}
-                      onChange={(e) => setCustomCategoryInput(e.target.value)}
-                      placeholder="e.g. Acoustic Sessions"
-                      className="w-full bg-black/50 border border-purple-500/50 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-400 text-sm"
-                    />
-                  ) : (
-                    <select
-                      value={newCategory}
-                      onChange={(e) => {
-                        if (e.target.value === "__CUSTOM__") {
-                          setIsCustomCategory(true);
-                          setCustomCategoryInput("");
-                        } else {
-                          setNewCategory(e.target.value);
-                        }
-                      }}
-                      className="w-full bg-black/50 border border-white/15 rounded-xl px-3 py-2.5 focus:outline-none focus:border-purple-500 text-sm cursor-pointer"
-                    >
-                      {availableCategories.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                      <option value="__CUSTOM__">✨ + Add Custom Category...</option>
-                    </select>
-                  )}
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                  <VideoIcon className="h-5 w-5" />
                 </div>
-
                 <div>
-                  <label className="block text-xs   text-purple-200/80 mb-1.5">
-                    Year
-                  </label>
-                  <input
-                    type="number"
-                    value={newYear}
-                    onChange={(e) => setNewYear(e.target.value)}
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 focus:outline-none focus:border-purple-500 text-sm"
-                  />
+                  <h3 className="text-xl">Add Video to Sanity</h3>
+                  <p className="text-xs text-purple-300/70">
+                    Publish a new YouTube video directly to the Sanity database.
+                  </p>
                 </div>
+              </div>
 
+              {modalError && (
+                <div className="mb-6 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-sm text-red-200">
+                  {modalError}
+                </div>
+              )}
+
+              <form onSubmit={handleAddVideoSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs   text-purple-200/80 mb-1.5">
-                    Duration
+                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                    Video Title *
                   </label>
                   <input
                     type="text"
-                    value={newDuration}
-                    onChange={(e) => setNewDuration(e.target.value)}
-                    placeholder="3:30"
-                    className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 focus:outline-none focus:border-purple-500 text-sm"
+                    required
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    placeholder="e.g. 7th Heaven - Live at Summerfest"
+                    className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-xs   text-purple-200/80 mb-1.5">
-                  Description
-                </label>
-                <textarea
-                  rows={3}
-                  value={newDesc}
-                  onChange={(e) => setNewDesc(e.target.value)}
-                  placeholder="Optional description or concert highlights..."
-                  className="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 placeholder-gray-500 focus:outline-none focus:border-purple-500 text-sm"
-                />
-              </div>
+                <div>
+                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                    YouTube URL or Video ID *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newUrl}
+                    onChange={(e) => setNewUrl(e.target.value)}
+                    placeholder="e.g. https://www.youtube.com/watch?v=BzHUNTZ66zY or BzHUNTZ66zY"
+                    className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
+                  />
+                </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
-                <button
-                  type="button"
-                  onClick={() => setIsAddModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-sm   transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500    text-sm transition-all shadow-[0_0_20px_rgba(217,70,239,0.4)] disabled:opacity-50 cursor-pointer"
-                >
-                  {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>,
-        document.body
-      )}
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                  <div>
+                    <div className="mb-1.5 flex items-center justify-between">
+                      <label className="block text-xs text-purple-200/80">
+                        Category *
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsCustomCategory(!isCustomCategory);
+                          if (!isCustomCategory) {
+                            setCustomCategoryInput("");
+                          }
+                        }}
+                        className="cursor-pointer text-xs text-purple-400 transition-colors hover:text-purple-300"
+                      >
+                        {isCustomCategory ? "← Select List" : "+ New Category"}
+                      </button>
+                    </div>
+
+                    {isCustomCategory ? (
+                      <input
+                        type="text"
+                        required
+                        value={customCategoryInput}
+                        onChange={(e) => setCustomCategoryInput(e.target.value)}
+                        placeholder="e.g. Acoustic Sessions"
+                        className="w-full rounded-xl border border-purple-500/50 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-400 focus:outline-none"
+                      />
+                    ) : (
+                      <select
+                        value={newCategory}
+                        onChange={(e) => {
+                          if (e.target.value === "__CUSTOM__") {
+                            setIsCustomCategory(true);
+                            setCustomCategoryInput("");
+                          } else {
+                            setNewCategory(e.target.value);
+                          }
+                        }}
+                        className="w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
+                      >
+                        {availableCategories.map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                        <option value="__CUSTOM__">
+                          ✨ + Add Custom Category...
+                        </option>
+                      </select>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                      Year
+                    </label>
+                    <input
+                      type="number"
+                      value={newYear}
+                      onChange={(e) => setNewYear(e.target.value)}
+                      className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-1.5 block text-xs text-purple-200/80">
+                      Duration
+                    </label>
+                    <input
+                      type="text"
+                      value={newDuration}
+                      onChange={(e) => setNewDuration(e.target.value)}
+                      placeholder="3:30"
+                      className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm focus:border-purple-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs text-purple-200/80">
+                    Description
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={newDesc}
+                    onChange={(e) => setNewDesc(e.target.value)}
+                    placeholder="Optional description or concert highlights..."
+                    className="w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 text-sm placeholder-gray-500 focus:border-purple-500 focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-3 border-t border-white/10 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddModalOpen(false)}
+                    className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 text-sm transition-colors hover:bg-white/15"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 text-sm shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-all hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                  >
+                    {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }

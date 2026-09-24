@@ -9,17 +9,33 @@ import React from "react";
  */
 export function IphoneMaskSvg() {
   return (
-    <svg width="0" height="0" className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
+    <svg
+      width="0"
+      height="0"
+      className="pointer-events-none absolute h-0 w-0"
+      aria-hidden="true"
+    >
       <defs>
         {/* SVG clipPath for objectBoundingBox */}
-        <clipPath id="iphone-png-chassis-clip" clipPathUnits="objectBoundingBox">
+        <clipPath
+          id="iphone-png-chassis-clip"
+          clipPathUnits="objectBoundingBox"
+        >
           <rect x="0.08" y="0" width="0.84" height="1" rx="0.10" ry="0.05" />
         </clipPath>
 
         {/* SVG Mask (white = visible phone, black = masked out background) */}
         <mask id="iphone-chassis-svg-mask" maskUnits="objectBoundingBox">
           <rect x="0" y="0" width="1" height="1" fill="black" />
-          <rect x="0.08" y="0" width="0.84" height="1" rx="0.10" ry="0.05" fill="white" />
+          <rect
+            x="0.08"
+            y="0"
+            width="0.84"
+            height="1"
+            rx="0.10"
+            ry="0.05"
+            fill="white"
+          />
         </mask>
       </defs>
     </svg>
@@ -66,13 +82,14 @@ export default function IphoneClipMask({
 
   return (
     <div
- className={`relative inline-block overflow-hidden ${className}`}
- style={{
- clipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
- WebkitClipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
- borderRadius: `${borderRadiusPx}px`,
- ...style,
- }}>
+      className={`relative inline-block overflow-hidden ${className}`}
+      style={{
+        clipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
+        WebkitClipPath: `inset(${top}% ${leftRight}% ${bottom}% ${leftRight}% round ${clipRoundPx}px)`,
+        borderRadius: `${borderRadiusPx}px`,
+        ...style,
+      }}
+    >
       {children}
     </div>
   );

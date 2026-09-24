@@ -27,11 +27,11 @@ function parseEmailList(envVar: string | undefined): string[] {
   return list;
 }
 
-export const ADMIN_EMAILS   = parseEmailList(process.env.ADMIN_EMAILS);
-export const CREW_EMAILS    = parseEmailList(process.env.CREW_EMAILS);
-export const MERCH_EMAILS   = parseEmailList(process.env.MERCH_EMAILS);
+export const ADMIN_EMAILS = parseEmailList(process.env.ADMIN_EMAILS);
+export const CREW_EMAILS = parseEmailList(process.env.CREW_EMAILS);
+export const MERCH_EMAILS = parseEmailList(process.env.MERCH_EMAILS);
 export const PLANNER_EMAILS = parseEmailList(process.env.PLANNER_EMAILS);
-export const CRUISE_EMAILS  = parseEmailList(process.env.CRUISE_EMAILS);
+export const CRUISE_EMAILS = parseEmailList(process.env.CRUISE_EMAILS);
 
 /** Notification / alert recipient for admin emails (booking alerts, new accounts, etc.) */
 export const ADMIN_ALERT_EMAIL =
@@ -44,10 +44,10 @@ export const ADMIN_ALERT_EMAIL =
  */
 export function resolveInitialRole(email: string): string {
   const e = email.toLowerCase().trim();
-  if (ADMIN_EMAILS.includes(e))   return "admin";
-  if (CREW_EMAILS.includes(e))    return "crew";
-  if (MERCH_EMAILS.includes(e))   return "merch";
+  if (ADMIN_EMAILS.includes(e)) return "admin";
+  if (CREW_EMAILS.includes(e)) return "crew";
+  if (MERCH_EMAILS.includes(e)) return "merch";
   if (PLANNER_EMAILS.includes(e)) return "event_planner";
-  if (CRUISE_EMAILS.includes(e))  return "cruise";
+  if (CRUISE_EMAILS.includes(e)) return "cruise";
   return "fan";
 }

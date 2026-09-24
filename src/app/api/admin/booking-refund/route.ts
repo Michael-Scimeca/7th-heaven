@@ -3,7 +3,8 @@ import { getStripe, formatCents } from "@/lib/stripe";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "@/lib/api-utils";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-key";
 const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
@@ -20,13 +21,18 @@ export async function POST(request: Request) {
   try {
     const { bookingId } = await request.json();
     if (!bookingId) {
-      return NextResponse.json({ error: "bookingId required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "bookingId required" },
+        { status: 400 },
+      );
     }
 
     // Get the booking
     const { data: booking, error: fetchErr } = await supabaseAdmin
       .from("bookings")
-      .select("stripe_payment_id, payment_status, deposit_amount, planner_name, planner_email")
+      .select(
+        "stripe_payment_id, payment_status, deposit_amount, planner_name, planner_email",
+      )
       .eq("booking_id", bookingId)
       .single();
 
@@ -36,13 +42,18 @@ export async function POST(request: Request) {
 
     if (booking.payment_status !== "paid") {
       return NextResponse.json(
-        { error: `Cannot refund — payment status is "${booking.payment_status}"` },
-        { status: 400 }
+        {
+          error: `Cannot refund — payment status is "${booking.payment_status}"`,
+        },
+        { status: 400 },
       );
     }
 
     if (!booking.stripe_payment_id) {
-      return NextResponse.json({ error: "No payment ID on record" }, { status: 400 });
+      return NextResponse.json(
+        { error: "No payment ID on record" },
+        { status: 400 },
+      );
     }
 
     // ── Issue Stripe refund ──
@@ -106,7 +117,7 @@ export async function POST(request: Request) {
     console.error("[Booking Refund] Error:", err);
     return NextResponse.json(
       { error: err.message || "Refund failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

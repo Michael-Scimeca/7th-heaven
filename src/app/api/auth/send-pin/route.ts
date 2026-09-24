@@ -11,14 +11,19 @@ export async function POST(req: Request) {
     const { email } = await req.json();
 
     if (!email || !isValidEmail(email)) {
-      return NextResponse.json({ error: "Valid email address is required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Valid email address is required." },
+        { status: 400 },
+      );
     }
 
     // ── Dev bypass: use the fixed PIN from fake-logins.json ──
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       try {
         const fakeLogins = getFakeLogins();
-        const devUser = fakeLogins.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+        const devUser = fakeLogins.find(
+          (u: any) => u.email.toLowerCase() === email.toLowerCase(),
+        );
         if (devUser?.pin) {
           savePin(email, devUser.pin, 24 * 60 * 60 * 1000); // 24h expiry for dev
           console.log(`\n==============================================`);
@@ -26,7 +31,9 @@ export async function POST(req: Request) {
           console.log(`==============================================\n`);
           return NextResponse.json({ success: true, devBypass: true });
         }
-      } catch { /* ignore — fall through to normal flow */ }
+      } catch {
+        /* ignore — fall through to normal flow */
+      }
     }
 
     // Generate a cryptographically random 6-digit PIN using Web Crypto API.
@@ -50,7 +57,9 @@ export async function POST(req: Request) {
     });
 
     if (!emailResult.success) {
-      console.warn("Resend email failed. This is common if the recipient is not verified in a Resend sandbox account.");
+      console.warn(
+        "Resend email failed. This is common if the recipient is not verified in a Resend sandbox account.",
+      );
       console.log("\n==============================================");
       console.log(`🔑 DEV FALLBACK PIN FOR ${email}: ${pin}`);
       console.log("==============================================\n");
@@ -60,6 +69,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Failed to generate and send PIN:", error);
-    return NextResponse.json({ error: "Failed to send verification code" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to send verification code" },
+      { status: 500 },
+    );
   }
 }

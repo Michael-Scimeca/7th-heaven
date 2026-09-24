@@ -5,7 +5,9 @@ import { revalidatePath } from "next/cache";
 export const dynamic = "force-dynamic";
 
 function extractYouTubeId(urlOrId: string): string {
-  const match = urlOrId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  const match = urlOrId.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/,
+  );
   if (match && match[1]) return match[1];
   const clean = urlOrId.trim();
   if (clean.length === 11 && /^[\w-]+$/.test(clean)) return clean;
@@ -14,15 +16,17 @@ function extractYouTubeId(urlOrId: string): string {
 
 export async function GET() {
   try {
-    const sanityVideos = await sanityClient.fetch<Array<{
- _id: string;
- title: string;
- youtubeId: string;
- category: string;
- year?: number;
- duration?: string;
- description?: string;
- }>>(`*[_type == "video"] | order(year desc) {
+    const sanityVideos = await sanityClient.fetch<
+      Array<{
+        _id: string;
+        title: string;
+        youtubeId: string;
+        category: string;
+        year?: number;
+        duration?: string;
+        description?: string;
+      }>
+    >(`*[_type == "video"] | order(year desc) {
       _id,
       title,
       youtubeId,
@@ -34,7 +38,10 @@ export async function GET() {
 
     return NextResponse.json({ success: true, videos: sanityVideos || [] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, videos: [], error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, videos: [], error: error.message },
+      { status: 500 },
+    );
   }
 }
 
@@ -44,12 +51,18 @@ export async function POST(req: Request) {
     const { title, youtubeUrl, category, year, duration, description } = body;
 
     if (!title || !youtubeUrl || !category) {
-      return NextResponse.json({ error: "Title, YouTube URL/ID, and Category are required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Title, YouTube URL/ID, and Category are required." },
+        { status: 400 },
+      );
     }
 
     const youtubeId = extractYouTubeId(youtubeUrl);
     if (!youtubeId || youtubeId.length !== 11) {
-      return NextResponse.json({ error: "Invalid YouTube URL or Video ID. Please check the link." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid YouTube URL or Video ID. Please check the link." },
+        { status: 400 },
+      );
     }
 
     const newVideoDoc = {
@@ -85,6 +98,9 @@ export async function POST(req: Request) {
       },
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to save video to Sanity." }, { status: 500 });
+    return NextResponse.json(
+      { error: err.message || "Failed to save video to Sanity." },
+      { status: 500 },
+    );
   }
 }

@@ -4,10 +4,15 @@ import { sendEmail } from "@/lib/email";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
-function renderUnsubscribeHtml(email: string, success: boolean, message: string) {
+function renderUnsubscribeHtml(
+  email: string,
+  success: boolean,
+  message: string,
+) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   return `
     <!DOCTYPE html>
@@ -44,8 +49,12 @@ async function performUnsubscribe(cleanEmail: string) {
   await supabase
     .from("newsletter_subscribers")
     .upsert(
-      { email: cleanEmail, subscribed: false, unsubscribed_at: new Date().toISOString() },
-      { onConflict: "email" }
+      {
+        email: cleanEmail,
+        subscribed: false,
+        unsubscribed_at: new Date().toISOString(),
+      },
+      { onConflict: "email" },
     );
 
   // 2. Dispatch Unsubscribe Confirmation Email
@@ -146,10 +155,17 @@ export async function GET(request: Request) {
   const isUnsubscribed = searchParams.get("unsubscribed") === "true";
 
   if (!email) {
-    return new Response(renderUnsubscribeHtml("", false, "No email address was provided in the unsubscribe request."), {
-      status: 400,
-      headers: { "Content-Type": "text/html" },
-    });
+    return new Response(
+      renderUnsubscribeHtml(
+        "",
+        false,
+        "No email address was provided in the unsubscribe request.",
+      ),
+      {
+        status: 400,
+        headers: { "Content-Type": "text/html" },
+      },
+    );
   }
 
   const cleanEmail = decodeURIComponent(email).toLowerCase().trim();
@@ -159,12 +175,12 @@ export async function GET(request: Request) {
       renderUnsubscribeHtml(
         cleanEmail,
         true,
-        `Your email address (${cleanEmail}) has been successfully removed from 7th Heaven Live Stream Push Alerts.`
+        `Your email address (${cleanEmail}) has been successfully removed from 7th Heaven Live Stream Push Alerts.`,
       ),
       {
         status: 200,
         headers: { "Content-Type": "text/html" },
-      }
+      },
     );
   }
 
@@ -178,8 +194,11 @@ export async function POST(request: Request) {
   try {
     let email = "";
     const contentType = request.headers.get("content-type") || "";
-    
-    if (contentType.includes("application/x-www-form-urlencoded") || contentType.includes("multipart/form-data")) {
+
+    if (
+      contentType.includes("application/x-www-form-urlencoded") ||
+      contentType.includes("multipart/form-data")
+    ) {
       const formData = await request.formData();
       email = String(formData.get("email") || "");
     } else {
@@ -188,19 +207,34 @@ export async function POST(request: Request) {
     }
 
     if (!email) {
-      return NextResponse.json({ error: "Email is required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email is required." },
+        { status: 400 },
+      );
     }
 
     const cleanEmail = email.toLowerCase().trim();
     await performUnsubscribe(cleanEmail);
 
-    if (contentType.includes("application/x-www-form-urlencoded") || contentType.includes("multipart/form-data")) {
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-      return NextResponse.redirect(`${siteUrl}/api/ntfy/unsubscribe?email=${encodeURIComponent(cleanEmail)}&unsubscribed=true`);
+    if (
+      contentType.includes("application/x-www-form-urlencoded") ||
+      contentType.includes("multipart/form-data")
+    ) {
+      const siteUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+      return NextResponse.redirect(
+        `${siteUrl}/api/ntfy/unsubscribe?email=${encodeURIComponent(cleanEmail)}&unsubscribed=true`,
+      );
     }
 
-    return NextResponse.json({ ok: true, message: "Successfully unsubscribed." });
+    return NextResponse.json({
+      ok: true,
+      message: "Successfully unsubscribed.",
+    });
   } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Server error." }, { status: 500 });
+    return NextResponse.json(
+      { error: err?.message || "Server error." },
+      { status: 500 },
+    );
   }
 }

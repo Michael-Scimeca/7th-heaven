@@ -5,7 +5,8 @@ import { sendEmail } from "@/lib/email";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
 export async function POST(request: Request) {
@@ -14,31 +15,34 @@ export async function POST(request: Request) {
     const { name, email, group = "fans", source = "live-stream" } = body;
 
     if (!isValidEmail(email)) {
-      return NextResponse.json({ error: "Valid email address required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Valid email address required." },
+        { status: 400 },
+      );
     }
 
     const cleanEmail = email.toLowerCase().trim();
     const cleanName = sanitizeText(name || "7th Heaven Fan", 100);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const token = Buffer.from(`${cleanEmail}:${Date.now()}`).toString("base64url");
+    const token = Buffer.from(`${cleanEmail}:${Date.now()}`).toString(
+      "base64url",
+    );
     const verifyUrl = `${siteUrl}/api/ntfy/verify?token=${token}&email=${encodeURIComponent(cleanEmail)}`;
     const unsubscribeUrl = `${siteUrl}/api/ntfy/unsubscribe?email=${encodeURIComponent(cleanEmail)}&group=${group}`;
 
     // 1. Save subscriber in database with pending verification status
-    await supabase
-      .from("newsletter_subscribers")
-      .upsert(
-        {
-          email: cleanEmail,
-          name: cleanName,
-          source,
-          subscribed: false, // Double Opt-In: pending until link clicked
-          verified: false,
-          verification_token: token,
-          unsubscribed_at: null,
-        },
-        { onConflict: "email" }
-      );
+    await supabase.from("newsletter_subscribers").upsert(
+      {
+        email: cleanEmail,
+        name: cleanName,
+        source,
+        subscribed: false, // Double Opt-In: pending until link clicked
+        verified: false,
+        verification_token: token,
+        unsubscribed_at: null,
+      },
+      { onConflict: "email" },
+    );
 
     // 2. Dispatch Double Opt-In Verification Email
     const emailSubject = ` Action Required: Confirm your 7th Heaven Live Stream Alerts Subscription 🔔`;
@@ -104,11 +108,15 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       requiresVerification: true,
-      message: "Verification email sent! Please check your inbox to confirm subscription.",
+      message:
+        "Verification email sent! Please check your inbox to confirm subscription.",
       email: cleanEmail,
     });
   } catch (err: any) {
     console.error("[api/ntfy/subscribe] error:", err);
-    return NextResponse.json({ error: err?.message || "Failed to process subscription." }, { status: 500 });
+    return NextResponse.json(
+      { error: err?.message || "Failed to process subscription." },
+      { status: 500 },
+    );
   }
 }

@@ -7,7 +7,9 @@ export async function POST(request: Request) {
     const { title, message, url, crewName } = body;
 
     const pushTitle = title || `🔴 7th Heaven Live Broadcast Started!`;
-    const pushMessage = message || `${crewName || "7th Heaven"} is live right now! Click to join the live stream.`;
+    const pushMessage =
+      message ||
+      `${crewName || "7th Heaven"} is live right now! Click to join the live stream.`;
     const clickUrl = url || "http://localhost:3000/live";
 
     const result = await publishToGroup("fans", {
@@ -45,8 +47,11 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     return NextResponse.json(
-      { ok: false, error: error?.message || "Failed to dispatch push notification." },
-      { status: 500 }
+      {
+        ok: false,
+        error: error?.message || "Failed to dispatch push notification.",
+      },
+      { status: 500 },
     );
   }
 }

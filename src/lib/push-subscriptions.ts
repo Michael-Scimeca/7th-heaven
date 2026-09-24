@@ -5,7 +5,8 @@ import { createClient } from "@supabase/supabase-js";
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 }
 
@@ -54,7 +55,7 @@ function rowToItem(row: DbRow): PushSubscriptionItem {
 
 /** Upsert a subscription (keyed on endpoint). Returns the saved item. */
 export async function addOrUpdatePushSubscription(
-  payload: Partial<PushSubscriptionItem>
+  payload: Partial<PushSubscriptionItem>,
 ): Promise<PushSubscriptionItem> {
   const sb = getSupabase();
 
@@ -75,7 +76,8 @@ export async function addOrUpdatePushSubscription(
     .select()
     .single();
 
-  if (error) throw new Error(`[push-subscriptions] upsert failed: ${error.message}`);
+  if (error)
+    throw new Error(`[push-subscriptions] upsert failed: ${error.message}`);
   return rowToItem(data as DbRow);
 }
 
@@ -97,13 +99,16 @@ export async function getPushSubscriptions(): Promise<PushSubscriptionItem[]> {
 /** Update specific fields on a subscription by id. */
 export async function updatePushSubscription(
   id: string,
-  updates: Partial<PushSubscriptionItem>
+  updates: Partial<PushSubscriptionItem>,
 ): Promise<PushSubscriptionItem | null> {
   const sb = getSupabase();
-  const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  const patch: Record<string, unknown> = {
+    updated_at: new Date().toISOString(),
+  };
   if (updates.zip !== undefined) patch.zip = updates.zip;
   if (updates.radius !== undefined) patch.radius = updates.radius;
-  if (updates.selectedTypes !== undefined) patch.selected_types = updates.selectedTypes;
+  if (updates.selectedTypes !== undefined)
+    patch.selected_types = updates.selectedTypes;
   if (updates.email !== undefined) patch.email = updates.email;
 
   const { data, error } = await sb
@@ -130,9 +135,9 @@ export async function removePushSubscription(id: string): Promise<boolean> {
 // ── Web Push Sender with Preference Filtering ─────────────────────────────
 
 export interface PushFilterOptions {
-  showType?: string;        // e.g. "full", "unplugged", "outdoor", "casino", "tv", "fundraiser", "special"
-  showZip?: string;         // Zip code of concert location
-  distanceMiles?: number;   // Calculated distance from subscriber zip to show zip
+  showType?: string; // e.g. "full", "unplugged", "outdoor", "casino", "tv", "fundraiser", "special"
+  showZip?: string; // Zip code of concert location
+  distanceMiles?: number; // Calculated distance from subscriber zip to show zip
 }
 
 function setVapid() {
@@ -151,7 +156,7 @@ export async function sendWebPushNotification(
   message: string,
   url: string = "/notifications",
   targetSubId?: string,
-  filterOptions?: PushFilterOptions
+  filterOptions?: PushFilterOptions,
 ) {
   setVapid();
 
@@ -166,14 +171,19 @@ export async function sendWebPushNotification(
       // 1. Show Type Filter Check
       if (filterOptions.showType) {
         const subTypes = sub.selectedTypes || ["all"];
-        const matchesType = subTypes.includes("all") || subTypes.includes(filterOptions.showType);
+        const matchesType =
+          subTypes.includes("all") || subTypes.includes(filterOptions.showType);
         if (!matchesType) return false;
       }
 
       // 2. Distance Radius Check
-      if (filterOptions.distanceMiles !== undefined && sub.radius && sub.radius !== "all") {
+      if (
+        filterOptions.distanceMiles !== undefined &&
+        sub.radius &&
+        sub.radius !== "all"
+      ) {
         const maxRadius = parseFloat(sub.radius);
-        if (!isNaN(maxRadius) && filterOptions.distanceMiles> maxRadius) {
+        if (!isNaN(maxRadius) && filterOptions.distanceMiles > maxRadius) {
           return false;
         }
       }
@@ -182,7 +192,12 @@ export async function sendWebPushNotification(
     });
   }
 
-  const payload = JSON.stringify({ title, body: message, icon: "/favicon.ico", url });
+  const payload = JSON.stringify({
+    title,
+    body: message,
+    icon: "/favicon.ico",
+    url,
+  });
 
   let sent = 0;
   let failed = 0;
@@ -190,8 +205,11 @@ export async function sendWebPushNotification(
   const results = await Promise.allSettled(
     subs.map((sub) => {
       if (!sub.endpoint.startsWith("http")) return Promise.resolve();
-      return webPush.sendNotification({ endpoint: sub.endpoint, keys: sub.keys }, payload);
-    })
+      return webPush.sendNotification(
+        { endpoint: sub.endpoint, keys: sub.keys },
+        payload,
+      );
+    }),
   );
 
   results.forEach((res) => {

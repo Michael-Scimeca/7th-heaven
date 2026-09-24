@@ -3,14 +3,32 @@
 /* eslint-disable react-doctor/no-initialize-state */
 /* eslint-disable @next/next/no-img-element, react-doctor/nextjs-no-img-element, react-doctor/img-redundant-alt */
 "use client";
-import Image from 'next/image';
-import { Lock, Camera, MapPin, X, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
+import Image from "next/image";
+import {
+  Lock,
+  Camera,
+  MapPin,
+  X,
+  Loader2,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
 
-import React, { useState, useEffect, useCallback, useSyncExternalStore } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useSyncExternalStore,
+} from "react";
 import { createPortal } from "react-dom";
 
-const emptySubscribe = () => () => { };
-const useMounted = () => useSyncExternalStore(emptySubscribe, () => true, () => false);
+const emptySubscribe = () => () => {};
+const useMounted = () =>
+  useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
 import AddCmsButton from "@/components/AddCmsButton";
@@ -22,7 +40,7 @@ import dynamic from "next/dynamic";
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse bg-white/[0.02] border border-white/10 p-8 text-center text-white/40">
+    <div className="animate-pulse border border-white/10 bg-white/[0.02] p-8 text-center text-white/40">
       Loading Upload Form...
     </div>
   ),
@@ -41,7 +59,11 @@ type FanPhoto = {
   approved: boolean;
 };
 
-export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: any }) {
+export default function FanPhotoWallClient({
+  sanityContent,
+}: {
+  sanityContent?: any;
+}) {
   const { member, isLoggedIn, openModal } = useMember();
   const [photos, setPhotos] = useState<FanPhoto[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<FanPhoto | null>(null);
@@ -120,7 +142,10 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
 
   useEffect(() => {
     const search = window.location.search;
-    const isMock = search.includes('mockUpload=true') || search.includes('mockScanning=true') || search.includes('mockSuccess=true');
+    const isMock =
+      search.includes("mockUpload=true") ||
+      search.includes("mockScanning=true") ||
+      search.includes("mockSuccess=true");
     setShowUpload(isMock);
     setMockMode(isMock);
   }, []);
@@ -130,27 +155,23 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   // Pending Review Queue is restricted STRICTLY to authenticated Admins & Crew members only
   const isModerator = Boolean(
     isLoggedIn &&
-    (
-      member?.role === "admin" ||
+    (member?.role === "admin" ||
       member?.role === "crew" ||
       (member as unknown as Record<string, unknown>)?.isCrew === true ||
-      (member as unknown as Record<string, unknown>)?.isAdmin === true
-    )
+      (member as unknown as Record<string, unknown>)?.isAdmin === true),
   );
 
   const isAdmin = Boolean(
     isLoggedIn &&
-    (
-      member?.role === "admin" ||
-      (member as unknown as Record<string, unknown>)?.isAdmin === true
-    )
+    (member?.role === "admin" ||
+      (member as unknown as Record<string, unknown>)?.isAdmin === true),
   );
 
   // Fetch photos and notify PageTransition when data & images are loaded
   const fetchPhotos = useCallback(() => {
     const url = isModerator ? "/api/fans?all=true" : "/api/fans";
     fetch(url)
-      .then((r) => r.ok ? r.json() : [])
+      .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
         setPhotos(data);
         requestAnimationFrame(() => {
@@ -167,22 +188,28 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
       const searchParams = new URLSearchParams(window.location.search);
       if (searchParams.get("bypass") === "true") {
         localStorage.setItem("7h_dev_bypass_v1", "true");
-        if (!localStorage.getItem("7h_member_v1") && !localStorage.getItem("7h_member")) {
-          localStorage.setItem("7h_member_v1", JSON.stringify({
-            id: "fake-fan-123",
-            name: "Super Fan",
-            username: "super_fan",
-            email: "fan@7thheaven.com",
-            joinDate: new Date().toISOString(),
-            avatar: "SF",
-            points: 100,
-            tier: "Gold",
-            showsAttended: 5,
-            favoriteVenues: [],
-            notificationsEnabled: true,
-            notificationRadius: 25,
-            role: "fan",
-          }));
+        if (
+          !localStorage.getItem("7h_member_v1") &&
+          !localStorage.getItem("7h_member")
+        ) {
+          localStorage.setItem(
+            "7h_member_v1",
+            JSON.stringify({
+              id: "fake-fan-123",
+              name: "Super Fan",
+              username: "super_fan",
+              email: "fan@7thheaven.com",
+              joinDate: new Date().toISOString(),
+              avatar: "SF",
+              points: 100,
+              tier: "Gold",
+              showsAttended: 5,
+              favoriteVenues: [],
+              notificationsEnabled: true,
+              notificationRadius: 25,
+              role: "fan",
+            }),
+          );
           window.location.reload();
         }
       }
@@ -194,7 +221,11 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   }, [fetchPhotos]);
 
   const handleFlagPhoto = async (id: string) => {
-    if (confirm("Are you sure you want to flag this photo or video for admin review?")) {
+    if (
+      confirm(
+        "Are you sure you want to flag this photo or video for admin review?",
+      )
+    ) {
       setFlaggingId(id);
       try {
         await fetch("/api/fans", {
@@ -221,7 +252,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
       });
       if (res.ok) {
         setPhotos((prev) =>
-          prev.map((p) => (p.id === id ? { ...p, approved: true } : p))
+          prev.map((p) => (p.id === id ? { ...p, approved: true } : p)),
         );
       }
     } catch (err) {
@@ -232,7 +263,9 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
   };
 
   const handleRejectPhoto = async (id: string) => {
-    if (confirm("Are you sure you want to reject and delete this photo/video?")) {
+    if (
+      confirm("Are you sure you want to reject and delete this photo/video?")
+    ) {
       setModeratingId(id);
       try {
         const res = await fetch("/api/fans", {
@@ -253,50 +286,71 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
 
   // Separate pending and approved
   const pendingPhotos = isModerator ? photos.filter((p) => !p.approved) : [];
-  const approvedPhotos = isModerator ? photos.filter((p) => p.approved) : photos;
+  const approvedPhotos = isModerator
+    ? photos.filter((p) => p.approved)
+    : photos;
 
   return (
-    <div className="min-h-screen page-container" id="fan-photo-wall-page">
+    <div className="page-container min-h-screen" id="fan-photo-wall-page">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
-      <section className="site-container relative flex flex-col justify-center" id="fan-wall">
+      <section
+        className="site-container relative flex flex-col justify-center"
+        id="fan-wall"
+      >
         <div className="relative z-10">
           {/* Hero Header */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-8">
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end lg:gap-8">
             <div className="text-left">
               <h1>
-                {sanityContent?.heroHeading
-                  ? sanityContent.heroHeading.replace(/FAN PHOTO (?:&|AND) VIDEO WALL/i, "FAN MEDIA WALL").replace(/FAN PHOTO WALL/i, "FAN MEDIA WALL")
-                  : sanityContent?.title
-                    ? sanityContent.title.replace(/FAN PHOTO (?:&|AND) VIDEO WALL/i, "FAN MEDIA WALL").replace(/FAN PHOTO WALL/i, "FAN MEDIA WALL")
-                    : (
-                      <>
-                        FAN MEDIA <span className="inline-block pr-[0.15em]">WALL</span>
-                      </>
-                    )}
+                {sanityContent?.heroHeading ? (
+                  sanityContent.heroHeading
+                    .replace(
+                      /FAN PHOTO (?:&|AND) VIDEO WALL/i,
+                      "FAN MEDIA WALL",
+                    )
+                    .replace(/FAN PHOTO WALL/i, "FAN MEDIA WALL")
+                ) : sanityContent?.title ? (
+                  sanityContent.title
+                    .replace(
+                      /FAN PHOTO (?:&|AND) VIDEO WALL/i,
+                      "FAN MEDIA WALL",
+                    )
+                    .replace(/FAN PHOTO WALL/i, "FAN MEDIA WALL")
+                ) : (
+                  <>
+                    FAN MEDIA{" "}
+                    <span className="inline-block pr-[0.15em]">WALL</span>
+                  </>
+                )}
               </h1>
               <p className="mt-3 max-w-2xl">
-                {sanityContent?.heroSubheading || sanityContent?.subtitle || "Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!"}
+                {sanityContent?.heroSubheading ||
+                  sanityContent?.subtitle ||
+                  "Share your best memories, stage captures, and live concert moments from 7th Heaven shows. Upload your photos and videos and join the community wall!"}
               </p>
 
               {/* Login Promo text if guest */}
               {!effectivelyLoggedIn && (
-                <div className="mt-4 text-white/70 flex items-center gap-2 max-w-xl flex-wrap">
-                  <Lock className="w-4 h-4 text-purple-400 shrink-0" />
+                <div className="mt-4 flex max-w-xl flex-wrap items-center gap-2 text-white/70">
+                  <Lock className="h-4 w-4 shrink-0 text-purple-400" />
                   <p>
                     {sanityContent?.guestLockText ? (
                       sanityContent.guestLockText
                     ) : (
                       <>
-                        You must be a <span >Fan Member</span> to share your moments.{" "}
+                        You must be a <span>Fan Member</span> to share your
+                        moments.{" "}
                         <button
                           onClick={() => openModal("signup")}
-                          className="hover:text-purple-300 transition-colors cursor-pointer">
+                          className="cursor-pointer transition-colors hover:text-purple-300"
+                        >
                           Sign up free
                         </button>{" "}
                         or{" "}
                         <button
                           onClick={() => openModal("login")}
-                          className="hover:text-purple-300 transition-colors cursor-pointer">
+                          className="cursor-pointer transition-colors hover:text-purple-300"
+                        >
                           sign in
                         </button>
                         .
@@ -308,7 +362,7 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
             </div>
 
             {/* Action Buttons on the Right (Stacked Vertically) */}
-            <div className="shrink-0 self-start lg:self-end flex flex-col gap-3 w-full sm:w-auto">
+            <div className="flex w-full shrink-0 flex-col gap-3 self-start sm:w-auto lg:self-end">
               {isModerator && (
                 <AddCmsButton
                   label="ADD PHOTO / VIDEO IN SANITY CMS"
@@ -324,262 +378,289 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                     setShowUpload(!showUpload);
                   }
                 }}
-                icon={<Camera className="w-4 h-4" />}
-                className=" w-full justify-center">
+                icon={<Camera className="h-4 w-4" />}
+                className="w-full justify-center"
+              >
                 {showUpload
-                  ? (sanityContent?.uploadButtonHideText || "Hide Upload Form")
-                  : (sanityContent?.uploadButtonText || "Upload Photo / Video")}
+                  ? sanityContent?.uploadButtonHideText || "Hide Upload Form"
+                  : sanityContent?.uploadButtonText || "Upload Photo / Video"}
               </SeventhButton>
             </div>
           </div>
 
           {/* Dynamic Upload Form */}
-          {
-            showUpload && effectivelyLoggedIn && (
-              <div className="0 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
-                <FanUploadForm />
-              </div>
-            )
-          }
-
+          {showUpload && effectivelyLoggedIn && (
+            <div className="0 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
+              <FanUploadForm />
+            </div>
+          )}
         </div>
       </section>
 
       {/* ── PHOTO GRID & MODERATION SECTION (FULL BLEED) ── */}
 
       {/* ═══ Moderation Queue (Admins & Crew) ═══ */}
-      {
-        isModerator && pendingPhotos.length > 0 && (
-          <section className="mx-auto site-container py-section-fluid">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <div>
-                <h3 className="text-lg   ">
-                  {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
-                </h3>
-                <p className="text-xs text-purple-300/70">
-                  {sanityContent?.pendingQueueSubtitle || "Viewed & Approved by Admins & Crew only"}
-                </p>
-              </div>
-
-              <span className="bg-[#00000040] px-3 py-1 rounded-xl border border-white/10 text-xs  ">
-                {pendingPhotos.length} Pending
-              </span>
+      {isModerator && pendingPhotos.length > 0 && (
+        <section className="site-container py-section-fluid mx-auto">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h3 className="text-lg">
+                {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
+              </h3>
+              <p className="text-xs text-purple-300/70">
+                {sanityContent?.pendingQueueSubtitle ||
+                  "Viewed & Approved by Admins & Crew only"}
+              </p>
             </div>
 
-            {/* ── STACKED CARD GRID LAYOUT ── */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pendingPhotos.map((photo) => {
-                const isVideo = photo.type === "video" || photo.src.endsWith(".mp4") || photo.src.endsWith(".mov");
-                return (
-                  <div
-                    key={photo.id}
-                    className="p-4 border border-purple-500/20 rounded-2xl flex flex-col justify-between backdrop-blur-md w-full shadow-xl hover:border-purple-400/40 transition-all text-left">
-                    <div>
-                      <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 bg-black/40 mb-3">
-                        {isVideo ? (
-                          <video src={photo.src} className="w-full h-full object-cover" muted playsInline autoPlay loop />
-                        ) : (
-                          <Image src={photo.src} alt="Fan Upload" fill sizes="(max-width: 768px) 100vw, 400px" unoptimized className="object-cover" />
-                        )}
-                        <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/80 backdrop-blur-md rounded-md text-[11px]   border border-white/10">
-                          {photo.date || "Pending"}
-                        </div>
-                      </div>
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-1.5    text-sm">
-                          <span className="text-purple-400">@</span>
-                          <span className="truncate">{photo.name}</span>
-                        </div>
-                        {photo.venue && (
-                          <p className="text-xs text-white/70 flex items-center gap-1.5  ">
-                            <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" /> {photo.venue}
-                          </p>
-                        )}
-                        {photo.caption && (
-                          <p className="text-xs /90 italic leading-relaxed line-clamp-2 pt-0.5">
-                            &quot;{photo.caption}&quot;
-                          </p>
-                        )}
+            <span className="rounded-xl border border-white/10 bg-[#00000040] px-3 py-1 text-xs">
+              {pendingPhotos.length} Pending
+            </span>
+          </div>
+
+          {/* ── STACKED CARD GRID LAYOUT ── */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {pendingPhotos.map((photo) => {
+              const isVideo =
+                photo.type === "video" ||
+                photo.src.endsWith(".mp4") ||
+                photo.src.endsWith(".mov");
+              return (
+                <div
+                  key={photo.id}
+                  className="flex w-full flex-col justify-between rounded-2xl border border-purple-500/20 p-4 text-left shadow-xl backdrop-blur-md transition-all hover:border-purple-400/40"
+                >
+                  <div>
+                    <div className="relative mb-3 aspect-[4/3] w-full overflow-hidden rounded-xl border border-white/10 bg-black/40">
+                      {isVideo ? (
+                        <video
+                          src={photo.src}
+                          className="h-full w-full object-cover"
+                          muted
+                          playsInline
+                          autoPlay
+                          loop
+                        />
+                      ) : (
+                        <Image
+                          src={photo.src}
+                          alt="Fan Upload"
+                          fill
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          unoptimized
+                          className="object-cover"
+                        />
+                      )}
+                      <div className="absolute top-2.5 right-2.5 rounded-md border border-white/10 bg-black/80 px-2.5 py-1 text-[11px] backdrop-blur-md">
+                        {photo.date || "Pending"}
                       </div>
                     </div>
-
-                    <div className="grid grid-cols-2 gap-2.5 mt-4 pt-3 border-t border-white/10">
-                      <button
-                        onClick={() => handleRejectPhoto(photo.id)}
-                        disabled={moderatingId === photo.id}
-                        className="   text-red-200 bg-red-950/60 border border-red-500/30 !rounded-full hover:bg-red-900/80 transition-colors cursor-pointer text-center">
-                        Reject
-                      </button>
-                      <SeventhButton
-                        onClick={() => handleApprovePhoto(photo.id)}
-                        disabled={moderatingId === photo.id}
-                        icon={false}
-                        className="text-center   ">
-                        Approve
-                      </SeventhButton>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-sm">
+                        <span className="text-purple-400">@</span>
+                        <span className="truncate">{photo.name}</span>
+                      </div>
+                      {photo.venue && (
+                        <p className="flex items-center gap-1.5 text-xs text-white/70">
+                          <MapPin className="h-3.5 w-3.5 shrink-0 text-purple-400" />{" "}
+                          {photo.venue}
+                        </p>
+                      )}
+                      {photo.caption && (
+                        <p className="/90 line-clamp-2 pt-0.5 text-xs leading-relaxed italic">
+                          &quot;{photo.caption}&quot;
+                        </p>
+                      )}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </section>
-        )
-      }
+
+                  <div className="mt-4 grid grid-cols-2 gap-2.5 border-t border-white/10 pt-3">
+                    <button
+                      onClick={() => handleRejectPhoto(photo.id)}
+                      disabled={moderatingId === photo.id}
+                      className="cursor-pointer !rounded-full border border-red-500/30 bg-red-950/60 text-center text-red-200 transition-colors hover:bg-red-900/80"
+                    >
+                      Reject
+                    </button>
+                    <SeventhButton
+                      onClick={() => handleApprovePhoto(photo.id)}
+                      disabled={moderatingId === photo.id}
+                      icon={false}
+                      className="text-center"
+                    >
+                      Approve
+                    </SeventhButton>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Featured Media Section Title & Paragraph */}
-      <section className="mx-auto site-container py-section-fluid">
+      <section className="site-container py-section-fluid mx-auto">
         <div className="mb-6">
-          <h2 >
-            {sanityContent?.sectionTitle || "FEATURED MEDIA"}
-          </h2>
+          <h2>{sanityContent?.sectionTitle || "FEATURED MEDIA"}</h2>
           <p className="mt-2 max-w-2xl text-white/70">
-            {sanityContent?.sectionDescription || "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
-          </p> </div>
-
-
+            {sanityContent?.sectionDescription ||
+              "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
+          </p>{" "}
+        </div>
 
         {/* Photo Feed Grid - Full Bleed 0 Gap Uniform Grid */}
-        {
-          approvedPhotos.length > 0 ? (
-            <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-              {approvedPhotos.map((photo) => {
-                const isVideo =
-                  photo.type === "video" ||
-                  photo.src.endsWith(".mp4") ||
-                  photo.src.endsWith(".mov");
-                return (
-                  <div
-                    key={photo.id}
-                    className="flex flex-col justify-between border border-white/10 rounded-2xl overflow-hidden hover:bg-[#0b041a]/90 bg-purple-900/30 transition-colors duration-300 h-full">
-                    <div className="p-4 flex items-center justify-between border-b border-white/10 bg-black/[0.02] gap-3">
-                      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                        <div className="w-11 h-11 min-w-8 shrink-0 aspect-square rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20 flex items-center justify-center" style={{ aspectRatio: "1 / 1" }}>
-                          {photo.name
-                            ? photo.name
+        {approvedPhotos.length > 0 ? (
+          <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {approvedPhotos.map((photo) => {
+              const isVideo =
+                photo.type === "video" ||
+                photo.src.endsWith(".mp4") ||
+                photo.src.endsWith(".mov");
+              return (
+                <div
+                  key={photo.id}
+                  className="flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-purple-900/30 transition-colors duration-300 hover:bg-[#0b041a]/90"
+                >
+                  <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-black/[0.02] p-4">
+                    <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+                      <div
+                        className="flex aspect-square h-11 w-11 min-w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
+                        style={{ aspectRatio: "1 / 1" }}
+                      >
+                        {photo.name
+                          ? photo.name
                               .split(" ")
                               .filter(Boolean)
                               .map((n) => n[0])
                               .join("")
                               .substring(0, 2)
                               .toUpperCase()
-                            : "FP"}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-purple-300 truncate">
-                            {photo.name}
+                          : "FP"}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate text-purple-300">{photo.name}</p>
+                        {(photo.venue || photo.city) && (
+                          <p className="mt-0.5 truncate">
+                            {photo.venue}
+                            {photo.venue && photo.city && " • "}
+                            {photo.city}
                           </p>
-                          {(photo.venue || photo.city) && (
-                            <p className="mt-0.5 truncate">
-                              {photo.venue}
-                              {photo.venue && photo.city && " • "}
-                              {photo.city}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end gap-0.5 shrink-0">
-                        <span className="  ">
-                          {isVideo ? "Video" : "Photo"}
-                        </span>
-                        {photo.date && (
-                          <span className="text-white/70   ">{photo.date}</span>
                         )}
                       </div>
                     </div>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      className="relative group cursor-pointer w-full text-left flex-1"
-                      onClick={() => setSelectedPhoto(photo)}
-                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedPhoto(photo); } }}>
-                      <div className="relative aspect-[16/10] w-full bg-black/40 overflow-hidden">
-                        {photo.src.endsWith(".mp4") || photo.src.endsWith(".mov") || photo.src.endsWith(".webm") ? (
-                          <video
-                            src={photo.src}
-                            className="w-full h-full object-cover block"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                          />
-                        ) : (
-                          <Image
-                            src={photo.src}
-                            alt={`Media by ${photo.name}`}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            unoptimized
-                            className="w-full h-full object-cover block"
-                            loading="lazy"
-                          />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 z-10">
-                          <SeventhButton>
-                            {isVideo ? "Play Video" : "Expand Photo"}
-                          </SeventhButton>
-                        </div>
-                      </div>
+                    <div className="flex shrink-0 flex-col items-end gap-0.5">
+                      <span className=" ">{isVideo ? "Video" : "Photo"}</span>
+                      {photo.date && (
+                        <span className="text-white/70">{photo.date}</span>
+                      )}
                     </div>
-                    {photo.caption && (
-                      <div className="p-4 bg-black/[0.02] border-t border-white/10 flex-1 flex items-center">
-                        <p className=" ">
-                          &ldquo;{photo.caption}&rdquo;
-                        </p>
-                      </div>
-                    )}
                   </div>
-                );
-              })}
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    className="group relative w-full flex-1 cursor-pointer text-left"
+                    onClick={() => setSelectedPhoto(photo)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedPhoto(photo);
+                      }
+                    }}
+                  >
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/40">
+                      {photo.src.endsWith(".mp4") ||
+                      photo.src.endsWith(".mov") ||
+                      photo.src.endsWith(".webm") ? (
+                        <video
+                          src={photo.src}
+                          className="block h-full w-full object-cover"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                        />
+                      ) : (
+                        <Image
+                          src={photo.src}
+                          alt={`Media by ${photo.name}`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          unoptimized
+                          className="block h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                      <div className="absolute inset-0 z-10 flex items-end justify-center bg-gradient-to-t from-black/80 via-transparent to-transparent pb-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <SeventhButton>
+                          {isVideo ? "Play Video" : "Expand Photo"}
+                        </SeventhButton>
+                      </div>
+                    </div>
+                  </div>
+                  {photo.caption && (
+                    <div className="flex flex-1 items-center border-t border-white/10 bg-black/[0.02] p-4">
+                      <p className=" ">&ldquo;{photo.caption}&rdquo;</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          /* Empty state */
+          <div className="py-32 text-center">
+            <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center border border-white/10">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="/15"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
             </div>
-          ) : (
-            /* Empty state */
-            <div className="text-center py-32">
-              <div className="w-20 h-20 mx-auto mb-8 border border-white/10 flex items-center justify-center">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="/15">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-              </div>
-              <h3 className="text-white/30 mb-3">
-                {sanityContent?.emptyStateTitle || "No moments yet"}
-              </h3>
-              <p className="mb-8 max-w-sm mx-auto">
-                {sanityContent?.emptyStateSubtitle || "Check back soon for moments from 7th Heaven shows!"}
-              </p>
-            </div>
-          )
-        }
+            <h3 className="mb-3 text-white/30">
+              {sanityContent?.emptyStateTitle || "No moments yet"}
+            </h3>
+            <p className="mx-auto mb-8 max-w-sm">
+              {sanityContent?.emptyStateSubtitle ||
+                "Check back soon for moments from 7th Heaven shows!"}
+            </p>
+          </div>
+        )}
 
         {/* Lightbox */}
-        {
-          mounted && selectedPhoto && createPortal(
+        {mounted &&
+          selectedPhoto &&
+          createPortal(
             <div
-              className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
-              onClick={() => setSelectedPhoto(null)}>
+              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md sm:p-8"
+              onClick={() => setSelectedPhoto(null)}
+            >
               <div
-                className="relative max-w-4xl max-h-[90vh] w-full flex flex-col bg-black/80 rounded-lg p-6 overflow-hidden"
-                onClick={(e) => e.stopPropagation()}>
-                <button aria-label="Close"
+                className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-lg bg-black/80 p-6"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  aria-label="Close"
                   onClick={() => setSelectedPhoto(null)}
-                  className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/50 hover:bg-black/80 p-2 !rounded-full border border-white/10 transition-colors cursor-pointer z-20">
-                  <X className="w-5 h-5" />
+                  className="absolute top-4 right-4 z-20 cursor-pointer !rounded-full border border-white/10 bg-black/50 p-2 text-white/60 transition-colors hover:bg-black/80 hover:text-white"
+                >
+                  <X className="h-5 w-5" />
                 </button>
                 {selectedPhoto.type === "video" ||
-                  selectedPhoto.src.endsWith(".mp4") ||
-                  selectedPhoto.src.endsWith(".mov") ? (
+                selectedPhoto.src.endsWith(".mp4") ||
+                selectedPhoto.src.endsWith(".mov") ? (
                   <video
                     src={selectedPhoto.src}
-                    className="w-full max-h-[65vh] object-contain rounded-xl"
+                    className="max-h-[65vh] w-full rounded-xl object-contain"
                     controls
                     autoPlay
                     muted
@@ -589,215 +670,258 @@ export default function FanPhotoWallClient({ sanityContent }: { sanityContent?: 
                   <img
                     src={selectedPhoto.src}
                     alt={selectedPhoto.name}
-                    className="w-full max-h-[65vh] object-contain rounded-xl shadow-2xl"
+                    className="max-h-[65vh] w-full rounded-xl object-contain shadow-2xl"
                   />
                 )}
                 <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
                   <div>
-                    <p className="text-lg">
-                      {selectedPhoto.name}
-                    </p>
+                    <p className="text-lg">{selectedPhoto.name}</p>
                     {selectedPhoto.venue && (
-                      <p className="mt-0.5 text-sm text-purple-300  ">
+                      <p className="mt-0.5 text-sm text-purple-300">
                         {selectedPhoto.venue}
                         {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
                         {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
                       </p>
                     )}
                     {selectedPhoto.caption && (
-                      <p className="mt-2 text-left text-gray-300 text-sm">
+                      <p className="mt-2 text-left text-sm text-gray-300">
                         &ldquo;{selectedPhoto.caption}&rdquo;
                       </p>
                     )}
                   </div>
-                  <div className="flex flex-col items-end gap-2 shrink-0">
+                  <div className="flex shrink-0 flex-col items-end gap-2">
                     <button
                       onClick={() => handleFlagPhoto(selectedPhoto.id)}
                       disabled={flaggingId === selectedPhoto.id}
-                      className="text-white/40 hover:text-red-400 text-xs st transition-colors flex items-center gap-1.5 disabled:opacity-50">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      className="st flex items-center gap-1.5 text-xs text-white/40 transition-colors hover:text-red-400 disabled:opacity-50"
+                    >
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
                         <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
                         <line x1="4" y1="22" x2="4" y2="15" />
                       </svg>
-                      {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
+                      {flaggingId === selectedPhoto.id
+                        ? "Flagging..."
+                        : "Report"}
                     </button>
                   </div>
                 </div>
               </div>
             </div>,
-            document.body
-          )
-        }
+            document.body,
+          )}
       </section>
 
       {/* ── ADD PHOTO / VIDEO CMS MODAL PORTAL ── */}
-      {mounted && isAddCmsModalOpen && createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fade-in_0.2s_ease-out]">
-          <div className="relative w-full max-w-xl bg-[#12071f] border border-purple-500/30 rounded-2xl p-6 sm:p-8 text-left max-h-[90vh] overflow-y-auto">
-            <button
-              type="button"
-              onClick={() => setIsAddCmsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
+      {mounted &&
+        isAddCmsModalOpen &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-md">
+            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-[#12071f] p-6 text-left sm:p-8">
+              <button
+                type="button"
+                onClick={() => setIsAddCmsModalOpen(false)}
+                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                aria-label="Close modal"
+              >
+                <X className="h-5 w-5" />
+              </button>
 
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
-                <Camera className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-xl     ">Add Photo / Video to Sanity CMS</h3>
-                <p className="text-xs text-purple-300/70">Create and publish a fan wall moment directly to Sanity CMS.</p>
-              </div>
-            </div>
-
-            {cmsError && (
-              <div className="mb-6 p-3 rounded-lg bg-red-900/40 border border-red-500/50 text-red-200 text-sm flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
-                <span>{cmsError}</span>
-              </div>
-            )}
-
-            {cmsSuccess && (
-              <div className="mb-6 p-3 rounded-lg bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-sm flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Moment added successfully!</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSaveCmsMoment} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InputField
-                  label="Fan / Contributor Name"
-                  required
-                  value={cmsForm.name}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, name: e.target.value }))}
-                  placeholder="e.g. ChicagoLou"
-                  labelClassName="text-xs       text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
-                />
-
-                <InputField
-                  label="Venue Name"
-                  value={cmsForm.venue}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, venue: e.target.value }))}
-                  placeholder="e.g. DeKalb Cornfest"
-                  labelClassName="text-xs       text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InputField
-                  label="City & State"
-                  value={cmsForm.city}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, city: e.target.value }))}
-                  placeholder="e.g. DeKalb, IL"
-                  labelClassName="text-xs       text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
-                />
-
-                <InputField
-                  label="Display Date"
-                  value={cmsForm.date}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, date: e.target.value }))}
-                  placeholder="e.g. August 2024"
-                  labelClassName="text-xs       text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                  <Camera className="h-5 w-5" />
+                </div>
                 <div>
-                  <label className="block text-xs   text-purple-200/80 min-h-[24px]">
-                    Media Type
-                  </label>
-                  <CustomDropdown
-                    value={cmsForm.type}
-                    options={[
-                      { value: "image", label: "Photo Image" },
-                      { value: "video", label: "Video File" },
-                    ]}
-                    onChange={(val) => setCmsForm((prev) => ({ ...prev, type: val as "image" | "video" }))}
-                    chevronColor="#c084fc"
-                    className="!bg-black/50 !border-white/15 !rounded-xl !px-5 !py-2.5 !text-sm !font-normal"
+                  <h3 className="text-xl">Add Photo / Video to Sanity CMS</h3>
+                  <p className="text-xs text-purple-300/70">
+                    Create and publish a fan wall moment directly to Sanity CMS.
+                  </p>
+                </div>
+              </div>
+
+              {cmsError && (
+                <div className="mb-6 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-sm text-red-200">
+                  <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
+                  <span>{cmsError}</span>
+                </div>
+              )}
+
+              {cmsSuccess && (
+                <div className="mb-6 flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-900/40 p-3 text-sm text-emerald-200">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+                  <span>Moment added successfully!</span>
+                </div>
+              )}
+
+              <form onSubmit={handleSaveCmsMoment} className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <InputField
+                    label="Fan / Contributor Name"
+                    required
+                    value={cmsForm.name}
+                    onChange={(e) =>
+                      setCmsForm((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                    placeholder="e.g. ChicagoLou"
+                    labelClassName="text-xs       text-purple-200/80 mb-0"
+                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
+                  />
+
+                  <InputField
+                    label="Venue Name"
+                    value={cmsForm.venue}
+                    onChange={(e) =>
+                      setCmsForm((prev) => ({ ...prev, venue: e.target.value }))
+                    }
+                    placeholder="e.g. DeKalb Cornfest"
+                    labelClassName="text-xs       text-purple-200/80 mb-0"
+                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <InputField
+                    label="City & State"
+                    value={cmsForm.city}
+                    onChange={(e) =>
+                      setCmsForm((prev) => ({ ...prev, city: e.target.value }))
+                    }
+                    placeholder="e.g. DeKalb, IL"
+                    labelClassName="text-xs       text-purple-200/80 mb-0"
+                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
+                  />
+
+                  <InputField
+                    label="Display Date"
+                    value={cmsForm.date}
+                    onChange={(e) =>
+                      setCmsForm((prev) => ({ ...prev, date: e.target.value }))
+                    }
+                    placeholder="e.g. August 2024"
+                    labelClassName="text-xs       text-purple-200/80 mb-0"
+                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="block min-h-[24px] text-xs text-purple-200/80">
+                      Media Type
+                    </label>
+                    <CustomDropdown
+                      value={cmsForm.type}
+                      options={[
+                        { value: "image", label: "Photo Image" },
+                        { value: "video", label: "Video File" },
+                      ]}
+                      onChange={(val) =>
+                        setCmsForm((prev) => ({
+                          ...prev,
+                          type: val as "image" | "video",
+                        }))
+                      }
+                      chevronColor="#c084fc"
+                      className="!rounded-xl !border-white/15 !bg-black/50 !px-5 !py-2.5 !text-sm !font-normal"
+                    />
+                  </div>
+
+                  <InputField
+                    label="Instagram Handle"
+                    value={cmsForm.instagram}
+                    onChange={(e) =>
+                      setCmsForm((prev) => ({
+                        ...prev,
+                        instagram: e.target.value,
+                      }))
+                    }
+                    placeholder="e.g. @chicagolou"
+                    labelClassName="text-xs       text-purple-200/80 mb-0"
+                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                   />
                 </div>
 
                 <InputField
-                  label="Instagram Handle"
-                  value={cmsForm.instagram}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, instagram: e.target.value }))}
-                  placeholder="e.g. @chicagolou"
+                  label="Photo / Video Image URL or Path"
+                  required
+                  value={cmsForm.src}
+                  onChange={(e) =>
+                    setCmsForm((prev) => ({ ...prev, src: e.target.value }))
+                  }
+                  placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
                   labelClassName="text-xs       text-purple-200/80 mb-0"
                   inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                 />
-              </div>
 
-              <InputField
-                label="Photo / Video Image URL or Path"
-                required
-                value={cmsForm.src}
-                onChange={(e) => setCmsForm((prev) => ({ ...prev, src: e.target.value }))}
-                placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
-                labelClassName="text-xs       text-purple-200/80 mb-0"
-                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
-              />
-
-              <InputField
-                label="Caption / Memory Quote"
-                multiline
-                rows={3}
-                value={cmsForm.caption}
-                onChange={(e) => setCmsForm((prev) => ({ ...prev, caption: e.target.value }))}
-                placeholder="e.g. Front row every single time. Best night of the summer!"
-                labelClassName="text-xs       text-purple-200/80 mb-0"
-                inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
-              />
-
-              <div className="flex items-center gap-2 pt-1">
-                <input
-                  type="checkbox"
-                  id="isFeatured"
-                  checked={cmsForm.isFeatured}
-                  onChange={(e) => setCmsForm((prev) => ({ ...prev, isFeatured: e.target.checked }))}
-                  className="rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500 cursor-pointer"
+                <InputField
+                  label="Caption / Memory Quote"
+                  multiline
+                  rows={3}
+                  value={cmsForm.caption}
+                  onChange={(e) =>
+                    setCmsForm((prev) => ({ ...prev, caption: e.target.value }))
+                  }
+                  placeholder="e.g. Front row every single time. Best night of the summer!"
+                  labelClassName="text-xs       text-purple-200/80 mb-0"
+                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500 text-sm font-normal"
                 />
-                <label htmlFor="isFeatured" className="text-xs text-purple-200/90   cursor-pointer">
-                  Feature as Top Hero Moment?
-                </label>
-              </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
-                <button
-                  type="button"
-                  onClick={() => setIsAddCmsModalOpen(false)}
-                  className="btn-secondary px-5 py-2.5 rounded-xl text-sm   cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSavingCms}
-                  className="btn-primary px-6 py-2.5 rounded-xl text-sm cursor-pointer disabled:opacity-50 flex items-center gap-2"
-                >
-                  {isSavingCms ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Saving Moment...</span>
-                    </>
-                  ) : (
-                    <span>+ ADD MOMENT TO SANITY</span>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>,
-        document.body
-      )}
+                <div className="flex items-center gap-2 pt-1">
+                  <input
+                    type="checkbox"
+                    id="isFeatured"
+                    checked={cmsForm.isFeatured}
+                    onChange={(e) =>
+                      setCmsForm((prev) => ({
+                        ...prev,
+                        isFeatured: e.target.checked,
+                      }))
+                    }
+                    className="cursor-pointer rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500"
+                  />
+                  <label
+                    htmlFor="isFeatured"
+                    className="cursor-pointer text-xs text-purple-200/90"
+                  >
+                    Feature as Top Hero Moment?
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-end gap-3 border-t border-white/10 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsAddCmsModalOpen(false)}
+                    className="btn-secondary cursor-pointer rounded-xl px-5 py-2.5 text-sm"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSavingCms}
+                    className="btn-primary flex cursor-pointer items-center gap-2 rounded-xl px-6 py-2.5 text-sm disabled:opacity-50"
+                  >
+                    {isSavingCms ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Saving Moment...</span>
+                      </>
+                    ) : (
+                      <span>+ ADD MOMENT TO SANITY</span>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

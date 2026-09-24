@@ -5,87 +5,114 @@
  * Shared between TourMap (client) and SMS API routes (server)
  */
 export const VENUE_COORDS: Record<string, [number, number]> = {
-  "Station 34|Mt. Prospect": [42.0640, -87.9370],
+  "Station 34|Mt. Prospect": [42.064, -87.937],
   "Old Republic|Elgin": [42.0354, -88.2826],
   "Rookies|Hoffman Est.": [42.0744, -88.1912],
   "Rookie's Rockhouse|Hoffman Est.": [42.0744, -88.1912],
   "Sundance Saloon|Mundelein": [42.2766, -88.0418],
-  "Durty Nellies|Palatine": [42.1150, -88.0340],
+  "Durty Nellies|Palatine": [42.115, -88.034],
   "Stage 119|Elmhurst": [41.8994, -87.9403],
   "Jamos Live|Mokena": [41.5267, -87.8823],
   "Evenflow|Geneva": [41.8834, -88.3054],
-  "Bannerman's|Bartlett": [41.9770, -88.1856],
-  "Broken Oar|P. Barrington": [42.1600, -88.1370],
+  "Bannerman's|Bartlett": [41.977, -88.1856],
+  "Broken Oar|P. Barrington": [42.16, -88.137],
   "Tailgaters|Bolingbrook": [41.6956, -88.0689],
-  "Midway Sports|Bartlett": [41.9830, -88.1880],
+  "Midway Sports|Bartlett": [41.983, -88.188],
   "Joe's Live|Rosemont": [41.9947, -87.8643],
-  "Rochaus|West Dundee": [42.0987, -88.2780],
+  "Rochaus|West Dundee": [42.0987, -88.278],
   "Des Plaines Theater|Des Plaines": [42.0418, -87.8872],
   "Hard Rock Casino|Gary": [41.5921, -87.3445],
   "Hard Rock Casino|Rockford": [42.2666, -89.0469],
-  "Corrigan's Pub|Shorewood": [41.5200, -88.2020],
-  "Sideouts|Island Lake": [42.2770, -88.1930],
-  "Bandito Barney's|East Dundee": [42.0990, -88.2700],
-  "Deer Park Fest|Deer Park": [42.1600, -88.0810],
+  "Corrigan's Pub|Shorewood": [41.52, -88.202],
+  "Sideouts|Island Lake": [42.277, -88.193],
+  "Bandito Barney's|East Dundee": [42.099, -88.27],
+  "Deer Park Fest|Deer Park": [42.16, -88.081],
   "Chicago Auto Show First Look|Chicago": [41.8513, -87.6154],
-  "WGN TV News Segment|Chicago": [41.8916, -87.6360],
+  "WGN TV News Segment|Chicago": [41.8916, -87.636],
   "Home Show|Chicago": [41.8513, -87.6154],
-  "Youth Services Fundraiser|Wilmette": [42.0720, -87.7280],
+  "Youth Services Fundraiser|Wilmette": [42.072, -87.728],
   "Barb's Rescue Gala|Schaumburg": [42.0334, -88.0834],
-  "Will County Beer & Bourbon Fest|Joliet": [41.5250, -88.0817],
+  "Will County Beer & Bourbon Fest|Joliet": [41.525, -88.0817],
   "Chicago Music Cruise|Miami": [25.7617, -80.1918],
 };
 
 export const CITY_COORDS: Record<string, [number, number]> = {
-  "mt. prospect": [42.0640, -87.9370],
-  "mount prospect": [42.0640, -87.9370],
-  "elgin": [42.0354, -88.2826],
+  "mt. prospect": [42.064, -87.937],
+  "mount prospect": [42.064, -87.937],
+  elgin: [42.0354, -88.2826],
   "hoffman est.": [42.0744, -88.1912],
   "hoffman estates": [42.0744, -88.1912],
-  "mundelein": [42.2766, -88.0418],
-  "palatine": [42.1150, -88.0340],
-  "elmhurst": [41.8994, -87.9403],
-  "mokena": [41.5267, -87.8823],
-  "geneva": [41.8834, -88.3054],
-  "bartlett": [41.9770, -88.1856],
-  "p. barrington": [42.1600, -88.1370],
-  "port barrington": [42.1600, -88.1370],
-  "barrington": [42.1539, -88.1362],
-  "bolingbrook": [41.6956, -88.0689],
-  "rosemont": [41.9947, -87.8643],
-  "west dundee": [42.0987, -88.2780],
-  "east dundee": [42.0990, -88.2700],
-  "dundee": [42.0987, -88.2780],
+  mundelein: [42.2766, -88.0418],
+  palatine: [42.115, -88.034],
+  elmhurst: [41.8994, -87.9403],
+  mokena: [41.5267, -87.8823],
+  geneva: [41.8834, -88.3054],
+  bartlett: [41.977, -88.1856],
+  "p. barrington": [42.16, -88.137],
+  "port barrington": [42.16, -88.137],
+  barrington: [42.1539, -88.1362],
+  bolingbrook: [41.6956, -88.0689],
+  rosemont: [41.9947, -87.8643],
+  "west dundee": [42.0987, -88.278],
+  "east dundee": [42.099, -88.27],
+  dundee: [42.0987, -88.278],
   "des plaines": [42.0418, -87.8872],
-  "gary": [41.5921, -87.3445],
-  "rockford": [42.2666, -89.0469],
-  "shorewood": [41.5200, -88.2020],
-  "island lake": [42.2770, -88.1930],
-  "deer park": [42.1600, -88.0810],
-  "chicago": [41.8781, -87.6298],
-  "wilmette": [42.0720, -87.7280],
-  "schaumburg": [42.0334, -88.0834],
-  "joliet": [41.5250, -88.0817],
-  "miami": [25.7617, -80.1918],
+  gary: [41.5921, -87.3445],
+  rockford: [42.2666, -89.0469],
+  shorewood: [41.52, -88.202],
+  "island lake": [42.277, -88.193],
+  "deer park": [42.16, -88.081],
+  chicago: [41.8781, -87.6298],
+  wilmette: [42.072, -87.728],
+  schaumburg: [42.0334, -88.0834],
+  joliet: [41.525, -88.0817],
+  miami: [25.7617, -80.1918],
   "arlington hts": [42.0884, -87.9806],
   "arlington heights": [42.0884, -87.9806],
 };
 
-export function getVenueCoords(venue: string, city: string, lat?: number, lng?: number): [number, number] | null {
-  if (typeof lat === "number" && typeof lng === "number" && !isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0) {
+export function getVenueCoords(
+  venue: string,
+  city: string,
+  lat?: number,
+  lng?: number,
+): [number, number] | null {
+  if (
+    typeof lat === "number" &&
+    typeof lng === "number" &&
+    !isNaN(lat) &&
+    !isNaN(lng) &&
+    lat !== 0 &&
+    lng !== 0
+  ) {
     return [lat, lng];
   }
   const key = `${venue}|${city}`;
   if (VENUE_COORDS[key]) return VENUE_COORDS[key];
 
-  const normVenue = venue.toLowerCase().replace(/['’`\\]/g, '').trim();
-  const normCity = city.toLowerCase().replace(/['’`\\]/g, '').trim();
+  const normVenue = venue
+    .toLowerCase()
+    .replace(/['’`\\]/g, "")
+    .trim();
+  const normCity = city
+    .toLowerCase()
+    .replace(/['’`\\]/g, "")
+    .trim();
 
   for (const [vk, coords] of Object.entries(VENUE_COORDS)) {
-    const [vPart, cPart] = vk.split('|');
-    const nv = vPart.toLowerCase().replace(/['’`\\]/g, '').trim();
-    const nc = cPart.toLowerCase().replace(/['’`\\]/g, '').trim();
-    if ((normVenue.includes(nv) || nv.includes(normVenue)) && (normCity.includes(nc) || nc.includes(normCity))) {
+    const [vPart, cPart] = vk.split("|");
+    const nv = vPart
+      .toLowerCase()
+      .replace(/['’`\\]/g, "")
+      .trim();
+    const nc = cPart
+      .toLowerCase()
+      .replace(/['’`\\]/g, "")
+      .trim();
+    if (
+      (normVenue.includes(nv) || nv.includes(normVenue)) &&
+      (normCity.includes(nc) || nc.includes(normCity))
+    ) {
       return coords;
     }
   }
@@ -98,4 +125,3 @@ export function getVenueCoords(venue: string, city: string, lat?: number, lng?: 
 
   return null;
 }
-

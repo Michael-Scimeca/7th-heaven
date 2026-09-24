@@ -4,7 +4,8 @@ import FanPhotoWallClient from "./FanPhotoWallClient";
 
 export const metadata: Metadata = {
   title: "Fan Media Wall — 7th Heaven",
-  description: "Share your best memories, stage captures, and live concert moments from 7th Heaven shows on the Fan Media Wall.",
+  description:
+    "Share your best memories, stage captures, and live concert moments from 7th Heaven shows on the Fan Media Wall.",
 };
 
 export const revalidate = 60;
@@ -14,5 +15,3 @@ export default async function FansPage() {
 
   return <FanPhotoWallClient sanityContent={sanityContent} />;
 }
-
-

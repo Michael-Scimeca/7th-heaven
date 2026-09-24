@@ -9,7 +9,7 @@ const ADMIN_EMAIL = ADMIN_ALERT_EMAIL;
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 export async function POST(request: Request) {
@@ -17,7 +17,10 @@ export async function POST(request: Request) {
     const { bookingId, token } = await request.json();
 
     if (!bookingId || !token) {
-      return NextResponse.json({ error: "Missing booking ID or token" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing booking ID or token" },
+        { status: 400 },
+      );
     }
 
     // Look up booking by booking_id and verify cancel token
@@ -29,11 +32,17 @@ export async function POST(request: Request) {
       .single();
 
     if (fetchError || !booking) {
-      return NextResponse.json({ error: "Invalid booking or token" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Invalid booking or token" },
+        { status: 404 },
+      );
     }
 
     if (booking.status === "cancelled") {
-      return NextResponse.json({ error: "This booking has already been cancelled" }, { status: 400 });
+      return NextResponse.json(
+        { error: "This booking has already been cancelled" },
+        { status: 400 },
+      );
     }
 
     // Cancel the booking
@@ -63,7 +72,10 @@ export async function POST(request: Request) {
         }),
       });
     } catch (emailError) {
-      console.error("Failed to send booking cancellation admin alert:", emailError);
+      console.error(
+        "Failed to send booking cancellation admin alert:",
+        emailError,
+      );
       // We still return success since the cancellation was recorded
     }
 
@@ -74,6 +86,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Cancel booking error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }

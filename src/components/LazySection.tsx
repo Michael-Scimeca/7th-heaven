@@ -34,7 +34,7 @@ export default function LazySection({
           observer.disconnect();
         }
       },
-      { rootMargin: "100px 0px" } // Defer rendering until 100px from section viewport
+      { rootMargin: "100px 0px" }, // Defer rendering until 100px from section viewport
     );
 
     observer.observe(el);

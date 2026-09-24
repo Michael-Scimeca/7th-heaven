@@ -16,13 +16,19 @@ const formatTime = (s: number) => {
   return `${m}:${sec.toString().padStart(2, "0")}`;
 };
 
-export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlayerProps) {
+export default function InlineYTPlayer({
+  videoId,
+  title,
+  onClose,
+}: InlineYTPlayerProps) {
   const reactId = useId();
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
-  const playerDivId = useRef(`yt-inline-${videoId}-${reactId.replace(/:/g, "")}`);
+  const playerDivId = useRef(
+    `yt-inline-${videoId}-${reactId.replace(/:/g, "")}`,
+  );
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -42,7 +48,9 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
     const initPlayer = () => {
       if (playerRef.current) {
-        try { playerRef.current.destroy(); } catch { }
+        try {
+          playerRef.current.destroy();
+        } catch {}
       }
       try {
         playerRef.current = new window.YT.Player(playerDivId.current, {
@@ -57,7 +65,10 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             rel: 0,
             showinfo: 0,
             playsinline: 1,
-            origin: typeof window !== "undefined" ? window.location.origin : undefined,
+            origin:
+              typeof window !== "undefined"
+                ? window.location.origin
+                : undefined,
           },
           events: {
             onReady: (e: any) => {
@@ -86,7 +97,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
-        } catch { }
+        } catch {}
         playerRef.current = null;
       }
     };
@@ -119,45 +130,58 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
   useEffect(() => {
     resetHideTimer();
-    return () => { if (hideTimer.current) clearTimeout(hideTimer.current); };
+    return () => {
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    };
   }, [isPlaying, resetHideTimer]);
 
-  const togglePlay = useCallback((e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (!playerRef.current) return;
-    try {
-      const state = playerRef.current.getPlayerState?.();
-      if (state === window.YT?.PlayerState?.PLAYING || isPlaying) {
-        playerRef.current.pauseVideo();
-        setIsPlaying(false);
-      } else {
-        playerRef.current.playVideo();
-        setIsPlaying(true);
+  const togglePlay = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      if (!playerRef.current) return;
+      try {
+        const state = playerRef.current.getPlayerState?.();
+        if (state === window.YT?.PlayerState?.PLAYING || isPlaying) {
+          playerRef.current.pauseVideo();
+          setIsPlaying(false);
+        } else {
+          playerRef.current.playVideo();
+          setIsPlaying(true);
+        }
+      } catch {
+        if (isPlaying) {
+          playerRef.current.pauseVideo?.();
+          setIsPlaying(false);
+        } else {
+          playerRef.current.playVideo?.();
+          setIsPlaying(true);
+        }
       }
-    } catch {
-      if (isPlaying) {
-        playerRef.current.pauseVideo?.();
-        setIsPlaying(false);
-      } else {
-        playerRef.current.playVideo?.();
-        setIsPlaying(true);
-      }
-    }
-  }, [isPlaying]);
+    },
+    [isPlaying],
+  );
 
-  const handleClose = useCallback((e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    try {
-      playerRef.current?.pauseVideo?.();
-      playerRef.current?.stopVideo?.();
-    } catch { }
-    onClose?.();
-  }, [onClose]);
+  const handleClose = useCallback(
+    (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
+      try {
+        playerRef.current?.pauseVideo?.();
+        playerRef.current?.stopVideo?.();
+      } catch {}
+      onClose?.();
+    },
+    [onClose],
+  );
 
   const toggleMute = () => {
     if (!playerRef.current) return;
-    if (isMuted) { playerRef.current.unMute(); setIsMuted(false); }
-    else { playerRef.current.mute(); setIsMuted(true); }
+    if (isMuted) {
+      playerRef.current.unMute();
+      setIsMuted(false);
+    } else {
+      playerRef.current.mute();
+      setIsMuted(true);
+    }
   };
 
   const handleProgressClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -177,7 +201,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
   if (useFallbackIframe) {
     return (
-      <div className="relative w-full h-full bg-black">
+      <div className="relative h-full w-full bg-black">
         {onClose && (
           <button
             type="button"
@@ -185,9 +209,18 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
               e.stopPropagation();
               onClose();
             }}
-            className="absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/70 hover:bg-black/90   flex items-center justify-center transition-colors cursor-pointer border border-white/10"
-            aria-label="Close video">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+            className="absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/70 transition-colors hover:bg-black/90"
+            aria-label="Close video"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
@@ -195,7 +228,7 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&controls=1`}
           title={title}
-          className="w-full h-full border-0"
+          className="h-full w-full border-0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />
@@ -206,12 +239,16 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full outline-none bg-black"
-      onMouseMove={resetHideTimer}>
+      className="relative h-full w-full bg-black outline-none"
+      onMouseMove={resetHideTimer}
+    >
       {/* YouTube Player */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <div id={playerDivId.current} className="absolute inset-0 w-full h-full" />
-        <div className="absolute bottom-0 left-0 w-40 h-14 z-10" />
+      <div className="absolute inset-0 h-full w-full overflow-hidden">
+        <div
+          id={playerDivId.current}
+          className="absolute inset-0 h-full w-full"
+        />
+        <div className="absolute bottom-0 left-0 z-10 h-14 w-40" />
       </div>
 
       {/* Video playback toggle button */}
@@ -219,16 +256,27 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
         type="button"
         aria-label="Toggle video playback"
         onClick={togglePlay}
-        className="absolute inset-0 w-full h-full z-0 border-0 cursor-pointer"
+        className="absolute inset-0 z-0 h-full w-full cursor-pointer border-0"
       />
 
       {/* Close button */}
       {onClose && (
-        <button onClick={handleClose}
-          className={`absolute top-3 right-3 z-30 w-8 h-8 rounded-lg bg-black/50 hover:bg-black/80 flex items-center justify-center transition-colors duration-300 cursor-pointer ${showControls ? "opacity-100" : "opacity-0"
-            }`}
-          aria-label="Close">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+        <button
+          onClick={handleClose}
+          className={`absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-black/50 transition-colors duration-300 hover:bg-black/80 ${
+            showControls ? "opacity-100" : "opacity-0"
+          }`}
+          aria-label="Close"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         </button>
@@ -236,27 +284,30 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
       {/* Controls overlay */}
       <div
-        className={`absolute bottom-0 inset-x-0 z-20 px-4 pb-3 pt-8 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 transition-opacity duration-300 ${
+          showControls ? "opacity-100" : "opacity-0"
+        }`}
         aria-label="Player controls container"
-        onClick={(e) => e.stopPropagation()}>
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Progress Bar */}
         <button
           type="button"
           ref={progressRef as any}
-          className="group/progress w-full h-1 bg-white/10 cursor-pointer mb-3 relative hover:h-1.5 transition-colors rounded-lg outline-none border-0 p-0 text-left"
+          className="group/progress relative mb-3 h-1 w-full cursor-pointer rounded-lg border-0 bg-white/10 p-0 text-left transition-colors outline-none hover:h-1.5"
           aria-label="Seek progress bar"
-          onClick={handleProgressClick}>
+          onClick={handleProgressClick}
+        >
           <div
-            className="absolute top-0 left-0 h-full bg-white/15 rounded-lg"
+            className="absolute top-0 left-0 h-full rounded-lg bg-white/15"
             style={{ width: `${buffered}%` }}
           />
           <div
-            className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg"
+            className="absolute top-0 left-0 h-full rounded-lg bg-[var(--color-accent)]"
             style={{ width: `${progress}%` }}
           />
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-[var(--color-accent)] rounded-lg opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[var(--color-accent)]/30"
+            className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 transition-opacity group-hover/progress:opacity-100"
             style={{ left: `calc(${progress}% - 6px)` }}
           />
         </button>
@@ -268,14 +319,22 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
             <SeventhButton
               onClick={togglePlay}
               icon={false}
-              className="w-8 h-8 !rounded-full !p-0 flex items-center justify-center transition-all cursor-pointer border border-purple-300/40"
-              aria-label={isPlaying ? "Pause" : "Play"}>
+              className="flex h-8 w-8 cursor-pointer items-center justify-center !rounded-full border border-purple-300/40 !p-0 transition-all"
+              aria-label={isPlaying ? "Pause" : "Play"}
+            >
               {isPlaying ? (
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-                  <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
                 </svg>
               ) : (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="ml-0.5">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="white"
+                  className="ml-0.5"
+                >
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
               )}
@@ -283,24 +342,51 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
 
             {/* Volume */}
             <div
-              className="relative flex items-[#center] gap-1.5"
+              className="items-[#center] relative flex gap-1.5"
               onMouseEnter={() => setShowVolume(true)}
-              onMouseLeave={() => setShowVolume(false)}>
-              <button onClick={toggleMute}
-                className="  hover:text-white transition-colors cursor-pointer"
-                aria-label={isMuted ? "Unmute" : "Mute"}>
+              onMouseLeave={() => setShowVolume(false)}
+            >
+              <button
+                onClick={toggleMute}
+                className="cursor-pointer transition-colors hover:text-white"
+                aria-label={isMuted ? "Unmute" : "Mute"}
+              >
                 {isMuted || volume === 0 ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><line x1="23" y1="9" x2="17" y2="15" /><line x1="17" y1="9" x2="23" y2="15" />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <line x1="23" y1="9" x2="17" y2="15" />
+                    <line x1="17" y1="9" x2="23" y2="15" />
                   </svg>
                 ) : (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                   </svg>
                 )}
               </button>
-              <div className={`flex items-center transition-colors duration-200 overflow-hidden ${showVolume ? 'w-16 opacity-100' : 'w-0 opacity-0'}`}>
-                <input type="range"
+              <div
+                className={`flex items-center overflow-hidden transition-colors duration-200 ${showVolume ? "w-16 opacity-100" : "w-0 opacity-0"}`}
+              >
+                <input
+                  type="range"
                   min={0}
                   max={100}
                   value={isMuted ? 0 : volume}
@@ -311,22 +397,33 @@ export default function InlineYTPlayer({ videoId, title, onClose }: InlineYTPlay
                     playerRef.current?.setVolume(v);
                     if (v > 0) playerRef.current?.unMute();
                   }}
-                  className="w-full h-1 appearance-none bg-white/20 rounded-lg cursor-pointer accent-[var(--color-accent)]"
+                  className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/20 accent-[var(--color-accent)]"
                 />
               </div>
             </div>
 
             {/* Time */}
-            <span className=" text-white/40 tabular-nums">
+            <span className="text-white/40 tabular-nums">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>
 
           {/* Fullscreen */}
-          <button onClick={toggleFullscreen}
-            className="  hover:text-white transition-colors cursor-pointer"
-            aria-label="Fullscreen">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button
+            onClick={toggleFullscreen}
+            className="cursor-pointer transition-colors hover:text-white"
+            aria-label="Fullscreen"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
             </svg>
           </button>

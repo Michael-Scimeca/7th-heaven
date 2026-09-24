@@ -52,27 +52,40 @@ export async function POST() {
           CREATE INDEX IF NOT EXISTS idx_lottery_entries_user ON lottery_entries(user_id);
           CREATE INDEX IF NOT EXISTS idx_lottery_entries_lottery ON lottery_entries(lottery_id);
         `,
-      })
+      }),
     ]);
 
     // If exec_sql doesn't exist, fallback to direct table creation
     if (e1 || e2 || e3) {
       // Try creating tables via the REST API directly
       // Create fan_picks
-      try { await supabase.from("fan_picks").select("id").limit(1); } catch {}
-      try { await supabase.from("lotteries").select("id").limit(1); } catch {}
-      try { await supabase.from("lottery_entries").select("id").limit(1); } catch {}
+      try {
+        await supabase.from("fan_picks").select("id").limit(1);
+      } catch {}
+      try {
+        await supabase.from("lotteries").select("id").limit(1);
+      } catch {}
+      try {
+        await supabase.from("lottery_entries").select("id").limit(1);
+      } catch {}
 
       return NextResponse.json({
         success: true,
         message: "Tables may already exist or need manual SQL creation.",
         note: "Run the SQL in your Supabase dashboard if tables don't exist.",
         sql: getCreateSQL(),
-        errors: { fan_picks: e1?.message, lotteries: e2?.message, lottery_entries: e3?.message },
+        errors: {
+          fan_picks: e1?.message,
+          lotteries: e2?.message,
+          lottery_entries: e3?.message,
+        },
       });
     }
 
-    return NextResponse.json({ success: true, message: "Pick Awards tables created successfully." });
+    return NextResponse.json({
+      success: true,
+      message: "Pick Awards tables created successfully.",
+    });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

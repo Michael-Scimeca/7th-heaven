@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
-export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
+export function CameraFeed({ crewColor = "#a855f7" }: { crewColor?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef(0);
   const timeRef = useRef(0);
@@ -10,7 +10,7 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const hexToRgb = (hex: string) => {
@@ -19,7 +19,7 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
       const b = parseInt(hex.slice(5, 7), 16);
       return { r, g, b };
     };
-    const accent = hexToRgb(crewColor.length === 7 ? crewColor : '#a855f7');
+    const accent = hexToRgb(crewColor.length === 7 ? crewColor : "#a855f7");
 
     const resize = () => {
       const rect = canvas.parentElement?.getBoundingClientRect();
@@ -40,20 +40,20 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
       const H = canvas.height;
       if (W === 0 || H === 0) return;
 
-      ctx.fillStyle = '#040408';
+      ctx.fillStyle = "#040408";
       ctx.fillRect(0, 0, W, H);
 
       const ambH = H * 0.55;
       const amb = ctx.createLinearGradient(0, H - ambH, 0, H);
       amb.addColorStop(0, `rgba(${accent.r},${accent.g},${accent.b},0.0)`);
       amb.addColorStop(0.5, `rgba(${accent.r},${accent.g},${accent.b},0.06)`);
-      amb.addColorStop(1, 'rgba(0,0,0,0.6)');
+      amb.addColorStop(1, "rgba(0,0,0,0.6)");
       ctx.fillStyle = amb;
       ctx.fillRect(0, H - ambH, W, ambH);
 
       const beams = [
         { xFrac: 0.18, phase: 0, colorH: (t * 40) % 360 },
-        { xFrac: 0.50, phase: Math.PI / 3, colorH: (t * 40 + 120) % 360 },
+        { xFrac: 0.5, phase: Math.PI / 3, colorH: (t * 40 + 120) % 360 },
         { xFrac: 0.78, phase: Math.PI / 1.5, colorH: (t * 40 + 240) % 360 },
       ];
       beams.forEach((b) => {
@@ -85,24 +85,60 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
       const scale = H * 0.0018;
       ctx.save();
       ctx.translate(px, py);
-      const bodyGlow = ctx.createRadialGradient(0, -60 * scale, 0, 0, -60 * scale, 120 * scale);
-      bodyGlow.addColorStop(0, `rgba(${accent.r},${accent.g},${accent.b},0.18)`);
-      bodyGlow.addColorStop(1, 'rgba(0,0,0,0)');
+      const bodyGlow = ctx.createRadialGradient(
+        0,
+        -60 * scale,
+        0,
+        0,
+        -60 * scale,
+        120 * scale,
+      );
+      bodyGlow.addColorStop(
+        0,
+        `rgba(${accent.r},${accent.g},${accent.b},0.18)`,
+      );
+      bodyGlow.addColorStop(1, "rgba(0,0,0,0)");
       ctx.fillStyle = bodyGlow;
       ctx.fillRect(-100 * scale, -200 * scale, 200 * scale, 220 * scale);
-      ctx.fillStyle = 'rgba(0,0,0,0.92)';
-      ctx.beginPath(); ctx.moveTo(-20 * scale, 0); ctx.lineTo(-28 * scale, -120 * scale); ctx.lineTo(-8 * scale, -120 * scale); ctx.lineTo(0, 0); ctx.closePath(); ctx.fill();
-      ctx.beginPath(); ctx.moveTo(20 * scale, 0); ctx.lineTo(28 * scale, -120 * scale); ctx.lineTo(8 * scale, -120 * scale); ctx.lineTo(0, 0); ctx.closePath(); ctx.fill();
-      ctx.beginPath(); ctx.moveTo(-28 * scale, -120 * scale); ctx.lineTo(28 * scale, -120 * scale); ctx.lineTo(22 * scale, -210 * scale); ctx.lineTo(-22 * scale, -210 * scale); ctx.closePath(); ctx.fill();
-      ctx.beginPath(); ctx.arc(0, -228 * scale, 22 * scale, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "rgba(0,0,0,0.92)";
+      ctx.beginPath();
+      ctx.moveTo(-20 * scale, 0);
+      ctx.lineTo(-28 * scale, -120 * scale);
+      ctx.lineTo(-8 * scale, -120 * scale);
+      ctx.lineTo(0, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(20 * scale, 0);
+      ctx.lineTo(28 * scale, -120 * scale);
+      ctx.lineTo(8 * scale, -120 * scale);
+      ctx.lineTo(0, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(-28 * scale, -120 * scale);
+      ctx.lineTo(28 * scale, -120 * scale);
+      ctx.lineTo(22 * scale, -210 * scale);
+      ctx.lineTo(-22 * scale, -210 * scale);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(0, -228 * scale, 22 * scale, 0, Math.PI * 2);
+      ctx.fill();
       const armAngle = Math.sin(t * 2.1) * 0.15;
-      ctx.save(); ctx.translate(-22 * scale, -180 * scale); ctx.rotate(armAngle - 0.3);
-      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-55 * scale, 40 * scale);
-      ctx.strokeStyle = 'rgba(0,0,0,0.95)'; ctx.lineWidth = 10 * scale; ctx.stroke();
+      ctx.save();
+      ctx.translate(-22 * scale, -180 * scale);
+      ctx.rotate(armAngle - 0.3);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-55 * scale, 40 * scale);
+      ctx.strokeStyle = "rgba(0,0,0,0.95)";
+      ctx.lineWidth = 10 * scale;
+      ctx.stroke();
       ctx.restore();
       ctx.restore();
 
-      ctx.fillStyle = 'rgba(0,0,0,0.82)';
+      ctx.fillStyle = "rgba(0,0,0,0.82)";
       ctx.beginPath();
       ctx.moveTo(0, H);
       const crowdPts = 32;
@@ -117,8 +153,11 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
       ctx.fill();
 
       const floorGrad = ctx.createLinearGradient(0, H * 0.8, 0, H);
-      floorGrad.addColorStop(0, 'rgba(0,0,0,0)');
-      floorGrad.addColorStop(1, `rgba(${accent.r},${accent.g},${accent.b},0.12)`);
+      floorGrad.addColorStop(0, "rgba(0,0,0,0)");
+      floorGrad.addColorStop(
+        1,
+        `rgba(${accent.r},${accent.g},${accent.b},0.12)`,
+      );
       ctx.fillStyle = floorGrad;
       ctx.fillRect(0, H * 0.8, W, H * 0.2);
 
@@ -138,42 +177,49 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
       ctx.putImageData(imageData, shakeX, shakeY);
 
       for (let y = 0; y < H; y += 3) {
-        ctx.fillStyle = 'rgba(0,0,0,0.07)';
+        ctx.fillStyle = "rgba(0,0,0,0.07)";
         ctx.fillRect(0, y, W, 1);
       }
 
-      const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.85);
-      vig.addColorStop(0, 'rgba(0,0,0,0)');
-      vig.addColorStop(1, 'rgba(0,0,0,0.55)');
+      const vig = ctx.createRadialGradient(
+        W / 2,
+        H / 2,
+        H * 0.2,
+        W / 2,
+        H / 2,
+        H * 0.85,
+      );
+      vig.addColorStop(0, "rgba(0,0,0,0)");
+      vig.addColorStop(1, "rgba(0,0,0,0.55)");
       ctx.fillStyle = vig;
       ctx.fillRect(0, 0, W, H);
 
       ctx.save();
       ctx.globalAlpha = 0.04 + Math.sin(t * 0.3) * 0.01;
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = "white";
       ctx.font = `bold ${W * 0.09}px sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('7TH HEAVEN', W / 2, H * 0.42);
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("7TH HEAVEN", W / 2, H * 0.42);
       ctx.restore();
 
       ctx.save();
-      ctx.globalCompositeOperation = 'screen';
+      ctx.globalCompositeOperation = "screen";
       ctx.globalAlpha = 0.04;
-      ctx.fillStyle = 'red';
+      ctx.fillStyle = "red";
       ctx.fillRect(-1, 0, W, H);
-      ctx.fillStyle = 'cyan';
+      ctx.fillStyle = "cyan";
       ctx.fillRect(1, 0, W, H);
       ctx.restore();
 
       const now = new Date();
-      const tc = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}:${String(Math.floor((ts % 1000) / 33)).padStart(2, '0')}`;
+      const tc = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}:${String(Math.floor((ts % 1000) / 33)).padStart(2, "0")}`;
       ctx.save();
       ctx.globalAlpha = 0.35;
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = "white";
       ctx.font = `${Math.max(10, W * 0.013)}px monospace`;
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'bottom';
+      ctx.textAlign = "left";
+      ctx.textBaseline = "bottom";
       ctx.fillText(`TC ${tc}  CAM-1  1080i`, W * 0.02, H * 0.97);
       ctx.restore();
     };
@@ -187,9 +233,9 @@ export function CameraFeed({ crewColor = '#a855f7' }: { crewColor?: string }) {
 
   return (
     <canvas
- ref={canvasRef}
- className="absolute inset-0 w-full h-full"
- style={{ display: 'block' }}
- />
+      ref={canvasRef}
+      className="absolute inset-0 h-full w-full"
+      style={{ display: "block" }}
+    />
   );
 }

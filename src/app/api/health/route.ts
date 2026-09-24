@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
 function getEnvStatus() {
   return {
@@ -26,11 +26,11 @@ export async function GET() {
       const startTime = Date.now();
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
-      
+
       // Attempt a lightweight query
-      const { error } = await supabase.from('profiles').select('id').limit(1);
+      const { error } = await supabase.from("profiles").select("id").limit(1);
       dbLatency = Date.now() - startTime;
 
       if (!error) {
@@ -40,15 +40,15 @@ export async function GET() {
         dbError = error.message;
       }
     } catch (err: any) {
-      dbError = err.message || 'Failed to connect';
+      dbError = err.message || "Failed to connect";
     }
   } else {
-    dbError = 'Missing Supabase URL or Key';
+    dbError = "Missing Supabase URL or Key";
   }
 
   // Calculate overall system health
-  const allEnvPresent = Object.values(envStatus).every(val => val === true);
-  const status = (dbConnected && allEnvPresent) ? 'healthy' : 'degraded';
+  const allEnvPresent = Object.values(envStatus).every((val) => val === true);
+  const status = dbConnected && allEnvPresent ? "healthy" : "degraded";
 
   return NextResponse.json({
     status,
@@ -56,8 +56,8 @@ export async function GET() {
     database: {
       connected: dbConnected,
       latencyMs: dbLatency,
-      error: dbError
+      error: dbError,
     },
-    environment: envStatus
+    environment: envStatus,
   });
 }

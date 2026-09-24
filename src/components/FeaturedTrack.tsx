@@ -2,8 +2,8 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { useMember } from '@/context/MemberContext';
+import React, { useState, useEffect, useRef, useCallback, memo } from "react";
+import { useMember } from "@/context/MemberContext";
 
 const MINI_EQ_DURATIONS = [0.8, 1.0, 0.7, 1.1, 0.9];
 const MAIN_EQ_NORMAL = [0.8, 1.0, 0.7, 1.1, 0.9, 0.85, 1.05, 0.75];
@@ -13,7 +13,7 @@ const formatTime = (time: number) => {
   if (isNaN(time)) return "0:00";
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
 function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
@@ -53,7 +53,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
   const fetchTrack = useCallback(async () => {
     try {
-      const res = await fetch('/api/featured-track');
+      const res = await fetch("/api/featured-track");
       if (res.ok) {
         const data = await res.json();
         if (data.track) {
@@ -78,7 +78,8 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
     if (!audioRef.current || audioCtxRef.current) return;
 
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass =
+        window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioContextClass) return;
 
       const ctx = new AudioContextClass();
@@ -90,7 +91,10 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
       // Configure compressor with standard mastering settings
       compressor.threshold.setValueAtTime(-18, ctx.currentTime);
       compressor.knee.setValueAtTime(30, ctx.currentTime);
-      compressor.ratio.setValueAtTime(isCompressorActive ? 12 : 1, ctx.currentTime);
+      compressor.ratio.setValueAtTime(
+        isCompressorActive ? 12 : 1,
+        ctx.currentTime,
+      );
       compressor.attack.setValueAtTime(0.003, ctx.currentTime);
       compressor.release.setValueAtTime(0.25, ctx.currentTime);
 
@@ -115,8 +119,8 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
     const nextState = !isCompressorActive;
     setIsCompressorActive(nextState);
 
-    if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
-      await audioCtxRef.current.resume().catch(e => console.warn(e));
+    if (audioCtxRef.current && audioCtxRef.current.state === "suspended") {
+      await audioCtxRef.current.resume().catch((e) => console.warn(e));
     }
 
     const ctx = audioCtxRef.current;
@@ -177,7 +181,9 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
       audio.removeEventListener("ended", setAudioEnd);
       audio.pause();
       if (audioCtxRef.current) {
-        audioCtxRef.current.close().catch(e => console.warn("Error closing AudioContext:", e));
+        audioCtxRef.current
+          .close()
+          .catch((e) => console.warn("Error closing AudioContext:", e));
       }
     };
   }, []);
@@ -191,11 +197,15 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
       audioRef.current.src = currentSong.audio_url;
       audioRef.current.load();
       setCurrentTime(0);
-      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended' && wasPlaying) {
-        audioCtxRef.current.resume().catch(e => console.warn(e));
+      if (
+        audioCtxRef.current &&
+        audioCtxRef.current.state === "suspended" &&
+        wasPlaying
+      ) {
+        audioCtxRef.current.resume().catch((e) => console.warn(e));
       }
       if (wasPlaying) {
-        audioRef.current.play().catch(e => console.log("Play prevented:", e));
+        audioRef.current.play().catch((e) => console.log("Play prevented:", e));
       }
     }
   }, [currentSong?.audio_url, isPlaying]);
@@ -212,16 +222,18 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
     // Init Web Audio on first user interaction to comply with autoplay policy
     initWebAudio();
-    if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
-      await audioCtxRef.current.resume().catch(e => console.warn(e));
+    if (audioCtxRef.current && audioCtxRef.current.state === "suspended") {
+      await audioCtxRef.current.resume().catch((e) => console.warn(e));
     }
 
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play().catch(e => console.warn("Audio play error:", e));
+      audioRef.current
+        .play()
+        .catch((e) => console.warn("Audio play error:", e));
     }
-    setIsPlaying(prev => !prev);
+    setIsPlaying((prev) => !prev);
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,7 +253,6 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
     }
   };
 
-
   if (loading) return null; // Wait for fetch
 
   if (!track && !locked) return null; // No active drop
@@ -249,61 +260,84 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
   // ─── Mini variant for hero embedding ───
   if (mini) {
     return (
-      <div className="bg-black/70 backdrop-blur-xl border border-white/10 rounded-lg p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] h-full">
+      <div className="h-full rounded-lg border border-white/10 bg-black/70 p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
         {/* Header */}
-        <div className="flex items-center gap-1.5 mb-2">
-          <span className="w-1 h-1 rounded-lg bg-cyan-400 animate-pulse" />
-          <span >Now Playing</span>
+        <div className="mb-2 flex items-center gap-1.5">
+          <span className="h-1 w-1 animate-pulse rounded-lg bg-cyan-400" />
+          <span>Now Playing</span>
         </div>
 
         {locked ? (
           <div className="flex items-center gap-2">
-            <div className="w-11 h-11 rounded-lg bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center shrink-0">🔒</div>
-            <div className="flex-1 min-w-0">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[var(--color-accent)]/15">
+              🔒
+            </div>
+            <div className="min-w-0 flex-1">
               <p className="truncate">Exclusive Fan Drop</p>
-              <button type="button" onClick={() => openModal('login')} className="text-[var(--color-accent)] hover:text-white transition-colors cursor-pointer mt-0.5">Login to unlock</button>
+              <button
+                type="button"
+                onClick={() => openModal("login")}
+                className="mt-0.5 cursor-pointer text-[var(--color-accent)] transition-colors hover:text-white"
+              >
+                Login to unlock
+              </button>
             </div>
           </div>
         ) : (
           <>
             <div className="flex items-center gap-2.5">
               {/* Mini vinyl */}
-              <button type="button" onClick={togglePlay} className="relative w-11 h-11 shrink-0 rounded-lg border border-white/10 flex items-center justify-center cursor-pointer group overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
-                <div className="relative z-10 w-4 h-4 rounded-lg bg-black/80 flex items-center justify-center">
+              <button
+                type="button"
+                onClick={togglePlay}
+                className="group relative flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-white/10"
+              >
+                <div
+                  className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? "animate-[spin_6s_linear_infinite]" : ""}`}
+                />
+                <div className="relative z-10 flex h-4 w-4 items-center justify-center rounded-lg bg-black/80">
                   {isPlaying ? (
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="white">
+                      <rect x="6" y="4" width="4" height="16" />
+                      <rect x="14" y="4" width="4" height="16" />
+                    </svg>
                   ) : (
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="white" className="ml-[1px]"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                    <svg
+                      width="8"
+                      height="8"
+                      viewBox="0 0 24 24"
+                      fill="white"
+                      className="ml-[1px]"
+                    >
+                      <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
                   )}
                 </div>
               </button>
 
               {/* Track info */}
-              <div className="flex-1 min-w-0">
-                <h4 className="truncate">
-                  {track.title}
-                </h4>
+              <div className="min-w-0 flex-1">
+                <h4 className="truncate">{track.title}</h4>
                 {currentSong && (
-                  <p className="truncate mt-0.5">{currentSong.title}</p>
+                  <p className="mt-0.5 truncate">{currentSong.title}</p>
                 )}
               </div>
 
               {/* Mini EQ bars */}
-              <div className="flex items-end gap-1 h-[16px] shrink-0">
+              <div className="flex h-[16px] shrink-0 items-end gap-1">
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
                     className="w-[2px] rounded-lg bg-[var(--color-accent)]/80"
                     style={{
-                      animationName: isPlaying ? 'eqBarShort' : 'none',
+                      animationName: isPlaying ? "eqBarShort" : "none",
                       animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
-                      animationTimingFunction: 'ease-in-out',
-                      animationIterationCount: 'infinite',
-                      animationDirection: 'alternate',
+                      animationTimingFunction: "ease-in-out",
+                      animationIterationCount: "infinite",
+                      animationDirection: "alternate",
                       animationDelay: `${i * 0.05}s`,
-                      height: isPlaying ? '14px' : '4px',
-                      transformOrigin: 'bottom',
+                      height: isPlaying ? "14px" : "4px",
+                      transformOrigin: "bottom",
                     }}
                   />
                 ))}
@@ -312,27 +346,37 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
             {/* Mini progress bar */}
             <div className="mt-2 flex items-center gap-2">
-              <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px]">{formatTime(currentTime)}</span>
-              <div className="relative flex-1 h-[2px] bg-white/10 rounded-lg">
-                <input type="range"
+              <span className="min-w-[22px] text-[var(--font-size-5xs)] text-white/30">
+                {formatTime(currentTime)}
+              </span>
+              <div className="relative h-[2px] flex-1 rounded-lg bg-white/10">
+                <input
+                  type="range"
                   min="0"
                   max={duration || 100}
                   value={currentTime}
                   onChange={handleSeek}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                 />
                 <div
-                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
-                  style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                  className="pointer-events-none absolute top-0 left-0 h-full rounded-lg bg-gradient-to-r from-[var(--color-accent)] to-cyan-400"
+                  style={{
+                    width: `${duration ? (currentTime / duration) * 100 : 0}%`,
+                  }}
                 />
               </div>
-              <span className="text-[var(--font-size-5xs)] text-white/30 min-w-[22px] text-right">{duration ? formatTime(duration) : '0:00'}</span>
+              <span className="min-w-[22px] text-right text-[var(--font-size-5xs)] text-white/30">
+                {duration ? formatTime(duration) : "0:00"}
+              </span>
             </div>
 
             {/* Mini playlist list */}
             {track.songs && track.songs.length > 1 && (
-              <div className="mt-2.5 pt-2.5 border-t border-white/10 space-y-1 max-h-[110px] overflow-y-auto pr-1 select-none">
-                {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
+              <div className="mt-2.5 max-h-[110px] space-y-1 overflow-y-auto border-t border-white/10 pt-2.5 pr-1 select-none">
+                {Array.from(track.songs, (song: any, idx: number) => ({
+                  song,
+                  idx,
+                })).map(({ song, idx }) => {
                   const isActive = idx === currentSongIndex;
                   return (
                     <button
@@ -342,14 +386,19 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                         setCurrentSongIndex(idx);
                         setIsPlaying(true);
                       }}
-                      className={`w-full flex items-center justify-between p-1.5 rounded text-left transition-colors cursor-pointer ${isActive ? 'bg-[var(--color-accent)]/15 ' : ' text-white/40 hover:bg-white/[0.02] hover:text-white text-white/70'}`}>
+                      className={`flex w-full cursor-pointer items-center justify-between rounded p-1.5 text-left transition-colors ${isActive ? "bg-[var(--color-accent)]/15" : "text-white/40 text-white/70 hover:bg-white/[0.02] hover:text-white"}`}
+                    >
                       <span className="truncate pr-2">
-                        {String(idx + 1).padStart(2, '0')}. {song.title}
+                        {String(idx + 1).padStart(2, "0")}. {song.title}
                       </span>
                       {isActive && isPlaying ? (
-                        <span className="text-[var(--font-size-5xs)] animate-pulse shrink-0">Playing</span>
+                        <span className="shrink-0 animate-pulse text-[var(--font-size-5xs)]">
+                          Playing
+                        </span>
                       ) : (
-                        <span className="text-[var(--font-size-5xs)] shrink-0">MP3</span>
+                        <span className="shrink-0 text-[var(--font-size-5xs)]">
+                          MP3
+                        </span>
                       )}
                     </button>
                   );
@@ -358,98 +407,106 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
             )}
           </>
         )}
-
-
       </div>
     );
   }
 
   return (
-    <section className="relative py-16 bg-[var(--color-bg-primary)] border-y border-white/10 overflow-hidden">
+    <section className="relative overflow-hidden border-y border-white/10 bg-[var(--color-bg-primary)] py-16">
       {/* Visual background lights */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-lg opacity-[0.08] blur-[120px] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, var(--color-accent), #3b82f6, transparent)' }}
+      <div
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-lg opacity-[0.08] blur-[120px]"
+        style={{
+          background:
+            "radial-gradient(circle, var(--color-accent), #3b82f6, transparent)",
+        }}
       />
 
       <div className="site-container relative z-10">
-        <div className="max-w-3xl mx-auto">
+        <div className="mx-auto max-w-3xl">
           {/* Header */}
-          <div className="flex items-center gap-3 mb-6 justify-center">
-            <span className="w-2 h-2 rounded-lg bg-[var(--color-accent)] animate-ping" />
-            <span className="text-[var(--color-accent)]">Latest Track Drop</span>
+          <div className="mb-6 flex items-center justify-center gap-3">
+            <span className="h-2 w-2 animate-ping rounded-lg bg-[var(--color-accent)]" />
+            <span className="text-[var(--color-accent)]">
+              Latest Track Drop
+            </span>
           </div>
 
           {locked ? (
             /* Locked Panel (Fans Only, logged out) */
-            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-8 sm:p-12 text-center transition-colors duration-300 border-white/10">
-              <div className="w-16 h-16 mx-auto mb-6 bg-[var(--color-accent)]/15 border border-white/10 flex items-center justify-center text-2xl shadow-inner animate-pulse">
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] p-8 text-center backdrop-blur-xl transition-colors duration-300 sm:p-12">
+              <div className="mx-auto mb-6 flex h-16 w-16 animate-pulse items-center justify-center border border-white/10 bg-[var(--color-accent)]/15 text-2xl shadow-inner">
                 🔒
               </div>
-              <h3 className="er mb-2">
-                Exclusive Fan Release
-              </h3>
-              <p className="max-w-md mx-auto mb-8">
-                The band dropped an exclusive new song or soundtrack just for our registered fans. Sign in or sign up free to unlock listening!
+              <h3 className="er mb-2">Exclusive Fan Release</h3>
+              <p className="mx-auto mb-8 max-w-md">
+                The band dropped an exclusive new song or soundtrack just for
+                our registered fans. Sign in or sign up free to unlock
+                listening!
               </p>
               <div className="flex justify-center gap-4">
                 <button
                   type="button"
-                  onClick={() => openModal('login')}
-                  className="px-8 py-3 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 rounded-lg cursor-pointer">
+                  onClick={() => openModal("login")}
+                  className="cursor-pointer rounded-lg bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
+                >
                   Log In
                 </button>
                 <button
                   type="button"
-                  onClick={() => openModal('signup')}
-                  className="px-8 py-3 bg-[#00000029] hover:bg-white/10 border border-white/10 rounded-lg cursor-pointer">
+                  onClick={() => openModal("signup")}
+                  className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-8 py-3 hover:bg-white/10"
+                >
                   Join Fan Club
                 </button>
               </div>
             </div>
           ) : (
             /* Active Player Widget */
-            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl p-6 sm:p-8">
-              <div className="flex flex-col md:flex-row items-center gap-6 justify-between">
-
+            <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] p-6 backdrop-blur-xl sm:p-8">
+              <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                 {/* Visual Cover/Vinyl */}
-                <div className="relative w-20 h-20 shrink-0 rounded-lg border-2 border-white/10 flex items-center justify-center overflow-hidden group">
-                  <div className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? 'animate-[spin_6s_linear_infinite]' : ''}`} />
-                  <div className="relative z-10 w-6 h-6 rounded-lg bg-[var(--color-bg-primary)] border border-white/10 flex items-center justify-center">
+                <div className="group relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border-2 border-white/10">
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? "animate-[spin_6s_linear_infinite]" : ""}`}
+                  />
+                  <div className="relative z-10 flex h-6 w-6 items-center justify-center rounded-lg border border-white/10 bg-[var(--color-bg-primary)]">
                     💿
                   </div>
                 </div>
 
                 {/* Track Details */}
-                <div className="flex-1 text-center md:text-left min-w-0">
-                  <span className="text-[0.9rem] bg-[var(--color-accent)]/20 border border-white/10 px-2 py-0.5 rounded-lg">
-                    {track.visibility === 'fans' ? 'Exclusive Fan Drop 🔒' : 'Public Release 🔓'}
+                <div className="min-w-0 flex-1 text-center md:text-left">
+                  <span className="rounded-lg border border-white/10 bg-[var(--color-accent)]/20 px-2 py-0.5 text-[0.9rem]">
+                    {track.visibility === "fans"
+                      ? "Exclusive Fan Drop 🔒"
+                      : "Public Release 🔓"}
                   </span>
-                  <h4 className="mt-2 truncate">
-                    {track.title}
-                  </h4>
+                  <h4 className="mt-2 truncate">{track.title}</h4>
                   {currentSong && (
-                    <p className="  .5 flex items-center gap-1.5 justify-center md:justify-start">
-                      <span className="w-1.5 h-1.5 rounded-lg bg-cyan-400 animate-ping" />
-                      Now Playing: <span className=" ">{currentSong.title}</span>
+                    <p className=".5 flex items-center justify-center gap-1.5 md:justify-start">
+                      <span className="h-1.5 w-1.5 animate-ping rounded-lg bg-cyan-400" />
+                      Now Playing:{" "}
+                      <span className=" ">{currentSong.title}</span>
                     </p>
                   )}
                 </div>
 
                 {/* Animated EQ Visualizer Bars (Only visible when playing) */}
-                <div className="flex items-end gap-[3px] h-[30px] shrink-0">
+                <div className="flex h-[30px] shrink-0 items-end gap-[3px]">
                   {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
-                      className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? 'bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]' : 'bg-[var(--color-accent)]/80'}`}
+                      className={`w-[3px] rounded-lg transition-colors duration-300 ${isCompressorActive ? "bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]" : "bg-[var(--color-accent)]/80"}`}
                       style={{
-                        animationName: isPlaying ? 'eqBarShort' : 'none',
+                        animationName: isPlaying ? "eqBarShort" : "none",
                         animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
-                        animationTimingFunction: 'ease-in-out',
-                        animationIterationCount: 'infinite',
-                        animationDirection: 'alternate',
+                        animationTimingFunction: "ease-in-out",
+                        animationIterationCount: "infinite",
+                        animationDirection: "alternate",
                         animationDelay: `${i * 0.05}s`,
-                        height: isPlaying ? '24px' : '6px',
-                        transformOrigin: 'bottom',
+                        height: isPlaying ? "24px" : "6px",
+                        transformOrigin: "bottom",
                       }}
                     />
                   ))}
@@ -462,45 +519,70 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   {formatTime(currentTime)}
                 </span>
 
-                <div className="relative flex-1 h-[4px] bg-white/10 rounded-lg group">
-                  <input type="range"
+                <div className="group relative h-[4px] flex-1 rounded-lg bg-white/10">
+                  <input
+                    type="range"
                     min="0"
                     max={duration || 100}
                     value={currentTime}
                     onChange={handleSeek}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                   />
                   <div
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-400 rounded-lg pointer-events-none"
-                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}>
-                    <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-white rounded-lg shadow-[0_0_10px_rgba(255,255,255,0.6)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    className="pointer-events-none absolute top-0 left-0 h-full rounded-lg bg-gradient-to-r from-[var(--color-accent)] to-cyan-400"
+                    style={{
+                      width: `${duration ? (currentTime / duration) * 100 : 0}%`,
+                    }}
+                  >
+                    <div className="absolute top-1/2 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2 rounded-lg bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.6)] transition-opacity group-hover:opacity-100" />
                   </div>
                 </div>
 
                 <span className="/45 min-w-[32px] text-right">
-                  {duration ? formatTime(duration) : '0:00'}
+                  {duration ? formatTime(duration) : "0:00"}
                 </span>
               </div>
 
               {/* Player Controls Strips */}
-              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-white/5">
+              <div className="mt-6 flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-4 sm:flex-row">
                 {/* Play, Prev, Next */}
                 <div className="flex items-center gap-6">
                   <button
                     type="button"
                     onClick={togglePlay}
-                    className="w-12 h-12 rounded-lg bg-white   flex items-center justify-center active:scale-95 transition-colors cursor-pointer">
+                    className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg bg-white transition-colors active:scale-95"
+                  >
                     {isPlaying ? (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                      </svg>
                     ) : (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="ml-1"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="ml-1"
+                      >
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
                     )}
                   </button>
 
                   {/* Close timer (if temporary) */}
                   {track.expires_at && (
-                    <div className="text-white/30 flex items-center gap-1.5 bg-white/[0.02] border border-white/10 px-3 py-1.5 rounded-lg">
-                      🕒 Drop Expires: {new Date(track.expires_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-1.5 text-white/30">
+                      🕒 Drop Expires:{" "}
+                      {new Date(track.expires_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </div>
                   )}
 
@@ -508,36 +590,75 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   <button
                     type="button"
                     onClick={toggleCompressor}
-                    className={`text-[0.65rem] flex items-center gap-1.5 px-3.5 py-2 rounded-lg border transition-colors duration-300 cursor-pointer select-none ${isCompressorActive ? 'bg-[var(--color-purple-glow)] border-[var(--color-border-purple)] shadow-[0_0_15px_var(--color-purple-glow)]' : 'bg-white/[0.02] border-white/10 hover:border-white/10'}`}
-                    title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response">
-                    <span className={`w-1.5 h-1.5 rounded-lg ${isCompressorActive ? 'bg-cyan-400 animate-pulse' : 'bg-white/20'}`} />
-                    Mastering Compressor {isCompressorActive ? 'ON ⚡' : 'OFF'}
+                    className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3.5 py-2 text-[0.65rem] transition-colors duration-300 select-none ${isCompressorActive ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] shadow-[0_0_15px_var(--color-purple-glow)]" : "border-white/10 bg-white/[0.02] hover:border-white/10"}`}
+                    title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
+                  >
+                    <span
+                      className={`h-1.5 w-1.5 rounded-lg ${isCompressorActive ? "animate-pulse bg-cyan-400" : "bg-white/20"}`}
+                    />
+                    Mastering Compressor {isCompressorActive ? "ON ⚡" : "OFF"}
                   </button>
                 </div>
 
                 {/* Volume bar */}
-                <div className="flex items-center gap-3 w-36">
-                  <button type="button" onClick={toggleMute} className="/45 hover:text-white transition-colors cursor-pointer">
+                <div className="flex w-36 items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    className="/45 cursor-pointer transition-colors hover:text-white"
+                  >
                     {volume === 0 ? (
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                      </svg>
                     ) : volume < 0.5 ? (
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                      </svg>
                     ) : (
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                      </svg>
                     )}
                   </button>
 
-                  <div className="relative flex-1 h-[3px] bg-white/10 rounded-lg">
-                    <input type="range"
+                  <div className="relative h-[3px] flex-1 rounded-lg bg-white/10">
+                    <input
+                      type="range"
                       min="0"
                       max="1"
                       step="0.05"
                       value={volume}
                       onChange={(e) => setVolume(Number(e.target.value))}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                     />
                     <div
-                      className="absolute top-0 left-0 h-full bg-[var(--color-accent)] rounded-lg"
+                      className="absolute top-0 left-0 h-full rounded-lg bg-[var(--color-accent)]"
                       style={{ width: `${volume * 100}%` }}
                     />
                   </div>
@@ -546,10 +667,15 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
               {/* EP / Album Playlist tracks */}
               {track.songs && track.songs.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-white/10 space-y-3">
-                  <span className="block text-[0.65rem] /35">Drop Playlist</span>
-                  <div className="space-y-1 max-h-[180px] overflow-y-auto pr-1">
-                    {Array.from(track.songs, (song: any, idx: number) => ({ song, idx })).map(({ song, idx }) => {
+                <div className="mt-8 space-y-3 border-t border-white/10 pt-6">
+                  <span className="/35 block text-[0.65rem]">
+                    Drop Playlist
+                  </span>
+                  <div className="max-h-[180px] space-y-1 overflow-y-auto pr-1">
+                    {Array.from(track.songs, (song: any, idx: number) => ({
+                      song,
+                      idx,
+                    })).map(({ song, idx }) => {
                       const isActive = idx === currentSongIndex;
                       return (
                         <button
@@ -559,16 +685,25 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
-                          className={`w-full text-left flex items-center justify-between p-3 border cursor-pointer select-none transition-colors duration-300 ${isActive ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)]/20 shadow-[0_0_15px_rgba(255,10,61,0.08)]' : ' border-transparent /45 hover:bg-white/[0.02] hover:text-white   hover:border-white/5'}`}>
-                          <div className="flex items-center gap-3.5 min-w-0">
-                            <span className={`w-5 shrink-0 ${isActive ? ' text-[var(--color-accent)]' : ' text-white/20'}`}>
-                              {isActive ? '▶' : String(idx + 1).padStart(2, '0')}
+                          className={`flex w-full cursor-pointer items-center justify-between border p-3 text-left transition-colors duration-300 select-none ${isActive ? "border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.08)]" : "/45 border-transparent hover:border-white/5 hover:bg-white/[0.02] hover:text-white"}`}
+                        >
+                          <div className="flex min-w-0 items-center gap-3.5">
+                            <span
+                              className={`w-5 shrink-0 ${isActive ? "text-[var(--color-accent)]" : "text-white/20"}`}
+                            >
+                              {isActive
+                                ? "▶"
+                                : String(idx + 1).padStart(2, "0")}
                             </span>
-                            <span className={`truncate ${isActive ? ' ' : ''}`}>{song.title}</span>
+                            <span className={`truncate ${isActive ? " " : ""}`}>
+                              {song.title}
+                            </span>
                           </div>
-                          <div className="flex items-center gap-3 shrink-0">
+                          <div className="flex shrink-0 items-center gap-3">
                             {isActive && isPlaying && (
-                              <span className="text-[0.55rem] bg-[var(--color-accent)]/20 px-2 py-0.5 rounded-lg animate-pulse border border-[var(--color-accent)]/30">Playing</span>
+                              <span className="animate-pulse rounded-lg border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20 px-2 py-0.5 text-[0.55rem]">
+                                Playing
+                              </span>
                             )}
                             <span className="text-[0.55rem]">MP3</span>
                           </div>
@@ -582,8 +717,6 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
           )}
         </div>
       </div>
-
-
     </section>
   );
 }

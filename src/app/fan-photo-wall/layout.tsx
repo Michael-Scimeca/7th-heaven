@@ -3,7 +3,11 @@ import { fetchPageContent } from "@/lib/sanity";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("fan-photo-wall");
-  const title = content?.seo?.metaTitle || (content?.title ? `${content.title} — 7th Heaven` : "Fan Photo Wall — 7th Heaven");
+  const title =
+    content?.seo?.metaTitle ||
+    (content?.title
+      ? `${content.title} — 7th Heaven`
+      : "Fan Photo Wall — 7th Heaven");
   const description =
     content?.seo?.metaDescription ||
     content?.heroSubheading ||
@@ -21,6 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function FanPhotoLayout({ children }: { children: React.ReactNode }) {
+export default function FanPhotoLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return children;
 }

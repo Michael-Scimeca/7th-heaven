@@ -24,12 +24,15 @@ const getSanityWriteClient = () => {
 };
 
 // Geocode a city + state to lat/lng using free nominatim API
-async function geocodeCity(city: string, state: string): Promise<{ lat: number; lng: number } | null> {
+async function geocodeCity(
+  city: string,
+  state: string,
+): Promise<{ lat: number; lng: number } | null> {
   try {
     const query = encodeURIComponent(`${city}, ${state}, USA`);
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
-      { headers: { "User-Agent": "7thHeavenBand/1.0" } }
+      { headers: { "User-Agent": "7thHeavenBand/1.0" } },
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -48,13 +51,13 @@ export async function POST() {
     const { createClient } = await import("@supabase/supabase-js");
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
     // 1. Fetch current Sanity tour dates to seed our geocoding cache
     console.log("Seeding geocoding cache from Sanity...");
     const existingTours = await sanity.fetch(
-      `*[_type == "tourDate"] { _id, city, state, lat, lng }`
+      `*[_type == "tourDate"] { _id, city, state, lat, lng }`,
     );
 
     const geoCache: Record<string, { lat: number; lng: number }> = {};
@@ -75,7 +78,9 @@ export async function POST() {
       scrapeRes = await fetch("https://7thheavenband.com/tour.html");
     }
     if (!scrapeRes.ok) {
-      throw new Error(`Failed to fetch legacy tour dates page: ${scrapeRes.status}`);
+      throw new Error(
+        `Failed to fetch legacy tour dates page: ${scrapeRes.status}`,
+      );
     }
     const html = await scrapeRes.text();
     const $ = cheerio.load(html);
@@ -93,10 +98,26 @@ export async function POST() {
       const day = $(tds[0]).text().trim();
       const dateStr = $(tds[1]).text().trim();
       const venue = $(tds[2]).text().trim();
-      const city = $(tds[3]).text().trim().replace(/&nbsp;/g, "").trim();
-      const state = $(tds[4]).text().trim().replace(/&nbsp;/g, "").trim();
-      const time = $(tds[5]).text().trim().replace(/&nbsp;/g, "").trim();
-      const info = $(tds[6]).text().trim().replace(/&nbsp;/g, "").trim();
+      const city = $(tds[3])
+        .text()
+        .trim()
+        .replace(/&nbsp;/g, "")
+        .trim();
+      const state = $(tds[4])
+        .text()
+        .trim()
+        .replace(/&nbsp;/g, "")
+        .trim();
+      const time = $(tds[5])
+        .text()
+        .trim()
+        .replace(/&nbsp;/g, "")
+        .trim();
+      const info = $(tds[6])
+        .text()
+        .trim()
+        .replace(/&nbsp;/g, "")
+        .trim();
 
       const mapAnchor = $(tds[7]).find("a");
       const directionsLink = mapAnchor.attr("href") || "";
@@ -200,7 +221,7 @@ export async function POST() {
             isFestival,
             lat: show.lat,
             lng: show.lng,
-          })
+          }),
         );
         sanityUpdatedCount++;
       } else {
@@ -225,7 +246,9 @@ export async function POST() {
     });
 
     await tx.commit();
-    console.log(`Sanity updated: patched ${sanityUpdatedCount} and created ${sanityCreatedCount} docs.`);
+    console.log(
+      `Sanity updated: patched ${sanityUpdatedCount} and created ${sanityCreatedCount} docs.`,
+    );
 
     // 5. Update Supabase database in a single bulk upsert
     console.log("Updating Supabase database...");
@@ -260,7 +283,10 @@ export async function POST() {
     });
   } catch (e: any) {
     console.error("Sync error:", e);
-    return NextResponse.json({ success: false, error: String(e.message || e) }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: String(e.message || e) },
+      { status: 500 },
+    );
   }
 }
 
@@ -270,7 +296,7 @@ export async function GET() {
     const { createClient } = await import("@supabase/supabase-js");
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
     const { data: shows, error } = await supabase
@@ -278,7 +304,8 @@ export async function GET() {
       .select("id, venue_name, city, state, date, latitude, longitude, status")
       .order("date", { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ shows, count: shows?.length ?? 0 });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

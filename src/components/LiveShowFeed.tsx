@@ -1,8 +1,12 @@
 "use client";
-import Image from 'next/image';
+import Image from "next/image";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { supabase, isSupabaseConfigured, type FeedPostDB } from "@/lib/supabase-client";
+import {
+  supabase,
+  isSupabaseConfigured,
+  type FeedPostDB,
+} from "@/lib/supabase-client";
 
 // ─── Mock live show media for demo ───
 const mockLiveMedia: FeedPostDB[] = [
@@ -11,7 +15,8 @@ const mockLiveMedia: FeedPostDB[] = [
     member_name: "Michael Scimeca",
     member_role: "Photo/Video Crew",
     member_avatar: "MS",
-    content: "🔴 LIVE from the stage — the guys are absolutely crushing it tonight!",
+    content:
+      "🔴 LIVE from the stage — the guys are absolutely crushing it tonight!",
     post_type: "video",
     video_url: "https://www.youtube.com/watch?v=BzHUNTZ66zY",
     reactions: { "🔥": 142, "🤘": 97, "❤️": 63 },
@@ -47,7 +52,8 @@ const mockLiveMedia: FeedPostDB[] = [
     member_name: "Adam Heisler",
     member_role: "Lead Vocals",
     member_avatar: "AH",
-    content: "Tonight's setlist is going to be something special. We've got surprises 🎵",
+    content:
+      "Tonight's setlist is going to be something special. We've got surprises 🎵",
     post_type: "setlist",
     reactions: { "🎵": 67, "🔥": 41 },
     is_live: true,
@@ -146,7 +152,7 @@ export default function LiveShowFeed() {
               });
             }, 4000);
           }
-        }
+        },
       )
       .subscribe();
 
@@ -156,15 +162,20 @@ export default function LiveShowFeed() {
   }, [fetchPosts]);
 
   const mediaPosts = posts.filter((p) => p.image_url || p.video_url);
-  const videoId = selectedMedia?.video_url ? extractYouTubeId(selectedMedia.video_url) : null;
+  const videoId = selectedMedia?.video_url
+    ? extractYouTubeId(selectedMedia.video_url)
+    : null;
 
   if (isLoading) {
     return (
       <div className="w-full">
-        <div className="aspect-video bg-white/[0.03] animate-pulse border border-white/[0.06]" />
-        <div className="grid grid-cols-4 gap-2 mt-2">
+        <div className="aspect-video animate-pulse border border-white/[0.06] bg-white/[0.03]" />
+        <div className="mt-2 grid grid-cols-4 gap-2">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="aspect-square bg-white/[0.03] animate-pulse border border-white/[0.06]" />
+            <div
+              key={i}
+              className="aspect-square animate-pulse border border-white/[0.06] bg-white/[0.03]"
+            />
           ))}
         </div>
       </div>
@@ -174,21 +185,19 @@ export default function LiveShowFeed() {
   return (
     <div className="w-full" ref={feedRef}>
       {/* LIVE Banner */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-red-500/20 border border-red-500/40 px-3 py-1.5">
+          <div className="flex items-center gap-2 border border-red-500/40 bg-red-500/20 px-3 py-1.5">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-lg bg-red-500 opacity-75" />
-              <span className="relative inline-flex rounded-lg h-2 w-2 bg-red-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-lg bg-red-500" />
             </span>
             <span className="text-red-400">Live</span>
           </div>
-          <span className="text-white/30">
-            From the Show
-          </span>
+          <span className="text-white/30">From the Show</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-red-500 rounded-lg animate-pulse" />
+          <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-red-500" />
           <span className="text-white/30 tabular-nums">
             {viewerCount.toLocaleString()} watching
           </span>
@@ -196,42 +205,46 @@ export default function LiveShowFeed() {
       </div>
 
       {/* Main Media Player */}
-      <div className="relative group">
+      <div className="group relative">
         {videoId ? (
-          <div className="relative aspect-video border border-white/10 overflow-hidden">
+          <div className="relative aspect-video overflow-hidden border border-white/10">
             <iframe
               title="7th Heaven Live Show Video"
               src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`}
-              className="absolute inset-0 w-full h-full"
+              className="absolute inset-0 h-full w-full"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               sandbox="allow-scripts allow-presentation allow-popups allow-forms"
               allowFullScreen
             />
           </div>
         ) : selectedMedia?.image_url ? (
-          <div className="relative aspect-video border border-white/10 overflow-hidden">
-            <Image width={200} height={200} unoptimized
+          <div className="relative aspect-video overflow-hidden border border-white/10">
+            <Image
+              width={200}
+              height={200}
+              unoptimized
               src={selectedMedia.image_url}
               alt={selectedMedia.content}
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             {/* Caption overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <div
-                  className="w-7 h-7 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)] bg-[var(--color-accent)]/15">
+            <div className="absolute right-0 bottom-0 left-0 p-5">
+              <div className="mb-2 flex items-center gap-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--font-size-2xs)]">
                   {selectedMedia.member_avatar}
                 </div>
-                <span className="   ">{selectedMedia.member_name}</span>
-                <span className="text-white/30">{timeAgo(selectedMedia.created_at)}</span>
+                <span className=" ">{selectedMedia.member_name}</span>
+                <span className="text-white/30">
+                  {timeAgo(selectedMedia.created_at)}
+                </span>
               </div>
               <p>{selectedMedia.content}</p>
             </div>
           </div>
         ) : (
-          <div className="aspect-video bg-white/[0.03] border border-white/10 flex items-center justify-center">
+          <div className="flex aspect-video items-center justify-center border border-white/10 bg-white/[0.03]">
             <p>No live media yet — check back soon</p>
           </div>
         )}
@@ -239,7 +252,7 @@ export default function LiveShowFeed() {
 
       {/* Media Thumbnails Grid */}
       {mediaPosts.length > 1 && (
-        <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5 mt-2">
+        <div className="mt-2 grid grid-cols-4 gap-1.5 sm:grid-cols-5">
           {mediaPosts.slice(0, 10).map((post) => {
             const isActive = selectedMedia?.id === post.id;
             const isNew = newIds.has(post.id);
@@ -252,32 +265,49 @@ export default function LiveShowFeed() {
               <button
                 key={post.id}
                 onClick={() => setSelectedMedia(post)}
-                className={`relative aspect-square overflow-hidden border transition-colors duration-300 cursor-pointer group ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : isNew ? "border-red-500/50" : "border-white/[0.06] border-white/10 "}`}
-                style={isNew ? { animation: "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards" } : undefined}>
+                className={`group relative aspect-square cursor-pointer overflow-hidden border transition-colors duration-300 ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : isNew ? "border-red-500/50" : "border-white/10 border-white/[0.06]"}`}
+                style={
+                  isNew
+                    ? {
+                        animation:
+                          "slideInFeed 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                      }
+                    : undefined
+                }
+              >
                 {thumbSrc && (
-                  <Image width={200} height={200} unoptimized
+                  <Image
+                    width={200}
+                    height={200}
+                    unoptimized
                     src={thumbSrc}
                     alt="7th Heaven Media"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 )}
                 {/* Video indicator */}
                 {isVideo && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="opacity-80">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="white"
+                      className="opacity-80"
+                    >
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>
                 )}
                 {/* Type badge */}
                 <div className="absolute top-1 left-1">
-                  <span className="text-[var(--font-size-2xs)] bg-black/60 text-white/70 px-1.5 py-0.5">
+                  <span className="bg-black/60 px-1.5 py-0.5 text-[var(--font-size-2xs)] text-white/70">
                     {isVideo ? "🎬" : "📸"} {timeAgo(post.created_at)}
                   </span>
                 </div>
                 {/* New indicator */}
                 {isNew && (
-                  <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-lg animate-pulse" />
+                  <div className="absolute top-1 right-1 h-2 w-2 animate-pulse rounded-lg bg-red-500" />
                 )}
               </button>
             );
@@ -294,31 +324,33 @@ export default function LiveShowFeed() {
             .map((post) => (
               <div
                 key={post.id}
-                className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] transition-colors hover:bg-white/[0.04]">
-                <div
-                  className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center text-[var(--font-size-2xs)] border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10">
+                className="flex items-start gap-3 border border-white/[0.06] bg-white/[0.02] p-3 transition-colors hover:bg-white/[0.04]"
+              >
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-[var(--font-size-2xs)]">
                   {post.member_avatar}
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="  text-white/70">{post.member_name}</span>
-                    <span className="text-white/20">{timeAgo(post.created_at)}</span>
+                    <span className="text-white/70">{post.member_name}</span>
+                    <span className="text-white/20">
+                      {timeAgo(post.created_at)}
+                    </span>
                   </div>
                   <p className="truncate">{post.content}</p>
                 </div>
-                <div className="flex items-center gap-1.5 shrink-0">
-                  {Object.entries(post.reactions).slice(0, 2).map(([emoji, count]) => (
-                    <span key={emoji} className="text-white/30">
-                      {emoji} {count as number}
-                    </span>
-                  ))}
+                <div className="flex shrink-0 items-center gap-1.5">
+                  {Object.entries(post.reactions)
+                    .slice(0, 2)
+                    .map(([emoji, count]) => (
+                      <span key={emoji} className="text-white/30">
+                        {emoji} {count as number}
+                      </span>
+                    ))}
                 </div>
               </div>
             ))}
         </div>
       )}
-
-
     </div>
   );
 }

@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "@/lib/api-utils";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-key";
 const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
@@ -36,17 +37,21 @@ export async function GET() {
 
     if (milestonesRow?.value) {
       try {
-        const parsed = typeof milestonesRow.value === "string"
-          ? JSON.parse(milestonesRow.value)
-          : milestonesRow.value;
-        if (Array.isArray(parsed) && parsed.length> 0) milestones = parsed;
+        const parsed =
+          typeof milestonesRow.value === "string"
+            ? JSON.parse(milestonesRow.value)
+            : milestonesRow.value;
+        if (Array.isArray(parsed) && parsed.length > 0) milestones = parsed;
       } catch {}
     }
 
     return NextResponse.json({ enabled, milestones });
   } catch (err) {
     console.error("[referral-config] GET error:", err);
-    return NextResponse.json({ enabled: false, milestones: [] }, { status: 500 });
+    return NextResponse.json(
+      { enabled: false, milestones: [] },
+      { status: 500 },
+    );
   }
 }
 
@@ -66,8 +71,12 @@ export async function POST(request: Request) {
       await supabaseAdmin
         .from("site_settings")
         .upsert(
-          { key: "referral_program_enabled", value: String(body.enabled), updated_at: new Date().toISOString() },
-          { onConflict: "key" }
+          {
+            key: "referral_program_enabled",
+            value: String(body.enabled),
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "key" },
         );
     }
 
@@ -76,8 +85,12 @@ export async function POST(request: Request) {
       await supabaseAdmin
         .from("site_settings")
         .upsert(
-          { key: "referral_milestones", value: JSON.stringify(body.milestones), updated_at: new Date().toISOString() },
-          { onConflict: "key" }
+          {
+            key: "referral_milestones",
+            value: JSON.stringify(body.milestones),
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "key" },
         );
     }
 

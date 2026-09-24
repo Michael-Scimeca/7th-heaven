@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
-import { DEFAULT_THEME_TOKENS, parseAndValidateThemeJson, flattenThemeTokens, ThemeTokens } from "@/lib/theme-tokens";
+import {
+  DEFAULT_THEME_TOKENS,
+  parseAndValidateThemeJson,
+  flattenThemeTokens,
+  ThemeTokens,
+} from "@/lib/theme-tokens";
 
 const THEME_FILE_PATH = path.join(process.cwd(), "src/data/theme.json");
 const GLOBALS_CSS_PATH = path.join(process.cwd(), "src/app/globals.css");
@@ -13,8 +18,8 @@ async function syncTokensToGlobalsCss(tokens: ThemeTokens): Promise<void> {
 
     Object.entries(flat).forEach(([varName, val]) => {
       // Escape regex special characters in variable name
-      const escaped = varName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-      const regex = new RegExp(`(${escaped}\\s*:\\s*)[^;]+(;)` , "g");
+      const escaped = varName.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+      const regex = new RegExp(`(${escaped}\\s*:\\s*)[^;]+(;)`, "g");
       css = css.replace(regex, `$1${val}$2`);
     });
 
@@ -59,7 +64,7 @@ export async function POST(req: Request) {
     if (!tokens || typeof tokens !== "object") {
       return NextResponse.json(
         { success: false, error: "Invalid tokens payload" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -67,7 +72,7 @@ export async function POST(req: Request) {
     if (!validated) {
       return NextResponse.json(
         { success: false, error: "Failed to validate theme tokens structure" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -75,7 +80,7 @@ export async function POST(req: Request) {
     if (!saved) {
       return NextResponse.json(
         { success: false, error: "Disk write failed" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -84,7 +89,7 @@ export async function POST(req: Request) {
     console.error("POST /api/admin/theme error:", error);
     return NextResponse.json(
       { success: false, error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -94,7 +99,7 @@ export async function DELETE() {
   if (!reset) {
     return NextResponse.json(
       { success: false, error: "Failed to reset theme.json" },
-      { status: 500 }
+      { status: 500 },
     );
   }
   return NextResponse.json({ success: true, tokens: DEFAULT_THEME_TOKENS });

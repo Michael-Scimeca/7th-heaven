@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { applyRateLimit, getClientIp, sanitizeText, isSpam } from "@/lib/api-utils";
+import {
+  applyRateLimit,
+  getClientIp,
+  sanitizeText,
+  isSpam,
+} from "@/lib/api-utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 // POST /api/fans/memories
@@ -14,22 +19,38 @@ export async function POST(req: Request) {
   if (rateLimited) return rateLimited;
 
   let body: Record<string, unknown>;
-  try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid request' }, { status: 400 }); }
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
 
   if (isSpam(body)) return NextResponse.json({ ok: true }); // silent drop
 
   const show_id = sanitizeText(body.show_id as string, 100);
   const memory_text = sanitizeText(body.memory_text as string, 280);
   const display_name = sanitizeText(body.display_name as string, 100);
-  const photo_url = typeof body.photo_url === 'string' && body.photo_url.startsWith('https://') ? body.photo_url : null;
+  const photo_url =
+    typeof body.photo_url === "string" && body.photo_url.startsWith("https://")
+      ? body.photo_url
+      : null;
 
   if (!show_id || !memory_text || memory_text.length < 3) {
-    return NextResponse.json({ error: "show_id and memory_text required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "show_id and memory_text required" },
+      { status: 400 },
+    );
   }
 
   const { data, error } = await supabase
     .from("show_memories")
-    .insert({ show_id, memory_text, display_name, photo_url: photo_url ?? null, approved: false })
+    .insert({
+      show_id,
+      memory_text,
+      display_name,
+      photo_url: photo_url ?? null,
+      approved: false,
+    })
     .select()
     .single();
 
@@ -50,7 +71,10 @@ export async function GET(req: Request) {
   const showId = searchParams.get("showId");
   const returnAll = searchParams.get("all") === "true";
 
-  let query = supabase.from("show_memories").select("*").order("created_at", { ascending: false });
+  let query = supabase
+    .from("show_memories")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   // Only return approved memories by default; admin can request all
   if (!returnAll) {
@@ -67,28 +91,37 @@ export async function GET(req: Request) {
 // PATCH /api/fans/memories — approve or reject a memory (admin moderation)
 export async function PATCH(req: Request) {
   let body: Record<string, unknown>;
-  try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid request' }, { status: 400 }); }
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
 
   const id = body.id as string;
   const action = body.action as string;
 
-  if (!id || !['approve', 'reject'].includes(action)) {
-    return NextResponse.json({ error: "id and action (approve|reject) required" }, { status: 400 });
+  if (!id || !["approve", "reject"].includes(action)) {
+    return NextResponse.json(
+      { error: "id and action (approve|reject) required" },
+      { status: 400 },
+    );
   }
 
-  if (action === 'approve') {
+  if (action === "approve") {
     const { error } = await supabase
       .from("show_memories")
       .update({ approved: true })
       .eq("id", id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
   } else {
     // reject = delete
     const { error } = await supabase
       .from("show_memories")
       .delete()
       .eq("id", id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });

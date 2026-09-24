@@ -14,7 +14,10 @@ export async function POST(req: Request) {
 
     const validGroups: NtfyGroup[] = ["fans", "crew", "cruise", "admins"];
     if (!validGroups.includes(group)) {
-      return NextResponse.json({ error: "Invalid group target" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid group target" },
+        { status: 400 },
+      );
     }
 
     const cleanTitle = sanitizeInput(title);
@@ -28,10 +31,16 @@ export async function POST(req: Request) {
     });
 
     // Also dispatch native Web Push to registered browser service workers
-    const webPushResult = await sendWebPushNotification(cleanTitle, cleanMessage);
+    const webPushResult = await sendWebPushNotification(
+      cleanTitle,
+      cleanMessage,
+    );
 
     return NextResponse.json({ ok: true, group, result, webPushResult });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to trigger test push" }, { status: 500 });
+    return NextResponse.json(
+      { error: err.message || "Failed to trigger test push" },
+      { status: 500 },
+    );
   }
 }

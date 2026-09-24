@@ -7,7 +7,7 @@ import { createClient } from "@supabase/supabase-js";
  */
 export const shopDb = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 export type ShopVariantRow = {
@@ -39,9 +39,9 @@ export type ShopProductWithVariants = ShopProductRow & {
 };
 
 /** Fetches all products with their variants, sorted for display. */
-export async function fetchProductsWithVariants(
-  opts: { activeOnly: boolean }
-): Promise<ShopProductWithVariants[]> {
+export async function fetchProductsWithVariants(opts: {
+  activeOnly: boolean;
+}): Promise<ShopProductWithVariants[]> {
   let productQuery = shopDb
     .from("north_shop_products")
     .select("*")
@@ -57,7 +57,10 @@ export async function fetchProductsWithVariants(
   let variantQuery = shopDb
     .from("north_shop_variants")
     .select("*")
-    .in("product_id", products.map((p) => p.id))
+    .in(
+      "product_id",
+      products.map((p) => p.id),
+    )
     .order("sort_order", { ascending: true });
   if (opts.activeOnly) {
     variantQuery = variantQuery.eq("active", true);

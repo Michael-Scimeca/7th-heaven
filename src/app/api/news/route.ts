@@ -6,14 +6,16 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const sanityNews = await sanityClient.fetch<Array<{
- _id: string;
- title: string;
- content: string;
- date?: string;
- category?: string;
- publishedAt?: string;
- }>>(`*[_type == "newsPost"] | order(publishedAt desc) {
+    const sanityNews = await sanityClient.fetch<
+      Array<{
+        _id: string;
+        title: string;
+        content: string;
+        date?: string;
+        category?: string;
+        publishedAt?: string;
+      }>
+    >(`*[_type == "newsPost"] | order(publishedAt desc) {
       _id,
       title,
       content,
@@ -24,7 +26,10 @@ export async function GET() {
 
     return NextResponse.json({ success: true, news: sanityNews || [] });
   } catch (error: any) {
-    return NextResponse.json({ success: false, news: [], error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, news: [], error: error.message },
+      { status: 500 },
+    );
   }
 }
 
@@ -34,16 +39,25 @@ export async function POST(req: Request) {
     const { title, content, date, category } = body;
 
     if (!title || !content) {
-      return NextResponse.json({ error: "Title and Content are required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Title and Content are required." },
+        { status: 400 },
+      );
     }
 
-    const slugStr = title
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "") || `news-${Date.now()}`;
+    const slugStr =
+      title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "") || `news-${Date.now()}`;
 
-    const displayDate = date?.trim() || new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    const displayDate =
+      date?.trim() ||
+      new Date().toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
 
     const newPostDoc = {
       _type: "newsPost",
@@ -77,6 +91,9 @@ export async function POST(req: Request) {
       },
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to save news post to Sanity." }, { status: 500 });
+    return NextResponse.json(
+      { error: err.message || "Failed to save news post to Sanity." },
+      { status: 500 },
+    );
   }
 }

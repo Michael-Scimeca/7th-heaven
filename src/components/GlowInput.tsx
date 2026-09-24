@@ -13,8 +13,7 @@ import InputField from "./InputField";
 import CustomDropdown from "./CustomDropdown";
 
 /* ─── GlowInput ─────────────────────────────────────────── */
-export interface GlowInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface GlowInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   wrapperClassName?: string;
   rounded?: string;
 }
@@ -27,25 +26,27 @@ export const GlowInput = forwardRef<HTMLInputElement, GlowInputProps>(
       className = "",
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <InputField
- ref={ref}
- glow={true}
- containerClassName={wrapperClassName}
- inputClassName={`${rounded} ${className}`}
- {...props}
- />
+        ref={ref}
+        glow={true}
+        containerClassName={wrapperClassName}
+        inputClassName={`${rounded} ${className}`}
+        {...props}
+      />
     );
-  }
+  },
 );
 
 GlowInput.displayName = "GlowInput";
 
 /* ─── GlowSelect ─────────────────────────────────────────── */
-export interface GlowSelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "onChange"> {
+export interface GlowSelectProps extends Omit<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  "onChange"
+> {
   wrapperClassName?: string;
   rounded?: string;
   placeholder?: string;
@@ -98,8 +99,7 @@ export function GlowSelect({
 }
 
 /* ─── GlowTextarea ───────────────────────────────────────── */
-export interface GlowTextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface GlowTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   wrapperClassName?: string;
   rounded?: string;
 }

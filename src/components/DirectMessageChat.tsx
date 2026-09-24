@@ -28,12 +28,16 @@ export default function DirectMessageChat() {
   // Fetch messages from localStorage
   const loadMessages = useCallback(() => {
     if (typeof window === "undefined" || !userId) return;
-    const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
+    const dms: DMMessage[] = JSON.parse(
+      localStorage.getItem("7h_dms_v1") ||
+        localStorage.getItem("7h_dms") ||
+        "[]",
+    );
     // Filter messages between this user and admin
     const relevant = dms.filter(
       (m) =>
         (m.sender === "admin" && m.recipientId === userId) ||
-        (m.sender === "user" && m.recipientId === userId)
+        (m.sender === "user" && m.recipientId === userId),
     );
     setMessages(relevant);
   }, [userId]);
@@ -68,7 +72,11 @@ export default function DirectMessageChat() {
   // Mark all admin messages as read when opening the drawer
   useEffect(() => {
     if (open && messages.length > 0 && typeof window !== "undefined") {
-      const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
+      const dms: DMMessage[] = JSON.parse(
+        localStorage.getItem("7h_dms_v1") ||
+          localStorage.getItem("7h_dms") ||
+          "[]",
+      );
       let changed = false;
       const updated = dms.map((m) => {
         if (m.recipientId === userId && m.sender === "admin" && !m.read) {
@@ -88,7 +96,9 @@ export default function DirectMessageChat() {
   if (!isLoggedIn || isAdmin || !userId) return null;
 
   // Count unread DMs from Admin
-  const unreadCount = messages.filter((m) => m.sender === "admin" && !m.read).length;
+  const unreadCount = messages.filter(
+    (m) => m.sender === "admin" && !m.read,
+  ).length;
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,7 +115,11 @@ export default function DirectMessageChat() {
     };
 
     if (typeof window !== "undefined") {
-      const dms: DMMessage[] = JSON.parse(localStorage.getItem("7h_dms_v1") || localStorage.getItem("7h_dms") || "[]");
+      const dms: DMMessage[] = JSON.parse(
+        localStorage.getItem("7h_dms_v1") ||
+          localStorage.getItem("7h_dms") ||
+          "[]",
+      );
       const updated = [...dms, newMsg];
       localStorage.setItem("7h_dms_v1", JSON.stringify(updated));
       window.dispatchEvent(new Event("7h_dm_update"));
@@ -115,20 +129,44 @@ export default function DirectMessageChat() {
   };
 
   return (
-    <div className="fixed bottom-20 right-6 z-[9999] select-none">
+    <div className="fixed right-6 bottom-20 z-[9999] select-none">
       {/* Floating Chat Bubble Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="relative w-12 h-12 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] transition-colors flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(255,10,61,0.5)] border border-white/10 group">
+        className="group relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[var(--color-accent)] shadow-[0_4px_20px_rgba(255,10,61,0.5)] transition-colors hover:bg-[var(--color-accent-hover)]"
+      >
         {open ? (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         ) : (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
         )}
 
         {/* Pulse unread count badge */}
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-600 w-5 h-5 rounded-lg flex items-center justify-center border-2 border-[#050505]">
+          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-lg border-2 border-[#050505] bg-red-600">
             {unreadCount}
           </span>
         )}
@@ -136,23 +174,25 @@ export default function DirectMessageChat() {
 
       {/* Floating Chat Box Panel */}
       {open && (
-        <div className="absolute bottom-16 right-0 w-[300px] h-[380px] bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col animate-[fadeIn_0.25s_ease-out]">
+        <div className="absolute right-0 bottom-16 flex h-[380px] w-[300px] animate-[fadeIn_0.25s_ease-out] flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/95 shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-xl">
           {/* Header */}
-          <div className="p-3.5 bg-white/[0.02] border-b border-white/10 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-lg bg-emerald-500 animate-pulse" />
+          <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.02] p-3.5">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-emerald-500" />
             <div className="flex flex-col text-left">
               <span className="text-[var(--color-accent)]">Direct Message</span>
-              <span >Admin Support Chat</span>
+              <span>Admin Support Chat</span>
             </div>
           </div>
 
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto p-3.5 space-y-3.5 custom-scrollbar min-h-0">
+          <div className="custom-scrollbar min-h-0 flex-1 space-y-3.5 overflow-y-auto p-3.5">
             {messages.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-4">
-                <span className="text-2xl mb-1.5 opacity-25">💬</span>
+              <div className="flex h-full flex-col items-center justify-center p-4 text-center">
+                <span className="mb-1.5 text-2xl opacity-25">💬</span>
                 <p className="r">No messages yet</p>
-                <p className="max-w-[180px]">Ask admin any questions or wait for their direct support ping.</p>
+                <p className="max-w-[180px]">
+                  Ask admin any questions or wait for their direct support ping.
+                </p>
               </div>
             ) : (
               messages.map((msg) => {
@@ -160,16 +200,22 @@ export default function DirectMessageChat() {
                 return (
                   <div
                     key={msg.id}
-                    className={`flex flex-col max-w-[85%] ${isAdminMsg ? "mr-auto text-left" : "ml-auto text-right"}`}>
+                    className={`flex max-w-[85%] flex-col ${isAdminMsg ? "mr-auto text-left" : "ml-auto text-right"}`}
+                  >
                     {/* Sender tag */}
-                    <div className={`flex items-center gap-1 mb-1 ${isAdminMsg ? '' : 'justify-end'}`}>
-                      <span className={`text-[8px] px-1 py-0.5 rounded border ${isAdminMsg ? 'text-[var(--color-purple-light)] bg-[var(--color-purple-glow)] border-[var(--color-border-purple)]' : 'text-sky-400 bg-sky-500/20 border-sky-500/35'}`}>
-                        {isAdminMsg ? 'ADMIN' : 'YOU'}
+                    <div
+                      className={`mb-1 flex items-center gap-1 ${isAdminMsg ? "" : "justify-end"}`}
+                    >
+                      <span
+                        className={`rounded border px-1 py-0.5 text-[8px] ${isAdminMsg ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-sky-500/35 bg-sky-500/20 text-sky-400"}`}
+                      >
+                        {isAdminMsg ? "ADMIN" : "YOU"}
                       </span>
                     </div>
                     {/* Text bubble */}
                     <div
-                      className={`p-2.5 ! ${isAdminMsg ? "bg-[var(--color-purple-primary)] rounded-tl-xs" : "bg-cyan-500 border border-purple-400/50 rounded-tr-xs"}`}>
+                      className={`! p-2.5 ${isAdminMsg ? "rounded-tl-xs bg-[var(--color-purple-primary)]" : "rounded-tr-xs border border-purple-400/50 bg-cyan-500"}`}
+                    >
                       {msg.text}
                     </div>
                     {/* Timestamp */}

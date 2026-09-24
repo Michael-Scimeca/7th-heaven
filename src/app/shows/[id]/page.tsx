@@ -8,7 +8,7 @@ export const revalidate = 60;
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 export async function generateStaticParams() {
@@ -16,11 +16,22 @@ export async function generateStaticParams() {
   return (shows || []).map((show) => ({ id: String(show.id) }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
   const { id } = await params;
-  const { data: show } = await supabase.from("shows").select("venue_name, city, state, date").eq("id", id).single();
+  const { data: show } = await supabase
+    .from("shows")
+    .select("venue_name, city, state, date")
+    .eq("id", id)
+    .single();
   if (!show) return { title: "Show — 7th Heaven" };
-  const dateStr = new Date(show.date + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const dateStr = new Date(show.date + "T12:00:00").toLocaleDateString(
+    "en-US",
+    { weekday: "long", month: "long", day: "numeric", year: "numeric" },
+  );
   return {
     title: `${show.venue_name} — 7th Heaven`,
     description: `7th Heaven live at ${show.venue_name} in ${show.city}, ${show.state} on ${dateStr}. See who's going and RSVP!`,
@@ -34,7 +45,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 // boundary (or a "use cache" function) -- these two queries are per-show
 // and change on writes (RSVPs/check-ins), so they stay live reads rather
 // than becoming cached.
-async function ShowPageContent({ params }: { params: Promise<{ id: string }> }) {
+async function ShowPageContent({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   // Fetch show details
@@ -49,7 +64,8 @@ async function ShowPageContent({ params }: { params: Promise<{ id: string }> }) 
   // Fetch attendees
   const { data: attendees } = await supabase
     .from("show_attendance")
-    .select(`
+    .select(
+      `
       id,
       status,
       anonymous,
@@ -60,22 +76,29 @@ async function ShowPageContent({ params }: { params: Promise<{ id: string }> }) 
         profile_photo_url,
         tier
       )
-    `)
+    `,
+    )
     .eq("show_id", id)
     .order("created_at", { ascending: false });
 
-  return <ShowPageClient show={show} initialAttendees={(attendees || []) as any} />;
+  return (
+    <ShowPageClient show={show} initialAttendees={(attendees || []) as any} />
+  );
 }
 
 function ShowPageFallback() {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
+    <div className="flex min-h-[60vh] items-center justify-center">
       <div className="animate-pulse text-sm text-white/50">Loading show…</div>
     </div>
   );
 }
 
-export default function ShowPage({ params }: { params: Promise<{ id: string }> }) {
+export default function ShowPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   return (
     <Suspense fallback={<ShowPageFallback />}>
       <ShowPageContent params={params} />

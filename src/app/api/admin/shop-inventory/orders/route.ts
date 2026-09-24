@@ -19,12 +19,18 @@ export async function GET(req: NextRequest) {
       .limit(100);
 
     if (error) {
-      return NextResponse.json({ error: "Failed to load orders." }, { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to load orders." },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json(data || []);
   } catch (err) {
     console.error("[admin/shop-inventory/orders] GET error:", err);
-    return NextResponse.json({ error: "Failed to load orders." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to load orders." },
+      { status: 500 },
+    );
   }
 }

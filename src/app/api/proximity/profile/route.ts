@@ -6,8 +6,11 @@ export async function POST(req: NextRequest) {
   try {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { zip, notificationRadius, notificationsEnabled } = await req.json();
 
@@ -30,14 +33,20 @@ export async function POST(req: NextRequest) {
 
     const updates: Record<string, unknown> = {};
     if (zip !== undefined) updates.zip = zip;
-    if (notificationRadius !== undefined) updates.notification_radius = notificationRadius;
-    if (notificationsEnabled !== undefined) updates.notifications_enabled = notificationsEnabled;
+    if (notificationRadius !== undefined)
+      updates.notification_radius = notificationRadius;
+    if (notificationsEnabled !== undefined)
+      updates.notifications_enabled = notificationsEnabled;
     if (lat !== null) updates.latitude = lat;
     if (lng !== null) updates.longitude = lng;
     updates.updated_at = new Date().toISOString();
 
-    const { error } = await supabase.from("profiles").update(updates).eq("id", user.id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    const { error } = await supabase
+      .from("profiles")
+      .update(updates)
+      .eq("id", user.id);
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
 
     return NextResponse.json({ success: true, lat, lng });
   } catch (e) {

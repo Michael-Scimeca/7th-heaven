@@ -1,15 +1,15 @@
-import { NextResponse } from 'next/server';
-import crypto from 'crypto';
-import { verifyPin } from '@/lib/pins';
-import { sendEmail } from '@/lib/email';
-import { createClient } from '@supabase/supabase-js';
+import { NextResponse } from "next/server";
+import crypto from "crypto";
+import { verifyPin } from "@/lib/pins";
+import { sendEmail } from "@/lib/email";
+import { createClient } from "@supabase/supabase-js";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 const supabase: any = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { autoRefreshToken: false, persistSession: false } }
+  { auth: { autoRefreshToken: false, persistSession: false } },
 );
 
 export async function POST(req: Request) {
@@ -17,7 +17,10 @@ export async function POST(req: Request) {
     const { email, pin } = await req.json();
 
     if (!email || !pin) {
-      return NextResponse.json({ error: 'Email and PIN are required.' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email and PIN are required." },
+        { status: 400 },
+      );
     }
 
     const cleanEmail = email.toLowerCase().trim();
@@ -25,62 +28,77 @@ export async function POST(req: Request) {
     // 1. Verify the PIN
     const isValid = verifyPin(cleanEmail, pin);
     if (!isValid) {
-      return NextResponse.json({ error: 'Invalid or expired verification code.' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid or expired verification code." },
+        { status: 400 },
+      );
     }
 
     // 2. Look up the cruise signup record to get the person's name + signup details
     const { data: signup } = await supabase
-      .from('cruise_signups')
-      .select('id, name, guest_count, cancel_token')
-      .eq('email', cleanEmail)
-      .order('created_at', { ascending: false })
+      .from("cruise_signups")
+      .select("id, name, guest_count, cancel_token")
+      .eq("email", cleanEmail)
+      .order("created_at", { ascending: false })
       .limit(1)
       .single();
 
-    const name = signup?.name || 'Cruise Passenger';
+    const name = signup?.name || "Cruise Passenger";
 
     // 3. Create or update Supabase auth user as a cruise member
     // Try to create a new user first; if they already exist, update their profile
     const { data: existingUsers } = await supabase.auth.admin.listUsers();
-    const existingUser = existingUsers?.users?.find((u: any) => u.email === cleanEmail);
+    const existingUser = existingUsers?.users?.find(
+      (u: any) => u.email === cleanEmail,
+    );
 
     let userId: string | null = null;
 
     if (existingUser) {
       userId = existingUser.id;
       // Update their role to include cruise access
-      await supabase.from('profiles').update({
-        cruise_signup_id: signup?.id,
-        signup_source: 'cruise_verified',
-        updated_at: new Date().toISOString(),
-      }).eq('id', userId);
+      await supabase
+        .from("profiles")
+        .update({
+          cruise_signup_id: signup?.id,
+          signup_source: "cruise_verified",
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", userId);
     } else {
       // Create a new auto-confirmed user (no password — they'll use magic link / Sign In)
-      const tempPassword = crypto.randomBytes(12).toString('hex') + '!7A';
-      const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
-        email: cleanEmail,
-        password: tempPassword,
-        email_confirm: true,
-        user_metadata: {
-          full_name: name,
-          role: 'cruise',
-          cruise_signup_id: signup?.id,
-          source: 'cruise_verified',
-        },
-      });
+      const tempPassword = crypto.randomBytes(12).toString("hex") + "!7A";
+      const { data: newUser, error: createError } =
+        await supabase.auth.admin.createUser({
+          email: cleanEmail,
+          password: tempPassword,
+          email_confirm: true,
+          user_metadata: {
+            full_name: name,
+            role: "cruise",
+            cruise_signup_id: signup?.id,
+            source: "cruise_verified",
+          },
+        });
       if (createError) {
-        console.error('Failed to create cruise member account:', createError.message);
+        console.error(
+          "Failed to create cruise member account:",
+          createError.message,
+        );
         // Non-fatal — still send confirmation email
       } else {
         userId = newUser.user.id;
         // Update profile record with cruise role
         if (userId) {
-          await supabase.from('profiles').update({
-            role: 'cruise',
-            cruise_signup_id: signup?.id,
-            signup_source: 'cruise_verified',
-            updated_at: new Date().toISOString(),
-          }).eq('id', userId);
+          await supabase
+            .from("profiles")
+            .update({
+              role: "cruise",
+              cruise_signup_id: signup?.id,
+              signup_source: "cruise_verified",
+              updated_at: new Date().toISOString(),
+            })
+            .eq("id", userId);
         }
       }
     }
@@ -89,7 +107,7 @@ export async function POST(req: Request) {
     let magicRedirectUrl: string | null = null;
     try {
       const { data: linkData } = await supabase.auth.admin.generateLink({
-        type: 'magiclink',
+        type: "magiclink",
         email: cleanEmail,
         options: {
           redirectTo: `${SITE_URL}/cruise/dashboard`,
@@ -97,7 +115,7 @@ export async function POST(req: Request) {
       });
       magicRedirectUrl = (linkData as any)?.properties?.action_link ?? null;
     } catch (linkErr) {
-      console.error('Magic link generation failed (non-fatal):', linkErr);
+      console.error("Magic link generation failed (non-fatal):", linkErr);
     }
 
     // 4. Send the cruise confirmation email ("You're on the List!")
@@ -145,13 +163,16 @@ export async function POST(req: Request) {
 
     await sendEmail({
       to: cleanEmail,
-      subject: '🚢 You\'re Confirmed — Welcome to the 7th Heaven Cruise Hub!',
+      subject: "🚢 You're Confirmed — Welcome to the 7th Heaven Cruise Hub!",
       html: confirmHtml,
     });
 
     return NextResponse.json({ success: true, redirectUrl: magicRedirectUrl });
   } catch (err: any) {
-    console.error('Cruise verify-pin error:', err);
-    return NextResponse.json({ error: 'Verification failed. Please try again.' }, { status: 500 });
+    console.error("Cruise verify-pin error:", err);
+    return NextResponse.json(
+      { error: "Verification failed. Please try again." },
+      { status: 500 },
+    );
   }
 }

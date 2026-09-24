@@ -11,8 +11,10 @@ import { getMediaUrl } from "@/lib/sanity";
 
 const ABOUT_DATA = {
   headline: "7th Heaven & the Rock 'n' Roll Kids",
-  paragraph1: "7th heaven & the Rock 'n' Roll Kids is based on the band 7th heaven, which is globally known as a pop Rock Band. The animated series communicates messages of fun, positivity and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, an adventure and a resolution.",
-  paragraph2: "We have been working with a team of skilled people that are helping us build a new animated series based on 7th heaven. The show is based on the band as young kids, who bring positivity to other kids, which are called “The Rock and Roll Kids”. We are working to create this as an animated TV series and comic books, games, apps, videos and original music. In a world filled with so much negativity, we want to bring a breath of fresh air to kids and help influence them in a positive light thru rock and roll music.",
+  paragraph1:
+    "7th heaven & the Rock 'n' Roll Kids is based on the band 7th heaven, which is globally known as a pop Rock Band. The animated series communicates messages of fun, positivity and social consciousness through the connection of music and imagination. Each episode focuses on problem solving, an adventure and a resolution.",
+  paragraph2:
+    "We have been working with a team of skilled people that are helping us build a new animated series based on 7th heaven. The show is based on the band as young kids, who bring positivity to other kids, which are called “The Rock and Roll Kids”. We are working to create this as an animated TV series and comic books, games, apps, videos and original music. In a world filled with so much negativity, we want to bring a breath of fresh air to kids and help influence them in a positive light thru rock and roll music.",
   studios: [
     { name: "7th heaven Official", url: "http://www.7thheavenband.com" },
     { name: "RNR Studios", url: "http://www.RNRStudios.net" },
@@ -68,7 +70,8 @@ const ALL_PRODUCTS = [
     title: "Last In Line",
     subtitle: "7th heaven and the Rock'n'Roll Kids Last In Line",
     desc: "The kids face their biggest challenge yet in an epic concert arena battle of music, heart, and teamwork.",
-    amazonUrl: "https://www.amazon.com/gp/product/B08VYFJWYF?ref_=dbs_m_mng_rwt_calw_tpbk_4&storeType=ebooks",
+    amazonUrl:
+      "https://www.amazon.com/gp/product/B08VYFJWYF?ref_=dbs_m_mng_rwt_calw_tpbk_4&storeType=ebooks",
     coverImg: "/images/comics/719CbfCsqyL._SL1500_.jpg",
     badge: "Episode 5",
   },
@@ -78,7 +81,8 @@ const ALL_PRODUCTS = [
     title: "Operation Mind Crime",
     subtitle: "7th heaven and the Rock'n'Roll Kids Operation Mind Crime",
     desc: "Special illustrated black & white edition uncovering the mystery of XEC Records headquarters.",
-    amazonUrl: "https://www.amazon.com/gp/product/B09HG6KW8M?ref_=dbs_m_mng_rwt_calw_tpbk_5&storeType=ebooks",
+    amazonUrl:
+      "https://www.amazon.com/gp/product/B09HG6KW8M?ref_=dbs_m_mng_rwt_calw_tpbk_5&storeType=ebooks",
     coverImg: "/images/comics/81yWx2cHMjL._SL1500_.jpg",
     badge: "Episode 6",
   },
@@ -88,7 +92,8 @@ const ALL_PRODUCTS = [
     title: "Caught In The Game",
     subtitle: "7th heaven and the Rock'n'Roll Kids Caught In The Game",
     desc: "Trapped inside a virtual reality video game grid, the Rock 'N' Roll Kids use music chords to beat the game boss.",
-    amazonUrl: "https://www.amazon.com/gp/product/B0B1K859QC?ref_=dbs_m_mng_rwt_calw_tpbk_6&storeType=ebooks",
+    amazonUrl:
+      "https://www.amazon.com/gp/product/B0B1K859QC?ref_=dbs_m_mng_rwt_calw_tpbk_6&storeType=ebooks",
     coverImg: "/images/comics/61y6zQf1hCL._SL1500_.jpg",
     badge: "Episode 7",
   },
@@ -98,7 +103,8 @@ const ALL_PRODUCTS = [
     title: "Don't Speak",
     subtitle: "7th heaven and the Rock'n'Roll Kids Don't Speak",
     desc: "A silent spell falls over the city until the band powers up their amplifiers to restore music and speech.",
-    amazonUrl: "https://www.amazon.com/gp/product/B0BTRTCQ5W?ref_=dbs_m_mng_rwt_calw_tpbk_7&storeType=ebooks&qid=1681962352&sr=8-1",
+    amazonUrl:
+      "https://www.amazon.com/gp/product/B0BTRTCQ5W?ref_=dbs_m_mng_rwt_calw_tpbk_7&storeType=ebooks&qid=1681962352&sr=8-1",
     coverImg: "/images/comics/71mgiiwhIGL._SL1500_.jpg",
     badge: "Episode 8",
   },
@@ -108,7 +114,8 @@ const ALL_PRODUCTS = [
     title: "Bad Company",
     subtitle: "7th heaven and the Rock'n'Roll Kids Bad Company",
     desc: "Wild west desert showdown where the band brings rhythm, harmony, and friendship to outlaws.",
-    amazonUrl: "https://www.amazon.com/7th-heaven-RocknRoll-Kids-Company/dp/B0CGZ1P2ZJ/ref=sr_1_3?crid=NHCNKT022TUP&keywords=7th+heaven+rock+kids&qid=1705630559&s=digital-text&sprefix=7th+heaven+rock+kids%2Cdigital-text%2C83&sr=1-3-catcorr",
+    amazonUrl:
+      "https://www.amazon.com/7th-heaven-RocknRoll-Kids-Company/dp/B0CGZ1P2ZJ/ref=sr_1_3?crid=NHCNKT022TUP&keywords=7th+heaven+rock+kids&qid=1705630559&s=digital-text&sprefix=7th+heaven+rock+kids%2Cdigital-text%2C83&sr=1-3-catcorr",
     coverImg: "/images/comics/71njNs9hT2L._SL1500_.jpg",
     badge: "Episode 9",
   },
@@ -118,7 +125,8 @@ const ALL_PRODUCTS = [
     title: "Coloring Book",
     subtitle: "7th heaven and the Rock'n'Roll Kids Coloring Book",
     desc: "20+ pages of high-resolution line art featuring all 7th Heaven characters, concert stages, and comic scenes.",
-    amazonUrl: "https://www.amazon.com/heaven-RocknRoll-Kids-Coloring-Book/dp/1791341276/?_encoding=UTF8&pd_rd_w=y3LP8&content-id=amzn1.sym.cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_p=cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_r=135-6472012-0373844&pd_rd_wg=TnrXj&pd_rd_r=3a94a7b7-c821-4b82-85bb-e305d1283288&ref_=aufs_ap_sc_dsk",
+    amazonUrl:
+      "https://www.amazon.com/heaven-RocknRoll-Kids-Coloring-Book/dp/1791341276/?_encoding=UTF8&pd_rd_w=y3LP8&content-id=amzn1.sym.cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_p=cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_r=135-6472012-0373844&pd_rd_wg=TnrXj&pd_rd_r=3a94a7b7-c821-4b82-85bb-e305d1283288&ref_=aufs_ap_sc_dsk",
     coverImg: "/images/comics/51Q94xAzn7L.jpg",
     badge: "Coloring Book",
   },
@@ -128,7 +136,8 @@ const ALL_PRODUCTS = [
     title: "Art Book",
     subtitle: "7th heaven and the Rock'n'Roll Kids Art Book",
     desc: "Exclusive concept sketches, character designs, storyboards, and development artwork from RNR Studios.",
-    amazonUrl: "https://www.amazon.com/7th-Heaven-RocknRoll-Kids-Introduction/dp/1718876688/ref=sr_1_2?s=books&ie=UTF8&qid=1526169915&sr=1-2",
+    amazonUrl:
+      "https://www.amazon.com/7th-Heaven-RocknRoll-Kids-Introduction/dp/1718876688/ref=sr_1_2?s=books&ie=UTF8&qid=1526169915&sr=1-2",
     coverImg: "/images/comics/71d2WbDeBHL._SL1360_.jpg",
     badge: "Art Book",
   },
@@ -180,15 +189,35 @@ const FEATURED_MUSIC_SINGLES = [
 ];
 
 const GuitarIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="m11.9 12.1 7.4-7.4a2 2 0 0 1 2.8 2.8l-7.4 7.4" />
     <path d="M7 17a3 3 0 1 0 4.2-4.2L8.5 10 4 14.5A3 3 0 0 0 7 17z" />
     <line x1="16" y1="5" x2="19" y2="8" />
   </svg>
 );
 
-const BassGuitarIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+const BassGuitarIcon = ({
+  className = "w-3.5 h-3.5",
+}: {
+  className?: string;
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="M9 18a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
     <path d="M12.5 11.5 20 4" />
     <path d="m18 4 2 2" />
@@ -198,7 +227,15 @@ const BassGuitarIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) =
 );
 
 const DrumIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="m4 3 8 7" />
     <path d="m20 3-8 7" />
     <ellipse cx="12" cy="11" rx="7" ry="2.5" />
@@ -208,7 +245,15 @@ const DrumIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
 );
 
 const MicIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
     <line x1="12" y1="19" x2="12" y2="22" />
@@ -216,21 +261,53 @@ const MicIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
 );
 
 const ChefHatIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="M6 13.8a4.5 4.5 0 1 1 2.6-8.3 5 5 0 0 1 6.8 0 4.5 4.5 0 1 1 2.6 8.3" />
     <path d="M6 13.8V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-5.2" />
   </svg>
 );
 
-const ExecutiveIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+const ExecutiveIcon = ({
+  className = "w-3.5 h-3.5",
+}: {
+  className?: string;
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
     <rect width="20" height="14" x="2" y="6" rx="2" />
   </svg>
 );
 
-const DroneOpsIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+const DroneOpsIcon = ({
+  className = "w-3.5 h-3.5",
+}: {
+  className?: string;
+}) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="M12 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
     <path d="m4.9 4.9 4.2 4.2" />
     <path d="m14.9 14.9 4.2 4.2" />
@@ -332,8 +409,11 @@ const DEFAULT_FOUNDERS = [
 ];
 
 function getProductsList(sanityContent: any) {
-  const comicsSection = sanityContent?.sections?.find((s: any) => s.sectionId === "comics");
-  const sanityProducts = sanityContent?.products || comicsSection?.items || sanityContent?.books;
+  const comicsSection = sanityContent?.sections?.find(
+    (s: any) => s.sectionId === "comics",
+  );
+  const sanityProducts =
+    sanityContent?.products || comicsSection?.items || sanityContent?.books;
   if (!sanityProducts || sanityProducts.length === 0) return ALL_PRODUCTS;
   return sanityProducts.map((p: any, i: number) => {
     const fallback = ALL_PRODUCTS[i % ALL_PRODUCTS.length];
@@ -343,15 +423,21 @@ function getProductsList(sanityContent: any) {
       subtitle: p.subtitle || fallback.subtitle,
       desc: p.desc || p.description || fallback.desc,
       amazonUrl: p.amazonUrl || p.buyLink || fallback.amazonUrl,
-      coverImg: getMediaUrl(p.coverImg || p.image || p.coverImage, fallback.coverImg),
+      coverImg: getMediaUrl(
+        p.coverImg || p.image || p.coverImage,
+        fallback.coverImg,
+      ),
       badge: p.badge || p.tag || fallback.badge,
     };
   });
 }
 
 function getCharactersList(sanityContent: any) {
-  const charactersSection = sanityContent?.sections?.find((s: any) => s.sectionId === "characters");
-  const sanityCharacters = sanityContent?.characters || charactersSection?.items;
+  const charactersSection = sanityContent?.sections?.find(
+    (s: any) => s.sectionId === "characters",
+  );
+  const sanityCharacters =
+    sanityContent?.characters || charactersSection?.items;
   if (!sanityCharacters || sanityCharacters.length === 0) return mainCharacters;
   return sanityCharacters.map((c: any, i: number) => {
     const fallback = mainCharacters[i % mainCharacters.length];
@@ -368,7 +454,8 @@ function getCharactersList(sanityContent: any) {
 
 function getMusicSinglesList(sanityContent: any) {
   const sanitySingles = sanityContent?.musicSingles || sanityContent?.singles;
-  if (!sanitySingles || sanitySingles.length === 0) return FEATURED_MUSIC_SINGLES;
+  if (!sanitySingles || sanitySingles.length === 0)
+    return FEATURED_MUSIC_SINGLES;
   return sanitySingles.map((s: any, i: number) => {
     const fallback = FEATURED_MUSIC_SINGLES[i % FEATURED_MUSIC_SINGLES.length];
     return {
@@ -377,13 +464,17 @@ function getMusicSinglesList(sanityContent: any) {
       subtitle: s.subtitle || fallback.subtitle,
       tag: s.tag || fallback.tag,
       desc: s.desc || s.description || fallback.desc,
-      youtubeUrl: s.youtubeUrl || `https://www.youtube.com/watch?v=${s.youtubeId || s.id || fallback.id}`,
+      youtubeUrl:
+        s.youtubeUrl ||
+        `https://www.youtube.com/watch?v=${s.youtubeId || s.id || fallback.id}`,
     };
   });
 }
 
 function getFoundersList(sanityContent: any) {
-  const foundersSection = sanityContent?.sections?.find((s: any) => s.sectionId === "founders");
+  const foundersSection = sanityContent?.sections?.find(
+    (s: any) => s.sectionId === "founders",
+  );
   const sanityFounders = sanityContent?.founders || foundersSection?.founders;
   if (!sanityFounders || sanityFounders.length === 0) return DEFAULT_FOUNDERS;
   return sanityFounders.map((f: any, i: number) => {
@@ -394,8 +485,14 @@ function getFoundersList(sanityContent: any) {
       desc: f.desc || f.description || fallback.desc,
       phone: f.phone || fallback.phone,
       email: f.email || fallback.email,
-      mobileImg: getMediaUrl(f.mobileImg || f.imageMobile || f.image, fallback.mobileImg),
-      desktopImg: getMediaUrl(f.desktopImg || f.imageDesktop || f.image, fallback.desktopImg),
+      mobileImg: getMediaUrl(
+        f.mobileImg || f.imageMobile || f.image,
+        fallback.mobileImg,
+      ),
+      desktopImg: getMediaUrl(
+        f.desktopImg || f.imageDesktop || f.image,
+        fallback.desktopImg,
+      ),
     };
   });
 }
@@ -408,14 +505,22 @@ export default function RockNRollKidsClient({
   const [selectedVideo, setSelectedVideo] = useState("3ZhqLJDRxQ8");
   const [storyLayout, setStoryLayout] = useState<"1" | "2" | "3" | "4">("1");
 
-  const aboutSection = sanityContent?.sections?.find((s: any) => s.sectionId === "about");
-  const comicsSection = sanityContent?.sections?.find((s: any) => s.sectionId === "comics");
-  const foundersSection = sanityContent?.sections?.find((s: any) => s.sectionId === "founders");
+  const aboutSection = sanityContent?.sections?.find(
+    (s: any) => s.sectionId === "about",
+  );
+  const comicsSection = sanityContent?.sections?.find(
+    (s: any) => s.sectionId === "comics",
+  );
+  const foundersSection = sanityContent?.sections?.find(
+    (s: any) => s.sectionId === "founders",
+  );
   const productsList = getProductsList(sanityContent);
   const charactersList = getCharactersList(sanityContent);
   const musicSinglesList = getMusicSinglesList(sanityContent);
   const foundersList = getFoundersList(sanityContent);
-  const videosList = musicSinglesList.filter((v: any) => v.id !== selectedVideo);
+  const videosList = musicSinglesList.filter(
+    (v: any) => v.id !== selectedVideo,
+  );
 
   const titleText = aboutSection?.title || "Story & Concept";
   const badgeText = aboutSection?.badge || "We love art";
@@ -423,70 +528,77 @@ export default function RockNRollKidsClient({
   const para2 = aboutSection?.body || ABOUT_DATA.paragraph2;
 
   return (
-    <main className="site-container min-h-screen w-full page-container overflow-x-hidden">
+    <main className="site-container page-container min-h-screen w-full overflow-x-hidden">
       {/* Hero Header */}
       <header className="text-center">
         <h1 className="mb-3">
           {sanityContent?.heroHeading || ABOUT_DATA.headline}
         </h1>
-        <p className="max-w-2xl mx-auto  ">
+        <p className="mx-auto max-w-2xl">
           {sanityContent?.heroSubheading ||
             "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
         </p>
 
         {/* Full Cast Lineup Image Banner */}
-        <div className="relative w-full rounded-lg overflow-hidden mt-6">
+        <div className="relative mt-6 w-full overflow-hidden rounded-lg">
           <Image
-            src={getMediaUrl(sanityContent?.heroBannerImage, "/images/comics/allc.png")}
+            src={getMediaUrl(
+              sanityContent?.heroBannerImage,
+              "/images/comics/allc.png",
+            )}
             alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
             width={1400}
             height={550}
-            className="w-full h-auto object-contain rounded-xl"
+            className="h-auto w-full rounded-xl object-contain"
           />
         </div>
       </header>
 
       {/* ── STORY & CONCEPT SECTION (LAYOUT 1: SPLIT DUAL GLASS) ── */}
-      <section aria-labelledby="rrk-story-heading" className="w-full pb-section-fluid border-b border-white/10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-6 items-start text-left w-full">
-          <div className="md:col-span-5 ">
-            <h2 id="rrk-story-heading">
-              {titleText}
-            </h2>
-            <p className="text-white/70 text-sm leading-relaxed mb-6">
-              An original animated series & multi-platform universe bringing positive rock and roll energy to kids worldwide.
+      <section
+        aria-labelledby="rrk-story-heading"
+        className="pb-section-fluid w-full border-b border-white/10"
+      >
+        <div className="grid w-full grid-cols-1 items-start gap-6 text-left sm:gap-6 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <h2 id="rrk-story-heading">{titleText}</h2>
+            <p className="mb-6 text-sm leading-relaxed text-white/70">
+              An original animated series & multi-platform universe bringing
+              positive rock and roll energy to kids worldwide.
             </p>
 
             {/* Quick Spec Pills */}
-            <ul className="pt-2 flex flex-col gap-2">
-              <li className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
+            <ul className="flex flex-col gap-2 pt-2">
+              <li className="flex items-center gap-3 rounded-xl border border-purple-500/20 bg-purple-950/40 p-3 text-xs text-purple-200">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
                 <span>Animated TV Series & Comic Books</span>
               </li>
-              <li className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+              <li className="flex items-center gap-3 rounded-xl border border-purple-500/20 bg-purple-950/40 p-3 text-xs text-purple-200">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
                 <span>Original Songs, Mobile Apps & Games</span>
               </li>
-              <li className="flex items-center gap-3 p-3 rounded-xl bg-purple-950/40 border border-purple-500/20 text-xs text-purple-200">
-                <span className="w-2 h-2 rounded-full bg-purple-400 shrink-0" />
+              <li className="flex items-center gap-3 rounded-xl border border-purple-500/20 bg-purple-950/40 p-3 text-xs text-purple-200">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-purple-400" />
                 <span>Positive Influence & Creative Inspiration</span>
               </li>
             </ul>
           </div>
 
-          <div className="md:col-span-7 relative overflow-hidden space-y-6">
-            <div className="absolute -top-16 -right-16 w-56 h-56 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative space-y-6 overflow-hidden md:col-span-7">
+            <div className="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-purple-600/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-600/15 blur-3xl" />
 
             <div className="relative z-10 space-y-5">
               <div className="flex items-center gap-2">
-                <span className="text-purple-400    text-xs  r">[ CONCEPT OVERVIEW ]</span>
+                <span className="r text-xs text-purple-400">
+                  [ CONCEPT OVERVIEW ]
+                </span>
               </div>
-              <p className="text-lg sm:text-xl leading-relaxed   drop-shadow-md">
+              <p className="text-lg leading-relaxed drop-shadow-md sm:text-xl">
                 &ldquo;{para1}&rdquo;
               </p>
               {para2 && (
-                <p className="  text-sm sm:text-base leading-relaxed border-t border-purple-500/20 pt-5 font-normal">
+                <p className="border-t border-purple-500/20 pt-5 text-sm leading-relaxed font-normal sm:text-base">
                   {para2}
                 </p>
               )}
@@ -496,16 +608,22 @@ export default function RockNRollKidsClient({
       </section>
 
       {/* Character Roster Info Cards Grid */}
-      <section aria-labelledby="rrk-cast-heading" className="py-section-fluid border-b border-white/10">
-        <h2 id="rrk-cast-heading" className="sr-only">Character Cast Lineup</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+      <section
+        aria-labelledby="rrk-cast-heading"
+        className="py-section-fluid border-b border-white/10"
+      >
+        <h2 id="rrk-cast-heading" className="sr-only">
+          Character Cast Lineup
+        </h2>
+        <div className="grid grid-cols-1 gap-6 text-left sm:grid-cols-2 lg:grid-cols-4">
           {charactersList.map((char: any) => (
             <article
               key={char.name}
-              className="flex flex-col justify-between group">
+              className="group flex flex-col justify-between"
+            >
               <div>
                 {char.image && (
-                  <div className="relative w-full h-44 overflow-hidden mb-3 flex items-center justify-start">
+                  <div className="relative mb-3 flex h-44 w-full items-center justify-start overflow-hidden">
                     <Image
                       src={char.image}
                       alt={char.name}
@@ -516,11 +634,11 @@ export default function RockNRollKidsClient({
                   </div>
                 )}
                 <SectionBadge className="mb-2 gap-1.5">
-                  {char.icon ? <char.icon className="w-3.5 h-3.5" /> : null}
+                  {char.icon ? <char.icon className="h-3.5 w-3.5" /> : null}
                   {char.role}
                 </SectionBadge>
-                <h3 className="mb-1   ">{char.name}</h3>
-                <p className="text-white/70 text-sm">{char.desc}</p>
+                <h3 className="mb-1">{char.name}</h3>
+                <p className="text-sm text-white/70">{char.desc}</p>
               </div>
             </article>
           ))}
@@ -528,21 +646,24 @@ export default function RockNRollKidsClient({
       </section>
 
       {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
-      <section aria-labelledby="rrk-videos-heading" className="py-section-fluid border-b border-white/10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <section
+        aria-labelledby="rrk-videos-heading"
+        className="py-section-fluid border-b border-white/10"
+      >
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
           {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
           <div className="lg:col-span-5">
-            <div >
-              <h2 id="rrk-videos-heading" className="text-xl sm:text-2xl      mb-1">
+            <div>
+              <h2 id="rrk-videos-heading" className="mb-1 text-xl sm:text-2xl">
                 Featured Animated Singles
               </h2>
-              <p className="text-white/70 mb-6">
+              <p className="mb-6 text-white/70">
                 Select a song below to switch the animated music video player.
               </p>
             </div>
 
             {/* Animated Singles Quick Select Buttons */}
-            <div className="border-t border-white/10 space-y-3">
+            <div className="space-y-3 border-t border-white/10">
               <AddCmsButton
                 label="ADD KIDS SONG / VIDEO IN SANITY CMS"
                 onClick={() => window.open("/studio", "_blank")}
@@ -554,7 +675,7 @@ export default function RockNRollKidsClient({
                     key={single.id}
                     onClick={() => setSelectedVideo(single.id)}
                     isActive={selectedVideo === single.id}
-                    className="!w-auto text-xs [&>span]:!px-4 [&>span]:!py-2 [&>span]:!min-w-0  "
+                    className="!w-auto text-xs [&>span]:!min-w-0 [&>span]:!px-4 [&>span]:!py-2"
                   >
                     {single.title}
                   </SeventhButton>
@@ -564,18 +685,18 @@ export default function RockNRollKidsClient({
           </div>
 
           {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="aspect-video w-full  overflow-hidden">
+          <div className="space-y-4 lg:col-span-7">
+            <div className="aspect-video w-full overflow-hidden">
               <iframe
                 src={`https://www.youtube.com/embed/${selectedVideo}`}
                 title="Rock and Roll Kids Player"
-                className="w-full h-full"
+                className="h-full w-full"
                 allowFullScreen
                 sandbox="allow-scripts allow-same-origin allow-presentation"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 ">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-2">
               {videosList.map((v: any) => (
                 <CosmicTrackCard
                   key={v.id}
@@ -592,26 +713,32 @@ export default function RockNRollKidsClient({
       </section>
 
       {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
-      <section aria-labelledby="rrk-comics-heading" className="py-section-fluid border-b border-white/10">
-        <div className="pb-4 mb-6">
+      <section
+        aria-labelledby="rrk-comics-heading"
+        className="py-section-fluid border-b border-white/10"
+      >
+        <div className="mb-6 pb-4">
           <div>
-            <h2 id="rrk-comics-heading" className="text-2xl sm:text-3xl    mb-1">
-              {comicsSection?.title || `Comic Books & Publications (${productsList.length} Items)`}
+            <h2 id="rrk-comics-heading" className="mb-1 text-2xl sm:text-3xl">
+              {comicsSection?.title ||
+                `Comic Books & Publications (${productsList.length} Items)`}
             </h2>
-            <p className="  text-sm sm:text-base leading-relaxed max-w-3xl">
-              {comicsSection?.subtitle || "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
+            <p className="max-w-3xl text-sm leading-relaxed sm:text-base">
+              {comicsSection?.subtitle ||
+                "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
             </p>
           </div>
         </div>
 
         {/* 12-Item Book Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {productsList.map((prod: any) => (
             <article
               key={prod.id}
-              className="bg-[#0b0718]/90 border border-white/10 overflow-hidden flex flex-col justify-between p-4 transition-all group">
+              className="group flex flex-col justify-between overflow-hidden border border-white/10 bg-[#0b0718]/90 p-4 transition-all"
+            >
               <div>
-                <div className="relative w-full aspect-[3/4] overflow-hidden mb-3 bg-black/40">
+                <div className="relative mb-3 aspect-[3/4] w-full overflow-hidden bg-black/40">
                   <Image
                     src={prod.coverImg}
                     alt={prod.title}
@@ -620,13 +747,11 @@ export default function RockNRollKidsClient({
                     className="object-cover"
                   />
                 </div>
-                <span className="text-[11px] text-purple-400    block mb-1">
+                <span className="mb-1 block text-[11px] text-purple-400">
                   {prod.badge}
                 </span>
-                <h3 className="    mb-1.5 line-clamp-1">
-                  {prod.title}
-                </h3>
-                <p className="text-white/70 text-xs leading-relaxed mb-6 line-clamp-2">
+                <h3 className="mb-1.5 line-clamp-1">{prod.title}</h3>
+                <p className="mb-6 line-clamp-2 text-xs leading-relaxed text-white/70">
                   {prod.desc}
                 </p>
               </div>
@@ -635,8 +760,9 @@ export default function RockNRollKidsClient({
                 href={prod.amazonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full block">
-                <SeventhButton className="w-full !text-center justify-center    text-xs">
+                className="block w-full"
+              >
+                <SeventhButton className="w-full justify-center !text-center text-xs">
                   <span>Amazon Link</span>
                 </SeventhButton>
               </a>
@@ -646,20 +772,27 @@ export default function RockNRollKidsClient({
       </section>
 
       {/* ── SERIES FOUNDERS & CREATORS ── */}
-      <section aria-labelledby="rrk-founders-heading" className="py-section-fluid">
+      <section
+        aria-labelledby="rrk-founders-heading"
+        className="py-section-fluid"
+      >
         <div className="mb-6 text-left">
-          <h2 id="rrk-founders-heading" className="text-2xl sm:text-3xl    mb-1">
+          <h2 id="rrk-founders-heading" className="mb-1 text-2xl sm:text-3xl">
             {foundersSection?.title || "Series Founders & Contact"}
           </h2>
-          <p className="  text-sm sm:text-base leading-relaxed max-w-3xl">
-            {foundersSection?.subtitle || "Meet the creators and co-founders behind 7th Heaven and the Rock 'n' Roll Kids franchise, bringing animated music adventures, comic books, and live rock performances to life."}
+          <p className="max-w-3xl text-sm leading-relaxed sm:text-base">
+            {foundersSection?.subtitle ||
+              "Meet the creators and co-founders behind 7th Heaven and the Rock 'n' Roll Kids franchise, bringing animated music adventures, comic books, and live rock performances to life."}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {foundersList.map((founder: any) => (
-            <article key={founder.name} className="flex flex-col space-y-4 group">
-              <div className="relative w-full aspect-[4/3] sm:aspect-[1.2/1] max-h-[460px] rounded-2xl overflow-hidden transition-all flex items-end justify-center [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)]">
+            <article
+              key={founder.name}
+              className="group flex flex-col space-y-4"
+            >
+              <div className="relative flex aspect-[4/3] max-h-[460px] w-full items-end justify-center overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] transition-all [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] sm:aspect-[1.2/1]">
                 {/* Mobile Image */}
                 <Image
                   src={founder.mobileImg}
@@ -674,35 +807,32 @@ export default function RockNRollKidsClient({
                   alt={`${founder.name} Desktop`}
                   fill
                   sizes="(min-width: 641px) 50vw, 100vw"
-                  className="object-contain object-bottom hidden sm:block"
+                  className="hidden object-contain object-bottom sm:block"
                 />
                 {/* Bottom Gradient Mask Overlay */}
-                <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 pointer-events-none z-10" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 sm:h-32" />
               </div>
-              <div className="flex flex-col items-center text-center space-y-2.5 w-full">
-                <h3 className="text-2xl sm:text-3xl      mb-2">
-                  {founder.name}
-                </h3>
+              <div className="flex w-full flex-col items-center space-y-2.5 text-center">
+                <h3 className="mb-2 text-2xl sm:text-3xl">{founder.name}</h3>
                 <div>
-                  <SectionBadge
-                    label={founder.role}
-                    isActive
-                  />
+                  <SectionBadge label={founder.role} isActive />
                 </div>
-                <p className="  text-sm leading-relaxed max-w-md mx-auto mb-1">
+                <p className="mx-auto mb-1 max-w-md text-sm leading-relaxed">
                   {founder.desc}
                 </p>
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="!    text-sm sm:text-base block mb-0">
+                    className="! mb-0 block text-sm sm:text-base"
+                  >
                     {founder.phone}
                   </a>
                 ) : null}
                 {founder.email ? (
                   <a
                     href={`mailto:${founder.email}`}
-                    className="   text-sm sm:text-base a-btn block">
+                    className="a-btn block text-sm sm:text-base"
+                  >
                     {founder.email}
                   </a>
                 ) : null}

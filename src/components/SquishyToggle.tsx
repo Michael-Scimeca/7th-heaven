@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
 export interface SquishyToggleProps {
   checked?: boolean;
@@ -43,67 +43,70 @@ export function SquishyToggle({
   checked = false,
   onChange = () => {},
   disabled = false,
-  label = 'Toggle switch',
-  id = 'squishy-toggle',
-  className = '',
+  label = "Toggle switch",
+  id = "squishy-toggle",
+  className = "",
 }: SquishyToggleProps) {
-  const [animState, setAnimState] = useState<'idle' | 'in' | 'out'>('idle');
+  const [animState, setAnimState] = useState<"idle" | "in" | "out">("idle");
   const prevChecked = useRef(checked);
 
   useEffect(() => {
     if (prevChecked.current !== checked) {
       prevChecked.current = checked;
-      setAnimState(checked ? 'in' : 'out');
+      setAnimState(checked ? "in" : "out");
     }
   }, [checked]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nextVal = e.target.checked;
     prevChecked.current = nextVal;
-    setAnimState(nextVal ? 'in' : 'out');
+    setAnimState(nextVal ? "in" : "out");
     onChange?.(nextVal);
   };
 
   const handleAnimationEnd = () => {
-    setAnimState('idle');
+    setAnimState("idle");
   };
 
-  const thumbClass = animState === 'in'
-    ? 'animate-squish-in'
-    : animState === 'out'
-      ? 'animate-squish-out'
-      : checked
-        ? 'translate-x-[24px]'
-        : 'translate-x-0';
+  const thumbClass =
+    animState === "in"
+      ? "animate-squish-in"
+      : animState === "out"
+        ? "animate-squish-out"
+        : checked
+          ? "translate-x-[24px]"
+          : "translate-x-0";
 
   return (
     <div
- onClick={(e) => e.stopPropagation()}
-      className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 select-none overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner ${disabled ?'opacity-50 cursor-not-allowed' : ''} ${className}`}>
+      onClick={(e) => e.stopPropagation()}
+      className={`squishy-toggle relative inline-block h-[30px] w-[52px] shrink-0 overflow-hidden rounded-full border border-white/25 bg-black/50 shadow-inner select-none ${disabled ? "cursor-not-allowed opacity-50" : ""} ${className}`}
+    >
       <input
- id={id}
- type="checkbox"
- aria-label={label}
- checked={checked}
- disabled={disabled}
- onChange={handleChange}
- className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none outline-none opacity-0 disabled:cursor-not-allowed"
- />
+        id={id}
+        type="checkbox"
+        aria-label={label}
+        checked={checked}
+        disabled={disabled}
+        onChange={handleChange}
+        className="peer absolute inset-0 z-10 m-0 h-full w-full cursor-pointer appearance-none rounded-full border-none opacity-0 outline-none disabled:cursor-not-allowed"
+      />
 
       {/* Base inactive track layer */}
       <div className="pointer-events-none absolute inset-0 rounded-full bg-white/10 transition-opacity duration-150" />
 
       {/* Active linear-gradient track layer (fades smoothly in & out on check) */}
-      <div className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] border border-[#8c0eaf] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-150 ${checked ? 'opacity-100' : 'opacity-0'}`} />
+      <div
+        className={`pointer-events-none absolute inset-0 rounded-full border border-[#8c0eaf] bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] shadow-[0_0_15px_rgba(140,14,175,0.6)] transition-opacity duration-150 ${checked ? "opacity-100" : "opacity-0"}`}
+      />
 
       {/* thumb */}
       <div
- onAnimationEnd={handleAnimationEnd}
- className={`squishy-thumb pointer-events-none absolute left-[3px] top-1/2 -mt-[11px] z-20 h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
- />
+        onAnimationEnd={handleAnimationEnd}
+        className={`squishy-thumb pointer-events-none absolute top-1/2 left-[3px] z-20 -mt-[11px] h-[22px] w-[22px] rounded-full bg-white shadow-[0_2px_5px_rgba(0,0,0,0.5)] ${thumbClass}`}
+      />
     </div>
   );
 }
 
 export default SquishyToggle;
-

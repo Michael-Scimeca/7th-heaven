@@ -1,87 +1,137 @@
 "use client";
 /* eslint-disable react-doctor/supabase-client-owned-authz-field, react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
 /* oxlint-disable react-doctor/supabase-client-owned-authz-field, react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
-import Image from 'next/image';
+import Image from "next/image";
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
-const LiveKitStream = dynamic(() => import('@/components/LiveKitStream').then(mod => mod.LiveKitStream), { ssr: false });
-import { getProducts } from '@/lib/shopify';
-import { shiftCoverageRequest } from '@/lib/email-templates';
-import { createClient } from '@/lib/supabase/client';
-import { AlertTriangle, Ban, Trash2, X, Check, Sparkles, Gift, Users, Music, Volume2, Heart, FileText, MapPin, MessageSquare, ChevronDown, Mail, Shield, Siren, Clock } from 'lucide-react';
-import { getShowDateTime } from '@/lib/date-utils';
-import ChatInputBar from '@/components/ChatInputBar';
-import SquishyToggle from '@/components/SquishyToggle';
-import PushAlertsCard from '@/components/PushAlertsCard';
-import SeventhButton from '@/components/SeventhButton';
-import { useTransition } from '@/context/TransitionContext';
-import MemberHeaderBadge from '@/components/MemberHeaderBadge';
-import SectionBadge from '@/components/SectionBadge';
-import CustomDropdown from '@/components/CustomDropdown';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+const LiveKitStream = dynamic(
+  () => import("@/components/LiveKitStream").then((mod) => mod.LiveKitStream),
+  { ssr: false },
+);
+import { getProducts } from "@/lib/shopify";
+import { shiftCoverageRequest } from "@/lib/email-templates";
+import { createClient } from "@/lib/supabase/client";
+import {
+  AlertTriangle,
+  Ban,
+  Trash2,
+  X,
+  Check,
+  Sparkles,
+  Gift,
+  Users,
+  Music,
+  Volume2,
+  Heart,
+  FileText,
+  MapPin,
+  MessageSquare,
+  ChevronDown,
+  Mail,
+  Shield,
+  Siren,
+  Clock,
+} from "lucide-react";
+import { getShowDateTime } from "@/lib/date-utils";
+import ChatInputBar from "@/components/ChatInputBar";
+import SquishyToggle from "@/components/SquishyToggle";
+import PushAlertsCard from "@/components/PushAlertsCard";
+import SeventhButton from "@/components/SeventhButton";
+import { useTransition } from "@/context/TransitionContext";
+import MemberHeaderBadge from "@/components/MemberHeaderBadge";
+import SectionBadge from "@/components/SectionBadge";
+import CustomDropdown from "@/components/CustomDropdown";
 
 // ── Constants & types extracted from this file ──
 import {
-  MEMBER_SEEDS, getAvatarColor, COMMON_EMOJIS, getShopifyProductAdminUrl,
-  ROLE_REQUIREMENTS, CREW_QUALIFICATIONS, qualificationMap, MOCK_VENUES,
-  type FakeAccount, type ChatMsg, type Venue,
-} from './constants';
+  MEMBER_SEEDS,
+  getAvatarColor,
+  COMMON_EMOJIS,
+  getShopifyProductAdminUrl,
+  ROLE_REQUIREMENTS,
+  CREW_QUALIFICATIONS,
+  qualificationMap,
+  MOCK_VENUES,
+  type FakeAccount,
+  type ChatMsg,
+  type Venue,
+} from "./constants";
 
-const MONTH_SHORT_FORMATTER = new Intl.DateTimeFormat('en-US', { month: 'short' });
-const FULL_DATE_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-const SHORT_DAY_FORMATTER = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+const MONTH_SHORT_FORMATTER = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+});
+const FULL_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+  weekday: "short",
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+const SHORT_DAY_FORMATTER = new Intl.DateTimeFormat("en-US", {
+  weekday: "short",
+  month: "short",
+  day: "numeric",
+});
 
 // eslint-disable-next-line react-doctor/no-locale-format-in-render
-function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) => void }) {
-  const reqDate = new Date(req.date + 'T12:00:00');
+function TimeOffItemRow({
+  req,
+  onRemove,
+}: {
+  req: any;
+  onRemove: (id: string) => void;
+}) {
+  const reqDate = new Date(req.date + "T12:00:00");
   return (
-    <div key={req.id} className="p-4 bg-[#00000029] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 border-white/10 transition-colors">
+    <div
+      key={req.id}
+      className="flex flex-col justify-between gap-4 border border-white/10 bg-[#00000029] p-4 transition-colors md:flex-row md:items-center"
+    >
       <div className="flex items-center gap-4">
-        <div className="w-11 h-11 rounded-lg bg-purple-600/10 border border-white/10 flex flex-col items-center justify-center text-center shrink-0">
-          <span className="text-[9px] text-rose-400 r">
+        <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-white/10 bg-purple-600/10 text-center">
+          <span className="r text-[9px] text-rose-400">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(reqDate).toUpperCase()}
           </span>
-          <span className="mt-0.5">
-            {reqDate.getDate()}
-          </span>
+          <span className="mt-0.5">{reqDate.getDate()}</span>
         </div>
         <div>
-          <span >
+          <span>
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {FULL_DATE_FORMATTER.format(reqDate)}
           </span>
-          <span className="text-white/50 block mt-0.5">
+          <span className="mt-0.5 block text-white/50">
             Reason: <span className=" ">“{req.reason}”</span>
           </span>
           {req.declineReason && (
-            <span className="text-rose-400/80 block">
+            <span className="block text-rose-400/80">
               Denial Feedback: <span>“{req.declineReason}”</span>
             </span>
           )}
         </div>
       </div>
 
-      <div className="flex items-center gap-3 self-end md:self-center shrink-0">
-        {req.status === 'pending' ? (
+      <div className="flex shrink-0 items-center gap-3 self-end md:self-center">
+        {req.status === "pending" ? (
           <>
-            <span className="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded animate-pulse">
+            <span className="animate-pulse rounded border border-yellow-500/30 bg-yellow-500/10 px-2 py-0.5 text-yellow-400">
               Pending Approval
             </span>
             <button
               type="button"
               onClick={() => onRemove(req.id)}
-              className="px-2 py-0.5 bg-white/10 hover:bg-red-500 hover:text-white rounded transition-colors cursor-pointer border-none">
+              className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 transition-colors hover:bg-red-500 hover:text-white"
+            >
               Cancel
             </button>
           </>
-        ) : req.status === 'approved' ? (
-          <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded r">
+        ) : req.status === "approved" ? (
+          <span className="r rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5">
             ✓ Approved
           </span>
         ) : (
-          <span className="px-2 py-0.5 bg-purple-600/10 border border-purple-500/30 text-purple-300 rounded r">
+          <span className="r rounded border border-purple-500/30 bg-purple-600/10 px-2 py-0.5 text-purple-300">
             ✗ Denied
           </span>
         )}
@@ -91,32 +141,43 @@ function TimeOffItemRow({ req, onRemove }: { req: any; onRemove: (id: string) =>
 }
 
 // eslint-disable-next-line react-doctor/no-locale-format-in-render
-function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: string) => void }) {
-  const itemDate = new Date(item.date + 'T12:00:00');
+function AvailabilityItemRow({
+  item,
+  onRemove,
+}: {
+  item: any;
+  onRemove: (id: string) => void;
+}) {
+  const itemDate = new Date(item.date + "T12:00:00");
   return (
-    <div key={item.id} className="p-3 bg-[#00000029] border border-white/10 flex items-center justify-between gap-3 border-white/10 transition-colors">
+    <div
+      key={item.id}
+      className="flex items-center justify-between gap-3 border border-white/10 bg-[#00000029] p-3 transition-colors"
+    >
       <div className="flex items-center gap-3">
-        <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center text-center shrink-0 border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
-          <span className="text-[9px] r">
+        <div
+          className={`flex h-8 w-8 shrink-0 flex-col items-center justify-center rounded-lg border text-center ${item.type === "available" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+        >
+          <span className="r text-[9px]">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(itemDate).toUpperCase()}
           </span>
-          <span className="mt-0.5">
-            {itemDate.getDate()}
-          </span>
+          <span className="mt-0.5">{itemDate.getDate()}</span>
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span >
+            <span>
               {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
               {SHORT_DAY_FORMATTER.format(itemDate)}
             </span>
-            <span className={`px-1.5 py-0.2 rounded text-[12px] border ${item.type === 'available' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-red-500/10 border-red-500/30 text-red-400'}`}>
+            <span
+              className={`py-0.2 rounded border px-1.5 text-[12px] ${item.type === "available" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+            >
               {item.type}
             </span>
           </div>
           {item.note && (
-            <span className="text-[10px] text-white/50 block mt-0.5">
+            <span className="mt-0.5 block text-[10px] text-white/50">
               “{item.note}”
             </span>
           )}
@@ -125,8 +186,9 @@ function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: str
       <button
         type="button"
         onClick={() => onRemove(item.id)}
-        className="w-6 h-6 rounded bg-white/10 hover:bg-red-500 hover:text-white text-white/40 flex items-center justify-center cursor-pointer transition-colors border-none"
-        title="Remove Block">
+        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-white/10 text-white/40 transition-colors hover:bg-red-500 hover:text-white"
+        title="Remove Block"
+      >
         ✕
       </button>
     </div>
@@ -134,34 +196,48 @@ function AvailabilityItemRow({ item, onRemove }: { item: any; onRemove: (id: str
 }
 
 function AvailabilityCardForm({
-  availDate, setAvailDate,
-  availType, setAvailType,
-  availNote, setAvailNote,
-  onSubmit, myAvailabilities, onRemove
+  availDate,
+  setAvailDate,
+  availType,
+  setAvailType,
+  availNote,
+  setAvailNote,
+  onSubmit,
+  myAvailabilities,
+  onRemove,
 }: any) {
   return (
     <div className="flex-1">
-      <div className="flex items-center gap-3 mb-6">
+      <div className="mb-6 flex items-center gap-3">
         <div>
-          <h3 >Your Availability & Blackouts</h3>
-          <p className="mt-0.5">Let admins know when you are available or unavailable</p>
+          <h3>Your Availability & Blackouts</h3>
+          <p className="mt-0.5">
+            Let admins know when you are available or unavailable
+          </p>
         </div>
       </div>
       <div>
-        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end mb-6">
+        <form
+          onSubmit={onSubmit}
+          className="mb-6 grid grid-cols-1 items-end gap-6 sm:grid-cols-2"
+        >
           <div>
-            <label htmlFor="avail-date-input" className="block mb-1.5">Date</label>
+            <label htmlFor="avail-date-input" className="mb-1.5 block">
+              Date
+            </label>
             <input
               id="avail-date-input"
               type="date"
               required
               value={availDate}
-              onChange={e => setAvailDate(e.target.value)}
-              className="w-full px-3 py-2 border border-white/10 rounded-lg outline-none focus:border-purple-500/50 transition-colors"
+              onChange={(e) => setAvailDate(e.target.value)}
+              className="w-full rounded-lg border border-white/10 px-3 py-2 transition-colors outline-none focus:border-purple-500/50"
             />
           </div>
           <div>
-            <label htmlFor="avail-type-select" className="block mb-1.5">Status</label>
+            <label htmlFor="avail-type-select" className="mb-1.5 block">
+              Status
+            </label>
             <CustomDropdown
               id="avail-type-select"
               ariaLabel="Availability status"
@@ -172,13 +248,15 @@ function AvailabilityCardForm({
               ]}
               onChange={(val) => setAvailType(val as any)}
               wrapperClassName="w-full"
-              className="!py-2 !px-3 !text-sm border-white/10"
+              className="border-white/10 !px-3 !py-2 !text-sm"
               chevronColor="#c084fc"
             />
           </div>
-          <div className="sm:col-span-2 flex gap-3 items-end">
+          <div className="flex items-end gap-3 sm:col-span-2">
             <div className="flex-1">
-              <label htmlFor="avail-note-select" className="block mb-1.5">Comment / Note (Optional)</label>
+              <label htmlFor="avail-note-select" className="mb-1.5 block">
+                Comment / Note (Optional)
+              </label>
               <CustomDropdown
                 id="avail-note-select"
                 ariaLabel="Comment or note"
@@ -187,37 +265,51 @@ function AvailabilityCardForm({
                 options={[
                   { value: "Out of town", label: "Out of town" },
                   { value: "Family event", label: "Family event" },
-                  { value: "Vacation / Time off", label: "Vacation / Time off" },
-                  { value: "Medical appointment", label: "Medical appointment" },
+                  {
+                    value: "Vacation / Time off",
+                    label: "Vacation / Time off",
+                  },
+                  {
+                    value: "Medical appointment",
+                    label: "Medical appointment",
+                  },
                   { value: "Personal day", label: "Personal day" },
-                  { value: "Work / Business conflict", label: "Work / Business conflict" },
+                  {
+                    value: "Work / Business conflict",
+                    label: "Work / Business conflict",
+                  },
                   { value: "Other", label: "Other" },
                 ]}
                 onChange={(val) => setAvailNote(val)}
                 wrapperClassName="w-full"
-                className="!py-2 !px-3 !text-sm border-white/10"
+                className="border-white/10 !px-3 !py-2 !text-sm"
                 chevronColor="#c084fc"
               />
             </div>
             <SeventhButton
               type="submit"
               icon={false}
-              className="px-5 h-[36px] shrink-0 cursor-pointer flex items-center justify-center">
+              className="flex h-[36px] shrink-0 cursor-pointer items-center justify-center px-5"
+            >
               Save
             </SeventhButton>
           </div>
         </form>
 
         {myAvailabilities.length === 0 ? (
-          <div className="text-center py-6 border rounded-lg border-dashed border-white/10 bg-white/[0.01]">
+          <div className="rounded-lg border border-dashed border-white/10 bg-white/[0.01] py-6 text-center">
             <p>No availability blocks configured yet.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {[...myAvailabilities]
               .sort((a: any, b: any) => a.date.localeCompare(b.date))
               .map((item: any) => (
-                <AvailabilityItemRow key={item.id} item={item} onRemove={onRemove} />
+                <AvailabilityItemRow
+                  key={item.id}
+                  item={item}
+                  onRemove={onRemove}
+                />
               ))}
           </div>
         )}
@@ -227,34 +319,47 @@ function AvailabilityCardForm({
 }
 
 function TimeOffCardForm({
-  timeOffDate, setTimeOffDate,
-  timeOffReason, setTimeOffReason,
-  onSubmit, myTimeOffRequests, onRemove
+  timeOffDate,
+  setTimeOffDate,
+  timeOffReason,
+  setTimeOffReason,
+  onSubmit,
+  myTimeOffRequests,
+  onRemove,
 }: any) {
   return (
     <div className="flex-1">
-      <div className="flex items-center gap-3 mb-6">
+      <div className="mb-6 flex items-center gap-3">
         <div>
-          <h3 >Time-Off Requests</h3>
-          <p className="mt-0.5">Submit time-off requests for administrator approval</p>
+          <h3>Time-Off Requests</h3>
+          <p className="mt-0.5">
+            Submit time-off requests for administrator approval
+          </p>
         </div>
       </div>
       <div>
-        <form onSubmit={onSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end mb-6">
+        <form
+          onSubmit={onSubmit}
+          className="mb-6 grid grid-cols-1 items-end gap-6 sm:grid-cols-2"
+        >
           <div>
-            <label htmlFor="time-off-date-input" className="block mb-1.5">Request Date</label>
+            <label htmlFor="time-off-date-input" className="mb-1.5 block">
+              Request Date
+            </label>
             <input
               id="time-off-date-input"
               type="date"
               required
               value={timeOffDate}
-              onChange={e => setTimeOffDate(e.target.value)}
-              className="w-full px-3 py-2 border border-white/10 rounded-lg outline-none focus:border-purple-500/50 transition-colors"
+              onChange={(e) => setTimeOffDate(e.target.value)}
+              className="w-full rounded-lg border border-white/10 px-3 py-2 transition-colors outline-none focus:border-purple-500/50"
             />
           </div>
-          <div className="sm:col-span-2 flex gap-3 items-end">
+          <div className="flex items-end gap-3 sm:col-span-2">
             <div className="flex-1">
-              <label htmlFor="time-off-reason-select" className="block mb-1.5">Reason for Time-off</label>
+              <label htmlFor="time-off-reason-select" className="mb-1.5 block">
+                Reason for Time-off
+              </label>
               <CustomDropdown
                 id="time-off-reason-select"
                 ariaLabel="Reason for time off"
@@ -262,29 +367,42 @@ function TimeOffCardForm({
                 placeholder="Select reason for time-off..."
                 options={[
                   { value: "Family vacation", label: "Family vacation" },
-                  { value: "Medical appointment", label: "Medical appointment" },
-                  { value: "Personal / Family event", label: "Personal / Family event" },
-                  { value: "Work / Business conflict", label: "Work / Business conflict" },
-                  { value: "Emergency / Family matter", label: "Emergency / Family matter" },
+                  {
+                    value: "Medical appointment",
+                    label: "Medical appointment",
+                  },
+                  {
+                    value: "Personal / Family event",
+                    label: "Personal / Family event",
+                  },
+                  {
+                    value: "Work / Business conflict",
+                    label: "Work / Business conflict",
+                  },
+                  {
+                    value: "Emergency / Family matter",
+                    label: "Emergency / Family matter",
+                  },
                   { value: "Other", label: "Other" },
                 ]}
                 onChange={(val) => setTimeOffReason(val)}
                 wrapperClassName="w-full"
-                className="!py-2 !px-3 !text-sm border-white/10"
+                className="border-white/10 !px-3 !py-2 !text-sm"
                 chevronColor="#c084fc"
               />
             </div>
             <SeventhButton
               type="submit"
               icon={false}
-              className="px-5 h-[36px] shrink-0 cursor-pointer flex items-center justify-center">
+              className="flex h-[36px] shrink-0 cursor-pointer items-center justify-center px-5"
+            >
               Submit Request
             </SeventhButton>
           </div>
         </form>
 
         {myTimeOffRequests.length === 0 ? (
-          <div className="text-center py-6 rounded-lg border border-dashed border-white/10 bg-white/[0.01]">
+          <div className="rounded-lg border border-dashed border-white/10 bg-white/[0.01] py-6 text-center">
             <p>No time-off requests submitted yet.</p>
           </div>
         ) : (
@@ -303,19 +421,19 @@ function TimeOffCardForm({
 
 const getCrewMemberEmail = (crewId: string): string => {
   const fallbackMap: Record<string, string> = {
-    abbie: 'abbie@7thheaven.com',
-    al: 'al@7thheaven.com',
-    andrea: 'andrea@7thheaven.com',
-    arjun: 'arjun@7thheaven.com',
-    chris: 'chris@7thheaven.com',
-    daniel: 'daniel@7thheaven.com',
-    dave_croke: 'dave.croke@7thheaven.com',
-    dave_maas: 'dave.maas@7thheaven.com',
-    david_xu: 'david.xu@7thheaven.com',
-    emily: 'emily@7thheaven.com',
-    emma: 'emma@7thheaven.com',
-    erin: 'erin@7thheaven.com',
-    francesca: 'francesca@7thheaven.com'
+    abbie: "abbie@7thheaven.com",
+    al: "al@7thheaven.com",
+    andrea: "andrea@7thheaven.com",
+    arjun: "arjun@7thheaven.com",
+    chris: "chris@7thheaven.com",
+    daniel: "daniel@7thheaven.com",
+    dave_croke: "dave.croke@7thheaven.com",
+    dave_maas: "dave.maas@7thheaven.com",
+    david_xu: "david.xu@7thheaven.com",
+    emily: "emily@7thheaven.com",
+    emma: "emma@7thheaven.com",
+    erin: "erin@7thheaven.com",
+    francesca: "francesca@7thheaven.com",
   };
   return fallbackMap[crewId] || `${crewId}@7thheaven.com`;
 };
@@ -324,43 +442,64 @@ const formatTime = (s: number) => {
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
-  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-  return `${m}:${String(sec).padStart(2, '0')}`;
+  if (h > 0)
+    return `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  return `${m}:${String(sec).padStart(2, "0")}`;
 };
 
 // eslint-disable-next-line react-doctor/prefer-useReducer
-export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } = {}) {
+export function CrewDashboard({
+  defaultMemberId,
+}: { defaultMemberId?: string } = {}) {
   const supabase = React.useMemo(() => createClient(), []);
   const { requestTransition } = useTransition();
 
   // --- Auth State ---
   const [isLoading, setIsLoading] = useState(true);
-  const [displayName, setDisplayName] = useState('');
-  const [userId, setUserId] = useState('');
-  const [email, setEmail] = useState('');
-  const [isBroadcastPanelCollapsed, setIsBroadcastPanelCollapsed] = useState(false);
+  const [displayName, setDisplayName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
+  const [isBroadcastPanelCollapsed, setIsBroadcastPanelCollapsed] =
+    useState(false);
   const [isScheduleCollapsed, setIsScheduleCollapsed] = useState(false);
   const [isSetlistCollapsed, setIsSetlistCollapsed] = useState(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // --- Work Schedule State ---
-  const [crewSchedules, setCrewSchedules] = useState<{ id: string; crewId: string; crewName: string; date: string; time: string; role: string; location: string; notes: string; isDraft?: boolean; approvalStatus?: 'pending' | 'approved' | 'declined'; declineReason?: string; isCoverageRequested?: boolean }[]>([]);
+  const [crewSchedules, setCrewSchedules] = useState<
+    {
+      id: string;
+      crewId: string;
+      crewName: string;
+      date: string;
+      time: string;
+      role: string;
+      location: string;
+      notes: string;
+      isDraft?: boolean;
+      approvalStatus?: "pending" | "approved" | "declined";
+      declineReason?: string;
+      isCoverageRequested?: boolean;
+    }[]
+  >([]);
   const crewSchedulesRef = useRef(crewSchedules);
   useEffect(() => {
     crewSchedulesRef.current = crewSchedules;
   }, [crewSchedules]);
   const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
   const decliningShiftIdRef = useRef<string | null>(null);
-  const [declineReason, setDeclineReason] = useState('');
+  const [declineReason, setDeclineReason] = useState("");
   const [tourDates, setTourDates] = useState<any[]>([]);
-  const [activeScheduleTab, setActiveScheduleTab] = useState<'my_schedule' | 'tour_events'>('my_schedule');
+  const [activeScheduleTab, setActiveScheduleTab] = useState<
+    "my_schedule" | "tour_events"
+  >("my_schedule");
 
   // --- Availability & Time Off States ---
   interface AvailabilityItem {
     id: string;
     crewId: string;
     date: string;
-    type: 'available' | 'unavailable';
+    type: "available" | "unavailable";
     note?: string;
   }
   interface TimeOffRequest {
@@ -369,22 +508,30 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     crewName: string;
     date: string;
     reason: string;
-    status: 'pending' | 'approved' | 'denied';
+    status: "pending" | "approved" | "denied";
     declineReason?: string;
   }
-  const [myAvailabilities, setMyAvailabilities] = useState<AvailabilityItem[]>([]);
-  const [myTimeOffRequests, setMyTimeOffRequests] = useState<TimeOffRequest[]>([]);
+  const [myAvailabilities, setMyAvailabilities] = useState<AvailabilityItem[]>(
+    [],
+  );
+  const [myTimeOffRequests, setMyTimeOffRequests] = useState<TimeOffRequest[]>(
+    [],
+  );
 
-  const [availDate, setAvailDate] = useState('');
-  const [availType, setAvailType] = useState<'available' | 'unavailable'>('unavailable');
-  const [availNote, setAvailNote] = useState('');
+  const [availDate, setAvailDate] = useState("");
+  const [availType, setAvailType] = useState<"available" | "unavailable">(
+    "unavailable",
+  );
+  const [availNote, setAvailNote] = useState("");
 
-  const [timeOffDate, setTimeOffDate] = useState('');
-  const [timeOffReason, setTimeOffReason] = useState('');
+  const [timeOffDate, setTimeOffDate] = useState("");
+  const [timeOffReason, setTimeOffReason] = useState("");
 
   // --- Venue database states ---
   const [venues, setVenues] = useState<Venue[]>([]);
-  const [selectedVenuePopup, setSelectedVenuePopup] = useState<Venue | null>(null);
+  const [selectedVenuePopup, setSelectedVenuePopup] = useState<Venue | null>(
+    null,
+  );
 
   // --- Show lineup, comments & swap states ---
   interface SetAct {
@@ -404,45 +551,64 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   }
   const [setLineups, setSetLineups] = useState<Record<string, SetAct[]>>({});
   const [gigComments, setGigComments] = useState<GigComment[]>([]);
-  const [activeDiscussionDate, setActiveDiscussionDate] = useState<string | null>(null);
+  const [activeDiscussionDate, setActiveDiscussionDate] = useState<
+    string | null
+  >(null);
 
-  const [newCommentText, setNewCommentText] = useState('');
-  const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(null);
-  const [replyText, setReplyText] = useState('');
+  const [newCommentText, setNewCommentText] = useState("");
+  const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(
+    null,
+  );
+  const [replyText, setReplyText] = useState("");
 
-  const [requestingCoverageShift, setRequestingCoverageShift] = useState<any | null>(null);
-  const [swapTargetColleagueId, setSwapTargetColleagueId] = useState<string>('');
+  const [requestingCoverageShift, setRequestingCoverageShift] = useState<
+    any | null
+  >(null);
+  const [swapTargetColleagueId, setSwapTargetColleagueId] =
+    useState<string>("");
 
   // --- Toast state ---
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info'; title?: string; visible: boolean }>({ message: '', type: 'info', visible: false });
-  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info', title?: string) => {
-    setToast({ message, type, title, visible: true });
-    if (toastTimerRef.current !== null) clearTimeout(toastTimerRef.current);
-    toastTimerRef.current = setTimeout(() => {
-      toastTimerRef.current = null;
-      setToast(prev => ({ ...prev, visible: false }));
-    }, 6000);
-  }, []);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error" | "info";
+    title?: string;
+    visible: boolean;
+  }>({ message: "", type: "info", visible: false });
+  const showToast = useCallback(
+    (
+      message: string,
+      type: "success" | "error" | "info" = "info",
+      title?: string,
+    ) => {
+      setToast({ message, type, title, visible: true });
+      if (toastTimerRef.current !== null) clearTimeout(toastTimerRef.current);
+      toastTimerRef.current = setTimeout(() => {
+        toastTimerRef.current = null;
+        setToast((prev) => ({ ...prev, visible: false }));
+      }, 6000);
+    },
+    [],
+  );
 
   // --- Email Admins States & Handlers ---
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  const [emailSubject, setEmailSubject] = useState('');
-  const [emailMessage, setEmailMessage] = useState('');
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
   const [isSendingEmail, setIsSendingEmail] = useState(false);
 
   const handleSendEmailToAdmins = async () => {
     setIsSendingEmail(true);
     try {
       let adminEmails: string[] = [];
-      const res = await fetch('/api/admin/fans?role=admin');
+      const res = await fetch("/api/admin/fans?role=admin");
       if (res.ok) {
         const admins = await res.json();
         if (Array.isArray(admins)) {
-          adminEmails = admins.flatMap((a: any) => a.email ? [a.email] : []);
+          adminEmails = admins.flatMap((a: any) => (a.email ? [a.email] : []));
         }
       }
       if (adminEmails.length === 0) {
-        adminEmails = ['michael@7thheaven.com'];
+        adminEmails = ["michael@7thheaven.com"];
       }
 
       const htmlContent = `
@@ -468,122 +634,160 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       await Promise.all(
         adminEmails.map((recipient) =>
-          fetch('/api/email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          fetch("/api/email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               to: recipient,
               subject: `✉️ Message from Crew Member (${displayName}): ${emailSubject}`,
-              html: htmlContent
-            })
-          })
-        )
+              html: htmlContent,
+            }),
+          }),
+        ),
       );
 
-      alert('✉️ Email sent successfully to administrators!');
+      alert("✉️ Email sent successfully to administrators!");
       setIsEmailModalOpen(false);
-      setEmailSubject('');
-      setEmailMessage('');
+      setEmailSubject("");
+      setEmailMessage("");
     } catch (err) {
       console.error(err);
-      alert('Failed to send email: ' + err);
+      alert("Failed to send email: " + err);
     } finally {
       setIsSendingEmail(false);
     }
   };
 
-  const isQualifiedForRole = useCallback((crewId: string, roleName: string): boolean => {
-    const normRole = roleName.toUpperCase().trim();
-    const baseRoles = qualificationMap[crewId.toLowerCase()] || [];
-    const hasBaseRole = baseRoles.some(q => q.toUpperCase() === normRole);
-    const hasExistingShift = crewSchedulesRef.current.some((s: any) => s.crewId === crewId && s.role.toUpperCase().trim() === normRole);
+  const isQualifiedForRole = useCallback(
+    (crewId: string, roleName: string): boolean => {
+      const normRole = roleName.toUpperCase().trim();
+      const baseRoles = qualificationMap[crewId.toLowerCase()] || [];
+      const hasBaseRole = baseRoles.some((q) => q.toUpperCase() === normRole);
+      const hasExistingShift = crewSchedulesRef.current.some(
+        (s: any) =>
+          s.crewId === crewId && s.role.toUpperCase().trim() === normRole,
+      );
 
-    if (!hasBaseRole && !hasExistingShift) return false;
+      if (!hasBaseRole && !hasExistingShift) return false;
 
-    const requirements = ROLE_REQUIREMENTS[normRole];
-    if (!requirements) return true;
+      const requirements = ROLE_REQUIREMENTS[normRole];
+      if (!requirements) return true;
 
-    const userQuals = CREW_QUALIFICATIONS[crewId.toLowerCase()];
-    if (!userQuals) return false;
+      const userQuals = CREW_QUALIFICATIONS[crewId.toLowerCase()];
+      if (!userQuals) return false;
 
-    const userCertsSet = new Set(userQuals.certifications);
-    const userTrainingSet = new Set(userQuals.training);
+      const userCertsSet = new Set(userQuals.certifications);
+      const userTrainingSet = new Set(userQuals.training);
 
-    const hasAllCerts = requirements.certifications.every(cert =>
-      userCertsSet.has(cert)
-    );
-    const hasAllTraining = requirements.training.every(train =>
-      userTrainingSet.has(train)
-    );
+      const hasAllCerts = requirements.certifications.every((cert) =>
+        userCertsSet.has(cert),
+      );
+      const hasAllTraining = requirements.training.every((train) =>
+        userTrainingSet.has(train),
+      );
 
-    return hasAllCerts && hasAllTraining;
-  }, []);
+      return hasAllCerts && hasAllTraining;
+    },
+    [],
+  );
 
-  const memberSlug = (userId && userId.length < 36)
-    ? userId.toLowerCase().replace(/\s+/g, '_')
-    : (displayName || 'michael').split(' ')[0].toLowerCase().replace(/\s+/g, '_');
+  const memberSlug =
+    userId && userId.length < 36
+      ? userId.toLowerCase().replace(/\s+/g, "_")
+      : (displayName || "michael")
+          .split(" ")[0]
+          .toLowerCase()
+          .replace(/\s+/g, "_");
   const roomSlug = `live_${memberSlug}`;
 
-  const slug = (defaultMemberId || memberSlug || 'michael').toLowerCase().trim();
+  const slug = (defaultMemberId || memberSlug || "michael")
+    .toLowerCase()
+    .trim();
 
-
-  const handleRequestCoverage = async (shiftId: string, swapTargetColleagueId?: string | null) => {
+  const handleRequestCoverage = async (
+    shiftId: string,
+    swapTargetColleagueId?: string | null,
+  ) => {
     try {
-      const updated = crewSchedules.map(s => {
+      const updated = crewSchedules.map((s) => {
         if (s.id === shiftId) {
           return {
             ...s,
             isCoverageRequested: true,
-            swapRequestId: swapTargetColleagueId || undefined
+            swapRequestId: swapTargetColleagueId || undefined,
           };
         }
         return s;
       });
       setCrewSchedules(updated);
-      localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(updated));
-      window.dispatchEvent(new Event('storage'));
+      localStorage.setItem("7h_crew_schedules_v1", JSON.stringify(updated));
+      window.dispatchEvent(new Event("storage"));
 
-      const res = await fetch('/api/crew/calendar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updated)
+      const res = await fetch("/api/crew/calendar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
       });
 
       if (!res.ok) {
-        throw new Error('Failed to sync coverage request.');
+        throw new Error("Failed to sync coverage request.");
       }
 
       // Broadcast notifications via email to qualified crew members
-      const targetShift = crewSchedules.find(s => s.id === shiftId);
+      const targetShift = crewSchedules.find((s) => s.id === shiftId);
       if (targetShift) {
         const mockCrewList = [
-          { id: 'abbie', name: 'Abbie Janssen', email: 'abbie@7thheaven.com' },
-          { id: 'al', name: 'Al Hollie', email: 'al@7thheaven.com' },
-          { id: 'andrea', name: 'Andrea Kinzinger', email: 'andrea@7thheaven.com' },
-          { id: 'arjun', name: 'Arjun Patel', email: 'arjun@7thheaven.com' },
-          { id: 'chris', name: 'Chris Loxely', email: 'chris@7thheaven.com' },
-          { id: 'daniel', name: 'Daniel Kim', email: 'daniel@7thheaven.com' },
-          { id: 'dave_croke', name: 'Dave Croke', email: 'dave.croke@7thheaven.com' },
-          { id: 'dave_maas', name: 'Dave Maas', email: 'dave.maas@7thheaven.com' },
-          { id: 'david_xu', name: 'David Xu', email: 'david.xu@7thheaven.com' },
-          { id: 'emily', name: 'Emily Hafften', email: 'emily@7thheaven.com' },
-          { id: 'emma', name: 'Emma Smid', email: 'emma@7thheaven.com' },
-          { id: 'erin', name: 'Erin Eagan', email: 'erin@7thheaven.com' },
-          { id: 'francesca', name: 'Francesca Troast', email: 'francesca@7thheaven.com' },
-          { id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com' },
-          { id: 'sammy', name: 'Sammy D', email: 'sammy@7thheaven.com' },
-          { id: 'ryan', name: 'Ryan K', email: 'ryan@7thheaven.com' },
-          { id: 'tony', name: 'Tony M', email: 'tony@7thheaven.com' }
+          { id: "abbie", name: "Abbie Janssen", email: "abbie@7thheaven.com" },
+          { id: "al", name: "Al Hollie", email: "al@7thheaven.com" },
+          {
+            id: "andrea",
+            name: "Andrea Kinzinger",
+            email: "andrea@7thheaven.com",
+          },
+          { id: "arjun", name: "Arjun Patel", email: "arjun@7thheaven.com" },
+          { id: "chris", name: "Chris Loxely", email: "chris@7thheaven.com" },
+          { id: "daniel", name: "Daniel Kim", email: "daniel@7thheaven.com" },
+          {
+            id: "dave_croke",
+            name: "Dave Croke",
+            email: "dave.croke@7thheaven.com",
+          },
+          {
+            id: "dave_maas",
+            name: "Dave Maas",
+            email: "dave.maas@7thheaven.com",
+          },
+          { id: "david_xu", name: "David Xu", email: "david.xu@7thheaven.com" },
+          { id: "emily", name: "Emily Hafften", email: "emily@7thheaven.com" },
+          { id: "emma", name: "Emma Smid", email: "emma@7thheaven.com" },
+          { id: "erin", name: "Erin Eagan", email: "erin@7thheaven.com" },
+          {
+            id: "francesca",
+            name: "Francesca Troast",
+            email: "francesca@7thheaven.com",
+          },
+          {
+            id: "michael",
+            name: "Michael Scimeca",
+            email: "michael@7thheaven.com",
+          },
+          { id: "sammy", name: "Sammy D", email: "sammy@7thheaven.com" },
+          { id: "ryan", name: "Ryan K", email: "ryan@7thheaven.com" },
+          { id: "tony", name: "Tony M", email: "tony@7thheaven.com" },
         ];
 
         // Fetch dynamic crew from Supabase profiles
         let dynamicCrew: any[] = [];
         try {
-          const res = await fetch('/api/admin/fans?role=crew');
+          const res = await fetch("/api/admin/fans?role=crew");
           if (res.ok) {
             const data = await res.json();
             if (Array.isArray(data)) {
-              dynamicCrew = data.map((u: any) => ({ id: u.id, name: u.full_name || u.id, email: u.email }));
+              dynamicCrew = data.map((u: any) => ({
+                id: u.id,
+                name: u.full_name || u.id,
+                email: u.email,
+              }));
             }
           }
         } catch (err) {
@@ -592,11 +796,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
         const mergedCrewList = [
           ...mockCrewList,
-          ...dynamicCrew.filter(dc => !mockCrewList.some(mc => mc.id === dc.id || mc.email === dc.email))
+          ...dynamicCrew.filter(
+            (dc) =>
+              !mockCrewList.some(
+                (mc) => mc.id === dc.id || mc.email === dc.email,
+              ),
+          ),
         ];
 
-        const qualifiedRecipients = mergedCrewList.filter(c =>
-          c.id !== slug && isQualifiedForRole(c.id, targetShift.role)
+        const qualifiedRecipients = mergedCrewList.filter(
+          (c) => c.id !== slug && isQualifiedForRole(c.id, targetShift.role),
         );
 
         for (const rec of qualifiedRecipients) {
@@ -607,76 +816,85 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             time: targetShift.time,
             location: targetShift.location,
             shiftId: targetShift.id,
-            recipientSlug: rec.id
+            recipientSlug: rec.id,
           });
 
-          fetch('/api/email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          fetch("/api/email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               to: rec.email,
               subject: `🚨 Shift Coverage Requested: ${targetShift.role} on ${targetShift.date}`,
-              html: htmlContent
-            })
-          }).catch(err => console.error("Failed to send broadcast mail:", err));
+              html: htmlContent,
+            }),
+          }).catch((err) =>
+            console.error("Failed to send broadcast mail:", err),
+          );
         }
 
-        const recipientNames = qualifiedRecipients.map(r => r.name).join(', ');
+        const recipientNames = qualifiedRecipients
+          .map((r) => r.name)
+          .join(", ");
         showToast(
-          `Shift broadcasted to all ${qualifiedRecipients.length} qualified coworkers: ${recipientNames || 'None available'}`,
-          'success',
-          '📢 Coverage Broadcast Sent'
+          `Shift broadcasted to all ${qualifiedRecipients.length} qualified coworkers: ${recipientNames || "None available"}`,
+          "success",
+          "📢 Coverage Broadcast Sent",
         );
       }
     } catch (e) {
       console.error(e);
-      showToast('Error requesting coverage: ' + e, 'error', 'Error');
+      showToast("Error requesting coverage: " + e, "error", "Error");
     }
   };
 
-  const handleAcceptCoverage = useCallback(async (shiftId: string) => {
-    try {
-      const targetShift = crewSchedules.find(s => s.id === shiftId);
-      if (!targetShift) return;
+  const handleAcceptCoverage = useCallback(
+    async (shiftId: string) => {
+      try {
+        const targetShift = crewSchedules.find((s) => s.id === shiftId);
+        if (!targetShift) return;
 
-      if (!isQualifiedForRole(slug, targetShift.role)) {
-        showToast('You do not possess the required certifications or training to accept this shift.', 'error', '🚫 Qualification Required');
-        return;
-      }
-
-      const previousCrewId = targetShift.crewId;
-      const previousCrewName = targetShift.crewName;
-
-      const updated = crewSchedules.map(s => {
-        if (s.id === shiftId) {
-          return {
-            ...s,
-            crewId: slug,
-            crewName: displayName,
-            isCoverageRequested: false,
-            approvalStatus: 'approved' as const
-          };
+        if (!isQualifiedForRole(slug, targetShift.role)) {
+          showToast(
+            "You do not possess the required certifications or training to accept this shift.",
+            "error",
+            "🚫 Qualification Required",
+          );
+          return;
         }
-        return s;
-      });
-      setCrewSchedules(updated);
-      localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(updated));
-      window.dispatchEvent(new Event('storage'));
 
-      const res = await fetch('/api/crew/calendar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updated)
-      });
+        const previousCrewId = targetShift.crewId;
+        const previousCrewName = targetShift.crewName;
 
-      if (!res.ok) {
-        throw new Error('Failed to sync accepted shift.');
-      }
+        const updated = crewSchedules.map((s) => {
+          if (s.id === shiftId) {
+            return {
+              ...s,
+              crewId: slug,
+              crewName: displayName,
+              isCoverageRequested: false,
+              approvalStatus: "approved" as const,
+            };
+          }
+          return s;
+        });
+        setCrewSchedules(updated);
+        localStorage.setItem("7h_crew_schedules_v1", JSON.stringify(updated));
+        window.dispatchEvent(new Event("storage"));
 
-      // Send confirmation emails
-      const requesterEmail = getCrewMemberEmail(previousCrewId);
+        const res = await fetch("/api/crew/calendar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updated),
+        });
 
-      const requesterHtml = `
+        if (!res.ok) {
+          throw new Error("Failed to sync accepted shift.");
+        }
+
+        // Send confirmation emails
+        const requesterEmail = getCrewMemberEmail(previousCrewId);
+
+        const requesterHtml = `
         <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
           <h2 style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">✓ Coverage Request Accepted</h2>
           <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
@@ -688,17 +906,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         </div>
       `;
 
-      fetch('/api/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: requesterEmail,
-          subject: `✓ Coverage Request Accepted for ${targetShift.date}`,
-          html: requesterHtml
-        })
-      }).catch(err => console.error("Failed to email requester:", err));
+        fetch("/api/email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            to: requesterEmail,
+            subject: `✓ Coverage Request Accepted for ${targetShift.date}`,
+            html: requesterHtml,
+          }),
+        }).catch((err) => console.error("Failed to email requester:", err));
 
-      const accepterHtml = `
+        const accepterHtml = `
         <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
           <h2 style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">📅 Coverage Shift Confirmed</h2>
           <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
@@ -727,64 +945,79 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         </div>
       `;
 
-      fetch('/api/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: email,
-          subject: `📅 Coverage Shift Confirmed: ${targetShift.date}`,
-          html: accepterHtml
-        })
-      }).catch(err => console.error("Failed to email accepter:", err));
+        fetch("/api/email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            to: email,
+            subject: `📅 Coverage Shift Confirmed: ${targetShift.date}`,
+            html: accepterHtml,
+          }),
+        }).catch((err) => console.error("Failed to email accepter:", err));
 
-      showToast('Shift successfully claimed and added to your schedule!', 'success', '✓ Shift Claimed');
-    } catch (e) {
-      console.error(e);
-      showToast('Error accepting coverage: ' + e, 'error', 'Error');
-    }
-  }, [crewSchedules, isQualifiedForRole, slug, displayName, email, showToast]);
-
-  const handleShiftResponse = useCallback(async (shiftId: string, status: 'approved' | 'declined', reason?: string) => {
-    try {
-      const updated = crewSchedules.map(s => {
-        if (s.id === shiftId) {
-          return {
-            ...s,
-            approvalStatus: status,
-            declineReason: status === 'approved' ? undefined : (reason || s.declineReason)
-          };
-        }
-        return s;
-      });
-      setCrewSchedules(updated);
-      localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(updated));
-      window.dispatchEvent(new Event('storage'));
-
-      const res = await fetch('/api/crew/calendar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updated)
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to sync response.');
+        showToast(
+          "Shift successfully claimed and added to your schedule!",
+          "success",
+          "✓ Shift Claimed",
+        );
+      } catch (e) {
+        console.error(e);
+        showToast("Error accepting coverage: " + e, "error", "Error");
       }
+    },
+    [crewSchedules, isQualifiedForRole, slug, displayName, email, showToast],
+  );
 
-      showToast(status === 'approved'
-        ? '✓ Shift confirmed successfully! It has been added to your schedule.'
-        : '✗ Shift declined.',
-        status === 'approved' ? 'success' : 'info',
-        status === 'approved' ? 'Confirmed' : 'Declined'
-      );
-    } catch (e) {
-      console.error(e);
-      showToast('Error updating shift: ' + e, 'error', 'Error');
-    }
-  }, [crewSchedules, showToast]);
+  const handleShiftResponse = useCallback(
+    async (
+      shiftId: string,
+      status: "approved" | "declined",
+      reason?: string,
+    ) => {
+      try {
+        const updated = crewSchedules.map((s) => {
+          if (s.id === shiftId) {
+            return {
+              ...s,
+              approvalStatus: status,
+              declineReason:
+                status === "approved" ? undefined : reason || s.declineReason,
+            };
+          }
+          return s;
+        });
+        setCrewSchedules(updated);
+        localStorage.setItem("7h_crew_schedules_v1", JSON.stringify(updated));
+        window.dispatchEvent(new Event("storage"));
+
+        const res = await fetch("/api/crew/calendar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updated),
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to sync response.");
+        }
+
+        showToast(
+          status === "approved"
+            ? "✓ Shift confirmed successfully! It has been added to your schedule."
+            : "✗ Shift declined.",
+          status === "approved" ? "success" : "info",
+          status === "approved" ? "Confirmed" : "Declined",
+        );
+      } catch (e) {
+        console.error(e);
+        showToast("Error updating shift: " + e, "error", "Error");
+      }
+    },
+    [crewSchedules, showToast],
+  );
 
   const loadTourDates = useCallback(async () => {
     try {
-      const res = await fetch('/api/tour');
+      const res = await fetch("/api/tour");
       if (res.ok) {
         const data = await res.json();
         if (data && Array.isArray(data)) {
@@ -792,26 +1025,31 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         }
       }
     } catch (err) {
-      console.warn('Failed to load tour dates:', err);
+      console.warn("Failed to load tour dates:", err);
     }
   }, []);
 
   const loadSchedules = useCallback(async () => {
     try {
-      const saved = localStorage.getItem('7h_crew_schedules_v1') || localStorage.getItem('7h_crew_schedules');
+      const saved =
+        localStorage.getItem("7h_crew_schedules_v1") ||
+        localStorage.getItem("7h_crew_schedules");
       if (saved) {
         setCrewSchedules(JSON.parse(saved));
       }
 
-      const res = await fetch('/api/crew/calendar');
+      const res = await fetch("/api/crew/calendar");
       if (res.ok) {
         const apiSchedules = await res.json();
         if (apiSchedules && Array.isArray(apiSchedules)) {
           setCrewSchedules(apiSchedules);
-          localStorage.setItem('7h_crew_schedules_v1', JSON.stringify(apiSchedules));
+          localStorage.setItem(
+            "7h_crew_schedules_v1",
+            JSON.stringify(apiSchedules),
+          );
         }
       }
-    } catch { }
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -819,33 +1057,39 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     loadTourDates();
     const onStorage = () => {
       try {
-        const saved = localStorage.getItem('7h_crew_schedules_v1') || localStorage.getItem('7h_crew_schedules');
+        const saved =
+          localStorage.getItem("7h_crew_schedules_v1") ||
+          localStorage.getItem("7h_crew_schedules");
         if (saved) {
           setCrewSchedules(JSON.parse(saved));
         }
-      } catch { }
+      } catch {}
     };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, [loadSchedules, loadTourDates]);
 
   const processCoverageLink = useCallback(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     if (crewSchedules.length === 0) return;
 
     const params = new URLSearchParams(window.location.search);
-    const action = params.get('action');
-    const actionShiftId = params.get('shiftId');
+    const action = params.get("action");
+    const actionShiftId = params.get("shiftId");
 
     if (actionShiftId) {
-      if (action === 'accept-coverage') {
+      if (action === "accept-coverage") {
         handleAcceptCoverage(actionShiftId);
         const cleanUrl = window.location.pathname;
-        window.history.replaceState({}, '', cleanUrl);
-      } else if (action === 'decline-coverage') {
-        showToast('You have declined the coverage request. The shift remains open for other crew members.', 'info', 'Shift Coverage Declined');
+        window.history.replaceState({}, "", cleanUrl);
+      } else if (action === "decline-coverage") {
+        showToast(
+          "You have declined the coverage request. The shift remains open for other crew members.",
+          "info",
+          "Shift Coverage Declined",
+        );
         const cleanUrl = window.location.pathname;
-        window.history.replaceState({}, '', cleanUrl);
+        window.history.replaceState({}, "", cleanUrl);
       }
     }
   }, [crewSchedules, handleAcceptCoverage]);
@@ -858,11 +1102,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   useEffect(() => {
     const loadVenues = () => {
       try {
-        const savedVenues = localStorage.getItem('7h_venue_database_v1') || localStorage.getItem('7h_venue_database');
+        const savedVenues =
+          localStorage.getItem("7h_venue_database_v1") ||
+          localStorage.getItem("7h_venue_database");
         if (savedVenues) {
           setVenues(JSON.parse(savedVenues));
         } else {
-          localStorage.setItem('7h_venue_database_v1', JSON.stringify(MOCK_VENUES));
+          localStorage.setItem(
+            "7h_venue_database_v1",
+            JSON.stringify(MOCK_VENUES),
+          );
           setVenues(MOCK_VENUES);
         }
       } catch (err) {
@@ -875,9 +1124,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     const handleStorageChange = () => {
       loadVenues();
     };
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -887,37 +1136,48 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   useEffect(() => {
     const loadAvailabilityAndRequests = () => {
       try {
-        const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
+        const savedAvail =
+          localStorage.getItem("7h_crew_availability_v1") ||
+          localStorage.getItem("7h_crew_availability");
         if (savedAvail) {
           const parsed = JSON.parse(savedAvail) as AvailabilityItem[];
-          setMyAvailabilities(parsed.filter(a => a.crewId === slug));
+          setMyAvailabilities(parsed.filter((a) => a.crewId === slug));
         } else {
           setMyAvailabilities([]);
         }
 
-        const savedReqs = localStorage.getItem('7h_time_off_requests_v1') || localStorage.getItem('7h_time_off_requests');
+        const savedReqs =
+          localStorage.getItem("7h_time_off_requests_v1") ||
+          localStorage.getItem("7h_time_off_requests");
         if (savedReqs) {
           const parsed = JSON.parse(savedReqs) as TimeOffRequest[];
-          setMyTimeOffRequests(parsed.filter(r => r.crewId === slug));
+          setMyTimeOffRequests(parsed.filter((r) => r.crewId === slug));
         } else {
           setMyTimeOffRequests([]);
         }
 
-        const savedLineups = localStorage.getItem('7h_set_lineups_v1') || localStorage.getItem('7h_set_lineups');
+        const savedLineups =
+          localStorage.getItem("7h_set_lineups_v1") ||
+          localStorage.getItem("7h_set_lineups");
         if (savedLineups) {
           setSetLineups(JSON.parse(savedLineups));
         } else {
           setSetLineups({});
         }
 
-        const savedComments = localStorage.getItem('7h_gig_comments_v1') || localStorage.getItem('7h_gig_comments');
+        const savedComments =
+          localStorage.getItem("7h_gig_comments_v1") ||
+          localStorage.getItem("7h_gig_comments");
         if (savedComments) {
           setGigComments(JSON.parse(savedComments));
         } else {
           setGigComments([]);
         }
       } catch (err) {
-        console.warn("Failed to load availability/timeoff requests/lineups/comments:", err);
+        console.warn(
+          "Failed to load availability/timeoff requests/lineups/comments:",
+          err,
+        );
       }
     };
 
@@ -927,9 +1187,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       loadAvailabilityAndRequests();
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, [slug]);
 
@@ -938,46 +1198,54 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     if (!availDate) return;
 
     const newItem: AvailabilityItem = {
-      id: 'avail_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+      id: "avail_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),
       crewId: slug,
       date: availDate,
       type: availType,
-      note: availNote.trim() || undefined
+      note: availNote.trim() || undefined,
     };
 
     try {
-      const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
-      const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
+      const savedAvail =
+        localStorage.getItem("7h_crew_availability_v1") ||
+        localStorage.getItem("7h_crew_availability");
+      const currentList: AvailabilityItem[] = savedAvail
+        ? JSON.parse(savedAvail)
+        : [];
       // Remove any existing availability for same date and crewId to avoid duplicates
-      const filtered = currentList.filter(item => !(item.crewId === slug && item.date === availDate));
+      const filtered = currentList.filter(
+        (item) => !(item.crewId === slug && item.date === availDate),
+      );
       const nextList = [...filtered, newItem];
 
-      localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
-      window.dispatchEvent(new Event('storage'));
+      localStorage.setItem("7h_crew_availability_v1", JSON.stringify(nextList));
+      window.dispatchEvent(new Event("storage"));
 
-      setMyAvailabilities(nextList.filter(a => a.crewId === slug));
-      setAvailDate('');
-      setAvailNote('');
-      showToast('Availability updated successfully!', 'success', '✓ Updated');
+      setMyAvailabilities(nextList.filter((a) => a.crewId === slug));
+      setAvailDate("");
+      setAvailNote("");
+      showToast("Availability updated successfully!", "success", "✓ Updated");
     } catch (err) {
-      showToast('Failed to save availability: ' + err, 'error', 'Error');
+      showToast("Failed to save availability: " + err, "error", "Error");
     }
   };
 
   const handleRemoveAvailability = (id: string) => {
     try {
-      const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
+      const savedAvail =
+        localStorage.getItem("7h_crew_availability_v1") ||
+        localStorage.getItem("7h_crew_availability");
       if (!savedAvail) return;
       const currentList: AvailabilityItem[] = JSON.parse(savedAvail);
-      const nextList = currentList.filter(item => item.id !== id);
+      const nextList = currentList.filter((item) => item.id !== id);
 
-      localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
-      window.dispatchEvent(new Event('storage'));
+      localStorage.setItem("7h_crew_availability_v1", JSON.stringify(nextList));
+      window.dispatchEvent(new Event("storage"));
 
-      setMyAvailabilities(nextList.filter(a => a.crewId === slug));
-      showToast('Availability block removed.', 'info', 'Removed');
+      setMyAvailabilities(nextList.filter((a) => a.crewId === slug));
+      showToast("Availability block removed.", "info", "Removed");
     } catch (err) {
-      showToast('Failed to remove availability: ' + err, 'error', 'Error');
+      showToast("Failed to remove availability: " + err, "error", "Error");
     }
   };
 
@@ -986,69 +1254,80 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     if (!timeOffDate || !timeOffReason.trim()) return;
 
     const newReq: TimeOffRequest = {
-      id: 'req_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+      id: "req_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),
       crewId: slug,
       crewName: displayName || slug,
       date: timeOffDate,
       reason: timeOffReason.trim(),
-      status: 'pending'
+      status: "pending",
     };
 
     try {
-      const savedReqs = localStorage.getItem('7h_time_off_requests_v1') || localStorage.getItem('7h_time_off_requests');
-      const currentList: TimeOffRequest[] = savedReqs ? JSON.parse(savedReqs) : [];
+      const savedReqs =
+        localStorage.getItem("7h_time_off_requests_v1") ||
+        localStorage.getItem("7h_time_off_requests");
+      const currentList: TimeOffRequest[] = savedReqs
+        ? JSON.parse(savedReqs)
+        : [];
       const nextList = [...currentList, newReq];
 
-      localStorage.setItem('7h_time_off_requests_v1', JSON.stringify(nextList));
-      window.dispatchEvent(new Event('storage'));
+      localStorage.setItem("7h_time_off_requests_v1", JSON.stringify(nextList));
+      window.dispatchEvent(new Event("storage"));
 
-      setMyTimeOffRequests(nextList.filter(r => r.crewId === slug));
-      setTimeOffDate('');
-      setTimeOffReason('');
-      showToast('Time-off request submitted for approval.', 'success', '✓ Submitted');
+      setMyTimeOffRequests(nextList.filter((r) => r.crewId === slug));
+      setTimeOffDate("");
+      setTimeOffReason("");
+      showToast(
+        "Time-off request submitted for approval.",
+        "success",
+        "✓ Submitted",
+      );
     } catch (err) {
-      showToast('Failed to submit request: ' + err, 'error', 'Error');
+      showToast("Failed to submit request: " + err, "error", "Error");
     }
   };
 
   const handleRemoveTimeOffRequest = (id: string) => {
     try {
-      const savedReqs = localStorage.getItem('7h_time_off_requests_v1') || localStorage.getItem('7h_time_off_requests');
+      const savedReqs =
+        localStorage.getItem("7h_time_off_requests_v1") ||
+        localStorage.getItem("7h_time_off_requests");
       if (!savedReqs) return;
       const currentList: TimeOffRequest[] = JSON.parse(savedReqs);
-      const nextList = currentList.filter(item => item.id !== id);
+      const nextList = currentList.filter((item) => item.id !== id);
 
-      localStorage.setItem('7h_time_off_requests_v1', JSON.stringify(nextList));
-      window.dispatchEvent(new Event('storage'));
+      localStorage.setItem("7h_time_off_requests_v1", JSON.stringify(nextList));
+      window.dispatchEvent(new Event("storage"));
 
-      setMyTimeOffRequests(nextList.filter(r => r.crewId === slug));
-      showToast('Time-off request cancelled.', 'info', 'Cancelled');
+      setMyTimeOffRequests(nextList.filter((r) => r.crewId === slug));
+      showToast("Time-off request cancelled.", "info", "Cancelled");
     } catch (err) {
-      showToast('Failed to cancel request: ' + err, 'error', 'Error');
+      showToast("Failed to cancel request: " + err, "error", "Error");
     }
   };
 
   // --- Live Setlist State ---
-  const [setlist, setSetlist] = useState<{ id: string; title: string; likes: number; isPlaying: boolean }[]>([
-    { id: 's1', title: 'Sing', likes: 0, isPlaying: false },
-    { id: 's2', title: 'This Is My Life', likes: 0, isPlaying: false },
-    { id: 's3', title: 'Better This Way', likes: 0, isPlaying: false },
-    { id: 's4', title: 'Gravity', likes: 0, isPlaying: false },
-    { id: 's5', title: 'Beautiful Life', likes: 0, isPlaying: false },
-    { id: 's6', title: 'Stop Shillin', likes: 0, isPlaying: false },
+  const [setlist, setSetlist] = useState<
+    { id: string; title: string; likes: number; isPlaying: boolean }[]
+  >([
+    { id: "s1", title: "Sing", likes: 0, isPlaying: false },
+    { id: "s2", title: "This Is My Life", likes: 0, isPlaying: false },
+    { id: "s3", title: "Better This Way", likes: 0, isPlaying: false },
+    { id: "s4", title: "Gravity", likes: 0, isPlaying: false },
+    { id: "s5", title: "Beautiful Life", likes: 0, isPlaying: false },
+    { id: "s6", title: "Stop Shillin", likes: 0, isPlaying: false },
   ]);
-  const [newSongTitle, setNewSongTitle] = useState('');
+  const [newSongTitle, setNewSongTitle] = useState("");
   const [isBulkImport, setIsBulkImport] = useState(false);
 
   // --- Stream State ---
   const [isLive, setIsLive] = useState(false);
-  const streamTitleRef = useRef('');
+  const streamTitleRef = useRef("");
   const [viewerCount, setViewerCount] = useState(0);
   const [toggling, setToggling] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
   const [isSavingReplay, setIsSavingReplay] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-
 
   // --- Live Feed Sales Stats ---
   const [liveSalesCount, setLiveSalesCount] = useState(0);
@@ -1056,25 +1335,34 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   const checkSales = useCallback(async () => {
     try {
-      const startStr = localStorage.getItem(LS('live_stream_start'));
+      const startStr = localStorage.getItem(LS("live_stream_start"));
       const startTime = startStr ? parseInt(startStr) : Date.now();
 
       const res = await fetch(`/api/shopify/orders?days=1`);
       if (res.ok) {
         const data = await res.json();
-        if (data.mode === 'orders' && data.orders) {
-          const liveOrders = data.orders.filter((o: any) => new Date(o.createdAt).getTime() > startTime);
-          const total = liveOrders.reduce((sum: number, o: any) => sum + o.total, 0);
+        if (data.mode === "orders" && data.orders) {
+          const liveOrders = data.orders.filter(
+            (o: any) => new Date(o.createdAt).getTime() > startTime,
+          );
+          const total = liveOrders.reduce(
+            (sum: number, o: any) => sum + o.total,
+            0,
+          );
           setLiveSalesCount(liveOrders.length);
           setLiveSalesRevenue(total);
           return;
         }
       }
-    } catch { }
+    } catch {}
 
     // Fallback: Simulation check
-    const savedCount = parseInt(localStorage.getItem(LS('sim_sales_count')) || '0');
-    const savedRevenue = parseFloat(localStorage.getItem(LS('sim_sales_revenue')) || '0');
+    const savedCount = parseInt(
+      localStorage.getItem(LS("sim_sales_count")) || "0",
+    );
+    const savedRevenue = parseFloat(
+      localStorage.getItem(LS("sim_sales_revenue")) || "0",
+    );
     setLiveSalesCount(savedCount);
     setLiveSalesRevenue(savedRevenue);
   }, [LS]);
@@ -1085,14 +1373,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       setLiveSalesCount(0);
       setLiveSalesRevenue(0);
       try {
-        localStorage.removeItem(LS('sim_sales_count'));
-        localStorage.removeItem(LS('sim_sales_revenue'));
+        localStorage.removeItem(LS("sim_sales_count"));
+        localStorage.removeItem(LS("sim_sales_revenue"));
         localStorage.removeItem(`live_chat_rate_${slug}`);
         localStorage.removeItem(`live_chat_total_${slug}`);
         localStorage.removeItem(`live_merch_sales_${slug}`);
         localStorage.removeItem(`live_merch_count_${slug}`);
         localStorage.removeItem(`live_viewer_count_${slug}`);
-      } catch { }
+      } catch {}
       return;
     }
 
@@ -1108,17 +1396,26 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     const simulatePurchase = () => {
       if (Math.random() > 0.15) return;
 
-      const randomPrice = [25.00, 45.00, 60.00, 15.00, 30.00][Math.floor(Math.random() * 5)];
-      setLiveSalesCount(prev => prev + 1);
-      setLiveSalesRevenue(prev => prev + randomPrice);
+      const randomPrice = [25.0, 45.0, 60.0, 15.0, 30.0][
+        Math.floor(Math.random() * 5)
+      ];
+      setLiveSalesCount((prev) => prev + 1);
+      setLiveSalesRevenue((prev) => prev + randomPrice);
 
       const buyMsg: ChatMsg = {
         id: `sim-buy-${Date.now()}`,
-        account: { id: 'system', name: 'Shopify Bot', displayName: '🛍️ STORE BOT', role: 'admin', color: '#10b981', avatar: '🛍️' },
+        account: {
+          id: "system",
+          name: "Shopify Bot",
+          displayName: "🛍️ STORE BOT",
+          role: "admin",
+          color: "#10b981",
+          avatar: "🛍️",
+        },
         text: `🔥 A fan just purchased merch! Thank you for supporting the band! 🎸`,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-      setPosts(prev => [...prev, buyMsg].slice(-100));
+      setPosts((prev) => [...prev, buyMsg].slice(-100));
     };
 
     const simInterval = setInterval(simulatePurchase, 25000);
@@ -1129,51 +1426,72 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   useEffect(() => {
     if (!isLive) return;
     try {
-      localStorage.setItem(`live_merch_sales_${slug}`, liveSalesRevenue.toString());
-      localStorage.setItem(`live_merch_count_${slug}`, liveSalesCount.toString());
-    } catch { }
+      localStorage.setItem(
+        `live_merch_sales_${slug}`,
+        liveSalesRevenue.toString(),
+      );
+      localStorage.setItem(
+        `live_merch_count_${slug}`,
+        liveSalesCount.toString(),
+      );
+    } catch {}
   }, [liveSalesRevenue, liveSalesCount, isLive, slug]);
 
   useEffect(() => {
     if (!isLive) return;
     try {
       localStorage.setItem(`live_viewer_count_${slug}`, viewerCount.toString());
-    } catch { }
+    } catch {}
   }, [viewerCount, isLive, slug]);
-
 
   // --- Chat State ---
   const [posts, setPosts] = useState<ChatMsg[]>([]);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [globalPinText, setGlobalPinText] = useState('');
+  const [globalPinText, setGlobalPinText] = useState("");
   const [posting, setPosting] = useState(false);
   const chatChannelRef = useRef<any>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
-  const [activePinned, setActivePinned] = useState<{ text: string; by: string } | null>(null);
-  const [floating, setFloating] = useState<{ id: string, emoji: string, x: number, createdAt: number }[]>([]);
+  const [activePinned, setActivePinned] = useState<{
+    text: string;
+    by: string;
+  } | null>(null);
+  const [floating, setFloating] = useState<
+    { id: string; emoji: string; x: number; createdAt: number }[]
+  >([]);
 
   // --- Chat Settings / Moderation State ---
   const [showChatSettings, setShowChatSettings] = useState(false);
   const [warnedUsers, setWarnedUsers] = useState<Set<string>>(new Set());
   const [bannedUsers, setBannedUsers] = useState<Set<string>>(new Set());
 
-
   const handleWarn = async (username: string) => {
-    if (!username || username === 'MIKE S' || username === 'Tony M' || username === 'Sammy D' || username === 'Ryan K') return;
+    if (
+      !username ||
+      username === "MIKE S" ||
+      username === "Tony M" ||
+      username === "Sammy D" ||
+      username === "Ryan K"
+    )
+      return;
     if (!confirm(`Are you sure you want to warn ${username}?`)) return;
 
-    setWarnedUsers(prev => {
+    setWarnedUsers((prev) => {
       const next = new Set(prev);
       next.add(username);
       return next;
     });
 
     try {
-      await fetch('/api/moderation/warn', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target: username, room: slug, action: 'warn', reason: 'Moderator warning' })
+      await fetch("/api/moderation/warn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          target: username,
+          room: slug,
+          action: "warn",
+          reason: "Moderator warning",
+        }),
       });
 
       const systemMsg = {
@@ -1181,45 +1499,56 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         account: null,
         text: `🛡️ ${username} has been warned by a moderator.`,
         timestamp: Date.now(),
-        isSystem: true
+        isSystem: true,
       };
       bcRef.current?.postMessage({
-        type: 'MOD_SYSTEM_MSG',
-        payload: systemMsg
+        type: "MOD_SYSTEM_MSG",
+        payload: systemMsg,
       });
 
       bcRef.current?.postMessage({
-        type: 'MOD_WARN',
-        payload: { username }
+        type: "MOD_WARN",
+        payload: { username },
       });
 
-      setPosts(prev => [...prev, systemMsg]);
+      setPosts((prev) => [...prev, systemMsg]);
     } catch (e) {
       console.error(e);
     }
   };
 
   const handleBan = async (username: string) => {
-    if (!username || username === 'MIKE S' || username === 'Tony M' || username === 'Sammy D' || username === 'Ryan K') return;
+    if (
+      !username ||
+      username === "MIKE S" ||
+      username === "Tony M" ||
+      username === "Sammy D" ||
+      username === "Ryan K"
+    )
+      return;
     if (!confirm(`Are you sure you want to ban ${username}?`)) return;
 
-    setBannedUsers(prev => {
+    setBannedUsers((prev) => {
       const next = new Set(prev);
       next.add(username);
       return next;
     });
 
     try {
-      await fetch('/api/moderation/ban', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target: username, action: 'ban', room: slug })
+      await fetch("/api/moderation/ban", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target: username, action: "ban", room: slug }),
       });
 
-      await fetch('/api/chat/ban', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ room: slug, banned_name: username, reason: 'Moderator action' })
+      await fetch("/api/chat/ban", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          room: slug,
+          banned_name: username,
+          reason: "Moderator action",
+        }),
       });
 
       const systemMsg = {
@@ -1227,33 +1556,33 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         account: null,
         text: `🚫 ${username} has been banned by a moderator.`,
         timestamp: Date.now(),
-        isSystem: true
+        isSystem: true,
       };
       bcRef.current?.postMessage({
-        type: 'MOD_SYSTEM_MSG',
-        payload: systemMsg
+        type: "MOD_SYSTEM_MSG",
+        payload: systemMsg,
       });
 
       bcRef.current?.postMessage({
-        type: 'MOD_BAN',
-        payload: { username }
+        type: "MOD_BAN",
+        payload: { username },
       });
 
-      setPosts(prev => [...prev, systemMsg]);
+      setPosts((prev) => [...prev, systemMsg]);
     } catch (e) {
       console.error(e);
     }
   };
 
   const handleDeleteMsg = async (msgId: string) => {
-    if (!confirm('Are you sure you want to delete this message?')) return;
+    if (!confirm("Are you sure you want to delete this message?")) return;
     try {
-      await supabase.from('chat_messages').delete().eq('id', msgId);
-      setPosts(prev => prev.filter(p => p.id !== msgId));
+      await supabase.from("chat_messages").delete().eq("id", msgId);
+      setPosts((prev) => prev.filter((p) => p.id !== msgId));
 
       bcRef.current?.postMessage({
-        type: 'DELETE_MSG',
-        payload: { id: msgId }
+        type: "DELETE_MSG",
+        payload: { id: msgId },
       });
     } catch (e) {
       console.error(e);
@@ -1261,14 +1590,26 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   };
 
   const handleKick = async (username: string) => {
-    if (!username || username === 'MIKE S' || username === 'Tony M' || username === 'Sammy D' || username === 'Ryan K') return;
-    if (!confirm(`WARNING: This will permanently remove ${username} from the site, delete their account and profile, and email them a notification. Are you sure you want to do this?`)) return;
+    if (
+      !username ||
+      username === "MIKE S" ||
+      username === "Tony M" ||
+      username === "Sammy D" ||
+      username === "Ryan K"
+    )
+      return;
+    if (
+      !confirm(
+        `WARNING: This will permanently remove ${username} from the site, delete their account and profile, and email them a notification. Are you sure you want to do this?`,
+      )
+    )
+      return;
 
     try {
-      const res = await fetch('/api/moderation/kick', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target: username, room: slug })
+      const res = await fetch("/api/moderation/kick", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target: username, room: slug }),
       });
       if (!res.ok) {
         const err = await res.json();
@@ -1278,27 +1619,31 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       }
     } catch (e) {
       console.error(e);
-      alert('Error kicking user');
+      alert("Error kicking user");
     }
   };
 
   const [customWords, setCustomWords] = useState<string[]>(() => {
-    if (typeof window === 'undefined') return [];
+    if (typeof window === "undefined") return [];
     try {
-      const stored = localStorage.getItem('7h_custom_flagged_words_v1') || localStorage.getItem('7h_custom_flagged_words');
+      const stored =
+        localStorage.getItem("7h_custom_flagged_words_v1") ||
+        localStorage.getItem("7h_custom_flagged_words");
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
     }
   });
-  const [newCustomWord, setNewCustomWord] = useState('');
+  const [newCustomWord, setNewCustomWord] = useState("");
 
   // --- Global Orders & Pack Tracking State ---
   const [orders, setOrders] = useState<any[]>([]);
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('admin_orders_list_v1') || localStorage.getItem('admin_orders_list');
+      const stored =
+        localStorage.getItem("admin_orders_list_v1") ||
+        localStorage.getItem("admin_orders_list");
       if (stored) {
         setOrders(JSON.parse(stored));
       } else {
@@ -1319,7 +1664,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             source: "Flash Drop",
             status: "Pending",
             image: "/images/merch/hoodie.png",
-            ts: Date.now() - 3600000 * 2
+            ts: Date.now() - 3600000 * 2,
           },
           {
             id: 172088800002,
@@ -1336,40 +1681,57 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
             source: "Store",
             status: "Ready for Pickup",
             image: "/images/merch/logo-tee.png",
-            ts: Date.now() - 3600000 * 5
-          }
+            ts: Date.now() - 3600000 * 5,
+          },
         ];
-        localStorage.setItem('admin_orders_list_v1', JSON.stringify(initialMock));
+        localStorage.setItem(
+          "admin_orders_list_v1",
+          JSON.stringify(initialMock),
+        );
         setOrders(initialMock);
       }
-    } catch { }
+    } catch {}
   }, []);
 
   const handleUpdateOrderStatus = (orderId: number, nextStatus: string) => {
-    setOrders(prev => prev.map(o => {
-      if (o.id === orderId) {
-        const updatedOrder = { ...o, status: nextStatus };
-        if (nextStatus === 'Shipped') {
-          updatedOrder.trackingNumber = `USPS-7H-${Math.floor(10000000 + Math.random() * 90000000)}`;
+    setOrders((prev) =>
+      prev.map((o) => {
+        if (o.id === orderId) {
+          const updatedOrder = { ...o, status: nextStatus };
+          if (nextStatus === "Shipped") {
+            updatedOrder.trackingNumber = `USPS-7H-${Math.floor(10000000 + Math.random() * 90000000)}`;
+          }
+          return updatedOrder;
         }
-        return updatedOrder;
-      }
-      return o;
-    }));
-    showToast(`Order status updated to ${nextStatus}`, 'success', 'Fulfillment Updated');
+        return o;
+      }),
+    );
+    showToast(
+      `Order status updated to ${nextStatus}`,
+      "success",
+      "Fulfillment Updated",
+    );
   };
 
   // --- Raffle State ---
-  const [raffleStatus, setRaffleStatus] = useState<'idle' | 'open' | 'drawing' | 'complete'>('idle');
-  const [raffleEntrants, setRaffleEntrants] = useState<{ name: string, id: string, email?: string }[]>([]);
-  const [drawnWinners, setDrawnWinners] = useState<{ name: string, id: string, email?: string }[]>([]);
+  const [raffleStatus, setRaffleStatus] = useState<
+    "idle" | "open" | "drawing" | "complete"
+  >("idle");
+  const [raffleEntrants, setRaffleEntrants] = useState<
+    { name: string; id: string; email?: string }[]
+  >([]);
+  const [drawnWinners, setDrawnWinners] = useState<
+    { name: string; id: string; email?: string }[]
+  >([]);
   const [winnerPins, setWinnerPins] = useState<string[]>([]);
 
   // Array of upcoming/queued raffles
-  const [raffleQueue, setRaffleQueue] = useState<{ name: string, qty: number, min: number }[]>([
-    { name: 'VIP Meet & Greet Pass', qty: 1, min: 1 },
-    { name: 'Signed Tour Poster', qty: 5, min: 30 },
-    { name: 'Free Merch Drop Code', qty: 1, min: 45 }
+  const [raffleQueue, setRaffleQueue] = useState<
+    { name: string; qty: number; min: number }[]
+  >([
+    { name: "VIP Meet & Greet Pass", qty: 1, min: 1 },
+    { name: "Signed Tour Poster", qty: 5, min: 30 },
+    { name: "Free Merch Drop Code", qty: 1, min: 45 },
   ]);
   const isDrawingRef = useRef(false);
   const drawWinnerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -1377,21 +1739,28 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // Derived active config bindings
   const raffleMinEntrants = raffleQueue[activeQueueIndex]?.min || 15;
-  const rafflePrizes = [{ name: raffleQueue[activeQueueIndex]?.name || '', qty: raffleQueue[activeQueueIndex]?.qty || 1 }];
+  const rafflePrizes = [
+    {
+      name: raffleQueue[activeQueueIndex]?.name || "",
+      qty: raffleQueue[activeQueueIndex]?.qty || 1,
+    },
+  ];
 
   // --- Flash Drop State ---
   const inventoryQtyRef = useRef(15);
   const [shopifyProducts, setShopifyProducts] = useState<any[]>([]);
   const selectedProductIdRef = useRef<string | null>(null);
-  const [selectedProducts, setSelectedProducts] = useState<Array<{
-    id: string;
-    title: string;
-    stock: number;
-    shopifyPrice: string;
-    flashPrice: string;
-    imageUrl: string;
-  }>>([]);
-  const [dropDurationStr, setDropDurationStr] = useState('5m');
+  const [selectedProducts, setSelectedProducts] = useState<
+    Array<{
+      id: string;
+      title: string;
+      stock: number;
+      shopifyPrice: string;
+      flashPrice: string;
+      imageUrl: string;
+    }>
+  >([]);
+  const [dropDurationStr, setDropDurationStr] = useState("5m");
   const [globalDrop, setGlobalDrop] = useState(false);
 
   // --- Active Drop State ---
@@ -1403,7 +1772,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // Load active drop from storage on mount
   useEffect(() => {
-    const stored = localStorage.getItem('7h_flash_drop');
+    const stored = localStorage.getItem("7h_flash_drop");
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
@@ -1411,32 +1780,35 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         const remaining = parsed.duration - elapsed;
         if (remaining > 0) {
           setActiveDrop({
-            products: parsed.products || [{
-              id: parsed.id,
-              title: parsed.name,
-              stock: parsed.stock,
-              shopifyPrice: parsed.price,
-              flashPrice: parsed.price,
-              imageUrl: parsed.image
-            }],
+            products: parsed.products || [
+              {
+                id: parsed.id,
+                title: parsed.name,
+                stock: parsed.stock,
+                shopifyPrice: parsed.price,
+                flashPrice: parsed.price,
+                imageUrl: parsed.image,
+              },
+            ],
             timeLeft: remaining,
-            totalDuration: parsed.duration
+            totalDuration: parsed.duration,
           });
         } else {
-          localStorage.removeItem('7h_flash_drop');
+          localStorage.removeItem("7h_flash_drop");
         }
-      } catch { }
+      } catch {}
     }
   }, []);
 
   // Timer loop for active drop
   useEffect(() => {
     if (!activeDrop) {
-      if (typeof window !== 'undefined') localStorage.removeItem('7h_flash_drop');
+      if (typeof window !== "undefined")
+        localStorage.removeItem("7h_flash_drop");
       return;
     }
     const timer = setInterval(() => {
-      setActiveDrop(prev => {
+      setActiveDrop((prev) => {
         if (!prev || prev.timeLeft <= 1) return null;
         return { ...prev, timeLeft: prev.timeLeft - 1 };
       });
@@ -1445,7 +1817,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   }, [activeDrop]);
 
   // --- Raffle Restart State ---
-  const [raffleAutoRestartCountdown, setRaffleAutoRestartCountdown] = useState<number | null>(null);
+  const [raffleAutoRestartCountdown, setRaffleAutoRestartCountdown] = useState<
+    number | null
+  >(null);
 
   // --- Scroll to top on page load/mount ---
   useEffect(() => {
@@ -1457,20 +1831,20 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // --- Global Announcement Banner State ---
   const bannerActiveRef = useRef(false);
-  const bannerTextRef = useRef('');
-  const bannerLinkRef = useRef('');
+  const bannerTextRef = useRef("");
+  const bannerLinkRef = useRef("");
   const bannerUpdatingRef = useRef(false);
 
   const loadAnnouncement = useCallback(async () => {
     try {
-      const res = await fetch('/api/announcement');
+      const res = await fetch("/api/announcement");
       if (res.ok) {
         const data = await res.json();
         bannerActiveRef.current = data.isActive;
-        bannerTextRef.current = data.text || '';
-        bannerLinkRef.current = data.link || '';
+        bannerTextRef.current = data.text || "";
+        bannerLinkRef.current = data.link || "";
       }
-    } catch { }
+    } catch {}
   }, []);
 
   // eslint-disable-next-line react-doctor/no-set-state-after-await-in-effect
@@ -1479,85 +1853,114 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     // Seed identity for demo member pages (e.g. /crew-sam)
     if (defaultMemberId && MEMBER_SEEDS[defaultMemberId]) {
       const seed = MEMBER_SEEDS[defaultMemberId];
-      localStorage.setItem('7h_dev_bypass_v1', 'true');
-      localStorage.setItem('7h_member_v1', JSON.stringify({
-        ...seed, role: 'crew',
-        joinDate: new Date().toISOString(),
-        points: 0, tier: 'Bronze', showsAttended: 0,
-        favoriteVenues: [], notificationsEnabled: false, notificationRadius: 25,
-      }));
+      localStorage.setItem("7h_dev_bypass_v1", "true");
+      localStorage.setItem(
+        "7h_member_v1",
+        JSON.stringify({
+          ...seed,
+          role: "crew",
+          joinDate: new Date().toISOString(),
+          points: 0,
+          tier: "Bronze",
+          showsAttended: 0,
+          favoriteVenues: [],
+          notificationsEnabled: false,
+          notificationRadius: 25,
+        }),
+      );
     }
 
     // Load Global Announcement Banner
     loadAnnouncement();
 
-    getProducts().then(products => {
-      if (!isMounted) return;
-      setShopifyProducts(products);
-      if (products.length > 0) {
-        selectedProductIdRef.current = products[0].id;
-        inventoryQtyRef.current = products[0].quantityAvailable || 15;
-        const initialPrice = products[0].variants?.edges?.[0]?.node?.price?.amount || '45.00';
-        setSelectedProducts([
-          {
-            id: products[0].id,
-            title: products[0].title,
-            stock: products[0].quantityAvailable || 0,
-            shopifyPrice: initialPrice,
-            flashPrice: initialPrice,
-            imageUrl: products[0].images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png'
-          }
-        ]);
-      }
-    }).catch(console.error);
+    getProducts()
+      .then((products) => {
+        if (!isMounted) return;
+        setShopifyProducts(products);
+        if (products.length > 0) {
+          selectedProductIdRef.current = products[0].id;
+          inventoryQtyRef.current = products[0].quantityAvailable || 15;
+          const initialPrice =
+            products[0].variants?.edges?.[0]?.node?.price?.amount || "45.00";
+          setSelectedProducts([
+            {
+              id: products[0].id,
+              title: products[0].title,
+              stock: products[0].quantityAvailable || 0,
+              shopifyPrice: initialPrice,
+              flashPrice: initialPrice,
+              imageUrl:
+                products[0].images?.edges?.[0]?.node?.url ||
+                "/images/mockups/merch-hoodie.png",
+            },
+          ]);
+        }
+      })
+      .catch(console.error);
 
     const checkUser = async () => {
       // 1. PRIMARY: Check Supabase session (real auth)
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!isMounted) return;
       if (session) {
-        const name = session.user.user_metadata?.full_name || session.user.user_metadata?.displayName || 'Crew';
+        const name =
+          session.user.user_metadata?.full_name ||
+          session.user.user_metadata?.displayName ||
+          "Crew";
         setUserId(session.user.id);
         setDisplayName(name);
-        setEmail(session.user.email || '');
+        setEmail(session.user.email || "");
         setIsLoading(false);
         return;
       }
 
       // 2. FALLBACK: Check localStorage-based login (from MemberContext)
-      const memberV1 = localStorage.getItem('7h_member_v1');
-      const memberLegacy = localStorage.getItem('7h_member');
+      const memberV1 = localStorage.getItem("7h_member_v1");
+      const memberLegacy = localStorage.getItem("7h_member");
       const storedMember = memberV1 || memberLegacy;
 
       if (storedMember) {
         try {
           const parsed = JSON.parse(storedMember);
-          if (parsed.role === 'crew' || parsed.role === 'admin') {
-            setUserId(parsed.id || 'crew');
-            setDisplayName(parsed.name || 'Crew');
-            setEmail(parsed.email || '');
+          if (parsed.role === "crew" || parsed.role === "admin") {
+            setUserId(parsed.id || "crew");
+            setDisplayName(parsed.name || "Crew");
+            setEmail(parsed.email || "");
             setIsLoading(false);
             return;
           }
-        } catch { }
+        } catch {}
       }
 
       // 3. DEV BYPASS: Only if no real session exists
-      const devBypassV1 = localStorage.getItem('7h_dev_bypass_v1');
-      const devBypassLegacy = localStorage.getItem('7h_dev_bypass');
-      if (devBypassV1 === 'true' || devBypassLegacy === 'true') {
+      const devBypassV1 = localStorage.getItem("7h_dev_bypass_v1");
+      const devBypassLegacy = localStorage.getItem("7h_dev_bypass");
+      if (devBypassV1 === "true" || devBypassLegacy === "true") {
         const parsed = storedMember ? JSON.parse(storedMember) : null;
 
-        setUserId(parsed?.id || 'michael');
-        setDisplayName(parsed?.name || 'Michael Scimeca');
-        setEmail(parsed?.email || 'michael@7thheaven.com');
+        setUserId(parsed?.id || "michael");
+        setDisplayName(parsed?.name || "Michael Scimeca");
+        setEmail(parsed?.email || "michael@7thheaven.com");
         if (!storedMember) {
-          localStorage.setItem('7h_member_v1', JSON.stringify({
-            id: 'michael', name: 'Michael Scimeca', email: 'michael@7thheaven.com',
-            role: 'crew', avatar: 'MS', joinDate: new Date().toISOString(),
-            points: 0, tier: 'Bronze', showsAttended: 0, favoriteVenues: [],
-            notificationsEnabled: false, notificationRadius: 25,
-          }));
+          localStorage.setItem(
+            "7h_member_v1",
+            JSON.stringify({
+              id: "michael",
+              name: "Michael Scimeca",
+              email: "michael@7thheaven.com",
+              role: "crew",
+              avatar: "MS",
+              joinDate: new Date().toISOString(),
+              points: 0,
+              tier: "Bronze",
+              showsAttended: 0,
+              favoriteVenues: [],
+              notificationsEnabled: false,
+              notificationRadius: 25,
+            }),
+          );
           window.location.reload();
         }
         setIsLoading(false);
@@ -1567,7 +1970,9 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       setIsLoading(false);
     };
     checkUser();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [defaultMemberId, loadAnnouncement, supabase]);
 
   // Separate effect to load stream state once userId is stable
@@ -1576,28 +1981,28 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     const slug = roomSlug;
     try {
       const { data, error } = await supabase
-        .from('live_streams')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('status', 'live')
+        .from("live_streams")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("status", "live")
         .limit(1)
         .maybeSingle();
 
       if (data && !error) {
         setIsLive(true);
-        streamTitleRef.current = data.title || '';
-        localStorage.setItem(LS('is_live'), 'true');
+        streamTitleRef.current = data.title || "";
+        localStorage.setItem(LS("is_live"), "true");
       } else {
         setIsLive(false);
         setPosts([]);
         setActivePinned(null);
-        localStorage.setItem(LS('is_live'), 'false');
+        localStorage.setItem(LS("is_live"), "false");
       }
     } catch {
       setIsLive(false);
       setPosts([]);
       setActivePinned(null);
-      localStorage.setItem(LS('is_live'), 'false');
+      localStorage.setItem(LS("is_live"), "false");
     }
   }, [userId, isLoading, roomSlug, LS, supabase]);
 
@@ -1605,17 +2010,24 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     loadStreamState();
 
     try {
-      const storedRaffle = localStorage.getItem(LS('live_raffle_sync'));
+      const storedRaffle = localStorage.getItem(LS("live_raffle_sync"));
       if (storedRaffle) {
         const parsed = JSON.parse(storedRaffle);
-        const safeStatus = (parsed.status === 'open' || parsed.status === 'drawing') ? 'idle' : parsed.status;
+        const safeStatus =
+          parsed.status === "open" || parsed.status === "drawing"
+            ? "idle"
+            : parsed.status;
         setRaffleStatus(safeStatus);
         setRaffleEntrants(parsed.entrants || []);
 
         if (parsed.minEntrants && parsed.prizes) {
-          setRaffleQueue(prev => {
+          setRaffleQueue((prev) => {
             const next = [...prev];
-            next[0] = { name: parsed.prizes[0]?.name || '', qty: parsed.prizes[0]?.qty || 1, min: parsed.minEntrants };
+            next[0] = {
+              name: parsed.prizes[0]?.name || "",
+              qty: parsed.prizes[0]?.qty || 1,
+              min: parsed.minEntrants,
+            };
             return next;
           });
           setActiveQueueIndex(0);
@@ -1623,98 +2035,128 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         if (parsed.winners) setDrawnWinners(parsed.winners);
         if (parsed.winnerPins) setWinnerPins(parsed.winnerPins);
       }
-    } catch { }
+    } catch {}
 
     try {
-      const storedSetlist = localStorage.getItem(LS('live_setlist_sync'));
+      const storedSetlist = localStorage.getItem(LS("live_setlist_sync"));
       if (storedSetlist) {
         setSetlist(JSON.parse(storedSetlist));
       }
-    } catch { }
+    } catch {}
 
     const handleStorage = (e: StorageEvent) => {
       // Admin kill switch: detect when is_live is set to 'false' from another tab
-      if (e.key === LS('is_live') && e.newValue === 'false') {
-        console.log('[Crew] Admin shutdown detected via storage event');
+      if (e.key === LS("is_live") && e.newValue === "false") {
+        console.log("[Crew] Admin shutdown detected via storage event");
         setIsLive(false);
       }
-      if (e.key === LS('live_chat_history') && e.newValue) {
+      if (e.key === LS("live_chat_history") && e.newValue) {
         setPosts(JSON.parse(e.newValue));
       }
       // Fan chat sync from other tabs
-      if (e.key === '7h_global_chat_history' && e.newValue) {
-        try { setPosts(JSON.parse(e.newValue)); } catch { }
+      if (e.key === "7h_global_chat_history" && e.newValue) {
+        try {
+          setPosts(JSON.parse(e.newValue));
+        } catch {}
       }
-      if (e.key === LS('live_pinned') && e.newValue) {
-        setActivePinned(e.newValue === 'null' ? null : JSON.parse(e.newValue));
+      if (e.key === LS("live_pinned") && e.newValue) {
+        setActivePinned(e.newValue === "null" ? null : JSON.parse(e.newValue));
       }
-      if (e.key === LS('live_reaction_sync') && e.newValue) {
-        setFloating(prev => [...prev, JSON.parse(e.newValue!)]);
+      if (e.key === LS("live_reaction_sync") && e.newValue) {
+        setFloating((prev) => [...prev, JSON.parse(e.newValue!)]);
       }
-      if (e.key === 'raffle_enter_sync' && e.newValue) {
+      if (e.key === "raffle_enter_sync" && e.newValue) {
         try {
           const data = JSON.parse(e.newValue);
-          handleRegisterEntrantRef.current(data.fanName, data.email, data.id, data.crewId);
-        } catch { }
+          handleRegisterEntrantRef.current(
+            data.fanName,
+            data.email,
+            data.id,
+            data.crewId,
+          );
+        } catch {}
       }
-      if (e.key === 'song_like_sync' && e.newValue) {
+      if (e.key === "song_like_sync" && e.newValue) {
         try {
           const data = JSON.parse(e.newValue);
           handleRegisterLikeRef.current(data.songId, data.crewId);
-        } catch { }
+        } catch {}
       }
-      if (e.key === LS('live_setlist_sync') && e.newValue) {
-        try { setSetlist(JSON.parse(e.newValue)); } catch { }
+      if (e.key === LS("live_setlist_sync") && e.newValue) {
+        try {
+          setSetlist(JSON.parse(e.newValue));
+        } catch {}
       }
-      if (e.key === '7h_custom_flagged_words' && e.newValue) {
-        try { setCustomWords(JSON.parse(e.newValue)); } catch { }
+      if (e.key === "7h_custom_flagged_words" && e.newValue) {
+        try {
+          setCustomWords(JSON.parse(e.newValue));
+        } catch {}
       }
     };
-    window.addEventListener('storage', handleStorage);
+    window.addEventListener("storage", handleStorage);
 
-    const channel = supabase.channel('live_events')
-      .on('broadcast', { event: 'custom_words_sync' }, (p: any) => {
+    const channel = supabase
+      .channel("live_events")
+      .on("broadcast", { event: "custom_words_sync" }, (p: any) => {
         const pb = p.payload;
         if (pb && pb.words) {
           setCustomWords(pb.words);
         }
       })
-      .on('broadcast', { event: 'reaction' }, (payload: any) => {
+      .on("broadcast", { event: "reaction" }, (payload: any) => {
         const data = payload.payload;
-        if (data.userId === userId || data.memberId === userId || data.userId === slug || data.memberId === slug) {
-          setFloating(prev => [...prev, { ...data, createdAt: Date.now() }]);
+        if (
+          data.userId === userId ||
+          data.memberId === userId ||
+          data.userId === slug ||
+          data.memberId === slug
+        ) {
+          setFloating((prev) => [...prev, { ...data, createdAt: Date.now() }]);
         }
       })
-      .on('broadcast', { event: 'raffle_enter' }, (payload: any) => {
+      .on("broadcast", { event: "raffle_enter" }, (payload: any) => {
         const data = payload.payload;
         if (data) {
-          handleRegisterEntrantRef.current(data.fanName, data.email, data.fanId || data.id, data.crewId || data.memberId);
+          handleRegisterEntrantRef.current(
+            data.fanName,
+            data.email,
+            data.fanId || data.id,
+            data.crewId || data.memberId,
+          );
         }
       })
-      .on('broadcast', { event: 'song_like' }, (payload: any) => {
+      .on("broadcast", { event: "song_like" }, (payload: any) => {
         const data = payload.payload;
         if (data) {
-          handleRegisterLikeRef.current(data.songId, data.crewId || data.memberId);
+          handleRegisterLikeRef.current(
+            data.songId,
+            data.crewId || data.memberId,
+          );
         }
       })
       .subscribe();
 
     // Supabase Realtime subscription for fan chat messages
-    const chatChannel = supabase.channel('live_chat')
-      .on('broadcast', { event: 'new_message' }, ({ payload }: { payload: any }) => {
-        if (!payload?.id) return;
-        setPosts(prev => {
-          if (prev.find(m => m.id === payload.id)) return prev;
-          const next = [...prev, payload as ChatMsg];
-          return next.length > 100 ? next.slice(-100) : next;
-        });
-      })
+    const chatChannel = supabase
+      .channel("live_chat")
       .on(
-        'postgres_changes',
+        "broadcast",
+        { event: "new_message" },
+        ({ payload }: { payload: any }) => {
+          if (!payload?.id) return;
+          setPosts((prev) => {
+            if (prev.find((m) => m.id === payload.id)) return prev;
+            const next = [...prev, payload as ChatMsg];
+            return next.length > 100 ? next.slice(-100) : next;
+          });
+        },
+      )
+      .on(
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'chat_messages',
+          event: "INSERT",
+          schema: "public",
+          table: "chat_messages",
           filter: `room=eq.${slug}`,
         },
         (payload: any) => {
@@ -1724,38 +2166,37 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           const mapped: ChatMsg = {
             id: newMsg.id,
             account: {
-              id: newMsg.sender_name || 'Guest',
-              name: newMsg.sender_name || 'Guest',
-              displayName: newMsg.sender_name || 'Anonymous',
-              role: newMsg.sender_role || 'fan',
-              avatar: newMsg.sender_avatar || 'G',
-              color: getAvatarColor(newMsg.sender_name || 'Guest')
+              id: newMsg.sender_name || "Guest",
+              name: newMsg.sender_name || "Guest",
+              displayName: newMsg.sender_name || "Anonymous",
+              role: newMsg.sender_role || "fan",
+              avatar: newMsg.sender_avatar || "G",
+              color: getAvatarColor(newMsg.sender_name || "Guest"),
             },
             text: newMsg.content,
             timestamp: new Date(newMsg.created_at).getTime(),
-            isSystem: newMsg.sender_role === 'system'
+            isSystem: newMsg.sender_role === "system",
           };
 
-          setPosts(prev => {
-            if (prev.find(m => m.id === mapped.id)) return prev;
+          setPosts((prev) => {
+            if (prev.find((m) => m.id === mapped.id)) return prev;
             const next = [...prev, mapped];
             return next.length > 100 ? next.slice(-100) : next;
           });
 
           // Broadcast to FakeLiveStream via BroadcastChannel so it syncs to the fan page!
-          bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: mapped });
-        }
+          bcRef.current?.postMessage({ type: "CHAT_MSG", payload: mapped });
+        },
       )
       .subscribe();
 
-
     const viewerInterval = setInterval(() => {
-      const live = localStorage.getItem(LS('viewer_count'));
+      const live = localStorage.getItem(LS("viewer_count"));
       if (live) setViewerCount(parseInt(live));
     }, 2000);
 
     return () => {
-      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener("storage", handleStorage);
       supabase.removeChannel(channel);
       supabase.removeChannel(chatChannel);
       clearInterval(viewerInterval);
@@ -1767,7 +2208,12 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   // FakeLiveStream uses `7h_live_${memberId}` so we must match that key exactly.
   const seenBcMsgIds = useRef<Set<string>>(new Set());
   useEffect(() => {
-    if (!userId || typeof window === "undefined" || typeof BroadcastChannel === "undefined") return;
+    if (
+      !userId ||
+      typeof window === "undefined" ||
+      typeof BroadcastChannel === "undefined"
+    )
+      return;
     let bc: BroadcastChannel | null = null;
     try {
       const bcSlug = defaultMemberId || memberSlug;
@@ -1780,71 +2226,81 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         const { type, payload } = evt.data ?? {};
         if (!type) return;
 
-        if (type === 'CUSTOM_WORDS_SYNC') {
+        if (type === "CUSTOM_WORDS_SYNC") {
           setCustomWords(payload);
         }
 
-        if (type === 'CHAT_MSG' && payload) {
+        if (type === "CHAT_MSG" && payload) {
           // Receive chat messages from the fan page demo
           if (seenBcMsgIds.current.has(payload.id)) return;
           seenBcMsgIds.current.add(payload.id);
-          setPosts(prev => {
-            if (prev.find(m => m.id === payload.id)) return prev;
+          setPosts((prev) => {
+            if (prev.find((m) => m.id === payload.id)) return prev;
             const next = [...prev, payload as ChatMsg];
             return next.length > 100 ? next.slice(-100) : next;
           });
         }
 
-        if (type === 'MOD_WARN' && payload) {
-          setWarnedUsers(s => new Set(s).add(payload.username));
+        if (type === "MOD_WARN" && payload) {
+          setWarnedUsers((s) => new Set(s).add(payload.username));
         }
 
-        if (type === 'MOD_BAN' && payload) {
-          setBannedUsers(s => new Set(s).add(payload.username));
+        if (type === "MOD_BAN" && payload) {
+          setBannedUsers((s) => new Set(s).add(payload.username));
         }
 
-        if (type === 'DELETE_MSG' && payload) {
-          setPosts(prev => prev.filter(p => p.id !== payload.id));
+        if (type === "DELETE_MSG" && payload) {
+          setPosts((prev) => prev.filter((p) => p.id !== payload.id));
         }
 
-        if (type === 'MOD_SYSTEM_MSG' && payload) {
+        if (type === "MOD_SYSTEM_MSG" && payload) {
           if (seenBcMsgIds.current.has(payload.id)) return;
           seenBcMsgIds.current.add(payload.id);
-          setPosts(prev => {
-            if (prev.find(m => m.id === payload.id)) return prev;
+          setPosts((prev) => {
+            if (prev.find((m) => m.id === payload.id)) return prev;
             const next = [...prev, payload as ChatMsg];
             return next.length > 100 ? next.slice(-100) : next;
           });
         }
 
-        if (type === 'VIEWER_COUNT') {
+        if (type === "VIEWER_COUNT") {
           setViewerCount(payload);
         }
 
-        if (type === 'ORDER_CREATED' && payload) {
-          setOrders(prev => prev.find(o => o.id === payload.id) ? prev : [payload, ...prev]);
+        if (type === "ORDER_CREATED" && payload) {
+          setOrders((prev) =>
+            prev.find((o) => o.id === payload.id) ? prev : [payload, ...prev],
+          );
           showToast(
-            `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ''} via ${payload.source}!`,
-            'success',
-            '🛍️ New Order Received'
+            `${payload.customer} purchased ${payload.item}${payload.size ? ` (${payload.size})` : ""} via ${payload.source}!`,
+            "success",
+            "🛍️ New Order Received",
           );
           try {
-            const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-500.wav");
+            const audio = new Audio(
+              "https://assets.mixkit.co/active_storage/sfx/2869/2869-500.wav",
+            );
             audio.volume = 0.4;
             audio.play();
-          } catch { }
+          } catch {}
         }
       };
-    } catch { }
+    } catch {}
 
-    return () => { try { bc?.close(); } catch { } bcRef.current = null; };
+    return () => {
+      try {
+        bc?.close();
+      } catch {}
+      bcRef.current = null;
+    };
   }, [userId, defaultMemberId, memberSlug]);
-
 
   // Sync real-time chat engagement metrics to localStorage for admin view
   useEffect(() => {
     if (!isLive) return;
-    const chatRate = posts.filter(p => Date.now() - p.timestamp < 60000).length;
+    const chatRate = posts.filter(
+      (p) => Date.now() - p.timestamp < 60000,
+    ).length;
     localStorage.setItem(`live_chat_rate_${slug}`, chatRate.toString());
     localStorage.setItem(`live_chat_total_${slug}`, posts.length.toString());
   }, [posts, isLive, slug]);
@@ -1871,7 +2327,7 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     let t: any;
     if (isLive) {
       t = setInterval(() => {
-        setViewerCount(prev => {
+        setViewerCount((prev) => {
           if (prev === 0) return 847;
           const delta = Math.floor(Math.random() * 7) - 2;
           return Math.max(800, Math.min(1400, prev + delta));
@@ -1883,7 +2339,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   useEffect(() => {
     if (floating.length > 0) {
-      const t = setTimeout(() => setFloating((prev) => prev.filter((f) => Date.now() - f.createdAt < 3000)), 3000);
+      const t = setTimeout(
+        () =>
+          setFloating((prev) =>
+            prev.filter((f) => Date.now() - f.createdAt < 3000),
+          ),
+        3000,
+      );
       return () => clearTimeout(t);
     }
   }, [floating]);
@@ -1901,25 +2363,34 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   const confirmEndAndSave = async () => {
     setIsSavingReplay(true);
-    await new Promise(r => setTimeout(r, 2500));
+    await new Promise((r) => setTimeout(r, 2500));
     setIsSavingReplay(false);
 
     try {
-      const customFeeds = JSON.parse(localStorage.getItem('7h_custom_live_feeds_v1') || localStorage.getItem('7h_custom_live_feeds') || '[]');
+      const customFeeds = JSON.parse(
+        localStorage.getItem("7h_custom_live_feeds_v1") ||
+          localStorage.getItem("7h_custom_live_feeds") ||
+          "[]",
+      );
       customFeeds.unshift({
-        id: 'LWeA2cE8YlI',
-        title: streamTitleRef.current || `${userId || 'Crew'} Broadcast Demo`,
+        id: "LWeA2cE8YlI",
+        title: streamTitleRef.current || `${userId || "Crew"} Broadcast Demo`,
         year: new Date().getFullYear(),
         duration: formatTime(elapsed),
         description: `7th heaven Live Crew Broadcast Archive (Test Run)`,
-        viewCount: '1'
+        viewCount: "1",
       });
-      localStorage.setItem('7h_custom_live_feeds_v1', JSON.stringify(customFeeds));
-    } catch (e) { }
+      localStorage.setItem(
+        "7h_custom_live_feeds_v1",
+        JSON.stringify(customFeeds),
+      );
+    } catch (e) {}
 
     setShowEndModal(false);
     toggleLive();
-    alert("Live Stream successfully transcoded and published to the Past Shows Video Gallery!");
+    alert(
+      "Live Stream successfully transcoded and published to the Past Shows Video Gallery!",
+    );
   };
 
   const confirmEndDiscard = () => {
@@ -1942,27 +2413,33 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     setIsLive(nextState);
 
     if (nextState) {
-      localStorage.setItem(`is_live_${roomSlug.replace('live_', '')}`, 'true');
-      localStorage.setItem('is_live', 'true');
+      localStorage.setItem(`is_live_${roomSlug.replace("live_", "")}`, "true");
+      localStorage.setItem("is_live", "true");
     } else {
-      localStorage.removeItem(`is_live_${roomSlug.replace('live_', '')}`);
-      localStorage.removeItem('is_live');
-      localStorage.removeItem(LS('crew_is_live'));
+      localStorage.removeItem(`is_live_${roomSlug.replace("live_", "")}`);
+      localStorage.removeItem("is_live");
+      localStorage.removeItem(LS("crew_is_live"));
     }
-    localStorage.setItem(LS('is_live'), nextState.toString());
-    localStorage.setItem(LS('stream_title'), streamTitleRef.current);
+    localStorage.setItem(LS("is_live"), nextState.toString());
+    localStorage.setItem(LS("stream_title"), streamTitleRef.current);
 
     // BroadcastChannel: sync stream state to the fan page tab (FakeLiveStream)
     if (bcRef.current) {
-      bcRef.current.postMessage({ type: 'STREAM_STATE', payload: { isLive: nextState, title: streamTitleRef.current, userId } });
+      bcRef.current.postMessage({
+        type: "STREAM_STATE",
+        payload: { isLive: nextState, title: streamTitleRef.current, userId },
+      });
     }
 
     // Supabase Realtime broadcast (best-effort, non-blocking)
-    supabase.channel('live_events').send({
-      type: 'broadcast',
-      event: 'stream_state',
-      payload: { isLive: nextState, title: streamTitleRef.current, userId }
-    }).catch(() => { });
+    supabase
+      .channel("live_events")
+      .send({
+        type: "broadcast",
+        event: "stream_state",
+        payload: { isLive: nextState, title: streamTitleRef.current, userId },
+      })
+      .catch(() => {});
 
     // ═══════════════════════════════════════════════════════════════════
     // SECONDARY: Async operations below are best-effort and won't block
@@ -1973,86 +2450,91 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         // --- Fresh start: clear all previous chat & pinned data ---
         setPosts([]);
         setActivePinned(null);
-        localStorage.setItem('7h_global_chat_history', '[]');
-        localStorage.setItem(LS('live_chat_history'), '[]');
-        localStorage.removeItem(LS('live_pinned'));
-        localStorage.setItem('7h_global_pinned', 'null');
-        await fetch('/api/live/clear-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room: roomSlug }) }).catch(() => { });
+        localStorage.setItem("7h_global_chat_history", "[]");
+        localStorage.setItem(LS("live_chat_history"), "[]");
+        localStorage.removeItem(LS("live_pinned"));
+        localStorage.setItem("7h_global_pinned", "null");
+        await fetch("/api/live/clear-chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ room: roomSlug }),
+        }).catch(() => {});
 
-        localStorage.setItem(LS('live_stream_start'), Date.now().toString());
-        localStorage.setItem(LS('viewer_count'), '0');
-        localStorage.setItem(LS('presence'), '{}');
+        localStorage.setItem(LS("live_stream_start"), Date.now().toString());
+        localStorage.setItem(LS("viewer_count"), "0");
+        localStorage.setItem(LS("presence"), "{}");
         setViewerCount(0);
         setElapsed(0);
         cancelRaffle();
         setActiveQueueIndex(0);
 
         const { data: newStream, error: insertErr } = await supabase
-          .from('live_streams')
+          .from("live_streams")
           .insert({
-            title: `${displayName} — ${streamTitleRef.current || 'Crew Broadcast'}`,
-            status: 'live',
+            title: `${displayName} — ${streamTitleRef.current || "Crew Broadcast"}`,
+            status: "live",
             viewer_count: 0,
           })
-          .select('id')
+          .select("id")
           .single();
-        if (insertErr) console.error('❌ live_streams insert failed:', insertErr);
+        if (insertErr)
+          console.error("❌ live_streams insert failed:", insertErr);
         if (newStream) {
           activeStreamId.current = newStream.id;
 
           // 📲 Notify opted-in fans via SMS that a live stream just started
-          fetch('/api/sms/live-alert', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ hostName: displayName || 'The Crew' }),
-          }).catch(err => console.error('Live SMS alert failed:', err));
+          fetch("/api/sms/live-alert", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ hostName: displayName || "The Crew" }),
+          }).catch((err) => console.error("Live SMS alert failed:", err));
         }
       } else {
-        localStorage.removeItem(LS('live_stream_start'));
-        localStorage.setItem(LS('live_chat_history'), '[]');
-        localStorage.setItem('7h_global_chat_history', '[]');
+        localStorage.removeItem(LS("live_stream_start"));
+        localStorage.setItem(LS("live_chat_history"), "[]");
+        localStorage.setItem("7h_global_chat_history", "[]");
         setPosts([]);
 
         // Clear pinned message
         setActivePinned(null);
-        localStorage.removeItem(LS('live_pinned'));
-        localStorage.setItem('7h_global_pinned', 'null');
+        localStorage.removeItem(LS("live_pinned"));
+        localStorage.setItem("7h_global_pinned", "null");
 
-        localStorage.setItem(LS('viewer_count'), '0');
-        localStorage.setItem(LS('presence'), '{}');
+        localStorage.setItem(LS("viewer_count"), "0");
+        localStorage.setItem(LS("presence"), "{}");
         setViewerCount(0);
         setElapsed(0);
         setActiveQueueIndex(0);
 
         // Delete chat messages from Supabase for this room (via service role API)
-        await fetch('/api/live/clear-chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        await fetch("/api/live/clear-chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ room: roomSlug }),
-        }).catch(() => { });
+        }).catch(() => {});
 
         if (activeStreamId.current) {
           await supabase
-            .from('live_streams')
-            .update({ status: 'ended' })
-            .eq('id', activeStreamId.current);
+            .from("live_streams")
+            .update({ status: "ended" })
+            .eq("id", activeStreamId.current);
           activeStreamId.current = null;
         }
 
         cancelRaffle();
 
         // Delete the LiveKit room to kick all participants
-        await fetch('/api/live-rooms/delete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ roomName: roomSlug })
-        }).catch(() => { });
+        await fetch("/api/live-rooms/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ roomName: roomSlug }),
+        }).catch(() => {});
 
         await supabase
-          .from('live_streams')
-          .update({ status: 'ended' })
-          .eq('user_id', userId)
-          .eq('status', 'live');
+          .from("live_streams")
+          .update({ status: "ended" })
+          .eq("user_id", userId)
+          .eq("status", "live");
       }
     } catch (e) {
       console.error("toggleLive secondary ops failed:", e);
@@ -2062,29 +2544,35 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   };
 
   const syncStreamTitle = () => {
-    localStorage.setItem(LS('stream_title'), streamTitleRef.current);
+    localStorage.setItem(LS("stream_title"), streamTitleRef.current);
     if (isLive) {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'stream_state',
-        payload: { isLive, title: streamTitleRef.current, userId }
+      supabase.channel("live_events").send({
+        type: "broadcast",
+        event: "stream_state",
+        payload: { isLive, title: streamTitleRef.current, userId },
       });
     }
   };
 
-  const syncSetlist = useCallback((nextSetlist: typeof setlist) => {
-    localStorage.setItem(LS('live_setlist_sync'), JSON.stringify(nextSetlist));
-    try {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'setlist_sync',
-        payload: { setlist: nextSetlist, userId: slug },
-      });
-    } catch { }
-  }, [LS, slug]);
+  const syncSetlist = useCallback(
+    (nextSetlist: typeof setlist) => {
+      localStorage.setItem(
+        LS("live_setlist_sync"),
+        JSON.stringify(nextSetlist),
+      );
+      try {
+        supabase.channel("live_events").send({
+          type: "broadcast",
+          event: "setlist_sync",
+          payload: { setlist: nextSetlist, userId: slug },
+        });
+      } catch {}
+    },
+    [LS, slug],
+  );
 
   const toggleSongPlaying = (songId: string) => {
-    const next = setlist.map(s => {
+    const next = setlist.map((s) => {
       if (s.id === songId) {
         return { ...s, isPlaying: !s.isPlaying };
       }
@@ -2099,11 +2587,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
     // Split by newlines, commas, or semicolons to support bulk adding
     let rawTitles = [title];
-    if (title.includes('\n') || title.includes('\r') || title.includes(',') || title.includes(';')) {
+    if (
+      title.includes("\n") ||
+      title.includes("\r") ||
+      title.includes(",") ||
+      title.includes(";")
+    ) {
       rawTitles = title.split(/[\n\r,;]+/);
     }
 
-    const cleanTitles = rawTitles.flatMap(t => {
+    const cleanTitles = rawTitles.flatMap((t) => {
       const trimmed = t.trim();
       return trimmed.length > 0 ? [trimmed] : [];
     });
@@ -2114,30 +2607,37 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       id: `s-${Date.now()}-${idx}`,
       title: t,
       likes: 0,
-      isPlaying: false
+      isPlaying: false,
     }));
     const next = [...setlist, ...newSongs];
     setSetlist(next);
     syncSetlist(next);
-    setNewSongTitle('');
+    setNewSongTitle("");
     setIsBulkImport(false);
   };
 
   const deleteSongFromSetlist = (songId: string) => {
-    const next = setlist.filter(s => s.id !== songId);
+    const next = setlist.filter((s) => s.id !== songId);
     setSetlist(next);
     syncSetlist(next);
   };
 
   const resetSetlistLikes = () => {
-    const next = setlist.map(s => ({ ...s, likes: 0 }));
+    const next = setlist.map((s) => ({ ...s, likes: 0 }));
     setSetlist(next);
     syncSetlist(next);
   };
 
   const activeRaffleIdRef = useRef<string | null>(null);
 
-  const syncRaffle = async (status: any, entrants: any, min: number, prizes: any, winners: any, winnerPins?: string[]) => {
+  const syncRaffle = async (
+    status: any,
+    entrants: any,
+    min: number,
+    prizes: any,
+    winners: any,
+    winnerPins?: string[],
+  ) => {
     const state = {
       status,
       entrants,
@@ -2147,81 +2647,102 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       winnerPins,
       ts: Date.now(),
       timestamp: Date.now(),
-      userId: slug
+      userId: slug,
     };
     // Keep localStorage for cross-tab sync
-    localStorage.setItem(LS('live_raffle_sync'), JSON.stringify(state));
-    supabase.channel('live_events').send({ type: 'broadcast', event: 'raffle_sync', payload: state });
+    localStorage.setItem(LS("live_raffle_sync"), JSON.stringify(state));
+    supabase
+      .channel("live_events")
+      .send({ type: "broadcast", event: "raffle_sync", payload: state });
 
     // Persist to Supabase
     try {
       const raffleData = {
-        stream_id: `live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`,
+        stream_id: `live_${userId.toString().toLowerCase().replace(/\s+/g, "_")}`,
         status,
-        prize_name: prizes?.[0]?.name || '',
+        prize_name: prizes?.[0]?.name || "",
         prize_qty: prizes?.[0]?.qty || 1,
         min_entrants: min,
         entrants: JSON.stringify(entrants || []),
         winners: JSON.stringify(winners || []),
         winner_pins: JSON.stringify(winnerPins || []),
-        ...(status === 'complete' ? { completed_at: new Date().toISOString() } : {}),
+        ...(status === "complete"
+          ? { completed_at: new Date().toISOString() }
+          : {}),
       };
 
       if (activeRaffleIdRef.current) {
-        await supabase.from('raffles').update(raffleData).eq('id', activeRaffleIdRef.current);
-      } else if (status === 'open') {
-        const { data } = await supabase.from('raffles').insert(raffleData).select('id').single();
+        await supabase
+          .from("raffles")
+          .update(raffleData)
+          .eq("id", activeRaffleIdRef.current);
+      } else if (status === "open") {
+        const { data } = await supabase
+          .from("raffles")
+          .insert(raffleData)
+          .select("id")
+          .single();
         if (data) activeRaffleIdRef.current = data.id;
       }
 
-      if (status === 'idle' || status === 'complete') {
+      if (status === "idle" || status === "complete") {
         activeRaffleIdRef.current = null;
       }
     } catch (e) {
-      console.error('[Raffle] Supabase sync failed, localStorage is still active:', e);
+      console.error(
+        "[Raffle] Supabase sync failed, localStorage is still active:",
+        e,
+      );
     }
   };
 
   const handlePin = () => {
     if (!content.trim() || posting) return;
     const pinData = { text: content.trim(), by: displayName };
-    localStorage.setItem(LS('live_pinned'), JSON.stringify(pinData));
+    localStorage.setItem(LS("live_pinned"), JSON.stringify(pinData));
     setActivePinned(pinData);
 
     // BroadcastChannel: sync pin to fan page
-    bcRef.current?.postMessage({ type: 'PIN_MSG', payload: pinData });
+    bcRef.current?.postMessage({ type: "PIN_MSG", payload: pinData });
 
-    setContent('');
+    setContent("");
   };
 
   const cancelRaffle = () => {
     isDrawingRef.current = false;
-    setRaffleStatus('idle');
-    syncRaffle('idle', [], raffleMinEntrants, rafflePrizes, []);
+    setRaffleStatus("idle");
+    syncRaffle("idle", [], raffleMinEntrants, rafflePrizes, []);
   };
 
   const startSpecificRaffle = (idx: number) => {
-    if (raffleStatus !== 'idle' && raffleStatus !== 'complete') return;
+    if (raffleStatus !== "idle" && raffleStatus !== "complete") return;
     setActiveQueueIndex(idx);
     const targetRaffle = raffleQueue[idx];
 
-    window.dispatchEvent(new CustomEvent('testingSimulateFanRaffleJoin'));
-    setRaffleStatus('open');
+    window.dispatchEvent(new CustomEvent("testingSimulateFanRaffleJoin"));
+    setRaffleStatus("open");
     setRaffleEntrants([]);
     setDrawnWinners([]);
     setWinnerPins([]);
-    syncRaffle('open', [], targetRaffle.min, [{ name: targetRaffle.name, qty: targetRaffle.qty }], [], []);
+    syncRaffle(
+      "open",
+      [],
+      targetRaffle.min,
+      [{ name: targetRaffle.name, qty: targetRaffle.qty }],
+      [],
+      [],
+    );
   };
 
   const syncCustomWords = (words: string[]) => {
-    bcRef.current?.postMessage({ type: 'CUSTOM_WORDS_SYNC', payload: words });
+    bcRef.current?.postMessage({ type: "CUSTOM_WORDS_SYNC", payload: words });
     try {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'custom_words_sync',
-        payload: { words, crewId: userId }
+      supabase.channel("live_events").send({
+        type: "broadcast",
+        event: "custom_words_sync",
+        payload: { words, crewId: userId },
       });
-    } catch { }
+    } catch {}
   };
 
   const handleAddCustomWord = (e: React.FormEvent) => {
@@ -2231,80 +2752,117 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     if (!customWords.includes(word)) {
       const next = [...customWords, word];
       setCustomWords(next);
-      localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
+      localStorage.setItem("7h_custom_flagged_words_v1", JSON.stringify(next));
       syncCustomWords(next);
     }
-    setNewCustomWord('');
+    setNewCustomWord("");
   };
 
   const handleRemoveCustomWord = (wordToRemove: string) => {
-    const next = customWords.filter(w => w !== wordToRemove);
+    const next = customWords.filter((w) => w !== wordToRemove);
     setCustomWords(next);
-    localStorage.setItem('7h_custom_flagged_words_v1', JSON.stringify(next));
+    localStorage.setItem("7h_custom_flagged_words_v1", JSON.stringify(next));
     syncCustomWords(next);
   };
 
   const drawWinner = () => {
-    if (isDrawingRef.current || raffleStatus !== 'open' || raffleEntrants.length === 0) return;
+    if (
+      isDrawingRef.current ||
+      raffleStatus !== "open" ||
+      raffleEntrants.length === 0
+    )
+      return;
     isDrawingRef.current = true;
-    setRaffleStatus('drawing');
-    syncRaffle('drawing', raffleEntrants, raffleMinEntrants, rafflePrizes, []);
+    setRaffleStatus("drawing");
+    syncRaffle("drawing", raffleEntrants, raffleMinEntrants, rafflePrizes, []);
 
-    if (drawWinnerTimerRef.current !== null) clearTimeout(drawWinnerTimerRef.current);
+    if (drawWinnerTimerRef.current !== null)
+      clearTimeout(drawWinnerTimerRef.current);
     drawWinnerTimerRef.current = setTimeout(() => {
       drawWinnerTimerRef.current = null;
       isDrawingRef.current = false;
-      const uniqueEntrants = Array.from(new Map(raffleEntrants.map(e => [e.name, e])).values());
+      const uniqueEntrants = Array.from(
+        new Map(raffleEntrants.map((e) => [e.name, e])).values(),
+      );
       const shuffled = uniqueEntrants.sort(() => 0.5 - Math.random());
       const winners = shuffled.slice(0, rafflePrizes[0]?.qty || 1);
-      const pins = winners.map(() => Math.floor(1000 + Math.random() * 9000).toString());
+      const pins = winners.map(() =>
+        Math.floor(1000 + Math.random() * 9000).toString(),
+      );
       setDrawnWinners(winners);
       setWinnerPins(pins);
-      setRaffleStatus('complete');
-      syncRaffle('complete', raffleEntrants, raffleMinEntrants, rafflePrizes, winners, pins);
+      setRaffleStatus("complete");
+      syncRaffle(
+        "complete",
+        raffleEntrants,
+        raffleMinEntrants,
+        rafflePrizes,
+        winners,
+        pins,
+      );
 
-      const prizeName = rafflePrizes[0]?.name || 'the raffle';
+      const prizeName = rafflePrizes[0]?.name || "the raffle";
 
       winners.forEach((w, idx) => {
         const msg: ChatMsg = {
           id: `raffle-win-${Date.now()}-${idx}`,
-          account: { id: 'system', name: '7th Heaven', displayName: 'RAFFLE BOT', role: 'admin', color: '#c084fc', avatar: '🏆' },
+          account: {
+            id: "system",
+            name: "7th Heaven",
+            displayName: "RAFFLE BOT",
+            role: "admin",
+            color: "#c084fc",
+            avatar: "🏆",
+          },
           text: `🎉 CONGRATULATIONS to ${w.name} for winning ${prizeName}! Check your Fan Dashboard to claim your prize! 🏆`,
           timestamp: Date.now(),
         };
-        const stored = JSON.parse(localStorage.getItem(LS('live_chat_history')) || '[]');
+        const stored = JSON.parse(
+          localStorage.getItem(LS("live_chat_history")) || "[]",
+        );
         const nextChat = [...stored, msg].slice(-100);
-        localStorage.setItem(LS('live_chat_history'), JSON.stringify(nextChat));
+        localStorage.setItem(LS("live_chat_history"), JSON.stringify(nextChat));
         setPosts(nextChat);
       });
 
       try {
-        const inbox = JSON.parse(localStorage.getItem('vip_inbox_messages_v1') || localStorage.getItem('vip_inbox_messages') || '[]');
+        const inbox = JSON.parse(
+          localStorage.getItem("vip_inbox_messages_v1") ||
+            localStorage.getItem("vip_inbox_messages") ||
+            "[]",
+        );
         winners.forEach((w, idx) => {
           inbox.unshift({
             id: Date.now() + idx,
-            icon: '🎰',
-            title: 'Raffle Winner Drawn!',
+            icon: "🎰",
+            title: "Raffle Winner Drawn!",
             desc: `${w.name} won ${prizeName}. PIN: ${pins[idx]}.`,
-            time: 'Just now',
+            time: "Just now",
             isNew: true,
-            color: 'yellow',
+            color: "yellow",
             pin: pins[idx],
-            isClaimed: false
+            isClaimed: false,
           });
 
           // Persist notification to Supabase so it survives refresh
-          Promise.resolve(supabase.from('notifications').insert({
-            user_email: w.email || w.name.toLowerCase().replace(/\s+/g, '') + '@fan.7thheaven.com',
-            type: 'raffle_win',
-            title: `🏆 You won ${prizeName}!`,
-            body: `Congratulations! Show this PIN at the merch table to claim your prize.`,
-            pin: pins[idx],
-            prize: prizeName,
-          })).catch(() => { });
+          Promise.resolve(
+            supabase.from("notifications").insert({
+              user_email:
+                w.email ||
+                w.name.toLowerCase().replace(/\s+/g, "") + "@fan.7thheaven.com",
+              type: "raffle_win",
+              title: `🏆 You won ${prizeName}!`,
+              body: `Congratulations! Show this PIN at the merch table to claim your prize.`,
+              pin: pins[idx],
+              prize: prizeName,
+            }),
+          ).catch(() => {});
         });
-        localStorage.setItem('vip_inbox_messages_v1', JSON.stringify(inbox.slice(0, 50)));
-      } catch { }
+        localStorage.setItem(
+          "vip_inbox_messages_v1",
+          JSON.stringify(inbox.slice(0, 50)),
+        );
+      } catch {}
     }, 4000); // Wait 4s for simulated spin effect on fan page
   };
 
@@ -2313,38 +2871,68 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     drawWinnerRef.current = drawWinner;
   });
 
-  const raffleStateRef = useRef({ raffleStatus, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins, slug });
+  const raffleStateRef = useRef({
+    raffleStatus,
+    raffleMinEntrants,
+    rafflePrizes,
+    drawnWinners,
+    winnerPins,
+    slug,
+  });
   useEffect(() => {
-    raffleStateRef.current = { raffleStatus, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins, slug };
+    raffleStateRef.current = {
+      raffleStatus,
+      raffleMinEntrants,
+      rafflePrizes,
+      drawnWinners,
+      winnerPins,
+      slug,
+    };
   });
 
-  const handleRegisterEntrant = useCallback((name: string, email?: string, id?: string, targetCrewId?: string) => {
-    const { slug: currentSlug, raffleStatus: currentStatus, raffleMinEntrants: currentMin, rafflePrizes: currentPrizes, drawnWinners: currentWinners, winnerPins: currentPins } = raffleStateRef.current;
-    if (targetCrewId && targetCrewId !== currentSlug) return;
-    setRaffleEntrants(prev => {
-      if (prev.some(e => e.name === name)) return prev;
-      return [...prev, { name, id: id || Math.random().toString(), email }];
-    });
-  }, []);
+  const handleRegisterEntrant = useCallback(
+    (name: string, email?: string, id?: string, targetCrewId?: string) => {
+      const {
+        slug: currentSlug,
+        raffleStatus: currentStatus,
+        raffleMinEntrants: currentMin,
+        rafflePrizes: currentPrizes,
+        drawnWinners: currentWinners,
+        winnerPins: currentPins,
+      } = raffleStateRef.current;
+      if (targetCrewId && targetCrewId !== currentSlug) return;
+      setRaffleEntrants((prev) => {
+        if (prev.some((e) => e.name === name)) return prev;
+        return [...prev, { name, id: id || Math.random().toString(), email }];
+      });
+    },
+    [],
+  );
 
   const handleRegisterEntrantRef = useRef(handleRegisterEntrant);
   useEffect(() => {
     handleRegisterEntrantRef.current = handleRegisterEntrant;
   }, [handleRegisterEntrant]);
 
-  const handleRegisterLike = useCallback((songId: string, targetCrewId?: string) => {
-    if (targetCrewId && targetCrewId !== slug && targetCrewId !== userId) return;
-    const next = setlist.map(s => s.id === songId ? { ...s, likes: s.likes + 1 } : s);
-    setSetlist(next);
-    localStorage.setItem(LS('live_setlist_sync'), JSON.stringify(next));
-    try {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'setlist_sync',
-        payload: { setlist: next, userId: slug },
-      });
-    } catch { }
-  }, [setlist, LS, slug, userId]);
+  const handleRegisterLike = useCallback(
+    (songId: string, targetCrewId?: string) => {
+      if (targetCrewId && targetCrewId !== slug && targetCrewId !== userId)
+        return;
+      const next = setlist.map((s) =>
+        s.id === songId ? { ...s, likes: s.likes + 1 } : s,
+      );
+      setSetlist(next);
+      localStorage.setItem(LS("live_setlist_sync"), JSON.stringify(next));
+      try {
+        supabase.channel("live_events").send({
+          type: "broadcast",
+          event: "setlist_sync",
+          payload: { setlist: next, userId: slug },
+        });
+      } catch {}
+    },
+    [setlist, LS, slug, userId],
+  );
 
   const handleRegisterLikeRef = useRef(handleRegisterLike);
   useEffect(() => {
@@ -2352,11 +2940,18 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   }, [handleRegisterLike]);
 
   const rigWinForMe = () => {
-    if (raffleStatus !== 'open') {
-      alert("Please START a raffle first, then click Rig to guarantee your win!");
+    if (raffleStatus !== "open") {
+      alert(
+        "Please START a raffle first, then click Rig to guarantee your win!",
+      );
       return;
     }
-    const me = { name: displayName, id: userId || 'crew', email: email, joinedAt: Date.now() };
+    const me = {
+      name: displayName,
+      id: userId || "crew",
+      email: email,
+      joinedAt: Date.now(),
+    };
     // Force me as the only entrant for a guaranteed win
     setRaffleEntrants([me]);
     setTimeout(() => drawWinner(), 500);
@@ -2364,14 +2959,14 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
   // Auto-draw when entries reach minimum
   useEffect(() => {
-    if (raffleStatus === 'open' && raffleEntrants.length >= raffleMinEntrants) {
+    if (raffleStatus === "open" && raffleEntrants.length >= raffleMinEntrants) {
       drawWinnerRef.current();
     }
   }, [raffleStatus, raffleEntrants.length, raffleMinEntrants]);
 
   // Handle countdown and auto-restart action
   useEffect(() => {
-    if (raffleStatus === 'complete') {
+    if (raffleStatus === "complete") {
       setRaffleAutoRestartCountdown(120); // 2 minutes
     } else {
       setRaffleAutoRestartCountdown(null);
@@ -2405,14 +3000,21 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     next[idx] = { ...next[idx], [field]: value };
     setRaffleQueue(next);
 
-    if (idx === activeQueueIndex && raffleStatus !== 'idle') {
+    if (idx === activeQueueIndex && raffleStatus !== "idle") {
       const activeRaffle = next[idx];
-      syncRaffle(raffleStatus, raffleEntrants, activeRaffle.min, [{ name: activeRaffle.name, qty: activeRaffle.qty }], drawnWinners, winnerPins);
+      syncRaffle(
+        raffleStatus,
+        raffleEntrants,
+        activeRaffle.min,
+        [{ name: activeRaffle.name, qty: activeRaffle.qty }],
+        drawnWinners,
+        winnerPins,
+      );
     }
   };
 
   const addQueueItem = () => {
-    setRaffleQueue([...raffleQueue, { name: '', qty: 1, min: 10 }]);
+    setRaffleQueue([...raffleQueue, { name: "", qty: 1, min: 10 }]);
   };
 
   const removeQueueItem = (idx: number) => {
@@ -2423,22 +3025,39 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   };
 
   const addFakeEntry = () => {
-    if (raffleStatus !== 'open') return;
-    const names = ['Alex', 'Jordan', 'Taylor', 'Casey', 'Riley'];
-    const newEntrant = { name: names[Math.floor(Math.random() * names.length)], id: Math.random().toString() };
+    if (raffleStatus !== "open") return;
+    const names = ["Alex", "Jordan", "Taylor", "Casey", "Riley"];
+    const newEntrant = {
+      name: names[Math.floor(Math.random() * names.length)],
+      id: Math.random().toString(),
+    };
     const nextEntrants = [...raffleEntrants, newEntrant];
     setRaffleEntrants(nextEntrants);
-    syncRaffle(raffleStatus, nextEntrants, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins);
+    syncRaffle(
+      raffleStatus,
+      nextEntrants,
+      raffleMinEntrants,
+      rafflePrizes,
+      drawnWinners,
+      winnerPins,
+    );
   };
 
   const addLotsOfFakeEntries = () => {
     const newEntries = Array.from({ length: 5 }, () => ({
-      name: 'SimulatedFan' + Math.floor(Math.random() * 1000),
+      name: "SimulatedFan" + Math.floor(Math.random() * 1000),
       id: Math.random().toString(),
     }));
     const current = [...raffleEntrants, ...newEntries];
     setRaffleEntrants(current);
-    syncRaffle(raffleStatus, current, raffleMinEntrants, rafflePrizes, drawnWinners, winnerPins);
+    syncRaffle(
+      raffleStatus,
+      current,
+      raffleMinEntrants,
+      rafflePrizes,
+      drawnWinners,
+      winnerPins,
+    );
   };
 
   const handlePost = () => {
@@ -2447,72 +3066,82 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     const msg: ChatMsg = {
       id: `crew-${Date.now()}`,
       account: {
-        id: userId || 'crew',
+        id: userId || "crew",
         name: displayName,
         displayName: displayName,
-        role: 'crew',
-        color: '#f97316',
+        role: "crew",
+        color: "#f97316",
         avatar: displayName.slice(0, 2).toUpperCase(),
       },
       text: content.trim(),
       timestamp: Date.now(),
     };
     // Sync to persistence history
-    const stored = JSON.parse(localStorage.getItem('7h_global_chat_history_v1') || localStorage.getItem('7h_global_chat_history') || '[]');
+    const stored = JSON.parse(
+      localStorage.getItem("7h_global_chat_history_v1") ||
+        localStorage.getItem("7h_global_chat_history") ||
+        "[]",
+    );
     const nextPosts = [...stored, msg];
     const limited = nextPosts.length > 100 ? nextPosts.slice(-100) : nextPosts;
 
     setPosts(limited);
-    localStorage.setItem('7h_global_chat_history_v1', JSON.stringify(limited));
+    localStorage.setItem("7h_global_chat_history_v1", JSON.stringify(limited));
 
     // Also write the individual message to live_chat_sync for cross-tab fan page pickup
-    localStorage.setItem(LS('live_chat_sync'), JSON.stringify(msg));
+    localStorage.setItem(LS("live_chat_sync"), JSON.stringify(msg));
 
     // Persist to Supabase chat_messages table
     // Use display-name-based roomSlug (same as what the fan page expects)
-    Promise.resolve(supabase.from('chat_messages').insert({
-      room: roomSlug,
-      sender_name: displayName,
-      sender_role: 'crew',
-      sender_avatar: displayName.slice(0, 2).toUpperCase(),
-      content: content.trim(),
-    })).catch(() => { });
+    Promise.resolve(
+      supabase.from("chat_messages").insert({
+        room: roomSlug,
+        sender_name: displayName,
+        sender_role: "crew",
+        sender_avatar: displayName.slice(0, 2).toUpperCase(),
+        content: content.trim(),
+      }),
+    ).catch(() => {});
 
     // BroadcastChannel: sync crew chat message to the fan page tab (FakeLiveStream)
-    bcRef.current?.postMessage({ type: 'CHAT_MSG', payload: msg });
+    bcRef.current?.postMessage({ type: "CHAT_MSG", payload: msg });
 
     // Broadcast via Supabase Realtime for cross-browser sync
-    supabase.channel('live_chat').send({
-      type: 'broadcast',
-      event: 'new_message',
-      payload: msg,
-    }).catch(() => { });
+    supabase
+      .channel("live_chat")
+      .send({
+        type: "broadcast",
+        event: "new_message",
+        payload: msg,
+      })
+      .catch(() => {});
 
-    setContent('');
+    setContent("");
     setPosting(false);
   };
 
   const handleGlobalPinBox = () => {
     if (!globalPinText.trim()) return;
     const pinData = { text: globalPinText.trim(), by: displayName };
-    localStorage.setItem(LS('live_pinned'), JSON.stringify(pinData));
+    localStorage.setItem(LS("live_pinned"), JSON.stringify(pinData));
     setActivePinned(pinData);
 
     // BroadcastChannel: sync pin to fan page
-    bcRef.current?.postMessage({ type: 'PIN_MSG', payload: pinData });
+    bcRef.current?.postMessage({ type: "PIN_MSG", payload: pinData });
 
-    setGlobalPinText('');
+    setGlobalPinText("");
   };
 
   const addProductToDrop = (prodId: string) => {
     if (!prodId) return;
-    const prod = shopifyProducts.find(p => p.id === prodId);
+    const prod = shopifyProducts.find((p) => p.id === prodId);
     if (!prod) return;
-    if (selectedProducts.some(p => p.id === prodId)) return;
-    const price = prod.variants?.edges?.[0]?.node?.price?.amount || '45.00';
+    if (selectedProducts.some((p) => p.id === prodId)) return;
+    const price = prod.variants?.edges?.[0]?.node?.price?.amount || "45.00";
     const stock = prod.quantityAvailable || 0;
-    const image = prod.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
-    setSelectedProducts(prev => [
+    const image =
+      prod.images?.edges?.[0]?.node?.url || "/images/mockups/merch-hoodie.png";
+    setSelectedProducts((prev) => [
       ...prev,
       {
         id: prodId,
@@ -2520,31 +3149,33 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
         stock: stock,
         shopifyPrice: price,
         flashPrice: price,
-        imageUrl: image
-      }
+        imageUrl: image,
+      },
     ]);
   };
 
   const removeProductFromDrop = (prodId: string) => {
-    setSelectedProducts(prev => prev.filter(p => p.id !== prodId));
+    setSelectedProducts((prev) => prev.filter((p) => p.id !== prodId));
   };
 
   const updateProductFlashPrice = (prodId: string, price: string) => {
-    setSelectedProducts(prev => prev.map(p => p.id === prodId ? { ...p, flashPrice: price } : p));
+    setSelectedProducts((prev) =>
+      prev.map((p) => (p.id === prodId ? { ...p, flashPrice: price } : p)),
+    );
   };
 
   const launchFlashDrop = () => {
     let seconds = 300;
     const dur = dropDurationStr.trim().toLowerCase();
 
-    if (dur.includes('m') && dur.includes('s')) {
-      const m = parseInt(dur.split('m')[0]) || 0;
-      const sString = dur.split('m')[1].replace('s', '').trim();
+    if (dur.includes("m") && dur.includes("s")) {
+      const m = parseInt(dur.split("m")[0]) || 0;
+      const sString = dur.split("m")[1].replace("s", "").trim();
       const s = parseInt(sString) || 0;
       seconds = m * 60 + s;
-    } else if (dur.endsWith('m')) {
+    } else if (dur.endsWith("m")) {
       seconds = (parseInt(dur) || 0) * 60;
-    } else if (dur.endsWith('s')) {
+    } else if (dur.endsWith("s")) {
       seconds = parseInt(dur) || 0;
     } else {
       seconds = (parseInt(dur) || 0) * 60; // default to minutes
@@ -2558,15 +3189,19 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     }
 
     const firstProduct = selectedProducts[0];
-    const firstShopifyProd = shopifyProducts.find(sp => sp.id === firstProduct.id);
-    const firstVariantId = firstShopifyProd?.variants?.edges?.[0]?.node?.id || firstProduct.id;
+    const firstShopifyProd = shopifyProducts.find(
+      (sp) => sp.id === firstProduct.id,
+    );
+    const firstVariantId =
+      firstShopifyProd?.variants?.edges?.[0]?.node?.id || firstProduct.id;
     const firstDescription = firstShopifyProd?.description || "";
-    const firstVariants = firstShopifyProd?.variants?.edges?.map((v: any) => ({
-      id: v.node.id,
-      title: v.node.title,
-      price: v.node.price?.amount || firstProduct.flashPrice,
-      quantityAvailable: v.node.quantityAvailable || 0
-    })) || [];
+    const firstVariants =
+      firstShopifyProd?.variants?.edges?.map((v: any) => ({
+        id: v.node.id,
+        title: v.node.title,
+        price: v.node.price?.amount || firstProduct.flashPrice,
+        quantityAvailable: v.node.quantityAvailable || 0,
+      })) || [];
 
     const payload = {
       id: firstProduct.id,
@@ -2577,15 +3212,16 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
       image: firstProduct.imageUrl,
       description: firstDescription,
       variants: firstVariants,
-      products: selectedProducts.map(p => {
-        const shopifyProd = shopifyProducts.find(sp => sp.id === p.id);
+      products: selectedProducts.map((p) => {
+        const shopifyProd = shopifyProducts.find((sp) => sp.id === p.id);
         const variantId = shopifyProd?.variants?.edges?.[0]?.node?.id || p.id;
-        const prodVariants = shopifyProd?.variants?.edges?.map((v: any) => ({
-          id: v.node.id,
-          title: v.node.title,
-          price: v.node.price?.amount || p.flashPrice,
-          quantityAvailable: v.node.quantityAvailable || 0
-        })) || [];
+        const prodVariants =
+          shopifyProd?.variants?.edges?.map((v: any) => ({
+            id: v.node.id,
+            title: v.node.title,
+            price: v.node.price?.amount || p.flashPrice,
+            quantityAvailable: v.node.quantityAvailable || 0,
+          })) || [];
         return {
           id: p.id,
           variantId: variantId,
@@ -2594,31 +3230,34 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           stock: p.stock,
           image: p.imageUrl,
           description: shopifyProd?.description || "",
-          variants: prodVariants
+          variants: prodVariants,
         };
       }),
-      duration: seconds
+      duration: seconds,
     };
 
     // Sync drop via local storage directly across tabs (immediate sync for testing)
-    localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...payload, ts: Date.now() }));
+    localStorage.setItem(
+      "7h_flash_drop_v1",
+      JSON.stringify({ ...payload, ts: Date.now() }),
+    );
 
     // BroadcastChannel: fires instantly on the fan page tab
-    bcRef.current?.postMessage({ type: 'FLASH_DROP', payload });
+    bcRef.current?.postMessage({ type: "FLASH_DROP", payload });
 
     // Global broadcast if checked
     if (globalDrop) {
-      const globalBc = new BroadcastChannel('7h_live_global');
-      globalBc.postMessage({ type: 'FLASH_DROP', payload });
+      const globalBc = new BroadcastChannel("7h_live_global");
+      globalBc.postMessage({ type: "FLASH_DROP", payload });
       globalBc.close();
     }
 
     // Also fire the canonical websocket broadcast for cross-device connections
     try {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'flash_drop',
-        payload
+      supabase.channel("live_events").send({
+        type: "broadcast",
+        event: "flash_drop",
+        payload,
       });
     } catch (e) {
       console.error("Supabase Flash Drop Broadcast Error:", e);
@@ -2627,23 +3266,23 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
     setActiveDrop({
       products: [...selectedProducts],
       timeLeft: seconds,
-      totalDuration: seconds
+      totalDuration: seconds,
     });
   };
 
   const cancelFlashDrop = () => {
-    localStorage.removeItem('7h_flash_drop');
+    localStorage.removeItem("7h_flash_drop");
     setActiveDrop(null);
-    bcRef.current?.postMessage({ type: 'CANCEL_FLASH_DROP' });
+    bcRef.current?.postMessage({ type: "CANCEL_FLASH_DROP" });
     if (globalDrop) {
-      const globalBc = new BroadcastChannel('7h_live_global');
-      globalBc.postMessage({ type: 'CANCEL_FLASH_DROP' });
+      const globalBc = new BroadcastChannel("7h_live_global");
+      globalBc.postMessage({ type: "CANCEL_FLASH_DROP" });
       globalBc.close();
     }
     try {
-      supabase.channel('live_events').send({
-        type: 'broadcast',
-        event: 'cancel_flash_drop'
+      supabase.channel("live_events").send({
+        type: "broadcast",
+        event: "cancel_flash_drop",
       });
     } catch (e) {
       console.error("Supabase Cancel Broadcast Error:", e);
@@ -2653,36 +3292,56 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
   const updateGlobalBanner = async () => {
     bannerUpdatingRef.current = true;
     try {
-      await fetch('/api/announcement', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isActive: bannerActiveRef.current, text: bannerTextRef.current, link: bannerLinkRef.current })
+      await fetch("/api/announcement", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          isActive: bannerActiveRef.current,
+          text: bannerTextRef.current,
+          link: bannerLinkRef.current,
+        }),
       });
-      alert('Global Announcement Banner Updated!');
+      alert("Global Announcement Banner Updated!");
     } catch (e) {
-      alert('Failed to update banner.');
+      alert("Failed to update banner.");
     }
     bannerUpdatingRef.current = false;
   };
 
   if (isLoading) return <div className="min-h-screen" />;
 
-  const activeProduct = shopifyProducts.find(p => p.id === selectedProductIdRef.current) || shopifyProducts[0];
-  const pName = activeProduct?.title || '7TH HEAVEN HOODIE 2026';
-  const pPrice = activeProduct?.variants?.edges?.[0]?.node?.price?.amount || '45.00';
-  const pStock = activeProduct ? (activeProduct.quantityAvailable || 0) : inventoryQtyRef.current;
-  const pImageUrl = activeProduct?.images?.edges?.[0]?.node?.url || '/images/mockups/merch-hoodie.png';
+  const activeProduct =
+    shopifyProducts.find((p) => p.id === selectedProductIdRef.current) ||
+    shopifyProducts[0];
+  const pName = activeProduct?.title || "7TH HEAVEN HOODIE 2026";
+  const pPrice =
+    activeProduct?.variants?.edges?.[0]?.node?.price?.amount || "45.00";
+  const pStock = activeProduct
+    ? activeProduct.quantityAvailable || 0
+    : inventoryQtyRef.current;
+  const pImageUrl =
+    activeProduct?.images?.edges?.[0]?.node?.url ||
+    "/images/mockups/merch-hoodie.png";
 
   return (
-    <main id="crew-portal-page" className="site-container min-h-screen selection:bg-purple-600/30 pt-20">
+    <main
+      id="crew-portal-page"
+      className="site-container min-h-screen pt-20 selection:bg-purple-600/30"
+    >
       <h1 className="sr-only">7th Heaven Crew Portal & Dashboard</h1>
 
       {/* ─── EXACT HEADER LAYOUT ─── */}
       <header>
-        <div className="py-5 flex items-center justify-between">
+        <div className="flex items-center justify-between py-5">
           <MemberHeaderBadge
-            name={displayName ? displayName.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : 'Michael Scimeca'}
-            email={email || 'michael@7thheaven.com'}
+            name={
+              displayName
+                ? displayName
+                    .toLowerCase()
+                    .replace(/\b\w/g, (c) => c.toUpperCase())
+                : "Michael Scimeca"
+            }
+            email={email || "michael@7thheaven.com"}
             badgeLabel="ADMIN"
             badgeColorClass="bg-purple-600/80 border-purple-400/50 text-purple-100"
             statusBadge="GOD MODE"
@@ -2693,38 +3352,53 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
       <div className="space-y-6">
-
         {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
-        <section id="broadcast-center" aria-label="Live Broadcast & Feed Center" className="transition-colors duration-300">
+        <section
+          id="broadcast-center"
+          aria-label="Live Broadcast & Feed Center"
+          className="transition-colors duration-300"
+        >
           {/* Accordion Toggle Header */}
           <button
             type="button"
-            onClick={() => setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)}
-            className="w-full text-left border-b border-white/10 flex items-center justify-between cursor-pointer select-none transition-colors group !rounded-none">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="flex flex-col lg:flex-row lg:items-center gap-3 min-w-0">
+            onClick={() =>
+              setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)
+            }
+            className="group flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/10 text-left transition-colors select-none"
+          >
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center">
                 <div>
-                  <h3 >
-                    Live Broadcast & Feed Center
-                  </h3>
+                  <h3>Live Broadcast & Feed Center</h3>
                   <p>
-                    Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls
+                    Stream Feed, Chat, Moderation, Merch Drops & Dashboard
+                    Controls
                   </p>
                 </div>
 
                 {/* Live/Offline status pill button in the feed container */}
-                <div className={`px-3 py-1 rounded-lg flex items-center gap-1.5 border shrink-0 w-fit ${isLive ? 'bg-red-900/30 border-red-500/30 text-red-500 animate-pulse' : ' bg-[#00000029] border-white/10 '}`}>
-                  <span className={`w-1.5 h-1.5 rounded-lg ${isLive ? 'bg-red-500 animate-pulse' : 'bg-white/20'}`} />
-                  <span>{isLive ? `LIVE - ${viewerCount} VIEWERS` : 'OFFLINE'}</span>
+                <div
+                  className={`flex w-fit shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1 ${isLive ? "animate-pulse border-red-500/30 bg-red-900/30 text-red-500" : "border-white/10 bg-[#00000029]"}`}
+                >
+                  <span
+                    className={`h-1.5 w-1.5 rounded-lg ${isLive ? "animate-pulse bg-red-500" : "bg-white/20"}`}
+                  />
+                  <span>
+                    {isLive ? `LIVE - ${viewerCount} VIEWERS` : "OFFLINE"}
+                  </span>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-3 shrink-0 ml-4">
-              <span className="hidden sm:inline whitespace-nowrap">
-                {isBroadcastPanelCollapsed ? 'Expand Feed Box' : 'Collapse Feed Box'}
+            <div className="ml-4 flex shrink-0 items-center gap-3">
+              <span className="hidden whitespace-nowrap sm:inline">
+                {isBroadcastPanelCollapsed
+                  ? "Expand Feed Box"
+                  : "Collapse Feed Box"}
               </span>
-              <div className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center transition-transform duration-300 ${isBroadcastPanelCollapsed ? 'rotate-180' : ''}`}>
-                <ChevronDown className="w-4 h-4" />
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${isBroadcastPanelCollapsed ? "rotate-180" : ""}`}
+              >
+                <ChevronDown className="h-4 w-4" />
               </div>
             </div>
           </button>
@@ -2733,19 +3407,21 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           {!isBroadcastPanelCollapsed && (
             <div className="space-y-2.5">
               {/* Switch Feed and Fan page links moved from header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-6">
-                <div className="flex items-center gap-3 no-glow">
-                  <span >Switch Dashboard Feed:</span>
+              <div className="flex flex-col justify-between gap-2 pt-6 sm:flex-row sm:items-center">
+                <div className="no-glow flex items-center gap-3">
+                  <span>Switch Dashboard Feed:</span>
                   <CustomDropdown
                     ariaLabel="Switch Dashboard Feed"
                     value={`/crew-${defaultMemberId || memberSlug}`}
-                    options={Object.values(MEMBER_SEEDS).map(member => ({
+                    options={Object.values(MEMBER_SEEDS).map((member) => ({
                       value: `/crew-${member.id}`,
                       label: member.name,
                     }))}
-                    onChange={(val) => { if (val) requestTransition(val); }}
+                    onChange={(val) => {
+                      if (val) requestTransition(val);
+                    }}
                     wrapperClassName="w-auto min-w-[200px]"
-                    className="!py-2 !px-3.5 !text-sm border-white/10 bg-[#00000029] backdrop-blur-[16px]"
+                    className="border-white/10 bg-[#00000029] !px-3.5 !py-2 !text-sm backdrop-blur-[16px]"
                     chevronColor="#c084fc"
                   />
                 </div>
@@ -2753,36 +3429,65 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 <Link
                   href={`/live/${defaultMemberId || memberSlug}`}
                   target="_blank"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#00000029] border border-white/10 backdrop-blur-[16px] hover:text-white flex items-center justify-center gap-2 self-start sm:self-auto">
+                  className="flex items-center justify-center gap-2 self-start rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-1.5 backdrop-blur-[16px] hover:text-white sm:self-auto"
+                >
                   <span>See Fan Feed Page</span>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <svg
+                    width="11"
+                    height="11"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                  >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
                   </svg>
                 </Link>
               </div>
 
               <div className="flex items-center gap-2">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z" /></svg>
-                Crew Broadcast <span className="text-white/20 px-1.5">·</span> <span>{viewerCount} viewers</span>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                </svg>
+                Crew Broadcast <span className="px-1.5 text-white/20">·</span>{" "}
+                <span>{viewerCount} viewers</span>
               </div>
 
               {/* Callout Link - Only visible when stream is LIVE */}
               {isLive && (
-                <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gradient-to-r from-emerald-900/40 to-transparent border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out">
-                  <div className="mb-6 sm:mb-0 text-center sm:text-left">
-                    <p className="flex flex-col sm:flex-row items-center gap-1.5 mb-1.5">
-                      <span className="w-1.5 h-1.5 rounded-lg bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
+                <div className="flex flex-col items-center justify-between border border-emerald-500/30 bg-gradient-to-r from-emerald-900/40 to-transparent p-4 shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-opacity duration-500 ease-out sm:flex-row">
+                  <div className="mb-6 text-center sm:mb-0 sm:text-left">
+                    <p className="mb-1.5 flex flex-col items-center gap-1.5 sm:flex-row">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-emerald-400 shadow-[0_0_8px_#34d399]" />
                       Fan Watch Link — Share with your audience
                     </p>
-                    <p className="text-emerald-300/90 select-all relative z-10 block break-all">
+                    <p className="relative z-10 block break-all text-emerald-300/90 select-all">
                       {`http://localhost:3000/live/${defaultMemberId || memberSlug}`}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 w-full sm:w-auto">
-                    <Link href={`/live/${defaultMemberId || memberSlug}`} target="_blank" className="flex-1 sm:flex-none text-center px-4 py-2 sm:py-1.5 bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white rounded border border-white/10 hover:border-emerald-500/50 transition-colors">
+                  <div className="flex w-full items-center gap-2 sm:w-auto">
+                    <Link
+                      href={`/live/${defaultMemberId || memberSlug}`}
+                      target="_blank"
+                      className="flex-1 rounded border border-white/10 bg-white/10 px-4 py-2 text-center text-emerald-300 transition-colors hover:border-emerald-500/50 hover:bg-white/20 hover:text-white sm:flex-none sm:py-1.5"
+                    >
                       Open <span className="ml-0.5">→</span>
                     </Link>
-                    <button onClick={() => navigator.clipboard.writeText(`http://localhost:3000/live/${defaultMemberId || memberSlug}`)} className="flex-1 sm:flex-none px-4 py-2 sm:py-1.5 bg-emerald-500 hover:bg-emerald-400 text-[#05110d] rounded shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] transition-colors cursor-pointer">
+                    <button
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          `http://localhost:3000/live/${defaultMemberId || memberSlug}`,
+                        )
+                      }
+                      className="flex-1 cursor-pointer rounded bg-emerald-500 px-4 py-2 text-[#05110d] shadow-[0_0_10px_rgba(16,185,129,0.4)] transition-colors hover:bg-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] sm:flex-none sm:py-1.5"
+                    >
                       Copy Link
                     </button>
                   </div>
@@ -2791,58 +3496,96 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
               {/* ─── VIDEO + CHAT GRID ─── */}
               <div
-                className="flex flex-col lg:flex-row overflow-hidden h-auto lg:h-[600px] rounded-lg"
-                style={{ border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px' }}>
-
+                className="flex h-auto flex-col overflow-hidden rounded-lg lg:h-[600px] lg:flex-row"
+                style={{
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  borderRadius: "12px",
+                }}
+              >
                 {/* VIDEO PLAYER (Left side) */}
-                <div
-                  className="w-full lg:flex-1 relative group min-w-0 h-[300px] sm:h-[400px] lg:h-full border-b lg:border-b-0 lg:border-r border-white/15">
-                  {(userId && isLive) ? (
+                <div className="group relative h-[300px] w-full min-w-0 border-b border-white/15 sm:h-[400px] lg:h-full lg:flex-1 lg:border-r lg:border-b-0">
+                  {userId && isLive ? (
                     <LiveKitStream
-                      room={`live_${userId.toString().toLowerCase().replace(/\s+/g, '_')}`}
+                      room={`live_${userId.toString().toLowerCase().replace(/\s+/g, "_")}`}
                       username={displayName}
                       isPublisher={true}
                       onDisconnected={() => {
                         console.log("Remote termination detected");
                         setIsLive(false);
-                        localStorage.setItem(LS('is_live'), 'false');
+                        localStorage.setItem(LS("is_live"), "false");
                       }}
                       className="absolute inset-0 z-0"
                     />
                   ) : (
                     <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#00000029] border border-white/10 flex items-center justify-center mb-3 shrink-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/40">
-                          <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-                          <line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.2)" />
+                      <div className="mb-3 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[#00000029] sm:h-16 sm:w-16">
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="text-white/40"
+                        >
+                          <path d="M23 7l-7 5 7 5V7z" />
+                          <rect
+                            x="1"
+                            y="5"
+                            width="15"
+                            height="14"
+                            rx="2"
+                            ry="2"
+                          />
+                          <line
+                            x1="1"
+                            y1="1"
+                            x2="23"
+                            y2="23"
+                            stroke="rgba(255,255,255,0.2)"
+                          />
                         </svg>
                       </div>
-                      <h3 className="  mb-1 text-sm sm:text-base">Camera Standby</h3>
-                      <p className="text-center max-w-[250px] text-xs sm:text-sm text-white/60 mb-6">
-                        Click <span className=" ">GO LIVE</span> below to start your camera and begin broadcasting.
+                      <h3 className="mb-1 text-sm sm:text-base">
+                        Camera Standby
+                      </h3>
+                      <p className="mb-6 max-w-[250px] text-center text-xs text-white/60 sm:text-sm">
+                        Click <span className=" ">GO LIVE</span> below to start
+                        your camera and begin broadcasting.
                       </p>
                       <SeventhButton
                         onClick={attemptEndStream}
                         disabled={toggling}
                         icon={false}
-                        className="px-8 sm:px-10 py-3 sm:py-3.5 disabled:opacity-50 flex items-center gap-2.5 cursor-pointer text-xs sm:text-sm z-20">
-                        <span className="animate-pulse shadow-[0_0_12px_#ffffff] shrink-0" style={{ backgroundColor: '#ffffff', width: '10px', height: '10px', borderRadius: '50%', display: 'inline-block' }} />
-                        {toggling ? 'Starting...' : 'Go Live'}
+                        className="z-20 flex cursor-pointer items-center gap-2.5 px-8 py-3 text-xs disabled:opacity-50 sm:px-10 sm:py-3.5 sm:text-sm"
+                      >
+                        <span
+                          className="shrink-0 animate-pulse shadow-[0_0_12px_#ffffff]"
+                          style={{
+                            backgroundColor: "#ffffff",
+                            width: "10px",
+                            height: "10px",
+                            borderRadius: "50%",
+                            display: "inline-block",
+                          }}
+                        />
+                        {toggling ? "Starting..." : "Go Live"}
                       </SeventhButton>
                     </div>
                   )}
 
                   {/* Floating Emojis overlay synced from fans */}
-                  <div className="absolute inset-0 pointer-events-none overflow-hidden z-[15]">
-                    {floating.map(item => (
+                  <div className="pointer-events-none absolute inset-0 z-[15] overflow-hidden">
+                    {floating.map((item) => (
                       <span
                         key={item.id}
-                        className="absolute text-4xl animate-float-up"
+                        className="animate-float-up absolute text-4xl"
                         style={{
                           left: `${item.x}%`,
-                          bottom: '8%',
-                          animationDuration: '2800ms',
-                        }}>
+                          bottom: "8%",
+                          animationDuration: "2800ms",
+                        }}
+                      >
                         {item.emoji}
                       </span>
                     ))}
@@ -2850,15 +3593,15 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                   {/* Live Indicator overlay — only visible when actually broadcasting */}
                   {isLive && (
-                    <div className="absolute top-4 left-4 flex gap-2 z-20">
-                      <div className="px-3 py-1 bg-red-600 rounded-lg flex items-center gap-1.5 shadow-red-600/30">
-                        <span className="w-1.5 h-1.5 rounded-lg bg-white animate-pulse" />
-                        <span >Live</span>
+                    <div className="absolute top-4 left-4 z-20 flex gap-2">
+                      <div className="flex items-center gap-1.5 rounded-lg bg-red-600 px-3 py-1 shadow-red-600/30">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-white" />
+                        <span>Live</span>
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-lg flex items-center gap-1.5 /90">
+                      <div className="/90 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
                         <span className=" ">{viewerCount} Viewers</span>
                       </div>
-                      <div className="px-3 py-1 bg-black/60 backdrop-blur border border-white/10 rounded-lg flex items-center gap-1.5 /90">
+                      <div className="/90 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
                         <span className=" ">{formatTime(elapsed)}</span>
                       </div>
                     </div>
@@ -2866,26 +3609,31 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                   {/* Video Controls overlay — only when live */}
                   {isLive && (
-                    <div className="absolute inset-x-0 bottom-0 p-4 z-20 flex items-center justify-end gap-4 pointer-events-none">
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-center justify-end gap-4 p-4">
                       <button
                         onClick={attemptEndStream}
                         disabled={toggling}
-                        className="shrink-0 px-8 py-3 rounded-lg transition-colors disabled:opacity-50 bg-red-900/80 border border-red-500/50 text-red-500 hover:bg-red-600 hover:  pointer-events-auto">
-                        {toggling ? '...' : '● End Stream'}
+                        className="hover: pointer-events-auto shrink-0 rounded-lg border border-red-500/50 bg-red-900/80 px-8 py-3 text-red-500 transition-colors hover:bg-red-600 disabled:opacity-50"
+                      >
+                        {toggling ? "..." : "● End Stream"}
                       </button>
                     </div>
                   )}
                 </div>
 
                 {/* CHAT PANEL (Right side) */}
-                <div className="w-full lg:w-[400px] h-[260px] sm:h-[320px] lg:h-full flex flex-col shrink-0">
+                <div className="flex h-[260px] w-full shrink-0 flex-col sm:h-[320px] lg:h-full lg:w-[400px]">
                   <div
-                    className="p-4 flex items-center justify-between shrink-0"
-                    style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.15)' }}>
+                    className="flex shrink-0 items-center justify-between p-4"
+                    style={{
+                      borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
+                    }}
+                  >
                     <span className="/90">Live Chat</span>
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-lg animate-pulse bg-emerald-500" /> {viewerCount} online
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-emerald-500" />{" "}
+                        {viewerCount} online
                       </div>
                       <span>·</span>
                       <span>{posts.length} msgs</span>
@@ -2894,153 +3642,220 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                   {/* 📌 Pinned Message Alert */}
                   {activePinned && (
-                    <div className="px-4 py-3 border-b border-white/[0.06] bg-gradient-to-r from-emerald-500/10 to-transparent shrink-0 relative group">
+                    <div className="group relative shrink-0 border-b border-white/[0.06] bg-gradient-to-r from-emerald-500/10 to-transparent px-4 py-3">
                       <div className="flex items-start gap-2.5 pr-6">
                         <div className="min-w-0 flex-1">
-                          <p className="text-black/90    ">
-                            {activePinned.text}
-                          </p>
+                          <p className="text-black/90">{activePinned.text}</p>
                           <p className="text-emerald-400/80">
                             PINNED BY {activePinned.by}
                           </p>
                         </div>
                       </div>
                       <button
-                        onClick={() => { setActivePinned(null); localStorage.setItem('7h_global_pinned', 'null'); }}
-                        className="absolute top-3 right-3 text-black/30 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                        title="Unpin Message">
+                        onClick={() => {
+                          setActivePinned(null);
+                          localStorage.setItem("7h_global_pinned", "null");
+                        }}
+                        className="absolute top-3 right-3 text-black/30 opacity-0 transition-opacity group-hover:opacity-100 hover:text-red-400"
+                        title="Unpin Message"
+                      >
                         ×
                       </button>
                     </div>
                   )}
 
-                  <div ref={chatScrollRef} data-lenis-prevent className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar flex flex-col min-h-0">
+                  <div
+                    ref={chatScrollRef}
+                    data-lenis-prevent
+                    className="custom-scrollbar flex min-h-0 flex-1 flex-col space-y-3 overflow-y-auto p-4"
+                  >
                     {posts.length === 0 && (
-                      <div className="flex-1 flex flex-col items-center justify-center py-6 text-center text-white/30 my-auto">
-                        <svg className="w-7 h-7 mb-1.5 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      <div className="my-auto flex flex-1 flex-col items-center justify-center py-6 text-center text-white/30">
+                        <svg
+                          className="mb-1.5 h-7 w-7 opacity-30"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                          />
                         </svg>
-                        <p className="text-[11px] r text-white/40">No Messages Yet</p>
-                        <p className="text-[11px] mt-0.5">Stream chat messages will appear here</p>
+                        <p className="r text-[11px] text-white/40">
+                          No Messages Yet
+                        </p>
+                        <p className="mt-0.5 text-[11px]">
+                          Stream chat messages will appear here
+                        </p>
                       </div>
                     )}
-                    {posts.map(p => {
+                    {posts.map((p) => {
                       const isSystem = !p.account || p.isSystem;
                       if (isSystem) {
-                        const isWarning = p.text.includes('warned') || p.text.includes('Warning');
-                        const isBan = p.text.includes('banned');
+                        const isWarning =
+                          p.text.includes("warned") ||
+                          p.text.includes("Warning");
+                        const isBan = p.text.includes("banned");
                         const bg = isWarning
-                          ? 'rgba(147, 51, 234,0.1)'
+                          ? "rgba(147, 51, 234,0.1)"
                           : isBan
-                            ? 'rgba(239,68,68,0.1)'
-                            : 'rgba(255,255,255,0.05)';
+                            ? "rgba(239,68,68,0.1)"
+                            : "rgba(255,255,255,0.05)";
                         const color = isWarning
-                          ? '#c084fc'
+                          ? "#c084fc"
                           : isBan
-                            ? '#f87171'
-                            : 'rgba(255,255,255,0.35)';
+                            ? "#f87171"
+                            : "rgba(255,255,255,0.35)";
                         const border = isWarning
-                          ? '1px solid rgba(147, 51, 234,0.2)'
+                          ? "1px solid rgba(147, 51, 234,0.2)"
                           : isBan
-                            ? '1px solid rgba(239,68,68,0.2)'
-                            : '1px solid transparent';
+                            ? "1px solid rgba(239,68,68,0.2)"
+                            : "1px solid transparent";
                         return (
-                          <div key={p.id} className="flex items-center justify-center py-1">
+                          <div
+                            key={p.id}
+                            className="flex items-center justify-center py-1"
+                          >
                             <span
-                              className="px-3 py-1 rounded-lg text-[var(--font-size-2xs)]"
+                              className="rounded-lg px-3 py-1 text-[var(--font-size-2xs)]"
                               style={{
                                 background: bg,
                                 color: color,
                                 border: border,
                                 fontSize: 10,
-                              }}>
+                              }}
+                            >
                               {p.text}
                             </span>
                           </div>
                         );
                       }
 
-                      const username = p.account?.displayName || p.account?.name || 'Anonymous';
+                      const username =
+                        p.account?.displayName ||
+                        p.account?.name ||
+                        "Anonymous";
                       const isUserBanned = bannedUsers.has(username);
                       const isUserWarned = warnedUsers.has(username);
 
                       return (
-                        <div key={p.id} className="flex gap-3 relative group">
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center   shrink-0 !rounded-full" style={{ backgroundColor: p.account?.color || getAvatarColor(username) }}>
-                            {p.account?.avatar || 'C'}
+                        <div key={p.id} className="group relative flex gap-3">
+                          <div
+                            className="flex h-8 w-8 shrink-0 items-center justify-center !rounded-full rounded-lg"
+                            style={{
+                              backgroundColor:
+                                p.account?.color || getAvatarColor(username),
+                            }}
+                          >
+                            {p.account?.avatar || "C"}
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <p className="" style={{ color: p.account?.color || getAvatarColor(username) }}>{username}</p>
-                              {(p.account?.role === 'crew' || p.account?.role === 'admin') && (
-                                <span className="px-1 py-0.5 bg-[var(--color-accent)]/20 border border-[#8a1cfc]/40 rounded text-[var(--font-size-2xs)] text-[#c084fc]">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <p
+                                className=""
+                                style={{
+                                  color:
+                                    p.account?.color ||
+                                    getAvatarColor(username),
+                                }}
+                              >
+                                {username}
+                              </p>
+                              {(p.account?.role === "crew" ||
+                                p.account?.role === "admin") && (
+                                <span className="rounded border border-[#8a1cfc]/40 bg-[var(--color-accent)]/20 px-1 py-0.5 text-[#c084fc] text-[var(--font-size-2xs)]">
                                   CREW
                                 </span>
                               )}
                               {isUserWarned && (
-                                <span className="px-1 py-0.5 bg-purple-600/10 border border-purple-500/30 rounded text-[var(--font-size-2xs)] text-purple-300">
+                                <span className="rounded border border-purple-500/30 bg-purple-600/10 px-1 py-0.5 text-[var(--font-size-2xs)] text-purple-300">
                                   WARNED
                                 </span>
                               )}
                               {isUserBanned && (
-                                <span className="px-1 py-0.5 bg-red-500/10 border border-red-500/30 rounded text-[var(--font-size-2xs)] text-red-400">
+                                <span className="rounded border border-red-500/30 bg-red-500/10 px-1 py-0.5 text-[var(--font-size-2xs)] text-red-400">
                                   BANNED
                                 </span>
                               )}
                             </div>
-                            <p className="text-black/90   break-words" style={{ textDecoration: isUserBanned ? 'line-through' : 'none', opacity: isUserBanned ? 0.5 : 1 }}>{p.text}</p>
+                            <p
+                              className="break-words text-black/90"
+                              style={{
+                                textDecoration: isUserBanned
+                                  ? "line-through"
+                                  : "none",
+                                opacity: isUserBanned ? 0.5 : 1,
+                              }}
+                            >
+                              {p.text}
+                            </p>
                           </div>
 
                           {/* Moderation Actions */}
-                          {p.account?.role !== 'crew' && p.account?.role !== 'admin' && (
-                            <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 bg-white/95 border border-black/10 rounded-lg p-1 z-20">
-                              <button
-                                onClick={() => handleWarn(username)}
-                                title={isUserWarned ? "Unwarn User" : "Warn User"}
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-purple-600/15 transition-colors cursor-pointer">
-                                ⚠️
-                              </button>
-                              <button
-                                onClick={() => handleBan(username)}
-                                title={isUserBanned ? "Unban User" : "Ban User"}
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-500/15 text-red-500 transition-colors cursor-pointer">
-                                🚫
-                              </button>
-                              <button
-                                onClick={() => handleDeleteMsg(p.id)}
-                                title="Delete Message"
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-gray-100 text-black/40 transition-colors cursor-pointer">
-                                🗑
-                              </button>
-                              <button
-                                onClick={() => handleKick(username)}
-                                title="Remove Fan Completely"
-                                className="w-6 h-6 rounded flex items-center justify-center hover:bg-red-500/20 text-red-500 transition-colors cursor-pointer">
-                                🚪
-                              </button>
-                            </div>
-                          )}
+                          {p.account?.role !== "crew" &&
+                            p.account?.role !== "admin" && (
+                              <div className="absolute top-2 right-2 z-20 flex gap-1 rounded-lg border border-black/10 bg-white/95 p-1 opacity-0 transition-opacity group-hover:opacity-100">
+                                <button
+                                  onClick={() => handleWarn(username)}
+                                  title={
+                                    isUserWarned ? "Unwarn User" : "Warn User"
+                                  }
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded transition-colors hover:bg-purple-600/15"
+                                >
+                                  ⚠️
+                                </button>
+                                <button
+                                  onClick={() => handleBan(username)}
+                                  title={
+                                    isUserBanned ? "Unban User" : "Ban User"
+                                  }
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 transition-colors hover:bg-red-500/15"
+                                >
+                                  🚫
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteMsg(p.id)}
+                                  title="Delete Message"
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-black/40 transition-colors hover:bg-gray-100"
+                                >
+                                  🗑
+                                </button>
+                                <button
+                                  onClick={() => handleKick(username)}
+                                  title="Remove Fan Completely"
+                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 transition-colors hover:bg-red-500/20"
+                                >
+                                  🚪
+                                </button>
+                              </div>
+                            )}
                         </div>
                       );
                     })}
                   </div>
 
-                  <div className="pt-2 space-y-0 shrink-0">
+                  <div className="shrink-0 space-y-0 pt-2">
                     {/* Pin message input */}
                     <div className="relative">
                       <input
                         aria-label="Pin a message to all fans"
                         value={globalPinText}
-                        onChange={e => setGlobalPinText(e.target.value)}
-                        onKeyDown={e => e.key === 'Enter' && handleGlobalPinBox()}
+                        onChange={(e) => setGlobalPinText(e.target.value)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && handleGlobalPinBox()
+                        }
                         placeholder="Pin a message to all fans..."
-                        className="w-full bg-emerald-500/[0.08] !rounded-none !border-0 px-4 py-3.5 pr-24 placeholder:text-emerald-400/50 outline-none transition-colors"
+                        className="w-full !rounded-none !border-0 bg-emerald-500/[0.08] px-4 py-3.5 pr-24 transition-colors outline-none placeholder:text-emerald-400/50"
                       />
-                      <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center z-10">
+                      <div className="absolute top-1.5 right-1.5 bottom-1.5 z-10 flex items-center">
                         <button
                           onClick={handleGlobalPinBox}
                           disabled={!globalPinText.trim()}
-                          className="h-full px-3 bg-emerald-500 hover:bg-emerald-400 rounded-lg transition-colors disabled:opacity-50 disabled:bg-white/10 disabled:">
+                          className="disabled: h-full rounded-lg bg-emerald-500 px-3 transition-colors hover:bg-emerald-400 disabled:bg-white/10 disabled:opacity-50"
+                        >
                           PIN
                         </button>
                       </div>
@@ -3049,7 +3864,10 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     <ChatInputBar
                       value={content}
                       onChange={setContent}
-                      onSubmit={(e) => { e.preventDefault(); handlePost(); }}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handlePost();
+                      }}
                       disabled={posting}
                       placeholder="Type a message..."
                     />
@@ -3058,76 +3876,112 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-              <section id="live-analytics" aria-label="Live Stream Performance & Analytics" className="mt-6 bg-[#00000029] border border-white/10 p-6">
-                <div className="mb-6 border-b border-white/10 flex items-center justify-between">
+              <section
+                id="live-analytics"
+                aria-label="Live Stream Performance & Analytics"
+                className="mt-6 border border-white/10 bg-[#00000029] p-6"
+              >
+                <div className="mb-6 flex items-center justify-between border-b border-white/10">
                   <div className="flex items-center gap-3">
                     <div>
-                      <h3 className="text-lg">Live Stream Performance & Chat Analytics</h3>
-                      <p className="mt-0.5">Real-time Sales and Engagement Metrics</p>
+                      <h3 className="text-lg">
+                        Live Stream Performance & Chat Analytics
+                      </h3>
+                      <p className="mt-0.5">
+                        Real-time Sales and Engagement Metrics
+                      </p>
                     </div>
                   </div>
                   {isLive && (
-                    <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-lg animate-pulse text-xs">
+                    <span className="flex animate-pulse items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs">
                       ● Live Tracking
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {/* store sales card */}
-                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
-                      <p className="text-xs text-white/70">Store Sales Revenue</p>
-                      <p className="text-2xl mt-2">
-                        ${orders.filter(o => o.source === 'Store').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
+                      <p className="text-xs text-white/70">
+                        Store Sales Revenue
                       </p>
-                      <p className="text-[10px] text-purple-300 mt-2">
-                        {orders.filter(o => o.source === 'Store').length} purchases
+                      <p className="mt-2 text-2xl">
+                        $
+                        {orders
+                          .filter((o) => o.source === "Store")
+                          .reduce(
+                            (sum, o) =>
+                              sum +
+                              parseFloat(o.price.replace(/[$,]/g, "") || "0"),
+                            0,
+                          )
+                          .toFixed(2)}
+                      </p>
+                      <p className="mt-2 text-[10px] text-purple-300">
+                        {orders.filter((o) => o.source === "Store").length}{" "}
+                        purchases
                       </p>
                     </div>
 
                     {/* flash drop sales card */}
-                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
+                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
                       <p className="text-xs text-white/70">Flash Drop Sales</p>
-                      <p className="text-2xl mt-2">
-                        ${orders.filter(o => o.source === 'Flash Drop').reduce((sum, o) => sum + parseFloat(o.price.replace(/[$,]/g, '') || '0'), 0).toFixed(2)}
+                      <p className="mt-2 text-2xl">
+                        $
+                        {orders
+                          .filter((o) => o.source === "Flash Drop")
+                          .reduce(
+                            (sum, o) =>
+                              sum +
+                              parseFloat(o.price.replace(/[$,]/g, "") || "0"),
+                            0,
+                          )
+                          .toFixed(2)}
                       </p>
-                      <p className="text-[10px] text-purple-300 mt-2">
-                        {orders.filter(o => o.source === 'Flash Drop').length} purchases during live drops
+                      <p className="mt-2 text-[10px] text-purple-300">
+                        {orders.filter((o) => o.source === "Flash Drop").length}{" "}
+                        purchases during live drops
                       </p>
                     </div>
 
                     {/* raffle claims card */}
-                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
+                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
                       <p className="text-xs text-white/70">Raffle Claims</p>
-                      <p className="text-2xl mt-2">
-                        {orders.filter(o => o.source === 'Raffle').length}
+                      <p className="mt-2 text-2xl">
+                        {orders.filter((o) => o.source === "Raffle").length}
                       </p>
-                      <p className="text-[10px] text-purple-300 mt-2">prizes claimed by fans</p>
+                      <p className="mt-2 text-[10px] text-purple-300">
+                        prizes claimed by fans
+                      </p>
                     </div>
 
                     {/* viewers card */}
-                    <div className="p-4 bg-white/[0.03] border border-white/10 flex flex-col justify-between">
-                      <p className="text-xs text-white/70 flex items-center gap-1.5">
-                        <Users className="w-3.5 h-3.5 text-white/70 inline" /> Live Viewers
+                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
+                      <p className="flex items-center gap-1.5 text-xs text-white/70">
+                        <Users className="inline h-3.5 w-3.5 text-white/70" />{" "}
+                        Live Viewers
                       </p>
-                      <p className="text-2xl mt-2">{viewerCount}</p>
-                      <p className="text-[10px] text-purple-300 mt-2">{isLive ? "Watching live right now" : "Offline"}</p>
+                      <p className="mt-2 text-2xl">{viewerCount}</p>
+                      <p className="mt-2 text-[10px] text-purple-300">
+                        {isLive ? "Watching live right now" : "Offline"}
+                      </p>
                     </div>
-
                   </div>
                 </div>
               </section>
 
               {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
-              <div className="grid grid-cols-1 xl:grid-cols-2 w-full gap-6 mt-6">
-
+              <div className="mt-6 grid w-full grid-cols-1 gap-6 xl:grid-cols-2">
                 {/* FLASH MERCH DROP */}
-                <section id="flash-merch-drop" aria-label="Flash Merch Drop Management" className="flex-1">
+                <section
+                  id="flash-merch-drop"
+                  aria-label="Flash Merch Drop Management"
+                  className="flex-1"
+                >
                   <div className="flex items-center gap-3">
                     <div>
-                      <h3 >Flash Merch Drop</h3>
+                      <h3>Flash Merch Drop</h3>
                       <p>Limited time, limited stock</p>
                     </div>
                   </div>
@@ -3135,37 +3989,63 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                     {activeDrop ? (
                       <div className="space-y-4">
                         {/* Submitted Status Header */}
-                        <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 flex items-center justify-between">
+                        <div className="flex items-center justify-between border border-emerald-500/30 bg-emerald-500/10 p-3">
                           <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-lg bg-emerald-500 animate-pulse" />
-                            <span className="text-[var(--color-accent)]">Flash Sale Active</span>
+                            <span className="h-2.5 w-2.5 animate-pulse rounded-lg bg-emerald-500" />
+                            <span className="text-[var(--color-accent)]">
+                              Flash Sale Active
+                            </span>
                           </div>
-                          <span className="text-white/40 r">Submitted Successfully</span>
+                          <span className="r text-white/40">
+                            Submitted Successfully
+                          </span>
                         </div>
 
                         {/* Countdown timer */}
-                        <div className="bg-black/40 border border-white/10 p-4 text-center">
+                        <div className="border border-white/10 bg-black/40 p-4 text-center">
                           <p className="mb-1">Time Remaining</p>
                           <p className="animate-pulse">
-                            {Math.floor(activeDrop.timeLeft / 60)}m {activeDrop.timeLeft % 60}s
+                            {Math.floor(activeDrop.timeLeft / 60)}m{" "}
+                            {activeDrop.timeLeft % 60}s
                           </p>
-                          <div className="w-full bg-[#00000029] h-1.5 rounded-lg mt-3 overflow-hidden">
+                          <div className="mt-3 h-1.5 w-full overflow-hidden rounded-lg bg-[#00000029]">
                             <div
                               className="h-full bg-gradient-to-r from-purple-600 to-violet-600 transition-colors duration-1000"
-                              style={{ width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%` }}
+                              style={{
+                                width: `${(activeDrop.timeLeft / activeDrop.totalDuration) * 100}%`,
+                              }}
                             />
                           </div>
                         </div>
 
                         {/* Product List */}
-                        <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-                          <p >Active Products</p>
-                          {activeDrop.products.map(p => (
-                            <div key={p.id} className="flex gap-3 p-2.5 bg-[#00000029] border border-white/10 items-center justify-between">
-                              <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-11 h-11 rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
-                              <div className="flex-1 min-w-0">
-                                <p className="truncate" title={p.title}>{p.title}</p>
-                                <p className="mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                        <div className="max-h-60 space-y-2.5 overflow-y-auto pr-1">
+                          <p>Active Products</p>
+                          {activeDrop.products.map((p) => (
+                            <div
+                              key={p.id}
+                              className="flex items-center justify-between gap-3 border border-white/10 bg-[#00000029] p-2.5"
+                            >
+                              <Image
+                                width={200}
+                                height={200}
+                                unoptimized
+                                src={p.imageUrl}
+                                alt={p.title}
+                                className="h-11 w-11 shrink-0 rounded object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.src =
+                                    "/images/mockups/merch-hoodie.png";
+                                }}
+                              />
+                              <div className="min-w-0 flex-1">
+                                <p className="truncate" title={p.title}>
+                                  {p.title}
+                                </p>
+                                <p className="mt-0.5">
+                                  Shopify: {p.stock} left · Orig: $
+                                  {p.shopifyPrice}
+                                </p>
                               </div>
                               <div className="shrink-0 text-right">
                                 <p>${p.flashPrice}</p>
@@ -3179,26 +4059,35 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           <button
                             type="button"
                             onClick={cancelFlashDrop}
-                            className="w-full py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 hover:text-red-300 transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
+                            className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/30 bg-red-500/10 py-3 text-red-400 transition-colors hover:bg-red-500/20 hover:text-red-300"
+                          >
                             Cancel Flash Drop
                           </button>
                         </div>
                       </div>
                     ) : (
                       <>
-                        <div className="flex items-center justify-between mb-3">
+                        <div className="mb-3 flex items-center justify-between">
                           <div className="flex items-center gap-2">
-                            <span className="text-[var(--color-accent-pink)]">LIVE SHOPIFY INVENTORY</span>
+                            <span className="text-[var(--color-accent-pink)]">
+                              LIVE SHOPIFY INVENTORY
+                            </span>
                             <a
-                              href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || '7th-heaven-7012.myshopify.com').replace(/"/g, '').split('.')[0]}/products`}
+                              href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "7th-heaven-7012.myshopify.com").replace(/"/g, "").split(".")[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="rounded-lg ! flex items-center gap-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] px-2 py-0.5 rounded"
-                              title="Go to Shopify Products Admin">
+                              className="! flex items-center gap-1 rounded rounded-lg border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-[16px]"
+                              title="Go to Shopify Products Admin"
+                            >
                               Shopify Admin ↗
                             </a>
                           </div>
-                          <button onClick={() => window.location.reload()} className="p-2 text-white/40 hover:text-white flex items-center gap-1 border border-white/10">↻ Refresh</button>
+                          <button
+                            onClick={() => window.location.reload()}
+                            className="flex items-center gap-1 border border-white/10 p-2 text-white/40 hover:text-white"
+                          >
+                            ↻ Refresh
+                          </button>
                         </div>
 
                         <div className="mb-6">
@@ -3207,8 +4096,13 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                             value=""
                             placeholder="Select product to add to Flash Drop..."
                             options={shopifyProducts
-                              .filter(p => !selectedProducts.some(sp => sp.id === p.id))
-                              .map(p => ({
+                              .filter(
+                                (p) =>
+                                  !selectedProducts.some(
+                                    (sp) => sp.id === p.id,
+                                  ),
+                              )
+                              .map((p) => ({
                                 value: p.id,
                                 label: `${p.title} — $${p.variants?.edges?.[0]?.node?.price?.amount} (${p.quantityAvailable || 0} in stock)`,
                               }))}
@@ -3216,41 +4110,70 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               if (val) addProductToDrop(val);
                             }}
                             wrapperClassName="w-full"
-                            className="!py-3 !px-3.5 !text-sm border-white/10 bg-[#00000029] backdrop-blur-[16px]"
+                            className="border-white/10 bg-[#00000029] !px-3.5 !py-3 !text-sm backdrop-blur-[16px]"
                             chevronColor="#c084fc"
                           />
                         </div>
 
-                        <div className="space-y-3 mb-6 max-h-60 overflow-y-auto pr-1">
-                          <p className="mb-2">Selected Products & Flash Sale Prices</p>
+                        <div className="mb-6 max-h-60 space-y-3 overflow-y-auto pr-1">
+                          <p className="mb-2">
+                            Selected Products & Flash Sale Prices
+                          </p>
                           {selectedProducts.length === 0 ? (
-                            <div className="text-center py-6 rounded-lg border border-white/10">
+                            <div className="rounded-lg border border-white/10 py-6 text-center">
                               No products selected yet. Select a product above.
                             </div>
                           ) : (
-                            selectedProducts.map(p => (
-                              <div key={p.id} className="flex gap-4 p-3 border border-white/10 items-center justify-between bg-[#00000029]">
-                                <Image width={200} height={200} unoptimized src={p.imageUrl} alt={p.title} className="w-12 h-12 rounded object-cover shrink-0" onError={(e) => { e.currentTarget.src = '/images/mockups/merch-hoodie.png'; }} />
-                                <div className="flex-1 min-w-0">
-                                  <p className="truncate pr-2" title={p.title}>{p.title}</p>
-                                  <p className="mt-0.5">Shopify: {p.stock} left · Orig: ${p.shopifyPrice}</p>
+                            selectedProducts.map((p) => (
+                              <div
+                                key={p.id}
+                                className="flex items-center justify-between gap-4 border border-white/10 bg-[#00000029] p-3"
+                              >
+                                <Image
+                                  width={200}
+                                  height={200}
+                                  unoptimized
+                                  src={p.imageUrl}
+                                  alt={p.title}
+                                  className="h-12 w-12 shrink-0 rounded object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.src =
+                                      "/images/mockups/merch-hoodie.png";
+                                  }}
+                                />
+                                <div className="min-w-0 flex-1">
+                                  <p className="truncate pr-2" title={p.title}>
+                                    {p.title}
+                                  </p>
+                                  <p className="mt-0.5">
+                                    Shopify: {p.stock} left · Orig: $
+                                    {p.shopifyPrice}
+                                  </p>
                                 </div>
-                                <div className="flex items-center gap-2 shrink-0">
-                                  <div className="flex items-center bg-black/60 border border-white/10 rounded-lg px-2 py-1 max-w-[90px]">
-                                    <span className="text-white/40 mr-1">$</span>
+                                <div className="flex shrink-0 items-center gap-2">
+                                  <div className="flex max-w-[90px] items-center rounded-lg border border-white/10 bg-black/60 px-2 py-1">
+                                    <span className="mr-1 text-white/40">
+                                      $
+                                    </span>
                                     <input
                                       type="text"
                                       aria-label="Flash sale price"
                                       value={p.flashPrice}
-                                      onChange={e => updateProductFlashPrice(p.id, e.target.value)}
-                                      className="outline-none w-full text-right"
+                                      onChange={(e) =>
+                                        updateProductFlashPrice(
+                                          p.id,
+                                          e.target.value,
+                                        )
+                                      }
+                                      className="w-full text-right outline-none"
                                       placeholder="Price"
                                     />
                                   </div>
                                   <button
                                     onClick={() => removeProductFromDrop(p.id)}
-                                    className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 flex items-center justify-center transition-colors cursor-pointer border-none"
-                                    title="Remove from drop">
+                                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border-none bg-red-500/10 text-red-400 transition-colors hover:bg-red-500/20"
+                                    title="Remove from drop"
+                                  >
                                     ✕
                                   </button>
                                 </div>
@@ -3259,34 +4182,43 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           )}
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="mb-6 grid grid-cols-2 gap-4">
                           <div>
                             <p className="mb-2">Total Products</p>
                             <button
                               type="button"
                               onClick={() => {
-                                const selectEl = document.querySelector<HTMLSelectElement>('select[aria-label="Select product to add to Flash Drop"]');
+                                const selectEl =
+                                  document.querySelector<HTMLSelectElement>(
+                                    'select[aria-label="Select product to add to Flash Drop"]',
+                                  );
                                 if (selectEl) {
                                   selectEl.focus();
                                 }
                               }}
-                              className="w-full bg-[#00000029] h-[36px] border border-white/10 hover:border-purple-400/60 rounded-lg p-2 text-center transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
-                              title="Click to select products from the dropdown above">
-                              <span className="text-purple-300  ">{selectedProducts.length}</span>
-                              <span className="text-[10px]  ">
-                                {selectedProducts.length === 1 ? "Selected" : "Selected"}
+                              className="flex h-[36px] w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] p-2 text-center shadow-sm transition-all hover:border-purple-400/60"
+                              title="Click to select products from the dropdown above"
+                            >
+                              <span className="text-purple-300">
+                                {selectedProducts.length}
+                              </span>
+                              <span className="text-[10px]">
+                                {selectedProducts.length === 1
+                                  ? "Selected"
+                                  : "Selected"}
                               </span>
                             </button>
                           </div>
                           <div>
                             <p className="mb-2">Duration</p>
                             <div className="grid grid-cols-4 gap-2">
-                              {['2m', '5m', '10m', '15m'].map((d) => (
+                              {["2m", "5m", "10m", "15m"].map((d) => (
                                 <SeventhButton
                                   key={d}
                                   isActive={dropDurationStr === d}
                                   onClick={() => setDropDurationStr(d)}
-                                  className="!w-full !py-2 text-sm">
+                                  className="!w-full !py-2 text-sm"
+                                >
                                   {d}
                                 </SeventhButton>
                               ))}
@@ -3294,14 +4226,17 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-3 mb-6 no-glow">
+                        <div className="no-glow mb-6 flex items-center gap-3">
                           <SquishyToggle
                             id="global-drop-toggle"
                             checked={globalDrop}
                             onChange={setGlobalDrop}
                             label="Drop on ALL live streams (Global)"
                           />
-                          <label htmlFor="global-drop-toggle" className="hover:text-white transition-colors cursor-pointer select-none">
+                          <label
+                            htmlFor="global-drop-toggle"
+                            className="cursor-pointer transition-colors select-none hover:text-white"
+                          >
                             Drop on ALL live streams (Global)
                           </label>
                         </div>
@@ -3310,18 +4245,40 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                           type="button"
                           onClick={launchFlashDrop}
                           icon={false}
-                          className="w-full py-4 cursor-pointer">
+                          className="w-full cursor-pointer py-4"
+                        >
                           Launch Flash Drop
                         </SeventhButton>
 
                         <button
                           type="button"
                           onClick={() => {
-                            const testPayload = { name: '7TH HEAVEN HOODIE 2026', price: '45.00', stock: 0, image: '/images/mockups/merch_hoodie.png', duration: 300 };
-                            localStorage.setItem('7h_flash_drop_v1', JSON.stringify({ ...testPayload, ts: Date.now() }));
-                            try { supabase.channel('live_events').send({ type: 'broadcast', event: 'flash_drop', payload: testPayload }) } catch { }
+                            const testPayload = {
+                              name: "7TH HEAVEN HOODIE 2026",
+                              price: "45.00",
+                              stock: 0,
+                              image: "/images/mockups/merch_hoodie.png",
+                              duration: 300,
+                            };
+                            localStorage.setItem(
+                              "7h_flash_drop_v1",
+                              JSON.stringify({
+                                ...testPayload,
+                                ts: Date.now(),
+                              }),
+                            );
+                            try {
+                              supabase
+                                .channel("live_events")
+                                .send({
+                                  type: "broadcast",
+                                  event: "flash_drop",
+                                  payload: testPayload,
+                                });
+                            } catch {}
                           }}
-                          className="w-full mt-2 py-2 rounded-lg bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400 transition-colors">
+                          className="mt-2 w-full rounded-lg border border-red-500/20 bg-red-500/10 py-2 text-red-400 transition-colors hover:bg-red-500/20"
+                        >
                           [TESTING] Simulate Sold Out Merch Drop
                         </button>
                       </>
@@ -3330,51 +4287,87 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                 </section>
 
                 {/* LIVE RAFFLE (Rebuilt as requested) */}
-                <section id="live-raffle" aria-label="Live Event Raffle Management" className="flex-1 flex flex-col">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-6">
+                <section
+                  id="live-raffle"
+                  aria-label="Live Event Raffle Management"
+                  className="flex flex-1 flex-col"
+                >
+                  <div className="mb-6 flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
                     <div className="flex items-center gap-3">
                       <div>
-                        <h3 >Live Event Raffle</h3>
-                        <p>{raffleStatus === 'idle' ? 'Standby' : raffleStatus === 'open' ? 'Accepting Entries' : raffleStatus === 'drawing' ? 'Drawing Winner...' : 'Complete'}</p>
+                        <h3>Live Event Raffle</h3>
+                        <p>
+                          {raffleStatus === "idle"
+                            ? "Standby"
+                            : raffleStatus === "open"
+                              ? "Accepting Entries"
+                              : raffleStatus === "drawing"
+                                ? "Drawing Winner..."
+                                : "Complete"}
+                        </p>
                       </div>
                     </div>
-                    {raffleStatus !== 'idle' && (
+                    {raffleStatus !== "idle" && (
                       <button
                         type="button"
                         onClick={cancelRaffle}
-                        className="px-6 py-2.5 rounded-lg transition-colors border bg-red-500/10 text-red-400 border-red-500/20 hover:bg-red-500/20">
-                        {raffleStatus === 'complete' ? 'Clear Results' : 'Cancel Raffle'}
+                        className="rounded-lg border border-red-500/20 bg-red-500/10 px-6 py-2.5 text-red-400 transition-colors hover:bg-red-500/20"
+                      >
+                        {raffleStatus === "complete"
+                          ? "Clear Results"
+                          : "Cancel Raffle"}
                       </button>
                     )}
                   </div>
-                  <div className="flex-1 flex flex-col gap-5">
-
+                  <div className="flex flex-1 flex-col gap-5">
                     {/* Multi-Raffle Queue Configuration */}
-                    <div className="overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
-                      <div className="space-y-3 min-w-0">
-                        {Array.from(raffleQueue, (item, idx) => ({ item, idx })).map(({ item, idx }) => (
+                    <div className="-mx-4 overflow-x-auto px-4 pb-4 sm:mx-0 sm:px-0">
+                      <div className="min-w-0 space-y-3">
+                        {Array.from(raffleQueue, (item, idx) => ({
+                          item,
+                          idx,
+                        })).map(({ item, idx }) => (
                           <div
                             key={item.name || idx}
-                            className={`flex flex-col gap-2 relative p-3.5 sm:p-0 rounded-xl sm:rounded-none bg-white/[0.04] sm: border border-white/10 sm:border-0 ${idx !== activeQueueIndex && (raffleStatus !== 'idle' && raffleStatus !== 'complete') ? 'opacity-30 pointer-events-none' : ''}`}>
+                            className={`sm: relative flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.04] p-3.5 sm:rounded-none sm:border-0 sm:p-0 ${idx !== activeQueueIndex && raffleStatus !== "idle" && raffleStatus !== "complete" ? "pointer-events-none opacity-30" : ""}`}
+                          >
                             {/* Show indicator if it's the currently active raffle */}
-                            {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                              <div className="absolute -left-3 sm:-left-5 top-3 sm:top-7 animate-pulse">▶</div>
-                            )}
+                            {idx === activeQueueIndex &&
+                              raffleStatus !== "idle" && (
+                                <div className="absolute top-3 -left-3 animate-pulse sm:top-7 sm:-left-5">
+                                  ▶
+                                </div>
+                              )}
 
-                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 sm:items-end">
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-2">
                               {/* Input 1: Prize Name */}
-                              <div className="w-full sm:flex-1 flex flex-col gap-1.5 no-glow">
+                              <div className="no-glow flex w-full flex-col gap-1.5 sm:flex-1">
                                 <span className="text-xs sm:text-base">
-                                  <span className="inline sm:hidden">1. Prize Name</span>
-                                  {idx === 0 && <span className="hidden sm:block">1. Prize Name</span>}
+                                  <span className="inline sm:hidden">
+                                    1. Prize Name
+                                  </span>
+                                  {idx === 0 && (
+                                    <span className="hidden sm:block">
+                                      1. Prize Name
+                                    </span>
+                                  )}
                                 </span>
                                 <div className="input-glow-border">
                                   <input
                                     type="text"
                                     aria-label="Raffle prize name"
-                                    disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
+                                    disabled={
+                                      raffleStatus !== "idle" &&
+                                      raffleStatus !== "complete"
+                                    }
                                     value={item.name}
-                                    onChange={(e) => updateQueueItem(idx, 'name', e.target.value)}
+                                    onChange={(e) =>
+                                      updateQueueItem(
+                                        idx,
+                                        "name",
+                                        e.target.value,
+                                      )
+                                    }
                                     placeholder="e.g. VIP Meet & Greet Pass"
                                     className="form-input"
                                   />
@@ -3382,69 +4375,113 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                               </div>
 
                               {/* Inputs 2 & 3 wrapper for mobile (side-by-side grid on mobile, inline on desktop) */}
-                              <div className="grid grid-cols-2 sm:flex gap-2 sm:items-end">
+                              <div className="grid grid-cols-2 gap-2 sm:flex sm:items-end">
                                 {/* Input 2: Entries Needed */}
-                                <div className="w-full sm:w-28 flex flex-col gap-1.5 relative no-glow">
-                                  <span className="text-xs sm:text-base whitespace-nowrap">
-                                    <span className="inline sm:hidden">2. Entries</span>
-                                    {idx === 0 && <span className="hidden sm:block">2. Entries</span>}
+                                <div className="no-glow relative flex w-full flex-col gap-1.5 sm:w-28">
+                                  <span className="text-xs whitespace-nowrap sm:text-base">
+                                    <span className="inline sm:hidden">
+                                      2. Entries
+                                    </span>
+                                    {idx === 0 && (
+                                      <span className="hidden sm:block">
+                                        2. Entries
+                                      </span>
+                                    )}
                                   </span>
                                   <div className="input-glow-border">
                                     <input
                                       type="number"
                                       aria-label="Minimum entries needed"
                                       min="1"
-                                      disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                      value={item.min || ''}
-                                      onChange={(e) => updateQueueItem(idx, 'min', parseInt(e.target.value) || 1)}
-                                      className="form-input text-purple-300 text-center"
+                                      disabled={
+                                        raffleStatus !== "idle" &&
+                                        raffleStatus !== "complete"
+                                      }
+                                      value={item.min || ""}
+                                      onChange={(e) =>
+                                        updateQueueItem(
+                                          idx,
+                                          "min",
+                                          parseInt(e.target.value) || 1,
+                                        )
+                                      }
+                                      className="form-input text-center text-purple-300"
                                     />
                                   </div>
                                   {/* Floating counter during active raffle */}
-                                  {idx === activeQueueIndex && raffleStatus !== 'idle' && (
-                                    <div className="absolute -top-5 right-0 bg-purple-600/10 px-1.5 py-0.5 rounded border border-white/10 whitespace-nowrap z-10 w-auto text-right text-xs">
-                                      {raffleEntrants.length} / {item.min} Entries
-                                    </div>
-                                  )}
+                                  {idx === activeQueueIndex &&
+                                    raffleStatus !== "idle" && (
+                                      <div className="absolute -top-5 right-0 z-10 w-auto rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-right text-xs whitespace-nowrap">
+                                        {raffleEntrants.length} / {item.min}{" "}
+                                        Entries
+                                      </div>
+                                    )}
                                 </div>
 
                                 {/* Input 3: Prize Qty */}
-                                <div className="w-full sm:w-20 flex flex-col gap-1.5 no-glow">
-                                  <span className="text-xs sm:text-base whitespace-nowrap">
-                                    <span className="inline sm:hidden">3. Qty</span>
-                                    {idx === 0 && <span className="hidden sm:block">3. Qty</span>}
+                                <div className="no-glow flex w-full flex-col gap-1.5 sm:w-20">
+                                  <span className="text-xs whitespace-nowrap sm:text-base">
+                                    <span className="inline sm:hidden">
+                                      3. Qty
+                                    </span>
+                                    {idx === 0 && (
+                                      <span className="hidden sm:block">
+                                        3. Qty
+                                      </span>
+                                    )}
                                   </span>
                                   <div className="input-glow-border">
                                     <input
                                       type="number"
                                       aria-label="Prize quantity"
                                       min="1"
-                                      disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                      value={item.qty || ''}
-                                      onChange={(e) => updateQueueItem(idx, 'qty', parseInt(e.target.value) || 1)}
-                                      className="w-full bg-[#00000029] border border-white/10 px-3 py-2.5 sm:py-2 outline-none transition-colors text-center rounded-lg"
+                                      disabled={
+                                        raffleStatus !== "idle" &&
+                                        raffleStatus !== "complete"
+                                      }
+                                      value={item.qty || ""}
+                                      onChange={(e) =>
+                                        updateQueueItem(
+                                          idx,
+                                          "qty",
+                                          parseInt(e.target.value) || 1,
+                                        )
+                                      }
+                                      className="w-full rounded-lg border border-white/10 bg-[#00000029] px-3 py-2.5 text-center transition-colors outline-none sm:py-2"
                                     />
                                   </div>
                                 </div>
                               </div>
 
                               {/* Action Buttons */}
-                              <div className="flex items-center gap-2 pt-1 sm:pt-0 w-full sm:w-auto">
+                              <div className="flex w-full items-center gap-2 pt-1 sm:w-auto sm:pt-0">
                                 <button
                                   type="button"
                                   aria-label="Start raffle"
                                   onClick={() => startSpecificRaffle(idx)}
-                                  disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                                  className={`h-11 sm:h-[42px] px-4 flex-1 sm:flex-initial shrink-0 flex items-center justify-center border text-xs sm:text-[var(--font-size-2xs)] rounded-lg transition-colors ${(raffleStatus === 'idle' || raffleStatus === 'complete') ? 'border-purple-500 hover:bg-purple-600/10' : idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]' : ' border-white/10 text-white/30 opacity-30  '}`}>
-                                  {idx === activeQueueIndex && (raffleStatus === 'open' || raffleStatus === 'drawing') ? 'Running' : 'Start'}
+                                  disabled={
+                                    raffleStatus !== "idle" &&
+                                    raffleStatus !== "complete"
+                                  }
+                                  className={`flex h-11 flex-1 shrink-0 items-center justify-center rounded-lg border px-4 text-xs transition-colors sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === "idle" || raffleStatus === "complete" ? "border-purple-500 hover:bg-purple-600/10" : idx === activeQueueIndex && (raffleStatus === "open" || raffleStatus === "drawing") ? "border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]" : "border-white/10 text-white/30 opacity-30"}`}
+                                >
+                                  {idx === activeQueueIndex &&
+                                  (raffleStatus === "open" ||
+                                    raffleStatus === "drawing")
+                                    ? "Running"
+                                    : "Start"}
                                 </button>
 
                                 <button
                                   type="button"
                                   aria-label="Remove raffle item"
                                   onClick={() => removeQueueItem(idx)}
-                                  disabled={raffleStatus !== 'idle' || raffleQueue.length === 1}
-                                  className="h-11 sm:h-[42px] w-11 shrink-0 flex items-center justify-center border border-red-500/20 hover:border-red-500/40 text-red-500/70 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-0">
+                                  disabled={
+                                    raffleStatus !== "idle" ||
+                                    raffleQueue.length === 1
+                                  }
+                                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-red-500/20 text-red-500/70 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-500 disabled:opacity-0 sm:h-[42px]"
+                                >
                                   ✕
                                 </button>
                               </div>
@@ -3455,26 +4492,48 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <button
                           type="button"
                           onClick={addQueueItem}
-                          disabled={raffleStatus !== 'idle' && raffleStatus !== 'complete'}
-                          className="w-full py-2.5 border border-dashed border-white/10 hover:text-white rounded-lg hover:border-white/50 bg-[#00000029] transition-colors disabled:opacity-30">
+                          disabled={
+                            raffleStatus !== "idle" &&
+                            raffleStatus !== "complete"
+                          }
+                          className="w-full rounded-lg border border-dashed border-white/10 bg-[#00000029] py-2.5 transition-colors hover:border-white/50 hover:text-white disabled:opacity-30"
+                        >
                           + Add Another Raffle To Queue
                         </button>
                       </div>
                     </div>
 
-                    {raffleStatus === 'open' && (
-                      <div className="mt-2 text-center p-3 border border-white/10 bg-purple-600/5">
-                        <p className="mb-1">{raffleEntrants.length} <span className="text-white/50">/ {raffleMinEntrants}</span></p>
+                    {raffleStatus === "open" && (
+                      <div className="mt-2 border border-white/10 bg-purple-600/5 p-3 text-center">
+                        <p className="mb-1">
+                          {raffleEntrants.length}{" "}
+                          <span className="text-white/50">
+                            / {raffleMinEntrants}
+                          </span>
+                        </p>
                         <p className="mt-0.5">Fan entries collected</p>
-                        <div className="flex flex-col gap-2 mt-4 px-2">
+                        <div className="mt-4 flex flex-col gap-2 px-2">
                           <div className="flex gap-2">
-                            <button type="button" onClick={addFakeEntry} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg transition-colors">+ Fake Entry</button>
-                            <button type="button" onClick={addLotsOfFakeEntries} className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg transition-colors">+ Multi Fake</button>
+                            <button
+                              type="button"
+                              onClick={addFakeEntry}
+                              className="flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                            >
+                              + Fake Entry
+                            </button>
+                            <button
+                              type="button"
+                              onClick={addLotsOfFakeEntries}
+                              className="flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2 transition-colors hover:bg-white/20"
+                            >
+                              + Multi Fake
+                            </button>
                           </div>
                           <button
                             type="button"
                             onClick={rigWinForMe}
-                            className="w-full py-2 bg-emerald-500/10 hover:bg-[#10b981]/25 border border-[#10b981]/30 rounded-lg transition-colors">
+                            className="w-full rounded-lg border border-[#10b981]/30 bg-emerald-500/10 py-2 transition-colors hover:bg-[#10b981]/25"
+                          >
                             🧪 TEST: Rig Win for Me
                           </button>
                         </div>
@@ -3483,30 +4542,49 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
 
                     {/* Draw Action */}
                     <div className="mt-auto">
-                      {raffleStatus !== 'complete' ? (
+                      {raffleStatus !== "complete" ? (
                         <SeventhButton
                           type="button"
                           onClick={drawWinner}
-                          disabled={raffleStatus !== 'open' || raffleEntrants.length < raffleMinEntrants}
+                          disabled={
+                            raffleStatus !== "open" ||
+                            raffleEntrants.length < raffleMinEntrants
+                          }
                           icon={false}
-                          className="w-full py-4 disabled:opacity-30 disabled:grayscale cursor-pointer">
-                          {raffleStatus === 'drawing' ? '🎰 Rolling the dice...' : '🎰 Draw Winner'}
+                          className="w-full cursor-pointer py-4 disabled:opacity-30 disabled:grayscale"
+                        >
+                          {raffleStatus === "drawing"
+                            ? "🎰 Rolling the dice..."
+                            : "🎰 Draw Winner"}
                         </SeventhButton>
                       ) : (
-                        <div className="bg-gray-50 border border-purple-500/30 p-4 text-center">
-                          <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center text-2xl mx-auto mb-2 shadow-[0_0_15px_rgba(147,51,234,0.5)]">🎉</div>
+                        <div className="border border-purple-500/30 bg-gray-50 p-4 text-center">
+                          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-2xl shadow-[0_0_15px_rgba(147,51,234,0.5)]">
+                            🎉
+                          </div>
                           <h4 className="text-black">Winner Selected</h4>
-                          <div className="flex flex-col gap-2 justify-center mt-3">
+                          <div className="mt-3 flex flex-col justify-center gap-2">
                             {drawnWinners.map((w, i) => (
-                              <div key={w.id} className="flex items-center justify-between px-3 py-1.5 bg-purple-600/10 text-purple-300 rounded-lg border border-purple-500/30">
+                              <div
+                                key={w.id}
+                                className="flex items-center justify-between rounded-lg border border-purple-500/30 bg-purple-600/10 px-3 py-1.5 text-purple-300"
+                              >
                                 <span>{w.name}</span>
-                                <span className="text-purple-200">PIN: {winnerPins[i] || '0000'}</span>
+                                <span className="text-purple-200">
+                                  PIN: {winnerPins[i] || "0000"}
+                                </span>
                               </div>
                             ))}
                           </div>
                           {raffleAutoRestartCountdown !== null && (
-                            <p className="text-black/40 mt-3 pt-3 border-t border-black/10">
-                              Next raffle auto-starts in <span className="text-[var(--color-accent)]">{Math.floor(raffleAutoRestartCountdown / 60)}:{(raffleAutoRestartCountdown % 60).toString().padStart(2, '0')}</span>
+                            <p className="mt-3 border-t border-black/10 pt-3 text-black/40">
+                              Next raffle auto-starts in{" "}
+                              <span className="text-[var(--color-accent)]">
+                                {Math.floor(raffleAutoRestartCountdown / 60)}:
+                                {(raffleAutoRestartCountdown % 60)
+                                  .toString()
+                                  .padStart(2, "0")}
+                              </span>
                             </p>
                           )}
                         </div>
@@ -3517,28 +4595,35 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               </div>
 
               {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
-              <section id="chat-moderation" aria-label="Chat Moderation & Policies" className="mt-6">
+              <section
+                id="chat-moderation"
+                aria-label="Chat Moderation & Policies"
+                className="mt-6"
+              >
                 <div className="mb-6 flex items-center gap-3">
                   <div>
-                    <h3 >Chat Moderation & Policies</h3>
+                    <h3>Chat Moderation & Policies</h3>
                     <p>
-                      Add specific keywords, slurs, or phrases. Any message containing these (case-insensitive substring match) will be automatically flagged on all live feeds.
+                      Add specific keywords, slurs, or phrases. Any message
+                      containing these (case-insensitive substring match) will
+                      be automatically flagged on all live feeds.
                     </p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex flex-col lg:flex-row gap-6 items-start">
-                    <div className="max-w-[600px] w-full space-y-2">
-
-
-                      <form onSubmit={handleAddCustomWord} className="flex gap-2 max-w-[340px] mt-2 no-glow">
+                  <div className="flex flex-col items-start gap-6 lg:flex-row">
+                    <div className="w-full max-w-[600px] space-y-2">
+                      <form
+                        onSubmit={handleAddCustomWord}
+                        className="no-glow mt-2 flex max-w-[340px] gap-2"
+                      >
                         <div className="input-glow-border flex-1">
                           <input
                             type="text"
                             aria-label="Custom flagged keyword"
                             value={newCustomWord}
-                            onChange={e => setNewCustomWord(e.target.value)}
+                            onChange={(e) => setNewCustomWord(e.target.value)}
                             placeholder="e.g. ticket-scalper"
                             className="form-input"
                           />
@@ -3546,29 +4631,32 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
                         <SeventhButton
                           type="submit"
                           icon={false}
-                          className="px-5 py-2.5 shrink-0 cursor-pointer">
+                          className="shrink-0 cursor-pointer px-5 py-2.5"
+                        >
                           Add Keyword
                         </SeventhButton>
                       </form>
                     </div>
 
-                    <div className="w-full lg:w-[450px] shrink-0 space-y-2">
-                      <p >Active Custom Filters</p>
+                    <div className="w-full shrink-0 space-y-2 lg:w-[450px]">
+                      <p>Active Custom Filters</p>
                       {customWords.length === 0 ? (
-                        <div className="text-center rounded-lg py-6 border border-dashed border-white/10 bg-white/[0.01]">
+                        <div className="rounded-lg border border-dashed border-white/10 bg-white/[0.01] py-6 text-center">
                           <p>No custom keywords configured.</p>
                         </div>
                       ) : (
-                        <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
-                          {customWords.map(word => (
+                        <div className="flex max-h-32 flex-wrap gap-2 overflow-y-auto pr-1">
+                          {customWords.map((word) => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 bg-white/10 border border-white/10">
+                              className="inline-flex items-center gap-1.5 border border-white/10 bg-white/10 py-1 pr-1.5 pl-3"
+                            >
                               <span>{word}</span>
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="w-5 h-5 flex items-center justify-center rounded-lg hover:bg-white/20 hover:text-white transition-colors">
+                                className="flex h-5 w-5 items-center justify-center rounded-lg transition-colors hover:bg-white/20 hover:text-white"
+                              >
                                 &times;
                               </button>
                             </span>
@@ -3583,19 +4671,21 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
           )}
         </section>
 
-
         {/* LIVE SETLIST & FAN LIKES */}
-        <div className={`xl:col-span-2 overflow-hidden flex flex-col ${isSetlistCollapsed ? '' : 'min-h-[500px]'} mt-6`}>
-          <div className="w-full text-left py-4 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 select-none group">
+        <div
+          className={`flex flex-col overflow-hidden xl:col-span-2 ${isSetlistCollapsed ? "" : "min-h-[500px]"} mt-6`}
+        >
+          <div className="group flex w-full flex-col items-start justify-between gap-3 border-b border-white/10 py-4 text-left select-none md:flex-row md:items-center">
             <button
               type="button"
               onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-              className="flex items-center gap-3 border-none p-0 text-left flex-1 cursor-pointer">
-
+              className="flex flex-1 cursor-pointer items-center gap-3 border-none p-0 text-left"
+            >
               <div>
-                <h3 >Live Setlist & Fan Likes</h3>
+                <h3>Live Setlist & Fan Likes</h3>
                 <p>
-                  Now Playing: {setlist.find(s => s.isPlaying)?.title || 'None'}
+                  Now Playing:{" "}
+                  {setlist.find((s) => s.isPlaying)?.title || "None"}
                 </p>
               </div>
             </button>
@@ -3603,48 +4693,54 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="px-4 py-2 text-[var(--font-size-2xs)] rounded-lg transition-colors border bg-[#00000029] border-white/10 hover:bg-white/10 hover:text-white cursor-pointer">
+                className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-[var(--font-size-2xs)] transition-colors hover:bg-white/10 hover:text-white"
+              >
                 Reset Likes
               </button>
               <button
                 type="button"
                 aria-label="Toggle setlist"
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center transition-transform duration-300 ${isSetlistCollapsed ? 'rotate-180' : ''}`}>
-                <ChevronDown className="w-4 h-4" />
+                className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${isSetlistCollapsed ? "rotate-180" : ""}`}
+              >
+                <ChevronDown className="h-4 w-4" />
               </button>
             </div>
           </div>
 
           {!isSetlistCollapsed && (
             <div className="pb-4flex-1 flex flex-col justify-between gap-4">
-
               {/* Song rows */}
-              <div data-lenis-prevent className="space-y-1 max-h-[300px] overflow-y-auto">
+              <div
+                data-lenis-prevent
+                className="max-h-[300px] space-y-1 overflow-y-auto"
+              >
                 {setlist.map((song, idx) => (
                   <div
                     key={song.id}
-                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying ? '' : ''} ${idx < setlist.length - 1 ? 'border-b border-white/10' : ''}`}>
-                    <div className="flex items-center gap-2 min-w-0">
-
+                    className={`flex items-center justify-between pt-3 pb-3 transition-colors ${song.isPlaying ? "" : ""} ${idx < setlist.length - 1 ? "border-b border-white/10" : ""}`}
+                  >
+                    <div className="flex min-w-0 items-center gap-2">
                       <div className="min-w-0">
-                        <p className={`truncate ${song.isPlaying ? 'text-[var(--color-accent)]' : ' '}`}>
+                        <p
+                          className={`truncate ${song.isPlaying ? "text-[var(--color-accent)]" : " "}`}
+                        >
                           {song.title}
                         </p>
-                        <p className="  flex items-center gap-1 mt-0.5">
-                          <Heart className="w-3 h-3 text-red-400 fill-current" /> {song.likes} likes
+                        <p className="mt-0.5 flex items-center gap-1">
+                          <Heart className="h-3 w-3 fill-current text-red-400" />{" "}
+                          {song.likes} likes
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 shrink-0">
-
-
+                    <div className="flex shrink-0 items-center gap-1.5">
                       <button
                         onClick={() => deleteSongFromSetlist(song.id)}
-                        className="w-6 h-6 flex items-center justify-center rounded-lg border border-red-500/20 hover:border-red-500/40 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-3xs"
-                        title="Delete Song">
-                        <X className="w-3.5 h-3.5" />
+                        className="text-3xs flex h-6 w-6 items-center justify-center rounded-lg border border-red-500/20 text-red-400 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
+                        title="Delete Song"
+                      >
+                        <X className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </div>
@@ -3654,1297 +4750,1735 @@ export function CrewDashboard({ defaultMemberId }: { defaultMemberId?: string } 
               {/* Add Song form */}
               <div className="pt-3">
                 {isBulkImport ? (
-                  <div className="space-y-2 transition-opacity duration-250 ease-out max-w-[300px]">
+                  <div className="max-w-[300px] space-y-2 transition-opacity duration-250 ease-out">
                     <textarea
                       aria-label="Paste a list of songs"
                       placeholder="Paste a list of songs (one per line, or separated by commas)..."
                       value={newSongTitle}
-                      onChange={e => setNewSongTitle(e.target.value)}
+                      onChange={(e) => setNewSongTitle(e.target.value)}
                       rows={4}
                       className="form-input resize-none"
                     />
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <button
-                        onClick={() => { setIsBulkImport(false); setNewSongTitle(''); }}
-                        className="text-3xs text-white/40 transition-colors">
+                        onClick={() => {
+                          setIsBulkImport(false);
+                          setNewSongTitle("");
+                        }}
+                        className="text-3xs text-white/40 transition-colors"
+                      >
                         Cancel
                       </button>
                       <SeventhButton
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
-                        className="px-4 py-2 cursor-pointer">
+                        className="cursor-pointer px-4 py-2"
+                      >
                         Import Playlist
                       </SeventhButton>
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-2 max-w-[300px]">
+                  <div className="max-w-[300px] space-y-2">
                     <div className="flex gap-2">
                       <input
                         type="text"
                         aria-label="New song title"
                         placeholder="Add song (e.g. Stop Shillin)"
                         value={newSongTitle}
-                        onChange={e => setNewSongTitle(e.target.value)}
-                        onKeyDown={e => e.key === 'Enter' && addSongToSetlist(newSongTitle)}
-                        className="flex-1 bg-[#00000029] border border-white/10 rounded-lg px-3 py-2 placeholder: text-white/30 outline-none focus:border-[var(--color-accent)] transition-colors"
+                        onChange={(e) => setNewSongTitle(e.target.value)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && addSongToSetlist(newSongTitle)
+                        }
+                        className="placeholder: flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 transition-colors outline-none focus:border-[var(--color-accent)]"
                       />
                       <SeventhButton
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
-                        className="px-4 py-2 cursor-pointer">
+                        className="cursor-pointer px-4 py-2"
+                      >
                         Add
                       </SeventhButton>
                     </div>
                     <div className="flex justify-start">
                       <button
                         type="button"
-                        onClick={() => { setIsBulkImport(true); setNewSongTitle(''); }}
-                        className="text-3xs hover:brightness-125 transition-colors flex items-center gap-1.5 cursor-pointer border-none">
-                        <FileText className="w-3.5 h-3.5 inline" /> Bulk Import / Paste List
+                        onClick={() => {
+                          setIsBulkImport(true);
+                          setNewSongTitle("");
+                        }}
+                        className="text-3xs flex cursor-pointer items-center gap-1.5 border-none transition-colors hover:brightness-125"
+                      >
+                        <FileText className="inline h-3.5 w-3.5" /> Bulk Import
+                        / Paste List
                       </button>
                     </div>
                   </div>
                 )}
               </div>
-
             </div>
           )}
         </div>
 
         {/* ─── YOUR WORK SCHEDULE CARD ─── */}
-        {
-          (() => {
-            const myShifts = crewSchedules.filter(s => s.crewId === slug);
-            const pendingShifts = myShifts.filter(s => s.approvalStatus === 'pending');
-            const activeShifts = myShifts;
-            const coverageShifts = crewSchedules.filter(s =>
+        {(() => {
+          const myShifts = crewSchedules.filter((s) => s.crewId === slug);
+          const pendingShifts = myShifts.filter(
+            (s) => s.approvalStatus === "pending",
+          );
+          const activeShifts = myShifts;
+          const coverageShifts = crewSchedules.filter(
+            (s) =>
               s.isCoverageRequested === true &&
               s.crewId !== slug &&
-              isQualifiedForRole(slug, s.role)
-            );
+              isQualifiedForRole(slug, s.role),
+          );
 
-            return (
-              <>
-                <div className="mt-6">
-                  <div className="w-full text-left mb-6 flex items-center justify-between select-none group">
+          return (
+            <>
+              <div className="mt-6">
+                <div className="group mb-6 flex w-full items-center justify-between text-left select-none">
+                  <button
+                    type="button"
+                    onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
+                    className="flex cursor-pointer items-center gap-3 border-none p-0 text-left"
+                  >
+                    <div>
+                      <h3>Your Work Schedule</h3>
+                      <p>Assigned shifts, locations & responsibilities</p>
+                    </div>
+                  </button>
+                  <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                      className="flex items-center gap-3 border-none p-0 text-left cursor-pointer">
-                      <div>
-                        <h3 >Your Work Schedule</h3>
-                        <p>Assigned shifts, locations & responsibilities</p>
-                      </div>
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEmailSubject("General Scheduling Inquiry");
+                        setEmailMessage(`Hi Admin,\n\n[Your message here]`);
+                        setIsEmailModalOpen(true);
+                      }}
+                      className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 backdrop-blur-[16px] transition-colors"
+                    >
+                      Contact Admins
                     </button>
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setEmailSubject('General Scheduling Inquiry');
-                          setEmailMessage(`Hi Admin,\n\n[Your message here]`);
-                          setIsEmailModalOpen(true);
-                        }}
-                        className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px] rounded-lg cursor-pointer transition-colors flex items-center gap-1">
-                        Contact Admins
-                      </button>
-                      {pendingShifts.length > 0 && (
-                        <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 rounded-lg animate-pulse">
-                          {pendingShifts.length} Pending
-                        </span>
-                      )}
-                      <span className="px-3 py-1 bg-[#00000029] border border-white/10 backdrop-blur-[16px rounded-lg">
-                        {activeShifts.length} Shifts
+                    {pendingShifts.length > 0 && (
+                      <span className="animate-pulse rounded-lg border border-white/10 bg-[var(--color-accent)]/10 px-3 py-1">
+                        {pendingShifts.length} Pending
                       </span>
-                      <button
-                        type="button"
-                        aria-label="Toggle schedule"
-                        onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                        className={`w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center transition-transform duration-300 ${isScheduleCollapsed ? 'rotate-180' : ''}`}>
-                        <ChevronDown className="w-4 h-4" />
-                      </button>
-                    </div>
+                    )}
+                    <span className="backdrop-blur-[16px rounded-lg border border-white/10 bg-[#00000029] px-3 py-1">
+                      {activeShifts.length} Shifts
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="Toggle schedule"
+                      onClick={() =>
+                        setIsScheduleCollapsed(!isScheduleCollapsed)
+                      }
+                      className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 transition-transform duration-300 ${isScheduleCollapsed ? "rotate-180" : ""}`}
+                    >
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
                   </div>
-                  {!isScheduleCollapsed && (
-                    <div className="pt-4">
-                      {/* Calendar Feed Subscription Utility */}
-                      <div className="mb-6 p-4 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex items-center justify-between gap-4 flex-col sm:flex-row">
-                        <div className="flex items-start gap-3">
-                          <div>
-                            <p>Sync with Google & Apple Calendar</p>
-                            <p className="mt-0.5">Subscribe to your personal live shift calendar feed to view updates on your phone.</p>
-                          </div>
+                </div>
+                {!isScheduleCollapsed && (
+                  <div className="pt-4">
+                    {/* Calendar Feed Subscription Utility */}
+                    <div className="mb-6 flex flex-col items-center justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 sm:flex-row">
+                      <div className="flex items-start gap-3">
+                        <div>
+                          <p>Sync with Google & Apple Calendar</p>
+                          <p className="mt-0.5">
+                            Subscribe to your personal live shift calendar feed
+                            to view updates on your phone.
+                          </p>
                         </div>
+                      </div>
+                      <SeventhButton
+                        onClick={() => {
+                          const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
+                          navigator.clipboard.writeText(icsUrl);
+                          alert(
+                            "📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.",
+                          );
+                        }}
+                        icon={
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <rect
+                              x="9"
+                              y="9"
+                              width="13"
+                              height="13"
+                              rx="2"
+                              ry="2"
+                            />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                          </svg>
+                        }
+                        className="shrink-0 cursor-pointer !rounded-lg px-4 py-2"
+                      >
+                        Copy Feed URL
+                      </SeventhButton>
+                    </div>
+
+                    {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
+                    <div className="mb-6 grid shrink-0 grid-cols-2 gap-2 rounded-xl border border-white/10 bg-[#00000029] p-1">
+                      {activeScheduleTab === "my_schedule" ? (
                         <SeventhButton
-                          onClick={() => {
-                            const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
-                            navigator.clipboard.writeText(icsUrl);
-                            alert("📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.");
-                          }}
-                          icon={<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>}
-                          className="px-4 py-2 !rounded-lg shrink-0 cursor-pointer">
-                          Copy Feed URL
+                          type="button"
+                          onClick={() => setActiveScheduleTab("my_schedule")}
+                          icon={false}
+                          className="cursor-pointer !rounded-lg py-2"
+                        >
+                          My Shift Schedule ({activeShifts.length})
                         </SeventhButton>
-                      </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setActiveScheduleTab("my_schedule")}
+                          className="flex cursor-pointer items-center justify-center rounded-lg border-none py-2 transition-colors hover:text-white"
+                        >
+                          My Shift Schedule ({activeShifts.length})
+                        </button>
+                      )}
 
-                      {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
-                      <div className="grid grid-cols-2 gap-2 bg-[#00000029] p-1 border border-white/10 mb-6 shrink-0 rounded-xl">
-                        {activeScheduleTab === 'my_schedule' ? (
-                          <SeventhButton
-                            type="button"
-                            onClick={() => setActiveScheduleTab('my_schedule')}
-                            icon={false}
-                            className="py-2 cursor-pointer !rounded-lg">
-                            My Shift Schedule ({activeShifts.length})
-                          </SeventhButton>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => setActiveScheduleTab('my_schedule')}
-                            className="py-2 hover:text-white transition-colors cursor-pointer border-none rounded-lg flex items-center justify-center">
-                            My Shift Schedule ({activeShifts.length})
-                          </button>
-                        )}
+                      {activeScheduleTab === "tour_events" ? (
+                        <SeventhButton
+                          type="button"
+                          onClick={() => setActiveScheduleTab("tour_events")}
+                          icon={false}
+                          className="cursor-pointer !rounded-lg py-2"
+                        >
+                          Band Tour Events ({tourDates.length})
+                        </SeventhButton>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setActiveScheduleTab("tour_events")}
+                          className="flex cursor-pointer items-center justify-center rounded-lg border-none py-2 transition-colors hover:text-white"
+                        >
+                          Band Tour Events ({tourDates.length})
+                        </button>
+                      )}
+                    </div>
 
-                        {activeScheduleTab === 'tour_events' ? (
-                          <SeventhButton
-                            type="button"
-                            onClick={() => setActiveScheduleTab('tour_events')}
-                            icon={false}
-                            className="py-2 cursor-pointer !rounded-lg">
-                            Band Tour Events ({tourDates.length})
-                          </SeventhButton>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => setActiveScheduleTab('tour_events')}
-                            className="py-2 hover:text-white transition-colors cursor-pointer border-none rounded-lg flex items-center justify-center">
-                            Band Tour Events ({tourDates.length})
-                          </button>
-                        )}
-                      </div>
+                    {activeScheduleTab === "my_schedule" ? (
+                      activeShifts.length === 0 ? (
+                        <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center">
+                          <p>You have no upcoming work shifts scheduled.</p>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col">
+                          {activeShifts.map((shift, index) => {
+                            const dateObj = new Date(shift.date + "T00:00:00");
+                            const month = isNaN(dateObj.getTime())
+                              ? "JAN"
+                              : dateObj
+                                  .toLocaleDateString("en-US", {
+                                    month: "short",
+                                  })
+                                  .toUpperCase();
+                            const dayNum = isNaN(dateObj.getTime())
+                              ? "00"
+                              : dateObj.getDate();
+                            const weekday = isNaN(dateObj.getTime())
+                              ? "Day"
+                              : dateObj.toLocaleDateString("en-US", {
+                                  weekday: "short",
+                                });
 
-                      {activeScheduleTab === 'my_schedule' ? (
-                        activeShifts.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
-                            <p>You have no upcoming work shifts scheduled.</p>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col">
-                            {activeShifts.map((shift, index) => {
-                              const dateObj = new Date(shift.date + 'T00:00:00');
-                              const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                              const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                              const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-
-                              return (
-                                <div
-                                  key={shift.id}
-                                  className="py-3.5 px-2 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-white/[0.02]"
-                                  style={{
-                                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                                  }}>
-                                  {/* Date & Time Column */}
-                                  <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
-                                    <div className={`w-11 h-11 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${shift.approvalStatus === 'pending' ? 'bg-yellow-500/10 border-yellow-500/30' : 'bg-purple-600/10 border-white/20'}`}>
-                                      <span className={`text-[8px] ${shift.approvalStatus === 'pending' ? 'text-yellow-400' : 'text-purple-300'}`}>{month}</span>
-                                      <span className="mt-0.5">{dayNum}</span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                      <span className="text-[10px] text-white/40">{weekday}</span>
-                                      <span className="text-[10px] text-purple-300 mt-0.5">Call: {shift.time}</span>
-                                    </div>
+                            return (
+                              <div
+                                key={shift.id}
+                                className="flex flex-col justify-between gap-3 px-2 py-3.5 transition-colors hover:bg-white/[0.02] md:flex-row md:items-center"
+                                style={{
+                                  borderBottom:
+                                    "1px solid rgba(255, 255, 255, 0.08)",
+                                }}
+                              >
+                                {/* Date & Time Column */}
+                                <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
+                                  <div
+                                    className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border text-center ${shift.approvalStatus === "pending" ? "border-yellow-500/30 bg-yellow-500/10" : "border-white/20 bg-purple-600/10"}`}
+                                  >
+                                    <span
+                                      className={`text-[8px] ${shift.approvalStatus === "pending" ? "text-yellow-400" : "text-purple-300"}`}
+                                    >
+                                      {month}
+                                    </span>
+                                    <span className="mt-0.5">{dayNum}</span>
                                   </div>
+                                  <div className="flex flex-col">
+                                    <span className="text-[10px] text-white/40">
+                                      {weekday}
+                                    </span>
+                                    <span className="mt-0.5 text-[10px] text-purple-300">
+                                      Call: {shift.time}
+                                    </span>
+                                  </div>
+                                </div>
 
-                                  {/* Role & Location Column */}
-                                  <div className="flex-1 min-w-[160px]">
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      <SectionBadge label={shift.role} />
-                                      {(() => {
-                                        const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
-                                        if (matchingVenue) {
-                                          return (
-                                            <button
-                                              type="button"
-                                              onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                              className="text-purple-300 hover:text-purple-200 transition-colors border-none p-0 cursor-pointer flex items-center gap-1 hover:underline"
-                                              title="Click to view venue load-in, parking & WiFi details">
-                                              <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {shift.location} <span className="text-[12px] text-[var(--color-accent)]/80">ℹ️</span>
-                                            </button>
-                                          );
-                                        }
+                                {/* Role & Location Column */}
+                                <div className="min-w-[160px] flex-1">
+                                  <div className="flex flex-wrap items-center gap-2">
+                                    <SectionBadge label={shift.role} />
+                                    {(() => {
+                                      const matchingVenue = venues.find(
+                                        (v) =>
+                                          v.name.toLowerCase() ===
+                                          shift.location.toLowerCase(),
+                                      );
+                                      if (matchingVenue) {
                                         return (
-                                          <span className="/90">
-                                            📍 {shift.location}
-                                          </span>
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              setSelectedVenuePopup(
+                                                matchingVenue,
+                                              )
+                                            }
+                                            className="flex cursor-pointer items-center gap-1 border-none p-0 text-purple-300 transition-colors hover:text-purple-200 hover:underline"
+                                            title="Click to view venue load-in, parking & WiFi details"
+                                          >
+                                            <MapPin className="inline h-3.5 w-3.5 shrink-0 text-purple-300" />{" "}
+                                            {shift.location}{" "}
+                                            <span className="text-[12px] text-[var(--color-accent)]/80">
+                                              ℹ️
+                                            </span>
+                                          </button>
                                         );
-                                      })()}
-                                      {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
-                                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                                        <AvailabilityCardForm
-                                          availDate={availDate}
-                                          setAvailDate={setAvailDate}
-                                          availType={availType}
-                                          setAvailType={setAvailType}
-                                          availNote={availNote}
-                                          setAvailNote={setAvailNote}
-                                          onSubmit={handleAddAvailability}
-                                          myAvailabilities={myAvailabilities}
-                                          onRemove={handleRemoveAvailability}
-                                        />
-                                        <TimeOffCardForm
-                                          timeOffDate={timeOffDate}
-                                          setTimeOffDate={setTimeOffDate}
-                                          timeOffReason={timeOffReason}
-                                          setTimeOffReason={setTimeOffReason}
-                                          onSubmit={handleAddTimeOffRequest}
-                                          myTimeOffRequests={myTimeOffRequests}
-                                          onRemove={handleRemoveTimeOffRequest}
-                                        />
-
-
-                                      </div>
-                                      <button
-                                        type="button"
-                                        onClick={() => setActiveDiscussionDate(shift.date)}
-                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/10 text-purple-300 text-[12px] rounded transition-colors cursor-pointer select-none"
-                                        title="View show lineup acts and discuss details with crew">
-                                        💬 Lineup & Discuss
-                                      </button>
-                                    </div>
-                                  </div>
-
-                                  {/* Status Badge & Action Column */}
-                                  <div className="shrink-0 min-w-[130px] text-left md:text-right flex items-center md:justify-end">
-                                    {shift.approvalStatus === 'approved' || !shift.approvalStatus ? (
-                                      <div className="flex items-center gap-1.5">
-                                        <span className="px-1.5 py-0.5 rounded border text-[12px] shrink-0 bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]">
-                                          ✓ Confirmed
+                                      }
+                                      return (
+                                        <span className="/90">
+                                          📍 {shift.location}
                                         </span>
-                                        {shift.isCoverageRequested ? (
-                                          <span className="px-1.5 py-0.5 rounded border text-[12px] shrink-0 bg-[var(--color-accent)]/10 border-white/10 animate-pulse">
-                                            ⏳ Coverage Requested
-                                          </span>
-                                        ) : (
-                                          <>
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                setEmailSubject(`Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                                setEmailMessage(`Hi Admin,
+                                      );
+                                    })()}
+                                    {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
+                                    <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                                      <AvailabilityCardForm
+                                        availDate={availDate}
+                                        setAvailDate={setAvailDate}
+                                        availType={availType}
+                                        setAvailType={setAvailType}
+                                        availNote={availNote}
+                                        setAvailNote={setAvailNote}
+                                        onSubmit={handleAddAvailability}
+                                        myAvailabilities={myAvailabilities}
+                                        onRemove={handleRemoveAvailability}
+                                      />
+                                      <TimeOffCardForm
+                                        timeOffDate={timeOffDate}
+                                        setTimeOffDate={setTimeOffDate}
+                                        timeOffReason={timeOffReason}
+                                        setTimeOffReason={setTimeOffReason}
+                                        onSubmit={handleAddTimeOffRequest}
+                                        myTimeOffRequests={myTimeOffRequests}
+                                        onRemove={handleRemoveTimeOffRequest}
+                                      />
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        setActiveDiscussionDate(shift.date)
+                                      }
+                                      className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] text-purple-300 transition-colors select-none hover:bg-purple-600 hover:text-white"
+                                      title="View show lineup acts and discuss details with crew"
+                                    >
+                                      💬 Lineup & Discuss
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Status Badge & Action Column */}
+                                <div className="flex min-w-[130px] shrink-0 items-center text-left md:justify-end md:text-right">
+                                  {shift.approvalStatus === "approved" ||
+                                  !shift.approvalStatus ? (
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[12px] text-[var(--color-accent)]">
+                                        ✓ Confirmed
+                                      </span>
+                                      {shift.isCoverageRequested ? (
+                                        <span className="shrink-0 animate-pulse rounded border border-white/10 bg-[var(--color-accent)]/10 px-1.5 py-0.5 text-[12px]">
+                                          ⏳ Coverage Requested
+                                        </span>
+                                      ) : (
+                                        <>
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              setEmailSubject(
+                                                `Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                              );
+                                              setEmailMessage(`Hi Admin,
 
 I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
 
 [Your message here]`);
-                                                setIsEmailModalOpen(true);
-                                              }}
-                                              className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-[12px] rounded transition-colors cursor-pointer border-none">
-                                              ✉️ Email Admin
-                                            </button>
-                                            <button
-                                              type="button"
-                                              onClick={() => setRequestingCoverageShift(shift)}
-                                              className="px-2 py-0.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]   text-[12px] rounded transition-colors cursor-pointer border-none">
-                                              🙋 Swap
-                                            </button>
-                                          </>
-                                        )}
-                                      </div>
-                                    ) : shift.approvalStatus === 'declined' ? (
-                                      <div className="flex items-center gap-1.5">
-                                        <span className="px-1.5 py-0.5 rounded border text-[12px] shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
-                                          ✗ Declined
-                                        </span>
+                                              setIsEmailModalOpen(true);
+                                            }}
+                                            className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] transition-colors hover:bg-white/20"
+                                          >
+                                            ✉️ Email Admin
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              setRequestingCoverageShift(shift)
+                                            }
+                                            className="cursor-pointer rounded border-none bg-[var(--color-accent)] px-2 py-0.5 text-[12px] transition-colors hover:bg-[var(--color-accent)]"
+                                          >
+                                            🙋 Swap
+                                          </button>
+                                        </>
+                                      )}
+                                    </div>
+                                  ) : shift.approvalStatus === "declined" ? (
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
+                                        ✗ Declined
+                                      </span>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleShiftResponse(
+                                            shift.id,
+                                            "approved",
+                                          )
+                                        }
+                                        className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] transition-colors hover:bg-emerald-400"
+                                      >
+                                        Confirm
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          setEmailSubject(
+                                            `Declined Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                          );
+                                          setEmailMessage(`Hi Admin,
+
+I wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.
+
+Reason for decline: ${shift.declineReason || ""}
+
+[Your message here]`);
+                                          setIsEmailModalOpen(true);
+                                        }}
+                                        className="cursor-pointer rounded border-none bg-purple-600 px-2 py-0.5 text-[12px] transition-colors hover:bg-purple-500"
+                                      >
+                                        ✉️ Email
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <div className="flex flex-col gap-1 md:items-end">
+                                      <span className="rounded border border-yellow-500/20 bg-yellow-500/10 px-1.5 py-0.5 text-[9px] text-yellow-500">
+                                        ⚠️ Action Required
+                                      </span>
+                                      <div className="flex items-center gap-1">
                                         <button
                                           type="button"
-                                          onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                          className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400   text-[12px] rounded transition-colors cursor-pointer border-none">
+                                          onClick={() =>
+                                            handleShiftResponse(
+                                              shift.id,
+                                              "approved",
+                                            )
+                                          }
+                                          className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] transition-colors hover:bg-emerald-400"
+                                        >
                                           Confirm
                                         </button>
                                         <button
                                           type="button"
                                           onClick={() => {
-                                            setEmailSubject(`Declined Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                            setEmailMessage(`Hi Admin,
-
-I wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.
-
-Reason for decline: ${shift.declineReason || ''}
-
-[Your message here]`);
-                                            setIsEmailModalOpen(true);
+                                            decliningShiftIdRef.current =
+                                              shift.id;
+                                            setIsDeclineModalOpen(true);
                                           }}
-                                          className="px-2 py-0.5 bg-purple-600 hover:bg-purple-500 text-[12px] rounded transition-colors cursor-pointer border-none">
-                                          ✉️ Email
+                                          className="cursor-pointer rounded border border-rose-500/30 bg-rose-600/20 px-2 py-0.5 text-[12px] text-rose-200 transition-colors hover:bg-rose-600 hover:text-white"
+                                        >
+                                          Decline
                                         </button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex flex-col md:items-end gap-1">
-                                        <span className="text-[9px] text-yellow-500 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20">
-                                          ⚠️ Action Required
-                                        </span>
-                                        <div className="flex items-center gap-1">
-                                          <button
-                                            type="button"
-                                            onClick={() => handleShiftResponse(shift.id, 'approved')}
-                                            className="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400   text-[12px] rounded transition-colors cursor-pointer border-none">
-                                            Confirm
-                                          </button>
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              decliningShiftIdRef.current = shift.id;
-                                              setIsDeclineModalOpen(true);
-                                            }}
-                                            className="px-2 py-0.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 text-rose-200 hover:text-white text-[12px] rounded transition-colors cursor-pointer">
-                                            Decline
-                                          </button>
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              setEmailSubject(`Pending Shift Inquiry: ${shift.date} at ${shift.location}`);
-                                              setEmailMessage(`Hi Admin,
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setEmailSubject(
+                                              `Pending Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                            );
+                                            setEmailMessage(`Hi Admin,
 
 I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
 
 [Your message here]`);
-                                              setIsEmailModalOpen(true);
-                                            }}
-                                            className="px-2 py-0.5 bg-white/10 hover:bg-white/20 text-[12px] rounded transition-colors cursor-pointer border-none">
-                                            ✉️ Email
-                                          </button>
-                                        </div>
+                                            setIsEmailModalOpen(true);
+                                          }}
+                                          className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] transition-colors hover:bg-white/20"
+                                        >
+                                          ✉️ Email
+                                        </button>
                                       </div>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Instructions/Notes Column */}
+                                {shift.notes || shift.declineReason ? (
+                                  <div className="flex-1 space-y-0.5 rounded-lg border border-white/10 bg-[#00000029] p-2 md:max-w-[40%]">
+                                    {shift.notes && (
+                                      <>
+                                        <p className="r">Instructions:</p>
+                                        <p className="leading-normal">
+                                          “{shift.notes}”
+                                        </p>
+                                      </>
+                                    )}
+                                    {shift.declineReason && (
+                                      <>
+                                        <p className="r text-rose-400/60">
+                                          Decline Reason:
+                                        </p>
+                                        <p className="leading-normal text-rose-300/80">
+                                          “{shift.declineReason}”
+                                        </p>
+                                      </>
                                     )}
                                   </div>
+                                ) : null}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )
+                    ) : tourDates.length === 0 ? (
+                      <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center">
+                        <p>No band tour events or shows loaded.</p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col">
+                        {tourDates.map((show, index) => {
+                          const dateObj = new Date(show.date + "T00:00:00");
+                          const month = isNaN(dateObj.getTime())
+                            ? "JAN"
+                            : dateObj
+                                .toLocaleDateString("en-US", { month: "short" })
+                                .toUpperCase();
+                          const dayNum = isNaN(dateObj.getTime())
+                            ? "00"
+                            : dateObj.getDate();
+                          const weekday = isNaN(dateObj.getTime())
+                            ? "Day"
+                            : dateObj.toLocaleDateString("en-US", {
+                                weekday: "short",
+                              });
 
-                                  {/* Instructions/Notes Column */}
-                                  {shift.notes || shift.declineReason ? (
-                                    <div className="flex-1 md:max-w-[40%] bg-[#00000029] border border-white/10 p-2 rounded-lg space-y-0.5">
-                                      {shift.notes && (
-                                        <>
-                                          <p className="r">Instructions:</p>
-                                          <p className="leading-normal">“{shift.notes}”</p>
-                                        </>
-                                      )}
-                                      {shift.declineReason && (
-                                        <>
-                                          <p className="text-rose-400/60 r">Decline Reason:</p>
-                                          <p className="text-rose-300/80 leading-normal">“{shift.declineReason}”</p>
-                                        </>
-                                      )}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )
-                      ) : (
-                        tourDates.length === 0 ? (
-                          <div className="text-center py-8 border border-dashed border-white/10 bg-white/[0.01]">
-                            <p>No band tour events or shows loaded.</p>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col">
-                            {tourDates.map((show, index) => {
-                              const dateObj = new Date(show.date + 'T00:00:00');
-                              const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                              const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                              const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+                          const userShift = crewSchedules.find(
+                            (s) => s.date === show.date && s.crewId === slug,
+                          );
+                          const userAvail = myAvailabilities.find(
+                            (a) => a.date === show.date,
+                          );
+                          const matchingVenue = venues.find(
+                            (v) =>
+                              v.name.toLowerCase() === show.venue.toLowerCase(),
+                          );
 
-                              const userShift = crewSchedules.find(s => s.date === show.date && s.crewId === slug);
-                              const userAvail = myAvailabilities.find(a => a.date === show.date);
-                              const matchingVenue = venues.find(v => v.name.toLowerCase() === show.venue.toLowerCase());
-
-                              return (
+                          return (
+                            <div
+                              key={show.date + "_" + show.venue}
+                              className="flex flex-col justify-between gap-2.5 px-2 py-3.5 transition-colors hover:bg-white/[0.02] md:flex-row md:items-center"
+                              style={{
+                                borderBottom:
+                                  "1px solid rgba(255, 255, 255, 0.08)",
+                              }}
+                            >
+                              {/* Date Column */}
+                              <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
                                 <div
-                                  key={show.date + '_' + show.venue}
-                                  className="py-3.5 px-2 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-2.5 hover:bg-white/[0.02]"
-                                  style={{
-                                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                                  }}>
-                                  {/* Date Column */}
-                                  <div className="flex items-center gap-2.5 shrink-0 min-w-[150px]">
-                                    <div className={`w-11 h-11 rounded-lg border flex flex-col items-center justify-center text-center shrink-0 ${userShift ? 'bg-purple-600/10 border-purple-500/30' : ' bg-[#00000029] border-white/10 '}`}>
-                                      <span className={`text-[8px] ${userShift ? 'text-purple-300' : ' text-white/50'}`}>{month}</span>
-                                      <span className="mt-0.5">{dayNum}</span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                      <span className="text-[10px] text-white/40">{weekday}</span>
-                                      {show.playTime ? (
-                                        <>
-                                          <span className="text-[10px] text-rose-400 mt-0.5" title="Band Play Time">🎸 {show.playTime}</span>
-                                          {show.time && (
-                                            <span className="text-[8px] text-white/40 mt-0.5" title="Event Show Time">Event: {show.time}</span>
-                                          )}
-                                        </>
-                                      ) : (
-                                        <span className="text-[10px] text-purple-300 mt-0.5">{show.time || 'TBA'}</span>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  {/* Show Venue & Details */}
-                                  <div className="flex-1 min-w-[160px]">
-                                    <div className="flex items-center gap-1.5 flex-wrap">
-                                      {matchingVenue ? (
-                                        <button
-                                          type="button"
-                                          onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                          className="text-purple-300 hover:text-purple-200 transition-colors border-none p-0 cursor-pointer flex items-center gap-1 hover:underline"
-                                          title="Click to view venue specs">
-                                          <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {show.venue} <span className="text-[12px] text-[var(--color-accent)]/80">ℹ️</span>
-                                        </button>
-                                      ) : (
-                                        <span className="/90 flex items-center gap-1">
-                                          <MapPin className="w-3.5 h-3.5 text-purple-300 inline shrink-0" /> {show.venue}
+                                  className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border text-center ${userShift ? "border-purple-500/30 bg-purple-600/10" : "border-white/10 bg-[#00000029]"}`}
+                                >
+                                  <span
+                                    className={`text-[8px] ${userShift ? "text-purple-300" : "text-white/50"}`}
+                                  >
+                                    {month}
+                                  </span>
+                                  <span className="mt-0.5">{dayNum}</span>
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] text-white/40">
+                                    {weekday}
+                                  </span>
+                                  {show.playTime ? (
+                                    <>
+                                      <span
+                                        className="mt-0.5 text-[10px] text-rose-400"
+                                        title="Band Play Time"
+                                      >
+                                        🎸 {show.playTime}
+                                      </span>
+                                      {show.time && (
+                                        <span
+                                          className="mt-0.5 text-[8px] text-white/40"
+                                          title="Event Show Time"
+                                        >
+                                          Event: {show.time}
                                         </span>
                                       )}
-                                      <span className="text-[10px] text-white/50">
-                                        ({show.city || 'TBD'}{show.state ? `, ${show.state}` : ''})
+                                    </>
+                                  ) : (
+                                    <span className="mt-0.5 text-[10px] text-purple-300">
+                                      {show.time || "TBA"}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Show Venue & Details */}
+                              <div className="min-w-[160px] flex-1">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  {matchingVenue ? (
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        setSelectedVenuePopup(matchingVenue)
+                                      }
+                                      className="flex cursor-pointer items-center gap-1 border-none p-0 text-purple-300 transition-colors hover:text-purple-200 hover:underline"
+                                      title="Click to view venue specs"
+                                    >
+                                      <MapPin className="inline h-3.5 w-3.5 shrink-0 text-purple-300" />{" "}
+                                      {show.venue}{" "}
+                                      <span className="text-[12px] text-[var(--color-accent)]/80">
+                                        ℹ️
                                       </span>
-                                      <button
-                                        type="button"
-                                        onClick={() => setActiveDiscussionDate(show.date)}
-                                        className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/10 text-purple-300 text-[12px] rounded transition-colors cursor-pointer select-none flex items-center gap-1">
-                                        <MessageSquare className="w-3 h-3 text-purple-300 inline" /> Lineup & Discuss
-                                      </button>
-                                    </div>
-                                    {show.notes && (
-                                      <p className="mt-0.5 max-w-md truncate">“{show.notes}”</p>
+                                    </button>
+                                  ) : (
+                                    <span className="/90 flex items-center gap-1">
+                                      <MapPin className="inline h-3.5 w-3.5 shrink-0 text-purple-300" />{" "}
+                                      {show.venue}
+                                    </span>
+                                  )}
+                                  <span className="text-[10px] text-white/50">
+                                    ({show.city || "TBD"}
+                                    {show.state ? `, ${show.state}` : ""})
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setActiveDiscussionDate(show.date)
+                                    }
+                                    className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] text-purple-300 transition-colors select-none hover:bg-purple-600 hover:text-white"
+                                  >
+                                    <MessageSquare className="inline h-3 w-3 text-purple-300" />{" "}
+                                    Lineup & Discuss
+                                  </button>
+                                </div>
+                                {show.notes && (
+                                  <p className="mt-0.5 max-w-md truncate">
+                                    “{show.notes}”
+                                  </p>
+                                )}
+                              </div>
+
+                              {/* Staffing Status Column */}
+                              <div className="flex shrink-0 flex-wrap items-center gap-2 text-left md:justify-end md:text-right">
+                                {userShift ? (
+                                  <div className="flex items-center gap-1.5">
+                                    <SectionBadge
+                                      label={`🛡️ ${userShift.role}`}
+                                    />
+                                    {userShift.approvalStatus === "approved" ? (
+                                      <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[12px] text-[var(--color-accent)]">
+                                        ✓ Confirmed
+                                      </span>
+                                    ) : userShift.approvalStatus ===
+                                      "declined" ? (
+                                      <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
+                                        ✗ Declined
+                                      </span>
+                                    ) : (
+                                      <span className="shrink-0 animate-pulse rounded border border-yellow-500/30 bg-yellow-500/10 px-1.5 py-0.5 text-[12px] text-yellow-400">
+                                        ⏳ Pending
+                                      </span>
                                     )}
                                   </div>
-
-                                  {/* Staffing Status Column */}
-                                  <div className="shrink-0 text-left md:text-right flex items-center md:justify-end gap-2 flex-wrap">
-                                    {userShift ? (
+                                ) : (
+                                  <div className="flex items-center gap-1.5">
+                                    {userAvail ? (
                                       <div className="flex items-center gap-1.5">
-                                        <SectionBadge label={`🛡️ ${userShift.role}`} />
-                                        {userShift.approvalStatus === 'approved' ? (
-                                          <span className="px-1.5 py-0.5 rounded border text-[12px] shrink-0 bg-emerald-500/10 border-emerald-500/30 text-[var(--color-accent)]">
-                                            ✓ Confirmed
-                                          </span>
-                                        ) : userShift.approvalStatus === 'declined' ? (
-                                          <span className="px-1.5 py-0.5 rounded border text-[12px] shrink-0 bg-rose-500/10 border-rose-500/30 text-rose-400">
-                                            ✗ Declined
+                                        {userAvail.type === "available" ? (
+                                          <span className="rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 text-[12px]">
+                                            🟢 Available
                                           </span>
                                         ) : (
-                                          <span className="px-1.5 py-0.5 rounded border text-[12px] shrink-0 bg-yellow-500/10 border-yellow-500/30 text-yellow-400 animate-pulse">
-                                            ⏳ Pending
+                                          <span className="rounded-lg border border-purple-500/25 bg-purple-600/10 px-1.5 py-0.5 text-[12px] text-purple-300">
+                                            🔴 Unavailable
                                           </span>
                                         )}
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            handleRemoveAvailability(
+                                              userAvail.id,
+                                            )
+                                          }
+                                          className="cursor-pointer rounded border-none bg-white/10 px-1 py-0.5 text-[10px] text-white/50 transition-colors hover:bg-rose-500 hover:text-white"
+                                          title="Clear Availability"
+                                        >
+                                          ✕
+                                        </button>
                                       </div>
                                     ) : (
-                                      <div className="flex items-center gap-1.5">
-                                        {userAvail ? (
-                                          <div className="flex items-center gap-1.5">
-                                            {userAvail.type === 'available' ? (
-                                              <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/25 rounded-lg text-[12px]">
-                                                🟢 Available
-                                              </span>
-                                            ) : (
-                                              <span className="px-1.5 py-0.5 bg-purple-600/10 border border-purple-500/25 text-purple-300 rounded-lg text-[12px]">
-                                                🔴 Unavailable
-                                              </span>
-                                            )}
-                                            <button
-                                              type="button"
-                                              onClick={() => handleRemoveAvailability(userAvail.id)}
-                                              className="px-1 py-0.5 rounded bg-white/10 hover:bg-rose-500 hover:text-white text-white/50 text-[10px] transition-colors border-none cursor-pointer"
-                                              title="Clear Availability">
-                                              ✕
-                                            </button>
-                                          </div>
-                                        ) : (
-                                          <>
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                const newItem: AvailabilityItem = {
-                                                  id: 'avail_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                                                  crewId: slug,
-                                                  date: show.date,
-                                                  type: 'available'
-                                                };
-                                                try {
-                                                  const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
-                                                  const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
-                                                  const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
-                                                  const nextList = [...filtered, newItem];
-                                                  localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
-                                                  window.dispatchEvent(new Event('storage'));
-                                                  setMyAvailabilities(nextList.filter(a => a.crewId === slug));
-                                                  showToast('Logged as Available!', 'success', 'Logged Available');
-                                                } catch (err) {
-                                                  showToast('Failed to save availability', 'error', 'Error');
-                                                }
-                                              }}
-                                              className="px-2 py-0.5 bg-white/10 hover:bg-emerald-500 hover:  text-white/70 text-[12px] rounded transition-colors cursor-pointer border border-white/10 hover:border-emerald-500/40">
-                                              🟢 Available
-                                            </button>
-                                            <button
-                                              type="button"
-                                              onClick={() => {
-                                                const newItem: AvailabilityItem = {
-                                                  id: 'avail_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                                                  crewId: slug,
-                                                  date: show.date,
-                                                  type: 'unavailable'
-                                                };
-                                                try {
-                                                  const savedAvail = localStorage.getItem('7h_crew_availability_v1') || localStorage.getItem('7h_crew_availability');
-                                                  const currentList: AvailabilityItem[] = savedAvail ? JSON.parse(savedAvail) : [];
-                                                  const filtered = currentList.filter(item => !(item.crewId === slug && item.date === show.date));
-                                                  const nextList = [...filtered, newItem];
-                                                  localStorage.setItem('7h_crew_availability_v1', JSON.stringify(nextList));
-                                                  window.dispatchEvent(new Event('storage'));
-                                                  setMyAvailabilities(nextList.filter(a => a.crewId === slug));
-                                                  showToast('Logged as Unavailable!', 'info', 'Logged Unavailable');
-                                                } catch (err) {
-                                                  showToast('Failed to save availability', 'error', 'Error');
-                                                }
-                                              }}
-                                              className="px-2 py-0.5 bg-white/10 hover:bg-purple-600 hover:text-white text-white/70 text-[12px] rounded transition-colors cursor-pointer border border-white/10 hover:border-purple-500/40">
-                                              🔴 Unavailable
-                                            </button>
-                                          </>
-                                        )}
-                                      </div>
+                                      <>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            const newItem: AvailabilityItem = {
+                                              id:
+                                                "avail_" +
+                                                Date.now() +
+                                                "_" +
+                                                Math.random()
+                                                  .toString(36)
+                                                  .substr(2, 4),
+                                              crewId: slug,
+                                              date: show.date,
+                                              type: "available",
+                                            };
+                                            try {
+                                              const savedAvail =
+                                                localStorage.getItem(
+                                                  "7h_crew_availability_v1",
+                                                ) ||
+                                                localStorage.getItem(
+                                                  "7h_crew_availability",
+                                                );
+                                              const currentList: AvailabilityItem[] =
+                                                savedAvail
+                                                  ? JSON.parse(savedAvail)
+                                                  : [];
+                                              const filtered =
+                                                currentList.filter(
+                                                  (item) =>
+                                                    !(
+                                                      item.crewId === slug &&
+                                                      item.date === show.date
+                                                    ),
+                                                );
+                                              const nextList = [
+                                                ...filtered,
+                                                newItem,
+                                              ];
+                                              localStorage.setItem(
+                                                "7h_crew_availability_v1",
+                                                JSON.stringify(nextList),
+                                              );
+                                              window.dispatchEvent(
+                                                new Event("storage"),
+                                              );
+                                              setMyAvailabilities(
+                                                nextList.filter(
+                                                  (a) => a.crewId === slug,
+                                                ),
+                                              );
+                                              showToast(
+                                                "Logged as Available!",
+                                                "success",
+                                                "Logged Available",
+                                              );
+                                            } catch (err) {
+                                              showToast(
+                                                "Failed to save availability",
+                                                "error",
+                                                "Error",
+                                              );
+                                            }
+                                          }}
+                                          className="hover: cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] text-white/70 transition-colors hover:border-emerald-500/40 hover:bg-emerald-500"
+                                        >
+                                          🟢 Available
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            const newItem: AvailabilityItem = {
+                                              id:
+                                                "avail_" +
+                                                Date.now() +
+                                                "_" +
+                                                Math.random()
+                                                  .toString(36)
+                                                  .substr(2, 4),
+                                              crewId: slug,
+                                              date: show.date,
+                                              type: "unavailable",
+                                            };
+                                            try {
+                                              const savedAvail =
+                                                localStorage.getItem(
+                                                  "7h_crew_availability_v1",
+                                                ) ||
+                                                localStorage.getItem(
+                                                  "7h_crew_availability",
+                                                );
+                                              const currentList: AvailabilityItem[] =
+                                                savedAvail
+                                                  ? JSON.parse(savedAvail)
+                                                  : [];
+                                              const filtered =
+                                                currentList.filter(
+                                                  (item) =>
+                                                    !(
+                                                      item.crewId === slug &&
+                                                      item.date === show.date
+                                                    ),
+                                                );
+                                              const nextList = [
+                                                ...filtered,
+                                                newItem,
+                                              ];
+                                              localStorage.setItem(
+                                                "7h_crew_availability_v1",
+                                                JSON.stringify(nextList),
+                                              );
+                                              window.dispatchEvent(
+                                                new Event("storage"),
+                                              );
+                                              setMyAvailabilities(
+                                                nextList.filter(
+                                                  (a) => a.crewId === slug,
+                                                ),
+                                              );
+                                              showToast(
+                                                "Logged as Unavailable!",
+                                                "info",
+                                                "Logged Unavailable",
+                                              );
+                                            } catch (err) {
+                                              showToast(
+                                                "Failed to save availability",
+                                                "error",
+                                                "Error",
+                                              );
+                                            }
+                                          }}
+                                          className="cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] text-white/70 transition-colors hover:border-purple-500/40 hover:bg-purple-600 hover:text-white"
+                                        >
+                                          🔴 Unavailable
+                                        </button>
+                                      </>
                                     )}
                                   </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {/* Available Shift Coverage Requests */}
-                {coverageShifts.length > 0 && (
-                  <div className="bg-white border border-black/10 overflow-hidden mt-6">
-                    <div className="p-4 border-b border-black/10 flex items-center justify-between bg-gray-50">
-                      <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 bg-[var(--color-accent)]/20 border border-white/10 flex items-center justify-center text-xl">🚨</div>
-                        <div>
-                          <h3 className="text-black">Available Shift Coverage Requests</h3>
-                          <p className="text-black/40">First qualified crew member to claim gets it</p>
-                        </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-white/10 rounded-lg animate-pulse">
-                        {coverageShifts.length} Available
-                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Available Shift Coverage Requests */}
+              {coverageShifts.length > 0 && (
+                <div className="mt-6 overflow-hidden border border-black/10 bg-white">
+                  <div className="flex items-center justify-between border-b border-black/10 bg-gray-50 p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 items-center justify-center border border-white/10 bg-[var(--color-accent)]/20 text-xl">
+                        🚨
+                      </div>
+                      <div>
+                        <h3 className="text-black">
+                          Available Shift Coverage Requests
+                        </h3>
+                        <p className="text-black/40">
+                          First qualified crew member to claim gets it
+                        </p>
+                      </div>
                     </div>
-                    <div className="p-6 flex flex-col gap-3">
-                      {coverageShifts.map((shift) => {
-                        const dateObj = new Date(shift.date + 'T00:00:00');
-                        const month = isNaN(dateObj.getTime()) ? 'JAN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-                        const dayNum = isNaN(dateObj.getTime()) ? '00' : dateObj.getDate();
-                        const weekday = isNaN(dateObj.getTime()) ? 'Day' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+                    <span className="animate-pulse rounded-lg border border-white/10 bg-[var(--color-accent)]/10 px-3 py-1">
+                      {coverageShifts.length} Available
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-3 p-6">
+                    {coverageShifts.map((shift) => {
+                      const dateObj = new Date(shift.date + "T00:00:00");
+                      const month = isNaN(dateObj.getTime())
+                        ? "JAN"
+                        : dateObj
+                            .toLocaleDateString("en-US", { month: "short" })
+                            .toUpperCase();
+                      const dayNum = isNaN(dateObj.getTime())
+                        ? "00"
+                        : dateObj.getDate();
+                      const weekday = isNaN(dateObj.getTime())
+                        ? "Day"
+                        : dateObj.toLocaleDateString("en-US", {
+                            weekday: "short",
+                          });
 
-                        return (
-                          <div
-                            key={shift.id}
-                            className="p-4 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 hover:border-[var(--color-accent)]/40 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            {/* Date & Time */}
-                            <div className="flex items-center gap-3 shrink-0 min-w-[180px]">
-                              <div className="w-11 h-11 rounded-lg bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 flex flex-col items-center justify-center text-center shrink-0">
-                                <span className="text-[var(--color-accent)] r">{month}</span>
-                                <span className="   mt-0.5">{dayNum}</span>
-                              </div>
-                              <div className="flex flex-col">
-                                <span className="text-black/30">{weekday}</span>
-                                <span className="text-[var(--color-accent)] mt-0.5">{shift.time}</span>
-                              </div>
+                      return (
+                        <div
+                          key={shift.id}
+                          className="flex flex-col justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 transition-colors hover:border-[var(--color-accent)]/40 md:flex-row md:items-center"
+                        >
+                          {/* Date & Time */}
+                          <div className="flex min-w-[180px] shrink-0 items-center gap-3">
+                            <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 text-center">
+                              <span className="r text-[var(--color-accent)]">
+                                {month}
+                              </span>
+                              <span className="mt-0.5">{dayNum}</span>
                             </div>
+                            <div className="flex flex-col">
+                              <span className="text-black/30">{weekday}</span>
+                              <span className="mt-0.5 text-[var(--color-accent)]">
+                                {shift.time}
+                              </span>
+                            </div>
+                          </div>
 
-                            {/* Role & Location */}
-                            <div className="flex-1 min-w-[200px]">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <SectionBadge label={shift.role} />
-                                {(() => {
-                                  const matchingVenue = venues.find(v => v.name.toLowerCase() === shift.location.toLowerCase());
-                                  if (matchingVenue) {
-                                    return (
-                                      <button
-                                        type="button"
-                                        onClick={() => setSelectedVenuePopup(matchingVenue)}
-                                        className="text-purple-300 hover:text-purple-200 transition-colors border-none p-0 cursor-pointer flex items-center gap-0.5 hover:underline"
-                                        title="Click to view venue load-in, parking & WiFi details">
-                                        📍 {shift.location} <span className="text-[var(--color-accent)]/80">ℹ️</span>
-                                      </button>
-                                    );
-                                  }
+                          {/* Role & Location */}
+                          <div className="min-w-[200px] flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <SectionBadge label={shift.role} />
+                              {(() => {
+                                const matchingVenue = venues.find(
+                                  (v) =>
+                                    v.name.toLowerCase() ===
+                                    shift.location.toLowerCase(),
+                                );
+                                if (matchingVenue) {
                                   return (
-                                    <span className="text-black/80">
-                                      📍 {shift.location}
-                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        setSelectedVenuePopup(matchingVenue)
+                                      }
+                                      className="flex cursor-pointer items-center gap-0.5 border-none p-0 text-purple-300 transition-colors hover:text-purple-200 hover:underline"
+                                      title="Click to view venue load-in, parking & WiFi details"
+                                    >
+                                      📍 {shift.location}{" "}
+                                      <span className="text-[var(--color-accent)]/80">
+                                        ℹ️
+                                      </span>
+                                    </button>
                                   );
-                                })()}
-                                <button
-                                  type="button"
-                                  onClick={() => setActiveDiscussionDate(shift.date)}
-                                  className="px-1.5 py-0.5 bg-purple-600/10 hover:bg-purple-600 hover:text-white border border-white/10 text-purple-300 rounded transition-colors cursor-pointer select-none"
-                                  title="View show lineup acts and discuss details with crew">
-                                  💬 Lineup & Discuss
-                                </button>
-                                <span className="text-[var(--color-accent)]/80 ml-1">
-                                  (For: {shift.crewName})
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Action Column */}
-                            <div className="shrink-0 min-w-[120px] text-left md:text-right flex items-center md:justify-end gap-2">
+                                }
+                                return (
+                                  <span className="text-black/80">
+                                    📍 {shift.location}
+                                  </span>
+                                );
+                              })()}
                               <button
                                 type="button"
-                                onClick={() => handleAcceptCoverage(shift.id)}
-                                className="px-3 py-1.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]   rounded-lg transition-colors cursor-pointer border-none flex items-center gap-1">
-                                🙋 Accept Shift
+                                onClick={() =>
+                                  setActiveDiscussionDate(shift.date)
+                                }
+                                className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-purple-300 transition-colors select-none hover:bg-purple-600 hover:text-white"
+                                title="View show lineup acts and discuss details with crew"
+                              >
+                                💬 Lineup & Discuss
                               </button>
+                              <span className="ml-1 text-[var(--color-accent)]/80">
+                                (For: {shift.crewName})
+                              </span>
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
+
+                          {/* Action Column */}
+                          <div className="flex min-w-[120px] shrink-0 items-center gap-2 text-left md:justify-end md:text-right">
+                            <button
+                              type="button"
+                              onClick={() => handleAcceptCoverage(shift.id)}
+                              className="flex cursor-pointer items-center gap-1 rounded-lg border-none bg-[var(--color-accent)] px-3 py-1.5 transition-colors hover:bg-[var(--color-accent)]"
+                            >
+                              🙋 Accept Shift
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
-              </>
-            );
-          })()
-        }
+                </div>
+              )}
+            </>
+          );
+        })()}
 
         {/* End Stream Modal */}
-        {
-          showEndModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-[45px] p-4 transition-opacity duration-200 ease-out">
-              <div className="max-w-md w-full bg-white border border-black/10 p-8 relative overflow-hidden">
-                {isSavingReplay && (
-                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center">
-                    <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-lg animate-spin mb-6"></div>
-                    <h3 className="text-emerald-400">Processing & Saving...</h3>
-                    <p className="text-black/40 mt-2">Compressing VOD to Gallery</p>
-                  </div>
-                )}
-
-                <div className="text-center mb-8 relative z-10">
-                  <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center justify-center mx-auto mb-6">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /></svg>
-                  </div>
-                  <h2 className="er mb-2text-black">End Broadcast?</h2>
-                  <p className="text-black/60">
-                    You are about to terminate the live broadcast to all fans. Are you sure you want to terminate the stream?
+        {showEndModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[45px] transition-opacity duration-200 ease-out">
+            <div className="relative w-full max-w-md overflow-hidden border border-black/10 bg-white p-8">
+              {isSavingReplay && (
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
+                  <div className="mb-6 h-12 w-12 animate-spin rounded-lg border-4 border-emerald-500 border-t-transparent"></div>
+                  <h3 className="text-emerald-400">Processing & Saving...</h3>
+                  <p className="mt-2 text-black/40">
+                    Compressing VOD to Gallery
                   </p>
                 </div>
+              )}
 
-                <div className="flex flex-col gap-3 relative z-10">
-                  <button
-                    onClick={confirmEndDiscard}
-                    className="w-full py-4 bg-red-500 hover:bg-red-400   transition-colors shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-lg">
-                    End Broadcast
-                  </button>
-                  <button
-                    onClick={() => setShowEndModal(false)}
-                    className="w-full py-2 text-black/40 hover:  mt-2 transition-colors">
-                    Cancel, Keep Streaming
-                  </button>
+              <div className="relative z-10 mb-8 text-center">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg border border-red-500/30 bg-red-500/20">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#ef4444"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <rect x="9" y="9" width="6" height="6" />
+                  </svg>
                 </div>
+                <h2 className="er mb-2text-black">End Broadcast?</h2>
+                <p className="text-black/60">
+                  You are about to terminate the live broadcast to all fans. Are
+                  you sure you want to terminate the stream?
+                </p>
+              </div>
+
+              <div className="relative z-10 flex flex-col gap-3">
+                <button
+                  onClick={confirmEndDiscard}
+                  className="w-full rounded-lg bg-red-500 py-4 shadow-[0_0_20px_rgba(239,68,68,0.3)] transition-colors hover:bg-red-400"
+                >
+                  End Broadcast
+                </button>
+                <button
+                  onClick={() => setShowEndModal(false)}
+                  className="hover: mt-2 w-full py-2 text-black/40 transition-colors"
+                >
+                  Cancel, Keep Streaming
+                </button>
               </div>
             </div>
-          )
-        }
+          </div>
+        )}
 
         {/* ─── DECLINE REASON MODAL ─── */}
-        {
-          isDeclineModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-              <div className="bg-gray-50 border border-black/10 max-w-md w-full p-6 space-y-4 relative">
-                <h3 className="  flex items-center gap-2">
-                  <span className="text-rose-500">✗</span> Decline Work Shift
-                </h3>
-                <p className="text-black/50">
-                  Please provide a reason for declining this shift. This will be saved to your shift history and shared with the planner/administrator to assist with scheduling.
-                </p>
-                <textarea
-                  aria-label="Decline shift reason"
-                  value={declineReason}
-                  onChange={(e) => setDeclineReason(e.target.value)}
-                  placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
-                  className="w-full min-h-[100px] bg-black/40 border border-black/10   placeholder-white/30 p-3 focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30 outline-none transition-colors resize-none"
-                />
-                <div className="flex items-center justify-end gap-2.5 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsDeclineModalOpen(false);
-                      decliningShiftIdRef.current = null;
-                      setDeclineReason('');
-                    }}
-                    className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:  rounded-lg transition-colors">
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    disabled={!declineReason.trim()}
-                    onClick={() => {
-                      if (decliningShiftIdRef.current) {
-                        handleShiftResponse(decliningShiftIdRef.current, 'declined', declineReason);
-                      }
-                      setIsDeclineModalOpen(false);
-                      decliningShiftIdRef.current = null;
-                      setDeclineReason('');
-                    }}
-                    className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-600/30 disabled:text-black/30   rounded-lg transition-colors border-none cursor-pointer disabled:cursor-not-allowed">
-                    Submit Decline
-                  </button>
-                </div>
-              </div>
-            </div>
-          )
-        }
-
-
-      </div>
-
-      {/* ─── EMAIL ADMIN MODAL ─── */}
-      {
-        isEmailModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-            <div className="bg-gray-50 border border-black/10 max-w-lg w-full p-6 space-y-4 relative">
-              <h3 className="  flex items-center gap-2">
-                <span className="text-[var(--color-accent)]">📧</span> Email Administrators
+        {isDeclineModalOpen && (
+          <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+            <div className="relative w-full max-w-md space-y-4 border border-black/10 bg-gray-50 p-6">
+              <h3 className="flex items-center gap-2">
+                <span className="text-rose-500">✗</span> Decline Work Shift
               </h3>
-
-              <div className="space-y-3">
-                <div>
-                  <span className="text-black/40 block mb-1">From</span>
-                  <div className="bg-black/35 border border-black/10 px-3.5 py-2 text-black/70">
-                    {displayName} <span className="text-black/35">({email})</span>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="crew-email-subject" className="text-black/40 block mb-1">Subject</label>
-                  <input
-                    id="crew-email-subject"
-                    type="text"
-                    value={emailSubject}
-                    onChange={(e) => setEmailSubject(e.target.value)}
-                    placeholder="Subject of your message..."
-                    className="w-full bg-black/40 border border-black/10   placeholder-white/30 px-3.5 py-2 focus:border-purple-500/50 outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="crew-email-message" className="text-black/40 block mb-1">Message</label>
-                  <textarea
-                    id="crew-email-message"
-                    value={emailMessage}
-                    onChange={(e) => setEmailMessage(e.target.value)}
-                    placeholder="Type your message to the administrators here..."
-                    className="w-full min-h-[120px] bg-black/40 border border-black/10   placeholder-white/30 p-3 focus:border-purple-500/50 outline-none transition-colors resize-none"
-                  />
-                </div>
-              </div>
-
+              <p className="text-black/50">
+                Please provide a reason for declining this shift. This will be
+                saved to your shift history and shared with the
+                planner/administrator to assist with scheduling.
+              </p>
+              <textarea
+                aria-label="Decline shift reason"
+                value={declineReason}
+                onChange={(e) => setDeclineReason(e.target.value)}
+                placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
+                className="min-h-[100px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 transition-colors outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-rose-500/30"
+              />
               <div className="flex items-center justify-end gap-2.5 pt-2">
                 <button
                   type="button"
                   onClick={() => {
-                    setIsEmailModalOpen(false);
-                    setEmailSubject('');
-                    setEmailMessage('');
+                    setIsDeclineModalOpen(false);
+                    decliningShiftIdRef.current = null;
+                    setDeclineReason("");
                   }}
-                  className="px-4 py-2 border border-black/10 hover:bg-gray-100 text-black/70 hover:  rounded-lg transition-colors">
+                  className="hover: rounded-lg border border-black/10 px-4 py-2 text-black/70 transition-colors hover:bg-gray-100"
+                >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  disabled={isSendingEmail || !emailSubject.trim() || !emailMessage.trim()}
-                  onClick={handleSendEmailToAdmins}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 disabled:text-black/30   rounded-lg transition-colors border-none cursor-pointer disabled:cursor-not-allowed">
-                  {isSendingEmail ? 'Sending...' : 'Send Message'}
+                  disabled={!declineReason.trim()}
+                  onClick={() => {
+                    if (decliningShiftIdRef.current) {
+                      handleShiftResponse(
+                        decliningShiftIdRef.current,
+                        "declined",
+                        declineReason,
+                      );
+                    }
+                    setIsDeclineModalOpen(false);
+                    decliningShiftIdRef.current = null;
+                    setDeclineReason("");
+                  }}
+                  className="cursor-pointer rounded-lg border-none bg-rose-600 px-4 py-2 transition-colors hover:bg-rose-500 disabled:cursor-not-allowed disabled:bg-rose-600/30 disabled:text-black/30"
+                >
+                  Submit Decline
                 </button>
               </div>
             </div>
           </div>
-        )
-      }
+        )}
+      </div>
+
+      {/* ─── EMAIL ADMIN MODAL ─── */}
+      {isEmailModalOpen && (
+        <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-lg space-y-4 border border-black/10 bg-gray-50 p-6">
+            <h3 className="flex items-center gap-2">
+              <span className="text-[var(--color-accent)]">📧</span> Email
+              Administrators
+            </h3>
+
+            <div className="space-y-3">
+              <div>
+                <span className="mb-1 block text-black/40">From</span>
+                <div className="border border-black/10 bg-black/35 px-3.5 py-2 text-black/70">
+                  {displayName} <span className="text-black/35">({email})</span>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="crew-email-subject"
+                  className="mb-1 block text-black/40"
+                >
+                  Subject
+                </label>
+                <input
+                  id="crew-email-subject"
+                  type="text"
+                  value={emailSubject}
+                  onChange={(e) => setEmailSubject(e.target.value)}
+                  placeholder="Subject of your message..."
+                  className="w-full border border-black/10 bg-black/40 px-3.5 py-2 placeholder-white/30 transition-colors outline-none focus:border-purple-500/50"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="crew-email-message"
+                  className="mb-1 block text-black/40"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="crew-email-message"
+                  value={emailMessage}
+                  onChange={(e) => setEmailMessage(e.target.value)}
+                  placeholder="Type your message to the administrators here..."
+                  className="min-h-[120px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 transition-colors outline-none focus:border-purple-500/50"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsEmailModalOpen(false);
+                  setEmailSubject("");
+                  setEmailMessage("");
+                }}
+                className="hover: rounded-lg border border-black/10 px-4 py-2 text-black/70 transition-colors hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={
+                  isSendingEmail || !emailSubject.trim() || !emailMessage.trim()
+                }
+                onClick={handleSendEmailToAdmins}
+                className="cursor-pointer rounded-lg border-none bg-purple-600 px-4 py-2 transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-600/30 disabled:text-black/30"
+              >
+                {isSendingEmail ? "Sending..." : "Send Message"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 🔔 Premium Toast Notification */}
-      {
-        toast.visible && (
-          <div className="fixed bottom-6 right-6 z-[10000] max-w-sm w-full bg-white/95 border border-black/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-[45px] animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex gap-3text-black">
-            <div className="flex-1 text-left">
-              {toast.title && (
-                <h4 className={`mb-1 ${toast.type === 'success' ? 'text-emerald-400' : toast.type === 'error' ? 'text-rose-400' : ' text-[var(--color-accent)]'}`}>
-                  {toast.title}
-                </h4>
-              )}
-              <p className="text-black/70  ">
-                {toast.message}
-              </p>
-            </div>
-            <button
-              type="button"
-              aria-label="Close notification"
-              onClick={() => setToast(prev => ({ ...prev, visible: false }))}
-              className="text-black/40 hover:  cursor-pointer border-none self-start">
-              ✕
-            </button>
+      {toast.visible && (
+        <div className="gap-3text-black fixed right-6 bottom-6 z-[10000] flex w-full max-w-sm animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-[45px]">
+          <div className="flex-1 text-left">
+            {toast.title && (
+              <h4
+                className={`mb-1 ${toast.type === "success" ? "text-emerald-400" : toast.type === "error" ? "text-rose-400" : "text-[var(--color-accent)]"}`}
+              >
+                {toast.title}
+              </h4>
+            )}
+            <p className="text-black/70">{toast.message}</p>
           </div>
-        )
-      }
+          <button
+            type="button"
+            aria-label="Close notification"
+            onClick={() => setToast((prev) => ({ ...prev, visible: false }))}
+            className="hover: cursor-pointer self-start border-none text-black/40"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* ─── VENUE DETAILS POPUP MODAL ─── */}
-      {
-        selectedVenuePopup && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative   flex flex-col">
-              {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-xl">🏛️</span>
-                  <div>
-                    <h3 className="text-black">
-                      {selectedVenuePopup.name}
-                    </h3>
-                    <p className="text-purple-300 .5">
-                      Venue Specifications
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  aria-label="Close venue details"
-                  onClick={() => setSelectedVenuePopup(null)}
-                  className="text-black/40 hover:  transition-colors cursor-pointer border-none">
-                  ✕
-                </button>
-              </div>
-
-              {/* Content Body */}
-              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
-                {/* Address */}
+      {selectedVenuePopup && (
+        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-[45px]">
+          <div className="relative flex w-full max-w-md flex-col border border-black/10 bg-white p-6">
+            {/* Header */}
+            <div className="mb-6 flex items-center justify-between border-b border-black/10 pb-4">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">🏛️</span>
                 <div>
-                  <span className="text-black/40 block mb-1">📍 Address</span>
-                  <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(selectedVenuePopup.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-purple-300 hover:text-white inline-block  ">
-                    {selectedVenuePopup.address}
-                  </a>
+                  <h3 className="text-black">{selectedVenuePopup.name}</h3>
+                  <p className=".5 text-purple-300">Venue Specifications</p>
                 </div>
+              </div>
+              <button
+                type="button"
+                aria-label="Close venue details"
+                onClick={() => setSelectedVenuePopup(null)}
+                className="hover: cursor-pointer border-none text-black/40 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
 
-                {/* Wifi Password */}
-                {selectedVenuePopup.wifiPassword && (
-                  <div className="p-3 bg-purple-950/15 border border-white/10 flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                      <span className="text-purple-300/70 block">📶 Backstage Wi-Fi</span>
-                      <span className="  select-all">{selectedVenuePopup.wifiPassword}</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        navigator.clipboard.writeText(selectedVenuePopup.wifiPassword || '');
-                        showToast('Wi-Fi password copied to clipboard!', 'success', 'COPIED');
-                      }}
-                      className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 rounded transition-colors cursor-pointer border-none">
-                      Copy
-                    </button>
-                  </div>
-                )}
+            {/* Content Body */}
+            <div className="max-h-[60vh] space-y-4 overflow-y-auto pr-1">
+              {/* Address */}
+              <div>
+                <span className="mb-1 block text-black/40">📍 Address</span>
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(selectedVenuePopup.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-purple-300 hover:text-white"
+                >
+                  {selectedVenuePopup.address}
+                </a>
+              </div>
 
-                {/* Two columns: Capacity and Contact */}
-                <div className="grid grid-cols-2 gap-3.5">
-                  <div className="bg-white/[0.02] border border-black/10 p-3">
-                    <span className="text-black/40 block mb-1">👥 Capacity</span>
-                    <span className="text-black">{selectedVenuePopup.capacity.toLocaleString()}</span>
-                  </div>
-                  <div className="bg-white/[0.02] border border-black/10 p-3">
-                    <span className="text-black/40 block mb-1">👤 Contact</span>
-                    <span className="  block truncate" title={selectedVenuePopup.contactPerson}>
-                      {selectedVenuePopup.contactPerson.split(' (')[0]}
+              {/* Wifi Password */}
+              {selectedVenuePopup.wifiPassword && (
+                <div className="flex items-center justify-between gap-3 border border-white/10 bg-purple-950/15 p-3">
+                  <div className="min-w-0">
+                    <span className="block text-purple-300/70">
+                      📶 Backstage Wi-Fi
                     </span>
-                    {selectedVenuePopup.contactPhone && (
-                      <a
-                        href={`tel:${selectedVenuePopup.contactPhone.replace(/[^0-9]/g, '')}`}
-                        className="text-purple-300 hover:text-white block mt-0.5">
-                        {selectedVenuePopup.contactPhone}
-                      </a>
-                    )}
+                    <span className="select-all">
+                      {selectedVenuePopup.wifiPassword}
+                    </span>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        selectedVenuePopup.wifiPassword || "",
+                      );
+                      showToast(
+                        "Wi-Fi password copied to clipboard!",
+                        "success",
+                        "COPIED",
+                      );
+                    }}
+                    className="cursor-pointer rounded border-none bg-purple-600 px-2.5 py-1 transition-colors hover:bg-purple-500"
+                  >
+                    Copy
+                  </button>
                 </div>
+              )}
 
-                {/* Stage Specs */}
-                <div className="bg-white/[0.02] border border-black/10 p-3">
-                  <span className="text-black/40 block mb-1">🎸 Stage & Power Specs</span>
-                  <p className="text-black/80  ">
-                    {selectedVenuePopup.stageSpecs}
-                  </p>
+              {/* Two columns: Capacity and Contact */}
+              <div className="grid grid-cols-2 gap-3.5">
+                <div className="border border-black/10 bg-white/[0.02] p-3">
+                  <span className="mb-1 block text-black/40">👥 Capacity</span>
+                  <span className="text-black">
+                    {selectedVenuePopup.capacity.toLocaleString()}
+                  </span>
                 </div>
-
-                {/* Parking & Load-In Notes */}
-                <div className="bg-white/[0.02] border border-black/10 p-3">
-                  <span className="text-black/40 block mb-1">🚛 Parking & Load-In Notes</span>
-                  <p className="text-black/80  ">
-                    {selectedVenuePopup.parkingNotes}
-                  </p>
+                <div className="border border-black/10 bg-white/[0.02] p-3">
+                  <span className="mb-1 block text-black/40">👤 Contact</span>
+                  <span
+                    className="block truncate"
+                    title={selectedVenuePopup.contactPerson}
+                  >
+                    {selectedVenuePopup.contactPerson.split(" (")[0]}
+                  </span>
+                  {selectedVenuePopup.contactPhone && (
+                    <a
+                      href={`tel:${selectedVenuePopup.contactPhone.replace(/[^0-9]/g, "")}`}
+                      className="mt-0.5 block text-purple-300 hover:text-white"
+                    >
+                      {selectedVenuePopup.contactPhone}
+                    </a>
+                  )}
                 </div>
               </div>
 
-              {/* Footer */}
-              <div className="mt-4 pt-4 border-t border-black/10 flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => setSelectedVenuePopup(null)}
-                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100   rounded-lg transition-colors border border-black/10 cursor-pointer">
-                  Dismiss Details
-                </button>
+              {/* Stage Specs */}
+              <div className="border border-black/10 bg-white/[0.02] p-3">
+                <span className="mb-1 block text-black/40">
+                  🎸 Stage & Power Specs
+                </span>
+                <p className="text-black/80">{selectedVenuePopup.stageSpecs}</p>
+              </div>
+
+              {/* Parking & Load-In Notes */}
+              <div className="border border-black/10 bg-white/[0.02] p-3">
+                <span className="mb-1 block text-black/40">
+                  🚛 Parking & Load-In Notes
+                </span>
+                <p className="text-black/80">
+                  {selectedVenuePopup.parkingNotes}
+                </p>
               </div>
             </div>
+
+            {/* Footer */}
+            <div className="mt-4 flex justify-end border-t border-black/10 pt-4">
+              <button
+                type="button"
+                onClick={() => setSelectedVenuePopup(null)}
+                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 transition-colors hover:bg-gray-100"
+              >
+                Dismiss Details
+              </button>
+            </div>
           </div>
-        )
-      }
+        </div>
+      )}
 
       {/* ─── GIG DISCUSS & LINEUP MODAL FOR CREW ─── */}
-      {
-        activeDiscussionDate && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-lg p-6 relative   flex flex-col max-h-[90vh]">
-              {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6 shrink-0">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-xl">🎸</span>
-                  <div>
-                    <h3 className="text-black">
-                      Show Lineup & Gig Discuss
-                    </h3>
-                    <p className="text-purple-300 .5">
-                      {new Date(activeDiscussionDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
-                    </p>
-                  </div>
+      {activeDiscussionDate && (
+        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-[45px]">
+          <div className="relative flex max-h-[90vh] w-full max-w-lg flex-col border border-black/10 bg-white p-6">
+            {/* Header */}
+            <div className="mb-6 flex shrink-0 items-center justify-between border-b border-black/10 pb-4">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">🎸</span>
+                <div>
+                  <h3 className="text-black">Show Lineup & Gig Discuss</h3>
+                  <p className=".5 text-purple-300">
+                    {new Date(
+                      activeDiscussionDate + "T12:00:00",
+                    ).toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
                 </div>
-                <button
-                  type="button"
-                  aria-label="Close lineup specs"
-                  onClick={() => setActiveDiscussionDate(null)}
-                  className="text-black/40 hover:  transition-colors cursor-pointer border-none">
-                  ✕
-                </button>
+              </div>
+              <button
+                type="button"
+                aria-label="Close lineup specs"
+                onClick={() => setActiveDiscussionDate(null)}
+                className="hover: cursor-pointer border-none text-black/40 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Content Scroll Area */}
+            <div
+              className="flex-1 space-y-5 overflow-y-auto py-1 pr-1"
+              data-lenis-prevent="true"
+            >
+              {/* Lineup */}
+              <div className="space-y-3">
+                <h4 className="block border-b border-black/10 pb-1 text-black/40">
+                  Set Schedule Lineup
+                </h4>
+                {(() => {
+                  const lineup = setLineups[activeDiscussionDate] || [];
+                  if (lineup.length === 0) {
+                    return (
+                      <p className="text-black/35">
+                        No lineup configured for this show date yet.
+                      </p>
+                    );
+                  }
+                  return lineup
+                    .sort(
+                      (a, b) =>
+                        parseTimeToMinutes(a.startTime) -
+                        parseTimeToMinutes(b.startTime),
+                    )
+                    .map((act, index, arr) => {
+                      const nextAct = arr[index + 1];
+                      const changeover = nextAct
+                        ? getChangeoverLabel(act.endTime, nextAct.startTime)
+                        : "";
+                      return (
+                        <div key={act.id} className="space-y-1.5">
+                          <div className="flex items-center justify-between border border-black/10 bg-black/30 p-3">
+                            <span className="text-black">{act.actName}</span>
+                            <span className="text-purple-300">
+                              ⏱️ {act.startTime} - {act.endTime}
+                            </span>
+                          </div>
+                          {changeover && (
+                            <div className="text-center">
+                              <span className="inline-block rounded-lg border border-purple-500/25 bg-purple-600/10 px-2.5 py-0.5 text-[8.5px] text-purple-300">
+                                🔄 {changeover}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    });
+                })()}
               </div>
 
-              {/* Content Scroll Area */}
-              <div className="flex-1 overflow-y-auto space-y-5 pr-1 py-1" data-lenis-prevent="true">
-                {/* Lineup */}
-                <div className="space-y-3">
-                  <h4 className="text-black/40 block border-b border-black/10 pb-1">Set Schedule Lineup</h4>
-                  {(() => {
-                    const lineup = setLineups[activeDiscussionDate] || [];
-                    if (lineup.length === 0) {
-                      return <p className="text-black/35">No lineup configured for this show date yet.</p>;
-                    }
-                    return lineup
-                      .sort((a, b) => parseTimeToMinutes(a.startTime) - parseTimeToMinutes(b.startTime))
-                      .map((act, index, arr) => {
-                        const nextAct = arr[index + 1];
-                        const changeover = nextAct ? getChangeoverLabel(act.endTime, nextAct.startTime) : '';
-                        return (
-                          <div key={act.id} className="space-y-1.5">
-                            <div className="bg-black/30 border border-black/10 p-3 flex items-center justify-between">
-                              <span className="text-black">{act.actName}</span>
-                              <span className="text-purple-300">⏱️ {act.startTime} - {act.endTime}</span>
-                            </div>
-                            {changeover && (
-                              <div className="text-center">
-                                <span className="inline-block px-2.5 py-0.5 rounded-lg bg-purple-600/10 border border-purple-500/25 text-[8.5px] text-purple-300">
-                                  🔄 {changeover}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      });
-                  })()}
-                </div>
-
-                {/* Discussion Thread */}
-                <div className="space-y-3">
-                  <h4 className="text-black/40 block border-b border-black/10 pb-1">Discussion Board</h4>
-                  {(() => {
-                    const comments = gigComments.filter(c => c.date === activeDiscussionDate);
-                    const rootComments = comments.filter(c => !c.parentId);
-                    const repliesByParent = comments.reduce((acc: Record<string, typeof comments>, c) => {
+              {/* Discussion Thread */}
+              <div className="space-y-3">
+                <h4 className="block border-b border-black/10 pb-1 text-black/40">
+                  Discussion Board
+                </h4>
+                {(() => {
+                  const comments = gigComments.filter(
+                    (c) => c.date === activeDiscussionDate,
+                  );
+                  const rootComments = comments.filter((c) => !c.parentId);
+                  const repliesByParent = comments.reduce(
+                    (acc: Record<string, typeof comments>, c) => {
                       if (c.parentId) {
                         if (!acc[c.parentId]) acc[c.parentId] = [];
                         acc[c.parentId].push(c);
                       }
                       return acc;
-                    }, {});
+                    },
+                    {},
+                  );
 
-                    return (
-                      <div className="space-y-4">
-                        {/* List */}
-                        <div className="space-y-3.5 max-h-48 overflow-y-auto pr-1">
-                          {rootComments.map(c => {
-                            const replies = repliesByParent[c.id] || [];
-                            return (
-                              <div key={c.id} className="space-y-2 border-b border-black/10 pb-2.5 last:border-none">
-                                <div className="flex items-start gap-2">
-                                  <div className="w-5 h-5 rounded-lg bg-gray-100 flex items-center justify-center shrink-0   mt-0.5">
-                                    {c.authorName[0]}
-                                  </div>
-                                  <div className="min-w-0 flex-1">
-                                    <div className="flex items-center justify-between">
-                                      <span className="text-black/80">{c.authorName}</span>
-                                      <span className="text-[9px] text-black/30">{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                    </div>
-                                    <p className="text-black/60 leading-normal">{c.text}</p>
-                                    <button
-                                      type="button"
-                                      onClick={() => setReplyingToCommentId(replyingToCommentId === c.id ? null : c.id)}
-                                      className="text-purple-300 hover:  border-none cursor-pointer">
-                                      {replyingToCommentId === c.id ? 'Cancel Reply' : 'Reply'}
-                                    </button>
-                                  </div>
+                  return (
+                    <div className="space-y-4">
+                      {/* List */}
+                      <div className="max-h-48 space-y-3.5 overflow-y-auto pr-1">
+                        {rootComments.map((c) => {
+                          const replies = repliesByParent[c.id] || [];
+                          return (
+                            <div
+                              key={c.id}
+                              className="space-y-2 border-b border-black/10 pb-2.5 last:border-none"
+                            >
+                              <div className="flex items-start gap-2">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                                  {c.authorName[0]}
                                 </div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-black/80">
+                                      {c.authorName}
+                                    </span>
+                                    <span className="text-[9px] text-black/30">
+                                      {new Date(c.createdAt).toLocaleTimeString(
+                                        [],
+                                        { hour: "2-digit", minute: "2-digit" },
+                                      )}
+                                    </span>
+                                  </div>
+                                  <p className="leading-normal text-black/60">
+                                    {c.text}
+                                  </p>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setReplyingToCommentId(
+                                        replyingToCommentId === c.id
+                                          ? null
+                                          : c.id,
+                                      )
+                                    }
+                                    className="hover: cursor-pointer border-none text-purple-300"
+                                  >
+                                    {replyingToCommentId === c.id
+                                      ? "Cancel Reply"
+                                      : "Reply"}
+                                  </button>
+                                </div>
+                              </div>
 
-                                {/* Reply form */}
-                                {replyingToCommentId === c.id && (
-                                  <div className="flex gap-1.5 pl-7 .5">
-                                    <input
-                                      type="text"
-                                      aria-label="Write a reply"
-                                      placeholder="Write a reply..."
-                                      value={replyText}
-                                      onChange={(e) => setReplyText(e.target.value)}
-                                      className="flex-1 px-2 py-1 bg-[#f0f2f5] border border-black/10   rounded outline-none focus:border-purple-500/50"
-                                    />
-                                    <button
-                                      type="button"
-                                      disabled={!replyText.trim()}
-                                      onClick={() => {
-                                        setGigComments(current => {
-                                          return [...current, {
-                                            id: 'comment_' + Date.now(),
+                              {/* Reply form */}
+                              {replyingToCommentId === c.id && (
+                                <div className=".5 flex gap-1.5 pl-7">
+                                  <input
+                                    type="text"
+                                    aria-label="Write a reply"
+                                    placeholder="Write a reply..."
+                                    value={replyText}
+                                    onChange={(e) =>
+                                      setReplyText(e.target.value)
+                                    }
+                                    className="flex-1 rounded border border-black/10 bg-[#f0f2f5] px-2 py-1 outline-none focus:border-purple-500/50"
+                                  />
+                                  <button
+                                    type="button"
+                                    disabled={!replyText.trim()}
+                                    onClick={() => {
+                                      setGigComments((current) => {
+                                        return [
+                                          ...current,
+                                          {
+                                            id: "comment_" + Date.now(),
                                             date: activeDiscussionDate,
                                             authorId: slug,
                                             authorName: displayName || slug,
                                             text: replyText.trim(),
                                             createdAt: new Date().toISOString(),
-                                            parentId: c.id
-                                          }];
-                                        });
-                                        setReplyText('');
-                                        setReplyingToCommentId(null);
-                                      }}
-                                      className="px-2 py-1 bg-purple-600 hover:bg-purple-500 rounded border-none cursor-pointer disabled:opacity-30">
-                                      Send
-                                    </button>
-                                  </div>
-                                )}
+                                            parentId: c.id,
+                                          },
+                                        ];
+                                      });
+                                      setReplyText("");
+                                      setReplyingToCommentId(null);
+                                    }}
+                                    className="cursor-pointer rounded border-none bg-purple-600 px-2 py-1 hover:bg-purple-500 disabled:opacity-30"
+                                  >
+                                    Send
+                                  </button>
+                                </div>
+                              )}
 
-                                {/* Replies */}
-                                {replies.map(r => (
-                                  <div key={r.id} className="flex items-start gap-2 pl-7 mt-2 border-l border-black/10">
-                                    <div className="w-4 h-4 rounded-lg bg-gray-50 flex items-center justify-center text-[var(--font-size-5xs)] shrink-0 text-black/50 mt-0.5">
-                                      {r.authorName[0]}
-                                    </div>
-                                    <div className="min-w-0 flex-1">
-                                      <div className="flex items-center justify-between">
-                                        <span className="text-[11px] text-black/70">{r.authorName}</span>
-                                        <span className="text-[var(--font-size-5xs)] text-black/25">{new Date(r.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                      </div>
-                                      <p className="text-black/50 leading-normal">{r.text}</p>
-                                    </div>
+                              {/* Replies */}
+                              {replies.map((r) => (
+                                <div
+                                  key={r.id}
+                                  className="mt-2 flex items-start gap-2 border-l border-black/10 pl-7"
+                                >
+                                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-lg bg-gray-50 text-[var(--font-size-5xs)] text-black/50">
+                                    {r.authorName[0]}
                                   </div>
-                                ))}
-                              </div>
-                            );
-                          })}
-                          {comments.length === 0 && (
-                            <p className="text-black/25 text-center py-6">No discussions yet. Start the conversation!</p>
-                          )}
-                        </div>
-
-                        {/* Main input */}
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            aria-label="Post a gig note"
-                            placeholder="Post a gig note..."
-                            value={newCommentText}
-                            onChange={(e) => setNewCommentText(e.target.value)}
-                            className="flex-1 px-3 py-2 bg-[#f0f2f5] border border-black/10   rounded-lg outline-none focus:border-purple-500/50"
-                          />
-                          <button
-                            type="button"
-                            disabled={!newCommentText.trim()}
-                            onClick={() => {
-                              setGigComments(current => [
-                                ...current,
-                                {
-                                  id: 'comment_' + Date.now(),
-                                  date: activeDiscussionDate,
-                                  authorId: slug,
-                                  authorName: displayName || slug,
-                                  text: newCommentText.trim(),
-                                  createdAt: new Date().toISOString()
-                                }
-                              ]);
-                              setNewCommentText('');
-                            }}
-                            className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-30 disabled:pointer-events-none   rounded-lg border-none cursor-pointer">
-                            Post
-                          </button>
-                        </div>
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-[11px] text-black/70">
+                                        {r.authorName}
+                                      </span>
+                                      <span className="text-[var(--font-size-5xs)] text-black/25">
+                                        {new Date(
+                                          r.createdAt,
+                                        ).toLocaleTimeString([], {
+                                          hour: "2-digit",
+                                          minute: "2-digit",
+                                        })}
+                                      </span>
+                                    </div>
+                                    <p className="leading-normal text-black/50">
+                                      {r.text}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          );
+                        })}
+                        {comments.length === 0 && (
+                          <p className="py-6 text-center text-black/25">
+                            No discussions yet. Start the conversation!
+                          </p>
+                        )}
                       </div>
-                    );
-                  })()}
-                </div>
-              </div>
 
-              {/* Footer */}
-              <div className="mt-4 pt-4 border-t border-black/10 flex justify-end shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setActiveDiscussionDate(null)}
-                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100   rounded-lg transition-colors border border-black/10 cursor-pointer">
-                  Close Specs
-                </button>
+                      {/* Main input */}
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          aria-label="Post a gig note"
+                          placeholder="Post a gig note..."
+                          value={newCommentText}
+                          onChange={(e) => setNewCommentText(e.target.value)}
+                          className="flex-1 rounded-lg border border-black/10 bg-[#f0f2f5] px-3 py-2 outline-none focus:border-purple-500/50"
+                        />
+                        <button
+                          type="button"
+                          disabled={!newCommentText.trim()}
+                          onClick={() => {
+                            setGigComments((current) => [
+                              ...current,
+                              {
+                                id: "comment_" + Date.now(),
+                                date: activeDiscussionDate,
+                                authorId: slug,
+                                authorName: displayName || slug,
+                                text: newCommentText.trim(),
+                                createdAt: new Date().toISOString(),
+                              },
+                            ]);
+                            setNewCommentText("");
+                          }}
+                          className="cursor-pointer rounded-lg border-none bg-purple-600 px-3.5 py-2 hover:bg-purple-500 disabled:pointer-events-none disabled:opacity-30"
+                        >
+                          Post
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             </div>
+
+            {/* Footer */}
+            <div className="mt-4 flex shrink-0 justify-end border-t border-black/10 pt-4">
+              <button
+                type="button"
+                onClick={() => setActiveDiscussionDate(null)}
+                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 transition-colors hover:bg-gray-100"
+              >
+                Close Specs
+              </button>
+            </div>
           </div>
-        )
-      }
+        </div>
+      )}
 
       {/* ─── REQUEST COVERAGE / SWAP MODAL FOR CREW ─── */}
-      {
-        requestingCoverageShift && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-[45px] animate-[fadeIn_0.2s_ease-out] no-print">
-            <div className="bg-white border border-black/10 w-full max-w-md p-6 relative   flex flex-col">
-              {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6 shrink-0">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-xl">🔄</span>
-                  <div>
-                    <h3 className="text-black">
-                      Request Coverage or Swap
-                    </h3>
-                    <p className=".5">
-                      Shift: {requestingCoverageShift.role} at {requestingCoverageShift.location}
-                    </p>
-                  </div>
+      {requestingCoverageShift && (
+        <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-[45px]">
+          <div className="relative flex w-full max-w-md flex-col border border-black/10 bg-white p-6">
+            {/* Header */}
+            <div className="mb-6 flex shrink-0 items-center justify-between border-b border-black/10 pb-4">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">🔄</span>
+                <div>
+                  <h3 className="text-black">Request Coverage or Swap</h3>
+                  <p className=".5">
+                    Shift: {requestingCoverageShift.role} at{" "}
+                    {requestingCoverageShift.location}
+                  </p>
                 </div>
+              </div>
+              <button
+                type="button"
+                aria-label="Close request coverage modal"
+                onClick={() => {
+                  setRequestingCoverageShift(null);
+                  setSwapTargetColleagueId("");
+                }}
+                className="hover: cursor-pointer border-none text-black/40 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Content Body */}
+            <div className="space-y-4">
+              <p className="text-black/60">
+                Choose whether you want to post this to the general pool for any
+                qualified colleague to claim, or propose a direct swap with a
+                specific colleague.
+              </p>
+
+              {/* Selection Tabs / Modes */}
+              <div className="grid grid-cols-2 gap-2 rounded-lg border border-black/10 p-1">
                 <button
                   type="button"
-                  aria-label="Close request coverage modal"
-                  onClick={() => {
-                    setRequestingCoverageShift(null);
-                    setSwapTargetColleagueId('');
-                  }}
-                  className="text-black/40 hover:  transition-colors cursor-pointer border-none">
-                  ✕
+                  onClick={() => setSwapTargetColleagueId("")}
+                  className={`cursor-pointer rounded border-none py-2 transition-colors ${!swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
+                >
+                  General Coverage
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSwapTargetColleagueId("openshifts")} // default target to enable dropdown
+                  className={`cursor-pointer rounded border-none py-2 transition-colors ${swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
+                >
+                  Propose Direct Swap
                 </button>
               </div>
 
-              {/* Content Body */}
-              <div className="space-y-4">
-                <p className="text-black/60">
-                  Choose whether you want to post this to the general pool for any qualified colleague to claim, or propose a direct swap with a specific colleague.
-                </p>
-
-                {/* Selection Tabs / Modes */}
-                <div className="grid grid-cols-2 gap-2 p-1 border border-black/10 rounded-lg">
-                  <button
-                    type="button"
-                    onClick={() => setSwapTargetColleagueId('')}
-                    className={`py-2 rounded transition-colors cursor-pointer border-none ${!swapTargetColleagueId ? 'bg-[var(--color-accent)]   ' : ' text-black/50 hover:text-black'}`}>
-                    General Coverage
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSwapTargetColleagueId('openshifts')} // default target to enable dropdown
-                    className={`py-2 rounded transition-colors cursor-pointer border-none ${swapTargetColleagueId ? 'bg-[var(--color-accent)]   ' : ' text-black/50 hover:text-black'}`}>
-                    Propose Direct Swap
-                  </button>
+              {/* Direct Swap Colleague Selection */}
+              {swapTargetColleagueId !== "" && (
+                <div className="animate-[fadeIn_0.2s_ease-out] space-y-2 border border-black/10 bg-white/[0.02] p-3">
+                  <label
+                    htmlFor="swap-target-colleague-select"
+                    className="block text-black/40"
+                  >
+                    Select Colleague to Swap With
+                  </label>
+                  <CustomDropdown
+                    id="swap-target-colleague-select"
+                    ariaLabel="Select Colleague to Swap With"
+                    value={
+                      swapTargetColleagueId === "openshifts"
+                        ? ""
+                        : swapTargetColleagueId
+                    }
+                    placeholder="— Select Colleague —"
+                    options={[
+                      { id: "abbie", name: "Abbie Janssen" },
+                      { id: "al", name: "Al Hollie" },
+                      { id: "andrea", name: "Andrea Kinzinger" },
+                      { id: "arjun", name: "Arjun Patel" },
+                      { id: "chris", name: "Chris Loxely" },
+                      { id: "daniel", name: "Daniel Kim" },
+                      { id: "dave_croke", name: "Dave Croke" },
+                      { id: "dave_maas", name: "Dave Maas" },
+                      { id: "david_xu", name: "David Xu" },
+                      { id: "emily", name: "Emily Hafften" },
+                      { id: "emma", name: "Emma Smid" },
+                      { id: "erin", name: "Erin Eagan" },
+                      { id: "francesca", name: "Francesca Troast" },
+                      { id: "michael", name: "Michael Scimeca" },
+                      { id: "sammy", name: "Sammy D" },
+                      { id: "ryan", name: "Ryan K" },
+                      { id: "tony", name: "Tony M" },
+                    ]
+                      .filter((m) => m.id !== slug)
+                      .map((m) => ({ value: m.id, label: m.name }))}
+                    onChange={(val) => setSwapTargetColleagueId(val)}
+                    wrapperClassName="w-full"
+                    className="border-black/10 bg-white !px-3 !py-2 !text-sm"
+                    chevronColor="#000000"
+                  />
                 </div>
+              )}
+            </div>
 
-                {/* Direct Swap Colleague Selection */}
-                {swapTargetColleagueId !== '' && (
-                  <div className="space-y-2 bg-white/[0.02] border border-black/10 p-3 animate-[fadeIn_0.2s_ease-out]">
-                    <label htmlFor="swap-target-colleague-select" className="text-black/40 block">Select Colleague to Swap With</label>
-                    <CustomDropdown
-                      id="swap-target-colleague-select"
-                      ariaLabel="Select Colleague to Swap With"
-                      value={swapTargetColleagueId === 'openshifts' ? '' : swapTargetColleagueId}
-                      placeholder="— Select Colleague —"
-                      options={[
-                        { id: 'abbie', name: 'Abbie Janssen' },
-                        { id: 'al', name: 'Al Hollie' },
-                        { id: 'andrea', name: 'Andrea Kinzinger' },
-                        { id: 'arjun', name: 'Arjun Patel' },
-                        { id: 'chris', name: 'Chris Loxely' },
-                        { id: 'daniel', name: 'Daniel Kim' },
-                        { id: 'dave_croke', name: 'Dave Croke' },
-                        { id: 'dave_maas', name: 'Dave Maas' },
-                        { id: 'david_xu', name: 'David Xu' },
-                        { id: 'emily', name: 'Emily Hafften' },
-                        { id: 'emma', name: 'Emma Smid' },
-                        { id: 'erin', name: 'Erin Eagan' },
-                        { id: 'francesca', name: 'Francesca Troast' },
-                        { id: 'michael', name: 'Michael Scimeca' },
-                        { id: 'sammy', name: 'Sammy D' },
-                        { id: 'ryan', name: 'Ryan K' },
-                        { id: 'tony', name: 'Tony M' }
-                      ]
-                        .filter(m => m.id !== slug)
-                        .map(m => ({ value: m.id, label: m.name }))}
-                      onChange={(val) => setSwapTargetColleagueId(val)}
-                      wrapperClassName="w-full"
-                      className="!py-2 !px-3 !text-sm   border-black/10 bg-white"
-                      chevronColor="#000000"
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Footer Buttons */}
-              <div className="mt-5 pt-4 border-t border-black/10 flex items-center justify-end gap-2.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setRequestingCoverageShift(null);
-                    setSwapTargetColleagueId('');
-                  }}
-                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100   rounded-lg transition-colors border border-black/10 cursor-pointer">
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const targetColleague = swapTargetColleagueId === 'openshifts' ? null : swapTargetColleagueId;
-                    handleRequestCoverage(requestingCoverageShift.id, targetColleague);
-                    setRequestingCoverageShift(null);
-                    setSwapTargetColleagueId('');
-                  }}
-                  className="px-4 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-accent)]   rounded-lg transition-colors cursor-pointer border-none">
-                  Submit Request
-                </button>
-              </div>
+            {/* Footer Buttons */}
+            <div className="mt-5 flex shrink-0 items-center justify-end gap-2.5 border-t border-black/10 pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setRequestingCoverageShift(null);
+                  setSwapTargetColleagueId("");
+                }}
+                className="cursor-pointer rounded-lg border border-black/10 bg-gray-50 px-4 py-2 transition-colors hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const targetColleague =
+                    swapTargetColleagueId === "openshifts"
+                      ? null
+                      : swapTargetColleagueId;
+                  handleRequestCoverage(
+                    requestingCoverageShift.id,
+                    targetColleague,
+                  );
+                  setRequestingCoverageShift(null);
+                  setSwapTargetColleagueId("");
+                }}
+                className="cursor-pointer rounded-lg border-none bg-[var(--color-accent)] px-4 py-2 transition-colors hover:bg-[var(--color-accent)]"
+              >
+                Submit Request
+              </button>
             </div>
           </div>
-        )
-      }
-
-
+        </div>
+      )}
     </main>
   );
 }
@@ -4955,20 +6489,20 @@ function parseTimeToMinutes(timeStr: string): number {
   let hours = parseInt(match[1]);
   const minutes = parseInt(match[2]);
   const ampm = match[3].toUpperCase();
-  if (ampm === 'PM' && hours < 12) hours += 12;
-  if (ampm === 'AM' && hours === 12) hours = 0;
+  if (ampm === "PM" && hours < 12) hours += 12;
+  if (ampm === "AM" && hours === 12) hours = 0;
   return hours * 60 + minutes;
 }
 
 function getChangeoverLabel(endStr: string, startStr: string): string {
   const endMin = parseTimeToMinutes(endStr);
   const startMin = parseTimeToMinutes(startStr);
-  if (startMin <= endMin) return '';
+  if (startMin <= endMin) return "";
   const diff = startMin - endMin;
   if (diff >= 60) {
     const hrs = Math.floor(diff / 60);
     const mins = diff % 60;
-    return `${hrs}h ${mins > 0 ? `${mins}m` : ''} changeover`;
+    return `${hrs}h ${mins > 0 ? `${mins}m` : ""} changeover`;
   }
   return `${diff}m changeover`;
 }
