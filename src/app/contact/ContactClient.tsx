@@ -249,7 +249,7 @@ export default function ContactClient({
       </div>
 
       {/* Desktop Split View (lg:grid) */}
-      <div className="relative z-10 hidden grid-cols-1 items-stretch gap-8 lg:grid lg:grid-cols-12">
+      <div className="relative z-10 hidden grid-cols-1 items-stretch gap-6 lg:grid lg:grid-cols-12 h-full">
         {/* Left Column: Contact Cards Directory */}
         <section
           aria-label="Contact Directory"
@@ -271,25 +271,25 @@ export default function ContactClient({
                     type="button"
                     onMouseEnter={() => setActivePhotoId(photoKey)}
                     onClick={() => setActivePhotoId(photoKey)}
-                    className={`w-full text-left rounded-2xl border p-5 transition-all duration-300 cursor-pointer ${isCardActive
-                      ? "border-purple-500/60 bg-gradient-to-r from-purple-950/50 via-purple-900/30 to-black/50 shadow-[0_0_25px_rgba(168,85,247,0.25)]"
-                      : "border-white/10 bg-white/[0.04] hover:border-purple-500/30 hover:bg-white/[0.08]"
+                    className={`w-full text-left  transition-all duration-300 cursor-pointer ${isCardActive
+                      ? ""
+                      : ""
                       }`}
                   >
-                    <div className="flex items-center justify-between gap-3 mb-2">
-                      <span className="rounded-full border border-purple-400/20 bg-purple-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-purple-300">
+                    <div className="mb-2">
+                      <span className="inline-block rounded-full border border-purple-400/20 bg-purple-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-purple-300">
                         {contact.category}
                       </span>
-                      {contact.company && (
-                        <span className="text-xs text-white/40 font-medium">
-                          {contact.company}
-                        </span>
-                      )}
                     </div>
 
-                    <h3 className="text-lg font-bold text-white mb-3">
+                    <h3 className="text-lg font-bold text-white">
                       {contact.name || photo.name || "7th Heaven Representative"}
                     </h3>
+                    {contact.company && (
+                      <p className="mt-0.5 mb-3 text-xs font-semibold text-purple-200/70">
+                        {contact.company}
+                      </p>
+                    )}
 
                     <address className="not-italic flex flex-col gap-1.5 text-xs">
                       {contact.email && (
