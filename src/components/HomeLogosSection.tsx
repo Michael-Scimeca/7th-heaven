@@ -56,7 +56,7 @@ export default function HomeLogosSection({
   return (
     <section
       id="logos"
-      className="py-section-fluid relative flex w-full flex-col items-center border-b border-white/10 px-4 text-center"
+      className="py-section-fluid relative flex w-full flex-col items-center border-b border-white/10 text-center"
     >
       <div className="mb-2.5 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#00000029] px-4 py-1.5">
         <span className="font-black">

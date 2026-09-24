@@ -1253,17 +1253,15 @@ function LoginModalBodyContent(props: any) {
                     <label htmlFor="forgot-email-input" className="mb-2 block">
                       Email Address
                     </label>
-                    <div className="input-glow-border w-full">
-                      <input
-                        id="forgot-email-input"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your@email.com"
-                        className="placeholder: w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white/30 transition-colors outline-none"
-                        required
-                      />
-                    </div>
+                    <input
+                      id="forgot-email-input"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="your@email.com"
+                      className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white transition-colors outline-none placeholder:text-white/30"
+                      required
+                    />
                   </div>
                 ) : (
                   <>
@@ -1275,22 +1273,20 @@ function LoginModalBodyContent(props: any) {
                       <label htmlFor="forgot-pin-input" className="mb-2 block">
                         Verification PIN
                       </label>
-                      <div className="input-glow-border w-full">
-                        <input
-                          id="forgot-pin-input"
-                          type="text"
-                          maxLength={6}
-                          value={forgotPinCode}
-                          onChange={(e) =>
-                            setForgotPinCode(
-                              e.target.value.replace(/\D/g, "").slice(0, 6),
-                            )
-                          }
-                          placeholder="123456"
-                          className="placeholder: w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-center tracking-[0.5em] text-white/30 transition-colors outline-none"
-                          required
-                        />
-                      </div>
+                      <input
+                        id="forgot-pin-input"
+                        type="text"
+                        maxLength={6}
+                        value={forgotPinCode}
+                        onChange={(e) =>
+                          setForgotPinCode(
+                            e.target.value.replace(/\D/g, "").slice(0, 6),
+                          )
+                        }
+                        placeholder="123456"
+                        className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-center tracking-[0.5em] text-white transition-colors outline-none placeholder:text-white/30"
+                        required
+                      />
                     </div>
                     <div>
                       <label
@@ -1299,18 +1295,16 @@ function LoginModalBodyContent(props: any) {
                       >
                         New Password
                       </label>
-                      <div className="input-glow-border w-full">
-                        <input
-                          id="forgot-new-password-input"
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          placeholder="••••••••"
-                          autoComplete="new-password"
-                          className="placeholder: w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white/30 transition-colors outline-none"
-                          required
-                        />
-                      </div>
+                      <input
+                        id="forgot-new-password-input"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                        autoComplete="new-password"
+                        className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white transition-colors outline-none placeholder:text-white/30"
+                        required
+                      />
                     </div>
                   </>
                 )}
@@ -1334,50 +1328,46 @@ function LoginModalBodyContent(props: any) {
                       </span>
                     )}
                   </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="login-email-input"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder={
-                        loginRole === "planner"
-                          ? "planner@company.com"
-                          : loginRole === "crew"
-                            ? "crew@7thheaven.com"
-                            : loginRole === "cruise"
-                              ? "cruiser@7thheaven.com"
-                              : "your@email.com"
-                      }
-                      autoComplete="email"
-                      readOnly={isInviteFlow}
-                      data-lpignore="true"
-                      data-form-type="other"
-                      className={`placeholder: w-full rounded-lg border border-white/10 bg-black/60 px-4 py-3 text-white/30 transition-colors outline-none sm:text-base ${isInviteFlow ? "cursor-not-allowed opacity-60" : ""}`}
-                    />
-                  </div>
+                  <input
+                    id="login-email-input"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={
+                      loginRole === "planner"
+                        ? "planner@company.com"
+                        : loginRole === "crew"
+                          ? "crew@7thheaven.com"
+                          : loginRole === "cruise"
+                            ? "cruiser@7thheaven.com"
+                            : "your@email.com"
+                    }
+                    autoComplete="email"
+                    readOnly={isInviteFlow}
+                    data-lpignore="true"
+                    data-form-type="other"
+                    className={`w-full rounded-lg border border-white/10 bg-black/60 px-4 py-3 text-white transition-colors outline-none placeholder:text-white/30 sm:text-base ${isInviteFlow ? "cursor-not-allowed opacity-60" : ""}`}
+                  />
                 </div>
                 <div>
                   <label htmlFor="login-password-input" className="mb-2 block">
                     Password
                   </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="login-password-input"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
-                      autoComplete={
-                        modalMode === "signup"
-                          ? "new-password"
-                          : "current-password"
-                      }
+                  <input
+                    id="login-password-input"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    autoComplete={
+                      modalMode === "signup"
+                        ? "new-password"
+                        : "current-password"
+                    }
                       data-lpignore="true"
                       data-form-type="other"
-                      className="placeholder: w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white/30 transition-colors outline-none sm:text-base"
+                      className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white transition-colors outline-none placeholder:text-white/30 sm:text-base"
                     />
-                  </div>
                   {modalMode === "login" && (
                     <button
                       type="button"

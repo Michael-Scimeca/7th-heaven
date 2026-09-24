@@ -261,7 +261,7 @@ export default function HomeVideoShowcase({
           });
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const handleAddVideoSubmit = async (e: React.FormEvent) => {
@@ -457,7 +457,7 @@ export default function HomeVideoShowcase({
           startLoopRef.current?.();
           try {
             smooothyInstanceRef.current?.resize?.();
-          } catch {}
+          } catch { }
         }
       },
       { rootMargin: "300px 0px" },
@@ -474,7 +474,7 @@ export default function HomeVideoShowcase({
 
     try {
       smooothyInstanceRef.current?.destroy?.();
-    } catch {}
+    } catch { }
 
     try {
       const SmooothyClass = Smooothy as unknown as new (
@@ -498,12 +498,12 @@ export default function HomeVideoShowcase({
         setOffset:
           smooothyOffsetPreset === "center"
             ? ({
-                itemWidth,
-                wrapperWidth,
-              }: {
-                itemWidth: number;
-                wrapperWidth: number;
-              }) => wrapperWidth / 2 - itemWidth / 2
+              itemWidth,
+              wrapperWidth,
+            }: {
+              itemWidth: number;
+              wrapperWidth: number;
+            }) => wrapperWidth / 2 - itemWidth / 2
             : smooothyOffsetPreset === "full"
               ? ({ itemWidth }: { itemWidth: number }) => itemWidth
               : () => 0,
@@ -567,7 +567,7 @@ export default function HomeVideoShowcase({
         if (animId) cancelAnimationFrame(animId);
         try {
           smooothyInstanceRef.current?.destroy?.();
-        } catch {}
+        } catch { }
       };
     } catch (err) {
       console.error("Smooothy initialization error:", err);
@@ -576,7 +576,7 @@ export default function HomeVideoShowcase({
     return () => {
       try {
         smooothyInstanceRef.current?.destroy?.();
-      } catch {}
+      } catch { }
     };
   }, [
     smooothyInfinite,
@@ -748,7 +748,7 @@ export default function HomeVideoShowcase({
             <h2 className="mb-2.5">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
-            <p className="mb-5">
+            <p>
               {sanityContent?.videoShowcaseSubtitle ||
                 "Explore 7th Heaven's live concert highlights, festival performances, television broadcasts, and official music videos in smooth interactive parallax."}
             </p>
@@ -796,10 +796,10 @@ export default function HomeVideoShowcase({
             ...(smooothyVertical
               ? {}
               : {
-                  marginLeft: `-${gapPx / 2}px`,
-                  marginRight: `-${gapPx / 2}px`,
-                  width: `calc(100% + ${gapPx}px)`,
-                }),
+                marginLeft: `-${gapPx / 2}px`,
+                marginRight: `-${gapPx / 2}px`,
+                width: `calc(100% + ${gapPx}px)`,
+              }),
           }}
         >
           {videos.map((video, idx) => {
