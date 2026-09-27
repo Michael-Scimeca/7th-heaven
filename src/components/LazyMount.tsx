@@ -68,6 +68,9 @@ export default function LazyMount({
           setVisible(true);
           onVisibleRef.current?.();
           observer.disconnect();
+          requestAnimationFrame(() => {
+            (window as any).__lenis?.resize();
+          });
         }
       },
       { rootMargin },

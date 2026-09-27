@@ -48,25 +48,24 @@ export default function SmoothScroll({
     }
     rafId = requestAnimationFrame(raf);
 
-    // Debounce lenis.resize to prevent forced synchronous layout reflows during mount
-    let resizeTimer: NodeJS.Timeout | null = null;
+    let resizeRaf: number | null = null;
     const safeResize = () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        requestAnimationFrame(() => {
-          lenis.resize();
-        });
-      }, 150);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        lenis.resize();
+        resizeRaf = null;
+      });
     };
 
-    const t1 = setTimeout(safeResize, 500);
+    const t1 = setTimeout(safeResize, 300);
 
+    const targetEl = document.querySelector("main") || document.body;
     const ro = new ResizeObserver(safeResize);
-    if (document.body) ro.observe(document.body);
+    if (targetEl) ro.observe(targetEl);
 
     return () => {
       clearTimeout(t1);
-      if (resizeTimer) clearTimeout(resizeTimer);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
       cancelAnimationFrame(rafId);
       ro.disconnect();
       lenis.destroy();

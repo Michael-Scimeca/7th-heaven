@@ -240,16 +240,43 @@ export default function SlideupSection({
   useEffect(() => {
     const vh = () => window.innerHeight - HEADER_H;
 
-    function onScroll() {
-      const viewportH = vh();
+    let cardMetrics: { cardTop: number; innerBottomOffset: number; innerHeight: number }[] = [];
 
-      const rects = cardRefs.current.map((card) => {
-        if (!card) return null;
+    function updateMetrics() {
+      const scrollY = window.scrollY;
+      cardMetrics = cardRefs.current.map((card) => {
+        if (!card) return { cardTop: 0, innerBottomOffset: 0, innerHeight: 0 };
+        const cardRect = card.getBoundingClientRect();
         const innerEl =
           (card.querySelector(".su-card-inner") as HTMLElement) || card;
+        const innerRect = innerEl.getBoundingClientRect();
         return {
-          innerRect: innerEl.getBoundingClientRect(),
-          cardRect: card.getBoundingClientRect(),
+          cardTop: cardRect.top + scrollY,
+          innerBottomOffset: innerRect.bottom + scrollY,
+          innerHeight: innerRect.height,
+        };
+      });
+    }
+
+    function onScroll() {
+      const viewportH = vh();
+      const scrollY = window.scrollY;
+
+      if (cardMetrics.length === 0 || cardMetrics.some((m) => m.cardTop === 0)) {
+        updateMetrics();
+      }
+
+      const rects = cardRefs.current.map((card, i) => {
+        if (!card || !cardMetrics[i]) return null;
+        const m = cardMetrics[i];
+        return {
+          innerRect: {
+            bottom: m.innerBottomOffset - scrollY,
+            height: m.innerHeight,
+          },
+          cardRect: {
+            top: m.cardTop - scrollY,
+          },
         };
       });
 
@@ -327,13 +354,19 @@ export default function SlideupSection({
       raf = requestAnimationFrame(onScroll);
     };
 
+    const handleResize = () => {
+      updateMetrics();
+      handler();
+    };
+
     document.addEventListener("scroll", handler, { passive: true });
-    window.addEventListener("resize", handler);
+    window.addEventListener("resize", handleResize, { passive: true });
+    updateMetrics();
     onScroll();
 
     return () => {
       document.removeEventListener("scroll", handler);
-      window.removeEventListener("resize", handler);
+      window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(raf);
     };
   }, [showIntro]);

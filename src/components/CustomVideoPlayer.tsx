@@ -141,8 +141,25 @@ export default function CustomVideoPlayer({
 
   // Sync state loop
   useEffect(() => {
+    if (!isPlaying) return;
+
+    let isVisible = true;
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined" && containerRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            isVisible = e.isIntersecting;
+          });
+        },
+        { rootMargin: "200px 0px" },
+      );
+      observer.observe(containerRef.current);
+    }
+
     const update = () => {
       if (
+        isVisible &&
         playerRef.current &&
         typeof playerRef.current.getCurrentTime === "function"
       ) {
@@ -158,8 +175,11 @@ export default function CustomVideoPlayer({
       animRef.current = requestAnimationFrame(update);
     };
     animRef.current = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(animRef.current);
-  }, []);
+    return () => {
+      if (observer) observer.disconnect();
+      cancelAnimationFrame(animRef.current);
+    };
+  }, [isPlaying]);
 
   const togglePlay = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();

@@ -275,8 +275,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       : 0.88;
   const maxMobileHeight = max2026Ratio * (mobileSvgSize.h || 3000);
 
-  const [pathLengthTo2026, setPathLengthTo2026] = useState<number | null>(null);
+    const [pathLengthTo2026, setPathLengthTo2026] = useState<number | null>(null);
   const pathLengthTo2026Ref = useRef<number | null>(null);
+  const row2026OffsetTopRef = useRef<number | null>(null);
   const rowCentersRef = useRef<number[]>([]);
   const rowPathLengthsRef = useRef<number[]>([]);
   const badgePathLengthsRef = useRef<number[]>([]);
@@ -439,6 +440,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     if (badge2026El) {
       const bRect = badge2026El.getBoundingClientRect();
       endX2026 = bRect.left - containerRect.left + bRect.width / 2;
+      row2026OffsetTopRef.current = bRect.top - containerRect.top + bRect.height / 2;
     }
 
     const idx2026 = chronologicalHistory.findIndex((h) => h.year === "2026");
@@ -637,9 +639,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const containerH = containerDimensionsRef.current.h;
       const startScroll = containerTop - vh * startVh;
       let endScroll: number;
-      if (endEl) {
-        const er = endEl.getBoundingClientRect();
-        endScroll = scrollY + (er.top + er.height / 2) - vh * 0.5;
+      if (endEl && row2026OffsetTopRef.current !== null) {
+        endScroll = containerTop + row2026OffsetTopRef.current - vh * 0.5;
       } else {
         endScroll = containerTop + containerH - vh * endVh;
       }

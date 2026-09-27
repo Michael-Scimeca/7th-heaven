@@ -1168,8 +1168,15 @@ lerpSpeed: ${lerpSpeed}`;
     let isCancelled = false;
     let lastX = currentXRef.current;
 
+    let isVisible = true;
+    let observer: IntersectionObserver | null = null;
+
     const loop = () => {
-      if (isCancelled) return;
+      if (isCancelled || !isVisible) {
+        frameId = 0;
+        animFrameRef.current = 0;
+        return;
+      }
       // Lerp current position to target position using Smooothy inertia factor
       const diff = targetXRef.current - currentXRef.current;
       if (Math.abs(diff) < 0.2) {
@@ -1210,9 +1217,6 @@ lerpSpeed: ${lerpSpeed}`;
           // Continuous smooth scale & opacity: 3 visible members max (Center + 1 Left + 1 Right)
           const focalVal = Math.max(0, 1 - Math.min(distFromCenter, 1.4) / 1.4);
           const scale = 0.84 + focalVal * (focalScaleRef.current - 0.84);
-
-          // Keep all 5 member cards visible with smooth focal center weighting
-          const cardOpacity = Math.max(0.7, 1 - distFromCenter * 0.12);
 
           // Active Y lift
           const activeY = activeYShiftRef.current * focalVal;
@@ -1260,12 +1264,30 @@ lerpSpeed: ${lerpSpeed}`;
       }
     };
 
+    if (typeof IntersectionObserver !== "undefined" && sectionRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isVisible = entry.isIntersecting;
+            if (isVisible && updatePhysicsRef.current) {
+              if (!animFrameRef.current) {
+                animFrameRef.current = requestAnimationFrame(updatePhysicsRef.current);
+              }
+            }
+          });
+        },
+        { rootMargin: "300px 0px" },
+      );
+      observer.observe(sectionRef.current);
+    }
+
     updatePhysicsRef.current = loop;
     frameId = requestAnimationFrame(loop);
     animFrameRef.current = frameId;
 
     return () => {
       isCancelled = true;
+      if (observer) observer.disconnect();
       cancelAnimationFrame(frameId);
     };
   }, [

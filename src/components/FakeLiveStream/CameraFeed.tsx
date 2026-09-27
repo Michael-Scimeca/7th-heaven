@@ -32,8 +32,20 @@ export function CameraFeed({ crewColor = "#a855f7" }: { crewColor?: string }) {
     const ro = new ResizeObserver(resize);
     if (canvas.parentElement) ro.observe(canvas.parentElement);
 
+    let isVisible = true;
+    let visibilityObserver: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      visibilityObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          isVisible = e.isIntersecting;
+        });
+      }, { rootMargin: "200px 0px" });
+      visibilityObserver.observe(canvas);
+    }
+
     const draw = (ts: number) => {
       frameRef.current = requestAnimationFrame(draw);
+      if (!isVisible) return;
       const t = ts / 1000;
       timeRef.current = t;
       const W = canvas.width;
@@ -228,6 +240,7 @@ export function CameraFeed({ crewColor = "#a855f7" }: { crewColor?: string }) {
     return () => {
       cancelAnimationFrame(frameRef.current);
       ro.disconnect();
+      if (visibilityObserver) visibilityObserver.disconnect();
     };
   }, [crewColor]);
 

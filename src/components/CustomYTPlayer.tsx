@@ -120,20 +120,38 @@ export default function CustomYTPlayer({
 
   // Update time loop
   useEffect(() => {
+    if (!isReady || !isPlaying) return;
+
+    let isVisible = true;
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined" && containerRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            isVisible = e.isIntersecting;
+          });
+        },
+        { rootMargin: "200px 0px" },
+      );
+      observer.observe(containerRef.current);
+    }
+
     const update = () => {
-      if (playerRef.current?.getCurrentTime) {
+      if (isVisible && playerRef.current?.getCurrentTime) {
         setCurrentTime(playerRef.current.getCurrentTime());
         const dur = playerRef.current.getDuration();
         if (dur) setDuration(dur);
-        // Buffer
         const loaded = playerRef.current.getVideoLoadedFraction?.() || 0;
         setBuffered(loaded * 100);
       }
       animRef.current = requestAnimationFrame(update);
     };
-    if (isReady) update();
-    return () => cancelAnimationFrame(animRef.current);
-  }, [isReady]);
+    animRef.current = requestAnimationFrame(update);
+    return () => {
+      if (observer) observer.disconnect();
+      cancelAnimationFrame(animRef.current);
+    };
+  }, [isReady, isPlaying]);
 
   // Auto-hide controls
   const resetHideTimer = useCallback(() => {
