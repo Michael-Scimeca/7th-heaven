@@ -15431,7 +15431,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           aria-label="Close overlay"
-                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
+                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 animate-backdrop-fade-in"
                           onClick={() => {
                             setActiveDropDay(null);
                             setDraggedCrewMemberId(null);
@@ -16666,7 +16666,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           aria-label="Close select group drawer"
-                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
+                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 animate-backdrop-fade-in"
                           onClick={() => setCellGroupPopover(null)}
                         />
 
@@ -16810,7 +16810,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         aria-label="Close create group modal"
-                        className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
+                        className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 animate-backdrop-fade-in"
                         onClick={() => {
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
@@ -17385,7 +17385,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           aria-label="Close overlay"
-                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
+                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 animate-backdrop-fade-in"
                           onClick={() => setSelectedShowCrewDate(null)}
                         />
 
