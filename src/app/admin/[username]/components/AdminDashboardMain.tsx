@@ -12717,25 +12717,31 @@ export function AdminDashboardMain({
 
     const handleQuickAutoSendSms = async (dateStr: string) => {
       selectShowForSms(dateStr);
+      setActiveCategoryTab("messages");
+      try {
+        localStorage.setItem("7h_admin_category_tab", "messages");
+      } catch {}
 
-      const smsSection = document.getElementById("section-crewsms");
-      if (smsSection) {
-        smsSection.scrollIntoView({ behavior: "smooth" });
-        if (!isSectionOpen("crewsms")) {
-          toggleSection("crewsms");
-        }
-      } else {
-        const sections = document.querySelectorAll("section");
-        for (let s of Array.from(sections)) {
-          if (s.textContent?.includes("Crew SMS Alert & Group Setup")) {
-            s.scrollIntoView({ behavior: "smooth" });
-            if (!isSectionOpen("crewsms")) {
-              toggleSection("crewsms");
+      setTimeout(() => {
+        const smsSection = document.getElementById("admin-sec-crewsms") || document.getElementById("section-crewsms");
+        if (smsSection) {
+          smsSection.scrollIntoView({ behavior: "smooth" });
+          if (!isSectionOpen("crewsms")) {
+            toggleSection("crewsms");
+          }
+        } else {
+          const sections = document.querySelectorAll("section");
+          for (let s of Array.from(sections)) {
+            if (s.textContent?.includes("Crew SMS Alert & Group Setup")) {
+              s.scrollIntoView({ behavior: "smooth" });
+              if (!isSectionOpen("crewsms")) {
+                toggleSection("crewsms");
+              }
+              break;
             }
-            break;
           }
         }
-      }
+      }, 50);
     };
     const handleTextAssignedCrew = handleQuickAutoSendSms;
     const handleAddGroupToDay = (
@@ -17708,7 +17714,8 @@ export function AdminDashboardMain({
           <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-white/10 pb-4 select-none">
             {[
               { id: "overview", label: "Overview & Analytics", icon: "📊" },
-              { id: "messaging", label: "Broadcast & Alerts", icon: "📣" },
+              { id: "messages", label: "Send Messages & SMS", icon: "💬" },
+              { id: "broadcasts", label: "Broadcast & Banners", icon: "📣" },
               { id: "schedule", label: "Crew & Schedule", icon: "📅" },
               { id: "directory", label: "Directory & Users", icon: "👥" },
               { id: "bookings_mod", label: "Bookings & Media", icon: "📝" },
@@ -17785,10 +17792,11 @@ export function AdminDashboardMain({
           {sectionOrder
             .filter((key) => {
               const CATEGORY_MAP: Record<string, string[]> = {
-                overview: ["analytics", "announcements"],
-                messaging: ["announcements", "smsblast", "newsletter", "bandsms", "livealerts"],
-                schedule: ["calendar", "crewsms"],
-                directory: ["announcements", "registry", "crewcreation", "admincreation", "bulkinvites"],
+                overview: ["analytics"],
+                messages: ["crewsms", "bandsms", "smsblast", "newsletter"],
+                broadcasts: ["announcements", "livealerts"],
+                schedule: ["calendar"],
+                directory: ["registry", "crewcreation", "admincreation", "bulkinvites"],
                 bookings_mod: ["bookings", "planners", "photomod", "memorymod"],
                 cruise: ["cruisesignups"],
                 store: ["shopify"],
