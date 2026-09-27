@@ -322,6 +322,30 @@ export default function HeroVideoPlayer({
     return () => clearTimeout(t);
   }, [gradCopied]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        if (visible) {
+          if (videoRef.current) videoRef.current.play().catch(() => {});
+          if (mobileVideoRef.current) mobileVideoRef.current.play().catch(() => {});
+        } else {
+          if (videoRef.current) videoRef.current.pause();
+          if (mobileVideoRef.current) mobileVideoRef.current.pause();
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const updateColor = (color: string) => {
     setTintColor(color);
     localStorage.setItem("7h_tint_color", color);
@@ -572,7 +596,7 @@ export default function HeroVideoPlayer({
 
   return (
     <VideoSnapshotContext.Provider value={ctxValue}>
-      <div className="relative flex h-full w-full flex-col justify-between">
+      <div ref={containerRef} className="relative flex h-full w-full flex-col justify-between">
         {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
         {!isDesktop ? (
           <div

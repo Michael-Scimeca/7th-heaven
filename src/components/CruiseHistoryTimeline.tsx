@@ -591,7 +591,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   // Measure path length whenever pathD updates
   useEffect(() => {
     if (desktopPathRef.current && pathD) {
-      setDesktopPathLength(desktopPathRef.current.getTotalLength());
+      const len = Math.round(desktopPathRef.current.getTotalLength());
+      setDesktopPathLength((prev) => (Math.abs(prev - len) > 1 ? len : prev));
       updateShipPosition(latestProgressRef.current);
       const t = setTimeout(() => {
         if (typeof window !== "undefined" && (window as any).__lenis) {
@@ -601,7 +602,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       return () => clearTimeout(t);
     }
     if (mobilePathRef.current) {
-      setMobilePathLength(mobilePathRef.current.getTotalLength());
+      const mLen = Math.round(mobilePathRef.current.getTotalLength());
+      setMobilePathLength((prev) => (Math.abs(prev - mLen) > 1 ? mLen : prev));
     }
   }, [pathD, updateShipPosition]);
 
@@ -701,6 +703,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     };
 
     const onScroll = () => {
+      if (!isVisible) return;
       desktopRaw = computeProgress(
         desktopContainerRef.current,
         0.5,

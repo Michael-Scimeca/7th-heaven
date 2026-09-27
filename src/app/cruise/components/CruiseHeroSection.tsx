@@ -24,9 +24,28 @@ export default function CruiseHeroSection({
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   React.useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    observer.observe(video);
+    video.play().catch(() => {});
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   const desktopVideoUrl = "/movie/cruise-desktop.mp4";

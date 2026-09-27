@@ -832,7 +832,7 @@ function CruiseCabinsPricingSectionComponent({
                         e.stopPropagation();
                         handleSelectCabin(room.selectValue);
                       }}
-                      className="!mt-3 w-full"
+                      className="w-full"
                     >
                       SELECT &amp; BOOK CABIN
                     </SeventhButton>

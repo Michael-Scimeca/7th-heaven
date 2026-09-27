@@ -86,7 +86,11 @@ export default function LazyMount({
       ref={ref}
       id={id}
       className={className}
-      style={{ minHeight, ...style }}
+      style={{
+        contentVisibility: "auto",
+        containIntrinsicSize: `auto ${minHeight}`,
+        ...style,
+      }}
     >
       {visible ? children : null}
     </Tag>
