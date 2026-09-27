@@ -5313,7 +5313,7 @@ export function AdminDashboardMain({
                             onClick={() => updateGlobalBanner()}
                             disabled={bannerUpdating}
                             icon={false}
-                            className="cursor-pointer px-6 py-2.5"
+                            className="cursor-pointer"
                           >
                             {bannerUpdating ? "Saving..." : "Dispatch"}
                           </SeventhButton>
@@ -9887,9 +9887,7 @@ export function AdminDashboardMain({
                       <div className="flex items-center justify-between border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span> EMAIL DISPATCH PREVIEW</span>
-                          <span className="rounded-full border border-purple-500/60 bg-purple-950/90 px-3 py-1 text-[10px] text-purple-200">
-                            Full HTML Template
-                          </span>
+
                         </div>
                         <span className="max-w-[180px] text-white/50">
                           Subject: {smsEmailSubject || "(No subject)"}
