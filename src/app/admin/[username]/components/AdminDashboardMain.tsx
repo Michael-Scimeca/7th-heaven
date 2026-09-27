@@ -2301,14 +2301,21 @@ export function AdminDashboardMain({
   // Memoize formatted upcoming tour dates to avoid calling new Date() and toLocaleDateString 146 times on every single render!
   const upcomingTourDatesWithLabels = useMemo(() => {
     const todayStr = new Date().toISOString().split("T")[0];
-    const upcoming = tourDates.filter(
-      (show) => !show.date || show.date >= todayStr,
-    );
+    const upcoming = tourDates.filter((show) => {
+      const rawDateStr = show.startDate || show.date;
+      if (!rawDateStr) return true;
+      if (/^\d{4}-\d{2}-\d{2}/.test(rawDateStr)) {
+        return rawDateStr.split("T")[0] >= todayStr;
+      }
+      return true;
+    });
 
     // Deduplicate shows by date and venue name
     const seen = new Set<string>();
     const uniqueUpcoming = upcoming.filter((show) => {
-      const key = `${show.date || ""}_${(show.venue || show.venue_name || "").toLowerCase().trim()}`;
+      const rawDateStr = show.startDate || show.date || "";
+      const venueStr = (show.venue || show.venue_name || "").toLowerCase().trim();
+      const key = `${rawDateStr}_${venueStr}`;
       if (seen.has(key)) return false;
       seen.add(key);
       return true;
@@ -2331,20 +2338,22 @@ export function AdminDashboardMain({
     const SHORT_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     return uniqueUpcoming
-      .sort((a, b) => (a.date || "").localeCompare(b.date || ""))
+      .sort((a, b) =>
+        (a.startDate || a.date || "").localeCompare(b.startDate || b.date || ""),
+      )
       .map((show) => {
         let dateLabel = "—";
         let dayLabel = "";
-        if (show.date) {
-          const rawStr = String(show.date).trim();
-          const cleanStr = rawStr.split("T")[0];
+        const rawDateStr = show.startDate || show.date;
+        if (rawDateStr) {
+          const cleanStr = String(rawDateStr).trim().split("T")[0];
           let d = new Date(cleanStr + "T12:00:00");
-          if (isNaN(d.getTime())) d = new Date(rawStr);
+          if (isNaN(d.getTime())) d = new Date(rawDateStr);
           if (!isNaN(d.getTime())) {
             dateLabel = `${SHORT_MONTHS[d.getMonth()]} ${d.getDate()}`;
             dayLabel = SHORT_DAYS[d.getDay()];
-          } else {
-            dateLabel = rawStr;
+          } else if (show.date) {
+            dateLabel = String(show.date);
           }
         }
         return {
@@ -12793,13 +12802,15 @@ export function AdminDashboardMain({
     };
 
     const getWeekRangeLabel = (weekStart: Date) => {
-      const start = new Date(weekStart);
-      const end = new Date(weekStart);
-      end.setDate(weekStart.getDate() + 6);
+      let start = new Date(weekStart);
+      if (isNaN(start.getTime())) {
+        start = new Date();
+      }
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
 
       const startMonth = start.toLocaleString("en-US", { month: "short" });
       const endMonth = end.toLocaleString("en-US", { month: "short" });
-      const startYear = start.getFullYear();
 
       if (startMonth === endMonth) {
         return `${startMonth} ${start.getDate()} – ${end.getDate()}`;
@@ -14920,47 +14931,31 @@ export function AdminDashboardMain({
                         </svg>
                       </button>
                       {showTourDropdown && (
-                        <div className="custom-scrollbar absolute top-full left-0 z-50 mt-1 max-h-[850px] min-w-[320px] overflow-y-auto border border-white/10 bg-[#1a1a22] py-1.5">
+                        <div className="custom-scrollbar absolute top-full left-0 z-50 mt-1 max-h-[850px] min-w-[320px] overflow-y-auto border border-white/10 bg-[#1a1a22] py-1.5 shadow-2xl">
                           {(() => {
-                            const todayStr = new Date()
-                              .toISOString()
-                              .split("T")[0];
-                            const upcomingTourDates = tourDates.filter(
-                              (show) => !show.date || show.date >= todayStr,
-                            );
-                            if (upcomingTourDates.length === 0) {
+                            const datesToRender = upcomingTourDatesWithLabels;
+                            if (!datesToRender || datesToRender.length === 0) {
                               return (
                                 <div className="px-4 py-3 text-[var(--font-size-2xs)] text-white/30">
                                   No upcoming tour dates synced yet
                                 </div>
                               );
                             }
-                            return upcomingTourDates
-                              .sort((a, b) =>
-                                (a.date || "").localeCompare(b.date || ""),
-                              )
-                              .map((show, idx) => {
-                                const showDate = show.date
-                                  ? new Date(show.date + "T12:00:00")
-                                  : null;
-                                const dateLabel = showDate
-                                  ? showDate.toLocaleDateString("en-US", {
-                                    month: "short",
-                                    day: "numeric",
-                                    weekday: "short",
-                                  })
-                                  : "Unknown";
-                                return (
-                                  <button
-                                    key={
-                                      show._id || `${show.date}-${show.venue}`
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      if (show.date) {
-                                        const chosen = new Date(
-                                          show.date + "T12:00:00",
-                                        );
+                            return datesToRender.map((show, idx) => {
+                              const dateLabel = show.dateLabel || show.date || "Unknown";
+                              return (
+                                <button
+                                  key={
+                                    show._id || show.id || `show-${show.startDate || show.date || "date"}-${show.venue || show.venue_name || "venue"}`
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    const targetDate = show.startDate || show.date;
+                                    if (targetDate) {
+                                      const cleanStr = String(targetDate).trim().split("T")[0];
+                                      let chosen = new Date(cleanStr + "T12:00:00");
+                                      if (isNaN(chosen.getTime())) chosen = new Date(targetDate);
+                                      if (!isNaN(chosen.getTime())) {
                                         const day = chosen.getDay();
                                         const diff =
                                           chosen.getDate() -
@@ -14974,24 +14969,25 @@ export function AdminDashboardMain({
                                           ),
                                         );
                                       }
-                                      setShowTourDropdown(false);
-                                    }}
-                                    className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left"
-                                  >
-                                    <span className="min-w-[80px]">
-                                      {dateLabel}
+                                    }
+                                    setShowTourDropdown(false);
+                                  }}
+                                  className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left hover:bg-purple-500/20"
+                                >
+                                  <span className="min-w-[80px] font-semibold text-purple-300">
+                                    {dateLabel}
+                                  </span>
+                                  <span className="group-hover:text-white">
+                                    {show.venue || show.venue_name}
+                                  </span>
+                                  {show.city && (
+                                    <span className="ml-auto shrink-0 text-white/30">
+                                      {show.city}
                                     </span>
-                                    <span className="group-hover:text-white">
-                                      {show.venue || show.venue_name}
-                                    </span>
-                                    {show.city && (
-                                      <span className="ml-auto shrink-0 text-white/30">
-                                        {show.city}
-                                      </span>
-                                    )}
-                                  </button>
-                                );
-                              });
+                                  )}
+                                </button>
+                              );
+                            });
                           })()}
                         </div>
                       )}

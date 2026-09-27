@@ -267,13 +267,15 @@ export const AdminSectionCrewSchedule = React.memo(
       };
 
       const getWeekRangeLabel = (weekStart: Date) => {
-        const start = new Date(weekStart);
-        const end = new Date(weekStart);
-        end.setDate(weekStart.getDate() + 6);
+        let start = new Date(weekStart);
+        if (isNaN(start.getTime())) {
+          start = new Date();
+        }
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
 
         const startMonth = start.toLocaleString("en-US", { month: "short" });
         const endMonth = end.toLocaleString("en-US", { month: "short" });
-        const startYear = start.getFullYear();
 
         if (startMonth === endMonth) {
           return `${startMonth} ${start.getDate()} – ${end.getDate()}`;
@@ -2516,45 +2518,31 @@ export const AdminSectionCrewSchedule = React.memo(
                           </svg>
                         </button>
                         {showTourDropdown && (
-                          <div className="custom-scrollbar absolute top-full left-0 z-50 max-h-[850px] min-w-[320px] overflow-y-auto border border-white/10 bg-[#1a1a22] py-1.5">
+                          <div className="custom-scrollbar absolute top-full left-0 z-50 mt-1 max-h-[850px] min-w-[320px] overflow-y-auto border border-white/10 bg-[#1a1a22] py-1.5 shadow-2xl">
                             {(() => {
-                              const upcomingTourDates = tourDates.filter(
-                                (show: any) =>
-                                  !show.date || show.date >= todayStr,
-                              );
-                              if (upcomingTourDates.length === 0) {
+                              const datesToRender = upcomingTourDatesWithLabels;
+                              if (!datesToRender || datesToRender.length === 0) {
                                 return (
                                   <div className="px-4 py-3 text-[var(--font-size-2xs)] text-white/30">
                                     No upcoming tour dates synced yet
                                   </div>
                                 );
                               }
-                              return upcomingTourDates
-                                .sort((a, b) =>
-                                  (a.date || "").localeCompare(b.date || ""),
-                                )
-                                .map((show, idx) => {
-                                  const showDate = show.date
-                                    ? new Date(show.date + "T12:00:00")
-                                    : null;
-                                  const dateLabel = showDate
-                                    ? showDate.toLocaleDateString("en-US", {
-                                        month: "short",
-                                        day: "numeric",
-                                        weekday: "short",
-                                      })
-                                    : "Unknown";
-                                  return (
-                                    <button
-                                      key={
-                                        show._id || `${show.date}-${show.venue}`
-                                      }
-                                      type="button"
-                                      onClick={() => {
-                                        if (show.date) {
-                                          const chosen = new Date(
-                                            show.date + "T12:00:00",
-                                          );
+                              return datesToRender.map((show: any, idx: number) => {
+                                const dateLabel = show.dateLabel || show.date || "Unknown";
+                                return (
+                                  <button
+                                    key={
+                                      show._id || show.id || `show-${show.startDate || show.date || "date"}-${show.venue || show.venue_name || "venue"}`
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      const targetDate = show.startDate || show.date;
+                                      if (targetDate) {
+                                        const cleanStr = String(targetDate).trim().split("T")[0];
+                                        let chosen = new Date(cleanStr + "T12:00:00");
+                                        if (isNaN(chosen.getTime())) chosen = new Date(targetDate);
+                                        if (!isNaN(chosen.getTime())) {
                                           const day = chosen.getDay();
                                           const diff =
                                             chosen.getDate() -
@@ -2568,24 +2556,25 @@ export const AdminSectionCrewSchedule = React.memo(
                                             ),
                                           );
                                         }
-                                        setShowTourDropdown(false);
-                                      }}
-                                      className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left"
-                                    >
-                                      <span className="min-w-[80px]">
-                                        {dateLabel}
+                                      }
+                                      setShowTourDropdown(false);
+                                    }}
+                                    className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left hover:bg-purple-500/20"
+                                  >
+                                    <span className="min-w-[80px] font-semibold text-purple-300">
+                                      {dateLabel}
+                                    </span>
+                                    <span className="group-hover:text-white">
+                                      {show.venue || show.venue_name}
+                                    </span>
+                                    {show.city && (
+                                      <span className="ml-auto shrink-0 text-white/30">
+                                        {show.city}
                                       </span>
-                                      <span className="group-hover:text-white">
-                                        {show.venue || show.venue_name}
-                                      </span>
-                                      {show.city && (
-                                        <span className="ml-auto shrink-0 text-white/30">
-                                          {show.city}
-                                        </span>
-                                      )}
-                                    </button>
-                                  );
-                                });
+                                    )}
+                                  </button>
+                                );
+                              });
                             })()}
                           </div>
                         )}
