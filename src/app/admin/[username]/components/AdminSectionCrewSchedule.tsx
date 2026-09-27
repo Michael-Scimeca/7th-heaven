@@ -2559,7 +2559,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                       }
                                       setShowTourDropdown(false);
                                     }}
-                                    className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left hover:bg-purple-500/20"
+                                    className="group flex w-full cursor-pointer items-center gap-3 border-b border-solid border-white/10 bg-[#00000029] px-4 py-3 text-left last:border-b-0 hover:bg-purple-500/20"
                                   >
                                     <span className="min-w-[80px] font-semibold text-purple-300">
                                       {dateLabel}

@@ -9178,7 +9178,7 @@ export function AdminDashboardMain({
                               setShowSaveSmsGroup(true);
                             }}
                             icon={false}
-                            className="cursor-pointer px-3 py-2"
+                            className="cursor-pointer"
                           >
                             Create Group
                           </SeventhButton>
@@ -9506,7 +9506,7 @@ export function AdminDashboardMain({
                               setShowSaveSmsGroup(true);
                             }}
                             icon={false}
-                            className="w-full cursor-pointer py-3"
+                            className="w-full cursor-pointer"
                           >
                             CREATE NEW GROUP FROM SELECTION
                           </SeventhButton>
@@ -14972,7 +14972,7 @@ export function AdminDashboardMain({
                                     }
                                     setShowTourDropdown(false);
                                   }}
-                                  className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left hover:bg-purple-500/20"
+                                  className="group flex w-full cursor-pointer items-center gap-3 border-b border-solid border-white/10 bg-[#00000029] px-4 py-3 text-left last:border-b-0 hover:bg-purple-500/20"
                                 >
                                   <span className="min-w-[80px] font-semibold text-purple-300">
                                     {dateLabel}
@@ -15177,7 +15177,7 @@ export function AdminDashboardMain({
 
                 {/* Expandable Advanced Filters Panel */}
                 {isFiltersPanelExpanded && (
-                  <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 px-6 py-4 backdrop-blur-2xl">
+                  <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10  py-4">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                       {/* Search by Person */}
                       <div className="relative flex flex-col gap-1.5">
@@ -15232,7 +15232,7 @@ export function AdminDashboardMain({
                       </div>
 
                       {/* Event Type Filter */}
-                      <div className="flex flex-col gap-1.5">
+                      <div className="flex flex-col">
                         <label
                           htmlFor="admin-sched-event-type"
                           className="text-white/50"
@@ -17559,9 +17559,10 @@ export function AdminDashboardMain({
                   })()}
               </div>
             </>
-          )}
-        </div>
-      </div>
+          )
+          }
+        </div >
+      </div >
     );
   }
 
