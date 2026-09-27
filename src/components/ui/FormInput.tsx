@@ -5,10 +5,11 @@ export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputEleme
   label?: string;
   error?: string;
   icon?: React.ReactNode;
+  glow?: boolean;
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-  ({ label, error, icon, className, id, required, ...props }, ref) => {
+  ({ label, error, icon, className, id, required, glow = true, ...props }, ref) => {
     const autoId = useId();
     const inputId = id || autoId;
 
@@ -23,9 +24,9 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             {required && <span className="ml-1 text-rose-400">*</span>}
           </label>
         )}
-        <div className="relative w-full">
+        <div className={cn("relative w-full rounded-xl", glow && "input-glow-border")}>
           {icon && (
-            <div className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-white/40">
+            <div className="pointer-events-none absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-white/40">
               {icon}
             </div>
           )}
@@ -34,7 +35,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             id={inputId}
             required={required}
             className={cn(
-              "w-full  border border-white/10 bg-black/60 px-4 py-3 text-white transition-all duration-200 outline-none placeholder:text-white/30 hover:border-white/20 focus:border-purple-500 focus:bg-black/80 focus:shadow-[0_0_15px_rgba(168,85,247,0.25)] ",
+              "w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white transition-all duration-200 outline-none placeholder:text-white/30 hover:border-white/20 focus:border-purple-500 focus:bg-black/80 focus:shadow-[0_0_15px_rgba(168,85,247,0.25)]",
               icon && "pl-10",
               error &&
               "border-rose-500/50 focus:border-rose-500 focus:shadow-[0_0_15px_rgba(244,63,94,0.25)]",
