@@ -17719,7 +17719,6 @@ export function AdminDashboardMain({
               { id: "schedule", label: "Crew & Schedule", icon: "📅" },
               { id: "directory", label: "Directory & Users", icon: "👥" },
               { id: "bookings_mod", label: "Bookings & Media", icon: "📝" },
-              { id: "cruise", label: "Cruise Command", icon: "🚢" },
               { id: "store", label: "Merch & Store", icon: "🛒" },
             ].map((tab) => {
               const isActive = activeCategoryTab === tab.id;
@@ -17798,7 +17797,6 @@ export function AdminDashboardMain({
                 schedule: ["calendar"],
                 directory: ["registry", "crewcreation", "admincreation", "bulkinvites"],
                 bookings_mod: ["bookings", "planners", "photomod", "memorymod"],
-                cruise: ["cruisesignups"],
                 store: ["shopify"],
               };
               const allowed = CATEGORY_MAP[activeCategoryTab] || CATEGORY_MAP["overview"];
