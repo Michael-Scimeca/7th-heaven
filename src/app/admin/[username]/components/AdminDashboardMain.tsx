@@ -1863,6 +1863,18 @@ export function AdminDashboardMain({
   const dropLocationRef = useRef<string>("");
   const dropNotesRef = useRef<string>("");
   const supabase = createClient();
+  const [activeCategoryTab, setActiveCategoryTab] = useState<string>("overview");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("7h_admin_category_tab");
+      if (saved && saved !== "all") {
+        // eslint-disable-next-line react-doctor/no-initialize-state
+        setActiveCategoryTab(saved);
+      }
+    } catch { }
+  }, []);
+
   //  Collapsible Sections (persisted via localStorage & Supabase)
   const [collapsedSections, setCollapsedSections] = useState<
     Record<string, boolean>
@@ -15419,7 +15431,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           aria-label="Close overlay"
-                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/15"
+                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                           onClick={() => {
                             setActiveDropDay(null);
                             setDraggedCrewMemberId(null);
@@ -15427,7 +15439,7 @@ export function AdminDashboardMain({
                           }}
                         />
 
-                        <div className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl">
+                        <div className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl">
                           {/* Modal Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div>
@@ -16654,14 +16666,14 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           aria-label="Close select group drawer"
-                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/15"
+                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                           onClick={() => setCellGroupPopover(null)}
                         />
 
                         {/* Full Height Right-Side Drawer Panel */}
                         <div
                           data-group-popover-cell
-                          className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl"
+                          className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl"
                           onClick={(e) => e.stopPropagation()}
                         >
                           {/* Drawer Header */}
@@ -16798,7 +16810,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         aria-label="Close create group modal"
-                        className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/15"
+                        className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                         onClick={() => {
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
@@ -16806,7 +16818,7 @@ export function AdminDashboardMain({
                       />
 
                       <div
-                        className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl"
+                        className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl"
                         onClick={(e) => e.stopPropagation()}
                       >
                         {/* Modal Header */}
@@ -17373,11 +17385,11 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           aria-label="Close overlay"
-                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/15"
+                          className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                           onClick={() => setSelectedShowCrewDate(null)}
                         />
 
-                        <div className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/15 bg-[#0a00653b] backdrop-blur-2xl">
+                        <div className="relative z-10 flex h-[100dvh] h-[100vh] h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl">
                           {/* Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div>
@@ -17694,112 +17706,167 @@ export function AdminDashboardMain({
         </div>
       </header>
 
-      {/*  */}
-      {/*   BAND & SITE TAB   */}
-      {/*  */}
+      {/* BAND & SITE TAB */}
       {adminTab === "band" && (
         <>
-          <section className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {METRICS.map((metric) => (
-              <div
-                key={metric.label}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    if (metric.label === "Booking Requests")
-                      document
-                        .getElementById("booking-requests-section")
-                        ?.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
-                onClick={() => {
-                  if (metric.label === "Booking Requests")
-                    document
-                      .getElementById("booking-requests-section")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
-              >
-                <p className="mb-2">{metric.label}</p>
-                <div className="flex items-end justify-between">
-                  <span className="text-3xl">{metric.value}</span>
-                  <span
-                    className={`rounded px-2 py-0.5 text-[0.9rem] ${metric.color}`}
-                  >
-                    {metric.trend}
-                  </span>
+          {/* Category Navigation Tabs */}
+          <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-white/10 pb-4 select-none">
+            {[
+              { id: "overview", label: "Overview & Analytics", icon: "📊" },
+              { id: "messaging", label: "Broadcast & Alerts", icon: "📣" },
+              { id: "schedule", label: "Crew & Schedule", icon: "📅" },
+              { id: "directory", label: "Directory & Users", icon: "👥" },
+              { id: "bookings_mod", label: "Bookings & Media", icon: "📝" },
+              { id: "cruise", label: "Cruise Command", icon: "🚢" },
+              { id: "store", label: "Merch & Store", icon: "🛒" },
+            ].map((tab) => {
+              const isActive = activeCategoryTab === tab.id;
+              return (
+                <SeventhButton
+                  key={tab.id}
+                  type="button"
+                  isActive={isActive}
+                  icon={false}
+                  onClick={() => {
+                    setActiveCategoryTab(tab.id);
+                    try {
+                      localStorage.setItem("7h_admin_category_tab", tab.id);
+                    } catch { }
+                  }}
+                  className="cursor-pointer whitespace-nowrap"
+                >
+                  <span className="mr-1.5">{tab.icon}</span>
+                  {tab.label}
+                </SeventhButton>
+              );
+            })}
+          </div>
+
+          {activeCategoryTab === "overview" && (
+            <section className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+              {METRICS.map((metric) => (
+                <div
+                  key={metric.label}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      if (metric.label === "Booking Requests") {
+                        setActiveCategoryTab("bookings_mod");
+                        setTimeout(() => {
+                          document
+                            .getElementById("admin-sec-bookings")
+                            ?.scrollIntoView({ behavior: "smooth" });
+                        }, 50);
+                      }
+                    }
+                  }}
+                  onClick={() => {
+                    if (metric.label === "Booking Requests") {
+                      setActiveCategoryTab("bookings_mod");
+                      setTimeout(() => {
+                        document
+                          .getElementById("admin-sec-bookings")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      }, 50);
+                    }
+                  }}
+                  className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
+                >
+                  <p className="mb-2">{metric.label}</p>
+                  <div className="flex items-end justify-between">
+                    <span className="text-3xl">{metric.value}</span>
+                    <span
+                      className={`rounded px-2 py-0.5 text-[0.9rem] ${metric.color}`}
+                    >
+                      {metric.trend}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </section>
+              ))}
+            </section>
+          )}
 
-          {sectionOrder.map((key, index) => {
-            let component = null;
-            switch (key) {
-              case "announcements":
-                component = renderAnnouncements();
-                break;
-              case "calendar":
-                component = renderCrewSchedule();
-                break;
-              case "analytics":
-                component = renderAnalytics();
-                break;
-              case "shopify":
-                component = renderShopify();
-                break;
+          {sectionOrder
+            .filter((key) => {
+              const CATEGORY_MAP: Record<string, string[]> = {
+                overview: ["analytics", "announcements"],
+                messaging: ["announcements", "smsblast", "newsletter", "bandsms", "livealerts"],
+                schedule: ["calendar", "crewsms"],
+                directory: ["announcements", "registry", "crewcreation", "admincreation", "bulkinvites"],
+                bookings_mod: ["bookings", "planners", "photomod", "memorymod"],
+                cruise: ["cruisesignups"],
+                store: ["shopify"],
+              };
+              const allowed = CATEGORY_MAP[activeCategoryTab] || CATEGORY_MAP["overview"];
+              return allowed.includes(key);
+            })
+            .map((key, index) => {
+              let component = null;
+              switch (key) {
+                case "announcements":
+                  component = renderAnnouncements();
+                  break;
+                case "calendar":
+                  component = renderCrewSchedule();
+                  break;
+                case "analytics":
+                  component = renderAnalytics();
+                  break;
+                case "shopify":
+                  component = renderShopify();
+                  break;
 
-              case "bookings":
-                component = renderBookings();
-                break;
-              case "planners":
-                component = renderPlanners();
-                break;
+                case "bookings":
+                  component = renderBookings();
+                  break;
+                case "planners":
+                  component = renderPlanners();
+                  break;
 
-              case "photomod":
-                component = renderPhotoMod();
-                break;
-              case "cruisesignups":
-                component = renderCruiseSignups();
-                break;
+                case "photomod":
+                  component = renderPhotoMod();
+                  break;
+                case "cruisesignups":
+                  component = renderCruiseSignups();
+                  break;
 
-              case "livealerts":
-                component = renderLiveAlerts();
-                break;
-              case "smsblast":
-                component = renderSmsBlast();
-                break;
-              case "crewsms":
-                component = renderCrewSms();
-                break;
-              case "bandsms":
-                component = renderBandSms();
-                break;
-              case "newsletter":
-                component = renderNewsletter();
-                break;
-              case "registry":
-                component = renderRegistry();
-                break;
-              case "crewcreation":
-                component = renderCrewCreation();
-                break;
-              case "admincreation":
-                component = renderAdminCreation();
-                break;
+                case "livealerts":
+                  component = renderLiveAlerts();
+                  break;
+                case "smsblast":
+                  component = renderSmsBlast();
+                  break;
+                case "crewsms":
+                  component = renderCrewSms();
+                  break;
+                case "bandsms":
+                  component = renderBandSms();
+                  break;
+                case "newsletter":
+                  component = renderNewsletter();
+                  break;
+                case "registry":
+                  component = renderRegistry();
+                  break;
+                case "crewcreation":
+                  component = renderCrewCreation();
+                  break;
+                case "admincreation":
+                  component = renderAdminCreation();
+                  break;
 
-              case "bulkinvites":
-                component = renderBulkInvites();
-                break;
-            }
+                case "bulkinvites":
+                  component = renderBulkInvites();
+                  break;
+              }
 
-            return (
-              <section key={key} id={"admin-sec-" + key}>
-                {component}
-              </section>
-            );
-          })}
+              return (
+                <section key={key} id={"admin-sec-" + key}>
+                  {component}
+                </section>
+              );
+            })}
 
           <section className="mt-4 flex w-full flex-col gap-4">
             <div className="flex h-full flex-col overflow-hidden">

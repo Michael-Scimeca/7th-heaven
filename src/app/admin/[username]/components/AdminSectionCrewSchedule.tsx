@@ -3042,7 +3042,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           <button
                             type="button"
                             aria-label="Close overlay"
-                            className="absolute inset-0 cursor-default border-0"
+                            className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                             onClick={() => {
                               setActiveDropDay(null);
                               setDraggedCrewMemberId(null);
@@ -3050,7 +3050,7 @@ export const AdminSectionCrewSchedule = React.memo(
                             }}
                           />
 
-                          <div className="relative flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 bg-[#0a00653b] backdrop-blur-2xl">
+                          <div className="relative flex h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl">
                             {/* Modal Header */}
                             <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                               <div>
@@ -4316,14 +4316,14 @@ export const AdminSectionCrewSchedule = React.memo(
                           <button
                             type="button"
                             aria-label="Close select group drawer"
-                            className="absolute inset-0 cursor-default border-0"
+                            className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                             onClick={() => setCellGroupPopover(null)}
                           />
 
                           {/* Full Height Right-Side Drawer Panel (Flush against right edge: w-full max-w-md h-full border-l border-white/10) */}
                           <div
                             data-group-popover-cell
-                            className="relative z-10 flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 backdrop-blur-xl"
+                            className="relative z-10 flex h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl"
                             onClick={(e) => e.stopPropagation()}
                           >
                             {/* Drawer Header */}
@@ -4459,7 +4459,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         aria-label="Close create group modal"
-                        className="absolute inset-0 cursor-default border-0"
+                        className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                         onClick={() => {
                           setIsCreateGroupModalOpen(false);
                           createGroupForDateRef.current = null;
@@ -4467,7 +4467,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       />
 
                       <div
-                        className="relative z-10 flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 backdrop-blur-xl"
+                        className="relative z-10 flex h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl"
                         onClick={(e) => e.stopPropagation()}
                       >
                         {/* Modal Header */}
@@ -5031,11 +5031,11 @@ export const AdminSectionCrewSchedule = React.memo(
                           <button
                             type="button"
                             aria-label="Close overlay"
-                            className="absolute inset-0 cursor-default border-0"
+                            className="absolute inset-0 h-full w-full cursor-default border-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
                             onClick={() => setSelectedShowCrewDate(null)}
                           />
 
-                          <div className="relative flex h-full w-full max-w-md animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] flex-col justify-between border-l border-white/10 bg-[#0a00653b] backdrop-blur-2xl">
+                          <div className="relative flex h-full w-full max-w-md animate-slide-in-right flex-col justify-between border-l border-white/20 bg-[#0c0529]/95 shadow-2xl backdrop-blur-2xl">
                             {/* Header */}
                             <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                               <div>

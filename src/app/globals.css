@@ -27,6 +27,7 @@
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-full: 9999px;
+  --animate-slide-in-right: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
