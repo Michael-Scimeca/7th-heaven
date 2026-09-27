@@ -27,7 +27,7 @@ import Dropdown from "@/components/Dropdown";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import GooeyDropdown from "@/components/GooeyDropdown";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
-import GlowInput, { GlowTextarea } from "@/components/GlowInput";
+import GlowInput, { GlowTextarea, GlowSelect } from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
 import SeventhButton from "@/components/SeventhButton";
 
@@ -7177,7 +7177,7 @@ export function AdminDashboardMain({
                                 </p>
 
                                 <div className="flex flex-wrap items-center gap-2 pt-1 sm:flex-nowrap">
-                                  <input
+                                  <GlowInput
                                     type="text"
                                     value={
                                       loadInInputs[b.bookingId] !== undefined
@@ -7194,7 +7194,8 @@ export function AdminDashboardMain({
                                       }))
                                     }
                                     placeholder="e.g. 5:00 PM (2 hours before show)"
-                                    className="focus-ring flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-2 text-white/30"
+                                    wrapperClassName="flex-1"
+                                    rounded="rounded-lg"
                                   />
                                   <button
                                     type="button"
@@ -7339,7 +7340,7 @@ export function AdminDashboardMain({
                   ).map((planner: any) => (
                     <div
                       key={planner.email}
-                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10 bg-[#00000029] px-4 py-4 md:grid-cols-12"
+                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10  py-4 md:grid-cols-12"
                     >
                       <div className="col-span-12 flex min-w-0 items-center gap-4 md:col-span-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5">
@@ -7899,7 +7900,7 @@ export function AdminDashboardMain({
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}
             >
-              <span className="text-white/30">Auto-Blast</span>
+              <span className="text-white/30 whitespace-nowrap">Auto-Blast</span>
               <SquishyToggle
                 id="sms-auto-blast-toggle"
                 label="Toggle Auto-Blast"
@@ -8987,10 +8988,10 @@ export function AdminDashboardMain({
                               return (
                                 <li
                                   key={r.id}
-                                  className="!mb-0 list-none border-b border-white/10 bg-[#00000029] last:border-b-0"
+                                  className="!mb-0 list-none border-b border-white/10 last:border-b-0"
                                 >
                                   <div
-                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5 px-2.5 py-2 ${isChecked ? " " : ""}`}
+                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5  py-2 ${isChecked ? " " : ""}`}
                                     title={` ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                   >
                                     <div
@@ -9166,9 +9167,9 @@ export function AdminDashboardMain({
                   </div>
 
                   {/* Right Column: Group Setup & Message Sending */}
-                  <div className="space-y-5">
+                  <div className="">
                     {/* Group dropdown & save selection */}
-                    <div className="space-y-4 py-4 pr-0">
+                    <div className="space-y-4 pr-0">
                       <div>
                         <div className="mb-6 flex items-center justify-between">
                           <SeventhButton
@@ -9515,7 +9516,7 @@ export function AdminDashboardMain({
                     </div>
 
                     {/* Confirm / Send Button */}
-                    <div className="pt-2">
+                    <div className="pt-6">
                       {crewAlertResult && (
                         <p
                           className={`${crewAlertResult.success ? "text-emerald-400" : "text-rose-400"}`}
@@ -9929,22 +9930,18 @@ export function AdminDashboardMain({
 
                       {/* Add New Preset Role */}
                       <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="admin-new-preset-role"
-                          className="text-[0.9rem] text-white/40"
-                        >
-                          Add New Preset Role
-                        </label>
                         <div className="flex gap-2">
-                          <input
+                          <GlowInput
                             id="admin-new-preset-role"
+                            label="Add New Preset Role"
                             type="text"
                             value={newPresetRoleInput}
                             onChange={(e) =>
                               setNewPresetRoleInput(e.target.value)
                             }
                             placeholder="e.g. LIGHTING DESIGNER"
-                            className="focus-ring flex-1 rounded-lg border border-white/10 bg-black/40 px-3 py-2 placeholder-white/30 transition-[border-color,box-shadow,background-color] outline-none focus:shadow-[0_0_12px_rgba(168,85,247,0.4)]"
+                            wrapperClassName="flex-1"
+                            rounded="rounded-lg"
                             onKeyDown={(e) => {
                               if (e.key === "Enter") {
                                 handleAddPresetRole(newPresetRoleInput);
@@ -12140,7 +12137,7 @@ export function AdminDashboardMain({
                     <p>No cruise signups yet.</p>
                   </div>
                 ) : (
-                  <div className="custom-admin-scrollbar max-h-[750px] min-h-[450px] space-y-2 overflow-y-auto pr-1">
+                  <div className="custom-admin-scrollbar max-h-[750px] min-h-[450px] space-y-2 overflow-y-auto">
                     {/* Table header */}
                     <div className="sticky top-0 z-20 mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 border-b border-white/10 px-4 py-3 text-[0.65rem]">
                       <span></span>
@@ -12720,7 +12717,7 @@ export function AdminDashboardMain({
       setActiveCategoryTab("messages");
       try {
         localStorage.setItem("7h_admin_category_tab", "messages");
-      } catch {}
+      } catch { }
 
       setTimeout(() => {
         const smsSection = document.getElementById("admin-sec-crewsms") || document.getElementById("section-crewsms");
@@ -18044,40 +18041,32 @@ export function AdminDashboardMain({
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                      <label
-                        htmlFor="admin-guidelines-title"
-                        className="mb-2 block"
-                      >
-                        Section Title
-                      </label>
-                      <input
+                      <GlowInput
                         id="admin-guidelines-title"
+                        label="Section Title"
                         type="text"
                         value={adminGuidelinesTitle}
                         onChange={(e) =>
                           setAdminGuidelinesTitle(e.target.value)
                         }
                         placeholder="Cruise Information & Guidelines"
-                        className="focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
+                        wrapperClassName="w-full"
+                        rounded="rounded-xl"
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="admin-guidelines-subtitle"
-                        className="mb-2 block"
-                      >
-                        Subtitle Badge
-                      </label>
                       <div className="relative">
-                        <input
+                        <GlowInput
                           id="admin-guidelines-subtitle"
+                          label="Subtitle Badge"
                           type="text"
                           value={adminGuidelinesSubtitle}
                           onChange={(e) =>
                             setAdminGuidelinesSubtitle(e.target.value)
                           }
                           placeholder="Cruiser Welcome Pack"
-                          className="focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 pr-12 text-white/40 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
+                          wrapperClassName="w-full"
+                          rounded="rounded-xl"
                         />
                         <button
                           type="button"
@@ -18136,7 +18125,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       disabled={adminGuidelinesUpdating}
-                      className="!h-auto cursor-pointer px-8 py-3.5 disabled:opacity-50"
+                      className="!h-auto cursor-pointer  disabled:opacity-50"
                     >
                       {adminGuidelinesUpdating
                         ? "SAVING..."
@@ -18155,7 +18144,6 @@ export function AdminDashboardMain({
               <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-500/10 to-transparent blur-3xl" />
 
               <div className="group relative z-10 flex flex-col overflow-hidden">
-                <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 bg-cyan-500/5 blur-3xl" />
                 <div className="relative z-10 flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
                     <div className="flex items-center gap-4">
@@ -18184,21 +18172,17 @@ export function AdminDashboardMain({
                     {/* Left Column: Form Inputs & Target Controls */}
                     <div className="flex h-full flex-col gap-3 rounded-lg">
                       <div>
-                        <label
-                          htmlFor="admin-cruise-blast-subject"
-                          className="mb-2 block"
-                        >
-                          Notice Title / Email Subject Line
-                        </label>
-                        <input
+                        <GlowInput
                           id="admin-cruise-blast-subject"
+                          label="Notice Title / Email Subject Line"
                           type="text"
                           value={cruiseBlastSubject}
                           onChange={(e) =>
                             setCruiseBlastSubject(e.target.value)
                           }
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
-                          className="focus-ring w-full rounded-lg border border-white/10 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
+                          wrapperClassName="w-full"
+                          rounded="rounded-lg"
                         />
                       </div>
 
@@ -18298,7 +18282,7 @@ export function AdminDashboardMain({
                             cruiseUpdating ||
                             (!postNoticeToDashboard && !sendEmailToPassengers)
                           }
-                          className="flex cursor-pointer items-center justify-center px-6 py-2.5 text-[0.65rem]"
+                          className="flex cursor-pointer items-center justify-center"
                         >
                           {cruiseUpdating
                             ? "Dispatching..."
@@ -18414,7 +18398,7 @@ export function AdminDashboardMain({
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div
                           key={s.email || s.name}
-                          className="group/row mb-0 flex items-center gap-3 border-b border-white/10 bg-black/20 px-3 py-2.5"
+                          className="group/row mb-0 flex items-center gap-3 border-b border-white/10  py-2.5"
                         >
                           <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-emerald-500/10 text-[0.5rem]">
                             {s.name
@@ -18566,7 +18550,7 @@ export function AdminDashboardMain({
                               ? "Product Variant (Required)"
                               : "Product Variant (Optional)"}
                           </label>
-                          <select
+                          <GlowSelect
                             id="admin-qr-variant-select"
                             value={
                               selectedQrVariant
@@ -18575,15 +18559,15 @@ export function AdminDashboardMain({
                                 )
                                 : "-1"
                             }
-                            onChange={(e) => {
-                              const val = parseInt(e.target.value);
+                            onChange={(e: any) => {
+                              const val = parseInt(typeof e === "string" ? e : e.target.value);
                               setSelectedQrVariant(
                                 val === -1
                                   ? null
                                   : selectedQrProduct.variants[val],
                               );
                             }}
-                            className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 outline-none"
+                            wrapperClassName="w-full"
                           >
                             {qrLinkType === "product" && (
                               <option value="-1">
@@ -18597,7 +18581,7 @@ export function AdminDashboardMain({
                                 </option>
                               ),
                             )}
-                          </select>
+                          </GlowSelect>
                         </div>
                       )}
                   </div>
@@ -18607,19 +18591,15 @@ export function AdminDashboardMain({
                   <h4 className="mb-6">2. Customize Tag Label</h4>
                   <div className="space-y-4">
                     <div>
-                      <label
-                        htmlFor="admin-qr-subtitle-input"
-                        className="mb-1.5 block text-[0.65rem]"
-                      >
-                        Sub-label Text
-                      </label>
-                      <input
+                      <GlowInput
                         id="admin-qr-subtitle-input"
+                        label="Sub-label Text"
                         type="text"
                         value={qrSubtitle}
                         onChange={(e) => setQrSubtitle(e.target.value)}
                         placeholder="Official Merchandise"
-                        className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 outline-none"
+                        wrapperClassName="w-full"
+                        rounded="rounded-lg"
                       />
                     </div>
 

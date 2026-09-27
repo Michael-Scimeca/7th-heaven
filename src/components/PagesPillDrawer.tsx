@@ -19,6 +19,7 @@ import {
   Terminal,
   Bell,
 } from "lucide-react";
+import GlowInput from "@/components/GlowInput";
 
 interface RouteItem {
   path: string;
@@ -524,14 +525,13 @@ export default function PagesPillDrawer() {
                 </div>
 
                 {/* Search Bar */}
-                <div className="relative min-w-[240px]">
-                  <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-white/40" />
-                  <input
+                <div className="min-w-[240px]">
+                  <GlowInput
                     type="text"
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="focus-ring w-full  border border-white/10 bg-black/50 py-2 pr-4 pl-9 placeholder-white/40"
+                    wrapperClassName="w-full"
                   />
                 </div>
               </div>

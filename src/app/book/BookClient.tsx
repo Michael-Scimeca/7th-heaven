@@ -39,9 +39,9 @@ import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
 import SquishyToggle from "@/components/SquishyToggle";
 import SeventhButton from "@/components/SeventhButton";
+import GlowInput, { GlowTextarea } from "@/components/GlowInput";
 import { SectionBadge } from "@/components/SectionBadge";
 import InputField from "@/components/InputField";
-import { GlowInput, GlowTextarea } from "@/components/GlowInput";
 import dynamic from "next/dynamic";
 
 const PlannerDashboard = dynamic(() => import("@/components/PlannerDashboard"));
@@ -922,13 +922,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     </span>
                     {editingEmail ? (
                       <div className="flex gap-2">
-                        <input
+                        <GlowInput
                           type="email"
                           value={accountEmail}
                           onChange={(e) => setAccountEmail(e.target.value)}
                           autoFocus
                           disabled={pinSent || pinLoading}
-                          className="focus-ring flex-1  border border-white/10 px-4 py-2.5 outline-none disabled:opacity-50"
+                          wrapperClassName="flex-1"
                         />
                         <button
                           type="button"
@@ -960,13 +960,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   {!pinSent ? (
                     <div>
                       <div className="flex gap-2">
-                        <input
+                        <GlowInput
                           type="password"
                           placeholder="Set a password (6+ chars)"
                           value={accountPassword}
                           onChange={(e) => setAccountPassword(e.target.value)}
                           disabled={pinLoading}
-                          className="focus-ring flex-1 border border-white/10 px-4 py-3 text-white/20 outline-none disabled:opacity-50"
+                          wrapperClassName="flex-1"
                         />
                         <button
                           type="button"
@@ -993,7 +993,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   ) : (
                     <div>
                       <div className="mb-2 flex gap-2">
-                        <input
+                        <GlowInput
                           type="text"
                           maxLength={6}
                           placeholder="Enter 6-digit code"
@@ -1002,7 +1002,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             setPinCode(e.target.value.replace(/\D/g, ""))
                           }
                           disabled={pinLoading}
-                          className="focus-ring flex-1 border border-white/10 px-4 py-3 text-center text-white/20 outline-none disabled:opacity-50"
+                          wrapperClassName="flex-1"
+                          className="text-center"
                         />
                         <button
                           type="button"
@@ -1677,14 +1678,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                             <div className="grid grid-cols-2 gap-2">
                               <div>
-                                <label
-                                  htmlFor={`slot-contact-name-${slot.id}`}
-                                  className="mb-1 block text-white/50"
-                                >
-                                  Contact Name
-                                </label>
-                                <input
+                                <GlowInput
                                   id={`slot-contact-name-${slot.id}`}
+                                  label="Contact Name"
                                   type="text"
                                   placeholder="e.g. Jane Doe"
                                   value={slot.contactName || ""}
@@ -1696,18 +1692,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="focus-ring w-full border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
+                                  wrapperClassName="w-full"
                                 />
                               </div>
                               <div>
-                                <label
-                                  htmlFor={`slot-contact-email-${slot.id}`}
-                                  className="mb-1 block text-white/50"
-                                >
-                                  Contact Email
-                                </label>
-                                <input
+                                <GlowInput
                                   id={`slot-contact-email-${slot.id}`}
+                                  label="Contact Email"
                                   type="email"
                                   placeholder="e.g. jane@email.com"
                                   value={slot.contactEmail || ""}
@@ -1719,20 +1710,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="focus-ring w-full border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
+                                  wrapperClassName="w-full"
                                 />
                               </div>
                             </div>
 
                             <div>
-                              <label
-                                htmlFor={`slot-venue-name-${slot.id}`}
-                                className="mb-1 block text-white/50"
-                              >
-                                Venue Name
-                              </label>
-                              <input
+                              <GlowInput
                                 id={`slot-venue-name-${slot.id}`}
+                                label="Venue Name"
                                 type="text"
                                 placeholder="e.g. House of Blues"
                                 value={slot.venueName || ""}
@@ -1744,20 +1730,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   );
                                   setBookingSlots(updated);
                                 }}
-                                className="focus-ring w-full border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
+                                wrapperClassName="w-full"
                               />
                             </div>
 
                             <div className="grid grid-cols-2 gap-2">
                               <div>
-                                <label
-                                  htmlFor={`slot-venue-city-${slot.id}`}
-                                  className="mb-1 block text-white/50"
-                                >
-                                  City
-                                </label>
-                                <input
+                                <GlowInput
                                   id={`slot-venue-city-${slot.id}`}
+                                  label="City"
                                   type="text"
                                   placeholder="Chicago"
                                   value={slot.venueCity || ""}
@@ -1769,18 +1750,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="focus-ring w-full border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
+                                  wrapperClassName="w-full"
                                 />
                               </div>
                               <div>
-                                <label
-                                  htmlFor={`slot-venue-state-${slot.id}`}
-                                  className="mb-1 block text-white/50"
-                                >
-                                  State
-                                </label>
-                                <input
+                                <GlowInput
                                   id={`slot-venue-state-${slot.id}`}
+                                  label="State"
                                   type="text"
                                   placeholder="IL"
                                   value={slot.venueState || ""}
@@ -1792,7 +1768,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="focus-ring w-full border border-white/10 bg-[#00000029] px-2.5 py-1.5 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
+                                  wrapperClassName="w-full"
                                 />
                               </div>
                             </div>
@@ -2675,14 +2651,9 @@ function BookingSlotMetadataSection({
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label
-            htmlFor={`slot-cover-${slot.id}`}
-            className="mb-1 block text-white/50"
-          >
-            Cover / Price
-          </label>
-          <input
+          <GlowInput
             id={`slot-cover-${slot.id}`}
+            label="Cover / Price"
             type="text"
             placeholder="e.g. Free, $15..."
             value={slot.cover || ""}
@@ -2692,18 +2663,13 @@ function BookingSlotMetadataSection({
               );
               setBookingSlots(updated);
             }}
-            className="focus-ring w-full border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
+            wrapperClassName="w-full"
           />
         </div>
         <div>
-          <label
-            htmlFor={`slot-ticket-link-${slot.id}`}
-            className="mb-1 block text-white/50"
-          >
-            Ticket Link
-          </label>
-          <input
+          <GlowInput
             id={`slot-ticket-link-${slot.id}`}
+            label="Ticket Link"
             type="text"
             placeholder="https://..."
             value={slot.ticketLink || ""}
@@ -2713,7 +2679,7 @@ function BookingSlotMetadataSection({
               );
               setBookingSlots(updated);
             }}
-            className="focus-ring w-full border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
+            wrapperClassName="w-full"
           />
         </div>
       </div>
@@ -2851,13 +2817,13 @@ function MapPickerModal({
             Search Location or Paste Google Maps Address
           </label>
           <div className="flex gap-2">
-            <input
+            <GlowInput
               id="search-location-input"
               type="text"
               value={addressInput}
               onChange={(e) => setAddressInput(e.target.value)}
               placeholder="e.g. 980 S Bartlett Rd, Gate B or paste Google Maps URL"
-              className="focus-ring flex-1  border border-white/10 bg-[#00000029] px-4 py-2.5"
+              wrapperClassName="flex-1"
             />
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}

@@ -3,6 +3,7 @@ import React, { useState, useMemo, useSyncExternalStore } from "react";
 import { Guitar, Mic, PartyPopper, Sparkles } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import SeventhButton from "@/components/SeventhButton";
+import GlowInput from "@/components/GlowInput";
 
 export interface BookingSlot {
   id: string;
@@ -512,7 +513,7 @@ export function CalendarPicker({
                   </SeventhButton>
                   {type.id === "custom" && isSelected && (
                     <div className="mt-2 animate-[fade-in-up_0.2s_ease-out_both]">
-                      <input
+                      <GlowInput
                         type="text"
                         placeholder="Describe your custom event (e.g. Street Fair)..."
                         value={customDetails || ""}
@@ -520,7 +521,7 @@ export function CalendarPicker({
                           onCustomDetailsChange?.(e.target.value)
                         }
                         autoFocus
-                        className="placeholder: focus-ring w-full  border border-white/10 bg-[#0c0817]/80 px-4 py-3 text-white/40 shadow-inner backdrop-blur-2xl"
+                        wrapperClassName="w-full"
                       />
                     </div>
                   )}

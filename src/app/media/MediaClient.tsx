@@ -25,6 +25,7 @@ import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
 import GlassPlayButton from "@/components/GlassPlayButton";
 import AddCmsButton from "@/components/AddCmsButton";
+import GlowInput, { GlowSelect, GlowTextarea } from "@/components/GlowInput";
 
 const CustomVideoPlayer = dynamic(
   () => import("@/components/CustomVideoPlayer"),
@@ -773,16 +774,14 @@ export default function MediaClient({
 
               <form onSubmit={handleAddVideoSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-[10px]">
-                    Video URL or ID <span className="text-pink-400">*</span>
-                  </label>
-                  <input
+                  <GlowInput
+                    label="Video URL or ID *"
                     type="text"
                     required
                     value={newUrl}
                     onChange={(e) => setNewUrl(e.target.value)}
                     placeholder="Paste video link or ID..."
-                    className="interactive-input w-full  px-3 py-2"
+                    wrapperClassName="w-full"
                   />
                 </div>
 
@@ -817,16 +816,14 @@ export default function MediaClient({
                 })()}
 
                 <div>
-                  <label className="block text-[10px]">
-                    Video Title <span className="text-pink-400">*</span>
-                  </label>
-                  <input
+                  <GlowInput
+                    label="Video Title *"
                     type="text"
                     required
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                    className="placeholder: focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
+                    wrapperClassName="w-full"
                   />
                 </div>
 
@@ -851,26 +848,27 @@ export default function MediaClient({
                     </div>
 
                     {isCustomCategory ? (
-                      <input
+                      <GlowInput
                         type="text"
                         required
                         value={customCategoryInput}
                         onChange={(e) => setCustomCategoryInput(e.target.value)}
                         placeholder="e.g. Acoustic Sessions"
-                        className="placeholder: focus-ring w-full  border border-purple-500/50 bg-black/60 px-3 py-2.5 text-white/30"
+                        wrapperClassName="w-full"
                       />
                     ) : (
-                      <select
+                      <GlowSelect
                         value={newCategory}
-                        onChange={(e) => {
-                          if (e.target.value === "__CUSTOM__") {
+                        onChange={(e: any) => {
+                          const val = typeof e === "string" ? e : e.target.value;
+                          if (val === "__CUSTOM__") {
                             setIsCustomCategory(true);
                             setCustomCategoryInput("");
                           } else {
-                            setNewCategory(e.target.value);
+                            setNewCategory(val);
                           }
                         }}
-                        className="focus-ring w-full cursor-pointer  border border-white/10 bg-black/60 px-3 py-2.5"
+                        wrapperClassName="w-full"
                       >
                         {availableCategories.map((cat) => (
                           <option key={cat} value={cat}>
@@ -880,32 +878,30 @@ export default function MediaClient({
                         <option value="__CUSTOM__">
                           ✨ + Add Custom Category...
                         </option>
-                      </select>
+                      </GlowSelect>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-[10px]">Release Year</label>
-                    <input
+                    <GlowInput
+                      label="Release Year"
                       type="number"
                       value={newYear}
                       onChange={(e) => setNewYear(e.target.value)}
                       placeholder="2026"
-                      className="placeholder: focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
+                      wrapperClassName="w-full"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px]">
-                    Description / Notes (Optional)
-                  </label>
-                  <textarea
+                  <GlowTextarea
+                    label="Description / Notes (Optional)"
                     rows={2}
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
                     placeholder="e.g. Filmed live at Frontier Days..."
-                    className="placeholder: focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2 text-white/30"
+                    wrapperClassName="w-full"
                   />
                 </div>
 

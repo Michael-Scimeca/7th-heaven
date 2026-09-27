@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
+import GlowInput, { GlowTextarea, GlowSelect } from "@/components/GlowInput";
 
 type Variant = {
   id: string;
@@ -464,18 +465,19 @@ function VariantRow({
 
   return (
     <div className="grid grid-cols-2 items-center gap-2  border border-white/[0.06] bg-white/[0.02] p-2.5 sm:grid-cols-6">
-      <input
+      <GlowInput
         value={label}
         onChange={(e) => {
           setLabel(e.target.value);
           markDirty();
         }}
-        className="col-span-2 rounded border border-white/10 bg-[#00000029] px-2 py-1.5 sm:col-span-1"
+        wrapperClassName="col-span-2 sm:col-span-1"
         placeholder="Label"
+        rounded="rounded"
       />
       <div className="flex items-center gap-1">
         <span className="text-white/30">$</span>
-        <input
+        <GlowInput
           type="number"
           step="0.01"
           value={price}
@@ -483,18 +485,20 @@ function VariantRow({
             setPrice(e.target.value);
             markDirty();
           }}
-          className="form-input !px-2 !py-1.5"
+          wrapperClassName="w-full"
+          rounded="rounded"
         />
       </div>
       <div>
-        <input
+        <GlowInput
           type="number"
           value={stock}
           onChange={(e) => {
             setStock(e.target.value);
             markDirty();
           }}
-          className={`form-input !px-2 !py-1.5 ${isOut ? "border-rose-500/50" : isLow ? "border-yellow-500/50" : ""}`}
+          wrapperClassName="w-full"
+          rounded="rounded"
           title="Stock quantity"
         />
         {isOut && <span className="text-[12px] text-rose-400">SOLD OUT</span>}
@@ -503,14 +507,15 @@ function VariantRow({
         )}
       </div>
       <div>
-        <input
+        <GlowInput
           type="number"
           value={lowStock}
           onChange={(e) => {
             setLowStock(e.target.value);
             markDirty();
           }}
-          className="form-input !px-2 !py-1.5"
+          wrapperClassName="w-full"
+          rounded="rounded"
           title="Low-stock threshold"
         />
       </div>
@@ -592,35 +597,32 @@ function AddVariantForm({
 
   return (
     <div className="mt-2 flex flex-wrap items-end gap-2  border border-dashed border-white/10 bg-white/[0.02] p-3">
-      <div>
-        <label className="mb-1 block text-[12px] text-white/40">Label</label>
-        <input
-          value={label}
-          onChange={(e) => setLabel(e.target.value)}
-          placeholder="e.g. XL"
-          className="w-24 rounded border border-white/10 bg-[#00000029] px-2 py-1.5"
-        />
-      </div>
-      <div>
-        <label className="mb-1 block text-[12px] text-white/40">Price</label>
-        <input
-          type="number"
-          step="0.01"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="0.00"
-          className="w-24 rounded border border-white/10 bg-[#00000029] px-2 py-1.5"
-        />
-      </div>
-      <div>
-        <label className="mb-1 block text-[12px] text-white/40">Stock</label>
-        <input
-          type="number"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
-          className="w-20 rounded border border-white/10 bg-[#00000029] px-2 py-1.5"
-        />
-      </div>
+      <GlowInput
+        label="Label"
+        value={label}
+        onChange={(e) => setLabel(e.target.value)}
+        placeholder="e.g. XL"
+        wrapperClassName="w-24"
+        rounded="rounded"
+      />
+      <GlowInput
+        label="Price"
+        type="number"
+        step="0.01"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        placeholder="0.00"
+        wrapperClassName="w-24"
+        rounded="rounded"
+      />
+      <GlowInput
+        label="Stock"
+        type="number"
+        value={stock}
+        onChange={(e) => setStock(e.target.value)}
+        wrapperClassName="w-20"
+        rounded="rounded"
+      />
       <button
         type="button"
         disabled={submitting}
@@ -732,73 +734,63 @@ function AddProductModal({
           </button>
         </div>
 
-        <div>
-          <label className="mb-1 block text-[10px] text-white/40">Title</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
-          />
-        </div>
+        <GlowInput
+          label="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          wrapperClassName="w-full"
+        />
 
-        <div>
-          <label className="mb-1 block text-[10px] text-white/40">
-            Description
-          </label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={2}
-            className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
-          />
-        </div>
+        <GlowTextarea
+          label="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={2}
+          wrapperClassName="w-full"
+        />
 
-        <div>
-          <label className="mb-1 block text-[10px] text-white/40">
-            Image URL
-          </label>
-          <input
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="/images/merch/logo-tee.png"
-            className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
-          />
-        </div>
+        <GlowInput
+          label="Image URL"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          placeholder="/images/merch/logo-tee.png"
+          wrapperClassName="w-full"
+        />
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="mb-1 block text-[10px] text-white/40">
               Category
             </label>
-            <select
+            <GlowSelect
               value={category}
-              onChange={(e) => setCategory(e.target.value as typeof category)}
-              className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
+              onChange={(e: any) => setCategory((typeof e === "string" ? e : e.target.value) as typeof category)}
+              wrapperClassName="w-full"
             >
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
               ))}
-            </select>
+            </GlowSelect>
           </div>
           <div>
             <label className="mb-1 block text-[10px] text-white/40">
               Variant Type
             </label>
-            <select
+            <GlowSelect
               value={variantKind}
-              onChange={(e) =>
-                setVariantKind(e.target.value as typeof variantKind)
+              onChange={(e: any) =>
+                setVariantKind((typeof e === "string" ? e : e.target.value) as typeof variantKind)
               }
-              className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
+              wrapperClassName="w-full"
             >
               {VARIANT_KINDS.map((k) => (
                 <option key={k} value={k}>
                   {k}
                 </option>
               ))}
-            </select>
+            </GlowSelect>
           </div>
         </div>
 
@@ -815,7 +807,7 @@ function AddProductModal({
           <div className="space-y-2">
             {variants.map((v, i) => (
               <div key={v.id} className="flex gap-2">
-                <input
+                <GlowInput
                   value={v.label}
                   onChange={(e) => updateVariant(i, "label", e.target.value)}
                   placeholder={
@@ -825,22 +817,22 @@ function AddProductModal({
                         ? "Vinyl LP"
                         : "Black"
                   }
-                  className="flex-1  border border-white/[0.12] bg-white/[0.03] px-3 py-2"
+                  wrapperClassName="flex-1"
                 />
-                <input
+                <GlowInput
                   type="number"
                   step="0.01"
                   value={v.price}
                   onChange={(e) => updateVariant(i, "price", e.target.value)}
                   placeholder="Price"
-                  className="w-20  border border-white/[0.12] bg-white/[0.03] px-3 py-2"
+                  wrapperClassName="w-20"
                 />
-                <input
+                <GlowInput
                   type="number"
                   value={v.stock}
                   onChange={(e) => updateVariant(i, "stock", e.target.value)}
                   placeholder="Stock"
-                  className="w-20  border border-white/[0.12] bg-white/[0.03] px-3 py-2"
+                  wrapperClassName="w-20"
                 />
               </div>
             ))}

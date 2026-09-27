@@ -10,7 +10,7 @@ import { formatPhoneDisplay } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import SeventhButton from "@/components/SeventhButton";
 import InputField from "@/components/InputField";
-import { GlowSelect } from "@/components/GlowInput";
+import GlowInput, { GlowSelect } from "@/components/GlowInput";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 
 // --- COUNTDOWN TICKER ---
@@ -1003,75 +1003,50 @@ function PaymentModal({
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label
-                        htmlFor="cruise-card-name"
-                        className="mb-1.5 block text-white/40"
-                      >
-                        Cardholder Name
-                      </label>
-                      <input
+                      <GlowInput
                         id="cruise-card-name"
+                        label="Cardholder Name"
                         type="text"
                         placeholder="John Doe"
                         value={cardName}
                         onChange={(e) => setCardName(e.target.value)}
-                        className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
+                        wrapperClassName="w-full"
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="cruise-card-number"
-                        className="mb-1.5 block text-white/40"
-                      >
-                        Card Number
-                      </label>
-                      <div className="relative">
-                        <input
-                          id="cruise-card-number"
-                          type="text"
-                          placeholder="4000 1234 5678 9010"
-                          value={cardNumber}
-                          onChange={(e) =>
-                            handleCardNumberChange(e.target.value)
-                          }
-                          className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] py-2 pr-3 pl-9 outline-none"
-                        />
-                        <span className="absolute top-2.5 left-3 text-white/40">
-                          💳
-                        </span>
-                      </div>
+                      <GlowInput
+                        id="cruise-card-number"
+                        label="Card Number"
+                        type="text"
+                        placeholder="4000 1234 5678 9010"
+                        value={cardNumber}
+                        onChange={(e) =>
+                          handleCardNumberChange(e.target.value)
+                        }
+                        wrapperClassName="w-full"
+                      />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label
-                          htmlFor="cruise-card-expiry"
-                          className="mb-1.5 block text-white/40"
-                        >
-                          Expiry Date
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-card-expiry"
+                          label="Expiry Date"
                           type="text"
                           placeholder="MM/YY"
                           value={cardExpiry}
                           onChange={(e) => handleExpiryChange(e.target.value)}
-                          className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
                       <div>
-                        <label
-                          htmlFor="cruise-card-cvc"
-                          className="mb-1.5 block text-white/40"
-                        >
-                          CVC
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-card-cvc"
+                          label="CVC"
                           type="password"
                           placeholder="123"
                           value={cardCVC}
                           onChange={(e) => handleCVCChange(e.target.value)}
-                          className="focus-ring w-full border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
                     </div>

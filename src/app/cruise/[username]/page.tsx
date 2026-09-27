@@ -22,6 +22,7 @@ import dynamic from "next/dynamic";
 import PushAlertsCard from "@/components/PushAlertsCard";
 import SeventhButton from "@/components/SeventhButton";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
+import GlowInput from "@/components/GlowInput";
 
 const CruiseSnakeItinerary = dynamic(
   () => import("@/components/CruiseSnakeItinerary"),
@@ -813,14 +814,9 @@ export default function CruiseDashboard() {
 
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
                   <div>
-                    <label
-                      htmlFor="cruise-user-pin-input"
-                      className="mb-1.5 block text-black/50"
-                    >
-                      6-Digit Verification PIN
-                    </label>
-                    <input
+                    <GlowInput
                       id="cruise-user-pin-input"
+                      label="6-Digit Verification PIN"
                       type="text"
                       required
                       placeholder="123456"
@@ -829,7 +825,8 @@ export default function CruiseDashboard() {
                       onChange={(e) =>
                         setPinInput(e.target.value.replace(/\D/g, ""))
                       }
-                      className="focus-ring w-full border border-black/15 bg-white px-4 py-3 text-center outline-none"
+                      wrapperClassName="w-full"
+                      className="text-center"
                     />
                   </div>
 
@@ -917,37 +914,27 @@ export default function CruiseDashboard() {
                         booking, lounge chat, and itinerary.
                       </p>
                       <div>
-                        <label
-                          htmlFor="cruise-hub-login-email"
-                          className="mb-1.5 block text-black/50"
-                        >
-                          Email Address
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-hub-login-email"
+                          label="Email Address"
                           type="email"
                           required
                           placeholder="name@example.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
                       <div>
-                        <label
-                          htmlFor="cruise-hub-login-password"
-                          className="mb-1.5 block text-black/50"
-                        >
-                          Password
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-hub-login-password"
+                          label="Password"
                           type="password"
                           required
                           placeholder="••••••••"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
 
@@ -974,48 +961,33 @@ export default function CruiseDashboard() {
                         booking list and unlock access to the hub.
                       </p>
                       <div>
-                        <label
-                          htmlFor="cruise-hub-reg-name"
-                          className="mb-1.5 block text-black/50"
-                        >
-                          Full Legal Name *
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-hub-reg-name"
+                          label="Full Legal Name *"
                           type="text"
                           required
                           placeholder="John Doe"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
                       <div>
-                        <label
-                          htmlFor="cruise-hub-reg-email"
-                          className="mb-1.5 block text-black/50"
-                        >
-                          Email Address *
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-hub-reg-email"
+                          label="Email Address *"
                           type="email"
                           required
                           placeholder="name@example.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
                       <div>
-                        <label
-                          htmlFor="cruise-hub-reg-phone"
-                          className="mb-1.5 block text-black/50"
-                        >
-                          Phone Number *
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-hub-reg-phone"
+                          label="Phone Number *"
                           type="tel"
                           required
                           placeholder="(555) 123-4567"
@@ -1023,24 +995,19 @@ export default function CruiseDashboard() {
                           onChange={(e) =>
                             setPhone(formatPhoneDisplay(e.target.value))
                           }
-                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
                       <div>
-                        <label
-                          htmlFor="cruise-hub-reg-password"
-                          className="mb-1.5 block text-black/50"
-                        >
-                          Choose Password *
-                        </label>
-                        <input
+                        <GlowInput
                           id="cruise-hub-reg-password"
+                          label="Choose Password *"
                           type="password"
                           required
                           placeholder="Min 6 characters"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="focus-ring w-full border border-black/15 bg-white px-4 py-3 outline-none"
+                          wrapperClassName="w-full"
                         />
                       </div>
 
@@ -1128,37 +1095,28 @@ export default function CruiseDashboard() {
                 {isEditingGuidelines ? (
                   <div className="max-w-full min-w-0 space-y-4">
                     <div>
-                      <label
-                        htmlFor="cruise-hub-guidelines-title"
-                        className="mb-1 block text-white/50"
-                      >
-                        Section Title
-                      </label>
-                      <input
+                      <GlowInput
                         id="cruise-hub-guidelines-title"
+                        label="Section Title"
                         type="text"
                         value={guidelinesTitleInput}
                         onChange={(e) =>
                           setGuidelinesTitleInput(e.target.value)
                         }
-                        className="form-input"
+                        wrapperClassName="w-full"
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="cruise-hub-guidelines-sub"
-                        className="mb-1 block text-white/50"
-                      >
-                        Subtitle / Badge
-                      </label>
-                      <input
+                      <GlowInput
                         id="cruise-hub-guidelines-sub"
+                        label="Subtitle / Badge"
                         type="text"
                         value={guidelinesSubtitleInput}
                         onChange={(e) =>
                           setGuidelinesSubtitleInput(e.target.value)
                         }
-                        className="form-input text-purple-400"
+                        wrapperClassName="w-full"
+                        className="text-purple-400"
                       />
                     </div>
                     <div>

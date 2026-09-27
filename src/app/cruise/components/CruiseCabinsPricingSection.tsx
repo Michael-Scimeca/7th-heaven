@@ -25,6 +25,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
+import GlowInput, { GlowSelect } from "@/components/GlowInput";
 
 const FacebookIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -55,7 +56,6 @@ import CustomDropdown from "@/components/CustomDropdown";
 import { useMember } from "@/context/MemberContext";
 import { BANDS_DATA } from "../cruiseData";
 import { formatPhoneDisplay } from "@/lib/validation";
-import { GlowInput } from "@/components/GlowInput";
 
 interface CruiseCabinsPricingSectionProps {
   handleSelectCabin: (selectVal?: string) => void;
@@ -139,17 +139,15 @@ function ModalInputField({
   required?: boolean;
 }) {
   return (
-    <div>
-      <label className="mb-1.5 block text-purple-200/80">{label}</label>
-      <input
-        type="text"
-        required={required}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
-      />
-    </div>
+    <GlowInput
+      label={label}
+      type="text"
+      required={required}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      wrapperClassName="w-full"
+    />
   );
 }
 
@@ -1483,10 +1481,8 @@ function CruiseCabinsPricingSectionComponent({
               <form onSubmit={handleSaveRoom} className="space-y-4">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-purple-200/80">
-                      Stateroom Title *
-                    </label>
-                    <input
+                    <GlowInput
+                      label="Stateroom Title *"
                       type="text"
                       required
                       value={roomForm.title}
@@ -1497,15 +1493,13 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="e.g. Ocean View Balcony"
-                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                      wrapperClassName="w-full"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-purple-200/80">
-                      Category Code *
-                    </label>
-                    <input
+                    <GlowInput
+                      label="Category Code *"
                       type="text"
                       required
                       value={roomForm.code}
@@ -1516,7 +1510,7 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="e.g. D4, N5, IF, GS"
-                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                      wrapperClassName="w-full"
                     />
                   </div>
                 </div>
@@ -1526,19 +1520,19 @@ function CruiseCabinsPricingSectionComponent({
                     <label className="mb-1.5 block text-purple-200/80">
                       Cruise Year *
                     </label>
-                    <select
+                    <GlowSelect
                       value={roomForm.year}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setRoomForm((prev) => ({
                           ...prev,
-                          year: e.target.value,
+                          year: typeof e === "string" ? e : e.target.value,
                         }))
                       }
-                      className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
+                      wrapperClassName="w-full"
                     >
                       <option value="2027">2027 (Star of the Seas)</option>
                       <option value="2028">2028 (Legend of the Seas)</option>
-                    </select>
+                    </GlowSelect>
                   </div>
 
                   <ModalInputField
@@ -1566,22 +1560,22 @@ function CruiseCabinsPricingSectionComponent({
                     <label className="mb-1.5 block text-purple-200/80">
                       Badge Status Color
                     </label>
-                    <select
+                    <GlowSelect
                       value={roomForm.status}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setRoomForm((prev) => ({
                           ...prev,
-                          status: e.target.value,
+                          status: typeof e === "string" ? e : e.target.value,
                         }))
                       }
-                      className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
+                      wrapperClassName="w-full"
                     >
                       <option value="info">Info / Cyan (Available)</option>
                       <option value="warning">
                         Warning / Amber (Few Left)
                       </option>
                       <option value="soldout">Sold Out / Red</option>
-                    </select>
+                    </GlowSelect>
                   </div>
                 </div>
 
