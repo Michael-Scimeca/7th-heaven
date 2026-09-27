@@ -122,13 +122,13 @@ export default function PushAlertsCard({
           <p className="mb-6 text-gray-300/90">{subtitle || defaultSubtitle}</p>
 
           {loading ? (
-            <div className="h-12 w-full animate-pulse rounded-lg border border-white/10 bg-[#00000029]" />
+            <div className="h-12 w-full animate-pulse  border border-white/10 bg-[#00000029]" />
           ) : (
             <div className="flex flex-col flex-wrap items-center gap-3 sm:flex-row">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
               <SeventhButton
                 onClick={() => setShowModal(true)}
-                className="! justify-center !px-5 !py-2.5"
+                className="justify-center"
               >
                 <BellIcon />
                 {subscribed ? "✓ Live Alerts Enabled 🔔" : "Enable Push Alerts"}
@@ -140,7 +140,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3 text-center hover:border-white/30 hover:bg-white/15 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2  border border-white/10 bg-[#00000029] px-4 py-3 text-center hover:border-white/30 hover:bg-white/15 sm:w-auto"
                 >
                   Web Alerts <ExternalIcon />
                 </a>

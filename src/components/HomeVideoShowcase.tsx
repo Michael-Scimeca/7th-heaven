@@ -261,7 +261,7 @@ export default function HomeVideoShowcase({
           });
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const handleAddVideoSubmit = async (e: React.FormEvent) => {
@@ -457,7 +457,7 @@ export default function HomeVideoShowcase({
           startLoopRef.current?.();
           try {
             smooothyInstanceRef.current?.resize?.();
-          } catch {}
+          } catch { }
         }
       },
       { rootMargin: "300px 0px" },
@@ -474,7 +474,7 @@ export default function HomeVideoShowcase({
 
     try {
       smooothyInstanceRef.current?.destroy?.();
-    } catch {}
+    } catch { }
 
     try {
       const SmooothyClass = Smooothy as unknown as new (
@@ -498,12 +498,12 @@ export default function HomeVideoShowcase({
         setOffset:
           smooothyOffsetPreset === "center"
             ? ({
-                itemWidth,
-                wrapperWidth,
-              }: {
-                itemWidth: number;
-                wrapperWidth: number;
-              }) => wrapperWidth / 2 - itemWidth / 2
+              itemWidth,
+              wrapperWidth,
+            }: {
+              itemWidth: number;
+              wrapperWidth: number;
+            }) => wrapperWidth / 2 - itemWidth / 2
             : smooothyOffsetPreset === "full"
               ? ({ itemWidth }: { itemWidth: number }) => itemWidth
               : () => 0,
@@ -567,7 +567,7 @@ export default function HomeVideoShowcase({
         if (animId) cancelAnimationFrame(animId);
         try {
           smooothyInstanceRef.current?.destroy?.();
-        } catch {}
+        } catch { }
       };
     } catch (err) {
       console.error("Smooothy initialization error:", err);
@@ -576,7 +576,7 @@ export default function HomeVideoShowcase({
     return () => {
       try {
         smooothyInstanceRef.current?.destroy?.();
-      } catch {}
+      } catch { }
     };
   }, [
     smooothyInfinite,
@@ -796,10 +796,10 @@ export default function HomeVideoShowcase({
             ...(smooothyVertical
               ? {}
               : {
-                  marginLeft: `-${gapPx / 2}px`,
-                  marginRight: `-${gapPx / 2}px`,
-                  width: `calc(100% + ${gapPx}px)`,
-                }),
+                marginLeft: `-${gapPx / 2}px`,
+                marginRight: `-${gapPx / 2}px`,
+                width: `calc(100% + ${gapPx}px)`,
+              }),
           }}
         >
           {videos.map((video, idx) => {
@@ -906,7 +906,7 @@ export default function HomeVideoShowcase({
                           </div>
                         )}
 
-                        <h3 className="sm: line-clamp-2 text-base font-black md:text-xl">
+                        <h3 className="sm: line-clamp-2   font-black md:text-xl">
                           {video.title}
                         </h3>
                       </div>
@@ -934,7 +934,7 @@ export default function HomeVideoShowcase({
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-xl border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
+        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3  border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
           <CheckCircle2 className="h-5 w-5 shrink-0 text-green-400" />
           <span>{toastMessage}</span>
         </div>
@@ -954,7 +954,7 @@ export default function HomeVideoShowcase({
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <VideoIcon className="h-5 w-5" />
                 </div>
                 <div>
@@ -966,7 +966,7 @@ export default function HomeVideoShowcase({
               </div>
 
               {modalError && (
-                <div className="mb-6 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   {modalError}
                 </div>
               )}
@@ -986,7 +986,7 @@ export default function HomeVideoShowcase({
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     placeholder="e.g. 7th Heaven - Live at Summerfest"
-                    className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                   />
                 </div>
 
@@ -1004,7 +1004,7 @@ export default function HomeVideoShowcase({
                     value={newUrl}
                     onChange={(e) => setNewUrl(e.target.value)}
                     placeholder="e.g. https://www.youtube.com/watch?v=BzHUNTZ66zY or BzHUNTZ66zY"
-                    className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                   />
                 </div>
 
@@ -1039,7 +1039,7 @@ export default function HomeVideoShowcase({
                         value={customCategoryInput}
                         onChange={(e) => setCustomCategoryInput(e.target.value)}
                         placeholder="e.g. Acoustic Sessions"
-                        className="focus-ring w-full rounded-xl border border-purple-500/50 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                        className="focus-ring w-full  border border-purple-500/50 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                       />
                     ) : (
                       <select
@@ -1053,7 +1053,7 @@ export default function HomeVideoShowcase({
                             setNewCategory(e.target.value);
                           }
                         }}
-                        className="focus-ring w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5"
+                        className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
                       >
                         {availableCategories.map((cat) => (
                           <option key={cat} value={cat}>
@@ -1079,7 +1079,7 @@ export default function HomeVideoShowcase({
                       type="number"
                       value={newYear}
                       onChange={(e) => setNewYear(e.target.value)}
-                      className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5"
+                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5"
                     />
                   </div>
 
@@ -1096,7 +1096,7 @@ export default function HomeVideoShowcase({
                       value={newDuration}
                       onChange={(e) => setNewDuration(e.target.value)}
                       placeholder="3:30"
-                      className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5"
+                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5"
                     />
                   </div>
                 </div>
@@ -1114,7 +1114,7 @@ export default function HomeVideoShowcase({
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
                     placeholder="Optional description or concert highlights..."
-                    className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                   />
                 </div>
 
@@ -1122,14 +1122,14 @@ export default function HomeVideoShowcase({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 hover:bg-white/15"
+                    className="cursor-pointer  bg-white/10 px-5 py-2.5 hover:bg-white/15"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="cursor-pointer  bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
                   </button>

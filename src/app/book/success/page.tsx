@@ -33,14 +33,14 @@ function SuccessContent() {
   return (
     <section className="site-container relative flex min-h-screen items-center justify-center overflow-hidden">
       {/* Background Glows */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-emerald-500 opacity-[0.04] blur-3xl" />
-      <div className="pointer-events-none absolute top-1/3 right-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)] opacity-[0.03] blur-3xl" />
+      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2  bg-emerald-500 opacity-[0.04] blur-3xl" />
+      <div className="pointer-events-none absolute top-1/3 right-1/4 h-[400px] w-[400px]  bg-[var(--color-accent)] opacity-[0.03] blur-3xl" />
 
       <div className="relative z-10 w-full max-w-lg animate-[fade-in-up_0.6s_ease-out_both] text-center">
         {/* Success Card */}
         <div className="rounded-[2rem] border border-emerald-500/10 bg-[var(--color-bg-surface)]/80 p-10 backdrop-blur-xl">
           {/* Checkmark */}
-          <div className="mx-auto mb-6 flex h-20 w-20 animate-[scale-in_0.5s_ease-out_0.2s_both] items-center justify-center rounded-lg border-2 border-emerald-500/30 bg-emerald-500/10">
+          <div className="mx-auto mb-6 flex h-20 w-20 animate-[scale-in_0.5s_ease-out_0.2s_both] items-center justify-center  border-2 border-emerald-500/30 bg-emerald-500/10">
             <svg
               width="36"
               height="36"
@@ -74,7 +74,7 @@ function SuccessContent() {
 
           {sessionId && (
             <div className="mb-6 flex items-center justify-center gap-2 text-[var(--color-accent)]/80">
-              <span className="h-2 w-2 animate-pulse rounded-lg bg-emerald-400" />
+              <span className="h-2 w-2 animate-pulse  bg-emerald-400" />
               Confirmation sent to your email
             </div>
           )}
@@ -83,20 +83,20 @@ function SuccessContent() {
             {isLoggedIn && member?.role === "event_planner" && (
               <Link
                 href="/planner"
-                className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 text-base shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
+                className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4   shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
               >
                 View in My Dashboard →
               </Link>
             )}
             <Link
               href="/book"
-              className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.05] px-8 py-4 text-base hover:bg-white/[0.1]"
+              className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-4   hover:bg-white/[0.1]"
             >
               Book Another Show
             </Link>
             <Link
               href="/"
-              className="inline-flex w-full items-center justify-center bg-white/[0.03] px-8 py-3 text-base hover:bg-white/[0.08]"
+              className="inline-flex w-full items-center justify-center bg-white/[0.03] px-8 py-3   hover:bg-white/[0.08]"
             >
               Return to Homepage
             </Link>

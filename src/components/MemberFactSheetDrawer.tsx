@@ -151,7 +151,7 @@ export default function MemberFactSheetDrawer({
   const favQuote = member.favQuote || "I'm always happy and never satisfied.";
 
   return createPortal(
-    <div className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none">
+    <div data-scroll-lock={isOpen} className="fixed inset-0 z-[100000] flex justify-end overflow-hidden select-none">
       {/* Dimmed Blurred Backdrop Overlay */}
       <div className="fixed inset-0" onClick={onClose} aria-hidden="true" />
 
@@ -201,7 +201,7 @@ export default function MemberFactSheetDrawer({
             <button
               type="button"
               onClick={onClose}
-              className="hover:white/20 rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 hover:text-white"
+              className="hover:bg-white/20 rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 hover:text-white"
               aria-label="Close modal"
             >
               <X className="h-4 w-4" />
@@ -250,7 +250,7 @@ export default function MemberFactSheetDrawer({
 
             <div className="space-y-3.5">
               {/* Best Trait vs Worst Trait Row */}
-              <div className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-black/40 px-3 py-3 text-center">
+              <div className="flex items-center justify-between gap-2  border border-white/10 bg-black/40 px-3 py-3 text-center">
                 <div className="flex-1">
                   <span className="mb-1 block">BEST TRAIT</span>
                   <span className="block text-rose-400">{bestTrait}</span>
@@ -264,7 +264,7 @@ export default function MemberFactSheetDrawer({
 
               {/* Favorite Quote Box */}
               <div className="border-l-2 border-purple-500/60 py-1 pt-2 pl-3.5">
-                <p className="font-serif text-neutral-200 sm:text-base">
+                <p className="font-serif text-neutral-200 ">
                   &ldquo;{favQuote}&rdquo;
                 </p>
                 <span className="block text-[12px] text-purple-400">

@@ -33,12 +33,12 @@ export function DemoPreview({
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
-          width={200}
-          height={200}
+          fill
           unoptimized
           src={src}
           alt={`${title} demo preview`}
-          className="h-full w-full object-cover object-top"
+          className="object-cover object-top"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           loading="lazy"
         />
         {/* Overlay */}
@@ -46,7 +46,7 @@ export function DemoPreview({
         {/* Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div
-            className={`flex h-14 w-14 items-center justify-center rounded-lg group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]" : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"}`}
+            className={`flex h-14 w-14 items-center justify-center  group-hover:scale-110 ${isPurple ? "bg-[var(--color-accent)]/80 shadow-[0_0_25px_rgba(255,10,61,0.5)] group-hover:bg-[var(--color-accent)] group-hover:shadow-[0_0_40px_rgba(255,10,61,0.7)]" : "bg-white/20 shadow-[0_0_25px_rgba(255,255,255,0.15)] group-hover:bg-white/30"}`}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
               <path d="M8 5v14l11-7z" />
@@ -85,16 +85,16 @@ export function DemoPreview({
             </div>
             {/* Image */}
             <div
-              className={`overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "border-white/10"}`}
+              className={`relative aspect-video overflow-hidden border-2 ${isPurple ? "border-[#851DEF]/40" : "border-white/10"}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <Image
-                width={200}
-                height={200}
+                fill
                 unoptimized
                 src={src}
                 alt={`${title} demo`}
-                className="h-auto w-full"
+                className="object-contain"
+                sizes="(max-width: 1200px) 100vw, 1200px"
               />
             </div>
           </div>
@@ -122,7 +122,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div className="flex items-start justify-between gap-3">
           <span className="text-5xl">{f.icon}</span>
           {isPurple && (
-            <span className="shrink-0 rounded-lg border border-[#851DEF]/30 bg-[var(--color-accent)]/20 px-3 py-1 text-[#c084fc]">
+            <span className="shrink-0  border border-[#851DEF]/30 bg-[var(--color-accent)]/20 px-3 py-1 text-[#c084fc]">
               ✦ Flagship
             </span>
           )}
@@ -148,7 +148,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
 
         {/* Why it matters */}
         <div
-          className={`rounded-lg border p-4 text-base ${isPurple ? "border-[#851DEF]/20 bg-[var(--color-accent)]/10 text-[#c084fc]/80" : "border-white/[0.07] bg-white/[0.03] text-white/40"}`}
+          className={`rounded-lg border p-4   ${isPurple ? "border-[#851DEF]/20 bg-[var(--color-accent)]/10 text-[#c084fc]/80" : "border-white/[0.07] bg-white/[0.03] text-white/40"}`}
         >
           <span className="mb-1.5 block text-white/50">Why it matters</span>
           {f.whyItMatters}
@@ -164,7 +164,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
                 className="flex items-start gap-2.5"
               >
                 <span
-                  className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-lg ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`}
+                  className={`mt-2 h-1.5 w-1.5 shrink-0  ${isPurple ? "bg-[var(--color-accent)]" : "bg-white/25"}`}
                 />
                 {b}
               </li>
@@ -176,7 +176,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         <div>
           <button
             onClick={() => setExpanded((v) => !v)}
-            className={`flex cursor-pointer items-center gap-2 text-base ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white"}`}
+            className={`flex cursor-pointer items-center gap-2   ${isPurple ? "text-[var(--color-accent-soft)] hover:text-white" : "text-white/30 hover:text-white"}`}
           >
             <span className={`${expanded ? "rotate-90" : "rotate-0"}`}>▶</span>
             How It Works
@@ -187,10 +187,10 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
                 ({ h, i }) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3 text-base text-white/40"
+                    className="flex items-start gap-3   text-white/40"
                   >
                     <span
-                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-[#00000029] text-white/30"}`}
+                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center  ${isPurple ? "bg-[var(--color-accent)]/20 text-[#c084fc]" : "bg-[#00000029] text-white/30"}`}
                     >
                       {i + 1}
                     </span>
@@ -207,7 +207,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
           {f.tags.map((tag) => (
             <span
               key={tag}
-              className={`rounded-lg border px-3 py-1 text-base ${isPurple ? "border-[#851DEF]/25 bg-[var(--color-accent)]/10 text-[#c084fc]" : "border-white/10 bg-[#00000029] text-white/40"}`}
+              className={`rounded-lg border px-3 py-1   ${isPurple ? "border-[#851DEF]/25 bg-[var(--color-accent)]/10 text-[#c084fc]" : "border-white/10 bg-[#00000029] text-white/40"}`}
             >
               {tag}
             </span>
@@ -219,7 +219,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
       {f.link && (
         <Link
           href={f.link}
-          className={`flex items-center justify-between border-t px-6 py-4 text-base ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:bg-[var(--color-accent)]/10 hover:text-white" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+          className={`flex items-center justify-between border-t px-6 py-4   ${isPurple ? "border-[#851DEF]/15 text-[var(--color-accent-soft)] hover:bg-[var(--color-accent)]/10 hover:text-white" : "border-white/10 bg-[#00000029] hover:text-white"}`}
         >
           Explore live →
         </Link>

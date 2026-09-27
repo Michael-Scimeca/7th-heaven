@@ -284,7 +284,8 @@ export default function SlideupSection({
             ) / 4;
 
           if (scale !== prev.scale || translateY !== prev.translateY) {
-            card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+            card.style.setProperty("--card-scale", scale.toString());
+            card.style.setProperty("--card-ty", `${translateY}px`);
             prev.scale = scale;
             prev.translateY = translateY;
           }
@@ -294,23 +295,18 @@ export default function SlideupSection({
               const maskTopPercent = Math.max(0, 100 - overlapPercent);
               const fadeEdge = Math.max(0, maskTopPercent - 6);
               const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
-              card.style.maskImage = maskVal;
-              (card.style as any).webkitMaskImage = maskVal;
+              card.style.setProperty("--card-mask", maskVal);
               prev.masked = true;
             } else if (prev.masked) {
-              card.style.maskImage = "none";
-              (card.style as any).webkitMaskImage = "none";
+              card.style.removeProperty("--card-mask");
               prev.masked = false;
             }
             prev.overlap = overlapPercent;
           }
-
-          if (card.style.opacity !== "1") card.style.opacity = "1";
         } else if (prev.overlap !== 0 || prev.masked) {
-          card.style.transform = "none";
-          card.style.opacity = "1";
-          card.style.maskImage = "none";
-          (card.style as any).webkitMaskImage = "none";
+          card.style.removeProperty("--card-scale");
+          card.style.removeProperty("--card-ty");
+          card.style.removeProperty("--card-mask");
           prev.overlap = 0;
           prev.masked = false;
         }
@@ -363,7 +359,12 @@ export default function SlideupSection({
         {activeSlides.map((slide, i) => (
           <article
             key={slide.title}
-            className="su-card sticky top-[80px] flex h-auto min-h-0 w-full transform-gpu items-start justify-center overflow-visible rounded-t-[28px] bg-transparent"
+            className="su-card slideup-card sticky top-[80px] flex h-auto min-h-0 w-full transform-gpu items-start justify-center overflow-visible rounded-t-[28px] bg-transparent"
+            style={{
+              transform: "scale(var(--card-scale, 1)) translateY(var(--card-ty, 0px))",
+              maskImage: "var(--card-mask)",
+              WebkitMaskImage: "var(--card-mask)",
+            }}
             ref={(el) => {
               cardRefs.current[i] = el;
             }}

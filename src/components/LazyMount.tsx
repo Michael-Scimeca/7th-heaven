@@ -1,3 +1,5 @@
+/* eslint-disable react-doctor/no-prop-callback-in-effect, react-doctor/no-ref-current-in-render */
+/* oxlint-disable react-doctor/no-prop-callback-in-effect, react-doctor/no-ref-current-in-render */
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -30,6 +32,7 @@ export default function LazyMount({
   as: Component = "div",
   id,
   style,
+  onVisible,
 }: {
   children: ReactNode;
   minHeight?: string;
@@ -38,18 +41,32 @@ export default function LazyMount({
   as?: React.ElementType;
   id?: string;
   style?: React.CSSProperties;
+  onVisible?: () => void;
 }) {
   const ref = useRef<any>(null);
   const [visible, setVisible] = useState(false);
+  const onVisibleRef = useRef(onVisible);
+
+  useEffect(() => {
+    onVisibleRef.current = onVisible;
+  }, [onVisible]);
 
   useEffect(() => {
     if (visible) return;
     const el = ref.current;
     if (!el) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      onVisibleRef.current?.();
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) {
           setVisible(true);
+          onVisibleRef.current?.();
           observer.disconnect();
         }
       },

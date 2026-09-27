@@ -18,6 +18,7 @@ import {
   Search,
 } from "lucide-react";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import GlowInput from "@/components/GlowInput";
 
 export interface InputStyleSettings {
   bgRed: number; // 0 - 255
@@ -99,137 +100,137 @@ export const PRESETS: {
   icon: string;
   settings: Partial<InputStyleSettings>;
 }[] = [
-  {
-    name: "🧊 Frosted Glass",
-    icon: "🧊",
-    settings: {
-      bgRed: 255,
-      bgGreen: 255,
-      bgBlue: 255,
-      bgOpacity: 0.08,
-      blurAmount: 16,
-      borderWidth: 1,
-      borderColor: "rgba(255, 255, 255, 0.25)",
-      borderRadius: 12,
-      textColor: "#ffffff",
-      placeholderOpacity: 0.45,
-      focusBorderColor: "#00f0ff",
-      focusGlowOpacity: 0.4,
-      paddingY: 12,
-      paddingX: 16,
-      checkboxAccentColor: "#00f0ff",
-      checkboxSize: 18,
-      checkboxRadius: 4,
-      headingColor: "#ffffff",
-      linkColor: "#00f0ff",
-      linkHoverColor: "#38bdf8",
+    {
+      name: "🧊 Frosted Glass",
+      icon: "🧊",
+      settings: {
+        bgRed: 255,
+        bgGreen: 255,
+        bgBlue: 255,
+        bgOpacity: 0.08,
+        blurAmount: 16,
+        borderWidth: 1,
+        borderColor: "rgba(255, 255, 255, 0.25)",
+        borderRadius: 12,
+        textColor: "#ffffff",
+        placeholderOpacity: 0.45,
+        focusBorderColor: "#00f0ff",
+        focusGlowOpacity: 0.4,
+        paddingY: 12,
+        paddingX: 16,
+        checkboxAccentColor: "#00f0ff",
+        checkboxSize: 18,
+        checkboxRadius: 4,
+        headingColor: "#ffffff",
+        linkColor: "#00f0ff",
+        linkHoverColor: "#38bdf8",
+      },
     },
-  },
-  {
-    name: "🔮 Cyberpunk Neon",
-    icon: "🔮",
-    settings: {
-      bgRed: 0,
-      bgGreen: 240,
-      bgBlue: 255,
-      bgOpacity: 0.1,
-      blurAmount: 20,
-      borderWidth: 2,
-      borderColor: "#00f0ff",
-      borderRadius: 14,
-      textColor: "#ffffff",
-      placeholderOpacity: 0.6,
-      focusBorderColor: "#00f0ff",
-      focusGlowOpacity: 0.8,
-      paddingY: 12,
-      paddingX: 16,
-      checkboxAccentColor: "#ec4899",
-      checkboxSize: 20,
-      checkboxRadius: 6,
-      headingColor: "#00f0ff",
-      linkColor: "#ec4899",
-      linkHoverColor: "#f472b6",
+    {
+      name: "🔮 Cyberpunk Neon",
+      icon: "🔮",
+      settings: {
+        bgRed: 0,
+        bgGreen: 240,
+        bgBlue: 255,
+        bgOpacity: 0.1,
+        blurAmount: 20,
+        borderWidth: 2,
+        borderColor: "#00f0ff",
+        borderRadius: 14,
+        textColor: "#ffffff",
+        placeholderOpacity: 0.6,
+        focusBorderColor: "#00f0ff",
+        focusGlowOpacity: 0.8,
+        paddingY: 12,
+        paddingX: 16,
+        checkboxAccentColor: "#ec4899",
+        checkboxSize: 20,
+        checkboxRadius: 6,
+        headingColor: "#00f0ff",
+        linkColor: "#ec4899",
+        linkHoverColor: "#f472b6",
+      },
     },
-  },
-  {
-    name: "🌑 Midnight Velvet",
-    icon: "🌑",
-    settings: {
-      bgRed: 192,
-      bgGreen: 132,
-      bgBlue: 252,
-      bgOpacity: 0.12,
-      blurAmount: 24,
-      borderWidth: 1,
-      borderColor: "rgba(192, 132, 252, 0.4)",
-      borderRadius: 16,
-      textColor: "#ffffff",
-      placeholderOpacity: 0.4,
-      focusBorderColor: "#c084fc",
-      focusGlowOpacity: 0.6,
-      paddingY: 14,
-      paddingX: 18,
-      checkboxAccentColor: "#c084fc",
-      checkboxSize: 18,
-      checkboxRadius: 4,
-      headingColor: "#ffffff",
-      linkColor: "#c084fc",
-      linkHoverColor: "#e879f9",
+    {
+      name: "🌑 Midnight Velvet",
+      icon: "🌑",
+      settings: {
+        bgRed: 192,
+        bgGreen: 132,
+        bgBlue: 252,
+        bgOpacity: 0.12,
+        blurAmount: 24,
+        borderWidth: 1,
+        borderColor: "rgba(192, 132, 252, 0.4)",
+        borderRadius: 16,
+        textColor: "#ffffff",
+        placeholderOpacity: 0.4,
+        focusBorderColor: "#c084fc",
+        focusGlowOpacity: 0.6,
+        paddingY: 14,
+        paddingX: 18,
+        checkboxAccentColor: "#c084fc",
+        checkboxSize: 18,
+        checkboxRadius: 4,
+        headingColor: "#ffffff",
+        linkColor: "#c084fc",
+        linkHoverColor: "#e879f9",
+      },
     },
-  },
-  {
-    name: "⚡ High Contrast",
-    icon: "⚡",
-    settings: {
-      bgRed: 255,
-      bgGreen: 255,
-      bgBlue: 255,
-      bgOpacity: 0.18,
-      blurAmount: 10,
-      borderWidth: 2,
-      borderColor: "rgba(255, 255, 255, 0.5)",
-      borderRadius: 8,
-      textColor: "#ffffff",
-      placeholderOpacity: 0.5,
-      focusBorderColor: "#ffffff",
-      focusGlowOpacity: 0.5,
-      paddingY: 10,
-      paddingX: 14,
-      checkboxAccentColor: "#ffffff",
-      checkboxSize: 20,
-      checkboxRadius: 2,
-      headingColor: "#ffffff",
-      linkColor: "#ffffff",
-      linkHoverColor: "#38bdf8",
+    {
+      name: "⚡ High Contrast",
+      icon: "⚡",
+      settings: {
+        bgRed: 255,
+        bgGreen: 255,
+        bgBlue: 255,
+        bgOpacity: 0.18,
+        blurAmount: 10,
+        borderWidth: 2,
+        borderColor: "rgba(255, 255, 255, 0.5)",
+        borderRadius: 8,
+        textColor: "#ffffff",
+        placeholderOpacity: 0.5,
+        focusBorderColor: "#ffffff",
+        focusGlowOpacity: 0.5,
+        paddingY: 10,
+        paddingX: 14,
+        checkboxAccentColor: "#ffffff",
+        checkboxSize: 20,
+        checkboxRadius: 2,
+        headingColor: "#ffffff",
+        linkColor: "#ffffff",
+        linkHoverColor: "#38bdf8",
+      },
     },
-  },
-  {
-    name: "👻 Dark Phantom",
-    icon: "👻",
-    settings: {
-      bgRed: 12,
-      bgGreen: 8,
-      bgBlue: 23,
-      bgOpacity: 0.8,
-      blurAmount: 12,
-      borderWidth: 1,
-      borderColor: "rgba(255, 255, 255, 0.1)",
-      borderRadius: 12,
-      textColor: "#ffffff",
-      placeholderOpacity: 0.35,
-      focusBorderColor: "#38bdf8",
-      focusGlowOpacity: 0.3,
-      paddingY: 12,
-      paddingX: 16,
-      checkboxAccentColor: "#38bdf8",
-      checkboxSize: 18,
-      checkboxRadius: 4,
-      headingColor: "#ffffff",
-      linkColor: "#38bdf8",
-      linkHoverColor: "#7dd3fc",
+    {
+      name: "👻 Dark Phantom",
+      icon: "👻",
+      settings: {
+        bgRed: 12,
+        bgGreen: 8,
+        bgBlue: 23,
+        bgOpacity: 0.8,
+        blurAmount: 12,
+        borderWidth: 1,
+        borderColor: "rgba(255, 255, 255, 0.1)",
+        borderRadius: 12,
+        textColor: "#ffffff",
+        placeholderOpacity: 0.35,
+        focusBorderColor: "#38bdf8",
+        focusGlowOpacity: 0.3,
+        paddingY: 12,
+        paddingX: 16,
+        checkboxAccentColor: "#38bdf8",
+        checkboxSize: 18,
+        checkboxRadius: 4,
+        headingColor: "#ffffff",
+        linkColor: "#38bdf8",
+        linkHoverColor: "#7dd3fc",
+      },
     },
-  },
-];
+  ];
 
 export default function InputStyleEditor() {
   const [mounted, setMounted] = useState(false);
@@ -416,11 +417,11 @@ a:hover {
       {/* Editor Drawer Modal — Pinned to Far Right, No Background Blur/Tint Overlay */}
       {isOpen && (
         <div className="pointer-events-none fixed inset-0 z-[10000] flex items-center justify-end p-4 md:p-6">
-          <div className="bg-[#0c0817]/95backdrop-blur-xl pointer-events-auto flex max-h-[88vh] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-purple-500/30 shadow-2xl shadow-[0_0_50px_rgba(0,240,255,0.2)]">
+          <div className="bg-[#0c0817]/95 backdrop-blur-xl pointer-events-auto flex max-h-[88vh] w-full max-w-xl flex-col overflow-hidden  border border-purple-500/30 shadow-2xl shadow-[0_0_50px_rgba(0,240,255,0.2)]">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.02] p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-purple-400/30 bg-cyan-500/20">
+                <div className="flex h-11 w-11 items-center justify-center  border border-purple-400/30 bg-cyan-500/20">
                   <Sliders className="h-5 w-5" />
                 </div>
                 <div>
@@ -433,7 +434,7 @@ a:hover {
                 <button
                   aria-label="Reset to defaults"
                   onClick={() => setSettings(DEFAULT_INPUT_SETTINGS)}
-                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10 hover:text-white"
+                  className="flex items-center gap-1.5  border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10 hover:text-white"
                   title="Reset to defaults"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
@@ -442,7 +443,7 @@ a:hover {
                 <button
                   aria-label="Close modal"
                   onClick={() => setIsOpen(false)}
-                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-white/10 hover:bg-white/20"
+                  className="flex h-8 w-8 cursor-pointer items-center justify-center  bg-white/10 hover:bg-white/20"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -460,7 +461,7 @@ a:hover {
                   onClick={() =>
                     setSettings((prev) => ({ ...prev, ...p.settings }))
                   }
-                  className="shrink-0 cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-purple-400/40 hover:bg-cyan-500/20"
+                  className="shrink-0 cursor-pointer  border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-purple-400/40 hover:bg-cyan-500/20"
                 >
                   {p.name}
                 </button>
@@ -512,7 +513,7 @@ a:hover {
               {activeTab === "controls" && (
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* Background & Blur */}
-                  <div className="space-y-4 rounded-lg border border-white/10 bg-[#00000029] p-4">
+                  <div className="space-y-4  border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       🎨 Background & Blur
                     </h4>
@@ -607,7 +608,7 @@ a:hover {
                   </div>
 
                   {/* Border & Geometry */}
-                  <div className="space-y-4 rounded-lg border border-white/10 bg-[#00000029] p-4">
+                  <div className="space-y-4  border border-white/10 bg-[#00000029] p-4">
                     f
                     <h4 className="flex items-center gap-2">
                       📐 Border & Geometry
@@ -655,14 +656,14 @@ a:hover {
                           onChange={(e) =>
                             update("borderColor", e.target.value)
                           }
-                          className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-1.5"
+                          className="flex-1  border border-white/10 bg-black/50 px-3 py-1.5"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Focus Glow & Colors */}
-                  <div className="space-y-4 rounded-lg border border-white/10 bg-[#00000029] p-4">
+                  <div className="space-y-4  border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       ✨ Focus Glow & Color
                     </h4>
@@ -704,7 +705,7 @@ a:hover {
                   </div>
 
                   {/* Padding & Spacing */}
-                  <div className="space-y-4 rounded-lg border border-white/10 bg-[#00000029] p-4">
+                  <div className="space-y-4  border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       📏 Spacing & Padding
                     </h4>
@@ -749,7 +750,7 @@ a:hover {
 
               {activeTab === "search" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 rounded-lg border border-white/10 bg-[#00000029] p-4">
+                  <div className="space-y-4  border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       🔍 Search Bar & Left Icon Styling
                     </h4>
@@ -775,7 +776,7 @@ a:hover {
                           onChange={(e) =>
                             update("searchIconColor", e.target.value)
                           }
-                          className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2"
+                          className="flex-1  border border-white/10 bg-black/50 px-3 py-2"
                         />
                       </div>
                     </div>
@@ -944,32 +945,30 @@ a:hover {
                     {/* Live Search Bar Preview */}
                     <div className="border-t border-white/10 pt-3">
                       <p className="mb-2">Live Search Bar Preview</p>
-                      <div className="input-glow-border rounded-xl">
-                        <div className="relative flex items-center">
-                          <div
-                            className="pointer-events-none !absolute z-10"
-                            style={{
-                              left: `${settings.searchIconLeft ?? 16}px`,
-                              color: settings.searchIconColor || "#ffffff",
-                              opacity: settings.searchIconOpacity ?? 0.5,
-                            }}
-                          >
-                            <Search className="h-4 w-4" />
-                          </div>
-                          <input
-                            type="search"
-                            aria-label="Search"
-                            placeholder="Search"
-                            className="form-input w-full"
-                            style={{
-                              paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
-                              paddingRight: `${settings.searchPaddingRight ?? 48}px`,
-                              paddingTop: `${settings.searchPaddingY ?? 14}px`,
-                              paddingBottom: `${settings.searchPaddingY ?? 14}px`,
-                              borderRadius: `${settings.searchRadius ?? 12}px`,
-                            }}
-                          />
+                      <div className="relative flex items-center">
+                        <div
+                          className="pointer-events-none !absolute z-10"
+                          style={{
+                            left: `${settings.searchIconLeft ?? 16}px`,
+                            color: settings.searchIconColor || "#ffffff",
+                            opacity: settings.searchIconOpacity ?? 0.5,
+                          }}
+                        >
+                          <Search className="h-4 w-4" />
                         </div>
+                        <GlowInput
+                          type="search"
+                          aria-label="Search"
+                          placeholder="Search"
+                          style={{
+                            paddingLeft: `${settings.searchPaddingLeft ?? 48}px`,
+                            paddingRight: `${settings.searchPaddingRight ?? 48}px`,
+                            paddingTop: `${settings.searchPaddingY ?? 14}px`,
+                            paddingBottom: `${settings.searchPaddingY ?? 14}px`,
+                            borderRadius: `${settings.searchRadius ?? 12}px`,
+                          }}
+                          rounded="rounded-xl"
+                        />
                       </div>
                     </div>
                   </div>
@@ -978,7 +977,7 @@ a:hover {
 
               {activeTab === "checkboxes" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 rounded-lg border border-white/10 bg-[#00000029] p-4">
+                  <div className="space-y-4  border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       ☑️ Checkbox Input Styling
                     </h4>
@@ -1006,7 +1005,7 @@ a:hover {
                           onChange={(e) =>
                             update("checkboxAccentColor", e.target.value)
                           }
-                          className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2"
+                          className="flex-1  border border-white/10 bg-black/50 px-3 py-2"
                         />
                       </div>
                     </div>
@@ -1056,7 +1055,7 @@ a:hover {
                             id="editor-preview-1"
                             label="Drop on ALL live streams"
                             checked={true}
-                            onChange={() => {}}
+                            onChange={() => { }}
                           />
                           <span>Drop on ALL live streams (Global)</span>
                         </div>
@@ -1065,7 +1064,7 @@ a:hover {
                             id="editor-preview-2"
                             label="Send email notification"
                             checked={false}
-                            onChange={() => {}}
+                            onChange={() => { }}
                           />
                           <span>Send email notification to band members</span>
                         </div>
@@ -1077,7 +1076,7 @@ a:hover {
 
               {activeTab === "typography" && (
                 <div className="space-y-6">
-                  <div className="space-y-4 rounded-lg border border-white/10 bg-[#00000029] p-4">
+                  <div className="space-y-4  border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       🔤 Typography & Tag Styling
                     </h4>
@@ -1105,7 +1104,7 @@ a:hover {
                           onChange={(e) =>
                             update("headingColor", e.target.value)
                           }
-                          className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2"
+                          className="flex-1  border border-white/10 bg-black/50 px-3 py-2"
                         />
                       </div>
                     </div>
@@ -1129,7 +1128,7 @@ a:hover {
                           type="text"
                           value={settings.pTextColor}
                           onChange={(e) => update("pTextColor", e.target.value)}
-                          className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2"
+                          className="flex-1  border border-white/10 bg-black/50 px-3 py-2"
                         />
                       </div>
                     </div>
@@ -1151,7 +1150,7 @@ a:hover {
                           type="text"
                           value={settings.linkColor}
                           onChange={(e) => update("linkColor", e.target.value)}
-                          className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2"
+                          className="flex-1  border border-white/10 bg-black/50 px-3 py-2"
                         />
                       </div>
                     </div>
@@ -1179,7 +1178,7 @@ a:hover {
                           onChange={(e) =>
                             update("linkHoverColor", e.target.value)
                           }
-                          className="flex-1 rounded-lg border border-white/10 bg-black/50 px-3 py-2"
+                          className="flex-1  border border-white/10 bg-black/50 px-3 py-2"
                         />
                       </div>
                     </div>
@@ -1203,7 +1202,7 @@ a:hover {
               )}
 
               {activeTab === "preview" && (
-                <div className="space-y-4 rounded-lg border border-purple-500/20 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black p-6">
+                <div className="space-y-4  border border-white/10 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black p-6">
                   <h4>Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
@@ -1244,7 +1243,7 @@ a:hover {
                           id="editor-preview-3"
                           label="Interactive Checkbox Control"
                           checked={true}
-                          onChange={() => {}}
+                          onChange={() => { }}
                         />
                         <span>Interactive Checkbox Control</span>
                       </div>
@@ -1259,7 +1258,7 @@ a:hover {
                     <span>Generated Global CSS Rules</span>
                     <button
                       onClick={copyCSS}
-                      className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-400/40 bg-cyan-500/20 px-3 py-1.5 hover:bg-cyan-500/30"
+                      className="flex cursor-pointer items-center gap-1.5  border border-purple-400/40 bg-cyan-500/20 px-3 py-1.5 hover:bg-cyan-500/30"
                     >
                       {copied ? (
                         <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -1269,7 +1268,7 @@ a:hover {
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
                   </div>
-                  <pre className="/90 max-h-[300px] overflow-x-auto rounded-lg border border-white/10 bg-black/80 p-4">
+                  <pre className="/90 max-h-[300px] overflow-x-auto  border border-white/10 bg-black/80 p-4">
                     {generatedCSS}
                   </pre>
                 </div>
@@ -1284,7 +1283,7 @@ a:hover {
               </span>
               <button
                 onClick={() => setIsOpen(false)}
-                className="cursor-pointer rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 px-5 py-2 shadow-[0_0_15px_rgba(0,240,255,0.3)] hover:brightness-110"
+                className="cursor-pointer  bg-gradient-to-r from-cyan-500 to-purple-600 px-5 py-2 shadow-[0_0_15px_rgba(0,240,255,0.3)] hover:brightness-110"
               >
                 Done
               </button>

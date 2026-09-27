@@ -5,6 +5,7 @@ import { Bell, Check, X, Shield, Mail, User, Sparkles } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import SquishyToggle from "@/components/SquishyToggle";
 import { useMember } from "@/context/MemberContext";
+import { GlowInput } from "@/components/GlowInput";
 
 interface PushSubscribeModalProps {
   isOpen: boolean;
@@ -94,7 +95,7 @@ export default function PushSubscribeModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 rounded-lg bg-[#00000029] p-1 text-white/40 hover:bg-white/10 hover:text-white"
+          className="absolute top-4 right-4  bg-[#00000029] p-1 text-white/40 hover:bg-white/10 hover:text-white"
         >
           <X className="h-5 w-5" />
         </button>
@@ -116,7 +117,7 @@ export default function PushSubscribeModal({
             </p>
 
             {error && (
-              <div className="mb-6 rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
+              <div className="mb-6  border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
                 ⚠️ {error}
               </div>
             )}
@@ -127,16 +128,14 @@ export default function PushSubscribeModal({
                   Your Full Name
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border w-full">
-                    <input
-                      type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Michael Scimeca"
-                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 outline-none"
-                    />
-                  </div>
+                  <GlowInput
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Michael Scimeca"
+                    className="!pl-10"
+                  />
                   <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
                     <User className="h-4 w-4" />
                   </div>
@@ -148,16 +147,14 @@ export default function PushSubscribeModal({
                   Your Email Address
                 </label>
                 <div className="relative w-full">
-                  <div className="input-glow-border w-full">
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="michael@example.com"
-                      className="placeholder: w-full rounded-lg border border-white/10 bg-[#0d071b] py-3 pr-4 !pl-10 text-white/40 outline-none"
-                    />
-                  </div>
+                  <GlowInput
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="michael@example.com"
+                    className="!pl-10"
+                  />
                   <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
                     <Mail className="h-4 w-4" />
                   </div>
@@ -202,7 +199,7 @@ export default function PushSubscribeModal({
                 <SeventhButton
                   type="submit"
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 py-3.5"
+                  className="flex w-full items-center justify-center gap-2"
                 >
                   {loading ? "SUBSCRIBING..." : "SUBSCRIBE TO LIVE ALERTS "}
                 </SeventhButton>
@@ -218,7 +215,7 @@ export default function PushSubscribeModal({
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/20 text-emerald-400">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border border-emerald-500/40 bg-emerald-500/20 text-emerald-400">
               <Check className="h-8 w-8" />
             </div>
             <h3 className="mb-2">You&apos;re Subscribed! 🔔</h3>

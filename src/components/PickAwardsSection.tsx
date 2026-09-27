@@ -197,7 +197,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
 
       {loading ? (
         <div className="flex items-center justify-center py-10">
-          <div className="h-6 w-6 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+          <div className="h-6 w-6 animate-spin  border-2 border-[var(--color-accent)] border-t-transparent" />
           <span className="ml-3 text-black/40">Loading your collection...</span>
         </div>
       ) : (
@@ -250,7 +250,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               const pick = pickTypes.find((p) => p.id === selectedPick);
               if (!pick || pick.owned === 0) return null;
               return (
-                <div className="mb-6 animate-[fadeIn_0.2s_ease] rounded-lg border border-white/10 bg-[var(--color-accent)]/5 p-4">
+                <div className="mb-6 animate-[fadeIn_0.2s_ease]  border border-white/10 bg-[var(--color-accent)]/5 p-4">
                   <div className="mb-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Image
@@ -306,7 +306,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
             })()}
 
           {/* Collection Stats */}
-          <div className="mb-6 flex items-center gap-6 rounded-lg border border-black/10 bg-gray-50 p-3">
+          <div className="mb-6 flex items-center gap-6  border border-black/10 bg-gray-50 p-3">
             <div>
               <p className="text-black/40">Total Picks</p>
               <p>{totalOwned}</p>
@@ -326,7 +326,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
           </div>
 
           {/* Visit Merch Table CTA */}
-          <div className="mb-6 flex items-center gap-3 rounded-lg border border-dashed border-black/10 bg-gray-50 p-4">
+          <div className="mb-6 flex items-center gap-3  border border-dashed border-black/10 bg-gray-50 p-4">
             <Dices className="h-6 w-6 shrink-0 text-purple-600" />
             <p className="text-black/60">
               Visit the merch table at any show to enter your picks into the
@@ -353,14 +353,14 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       </div>
                       <div className="text-right">
                         {lottery.isEntered ? (
-                          <span className="flex items-center gap-1 rounded-lg border border-white/10 bg-emerald-500/10 px-3 py-1 text-emerald-600">
+                          <span className="flex items-center gap-1  border border-white/10 bg-emerald-500/10 px-3 py-1 text-emerald-600">
                             <Check className="h-3 w-3" /> Entered
                           </span>
                         ) : lottery.isEligible ? (
                           <button
                             onClick={() => handleEnterLottery(lottery.id)}
                             disabled={enteringLottery === lottery.id}
-                            className="cursor-pointer rounded-lg border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] px-4 py-2 text-[var(--color-purple-light)] text-[var(--font-size-xs)] shadow-[0_0_10px_var(--color-purple-glow)] hover:bg-[var(--color-purple-glow)] disabled:opacity-50"
+                            className="cursor-pointer  border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] px-4 py-2 text-[var(--color-purple-light)] text-[var(--font-size-xs)] shadow-[0_0_10px_var(--color-purple-glow)] hover:bg-[var(--color-purple-glow)] disabled:opacity-50"
                           >
                             {enteringLottery === lottery.id
                               ? "Entering..."
@@ -385,9 +385,9 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                             {lottery.endsIn}
                           </span>
                         </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-lg bg-black/10">
+                        <div className="h-1.5 w-full overflow-hidden  bg-black/10">
                           <div
-                            className={`h-full rounded-lg ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
+                            className={`h-full  ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
                             style={{
                               width: `${Math.min(100, lottery.progress)}%`,
                             }}
@@ -409,7 +409,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               {/* Lottery result message */}
               {lotteryMsg && (
                 <div
-                  className={`mt-3 rounded-lg border p-3 ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}
+                  className={`mt-3  border p-3 ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}
                 >
                   {lotteryMsg.msg}
                 </div>

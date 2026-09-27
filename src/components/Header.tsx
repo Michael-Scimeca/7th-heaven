@@ -21,7 +21,7 @@ import { useTransition } from "@/context/TransitionContext";
 import SeventhButton from "@/components/SeventhButton";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 const leftNavLinks = [
   { href: "/payment-test", label: "MERCH" },
@@ -290,44 +290,26 @@ export function Header() {
 
     if (overlayVisible) {
       if (!isMobileOrTouch) {
-        content.style.transition = `transform ${OVERLAY_TRANSITION_MS}ms ${PAGE_RECEDE_EASE}`;
-        content.style.transformOrigin = `50% ${originY}px`;
-        content.style.transform = "scale(1.3) rotate(7deg) translateY(50vh)";
+        content.style.setProperty("--origin-y", `${originY}px`);
+        content.dataset.recede = "true";
       }
     } else {
       if (!isMobileOrTouch) {
-        content.style.transition = `transform ${OVERLAY_TRANSITION_MS}ms ${PAGE_RECEDE_EASE}`;
-        content.style.transform = "scale(1) rotate(0deg) translateY(0)";
+        content.style.setProperty("--origin-y", `${originY}px`);
+        content.dataset.recede = "false";
       }
       const timer = setTimeout(() => {
-        content.style.transform = "";
-        content.style.transition = "";
-        content.style.transformOrigin = "";
+        delete content.dataset.recede;
       }, OVERLAY_TRANSITION_MS);
       return () => clearTimeout(timer);
     }
-    // No cleanup here on purpose — this effect re-runs every time
-    // `overlayVisible` flips, and React always runs a hook's cleanup
-    // BEFORE re-running its body on a dependency change. A `return () =>
-    // { content.style.transform = "" }` here used to fire right before
-    // every new transform was applied, resetting the page to identity a
-    // tick before the transition to the target value started. Identity
-    // happens to equal this effect's CLOSED state, so opening (identity
-    // is the origin anyway) looked fine, while closing (identity is the
-    // destination) collapsed to "before === after" — zero visible
-    // distance, no animation, exactly the "opens fine, doesn't reverse on
-    // close" bug. The true "don't leave a stray transform behind on
-    // unmount" cleanup now lives in its own effect below, which only
-    // fires once, on unmount, not on every toggle.
   }, [overlayVisible]);
 
   useEffect(() => {
     return () => {
       const content = document.querySelector<HTMLElement>(".content-area");
       if (!content) return;
-      content.style.transform = "";
-      content.style.transition = "";
-      content.style.transformOrigin = "";
+      delete content.dataset.recede;
     };
   }, []);
 
@@ -418,35 +400,21 @@ export function Header() {
     };
   }, []);
 
+  // Handle Lenis smooth scroll and mobile menu state
   useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
-
-  // Lock scroll when mobile menu is open
-  useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
     if (mobileOpen) {
-      html.style.overflow = "hidden";
-      body.style.overflow = "hidden";
       if ((window as any).__lenis) {
         try {
           (window as any).__lenis.stop();
-        } catch {}
+        } catch { }
       }
     } else {
-      html.style.overflow = "";
-      body.style.overflow = "";
       if ((window as any).__lenis) {
         try {
           (window as any).__lenis.start();
-        } catch {}
+        } catch { }
       }
     }
-    return () => {
-      html.style.overflow = "";
-      body.style.overflow = "";
-    };
   }, [mobileOpen]);
 
   const displayRole = isAdminRoute
@@ -489,7 +457,7 @@ export function Header() {
           : displayRole === "crew"
             ? "/crew"
             : (displayRole as string) === "event_planner" ||
-                (displayRole as string) === "planner"
+              (displayRole as string) === "planner"
               ? `/book/${member?.username || "me"}`
               : displayRole === "cruise"
                 ? `/cruise/${member?.username || "dashboard"}`
@@ -539,24 +507,24 @@ export function Header() {
 
   const avatarSrc =
     member?.avatar &&
-    (member.avatar.startsWith("http") ||
-      member.avatar.startsWith("/") ||
-      member.avatar.startsWith("data:"))
+      (member.avatar.startsWith("http") ||
+        member.avatar.startsWith("/") ||
+        member.avatar.startsWith("data:"))
       ? member.avatar
       : customAvatar
         ? customAvatar
         : isMichael ||
-            isAdminRoute ||
-            isCrewRoute ||
-            displayRole === "admin" ||
-            displayRole === "crew" ||
-            (member && (member.role === "admin" || member.role === "crew"))
-          ? "/michaelscimeca.png"
+          isAdminRoute ||
+          isCrewRoute ||
+          displayRole === "admin" ||
+          displayRole === "crew" ||
+          (member && (member.role === "admin" || member.role === "crew"))
+          ? "/images/crew/michaelscimeca.png"
           : displayRole === "cruise" || isDemoCruisePage
             ? "/images/members/dicky.webp"
             : displayRole === "planner" || isDemoPlannerPage
               ? "/images/members/frankie.webp"
-              : "/michaelscimeca.png";
+              : "/images/crew/michaelscimeca.png";
 
   const isAvatarUrl = Boolean(avatarSrc);
 
@@ -566,7 +534,7 @@ export function Header() {
       : displayRole === "crew"
         ? "CREW"
         : (displayRole as string) === "event_planner" ||
-            (displayRole as string) === "planner"
+          (displayRole as string) === "planner"
           ? "PLANNER"
           : displayRole === "cruise"
             ? "CRUISE"
@@ -580,7 +548,7 @@ export function Header() {
       : displayRole === "crew"
         ? "bg-[var(--color-accent)] "
         : (displayRole as string) === "event_planner" ||
-            (displayRole as string) === "planner"
+          (displayRole as string) === "planner"
           ? "bg-[var(--color-accent)]"
           : displayRole === "cruise"
             ? "bg-sky-500"
@@ -592,7 +560,8 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 right-0 left-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none`}
+      className={`fixed top-0 right-0 left-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none font-heading`}
+      data-menu-open={mobileOpen}
       suppressHydrationWarning
     >
       <div className="site-container w-full max-w-full">
@@ -707,13 +676,15 @@ export function Header() {
             )}
 
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
+            {/* min-w prevents CLS when auth state switches from sign-in button → avatar */}
+            <div className="flex shrink-0 items-center" style={{ '--auth-w': '5.5rem' } as React.CSSProperties}>
             {showUserAuth ? (
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <div className="relative flex aspect-square shrink-0 items-center justify-center">
                   <TransitionLink
                     href={dashboardHref}
                     showSpinner={false}
-                    className="relative flex aspect-square h-8 min-h-8 w-8 min-w-8 shrink-0 items-center justify-center sm:h-10 sm:min-h-10 sm:w-10 sm:min-w-10 md:h-11 md:min-h-11 md:w-11 md:min-w-11"
+                    className="relative flex aspect-square h-10 min-h-10 w-10 min-w-10 shrink-0 items-center justify-center sm:h-10 sm:min-h-10 sm:w-10 sm:min-w-10 md:h-11 md:min-h-11 md:w-11 md:min-w-11"
                     style={{
                       borderRadius: "50%",
                       overflow: "hidden",
@@ -764,7 +735,7 @@ export function Header() {
 
                   {/* Overlapping Role Badge Circle with Full Role Name */}
                   <span
-                    className={`sm: absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border border-[#3c0366] px-1 py-0.5 text-[9px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
+                    className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border-2 border-[#3c0366] px-1 py-0.5 text-[11px] font-bold text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
                     style={{ borderRadius: "9999px" }}
                   >
                     {badgeText}
@@ -797,6 +768,7 @@ export function Header() {
                 )}
               </SeventhButton>
             )}
+            </div>{/* end auth min-w wrapper */}
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
@@ -817,27 +789,29 @@ export function Header() {
                     Staggered 0.1s apart on open (matches exoape); collapsed
                     to no stagger on close, same convention already used for
                     the nav-link stagger above (transitionDelay -> 0ms). */}
-                {[6, 12, 18].map((y, i) => (
+                {[
+                  { y: 6, x1: 1.5, x2: 22.5, len: ICON_LINE_LEN },
+                  { y: 12, x1: 1.5, x2: 18.3, len: 16.8 },
+                  { y: 18, x1: 1.5, x2: 22.5, len: ICON_LINE_LEN },
+                ].map(({ y, x1, x2, len }, i) => (
                   <line
                     key={`burger-${y}`}
-                    x1="1.5"
+                    x1={x1}
                     y1={y}
-                    x2="22.5"
+                    x2={x2}
                     y2={y}
                     stroke="#ffffff"
                     style={{
-                      strokeDasharray: ICON_LINE_LEN,
-                      strokeDashoffset: mobileOpen ? ICON_LINE_LEN : 0,
+                      strokeDasharray: len,
+                      strokeDashoffset: mobileOpen ? len : 0,
                       opacity: mobileOpen ? 0 : 1,
                       transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                      transitionDelay: mobileOpen ? `${i * 100}ms` : "0ms",
+                      transitionDelay: mobileOpen ? `${i * 100}ms` : `${(2 - i) * 100 + 200}ms`,
                     }}
                   />
                 ))}
                 {/* Close (X) — 2 diagonal lines, draw themselves on + fade in,
-                    starting half a second after the burger begins retracting
-                    (0.5s duration each, offset by 0.5s = 1s total, matching
-                    exoape's own timeline). */}
+                    starting half a second after the burger begins retracting. */}
                 <line
                   x1="5"
                   y1="5"
@@ -849,7 +823,7 @@ export function Header() {
                     strokeDashoffset: mobileOpen ? 0 : ICON_X_LINE_LEN,
                     opacity: mobileOpen ? 1 : 0,
                     transition: `stroke-dashoffset 500ms ${PAGE_RECEDE_EASE}, opacity 500ms ${PAGE_RECEDE_EASE}`,
-                    transitionDelay: mobileOpen ? "500ms" : "0ms",
+                    transitionDelay: mobileOpen ? "500ms" : "100ms",
                   }}
                 />
                 <line
@@ -931,7 +905,7 @@ export function Header() {
                   from sm up; panel drops out on phones so links get full
                   width rather than getting cramped. */}
                   <div className="flex min-h-0 flex-1 flex-col gap-8 px-6 py-6 sm:flex-row sm:items-center sm:gap-14 sm:px-10 sm:py-8 lg:gap-20">
-                    <div className="group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-lg sm:block md:w-[220px] lg:w-[260px]">
+                    <div className="group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden  sm:block md:w-[220px] lg:w-[260px]">
                       {mobileOpen && (
                         <video
                           src="/movie/fest1-clip.mp4"
@@ -943,7 +917,7 @@ export function Header() {
                           className="h-full w-full object-cover"
                           onCanPlay={(e) => {
                             e.currentTarget.muted = true;
-                            e.currentTarget.play().catch(() => {});
+                            e.currentTarget.play().catch(() => { });
                           }}
                         />
                       )}
@@ -1097,7 +1071,7 @@ export function Header() {
                           setMobileOpen(false);
                           openModal("login");
                         }}
-                        className="shrink-0 rounded-lg px-3.5 py-1.5"
+                        className="shrink-0 "
                       >
                         SIGN IN
                       </SeventhButton>

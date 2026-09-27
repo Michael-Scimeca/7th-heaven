@@ -9,7 +9,7 @@ interface ReturnsClientProps {
 export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
   return (
     <main
-      className="site-container page-container min-h-screen text-left"
+      className="site-container page-container text-left"
       id="returns-page"
     >
       <header className="mb-6 text-left">
@@ -25,10 +25,10 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
         </p>
       </header>
 
-      <div className="prose-legal flex flex-col gap-10 text-base">
+      <div className="prose-legal flex flex-col gap-6 pb-section-fluid">
         {sanityContent?.sections &&
-        Array.isArray(sanityContent.sections) &&
-        sanityContent.sections.length > 0 ? (
+          Array.isArray(sanityContent.sections) &&
+          sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -156,7 +156,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 If you have any questions about returns, exchanges, or refunds,
                 please reach out to us:
               </p>
-              <address className="not- space-y-1">
+              <address className="not-italic space-y-1">
                 <p>7th Heaven Support</p>
                 <p>
                   Email:{" "}
@@ -170,6 +170,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                     href="https://7thheavenband.com"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="7th Heaven website (opens in a new tab)"
                     className="a-btn"
                   >
                     7thheavenband.com

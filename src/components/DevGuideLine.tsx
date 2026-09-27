@@ -38,8 +38,8 @@ export default function DevGuideLine() {
         <div className="h-[2px] w-full bg-cyan-400 shadow-[0_0_12px_#22d3ee,0_0_4px_#22d3ee]" />
 
         {/* Developer badge indicator */}
-        <div className="pointer-events-auto absolute top-1 right-6 z-[9999999] flex items-center gap-2 rounded-lg border border-purple-400/60 bg-black/95 px-3 py-1 shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-2xl select-none">
-          <span className="h-2 w-2 animate-pulse rounded-lg bg-cyan-400" />
+        <div className="pointer-events-auto absolute top-1 right-6 z-[9999999] flex items-center gap-2  border border-purple-400/60 bg-black/95 px-3 py-1 shadow-[0_0_20px_rgba(34,211,238,0.3)] backdrop-blur-2xl select-none">
+          <span className="h-2 w-2 animate-pulse  bg-cyan-400" />
           <span>DEV GUIDE: {topPos}PX</span>
           <button
             aria-label="Previous"
@@ -68,7 +68,7 @@ export default function DevGuideLine() {
               e.preventDefault();
               setEnabled(false);
             }}
-            className="text-purple-400hover:text-red-400 z-[9999999] ml-1.5 cursor-pointer rounded px-2 py-1 hover:bg-red-500/20"
+            className="text-purple-400 hover:text-red-400 z-[9999999] ml-1.5 cursor-pointer rounded px-2 py-1 hover:bg-red-500/20"
             title="Hide guide overlay (Press Alt+G to restore)"
           >
             ✕

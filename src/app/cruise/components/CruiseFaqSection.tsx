@@ -16,9 +16,9 @@ export default function CruiseFaqSection({
 
   const faqList = sanityContent?.faqs?.length
     ? sanityContent.faqs.map((item: any) => ({
-        q: item.question,
-        a: item.answer,
-      }))
+      q: item.question,
+      a: item.answer,
+    }))
     : FAQS_EXTENDED;
 
   const sectionTitle =
@@ -43,13 +43,13 @@ export default function CruiseFaqSection({
       rootMargin="300px 0px"
       style={{ contentVisibility: "auto", containIntrinsicSize: "600px" }}
     >
-      <div className="mx-auto border border-white/20 bg-[#00000029] backdrop-blur-md">
+      <div className="mx-auto ">
         {/* Header Box */}
-        <div className="border-b border-white/20 p-6 text-center sm:p-8">
+        <div className="p-6 text-center sm:p-8">
           <h2 className="text-2xl font-bold tracking-wider text-white uppercase sm:text-3xl">
             {sectionTitle}
           </h2>
-          <p className="mx-auto mt-2 max-w-2xl text-white/80 sm:text-base">
+          <p className="mx-auto mt-2 max-w-2xl text-white/80 ">
             {sectionSubtitle}
           </p>
         </div>
@@ -73,10 +73,10 @@ export default function CruiseFaqSection({
                   aria-expanded={isExpanded}
                   aria-controls={`faq-answer-${i}`}
                   onClick={() => toggleFaq(i)}
-                  className="group focus-ring flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left sm:py-6"
+                  className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-5 text-left sm:py-6"
                 >
                   <span
-                    className={`sm: text-base font-semibold ${isExpanded ? " " : "text-white group-hover:text-purple-200"}`}
+                    className={`font-semibold  ${isExpanded ? "text-purple-300" : "text-white"}`}
                   >
                     {faq.q}
                   </span>
@@ -91,8 +91,8 @@ export default function CruiseFaqSection({
                   className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                 >
                   <div className="overflow-hidden">
-                    <div className="px-6 pb-6 text-left">
-                      <p className="text-white/80 sm:text-base">{faq.a}</p>
+                    <div className="pl-3 pb-6 text-left">
+                      <p className="text-white/80 ">{faq.a}</p>
                     </div>
                   </div>
                 </div>

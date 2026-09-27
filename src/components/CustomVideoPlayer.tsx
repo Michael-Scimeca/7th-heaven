@@ -78,7 +78,7 @@ export default function CustomVideoPlayer({
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
-        } catch {}
+        } catch { }
       }
       try {
         playerRef.current = new window.YT.Player(playerDivId.current, {
@@ -122,7 +122,7 @@ export default function CustomVideoPlayer({
             },
           },
         });
-      } catch {}
+      } catch { }
     };
 
     loadYouTubeAPI(initPlayer);
@@ -133,7 +133,7 @@ export default function CustomVideoPlayer({
       if (playerRef.current) {
         try {
           playerRef.current.destroy();
-        } catch {}
+        } catch { }
         playerRef.current = null;
       }
     };
@@ -153,7 +153,7 @@ export default function CustomVideoPlayer({
           if (typeof cur === "number") setCurrentTime(cur);
           if (typeof dur === "number" && dur > 0) setDuration(dur);
           if (typeof buf === "number") setBuffered(buf * 100);
-        } catch {}
+        } catch { }
       }
       animRef.current = requestAnimationFrame(update);
     };
@@ -214,12 +214,12 @@ export default function CustomVideoPlayer({
       containerRef.current
         .requestFullscreen()
         .then(() => setIsFullscreen(true))
-        .catch(() => {});
+        .catch(() => { });
     } else {
       document
         .exitFullscreen()
         .then(() => setIsFullscreen(false))
-        .catch(() => {});
+        .catch(() => { });
     }
     resetHideTimer();
   };
@@ -274,15 +274,7 @@ export default function CustomVideoPlayer({
           <h4 className="drop-shadow">{title}</h4>
         </div>
 
-        {onClose && (
-          <button
-            onClick={onClose}
-            className="!rounded-full border border-white/10 bg-black/60 p-2 hover:bg-white/20 hover:text-white"
-            aria-label="Close Player"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        )}
+
       </div>
 
       {/* Bottom Custom Control Bar */}
@@ -294,21 +286,21 @@ export default function CustomVideoPlayer({
         <div
           ref={progressRef}
           onClick={handleProgressClick}
-          className="group/timeline relative mb-3 h-1.5 w-full cursor-pointer rounded-lg bg-white/20 transition-[height] hover:h-2.5"
+          className="group/timeline relative mb-3 h-1.5 w-full cursor-pointer  bg-white/20 transition-[height] hover:h-2.5"
         >
           {/* Buffered Progress */}
           <div
-            className="absolute top-0 left-0 h-full rounded-lg bg-white/30"
+            className="absolute top-0 left-0 h-full  bg-white/30"
             style={{ width: `${buffered}%` }}
           />
           {/* Played Progress */}
           <div
-            className="absolute top-0 left-0 h-full rounded-lg bg-gradient-to-r from-purple-500 via-[var(--color-accent)] to-pink-500 shadow-[0_0_12px_rgba(168,85,247,0.8)]"
+            className="absolute top-0 left-0 h-full  bg-gradient-to-r from-purple-500 via-[var(--color-accent)] to-pink-500 shadow-[0_0_12px_rgba(168,85,247,0.8)]"
             style={{ width: `${progress}%` }}
           />
           {/* Scrubber Handle */}
           <div
-            className="absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 scale-50 rounded-lg bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-[opacity,transform] group-hover/timeline:scale-100 group-hover/timeline:opacity-100"
+            className="absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 scale-50  bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-[opacity,transform] group-hover/timeline:scale-100 group-hover/timeline:opacity-100"
             style={{ left: `calc(${progress}% - 7px)` }}
           />
         </div>
@@ -321,7 +313,7 @@ export default function CustomVideoPlayer({
             <SeventhButton
               onClick={togglePlay}
               icon={false}
-              className="flex h-11 w-11 cursor-pointer items-center justify-center !rounded-full border border-purple-300/40 !p-0 shadow-[0_0_20px_rgba(168,85,247,0.6)]"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -334,7 +326,7 @@ export default function CustomVideoPlayer({
             {/* Skip -10s */}
             <button
               onClick={() => seekRelative(-10)}
-              className="cursor-pointer rounded-lg p-2 hover:bg-white/10 hover:text-white"
+              className="cursor-pointer  p-2 hover:bg-white/10 hover:text-white"
               title="Rewind 10s"
             >
               <RotateCcw className="h-4 w-4" />
@@ -343,7 +335,7 @@ export default function CustomVideoPlayer({
             {/* Skip +10s */}
             <button
               onClick={() => seekRelative(10)}
-              className="cursor-pointer rounded-lg p-2 hover:bg-white/10 hover:text-white"
+              className="cursor-pointer  p-2 hover:bg-white/10 hover:text-white"
               title="Forward 10s"
             >
               <RotateCw className="h-4 w-4" />
@@ -362,7 +354,7 @@ export default function CustomVideoPlayer({
             <div className="group relative flex items-center gap-2">
               <button
                 onClick={toggleMute}
-                className="cursor-pointer rounded-lg p-2 hover:bg-white/10 hover:text-white"
+                className="cursor-pointer  p-2 hover:bg-white/10 hover:text-white"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted || volume === 0 ? (
@@ -387,7 +379,7 @@ export default function CustomVideoPlayer({
                       if (v > 0) playerRef.current.unMute();
                     }
                   }}
-                  className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/20 accent-[var(--color-accent)]"
+                  className="h-1 w-full cursor-pointer appearance-none  bg-white/20 accent-[var(--color-accent)]"
                 />
               </div>
             </div>
@@ -395,7 +387,7 @@ export default function CustomVideoPlayer({
             {/* Fullscreen Button */}
             <button
               onClick={toggleFullscreen}
-              className="cursor-pointer rounded-lg p-2 hover:bg-white/10 hover:text-white"
+              className="cursor-pointer  p-2 hover:bg-white/10 hover:text-white"
               aria-label="Toggle Fullscreen"
             >
               {isFullscreen ? (
@@ -407,6 +399,6 @@ export default function CustomVideoPlayer({
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

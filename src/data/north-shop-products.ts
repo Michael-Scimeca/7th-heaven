@@ -74,7 +74,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     id: "be-here",
     title: "Be Here",
     description: "Fan-favorite release, remastered. Pick your format.",
-    imageUrl: "/images/album/Be-Here.png",
+    imageUrl: "/images/album/be-here.png",
     category: "Albums",
     variantKind: "Format",
     variants: [

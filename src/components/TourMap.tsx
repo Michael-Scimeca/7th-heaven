@@ -86,8 +86,8 @@ export const SNAZZY_MAPS_227862_STYLE: google.maps.MapTypeStyle[] = [
     stylers: [{ color: "#190832" }, { weight: 2 }],
   },
   {
-    featureType: "administrative",
-    elementType: "country",
+    featureType: "administrative.country",
+    elementType: "geometry",
     stylers: [{ visibility: "on" }],
   },
   {
@@ -171,8 +171,8 @@ function distanceMiles(
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
@@ -294,7 +294,7 @@ export default function TourMap({
     useState<MapZoomConfig>(getInitialZoomConfig);
   const [isZoomUiOpen, setIsZoomUiOpen] = useState(false);
   const [zoomSaveSuccess, setZoomSaveSuccess] = useState(false);
-  const emptySubscribe = useCallback(() => () => {}, []);
+  const emptySubscribe = useCallback(() => () => { }, []);
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -548,7 +548,7 @@ export default function TourMap({
     ) {
       try {
         setOptions({ key: apiKey, v: "weekly" });
-      } catch {}
+      } catch { }
       googleMapsOptionsSet = true;
       (window as any).__googleMapsOptionsSet = true;
     }
@@ -689,7 +689,7 @@ export default function TourMap({
 
   // Draw and Update Markers
   useEffect(() => {
-    if (!googleReady || !map) return () => {};
+    if (!googleReady || !map) return () => { };
 
     for (const m of markersRef.current) {
       m.overlay.setMap(null);
@@ -909,7 +909,7 @@ export default function TourMap({
 
       const isNext = activeVenue
         ? normStr(v.venue) === normStr(activeVenue.venue) &&
-          normStr(v.city) === normStr(activeVenue.city)
+        normStr(v.city) === normStr(activeVenue.city)
         : false;
 
       const isBouncing = isHappening || isNext;
@@ -950,7 +950,7 @@ export default function TourMap({
       const rawDirectionsUrl = firstShow.mapUrl?.includes("maps.apple.com")
         ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${v.venue} ${v.city} ${v.state}`)}`
         : firstShow.mapUrl ||
-          `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${v.venue} ${v.city} ${v.state}`)}`;
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${v.venue} ${v.city} ${v.state}`)}`;
 
       const directionsHtml = hasExplicitMap
         ? `<a href="${rawDirectionsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; background:${cfg.color}; color:#000000 !important; font-weight:800; font-size:11px; text-transform:; letter-spacing:0.5px; text-decoration:none; padding:7px 12px; border-radius:6px; text-align:center; box-shadow:0 3px 9px #00000033; transition:opacity 0.2s;">📍 Google Location</a>`
@@ -1020,13 +1020,12 @@ export default function TourMap({
             ${ageBadge}
           </div>
           ${firstShow.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-bottom:6px; font-weight:700; display:flex; align-items:center; gap:4px;">🅿️ ${firstShow.parkingInfo}</div>` : ""}
-          ${
-            isHappening
-              ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
-              : isNext
-                ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:; letter-spacing:1.5px;">⚡ Up Next</div>'
-                : ""
-          }
+          ${isHappening
+          ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#ef4444; font-weight:800; text-transform:; letter-spacing:1.5px; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; background-color:#ef4444; border-radius:50%; display:inline-block;"></span>🔴 Happening Now</div>'
+          : isNext
+            ? '<div style="font-size:10px; margin-top:6px; margin-bottom:6px; color:#a855f7; font-weight:800; text-transform:; letter-spacing:1.5px;">⚡ Up Next</div>'
+            : ""
+        }
 
           <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.12); padding-top:8px; display:flex; flex-direction:column; gap:6px;">
             ${directionsHtml}
@@ -1075,16 +1074,15 @@ export default function TourMap({
             </div>
             ${s.info ? `<div style="font-size:10px; color:rgba(255,255,255,0.7); margin-top:2px;">${s.info}</div>` : ""}
             ${s.parkingInfo ? `<div style="font-size:10px; color:#38bdf8; margin-top:3px; font-weight:600;">🅿️ Parking: ${s.parkingInfo}</div>` : ""}
-            ${
-              s.websiteUrl
-                ? `
+            ${s.websiteUrl
+              ? `
               <div style="margin-top:4px;">
                 <a href="${s.websiteUrl}" target="_blank" rel="noopener noreferrer" style="font-size:10px; color:${cfg.color}; text-decoration:underline; font-weight:bold;">
                   Ticket/Event Info →
                 </a>
               </div>
             `
-                : ""
+              : ""
             }
           </div>
         `;
@@ -1233,7 +1231,7 @@ export default function TourMap({
           }, 1300);
         }
       },
-      () => {},
+      () => { },
       { enableHighAccuracy: false, timeout: 8000 },
     );
   }, [onPinClick]);
@@ -1324,7 +1322,7 @@ export default function TourMap({
           </div>
 
           {/* Animated 4-Color Google Shimmer Progress Bar */}
-          <div className="relative h-1.5 w-56 overflow-hidden rounded-full border border-white/5 bg-white/10 p-0.5">
+          <div className="relative h-1.5 w-56 overflow-hidden rounded-full border border-white/10 bg-white/10 p-0.5">
             <div
               className="h-full rounded-full bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-[#FBBC05] to-[#34A853] shadow-[0_0_12px_rgba(66,133,244,0.7)]"
               style={{ width: `${isLoaded ? 100 : loadProgress}%` }}
@@ -1344,7 +1342,7 @@ export default function TourMap({
             <div className="hidden max-w-full rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-3 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-4.5 lg:block">
               <div className="mb-2 flex items-center justify-between gap-2 border-b border-white/10 pb-1.5 sm:mb-3.5 sm:gap-3 sm:pb-2.5">
                 <div className="flex items-center gap-2 sm:gap-2.5">
-                  <div className="sm: flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-base sm:h-8 sm:w-8">
+                  <div className="sm: flex h-7 w-7 shrink-0 items-center justify-center  border border-white/10 bg-white/5   sm:h-8 sm:w-8">
                     🎭
                   </div>
                   <div className="flex flex-col">
@@ -1359,7 +1357,7 @@ export default function TourMap({
                     <button
                       type="button"
                       onClick={() => setSelectedTypes(new Set())}
-                      className="sm: cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[10px] hover:bg-purple-500/20 hover:text-white"
+                      className="sm: cursor-pointer  border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[10px] hover:bg-purple-500/20 hover:text-white"
                     >
                       CLEAR
                     </button>
@@ -1411,7 +1409,7 @@ export default function TourMap({
                           return next;
                         });
                       }}
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-1.5 py-1 text-left sm:gap-2 sm:rounded-xl sm:px-2 sm:py-1.5 ${isActive ? "border-white/15 bg-white/5 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "border-transparent bg-transparent opacity-40 hover:opacity-80"}`}
+                      className={`flex cursor-pointer items-center gap-1.5  border px-1.5 py-1 text-left sm:gap-2 sm:px-2 sm:py-1.5 ${isActive ? "border-white/15 bg-white/5 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "border-transparent bg-transparent opacity-40 hover:opacity-80"}`}
                     >
                       <div
                         className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full text-[9px] shadow-sm sm:h-4 sm:w-4 sm:text-[10px]"
@@ -1419,7 +1417,7 @@ export default function TourMap({
                       >
                         {showLetter}
                       </div>
-                      <span className="/90 sm: text-[10px]">{cfg.label}</span>
+                      <span className="/90 text-[10px]">{cfg.label}</span>
                     </button>
                   );
                 })}
@@ -1432,12 +1430,12 @@ export default function TourMap({
               <SeventhButton
                 onClick={() => setIsShowTypesUiOpen(true)}
                 title="Filter map markers by category"
-                className="! sm:! md:! flex lg:hidden"
+                className=" flex lg:hidden"
               >
                 <span className="relative pr-1">🎭</span>
                 <span> SHOW TYPES</span>
                 {selectedTypes.size > 0 && (
-                  <span className="ml-1 rounded-full border border-purple-400/50 bg-purple-600 px-2 py-0.5 text-[10px]">
+                  <span className="ml-1 rounded-full border border-purple-400/50  text-[10px]">
                     ({selectedTypes.size})
                   </span>
                 )}
@@ -1477,10 +1475,10 @@ export default function TourMap({
               type="button"
               aria-label="Zoom In"
               title="Zoom In"
-              className="/90 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[size:200%_100%] bg-[position:100%] select-none hover:text-white active:scale-95 sm:h-12 sm:w-12 md:h-14 md:w-14"
+              className="/90 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[size:200%_100%] bg-[position:100%] select-none hover:text-white active:scale-95 sm:h-12 sm:w-12 md:h-10 md:w-10"
             >
               <svg
-                className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7"
+                className="h-4 w-4"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1497,10 +1495,10 @@ export default function TourMap({
               type="button"
               aria-label="Zoom Out"
               title="Zoom Out"
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[size:200%_100%] bg-[position:100%] select-none hover:text-white active:scale-95 sm:h-12 sm:w-12 md:h-14 md:w-14"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gradient-to-l from-[#581ed0] to-[#8b5cf6] bg-[size:200%_100%] bg-[position:100%] select-none hover:text-white active:scale-95 sm:h-12 sm:w-12 md:h-10 md:w-10"
             >
               <svg
-                className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7"
+                className="h-4 w-4 "
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1543,7 +1541,7 @@ export default function TourMap({
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-xl">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center  border border-white/10 bg-white/5 text-xl">
                     📅
                   </div>
                   <div className="flex flex-col">
@@ -1556,7 +1554,7 @@ export default function TourMap({
                 <button
                   type="button"
                   onClick={() => setIsDateUiOpen(false)}
-                  className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-white/10 hover:bg-white/20"
+                  className="flex h-7 w-7 cursor-pointer items-center justify-center  bg-white/10 hover:bg-white/20"
                 >
                   ✕
                 </button>
@@ -1579,7 +1577,7 @@ export default function TourMap({
                       const val = parseFloat(e.target.value);
                       setDateRange([val, Math.max(val + 86400000, activeEnd)]);
                     }}
-                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-purple-500"
+                    className="h-2 w-full cursor-pointer appearance-none  bg-white/10 accent-purple-500"
                   />
                 </div>
 
@@ -1601,7 +1599,7 @@ export default function TourMap({
                         Math.max(val, activeStart + 86400000),
                       ]);
                     }}
-                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-purple-500"
+                    className="h-2 w-full cursor-pointer appearance-none  bg-white/10 accent-purple-500"
                   />
                 </div>
               </div>
@@ -1617,7 +1615,7 @@ export default function TourMap({
                       const target = now + 30 * 24 * 60 * 60 * 1000;
                       setDateRange([now, Math.min(target, maxShowTime)]);
                     }}
-                    className="sm: cursor-pointer rounded-xl border border-white/15 bg-white/5 px-2 py-2 text-center text-[10px] hover:border-purple-400 hover:bg-purple-600/20"
+                    className="sm: cursor-pointer  border border-white/15 bg-white/5 px-2 py-2 text-center text-[10px] hover:border-purple-400 hover:bg-purple-600/20"
                   >
                     NEXT 30 DAYS
                   </button>
@@ -1628,14 +1626,14 @@ export default function TourMap({
                       const target = now + 90 * 24 * 60 * 60 * 1000;
                       setDateRange([now, Math.min(target, maxShowTime)]);
                     }}
-                    className="sm: cursor-pointer rounded-xl border border-white/15 bg-white/5 px-2 py-2 text-center text-[10px] hover:border-purple-400 hover:bg-purple-600/20"
+                    className="sm: cursor-pointer  border border-white/15 bg-white/5 px-2 py-2 text-center text-[10px] hover:border-purple-400 hover:bg-purple-600/20"
                   >
                     NEXT 90 DAYS
                   </button>
                   <button
                     type="button"
                     onClick={() => setDateRange([minShowTime, maxShowTime])}
-                    className="sm: cursor-pointer rounded-xl border border-white/15 bg-white/5 px-2 py-2 text-center text-[10px] hover:border-purple-400 hover:bg-purple-600/20"
+                    className="sm: cursor-pointer  border border-white/15 bg-white/5 px-2 py-2 text-center text-[10px] hover:border-purple-400 hover:bg-purple-600/20"
                   >
                     ALL DATES
                   </button>
@@ -1647,7 +1645,7 @@ export default function TourMap({
                 <button
                   type="button"
                   onClick={() => setDateRange(null)}
-                  className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 py-2.5 shadow-lg shadow-purple-600/30 hover:from-purple-500 hover:to-pink-500"
+                  className="flex w-full cursor-pointer items-center justify-center gap-1.5  bg-gradient-to-r from-purple-600 to-pink-600 py-2.5 shadow-lg shadow-purple-600/30 hover:from-purple-500 hover:to-pink-500"
                 >
                   <span>✕ REMOVE DATE FILTER</span>
                 </button>
@@ -1655,7 +1653,7 @@ export default function TourMap({
                 <button
                   type="button"
                   onClick={() => setIsDateUiOpen(false)}
-                  className="w-full cursor-pointer rounded-xl border border-white/10 bg-white/10 py-2.5 text-center hover:bg-white/15"
+                  className="w-full cursor-pointer  border border-white/10 bg-white/10 py-2.5 text-center hover:bg-white/15"
                 >
                   CLOSE CONTROLS
                 </button>
@@ -1680,7 +1678,7 @@ export default function TourMap({
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-xl">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center  border border-white/10 bg-white/5 text-xl">
                     ⚙️
                   </div>
                   <div className="flex flex-col">
@@ -1693,7 +1691,7 @@ export default function TourMap({
                 <button
                   type="button"
                   onClick={() => setIsZoomUiOpen(false)}
-                  className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-white/10 hover:bg-white/20"
+                  className="flex h-7 w-7 cursor-pointer items-center justify-center  bg-white/10 hover:bg-white/20"
                   aria-label="Close"
                 >
                   ✕
@@ -1727,7 +1725,7 @@ export default function TourMap({
                   return (
                     <div
                       key={device}
-                      className={`rounded-xl border p-3 ${activeClasses}`}
+                      className={` border p-3 ${activeClasses}`}
                     >
                       <div className="mb-2 flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -1735,13 +1733,12 @@ export default function TourMap({
                           <span>{label}</span>
                         </div>
                         <span
-                          className={`rounded-full bg-purple-600 px-2 py-0.5 text-[9px] font-black ${
-                            device === "mobile"
-                              ? "max-md:inline-block md:hidden"
-                              : device === "tablet"
-                                ? "md:max-lg:inline-block max-md:hidden lg:hidden"
-                                : "lg:inline-block max-lg:hidden"
-                          }`}
+                          className={`rounded-full bg-purple-600 px-2 py-0.5 text-[9px] font-black ${device === "mobile"
+                            ? "max-md:inline-block md:hidden"
+                            : device === "tablet"
+                              ? "md:max-lg:inline-block max-md:hidden lg:hidden"
+                              : "lg:inline-block max-lg:hidden"
+                            }`}
                         >
                           ACTIVE SCREEN
                         </span>
@@ -1770,7 +1767,7 @@ export default function TourMap({
                                 val,
                               );
                             }}
-                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-purple-500"
+                            className="h-2 w-full cursor-pointer appearance-none  bg-white/10 accent-purple-500"
                           />
                         </div>
 
@@ -1796,7 +1793,7 @@ export default function TourMap({
                                 val,
                               );
                             }}
-                            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-purple-500"
+                            className="h-2 w-full cursor-pointer appearance-none  bg-white/10 accent-purple-500"
                           />
                         </div>
                       </div>
@@ -1810,7 +1807,7 @@ export default function TourMap({
                 <button
                   type="button"
                   onClick={handleResetZoomConfig}
-                  className="cursor-pointer rounded-xl border border-white/10 bg-white/10 px-3 py-2 hover:bg-white/15 hover:text-white"
+                  className="cursor-pointer  border border-white/10 bg-white/10 px-3 py-2 hover:bg-white/15 hover:text-white"
                 >
                   RESET DEFAULTS
                 </button>
@@ -1824,7 +1821,7 @@ export default function TourMap({
                   <button
                     type="button"
                     onClick={() => setIsZoomUiOpen(false)}
-                    className="cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 font-black shadow-lg shadow-purple-600/30 hover:from-purple-500 hover:to-pink-500"
+                    className="cursor-pointer  bg-gradient-to-r from-purple-600 to-pink-600 px-4 py-2 font-black shadow-lg shadow-purple-600/30 hover:from-purple-500 hover:to-pink-500"
                   >
                     DONE
                   </button>
@@ -1849,7 +1846,7 @@ export default function TourMap({
             >
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center  border border-white/10 bg-white/5">
                     🎭
                   </div>
                   <div className="flex flex-col">
@@ -1864,7 +1861,7 @@ export default function TourMap({
                     <button
                       type="button"
                       onClick={() => setSelectedTypes(new Set())}
-                      className="cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 px-2 py-0.5 hover:bg-purple-500/20 hover:text-white"
+                      className="cursor-pointer  border border-purple-500/30 bg-purple-500/10 px-2 py-0.5 hover:bg-purple-500/20 hover:text-white"
                     >
                       CLEAR
                     </button>
@@ -1872,7 +1869,7 @@ export default function TourMap({
                   <button
                     type="button"
                     onClick={() => setIsShowTypesUiOpen(false)}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:text-white"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center  border border-white/10 bg-white/5 hover:bg-white/10 hover:text-white"
                   >
                     ✕
                   </button>
@@ -1920,7 +1917,7 @@ export default function TourMap({
                           return next;
                         });
                       }}
-                      className={`flex cursor-pointer items-center gap-2 rounded-xl border px-2 py-1.5 text-left ${isActive ? "border-white/15 bg-white/5 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "border-transparent bg-transparent opacity-40 hover:opacity-80"}`}
+                      className={`flex cursor-pointer items-center gap-2  border px-2 py-1.5 text-left ${isActive ? "border-white/15 bg-white/5 opacity-100 hover:border-purple-400/60 hover:bg-purple-900/20" : "border-transparent bg-transparent opacity-40 hover:opacity-80"}`}
                     >
                       <div
                         className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] shadow-sm"
@@ -1937,7 +1934,7 @@ export default function TourMap({
               <div className="flex justify-end border-t border-white/10 pt-2">
                 <SeventhButton
                   onClick={() => setIsShowTypesUiOpen(false)}
-                  className="! !px-4 !py-1.5"
+                  className=""
                 >
                   DONE
                 </SeventhButton>

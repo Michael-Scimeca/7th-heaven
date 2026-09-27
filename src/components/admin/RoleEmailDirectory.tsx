@@ -385,7 +385,7 @@ export function RoleEmailDirectory({
             type="button"
             onClick={handleCopyEmails}
             icon={false}
-            className="cursor-pointer px-3.5 py-2 whitespace-nowrap"
+            className="cursor-pointer whitespace-nowrap"
             title="Copy all email addresses for BCC email dispatch"
           >
             {copiedSuccess
@@ -396,7 +396,7 @@ export function RoleEmailDirectory({
           <button
             type="button"
             onClick={handleExportCSV}
-            className="flex cursor-pointer items-center gap-1.5 rounded-lg border-none bg-[#00000029] px-3.5 py-2 whitespace-nowrap hover:bg-white/10"
+            className="flex cursor-pointer items-center gap-1.5  border-none bg-[#00000029] px-3.5 py-2 whitespace-nowrap hover:bg-white/10"
           >
             <span></span> Export CSV
           </button>
@@ -413,10 +413,10 @@ export function RoleEmailDirectory({
       />
 
       {/* Email List Container (Divs) */}
-      <div className="relative overflow-hidden border-none">
+      <div className="relative">
         <div className="w-full text-left">
           {/* Fixed Header Row */}
-          <div className="select-none] grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10 py-3 pr-4 pl-2">
+          <div className="select-none grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10 py-3 pr-4 pl-2 font-bold">
             <div>Name</div>
             <div>Email Address</div>
             <div>Role</div>
@@ -435,7 +435,7 @@ export function RoleEmailDirectory({
                 filteredUsers.map((user) => (
                   <div
                     key={user.id}
-                    className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10 bg-[#00000029] py-3 pr-4 pl-2"
+                    className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10  py-3 pr-2 "
                   >
                     <div className="flex items-center gap-2.5">
                       {(() => {
@@ -447,7 +447,7 @@ export function RoleEmailDirectory({
                           <img
                             src={avatarSrc}
                             alt={user.name}
-                            className="shadow-x h-11 w-11 shrink-0 rounded-full border border-white/10 object-cover"
+                            className="shadow-md h-11 w-11 shrink-0 rounded-full border border-white/10 object-cover"
                             onError={(e) => {
                               (e.currentTarget as HTMLElement).style.display =
                                 "none";
@@ -462,15 +462,23 @@ export function RoleEmailDirectory({
                       <span>{user.name}</span>
                     </div>
                     <div className="select-all">{user.email}</div>
-                    <div className="rouned-lg py-1">{user.role}</div>
+                    <div className="rounded-lg py-1">{user.role}</div>
                     <div className="text-white/50">{user.phone || "—"}</div>
-                    <div className="text-right">
-                      <a
+                    <div className="text-right flex items-center justify-end gap-1.5">
+                      <SeventhButton
                         href={`mailto:${user.email}`}
-                        className="! inline-flex items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1"
+                        className=""
                       >
                         Email
-                      </a>
+                      </SeventhButton>
+                      {user.phone && (
+                        <SeventhButton
+                          href={`sms:${user.phone.replace(/[^0-9]/g, "")}`}
+                          className=""
+                        >
+                          Text
+                        </SeventhButton>
+                      )}
                     </div>
                   </div>
                 ))

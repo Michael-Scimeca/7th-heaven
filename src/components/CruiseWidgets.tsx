@@ -10,6 +10,7 @@ import { formatPhoneDisplay } from "@/lib/validation";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import SeventhButton from "@/components/SeventhButton";
 import InputField from "@/components/InputField";
+import { GlowSelect } from "@/components/GlowInput";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 
 // --- COUNTDOWN TICKER ---
@@ -175,9 +176,9 @@ export function OriginStats() {
                 {stat.count} fans
               </span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-lg border border-white/5">
+            <div className="h-1.5 w-full overflow-hidden  border border-white/10">
               <div
-                className="h-full rounded-lg bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 opacity-80 group-hover:opacity-100"
+                className="h-full  bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 opacity-80 group-hover:opacity-100"
                 style={{ width: `${(stat.count / maxCount) * 100}%` }}
               />
             </div>
@@ -200,7 +201,7 @@ const MOCK_PHOTOS = [
 
 export function PhotoWall() {
   return (
-    <div className="6">
+    <div className="">
       <div className="mb-8 flex items-end justify-between">
         <div>
           <h2 className="mb-1">Fan Pre-Cruise Photo Wall</h2>
@@ -261,9 +262,9 @@ export function BookingManager({ email }: { email?: string }) {
         member?.name ||
         (email
           ? email
-              .split("@")[0]
-              .replace(/[-_.]/g, " ")
-              .replace(/\b\w/g, (c) => c.toUpperCase())
+            .split("@")[0]
+            .replace(/[-_.]/g, " ")
+            .replace(/\b\w/g, (c) => c.toUpperCase())
           : "Cruise Member"),
       email: effectiveEmail,
       guest_count: 2,
@@ -271,7 +272,7 @@ export function BookingManager({ email }: { email?: string }) {
       anonymous: false,
       cabin_preference: "Ocean View Balcony (Cabin 9122)",
       cabin_deck: "Deck 9 · Midship",
-      cabin_image: "/images/cruise/d1_ocean_view_balcony.jpg",
+      cabin_image: "/images/cruise/d1-ocean-view-balcony.jpg",
       total_fare: "$1,550.00",
       amount_paid: "$1,200.00",
       balance_due: "$350.00",
@@ -303,7 +304,7 @@ export function BookingManager({ email }: { email?: string }) {
         if (data.success && data.booking) {
           let cabinPref =
             data.booking.cabin_preference || "Ocean View Balcony (Cabin 9122)";
-          let cabinImg = "/images/cruise/d1_ocean_view_balcony.jpg";
+          let cabinImg = "/images/cruise/d1-ocean-view-balcony.jpg";
           if (data.booking.notes) {
             const notesLower = data.booking.notes.toLowerCase();
             const matches =
@@ -327,12 +328,12 @@ export function BookingManager({ email }: { email?: string }) {
               notesLower.includes("group_d2") ||
               notesLower.includes("balcony")
             ) {
-              cabinImg = "/images/cruise/d1_ocean_view_balcony.jpg";
+              cabinImg = "/images/cruise/d1-ocean-view-balcony.jpg";
             } else if (
               notesLower.includes("group_i1") ||
               notesLower.includes("infinite ocean balcony")
             ) {
-              cabinImg = "/images/cruise/i1_infinite_ocean_view_balcony.jpg";
+              cabinImg = "/images/cruise/i1-infinite-ocean-view-balcony.jpg";
             } else if (
               notesLower.includes("group_jy") ||
               notesLower.includes("suite")
@@ -417,7 +418,7 @@ export function BookingManager({ email }: { email?: string }) {
         if (data.success) {
           // Parse cabin preference and set matching image
           let cabinPref = "Ocean View Balcony";
-          let cabinImg = "/images/cruise/d1_ocean_view_balcony.jpg";
+          let cabinImg = "/images/cruise/d1-ocean-view-balcony.jpg";
           if (data.booking.notes) {
             const notesLower = data.booking.notes.toLowerCase();
             const matches =
@@ -441,12 +442,12 @@ export function BookingManager({ email }: { email?: string }) {
               notesLower.includes("group_d2") ||
               notesLower.includes("balcony")
             ) {
-              cabinImg = "/images/cruise/d1_ocean_view_balcony.jpg";
+              cabinImg = "/images/cruise/d1-ocean-view-balcony.jpg";
             } else if (
               notesLower.includes("group_i1") ||
               notesLower.includes("infinite ocean balcony")
             ) {
-              cabinImg = "/images/cruise/i1_infinite_ocean_view_balcony.jpg";
+              cabinImg = "/images/cruise/i1-infinite-ocean-view-balcony.jpg";
             } else if (
               notesLower.includes("group_jy") ||
               notesLower.includes("suite")
@@ -555,7 +556,7 @@ export function BookingManager({ email }: { email?: string }) {
 
         <form
           onSubmit={handleQuickRegister}
-          className="relative z-10 space-y-4 border border-white/5 p-4"
+          className="relative z-10 space-y-4 border border-white/10 p-4"
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <InputField
@@ -563,14 +564,14 @@ export function BookingManager({ email }: { email?: string }) {
               type="text"
               readOnly
               value={member?.name || ""}
-              inputClassName=" text-white/50 cursor-not-allowed px-3 py-2 text-base"
+              inputClassName=" text-white/50 cursor-not-allowed px-3 py-2  "
             />
             <InputField
               label="Email Address"
               type="text"
               readOnly
               value={email || ""}
-              inputClassName=" text-white/50 cursor-not-allowed px-3 py-2 text-base"
+              inputClassName=" text-white/50 cursor-not-allowed px-3 py-2  "
             />
           </div>
 
@@ -584,7 +585,7 @@ export function BookingManager({ email }: { email?: string }) {
               value={regPhone}
               onChange={(e) => setRegPhone(formatPhoneDisplay(e.target.value))}
               glow={true}
-              inputClassName="px-3 py-2 text-base"
+              inputClassName="px-3 py-2  "
             />
             <InputField
               label="Party Size"
@@ -596,7 +597,7 @@ export function BookingManager({ email }: { email?: string }) {
               value={regPartySize}
               onChange={(e) => setRegPartySize(parseInt(e.target.value) || 1)}
               glow={true}
-              inputClassName="px-3 py-2 text-base"
+              inputClassName="px-3 py-2  "
             />
             <div>
               <label
@@ -605,20 +606,17 @@ export function BookingManager({ email }: { email?: string }) {
               >
                 Cabin Preference *
               </label>
-              <div className="input-glow-border rounded-lg">
-                <select
-                  id="cruise-reg-cabin-pref"
-                  value={regCabinPref}
-                  onChange={(e) => setRegCabinPref(e.target.value)}
-                  className="w-full cursor-pointer rounded-lg border border-white/10 bg-[var(--color-bg-card)] px-3 py-2 outline-none"
-                >
-                  <option value="group_n5">Ocean View</option>
-                  <option value="group_if">Infinite Central Park</option>
-                  <option value="group_d4">Ocean View Balcony</option>
-                  <option value="group_d2">Ocean View Balcony D2</option>
-                  <option value="group_i1">Infinite Ocean View Balcony</option>
-                </select>
-              </div>
+              <GlowSelect
+                id="cruise-reg-cabin-pref"
+                value={regCabinPref}
+                onChange={(e) => setRegCabinPref(typeof e === "string" ? e : e.target.value)}
+              >
+                <option value="group_n5">Ocean View</option>
+                <option value="group_if">Infinite Central Park</option>
+                <option value="group_d4">Ocean View Balcony</option>
+                <option value="group_d2">Ocean View Balcony D2</option>
+                <option value="group_i1">Infinite Ocean View Balcony</option>
+              </GlowSelect>
             </div>
           </div>
 
@@ -628,10 +626,10 @@ export function BookingManager({ email }: { email?: string }) {
             type="submit"
             icon={false}
             disabled={registering}
-            className="mt-2 w-full rounded-lg py-2.5 disabled:opacity-50"
+            className="mt-2 w-full  py-2.5 disabled:opacity-50"
           >
             {registering ? (
-              <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+              <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
             ) : (
               "Complete Cruise Registration"
             )}
@@ -641,22 +639,22 @@ export function BookingManager({ email }: { email?: string }) {
     );
 
   return (
-    <div className="relative flex flex-col justify-between overflow-hidden">
+    <div className="relative flex flex-col justify-between">
       {/* Travel Readiness Checklist Badges */}
       <div>
         <span className="mb-2 block">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-          <div className="flex items-center gap-1.5 py-1 text-emerald-300">
+          <div className="flex items-center gap-1.5 py-1 text-emerald-300 font-bold">
             <CheckMarkIcon className="h-3.5 w-3.5 shrink-0 text-emerald-300" />{" "}
             Passport Verified
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1">
+          <div className="flex items-center gap-1.5 px-2 py-1 font-bold">
             Band VIP Pass Included
           </div>
-          <div className="flex items-center gap-1.5 py-1">
+          <div className="flex items-center gap-1.5 py-1 font-bold">
             <span>📅</span> Check-in: 45 Days Prior
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1">
+          <div className="flex items-center gap-1.5 px-2 py-1 font-bold">
             <span>🏷️</span> Luggage Tags: Dec 1st
           </div>
         </div>
@@ -665,7 +663,7 @@ export function BookingManager({ email }: { email?: string }) {
       {/* Payment Breakdown: Total Fare, Paid & Owed */}
       <div className="my-3 space-y-2.5">
         <div className="flex items-center justify-between">
-          <span className="r">Total Cruise Fare</span>
+          <span className="">Total Cruise Fare</span>
           <span>{booking.total_fare || "$1,550.00"}</span>
         </div>
         <div className="flex items-center justify-between border-t border-white/10 pt-2">
@@ -688,13 +686,13 @@ export function BookingManager({ email }: { email?: string }) {
             {parseFloat(
               (booking.balance_due || "$350.00").replace(/[^0-9.]/g, ""),
             ) > 0 && (
-              <button
-                onClick={() => setIsPayModalOpen(true)}
-                className="cursor-pointer rounded bg-rose-500 px-2.5 py-1 shadow hover:bg-rose-400"
-              >
-                💳 Pay Balance
-              </button>
-            )}
+                <button
+                  onClick={() => setIsPayModalOpen(true)}
+                  className="cursor-pointer rounded bg-rose-500 px-2.5 py-1 shadow hover:bg-rose-400"
+                >
+                  💳 Pay Balance
+                </button>
+              )}
           </div>
         </div>
       </div>
@@ -718,8 +716,8 @@ export function BookingManager({ email }: { email?: string }) {
       )}
 
       {/* Two Clickable Cruise Agent Email Buttons */}
-      <div className="mt-4 space-y-2 border-t border-white/10">
-        <span className="mb-2 block text-white/40">
+      <div className="mt-4 space-y-2">
+        <span className="mb-2 block">
           Get in Touch with Cruise Agents
         </span>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -727,13 +725,13 @@ export function BookingManager({ email }: { email?: string }) {
           <SeventhButton
             icon={false}
             onClick={() =>
-              (window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
-                `7th Heaven Cruise Inquiry - ${booking.cabin_preference || "Cabin 9122"} (${booking.name || "Passenger"})`,
-              )}&body=${encodeURIComponent(
-                `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || "Cruise Guest"} (${booking.cabin_preference || "Cabin 9122"}):\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
-              )}`)
+            (window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
+              `7th Heaven Cruise Inquiry - ${booking.cabin_preference || "Cabin 9122"} (${booking.name || "Passenger"})`,
+            )}&body=${encodeURIComponent(
+              `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || "Cruise Guest"} (${booking.cabin_preference || "Cabin 9122"}):\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
+            )}`)
             }
-            className="flex flex-col items-center justify-center gap-0.5 rounded-lg px-3 py-3"
+            className="flex flex-col items-center justify-center gap-0.5 "
           >
             <div className="flex items-center gap-1.5">
               <span>✉️</span> Cruise Admin
@@ -747,13 +745,13 @@ export function BookingManager({ email }: { email?: string }) {
           <SeventhButton
             icon={false}
             onClick={() =>
-              (window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
-                `7th Heaven Cruise Support - ${booking.name || "Passenger"} (${booking.cabin_preference || "Cabin 9122"})`,
-              )}&body=${encodeURIComponent(
-                `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
-              )}`)
+            (window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
+              `7th Heaven Cruise Support - ${booking.name || "Passenger"} (${booking.cabin_preference || "Cabin 9122"})`,
+            )}&body=${encodeURIComponent(
+              `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
+            )}`)
             }
-            className="flex flex-col items-center justify-center gap-0.5 rounded-lg px-3 py-3"
+            className="flex flex-col items-center justify-center gap-0.5 "
           >
             <div className="flex items-center gap-1.5">
               <span>✉️</span> Support Agent (Mary)
@@ -766,7 +764,7 @@ export function BookingManager({ email }: { email?: string }) {
       </div>
 
       {/* Cruising Power Travel Agent Portal Hook */}
-      <div className="relative z-10 mt-4 border-t border-white/10 pt-4 text-left text-[10.5px]">
+      <div className="relative z-10 mt-4 pt-4 text-left text-[10.5px]">
         <div className="mb-1.5 flex items-center gap-2">
           <span>🚢</span>
           <span>Cruising Power Integration</span>
@@ -915,10 +913,10 @@ function PaymentModal({
         onClick={processing || success ? undefined : onClose}
       />
 
-      <div className="relative w-full max-w-md overflow-hidden border border-purple-500/20 bg-[var(--color-bg-surface)] text-left shadow-[0_0_50px_rgba(6,182,212,0.15)]">
+      <div className="relative w-full max-w-md overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] text-left shadow-[0_0_50px_rgba(6,182,212,0.15)]">
         {success ? (
           <div className="space-y-4 p-8 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center  border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckMarkIcon className="h-8 w-8 text-emerald-400" />
             </div>
             <h3>Payment Successful</h3>
@@ -937,7 +935,7 @@ function PaymentModal({
           </div>
         ) : (
           <form onSubmit={handlePaymentSubmit} className="space-y-6 p-6 md:p-8">
-            <div className="flex items-center justify-between border-b border-white/5 pb-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
                 <h3>Final Payment</h3>
                 <p className="mt-0.5">Pay remaining balance due</p>
@@ -955,21 +953,21 @@ function PaymentModal({
 
             {processing ? (
               <div className="space-y-4 py-12 text-center">
-                <div className="mx-auto h-11 w-11 animate-spin rounded-lg border-2 border-purple-400 border-t-transparent" />
+                <div className="mx-auto h-11 w-11 animate-spin  border-2 border-purple-400 border-t-transparent" />
                 <p className="animate-pulse text-purple-400">
                   Processing Secure Payment...
                 </p>
               </div>
             ) : (
               <>
-                <div className="flex gap-2 border border-white/5 bg-black/40 p-1">
+                <div className="flex gap-2 border border-white/10 bg-black/40 p-1">
                   <button
                     type="button"
                     onClick={() => {
                       setTab("saved");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer rounded-lg py-1.5 ${tab === "saved" ? "border border-purple-500/20" : "border border-transparent text-white/40"}`}
+                    className={`flex-1 cursor-pointer  py-1.5 ${tab === "saved" ? "border border-white/10" : "border border-transparent text-white/40"}`}
                   >
                     Use Saved Card
                   </button>
@@ -979,7 +977,7 @@ function PaymentModal({
                       setTab("new");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer rounded-lg py-1.5 ${tab === "new" ? "border border-purple-500/20" : "border border-transparent text-white/40"}`}
+                    className={`flex-1 cursor-pointer  py-1.5 ${tab === "new" ? "border border-white/10" : "border border-transparent text-white/40"}`}
                   >
                     Use New Card
                   </button>
@@ -992,12 +990,12 @@ function PaymentModal({
                         <span>💳</span>
                         <div>
                           <strong className="block">Visa ending in 4242</strong>
-                          <span className="r text-white/40">
+                          <span className="text-white/40">
                             Expires 12/28 • Demo Cruiser
                           </span>
                         </div>
                       </div>
-                      <span className="rounded border border-purple-500/20 bg-cyan-500/5 px-1.5 py-0.5 text-purple-400">
+                      <span className="rounded border border-white/10 bg-cyan-500/5 px-1.5 py-0.5 text-purple-400">
                         Default
                       </span>
                     </div>
@@ -1092,7 +1090,7 @@ function PaymentModal({
                   <SeventhButton
                     type="submit"
                     icon={false}
-                    className="flex-1 rounded-lg py-2.5"
+                    className="flex-1"
                   >
                     Pay {balanceDue}
                   </SeventhButton>
@@ -1123,7 +1121,7 @@ export function ImportantLinksWidget() {
           setLinks(data.links);
         }
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
@@ -1133,7 +1131,7 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="group relative overflow-hidden rounded-lg border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-6 md:p-8">
+    <div className="group relative overflow-hidden  border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-6 md:p-8">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
@@ -1152,11 +1150,11 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/item flex w-full items-center justify-between rounded-lg border border-white/10 bg-[#00000029] p-3.5 text-left hover:border-purple-500/40 hover:bg-white/10"
+            className="group/item flex w-full items-center justify-between  border border-white/10 bg-[#00000029] p-3.5 text-left hover:border-purple-500/40 hover:bg-white/10"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || "🔗"}</span>
-              <span className="group-hover/item:">{link.title}</span>
+              <span className="">{link.title}</span>
             </div>
             <span className="-translate-x-2 text-[var(--color-accent)] opacity-0 group-hover/item:translate-x-0 group-hover/item:opacity-100">
               →
@@ -1190,7 +1188,7 @@ export function SongRequestLeaderboard() {
   return (
     <div className="relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
       <div className="mb-6 flex items-center gap-3">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-600/20 text-[var(--color-accent)]">
+        <div className="flex h-8 w-8 items-center justify-center  bg-purple-600/20 text-[var(--color-accent)]">
           🎸
         </div>
         <div>
@@ -1208,12 +1206,12 @@ export function SongRequestLeaderboard() {
               {i + 1}
             </span>
             <div className="flex-1">
-              <div className="/90">{song.title}</div>
+              <div className="">{song.title}</div>
               <div className="text-white/30">{song.votes} votes</div>
             </div>
             <button
               onClick={() => handleVote(song.id)}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-white/40 hover:border-[var(--color-border-purple)] hover:bg-[var(--color-purple-glow)] hover:text-[var(--color-purple-light)]"
+              className="flex h-8 w-8 items-center justify-center  border border-white/10 bg-[#00000029] text-white/40 hover:border-[var(--color-border-purple)] hover:bg-[var(--color-purple-glow)] hover:text-[var(--color-purple-light)]"
             >
               ▲
             </button>
@@ -1249,10 +1247,10 @@ export function CaptainsLog() {
     <div className="relative border border-[var(--border-color)] bg-[var(--card-bg)] p-6">
       <h2 className="mb-6">Captain's Log</h2>
 
-      <div className="flex items-center gap-4 border border-white/5 bg-black/40 p-4">
+      <div className="flex items-center gap-4 border border-white/10 bg-black/40 p-4">
         <button
           onClick={() => setIsPlaying(!isPlaying)}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[var(--color-accent)] hover:bg-[#851de7]"
+          className="flex h-12 w-12 shrink-0 items-center justify-center  bg-[var(--color-accent)] hover:bg-[#851de7]"
         >
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -1277,9 +1275,9 @@ export function CaptainsLog() {
             <span>Rehearsal Update!</span>
             <span className="text-[var(--color-accent)]/80">0:42</span>
           </div>
-          <div className="h-1.5 w-full cursor-pointer overflow-hidden rounded-lg bg-white/10">
+          <div className="h-1.5 w-full cursor-pointer overflow-hidden  bg-white/10">
             <div
-              className="h-full rounded-lg bg-[var(--color-accent)]"
+              className="h-full  bg-[var(--color-accent)]"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -1301,7 +1299,7 @@ const EXCURSIONS = [
 
 export function ExcursionTeasers() {
   return (
-    <div className="border border-purple-500/20 bg-[var(--color-bg-surface)] p-6">
+    <div className="border border-white/10 bg-[var(--color-bg-surface)] p-6">
       <h2 className="mb-5">Band Excursions</h2>
 
       <div className="space-y-3">
@@ -1312,7 +1310,7 @@ export function ExcursionTeasers() {
           >
             <div>
               <div>{ex.title}</div>
-              <div className="/80 r">Join {ex.bandMember}</div>
+              <div className="">Join {ex.bandMember}</div>
             </div>
             <div className="text-right">
               <div>{ex.spots}</div>

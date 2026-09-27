@@ -87,25 +87,31 @@ function VideoCardVisual({
   title,
   isHovered,
   index = 0,
-  shouldPrefetch = index < 6,
 }: {
   videoId: string;
   title: string;
   isHovered: boolean;
   index?: number;
-  shouldPrefetch?: boolean;
 }) {
   const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
   const [imgSrc, setImgSrc] = useState<string>(
-    `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
   );
   const [imgFailed, setImgFailed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setIsLoaded(true);
+    }
+  }, [imgSrc]);
 
   const handleImageError = () => {
     if (imgSrc.includes("hqdefault.jpg")) {
-      setImgSrc(`https://i.ytimg.com/vi/${videoId}/0.jpg`);
+      setImgSrc(`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`);
+    } else if (imgSrc.includes("mqdefault.jpg")) {
+      setImgSrc(`https://img.youtube.com/vi/${videoId}/0.jpg`);
     } else {
       setImgFailed(true);
     }
@@ -115,12 +121,7 @@ function VideoCardVisual({
     typeof window !== "undefined"
       ? window.location.origin
       : "http://localhost:3000";
-  // 5-Second snippet clip of this specific video (loops between 10s and 15s)
   const embedSnippetUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=15&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`;
-
-  // Preload top 6 video iframe snippets so hover video plays immediately with zero delay
-  const isTop6 = index < 6 || shouldPrefetch;
-  const shouldRenderIframe = isHovered || isTop6;
 
   return (
     <div
@@ -132,37 +133,31 @@ function VideoCardVisual({
           className="pointer-events-none absolute top-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full opacity-40 blur-3xl"
           style={{ background: palette.glow }}
         />
-        <div className="mb-6 flex h-20 w-20 items-center justify-center">
-          <GlassPlayButton size="lg" />
-        </div>
-        <h4 className="/90 line-clamp-2 px-2 drop-shadow-md">{title}</h4>
+        <span className="line-clamp-2 px-2 text-white/90 font-semibold drop-shadow-md">{title}</span>
       </div>
 
       {/* 2. Cover Image Layer */}
       {!imgFailed && (
         <Image
+          ref={imgRef}
           src={imgSrc}
           alt={title}
           fill
-          loading={isTop6 ? "eager" : "lazy"}
+          loading={index < 6 ? "eager" : "lazy"}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover ${isLoaded ? "opacity-100" : "opacity-0"} ${isHovered ? "scale-105" : "scale-100"}`}
+          className={`object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-90"} ${isHovered ? "scale-105" : "scale-100"}`}
           unoptimized
           onLoad={() => setIsLoaded(true)}
           onError={handleImageError}
         />
       )}
 
-      {/* 3. 5-Second Video Hover Snippet (Pre-buffered for top 6, instant playback on hover) */}
-      {shouldRenderIframe && (
-        <div
-          className={`pointer-events-none absolute inset-0 z-10 h-full w-full overflow-hidden ${isHovered ? "opacity-100" : "opacity-0"}`}
-        >
+      {/* 3. 5-Second Video Hover Snippet */}
+      {isHovered && (
+        <div className="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-hidden animate-[fade-in_0.2s_ease-out]">
           <iframe
             src={embedSnippetUrl}
             title={title}
-            loading={isTop6 ? "eager" : "lazy"}
-            onLoad={() => setIframeLoaded(true)}
             className="pointer-events-none absolute -top-[100%] -left-[100%] z-10 h-[300%] w-[300%] transform-gpu border-0 object-cover"
             allow="autoplay; encrypted-media"
           />
@@ -195,7 +190,7 @@ export default function MediaClient({
       (member as any)?.isAdmin === true),
   );
   const mounted = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false,
   );
@@ -292,7 +287,7 @@ export default function MediaClient({
             });
           }
         }
-      } catch {}
+      } catch { }
 
       try {
         const rawLocal = localStorage.getItem("7th_heaven_custom_videos_v1");
@@ -324,12 +319,12 @@ export default function MediaClient({
             }
           });
         }
-      } catch {}
+      } catch { }
 
       if (hasExtraVideos) {
         setCategories(baseCategories);
       }
-    } catch {}
+    } catch { }
   }, []);
 
   const [prefetchLimit, setPrefetchLimit] = useState<number>(6);
@@ -552,7 +547,7 @@ export default function MediaClient({
               type="button"
               onClick={() => handleFilterChange("ALL")}
               isActive={activeFilter === "ALL"}
-              className="!w-auto [&>span]:!min-w-0 [&>span]:!px-4 [&>span]:!py-2"
+              className="!w-auto [&>span]:!min-w-0"
             >
               ALL
             </SeventhButton>
@@ -572,7 +567,7 @@ export default function MediaClient({
                   type="button"
                   onClick={() => handleFilterChange(catUpper)}
                   isActive={isActive}
-                  className="!w-auto [&>span]:!min-w-0 [&>span]:!px-4 [&>span]:!py-2"
+                  className="!w-auto [&>span]:!min-w-0"
                 >
                   {catUpper}
                 </SeventhButton>
@@ -582,7 +577,8 @@ export default function MediaClient({
         </section>
 
         {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        <section aria-label="Media Gallery" key={activeFilter}>
+        {/* min-h prevents CLS when filter switch remounts section with fewer cards */}
+        <section aria-label="Media Gallery" key={activeFilter} style={{ overflowAnchor: 'auto', minHeight: '60vh' }}>
           <ul className="py-section-fluid grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
             {visibleVideos.map((video, index) => {
               const isHovered = hoveredVideoId === video.id;
@@ -591,16 +587,23 @@ export default function MediaClient({
               return (
                 <li key={`${activeFilter}-${video.id}`}>
                   <article
-                    className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] flex-col overflow-hidden bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-6" : "lg:translate-y-4"}`}
-                    style={{ animationDelay: `${Math.min(index, 9) * 30}ms` }}
+                    className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] stagger-item flex-col overflow-hidden bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-6" : "lg:translate-y-4"}`}
+                    style={{ "--i": Math.min(index, 9) } as React.CSSProperties}
                   >
-                    <button
-                      type="button"
+                    <div
+                      role="button"
+                      tabIndex={0}
                       aria-label={`Play ${video.title}`}
                       onMouseEnter={() => setHoveredVideoId(video.id)}
                       onMouseLeave={() => setHoveredVideoId(null)}
                       onClick={() => setPlayingVideo(video)}
-                      className="focus-ring relative h-full w-full cursor-pointer text-left"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setPlayingVideo(video);
+                        }
+                      }}
+                      className="focus-ring relative h-full w-full cursor-pointer text-left select-none"
                     >
                       {/* Full Bleed Visual Media Player Preview */}
                       <div className="absolute inset-0 h-full w-full">
@@ -610,7 +613,6 @@ export default function MediaClient({
                           title={video.title}
                           isHovered={isHovered}
                           index={index}
-                          shouldPrefetch={index < prefetchLimit}
                         />
                       </div>
 
@@ -619,7 +621,7 @@ export default function MediaClient({
 
                       {/* Centered Glass Play Button Above Dark Overlay */}
                       <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center group-hover:scale-110 group-hover:opacity-0">
-                        <GlassPlayButton size="lg" />
+                        <GlassPlayButton size="lg" as="div" />
                       </div>
 
                       {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
@@ -631,9 +633,9 @@ export default function MediaClient({
 
                         {/* Poster Title Container with Responsive Height */}
                         <div className="flex h-10 items-center justify-center sm:h-14">
-                          <h3 className="line-clamp-2 font-bold drop-shadow-md">
+                          <span className="block line-clamp-2 font-bold drop-shadow-md   sm:text-lg">
                             {video.title}
-                          </h3>
+                          </span>
                         </div>
 
                         {/* Year / Duration Metadata */}
@@ -642,7 +644,7 @@ export default function MediaClient({
                           {video.duration ? `• ${video.duration}` : ""}
                         </span>
                       </div>
-                    </button>
+                    </div>
                   </article>
                 </li>
               );
@@ -680,7 +682,7 @@ export default function MediaClient({
                 setSearchQuery("");
                 setActiveFilter("ALL");
               }}
-              className="btn-primary mt-4 cursor-pointer rounded-lg px-6 py-2.5"
+              className="btn-primary mt-4 cursor-pointer  px-6 py-2.5"
             >
               {sanityContent?.clearFiltersText || "Clear Filters & Search"}
             </button>
@@ -688,41 +690,43 @@ export default function MediaClient({
         )}
       </div>
 
-      {/* ── CENTERED VIDEO MODAL ── */}
+      {/* ── FULL SCREEN VIDEO MODAL ── */}
       {mounted &&
         playingVideo &&
         createPortal(
           <div
-            className="fixed inset-0 z-[999999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/85 p-4 backdrop-blur-md sm:p-6 md:p-10"
+            className="fixed inset-0 z-[999999] flex h-screen w-screen cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0"
             onClick={() => setPlayingVideo(null)}
           >
             <div
-              className="overflow-hidden] relative flex w-full max-w-5xl flex-col rounded-2xl border border-purple-500/30 bg-[#090414]"
-              onClick={(e) => e.stopPropagation()}
+              className="relative flex h-full w-full flex-col overflow-hidden bg-black"
             >
               {/* Modal Header Bar */}
-              <div className="flex items-center justify-between border-b border-white/10 bg-black/60 px-6 py-4">
+              <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-4 sm:px-6">
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-2.5 py-1">
+                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1   font-bold text-purple-300">
                     {playingVideo.category || "7TH HEAVEN"}
                   </span>
-                  <h3 className="sm: line-clamp-1">{playingVideo.title}</h3>
+                  <span className="line-clamp-1   font-bold text-white sm:text-lg">
+                    {playingVideo.title}
+                  </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setPlayingVideo(null)}
-                  className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 hover:text-white"
+                  className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
                   aria-label="Close modal"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-6 w-6" />
                 </button>
               </div>
 
-              {/* Video Player 16:9 Aspect Ratio Container */}
-              <div className="relative aspect-video w-full overflow-hidden bg-black">
+              {/* Full-Screen Edge-to-Edge Video Player Stage */}
+              <div className="relative flex-1 w-full h-[calc(100vh-3.5rem)] overflow-hidden bg-black">
                 <CustomVideoPlayer
                   videoId={playingVideo.id}
                   title={playingVideo.title}
+                  onClose={() => setPlayingVideo(null)}
                 />
               </div>
             </div>
@@ -732,7 +736,7 @@ export default function MediaClient({
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed right-6 bottom-6 z-[999999] flex items-center gap-3 rounded-lg border border-purple-500/50 bg-gradient-to-r from-purple-950 to-black px-5 py-3.5 shadow-2xl">
+        <div className="fixed right-6 bottom-6 z-[999999] flex items-center gap-3  border border-purple-500/50 bg-gradient-to-r from-purple-950 to-black px-5 py-3.5 shadow-2xl">
           <span>{toastMessage}</span>
         </div>
       )}
@@ -745,7 +749,7 @@ export default function MediaClient({
             <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/40 bg-[#0f0921] p-6 shadow-2xl">
               <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-purple-500/40 bg-purple-500/20">
+                  <div className="flex h-8 w-8 items-center justify-center  border border-purple-500/40 bg-purple-500/20">
                     <VideoIcon className="h-4 w-4" />
                   </div>
                   <div>
@@ -778,7 +782,7 @@ export default function MediaClient({
                     value={newUrl}
                     onChange={(e) => setNewUrl(e.target.value)}
                     placeholder="Paste video link or ID..."
-                    className="interactive-input w-full rounded-lg px-3 py-2"
+                    className="interactive-input w-full  px-3 py-2"
                   />
                 </div>
 
@@ -786,8 +790,8 @@ export default function MediaClient({
                   const parsed = extractYouTubeId(newUrl);
                   if (parsed && parsed.length === 11) {
                     return (
-                      <div className="flex items-center gap-4 rounded-lg border border-purple-500/40 bg-purple-950/40 p-3">
-                        <div className="relative h-14 w-24 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-black">
+                      <div className="flex items-center gap-4  border border-purple-500/40 bg-purple-950/40 p-3">
+                        <div className="relative h-14 w-24 shrink-0 overflow-hidden  border border-white/10 bg-black">
                           <Image
                             src={`https://img.youtube.com/vi/${parsed}/hqdefault.jpg`}
                             alt="Thumbnail preview"
@@ -822,7 +826,7 @@ export default function MediaClient({
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     placeholder="e.g. Ain't That Just Beautiful (Official Video)"
-                    className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
+                    className="placeholder: focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
                   />
                 </div>
 
@@ -853,7 +857,7 @@ export default function MediaClient({
                         value={customCategoryInput}
                         onChange={(e) => setCustomCategoryInput(e.target.value)}
                         placeholder="e.g. Acoustic Sessions"
-                        className="placeholder: focus-ring w-full rounded-lg border border-purple-500/50 bg-black/60 px-3 py-2.5 text-white/30"
+                        className="placeholder: focus-ring w-full  border border-purple-500/50 bg-black/60 px-3 py-2.5 text-white/30"
                       />
                     ) : (
                       <select
@@ -866,7 +870,7 @@ export default function MediaClient({
                             setNewCategory(e.target.value);
                           }
                         }}
-                        className="focus-ring w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-3 py-2.5"
+                        className="focus-ring w-full cursor-pointer  border border-white/10 bg-black/60 px-3 py-2.5"
                       >
                         {availableCategories.map((cat) => (
                           <option key={cat} value={cat}>
@@ -887,7 +891,7 @@ export default function MediaClient({
                       value={newYear}
                       onChange={(e) => setNewYear(e.target.value)}
                       placeholder="2026"
-                      className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
+                      className="placeholder: focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2.5 text-white/30"
                     />
                   </div>
                 </div>
@@ -901,7 +905,7 @@ export default function MediaClient({
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
                     placeholder="e.g. Filmed live at Frontier Days..."
-                    className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/60 px-4 py-2 text-white/30"
+                    className="placeholder: focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2 text-white/30"
                   />
                 </div>
 
@@ -909,19 +913,19 @@ export default function MediaClient({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="cursor-pointer px-4 py-2 hover:text-white"
+                    className="cursor-pointer  hover:text-white"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="flex cursor-pointer items-center gap-2  bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting
                       ? sanityContent?.modalSavingText || "Saving to Sanity..."
                       : sanityContent?.modalSubmitText ||
-                        "+ PUBLISH VIDEO TO SANITY"}
+                      "+ PUBLISH VIDEO TO SANITY"}
                   </button>
                 </div>
               </form>

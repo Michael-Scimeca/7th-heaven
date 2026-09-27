@@ -25,10 +25,10 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
         </p>
       </header>
 
-      <div className="prose-legal flex flex-col gap-10 text-base">
+      <div className="prose-legal flex flex-col gap-6 pb-section-fluid">
         {sanityContent?.sections &&
-        Array.isArray(sanityContent.sections) &&
-        sanityContent.sections.length > 0 ? (
+          Array.isArray(sanityContent.sections) &&
+          sanityContent.sections.length > 0 ? (
           sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
@@ -150,7 +150,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 consent to receive automated notifications regarding nearby
                 concerts and show updates. Key details:
               </p>
-              <ul className="list-disc space-y-2 pl-5 text-base">
+              <ul className="list-disc space-y-2 pl-5  ">
                 <li>
                   <strong>Data Collected:</strong> Full name (optional), email
                   address (optional), zip code or city, distance radius (e.g. 15
@@ -306,7 +306,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 If you have questions about this Privacy Policy or wish to
                 exercise your data rights, contact us at:
               </p>
-              <address className="not- space-y-1">
+              <address className="space-y-1">
                 <p>
                   Email:{" "}
                   <a href="mailto:info@7thheavenband.com" className="a-btn">

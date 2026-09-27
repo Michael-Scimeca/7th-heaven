@@ -317,7 +317,7 @@ function PassengersWidget() {
           <h2 className="mb-1">Community</h2>
           <div className="flex items-center gap-2">
             <span className="text-2xl">{totalCount}</span>
-            <span className="text-[var(--color-accent)] sm:text-base">
+            <span className="text-[var(--color-accent)] ">
               Cruise Members Onboard
             </span>
           </div>
@@ -329,25 +329,25 @@ function PassengersWidget() {
         {topAvatars.map((p) => (
           <div
             key={`avatar-${p.id}`}
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/40 sm:h-10 sm:w-10"
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60 sm:h-10 sm:w-10"
           >
             {p.initial}
           </div>
         ))}
         {extraAvatarsCount > 0 && (
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-purple-900/60 shadow-sm sm:h-10 sm:w-10">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60  sm:h-10 sm:w-10">
             +{extraAvatarsCount}
           </div>
         )}
       </div>
 
       {/* Member Names Dot-Separated List */}
-      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1 sm:text-base">
+      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1 ">
         {passengers.map((p, idx) => (
           <div key={`passenger-${p.id}`} className="inline-flex items-center">
             <span>
               {p.name}
-              {p.extra > 0 && <span className="sm: ml-1">+{p.extra}</span>}
+              {p.extra > 0 && <span className="ml-1">+{p.extra}</span>}
             </span>
             {idx < passengers.length - 1 && (
               <span className="mr-0.5 ml-1.5 text-white/30">·</span>
@@ -493,50 +493,50 @@ export default function CruiseDashboard() {
   const showAuth = false; // Always grant access on /cruise/[username]
   const effectiveMember = isDemoMode
     ? ({
-        id: "demo-cruise-001",
-        name: "Demo Cruiser",
-        email: "demo@7thheavenband.com",
-        role: "cruise",
-        signup_source: "cruise_member_signup",
-        username: "demo",
-        avatar: "DC",
-      } as any)
+      id: "demo-cruise-001",
+      name: "Demo Cruiser",
+      email: "demo@7thheavenband.com",
+      role: "cruise",
+      signup_source: "cruise_member_signup",
+      username: "demo",
+      avatar: "DC",
+    } as any)
     : member && member.role === "cruise"
       ? {
-          ...member,
-          avatar:
-            member.avatar ||
-            (rawUsername.toLowerCase().includes("michael")
-              ? "/michaelscimeca.png"
-              : undefined),
-        }
+        ...member,
+        avatar:
+          member.avatar ||
+          (rawUsername.toLowerCase().includes("michael")
+            ? "/images/crew/michaelscimeca.png"
+            : undefined),
+      }
       : ({
-          id: `cruise-${rawUsername}`,
-          name:
-            rawUsername.toLowerCase().includes("michael") ||
+        id: `cruise-${rawUsername}`,
+        name:
+          rawUsername.toLowerCase().includes("michael") ||
             member?.email?.toLowerCase().includes("michael")
-              ? "Michael Scimeca"
-              : member?.name || derivedName || "Cruise Guest",
-          email:
-            member?.email ||
-            (rawUsername.toLowerCase().includes("michael")
-              ? "michael@7thheaven.com"
-              : `${rawUsername.toLowerCase()}@7thheaven.com`),
-          role: "cruise",
-          signup_source: "cruise_member_signup",
-          username: rawUsername,
-          avatar:
-            rawUsername.toLowerCase().includes("michael") ||
+            ? "Michael Scimeca"
+            : member?.name || derivedName || "Cruise Guest",
+        email:
+          member?.email ||
+          (rawUsername.toLowerCase().includes("michael")
+            ? "michael@7thheaven.com"
+            : `${rawUsername.toLowerCase()}@7thheaven.com`),
+        role: "cruise",
+        signup_source: "cruise_member_signup",
+        username: rawUsername,
+        avatar:
+          rawUsername.toLowerCase().includes("michael") ||
             member?.email?.toLowerCase().includes("michael")
-              ? "/michaelscimeca.png"
-              : member?.avatar ||
-                (member?.name || derivedName || "CG")
-                  .split(" ")
-                  .map((n: string) => n[0])
-                  .join("")
-                  .toUpperCase()
-                  .slice(0, 2),
-        } as any);
+            ? "/images/crew/michaelscimeca.png"
+            : member?.avatar ||
+            (member?.name || derivedName || "CG")
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+              .toUpperCase()
+              .slice(0, 2),
+      } as any);
   const isAdmin =
     effectiveMember?.role === "admin" ||
     effectiveMember?.role === "crew" ||
@@ -787,8 +787,8 @@ export default function CruiseDashboard() {
     return (
       <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-32 pb-20">
         {/* Subtle background elements */}
-        <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] rounded-lg bg-[var(--color-accent)]/5 blur-3xl" />
-        <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] rounded-lg bg-cyan-500/5 blur-3xl" />
+        <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px]  bg-[var(--color-accent)]/5 blur-3xl" />
+        <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px]  bg-cyan-500/5 blur-3xl" />
 
         <div className="relative z-10 w-full max-w-md animate-[fadeIn_0.3s_ease-out]">
           <div className="mb-8 text-center">
@@ -845,7 +845,7 @@ export default function CruiseDashboard() {
                     className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
                   >
                     {submitting ? (
-                      <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                      <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
                     ) : (
                       "Verify PIN & Access Hub →"
                     )}
@@ -858,7 +858,7 @@ export default function CruiseDashboard() {
                         setVerifyingPin(false);
                         setAuthError("");
                       }}
-                      className="hover: cursor-pointer text-[var(--font-size-2xs)] text-black/40"
+                      className="cursor-pointer text-[var(--font-size-2xs)] text-black/40"
                     >
                       ← Cancel and Back
                     </button>
@@ -880,7 +880,7 @@ export default function CruiseDashboard() {
                     setRegSuccess(false);
                     setAuthTab("login");
                   }}
-                  className="hover: w-full cursor-pointer border border-black/10 bg-gray-50 py-2.5 text-black/80 hover:bg-gray-100"
+                  className="w-full cursor-pointer border border-black/10 bg-gray-50 py-2.5 text-black/80 hover:bg-gray-100"
                 >
                   Go to Log In
                 </button>
@@ -961,7 +961,7 @@ export default function CruiseDashboard() {
                         className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
                       >
                         {submitting ? (
-                          <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                          <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
                         ) : (
                           "Access Cruise Hub →"
                         )}
@@ -1054,7 +1054,7 @@ export default function CruiseDashboard() {
                         className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 hover:brightness-110 disabled:opacity-50"
                       >
                         {submitting ? (
-                          <span className="h-4 w-4 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                          <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
                         ) : (
                           "Register & Access Hub →"
                         )}
@@ -1067,7 +1067,7 @@ export default function CruiseDashboard() {
           </div>
 
           <div className="mt-6 text-center">
-            <Link href="/cruise" className="hover: text-black/40">
+            <Link href="/cruise" className="text-black/40">
               ← Back to Cruise Information
             </Link>
           </div>
@@ -1077,9 +1077,9 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <div className="site-container page-container min-h-screen selection:bg-cyan-500 selection:text-black">
+    <main className="site-container page-container min-h-screen selection:bg-cyan-500 selection:text-black">
       <div>
-        <header className="mb-5 flex flex-col justify-between gap-8 border-b border-white/10 md:flex-row">
+        <header className="mb-6 pb-3 flex flex-col justify-between gap-8 border-b border-white/10 md:flex-row">
           <MemberHeaderBadge
             name={effectiveMember?.name || "Cruise Guest"}
             email={effectiveMember?.email || ""}
@@ -1095,11 +1095,14 @@ export default function CruiseDashboard() {
 
         <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
           {/* Main Content Column (Left 2 Cols) */}
-          <div className="flex max-w-full min-w-0 flex-col gap-8 lg:col-span-2">
+          <section
+            aria-label="Cruise Information & Booking Details"
+            className="flex max-w-full min-w-0 flex-col gap-8 lg:col-span-2"
+          >
             {/* 1. Cruise Information & Guidelines */}
-            <div className="h-fit max-w-full min-w-0 overflow-hidden">
+            <article className="h-fit max-w-full min-w-0 overflow-hidden">
               <div className="relative z-10 max-w-full min-w-0">
-                <div className="mb-6 flex flex-wrap items-center gap-3 border-b border-white/10">
+                <div className="mb-6 pb-6 flex flex-wrap items-center gap-3 border-b border-white/10">
                   <div>
                     <h2>{guidelines.title}</h2>
                     <p className="mt-0.5 text-purple-400">
@@ -1108,13 +1111,14 @@ export default function CruiseDashboard() {
                   </div>
                   {isAdmin && !isEditingGuidelines && (
                     <button
+                      type="button"
                       onClick={() => {
                         setGuidelinesTitleInput(guidelines.title);
                         setGuidelinesSubtitleInput(guidelines.subtitle);
                         setGuidelinesContentInput(guidelines.content);
                         setIsEditingGuidelines(true);
                       }}
-                      className="ml-auto cursor-pointer rounded-lg border border-purple-500/30 px-3 py-1.5 hover:text-white"
+                      className="ml-auto cursor-pointer  border border-purple-500/30 px-3 py-1.5 hover:text-white"
                     >
                       ✏️ Edit Guidelines
                     </button>
@@ -1173,14 +1177,16 @@ export default function CruiseDashboard() {
                     </div>
                     <div className="flex justify-end gap-3">
                       <button
+                        type="button"
                         onClick={() => setIsEditingGuidelines(false)}
-                        className="cursor-pointer rounded-xl bg-white/10 px-4 py-2 hover:bg-white/20"
+                        className="cursor-pointer  bg-white/10 px-4 py-2 hover:bg-white/20"
                       >
                         Cancel
                       </button>
                       <button
+                        type="button"
                         onClick={handleSaveGuidelines}
-                        className="cursor-pointer rounded-lg bg-purple-600 px-5 py-2 shadow-purple-600/30 hover:bg-purple-500"
+                        className="cursor-pointer  bg-purple-600 px-5 py-2 shadow-purple-600/30 hover:bg-purple-500"
                       >
                         Save Guidelines
                       </button>
@@ -1188,7 +1194,7 @@ export default function CruiseDashboard() {
                   </div>
                 ) : (
                   <div
-                    className="[&_a]: [&_p]: [&_h1]: [&_h2]: [&_h3]: [&_strong]: [&_span]: [&_li]: [&_div]: max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] [&_a]:underline-offset-4 [&_p]:max-w-full"
+                    className="max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] [&_a]:underline-offset-4 [&_p]:max-w-full"
                     dangerouslySetInnerHTML={{
                       __html:
                         sanitizedGuidelinesContent ||
@@ -1197,17 +1203,20 @@ export default function CruiseDashboard() {
                   />
                 )}
               </div>
-            </div>
+            </article>
 
             {/* 2. Priority Status & Cabin Booking Details */}
             <BookingManager email={effectiveMember?.email} />
 
             {/* 3. Important Links */}
             <ImportantLinksWidget />
-          </div>
+          </section>
 
           {/* Right Sidebar Column (1 Col) */}
-          <div className="lg:col-span-1">
+          <aside
+            aria-label="Passenger Community & Lounge"
+            className="lg:col-span-1"
+          >
             <div className="flex flex-col gap-6">
               <CruiseChat
                 memberOverride={effectiveMember}
@@ -1215,14 +1224,15 @@ export default function CruiseDashboard() {
               />
               <PassengersWidget />
             </div>
-          </div>
+          </aside>
         </div>
       </div>
 
       {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
       <section
         id="itinerary"
-        className="w-full max-w-none overflow-x-clip px-0 pt-16 md:pt-24"
+        aria-label="Voyage Itinerary Schedule"
+        className="relative w-full max-w-none overflow-x-clip px-0 pt-16  md:pt-24 "
         style={{
           position: "relative",
           left: "50%",
@@ -1231,17 +1241,13 @@ export default function CruiseDashboard() {
           marginRight: "-50vw",
           width: "100vw",
           maxWidth: "100vw",
-          backgroundColor: "#070d1e",
-          backgroundImage:
-            "linear-gradient(180deg, #060b18 0%, #0a142c 50%, #060b18 100%)",
-          maskImage:
-            "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)",
         }}
       >
-        <div className="mx-auto w-full px-4 md:px-8 xl:px-12">
-          <div className="mx-auto mb-12 max-w-3xl px-4 text-center">
+        {/* Background layer with edge mask (text remains unmasked above in z-10) */}
+        <div className="pointer-events-none absolute inset-0 z-0 cruise-itinerary-backdrop" />
+
+        <div className="relative z-10 mx-auto w-full px-4 md:px-8 xl:px-12">
+          <div className="mx-auto mb-6 max-w-3xl px-4 text-center">
             <span>Interactive Voyage Map</span>
             <h2>
               Day-by-Day <span className="accent-gradient-text">Schedules</span>
@@ -1280,6 +1286,6 @@ export default function CruiseDashboard() {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

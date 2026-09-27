@@ -52,7 +52,7 @@ function getRaffleWins(): RaffleWin[] {
           ts: data.ts || 0,
         });
       });
-    } catch {}
+    } catch { }
   }
   return wins;
 }
@@ -115,8 +115,8 @@ function MerchDashboard() {
   const loadData = (isCancelled?: () => boolean) => {
     const queue: PickupOrder[] = JSON.parse(
       localStorage.getItem("merch_pickup_queue_v1") ||
-        localStorage.getItem("merch_pickup_queue") ||
-        "[]",
+      localStorage.getItem("merch_pickup_queue") ||
+      "[]",
     );
     setPickupQueue(queue);
     setRaffleWins(getRaffleWins());
@@ -124,8 +124,8 @@ function MerchDashboard() {
     // Load claimed pins from localStorage
     const claimedLocal = JSON.parse(
       localStorage.getItem("claimed_raffle_pins_v1") ||
-        localStorage.getItem("claimed_raffle_pins") ||
-        "[]",
+      localStorage.getItem("claimed_raffle_pins") ||
+      "[]",
     );
     const claimedSet = new Set<string>(claimedLocal);
 
@@ -144,7 +144,7 @@ function MerchDashboard() {
                 typeof raffle.winner_pins === "string"
                   ? JSON.parse(raffle.winner_pins)
                   : raffle.winner_pins;
-            } catch {}
+            } catch { }
 
             if (Array.isArray(winnerPins)) {
               winnerPins.forEach((item: any) => {
@@ -238,8 +238,8 @@ function MerchDashboard() {
     // 1. Save to localStorage
     const claimed = JSON.parse(
       localStorage.getItem("claimed_raffle_pins_v1") ||
-        localStorage.getItem("claimed_raffle_pins") ||
-        "[]",
+      localStorage.getItem("claimed_raffle_pins") ||
+      "[]",
     );
     if (!claimed.includes(pin)) {
       claimed.push(pin);
@@ -261,7 +261,7 @@ function MerchDashboard() {
               typeof raffle.winner_pins === "string"
                 ? JSON.parse(raffle.winner_pins)
                 : raffle.winner_pins;
-          } catch {}
+          } catch { }
 
           if (Array.isArray(winnerPins)) {
             let updated = false;
@@ -295,8 +295,8 @@ function MerchDashboard() {
   const markClaimed = (id: number) => {
     const queue: PickupOrder[] = JSON.parse(
       localStorage.getItem("merch_pickup_queue_v1") ||
-        localStorage.getItem("merch_pickup_queue") ||
-        "[]",
+      localStorage.getItem("merch_pickup_queue") ||
+      "[]",
     );
     const updated = queue.map((o) =>
       o.id === id ? { ...o, claimed: true } : o,
@@ -358,7 +358,7 @@ function MerchDashboard() {
           </div>
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (
-              <span className="animate-pulse rounded-lg border border-pink-500/30 bg-pink-500/20 px-2.5 py-1 text-pink-400">
+              <span className="animate-pulse  border border-pink-500/30 bg-pink-500/20 px-2.5 py-1 text-pink-400">
                 {pendingPickups.length} Pickup
                 {pendingPickups.length !== 1 ? "s" : ""} Pending
               </span>
@@ -371,7 +371,7 @@ function MerchDashboard() {
       </header>
 
       <div className="mx-auto flex min-h-[55vh] max-w-4xl flex-col items-center justify-center px-4 py-24 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-white/10 bg-purple-600/10 text-2xl shadow-[0_0_30px_rgba(147,51,234,0.15)]">
+        <div className="flex h-16 w-16 items-center justify-center  border border-white/10 bg-purple-600/10 text-2xl shadow-[0_0_30px_rgba(147,51,234,0.15)]">
           ✨
         </div>
         <h2>Coming Soon</h2>

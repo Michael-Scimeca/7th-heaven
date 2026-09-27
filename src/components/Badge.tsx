@@ -25,7 +25,7 @@ const VARIANT_CLASSES: Record<NonNullable<BadgeProps["variant"]>, string> = {
 const SIZE_CLASSES: Record<NonNullable<BadgeProps["size"]>, string> = {
   sm: "px-3 py-1    r",
   md: "px-5 py-2    ",
-  lg: "px-7 py-2.5 text-base  ",
+  lg: "px-7 py-2.5    ",
 };
 
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(

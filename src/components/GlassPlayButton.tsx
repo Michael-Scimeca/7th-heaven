@@ -3,7 +3,8 @@
 import React, { memo } from "react";
 import { Play, Pause } from "lucide-react";
 
-export interface GlassPlayButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface GlassPlayButtonProps extends React.HTMLAttributes<HTMLElement> {
+  as?: "button" | "div";
   size?: "sm" | "md" | "lg" | "xl";
   variant?: "purple" | "amber" | "emerald" | "cyan" | "rose" | "dark";
   isPlaying?: boolean;
@@ -11,6 +12,8 @@ export interface GlassPlayButtonProps extends React.ButtonHTMLAttributes<HTMLBut
   pulse?: boolean;
   className?: string;
   iconClassName?: string;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const DEFAULT_VARIANT_STYLE = {
@@ -60,6 +63,7 @@ const SIZE_CLASSES: Record<
  */
 export const GlassPlayButton = memo(
   ({
+    as = "button",
     size = "md",
     variant = "purple",
     isPlaying = false,
@@ -74,11 +78,11 @@ export const GlassPlayButton = memo(
   }: GlassPlayButtonProps) => {
     const varStyles = VARIANT_CLASSES[variant] || VARIANT_CLASSES.purple;
     const sizeStyles = SIZE_CLASSES[size] || SIZE_CLASSES.md;
+    const Component = as === "div" ? "div" : "button";
 
     return (
-      <button
-        type={type}
-        disabled={disabled}
+      <Component
+        {...(as === "button" ? { type, disabled } : {})}
         className={`seventh--btn group relative inline-flex h-15 w-15 cursor-pointer items-center justify-center !rounded-full border border-solid backdrop-blur-md backdrop-saturate-150 transition-[background-color,border-color,box-shadow,transform,opacity] select-none active:scale-95 ${varStyles.bg} ${varStyles.border} ${varStyles.shadow} ${sizeStyles.button} ${glow ? "ring-2 ring-purple-400/40 ring-offset-2 ring-offset-black/50" : ""} ${pulse ? "animate-pulse" : ""} ${disabled ? "pointer-events-none cursor-not-allowed opacity-40" : "hover:scale-105"} ${className}`}
         {...props}
       >
@@ -92,7 +96,7 @@ export const GlassPlayButton = memo(
           />
         )}
         {children && <span className="ml-2">{children}</span>}
-      </button>
+      </Component>
     );
   },
 );

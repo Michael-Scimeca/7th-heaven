@@ -23,7 +23,7 @@ export default function PlannerDashboardPage() {
   const isDemoMode = urlUsername === "demo";
 
   const mounted = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false,
   );
@@ -49,14 +49,14 @@ export default function PlannerDashboardPage() {
 
   const effectiveMember = isDemoMode
     ? ({
-        id: "demo-planner-001",
-        name: "Event Planner",
-        email: "planner@example.com",
-        role: "event_planner",
-        signup_source: "planner_signup",
-        username: "demo",
-        avatar: "EP",
-      } as any)
+      id: "demo-planner-001",
+      name: "Event Planner",
+      email: "planner@example.com",
+      role: "event_planner",
+      signup_source: "planner_signup",
+      username: "demo",
+      avatar: "EP",
+    } as any)
     : member;
 
   const displayName = effectiveMember?.name || "Event Planner";
@@ -125,7 +125,7 @@ export default function PlannerDashboardPage() {
   return (
     <main
       id="planner-dashboard-page"
-      className="site-container page-container selection: selection:bg-[var(--color-accent)]"
+      className="site-container page-container selection:bg-[var(--color-accent)]"
     >
       {/* Planner Profile Header */}
       <header className="mb-6 flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-6 md:flex-row md:items-center">
@@ -143,7 +143,7 @@ export default function PlannerDashboardPage() {
           <SeventhButton
             icon={<Plus className="h-4 w-4" />}
             onClick={handleCreateNewEvent}
-            className="flex cursor-pointer items-center gap-2 rounded-lg px-5 py-2.5"
+            className="flex cursor-pointer items-center gap-2 "
           >
             Create New Event
           </SeventhButton>

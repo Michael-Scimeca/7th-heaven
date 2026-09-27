@@ -18,7 +18,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -27,7 +27,7 @@ import Dropdown from "@/components/Dropdown";
 import { SquishyToggle } from "@/components/SquishyToggle";
 import GooeyDropdown from "@/components/GooeyDropdown";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
-import GlowInput from "@/components/GlowInput";
+import GlowInput, { GlowTextarea } from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
 import SeventhButton from "@/components/SeventhButton";
 
@@ -155,7 +155,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Edit shift"
         onClick={onEdit}
-        className="hover:text-whitebg-black-80 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm"
+        className="hover:text-white bg-black/80 color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none backdrop-blur-sm"
         title="Edit shift"
       >
         <svg
@@ -176,7 +176,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Delete shift"
         onClick={onDelete}
-        className="hover:text-whitebg-red-600 hover- color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm"
+        className="hover:text-white hover:bg-red-600 color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm"
         title="Delete shift"
       >
         <svg
@@ -592,6 +592,33 @@ const SidebarDateButton = React.memo(
     shiftCount: number;
     onClick: (date: string) => void;
   }) => {
+    let dateLabel = show.dateLabel;
+    let dayLabel = show.dayLabel;
+
+    if (!dateLabel || dateLabel.includes("undefined") || dateLabel.includes("NaN")) {
+      if (show.date) {
+        const rawStr = String(show.date).trim();
+        const cleanStr = rawStr.split("T")[0];
+        let d = new Date(cleanStr + "T12:00:00");
+        if (isNaN(d.getTime())) d = new Date(rawStr);
+        if (!isNaN(d.getTime())) {
+          const SHORT_MONTHS = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+          ];
+          const SHORT_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+          dateLabel = `${SHORT_MONTHS[d.getMonth()]} ${d.getDate()}`;
+          dayLabel = SHORT_DAYS[d.getDay()];
+        } else {
+          dateLabel = rawStr;
+          dayLabel = "";
+        }
+      } else {
+        dateLabel = "—";
+        dayLabel = "";
+      }
+    }
+
     return (
       <button
         type="button"
@@ -599,11 +626,11 @@ const SidebarDateButton = React.memo(
         className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
-          <span className="text-[9px] text-white/40">{show.dayLabel}</span>
+          <span className="text-[9px] text-white/40">{dayLabel}</span>
           <span
             className={` ${isSelected ? " " : isActiveWeek ? " " : "text-white/50"}`}
           >
-            {show.dateLabel}
+            {dateLabel}
           </span>
         </div>
         <div className="min-w-0 flex-1">
@@ -809,7 +836,7 @@ function DutyRoleEditorPopover({
           value={editingDutyValue}
           onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
-          className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white/40 shadow-inner focus:bg-white/15"
+          className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white/40 shadow-inner focus:bg-white/15"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSaveDuty(memberId);
@@ -1007,22 +1034,22 @@ export function AdminDashboardMain({
     m ||
     (isMaryRoute
       ? {
-          name: "Mary Grivas",
-          role: "admin",
-          email: "Marygrivas65@icloud.com",
-          phone: "(630) 688-1725",
-          username: "marygrivas",
-          avatar:
-            "https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff",
-        }
+        name: "Mary Grivas",
+        role: "admin",
+        email: "Marygrivas65@icloud.com",
+        phone: "(630) 688-1725",
+        username: "marygrivas",
+        avatar:
+          "https://ui-avatars.com/api/?name=Mary+Grivas&background=f59e0b&color=fff",
+      }
       : {
-          name: m?.name || "Michael Scimeca",
-          role: "admin",
-          email: m?.email || "michael@7thheaven.com",
-          phone: "(847) 551-5363",
-          username: m?.username || username || "admin",
-          avatar: m?.avatar,
-        });
+        name: m?.name || "Michael Scimeca",
+        role: "admin",
+        email: m?.email || "michael@7thheaven.com",
+        phone: "(847) 551-5363",
+        username: m?.username || username || "admin",
+        avatar: m?.avatar,
+      });
 
   const [localAvatar, setLocalAvatar] = useState<string | null>(null);
   const [updatingBookingId, setUpdatingBookingId] = useState<string | null>(
@@ -1033,7 +1060,7 @@ export function AdminDashboardMain({
   useEffect(() => {
     setLocalAvatar(
       localStorage.getItem("7h_profile_avatar_v1") ||
-        localStorage.getItem("7h_profile_avatar"),
+      localStorage.getItem("7h_profile_avatar"),
     );
     const today = new Date();
     const day = today.getDay();
@@ -1305,7 +1332,7 @@ export function AdminDashboardMain({
             );
             audio.volume = 0.4;
             audio.play();
-          } catch {}
+          } catch { }
 
           // Show toast
           setActiveToast({
@@ -1315,11 +1342,11 @@ export function AdminDashboardMain({
           });
         }
       };
-    } catch {}
+    } catch { }
     return () => {
       try {
         bc?.close();
-      } catch {}
+      } catch { }
     };
   }, []);
 
@@ -1428,7 +1455,7 @@ export function AdminDashboardMain({
     customRolesRef.current = next;
     try {
       localStorage.setItem("7h_custom_roles_v1", JSON.stringify(next));
-    } catch {}
+    } catch { }
   };
 
   const deleteCustomRole = (role: string) => {
@@ -1436,7 +1463,7 @@ export function AdminDashboardMain({
     customRolesRef.current = next;
     try {
       localStorage.setItem("7h_custom_roles_v1", JSON.stringify(next));
-    } catch {}
+    } catch { }
   };
 
   useEffect(() => {
@@ -1857,7 +1884,7 @@ export function AdminDashboardMain({
     try {
       localStorage.setItem("7h_admin_collapsed_v1", JSON.stringify(next));
       saveLayoutToSupabase(sectionOrder, next);
-    } catch {}
+    } catch { }
   };
 
   const updateSectionOrder = (newOrder: string[]) => {
@@ -1868,7 +1895,7 @@ export function AdminDashboardMain({
         JSON.stringify(newOrder),
       );
       saveLayoutToSupabase(newOrder, collapsedSections);
-    } catch {}
+    } catch { }
   };
 
   const handleResetLayout = () => {
@@ -1882,7 +1909,7 @@ export function AdminDashboardMain({
         );
         localStorage.setItem("7h_admin_collapsed_v1", JSON.stringify({}));
         saveLayoutToSupabase(DEFAULT_SECTION_ORDER, {});
-      } catch {}
+      } catch { }
     }
   };
 
@@ -2294,11 +2321,20 @@ export function AdminDashboardMain({
     return uniqueUpcoming
       .sort((a, b) => (a.date || "").localeCompare(b.date || ""))
       .map((show) => {
-        const showDate = show.date ? new Date(show.date + "T12:00:00") : null;
-        const dateLabel = showDate
-          ? `${SHORT_MONTHS[showDate.getMonth()]} ${showDate.getDate()}`
-          : "—";
-        const dayLabel = showDate ? SHORT_DAYS[showDate.getDay()] : "";
+        let dateLabel = "—";
+        let dayLabel = "";
+        if (show.date) {
+          const rawStr = String(show.date).trim();
+          const cleanStr = rawStr.split("T")[0];
+          let d = new Date(cleanStr + "T12:00:00");
+          if (isNaN(d.getTime())) d = new Date(rawStr);
+          if (!isNaN(d.getTime())) {
+            dateLabel = `${SHORT_MONTHS[d.getMonth()]} ${d.getDate()}`;
+            dayLabel = SHORT_DAYS[d.getDay()];
+          } else {
+            dateLabel = rawStr;
+          }
+        }
         return {
           ...show,
           dateLabel,
@@ -2388,10 +2424,10 @@ export function AdminDashboardMain({
       }
       let end = scheduleEndDate
         ? new Date(
-            scheduleEndDate.includes("T")
-              ? scheduleEndDate
-              : scheduleEndDate + "T12:00:00",
-          )
+          scheduleEndDate.includes("T")
+            ? scheduleEndDate
+            : scheduleEndDate + "T12:00:00",
+        )
         : null;
       if (!end || isNaN(end.getTime()) || end < start) {
         end = new Date(start);
@@ -3562,7 +3598,7 @@ export function AdminDashboardMain({
             "7h_members_v1",
             JSON.stringify([newMem, ...arr]),
           );
-        } catch {}
+        } catch { }
       } else {
         setUsers((prev) =>
           prev.map((m: any) =>
@@ -3726,7 +3762,7 @@ export function AdminDashboardMain({
                   adults += 1;
                 }
               }
-            } catch {}
+            } catch { }
           }
         }
         setCruiseStats({
@@ -3737,7 +3773,7 @@ export function AdminDashboardMain({
           recentSignups,
         });
       }
-    } catch {}
+    } catch { }
 
     try {
       const { data } = await supabase
@@ -3755,7 +3791,7 @@ export function AdminDashboardMain({
           setUnreadCruiseChat(data.length);
         }
       }
-    } catch {}
+    } catch { }
   }, [supabase]);
 
   const loadAdminData = useCallback(async () => {
@@ -3773,12 +3809,12 @@ export function AdminDashboardMain({
         viewers: st.viewer_count || 0,
         uptime: st.created_at
           ? Math.max(
-              1,
-              Math.floor(
-                (new Date().getTime() - new Date(st.created_at).getTime()) /
-                  60000,
-              ),
-            ) + "m"
+            1,
+            Math.floor(
+              (new Date().getTime() - new Date(st.created_at).getTime()) /
+              60000,
+            ),
+          ) + "m"
           : "Just now",
         status: st.status,
         isSimulated: false,
@@ -4145,7 +4181,7 @@ export function AdminDashboardMain({
             );
           }
         }
-      } catch (err) {}
+      } catch (err) { }
 
       const [
         memRes,
@@ -4246,19 +4282,19 @@ export function AdminDashboardMain({
             localStorage.getItem(`7h_live_stream_start_${uid}`);
           const uptime = startStr
             ? Math.max(
-                1,
-                Math.floor((Date.now() - parseInt(startStr)) / 60000),
-              ) + "m"
+              1,
+              Math.floor((Date.now() - parseInt(startStr)) / 60000),
+            ) + "m"
             : "Just now";
           const viewers = parseInt(
             localStorage.getItem(`live_viewer_count_${uid}`) ||
-              localStorage.getItem(`7h_live_viewer_count_${uid}`) ||
-              "0",
+            localStorage.getItem(`7h_live_viewer_count_${uid}`) ||
+            "0",
           );
           const revenue = parseFloat(
             localStorage.getItem(`live_merch_sales_${uid}`) ||
-              localStorage.getItem(`7h_live_merch_sales_${uid}`) ||
-              "0",
+            localStorage.getItem(`7h_live_merch_sales_${uid}`) ||
+            "0",
           );
           const feedId = `sim-${uid}`;
           activeLocal.push({
@@ -4328,7 +4364,7 @@ export function AdminDashboardMain({
             JSON.stringify(prev) === JSON.stringify(data) ? prev : data,
           );
         }
-      } catch {}
+      } catch { }
     }, 15000);
 
     return () => {
@@ -4390,7 +4426,7 @@ export function AdminDashboardMain({
             ),
           ).filter(Boolean);
         }
-      } catch (e) {}
+      } catch (e) { }
     }
     if (loaded.length === 0) {
       loaded = DEFAULT_PRESET_ROLES;
@@ -4594,7 +4630,7 @@ export function AdminDashboardMain({
           dropSongsRef.current = [{ title: "", file: null }];
           try {
             (e.target as HTMLFormElement).reset();
-          } catch {}
+          } catch { }
 
           setAuditLog((prev) => [
             {
@@ -5063,7 +5099,7 @@ export function AdminDashboardMain({
           )}
         </div>
       </div>
-      <div id="admin-sec-announcements" className="overflow-hidden">
+      <div id="admin-sec-announcements" className="">
         <div
           role="button"
           tabIndex={0}
@@ -5251,16 +5287,18 @@ export function AdminDashboardMain({
 
                         {/* Controls row */}
                         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 py-2 pr-2 pl-0">
-                          <button
+                          <SeventhButton
+                            type="button"
                             onClick={() => updateGlobalBanner()}
                             disabled={bannerUpdating}
-                            className="cursor-pointer rounded-lg border border-[var(--color-accent)]/50 bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:-translate-y-0.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_6px_20px_rgba(255,10,61,0.4)] active:translate-y-0 disabled:opacity-50"
+                            icon={false}
+                            className="cursor-pointer px-6 py-2.5"
                           >
                             {bannerUpdating ? "Saving..." : "Dispatch"}
-                          </button>
+                          </SeventhButton>
 
                           {/* Auto-expire buttons */}
-                          <div className="hide-scrollbar flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+                          <div className="hide-scrollbar flex items-center gap-1.5 md:pb-0">
                             <span className="mr-2 shrink-0 text-white/30">
                               Expiry:
                             </span>
@@ -5274,7 +5312,7 @@ export function AdminDashboardMain({
                                 !!bannerExpiresAt &&
                                 Math.abs(
                                   new Date(bannerExpiresAt).getTime() -
-                                    (Date.now() + hours * 3600000),
+                                  (Date.now() + hours * 3600000),
                                 ) < 60000;
                               return (
                                 <SeventhButton
@@ -5289,7 +5327,7 @@ export function AdminDashboardMain({
                                       expiresAt: expiry,
                                     });
                                   }}
-                                  className="cursor-pointer px-3 py-1.5 text-[0.65rem] whitespace-nowrap"
+                                  className="cursor-pointer whitespace-nowrap"
                                 >
                                   {label}
                                 </SeventhButton>
@@ -5301,7 +5339,7 @@ export function AdminDashboardMain({
                                 setBannerExpiresAt(null);
                                 await updateGlobalBanner({ expiresAt: null });
                               }}
-                              className="cursor-pointer px-3 py-1.5 text-[0.65rem] whitespace-nowrap"
+                              className="cursor-pointer  whitespace-nowrap"
                             >
                               OFF
                             </SeventhButton>
@@ -5312,7 +5350,7 @@ export function AdminDashboardMain({
                         {bannerExpiresAt && (
                           <div className="flex w-fit items-center gap-2 rounded-lg border border-white/10 bg-black/30 px-2 py-1 text-[0.55rem]">
                             <span className="text-white/30">Auto-off at:</span>
-                            <span className="r">
+                            <span className="">
                               {new Date(bannerExpiresAt).toLocaleString(
                                 undefined,
                                 {
@@ -5727,7 +5765,7 @@ export function AdminDashboardMain({
                       locations={gaData.locations}
                     />
                   </div>
-                  <p className="r">
+                  <p className="">
                     Real-time geographic fan heatmaps for tour routing
                     optimization.
                   </p>
@@ -5780,7 +5818,7 @@ export function AdminDashboardMain({
             toggleSection("shopify");
           }
         }}
-        className="pr- flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
+        className="flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
       >
         <div className="flex flex-col">
           <h3 className="flex cursor-pointer items-center gap-2 text-left">
@@ -5815,14 +5853,14 @@ export function AdminDashboardMain({
             <SeventhButton
               isActive={shopifyTab === "shopify"}
               onClick={() => setShopifyTab("shopify")}
-              className="cursor-pointer px-4 py-2 whitespace-nowrap"
+              className="cursor-pointer whitespace-nowrap"
             >
               Shopify API
             </SeventhButton>
             <SeventhButton
               isActive={shopifyTab === "simulated"}
               onClick={() => setShopifyTab("simulated")}
-              className="cursor-pointer px-4 py-2 whitespace-nowrap"
+              className="cursor-pointer  whitespace-nowrap"
             >
               Simulated Checkouts
             </SeventhButton>
@@ -5845,10 +5883,10 @@ export function AdminDashboardMain({
                           setShopifyData(await res.json());
                           setShopifyError("");
                         }
-                      } catch {}
+                      } catch { }
                       setShopifyLoading(false);
                     }}
-                    className="cursor-pointer px-3 py-1.5 text-[0.65rem] whitespace-nowrap"
+                    className="cursor-pointer whitespace-nowrap"
                   >
                     {d}D
                   </SeventhButton>
@@ -5865,10 +5903,10 @@ export function AdminDashboardMain({
                       setShopifyData(await res.json());
                       setShopifyError("");
                     }
-                  } catch {}
+                  } catch { }
                   setShopifyLoading(false);
                 }}
-                className="rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40 hover:bg-white/10 hover:text-white"
+                className="rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40 hover:bg-white/10 hover:text-white whitespace-nowrap"
               >
                 ↻ Refresh
               </button>
@@ -5962,9 +6000,9 @@ export function AdminDashboardMain({
                         $
                         {shopifyData.summary.totalInventory > 0
                           ? (
-                              shopifyData.summary.inventoryValue /
-                              shopifyData.summary.totalInventory
-                            ).toFixed(2)
+                            shopifyData.summary.inventoryValue /
+                            shopifyData.summary.totalInventory
+                          ).toFixed(2)
                           : "0.00"}
                       </p>
                       <p className="mt-1">Per unit</p>
@@ -6054,7 +6092,7 @@ export function AdminDashboardMain({
                               </td>
                               <td className="px-4 py-3 text-right">
                                 <span
-                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? " " : "text-emerald-400"}`}
+                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? "text-purple-300" : "text-emerald-400"}`}
                                 >
                                   {p.inventory}
                                 </span>
@@ -6160,7 +6198,7 @@ export function AdminDashboardMain({
                                     <td className="px-4 py-3">
                                       <div className="flex items-center gap-3">
                                         <span
-                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20 text-purple-300" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
                                         >
                                           {i + 1}
                                         </span>
@@ -6441,7 +6479,7 @@ export function AdminDashboardMain({
                               </td>
                               <td className="px-4 py-3 text-right">
                                 <span
-                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? " " : "text-emerald-400"}`}
+                                  className={`${p.inventory <= 0 ? "text-rose-400" : p.inventory < 5 ? "text-purple-300" : "text-emerald-400"}`}
                                 >
                                   {p.inventory}
                                 </span>
@@ -6563,7 +6601,7 @@ export function AdminDashboardMain({
                                 </div>
                               </td>
                               <td className="px-4 py-3">
-                                <div className="/90">{order.customer}</div>
+                                <div className="">{order.customer}</div>
                                 <div className="text-[0.9rem] text-white/40">
                                   {order.email || "No email provided"}
                                 </div>
@@ -6643,17 +6681,17 @@ export function AdminDashboardMain({
                                         "Claimed",
                                       )
                                     }
-                                    className="shadow-[0_0_10px_rgba(147, 51, 234,0.3)] cursor-pointer rounded bg-purple-600 px-2.5 py-1 text-[0.55rem] hover:bg-purple-500 active:scale-95"
+                                    className="shadow-[0_0_10px_rgba(147, 234,0.3)] cursor-pointer rounded bg-purple-600 px-2.5 py-1 text-[0.55rem] hover:bg-purple-500 active:scale-95"
                                   >
                                     Claim Merch
                                   </button>
                                 )}
                                 {(order.status === "Shipped" ||
                                   order.status === "Claimed") && (
-                                  <span className="r text-[0.55rem] text-[var(--color-accent)]/60">
-                                    Complete
-                                  </span>
-                                )}
+                                    <span className="text-[0.55rem] text-[var(--color-accent)]/60">
+                                      Complete
+                                    </span>
+                                  )}
                               </td>
                               <td className="px-4 py-3 text-right text-[#96bf48]">
                                 {order.price || "$0.00"}
@@ -6766,9 +6804,9 @@ export function AdminDashboardMain({
                     .map((b: any) => (
                       <div
                         key={b.bookingId}
-                        className="flex flex-col border-b border-[#ffffff1f] bg-[#00000029]"
+                        className="flex flex-col border-b border-[#ffffff1f]"
                       >
-                        <div className="grid grid-cols-1 items-center gap-3 p-4 md:grid-cols-12">
+                        <div className="grid grid-cols-1 items-center gap-3 py-4 md:grid-cols-12">
                           {/* Client */}
                           <div
                             role="button"
@@ -6792,7 +6830,7 @@ export function AdminDashboardMain({
                               {b.name?.substring(0, 2).toUpperCase() || "EP"}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <div className="group-hover:">{b.name}</div>
+                              <div className="">{b.name}</div>
                               <div>{b.email}</div>
 
                               {editingInlineLoadInId === b.bookingId ? (
@@ -6801,40 +6839,38 @@ export function AdminDashboardMain({
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   <p>Set Official Load-In / Out Time:</p>
-                                  <div className="input-glow-border w-full">
-                                    <input
-                                      type="text"
-                                      autoFocus
-                                      value={
-                                        loadInInputs[b.bookingId] !== undefined
-                                          ? loadInInputs[b.bookingId]
-                                          : b.loadInTime &&
-                                              !b.loadInTime.includes("Unsure")
-                                            ? b.loadInTime
-                                            : ""
+                                  <GlowInput
+                                    type="text"
+                                    autoFocus
+                                    value={
+                                      loadInInputs[b.bookingId] !== undefined
+                                        ? loadInInputs[b.bookingId]
+                                        : b.loadInTime &&
+                                          !b.loadInTime.includes("Unsure")
+                                          ? b.loadInTime
+                                          : ""
+                                    }
+                                    onChange={(e) =>
+                                      setLoadInInputs((prev) => ({
+                                        ...prev,
+                                        [b.bookingId]: e.target.value,
+                                      }))
+                                    }
+                                    onKeyDown={async (e) => {
+                                      if (e.key === "Enter") {
+                                        e.preventDefault();
+                                        await handleUpdateLoadInTime(
+                                          b.bookingId,
+                                          b.plannerEmail || b.email,
+                                        );
+                                        setEditingInlineLoadInId(null);
+                                      } else if (e.key === "Escape") {
+                                        setEditingInlineLoadInId(null);
                                       }
-                                      onChange={(e) =>
-                                        setLoadInInputs((prev) => ({
-                                          ...prev,
-                                          [b.bookingId]: e.target.value,
-                                        }))
-                                      }
-                                      onKeyDown={async (e) => {
-                                        if (e.key === "Enter") {
-                                          e.preventDefault();
-                                          await handleUpdateLoadInTime(
-                                            b.bookingId,
-                                            b.plannerEmail || b.email,
-                                          );
-                                          setEditingInlineLoadInId(null);
-                                        } else if (e.key === "Escape") {
-                                          setEditingInlineLoadInId(null);
-                                        }
-                                      }}
-                                      placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
-                                      className="placeholder: focus-ring w-full rounded-lg border border-white/10 px-2.5 py-1.5 text-white/40"
-                                    />
-                                  </div>
+                                    }}
+                                    placeholder="e.g. 5:00 PM Load-In / 11:30 PM Out"
+                                    rounded="rounded-lg"
+                                  />
                                   <div className="flex items-center justify-between gap-1.5 pt-0.5">
                                     <button
                                       type="button"
@@ -6876,8 +6912,8 @@ export function AdminDashboardMain({
                                   className={`mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime ? "animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30" : "border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25"}`}
                                 >
                                   {b.loadInTime?.includes("Unsure") ||
-                                  b.load_in_time?.includes("Unsure") ||
-                                  !b.loadInTime ? (
+                                    b.load_in_time?.includes("Unsure") ||
+                                    !b.loadInTime ? (
                                     <>⚡ Load-In Unsure (Click to Set) ✍️</>
                                   ) : (
                                     <>
@@ -7009,16 +7045,16 @@ export function AdminDashboardMain({
                           <div className="border-t border-b border-black/20 bg-black/5 p-6 dark:border-white/10 dark:bg-[#060609]">
                             <div className="grid grid-cols-2 gap-6 text-left sm:grid-cols-5">
                               <div>
-                                <p className="dark: mb-1 text-black/50 text-white/40">
+                                <p className="mb-1 text-black/50 text-white/40">
                                   Booking Ref ID
                                 </p>
                                 <p className="text-purple-400">{b.bookingId}</p>
                               </div>
                               <div>
-                                <p className="dark: mb-1 text-black/50 text-white/40">
+                                <p className="mb-1 text-black/50 text-white/40">
                                   Age Limit
                                 </p>
-                                <p className="dark:">
+                                <p className="">
                                   {b.ageRestriction === "21_plus"
                                     ? " 21 & Over"
                                     : b.ageRestriction === "18_plus"
@@ -7027,23 +7063,23 @@ export function AdminDashboardMain({
                                 </p>
                               </div>
                               <div>
-                                <p className="dark: mb-1 text-black/50 text-white/40">
+                                <p className="mb-1 text-black/50 text-white/40">
                                   Doors Time
                                 </p>
-                                <p className="dark:">
+                                <p className="">
                                   {b.doorsTime || b.startTime || "TBD"}
                                 </p>
                               </div>
                               <div>
-                                <p className="dark: mb-1 text-black/50 text-white/40">
+                                <p className="mb-1 text-black/50 text-white/40">
                                   Cover / Price
                                 </p>
-                                <p className="dark:">
+                                <p className="">
                                   {b.cover || "Free / No Cover"}
                                 </p>
                               </div>
                               <div>
-                                <p className="dark: mb-1 text-black/50 text-white/40">
+                                <p className="mb-1 text-black/50 text-white/40">
                                   Load-In / Setup Time
                                 </p>
                                 <p>
@@ -7053,7 +7089,7 @@ export function AdminDashboardMain({
                                 </p>
                               </div>
                               <div>
-                                <p className="dark: mb-1 text-black/50 text-white/40">
+                                <p className="mb-1 text-black/50 text-white/40">
                                   Ticket Link
                                 </p>
                                 {b.ticketLink ? (
@@ -7067,27 +7103,27 @@ export function AdminDashboardMain({
                                     {b.ticketLink}
                                   </a>
                                 ) : (
-                                  <p className="dark: text-black/30 text-white/20">
+                                  <p className="text-black/30 text-white/20">
                                     —
                                   </p>
                                 )}
                               </div>
                               {b.details && (
                                 <div className="col-span-2 mt-2 sm:col-span-4">
-                                  <p className="dark: mb-1 text-black/50 text-white/40">
+                                  <p className="mb-1 text-black/50 text-white/40">
                                     Public Notes (displayed to fans)
                                   </p>
-                                  <p className="dark: rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
+                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
                                     "{b.details}"
                                   </p>
                                 </div>
                               )}
                               {b.plannerNotes && (
                                 <div className="col-span-2 mt-2 sm:col-span-4">
-                                  <p className="dark: mb-1 text-black/50 text-white/40">
+                                  <p className="mb-1 text-black/50 text-white/40">
                                     Planner's Internal Notes
                                   </p>
-                                  <p className="dark: rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
+                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
                                     {b.plannerNotes}
                                   </p>
                                 </div>
@@ -7103,11 +7139,11 @@ export function AdminDashboardMain({
                                   {(b.loadInTime?.includes("Unsure") ||
                                     b.load_in_time?.includes("Unsure") ||
                                     !b.loadInTime) && (
-                                    <span className="flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/20 px-2.5 py-0.5 text-[10px] text-amber-300">
-                                      ⚡ Planner Unsure — Pending Admin
-                                      Confirmation
-                                    </span>
-                                  )}
+                                      <span className="flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/20 px-2.5 py-0.5 text-[10px] text-amber-300">
+                                        ⚡ Planner Unsure — Pending Admin
+                                        Confirmation
+                                      </span>
+                                    )}
                                 </div>
 
                                 <p>
@@ -7126,7 +7162,7 @@ export function AdminDashboardMain({
                                       loadInInputs[b.bookingId] !== undefined
                                         ? loadInInputs[b.bookingId]
                                         : b.loadInTime &&
-                                            !b.loadInTime.includes("Unsure")
+                                          !b.loadInTime.includes("Unsure")
                                           ? b.loadInTime
                                           : ""
                                     }
@@ -7137,7 +7173,7 @@ export function AdminDashboardMain({
                                       }))
                                     }
                                     placeholder="e.g. 5:00 PM (2 hours before show)"
-                                    className="placeholder: focus-ring flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-2 text-white/30"
+                                    className="focus-ring flex-1 rounded-lg border border-white/10 bg-[#00000029] px-3.5 py-2 text-white/30"
                                   />
                                   <button
                                     type="button"
@@ -7215,7 +7251,7 @@ export function AdminDashboardMain({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-[#00000029] px-3 py-1 text-[0.9rem] text-white/40">
+          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-[#00000029] px-3 py-1 text-[0.9rem] text-white/40 whitespace-nowrap  ">
             {
               Array.from(
                 new Map(
@@ -7336,7 +7372,7 @@ export function AdminDashboardMain({
                               ...prev,
                             ])
                           }
-                          className="! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-white"
+                          className="rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-white"
                         >
                           Email
                         </a>
@@ -7354,7 +7390,7 @@ export function AdminDashboardMain({
                                 ...prev,
                               ])
                             }
-                            className="! rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-[var(--color-accent)]"
+                            className="rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-[var(--color-accent)]"
                           >
                             Text
                           </a>
@@ -7639,7 +7675,7 @@ export function AdminDashboardMain({
   );
 
   const renderLiveAlerts = () => (
-    <div className="overflow-hidden">
+    <div className="">
       <div
         role="button"
         tabIndex={0}
@@ -7798,7 +7834,7 @@ export function AdminDashboardMain({
   );
 
   const renderSmsBlast = () => (
-    <div className="overflow-hidden">
+    <div className="">
       <div
         role="button"
         tabIndex={0}
@@ -7858,7 +7894,7 @@ export function AdminDashboardMain({
                         value: newVal ? "on" : "off",
                       }),
                     });
-                  } catch {}
+                  } catch { }
                 }}
               />
             </div>
@@ -7927,7 +7963,7 @@ export function AdminDashboardMain({
                             value: String(d),
                           }),
                         });
-                      } catch {}
+                      } catch { }
                     }}
                     showAllOption={false}
                   />
@@ -8050,7 +8086,7 @@ export function AdminDashboardMain({
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className="r text-[10px] text-white/40">
+                        <div className="text-[10px] text-white/40">
                           Twilio Credit Balance
                         </div>
                         <div className="text-emerald-400">
@@ -8058,7 +8094,7 @@ export function AdminDashboardMain({
                         </div>
                       </div>
                       <div className="border-l border-white/10 pl-4 text-right">
-                        <div className="r text-[10px] text-white/40">
+                        <div className="text-[10px] text-white/40">
                           Total Spent So Far
                         </div>
                         <div className="text-rose-400">
@@ -8071,7 +8107,7 @@ export function AdminDashboardMain({
                   {/* Quick Metric Cards */}
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                     <div className="border-none p-0 text-start">
-                      <div className="r text-[10px] text-white/40">
+                      <div className="text-[10px] text-white/40">
                         Target Audience
                       </div>
                       <div>480 fans</div>
@@ -8080,7 +8116,7 @@ export function AdminDashboardMain({
                       </div>
                     </div>
                     <div className="border-none p-0 text-start">
-                      <div className="r text-[10px] text-white/40">
+                      <div className="text-[10px] text-white/40">
                         Twilio Rate
                       </div>
                       <div>${smsCostPerSegment}/SMS</div>
@@ -8089,20 +8125,20 @@ export function AdminDashboardMain({
                       </div>
                     </div>
                     <div className="border-none p-0 text-start">
-                      <div className="r text-[10px] text-white/40">
+                      <div className="text-[10px] text-white/40">
                         Cost to Send This Blast
                       </div>
                       <div className="text-rose-400">
                         $
                         {(
                           (smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                          smsPreview
+                            smsPreview
                             ? Math.ceil(
-                                ((
-                                  smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                                  smsPreview
-                                ).length || 1) / 160,
-                              )
+                              ((
+                                smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
+                                smsPreview
+                              ).length || 1) / 160,
+                            )
                             : 1) *
                           480 *
                           smsCostPerSegment
@@ -8110,19 +8146,19 @@ export function AdminDashboardMain({
                       </div>
                       <div className="text-[12px] text-white/40">
                         {smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                        smsPreview
+                          smsPreview
                           ? Math.ceil(
-                              ((
-                                smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                                smsPreview
-                              ).length || 1) / 160,
-                            )
+                            ((
+                              smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
+                              smsPreview
+                            ).length || 1) / 160,
+                          )
                           : 1}{" "}
                         Segment per fan
                       </div>
                     </div>
                     <div className="border-none p-0 text-start">
-                      <div className="r text-[10px] text-white/40">
+                      <div className="text-[10px] text-white/40">
                         Total SMS Sent
                       </div>
                       <div>{smsTotalSpentAllTime.toLocaleString()}</div>
@@ -8184,7 +8220,7 @@ export function AdminDashboardMain({
                           </div>
 
                           {/* SMS Bubble */}
-                          <div className="/90 rounded-lg rounded-tl-xs border border-white/10 bg-[#242333] p-3.5 whitespace-pre-wrap">
+                          <div className="rounded-lg rounded-tl-xs border border-white/10 bg-[#242333] p-3.5 whitespace-pre-wrap">
                             {smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
                               smsPreview || (
                                 <span className="text-white/40">
@@ -8308,14 +8344,14 @@ export function AdminDashboardMain({
                             $
                             {(
                               (smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                              smsPreview
+                                smsPreview
                                 ? Math.ceil(
-                                    ((
-                                      smsCustomMsg
-                                        .replace(/<[^>]*>/g, "")
-                                        .trim() || smsPreview
-                                    ).length || 1) / 160,
-                                  )
+                                  ((
+                                    smsCustomMsg
+                                      .replace(/<[^>]*>/g, "")
+                                      .trim() || smsPreview
+                                  ).length || 1) / 160,
+                                )
                                 : 1) *
                               480 *
                               smsCostPerSegment
@@ -8349,8 +8385,10 @@ export function AdminDashboardMain({
                           </div>
                         )}
                       </div>
-                      <button
+                      <SeventhButton
+                        type="button"
                         disabled={smsSending || !smsSelectedShow}
+                        icon={false}
                         onClick={async () => {
                           if (smsSendingRef.current) return;
                           const show = smsShows.find(
@@ -8360,14 +8398,14 @@ export function AdminDashboardMain({
                           const recipientDesc = `480 fans near ${show.venue}`;
                           const calcCost = (
                             (smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                            smsPreview
+                              smsPreview
                               ? Math.ceil(
-                                  ((
-                                    smsCustomMsg
-                                      .replace(/<[^>]*>/g, "")
-                                      .trim() || smsPreview
-                                  ).length || 1) / 160,
-                                )
+                                ((
+                                  smsCustomMsg
+                                    .replace(/<[^>]*>/g, "")
+                                    .trim() || smsPreview
+                                ).length || 1) / 160,
+                              )
                               : 1) *
                             480 *
                             smsCostPerSegment
@@ -8453,7 +8491,7 @@ export function AdminDashboardMain({
                           smsSendingRef.current = false;
                           setSmsSending(false);
                         }}
-                        className="flex cursor-pointer items-center gap-2 rounded-lg bg-rose-500 px-6 py-3 shadow-[0_0_20px_rgba(244,63,94,0.3)] hover:bg-rose-400 disabled:cursor-not-allowed disabled:opacity-30"
+                        className=" cursor-pointer"
                       >
                         {smsSending ? (
                           <>
@@ -8461,9 +8499,9 @@ export function AdminDashboardMain({
                             Sending Twilio Blast...
                           </>
                         ) : (
-                          <> Send Proximity Blast</>
+                          <>Send Proximity Blast</>
                         )}
-                      </button>
+                      </SeventhButton>
                     </div>
                   </div>
                 </div>
@@ -8686,8 +8724,8 @@ export function AdminDashboardMain({
         if (typeof window !== "undefined") {
           const savedDuties = JSON.parse(
             localStorage.getItem("7h_crew_duties_v1") ||
-              localStorage.getItem("7h_crew_duties") ||
-              "{}",
+            localStorage.getItem("7h_crew_duties") ||
+            "{}",
           );
           savedDuties[profileId] = finalRole;
           localStorage.setItem(
@@ -8766,8 +8804,8 @@ export function AdminDashboardMain({
       const timeStr =
         dayShifts.length > 0
           ? dayShifts
-              .map((s) => formatTimeFrame(s.startHour, s.endHour))
-              .join(", ")
+            .map((s) => formatTimeFrame(s.startHour, s.endHour))
+            .join(", ")
           : "5:00 PM - 10:00 PM";
       return {
         name: r.name,
@@ -8863,7 +8901,7 @@ export function AdminDashboardMain({
                   <div className="space-y-4 lg:col-span-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="dark: block text-black/60 text-white/40">
+                        <span className="block text-black/60 text-white/40">
                           Choose Recipients
                         </span>
                         <button
@@ -9009,7 +9047,7 @@ export function AdminDashboardMain({
                                             );
                                             setEditingDutyValue(r.duty || "");
                                           }}
-                                          className="group md: dark: relative inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1 hover:bg-white/20"
+                                          className="group relative inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1 hover:bg-white/20"
                                           title={`Click to change or edit role(s): ${r.duty}`}
                                         >
                                           <span className="max-w-[200px] md:max-w-[320px]">
@@ -9026,7 +9064,7 @@ export function AdminDashboardMain({
                                             );
                                             setEditingDutyValue(r.duty || "");
                                           }}
-                                          className="hover: md: flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 text-white/60 hover:bg-white/10"
+                                          className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 text-white/60 hover:bg-white/10"
                                           title="Click to assign role(s)"
                                         >
                                           <span>+ Assign Role</span>
@@ -9274,7 +9312,7 @@ export function AdminDashboardMain({
                                   if (newSmsGroupError) setNewSmsGroupError("");
                                 }}
                                 placeholder="Group name..."
-                                className="placeholder: border border-white/10 bg-black/50 px-3 py-2 text-white/40"
+                                className="border border-white/10 bg-black/50 px-3 py-2 text-white/40"
                               />
                             </div>
 
@@ -9371,7 +9409,7 @@ export function AdminDashboardMain({
                                                     r.duty || r.role || "",
                                                   );
                                                 }}
-                                                className="hover: flex max-w-[200px] shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[9px] hover:bg-white/20"
+                                                className="flex max-w-[200px] shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[9px] hover:bg-white/20"
                                                 title={`Click to edit role(s): ${displayRole}`}
                                               >
                                                 <span>{displayRole}</span>
@@ -9423,7 +9461,7 @@ export function AdminDashboardMain({
                                 type="button"
                                 onClick={handleSaveSmsGroup}
                                 icon={false}
-                                className="flex-1 cursor-pointer px-4 py-2"
+                                className="flex-1 cursor-pointer "
                               >
                                 Save Group
                               </SeventhButton>
@@ -9500,8 +9538,8 @@ export function AdminDashboardMain({
                           try {
                             const show = smsSelectedShowDate
                               ? tourDates.find(
-                                  (s: any) => s.date === smsSelectedShowDate,
-                                )
+                                (s: any) => s.date === smsSelectedShowDate,
+                              )
                               : null;
                             const showVenue = show
                               ? show.venue || show.venue_name
@@ -9569,7 +9607,7 @@ export function AdminDashboardMain({
                           crewAlertSendingRef.current = false;
                           setCrewAlertSending(false);
                         }}
-                        className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                       >
                         {crewAlertSending ? (
                           <>
@@ -9715,8 +9753,8 @@ export function AdminDashboardMain({
                         try {
                           const show = smsSelectedShowDate
                             ? tourDates.find(
-                                (s: any) => s.date === smsSelectedShowDate,
-                              )
+                              (s: any) => s.date === smsSelectedShowDate,
+                            )
                             : null;
                           const showVenue = show
                             ? show.venue || show.venue_name
@@ -9782,7 +9820,7 @@ export function AdminDashboardMain({
                         }
                         setCrewAlertSending(false);
                       }}
-                      className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                     >
                       {crewAlertSending ? (
                         <>
@@ -9924,11 +9962,11 @@ export function AdminDashboardMain({
                                 key={role}
                                 className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 hover:bg-white/[0.04]"
                               >
-                                <span className="/90">{role}</span>
+                                <span className="">{role}</span>
                                 <button
                                   type="button"
                                   onClick={() => handleDeletePresetRole(role)}
-                                  className="-lg flex cursor-pointer items-center justify-center border-none bg-rose-500/10 p-1 text-rose-400 hover:bg-rose-500/20 hover:text-rose-300"
+                                  className="flex cursor-pointer items-center justify-center border-none bg-rose-500/10 p-1 text-rose-400 hover:bg-rose-500/20 hover:text-rose-300"
                                   title="Delete Preset"
                                 >
                                   <svg
@@ -10090,7 +10128,7 @@ export function AdminDashboardMain({
                           label={`Select All (${allBandCombined.length})`}
                           isActive={
                             selectedBandPhones.length ===
-                              allBandCombined.length &&
+                            allBandCombined.length &&
                             allBandCombined.length > 0
                           }
                           onClick={() => {
@@ -10295,7 +10333,7 @@ export function AdminDashboardMain({
                             type="button"
                             aria-label="Clear selected show"
                             onClick={() => selectShowForBandSms("")}
-                            className="hover: cursor-pointer border-none text-[var(--color-accent)]"
+                            className="cursor-pointer border-none text-[var(--color-accent)]"
                           ></button>
                         </div>
                       )}
@@ -10358,49 +10396,33 @@ export function AdminDashboardMain({
                       {/* Email Subject Line (Conditional) */}
                       {sendBandEmailAlert && (
                         <section className="flex animate-[fadeIn_0.2s_ease-out] flex-col gap-1">
-                          <label
-                            htmlFor="admin-band-email-subject"
-                            className="block text-[0.9rem] text-white/50"
-                          >
-                            EMAIL SUBJECT LINE
-                          </label>
-                          <div className="input-glow-border w-full">
-                            <input
-                              id="admin-band-email-subject"
-                              type="text"
-                              value={bandEmailSubject}
-                              onChange={(e) =>
-                                setBandEmailSubject(e.target.value)
-                              }
-                              placeholder="e.g. Band Schedule Update"
-                              className="form-input"
-                            />
-                          </div>
+                          <GlowInput
+                            id="admin-band-email-subject"
+                            label="EMAIL SUBJECT LINE"
+                            labelClassName="block text-[0.9rem] text-white/50"
+                            type="text"
+                            value={bandEmailSubject}
+                            onChange={(e) =>
+                              setBandEmailSubject(e.target.value)
+                            }
+                            placeholder="e.g. Band Schedule Update"
+                          />
                         </section>
                       )}
 
                       {/* Message Form */}
                       <div className="space-y-2">
-                        <label
-                          htmlFor="admin-band-broadcast-msg"
-                          className="block text-[0.65rem] text-white/50"
-                        >
-                          BROADCAST MESSAGE
-                        </label>
-                        <div className="input-glow-border w-full">
-                          <textarea
-                            id="admin-band-broadcast-msg"
-                            value={bandAlertMsg}
-                            onChange={(e) => setBandAlertMsg(e.target.value)}
-                            placeholder="Write message to send..."
-                            rows={5}
-                            style={{
-                              backgroundColor: "#181924",
-                              color: "#ffffff",
-                            }}
-                            className="! placeholder: focus-ring w-full resize-none rounded-lg border border-white/10 px-3.5 py-2.5 text-white/30"
-                          />
-                        </div>
+                        <GlowTextarea
+                          id="admin-band-broadcast-msg"
+                          label="BROADCAST MESSAGE"
+                          labelClassName="block text-[0.65rem] text-white/50"
+                          value={bandAlertMsg}
+                          onChange={(e) => setBandAlertMsg(e.target.value)}
+                          placeholder="Write message to send..."
+                          rows={5}
+                          rounded="rounded-lg"
+                          className="resize-none"
+                        />
                       </div>
 
                       {/* Feedback Logs */}
@@ -10431,7 +10453,7 @@ export function AdminDashboardMain({
                             !bandAlertMsg.trim() ||
                             selectedBandPhones.length === 0
                           }
-                          className="disabled: flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                         >
                           {bandAlertSending ? (
                             <>
@@ -10463,15 +10485,15 @@ export function AdminDashboardMain({
                             {checkedRecipients.map((r) => {
                               const dayShifts =
                                 schedulesByDateAndCrew[
-                                  smsSelectedShowDate || ""
+                                smsSelectedShowDate || ""
                                 ]?.[r.id] || [];
                               const timeFrameStr =
                                 dayShifts.length > 0
                                   ? dayShifts
-                                      .map((s) =>
-                                        formatTimeFrame(s.startHour, s.endHour),
-                                      )
-                                      .join(", ")
+                                    .map((s) =>
+                                      formatTimeFrame(s.startHour, s.endHour),
+                                    )
+                                    .join(", ")
                                   : (r as any).time || "5:00 PM - 10:00 PM";
                               const phoneDisplay = r.phone || "(555) 234-5678";
                               const emailDisplay =
@@ -10523,7 +10545,7 @@ export function AdminDashboardMain({
                                       <span>⏰</span>
                                       <span>{timeFrameStr}</span>
                                     </div>
-                                    <div className="text- flex items-center gap-1">
+                                    <div className="flex items-center gap-1">
                                       <span></span>
                                       <span>{phoneDisplay}</span>
                                     </div>
@@ -10601,7 +10623,7 @@ export function AdminDashboardMain({
   };
 
   const renderNewsletter = () => (
-    <div className="overflow-hidden">
+    <div className="">
       <div
         role="button"
         tabIndex={0}
@@ -10673,40 +10695,29 @@ export function AdminDashboardMain({
             <div className="py-6 pl-0">
               <div className="space-y-4">
                 <div>
-                  <label
-                    htmlFor="admin-newsletter-blast-subject"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Subject Line
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-newsletter-blast-subject"
-                      type="text"
-                      value={blastSubject}
-                      onChange={(e) => setBlastSubject(e.target.value)}
-                      placeholder="e.g.  New Show Announced — Chicago June 15th!"
-                      className="focus-ring w-full rounded-lg border border-white/10 px-4 py-3 placeholder-white/40"
-                    />
-                  </div>
+                  <GlowInput
+                    id="admin-newsletter-blast-subject"
+                    label="Subject Line"
+                    labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                    type="text"
+                    value={blastSubject}
+                    onChange={(e) => setBlastSubject(e.target.value)}
+                    placeholder="e.g. New Show Announced — Chicago June 15th!"
+                    rounded="rounded-lg"
+                  />
                 </div>
                 <div>
-                  <label
-                    htmlFor="admin-newsletter-blast-body"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Message Body
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <textarea
-                      id="admin-newsletter-blast-body"
-                      value={blastBody}
-                      onChange={(e) => setBlastBody(e.target.value)}
-                      placeholder="Write your announcement here..."
-                      rows={6}
-                      className="focus-ring w-full resize-none rounded-lg border border-white/10 px-4 py-3 placeholder-white/40"
-                    />
-                  </div>
+                  <GlowTextarea
+                    id="admin-newsletter-blast-body"
+                    label="Message Body"
+                    labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                    value={blastBody}
+                    onChange={(e) => setBlastBody(e.target.value)}
+                    placeholder="Write your announcement here..."
+                    rows={6}
+                    rounded="rounded-lg"
+                    className="resize-none"
+                  />
                 </div>
                 <div className="flex items-center justify-between">
                   <div>
@@ -10764,7 +10775,7 @@ export function AdminDashboardMain({
                       setBlastSending(false);
                     }}
                     icon={false}
-                    className="flex cursor-pointer items-center gap-2 px-6 py-3"
+                    className="flex cursor-pointer items-center gap-2"
                   >
                     {blastSending ? (
                       <>
@@ -10785,7 +10796,7 @@ export function AdminDashboardMain({
   );
 
   const renderRegistry = () => (
-    <div className="overflow-hidden">
+    <div className="">
       <div
         role="button"
         tabIndex={0}
@@ -10825,7 +10836,7 @@ export function AdminDashboardMain({
         </div>
         <div className="flex items-center gap-3">
           <div
-            className="flex w-full shrink-0 items-center gap-1.5 overflow-x-auto p-1 sm:w-auto"
+            className="flex w-full shrink-0 items-center gap-1.5 sm:w-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {["All", "fan", "crew", "admin"].map((role) => (
@@ -10833,7 +10844,7 @@ export function AdminDashboardMain({
                 key={role}
                 isActive={filterRole === role}
                 onClick={() => setFilterRole(role as any)}
-                className="cursor-pointer px-3 py-1.5 text-[0.65rem] whitespace-nowrap"
+                className="cursor-pointer text-[0.65rem] whitespace-nowrap"
               >
                 {role}
               </SeventhButton>
@@ -10894,8 +10905,8 @@ export function AdminDashboardMain({
                       const accounts =
                         typeof window !== "undefined"
                           ? JSON.parse(
-                              localStorage.getItem("7h_accounts") || "{}",
-                            )
+                            localStorage.getItem("7h_accounts") || "{}",
+                          )
                           : {};
                       const acct = Object.values(accounts).find(
                         (a: any) =>
@@ -10903,7 +10914,7 @@ export function AdminDashboardMain({
                           (a.email &&
                             user.email &&
                             a.email.toLowerCase() ===
-                              user.email.toLowerCase()) ||
+                            user.email.toLowerCase()) ||
                           (a.name &&
                             a.name.toLowerCase() === user.name.toLowerCase()),
                       ) as any;
@@ -10916,7 +10927,7 @@ export function AdminDashboardMain({
                                   const avatarSrc = resolveMemberAvatar(
                                     user.name,
                                     (user as any).avatar ||
-                                      (user as any).avatar_url,
+                                    (user as any).avatar_url,
                                   );
                                   return avatarSrc ? (
                                     <img
@@ -10940,11 +10951,11 @@ export function AdminDashboardMain({
                                     >
                                       {user.name
                                         ? user.name
-                                            .split(" ")
-                                            .map((n: string) => n[0])
-                                            .join("")
-                                            .toUpperCase()
-                                            .slice(0, 2)
+                                          .split(" ")
+                                          .map((n: string) => n[0])
+                                          .join("")
+                                          .toUpperCase()
+                                          .slice(0, 2)
                                         : "?"}
                                     </div>
                                   );
@@ -11031,14 +11042,14 @@ export function AdminDashboardMain({
                                             localStorage.getItem(
                                               "7h_accounts_v1",
                                             ) ||
-                                              localStorage.getItem(
-                                                "7h_accounts",
-                                              ) ||
-                                              "{}",
+                                            localStorage.getItem(
+                                              "7h_accounts",
+                                            ) ||
+                                            "{}",
                                           );
                                           accounts[user.email.toLowerCase()] = {
                                             ...accounts[
-                                              user.email.toLowerCase()
+                                            user.email.toLowerCase()
                                             ],
                                             id: user.id,
                                             name: user.name,
@@ -11089,7 +11100,7 @@ export function AdminDashboardMain({
   );
 
   const renderCrewCreation = () => (
-    <div className="overflow-hidden">
+    <div className="">
       <div
         role="button"
         tabIndex={0}
@@ -11162,116 +11173,76 @@ export function AdminDashboardMain({
           <>
             <div className="py-6 pl-0">
               <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <div>
-                  <label
-                    htmlFor="admin-create-crew-name"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Full Name
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-crew-name"
-                      type="text"
-                      placeholder="e.g. Alex Rivera"
-                      value={newCrewName}
-                      onChange={(e) => setNewCrewName(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="admin-create-crew-username"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Username
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-crew-username"
-                      type="text"
-                      placeholder="e.g. alex_7h"
-                      value={newCrewUsername}
-                      onChange={(e) =>
-                        setNewCrewUsername(
-                          e.target.value
-                            .replace(/[^a-zA-Z0-9_]/g, "")
-                            .toLowerCase(),
-                        )
-                      }
-                      maxLength={24}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="admin-create-crew-email"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Email Address
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-crew-email"
-                      type="email"
-                      placeholder="crew@7thheaven.com"
-                      value={newCrewEmail}
-                      onChange={(e) => setNewCrewEmail(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="admin-create-crew-password"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Password
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-crew-password"
-                      type="password"
-                      placeholder="Min 6 characters"
-                      value={newCrewPassword}
-                      onChange={(e) => setNewCrewPassword(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="admin-create-crew-phone"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Phone Number <span>*</span>
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-crew-phone"
-                      type="tel"
-                      placeholder="(555) 123-4567"
-                      value={newCrewPhone}
-                      onChange={(e) => {
-                        const digits = e.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 10);
-                        if (digits.length <= 3) setNewCrewPhone(digits);
-                        else if (digits.length <= 6)
-                          setNewCrewPhone(
-                            `(${digits.slice(0, 3)}) ${digits.slice(3)}`,
-                          );
-                        else
-                          setNewCrewPhone(
-                            `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`,
-                          );
-                      }}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
+                <GlowInput
+                  id="admin-create-crew-name"
+                  label="Full Name"
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="text"
+                  placeholder="e.g. Alex Rivera"
+                  value={newCrewName}
+                  onChange={(e) => setNewCrewName(e.target.value)}
+                  rounded="rounded-lg"
+                />
+                <GlowInput
+                  id="admin-create-crew-username"
+                  label="Username"
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="text"
+                  placeholder="e.g. alex_7h"
+                  value={newCrewUsername}
+                  onChange={(e) =>
+                    setNewCrewUsername(
+                      e.target.value
+                        .replace(/[^a-zA-Z0-9_]/g, "")
+                        .toLowerCase(),
+                    )
+                  }
+                  maxLength={24}
+                  rounded="rounded-lg"
+                />
+                <GlowInput
+                  id="admin-create-crew-email"
+                  label="Email Address"
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="email"
+                  placeholder="crew@7thheaven.com"
+                  value={newCrewEmail}
+                  onChange={(e) => setNewCrewEmail(e.target.value)}
+                  rounded="rounded-lg"
+                />
+                <GlowInput
+                  id="admin-create-crew-password"
+                  label="Password"
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="password"
+                  placeholder="Min 6 characters"
+                  value={newCrewPassword}
+                  onChange={(e) => setNewCrewPassword(e.target.value)}
+                  rounded="rounded-lg"
+                />
+                <GlowInput
+                  id="admin-create-crew-phone"
+                  label={<>Phone Number <span>*</span></>}
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="tel"
+                  placeholder="(555) 123-4567"
+                  value={newCrewPhone}
+                  onChange={(e) => {
+                    const digits = e.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, 10);
+                    if (digits.length <= 3) setNewCrewPhone(digits);
+                    else if (digits.length <= 6)
+                      setNewCrewPhone(
+                        `(${digits.slice(0, 3)}) ${digits.slice(3)}`,
+                      );
+                    else
+                      setNewCrewPhone(
+                        `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`,
+                      );
+                  }}
+                  rounded="rounded-lg"
+                />
                 <SeventhButton
                   onClick={createCrew}
                   disabled={
@@ -11279,7 +11250,7 @@ export function AdminDashboardMain({
                     !newCrewEmail.trim() ||
                     !newCrewPassword.trim()
                   }
-                  className="flex items-center gap-2 rounded-lg px-6 py-3 text-[0.7rem] whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
+                  className="flex items-center gap-2  whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   <svg
                     width="16"
@@ -11507,60 +11478,36 @@ export function AdminDashboardMain({
           <>
             <div className="py-6 pl-0">
               <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-4">
-                <div>
-                  <label
-                    htmlFor="admin-create-admin-name"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Full Name
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-admin-name"
-                      type="text"
-                      placeholder="e.g. Michael Scimeca"
-                      value={newAdminName}
-                      onChange={(e) => setNewAdminName(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="admin-create-admin-email"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Email Address
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-admin-email"
-                      type="email"
-                      placeholder="admin@7thheaven.com"
-                      value={newAdminEmail}
-                      onChange={(e) => setNewAdminEmail(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="admin-create-admin-username"
-                    className="mb-2 block text-[0.9rem] text-white/40"
-                  >
-                    Username
-                  </label>
-                  <div className="input-glow-border w-full">
-                    <input
-                      id="admin-create-admin-username"
-                      type="text"
-                      placeholder="e.g. mikeys"
-                      value={newAdminUsername}
-                      onChange={(e) => setNewAdminUsername(e.target.value)}
-                      className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20 outline-none"
-                    />
-                  </div>
-                </div>
+                <GlowInput
+                  id="admin-create-admin-name"
+                  label="Full Name"
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="text"
+                  placeholder="e.g. Michael Scimeca"
+                  value={newAdminName}
+                  onChange={(e) => setNewAdminName(e.target.value)}
+                  rounded="rounded-lg"
+                />
+                <GlowInput
+                  id="admin-create-admin-email"
+                  label="Email Address"
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="email"
+                  placeholder="admin@7thheaven.com"
+                  value={newAdminEmail}
+                  onChange={(e) => setNewAdminEmail(e.target.value)}
+                  rounded="rounded-lg"
+                />
+                <GlowInput
+                  id="admin-create-admin-username"
+                  label="Username"
+                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                  type="text"
+                  placeholder="e.g. mikeys"
+                  value={newAdminUsername}
+                  onChange={(e) => setNewAdminUsername(e.target.value)}
+                  rounded="rounded-lg"
+                />
                 <SeventhButton
                   onClick={createAdmin}
                   disabled={
@@ -11569,7 +11516,7 @@ export function AdminDashboardMain({
                     !newAdminUsername.trim() ||
                     adminCreateLoading
                   }
-                  className="flex items-center gap-2 rounded-lg px-6 py-3 text-[0.7rem] whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
+                  className="flex items-center gap-2 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   <svg
                     width="16"
@@ -11859,7 +11806,7 @@ export function AdminDashboardMain({
           const data = await res.json();
           if (data && !data.error) setCruiseStats(data);
         }
-      } catch {}
+      } catch { }
     };
     const deleteSignup = async (id: string, name: string) => {
       if (!confirm(`Remove ${name} from the cruise roster?`)) return;
@@ -11874,7 +11821,7 @@ export function AdminDashboardMain({
           const data = await res.json();
           if (data && !data.error) setCruiseStats(data);
         }
-      } catch {}
+      } catch { }
     };
 
     const sendCruiseEmail = async () => {
@@ -12104,42 +12051,31 @@ export function AdminDashboardMain({
                       ))}
                     </div>
                     <div>
-                      <label
-                        htmlFor="admin-cruise-email-subject"
-                        className="mb-1.5 block text-[0.55rem] text-white/30"
-                      >
-                        Subject
-                      </label>
-                      <div className="input-glow-border w-full">
-                        <input
-                          id="admin-cruise-email-subject"
-                          type="text"
-                          value={cruiseEmailSubject}
-                          onChange={(e) =>
-                            setCruiseEmailSubject(e.target.value)
-                          }
-                          placeholder="e.g. Important Cruise Update — Departure Details"
-                          className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 placeholder-white/20"
-                        />
-                      </div>
+                      <GlowInput
+                        id="admin-cruise-email-subject"
+                        label="Subject"
+                        labelClassName="mb-1.5 block text-[0.55rem] text-white/30"
+                        type="text"
+                        value={cruiseEmailSubject}
+                        onChange={(e) =>
+                          setCruiseEmailSubject(e.target.value)
+                        }
+                        placeholder="e.g. Important Cruise Update — Departure Details"
+                        rounded="rounded-lg"
+                      />
                     </div>
                     <div>
-                      <label
-                        htmlFor="admin-cruise-email-body"
-                        className="mb-1.5 block text-[0.55rem] text-white/30"
-                      >
-                        Message
-                      </label>
-                      <div className="input-glow-border w-full">
-                        <textarea
-                          id="admin-cruise-email-body"
-                          value={cruiseEmailBody}
-                          onChange={(e) => setCruiseEmailBody(e.target.value)}
-                          placeholder="Write your message to cruise passengers..."
-                          rows={5}
-                          className="focus-ring w-full resize-none rounded-lg border border-white/10 bg-black/40 px-4 py-3 placeholder-white/20"
-                        />
-                      </div>
+                      <GlowTextarea
+                        id="admin-cruise-email-body"
+                        label="Message"
+                        labelClassName="mb-1.5 block text-[0.55rem] text-white/30"
+                        value={cruiseEmailBody}
+                        onChange={(e) => setCruiseEmailBody(e.target.value)}
+                        placeholder="Write your message to cruise passengers..."
+                        rows={5}
+                        rounded="rounded-lg"
+                        className="resize-none"
+                      />
                     </div>
                     <div className="flex items-center justify-between">
                       <div>
@@ -12227,7 +12163,7 @@ export function AdminDashboardMain({
                           <p>{s.phone || "—"}</p>
                           {/* Party size + date */}
                           <div>
-                            <p className="/90">
+                            <p className="">
                               {s.partySize > 1
                                 ? `${s.partySize} guests`
                                 : "1 guest"}
@@ -12505,11 +12441,11 @@ export function AdminDashboardMain({
               editingShiftId && idx === 0
                 ? editingShiftId
                 : "shift_" +
-                  Date.now() +
-                  "_openshifts_" +
-                  idx +
-                  "_" +
-                  Math.random().toString(36).substr(2, 5);
+                Date.now() +
+                "_openshifts_" +
+                idx +
+                "_" +
+                Math.random().toString(36).substr(2, 5);
             const newItem = {
               id: newId,
               crewId: "openshifts",
@@ -12584,8 +12520,8 @@ export function AdminDashboardMain({
       (date === activeDropDay
         ? []
         : schedules.filter(
-            (s) => s.crewId === crewId && s.date === date && !s.isTimeOff,
-          ));
+          (s) => s.crewId === crewId && s.date === date && !s.isTimeOff,
+        ));
     return dayShifts.filter(
       (s) =>
         s.id !== excludeShiftId &&
@@ -13362,7 +13298,7 @@ export function AdminDashboardMain({
             }}
             className="wiw-card flex min-h-[60px] w-full cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#252530] px-3 py-3 text-center select-none"
           >
-            <span className="r text-white/40">Time Off All Day</span>
+            <span className="text-white/40">Time Off All Day</span>
           </button>
         );
       }
@@ -13413,11 +13349,11 @@ export function AdminDashboardMain({
           title={
             shift.crewId !== "openshifts"
               ? (() => {
-                  const member = crewMembers.find((c) => c.id === shift.crewId);
-                  const name =
-                    member?.name || shift.crewName || shift.crewId || "?";
-                  return `${name}\nRole: ${member?.role || shift.role || "Crew Member"}\nPhone: ${member?.phone || "N/A"}\nEmail: ${member?.email || "N/A"}`;
-                })()
+                const member = crewMembers.find((c) => c.id === shift.crewId);
+                const name =
+                  member?.name || shift.crewName || shift.crewId || "?";
+                return `${name}\nRole: ${member?.role || shift.role || "Crew Member"}\nPhone: ${member?.phone || "N/A"}\nEmail: ${member?.email || "N/A"}`;
+              })()
               : "Open Shift"
           }
         >
@@ -13503,17 +13439,17 @@ export function AdminDashboardMain({
                 <div className="mt-0.5 flex flex-wrap gap-0.5">
                   {shift.role
                     ? shift.role
-                        .split(/[,|/]/)
-                        .map((r: string) => r.trim())
-                        .filter(Boolean)
-                        .map((singleRole: string) => (
-                          <span
-                            key={singleRole}
-                            className="max-w-full rounded px-1.5 py-0.5 text-[12.5px] select-none"
-                          >
-                            {singleRole}
-                          </span>
-                        ))
+                      .split(/[,|/]/)
+                      .map((r: string) => r.trim())
+                      .filter(Boolean)
+                      .map((singleRole: string) => (
+                        <span
+                          key={singleRole}
+                          className="max-w-full rounded px-1.5 py-0.5 text-[12.5px] select-none"
+                        >
+                          {singleRole}
+                        </span>
+                      ))
                     : null}
                   {shift.tags &&
                     shift.tags.length > 0 &&
@@ -13540,7 +13476,7 @@ export function AdminDashboardMain({
                 className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""}`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="drop- text-[var(--font-size-2xs)]">
+                  <span className="text-[var(--font-size-2xs)]">
                     {shift.role || "Shift"}
                   </span>
                   {shift.isDraft && (
@@ -13558,7 +13494,7 @@ export function AdminDashboardMain({
 
             {/* Bottom metadata row */}
             <div className="mt-1 flex items-center justify-between border-t border-white/10 pt-1">
-              <span className="/90">{timeLabel}</span>
+              <span className="">{timeLabel}</span>
               <div className="flex items-center gap-1">
                 {showOverlapAvatar &&
                   shift.crewId &&
@@ -13715,7 +13651,7 @@ export function AdminDashboardMain({
                     );
                   })()}
 
-                  <span className="/85">
+                  <span className="">
                     {shift.crewName ||
                       (() => {
                         const member = crewMembers.find(
@@ -13787,7 +13723,7 @@ export function AdminDashboardMain({
             className="flex w-full flex-col text-left select-none"
           >
             <div className="sticky top-0 z-30 flex flex-col border-b border-white/10 bg-[#0f0720]/55 backdrop-blur-xl">
-              <div className="r flex w-full border-r border-[var(--border-color)] text-[10px]">
+              <div className="flex w-full border-r border-[var(--border-color)] text-[10px]">
                 <div className="flex w-60 shrink-0 items-center border-r border-b border-[var(--border-color)] bg-[var(--color-bg-card)] p-1.5">
                   <OpenShiftsCellHeader />
                 </div>
@@ -13801,7 +13737,7 @@ export function AdminDashboardMain({
                       onClick={() => {
                         const nextDate =
                           selectedTourDate === day.dateStr ||
-                          scheduleSortByDate === day.dateStr
+                            scheduleSortByDate === day.dateStr
                             ? null
                             : day.dateStr;
                         setSelectedTourDate(nextDate);
@@ -13829,7 +13765,7 @@ export function AdminDashboardMain({
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="hover: cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
+                              className="cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
                               title="Alert assigned crew for this show"
                             >
                               <svg
@@ -13897,7 +13833,7 @@ export function AdminDashboardMain({
                 <div className="flex w-full border-b border-[var(--border-color)]">
                   <div className="wiw-sticky-col flex w-60 shrink-0 items-center border-r border-[var(--border-color)] p-1">
                     <div className="flex items-center gap-2 pl-2">
-                      <span className="r text-[10px]">Open Shifts</span>
+                      <span className="text-[10px]">Open Shifts</span>
                     </div>
                   </div>
                   {filteredDays.map((day) => {
@@ -13944,10 +13880,10 @@ export function AdminDashboardMain({
                             }}
                             className="group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                           >
-                            <span className="group-hover: text-[12px] text-purple-400">
+                            <span className="text-[12px] text-purple-400">
                               +
                             </span>
-                            <span className="group-hover: mt-0.5 text-[10px] text-purple-400">
+                            <span className="mt-0.5 text-[10px] text-purple-400">
                               Add Crew Member
                             </span>
                           </div>
@@ -13978,10 +13914,10 @@ export function AdminDashboardMain({
                               }}
                               className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
-                              <span className="group-hover: text-[12px] text-purple-400">
+                              <span className="text-[12px] text-purple-400">
                                 +
                               </span>
-                              <span className="group-hover: mt-0.5 text-center text-[10px] text-purple-400">
+                              <span className="mt-0.5 text-center text-[10px] text-purple-400">
                                 Add Crew Group
                               </span>
                             </div>
@@ -14015,10 +13951,10 @@ export function AdminDashboardMain({
                               }}
                               className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
-                              <span className="group-hover: text-[12px] text-purple-400">
+                              <span className="text-[12px] text-purple-400">
                                 +
                               </span>
-                              <span className="group-hover: mt-0.5 text-center text-[10px] text-purple-400">
+                              <span className="mt-0.5 text-center text-[10px] text-purple-400">
                                 Create Group
                               </span>
                             </div>
@@ -14053,12 +13989,12 @@ export function AdminDashboardMain({
                   const activeSortDate = scheduleSortByDate || selectedTourDate;
                   const isWorkingOnActiveDate = activeSortDate
                     ? schedules.some(
-                        (s) =>
-                          s.date === activeSortDate &&
-                          s.crewId === member.id &&
-                          !s.isTimeOff &&
-                          s.crewId !== "openshifts",
-                      )
+                      (s) =>
+                        s.date === activeSortDate &&
+                        s.crewId === member.id &&
+                        !s.isTimeOff &&
+                        s.crewId !== "openshifts",
+                    )
                     : false;
 
                   return (
@@ -14234,10 +14170,10 @@ export function AdminDashboardMain({
             const shiftsForDay = schedulesByDate[day.dateStr] || [];
             const dayShifts = scheduleCrewFilter
               ? shiftsForDay.filter(
-                  (s) =>
-                    s.crewId === scheduleCrewFilter ||
-                    s.crewId === "openshifts",
-                )
+                (s) =>
+                  s.crewId === scheduleCrewFilter ||
+                  s.crewId === "openshifts",
+              )
               : shiftsForDay;
             const sortedShifts = [...dayShifts].sort(
               (a, b) => a.startHour - b.startHour,
@@ -14365,7 +14301,7 @@ export function AdminDashboardMain({
                     key={day.dateStr}
                     className="flex min-w-0 flex-col items-center justify-start"
                   >
-                    <p className="r">{day.dayName}</p>
+                    <p className="">{day.dayName}</p>
                     <p className="mt-0.5">
                       {day.monthName} {day.dayOfMonth}
                     </p>
@@ -14379,7 +14315,7 @@ export function AdminDashboardMain({
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
-                          className="py-0.2 mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                          className="py-0.5 mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                         >
                           {dayShow.venue || dayShow.venue_name}
@@ -14652,12 +14588,12 @@ export function AdminDashboardMain({
               {/*  Schedule Mix-Up Conflict Resolution Modal */}
               {coEditorConflictAlert?.isOpen && (
                 <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-                  <div className="shadow-[0_0_50px_rgba(147, 51, 234,0.3)] w-full max-w-lg space-y-4 border-2 border-purple-500/50 bg-[#1e1e26] p-6">
+                  <div className="shadow-[0_0_50px_rgba(147, 234,0.3)] w-full max-w-lg space-y-4 border-2 border-purple-500/50 bg-[#1e1e26] p-6">
                     <div className="flex items-center gap-3 border-b border-white/10 pb-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 bg-white/20 text-xl"></div>
                       <div>
                         <h3>Schedule Mix-Up Prevented!</h3>
-                        <p className="/80">
+                        <p className="">
                           Concurrent Edit Detected from Co-Editor
                         </p>
                       </div>
@@ -14997,10 +14933,10 @@ export function AdminDashboardMain({
                                   : null;
                                 const dateLabel = showDate
                                   ? showDate.toLocaleDateString("en-US", {
-                                      month: "short",
-                                      day: "numeric",
-                                      weekday: "short",
-                                    })
+                                    month: "short",
+                                    day: "numeric",
+                                    weekday: "short",
+                                  })
                                   : "Unknown";
                                 return (
                                   <button
@@ -15030,7 +14966,7 @@ export function AdminDashboardMain({
                                     }}
                                     className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left"
                                   >
-                                    <span className="/70 group-hover: min-w-[80px]">
+                                    <span className="min-w-[80px]">
                                       {dateLabel}
                                     </span>
                                     <span className="group-hover:text-white">
@@ -15069,11 +15005,11 @@ export function AdminDashboardMain({
                         ...crewMembers.flatMap((m) =>
                           m.id !== "openshifts"
                             ? [
-                                {
-                                  label: m.name,
-                                  value: m.id,
-                                },
-                              ]
+                              {
+                                label: m.name,
+                                value: m.id,
+                              },
+                            ]
                             : [],
                         ),
                       ]}
@@ -15086,7 +15022,7 @@ export function AdminDashboardMain({
                       onClick={() =>
                         setIsFiltersPanelExpanded(!isFiltersPanelExpanded)
                       }
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 51, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       title="Search & advanced filters by person, venue, date range, and event type"
                     >
                       <span></span>{" "}
@@ -15171,15 +15107,15 @@ export function AdminDashboardMain({
                         s.id.startsWith("test_shift_") ||
                         (s.notes && s.notes.includes("[TEST]")),
                     ) && (
-                      <button
-                        type="button"
-                        onClick={handlePurgeTestData}
-                        className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
-                        title="Purge all test schedule data ([TEST] shifts)"
-                      >
-                        Purge Test Data
-                      </button>
-                    )}
+                        <button
+                          type="button"
+                          onClick={handlePurgeTestData}
+                          className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                          title="Purge all test schedule data ([TEST] shifts)"
+                        >
+                          Purge Test Data
+                        </button>
+                      )}
 
                     {/* ⏳ Coverage Requests Dropdown */}
                     {(() => {
@@ -15201,9 +15137,9 @@ export function AdminDashboardMain({
                           const dateObj = new Date(shift.date + "T12:00:00");
                           const dateLabel = !isNaN(dateObj.getTime())
                             ? dateObj.toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                              })
+                              month: "short",
+                              day: "numeric",
+                            })
                             : shift.date;
                           return {
                             label: `${name} — ${shift.role} — ${dateLabel}`,
@@ -15236,74 +15172,62 @@ export function AdminDashboardMain({
                   <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 px-6 py-4 backdrop-blur-2xl">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                       {/* Search by Person */}
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="admin-sched-person-search"
-                          className="r text-white/50"
-                        >
-                          Search Person / Role
-                        </label>
-                        <div className="input-glow-border relative w-full rounded-lg">
-                          <input
-                            id="admin-sched-person-search"
-                            type="text"
-                            value={schedulePersonSearch}
-                            onChange={(e) =>
-                              setSchedulePersonSearch(e.target.value)
-                            }
-                            placeholder="Name, role, e.g. Dave, Audio..."
-                            className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 outline-none"
-                          />
-                          {schedulePersonSearch && (
-                            <button
-                              type="button"
-                              aria-label="Clear person search"
-                              onClick={() => setSchedulePersonSearch("")}
-                              className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer border-none text-white/40 hover:text-white"
-                            >
-                              ✕
-                            </button>
-                          )}
-                        </div>
+                      <div className="relative flex flex-col gap-1.5">
+                        <GlowInput
+                          id="admin-sched-person-search"
+                          label="Search Person / Role"
+                          labelClassName="r text-white/50"
+                          type="text"
+                          value={schedulePersonSearch}
+                          onChange={(e) =>
+                            setSchedulePersonSearch(e.target.value)
+                          }
+                          placeholder="Name, role, e.g. Dave, Audio..."
+                          rounded="rounded-lg"
+                        />
+                        {schedulePersonSearch && (
+                          <button
+                            type="button"
+                            aria-label="Clear person search"
+                            onClick={() => setSchedulePersonSearch("")}
+                            className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                          >
+                            ✕
+                          </button>
+                        )}
                       </div>
 
                       {/* Search by Venue */}
-                      <div className="flex flex-col gap-1.5">
-                        <label
-                          htmlFor="admin-sched-venue-search"
-                          className="r text-white/50"
-                        >
-                          Search Venue Name
-                        </label>
-                        <div className="input-glow-border relative w-full rounded-lg">
-                          <input
-                            id="admin-sched-venue-search"
-                            type="text"
-                            value={scheduleVenueSearch}
-                            onChange={(e) =>
-                              setScheduleVenueSearch(e.target.value)
-                            }
-                            placeholder="Venue, e.g. Blarney, Cruise..."
-                            className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 outline-none"
-                          />
-                          {scheduleVenueSearch && (
-                            <button
-                              type="button"
-                              aria-label="Clear venue search"
-                              onClick={() => setScheduleVenueSearch("")}
-                              className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer border-none text-white/40 hover:text-white"
-                            >
-                              ✕
-                            </button>
-                          )}
-                        </div>
+                      <div className="relative flex flex-col gap-1.5">
+                        <GlowInput
+                          id="admin-sched-venue-search"
+                          label="Search Venue Name"
+                          labelClassName="r text-white/50"
+                          type="text"
+                          value={scheduleVenueSearch}
+                          onChange={(e) =>
+                            setScheduleVenueSearch(e.target.value)
+                          }
+                          placeholder="Venue, e.g. Blarney, Cruise..."
+                          rounded="rounded-lg"
+                        />
+                        {scheduleVenueSearch && (
+                          <button
+                            type="button"
+                            aria-label="Clear venue search"
+                            onClick={() => setScheduleVenueSearch("")}
+                            className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                          >
+                            ✕
+                          </button>
+                        )}
                       </div>
 
                       {/* Event Type Filter */}
                       <div className="flex flex-col gap-1.5">
                         <label
                           htmlFor="admin-sched-event-type"
-                          className="r text-white/50"
+                          className="text-white/50"
                         >
                           Show / Event Type
                         </label>
@@ -15326,35 +15250,33 @@ export function AdminDashboardMain({
 
                       {/* Date Range Selection */}
                       <div className="col-span-1 flex flex-col gap-1.5">
-                        <span className="r text-white/50">
+                        <span className="text-white/50">
                           Custom Date Range
                         </span>
                         <div className="flex items-center gap-2">
-                          <div className="input-glow-border w-full rounded-lg">
-                            <input
-                              type="date"
-                              aria-label="Schedule start date"
-                              value={scheduleStartDate}
-                              onChange={(e) =>
-                                setScheduleStartDate(e.target.value)
-                              }
-                              onClick={(e) => e.currentTarget.showPicker?.()}
-                              className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] outline-none"
-                            />
-                          </div>
-                          <span className="/35">TO</span>
-                          <div className="input-glow-border w-full rounded-lg">
-                            <input
-                              type="date"
-                              aria-label="Schedule end date"
-                              value={scheduleEndDate}
-                              onChange={(e) =>
-                                setScheduleEndDate(e.target.value)
-                              }
-                              onClick={(e) => e.currentTarget.showPicker?.()}
-                              className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] outline-none"
-                            />
-                          </div>
+                          <GlowInput
+                            rounded="rounded-lg"
+                            type="date"
+                            aria-label="Schedule start date"
+                            value={scheduleStartDate}
+                            onChange={(e) =>
+                              setScheduleStartDate(e.target.value)
+                            }
+                            onClick={(e) => e.currentTarget.showPicker?.()}
+                            className="cursor-pointer [color-scheme:dark]"
+                          />
+                          <span className="">TO</span>
+                          <GlowInput
+                            rounded="rounded-lg"
+                            type="date"
+                            aria-label="Schedule end date"
+                            value={scheduleEndDate}
+                            onChange={(e) =>
+                              setScheduleEndDate(e.target.value)
+                            }
+                            onClick={(e) => e.currentTarget.showPicker?.()}
+                            className="cursor-pointer [color-scheme:dark]"
+                          />
                           {(scheduleStartDate || scheduleEndDate) && (
                             <button
                               type="button"
@@ -15386,7 +15308,7 @@ export function AdminDashboardMain({
                       </div>
                       {activeFiltersCount > 0 && (
                         <div className="flex items-center gap-2">
-                          <span className="/80">Filters active</span>
+                          <span className="">Filters active</span>
                           <button
                             type="button"
                             onClick={() => {
@@ -15424,7 +15346,7 @@ export function AdminDashboardMain({
                     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-white/[0.02]">
                       <div className="relative z-20 flex shrink-0 items-center justify-between border-b border-white/10 bg-[#0a00653b] px-3 py-2.5">
                         <div className="flex items-center gap-1.5">
-                          <span className="r">Tour Dates</span>
+                          <span className="">Tour Dates</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="rounded-lg border border-white/10 bg-[#00000029] px-1.5 py-0.5">
@@ -15583,7 +15505,7 @@ export function AdminDashboardMain({
                                     <div className="flex items-center gap-2">
                                       <span></span>
                                       <div>
-                                        <p className="r">Coverage Requested</p>
+                                        <p className="">Coverage Requested</p>
                                         <p className="mt-0.5">
                                           <strong>
                                             {editingShift.crewName}
@@ -15651,9 +15573,9 @@ export function AdminDashboardMain({
                                             m.id !== editingShift.crewId &&
                                             (!onlyShowFitRole ||
                                               (m.role || "").toUpperCase() ===
-                                                (
-                                                  editingShift.role || ""
-                                                ).toUpperCase()),
+                                              (
+                                                editingShift.role || ""
+                                              ).toUpperCase()),
                                         );
 
                                         if (candidates.length === 0) {
@@ -15707,9 +15629,9 @@ export function AdminDashboardMain({
                                                       style={
                                                         member.color
                                                           ? {
-                                                              backgroundColor:
-                                                                member.color,
-                                                            }
+                                                            backgroundColor:
+                                                              member.color,
+                                                          }
                                                           : undefined
                                                       }
                                                     >
@@ -15734,7 +15656,7 @@ export function AdminDashboardMain({
                                                       {member.role || "Crew"}
                                                     </span>
                                                     {isOverlapping && (
-                                                      <span className="py-0.2 rounded border border-red-500/35 bg-red-500/20 px-1 text-[var(--font-size-5xs)] text-red-400">
+                                                      <span className="py-0.5 rounded border border-red-500/35 bg-red-500/20 px-1 text-[var(--font-size-5xs)] text-red-400">
                                                         Overlaps{" "}
                                                         {overlaps[0].time}
                                                       </span>
@@ -15792,10 +15714,10 @@ export function AdminDashboardMain({
                                 : null;
                               const formattedDate = dateObj
                                 ? dateObj.toLocaleDateString("en-US", {
-                                    weekday: "short",
-                                    month: "short",
-                                    day: "numeric",
-                                  })
+                                  weekday: "short",
+                                  month: "short",
+                                  day: "numeric",
+                                })
                                 : activeDropDay;
                               const festStart =
                                 activeShow.festStart ||
@@ -15851,343 +15773,343 @@ export function AdminDashboardMain({
                             {!(
                               editingShift && editingShift.isCoverageRequested
                             ) && (
-                              <div className="flex min-h-0 flex-1 flex-col">
-                                <span className="r mb-2 block shrink-0 overflow-hidden text-[0.85rem] text-ellipsis whitespace-nowrap">
-                                  Select Crew Members Working That Day
-                                </span>
+                                <div className="flex min-h-0 flex-1 flex-col">
+                                  <span className="mb-2 block shrink-0 overflow-hidden text-[0.85rem] text-ellipsis whitespace-nowrap">
+                                    Select Crew Members Working That Day
+                                  </span>
 
-                                {/* Search and Grouping Controls */}
-                                <div className="admin-crew-search-wrapper mb-3 w-full shrink-0">
-                                  <SearchInput
-                                    ariaLabel="Search crew members"
-                                    value={drawerCrewSearch}
-                                    onChange={setDrawerCrewSearch}
-                                    placeholder="Search crew members..."
-                                    width="100%"
-                                    containerClassName="max-w-none w-full"
-                                  />
-                                </div>
+                                  {/* Search and Grouping Controls */}
+                                  <div className="admin-crew-search-wrapper mb-3 w-full shrink-0">
+                                    <SearchInput
+                                      ariaLabel="Search crew members"
+                                      value={drawerCrewSearch}
+                                      onChange={setDrawerCrewSearch}
+                                      placeholder="Search crew members..."
+                                      width="100%"
+                                      containerClassName="max-w-none w-full"
+                                    />
+                                  </div>
 
-                                <CustomScrollbar
-                                  direction="vertical"
-                                  className="min-h-0 flex-1"
-                                >
-                                  <div className="space-y-2.5 rounded-lg pr-3 pb-4">
-                                    {(() => {
-                                      return uniqueCrewList
-                                        .filter((m) =>
-                                          m.name
-                                            .toLowerCase()
-                                            .includes(
-                                              drawerCrewSearch.toLowerCase(),
-                                            ),
-                                        )
-                                        .sort((a, b) => {
-                                          const aActive =
-                                            !!selectedCrewAssignments[a.id]
-                                              ?.active;
-                                          const bActive =
-                                            !!selectedCrewAssignments[b.id]
-                                              ?.active;
-                                          if (aActive && !bActive) return -1;
-                                          if (!aActive && bActive) return 1;
-                                          return a.name.localeCompare(b.name);
-                                        })
-                                        .map((member) => {
-                                          const assignment =
-                                            selectedCrewAssignments[
+                                  <CustomScrollbar
+                                    direction="vertical"
+                                    className="min-h-0 flex-1"
+                                  >
+                                    <div className="space-y-2.5 rounded-lg pr-3 pb-4">
+                                      {(() => {
+                                        return uniqueCrewList
+                                          .filter((m) =>
+                                            m.name
+                                              .toLowerCase()
+                                              .includes(
+                                                drawerCrewSearch.toLowerCase(),
+                                              ),
+                                          )
+                                          .sort((a, b) => {
+                                            const aActive =
+                                              !!selectedCrewAssignments[a.id]
+                                                ?.active;
+                                            const bActive =
+                                              !!selectedCrewAssignments[b.id]
+                                                ?.active;
+                                            if (aActive && !bActive) return -1;
+                                            if (!aActive && bActive) return 1;
+                                            return a.name.localeCompare(b.name);
+                                          })
+                                          .map((member) => {
+                                            const assignment =
+                                              selectedCrewAssignments[
                                               member.id
-                                            ] || {
-                                              active: false,
-                                              customized: false,
-                                              role: dropRole || "STAGE HAND",
-                                              startHour: dropStartHour,
-                                              endHour: dropEndHour,
-                                            };
+                                              ] || {
+                                                active: false,
+                                                customized: false,
+                                                role: dropRole || "STAGE HAND",
+                                                startHour: dropStartHour,
+                                                endHour: dropEndHour,
+                                              };
 
-                                          const overlaps = getOverlappingShifts(
-                                            member.id,
-                                            activeDropDay || "",
-                                            assignment.startHour,
-                                            assignment.endHour,
-                                            editingShiftId || undefined,
-                                          );
-                                          const isOverlapping =
-                                            overlaps.length > 0;
+                                            const overlaps = getOverlappingShifts(
+                                              member.id,
+                                              activeDropDay || "",
+                                              assignment.startHour,
+                                              assignment.endHour,
+                                              editingShiftId || undefined,
+                                            );
+                                            const isOverlapping =
+                                              overlaps.length > 0;
 
-                                          return (
-                                            <div
-                                              key={member.id}
-                                              className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
-                                            >
-                                              <div className="flex items-center justify-between">
-                                                <label className="flex w-full cursor-pointer items-center gap-3 select-none">
-                                                  <SquishyToggle
-                                                    id={`crew-assign-toggle-${member.id}`}
-                                                    label={`Toggle assignment for ${member.name || member.id}`}
-                                                    checked={
-                                                      !!assignment.active
-                                                    }
-                                                    onChange={(checked) => {
-                                                      setSelectedCrewAssignments(
-                                                        (prev) => ({
-                                                          ...prev,
-                                                          [member.id]: {
-                                                            active: checked,
-                                                            customized: false,
-                                                            role:
-                                                              assignment.role ||
-                                                              dropRole ||
-                                                              member.role ||
-                                                              "STAGE HAND",
-                                                            startHour:
-                                                              assignment.startHour ||
-                                                              dropStartHour ||
-                                                              12,
-                                                            endHour:
-                                                              assignment.endHour ||
-                                                              dropEndHour ||
-                                                              17,
-                                                            timeFrames:
-                                                              structuredClone(
-                                                                dropTimeFrames,
-                                                              ),
-                                                          },
-                                                        }),
-                                                      );
-                                                    }}
-                                                  />
-                                                  <div className="flex flex-1 items-center gap-2">
-                                                    {(() => {
-                                                      const avatarSrc =
-                                                        resolveMemberAvatar(
-                                                          member.name,
-                                                          member.avatar,
+                                            return (
+                                              <div
+                                                key={member.id}
+                                                className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
+                                              >
+                                                <div className="flex items-center justify-between">
+                                                  <label className="flex w-full cursor-pointer items-center gap-3 select-none">
+                                                    <SquishyToggle
+                                                      id={`crew-assign-toggle-${member.id}`}
+                                                      label={`Toggle assignment for ${member.name || member.id}`}
+                                                      checked={
+                                                        !!assignment.active
+                                                      }
+                                                      onChange={(checked) => {
+                                                        setSelectedCrewAssignments(
+                                                          (prev) => ({
+                                                            ...prev,
+                                                            [member.id]: {
+                                                              active: checked,
+                                                              customized: false,
+                                                              role:
+                                                                assignment.role ||
+                                                                dropRole ||
+                                                                member.role ||
+                                                                "STAGE HAND",
+                                                              startHour:
+                                                                assignment.startHour ||
+                                                                dropStartHour ||
+                                                                12,
+                                                              endHour:
+                                                                assignment.endHour ||
+                                                                dropEndHour ||
+                                                                17,
+                                                              timeFrames:
+                                                                structuredClone(
+                                                                  dropTimeFrames,
+                                                                ),
+                                                            },
+                                                          }),
                                                         );
-                                                      return avatarSrc ? (
-                                                        <img
-                                                          src={avatarSrc}
-                                                          alt={member.name}
-                                                          className="h-11 w-11 shrink-0 rounded-full border border-[var(--color-accent)]/20 object-cover"
-                                                          onError={(e) => {
-                                                            (
-                                                              e.currentTarget as HTMLElement
-                                                            ).style.display =
-                                                              "none";
-                                                          }}
-                                                        />
-                                                      ) : (
-                                                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]">
-                                                          {member.initials ||
-                                                            member.name
-                                                              .split(" ")
-                                                              .map(
-                                                                (n: string) =>
-                                                                  n[0],
-                                                              )
-                                                              .join("")
-                                                              .toUpperCase()
-                                                              .slice(0, 2)}
-                                                        </div>
-                                                      );
-                                                    })()}
-                                                    <div className="min-w-0 flex-1">
-                                                      <div className="flex items-center justify-between gap-2">
-                                                        <span className="/95 block">
-                                                          {member.name}
-                                                        </span>
-                                                        {assignment.active && (
-                                                          <span className="shrink-0 rounded-full bg-purple-500 px-2 py-0.5 text-[12px]">
-                                                            Selected
-                                                          </span>
-                                                        )}
-                                                      </div>
-                                                      <span className="mt-0.5 block">
-                                                        {member.phone ||
-                                                          "No phone"}{" "}
-                                                        |{" "}
-                                                        {member.email ||
-                                                          "No email"}
-                                                      </span>
+                                                      }}
+                                                    />
+                                                    <div className="flex flex-1 items-center gap-2">
                                                       {(() => {
-                                                        const memberShifts = (
-                                                          activeDayShiftsByCrew[
-                                                            member.id
-                                                          ] || []
-                                                        ).filter(
-                                                          (s) =>
-                                                            s.id !==
-                                                            editingShiftId,
-                                                        );
-                                                        if (
-                                                          memberShifts.length ===
-                                                          0
-                                                        )
-                                                          return null;
-                                                        return (
-                                                          <div className="mt-1.5 flex flex-wrap gap-1">
-                                                            {memberShifts.map(
-                                                              (s, idx) => (
-                                                                <span
-                                                                  key={idx}
-                                                                  className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 select-none"
-                                                                >
-                                                                  {s.role ||
-                                                                    "SHIFT"}
-                                                                  :{" "}
-                                                                  {s.time ||
-                                                                    formatTimeFrame(
-                                                                      s.startHour,
-                                                                      s.endHour,
-                                                                    )}
-                                                                </span>
-                                                              ),
-                                                            )}
+                                                        const avatarSrc =
+                                                          resolveMemberAvatar(
+                                                            member.name,
+                                                            member.avatar,
+                                                          );
+                                                        return avatarSrc ? (
+                                                          <img
+                                                            src={avatarSrc}
+                                                            alt={member.name}
+                                                            className="h-11 w-11 shrink-0 rounded-full border border-[var(--color-accent)]/20 object-cover"
+                                                            onError={(e) => {
+                                                              (
+                                                                e.currentTarget as HTMLElement
+                                                              ).style.display =
+                                                                "none";
+                                                            }}
+                                                          />
+                                                        ) : (
+                                                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]">
+                                                            {member.initials ||
+                                                              member.name
+                                                                .split(" ")
+                                                                .map(
+                                                                  (n: string) =>
+                                                                    n[0],
+                                                                )
+                                                                .join("")
+                                                                .toUpperCase()
+                                                                .slice(0, 2)}
                                                           </div>
                                                         );
                                                       })()}
-                                                      {isOverlapping && (
-                                                        <span className="mt-0.5 block text-[9px] text-red-400">
-                                                          Overlaps:{" "}
-                                                          {overlaps[0].time}
-                                                        </span>
-                                                      )}
-                                                    </div>
-                                                  </div>
-                                                </label>
-                                              </div>
-
-                                              {/* Inline Time Frames & Form Fields for Toggled Member */}
-                                              {assignment.active && (
-                                                <div className="mt-3.5 animate-[fadeIn_0.2s_ease] space-y-4 border-t border-white/10 pt-3">
-                                                  {dropTimeFrames.map(
-                                                    (tf, index) => (
-                                                      <div
-                                                        key={
-                                                          tf.id ||
-                                                          `tf-${tf.role || "role"}-${tf.startHour ?? "start"}-${tf.endHour ?? "end"}`
-                                                        }
-                                                        className="relative animate-[fadeIn_0.2s_ease] space-y-3 rounded-lg border border-white/10 p-3.5"
-                                                      >
-                                                        <div className="flex items-center justify-between">
-                                                          <span
-                                                            style={{
-                                                              fontSize: "11px",
-                                                            }}
-                                                          >
-                                                            Time Frame{" "}
-                                                            {index + 1}
+                                                      <div className="min-w-0 flex-1">
+                                                        <div className="flex items-center justify-between gap-2">
+                                                          <span className="block">
+                                                            {member.name}
                                                           </span>
-                                                          {dropTimeFrames.length >
-                                                            1 && (
-                                                            <button
-                                                              type="button"
-                                                              onClick={() => {
-                                                                setDropTimeFrames(
-                                                                  (prev) =>
-                                                                    prev.filter(
-                                                                      (_, i) =>
-                                                                        i !==
-                                                                        index,
-                                                                    ),
-                                                                );
-                                                              }}
-                                                              className="cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
-                                                              style={{
-                                                                fontSize:
-                                                                  "10px",
-                                                              }}
-                                                            >
-                                                              Remove
-                                                            </button>
+                                                          {assignment.active && (
+                                                            <span className="shrink-0 rounded-full bg-purple-500 px-2 py-0.5 text-[12px]">
+                                                              Selected
+                                                            </span>
                                                           )}
                                                         </div>
+                                                        <span className="mt-0.5 block">
+                                                          {member.phone ||
+                                                            "No phone"}{" "}
+                                                          |{" "}
+                                                          {member.email ||
+                                                            "No email"}
+                                                        </span>
+                                                        {(() => {
+                                                          const memberShifts = (
+                                                            activeDayShiftsByCrew[
+                                                            member.id
+                                                            ] || []
+                                                          ).filter(
+                                                            (s) =>
+                                                              s.id !==
+                                                              editingShiftId,
+                                                          );
+                                                          if (
+                                                            memberShifts.length ===
+                                                            0
+                                                          )
+                                                            return null;
+                                                          return (
+                                                            <div className="mt-1.5 flex flex-wrap gap-1">
+                                                              {memberShifts.map(
+                                                                (s, idx) => (
+                                                                  <span
+                                                                    key={idx}
+                                                                    className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 select-none"
+                                                                  >
+                                                                    {s.role ||
+                                                                      "SHIFT"}
+                                                                    :{" "}
+                                                                    {s.time ||
+                                                                      formatTimeFrame(
+                                                                        s.startHour,
+                                                                        s.endHour,
+                                                                      )}
+                                                                  </span>
+                                                                ),
+                                                              )}
+                                                            </div>
+                                                          );
+                                                        })()}
+                                                        {isOverlapping && (
+                                                          <span className="mt-0.5 block text-[9px] text-red-400">
+                                                            Overlaps:{" "}
+                                                            {overlaps[0].time}
+                                                          </span>
+                                                        )}
+                                                      </div>
+                                                    </div>
+                                                  </label>
+                                                </div>
 
-                                                        <div className="grid grid-cols-2 gap-3">
-                                                          <div>
-                                                            <label
-                                                              className="mb-1 block text-[10px] text-white/50"
+                                                {/* Inline Time Frames & Form Fields for Toggled Member */}
+                                                {assignment.active && (
+                                                  <div className="mt-3.5 animate-[fadeIn_0.2s_ease] space-y-4 border-t border-white/10 pt-3">
+                                                    {dropTimeFrames.map(
+                                                      (tf, index) => (
+                                                        <div
+                                                          key={
+                                                            tf.id ||
+                                                            `tf-${tf.role || "role"}-${tf.startHour ?? "start"}-${tf.endHour ?? "end"}`
+                                                          }
+                                                          className="relative animate-[fadeIn_0.2s_ease] space-y-3 rounded-lg border border-white/10 p-3.5"
+                                                        >
+                                                          <div className="flex items-center justify-between">
+                                                            <span
                                                               style={{
-                                                                fontSize:
-                                                                  "10px",
+                                                                fontSize: "11px",
                                                               }}
                                                             >
-                                                              Start Time
-                                                            </label>
-                                                            <GooeyMessagesDropdown
-                                                              placeholder="Select Start Time"
-                                                              selected={
-                                                                generateTimeOptions().find(
-                                                                  (opt) =>
-                                                                    opt.value ===
-                                                                    tf.startHour,
-                                                                )?.label ||
-                                                                "12 PM"
-                                                              }
-                                                              options={generateTimeOptions().map(
-                                                                (opt) =>
-                                                                  opt.label,
+                                                              Time Frame{" "}
+                                                              {index + 1}
+                                                            </span>
+                                                            {dropTimeFrames.length >
+                                                              1 && (
+                                                                <button
+                                                                  type="button"
+                                                                  onClick={() => {
+                                                                    setDropTimeFrames(
+                                                                      (prev) =>
+                                                                        prev.filter(
+                                                                          (_, i) =>
+                                                                            i !==
+                                                                            index,
+                                                                        ),
+                                                                    );
+                                                                  }}
+                                                                  className="cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
+                                                                  style={{
+                                                                    fontSize:
+                                                                      "10px",
+                                                                  }}
+                                                                >
+                                                                  Remove
+                                                                </button>
                                                               )}
-                                                              onChange={(
-                                                                selectedLabel,
-                                                              ) => {
-                                                                const found =
+                                                          </div>
+
+                                                          <div className="grid grid-cols-2 gap-3">
+                                                            <div>
+                                                              <label
+                                                                className="mb-1 block text-[10px] text-white/50"
+                                                                style={{
+                                                                  fontSize:
+                                                                    "10px",
+                                                                }}
+                                                              >
+                                                                Start Time
+                                                              </label>
+                                                              <GooeyMessagesDropdown
+                                                                placeholder="Select Start Time"
+                                                                selected={
                                                                   generateTimeOptions().find(
                                                                     (opt) =>
-                                                                      opt.label ===
-                                                                      selectedLabel,
-                                                                  );
-                                                                if (!found)
-                                                                  return;
-                                                                const val =
-                                                                  found.value;
-                                                                setDropTimeFrames(
-                                                                  (prev) =>
-                                                                    prev.map(
-                                                                      (
-                                                                        item,
-                                                                        i,
-                                                                      ) =>
-                                                                        i ===
-                                                                        index
-                                                                          ? {
-                                                                              ...item,
-                                                                              startHour:
-                                                                                val,
-                                                                            }
-                                                                          : item,
-                                                                    ),
-                                                                );
-                                                                setSelectedCrewAssignments(
-                                                                  (prev) => {
-                                                                    const current =
-                                                                      prev[
-                                                                        member
-                                                                          .id
-                                                                      ] || {
-                                                                        active: true,
-                                                                      };
-                                                                    const baseTfs =
-                                                                      current.timeFrames ||
-                                                                      dropTimeFrames;
-                                                                    const tfs =
-                                                                      baseTfs.map(
+                                                                      opt.value ===
+                                                                      tf.startHour,
+                                                                  )?.label ||
+                                                                  "12 PM"
+                                                                }
+                                                                options={generateTimeOptions().map(
+                                                                  (opt) =>
+                                                                    opt.label,
+                                                                )}
+                                                                onChange={(
+                                                                  selectedLabel,
+                                                                ) => {
+                                                                  const found =
+                                                                    generateTimeOptions().find(
+                                                                      (opt) =>
+                                                                        opt.label ===
+                                                                        selectedLabel,
+                                                                    );
+                                                                  if (!found)
+                                                                    return;
+                                                                  const val =
+                                                                    found.value;
+                                                                  setDropTimeFrames(
+                                                                    (prev) =>
+                                                                      prev.map(
                                                                         (
                                                                           item,
                                                                           i,
                                                                         ) =>
                                                                           i ===
-                                                                          index
+                                                                            index
                                                                             ? {
+                                                                              ...item,
+                                                                              startHour:
+                                                                                val,
+                                                                            }
+                                                                            : item,
+                                                                      ),
+                                                                  );
+                                                                  setSelectedCrewAssignments(
+                                                                    (prev) => {
+                                                                      const current =
+                                                                        prev[
+                                                                        member
+                                                                          .id
+                                                                        ] || {
+                                                                          active: true,
+                                                                        };
+                                                                      const baseTfs =
+                                                                        current.timeFrames ||
+                                                                        dropTimeFrames;
+                                                                      const tfs =
+                                                                        baseTfs.map(
+                                                                          (
+                                                                            item,
+                                                                            i,
+                                                                          ) =>
+                                                                            i ===
+                                                                              index
+                                                                              ? {
                                                                                 ...item,
                                                                                 startHour:
                                                                                   val,
                                                                               }
-                                                                            : item,
-                                                                      );
-                                                                    return {
-                                                                      ...prev,
-                                                                      [member.id]:
+                                                                              : item,
+                                                                        );
+                                                                      return {
+                                                                        ...prev,
+                                                                        [member.id]:
                                                                         {
                                                                           ...current,
                                                                           startHour:
@@ -16195,102 +16117,102 @@ export function AdminDashboardMain({
                                                                           timeFrames:
                                                                             tfs,
                                                                         },
-                                                                    };
-                                                                  },
-                                                                );
-                                                              }}
-                                                              showAllOption={
-                                                                false
-                                                              }
-                                                              fullWidth={true}
-                                                              className="w-full"
-                                                            />
-                                                          </div>
+                                                                      };
+                                                                    },
+                                                                  );
+                                                                }}
+                                                                showAllOption={
+                                                                  false
+                                                                }
+                                                                fullWidth={true}
+                                                                className="w-full"
+                                                              />
+                                                            </div>
 
-                                                          <div>
-                                                            <label
-                                                              className="mb-1 block text-[10px] text-white/50"
-                                                              style={{
-                                                                fontSize:
-                                                                  "10px",
-                                                              }}
-                                                            >
-                                                              End Time
-                                                            </label>
-                                                            <GooeyMessagesDropdown
-                                                              placeholder="Select End Time"
-                                                              selected={
-                                                                generateTimeOptions().find(
-                                                                  (opt) =>
-                                                                    opt.value ===
-                                                                    tf.endHour,
-                                                                )?.label ||
-                                                                "5 PM"
-                                                              }
-                                                              options={generateTimeOptions().map(
-                                                                (opt) =>
-                                                                  opt.label,
-                                                              )}
-                                                              onChange={(
-                                                                selectedLabel,
-                                                              ) => {
-                                                                const found =
+                                                            <div>
+                                                              <label
+                                                                className="mb-1 block text-[10px] text-white/50"
+                                                                style={{
+                                                                  fontSize:
+                                                                    "10px",
+                                                                }}
+                                                              >
+                                                                End Time
+                                                              </label>
+                                                              <GooeyMessagesDropdown
+                                                                placeholder="Select End Time"
+                                                                selected={
                                                                   generateTimeOptions().find(
                                                                     (opt) =>
-                                                                      opt.label ===
-                                                                      selectedLabel,
-                                                                  );
-                                                                if (!found)
-                                                                  return;
-                                                                const val =
-                                                                  found.value;
-                                                                setDropTimeFrames(
-                                                                  (prev) =>
-                                                                    prev.map(
-                                                                      (
-                                                                        item,
-                                                                        i,
-                                                                      ) =>
-                                                                        i ===
-                                                                        index
-                                                                          ? {
-                                                                              ...item,
-                                                                              endHour:
-                                                                                val,
-                                                                            }
-                                                                          : item,
-                                                                    ),
-                                                                );
-                                                                setSelectedCrewAssignments(
-                                                                  (prev) => {
-                                                                    const current =
-                                                                      prev[
-                                                                        member
-                                                                          .id
-                                                                      ] || {
-                                                                        active: true,
-                                                                      };
-                                                                    const baseTfs =
-                                                                      current.timeFrames ||
-                                                                      dropTimeFrames;
-                                                                    const tfs =
-                                                                      baseTfs.map(
+                                                                      opt.value ===
+                                                                      tf.endHour,
+                                                                  )?.label ||
+                                                                  "5 PM"
+                                                                }
+                                                                options={generateTimeOptions().map(
+                                                                  (opt) =>
+                                                                    opt.label,
+                                                                )}
+                                                                onChange={(
+                                                                  selectedLabel,
+                                                                ) => {
+                                                                  const found =
+                                                                    generateTimeOptions().find(
+                                                                      (opt) =>
+                                                                        opt.label ===
+                                                                        selectedLabel,
+                                                                    );
+                                                                  if (!found)
+                                                                    return;
+                                                                  const val =
+                                                                    found.value;
+                                                                  setDropTimeFrames(
+                                                                    (prev) =>
+                                                                      prev.map(
                                                                         (
                                                                           item,
                                                                           i,
                                                                         ) =>
                                                                           i ===
-                                                                          index
+                                                                            index
                                                                             ? {
+                                                                              ...item,
+                                                                              endHour:
+                                                                                val,
+                                                                            }
+                                                                            : item,
+                                                                      ),
+                                                                  );
+                                                                  setSelectedCrewAssignments(
+                                                                    (prev) => {
+                                                                      const current =
+                                                                        prev[
+                                                                        member
+                                                                          .id
+                                                                        ] || {
+                                                                          active: true,
+                                                                        };
+                                                                      const baseTfs =
+                                                                        current.timeFrames ||
+                                                                        dropTimeFrames;
+                                                                      const tfs =
+                                                                        baseTfs.map(
+                                                                          (
+                                                                            item,
+                                                                            i,
+                                                                          ) =>
+                                                                            i ===
+                                                                              index
+                                                                              ? {
                                                                                 ...item,
                                                                                 endHour:
                                                                                   val,
                                                                               }
-                                                                            : item,
-                                                                      );
-                                                                    return {
-                                                                      ...prev,
-                                                                      [member.id]:
+                                                                              : item,
+                                                                        );
+                                                                      return {
+                                                                        ...prev,
+                                                                        [member.id]:
                                                                         {
                                                                           ...current,
                                                                           endHour:
@@ -16298,31 +16220,30 @@ export function AdminDashboardMain({
                                                                           timeFrames:
                                                                             tfs,
                                                                         },
-                                                                    };
-                                                                  },
-                                                                );
-                                                              }}
-                                                              showAllOption={
-                                                                false
-                                                              }
-                                                              fullWidth={true}
-                                                              className="w-full"
-                                                            />
+                                                                      };
+                                                                    },
+                                                                  );
+                                                                }}
+                                                                showAllOption={
+                                                                  false
+                                                                }
+                                                                fullWidth={true}
+                                                                className="w-full"
+                                                              />
+                                                            </div>
                                                           </div>
-                                                        </div>
 
-                                                        <div className="space-y-1">
-                                                          <label
-                                                            htmlFor={`admin-drawer-role-${index}`}
-                                                            className="mb-1 block text-[10px] text-white/50"
-                                                            style={{
-                                                              fontSize: "10px",
-                                                            }}
-                                                          >
-                                                            Role / Duty
-                                                          </label>
-                                                          <div className="input-glow-border w-full">
-                                                            <input
+                                                          <div className="space-y-1">
+                                                            <label
+                                                              htmlFor={`admin-drawer-role-${index}`}
+                                                              className="mb-1 block text-[10px] text-white/50"
+                                                              style={{
+                                                                fontSize: "10px",
+                                                              }}
+                                                            >
+                                                              Role / Duty
+                                                            </label>
+                                                            <GlowInput
                                                               id={`admin-drawer-role-${index}`}
                                                               type="text"
                                                               value={tf.role}
@@ -16338,37 +16259,36 @@ export function AdminDashboardMain({
                                                                         i,
                                                                       ) =>
                                                                         i ===
-                                                                        index
+                                                                          index
                                                                           ? {
-                                                                              ...item,
-                                                                              role: val,
-                                                                            }
+                                                                            ...item,
+                                                                            role: val,
+                                                                          }
                                                                           : item,
                                                                     ),
                                                                 );
                                                               }}
                                                               placeholder="e.g. Audio Mix"
-                                                              className="w-full rounded-lg border border-white/10 px-3 py-2 outline-none"
+                                                              rounded="rounded-lg"
                                                             />
-                                                          </div>
-                                                          <div className="mt-1.5 flex flex-wrap gap-1">
-                                                            {[
-                                                              "STAGE HAND",
-                                                              "AUDIO MIX",
-                                                              "LIGHTS",
-                                                              "EQUIPMENT SETUP",
-                                                              "TEAR DOWN",
-                                                              "MERCH",
-                                                              "TOUR MANAGER",
-                                                              "SOUND ENGINEER",
-                                                              "STAGE MANAGER",
-                                                              "PHOTOGRAPHER",
-                                                              "CAMERA",
-                                                              "BAND MEMBER",
-                                                            ].map((preset) => {
-                                                              const currentRoles =
-                                                                tf.role
-                                                                  ? tf.role
+                                                            <div className="mt-1.5 flex flex-wrap gap-1">
+                                                              {[
+                                                                "STAGE HAND",
+                                                                "AUDIO MIX",
+                                                                "LIGHTS",
+                                                                "EQUIPMENT SETUP",
+                                                                "TEAR DOWN",
+                                                                "MERCH",
+                                                                "TOUR MANAGER",
+                                                                "SOUND ENGINEER",
+                                                                "STAGE MANAGER",
+                                                                "PHOTOGRAPHER",
+                                                                "CAMERA",
+                                                                "BAND MEMBER",
+                                                              ].map((preset) => {
+                                                                const currentRoles =
+                                                                  tf.role
+                                                                    ? tf.role
                                                                       .split(
                                                                         /[,|/]/,
                                                                       )
@@ -16383,22 +16303,22 @@ export function AdminDashboardMain({
                                                                       .filter(
                                                                         Boolean,
                                                                       )
-                                                                  : [];
-                                                              const isSelected =
-                                                                currentRoles.includes(
-                                                                  preset.toUpperCase(),
-                                                                );
-                                                              return (
-                                                                <SectionBadge
-                                                                  key={preset}
-                                                                  label={preset}
-                                                                  isActive={
-                                                                    isSelected
-                                                                  }
-                                                                  onClick={() => {
-                                                                    const rawRoles =
-                                                                      tf.role
-                                                                        ? tf.role
+                                                                    : [];
+                                                                const isSelected =
+                                                                  currentRoles.includes(
+                                                                    preset.toUpperCase(),
+                                                                  );
+                                                                return (
+                                                                  <SectionBadge
+                                                                    key={preset}
+                                                                    label={preset}
+                                                                    isActive={
+                                                                      isSelected
+                                                                    }
+                                                                    onClick={() => {
+                                                                      const rawRoles =
+                                                                        tf.role
+                                                                          ? tf.role
                                                                             .split(
                                                                               /[,|/]/,
                                                                             )
@@ -16411,229 +16331,229 @@ export function AdminDashboardMain({
                                                                             .filter(
                                                                               Boolean,
                                                                             )
-                                                                        : [];
-                                                                    const upperPreset =
-                                                                      preset.toUpperCase();
-                                                                    const exists =
-                                                                      rawRoles.some(
-                                                                        (
-                                                                          r: string,
-                                                                        ) =>
-                                                                          r.toUpperCase() ===
-                                                                          upperPreset,
-                                                                      );
-                                                                    let newRoles: string[];
-                                                                    if (
-                                                                      exists
-                                                                    ) {
-                                                                      newRoles =
-                                                                        rawRoles.filter(
+                                                                          : [];
+                                                                      const upperPreset =
+                                                                        preset.toUpperCase();
+                                                                      const exists =
+                                                                        rawRoles.some(
                                                                           (
                                                                             r: string,
                                                                           ) =>
-                                                                            r.toUpperCase() !==
+                                                                            r.toUpperCase() ===
                                                                             upperPreset,
                                                                         );
-                                                                    } else {
-                                                                      newRoles =
-                                                                        [
-                                                                          ...rawRoles,
-                                                                          preset,
-                                                                        ];
-                                                                    }
-                                                                    const newRoleStr =
-                                                                      newRoles.join(
-                                                                        ", ",
-                                                                      );
-                                                                    setDropTimeFrames(
-                                                                      (prev) =>
-                                                                        prev.map(
-                                                                          (
-                                                                            item,
-                                                                            i,
-                                                                          ) =>
-                                                                            i ===
-                                                                            index
-                                                                              ? {
+                                                                      let newRoles: string[];
+                                                                      if (
+                                                                        exists
+                                                                      ) {
+                                                                        newRoles =
+                                                                          rawRoles.filter(
+                                                                            (
+                                                                              r: string,
+                                                                            ) =>
+                                                                              r.toUpperCase() !==
+                                                                              upperPreset,
+                                                                          );
+                                                                      } else {
+                                                                        newRoles =
+                                                                          [
+                                                                            ...rawRoles,
+                                                                            preset,
+                                                                          ];
+                                                                      }
+                                                                      const newRoleStr =
+                                                                        newRoles.join(
+                                                                          ", ",
+                                                                        );
+                                                                      setDropTimeFrames(
+                                                                        (prev) =>
+                                                                          prev.map(
+                                                                            (
+                                                                              item,
+                                                                              i,
+                                                                            ) =>
+                                                                              i ===
+                                                                                index
+                                                                                ? {
                                                                                   ...item,
                                                                                   role: newRoleStr,
                                                                                 }
-                                                                              : item,
-                                                                        ),
-                                                                    );
-                                                                  }}
-                                                                  className="cursor-pointer"
-                                                                />
-                                                              );
-                                                            })}
+                                                                                : item,
+                                                                          ),
+                                                                      );
+                                                                    }}
+                                                                    className="cursor-pointer"
+                                                                  />
+                                                                );
+                                                              })}
+                                                            </div>
+                                                          </div>
+
+                                                          <div className="space-y-1">
+                                                            <label
+                                                              className="mb-1 block text-[10px] text-white/50"
+                                                              style={{
+                                                                fontSize: "10px",
+                                                              }}
+                                                            >
+                                                              Tags
+                                                            </label>
+                                                            <GooeyMessagesDropdown
+                                                              placeholder="Select tags..."
+                                                              showAllOption={
+                                                                false
+                                                              }
+                                                              options={[
+                                                                "Overtime",
+                                                                "Double Shift",
+                                                                "Split Shift",
+                                                                "Standby",
+                                                                "Backup",
+                                                                "Training",
+                                                              ].map((t) => ({
+                                                                label: t,
+                                                                value: t,
+                                                              }))}
+                                                              onChange={(val) => {
+                                                                setDropTimeFrames(
+                                                                  (prev: any[]) =>
+                                                                    prev.map(
+                                                                      (
+                                                                        item: any,
+                                                                        i: number,
+                                                                      ) => {
+                                                                        if (
+                                                                          i !==
+                                                                          index
+                                                                        )
+                                                                          return item;
+                                                                        const tagSet =
+                                                                          new Set(
+                                                                            item.tags ||
+                                                                            [],
+                                                                          );
+                                                                        if (
+                                                                          tagSet.has(
+                                                                            val,
+                                                                          )
+                                                                        ) {
+                                                                          tagSet.delete(
+                                                                            val,
+                                                                          );
+                                                                        } else {
+                                                                          tagSet.add(
+                                                                            val,
+                                                                          );
+                                                                        }
+                                                                        return {
+                                                                          ...item,
+                                                                          tags: Array.from(
+                                                                            tagSet,
+                                                                          ),
+                                                                        };
+                                                                      },
+                                                                    ),
+                                                                );
+                                                              }}
+                                                              fullWidth
+                                                            />
+                                                            {tf.tags &&
+                                                              tf.tags.length >
+                                                              0 && (
+                                                                <div className="mt-1.5 flex flex-wrap gap-1">
+                                                                  {tf.tags.map(
+                                                                    (tag) => (
+                                                                      <span
+                                                                        key={tag}
+                                                                        className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-2 py-0.5"
+                                                                      >
+                                                                        {tag}
+                                                                        <button
+                                                                          type="button"
+                                                                          aria-label={`Remove ${tag} tag`}
+                                                                          onClick={() => {
+                                                                            setDropTimeFrames(
+                                                                              (
+                                                                                prev,
+                                                                              ) =>
+                                                                                prev.map(
+                                                                                  (
+                                                                                    item,
+                                                                                    i,
+                                                                                  ) => {
+                                                                                    if (
+                                                                                      i ===
+                                                                                      index
+                                                                                    ) {
+                                                                                      return {
+                                                                                        ...item,
+                                                                                        tags: (
+                                                                                          item.tags ||
+                                                                                          []
+                                                                                        ).filter(
+                                                                                          (
+                                                                                            t,
+                                                                                          ) =>
+                                                                                            t !==
+                                                                                            tag,
+                                                                                        ),
+                                                                                      };
+                                                                                    }
+                                                                                    return item;
+                                                                                  },
+                                                                                ),
+                                                                            );
+                                                                          }}
+                                                                          className="text-4xs cursor-pointer border-none p-0 hover:text-white"
+                                                                        >
+                                                                          ✕
+                                                                        </button>
+                                                                      </span>
+                                                                    ),
+                                                                  )}
+                                                                </div>
+                                                              )}
                                                           </div>
                                                         </div>
+                                                      ),
+                                                    )}
 
-                                                        <div className="space-y-1">
-                                                          <label
-                                                            className="mb-1 block text-[10px] text-white/50"
-                                                            style={{
-                                                              fontSize: "10px",
-                                                            }}
-                                                          >
-                                                            Tags
-                                                          </label>
-                                                          <GooeyMessagesDropdown
-                                                            placeholder="Select tags..."
-                                                            showAllOption={
-                                                              false
-                                                            }
-                                                            options={[
-                                                              "Overtime",
-                                                              "Double Shift",
-                                                              "Split Shift",
-                                                              "Standby",
-                                                              "Backup",
-                                                              "Training",
-                                                            ].map((t) => ({
-                                                              label: t,
-                                                              value: t,
-                                                            }))}
-                                                            onChange={(val) => {
-                                                              setDropTimeFrames(
-                                                                (prev: any[]) =>
-                                                                  prev.map(
-                                                                    (
-                                                                      item: any,
-                                                                      i: number,
-                                                                    ) => {
-                                                                      if (
-                                                                        i !==
-                                                                        index
-                                                                      )
-                                                                        return item;
-                                                                      const tagSet =
-                                                                        new Set(
-                                                                          item.tags ||
-                                                                            [],
-                                                                        );
-                                                                      if (
-                                                                        tagSet.has(
-                                                                          val,
-                                                                        )
-                                                                      ) {
-                                                                        tagSet.delete(
-                                                                          val,
-                                                                        );
-                                                                      } else {
-                                                                        tagSet.add(
-                                                                          val,
-                                                                        );
-                                                                      }
-                                                                      return {
-                                                                        ...item,
-                                                                        tags: Array.from(
-                                                                          tagSet,
-                                                                        ),
-                                                                      };
-                                                                    },
-                                                                  ),
-                                                              );
-                                                            }}
-                                                            fullWidth
-                                                          />
-                                                          {tf.tags &&
-                                                            tf.tags.length >
-                                                              0 && (
-                                                              <div className="mt-1.5 flex flex-wrap gap-1">
-                                                                {tf.tags.map(
-                                                                  (tag) => (
-                                                                    <span
-                                                                      key={tag}
-                                                                      className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-2 py-0.5"
-                                                                    >
-                                                                      {tag}
-                                                                      <button
-                                                                        type="button"
-                                                                        aria-label={`Remove ${tag} tag`}
-                                                                        onClick={() => {
-                                                                          setDropTimeFrames(
-                                                                            (
-                                                                              prev,
-                                                                            ) =>
-                                                                              prev.map(
-                                                                                (
-                                                                                  item,
-                                                                                  i,
-                                                                                ) => {
-                                                                                  if (
-                                                                                    i ===
-                                                                                    index
-                                                                                  ) {
-                                                                                    return {
-                                                                                      ...item,
-                                                                                      tags: (
-                                                                                        item.tags ||
-                                                                                        []
-                                                                                      ).filter(
-                                                                                        (
-                                                                                          t,
-                                                                                        ) =>
-                                                                                          t !==
-                                                                                          tag,
-                                                                                      ),
-                                                                                    };
-                                                                                  }
-                                                                                  return item;
-                                                                                },
-                                                                              ),
-                                                                          );
-                                                                        }}
-                                                                        className="text-4xs cursor-pointer border-none p-0 hover:text-white"
-                                                                      >
-                                                                        ✕
-                                                                      </button>
-                                                                    </span>
-                                                                  ),
-                                                                )}
-                                                              </div>
-                                                            )}
-                                                        </div>
-                                                      </div>
-                                                    ),
-                                                  )}
-
-                                                  {dropTimeFrames.length <
-                                                    3 && (
-                                                    <button
-                                                      type="button"
-                                                      onClick={() => {
-                                                        setDropTimeFrames(
-                                                          (prev) => [
-                                                            ...prev,
-                                                            {
-                                                              startHour: 12,
-                                                              endHour: 17,
-                                                              role: "STAGE HAND",
-                                                              tags: [],
-                                                            },
-                                                          ],
-                                                        );
-                                                      }}
-                                                      className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 hover:bg-white/20"
-                                                      style={{
-                                                        fontSize: "11px",
-                                                      }}
-                                                    >
-                                                      Add Time Frame (
-                                                      {dropTimeFrames.length}/3)
-                                                    </button>
-                                                  )}
-                                                </div>
-                                              )}
-                                            </div>
-                                          );
-                                        });
-                                    })()}
-                                  </div>
-                                </CustomScrollbar>
-                              </div>
-                            )}
+                                                    {dropTimeFrames.length <
+                                                      3 && (
+                                                        <button
+                                                          type="button"
+                                                          onClick={() => {
+                                                            setDropTimeFrames(
+                                                              (prev) => [
+                                                                ...prev,
+                                                                {
+                                                                  startHour: 12,
+                                                                  endHour: 17,
+                                                                  role: "STAGE HAND",
+                                                                  tags: [],
+                                                                },
+                                                              ],
+                                                            );
+                                                          }}
+                                                          className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 hover:bg-white/20"
+                                                          style={{
+                                                            fontSize: "11px",
+                                                          }}
+                                                        >
+                                                          Add Time Frame (
+                                                          {dropTimeFrames.length}/3)
+                                                        </button>
+                                                      )}
+                                                  </div>
+                                                )}
+                                              </div>
+                                            );
+                                          });
+                                      })()}
+                                    </div>
+                                  </CustomScrollbar>
+                                </div>
+                              )}
                           </div>
 
                           {/* Drawer Footer */}
@@ -16820,7 +16740,7 @@ export function AdminDashboardMain({
                                       </span>
                                       <span>{g.name}</span>
                                     </div>
-                                    <span className="group-hover: shrink-0 text-purple-400">
+                                    <span className="shrink-0 text-purple-400">
                                       Apply
                                     </span>
                                   </button>
@@ -16969,18 +16889,18 @@ export function AdminDashboardMain({
                                                   active: act,
                                                   timeFrames:
                                                     prev[m.id]?.timeFrames &&
-                                                    prev[m.id]?.timeFrames!
-                                                      .length > 0
+                                                      prev[m.id]?.timeFrames!
+                                                        .length > 0
                                                       ? prev[m.id]?.timeFrames!
                                                       : [
-                                                          {
-                                                            startHour: 17.0,
-                                                            endHour: 22.0,
-                                                            role:
-                                                              m.role ||
-                                                              "STAGE HAND",
-                                                          },
-                                                        ],
+                                                        {
+                                                          startHour: 17.0,
+                                                          endHour: 22.0,
+                                                          role:
+                                                            m.role ||
+                                                            "STAGE HAND",
+                                                        },
+                                                      ],
                                                 },
                                               }),
                                             );
@@ -17043,31 +16963,31 @@ export function AdminDashboardMain({
                                               </span>
                                               {(setting.timeFrames || [])
                                                 .length > 1 && (
-                                                <button
-                                                  type="button"
-                                                  onClick={() => {
-                                                    const currentTfs =
-                                                      setting.timeFrames || [];
-                                                    const nextTfs =
-                                                      currentTfs.filter(
-                                                        (_, i) => i !== tfIdx,
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                      const currentTfs =
+                                                        setting.timeFrames || [];
+                                                      const nextTfs =
+                                                        currentTfs.filter(
+                                                          (_, i) => i !== tfIdx,
+                                                        );
+                                                      setNewGroupMemberSettings(
+                                                        (prev) => ({
+                                                          ...prev,
+                                                          [m.id]: {
+                                                            ...prev[m.id],
+                                                            timeFrames: nextTfs,
+                                                          },
+                                                        }),
                                                       );
-                                                    setNewGroupMemberSettings(
-                                                      (prev) => ({
-                                                        ...prev,
-                                                        [m.id]: {
-                                                          ...prev[m.id],
-                                                          timeFrames: nextTfs,
-                                                        },
-                                                      }),
-                                                    );
-                                                  }}
-                                                  className="cursor-pointer border-none text-red-400 hover:text-red-300"
-                                                  style={{ fontSize: "8px" }}
-                                                >
-                                                  Remove
-                                                </button>
-                                              )}
+                                                    }}
+                                                    className="cursor-pointer border-none text-red-400 hover:text-red-300"
+                                                    style={{ fontSize: "8px" }}
+                                                  >
+                                                    Remove
+                                                  </button>
+                                                )}
                                             </div>
 
                                             {/* Start / End selects */}
@@ -17220,13 +17140,13 @@ export function AdminDashboardMain({
                                                 ].map((preset) => {
                                                   const currentRoles = tf.role
                                                     ? tf.role
-                                                        .split(/[,|/]/)
-                                                        .map((r: string) =>
-                                                          r
-                                                            .trim()
-                                                            .toUpperCase(),
-                                                        )
-                                                        .filter(Boolean)
+                                                      .split(/[,|/]/)
+                                                      .map((r: string) =>
+                                                        r
+                                                          .trim()
+                                                          .toUpperCase(),
+                                                      )
+                                                      .filter(Boolean)
                                                     : [];
                                                   const isSelected =
                                                     currentRoles.includes(
@@ -17239,12 +17159,12 @@ export function AdminDashboardMain({
                                                       onClick={() => {
                                                         const rawRoles = tf.role
                                                           ? tf.role
-                                                              .split(/[,|/]/)
-                                                              .map(
-                                                                (r: string) =>
-                                                                  r.trim(),
-                                                              )
-                                                              .filter(Boolean)
+                                                            .split(/[,|/]/)
+                                                            .map(
+                                                              (r: string) =>
+                                                                r.trim(),
+                                                            )
+                                                            .filter(Boolean)
                                                           : [];
                                                         const upperPreset =
                                                           preset.toUpperCase();
@@ -17421,7 +17341,7 @@ export function AdminDashboardMain({
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="disabled: cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
+                            className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
                           >
                             Save Group
                           </button>
@@ -17476,7 +17396,7 @@ export function AdminDashboardMain({
                             <button
                               aria-label="Close selected show crew date modal"
                               onClick={() => setSelectedShowCrewDate(null)}
-                              className="/45 cursor-pointer border-none hover:text-white"
+                              className="cursor-pointer border-none hover:text-white"
                             >
                               ✕
                             </button>
@@ -17559,14 +17479,14 @@ export function AdminDashboardMain({
                                             <span className="block">
                                               {shift.crewName}
                                             </span>
-                                            <span className="/45 mt-1 inline-block rounded bg-[#00000029] px-1.5 py-0.5">
+                                            <span className="mt-1 inline-block rounded bg-[#00000029] px-1.5 py-0.5">
                                               {shift.role}
                                             </span>
                                           </div>
                                         </div>
 
                                         <div className="shrink-0 text-right">
-                                          <span className="/85 block">
+                                          <span className="block">
                                             {shift.time}
                                           </span>
                                           <button
@@ -17640,7 +17560,7 @@ export function AdminDashboardMain({
   return (
     <main
       id="admin-dashboard-root"
-      className="site-container page-container selection: relative min-h-screen overflow-x-clip selection:bg-[var(--color-accent)]"
+      className="site-container page-container relative min-h-screen overflow-x-clip selection:bg-[var(--color-accent)]"
     >
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
       <header className="mb-6 flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-center">
@@ -17662,10 +17582,10 @@ export function AdminDashboardMain({
                   setAdminAvatarOverride(dataUrl);
                   try {
                     localStorage.setItem("7h_profile_avatar", dataUrl);
-                  } catch {}
+                  } catch { }
                   try {
                     if (updateAvatar) await updateAvatar(dataUrl);
-                  } catch {}
+                  } catch { }
                 }
               } catch (err) {
                 console.error("Avatar upload error:", err);
@@ -17713,8 +17633,8 @@ export function AdminDashboardMain({
               <h1>
                 {effectiveAdmin.name
                   ? effectiveAdmin.name
-                      .toLowerCase()
-                      .replace(/\b\w/g, (c: string) => c.toUpperCase())
+                    .toLowerCase()
+                    .replace(/\b\w/g, (c: string) => c.toUpperCase())
                   : ""}
               </h1>
               <span className="flex animate-pulse items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/15 px-2.5 py-1 text-[0.9rem] text-rose-400 dark:text-rose-300">
@@ -17741,7 +17661,7 @@ export function AdminDashboardMain({
                 setAdminTab("band");
                 adminTabRef.current = "band";
               }}
-              className="cursor-pointer px-5 py-2 text-[10px] whitespace-nowrap"
+              className="cursor-pointer whitespace-nowrap"
             >
               Band &amp; Site
             </SeventhButton>
@@ -17753,7 +17673,7 @@ export function AdminDashboardMain({
                 adminTabRef.current = "cruise";
                 setUnreadCruiseChat(0);
               }}
-              className="flex cursor-pointer items-center justify-center gap-1.5 px-5 py-2 text-[10px] whitespace-nowrap"
+              className="flex cursor-pointer items-center justify-center gap-1.5  whitespace-nowrap"
             >
               <span>Cruise</span>
               {unreadCruiseChat > 0 && adminTab !== "cruise" && (
@@ -17767,7 +17687,7 @@ export function AdminDashboardMain({
           {/* Exit Link */}
           <Link
             href="/"
-            className="hover: flex cursor-pointer items-center gap-1.5 px-1 py-2 text-black/70"
+            className="flex cursor-pointer items-center gap-1.5 px-1 py-2 text-black/70"
           >
             Exit to Site
           </Link>
@@ -17933,7 +17853,7 @@ export function AdminDashboardMain({
                               {entry.details.type === "signin" && (
                                 <div className="space-y-1.5">
                                   <div className="flex justify-between border-b border-white/10 pb-1">
-                                    <span className="r text-white/40">
+                                    <span className="text-white/40">
                                       User
                                     </span>
                                     <span className="text-[var(--color-accent)]">
@@ -17941,7 +17861,7 @@ export function AdminDashboardMain({
                                     </span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span className="r text-white/40">
+                                    <span className="text-white/40">
                                       IP Address
                                     </span>
                                     <span>{entry.details.ipAddress}</span>
@@ -17968,7 +17888,7 @@ export function AdminDashboardMain({
                                       {" "}
                                       Email Template
                                     </span>
-                                    <span className="/90">
+                                    <span className="">
                                       Subject: {entry.details.emailSubject}
                                     </span>
                                   </div>
@@ -18058,7 +17978,7 @@ export function AdminDashboardMain({
                     <div>
                       <label
                         htmlFor="admin-guidelines-title"
-                        className="r mb-2 block"
+                        className="mb-2 block"
                       >
                         Section Title
                       </label>
@@ -18070,13 +17990,13 @@ export function AdminDashboardMain({
                           setAdminGuidelinesTitle(e.target.value)
                         }
                         placeholder="Cruise Information & Guidelines"
-                        className="placeholder: focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
+                        className="focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="admin-guidelines-subtitle"
-                        className="r mb-2 block"
+                        className="mb-2 block"
                       >
                         Subtitle Badge
                       </label>
@@ -18089,14 +18009,14 @@ export function AdminDashboardMain({
                             setAdminGuidelinesSubtitle(e.target.value)
                           }
                           placeholder="Cruiser Welcome Pack"
-                          className="placeholder: focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 pr-12 text-white/40 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
+                          className="focus-ring w-full rounded-xl border border-purple-500/30 bg-[#18072b]/90 px-4 py-3 pr-12 text-white/40 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
                         />
                         <button
                           type="button"
                           className="absolute top-1/2 right-2.5 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg border border-purple-400/30 bg-gradient-to-r from-purple-500/40 to-pink-500/40 transition-[filter,background-color,border-color] hover:brightness-125"
                           title="Badge options"
                         >
-                          <span className="er">•••</span>
+                          <span className="">•••</span>
                         </button>
                       </div>
                     </div>
@@ -18112,7 +18032,7 @@ export function AdminDashboardMain({
                         value={adminGuidelinesContent}
                         onChange={setAdminGuidelinesContent}
                         placeholder="Type welcome pack content and guidelines..."
-                        className="rouned-lg overflow-hidden border border-white/10"
+                        className="rounded-lg overflow-hidden border border-white/10"
                       />
                     </div>
                   </div>
@@ -18198,7 +18118,7 @@ export function AdminDashboardMain({
                       <div>
                         <label
                           htmlFor="admin-cruise-blast-subject"
-                          className="r mb-2 block"
+                          className="mb-2 block"
                         >
                           Notice Title / Email Subject Line
                         </label>
@@ -18210,7 +18130,7 @@ export function AdminDashboardMain({
                             setCruiseBlastSubject(e.target.value)
                           }
                           placeholder="e.g. TEST, CAPTAIN'S LOG, or Cruise Update..."
-                          className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
+                          className="focus-ring w-full rounded-lg border border-white/10 bg-[#18072b]/90 px-4 py-3 text-white/30 shadow-inner transition-[border-color,box-shadow,background-color] outline-none"
                         />
                       </div>
 
@@ -18351,14 +18271,14 @@ export function AdminDashboardMain({
                           <SeventhButton
                             isActive={livePreviewTab === "dashboard"}
                             onClick={() => setLivePreviewTab("dashboard")}
-                            className="r cursor-pointer px-4 py-2 whitespace-nowrap"
+                            className="cursor-pointer  whitespace-nowrap"
                           >
                             CRUISE DASHBOARD BANNER
                           </SeventhButton>
                           <SeventhButton
                             isActive={livePreviewTab === "email"}
                             onClick={() => setLivePreviewTab("email")}
-                            className="r cursor-pointer px-4 py-2 whitespace-nowrap"
+                            className="cursor-pointer whitespace-nowrap"
                           >
                             EMAIL BROADCAST
                           </SeventhButton>
@@ -18583,8 +18503,8 @@ export function AdminDashboardMain({
                             value={
                               selectedQrVariant
                                 ? selectedQrProduct.variants.findIndex(
-                                    (v: any) => v.id === selectedQrVariant.id,
-                                  )
+                                  (v: any) => v.id === selectedQrVariant.id,
+                                )
                                 : "-1"
                             }
                             onChange={(e) => {

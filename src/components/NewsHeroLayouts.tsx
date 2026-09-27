@@ -60,7 +60,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
 
           <div className="site-container relative z-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
             <div className="text-left lg:col-span-5">
-              <span className="border border-purple-500/20 px-3 py-1 text-purple-400">
+              <span className="border border-white/10 px-3 py-1 text-purple-400">
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
               <h1 className="mt-4 mb-6">
@@ -168,7 +168,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 items-stretch gap-0 border border-purple-500/30 lg:grid-cols-12">
             {/* Left Column */}
             <div className="flex flex-col justify-center border-b border-purple-500/30 bg-[#090512] p-8 md:p-12 lg:col-span-5 lg:border-r lg:border-b-0">
-              <span className="text-purple-400mb-2">
+              <span className="text-purple-400 mb-2">
                 OPTION 2D — NEON LINE DIVIDER
               </span>
               <h1>
@@ -237,7 +237,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-8">
               <div className="mb-3 flex items-center gap-4">
                 <span>{featured.date}</span>
-                <span className="h-1.5 w-1.5 rounded-lg bg-cyan-400" />
+                <span className="h-1.5 w-1.5  bg-cyan-400" />
                 <span className="text-white/50">Band Announcement</span>
               </div>
               <h2 className="mb-6">{featured.title}</h2>

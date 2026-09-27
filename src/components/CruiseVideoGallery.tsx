@@ -210,7 +210,7 @@ export default function CruiseVideoGallery() {
   return (
     <section
       id="ship-videos"
-      className="py-section-fluid site-container relative z-20 border-b border-white/10"
+      className="py-section-fluid site-container relative z-20"
       style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}
     >
       {/* Header */}
@@ -246,12 +246,12 @@ export default function CruiseVideoGallery() {
           {[1, 2, 3].map((n) => (
             <div
               key={n}
-              className="bg=[#e1e6ff29] aspect-video animate-pulse rounded-lg"
+              className="bg-[#e1e6ff29] aspect-video animate-pulse "
             />
           ))}
         </div>
       ) : filteredVideos.length === 0 ? (
-        <div className="r rounded-lg border border-white/10 bg-white/5 py-16 text-center text-white/50">
+        <div className="border border-white/10 bg-white/5 py-16 text-center text-white/50">
           No videos found in this category.
         </div>
       ) : (
@@ -290,7 +290,7 @@ export default function CruiseVideoGallery() {
               {/* Title & Info */}
               <div className="flex flex-1 flex-col space-y-3 pt-6">
                 <div>
-                  <h3 className="group-">{vid.title}</h3>
+                  <h3 className="">{vid.title}</h3>
                   {vid.description && (
                     <p className="mt-2 line-clamp-2">{vid.description}</p>
                   )}
@@ -325,7 +325,7 @@ export default function CruiseVideoGallery() {
 
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl overflow-hidden rounded-lg bg-[#0c071e] p-4 md:p-6"
+              className="relative w-full max-w-5xl overflow-hidden  bg-[#0c071e] p-4 md:p-6"
             >
               <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div className="min-w-0 flex-1">

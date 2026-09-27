@@ -2,6 +2,7 @@
 "use client";
 /* eslint-disable react-doctor/prefer-useReducer */
 import Image from "next/image";
+import { GlowInput } from "@/components/GlowInput";
 
 import React, {
   useState,
@@ -1654,13 +1655,7 @@ export function FakeLiveStream({
         >
           {/* Left */}
           <div className="flex min-w-0 items-center gap-3">
-            <Link
-              href="/live"
-              className="flex items-center gap-1.5 hover:text-white"
-              style={{
-                color: "rgba(255,255,255,0.85)",
-              }}
-            >
+            <Link href="/live" className="flex items-center gap-1.5 text-white/85 hover:text-white">
               <svg
                 width="12"
                 height="12"
@@ -1687,7 +1682,7 @@ export function FakeLiveStream({
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="/95">
+                  <span className="">
                     {activeFeedCrew.name} — {activeFeedCrew.cameraLabel}
                   </span>
                 </div>
@@ -1777,16 +1772,12 @@ export function FakeLiveStream({
                         ? "/crew-tony"
                         : "/crew"
               }
-              className="r flex items-center gap-1.5"
-              style={{
-                color: "#c084fc",
-                textDecoration: "none",
-              }}
+              className="flex items-center gap-1.5 text-purple-400 no-underline"
             >
               <span className="hidden sm:inline">Crew Side</span>
             </Link>
 
-            <div className="flex shrink-0 items-center gap-2" style={{}}></div>
+            <div className="flex shrink-0 items-center gap-2"></div>
           </div>
         </header>
 
@@ -1866,7 +1857,7 @@ export function FakeLiveStream({
                   </>
                 ) : (
                   <span
-                    className="r flex items-center gap-1.5 rounded-lg px-2.5 py-1"
+                    className="flex items-center gap-1.5 rounded-lg px-2.5 py-1"
                     style={{ background: "rgba(255,255,255,0.1)" }}
                   >
                     Offline
@@ -1892,7 +1883,7 @@ export function FakeLiveStream({
               {/* ── Elapsed time ── */}
               <div className="absolute top-2 right-2 z-30 sm:top-3 sm:right-3">
                 <div
-                  className="r rounded-lg px-2.5 py-1"
+                  className="rounded-lg px-2.5 py-1"
                   style={{
                     background: "rgba(0,0,0,0.6)",
                     backdropFilter: "blur(8px)",
@@ -1910,15 +1901,7 @@ export function FakeLiveStream({
                 if (!activeSong) return null;
                 return (
                   <div className="absolute bottom-3 left-3 z-30 flex max-w-[calc(100%-2rem)] items-center gap-2">
-                    <div
-                      className="flex items-center gap-2 border border-white/10 px-3 py-1.5 shadow-[0_0_15px_rgba(255,10,61,0.3)]"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, rgba(88,28,135,0.8), rgba(255,10,61,0.4))",
-                        backdropFilter: "blur(8px)",
-                        WebkitBackdropFilter: "blur(8px)",
-                      }}
-                    >
+                    <div className="flex items-center gap-2 border border-white/10 px-3 py-1.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] bg-gradient-to-br from-purple-900/80 to-[#ff0a3d]/40 backdrop-blur-sm">
                       <span className="h-2 w-2 shrink-0 animate-ping rounded-lg bg-[var(--color-accent)]" />
                       <span className="shrink-0 text-[var(--color-accent)]">
                         Now Playing:
@@ -1949,7 +1932,7 @@ export function FakeLiveStream({
                         <button
                           aria-label="Close live raffle widget"
                           onClick={() => setRaffleWidgetClosed(true)}
-                          className="hover: absolute top-3 right-3 z-10 flex h-6 w-6 items-center justify-center rounded-lg bg-gray-50 text-black/40 hover:bg-white/15"
+                          className="absolute top-3 right-3 z-10 flex h-6 w-6 items-center justify-center rounded-lg bg-gray-50 text-black/40 hover:bg-white/15"
                         >
                           <svg
                             width="10"
@@ -1969,7 +1952,7 @@ export function FakeLiveStream({
                             <div className="mb-6 flex items-center gap-2 pr-6">
                               <Ticket className="h-5 w-5 animate-pulse text-yellow-400" />
                               <span>Live Raffle</span>
-                              <span className="bg- purple-white/20 ml-auto animate-pulse rounded border border-purple-500/30 px-2.5 py-1">
+                              <span className="ml-auto animate-pulse rounded border border-purple-500/30 px-2.5 py-1">
                                 OPEN
                               </span>
                             </div>
@@ -2126,7 +2109,7 @@ export function FakeLiveStream({
                         {raffleState.status === "countdown" && (
                           <div className="flex flex-col items-center gap-3 py-8 text-center">
                             <Ticket className="h-11 w-11 text-yellow-400" />
-                            <p className="r text-yellow-300">
+                            <p className="text-yellow-300">
                               Drawing Coming Up!
                             </p>
                             <p className="text-black/40">
@@ -2254,10 +2237,7 @@ export function FakeLiveStream({
                         activeMerchDrop.totalTime
                       : 0;
                   return (
-                    <div
-                      className="absolute right-3 bottom-16 left-3 z-30"
-                      style={{ animation: "lowerThirdIn 0.4s ease forwards" }}
-                    >
+                    <div className="absolute right-3 bottom-16 left-3 z-30 animate-[lowerThirdIn_0.4s_ease_forwards]">
                       <div
                         className="flex items-center gap-3 px-4 py-3"
                         style={{
@@ -2282,7 +2262,7 @@ export function FakeLiveStream({
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
                             <span
-                              className="r rounded-lg px-1.5 py-0.5"
+                              className="rounded-lg px-1.5 py-0.5"
                               style={{
                                 background: `${activeMerchDrop.product.color}33`,
                                 color: activeMerchDrop.product.color,
@@ -2291,14 +2271,7 @@ export function FakeLiveStream({
                             >
                               🛍 LIVE DROP
                             </span>
-                            <span
-                              className="rounded-lg px-1.5 py-0.5"
-                              style={{
-                                background: "rgba(192, 132, 252,0.2)",
-                                color: "#c084fc",
-                                fontSize: 9,
-                              }}
-                            >
+                            <span className="rounded-lg px-1.5 py-0.5 bg-purple-400/20 text-purple-400 text-[9px]">
                               {activeMerchDrop.product.badge}
                             </span>
                           </div>
@@ -2314,10 +2287,7 @@ export function FakeLiveStream({
                             <p style={{ color: activeMerchDrop.product.color }}>
                               {activeMerchDrop.product.price}
                             </p>
-                            <p
-                              className="tabular-nums"
-                              style={{ color: "rgba(255,255,255,0.5)" }}
-                            >
+                            <p className="tabular-nums text-white/50">
                               {String(Math.floor(merchTimeLeft / 60)).padStart(
                                 2,
                                 "0",
@@ -2405,29 +2375,15 @@ export function FakeLiveStream({
                         {spotlight.account.displayName}
                       </span>
                       {spotlight.account.tier && (
-                        <span style={{ color: "rgba(255,255,255,0.35)" }}>
+                        <span className="text-white/35">
                           {spotlight.account.tier}
                         </span>
                       )}
-                      <span
-                        className="rounded-lg px-1.5 py-0.5"
-                        style={{
-                          background: "rgba(255,10,61,0.2)",
-                          color: "#c084fc",
-                          fontSize: 9,
-                        }}
-                      >
+                      <span className="rounded-lg px-1.5 py-0.5 bg-[#ff0a3d]/20 text-purple-400 text-[9px]">
                         📌 SPOTLIGHT
                       </span>
                     </div>
-                    <p
-                      className="text-black/80"
-                      style={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <p className="text-black/80 truncate">
                       &#8220;{spotlight.text}&#8221;
                     </p>
                   </div>
@@ -2442,14 +2398,7 @@ export function FakeLiveStream({
 
               {/* Hype burst overlay */}
               {hypeBurst && (
-                <div
-                  className="pointer-events-none absolute inset-0 z-25"
-                  style={{
-                    background:
-                      "radial-gradient(circle at center, rgba(239,68,68,0.15) 0%, transparent 70%)",
-                    animation: "hypePulse 0.5s ease-in-out",
-                  }}
-                />
+                <div className="pointer-events-none absolute inset-0 z-25 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.15)_0%,transparent_70%)] animate-[hypePulse_0.5s_ease-in-out]" />
               )}
             </div>
           </div>
@@ -2457,21 +2406,9 @@ export function FakeLiveStream({
           {/* ── CHAT PANEL / ADMIN PANEL ── */}
           {showAdminPanel ? (
             /* ─────────────── ADMIN DASHBOARD ─────────────── */
-            <div
-              className="flex min-h-0 w-full flex-1 flex-col overflow-hidden lg:w-[440px] lg:flex-none xl:w-[500px]"
-              style={{
-                background: "#ffffff",
-                borderLeft: "1px solid rgba(239,68,68,0.2)",
-              }}
-            >
+            <div className="flex min-h-0 w-full flex-1 flex-col overflow-hidden lg:w-[440px] lg:flex-none xl:w-[500px] bg-white border-l border-red-500/20">
               {/* Admin header */}
-              <div
-                className="shrink-0 px-4 py-3"
-                style={{
-                  borderBottom: "1px solid rgba(239,68,68,0.15)",
-                  background: "rgba(239,68,68,0.05)",
-                }}
-              >
+              <div className="shrink-0 px-4 py-3 border-b border-red-500/15 bg-red-500/5">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <svg
@@ -2484,14 +2421,11 @@ export function FakeLiveStream({
                     >
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
-                    <span className="r" style={{ color: "#f87171" }}>
+                    <span className="text-red-400">
                       Moderation Dashboard
                     </span>
                   </div>
-                  <div
-                    className="flex items-center gap-3"
-                    style={{ color: "rgba(255,255,255,0.35)" }}
-                  >
+                  <div className="flex items-center gap-3 text-white/35">
                     <span className="flex items-center gap-1">
                       <Eye className="h-3.5 w-3.5 text-white/50" />{" "}
                       {viewerCount.toLocaleString()}
@@ -2855,7 +2789,7 @@ export function FakeLiveStream({
                               &ldquo;{msg.text}&rdquo;
                             </p>
                             <span
-                              className=".5 inline-block rounded-lg px-2 py-0.5"
+                              className="inline-block rounded-lg px-2 py-0.5"
                               style={{
                                 background: "rgba(239,68,68,0.15)",
                                 color: "#fca5a5",
@@ -3156,16 +3090,16 @@ export function FakeLiveStream({
                           <div className="min-w-0">
                             <p className="text-black/70">
                               {entry.action} —{" "}
-                              <span style={{ color: "#c084fc" }}>
+                              <span className="text-purple-400">
                                 {entry.user}
                               </span>
                             </p>
                             {entry.reason && (
-                              <p style={{ color: "rgba(255,255,255,0.3)" }}>
+                              <p className="text-white/30">
                                 {entry.reason}
                               </p>
                             )}
-                            <p style={{ color: "rgba(255,255,255,0.2)" }}>
+                            <p className="text-white/20">
                               {new Date(entry.time).toLocaleTimeString(
                                 "en-US",
                                 { timeZone: "America/Chicago" },
@@ -3182,7 +3116,7 @@ export function FakeLiveStream({
                 {adminTab === "policy" && (
                   <div className="space-y-4 p-4">
                     <div>
-                      <p className="mb-3" style={{ color: "#f87171" }}>
+                      <p className="mb-3 text-red-400">
                         🚫 Zero-Tolerance — Instant Ban
                       </p>
                       {[
@@ -3223,7 +3157,7 @@ export function FakeLiveStream({
                       ))}
                     </div>
                     <div>
-                      <p className="mb-3" style={{ color: "#c084fc" }}>
+                      <p className="mb-3 text-purple-400">
                         ⚠️ Warn First — Then Mute / Kick
                       </p>
                       {[
@@ -3276,7 +3210,7 @@ export function FakeLiveStream({
                       }}
                     >
                       <p className="mb-1 text-black/60">✅ Keep It Positive</p>
-                      <p style={{ color: "rgba(255,255,255,0.35)" }}>
+                      <p className="text-white/35">
                         This is a fan space for music lovers. Keep the energy
                         high, support the artists, and spread love. 🎸
                       </p>
@@ -3294,23 +3228,22 @@ export function FakeLiveStream({
                       </div>
 
                       <div className="no-glow flex gap-2">
-                        <div className="input-glow-border flex-1">
-                          <input
-                            aria-label="Custom flagged keyword input"
-                            type="text"
-                            value={newCustomWord}
-                            onChange={(e) => setNewCustomWord(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                e.preventDefault();
-                                handleAddCustomWord(newCustomWord);
-                                setNewCustomWord("");
-                              }
-                            }}
-                            placeholder="e.g. ticket-scalper"
-                            className="form-input !py-1.5"
-                          />
-                        </div>
+                        <GlowInput
+                          wrapperClassName="flex-1"
+                          aria-label="Custom flagged keyword input"
+                          type="text"
+                          value={newCustomWord}
+                          onChange={(e) => setNewCustomWord(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              handleAddCustomWord(newCustomWord);
+                              setNewCustomWord("");
+                            }
+                          }}
+                          placeholder="e.g. ticket-scalper"
+                          className="!py-1.5"
+                        />
                         <button
                           type="button"
                           onClick={() => {
@@ -3338,7 +3271,7 @@ export function FakeLiveStream({
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="hover: flex h-4 w-4 items-center justify-center rounded-lg text-black/30 hover:bg-gray-100"
+                                className="flex h-4 w-4 items-center justify-center rounded-lg text-black/30 hover:bg-gray-100"
                               >
                                 &times;
                               </button>
@@ -3403,7 +3336,7 @@ export function FakeLiveStream({
                                 </span>
                               )}
                             </div>
-                            <span style={{ color: "rgba(255,255,255,0.3)" }}>
+                            <span className="text-white/30">
                               {s.duration}
                             </span>
                           </div>
@@ -3529,7 +3462,7 @@ export function FakeLiveStream({
                             className="h-2 w-2 animate-pulse rounded-lg"
                             style={{ background: "#4ade80" }}
                           />
-                          <span style={{ color: "#4ade80" }}>
+                          <span className="text-green-400">
                             Drop Live Now
                           </span>
                         </div>
@@ -3578,7 +3511,7 @@ export function FakeLiveStream({
                               )}
                               :{String(merchTimeLeft % 60).padStart(2, "0")}
                             </p>
-                            <p style={{ color: "rgba(255,255,255,0.3)" }}>
+                            <p className="text-white/30">
                               remaining
                             </p>
                           </div>
@@ -3834,7 +3767,7 @@ export function FakeLiveStream({
                   background: "rgba(239,68,68,0.03)",
                 }}
               >
-                <p className="mb-2" style={{ color: "rgba(255,255,255,0.2)" }}>
+                <p className="mb-2 text-white/20">
                   🎭 Demo: inject a flagged message
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -3888,8 +3821,7 @@ export function FakeLiveStream({
                 </div>
                 {/* Quick merch shortcut */}
                 <div
-                  className="mt-2 pt-2"
-                  style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+                  className="mt-2 pt-2 border-t border-white/[0.05]"
                 >
                   <button
                     onClick={() => setAdminTab("merch")}
@@ -3907,19 +3839,9 @@ export function FakeLiveStream({
             </div>
           ) : (
             /* ─────────────── NORMAL CHAT PANEL ─────────────── */
-            <div
-              className="flex min-h-0 w-full flex-1 flex-col overflow-hidden lg:w-[360px] lg:flex-none xl:w-[400px]"
-              style={{
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                borderLeft: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
+            <div className="flex min-h-0 w-full flex-1 flex-col overflow-hidden lg:w-[360px] lg:flex-none xl:w-[400px] backdrop-blur-md border-l border-white/[0.08]">
               {/* Chat header with Tab toggling */}
-              <div
-                className="flex shrink-0 flex-col px-4 pt-3 pb-2"
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}
-              >
+              <div className="flex shrink-0 flex-col px-4 pt-3 pb-2 border-b border-white/[0.08]">
                 <div className="mb-1.5 flex items-center justify-between">
                   <div className="flex gap-4">
                     <button
@@ -4408,7 +4330,7 @@ export function FakeLiveStream({
                   {/* Close Button */}
                   <button
                     onClick={() => setShowCheckoutModal(false)}
-                    className="hover: absolute top-3 right-3 cursor-pointer rounded-lg border-none bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
+                    className="absolute top-3 right-3 cursor-pointer rounded-lg border-none bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
                   >
                     <svg
                       width="16"
@@ -4475,7 +4397,7 @@ export function FakeLiveStream({
                           </p>
                         )}
                         <p
-                          className=".5"
+                          className=""
                           style={{ color: activeMerchDrop.product.color }}
                         >
                           {activeMerchDrop.product.price}

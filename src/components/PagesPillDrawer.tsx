@@ -441,17 +441,7 @@ export default function PagesPillDrawer() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // Prevent page scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  // Page scroll locked via CSS body:has([data-scroll-lock="true"])
 
   const filtered = ALL_SITE_ROUTES.filter((r) => {
     const matchCat = activeCategory === "All" || r.category === activeCategory;
@@ -467,19 +457,19 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="group md: fixed bottom-6 left-6 z-[9999] flex cursor-pointer items-center gap-3 rounded-lg border-2 border-white/30 bg-[#8b3dff] px-8 py-4.5 text-base font-black shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] transition-[background-color,box-shadow,transform] hover:bg-[#7b2cff] active:scale-95"
+        className="group md: fixed bottom-6 left-6 z-[9999] flex cursor-pointer items-center gap-3  border-2 border-white/30 bg-[#8b3dff] px-8 py-4.5   font-black shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] transition-[background-color,box-shadow,transform] hover:bg-[#7b2cff] active:scale-95"
         aria-label="Open Pages Directory"
       >
         <Menu className="h-6 w-6 group-hover:scale-110 md:h-7 md:w-7" />
         <span>PAGES</span>
-        <span className="ml-1 rounded-lg bg-white/25 px-2.5 py-1">
+        <span className="ml-1  bg-white/25 px-2.5 py-1">
           {ALL_SITE_ROUTES.length}
         </span>
       </button>
 
       {/* ── MODAL DRAWER OVERLAY ── */}
       {isOpen && (
-        <div className="animate-fadeIn fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 p-4 backdrop-blur-xl md:p-6">
+        <div data-scroll-lock={isOpen} className="animate-fadeIn fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 p-4 backdrop-blur-xl md:p-6">
           {/* Backdrop Click to Close */}
           <div
             className="absolute inset-0 cursor-pointer"
@@ -487,7 +477,7 @@ export default function PagesPillDrawer() {
           />
 
           {/* Modal Container */}
-          <div className="relative z-10 flex max-h-[85vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-purple-500/30 bg-[rgba(18,18,26,0.95)] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.9)] md:p-8">
+          <div className="relative z-10 flex max-h-[85vh] w-full max-w-5xl flex-col overflow-hidden  border border-purple-500/30 bg-[rgba(18,18,26,0.95)] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.9)] md:p-8">
             {/* Modal Header */}
             <div className="flex shrink-0 items-center justify-between border-b border-white/10 pb-6">
               <div className="flex items-center gap-3">
@@ -497,7 +487,7 @@ export default function PagesPillDrawer() {
                 <div>
                   <h2 className="flex items-center gap-2">
                     Pages Directory
-                    <span className="bg- purple-white/20 rounded-lg border border-purple-500/30 px-2.5 py-0.5">
+                    <span className="bg- purple-white/20  border border-purple-500/30 px-2.5 py-0.5">
                       {ALL_SITE_ROUTES.length} Total Routes
                     </span>
                   </h2>
@@ -541,7 +531,7 @@ export default function PagesPillDrawer() {
                     placeholder="Search routes..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="focus-ring w-full rounded-lg border border-white/10 bg-black/50 py-2 pr-4 pl-9 placeholder-white/40"
+                    className="focus-ring w-full  border border-white/10 bg-black/50 py-2 pr-4 pl-9 placeholder-white/40"
                   />
                 </div>
               </div>
@@ -556,10 +546,10 @@ export default function PagesPillDrawer() {
                 return (
                   <div
                     key={item.path}
-                    className="group flex flex-col justify-between rounded-lg border border-white/10 bg-white/[0.03] p-4 transition-[background-color,border-color] hover:border-purple-500/40 hover:bg-purple-900/10"
+                    className="group flex flex-col justify-between  border border-white/10 bg-white/[0.03] p-4 transition-[background-color,border-color] hover:border-purple-500/40 hover:bg-purple-900/10"
                   >
                     <div>
-                      <div className="mb-2 flex items-center justify-between gap-2 rounded-lg">
+                      <div className="mb-2 flex items-center justify-between gap-2 ">
                         <div className="flex items-center gap-2">
                           <IconComp className="h-4 w-4 text-purple-400" />
                           <span className="text-[10px]">{item.category}</span>
@@ -577,7 +567,7 @@ export default function PagesPillDrawer() {
                       <p>{item.path}</p>
                     </div>
 
-                    <div className="mt-3 border-t border-white/5 pt-2.5">
+                    <div className="mt-3 border-t border-white/10 pt-2.5">
                       {isApi ? (
                         <a
                           href={item.path}

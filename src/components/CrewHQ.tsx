@@ -177,7 +177,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           setIsLoading(false);
           return;
         }
-      } catch {}
+      } catch { }
       if (cancelled) return;
       const stored = localStorage.getItem("7h_member");
       if (stored) {
@@ -190,7 +190,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             setIsLoading(false);
             return;
           }
-        } catch {}
+        } catch { }
       }
       const bypass =
         typeof window !== "undefined" &&
@@ -256,7 +256,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       setModerationCount(
         parseInt(localStorage.getItem(`7h_mod_count_${slug}`) || "0"),
       );
-    } catch {}
+    } catch { }
 
     try {
       const res = await fetch("/api/chat/simulate");
@@ -264,7 +264,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         const d = await res.json();
         setSimActive(d.active);
       }
-    } catch {}
+    } catch { }
 
     try {
       const res = await fetch("/api/shopify/orders?days=365");
@@ -277,7 +277,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           setSalesCount(d.orders.length);
         }
       }
-    } catch {}
+    } catch { }
   }, [userId, slug]);
 
   useEffect(() => {
@@ -345,7 +345,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 "7h_custom_flagged_words_v1",
                 JSON.stringify(payload.words),
               );
-            } catch {}
+            } catch { }
           }
         },
       )
@@ -370,7 +370,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     setModerationCount(v);
     try {
       localStorage.setItem(`7h_mod_count_${slug}`, v.toString());
-    } catch {}
+    } catch { }
   };
 
   const handleAddCustomWord = async (e: React.FormEvent) => {
@@ -388,7 +388,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         event: "custom_words_sync",
         payload: { words: next },
       });
-    } catch {}
+    } catch { }
   };
 
   const handleRemoveCustomWord = async (word: string) => {
@@ -401,7 +401,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         event: "custom_words_sync",
         payload: { words: next },
       });
-    } catch {}
+    } catch { }
   };
 
   const handleFlag = (msgId: string) => {
@@ -411,7 +411,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     setFlagged(next);
     try {
       localStorage.setItem("7h_flagged_msgs_v1", JSON.stringify([...next]));
-    } catch {}
+    } catch { }
     bumpMod();
   };
 
@@ -426,7 +426,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     setWarned(next);
     try {
       localStorage.setItem("7h_warned_users_v1", JSON.stringify([...next]));
-    } catch {}
+    } catch { }
     bumpMod();
 
     try {
@@ -460,7 +460,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
     setBanned(next);
     try {
       localStorage.setItem("7h_banned_users_v1", JSON.stringify([...next]));
-    } catch {}
+    } catch { }
     bumpMod();
 
     try {
@@ -547,7 +547,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
         content: crewNotes,
         updated_at: new Date().toISOString(),
       });
-    } catch {}
+    } catch { }
     setNotesSaved(true);
     setTimeout(() => setNotesSaved(false), 2500);
   };
@@ -566,7 +566,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
       if (res.ok) {
         setSimActive(nextState);
       }
-    } catch {}
+    } catch { }
   };
 
   // Derived filtered feed
@@ -606,11 +606,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Identity */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-700">
+              <div className="flex h-11 w-11 items-center justify-center  border border-emerald-500/30 bg-emerald-700">
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div
-                className={`absolute -right-0.5 -bottom-0.5 h-3 w-3 rounded-lg border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`}
+                className={`absolute -right-0.5 -bottom-0.5 h-3 w-3  border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`}
               />
             </div>
             <div>
@@ -621,7 +621,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </span>
                 {isLive && (
                   <span className="flex items-center gap-1 rounded border border-red-500/30 bg-red-500/15 px-1.5 py-0.5 text-red-400">
-                    <span className="h-1 w-1 animate-pulse rounded-lg bg-red-500" />
+                    <span className="h-1 w-1 animate-pulse  bg-red-500" />
                     LIVE
                   </span>
                 )}
@@ -663,7 +663,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 if (val) requestTransition(val);
               }}
               wrapperClassName="w-auto min-w-[180px]"
-              className="! border-white/10 bg-[var(--color-bg-card)] !px-3 !py-1.5"
+              className="border-white/10 bg-[var(--color-bg-card)] !px-3 !py-1.5"
               chevronColor="#c084fc"
             />
 
@@ -779,12 +779,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       {msgs.length} msgs
                     </span>
                     <span
-                      className="h-2 w-2 animate-pulse rounded-lg bg-emerald-500"
+                      className="h-2 w-2 animate-pulse  bg-emerald-500"
                       title="Live"
                     />
                     <button
                       onClick={toggleSimulator}
-                      className={`ml-2 cursor-pointer rounded-lg border px-2.5 py-1 ${simActive ? "shadow-[0_0_12px_rgba(147, 51, 234,0.35)] animate-pulse border-purple-500 bg-purple-600" : "border border-white/10 bg-[#00000029] text-white/40"}`}
+                      className={`ml-2 cursor-pointer border px-2.5 py-1 ${simActive ?"shadow-[0_0_12px_rgba(147, 234,0.35)] animate-pulse border-purple-500 bg-purple-600":"border border-white/10 bg-[#00000029] text-white/40"}`}
                     >
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
                     </button>
@@ -810,7 +810,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       ]}
                       onChange={(val) => setRoleFilter(val)}
                       wrapperClassName="w-auto min-w-[140px]"
-                      className="! border-white/10 bg-[var(--color-bg-surface)] !px-3 !py-1.5"
+                      className="border-white/10 bg-[var(--color-bg-surface)] !px-3 !py-1.5"
                       chevronColor="#c084fc"
                     />
                   </div>
@@ -820,7 +820,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <button
                     onClick={() => setRoomFilter("all")}
-                    className={`cursor-pointer rounded-lg border px-3 py-1 ${roomFilter === "all" ? "border-white bg-white" : "/35 border-white/[0.1]"}`}
+                    className={`cursor-pointer  border px-3 py-1 ${roomFilter === "all" ? "border-white bg-white" : "/35 border-white/[0.1]"}`}
                   >
                     All Rooms ({msgs.length})
                   </button>
@@ -830,14 +830,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       onClick={() =>
                         setRoomFilter(roomFilter === room.id ? "all" : room.id)
                       }
-                      className={`flex cursor-pointer items-center gap-1 rounded-lg border px-3 py-1 ${roomFilter === room.id ? "border-opacity-100" : "border-white/[0.08] text-white/30"}`}
+                      className={`flex cursor-pointer items-center gap-1  border px-3 py-1 ${roomFilter === room.id ? "border-opacity-100" : "border-white/[0.08] text-white/30"}`}
                       style={
                         roomFilter === room.id
                           ? {
-                              borderColor: room.color,
-                              background: room.color + "20",
-                              color: room.color,
-                            }
+                            borderColor: room.color,
+                            background: room.color + "20",
+                            color: room.color,
+                          }
                           : {}
                       }
                     >
@@ -868,7 +868,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       >
                         {/* Avatar */}
                         <div
-                          className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+                          className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center "
                           style={{
                             background: roleColor + "22",
                             color: roleColor,
@@ -924,7 +924,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                           <button
                             onClick={() => handleFlag(msg.id)}
                             title="Flag message"
-                            className={`cursor-pointer rounded-lg border px-2 py-1 ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"}`}
+                            className={`cursor-pointer  border px-2 py-1 ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"}`}
                           >
                             🚩
                           </button>
@@ -937,14 +937,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                                 ? "Unwarn user"
                                 : "Warn user"
                             }
-                            className={`cursor-pointer rounded-lg border px-2 py-1 ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"}`}
+                            className={`cursor-pointer  border px-2 py-1 ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"}`}
                           >
                             ⚠️
                           </button>
                           <button
                             onClick={() => handleBan(msg.sender_name, msg.room)}
                             title={isBanned ? "Unban user" : "Ban user"}
-                            className={`cursor-pointer rounded-lg border px-2 py-1 ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"}`}
+                            className={`cursor-pointer  border px-2 py-1 ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"}`}
                           >
                             🚫
                           </button>
@@ -953,14 +953,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                               handleKick(msg.id, msg.sender_name, msg.room)
                             }
                             title="Remove Fan Completely"
-                            className="cursor-pointer rounded-lg border border-red-500/25 px-2 py-1 text-red-500/70 hover:bg-red-500/10"
+                            className="cursor-pointer  border border-red-500/25 px-2 py-1 text-red-500/70 hover:bg-red-500/10"
                           >
                             🚪
                           </button>
                           <button
                             onClick={() => handleDeleteMsg(msg.id)}
                             title="Delete message"
-                            className="cursor-pointer rounded-lg border border-white/[0.08] bg-[#00000029] px-2 py-1 text-white/30"
+                            className="cursor-pointer  border border-white/[0.08] bg-[#00000029] px-2 py-1 text-white/30"
                           >
                             🗑
                           </button>
@@ -1043,7 +1043,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-lg text-white/40 hover:bg-white/10 hover:text-white"
+                                className="flex h-5 w-5 cursor-pointer items-center justify-center  text-white/40 hover:bg-white/10 hover:text-white"
                               >
                                 &times;
                               </button>
@@ -1068,8 +1068,8 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="mb-6 flex items-center gap-2">
                   <span>🎥 Broadcast Studio</span>
                   {isLive && (
-                    <span className="flex items-center gap-1 rounded-lg border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-400">
-                      <span className="h-1 w-1 animate-pulse rounded-lg bg-red-500" />
+                    <span className="flex items-center gap-1  border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-400">
+                      <span className="h-1 w-1 animate-pulse  bg-red-500" />
                       LIVE
                     </span>
                   )}
@@ -1077,17 +1077,17 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 {isLive ? (
                   <div className="mb-6 space-y-3">
-                    <div className="flex items-center justify-between rounded-lg bg-white/[0.03] p-2.5">
+                    <div className="flex items-center justify-between  bg-white/[0.03] p-2.5">
                       <span className="text-white/40">Viewers</span>
                       <span className="text-red-400">
                         {viewerCount.toLocaleString()}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-white/[0.03] p-2.5">
+                    <div className="flex items-center justify-between  bg-white/[0.03] p-2.5">
                       <span className="text-white/40">Duration</span>
                       <span>{fmt(liveDuration)}</span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-white/[0.03] p-2.5">
+                    <div className="flex items-center justify-between  bg-white/[0.03] p-2.5">
                       <span className="text-white/40">Chat Rate</span>
                       <span className="text-yellow-400">{chatRate}/min</span>
                     </div>
@@ -1166,7 +1166,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </div>
                 <button
                   onClick={handleSaveNotes}
-                  className={`cursor-pointer rounded-lg px-4 py-1.5 ${notesSaved ? "border border-emerald-500/25 bg-emerald-500/15" : "border border-white/[0.08] bg-[#00000029] text-white/40 hover:text-white"}`}
+                  className={`cursor-pointer  px-4 py-1.5 ${notesSaved ? "border border-emerald-500/25 bg-emerald-500/15" : "border border-white/[0.08] bg-[#00000029] text-white/40 hover:text-white"}`}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}
                 </button>
@@ -1176,7 +1176,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 value={crewNotes}
                 onChange={(e) => setCrewNotes(e.target.value)}
                 placeholder="Stream notes, incidents, requests for admin…"
-                className="placeholder: /15 focus-ring h-32 w-full resize-none border border-white/[0.07] bg-[#040408] p-3 outline-none"
+                className="focus-ring h-32 w-full resize-none border border-white/[0.07] bg-[#040408] p-3 outline-none"
               />
             </div>
 

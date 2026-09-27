@@ -205,7 +205,7 @@ export default function CustomYTPlayer({
   }, []);
 
   // Global Keyboard Controls
-  const keyHandlerRef = useRef<(e: KeyboardEvent) => void>(() => {});
+  const keyHandlerRef = useRef<(e: KeyboardEvent) => void>(() => { });
   useLayoutEffect(() => {
     keyHandlerRef.current = (e: KeyboardEvent) => {
       // Don't intercept keypresses when typing in inputs/textareas
@@ -311,7 +311,7 @@ export default function CustomYTPlayer({
           {/* Loading State */}
           {!isReady && (
             <div className="absolute inset-0 z-20 flex items-center justify-center">
-              <div className="h-12 w-12 animate-spin rounded-lg border-2 border-white/10 border-t-[var(--color-accent)]" />
+              <div className="h-12 w-12 animate-spin  border-2 border-white/10 border-t-[var(--color-accent)]" />
             </div>
           )}
 
@@ -321,7 +321,7 @@ export default function CustomYTPlayer({
           >
             <SeventhButton
               icon={false}
-              className="! flex h-20 w-20 items-center justify-center rounded-lg border border-purple-300/40 !p-0 shadow-2xl"
+              className="! flex h-20 w-20 items-center justify-center  border border-purple-300/40 !p-0 shadow-2xl"
             >
               <svg
                 width="32"
@@ -345,7 +345,7 @@ export default function CustomYTPlayer({
             className={`absolute inset-x-0 top-0 z-20 flex items-center justify-between px-5 py-4 ${showControls ? "opacity-100" : "opacity-0"}`}
           >
             <div className="flex min-w-0 items-center gap-3">
-              <div className="h-6 w-1 shrink-0 rounded-lg bg-[var(--color-accent)]" />
+              <div className="h-6 w-1 shrink-0  bg-[var(--color-accent)]" />
               <div className="min-w-0">
                 <h3>{title}</h3>
                 <p>7th Heaven • {year}</p>
@@ -417,17 +417,17 @@ export default function CustomYTPlayer({
             >
               {/* Buffered */}
               <div
-                className="absolute top-0 left-0 h-full rounded-lg bg-white/15"
+                className="absolute top-0 left-0 h-full  bg-white/15"
                 style={{ width: `${buffered}%` }}
               />
               {/* Progress */}
               <div
-                className="absolute top-0 left-0 h-full rounded-lg bg-[var(--color-accent)] transition-none"
+                className="absolute top-0 left-0 h-full  bg-[var(--color-accent)] transition-none"
                 style={{ width: `${progress}%` }}
               />
               {/* Scrubber */}
               <div
-                className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 group-hover/progress:opacity-100"
+                className="absolute top-1/2 h-3 w-3 -translate-y-1/2  bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 group-hover/progress:opacity-100"
                 style={{ left: `calc(${progress}% - 6px)` }}
               />
             </div>
@@ -457,7 +457,7 @@ export default function CustomYTPlayer({
                 <SeventhButton
                   onClick={togglePlay}
                   icon={false}
-                  className="! flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-purple-300/40 !p-0"
+                  className="! flex h-11 w-11 cursor-pointer items-center justify-center  border border-purple-300/40 !p-0"
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
@@ -568,7 +568,7 @@ export default function CustomYTPlayer({
                         playerRef.current?.setVolume(v);
                         if (v > 0) playerRef.current?.unMute();
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/20 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none  bg-white/20 accent-[var(--color-accent)]"
                     />
                   </div>
                 </div>

@@ -140,7 +140,7 @@ export default function ShowPageClient({
           setAttendees(d.attendees || []);
           setAttendeeListOpen(true);
         }
-      } catch {}
+      } catch { }
     },
     [show.id],
   );
@@ -182,7 +182,7 @@ export default function ShowPageClient({
 
   // shareUrl: use a safe default on SSR, update to real URL after hydration
   const shareUrl = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => window.location.href,
     () => `https://7thheavenband.com/shows/${show.id}`,
   );
@@ -204,7 +204,7 @@ export default function ShowPageClient({
               activeLkRooms.add(r.name),
             );
         }
-      } catch {}
+      } catch { }
 
       // Check Supabase live_streams
       try {
@@ -226,7 +226,7 @@ export default function ShowPageClient({
             }
           }
         }
-      } catch {}
+      } catch { }
 
       // Fallback: raw LiveKit rooms not matched in Supabase
       activeLkRooms.forEach((roomName) => {
@@ -246,7 +246,7 @@ export default function ShowPageClient({
       });
 
       setLiveFeeds(feeds);
-    } catch {}
+    } catch { }
   }, [supabase]);
 
   useEffect(() => {
@@ -321,26 +321,25 @@ export default function ShowPageClient({
     const initials = isAnon
       ? "?"
       : a.profiles?.full_name
-          ?.split(" ")
-          .map((n) => n[0])
-          .join("")
-          .toUpperCase()
-          .slice(0, 2) || "?";
+        ?.split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2) || "?";
 
     return (
       <div
         key={a.id}
-        className={`flex items-center gap-4 border p-4 ${
-          a.status === "there"
-            ? "border-emerald-500/30 bg-emerald-500/[0.03]"
-            : isMe
-              ? "border-purple-500/40 bg-purple-500/5"
-              : `border-white/10 border-white/[0.06] bg-white/[0.02] ${tierGlow[tier] || ""}`
-        }`}
+        className={`flex items-center gap-4 border p-4 ${a.status === "there"
+          ? "border-emerald-500/30 bg-emerald-500/[0.03]"
+          : isMe
+            ? "border-purple-500/40 bg-purple-500/5"
+            : `border-white/10 border-white/[0.06] bg-white/[0.02] ${tierGlow[tier] || ""}`
+          }`}
       >
         {/* Avatar */}
         <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10"} bg-white/[0.04]`}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center  border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10"} bg-white/[0.04]`}
         >
           {!isAnon && a.profiles?.profile_photo_url ? (
             <Image
@@ -349,7 +348,7 @@ export default function ShowPageClient({
               unoptimized
               src={a.profiles.profile_photo_url}
               alt="7th Heaven Media"
-              className="h-full w-full rounded-lg object-cover"
+              className="h-full w-full  object-cover"
             />
           ) : isAnon ? (
             "👤"
@@ -406,8 +405,8 @@ export default function ShowPageClient({
               >
                 <div className="flex items-center gap-3">
                   <span className="relative flex h-3 w-3">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
-                    <span className="relative inline-flex h-3 w-3 rounded-lg bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping  bg-red-500 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3  bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
                   <span>
                     🎥 {feed.host} is LIVE from the show
@@ -421,7 +420,7 @@ export default function ShowPageClient({
                     </span>
                   )}
                 </div>
-                <span className="shrink-0 rounded-lg bg-red-500 px-4 py-1.5 group-hover:bg-white group-hover:text-red-600">
+                <span className="shrink-0  bg-red-500 px-4 py-1.5 group-hover:bg-white group-hover:text-red-600">
                   Watch Now →
                 </span>
               </Link>
@@ -518,7 +517,7 @@ export default function ShowPageClient({
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5">
+                    <div className="flex items-center gap-2  border border-white/10 bg-[#00000029] px-3 py-1.5">
                       <GradientToggle
                         id="show-anonymous-toggle"
                         label="Go anonymously"
@@ -558,9 +557,9 @@ export default function ShowPageClient({
             <div className="mb-12 grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
               {/* Notify Me Column */}
               <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
-                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-[var(--color-accent)]/5 blur-3xl" />
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32  bg-[var(--color-accent)]/5 blur-3xl" />
                 <div>
-                  <span className="mb-6 inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-purple-500/10 px-3 py-1 text-[var(--font-size-2xs)]">
+                  <span className="mb-6 inline-flex items-center gap-1.5  border border-white/10 bg-purple-500/10 px-3 py-1 text-[var(--font-size-2xs)]">
                     Missed this show?
                   </span>
                   <h3 className="mb-2">Notify Me Next Time</h3>
@@ -595,7 +594,7 @@ export default function ShowPageClient({
                           type="submit"
                           disabled={notifyLoading}
                           icon={false}
-                          className="shrink-0 rounded-lg px-6 py-3 disabled:opacity-50"
+                          className="shrink-0 disabled:opacity-50"
                         >
                           {notifyLoading ? "Submitting..." : "Keep Me Posted"}
                         </SeventhButton>
@@ -612,9 +611,9 @@ export default function ShowPageClient({
 
               {/* Video Embed Column */}
               <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
-                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-lg bg-red-500/5 blur-3xl" />
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32  bg-red-500/5 blur-3xl" />
                 <div>
-                  <span className="mb-6 inline-flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1 text-[var(--font-size-2xs)] text-red-400">
+                  <span className="mb-6 inline-flex items-center gap-1.5  border border-red-500/20 bg-red-500/10 px-3 py-1 text-[var(--font-size-2xs)] text-red-400">
                     Live Performance
                   </span>
                   <h3 className="mb-3">Live Show Clips</h3>
@@ -721,7 +720,7 @@ export default function ShowPageClient({
 
           {/* Share CTA */}
           {!isPast && (
-            <div className="2 border border-white/[0.06] bg-white/[0.02] p-8 text-center">
+            <div className="border border-white/[0.06] bg-white/[0.02] p-8 text-center">
               <p className="mb-1">Know someone who might be going?</p>
               <p className="mb-6">Share this show page</p>
 
@@ -743,7 +742,7 @@ export default function ShowPageClient({
                 <SeventhButton
                   onClick={copyLink}
                   icon={false}
-                  className="rounded-lg px-6 py-3"
+                  className="rounded-lg "
                 >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </SeventhButton>

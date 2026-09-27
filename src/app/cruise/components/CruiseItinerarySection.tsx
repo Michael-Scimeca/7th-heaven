@@ -5,6 +5,7 @@ import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
 import LazyMount from "@/components/LazyMount";
+import { useGLTF } from "@react-three/drei";
 import {
   ITINERARY_2027,
   ITINERARY_2028,
@@ -34,6 +35,11 @@ export default function CruiseItinerarySection({
       className="py-section-fluid relative z-20 border-b border-white/10"
       minHeight="800px"
       rootMargin="300px 0px"
+      onVisible={() => {
+        if (typeof window !== "undefined") {
+          useGLTF.preload("/objects/ship.glb");
+        }
+      }}
     >
       <div className="mx-auto w-full">
         <div className="site-container w-full text-left">

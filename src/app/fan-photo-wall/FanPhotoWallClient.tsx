@@ -22,7 +22,7 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 const useMounted = () =>
   useSyncExternalStore(
     emptySubscribe,
@@ -56,8 +56,64 @@ type FanPhoto = {
   caption?: string;
   instagram?: string;
   type?: "image" | "video";
+  youtubeId?: string;
   approved: boolean;
 };
+
+function getMediaDetails(photo: FanPhoto): {
+  isVideo: boolean;
+  isDirectVideo: boolean;
+  isYouTube: boolean;
+  youtubeId?: string;
+  videoSrc?: string;
+} {
+  const src = photo.src || "";
+  const isDirectVideo =
+    src.endsWith(".mp4") ||
+    src.endsWith(".mov") ||
+    src.endsWith(".webm") ||
+    src.startsWith("blob:") ||
+    src.includes("/uploads/fans/");
+
+  const youtubeMatch =
+    photo.youtubeId ||
+    src.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/,
+    )?.[1];
+
+  if (isDirectVideo) {
+    return {
+      isVideo: true,
+      isDirectVideo: true,
+      isYouTube: false,
+      videoSrc: src,
+    };
+  }
+
+  if (youtubeMatch) {
+    return {
+      isVideo: true,
+      isDirectVideo: false,
+      isYouTube: true,
+      youtubeId: youtubeMatch,
+    };
+  }
+
+  if (photo.type === "video") {
+    return {
+      isVideo: true,
+      isDirectVideo: false,
+      isYouTube: true,
+      youtubeId: photo.youtubeId || "SWV7-pmtoA8",
+    };
+  }
+
+  return {
+    isVideo: false,
+    isDirectVideo: false,
+    isYouTube: false,
+  };
+}
 
 export default function FanPhotoWallClient({
   sanityContent,
@@ -66,6 +122,7 @@ export default function FanPhotoWallClient({
 }) {
   const { member, isLoggedIn, openModal } = useMember();
   const [photos, setPhotos] = useState<FanPhoto[]>([]);
+  const [photosLoading, setPhotosLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<FanPhoto | null>(null);
   const [flaggingId, setFlaggingId] = useState<string | null>(null);
   const [showUpload, setShowUpload] = useState(false);
@@ -174,11 +231,13 @@ export default function FanPhotoWallClient({
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
         setPhotos(data);
+        setPhotosLoading(false);
         requestAnimationFrame(() => {
           window.dispatchEvent(new CustomEvent("7h:page:ready"));
         });
       })
       .catch(() => {
+        setPhotosLoading(false);
         window.dispatchEvent(new CustomEvent("7h:page:ready"));
       });
   }, [isModerator]);
@@ -342,14 +401,14 @@ export default function FanPhotoWallClient({
                         moments.{" "}
                         <button
                           onClick={() => openModal("signup")}
-                          className="hover: cursor-pointer"
+                          className="cursor-pointer"
                         >
                           Sign up free
                         </button>{" "}
                         or{" "}
                         <button
                           onClick={() => openModal("login")}
-                          className="hover: cursor-pointer"
+                          className="cursor-pointer"
                         >
                           sign in
                         </button>
@@ -390,7 +449,7 @@ export default function FanPhotoWallClient({
 
           {/* Dynamic Upload Form */}
           {showUpload && effectivelyLoggedIn && (
-            <div className="0 animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
+            <div className="animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
               <FanUploadForm />
             </div>
           )}
@@ -421,20 +480,17 @@ export default function FanPhotoWallClient({
           {/* ── STACKED CARD GRID LAYOUT ── */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {pendingPhotos.map((photo) => {
-              const isVideo =
-                photo.type === "video" ||
-                photo.src.endsWith(".mp4") ||
-                photo.src.endsWith(".mov");
+              const mediaDetails = getMediaDetails(photo);
               return (
                 <div
                   key={photo.id}
-                  className="flex w-full flex-col justify-between rounded-2xl border border-purple-500/20 p-4 text-left shadow-xl backdrop-blur-md hover:border-purple-400/40"
+                  className="flex w-full flex-col justify-between rounded-2xl border border-white/10 p-4 text-left shadow-xl backdrop-blur-md hover:border-purple-400/40"
                 >
                   <div>
-                    <div className="relative mb-3 aspect-[4/3] w-full overflow-hidden rounded-xl border border-white/10 bg-black/40">
-                      {isVideo ? (
+                    <div className="relative mb-3 aspect-[4/3] w-full overflow-hidden border border-white/10 bg-black/40 rounded-xl">
+                      {mediaDetails.isDirectVideo ? (
                         <video
-                          src={photo.src}
+                          src={mediaDetails.videoSrc}
                           className="h-full w-full object-cover"
                           muted
                           playsInline
@@ -443,7 +499,11 @@ export default function FanPhotoWallClient({
                         />
                       ) : (
                         <Image
-                          src={photo.src}
+                          src={
+                            mediaDetails.isYouTube
+                              ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg`
+                              : photo.src
+                          }
                           alt="Fan Upload"
                           fill
                           sizes="(max-width: 768px) 100vw, 400px"
@@ -451,11 +511,11 @@ export default function FanPhotoWallClient({
                           className="object-cover"
                         />
                       )}
-                      <div className="absolute top-2.5 right-2.5 border border-white/10 bg-black/80 px-2.5 py-1 backdrop-blur-md">
+                      <div className="absolute top-2.5 right-2.5 border border-white/10 bg-black/80 px-2.5 py-1   backdrop-blur-md text-white">
                         {photo.date || "Pending"}
                       </div>
                     </div>
-                    <div className="none-paragraph-container space-y-1.5">
+                    <div className="npm space-y-1.5">
                       <div className="flex items-center gap-1.5">
                         <span className="text-purple-400">@</span>
                         <span>{photo.name}</span>
@@ -509,13 +569,21 @@ export default function FanPhotoWallClient({
         </div>
 
         {/* Photo Feed Grid - Full Bleed 0 Gap Uniform Grid */}
-        {approvedPhotos.length > 0 ? (
-          <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* overflow-anchor:auto enables CSS scroll anchoring so new rows appended below the viewport don't shift the user's current position */}
+        {photosLoading ? (
+          /* Skeleton grid: same aspect-ratio as real cards, prevents height jump when photos load */
+          <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ overflowAnchor: 'auto' }}>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
+                <div className="h-10 w-full animate-pulse bg-white/[0.04]" />
+                <div className="aspect-[16/10] w-full animate-pulse bg-white/[0.03]" />
+              </div>
+            ))}
+          </div>
+        ) : approvedPhotos.length > 0 ? (
+          <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ overflowAnchor: 'auto' }}>
             {approvedPhotos.map((photo) => {
-              const isVideo =
-                photo.type === "video" ||
-                photo.src.endsWith(".mp4") ||
-                photo.src.endsWith(".mov");
+              const mediaDetails = getMediaDetails(photo);
               return (
                 <div
                   key={photo.id}
@@ -524,22 +592,22 @@ export default function FanPhotoWallClient({
                   <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-black/[0.02] p-4">
                     <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
                       <div
-                        className="flex aspect-square h-11 w-11 min-w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5"
+                        className="flex aspect-square h-11 w-11 min-w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 font-semibold text-white"
                       >
                         {photo.name
                           ? photo.name
-                              .split(" ")
-                              .filter(Boolean)
-                              .map((n) => n[0])
-                              .join("")
-                              .substring(0, 2)
-                              .toUpperCase()
+                            .split(" ")
+                            .filter(Boolean)
+                            .map((n) => n[0])
+                            .join("")
+                            .substring(0, 2)
+                            .toUpperCase()
                           : "FP"}
                       </div>
-                      <div className="none-paragraph-container min-w-0">
-                        <p>{photo.name}</p>
+                      <div className="npm min-w-0">
+                        <p className="font-semibold text-white">{photo.name}</p>
                         {(photo.venue || photo.city) && (
-                          <p className="mt-0.5">
+                          <p className="mt-0.5   text-white/60">
                             {photo.venue}
                             {photo.venue && photo.city && " • "}
                             {photo.city}
@@ -547,15 +615,15 @@ export default function FanPhotoWallClient({
                         )}
                       </div>
                     </div>
-                    <div className="flex shrink-0 flex-col items-end gap-0.5">
-                      <span>{isVideo ? "Video" : "Photo"}</span>
+                    <div className="flex shrink-0 flex-col items-end gap-0.5   text-white/60">
+                      <span>{mediaDetails.isVideo ? "Video" : "Photo"}</span>
                       {photo.date && <span>{photo.date}</span>}
                     </div>
                   </div>
                   <div
                     role="button"
                     tabIndex={0}
-                    className="group relative w-full flex-1 cursor-pointer text-left"
+                    className="group relative w-full flex-1 cursor-pointer text-left select-none"
                     onClick={() => setSelectedPhoto(photo)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
@@ -565,11 +633,9 @@ export default function FanPhotoWallClient({
                     }}
                   >
                     <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/40">
-                      {photo.src.endsWith(".mp4") ||
-                      photo.src.endsWith(".mov") ||
-                      photo.src.endsWith(".webm") ? (
+                      {mediaDetails.isDirectVideo ? (
                         <video
-                          src={photo.src}
+                          src={mediaDetails.videoSrc}
                           className="block h-full w-full object-cover"
                           autoPlay
                           loop
@@ -578,7 +644,11 @@ export default function FanPhotoWallClient({
                         />
                       ) : (
                         <Image
-                          src={photo.src}
+                          src={
+                            mediaDetails.isYouTube
+                              ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg`
+                              : photo.src
+                          }
                           alt={`Media by ${photo.name}`}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -587,15 +657,15 @@ export default function FanPhotoWallClient({
                           loading="lazy"
                         />
                       )}
-                      <div className="absolute inset-0 z-10 flex items-end justify-center bg-gradient-to-t from-black/80 via-transparent to-transparent pb-8 opacity-0 group-hover:opacity-100">
+                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 transition-opacity duration-300 group-hover:bg-black/60">
                         <SeventhButton>
-                          {isVideo ? "Play Video" : "Expand Photo"}
+                          {mediaDetails.isVideo ? "Play Video" : "Expand Photo"}
                         </SeventhButton>
                       </div>
                     </div>
                   </div>
                   {photo.caption && (
-                    <div className="flex flex-1 items-center border-t border-white/10 bg-black/[0.02] p-4">
+                    <div className="flex flex-1 items-center border-t border-white/10 bg-black/[0.02] p-4 text-sm text-white/80">
                       <p>&ldquo;{photo.caption}&rdquo;</p>
                     </div>
                   )}
@@ -604,7 +674,7 @@ export default function FanPhotoWallClient({
             })}
           </div>
         ) : (
-          /* Empty state */
+          /* Empty state (only shown after loading completes) */
           <div className="py-32 text-center">
             <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center border border-white/10">
               <svg
@@ -616,7 +686,7 @@ export default function FanPhotoWallClient({
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="/15"
+                className=""
               >
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                 <circle cx="8.5" cy="8.5" r="1.5" />
@@ -633,86 +703,114 @@ export default function FanPhotoWallClient({
           </div>
         )}
 
-        {/* Lightbox */}
+        {/* Full Screen Lightbox Modal */}
         {mounted &&
           selectedPhoto &&
           createPortal(
-            <div
-              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md sm:p-8"
-              onClick={() => setSelectedPhoto(null)}
-            >
-              <div
-                className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-lg bg-black/80 p-6"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  aria-label="Close"
+            (() => {
+              const mediaDetails = getMediaDetails(selectedPhoto);
+              return (
+                <div
+                  className="fixed inset-0 z-[999999] flex h-screen w-screen cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0"
                   onClick={() => setSelectedPhoto(null)}
-                  className="absolute top-4 right-4 z-20 cursor-pointer !rounded-full border border-white/10 bg-black/50 p-2 text-white/60 hover:bg-black/80 hover:text-white"
                 >
-                  <X className="h-5 w-5" />
-                </button>
-                {selectedPhoto.type === "video" ||
-                selectedPhoto.src.endsWith(".mp4") ||
-                selectedPhoto.src.endsWith(".mov") ? (
-                  <video
-                    src={selectedPhoto.src}
-                    className="max-h-[65vh] w-full rounded-xl object-contain"
-                    controls
-                    autoPlay
-                    muted
-                    playsInline
-                  />
-                ) : (
-                  <img
-                    src={selectedPhoto.src}
-                    alt={selectedPhoto.name}
-                    className="max-h-[65vh] w-full rounded-xl object-contain shadow-2xl"
-                  />
-                )}
-                <div className="mt-4 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
-                  <div>
-                    <p>{selectedPhoto.name}</p>
-                    {selectedPhoto.venue && (
-                      <p className="mt-0.5">
-                        {selectedPhoto.venue}
-                        {selectedPhoto.city ? ` — ${selectedPhoto.city}` : ""}
-                        {selectedPhoto.date ? ` · ${selectedPhoto.date}` : ""}
-                      </p>
-                    )}
-                    {selectedPhoto.caption && (
-                      <p className="mt-2 text-left text-gray-300">
-                        &ldquo;{selectedPhoto.caption}&rdquo;
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex shrink-0 flex-col items-end gap-2">
-                    <button
-                      onClick={() => handleFlagPhoto(selectedPhoto.id)}
-                      disabled={flaggingId === selectedPhoto.id}
-                      className="st flex items-center gap-1.5 text-white/40 hover:text-red-400 disabled:opacity-50"
-                    >
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-                        <line x1="4" y1="22" x2="4" y2="15" />
-                      </svg>
-                      {flaggingId === selectedPhoto.id
-                        ? "Flagging..."
-                        : "Report"}
-                    </button>
+                  <div className="relative flex h-full w-full flex-col overflow-hidden bg-black">
+                    {/* Header Bar */}
+                    <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/95 px-4 sm:px-6">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1   font-bold text-purple-300 shrink-0">
+                          {mediaDetails.isVideo ? "FAN VIDEO" : "FAN PHOTO"}
+                        </span>
+                        <div className="flex items-center gap-2 truncate text-sm  text-white font-semibold">
+                          <span>{selectedPhoto.name}</span>
+                          {(selectedPhoto.venue || selectedPhoto.city) && (
+                            <span className="hidden sm:inline text-white/50   font-normal">
+                              • {selectedPhoto.venue}
+                              {selectedPhoto.city ? `, ${selectedPhoto.city}` : ""}
+                              {selectedPhoto.date ? ` (${selectedPhoto.date})` : ""}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleFlagPhoto(selectedPhoto.id);
+                          }}
+                          disabled={flaggingId === selectedPhoto.id}
+                          className="flex items-center gap-1.5   text-white/50 transition-colors hover:text-red-400 disabled:opacity-50"
+                        >
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                            <line x1="4" y1="22" x2="4" y2="15" />
+                          </svg>
+                          <span className="hidden sm:inline">
+                            {flaggingId === selectedPhoto.id ? "Flagging..." : "Report"}
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPhoto(null)}
+                          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+                          aria-label="Close modal"
+                        >
+                          <X className="h-6 w-6" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Stage (Full Screen Edge-to-Edge Media) */}
+                    <div className="relative flex-1 w-full h-[calc(100vh-3.5rem)] overflow-hidden bg-black flex items-center justify-center">
+                      {mediaDetails.isDirectVideo ? (
+                        <video
+                          src={mediaDetails.videoSrc}
+                          className="h-full w-full object-contain bg-black"
+                          controls
+                          autoPlay
+                          muted
+                          playsInline
+                        />
+                      ) : mediaDetails.isYouTube ? (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${mediaDetails.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                          title={selectedPhoto.caption || selectedPhoto.name}
+                          className="h-full w-full border-0"
+                          allow="autoplay; encrypted-media; fullscreen"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <img
+                          src={selectedPhoto.src}
+                          alt={selectedPhoto.name}
+                          className="h-full w-full object-contain bg-black"
+                        />
+                      )}
+
+                      {/* Optional Caption Overlay at Bottom */}
+                      {selectedPhoto.caption && (
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 text-center">
+                          <p className="mx-auto max-w-3xl text-sm  text-white/90 drop-shadow">
+                            &ldquo;{selectedPhoto.caption}&rdquo;
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>,
+              );
+            })(),
             document.body,
           )}
       </section>
@@ -733,26 +831,26 @@ export default function FanPhotoWallClient({
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <Camera className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-xl">Add Photo / Video to Sanity CMS</h3>
-                  <p className="/70">
+                  <p className="">
                     Create and publish a fan wall moment directly to Sanity CMS.
                   </p>
                 </div>
               </div>
 
               {cmsError && (
-                <div className="mb-6 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6 flex items-center gap-2  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
                   <span>{cmsError}</span>
                 </div>
               )}
 
               {cmsSuccess && (
-                <div className="mb-6 flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
+                <div className="mb-6 flex items-center gap-2  border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Moment added successfully!</span>
                 </div>
@@ -769,7 +867,7 @@ export default function FanPhotoWallClient({
                     }
                     placeholder="e.g. ChicagoLou"
                     labelClassName="        text-purple-200/80 mb-0"
-                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500   font-normal"
+                    inputClassName="bg-black/50 border border-white/15  px-5 py-2.5   placeholder-gray-500   font-normal"
                   />
 
                   <InputField
@@ -780,7 +878,7 @@ export default function FanPhotoWallClient({
                     }
                     placeholder="e.g. DeKalb Cornfest"
                     labelClassName="        text-purple-200/80 mb-0"
-                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500   font-normal"
+                    inputClassName="bg-black/50 border border-white/15  px-5 py-2.5   placeholder-gray-500   font-normal"
                   />
                 </div>
 
@@ -793,7 +891,7 @@ export default function FanPhotoWallClient({
                     }
                     placeholder="e.g. DeKalb, IL"
                     labelClassName="        text-purple-200/80 mb-0"
-                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500   font-normal"
+                    inputClassName="bg-black/50 border border-white/15  px-5 py-2.5   placeholder-gray-500   font-normal"
                   />
 
                   <InputField
@@ -804,7 +902,7 @@ export default function FanPhotoWallClient({
                     }
                     placeholder="e.g. August 2024"
                     labelClassName="        text-purple-200/80 mb-0"
-                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500   font-normal"
+                    inputClassName="bg-black/50 border border-white/15  px-5 py-2.5   placeholder-gray-500   font-normal"
                   />
                 </div>
 
@@ -826,7 +924,7 @@ export default function FanPhotoWallClient({
                         }))
                       }
                       chevronColor="#c084fc"
-                      className="! !rounded-xl !border-white/15 !bg-black/50 !px-5 !py-2.5 !font-normal"
+                      className="! !border-white/15 !bg-black/50 !px-5 !py-2.5 !font-normal"
                     />
                   </div>
 
@@ -841,7 +939,7 @@ export default function FanPhotoWallClient({
                     }
                     placeholder="e.g. @chicagolou"
                     labelClassName="        text-purple-200/80 mb-0"
-                    inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500   font-normal"
+                    inputClassName="bg-black/50 border border-white/15  px-5 py-2.5   placeholder-gray-500   font-normal"
                   />
                 </div>
 
@@ -854,7 +952,7 @@ export default function FanPhotoWallClient({
                   }
                   placeholder="e.g. /images/fan-photo-featured.jpg or https://..."
                   labelClassName="        text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500   font-normal"
+                  inputClassName="bg-black/50 border border-white/15  px-5 py-2.5   placeholder-gray-500   font-normal"
                 />
 
                 <InputField
@@ -867,7 +965,7 @@ export default function FanPhotoWallClient({
                   }
                   placeholder="e.g. Front row every single time. Best night of the summer!"
                   labelClassName="        text-purple-200/80 mb-0"
-                  inputClassName="bg-black/50 border border-white/15 rounded-xl px-5 py-2.5   placeholder-gray-500   font-normal"
+                  inputClassName="bg-black/50 border border-white/15  px-5 py-2.5   placeholder-gray-500   font-normal"
                 />
 
                 <div className="flex items-center gap-2 pt-1">
@@ -895,14 +993,14 @@ export default function FanPhotoWallClient({
                   <button
                     type="button"
                     onClick={() => setIsAddCmsModalOpen(false)}
-                    className="btn-secondary cursor-pointer rounded-xl px-5 py-2.5"
+                    className="btn-secondary cursor-pointer  px-5 py-2.5"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSavingCms}
-                    className="btn-primary flex cursor-pointer items-center gap-2 rounded-xl px-6 py-2.5 disabled:opacity-50"
+                    className="btn-primary flex cursor-pointer items-center gap-2  px-6 py-2.5 disabled:opacity-50"
                   >
                     {isSavingCms ? (
                       <>

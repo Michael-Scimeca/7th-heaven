@@ -47,7 +47,7 @@ export default function ChatInputBar({
 
   return (
     <div className={`flex flex-col ${className}`}>
-      <form onSubmit={onSubmit} className="relative flex w-full items-center">
+      <form onSubmit={onSubmit} className="relative flex w-full items-center mb-3 border-l border-b border-r border-white/10">
         <InputField
           aria-label="Chat message input"
           type="text"
@@ -58,7 +58,7 @@ export default function ChatInputBar({
           maxLength={maxLength}
           glow={true}
           containerClassName="w-full"
-          inputClassName={`bg-[#00000029] !border-0 !border-t pl-3.5 py-3   !rounded-none   outline-none transition-all    placeholder: text-white/40 ${rightPadding}`}
+          inputClassName={`input-focus bg-[#00000029] !border-0 !border-t pl-3.5 py-3 !rounded-none outline-none placeholder:text-white/40 ${rightPadding}`}
         />
 
         <div className="absolute right-1.5 flex items-center gap-1">
@@ -68,7 +68,7 @@ export default function ChatInputBar({
               type="button"
               onClick={onEmojiToggle}
               title="Insert Emoji"
-              className="hover:text-whitebg-white-10 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#00000029]"
+              className="icon-btn flex h-7 w-7 cursor-pointer items-center justify-center  bg-[#00000029]"
             >
               😀
             </button>
@@ -80,7 +80,7 @@ export default function ChatInputBar({
               type="button"
               onClick={onAtToggle}
               title="Tag Admin or Crew"
-              className="hover:text-whitebg-purple-light color-transition cursor-pointer rounded border border-purple-500/30 bg-purple-600/10 px-2 py-1"
+              className="btn-interactive cursor-pointer rounded border border-purple-500/30 bg-purple-600/10 px-2 py-1"
             >
               @
             </button>
@@ -90,7 +90,7 @@ export default function ChatInputBar({
             aria-label="Send message"
             type="submit"
             disabled={disabled || !value.trim()}
-            className="hover:text-whitebg-purple-600 color-transition flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-purple-700/50 shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30"
+            className="btn-interactive flex h-7 w-7 cursor-pointer items-center justify-center  bg-purple-700/50 shadow-[0_0_10px_rgba(147,51,234,0.2)] disabled:opacity-30"
           >
             <svg
               width="12"
@@ -110,14 +110,14 @@ export default function ChatInputBar({
       </form>
 
       {showRulesFooter && (
-        <div className="mt-2 flex items-center justify-between px-1">
-          <span>KEEP IT RATED PG-13 · NO POLITICS</span>
+        <div className=" flex items-center justify-between ">
+          <span>Keep it Rated PG-13 · No Politics</span>
           {onAdminTag && (
             <button
               aria-label="Tag admin for help"
               type="button"
               onClick={onAdminTag}
-              className="hover- color-transition cursor-pointer tracking-normal lowercase"
+              className="text-link cursor-pointer tracking-normal lowercase"
             >
               tag @admin for help
             </button>

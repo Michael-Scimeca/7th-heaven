@@ -84,7 +84,7 @@ export default function FeaturesPage() {
       {/* ═══ HERO ═══════════════════════════════════════ */}
       <section className="relative overflow-hidden px-6 pt-40 pb-28 md:px-12 lg:px-20">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 h-[600px] w-[1100px] -translate-x-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.10] blur-3xl" />
+          <div className="absolute top-0 left-1/2 h-[600px] w-[1100px] -translate-x-1/2  bg-[var(--color-accent)] opacity-[0.10] blur-3xl" />
           <div
             className="absolute inset-0 opacity-[0.025]"
             style={{
@@ -96,7 +96,7 @@ export default function FeaturesPage() {
         </div>
 
         <div className="relative mx-auto max-w-5xl text-center">
-          <div className="mb-10 inline-flex items-center gap-2.5 rounded-lg border border-[#851DEF]/30 bg-[var(--color-accent)]/10 px-5 py-2 text-[#c084fc]">
+          <div className="mb-10 inline-flex items-center gap-2.5  border border-[#851DEF]/30 bg-[var(--color-accent)]/10 px-5 py-2 text-[#c084fc]">
             Full Platform Overview · All Features Live & Documented
           </div>
 
@@ -141,32 +141,32 @@ export default function FeaturesPage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/sitemap"
-              className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-accent)] px-8 py-3.5 text-base hover:bg-[var(--color-accent-hover)] hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]"
+              className="inline-flex items-center gap-2  bg-[var(--color-accent)] px-8 py-3.5   hover:bg-[var(--color-accent-hover)] hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]"
             >
               Interactive Sitemap →
             </Link>
             <Link
               href="/live"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-8 py-3.5 text-base hover:border-white/30 hover:bg-white/10"
+              className="inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-3.5   hover:border-white/30 hover:bg-white/10"
             >
-              <span className="h-2 w-2 animate-pulse rounded-lg bg-white" />
+              <span className="h-2 w-2 animate-pulse  bg-white" />
               Watch Live
             </Link>
             <Link
               href="/book"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-8 py-3.5 text-base hover:border-white/30 hover:bg-white/10"
+              className="inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-3.5   hover:border-white/30 hover:bg-white/10"
             >
               Book The Band →
             </Link>
             <Link
               href="/fans"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-8 py-3.5 text-base hover:border-white/30 hover:bg-white/10"
+              className="inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-3.5   hover:border-white/30 hover:bg-white/10"
             >
               Fan Dashboard →
             </Link>
             <a
               href="#all-features"
-              className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-8 py-3.5 text-base hover:border-emerald-500/60 hover:bg-emerald-500/20"
+              className="inline-flex items-center gap-2  border border-emerald-500/30 bg-emerald-500/10 px-8 py-3.5   hover:border-emerald-500/60 hover:bg-emerald-500/20"
             >
               View All Features ↓
             </a>
@@ -243,17 +243,17 @@ export default function FeaturesPage() {
                 cat.key === "all"
                   ? FEATURES.length
                   : FEATURES.filter((f) =>
-                      f.category.includes(cat.key as Category),
-                    ).length;
+                    f.category.includes(cat.key as Category),
+                  ).length;
               return (
                 <button
                   key={cat.key}
                   onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-4 py-2 ${activeCategory === cat.key ? "border-[#851DEF] bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/30 hover:text-white"}`}
+                  className={`flex cursor-pointer items-center gap-1.5  border px-4 py-2 ${activeCategory === cat.key ? "border-[#851DEF] bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/30 hover:text-white"}`}
                 >
                   {cat.icon} {cat.label}
                   <span
-                    className={`ml-1 rounded-lg px-1.5 py-0.5 ${activeCategory === cat.key ? "bg-white/20" : "bg-[#00000029] text-white/30"}`}
+                    className={`ml-1  px-1.5 py-0.5 ${activeCategory === cat.key ? "bg-white/20" : "bg-[#00000029] text-white/30"}`}
                   >
                     {count}
                   </span>
@@ -287,7 +287,7 @@ export default function FeaturesPage() {
                 key={t.name}
                 className="flex cursor-default items-start gap-4 border border-white/10 border-white/[0.06] bg-white/[0.02] p-5 hover:bg-white/[0.04]"
               >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] text-2xl">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center  border border-white/10 bg-[#00000029] text-2xl">
                   {t.icon}
                 </div>
                 <div>
@@ -304,7 +304,7 @@ export default function FeaturesPage() {
       <section className="relative overflow-hidden px-6 py-32">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#851DEF]/8 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 h-[400px] w-[1000px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.07] blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 h-[400px] w-[1000px] -translate-x-1/2 -translate-y-1/2  bg-[var(--color-accent)] opacity-[0.07] blur-3xl" />
           <div
             className="absolute inset-0 opacity-[0.02]"
             style={{
@@ -334,25 +334,25 @@ export default function FeaturesPage() {
             </SeventhButton>
             <Link
               href="/live"
-              className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-8 py-4 text-base hover:border-white/30 hover:bg-white/10"
+              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
             >
               Watch Live
             </Link>
             <Link
               href="/#tour"
-              className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-8 py-4 text-base hover:border-white/30 hover:bg-white/10"
+              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
             >
               See Tour Dates
             </Link>
             <Link
               href="/book"
-              className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-8 py-4 text-base hover:border-white/30 hover:bg-white/10"
+              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
             >
               Book the Band
             </Link>
             <TransitionLink
               href="/contact"
-              className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-8 py-4 text-base hover:border-white/30 hover:bg-white/10"
+              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
             >
               Contact Us
             </TransitionLink>

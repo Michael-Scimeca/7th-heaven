@@ -237,7 +237,7 @@ export default function ShowCrewPanel({
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-white/5">
+      <div className="flex border-b border-white/10">
         {tabs.map((tab) => {
           const TabIcon = tab.Icon;
           return (
@@ -280,7 +280,7 @@ export default function ShowCrewPanel({
                     ({ c, i }) => (
                       <div
                         key={c.name || i}
-                        className={`flex items-center gap-3 rounded-lg border px-3 py-2 ${c.confirmed ? "border-emerald-500/15 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
+                        className={`flex items-center gap-3  border px-3 py-2 ${c.confirmed ? "border-emerald-500/15 bg-emerald-500/5" : "border-white/10 bg-white/[0.01]"}`}
                       >
                         <button
                           onClick={() => toggleConfirm(i)}
@@ -317,7 +317,7 @@ export default function ShowCrewPanel({
                 </div>
 
                 {addingCrew ? (
-                  <div className="flex items-end gap-2 rounded-lg border border-white/5 bg-white/[0.02] p-3">
+                  <div className="flex items-end gap-2  border border-white/10 bg-white/[0.02] p-3">
                     <div className="flex-1">
                       <label
                         htmlFor="show-crew-new-name"
@@ -332,7 +332,7 @@ export default function ShowCrewPanel({
                         onKeyDown={(e) => e.key === "Enter" && addCrew()}
                         autoFocus
                         placeholder="Crew member name"
-                        className="placeholder: /15 focus-ring w-full rounded-lg border border-white/10 px-3 py-2 outline-none"
+                        className="placeholder: /15 focus-ring w-full  border border-white/10 px-3 py-2 outline-none"
                       />
                     </div>
                     <div>
@@ -346,7 +346,7 @@ export default function ShowCrewPanel({
                         id="show-crew-new-role"
                         value={newRole}
                         onChange={(e) => setNewRole(e.target.value)}
-                        className="focus-ring rounded-lg border border-white/10 px-3 py-2 [color-scheme:dark] outline-none"
+                        className="focus-ring  border border-white/10 px-3 py-2 [color-scheme:dark] outline-none"
                       >
                         {CREW_ROLES.map((r) => (
                           <option key={r} value={r}>
@@ -357,7 +357,7 @@ export default function ShowCrewPanel({
                     </div>
                     <button
                       onClick={addCrew}
-                      className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 hover:bg-[var(--color-accent)]"
+                      className="shrink-0 cursor-pointer  bg-[var(--color-accent)] px-3 py-2 hover:bg-[var(--color-accent)]"
                     >
                       Add
                     </button>
@@ -388,11 +388,11 @@ export default function ShowCrewPanel({
               ({ event, i }) => (
                 <div
                   key={event.label}
-                  className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.01] px-3 py-2"
+                  className="flex items-center gap-3  border border-white/10 bg-white/[0.01] px-3 py-2"
                 >
                   <div className="relative flex shrink-0 flex-col items-center">
                     <div
-                      className={`h-3 w-3 rounded-lg border-2 ${event.time ? "border-[var(--color-accent)] bg-[var(--color-accent)]" : "border-white/10"}`}
+                      className={`h-3 w-3  border-2 ${event.time ? "border-[var(--color-accent)] bg-[var(--color-accent)]" : "border-white/10"}`}
                     />
                     {i < data.timeline.length - 1 && (
                       <div className="absolute top-3.5 h-6 w-px bg-[#00000029]" />
@@ -419,9 +419,9 @@ export default function ShowCrewPanel({
           <div>
             {/* Progress bar */}
             <div className="mb-3 flex items-center gap-3">
-              <div className="h-1.5 flex-1 overflow-hidden rounded-lg bg-[#00000029]">
+              <div className="h-1.5 flex-1 overflow-hidden  bg-[#00000029]">
                 <div
-                  className={`h-full rounded-lg ${gearPct === 100 ? "bg-emerald-500" : gearPct >= 50 ? "bg-purple-600" : "bg-rose-500"}`}
+                  className={`h-full  ${gearPct === 100 ? "bg-emerald-500" : gearPct >= 50 ? "bg-purple-600" : "bg-rose-500"}`}
                   style={{ width: `${gearPct}%` }}
                 />
               </div>
@@ -436,7 +436,7 @@ export default function ShowCrewPanel({
                 ({ item, i }) => (
                   <div
                     key={item.name}
-                    className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 ${item.loaded ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/5 bg-white/[0.01]"}`}
+                    className={`flex items-center gap-2  border px-2.5 py-1.5 ${item.loaded ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/10 bg-white/[0.01]"}`}
                   >
                     <button
                       onClick={() => toggleGear(i)}
@@ -472,7 +472,7 @@ export default function ShowCrewPanel({
                     onKeyDown={(e) => e.key === "Enter" && addGearItem()}
                     autoFocus
                     placeholder="Gear item name"
-                    className="placeholder: /15 focus-ring flex-1 rounded-lg border border-white/10 px-3 py-1.5 outline-none"
+                    className="placeholder: /15 focus-ring flex-1  border border-white/10 px-3 py-1.5 outline-none"
                   />
                   <button
                     onClick={addGearItem}
@@ -508,12 +508,12 @@ export default function ShowCrewPanel({
                 onChange={(e) => setNewNote(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="placeholder: /15 focus-ring flex-1 rounded-lg border border-white/10 px-3 py-2 outline-none"
+                className="placeholder: /15 focus-ring flex-1  border border-white/10 px-3 py-2 outline-none"
               />
               <button
                 onClick={addNote}
                 disabled={!newNote.trim()}
-                className="shrink-0 cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-2 hover:bg-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-30"
+                className="shrink-0 cursor-pointer  bg-[var(--color-accent)] px-3 py-2 hover:bg-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-30"
               >
                 Post
               </button>

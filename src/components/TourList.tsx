@@ -28,6 +28,7 @@ import {
   Search,
 } from "lucide-react";
 import gsap from "gsap";
+import GlowInput from "@/components/GlowInput";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CarIcon from "./CarIcon";
 import LocationPinIcon from "./LocationPinIcon";
@@ -685,7 +686,7 @@ const typeOptions = [
 
 // Shared dropdown styles
 const selectClass =
-  "appearance-none    border-0 rounded-lg pl-4 pr-8 py-2.5 text-[0.5rem]        cursor-pointer transition-all duration-200 focus:outline-none";
+  "appearance-none    border-0  pl-4 pr-8 py-2.5 text-[0.5rem]        cursor-pointer transition-all duration-200 focus:outline-none";
 const activeSelect =
   "!border-[var(--color-accent)] ! text-[var(--color-accent)]";
 
@@ -1589,7 +1590,7 @@ export default function TourList({
             className="pointer-events-none z-30 mx-auto py-5 text-center"
           >
             <h2 className="mb-3">Upcoming Tour Dates</h2>
-            <p className="md: sm:text-base">
+            <p className="md: ">
               Catch 7th Heaven live on stage! Explore all upcoming show dates,
               venues, directions, and sync concerts directly to your calendar.
             </p>
@@ -1624,7 +1625,7 @@ export default function TourList({
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="whitespace-nowrap] cursor-pointer rounded-lg border border-[var(--color-accent)re] px-2.5 py-1 text-[0.9rem] hover:border-[rgba(255,10,61,0.6)] hover:text-white"
+                  className="whitespace-nowrap cursor-pointer  border border-[var(--color-accent)re] px-2.5 py-1 text-[0.9rem] hover:border-[rgba(255,10,61,0.6)] hover:text-white"
                 >
                   Clear
                 </button>
@@ -1642,7 +1643,7 @@ export default function TourList({
               pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none",
               top: `${mobileHeaderOffset}px`,
             }}
-            className="relative sticky z-[40] flex w-full flex-col sm:gap-0 md:gap-4 gap-6 border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-3"
+            className="relative sticky z-[40] flex w-full flex-col sm:gap-0 md:gap-2 lg:gap-2 border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-6"
           >
             <div
               className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-1 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity duration-300 ease-out backdrop-blur-[24px]"
@@ -1658,28 +1659,27 @@ export default function TourList({
             />
 
             {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
-            <div className="input-glow-border my-3 w-full max-w-[300px] shrink-0">
-              <div className="relative flex w-full items-center">
-                <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
-                <input
-                  aria-label="Search"
-                  type="text"
-                  placeholder="Search..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="no-bg-icon placeholder: focus-ring w-full rounded-lg border-0 py-2 pr-5 text-white/50"
-                  id="tour-search"
-                />
-                {searchQuery && (
-                  <button
-                    aria-label="Clear search"
-                    onClick={() => setSearchQuery("")}
-                    className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer text-[1.08rem] hover:text-white"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                )}
-              </div>
+            <div className="relative my-3 w-full max-w-[300px] shrink-0">
+              <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
+              <GlowInput
+                aria-label="Search"
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="no-bg-icon pl-9 pr-5 text-white/50"
+                id="tour-search"
+                rounded="rounded-lg"
+              />
+              {searchQuery && (
+                <button
+                  aria-label="Clear search"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer text-[1.08rem] hover:text-white"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
             </div>
 
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
@@ -1695,10 +1695,10 @@ export default function TourList({
               <div className="relative flex w-full shrink-0 items-center">
                 <GooeyMessagesDropdown
                   fullWidth
+                  showAllOption
                   placeholder="MONTH"
-                  defaultSelectedId={
-                    activeMonth !== "All" ? activeMonth : undefined
-                  }
+                  selected={activeMonth}
+                  defaultSelectedId={activeMonth}
                   customers={months.map((m) => ({ id: m, name: m }))}
                   onSelect={(opt) => setActiveMonth(opt.id)}
                 />
@@ -1713,13 +1713,13 @@ export default function TourList({
               <div className="relative flex w-full shrink-0 items-center">
                 <GooeyMessagesDropdown
                   fullWidth
+                  showAllOption
                   placeholder="CITY"
-                  defaultSelectedId={
-                    activeCity !== "All" ? activeCity : undefined
-                  }
+                  selected={activeCity}
+                  defaultSelectedId={activeCity}
                   customers={locationOptions.map(({ city, count }) => ({
                     id: city,
-                    name: `${city} (${count})`,
+                    name: city === "ALL" ? "ALL" : `${city} (${count})`,
                   }))}
                   onSelect={(opt) => setActiveCity(opt.id)}
                 />
@@ -1791,7 +1791,7 @@ export default function TourList({
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
                 <div
                   key={`tour_row_${i}_${show.id || rowId}`}
-                  className="group overflow-visible sm:pb-6 pb-0"
+                  className="group overflow-visible sm:pb-6 pb-6"
                 >
                   {/* Desktop Row Layout */}
                   <div
@@ -1866,14 +1866,12 @@ export default function TourList({
                                   ? "Mute notifications for this show"
                                   : "Notify me about this show"
                               }
-                              className={`flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center ${subscribedShowIdsSet.has(show._id) ? "  hover:bg-[var(--color-accent)]" : ""}`}
+                              className={`icon-btn flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-1 ${subscribedShowIdsSet.has(show._id) ? "text-[var(--color-accent)]" : "text-white/70"}`}
                             >
                               {subscribingId === show._id ? (
-                                <span className="h-5 w-5 animate-spin rounded-lg border-2 border-current border-t-transparent" />
-                              ) : subscribedShowIdsSet.has(show._id) ? (
-                                <Bell className="h-5 w-5" />
+                                <span className="h-5 w-5 animate-spin  border-2 border-current border-t-transparent" />
                               ) : (
-                                <Bell className="h-5 w-5" />
+                                <Bell className="h-5.5 w-5.5" />
                               )}
                             </button>
                           )}
@@ -1905,7 +1903,7 @@ export default function TourList({
                                   rel="noopener noreferrer"
                                   title="Get Directions"
                                   style={{ color: cfg.color }}
-                                  className="flex items-center justify-center p-1 opacity-100 hover:opacity-75"
+                                  className="icon-btn flex items-center justify-center p-1"
                                 >
                                   <LocationPinIcon className="h-5.5 w-5.5 shrink-0" />
                                 </a>
@@ -1944,7 +1942,7 @@ export default function TourList({
                                       : "Parking Directions"
                                   }
                                   style={{ color: cfg.color }}
-                                  className="seventh--btn flex items-center justify-center p-1 opacity-100 hover:opacity-75"
+                                  className="icon-btn flex items-center justify-center p-1"
                                 >
                                   <CarIcon className="h-5.5 w-5.5 shrink-0" />
                                 </a>
@@ -1959,12 +1957,12 @@ export default function TourList({
                                 )
                               }
                               title="Add to Calendar"
-                              className="flex cursor-pointer items-center justify-center border-none p-1 hover:text-white"
+                              className="icon-btn flex cursor-pointer items-center justify-center border-none p-1 text-white/70"
                             >
                               <CalendarDays className="h-5.5 w-5.5" />
                             </button>
                             {activeCalDropdownId === rowId && (
-                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+                              <div className="absolute right-0 z-50 mt-2 min-w-[165px]  border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                                 <a
                                   href={getGoogleCalendarUrl(show)}
                                   target="_blank"
@@ -2049,7 +2047,7 @@ export default function TourList({
 
                   {/* Mobile/Tablet Card Layout — Stacked Venue-First */}
                   <div
-                    className={`tour-row-item relative sm:mb-6 mb-0 flex flex-col gap-1 lg:hidden ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative sm:mb-6 mb-6 flex flex-col gap-1 lg:hidden ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
                     {/* 1. Venue & City (FIRST) */}
@@ -2192,7 +2190,7 @@ export default function TourList({
                                   ? `Parking: ${show.parkingInfo}`
                                   : "Parking Directions"
                               }
-                              className="btn-action-purple flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2"
+                              className="btn-action-purple flex flex-1 items-center justify-center gap-1.5  px-3 py-2"
                             >
                               <CarIcon className="h-3.5 w-3.5 shrink-0" />
                               <span>Park</span>
@@ -2212,7 +2210,7 @@ export default function TourList({
                             className="btn-action-purple btn-icon-square"
                           >
                             {subscribingId === show._id ? (
-                              <span className="h-3.5 w-3.5 animate-spin rounded-lg border-2 border-white border-t-transparent" />
+                              <span className="h-3.5 w-3.5 animate-spin  border-2 border-white border-t-transparent" />
                             ) : (
                               <Bell className="h-4 w-4" />
                             )}
@@ -2236,7 +2234,7 @@ export default function TourList({
                               <CalendarDays className="h-4 w-4" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+                              <div className="absolute right-0 z-50 mt-2 min-w-[165px]  border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                                 <a
                                   href={getGoogleCalendarUrl(show)}
                                   target="_blank"
@@ -2324,7 +2322,7 @@ export default function TourList({
         typeof window !== "undefined" &&
         createPortal(
           <div className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
-            <div className="relative my-8 w-full max-w-2xl animate-[fade-in-up_0.2s_ease-out] overflow-hidden rounded-lg border border-white/10 bg-[var(--color-bg-surface)]">
+            <div className="relative my-8 w-full max-w-2xl animate-[fade-in-up_0.2s_ease-out] overflow-hidden  border border-white/10 bg-[var(--color-bg-surface)]">
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
               <div className="p-6 text-left md:p-8">
                 <div className="mb-6 flex items-center justify-between">
@@ -2653,7 +2651,7 @@ export default function TourList({
                     </div>
                   </div>
 
-                  <div className="flex gap-3 border-t border-white/5 pt-4">
+                  <div className="flex gap-3 border-t border-white/10 pt-4">
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(false)}
@@ -2694,7 +2692,7 @@ export default function TourList({
                 {/* Header */}
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20">
+                    <div className="flex h-11 w-11 items-center justify-center  border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5 text-[var(--color-accent)]"
@@ -2711,7 +2709,7 @@ export default function TourList({
                   </div>
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center  bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
                   >
                     <svg
                       width="12"
@@ -2728,7 +2726,7 @@ export default function TourList({
                 </div>
 
                 {/* Show info */}
-                <div className="mb-6 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5">
+                <div className="mb-6  border border-white/10 bg-white/[0.03] px-3 py-2.5">
                   <p>
                     {notifyPopupShow.venue} — {notifyPopupShow.city},{" "}
                     {notifyPopupShow.state}
@@ -2750,13 +2748,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, thisShow: !p.thisShow }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3  border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0  ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3  bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2775,13 +2773,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, proximity: !p.proximity }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3  border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0  ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3  bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2803,13 +2801,13 @@ export default function TourList({
                         newsletter: !p.newsletter,
                       }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3  border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-lg ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0  ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3  bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2834,7 +2832,7 @@ export default function TourList({
                       placeholder="fan@example.com"
                       value={notifyEmail}
                       onChange={(e) => setNotifyEmail(e.target.value)}
-                      className="focus-ring w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2"
+                      className="focus-ring w-full  border border-white/15 bg-white/5 px-3 py-2"
                     />
                   </div>
                 )}
@@ -2843,7 +2841,7 @@ export default function TourList({
                 <div className="mt-4 flex gap-2">
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex-1 cursor-pointer rounded-lg bg-[#00000029] py-2.5 hover:bg-white/10"
+                    className="flex-1 cursor-pointer  bg-[#00000029] py-2.5 hover:bg-white/10"
                   >
                     Cancel
                   </button>
@@ -2855,7 +2853,7 @@ export default function TourList({
                         !notifyPrefs.proximity &&
                         !notifyPrefs.newsletter)
                     }
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-40"
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-1.5  bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-40"
                   >
                     {subscribingId ? (
                       "Saving..."
@@ -2879,11 +2877,11 @@ export default function TourList({
             style={{ animation: "scaleIn 0.2s ease" }}
           >
             {/* Header */}
-            <div className="mb-6 flex items-center justify-between border-b border-white/5 pb-3">
+            <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="r">Font Tester</h3>
               <button
                 onClick={() => setIsFontCustomizerOpen(false)}
-                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
+                className="flex h-6 w-6 cursor-pointer items-center justify-center  bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
               >
                 ✕
               </button>
@@ -2965,7 +2963,7 @@ export default function TourList({
                 max="24"
                 value={parseInt(tourFontSize) || 13}
                 onChange={(e) => setTourFontSize(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>10px</span>
@@ -2998,7 +2996,7 @@ export default function TourList({
                   setWebsiteBtnFontSize(v);
                   localStorage.setItem("7h_tour_website_btn_font_size", v);
                 }}
-                className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>8px</span>
@@ -3027,7 +3025,7 @@ export default function TourList({
                 max="40"
                 value={parseInt(tourRowPadding) || 0}
                 onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>0px</span>
@@ -3054,7 +3052,7 @@ export default function TourList({
                 max="30"
                 value={parseInt(tourRowGap) || 0}
                 onChange={(e) => setTourRowGap(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>0px</span>
@@ -3083,7 +3081,7 @@ export default function TourList({
                 max="100"
                 value={parseInt(tourRowHeight) || 40}
                 onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>30px</span>
@@ -3139,7 +3137,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3175,7 +3173,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3211,7 +3209,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3247,7 +3245,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3260,7 +3258,7 @@ export default function TourList({
             </div>
 
             {/* Code telemetry */}
-            <div className="mb-5 rounded-lg border border-white/10 bg-black/40 p-3.5 whitespace-pre-wrap select-all">
+            <div className="mb-5  border border-white/10 bg-black/40 p-3.5 whitespace-pre-wrap select-all">
               {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === "var(--font-body)" ? "Barlow" : tourFontFamily === "var(--font-heading)" ? "Rockstar" : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
             </div>
 
@@ -3274,7 +3272,7 @@ export default function TourList({
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="animate-all cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10"
+                className="transition-all cursor-pointer  border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10"
               >
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>
@@ -3287,7 +3285,7 @@ export default function TourList({
                   localStorage.setItem("7h_tour_row_height", tourRowHeight);
                   setIsFontCustomizerOpen(false);
                 }}
-                className="cursor-pointer rounded-lg bg-[var(--color-accent)] py-2.5 hover:bg-[rgba(255,10,61,0.9)]"
+                className="cursor-pointer  bg-[var(--color-accent)] py-2.5 hover:bg-[rgba(255,10,61,0.9)]"
               >
                 Apply & Save
               </button>

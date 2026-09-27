@@ -118,7 +118,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             {isCollapsed ? "Expand" : "Collapse"}
           </span>
           <div
-            className={`flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 ${!isCollapsed ? "rotate-180" : ""}`}
+            className={`flex h-8 w-8 items-center justify-center  border border-white/10 ${!isCollapsed ? "rotate-180" : ""}`}
           ></div>
         </div>
       </button>

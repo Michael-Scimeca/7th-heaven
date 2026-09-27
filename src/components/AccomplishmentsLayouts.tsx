@@ -80,7 +80,7 @@ export default function AccomplishmentsLayouts({
       {/* ── LAYOUT 1: HERO FEATURED BENTO ── */}
       {activeLayout === 1 && (
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="shadow-[0_20px_50px_rgba(0,0,0,0.4)]backdrop-blur-xl group flex flex-col justify-between rounded-lg border border-white/10 bg-[var(--color-surface-raised)] p-8 hover:border-[var(--color-accent)] md:col-span-2 md:p-10">
+          <div className="shadow-[0_20px_50px_rgba(0,0,0,0.4)]backdrop-blur-xl group flex flex-col justify-between  border border-white/10 bg-[var(--color-surface-raised)] p-8 hover:border-[var(--color-accent)] md:col-span-2 md:p-10">
             <div className="mb-6 flex items-start justify-between">
               <span className="rounded-lg border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20 px-3 py-1 text-[var(--font-size-2xs)]">
                 {stats[0].badge}
@@ -99,7 +99,7 @@ export default function AccomplishmentsLayouts({
           {Array.from(stats.slice(1), (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="border-white/10backdrop-blur-xl group flex flex-col justify-between rounded-lg border bg-[#00000029] p-6 hover:border-[var(--color-accent)]/20 hover:bg-white/10"
+              className="border-white/10 backdrop-blur-xl group flex flex-col justify-between  border bg-[#00000029] p-6 hover:border-[var(--color-accent)]/20 hover:bg-white/10"
             >
               <div className="mb-6 flex items-center justify-between">
                 <span className="text-3xl text-[var(--color-accent)]">
@@ -124,12 +124,12 @@ export default function AccomplishmentsLayouts({
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`group relative overflow-hidden rounded-lg border border-purple-500/30 p-7 backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] ${i === 0 || i === 3 ? "md:col-span-2" : ""}`}
+              className={`group relative overflow-hidden border border-purple-500/30 p-7 backdrop-blur-xl hover:border-purple-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] ${i === 0 || i === 3 ? "md:col-span-2" : ""}`}
             >
-              <div className="absolute top-0 right-0 h-24 w-24 rounded-lg blur-2xl group-hover:bg-cyan-500/20" />
+              <div className="absolute top-0 right-0 h-24 w-24 blur-2xl group-hover:bg-cyan-500/20" />
               <div className="mb-6 flex items-center justify-between">
                 <span className="text-4xl">{s.number}</span>
-                <span className="text-purple-400border rounded border-purple-500/30 px-2.5 py-0.5">
+                <span className="text-purple-400 border rounded border-purple-500/30 px-2.5 py-0.5">
                   {s.badge}
                 </span>
               </div>
@@ -146,7 +146,7 @@ export default function AccomplishmentsLayouts({
           {stats.map((s, i) => (
             <div
               key={s.label}
-              className={`hover:shadow-[0_20px_45px_rgba(147, 51, 234,0.25)] group rounded-lg border border-purple-500/30 bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 p-7 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:border-purple-400 ${i === 2 || i === 5 ? "md:col-span-2" : ""}`}
+              className={`hover:shadow-[0_20px_45px_rgba(147, 234,0.25)] group border border-purple-500/30 bg-gradient-to-b from-amber-950/30 via-black to-amber-950/10 p-7 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:border-purple-400 ${i === 0 || i === 5 ? "md:col-span-2" : ""}`}
             >
               <div className="mb-6 flex items-start justify-between">
                 <span className="text-5xl text-purple-200">{s.number}</span>
@@ -165,7 +165,7 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="border-[var(--color-accent)]/20backdrop-blur-xl group rounded-lg border bg-[var(--color-surface-raised)] p-7 shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 hover:border-[var(--color-accent)]/50"
+              className="border-[var(--color-accent)]/20backdrop-blur-xl group  border bg-[var(--color-surface-raised)] p-7 shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 hover:border-[var(--color-accent)]/50"
             >
               <div className="mb-6 h-12 w-12 bg-[var(--color-accent)] p-0.5 group-hover:rotate-6">
                 <div className="flex h-full w-full items-center justify-center rounded-[14px]">
@@ -186,11 +186,11 @@ export default function AccomplishmentsLayouts({
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="border-white/10backdrop-blur-xl group flex h-56 flex-col justify-between rounded-lg border bg-[#00000029] p-8 hover:border-[var(--color-accent)] hover:bg-white/10"
+              className="border-white/10 backdrop-blur-xl group flex h-56 flex-col justify-between  border bg-[#00000029] p-8 hover:border-[var(--color-accent)] hover:bg-white/10"
             >
               <div>
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="r text-[var(--font-size-2xs)]">
+                  <span className="text-[var(--font-size-2xs)]">
                     {s.badge}
                   </span>
                   <span className="text-[var(--font-size-2xs)] text-white/30">
@@ -214,7 +214,7 @@ export default function AccomplishmentsLayouts({
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="group rounded-lg border border-white/10 bg-white/[0.04] p-8 backdrop-blur-3xl hover:bg-white/[0.08] first:md:col-span-2"
+              className="group  border border-white/10 bg-white/[0.04] p-8 backdrop-blur-3xl hover:bg-white/[0.08] first:md:col-span-2"
             >
               <span className="mb-6 block text-[var(--font-size-2xs)] text-white/40">
                 Achievement 0{i + 1}
@@ -233,9 +233,9 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="group relative overflow-hidden rounded-lg border border-[var(--color-accent)]/20 p-8 shadow-[var(--shadow-brand)] backdrop-blur-xl hover:border-[var(--color-accent)] hover:shadow-[var(--shadow-brand)]"
+              className="group relative overflow-hidden  border border-[var(--color-accent)]/20 p-8 shadow-[var(--shadow-brand)] backdrop-blur-xl hover:border-[var(--color-accent)] hover:shadow-[var(--shadow-brand)]"
             >
-              <div className="absolute -top-12 -left-12 h-32 w-32 rounded-lg bg-[var(--color-accent)]/15 blur-3xl group-hover:bg-[var(--color-accent)]/15" />
+              <div className="absolute -top-12 -left-12 h-32 w-32  bg-[var(--color-accent)]/15 blur-3xl group-hover:bg-[var(--color-accent)]/15" />
               <div className="mb-3 text-5xl">{s.number}</div>
               <h4 className="mb-2">{s.label}</h4>
               <p>{s.text}</p>
@@ -250,7 +250,7 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="group flex items-center gap-5 rounded-lg border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-transparent p-6 backdrop-blur-xl hover:border-[var(--color-accent)]/20"
+              className="group flex items-center gap-5  border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-transparent p-6 backdrop-blur-xl hover:border-[var(--color-accent)]/20"
             >
               <div className="flex h-16 w-16 shrink-0 items-center justify-center border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20 text-2xl text-[var(--color-accent)]">
                 {s.number}
@@ -270,7 +270,7 @@ export default function AccomplishmentsLayouts({
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="border-white/10 backdrop-blur-xl group rounded-lg border bg-[#00000029] p-7 hover:border-[var(--color-accent)]/20 first:flex first:flex-col first:justify-between first:md:col-span-2 first:md:row-span-2 nth-[4]:md:col-span-2"
+              className="border-white/10 backdrop-blur-xl group  border bg-[#00000029] p-7 hover:border-[var(--color-accent)]/20 first:flex first:flex-col first:justify-between first:md:col-span-2 first:md:row-span-2 nth-[4]:md:col-span-2"
             >
               <div className="mb-3 text-4xl md:text-5xl">{s.number}</div>
               <div>
@@ -288,7 +288,7 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="border-white/10backdrop-blur-xl group relative overflow-hidden rounded-lg border p-8"
+              className="border-white/10 backdrop-blur-xl group relative overflow-hidden  border p-8"
             >
               <div className="absolute top-0 left-1/2 h-px w-40 -translate-x-1/2 bg-[var(--color-accent)]/40 group-hover:w-full" />
               <div className="mb-3 origin-left text-5xl">{s.number}</div>
@@ -305,7 +305,7 @@ export default function AccomplishmentsLayouts({
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="flex w-[280px] shrink-0 flex-col justify-between rounded-lg border border-white/10 bg-[var(--color-surface-raised)] p-7 backdrop-blur-xl hover:border-[var(--color-accent)]/50 md:w-[320px]"
+              className="flex w-[280px] shrink-0 flex-col justify-between  border border-white/10 bg-[var(--color-surface-raised)] p-7 backdrop-blur-xl hover:border-[var(--color-accent)]/50 md:w-[320px]"
             >
               <div>
                 <span className="mb-3 block text-[var(--font-size-2xs)]">
@@ -344,7 +344,7 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="group flex flex-col items-start justify-between gap-4 rounded-lg border border-white/8 bg-[var(--color-surface-raised)] p-6 backdrop-blur-xl hover:border-[var(--color-accent)]/40 md:flex-row md:items-center md:p-8"
+              className="group flex flex-col items-start justify-between gap-4  border border-white/8 bg-[var(--color-surface-raised)] p-6 backdrop-blur-xl hover:border-[var(--color-accent)]/40 md:flex-row md:items-center md:p-8"
             >
               <div className="flex items-center gap-6">
                 <span className="text-4xl md:text-5xl">{s.number}</span>
@@ -367,7 +367,7 @@ export default function AccomplishmentsLayouts({
           {Array.from(stats, (s, i) => ({ s, i })).map(({ s, i }) => (
             <div
               key={s.label}
-              className="border-white/8backdrop-blur-xl group relative rounded-lg border bg-[var(--color-surface-raised)] p-8 hover:border-[var(--color-accent)]/40"
+              className="border-white/8 backdrop-blur-xl group relative  border bg-[var(--color-surface-raised)] p-8 hover:border-[var(--color-accent)]/40"
             >
               <span className="mb-3 block text-[var(--font-size-2xs)] text-sky-400">
                 [ STAT_0{i + 1} ]
@@ -389,7 +389,7 @@ export default function AccomplishmentsLayouts({
               className="group rounded-tl-3xl rounded-tr-lg rounded-br-3xl rounded-bl-lg border border-white/10 p-7 backdrop-blur-xl"
             >
               <div className="mb-2 text-4xl">{s.number}</div>
-              <h4 className="r mb-2">{s.label}</h4>
+              <h4 className="mb-2">{s.label}</h4>
               <p>{s.text}</p>
             </div>
           ))}
@@ -402,7 +402,7 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="shadow-[0_10px_30px_rgba(0,0,0,0.3)]backdrop-blur-xl group rounded-lg border border-white/8 bg-[var(--color-surface-raised)] p-7 hover:border-[var(--color-accent)]/40"
+              className="shadow-[0_10px_30px_rgba(0,0,0,0.3)]backdrop-blur-xl group  border border-white/8 bg-[var(--color-surface-raised)] p-7 hover:border-[var(--color-accent)]/40"
             >
               <div className="mb-3 text-5xl text-pink-400">{s.number}</div>
               <h4 className="mb-2 text-pink-300">{s.label}</h4>
@@ -429,7 +429,7 @@ export default function AccomplishmentsLayouts({
                   <p className="mt-0.5">{s.text}</p>
                 </div>
               </div>
-              <span className="group- text-[var(--font-size-2xs)] text-white/40">
+              <span className="text-[var(--font-size-2xs)] text-white/40">
                 ✦ 0{i + 1}
               </span>
             </div>
@@ -459,9 +459,9 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="shadow-[0_20px_40px_rgba(0,0,0,0.9)]backdrop-blur-xl group relative rounded-lg border border-white/8 bg-[var(--color-surface-raised)] p-8 hover:-translate-y-2 hover:border-[var(--color-accent)]/40"
+              className="shadow-[0_20px_40px_rgba(0,0,0,0.9)]backdrop-blur-xl group relative  border border-white/8 bg-[var(--color-surface-raised)] p-8 hover:-translate-y-2 hover:border-[var(--color-accent)]/40"
             >
-              <div className="mb-6 h-3 w-3 rounded-lg bg-[var(--color-accent)] shadow-[var(--shadow-brand)]" />
+              <div className="mb-6 h-3 w-3  bg-[var(--color-accent)] shadow-[var(--shadow-brand)]" />
               <div className="mb-2 text-5xl">{s.number}</div>
               <h4 className="mb-2">{s.label}</h4>
               <p>{s.text}</p>
@@ -476,10 +476,10 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="group rounded-lg border border-white/10 bg-white/[0.03] p-8 backdrop-blur-3xl hover:border-[var(--color-accent)]/20 hover:bg-white/[0.07]"
+              className="group  border border-white/10 bg-white/[0.03] p-8 backdrop-blur-3xl hover:border-[var(--color-accent)]/20 hover:bg-white/[0.07]"
             >
               <div className="mb-6 flex items-start justify-between">
-                <span className="er text-6xl">{s.number}</span>
+                <span className="text-6xl">{s.number}</span>
                 <span className="text-[var(--font-size-2xs)] text-white/40">
                   [ {s.badge} ]
                 </span>

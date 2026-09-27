@@ -143,6 +143,21 @@ export default function PastShowsClient({
     setOpenYears(next);
   };
 
+  const handleYearClick = (year: string) => {
+    setSelectedYear(year);
+    if (year !== "ALL") {
+      setOpenYears((prev) => ({ ...prev, [year]: true }));
+    }
+    setTimeout(() => {
+      const el = document.getElementById("shows-archive-section");
+      if (el) {
+        const yOffset = -120;
+        const yPos = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: Math.max(0, yPos), behavior: "smooth" });
+      }
+    }, 20);
+  };
+
   return (
     <>
       {/* ── BREADCRUMB & HEADER SECTION ── */}
@@ -206,24 +221,29 @@ export default function PastShowsClient({
         </div>
 
         {/* Years Pill List Stacked Below Search */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 max-w-[48vw] w-full">
           <span className="mr-1 shrink-0">
             {sanityContent?.jumpToYearLabel || "Jump to Year:"}
           </span>
           <button
-            onClick={() => setSelectedYear("ALL")}
-            className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === "ALL" || selectedYear === "All" ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029]"}`}
+            type="button"
+            onClick={() => handleYearClick("ALL")}
+            className={`cursor-pointer  px-3 py-1.5 text-sm font-medium transition-all duration-200 ${selectedYear === "ALL" || selectedYear === "All"
+              ? "bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(147,51,234,0.4)] hover:bg-purple-500 hover:scale-105"
+              : "bg-white/10 text-white/80 border border-transparent hover:bg-purple-600/50 hover:text-white hover:border-purple-400/40 hover:scale-105"
+              }`}
           >
             {sanityContent?.allYearsLabel || "All Years"}
           </button>
           {years.map((y) => (
             <button
               key={y.year}
-              onClick={() => {
-                setSelectedYear(y.year);
-                setOpenYears((prev) => ({ ...prev, [y.year]: true }));
-              }}
-              className={`color-transition cursor-pointer rounded-lg px-3 py-1.5 ${selectedYear === y.year ? "bg-[var(--color-accent)]" : "hover- border-0 bg-[#00000029]"}`}
+              type="button"
+              onClick={() => handleYearClick(y.year)}
+              className={`cursor-pointer  px-3 py-1.5 text-sm font-medium transition-all duration-200 ${selectedYear === y.year
+                ? "bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(147,51,234,0.4)] hover:bg-purple-500 hover:scale-105"
+                : "bg-white/10 text-white/80 border border-transparent hover:bg-purple-600/50 hover:text-white hover:border-purple-400/40 hover:scale-105"
+                }`}
             >
               {y.year}
             </button>
@@ -237,8 +257,8 @@ export default function PastShowsClient({
 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
-        <div className="my-8 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-12 text-center">
-          <Music className="text-purple-400mx-auto mb-6 h-11 w-11" />
+        <div className="my-8  border border-[var(--border-color)] bg-[var(--card-bg)] p-12 text-center">
+          <Music className="mx-auto mb-6 h-11 w-11 text-purple-400" />
           <h3 className="mb-2">
             {sanityContent?.noShowsTitle || "No Past Shows Found"}
           </h3>
@@ -248,48 +268,53 @@ export default function PastShowsClient({
             year/category.
           </p>
           <button
-            aria-label="Search"
+            aria-label="Reset filters"
             onClick={() => {
               setSearchQuery("");
-              setSelectedYear("ALL");
+              handleYearClick("ALL");
               setSelectedCategory("ALL");
             }}
-            className="color-transition bg-[var(--color-accent)] px-6 py-2.5"
+            className="btn-accent cursor-pointer bg-[var(--color-accent)] px-6 py-2.5"
           >
             {sanityContent?.resetFiltersText || "Reset Filters"}
           </button>
         </div>
       ) : (
         <section
+          id="shows-archive-section"
           aria-label="Past Shows Accordion Archive"
-          className="space-y-0"
+          className="min-h-[60vh] space-y-0"
         >
           {filteredYears.map((yGroup) => {
             const isOpen = !!openYears[yGroup.year];
+            const accordionContentId = `year-shows-${yGroup.year}`;
             return (
               <article key={yGroup.year} className="overflow-hidden">
                 {/* Year Header Accordion Bar */}
                 <button
+                  type="button"
                   onClick={() => toggleYear(yGroup.year)}
-                  className="color-transition flex w-full cursor-pointer items-center justify-between !rounded-none py-2.5 pr-6 text-left"
-                  style={{
-                    borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
-                  }}
+                  aria-expanded={isOpen}
+                  aria-controls={accordionContentId}
+                  className="accordion-trigger flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/15 py-2.5 pr-6 text-left"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1">
+                  <h2 className="flex items-center gap-3   font-medium">
+                    <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1 font-bold">
                       {yGroup.year}
                     </span>
                     <span>
                       {yGroup.shows.length}{" "}
                       {yGroup.shows.length === 1 ? "Show" : "Shows"}
                     </span>
-                  </div>
+                  </h2>
                 </button>
 
                 {/* Shows Table / Grid */}
                 {isOpen && (
-                  <ul className="divide-y divide-[var(--border-color)]">
+                  <ul
+                    id={accordionContentId}
+                    className="divide-y divide-[var(--border-color)]"
+                  >
                     {yGroup.shows.map((show, idx) => {
                       const isCancelled = show.venue
                         .toLowerCase()
@@ -309,41 +334,39 @@ export default function PastShowsClient({
                       return (
                         <li
                           key={`${yGroup.year}-${idx}`}
-                          className="color-transition group flex flex-col justify-between gap-2 py-3.5 hover:text-white sm:flex-row sm:items-center"
-                          style={{
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
-                          }}
+                          className="text-link group flex flex-col justify-between gap-2 border-b border-white/[0.12] stagger-item py-3.5 sm:flex-row sm:items-center"
+                          style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
                         >
                           {/* Date & Day */}
                           <time className="flex w-full shrink-0 items-center gap-2 font-medium sm:w-48">
-                            <span className="color-transition h-2 w-2 rounded-lg bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
+                            <span className="h-2 w-2  bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
                             {show.date || yGroup.year}
                           </time>
 
                           {/* Venue Name */}
-                          <span className="flex-1 font-medium sm:text-base">
+                          <span className="flex-1 font-medium ">
                             {show.venue}
                           </span>
 
                           {/* Badges */}
                           <div className="flex shrink-0 items-center gap-1.5 pt-1 sm:pt-0">
                             {isCancelled && (
-                              <span className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-2 py-0.5 text-[10px] text-rose-600">
+                              <span className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-2 py-0.5  text-rose-600">
                                 Cancelled
                               </span>
                             )}
                             {isUnplugged && (
-                              <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-2 py-0.5 text-[10px]">
+                              <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-2 py-0.5 ">
                                 Unplugged
                               </span>
                             )}
                             {isPrivate && (
-                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20 px-2 py-0.5 text-[10px]">
+                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
                                 Private Event
                               </span>
                             )}
                             {isCruise && (
-                              <span className="rounded-lg border border-sky-500/30 bg-sky-500/20 px-2 py-0.5 text-[10px] text-sky-600">
+                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5  ">
                                 Special Tour
                               </span>
                             )}

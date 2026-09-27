@@ -29,7 +29,7 @@ function findRaffleByPin(pin: string) {
           ts: data.ts,
         };
       }
-    } catch {}
+    } catch { }
   }
   return null;
 }
@@ -69,7 +69,7 @@ const PIN_SLOT_IDS = [
   "slot-5",
 ];
 
-const bypassSubscribe = () => () => {};
+const bypassSubscribe = () => () => { };
 const bypassSnapshot = () =>
   typeof window !== "undefined" &&
   (window.location.search.includes("demo") ||
@@ -191,7 +191,7 @@ export default function CrewVerifyClient({
             className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-amber-500/30 bg-amber-500/10 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
               <ShieldAlert className="h-8 w-8" />
             </div>
 
@@ -212,7 +212,7 @@ export default function CrewVerifyClient({
                 <button
                   type="button"
                   onClick={() => openModal()}
-                  className="w-full cursor-pointer rounded-xl bg-[var(--color-accent)] py-3.5 shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-500"
+                  className="w-full cursor-pointer  bg-[var(--color-accent)] py-3.5 shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-500"
                 >
                   Sign In to Access
                 </button>
@@ -265,7 +265,7 @@ export default function CrewVerifyClient({
             className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-lg border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 shadow-[0_0_25px_rgba(16,185,129,0.3)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 shadow-[0_0_25px_rgba(16,185,129,0.3)]">
               <Trophy className="h-8 w-8" />
             </div>
 
@@ -314,7 +314,7 @@ export default function CrewVerifyClient({
                 type="button"
                 onClick={verifyPin}
                 disabled={fullPin.length !== 6}
-                className={`w-full cursor-pointer rounded-xl py-3.5 ${fullPin.length === 6 ? "bg-[var(--color-accent)] shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:bg-emerald-500" : "cursor-not-allowed border border-white/5 bg-white/10 text-white/40"}`}
+                className={`w-full cursor-pointer  py-3.5 ${fullPin.length === 6 ? "bg-[var(--color-accent)] shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:bg-emerald-500" : "cursor-not-allowed border border-white/10 bg-white/10 text-white/40"}`}
               >
                 Verify PIN Code
               </button>
@@ -328,7 +328,7 @@ export default function CrewVerifyClient({
             className="rounded-lg border-emerald-500/50 p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
               <Trophy className="h-9 w-9" />
             </div>
 
@@ -338,7 +338,7 @@ export default function CrewVerifyClient({
 
             <h2 className="mb-1">Official Winner</h2>
 
-            <div className="my-4 space-y-3 rounded-lg border border-white/10 bg-black/40 p-4 text-left">
+            <div className="my-4 space-y-3  border border-white/10 bg-black/40 p-4 text-left">
               <div>
                 <p className="mb-1">Fan Name</p>
                 <p>{winnerData.winner}</p>
@@ -354,7 +354,7 @@ export default function CrewVerifyClient({
               {fullPin.split("").map((d, i) => (
                 <div
                   key={`pin-confirm-${i}-${d}`}
-                  className="flex h-11 w-9 items-center justify-center rounded-lg border border-purple-500/40 bg-black/60"
+                  className="flex h-11 w-9 items-center justify-center  border border-purple-500/40 bg-black/60"
                 >
                   <span className="tabular-nums">{d}</span>
                 </div>
@@ -367,7 +367,7 @@ export default function CrewVerifyClient({
 
             <Link
               href="/crew"
-              className="mb-3 block w-full cursor-pointer rounded-xl bg-[var(--color-accent)] py-3.5 text-center shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:bg-emerald-500"
+              className="mb-3 block w-full cursor-pointer  bg-[var(--color-accent)] py-3.5 text-center shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:bg-emerald-500"
             >
               Access My Dashboard →
             </Link>
@@ -375,7 +375,7 @@ export default function CrewVerifyClient({
             <button
               type="button"
               onClick={reset}
-              className="w-full cursor-pointer rounded-xl border border-white/10 bg-white/10 py-3.5 hover:bg-white/20"
+              className="w-full cursor-pointer  border border-white/10 bg-white/10 py-3.5 hover:bg-white/20"
             >
               Verify Another PIN
             </button>
@@ -388,7 +388,7 @@ export default function CrewVerifyClient({
             className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-red-500/30 bg-red-500/10 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
               <XCircle className="h-8 w-8" />
             </div>
             <h2 className="mb-2">Invalid PIN</h2>

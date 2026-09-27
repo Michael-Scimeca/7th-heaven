@@ -266,7 +266,7 @@ export default function FooterProximityAlerts() {
   const isBusy = status === "saving";
 
   return (
-    <div className="relative z-10 flex w-full flex-col items-start gap-6 md:flex-row md:items-start md:gap-6">
+    <div className="relative z-10 flex w-full flex-col items-start gap-6 md:flex-row items-start md:gap-6">
       {/* ── LEFT COLUMN: iPhone Mobile Preview Device Mockup (Hidden on mobile, shown on tablet/desktop) ── */}
       <div className="my-auto hidden w-full shrink-0 items-start justify-center md:flex md:w-auto">
         <div className="relative aspect-[9/19.5] w-[190px] filter select-none sm:w-[210px] lg:w-[230px]">
@@ -309,13 +309,13 @@ export default function FooterProximityAlerts() {
         </div>
 
         {status === "error" && errorMsg && (
-          <div className="mb-6 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-rose-300">
+          <div className="mb-6  border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-rose-300">
             ⚠️ {errorMsg}
           </div>
         )}
 
         {permission === "denied" && (
-          <div className="mb-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-amber-300">
+          <div className="mb-6  border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-amber-300">
             🔒 Notifications are blocked in your browser settings. Enable them
             to receive show alerts.
           </div>
@@ -324,7 +324,7 @@ export default function FooterProximityAlerts() {
         {/* Top Row: Form Inputs */}
         <div className="relative z-10 mb-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
           <div>
-            <label className="mb-2 block flex items-center gap-1.5"></label>
+            <label className=" block flex items-center gap-1.5"></label>
             <GlowInput
               type="text"
               value={name}
@@ -335,7 +335,7 @@ export default function FooterProximityAlerts() {
           </div>
 
           <div>
-            <label className="mb-2 block flex items-center gap-1.5">
+            <label className=" block flex items-center gap-1.5">
               Your Zip Code / City
             </label>
             <GlowInput
@@ -348,7 +348,7 @@ export default function FooterProximityAlerts() {
           </div>
 
           <div>
-            <label className="mb-2 block flex items-center gap-1.5">
+            <label className=" block flex items-center gap-1.5">
               Email{" "}
               <span className="tracking-normal text-white/30 normal-case">
                 (optional)
@@ -367,7 +367,7 @@ export default function FooterProximityAlerts() {
         {/* Stacked Rows: Maximum Distance Radius on Top, Notification Types Below */}
         <div className="relative z-10 mb-6 flex flex-col gap-6">
           <div>
-            <label className="mb-2 block flex items-center gap-1.5">
+            <label className=" block flex items-center gap-1.5">
               <Sliders className="h-3.5 w-3.5" /> Maximum Distance Radius
             </label>
             <div className="inline-flex w-fit max-w-full flex-wrap gap-1.5">
@@ -388,7 +388,7 @@ export default function FooterProximityAlerts() {
           </div>
 
           <div>
-            <label className="mb-2 block flex items-center gap-1.5">
+            <label className="block flex items-center gap-1.5">
               <Music className="h-3.5 w-3.5" /> Which Types of Show
               Notifications?
             </label>
@@ -405,7 +405,7 @@ export default function FooterProximityAlerts() {
                       type="button"
                       onClick={() => toggleType(type.id)}
                       isActive={isSelected}
-                      className="inline-flex !w-auto items-center gap-1.5 px-2.5 py-2"
+                      className="inline-flex !w-auto items-center gap-1.5 "
                     >
                       <span>{type.label}</span>
                     </SeventhButton>
@@ -447,10 +447,10 @@ export default function FooterProximityAlerts() {
           </span>
         </div>
 
-        <div className="relative z-10 flex flex-col items-start justify-start gap-3 border-t border-white/10">
+        <div className="relative z-10 flex flex-col items-start justify-start gap-3 ">
           {permission === "granted" ? (
             <div className="flex shrink-0 flex-wrap items-center gap-3">
-              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 whitespace-nowrap text-emerald-300">
+              <span className="inline-flex shrink-0 items-center gap-1.5  border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 whitespace-nowrap text-emerald-300">
                 <Check className="h-4 w-4 shrink-0 text-emerald-400" /> Push
                 Enabled
               </span>
@@ -458,11 +458,11 @@ export default function FooterProximityAlerts() {
                 icon={false}
                 onClick={handleSavePrefs}
                 disabled={isBusy}
-                className="! shrink-0 cursor-pointer flex-nowrap rounded-lg  whitespace-nowrap disabled:opacity-60"
+                className="! shrink-0 cursor-pointer flex-nowrap   whitespace-nowrap disabled:opacity-60"
               >
                 <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                   {status === "saving" ? (
-                    <span className="inline-block h-4 w-4 shrink-0 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                    <span className="inline-block h-4 w-4 shrink-0 animate-spin  border-2 border-white/10 border-t-white" />
                   ) : status === "saved" ? (
                     <>
                       <Check className="h-4 w-4 shrink-0 text-emerald-300" />{" "}
@@ -483,7 +483,7 @@ export default function FooterProximityAlerts() {
             >
               <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                 {status === "saving" ? (
-                  <span className="inline-block h-4 w-4 shrink-0 animate-spin rounded-lg border-2 border-white/10 border-t-white" />
+                  <span className="inline-block h-4 w-4 shrink-0 animate-spin  border-2 border-white/10 border-t-white" />
                 ) : status === "saved" ? (
                   <>
                     <Check className="h-4 w-4 shrink-0 text-emerald-300" />{" "}

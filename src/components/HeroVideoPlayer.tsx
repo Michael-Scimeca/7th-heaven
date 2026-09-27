@@ -14,7 +14,7 @@ import { createPortal } from "react-dom";
 import { useHeroParallax } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import HeroUpNextBanner from "@/components/HeroUpNextBanner";
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
 const mqSubscribe = (cb: () => void) => {
@@ -492,7 +492,7 @@ export default function HeroVideoPlayer({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            video.play().catch(() => {});
+            video.play().catch(() => { });
           } else {
             video.pause();
           }
@@ -527,7 +527,7 @@ export default function HeroVideoPlayer({
     if (video && video.currentTime < 15) {
       try {
         video.currentTime = 15;
-      } catch (_) {}
+      } catch (_) { }
     }
   }, []);
 
@@ -536,7 +536,7 @@ export default function HeroVideoPlayer({
     if (video && video.currentTime < 15) {
       try {
         video.currentTime = 15;
-      } catch (_) {}
+      } catch (_) { }
     }
     captureFrame();
   }, [captureFrame]);
@@ -552,7 +552,7 @@ export default function HeroVideoPlayer({
     ) {
       try {
         video.currentTime = START_TIME;
-      } catch (_) {}
+      } catch (_) { }
     }
   }, []);
 
@@ -563,7 +563,7 @@ export default function HeroVideoPlayer({
         video.currentTime = 15;
       }
       video.muted = true;
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     }
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("7h-play-hero-music"));
@@ -675,7 +675,7 @@ export default function HeroVideoPlayer({
             {!isCustomizerOpen ? (
               <button
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
+                className="group flex h-11 w-11 cursor-pointer items-center justify-center  border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
                 title="Open Video Tint Customizer"
               >
                 <svg
@@ -715,7 +715,7 @@ export default function HeroVideoPlayer({
                   </div>
                   <button
                     onClick={() => setIsCustomizerOpen(false)}
-                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg text-white/50 hover:bg-white/10 hover:text-white"
+                    className="flex h-6 w-6 cursor-pointer items-center justify-center  text-white/50 hover:bg-white/10 hover:text-white"
                   >
                     <svg
                       width="14"
@@ -739,7 +739,7 @@ export default function HeroVideoPlayer({
                       <button
                         key={preset.color}
                         onClick={() => updateColor(preset.color)}
-                        className="relative flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg border hover:scale-115"
+                        className="relative flex h-6 w-6 cursor-pointer items-center justify-center  border hover:scale-115"
                         style={{
                           backgroundColor: preset.color,
                           borderColor:
@@ -750,13 +750,13 @@ export default function HeroVideoPlayer({
                         title={preset.name}
                       >
                         {tintColor === preset.color && (
-                          <div className="shadow-[0_0_4px_rgba(147, 51, 234,0.8)] h-1.5 w-1.5 rounded-lg bg-purple-600" />
+                          <div className="shadow-[0_0_4px_rgba(147, 51, 234,0.8)] h-1.5 w-1.5  bg-purple-600" />
                         )}
                       </button>
                     ))}
                     {/* Custom Color Selector */}
                     <div
-                      className="relative flex h-6 w-6 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-[var(--color-accent)]/80 hover:scale-115"
+                      className="relative flex h-6 w-6 cursor-pointer items-center justify-center overflow-hidden  border border-white/10 bg-[var(--color-accent)]/80 hover:scale-115"
                       title="Custom Color"
                     >
                       <input
@@ -794,7 +794,7 @@ export default function HeroVideoPlayer({
                     step="0.02"
                     value={tintOpacity}
                     onChange={(e) => updateOpacity(parseFloat(e.target.value))}
-                    className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-amber-500"
+                    className="h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-amber-500"
                   />
                 </div>
 
@@ -824,7 +824,7 @@ export default function HeroVideoPlayer({
                 </div>
 
                 {/* Active Values HUD */}
-                <div className="space-y-0.5 rounded-lg border border-white/10 bg-white/[0.02] p-2 text-white/40">
+                <div className="space-y-0.5  border border-white/10 bg-white/[0.02] p-2 text-white/40">
                   <div>
                     Color: <span>{tintColor}</span>
                   </div>
@@ -909,7 +909,7 @@ export default function HeroVideoPlayer({
               <h1>{sanityContent?.heroHeading || "7TH HEAVEN"}</h1>
 
               {/* Hero Subheading */}
-              <p className="/90 md: drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] sm:text-base lg:text-xl">
+              <p className="/90 md: drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]  lg:text-xl">
                 {sanityContent?.heroSubheading ||
                   "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
               </p>

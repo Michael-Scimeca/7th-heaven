@@ -21,9 +21,9 @@ export function CruiseLivePreview({
 
   if (livePreviewTab === "wall" || livePreviewTab === "dashboard") {
     return (
-      <div className="min-h-[220px] rounded-lg border border-white/10 bg-black/60 p-5 shadow-inner">
+      <div className="min-h-[220px]  border border-white/10 bg-black/60 p-5 shadow-inner">
         <div className="mb-6 flex items-center gap-3 border-b border-white/10 pb-3">
-          <div className="bg- purple-white/20 flex h-11 w-11 items-center justify-center rounded-lg border border-purple-500/40">
+          <div className="bg- purple-white/20 flex h-11 w-11 items-center justify-center  border border-purple-500/40">
             7H
           </div>
           <div>
@@ -43,7 +43,7 @@ export function CruiseLivePreview({
           dangerouslySetInnerHTML={{
             __html: sanitizeHtml(
               cleanedContent ||
-                '<p class="">Start typing above to see live preview...</p>',
+              '<p class="">Start typing above to see live preview...</p>',
             ),
           }}
         />
@@ -52,7 +52,7 @@ export function CruiseLivePreview({
   }
 
   return (
-    <div className="min-h-[300px] overflow-hidden rounded-lg border border-white/10 bg-[#0f0a1c]">
+    <div className="min-h-[300px] overflow-hidden  border border-white/10 bg-[#0f0a1c]">
       <div className="flex items-center justify-between border-b border-white/10 bg-[#180e2b] px-4 py-2.5">
         <span>📧 Email Dispatch Mockup</span>
         <span className="text-[10px] text-white/50">To: All Cruise Guests</span>

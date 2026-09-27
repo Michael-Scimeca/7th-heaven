@@ -36,7 +36,7 @@ import MemberFactSheetDrawer, {
 import { SectionBadge } from "@/components/SectionBadge";
 import PixelFireplaceCanvas from "@/components/PixelFireplaceCanvas";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 // Explicit member sequence: Frankie (0), Nick (1), Adam (2 - Center), Richard (3), Mark (4)
 const FALLBACK_MEMBERS: (Partial<SanityBandMember> & {
@@ -66,216 +66,216 @@ const FALLBACK_MEMBERS: (Partial<SanityBandMember> & {
   favBoardGame?: string;
   littleKnownFact?: string;
 })[] = [
-  {
-    name: "Frankie Harchut",
-    fullName: "FRANKIE HARCHUT",
-    memberNo: "NO. 005",
-    role: "Drums • Percussion",
-    birthday: "May 31",
-    zodiac: "Gemini",
-    luckyNo: "5",
-    color: "Crimson Red",
-    bestTrait: "Care For Others",
-    worstTrait: "Care For Others",
-    favQuote: "Success is where preparation and opportunity meet.",
-    favLoveSong: '"Everlong" — Foo Fighters',
-    favRockSong: '"Denial" — Sevendust',
-    favAlbum: "Throwing Copper — Live",
-    favBands: "Sevendust, Korn, A Day To Remember",
-    favSoundtrack: "My Cousin Vinny, Casino",
-    favMovie: "My Cousin Vinny, Casino",
-    fav7hSong: '"Midwest Girls In The Summertime"',
-    firstSongLearned: "Wipe Out",
-    favPlaceToPlay: "High-energy festival main stages",
-    bestConcertSeen: "Korn & Sevendust live",
-    favTvShow: "The Sopranos, Peaky Blinders",
-    favCartoon: "The Simpsons",
-    favMagazine: "Modern Drummer",
-    hobbyAwayFromBand: "Cooking Polish feast recipes",
-    bestFeelingInWorld:
-      "Locking in a powerful drum beat with the crowd jumping",
-    influences: "Morgan Rose, Ray Luzier, Dave Grohl",
-    favPet: "French Bulldog named Pierogi",
-    favFoods: "Authentic Polish pierogis, kielbasa, and steak",
-    favDrink: "Sparkling Water with Lemon",
-    favCar: "Dodge Challenger SRT Hellcat",
-    favSportToWatch: "Chicago Blackhawk Hockey",
-    favBoardGame: "Risk",
-    littleKnownFact: "I'm Polish, or wait, everyone knows that :)",
-    funFact: "I'm Polish, or wait, everyone knows that :)",
-    image: "/images/members/desktop-frank.webp",
-    desktopImage: "/images/members/desktop-frank.webp",
-    mobileImage: "/images/members/frank-mobile.webp",
-  },
-  {
-    name: "Nick Cox",
-    fullName: "NICK COX",
-    memberNo: "NO. 004",
-    role: "Guitars • Vocals • Piano",
-    birthday: "March 19",
-    zodiac: "Pisces",
-    luckyNo: "19",
-    color: "Midnight Navy",
-    bestTrait: "Great listener",
-    worstTrait: "Overthinking everything",
-    favQuote:
-      "The universe is a pretty big place... seems like an awful waste of space.",
-    favLoveSong: '"Love of My Life" — Queen',
-    favRockSong: '"Kashmir" — Led Zeppelin',
-    favAlbum: "Physical Graffiti — Led Zeppelin",
-    favBands: "Kiss, Queen, Zeppelin, Avenged Sevenfold",
-    favSoundtrack: "Interstellar, Inception",
-    favMovie: "American History X, Interstellar",
-    fav7hSong: '"Take Me With You"',
-    firstSongLearned: "Stairway to Heaven",
-    favPlaceToPlay: "Outdoor summer amphitheaters",
-    bestConcertSeen: "Led Zeppelin reunion / Queen + Adam Lambert",
-    favTvShow: "Stranger Things, Game of Thrones",
-    favCartoon: "Batman: The Animated Series",
-    favMagazine: "Vintage Guitar",
-    hobbyAwayFromBand: "Chilling on the couch with vintage vinyl",
-    bestFeelingInWorld: "A perfect guitar solo tone on stage",
-    influences: "Jimmy Page, Brian May, Synyster Gates",
-    favPet: "Rescue tabby cat named Zeppelin",
-    favFoods: "Chicago deep dish pizza & pasta",
-    favDrink: "Cold Brew Coffee",
-    favCar: "1969 Chevrolet Camaro",
-    favSportToWatch: "Formula 1",
-    favBoardGame: "Scrabble",
-    littleKnownFact: "I love just staying home on my couch",
-    funFact: "I love just staying home on my couch",
-    image: "/images/members/desktop-nick.webp",
-    desktopImage: "/images/members/desktop-nick.webp",
-    mobileImage: "/images/members/nick-mobile.webp",
-  },
-  {
-    name: "Adam Heisler",
-    fullName: "ADAM BLAIR HEISLER",
-    memberNo: "NO. 001",
-    role: "Lead Vocals",
-    birthday: "March 13",
-    zodiac: "Pisces",
-    luckyNo: "3",
-    color: "Black",
-    bestTrait: "I CARE TOO MUCH",
-    worstTrait: "I CARE TOO MUCH",
-    favQuote: "I'm always happy and never satisfied.",
-    favLoveSong: '"She\'s Always a Woman" — Billy Joel',
-    favRockSong: '"I Don\'t Like Your Neighbors" — AM Taxi',
-    favAlbum: "The Stranger — Billy Joel",
-    favBands: "Can't choose one — but he loves Ben Rector",
-    favSoundtrack: "Grease 2",
-    favMovie:
-      "Whatever's on — but a good rom-com and a box of tissues will do it",
-    fav7hSong: '"You and I"',
-    firstSongLearned: "One he wrote himself",
-    favPlaceToPlay: 'Anywhere they don\'t "boo"',
-    bestConcertSeen: "Doesn't usually go to concerts",
-    favTvShow: "Changes a lot — mostly girly shows like HIMYM and New Girl",
-    favCartoon: "Ask Jett (his son)",
-    favMagazine: "Reading?!",
-    hobbyAwayFromBand: "Being a dad",
-    bestFeelingInWorld: "Making someone happy",
-    influences: "God",
-    favPet: "An alligator named Shoes",
-    favFoods:
-      "Healthy: kale & spinach salad with hard-boiled eggs. Not: pizza or burritos",
-    favDrink: "Water",
-    favCar: "Not a car guy",
-    favSportToWatch: "Hahahahaha!!!!!!",
-    favBoardGame: "Skip-Bo, as a kid",
-    littleKnownFact: "Former Jr. black belt in Tae Kwon Do",
-    funFact: "Former Jr. black belt in Tae Kwon Do",
-    image: "/images/members/desktop-adam.webp",
-    desktopImage: "/images/members/desktop-adam.webp",
-    mobileImage: "/images/members/adam-mobile.webp",
-  },
-  {
-    name: "Richard Hofherr",
-    fullName: "RICHARD HOFHERR",
-    memberNo: "NO. 003",
-    role: "Guitars • Keys • Vocals",
-    birthday: "May 17",
-    zodiac: "Taurus",
-    luckyNo: "77",
-    color: "Electric Blue",
-    bestTrait: "My Perspectives, Work Ethic, Loyalty",
-    worstTrait: "Never sleeping",
-    favQuote:
-      "Life is all about perspectives. You can look at the glass half-empty and half-full.",
-    favLoveSong: '"Love Bites" — Def Leppard',
-    favRockSong: '"Photograph" — Def Leppard',
-    favAlbum: "Hysteria — Def Leppard",
-    favBands: "Def Leppard, Queen, Van Halen",
-    favSoundtrack: "Blues Brothers, Star Wars",
-    favMovie: "Blues Brothers, Star Wars",
-    fav7hSong: '"Sing", "Diamonds", "Midwest Girls"',
-    firstSongLearned: "Rock of Ages — Def Leppard",
-    favPlaceToPlay: "Every festival stage with 10,000 screaming fans",
-    bestConcertSeen: "Def Leppard & Queen — Wembley",
-    favTvShow: "Seinfeld & Shark Tank",
-    favCartoon: "Looney Tunes",
-    favMagazine: "Guitar World & Forbes",
-    hobbyAwayFromBand: "Audio engineering & songwriting",
-    bestFeelingInWorld: "Hearing 20,000 fans sing your song word for word",
-    influences: "Phil Collen, Steve Clark, Eddie Van Halen",
-    favPet: "Golden Retriever named Gibson",
-    favFoods: "Grilled steak & fresh fruit",
-    favDrink: "Pure Mountain Spring Water",
-    favCar: "Tesla Model S Plaid",
-    favSportToWatch: "Chicago Bears & Bulls",
-    favBoardGame: "Monopoly",
-    littleKnownFact:
-      "I have never had alcohol, drugs, cigarettes or a headache.",
-    funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
-    image: "/images/members/desktop-richy.webp",
-    desktopImage: "/images/members/desktop-richy.webp",
-    mobileImage: "/images/members/dicky-mobile.webp",
-  },
-  {
-    name: "Mark Kennetz",
-    fullName: "MARK KENNETZ",
-    memberNo: "NO. 002",
-    role: "Bass • Vocals • Uke • Guitar",
-    birthday: "October 19",
-    zodiac: "Libra",
-    luckyNo: "19",
-    color: "Green",
-    bestTrait: "Being a Ninja",
-    worstTrait: "n/a",
-    favQuote: "The past is in Our heads, the future is in Our hands",
-    favLoveSong: '"Crystal Ship" — The Doors',
-    favRockSong: "n/a",
-    favAlbum: "Sublime — 40 oz to Freedom",
-    favBands: "Sublime, Led Zeppelin, Muse",
-    favSoundtrack: "Matrix",
-    favMovie: "Hot Fuzz, Anchorman, Big Lebowski",
-    fav7hSong: '"Ethereal"',
-    firstSongLearned: '"People Are Strange" — The Doors',
-    favPlaceToPlay: "High-energy festival stages",
-    bestConcertSeen: "Red Hot Chili Peppers",
-    favTvShow: "Game of Thrones, Boardwalk",
-    favCartoon: "Family Guy",
-    favMagazine: "ESPN",
-    hobbyAwayFromBand:
-      "Snowboarding, Blading, Biking, Motorcycle Riding, Saving Dolphins",
-    bestFeelingInWorld: "Riding a motorcycle on an awesome day",
-    influences: "The Doors, Sublime, Led Zeppelin",
-    favPet: "Kellieface",
-    favFoods: "Bacon",
-    favDrink: "Capt. N Diet",
-    favCar: "Lexus GSF",
-    favSportToWatch: "Football",
-    favBoardGame: "Madden Xbox",
-    littleKnownFact:
-      "I'm a stage 2 carnivore, which means I eat anything with 2 legs or less, except bacon :)",
-    funFact:
-      "I'm a stage 2 carnivore, which means I eat anything with 2 legs or less, except bacon :)",
-    image: "/images/members/desktop-mark.webp",
-    desktopImage: "/images/members/desktop-mark.webp",
-    mobileImage: "/images/members/mark-mobile.webp",
-  },
-];
+    {
+      name: "Frankie Harchut",
+      fullName: "FRANKIE HARCHUT",
+      memberNo: "NO. 005",
+      role: "Drums • Percussion",
+      birthday: "May 31",
+      zodiac: "Gemini",
+      luckyNo: "5",
+      color: "Crimson Red",
+      bestTrait: "Care For Others",
+      worstTrait: "Care For Others",
+      favQuote: "Success is where preparation and opportunity meet.",
+      favLoveSong: '"Everlong" — Foo Fighters',
+      favRockSong: '"Denial" — Sevendust',
+      favAlbum: "Throwing Copper — Live",
+      favBands: "Sevendust, Korn, A Day To Remember",
+      favSoundtrack: "My Cousin Vinny, Casino",
+      favMovie: "My Cousin Vinny, Casino",
+      fav7hSong: '"Midwest Girls In The Summertime"',
+      firstSongLearned: "Wipe Out",
+      favPlaceToPlay: "High-energy festival main stages",
+      bestConcertSeen: "Korn & Sevendust live",
+      favTvShow: "The Sopranos, Peaky Blinders",
+      favCartoon: "The Simpsons",
+      favMagazine: "Modern Drummer",
+      hobbyAwayFromBand: "Cooking Polish feast recipes",
+      bestFeelingInWorld:
+        "Locking in a powerful drum beat with the crowd jumping",
+      influences: "Morgan Rose, Ray Luzier, Dave Grohl",
+      favPet: "French Bulldog named Pierogi",
+      favFoods: "Authentic Polish pierogis, kielbasa, and steak",
+      favDrink: "Sparkling Water with Lemon",
+      favCar: "Dodge Challenger SRT Hellcat",
+      favSportToWatch: "Chicago Blackhawk Hockey",
+      favBoardGame: "Risk",
+      littleKnownFact: "I'm Polish, or wait, everyone knows that :)",
+      funFact: "I'm Polish, or wait, everyone knows that :)",
+      image: "/images/members/desktop-frank.webp",
+      desktopImage: "/images/members/desktop-frank.webp",
+      mobileImage: "/images/members/frank-mobile.webp",
+    },
+    {
+      name: "Nick Cox",
+      fullName: "NICK COX",
+      memberNo: "NO. 004",
+      role: "Guitars • Vocals • Piano",
+      birthday: "March 19",
+      zodiac: "Pisces",
+      luckyNo: "19",
+      color: "Midnight Navy",
+      bestTrait: "Great listener",
+      worstTrait: "Overthinking everything",
+      favQuote:
+        "The universe is a pretty big place... seems like an awful waste of space.",
+      favLoveSong: '"Love of My Life" — Queen',
+      favRockSong: '"Kashmir" — Led Zeppelin',
+      favAlbum: "Physical Graffiti — Led Zeppelin",
+      favBands: "Kiss, Queen, Zeppelin, Avenged Sevenfold",
+      favSoundtrack: "Interstellar, Inception",
+      favMovie: "American History X, Interstellar",
+      fav7hSong: '"Take Me With You"',
+      firstSongLearned: "Stairway to Heaven",
+      favPlaceToPlay: "Outdoor summer amphitheaters",
+      bestConcertSeen: "Led Zeppelin reunion / Queen + Adam Lambert",
+      favTvShow: "Stranger Things, Game of Thrones",
+      favCartoon: "Batman: The Animated Series",
+      favMagazine: "Vintage Guitar",
+      hobbyAwayFromBand: "Chilling on the couch with vintage vinyl",
+      bestFeelingInWorld: "A perfect guitar solo tone on stage",
+      influences: "Jimmy Page, Brian May, Synyster Gates",
+      favPet: "Rescue tabby cat named Zeppelin",
+      favFoods: "Chicago deep dish pizza & pasta",
+      favDrink: "Cold Brew Coffee",
+      favCar: "1969 Chevrolet Camaro",
+      favSportToWatch: "Formula 1",
+      favBoardGame: "Scrabble",
+      littleKnownFact: "I love just staying home on my couch",
+      funFact: "I love just staying home on my couch",
+      image: "/images/members/desktop-nick.webp",
+      desktopImage: "/images/members/desktop-nick.webp",
+      mobileImage: "/images/members/nick-mobile.webp",
+    },
+    {
+      name: "Adam Heisler",
+      fullName: "ADAM BLAIR HEISLER",
+      memberNo: "NO. 001",
+      role: "Lead Vocals",
+      birthday: "March 13",
+      zodiac: "Pisces",
+      luckyNo: "3",
+      color: "Black",
+      bestTrait: "I CARE TOO MUCH",
+      worstTrait: "I CARE TOO MUCH",
+      favQuote: "I'm always happy and never satisfied.",
+      favLoveSong: '"She\'s Always a Woman" — Billy Joel',
+      favRockSong: '"I Don\'t Like Your Neighbors" — AM Taxi',
+      favAlbum: "The Stranger — Billy Joel",
+      favBands: "Can't choose one — but he loves Ben Rector",
+      favSoundtrack: "Grease 2",
+      favMovie:
+        "Whatever's on — but a good rom-com and a box of tissues will do it",
+      fav7hSong: '"You and I"',
+      firstSongLearned: "One he wrote himself",
+      favPlaceToPlay: 'Anywhere they don\'t "boo"',
+      bestConcertSeen: "Doesn't usually go to concerts",
+      favTvShow: "Changes a lot — mostly girly shows like HIMYM and New Girl",
+      favCartoon: "Ask Jett (his son)",
+      favMagazine: "Reading?!",
+      hobbyAwayFromBand: "Being a dad",
+      bestFeelingInWorld: "Making someone happy",
+      influences: "God",
+      favPet: "An alligator named Shoes",
+      favFoods:
+        "Healthy: kale & spinach salad with hard-boiled eggs. Not: pizza or burritos",
+      favDrink: "Water",
+      favCar: "Not a car guy",
+      favSportToWatch: "Hahahahaha!!!!!!",
+      favBoardGame: "Skip-Bo, as a kid",
+      littleKnownFact: "Former Jr. black belt in Tae Kwon Do",
+      funFact: "Former Jr. black belt in Tae Kwon Do",
+      image: "/images/members/desktop-adam.webp",
+      desktopImage: "/images/members/desktop-adam.webp",
+      mobileImage: "/images/members/adam-mobile.webp",
+    },
+    {
+      name: "Richard Hofherr",
+      fullName: "RICHARD HOFHERR",
+      memberNo: "NO. 003",
+      role: "Guitars • Keys • Vocals",
+      birthday: "May 17",
+      zodiac: "Taurus",
+      luckyNo: "77",
+      color: "Electric Blue",
+      bestTrait: "My Perspectives, Work Ethic, Loyalty",
+      worstTrait: "Never sleeping",
+      favQuote:
+        "Life is all about perspectives. You can look at the glass half-empty and half-full.",
+      favLoveSong: '"Love Bites" — Def Leppard',
+      favRockSong: '"Photograph" — Def Leppard',
+      favAlbum: "Hysteria — Def Leppard",
+      favBands: "Def Leppard, Queen, Van Halen",
+      favSoundtrack: "Blues Brothers, Star Wars",
+      favMovie: "Blues Brothers, Star Wars",
+      fav7hSong: '"Sing", "Diamonds", "Midwest Girls"',
+      firstSongLearned: "Rock of Ages — Def Leppard",
+      favPlaceToPlay: "Every festival stage with 10,000 screaming fans",
+      bestConcertSeen: "Def Leppard & Queen — Wembley",
+      favTvShow: "Seinfeld & Shark Tank",
+      favCartoon: "Looney Tunes",
+      favMagazine: "Guitar World & Forbes",
+      hobbyAwayFromBand: "Audio engineering & songwriting",
+      bestFeelingInWorld: "Hearing 20,000 fans sing your song word for word",
+      influences: "Phil Collen, Steve Clark, Eddie Van Halen",
+      favPet: "Golden Retriever named Gibson",
+      favFoods: "Grilled steak & fresh fruit",
+      favDrink: "Pure Mountain Spring Water",
+      favCar: "Tesla Model S Plaid",
+      favSportToWatch: "Chicago Bears & Bulls",
+      favBoardGame: "Monopoly",
+      littleKnownFact:
+        "I have never had alcohol, drugs, cigarettes or a headache.",
+      funFact: "I have never had alcohol, drugs, cigarettes or a headache.",
+      image: "/images/members/desktop-richy.webp",
+      desktopImage: "/images/members/desktop-richy.webp",
+      mobileImage: "/images/members/dicky-mobile.webp",
+    },
+    {
+      name: "Mark Kennetz",
+      fullName: "MARK KENNETZ",
+      memberNo: "NO. 002",
+      role: "Bass • Vocals • Uke • Guitar",
+      birthday: "October 19",
+      zodiac: "Libra",
+      luckyNo: "19",
+      color: "Green",
+      bestTrait: "Being a Ninja",
+      worstTrait: "n/a",
+      favQuote: "The past is in Our heads, the future is in Our hands",
+      favLoveSong: '"Crystal Ship" — The Doors',
+      favRockSong: "n/a",
+      favAlbum: "Sublime — 40 oz to Freedom",
+      favBands: "Sublime, Led Zeppelin, Muse",
+      favSoundtrack: "Matrix",
+      favMovie: "Hot Fuzz, Anchorman, Big Lebowski",
+      fav7hSong: '"Ethereal"',
+      firstSongLearned: '"People Are Strange" — The Doors',
+      favPlaceToPlay: "High-energy festival stages",
+      bestConcertSeen: "Red Hot Chili Peppers",
+      favTvShow: "Game of Thrones, Boardwalk",
+      favCartoon: "Family Guy",
+      favMagazine: "ESPN",
+      hobbyAwayFromBand:
+        "Snowboarding, Blading, Biking, Motorcycle Riding, Saving Dolphins",
+      bestFeelingInWorld: "Riding a motorcycle on an awesome day",
+      influences: "The Doors, Sublime, Led Zeppelin",
+      favPet: "Kellieface",
+      favFoods: "Bacon",
+      favDrink: "Capt. N Diet",
+      favCar: "Lexus GSF",
+      favSportToWatch: "Football",
+      favBoardGame: "Madden Xbox",
+      littleKnownFact:
+        "I'm a stage 2 carnivore, which means I eat anything with 2 legs or less, except bacon :)",
+      funFact:
+        "I'm a stage 2 carnivore, which means I eat anything with 2 legs or less, except bacon :)",
+      image: "/images/members/desktop-mark.webp",
+      desktopImage: "/images/members/desktop-mark.webp",
+      mobileImage: "/images/members/mark-mobile.webp",
+    },
+  ];
 
 // Helper to generate smooth math-based mask gradients
 function generateSmoothMaskGradient(
@@ -538,14 +538,14 @@ export default function BioParallaxSlider({
         m.name?.toLowerCase().includes("richy"),
     )
       ? {
-          ...FALLBACK_MEMBERS[3],
-          ...list.find(
-            (m) =>
-              m.name?.toLowerCase().includes("richard") ||
-              m.name?.toLowerCase().includes("rick") ||
-              m.name?.toLowerCase().includes("richy"),
-          ),
-        }
+        ...FALLBACK_MEMBERS[3],
+        ...list.find(
+          (m) =>
+            m.name?.toLowerCase().includes("richard") ||
+            m.name?.toLowerCase().includes("rick") ||
+            m.name?.toLowerCase().includes("richy"),
+        ),
+      }
       : FALLBACK_MEMBERS[3];
     const frankie = findAndMerge("frankie", 0);
     const mark = findAndMerge("mark", 4);
@@ -564,27 +564,18 @@ export default function BioParallaxSlider({
   useEffect(() => {
     if (!isFactSheetOpen) return;
 
-    const origHtmlOverflow = document.documentElement.style.overflow;
-    const origBodyOverflow = document.body.style.overflow;
-
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-
     if (typeof window !== "undefined" && (window as any).__lenis) {
       try {
         (window as any).__lenis.stop();
-      } catch {}
+      } catch { }
     }
 
     return () => {
-      document.documentElement.style.overflow = origHtmlOverflow;
-      document.body.style.overflow = origBodyOverflow;
-
       if (typeof window !== "undefined" && (window as any).__lenis) {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch {}
+        } catch { }
       }
     };
   }, [isFactSheetOpen]);
@@ -1170,7 +1161,7 @@ lerpSpeed: ${lerpSpeed}`;
   }, [adamCenterIdx, itemTotalWidth]);
 
   // 60fps Smooothy Lerp physics loop
-  const updatePhysicsRef = useRef<() => void>(() => {});
+  const updatePhysicsRef = useRef<() => void>(() => { });
 
   useEffect(() => {
     let frameId: number;
@@ -1445,7 +1436,7 @@ lerpSpeed: ${lerpSpeed}`;
                 </div>
 
                 {/* Tabs */}
-                <div className="mb-4 flex gap-2 rounded-lg border border-white/10 bg-white/5 p-1">
+                <div className="mb-4 flex gap-2  border border-white/10 bg-white/5 p-1">
                   <button
                     type="button"
                     onClick={() => setActiveCustomizerTab("canvas")}
@@ -1465,8 +1456,8 @@ lerpSpeed: ${lerpSpeed}`;
                 {activeCustomizerTab === "canvas" && (
                   <div className="space-y-4">
                     {/* Enable Shader Canvas Toggle */}
-                    <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 p-2.5">
-                      <span className="/90">Enable Fireplace Shader</span>
+                    <div className="flex items-center justify-between  border border-white/10 bg-white/5 p-2.5">
+                      <span className="">Enable Fireplace Shader</span>
                       <button
                         type="button"
                         onClick={() => setIsCanvasEnabled((prev) => !prev)}
@@ -1496,7 +1487,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setPaletteTheme(theme.id);
                               setUseCustomColors(false);
                             }}
-                            className={`cursor-pointer rounded-lg border p-2 text-left ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 hover:bg-white/10"}`}
+                            className={`cursor-pointer  border p-2 text-left ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 hover:bg-white/10"}`}
                           >
                             {theme.label}
                           </button>
@@ -1505,9 +1496,9 @@ lerpSpeed: ${lerpSpeed}`;
                     </div>
 
                     {/* Custom Color Swatches & Toggle */}
-                    <div className="space-y-3 rounded-xl border border-white/10 bg-white/5 p-3">
+                    <div className="space-y-3  border border-white/10 bg-white/5 p-3">
                       <div className="flex items-center justify-between">
-                        <span className="/90 flex items-center gap-1.5">
+                        <span className="flex items-center gap-1.5">
                           <span>🎨</span> Custom Palette Swatches
                         </span>
                         <button
@@ -1982,14 +1973,14 @@ lerpSpeed: ${lerpSpeed}`;
                   <button
                     type="button"
                     onClick={handleResetCanvasDefaults}
-                    className="flex-1 cursor-pointer rounded-lg bg-white/10 py-2 hover:bg-white/20"
+                    className="flex-1 cursor-pointer  bg-white/10 py-2 hover:bg-white/20"
                   >
                     🔄 Reset Defaults
                   </button>
                   <button
                     type="button"
                     onClick={handleCopyConfig}
-                    className="flex-1 cursor-pointer rounded-lg bg-amber-500 py-2 hover:bg-amber-400"
+                    className="flex-1 cursor-pointer  bg-amber-500 py-2 hover:bg-amber-400"
                   >
                     {copiedConfigNotification ? "✓ Copied!" : "📋 Copy Config"}
                   </button>
@@ -2020,7 +2011,7 @@ lerpSpeed: ${lerpSpeed}`;
                 >
                   {/* Member Card Thumbnail */}
                   <div
-                    className="sm: spine-thumb-mask relative shrink-0 overflow-hidden rounded-lg"
+                    className="spine-thumb-mask relative shrink-0 overflow-hidden"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -2039,8 +2030,8 @@ lerpSpeed: ${lerpSpeed}`;
                   <div
                     className={`block text-left whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
                   >
-                    <p className="drop-">{m?.name || "Band Member"}</p>
-                    <p className="sm: mt-0.5">{m?.role || "Musician"}</p>
+                    <p className="">{m?.name || "Band Member"}</p>
+                    <p className="mt-0.5">{m?.role || "Musician"}</p>
                   </div>
                 </button>
               );
@@ -2073,13 +2064,13 @@ lerpSpeed: ${lerpSpeed}`;
                   <div
                     className={`block text-right whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
                   >
-                    <p className="drop-">{m?.name || "Band Member"}</p>
-                    <p className="sm: mt-0.5">{m?.role || "Musician"}</p>
+                    <p className="">{m?.name || "Band Member"}</p>
+                    <p className="mt-0.5">{m?.role || "Musician"}</p>
                   </div>
 
                   {/* Member Card Thumbnail */}
                   <div
-                    className="sm: spine-thumb-mask relative shrink-0 overflow-hidden rounded-lg"
+                    className="spine-thumb-mask relative shrink-0 overflow-hidden"
                     style={{
                       height: `${spineVideoHeight}px`,
                       width: `${Math.round(spineVideoHeight * 0.78)}px`,
@@ -2284,10 +2275,10 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0
                               ? {
-                                  backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`,
-                                  padding: "8px 12px",
-                                  borderRadius: "8px",
-                                }
+                                backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`,
+                                padding: "8px 12px",
+                                borderRadius: "8px",
+                              }
                               : {}),
                           }}
                         >
@@ -2337,13 +2328,13 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            className="drop-"
+                            className=""
                             style={{ fontSize: computedNameFontSize }}
                           >
                             {m?.name}
                           </h3>
                           <span
-                            className="drop- mt-0.5 block text-[var(--color-accent)]"
+                            className="mt-0.5 block text-[var(--color-accent)]"
                             style={{ fontSize: computedRoleFontSize }}
                           >
                             {m?.role}
@@ -2360,9 +2351,9 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0
                               ? {
-                                  backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`,
-                                  padding: "8px 12px",
-                                }
+                                backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`,
+                                padding: "8px 12px",
+                              }
                               : {}),
                           }}
                         >
@@ -2380,7 +2371,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="pointer-events-none absolute left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 flex-col items-center rounded-lg border border-white/10 bg-black/85 px-4 py-2.5 text-center backdrop-blur-xl"
+                          className="pointer-events-none absolute left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 flex-col items-center  border border-white/10 bg-black/85 px-4 py-2.5 text-center backdrop-blur-xl"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:
@@ -2408,21 +2399,21 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                             ...(textBackdropOpacity > 0
                               ? {
-                                  backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`,
-                                  padding: "8px 12px",
-                                  borderRadius: "8px",
-                                }
+                                backgroundColor: `rgba(0,0,0,${textBackdropOpacity / 100})`,
+                                padding: "8px 12px",
+                                borderRadius: "8px",
+                              }
                               : {}),
                           }}
                         >
                           <h3
-                            className="drop-"
+                            className=""
                             style={{ fontSize: computedNameFontSize }}
                           >
                             {m?.name}
                           </h3>
                           <span
-                            className="drop- mt-0.5 block text-[var(--color-accent)]"
+                            className="mt-0.5 block text-[var(--color-accent)]"
                             style={{ fontSize: computedRoleFontSize }}
                           >
                             {m?.role}
@@ -2461,13 +2452,13 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            className="drop-"
+                            className=""
                             style={{ fontSize: computedNameFontSize }}
                           >
                             {m?.name}
                           </h3>
                           <span
-                            className="drop- mt-0.5 block text-[var(--color-accent)]"
+                            className="mt-0.5 block text-[var(--color-accent)]"
                             style={{ fontSize: computedRoleFontSize }}
                           >
                             {m?.role}

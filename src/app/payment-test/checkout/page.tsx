@@ -77,7 +77,7 @@ export default function NorthCheckoutPage() {
           </p>
           <Link
             href="/payment-test"
-            className="inline-block rounded-lg bg-[var(--color-accent)] px-5 py-2.5"
+            className="inline-block  bg-[var(--color-accent)] px-5 py-2.5"
           >
             ← Back to Shop
           </Link>
@@ -91,12 +91,12 @@ export default function NorthCheckoutPage() {
       <div className="site-container mx-auto max-w-xl px-6">
         <Link
           href="/payment-test"
-          className="mb-6 flex items-center gap-2 text-purple-400 hover:text-white"
+          className="mb-6 flex items-center gap-2 "
         >
           ← Back to Shop
         </Link>
 
-        <div className="bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04] backdrop-blur-xl  border border-white/[0.12] p-8 shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
             <span className="mb-1 inline-block text-[10px]">
               North (EPX) Browser Post
@@ -122,7 +122,7 @@ export default function NorthCheckoutPage() {
             <div className="mb-6 space-y-2">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
-                  <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-black/40">
+                  <div className="relative h-11 w-11 shrink-0 overflow-hidden  bg-black/40">
                     <Image
                       src={item.imageUrl}
                       alt={item.title}
@@ -163,7 +163,7 @@ export default function NorthCheckoutPage() {
                 required
                 value={accountNbr}
                 onChange={(e) => setAccountNbr(e.target.value)}
-                className="focus-ring w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3"
+                className="focus-ring w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-3"
               />
             </div>
 
@@ -178,7 +178,7 @@ export default function NorthCheckoutPage() {
                   placeholder="YYMM"
                   value={expDate}
                   onChange={(e) => setExpDate(e.target.value)}
-                  className="focus-ring w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3"
+                  className="focus-ring w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-3"
                 />
               </div>
               <div>
@@ -191,7 +191,7 @@ export default function NorthCheckoutPage() {
                   placeholder="123"
                   value={cvv2}
                   onChange={(e) => setCvv2(e.target.value)}
-                  className="focus-ring w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3"
+                  className="focus-ring w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-3"
                 />
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("approved")}
-                className="flex-1 rounded-lg bg-emerald-500 py-3.5 hover:bg-emerald-400 disabled:opacity-50"
+                className="flex-1  bg-emerald-500 py-3.5 hover:bg-emerald-400 disabled:opacity-50"
               >
                 {simulating === "approved"
                   ? "Simulating…"
@@ -213,7 +213,7 @@ export default function NorthCheckoutPage() {
                 type="button"
                 disabled={simulating !== null}
                 onClick={() => handleSimulate("declined")}
-                className="flex-1 rounded-lg border border-rose-500/40 bg-rose-500/20 py-3.5 text-rose-300 hover:bg-rose-500/30 disabled:opacity-50"
+                className="flex-1  border border-rose-500/40 bg-rose-500/20 py-3.5 text-rose-300 hover:bg-rose-500/30 disabled:opacity-50"
               >
                 {simulating === "declined"
                   ? "Simulating…"
@@ -263,7 +263,7 @@ export default function NorthCheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full rounded-lg bg-[var(--color-accent)] py-3.5 hover:bg-[var(--color-accent)]/80"
+                className="w-full  bg-[var(--color-accent)] py-3.5 hover:bg-[var(--color-accent)]/80"
               >
                 Submit Payment — ${amount}
               </button>

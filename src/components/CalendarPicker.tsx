@@ -107,7 +107,7 @@ export function CalendarPicker({
   const blockedSet = useMemo(() => new Set(blockedDates), [blockedDates]);
 
   const todayTimestamp = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => {
       const d = new Date();
       d.setHours(0, 0, 0, 0);
@@ -178,7 +178,7 @@ export function CalendarPicker({
               aria-label="Previous"
               type="button"
               onClick={handlePrevMonth}
-              className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-white/10 px-3 py-1.5 hover:bg-white/20"
+              className="flex cursor-pointer items-center gap-1  border border-white/10 bg-white/10 px-3 py-1.5 hover:bg-white/20"
             >
               <svg
                 width="14"
@@ -243,7 +243,7 @@ export function CalendarPicker({
               aria-label="Next"
               type="button"
               onClick={handleNextMonth}
-              className="flex cursor-pointer items-center gap-1 rounded-lg border border-white/10 bg-white/10 px-3 py-1.5 hover:bg-white/20"
+              className="flex cursor-pointer items-center gap-1  border border-white/10 bg-white/10 px-3 py-1.5 hover:bg-white/20"
             >
               <span>Next</span>
               <svg
@@ -309,14 +309,14 @@ export function CalendarPicker({
                     }
                   }}
                   title={isBlocked ? "This date is already booked" : undefined}
-                  className={`relative flex h-12 w-full items-center justify-center rounded-lg text-base ${isPastDate || isBlocked ? "cursor-not-allowed opacity-25" : "cursor-pointer"} ${isBlocked ? "border border-rose-500/30 bg-rose-500/20 text-rose-400 line-through" : isSelected ? "scale-105 border-2 border-purple-400 bg-purple-600 shadow-purple-600/40" : "border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10"}`}
+                  className={`relative flex h-12 w-full items-center justify-center    ${isPastDate || isBlocked ? "cursor-not-allowed opacity-25" : "cursor-pointer"} ${isBlocked ? "border border-rose-500/30 bg-rose-500/20 text-rose-400 line-through" : isSelected ? "scale-105 border-2 border-purple-400 bg-purple-600 shadow-purple-600/40" : "border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10"}`}
                 >
                   {date.getDate()}
                   {isBlocked && (
-                    <span className="absolute -top-1 -right-1 h-2 w-2 rounded-lg bg-rose-500" />
+                    <span className="absolute -top-1 -right-1 h-2 w-2  bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="animate-scale-in absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-lg border border-white/10 bg-purple-600">
+                    <span className="animate-scale-in absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center  border border-white/10 bg-purple-600">
                       {slotsForDay.length}x
                     </span>
                   )}
@@ -327,7 +327,7 @@ export function CalendarPicker({
         </div>
 
         {/* Row 1, Col 2: Booking Window */}
-        <div className="col-span-1 border-t border-white/10 pt-6 min-[1500px]:col-span-1 min-[1500px]:border-l md:border-t-0 md:border-l md:pt-0">
+        <div className="col-span-1 border-t border-white/10 pt-6 min-[1500px]:col-span-1  md:border-t-0  md:pt-0">
           <h4 className="mb-6 text-white/50">
             {labels?.bookingWindowHeading || "Booking Window"}
           </h4>
@@ -492,7 +492,7 @@ export function CalendarPicker({
                   <SeventhButton
                     isActive={isSelected}
                     onClick={() => onSelectType && onSelectType(type.id)}
-                    className="group flex !h-auto w-full cursor-pointer !justify-start gap-3 !rounded-[2.5rem] !p-0 py-3 pr-4 text-left sm:gap-4 sm:py-4 sm:pr-5 [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal"
+                    className="group flex !h-auto w-full cursor-pointer !justify-start gap-3 !rounded-[2.5rem] text-left sm:gap-4 [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal"
                   >
                     <div
                       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full sm:h-11 sm:w-11 ${isSelected ? "bg-purple-600/30" : "bg-white/10 text-white/50"}`}
@@ -501,7 +501,7 @@ export function CalendarPicker({
                     </div>
                     <div className="flex min-w-0 flex-1 items-center gap-2 text-left">
                       <span
-                        className={`block sm:text-base ${isSelected ? " " : " "}`}
+                        className={`block  ${isSelected ? " " : " "}`}
                       >
                         {displayLabel}
                       </span>
@@ -520,7 +520,7 @@ export function CalendarPicker({
                           onCustomDetailsChange?.(e.target.value)
                         }
                         autoFocus
-                        className="placeholder: focus-ring w-full rounded-lg border border-white/10 bg-[#0c0817]/80 px-4 py-3 text-white/40 shadow-inner backdrop-blur-2xl"
+                        className="placeholder: focus-ring w-full  border border-white/10 bg-[#0c0817]/80 px-4 py-3 text-white/40 shadow-inner backdrop-blur-2xl"
                       />
                     </div>
                   )}

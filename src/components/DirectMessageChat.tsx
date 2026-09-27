@@ -30,8 +30,8 @@ export default function DirectMessageChat() {
     if (typeof window === "undefined" || !userId) return;
     const dms: DMMessage[] = JSON.parse(
       localStorage.getItem("7h_dms_v1") ||
-        localStorage.getItem("7h_dms") ||
-        "[]",
+      localStorage.getItem("7h_dms") ||
+      "[]",
     );
     // Filter messages between this user and admin
     const relevant = dms.filter(
@@ -74,8 +74,8 @@ export default function DirectMessageChat() {
     if (open && messages.length > 0 && typeof window !== "undefined") {
       const dms: DMMessage[] = JSON.parse(
         localStorage.getItem("7h_dms_v1") ||
-          localStorage.getItem("7h_dms") ||
-          "[]",
+        localStorage.getItem("7h_dms") ||
+        "[]",
       );
       let changed = false;
       const updated = dms.map((m) => {
@@ -117,8 +117,8 @@ export default function DirectMessageChat() {
     if (typeof window !== "undefined") {
       const dms: DMMessage[] = JSON.parse(
         localStorage.getItem("7h_dms_v1") ||
-          localStorage.getItem("7h_dms") ||
-          "[]",
+        localStorage.getItem("7h_dms") ||
+        "[]",
       );
       const updated = [...dms, newMsg];
       localStorage.setItem("7h_dms_v1", JSON.stringify(updated));
@@ -133,7 +133,7 @@ export default function DirectMessageChat() {
       {/* Floating Chat Bubble Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="group relative flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[var(--color-accent)] shadow-[0_4px_20px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"
+        className="group relative flex h-12 w-12 cursor-pointer items-center justify-center  border border-white/10 bg-[var(--color-accent)] shadow-[0_4px_20px_rgba(255,10,61,0.5)] hover:bg-[var(--color-accent-hover)]"
       >
         {open ? (
           <svg
@@ -166,7 +166,7 @@ export default function DirectMessageChat() {
 
         {/* Pulse unread count badge */}
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-lg border-2 border-[#050505] bg-red-600">
+          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center  border-2 border-[#050505] bg-red-600">
             {unreadCount}
           </span>
         )}
@@ -177,7 +177,7 @@ export default function DirectMessageChat() {
         <div className="absolute right-0 bottom-16 flex h-[380px] w-[300px] animate-[fadeIn_0.25s_ease-out] flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/95 shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-xl">
           {/* Header */}
           <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.02] p-3.5">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-emerald-500" />
+            <span className="h-1.5 w-1.5 animate-pulse  bg-emerald-500" />
             <div className="flex flex-col text-left">
               <span className="text-[var(--color-accent)]">Direct Message</span>
               <span>Admin Support Chat</span>

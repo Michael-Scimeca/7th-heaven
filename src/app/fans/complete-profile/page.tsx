@@ -6,6 +6,7 @@ import { useTransition } from "@/context/TransitionContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import { GlowInput } from "@/components/GlowInput";
 
 function nameToUsername(name: string) {
   return name
@@ -130,7 +131,7 @@ export default function CompleteProfilePage() {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-11 w-11 animate-spin rounded-lg border-4 border-[var(--color-accent)] border-t-transparent" />
+          <div className="h-11 w-11 animate-spin  border-4 border-[var(--color-accent)] border-t-transparent" />
           <p>Loading your profile...</p>
         </div>
       </div>
@@ -148,7 +149,7 @@ export default function CompleteProfilePage() {
           <div className="p-8">
             {/* Header */}
             <div className="mb-8 text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20 text-2xl">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20 text-2xl">
                 🎸
               </div>
               <h1 className="mb-2">
@@ -170,7 +171,7 @@ export default function CompleteProfilePage() {
                   unoptimized
                   src={profile.avatar_url}
                   alt={profile.full_name}
-                  className="h-20 w-20 rounded-lg border-2 border-[var(--color-accent)]/40 object-cover"
+                  className="h-20 w-20  border-2 border-[var(--color-accent)]/40 object-cover"
                 />
               </div>
             )}
@@ -184,11 +185,11 @@ export default function CompleteProfilePage() {
                 >
                   Choose Your Username
                 </label>
-                <div className="input-glow-border relative rounded-xl">
-                  <span className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-white/20">
+                <div className="relative">
+                  <span className="pointer-events-none absolute bottom-3 left-3 z-10 text-white/20">
                     @
                   </span>
-                  <input
+                  <GlowInput
                     id="complete-profile-username"
                     type="text"
                     value={username}
@@ -201,7 +202,8 @@ export default function CompleteProfilePage() {
                     }
                     placeholder="your_username"
                     maxLength={24}
-                    className="placeholder: w-full rounded-xl border border-white/10 bg-white/[0.03] py-2.5 pr-3 pl-8 text-white/20 outline-none"
+                    className="pl-8 text-white/20"
+                    rounded="rounded-xl"
                     required
                   />
                 </div>
@@ -220,7 +222,7 @@ export default function CompleteProfilePage() {
                 {/* Proximity alerts */}
                 <div
                   onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full cursor-pointer items-center gap-3  border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
                   <SquishyToggle
                     id="complete-profile-notifications"
@@ -235,34 +237,25 @@ export default function CompleteProfilePage() {
 
                 {/* Zip code */}
                 {wantNotifications && (
-                  <div className="ml-1">
-                    <label
-                      htmlFor="complete-profile-zip"
-                      className="mb-1 block text-white/40"
-                    >
-                      Zip Code
-                    </label>
-                    <div className="input-glow-border rounded-xl">
-                      <input
-                        id="complete-profile-zip"
-                        type="text"
-                        value={zipCode}
-                        onChange={(e) =>
-                          setZipCode(
-                            e.target.value.replace(/\D/g, "").slice(0, 5),
-                          )
-                        }
-                        placeholder="e.g. 60601"
-                        className="placeholder: w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-white/20 outline-none"
-                      />
-                    </div>
-                  </div>
+                    <GlowInput
+                      id="complete-profile-zip"
+                      label="Zip Code"
+                      labelClassName="mb-1 block text-white/40"
+                      type="text"
+                      value={zipCode}
+                      onChange={(e) =>
+                        setZipCode(
+                          e.target.value.replace(/\D/g, "").slice(0, 5),
+                        )
+                      }
+                      placeholder="e.g. 60601"
+                    />
                 )}
 
                 {/* Newsletter */}
                 <div
                   onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full cursor-pointer items-center gap-3  border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
                   <SquishyToggle
                     id="complete-profile-newsletter"

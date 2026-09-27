@@ -43,7 +43,7 @@ export async function POST(req: Request) {
       inclusions: inclusions ? inclusions.trim() : "Gratuities Included",
       imagePath: imagePath
         ? imagePath.trim()
-        : "/images/cruise/q2_interior_plus.jpg",
+        : "/images/cruise/q2-interior-plus.jpg",
       selectValue: selectValue || `group_${(code || "rm").toLowerCase()}`,
     };
 

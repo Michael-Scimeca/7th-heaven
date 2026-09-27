@@ -4,6 +4,7 @@
 
 import { useState, useRef } from "react";
 import SeventhButton from "@/components/SeventhButton";
+import { GlowTextarea } from "@/components/GlowInput";
 
 interface ParsedInvite {
   email: string;
@@ -260,33 +261,30 @@ export default function BulkInvitePanel() {
                 e.stopPropagation();
                 fileInputRef.current?.click();
               }}
-              className="mt-4 !px-5 !py-2"
+              className="mt-4"
             >
               Browse Files
             </SeventhButton>
           </button>
 
           {/* Direct Copy-Paste Text Area */}
-          <div className="flex flex-col gap-3">
-            <label htmlFor="bulk-invite-text-input">
-              Copy-Paste Contact List
-            </label>
-            <div className="input-glow-border w-full">
-              <textarea
-                aria-label="Text input"
-                id="bulk-invite-text-input"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
-                rows={5}
-                className="placeholder: w-full resize-none rounded-lg border-white/10 bg-black/40 px-4 py-3 text-white/40 outline-none"
-              />
-            </div>
+          <div className="flex flex-col">
+            <GlowTextarea
+              id="bulk-invite-text-input"
+              label="Copy-Paste Contact List"
+              wrapperClassName="w-full mb-6"
+              aria-label="Text input"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder="email1@example.com&#10;Name Two, email2@example.com&#10;email3@example.com; Name Three"
+              rows={5}
+              className="resize-none"
+            />
             <SeventhButton
               type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full justify-center !px-5 !py-3 disabled:opacity-30"
+              className="w-full justify-center  disabled:opacity-30"
             >
               Parse & Import List
             </SeventhButton>
@@ -312,7 +310,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="hover: cursor-pointer rounded-lg border border-black/15 bg-black/5 px-4 py-2 text-black/70 hover:bg-black/10 disabled:opacity-30"
+                className="hover: cursor-pointer  border border-black/15 bg-black/5 px-4 py-2 text-black/70 hover:bg-black/10 disabled:opacity-30"
               >
                 Clear List
               </button>
@@ -320,7 +318,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className="! !px-6 !py-3 disabled:opacity-40"
+                className=" disabled:opacity-40"
               >
                 {sending
                   ? " Sending Invites..."
@@ -366,7 +364,7 @@ export default function BulkInvitePanel() {
                         </span>
                       )}
                       {inv.status === "sending" && (
-                        <span className="animate-pulse rounded-lg bg-[var(--color-accent)] px-2.5 py-1 text-[0.55rem]">
+                        <span className="animate-pulse  bg-[var(--color-accent)] px-2.5 py-1 text-[0.55rem]">
                           Sending…
                         </span>
                       )}
@@ -378,7 +376,7 @@ export default function BulkInvitePanel() {
                       {inv.status === "failed" && (
                         <span
                           title={inv.error}
-                          className="cursor-help rounded-lg border border-rose-300 bg-rose-100 px-2.5 py-1 text-[0.55rem] text-rose-800"
+                          className="cursor-help  border border-rose-300 bg-rose-100 px-2.5 py-1 text-[0.55rem] text-rose-800"
                         >
                           Failed
                         </span>

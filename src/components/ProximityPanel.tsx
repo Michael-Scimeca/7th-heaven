@@ -88,7 +88,7 @@ export default function ProximityPanel() {
         const data = await res.json();
         setNearbyShows(data.shows || []);
       }
-    } catch {}
+    } catch { }
     setLoadingShows(false);
   }, [member?.id, notificationsEnabled]);
 
@@ -143,27 +143,29 @@ export default function ProximityPanel() {
         );
         setMyStatus(mine?.status || null);
       }
-    } catch {}
+    } catch { }
     setAttendeeLoading(false);
   };
 
   const toggleGoing = async (show: NearbyShow) => {
     if (!member?.id) return;
-    if (myStatus) {
-      await fetch(`/api/proximity/attendees?showId=${show.id}`, {
-        method: "DELETE",
-      });
-      setMyStatus(null);
-      setAttendees((prev) => prev.filter((a) => a.profiles?.id !== member.id));
-    } else {
-      await fetch("/api/proximity/attendees", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ showId: show.id, status: "going" }),
-      });
-      setMyStatus("going");
-      loadAttendees(show);
-    }
+    try {
+      if (myStatus) {
+        await fetch(`/api/proximity/attendees?showId=${show.id}`, {
+          method: "DELETE",
+        });
+        setMyStatus(null);
+        setAttendees((prev) => prev.filter((a) => a.profiles?.id !== member.id));
+      } else {
+        await fetch("/api/proximity/attendees", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ showId: show.id, status: "going" }),
+        });
+        setMyStatus("going");
+        loadAttendees(show);
+      }
+    } catch { }
   };
 
   return (
@@ -178,7 +180,7 @@ export default function ProximityPanel() {
         </p>
 
         {/* Notification Toggle */}
-        <div className="mb-6 flex items-center justify-between border-b border-white/10 py-3">
+        <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-6">
           <div>
             <p>Enable Proximity Notifications</p>
             <p className="mt-0.5">SMS & email alerts for nearby shows</p>
@@ -228,7 +230,7 @@ export default function ProximityPanel() {
           onClick={saveSettings}
           disabled={saving || !zip || zip.length < 5}
           icon={false}
-          className="w-full cursor-pointer py-3"
+          className="cursor-pointer"
         >
           {saving
             ? "Saving…"
@@ -262,7 +264,7 @@ export default function ProximityPanel() {
               </span>
             </div>
           ) : nearbyShows.length === 0 ? (
-            <div className="flex flex-col items-center rounded-lg border border-dashed border-white/10 bg-[#00000029] py-8">
+            <div className="flex flex-col items-center  border border-dashed border-white/10 bg-[#00000029] py-8">
               <p>No shows in your area yet.</p>
               <p>We&apos;ll alert you the moment one is booked near you!</p>
             </div>
@@ -279,7 +281,7 @@ export default function ProximityPanel() {
                       onClick={() => loadAttendees(show)}
                       className="flex flex-1 cursor-pointer items-center gap-4 text-left"
                     >
-                      <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg border border-blue-500/20 bg-blue-500/10">
+                      <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center  border border-blue-500/20 bg-blue-500/10">
                         <span className="text-blue-400">
                           {new Date(show.date + "T12:00:00").toLocaleDateString(
                             "en-US",
@@ -355,9 +357,9 @@ export default function ProximityPanel() {
                           {attendees.slice(0, 12).map((a) => (
                             <div
                               key={a.id}
-                              className="flex items-center gap-2 rounded-lg border border-black/10 bg-white px-3 py-1.5"
+                              className="flex items-center gap-2  border border-black/10 bg-white px-3 py-1.5"
                             >
-                              <div className="flex h-5 w-5 items-center justify-center rounded-lg bg-[var(--color-accent)] text-[var(--color-accent)] text-[var(--font-size-2xs)]">
+                              <div className="flex h-5 w-5 items-center justify-center  bg-[var(--color-accent)] text-[var(--color-accent)] text-[var(--font-size-2xs)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
                               <span className="text-black/70">

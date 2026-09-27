@@ -102,7 +102,9 @@ export default function GooeyMessagesDropdown({
   const selectedItem = normalizedCustomers.find(
     (c) =>
       c.id === activeSelectedId ||
-      (activeSelectedId === "All" && c.id.toLowerCase() === "all"),
+      c.id.toLowerCase() === activeSelectedId?.toLowerCase() ||
+      ((!activeSelectedId || activeSelectedId?.toLowerCase() === "all") &&
+        c.id.toLowerCase() === "all"),
   );
   const triggerText = selectedItem ? selectedItem.name : placeholder;
 
@@ -147,12 +149,12 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`relative ${fullWidth ? "block w-full" : "inline-block"} ${open ? "z-[99999]" : "z-10"} ${className}`}
+      className={`seventh-heaven-dropdown ${fullWidth ? "seventh-heaven-dropdown-full-width" : "seventh-heaven-dropdown-inline"} ${open ? "is-open" : "is-closed"} ${className}`}
     >
       {/* Hidden SVG Gooey Filter Definition */}
 
       {label && (
-        <label className="dark: mb-1 block text-[0.65rem] text-black/60 text-white/40">
+        <label className="seventh-heaven-dropdown-label">
           {label}
         </label>
       )}
@@ -161,7 +163,7 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`relative z-50 min-h-[46px] border border-[#ffffff1a] border-white/10 bg-[#00000029] shadow-[0_24px_60px_#0000008c] backdrop-blur-xl ${fullWidth ? "w-full justify-between text-left" : "min-w-fit justify-between text-left"} ${noPadding ? "p-0" : fullWidth ? "px-4 py-0" : "px-4 py-0"} rounded-lg ${open ? "rounded-t-lg rounded-b-none bg-[#8d73d71c]" : "/90 border-white/10 bg-[#8d73d71c] hover:bg-[#8d73d71c]"} ${noBorder ? "!border-none" : ""} flex cursor-pointer items-center gap-3 shadow-[0_3px_9px_#0000008c] transition-[background-color,border-color,transform,box-shadow] disabled:cursor-not-allowed disabled:opacity-50`}
+        className={`transition-all seventh-heaven-dropdown-trigger ${fullWidth ? "seventh-heaven-dropdown-trigger-full" : "seventh-heaven-dropdown-trigger-fit"} ${noPadding ? "seventh-heaven-dropdown-trigger-no-padding" : "seventh-heaven-dropdown-trigger-padding"} ${open ? "is-open" : "is-closed"} ${noBorder ? "no-border" : ""}`}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -170,7 +172,7 @@ export default function GooeyMessagesDropdown({
         name={name}
       >
         <span
-          className={`flex-1 break-words whitespace-normal ${triggerTextClassName}`}
+          className={`seventh-heaven-dropdown-text ${triggerTextClassName}`}
         >
           {triggerText}
         </span>
@@ -183,7 +185,7 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0 ${open ? "rotate-90" : "rotate-0"}`}
+          className={`seventh-heaven-dropdown-chevron ${open ? "is-open" : ""}`}
           aria-hidden="true"
         >
           <path d="M4 2l4 4-4 4" />
@@ -193,35 +195,39 @@ export default function GooeyMessagesDropdown({
       {/* Gooey Options Menu Panel (Crisp Foreground Layer) */}
       {open && (
         <div
-          className="animate-in fade-in zoom-in-95 slide-in-from-top-2 absolute top-full !left-0 z-[99999] w-max max-w-md min-w-full origin-top overflow-hidden rounded-lg rounded-t-none rounded-b-lg border border-t-0 border-white/10 bg-[#00000029] shadow-[0_25px_60px_rgba(0,0,0,0.95)] backdrop-blur-xl transition-[opacity,transform] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+          className="seventh-heaven-dropdown-panel"
           role="listbox"
         >
           {(title || badge) && (
-            <div className="mb-1 flex items-center justify-between border-b border-white/10 px-3 py-1.5">
+            <div className="seventh-heaven-dropdown-header">
               {title && <span>{title}</span>}
               {badge && (
-                <span className="text-[10px] text-white/50">{badge}</span>
+                <span className="seventh-heaven-dropdown-badge">{badge}</span>
               )}
             </div>
           )}
 
-          <div className="relative">
+          <div className="seventh-heaven-dropdown-body">
             {/* Scrollable Container */}
             <div
               ref={listRef}
               onScroll={handleScroll}
-              className="no-scrollbar max-h-46 space-y-1 overflow-y-auto pr-1"
+              className="seventh-heaven-dropdown-list no-scrollbar"
               data-lenis-prevent="true"
             >
               {normalizedCustomers.map((c) => {
-                const isSelected = c.id === activeSelectedId;
+                const isSelected =
+                  c.id === activeSelectedId ||
+                  c.id.toLowerCase() === activeSelectedId?.toLowerCase() ||
+                  ((!activeSelectedId || activeSelectedId?.toLowerCase() === "all") &&
+                    c.id.toLowerCase() === "all");
                 return (
                   <button
                     key={c.id}
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`!m-0 flex w-full cursor-pointer items-center justify-between !rounded-none px-4 py-2 text-left transition-[background-color,color] ${isSelected ? "bg-gradient-to-l from-purple-700 to-purple-900" : "from-purple-900 to-purple-500/90 hover:bg-gradient-to-l hover:text-white"}`}
+                    className={`seventh-heaven-dropdown-item ${isSelected ? "is-selected" : ""}`}
                     onClick={() => {
                       setSelectedIdState(c.id);
                       onSelect?.(c);
@@ -229,7 +235,7 @@ export default function GooeyMessagesDropdown({
                       setOpen(false);
                     }}
                   >
-                    <span className="text-[14px] break-words whitespace-normal">
+                    <span className="seventh-heaven-dropdown-item-text">
                       {c.name}
                     </span>
                   </button>
@@ -238,9 +244,9 @@ export default function GooeyMessagesDropdown({
             </div>
 
             {/* Permanent Custom React DOM Scrollbar Indicator */}
-            <div className="pointer-events-none absolute top-1 right-0 bottom-1 z-30 w-1.5 rounded-lg bg-white/10">
+            <div className="seventh-heaven-dropdown-scrollbar-track">
               <div
-                className="w-full rounded-lg bg-purple-600 transition-[height,margin-top]"
+                className="seventh-heaven-dropdown-scrollbar-thumb"
                 style={{
                   height: `${Math.max(20, Math.min(100, thumbHeightRatio * 100))}%`,
                   marginTop: `${scrollProgress *

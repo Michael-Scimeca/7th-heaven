@@ -55,6 +55,7 @@ import CustomDropdown from "@/components/CustomDropdown";
 import { useMember } from "@/context/MemberContext";
 import { BANDS_DATA } from "../cruiseData";
 import { formatPhoneDisplay } from "@/lib/validation";
+import { GlowInput } from "@/components/GlowInput";
 
 interface CruiseCabinsPricingSectionProps {
   handleSelectCabin: (selectVal?: string) => void;
@@ -102,14 +103,14 @@ function RoomModalFooterButtons({
       <button
         type="button"
         onClick={onCancel}
-        className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 hover:bg-white/15"
+        className="cursor-pointer  bg-white/10 px-5 py-2.5 hover:bg-white/15"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={isSaving}
-        className="flex cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-[background-color,box-shadow] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+        className="flex cursor-pointer items-center gap-2  bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-[background-color,box-shadow] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
       >
         {isSaving ? (
           <>
@@ -146,7 +147,7 @@ function ModalInputField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+        className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
       />
     </div>
   );
@@ -316,7 +317,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                    className="!w-full !justify-start "
                   >
                     <Globe className="h-4 w-4 shrink-0 text-purple-400" />
                     <span>WIKI</span>
@@ -333,7 +334,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                    className="!w-full !justify-start "
                   >
                     <Ship className="h-4 w-4 shrink-0" />
                     <span>ROYAL CARIBBEAN PAGE</span>
@@ -350,7 +351,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                    className="!w-full !justify-start "
                   >
                     <Map className="h-4 w-4 shrink-0 text-emerald-400" />
                     <span>DECK PLAN</span>
@@ -367,7 +368,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                    className="!w-full !justify-start "
                   >
                     <Video className="h-4 w-4 shrink-0 text-rose-400" />
                     <span>VIDEO OF THE SHIP</span>
@@ -384,7 +385,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                    className="!w-full !justify-start "
                   >
                     <FileText className="h-4 w-4 shrink-0 text-amber-400" />
                     <span>PAST CRUISE COMPASS</span>
@@ -401,7 +402,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                    className="!w-full !justify-start "
                   >
                     <Film className="h-4 w-4 shrink-0 text-indigo-400" />
                     <span>SHIP TOUR VIDEO</span>
@@ -418,7 +419,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start !rounded-full px-4 py-2.5"
+                    className="!w-full !justify-start "
                   >
                     <Flame className="h-4 w-4 shrink-0 text-orange-400" />
                     <span>PROMO VIDEO</span>
@@ -532,16 +533,16 @@ function CruiseCabinsPricingSectionComponent({
                 {activePriceYear === 2027
                   ? sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026"
                   : sanityContent?.cruiseInfo?.finalPayment2028 ||
-                    "Oct 1, 2027"}
+                  "Oct 1, 2027"}
                 .
               </p>
             </div>
 
             {/* Cancellation Policy Card */}
-            <div className="mt-6 rounded-2xl bg-purple-950/40 p-5 border border-purple-500/20 backdrop-blur-sm">
+            <div className="mt-6  ">
               <div className="mb-3 flex items-center gap-3">
                 <CalendarIcon className="h-6 w-6 shrink-0 text-purple-400" />
-                <h3 className="!text-xl font-bold uppercase tracking-wide">
+                <h3 className="font-bold uppercase">
                   {sanityContent?.cruiseInfo?.cancellationTitle ||
                     "Cancellation Policy"}
                 </h3>
@@ -653,7 +654,7 @@ function CruiseCabinsPricingSectionComponent({
                           image:
                             c.imagePath ||
                             c.image ||
-                            "/images/cruise/q2_interior_plus.jpg",
+                            "/images/cruise/q2-interior-plus.jpg",
                           inclusions: c.inclusions,
                           selectValue:
                             c.selectValue ||
@@ -671,7 +672,7 @@ function CruiseCabinsPricingSectionComponent({
                       price: "$1,683.27",
                       status: "soldout",
                       badge: "Group Rate Sold Out - Book Prevailing",
-                      image: "/images/cruise/q2_interior_plus.jpg",
+                      image: "/images/cruise/q2-interior-plus.jpg",
                       selectValue: "group_n5",
                     },
                     {
@@ -700,7 +701,7 @@ function CruiseCabinsPricingSectionComponent({
                       price: "$2,433.27",
                       status: "info",
                       badge: "10 Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      image: "/images/cruise/d1-ocean-view-balcony.jpg",
                       inclusions: "Gratuities Included",
                       selectValue: "group_d4",
                     },
@@ -710,7 +711,7 @@ function CruiseCabinsPricingSectionComponent({
                       price: "$2,483.27",
                       status: "info",
                       badge: "11 Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      image: "/images/cruise/d1-ocean-view-balcony.jpg",
                       inclusions: "Gratuities Included",
                       selectValue: "group_d2",
                     },
@@ -721,7 +722,7 @@ function CruiseCabinsPricingSectionComponent({
                       status: "warning",
                       badge: "5 Cabins Left!",
                       image:
-                        "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                        "/images/cruise/i1-infinite-ocean-view-balcony.jpg",
                       inclusions: "Gratuities Included",
                       selectValue: "group_i1",
                     },
@@ -733,7 +734,7 @@ function CruiseCabinsPricingSectionComponent({
                       price: "$1,832.98",
                       status: "info",
                       badge: "Available",
-                      image: "/images/cruise/q2_interior_plus.jpg",
+                      image: "/images/cruise/q2-interior-plus.jpg",
                       inclusions: "Gratuities Included",
                       selectValue: "group_n5",
                     },
@@ -763,7 +764,7 @@ function CruiseCabinsPricingSectionComponent({
                       price: "$2,472.98",
                       status: "info",
                       badge: "Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      image: "/images/cruise/d1-ocean-view-balcony.jpg",
                       inclusions: "Gratuities Included",
                       selectValue: "group_d4",
                     },
@@ -773,7 +774,7 @@ function CruiseCabinsPricingSectionComponent({
                       price: "$2,492.98",
                       status: "info",
                       badge: "Available",
-                      image: "/images/cruise/d1_ocean_view_balcony.jpg",
+                      image: "/images/cruise/d1-ocean-view-balcony.jpg",
                       inclusions: "Gratuities Included",
                       selectValue: "group_d2",
                     },
@@ -784,7 +785,7 @@ function CruiseCabinsPricingSectionComponent({
                       status: "info",
                       badge: "Available",
                       image:
-                        "/images/cruise/i1_infinite_ocean_view_balcony.jpg",
+                        "/images/cruise/i1-infinite-ocean-view-balcony.jpg",
                       inclusions: "Gratuities Included",
                       selectValue: "group_i1",
                     },
@@ -848,7 +849,7 @@ function CruiseCabinsPricingSectionComponent({
       {/* ── CRUISE RESERVATION & SIGNUP FORM SECTION ── */}
       <section
         id="signup"
-        className="site-container py-section-fluid relative z-20 border-b border-white/10"
+        className="site-container py-section-fluid relative z-20 "
       >
         <div id="booking" />
         <div id="book-now" />
@@ -857,7 +858,7 @@ function CruiseCabinsPricingSectionComponent({
         <div>
           <div className="mb-6  text-center">
             <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
-              <span className="st inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
+              <span className="inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
                 Official Booking Form
               </span>
               <button
@@ -872,7 +873,7 @@ function CruiseCabinsPricingSectionComponent({
               </button>
             </div>
             <h2>RESERVE YOUR CRUISE STATEROOM</h2>
-            <p className="mx-auto mt-2 max-w-xl sm:text-base">
+            <p className="mx-auto mt-2 max-w-xl ">
               Every booking requires a $500 deposit per room ($250 per person).
               Complete the form below to lock in your cabin rate.
             </p>
@@ -909,7 +910,7 @@ function CruiseCabinsPricingSectionComponent({
           ) : (
             <form onSubmit={handleSignup} className="space-y-3 text-left">
               {formError && (
-                <div className="flex items-center gap-3 rounded-xl border border-red-500/50 bg-red-900/40 p-4 text-red-200">
+                <div className="flex items-center gap-3  border border-red-500/50 bg-red-900/40 p-4 text-red-200">
                   <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
                   <span>{formError}</span>
                 </div>
@@ -920,22 +921,20 @@ function CruiseCabinsPricingSectionComponent({
                 <label htmlFor="cabinPreference" className="mb-2 block">
                   Room Category / Cabin Preference *
                 </label>
-                <div className="input-glow-border rounded-xl">
-                  <input
-                    id="cabinPreference"
-                    type="text"
-                    required
-                    value={formData.cabinPreference || ""}
-                    onChange={(e) =>
-                      setFormData((prev: any) => ({
-                        ...prev,
-                        cabinPreference: e.target.value,
-                      }))
-                    }
-                    placeholder="e.g. Ocean View Balcony (D4) or Suite"
-                    className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-3 text-base"
-                  />
-                </div>
+                <GlowInput
+                  id="cabinPreference"
+                  type="text"
+                  required
+                  value={formData.cabinPreference || ""}
+                  onChange={(e) =>
+                    setFormData((prev: any) => ({
+                      ...prev,
+                      cabinPreference: e.target.value,
+                    }))
+                  }
+                  placeholder="e.g. Ocean View Balcony (D4) or Suite"
+                  className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-3"
+                />
                 <p className="mt-1.5 text-white/50">
                   EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
                 </p>
@@ -951,77 +950,69 @@ function CruiseCabinsPricingSectionComponent({
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
                     <label>Full Legal Name *</label>
-                    <div className="input-glow-border rounded-xl">
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) =>
-                          setFormData((prev: any) => ({
-                            ...prev,
-                            name: e.target.value,
-                          }))
-                        }
-                        placeholder="First &amp; Last Name (as on Passport/ID)"
-                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                      />
-                    </div>
+                    <GlowInput
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData((prev: any) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
+                      placeholder="First &amp; Last Name (as on Passport/ID)"
+                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                    />
                   </div>
                   <div>
                     <label>Email Address *</label>
-                    <div className="input-glow-border rounded-xl">
-                      <input
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData((prev: any) => ({
-                            ...prev,
-                            email: e.target.value,
-                          }))
-                        }
-                        placeholder="your@email.com"
-                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                      />
-                    </div>
+                    <GlowInput
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData((prev: any) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }))
+                      }
+                      placeholder="your@email.com"
+                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                    />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                   <div>
                     <label>Cell Phone *</label>
-                    <div className="input-glow-border rounded-xl">
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData((prev: any) => ({
-                            ...prev,
-                            phone: formatPhoneDisplay(e.target.value),
-                          }))
-                        }
-                        placeholder="(555) 000-0000"
-                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                      />
-                    </div>
+                    <GlowInput
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData((prev: any) => ({
+                          ...prev,
+                          phone: formatPhoneDisplay(e.target.value),
+                        }))
+                      }
+                      placeholder="(555) 000-0000"
+                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                    />
                   </div>
                   <div>
                     <label>Crown &amp; Anchor # (If Any)</label>
-                    <div className="input-glow-border rounded-xl">
-                      <input
-                        type="text"
-                        value={formData.crownAnchor1 || ""}
-                        onChange={(e) =>
-                          setFormData((prev: any) => ({
-                            ...prev,
-                            crownAnchor1: e.target.value,
-                          }))
-                        }
-                        placeholder="Royal Caribbean Loyalty #"
-                        className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                      />
-                    </div>
+                    <GlowInput
+                      type="text"
+                      value={formData.crownAnchor1 || ""}
+                      onChange={(e) =>
+                        setFormData((prev: any) => ({
+                          ...prev,
+                          crownAnchor1: e.target.value,
+                        }))
+                      }
+                      placeholder="Royal Caribbean Loyalty #"
+                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                    />
                   </div>
                   <div>
                     <label>T-Shirt Size</label>
@@ -1042,7 +1033,7 @@ function CruiseCabinsPricingSectionComponent({
                         { value: "3XL", label: "3X-Large (3XL)" },
                       ]}
                       chevronColor="#f43f5e"
-                      className="!"
+                      className=""
                     />
                   </div>
                 </div>
@@ -1080,68 +1071,52 @@ function CruiseCabinsPricingSectionComponent({
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                       <div>
                         <label className="mb-1">Guest 2 Full Legal Name</label>
-                        <div className="input-glow-border rounded-xl">
-                          <input
-                            type="text"
-                            value={guests[0].name}
-                            onChange={(e) =>
-                              updateGuest(0, "name", e.target.value)
-                            }
-                            placeholder="Guest 2 First &amp; Last Name"
-                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                          />
-                        </div>
+                        <GlowInput
+                          type="text"
+                          value={guests[0].name}
+                          onChange={(e) => updateGuest(0, "name", e.target.value)}
+                          placeholder="Guest 2 First &amp; Last Name"
+                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                        />
                       </div>
                       <div>
                         <label className="mb-1 block">Guest 2 Email</label>
-                        <div className="input-glow-border rounded-xl">
-                          <input
-                            type="email"
-                            value={guests[0].email}
-                            onChange={(e) =>
-                              updateGuest(0, "email", e.target.value)
-                            }
-                            placeholder="guest2@email.com"
-                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                          />
-                        </div>
+                        <GlowInput
+                          type="email"
+                          value={guests[0].email}
+                          onChange={(e) => updateGuest(0, "email", e.target.value)}
+                          placeholder="guest2@email.com"
+                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                        />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                       <div>
                         <label className="mb-1">Guest 2 Phone</label>
-                        <div className="input-glow-border rounded-xl">
-                          <input
-                            type="tel"
-                            value={guests[0].phone}
-                            onChange={(e) =>
-                              updateGuest(
-                                0,
-                                "phone",
-                                formatPhoneDisplay(e.target.value),
-                              )
-                            }
-                            placeholder="(555) 000-0000"
-                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                          />
-                        </div>
+                        <GlowInput
+                          type="tel"
+                          value={guests[0].phone}
+                          onChange={(e) =>
+                            updateGuest(0, "phone", formatPhoneDisplay(e.target.value))
+                          }
+                          placeholder="(555) 000-0000"
+                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                        />
                       </div>
                       <div>
                         <label className="mb-1">
                           Guest 2 Crown &amp; Anchor #
                         </label>
-                        <div className="input-glow-border rounded-xl">
-                          <input
-                            type="text"
-                            value={guests[0].crownAnchor}
-                            onChange={(e) =>
-                              updateGuest(0, "crownAnchor", e.target.value)
-                            }
-                            placeholder="Loyalty #"
-                            className="focus-ring w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5"
-                          />
-                        </div>
+                        <GlowInput
+                          type="text"
+                          value={guests[0].crownAnchor}
+                          onChange={(e) =>
+                            updateGuest(0, "crownAnchor", e.target.value)
+                          }
+                          placeholder="Loyalty #"
+                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                        />
                       </div>
                       <div>
                         <label className="mb-1">Guest 2 T-Shirt Size</label>
@@ -1286,13 +1261,13 @@ function CruiseCabinsPricingSectionComponent({
       <LazyMount
         as="section"
         id="concierge"
-        className="site-container py-section-fluid relative z-20 border-b border-white/10 text-center"
+        className="site-container py-section-fluid relative z-20  text-center"
         minHeight="400px"
         rootMargin="300px 0px"
       >
         <div className="mx-auto mb-6 max-w-2xl">
           <h2>Official Cruise Concierge &amp; Booking Team</h2>
-          <p className="mx-auto mt-3 max-w-2xl sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl ">
             Have questions about your booking, cabin options, group travel, or
             excursions? Our dedicated 7th Heaven Cruise concierge team is here
             to assist you every step of the way.
@@ -1337,11 +1312,11 @@ function CruiseCabinsPricingSectionComponent({
             const photoSrc =
               nameStr.toLowerCase().includes("mary") ||
                 nameStr.toLowerCase().includes("grivas")
-                ? "/images/contact/Mary-contact.png"
+                ? "/images/contact/mary-contact.png"
                 : nameStr.toLowerCase().includes("alan") ||
                   nameStr.toLowerCase().includes("mcrae")
-                  ? "/images/contact/Alan-contact.png"
-                  : "/images/contact/Dickie-contact.png";
+                  ? "/images/contact/alan-contact.png"
+                  : "/images/contact/dickie-contact.png";
 
             return (
               <div
@@ -1381,7 +1356,7 @@ function CruiseCabinsPricingSectionComponent({
                   {phoneStr && (
                     <a
                       href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`}
-                      className="! hover:text-white"
+                      className="hover:text-white"
                     >
                       <span>{phoneStr}</span>
                     </a>
@@ -1402,7 +1377,7 @@ function CruiseCabinsPricingSectionComponent({
       <LazyMount
         as="section"
         id="artists"
-        className="site-container py-section-fluid border-b border-white/10"
+        className="site-container py-section-fluid "
         minHeight="500px"
         rootMargin="300px 0px"
       >
@@ -1410,7 +1385,7 @@ function CruiseCabinsPricingSectionComponent({
           <h2>
             Featured <span className="accent-gradient-text">Artists</span>
           </h2>
-          <p className="mt-2.5 sm:text-base">
+          <p className="mt-2.5 ">
             Get ready for non-stop live music! Join 7th Heaven along with an
             extraordinary lineup of world-class performers and special guest
             bands across multiple stages throughout the voyage.
@@ -1421,7 +1396,7 @@ function CruiseCabinsPricingSectionComponent({
           {BANDS_DATA.map((band) => (
             <div
               key={band.name}
-              className="group relative flex flex-col justify-between overflow-hidden border-0"
+              className="group relative flex flex-col justify-between  border-0"
             >
               {band.photo && (
                 <div
@@ -1479,12 +1454,12 @@ function CruiseCabinsPricingSectionComponent({
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <Ship className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-xl">Add Stateroom to Sanity CMS</h3>
-                  <p className="/70">
+                  <p className="">
                     Create and publish a stateroom rate card directly to Sanity
                     CMS.
                   </p>
@@ -1492,14 +1467,14 @@ function CruiseCabinsPricingSectionComponent({
               </div>
 
               {roomError && (
-                <div className="mb-6 flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6 flex items-center gap-2  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
                   <span>{roomError}</span>
                 </div>
               )}
 
               {roomSuccess && (
-                <div className="mb-6 flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
+                <div className="mb-6 flex items-center gap-2  border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Stateroom saved successfully to Sanity!</span>
                 </div>
@@ -1522,7 +1497,7 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="e.g. Ocean View Balcony"
-                      className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                     />
                   </div>
 
@@ -1541,7 +1516,7 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="e.g. D4, N5, IF, GS"
-                      className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                     />
                   </div>
                 </div>
@@ -1559,7 +1534,7 @@ function CruiseCabinsPricingSectionComponent({
                           year: e.target.value,
                         }))
                       }
-                      className="focus-ring w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5"
+                      className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
                     >
                       <option value="2027">2027 (Star of the Seas)</option>
                       <option value="2028">2028 (Legend of the Seas)</option>
@@ -1599,7 +1574,7 @@ function CruiseCabinsPricingSectionComponent({
                           status: e.target.value,
                         }))
                       }
-                      className="focus-ring w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5"
+                      className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
                     >
                       <option value="info">Info / Cyan (Available)</option>
                       <option value="warning">
@@ -1625,7 +1600,7 @@ function CruiseCabinsPricingSectionComponent({
                   onChange={(val) =>
                     setRoomForm((prev) => ({ ...prev, imagePath: val }))
                   }
-                  placeholder="e.g. /images/cruise/d1_ocean_view_balcony.jpg"
+                  placeholder="e.g. /images/cruise/d1-ocean-view-balcony.jpg"
                 />
 
                 <RoomModalFooterButtons

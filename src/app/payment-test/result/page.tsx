@@ -71,12 +71,12 @@ function NorthResultContent() {
   return (
     <div className="flex min-h-screen items-center justify-center px-6 pt-32 pb-24">
       <div className="w-full max-w-md">
-        <div className="bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04] backdrop-blur-xl  border border-white/[0.12] p-8 text-center shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           {loading && <p>Loading payment result…</p>}
 
           {!loading && (hadError || fetchError || !id) && (
             <>
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg border-2 border-rose-500/30 bg-rose-500/10">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border-2 border-rose-500/30 bg-rose-500/10">
                 <span className="text-2xl">⚠️</span>
               </div>
               <h2 className="mb-2 text-xl">Couldn&apos;t Load Result</h2>
@@ -90,7 +90,7 @@ function NorthResultContent() {
           {!loading && result && (
             <>
               <div
-                className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg border-2 ${succeeded ? "border-emerald-500/30 bg-emerald-500/10" : "border-rose-500/30 bg-rose-500/10"}`}
+                className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center  border-2 ${succeeded ? "border-emerald-500/30 bg-emerald-500/10" : "border-rose-500/30 bg-rose-500/10"}`}
               >
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>
@@ -112,7 +112,7 @@ function NorthResultContent() {
 
           <Link
             href="/payment-test"
-            className="mt-6 inline-block rounded-lg bg-[var(--color-accent)] px-5 py-2.5"
+            className="mt-6 inline-block  bg-[var(--color-accent)] px-5 py-2.5"
           >
             {succeeded ? "Back to Shop" : "Try Again"}
           </Link>

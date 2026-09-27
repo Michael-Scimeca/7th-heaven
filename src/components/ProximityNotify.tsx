@@ -73,21 +73,21 @@ export default function ProximityNotify({
 
   const isAllAges = nextShow
     ? nextShow.allAges === true ||
-      showInfo.toLowerCase().includes("all age") ||
-      showInfo.toLowerCase().includes("all-age")
+    showInfo.toLowerCase().includes("all age") ||
+    showInfo.toLowerCase().includes("all-age")
     : false;
   const is21Plus = nextShow
     ? nextShow.allAges === false ||
-      showInfo.toLowerCase().includes("21 &") ||
-      showInfo.toLowerCase().includes("21+")
+    showInfo.toLowerCase().includes("21 &") ||
+    showInfo.toLowerCase().includes("21+")
     : true;
 
   const ageLabel = isAllAges ? "All Ages" : "21+";
 
   const coverLabel =
     showInfo.toLowerCase().includes("free") ||
-    showInfo.toLowerCase().includes("festival") ||
-    showInfo.toLowerCase().includes("casino")
+      showInfo.toLowerCase().includes("festival") ||
+      showInfo.toLowerCase().includes("casino")
       ? "Free Admission"
       : "$5 cover";
 
@@ -133,7 +133,7 @@ export default function ProximityNotify({
           if (video) {
             video.src = "/movie/notefication.mp4";
             video.load();
-            video.play().catch(() => {});
+            video.play().catch(() => { });
           }
           observer.disconnect();
         }
@@ -284,11 +284,11 @@ export default function ProximityNotify({
                     className="h-full w-full rounded-[40px] object-cover"
                     onCanPlay={(e) => {
                       e.currentTarget.muted = true;
-                      e.currentTarget.play().catch(() => {});
+                      e.currentTarget.play().catch(() => { });
                     }}
                     onLoadedMetadata={(e) => {
                       e.currentTarget.muted = true;
-                      e.currentTarget.play().catch(() => {});
+                      e.currentTarget.play().catch(() => { });
                     }}
                   />
                 </div>
@@ -343,7 +343,7 @@ export default function ProximityNotify({
               {status === "success" ? (
                 <div className="rounded-lg border border-purple-500/30 bg-purple-950/40 p-8 text-center shadow-2xl backdrop-blur-xl">
                   <div className="mb-3 flex items-center justify-center gap-2.5">
-                    <div className="bg- purple-white/20 flex h-12 w-12 items-center justify-center rounded-lg text-purple-400">
+                    <div className="bg- purple-white/20 flex h-12 w-12 items-center justify-center  text-purple-400">
                       <svg
                         width="24"
                         height="24"
@@ -424,7 +424,7 @@ export default function ProximityNotify({
                                 type="button"
                                 onClick={() => setRadius(opt.value)}
                                 isActive={active}
-                                className="!w-auto px-2.5 py-1.5"
+                                className="!w-auto"
                               >
                                 {opt.label}
                               </SeventhButton>

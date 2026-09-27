@@ -104,7 +104,7 @@ export default function StudioDPage() {
               href="https://7thheavenband.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="group hover: inline-flex items-center gap-2 border-b border-white/60 pb-0.5 hover:border-purple-300 sm:text-base"
+              className="group hover: inline-flex items-center gap-2 border-b border-white/60 pb-0.5 hover:border-purple-300 "
             >
               <span>Visit website</span>
               <ExternalLink className="h-4 w-4 group-hover:translate-x-1" />
@@ -141,7 +141,7 @@ export default function StudioDPage() {
         <div className="border-t border-white/10 pt-16 text-center">
           <TransitionLink
             href="/rock-and-roll-kids"
-            className="group relative block transform-gpu overflow-hidden rounded-2xl border border-purple-500/20 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 p-10 hover:scale-[1.01] hover:border-purple-400/50 sm:p-16"
+            className="group relative block transform-gpu overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 p-10 hover:scale-[1.01] hover:border-purple-400/50 sm:p-16"
           >
             <span className="mb-3 block">Next Project</span>
             <h3 className="flex items-center justify-center gap-4 text-4xl font-black group-hover:text-purple-200 sm:text-6xl">

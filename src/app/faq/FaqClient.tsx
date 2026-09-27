@@ -288,7 +288,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
 
   return (
     <main
-      className="site-container page-container relative min-h-screen overflow-hidden"
+      className="site-container page-container relative min-h-screen"
       id="faq-page"
     >
       {/* Page Header */}
@@ -356,9 +356,10 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                 }}
               >
                 <button
+                  type="button"
                   onClick={() => toggleExpand(faq.id)}
                   aria-expanded={isExpanded}
-                  className="focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left"
+                  className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left"
                 >
                   <span className="">{faq.question}</span>
                   <FaqChevronButton isExpanded={isExpanded} />
@@ -369,7 +370,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                   className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                 >
                   <div className="overflow-hidden">
-                    <div className="pb-6">
+                    <div className="pb-6 pl-3">
                       <p>{faq.answer}</p>
                     </div>
                   </div>
@@ -378,7 +379,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
             );
           })
         ) : (
-          <div className="rounded-lg bg-[#00000029] p-8 py-16 text-center backdrop-blur-xl">
+          <div className="rounded-lg bg-[#00000029] p-8 py-16 text-center">
             <span className="mb-6 inline-block scale-150 text-white/20">
               <HelpIcon />
             </span>
@@ -392,7 +393,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
       </section>
 
       {/* Live Support Banner */}
-      <aside className="mt-6 flex flex-col items-center justify-between gap-6 rounded-lg bg-[#00000029] p-6 text-center backdrop-blur-xl sm:flex-row sm:p-8 sm:text-left">
+      <aside className="mt-6 flex flex-col items-center justify-between gap-6 text-center sm:flex-row sm:p-8 sm:text-left">
         <div>
           <h4 className="mb-1">
             {sanityContent?.supportTitle || "Still need help?"}
@@ -403,7 +404,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           </p>
         </div>
         <TransitionLink href="/contact">
-          <SeventhButton className="px-6 py-3 whitespace-nowrap">
+          <SeventhButton className=" whitespace-nowrap">
             {sanityContent?.supportCtaText || "Contact Us"}
           </SeventhButton>
         </TransitionLink>

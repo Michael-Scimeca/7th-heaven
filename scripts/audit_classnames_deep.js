@@ -31,7 +31,7 @@ files.forEach((filePath) => {
   lines.forEach((line, index) => {
     const lineNum = index + 1;
 
-    // 1. Check for empty classNames: className="", className=" ", className={""}, className={``}, className={" "}
+    // 1. Check for empty classNames: className="",  , className={""}, className={``}, className={" "}
     const emptyRegex = /className=(?:"\s*"|\{\s*""\s*\}|\{\s*``\s*\}|\{\s*"\s*"\s*\}|\{\s*`\s*`\s*\})/g;
     if (emptyRegex.test(line)) {
       // Check git history for this line
@@ -65,7 +65,7 @@ files.forEach((filePath) => {
               }
             }
           }
-        } catch (e) {}
+        } catch (e) { }
       }
 
       if (historyClasses) {

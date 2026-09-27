@@ -16,6 +16,7 @@ export interface MemberHeaderBadgeProps {
   className?: string;
   nameClassName?: string;
   children?: React.ReactNode;
+  as?: "h1" | "h2" | "h3";
 }
 
 export function MemberHeaderBadge({
@@ -28,8 +29,9 @@ export function MemberHeaderBadge({
   statusColorClass = "bg-rose-950/60 border-rose-500/50 text-rose-300",
   subtitle,
   className = "",
-  nameClassName = "text-xl sm:text-2xl lg:text-3xl         break-words",
+  nameClassName = "text-xl sm:text-2xl lg:text-3xl break-words",
   children,
+  as: HeadingTag = "h1",
 }: MemberHeaderBadgeProps) {
   const isAvatarUrl =
     avatar &&
@@ -43,7 +45,7 @@ export function MemberHeaderBadge({
 
   const effectiveAvatar =
     (isAvatarUrl ? avatar : undefined) ??
-    (isMichael ? "/michaelscimeca.png" : undefined);
+    (isMichael ? "/images/crew/michaelscimeca.png" : undefined);
 
   const hasAvatarUrl =
     effectiveAvatar &&
@@ -90,7 +92,7 @@ export function MemberHeaderBadge({
       {/* Member Info */}
       <div className="min-w-0 flex-1 pt-0.5">
         <div className="flex flex-wrap items-center gap-2.5">
-          <h2 className={nameClassName}>{name}</h2>
+          <HeadingTag className={nameClassName}>{name}</HeadingTag>
           {statusBadge && (
             <span
               className={`r inline-flex items-center gap-1.5 rounded-full border px-3 py-1 ${statusColorClass}`}
@@ -101,7 +103,7 @@ export function MemberHeaderBadge({
           )}
         </div>
         {email && <p>{email}</p>}
-        {subtitle && <p className="mt-0 sm:text-base">{subtitle}</p>}
+        {subtitle && <p className="mt-0">{subtitle}</p>}
         {children}
       </div>
     </div>

@@ -288,7 +288,7 @@ export default function FireCanvasTunerPage() {
         </div>
 
         {useCustomColors && (
-          <div className="grid gap-4 rounded-lg border border-white/10 bg-white/[0.03] p-4 sm:grid-cols-2">
+          <div className="grid gap-4  border border-white/10 bg-white/[0.03] p-4 sm:grid-cols-2">
             <ColorField
               label="Base (coolest)"
               value={colorBaseHex}

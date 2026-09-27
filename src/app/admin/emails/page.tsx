@@ -80,7 +80,7 @@ export default function EmailPreviewPage() {
       <div className="flex h-full overflow-hidden">
         {/* ── Sidebar ── */}
         <div className="flex min-h-0 w-[320px] shrink-0 flex-col overflow-hidden border-r border-white/10 bg-[#08080c]">
-          <div className="border-b border-white/5 p-6">
+          <div className="border-b border-white/10 p-6">
             <h1 className="mb-1">Email Templates</h1>
             <p>
               {EMAIL_TEMPLATES.length} templates •{" "}
@@ -94,7 +94,7 @@ export default function EmailPreviewPage() {
               <button
                 key={c}
                 onClick={() => setActiveCategory(c)}
-                className={`cursor-pointer rounded-lg px-3 py-1 ${activeCategory === c ? "bg-[var(--color-accent)]" : "bg-white/[0.03] text-white/30"}`}
+                className={`cursor-pointer  px-3 py-1 ${activeCategory === c ? "bg-[var(--color-accent)]" : "bg-white/[0.03] text-white/30"}`}
               >
                 {c}
               </button>
@@ -145,7 +145,7 @@ export default function EmailPreviewPage() {
 
             <div className="flex items-center gap-4">
               {/* Test Email Form */}
-              <div className="group flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] py-1 pr-1 pl-3 focus-within:border-[var(--color-accent)]/50">
+              <div className="group flex items-center gap-2  border border-white/10 bg-white/[0.03] py-1 pr-1 pl-3 focus-within:border-[var(--color-accent)]/50">
                 <input
                   type="email"
                   placeholder="test@example.com"
@@ -156,7 +156,7 @@ export default function EmailPreviewPage() {
                 <button
                   onClick={handleSendTest}
                   disabled={sending}
-                  className="cursor-pointer rounded-lg bg-[var(--color-accent)] px-3 py-1.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+                  className="cursor-pointer  bg-[var(--color-accent)] px-3 py-1.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
                 >
                   {sending ? "Sending..." : "Send Test"}
                 </button>
@@ -168,13 +168,13 @@ export default function EmailPreviewPage() {
                 <button
                   aria-label="Previous"
                   onClick={() => setViewMode("preview")}
-                  className={`cursor-pointer rounded-lg px-3 py-1.5 ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
+                  className={`cursor-pointer  px-3 py-1.5 ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
                 >
                   Preview
                 </button>
                 <button
                   onClick={() => setViewMode("code")}
-                  className={`cursor-pointer rounded-lg px-3 py-1.5 ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
+                  className={`cursor-pointer  px-3 py-1.5 ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
                 >
                   HTML
                 </button>
@@ -195,7 +195,7 @@ export default function EmailPreviewPage() {
           <div className="flex flex-1 justify-center overflow-y-auto bg-[var(--color-bg-card)] p-8">
             {viewMode === "preview" ? (
               <div className="w-full max-w-[620px]">
-                <div className="overflow-hidden border border-white/5">
+                <div className="overflow-hidden border border-white/10">
                   <iframe
                     srcDoc={html}
                     className="w-full border-0"

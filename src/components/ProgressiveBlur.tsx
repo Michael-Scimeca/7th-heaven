@@ -15,7 +15,7 @@ export default function ProgressiveBlur({
     <>
       {(position === "top" || position === "both") && (
         <div
-          className={`pointer-events-none fixed top-0 right-0 left-0 isolate z-40 h-[60px] w-full overflow-hidden md:h-[100px] ${className}`}
+          className={`pointer-events-none fixed top-0 right-0 left-0 isolate z-40 h-[80px] lg:h-[80px] w-full overflow-hidden  ${className}`}
           aria-hidden="true"
         >
           <div className="pointer-events-none absolute inset-0 z-[1] [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)] backdrop-blur-[1.5px] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_20%)]" />

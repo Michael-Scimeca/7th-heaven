@@ -13,7 +13,7 @@ const variantStyles: Record<NonNullable<GlassCardProps["variant"]>, string> = {
   interactive:
     "border border-white/10 bg-black/40 backdrop-blur-xl shadow-xl transition-all duration-300 hover:border-purple-500/40 hover:bg-black/60 hover:shadow-[0_0_25px_rgba(168,85,247,0.15)]",
   gradient:
-    "border border-purple-500/20 bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 backdrop-blur-xl shadow-2xl",
+    "border border-white/10 bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 backdrop-blur-xl shadow-2xl",
 };
 
 const paddingStyles: Record<NonNullable<GlassCardProps["padding"]>, string> = {

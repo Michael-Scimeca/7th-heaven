@@ -51,7 +51,7 @@ interface SmallCardProps {
 function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
   return (
     <div className="group flex flex-col">
-      <div className="relative aspect-video overflow-hidden border border-white/5 bg-[var(--color-bg-card)]">
+      <div className="relative aspect-video overflow-hidden border border-white/10 bg-[var(--color-bg-card)]">
         {playingId === video.id ? (
           <InlineYTPlayer
             videoId={video.id}
@@ -77,7 +77,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
             />
             {/* YouTube-style hover overlay */}
             <div className="absolute inset-0 z-[2] flex items-center justify-center group-hover/thumb:bg-black/40">
-              <div className="flex h-12 w-12 scale-75 items-center justify-center rounded-lg bg-[var(--color-accent)] opacity-0 group-hover/thumb:scale-100 group-hover/thumb:opacity-100">
+              <div className="flex h-12 w-12 scale-75 items-center justify-center  bg-[var(--color-accent)] opacity-0 group-hover/thumb:scale-100 group-hover/thumb:opacity-100">
                 <svg
                   width="16"
                   height="18"
@@ -142,7 +142,7 @@ export default function VideoSection() {
           );
         }
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => {
       active = false;
     };
@@ -193,7 +193,7 @@ export default function VideoSection() {
             <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
               {/* Big featured video — left */}
               <div className="group flex flex-col">
-                <div className="relative aspect-video overflow-hidden border border-white/5 bg-[var(--color-bg-card)]">
+                <div className="relative aspect-video overflow-hidden border border-white/10 bg-[var(--color-bg-card)]">
                   {playingId === `featured-${latest.id}` ? (
                     <InlineYTPlayer
                       videoId={latest.id}
@@ -246,7 +246,7 @@ export default function VideoSection() {
                     {latest.title}
                   </h3>
                   <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-accent)]">
+                    <div className="flex h-8 w-8 items-center justify-center  bg-[var(--color-accent)]">
                       7H
                     </div>
                     <div className="flex flex-col">
@@ -291,7 +291,7 @@ export default function VideoSection() {
         }
       >
         <div className="scrollbar-hide overflow-x-auto px-8">
-          <nav className="flex min-w-max items-center gap-2 border-t border-white/5 py-5">
+          <nav className="flex min-w-max items-center gap-2 border-t border-white/10 py-5">
             {videosData.map((cat) => (
               <button
                 key={cat.category}
@@ -307,7 +307,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`cursor-pointer rounded-lg px-6 py-2 whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white"}`}
+                className={`cursor-pointer  px-6 py-2 whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white"}`}
               >
                 {cat.category}
               </button>
@@ -328,7 +328,7 @@ export default function VideoSection() {
               style={{ animationDelay: gridVisible ? `${idx * 40}ms` : "0ms" }}
             >
               {/* Thumbnail */}
-              <div className="relative aspect-video overflow-hidden rounded-[8px] border border-white/5 bg-[var(--color-bg-card)]">
+              <div className="relative aspect-video overflow-hidden rounded-[8px] border border-white/10 bg-[var(--color-bg-card)]">
                 {playingId === video.id ? (
                   <InlineYTPlayer
                     videoId={video.id}
@@ -386,7 +386,7 @@ export default function VideoSection() {
 
               {/* Info below thumbnail */}
               <div className="mt-3 flex gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[var(--color-accent)]/20 text-[var(--color-accent)]">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center  border border-white/10 bg-[var(--color-accent)]/20 text-[var(--color-accent)]">
                   7H
                 </div>
                 <div className="flex flex-1 flex-col overflow-hidden">

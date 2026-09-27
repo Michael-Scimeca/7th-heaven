@@ -49,7 +49,7 @@ function ProductCard({
     !soldOut && selectedStock <= Number(selectedVariant.low_stock_threshold);
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg border border-white/[0.12] bg-white/[0.04]">
+    <div className="flex flex-col overflow-hidden  border border-white/[0.12] bg-white/[0.04]">
       <div className="relative aspect-square bg-black/40">
         <Image
           src={product.image_url}
@@ -59,16 +59,16 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-2xl">
+        <span className="absolute top-3 left-3  border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-2xl">
           {product.category}
         </span>
         {soldOut && (
-          <span className="absolute top-3 right-3 rounded-lg bg-rose-600/90 px-2.5 py-1 text-[10px]">
+          <span className="absolute top-3 right-3  bg-rose-600/90 px-2.5 py-1 text-[10px]">
             Sold Out
           </span>
         )}
         {lowStock && (
-          <span className="absolute bottom-3 left-3 rounded-lg bg-yellow-500/90 px-2.5 py-1 text-[10px]">
+          <span className="absolute bottom-3 left-3  bg-yellow-500/90 px-2.5 py-1 text-[10px]">
             Only {selectedStock} left
           </span>
         )}
@@ -283,7 +283,7 @@ export default function PaymentTestShopPage() {
       <div className="site-container mx-auto max-w-5xl px-6">
         <Link
           href="/"
-          className="mb-6 flex items-center gap-2 text-purple-400 hover:text-white"
+          className="mb-6 flex items-center gap-2  "
         >
           ← Back to Home
         </Link>
@@ -301,7 +301,7 @@ export default function PaymentTestShopPage() {
           </p>
 
           {mockMode && (
-            <div className="mt-4 max-w-xl rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-yellow-300">
+            <div className="mt-4 max-w-xl  border border-yellow-500/30 bg-yellow-500/10 p-3 text-yellow-300">
               🧪 TEST MODE — checkout using simulated TAC for testing payment
               processing.
             </div>
@@ -311,7 +311,7 @@ export default function PaymentTestShopPage() {
             <button
               type="button"
               onClick={() => setShowCreditGuide(!showCreditGuide)}
-              className="flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-emerald-300 hover:bg-emerald-500/20"
+              className="flex items-center gap-1.5  border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-emerald-300 hover:bg-emerald-500/20"
             >
               💳 Credit System &amp; Processing Guide{" "}
               {showCreditGuide ? "▲" : "▼"}
@@ -319,13 +319,13 @@ export default function PaymentTestShopPage() {
             <button
               type="button"
               onClick={() => setShowLimitations(!showLimitations)}
-              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 hover:bg-purple-500/20"
+              className="flex items-center gap-1.5  border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 hover:bg-purple-500/20"
             >
               ✨ Store Features &amp; Architecture
             </button>
             <Link
               href="/admin/shop-inventory"
-              className="flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-cyan-500/10 px-3 py-1.5 hover:bg-cyan-500/20"
+              className="flex items-center gap-1.5  border border-purple-500/30 bg-cyan-500/10 px-3 py-1.5 hover:bg-cyan-500/20"
             >
               🛠️ Manage Inventory
             </Link>
@@ -356,7 +356,7 @@ export default function PaymentTestShopPage() {
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     1
@@ -371,14 +371,14 @@ export default function PaymentTestShopPage() {
                   </code>
                   :
                 </p>
-                <div className="space-y-1 rounded-lg border border-white/5 bg-black/80 p-2.5 text-emerald-300">
+                <div className="space-y-1  border border-white/10 bg-black/80 p-2.5 text-emerald-300">
                   <div>NORTH_MERCHANT_ID=your_merchant_id</div>
                   <div>NORTH_TERMINAL_ID=your_terminal_id</div>
                   <div>NORTH_API_SECRET=your_secret_key</div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     2
@@ -397,7 +397,7 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     3
@@ -414,7 +414,7 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2 rounded-xl border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     4
@@ -672,7 +672,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`shrink-0 rounded-lg px-4 py-2 ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+                className={`shrink-0  px-4 py-2 ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
               >
                 {cat}
               </button>
@@ -682,7 +682,7 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-4 py-2.5 hover:border-[var(--color-accent)]"
+            className="flex items-center gap-2  border border-white/10 bg-[#00000029] px-4 py-2.5 hover:border-[var(--color-accent)]"
           >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
@@ -717,7 +717,7 @@ export default function PaymentTestShopPage() {
       {/* Cart drawer */}
       {showCart && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-          <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto rounded-lg border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
+          <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto  border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2>My Cart</h2>
               <button
@@ -742,7 +742,7 @@ export default function PaymentTestShopPage() {
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-3 rounded-lg border border-white/[0.08] bg-white/[0.03] p-3"
+                      className="flex items-center gap-3  border border-white/[0.08] bg-white/[0.03] p-3"
                     >
                       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-black/40">
                         <Image
@@ -765,7 +765,7 @@ export default function PaymentTestShopPage() {
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] hover:text-white"
+                          className="flex h-7 w-7 items-center justify-center  border border-white/10 bg-[#00000029] hover:text-white"
                         >
                           −
                         </button>
@@ -774,7 +774,7 @@ export default function PaymentTestShopPage() {
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                          className="flex h-7 w-7 items-center justify-center  border border-white/10 bg-[#00000029] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
                         >
                           +
                         </button>
@@ -810,7 +810,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1 rounded-lg border border-white/10 bg-[#00000029] py-3 hover:bg-white/10"
+                className="flex-1  border border-white/10 bg-[#00000029] py-3 hover:bg-white/10"
               >
                 Continue Shopping
               </button>
@@ -818,7 +818,7 @@ export default function PaymentTestShopPage() {
                 type="button"
                 disabled={cart.items.length === 0 || startingCheckout}
                 onClick={handleCheckout}
-                className="flex-1 rounded-lg bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-40"
+                className="flex-1  bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-40"
               >
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>

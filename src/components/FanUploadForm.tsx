@@ -96,7 +96,7 @@ export default function FanUploadForm() {
   });
   const [previews, setPreviews] = useState<string[]>(() => {
     return searchParams?.get("mockScanning") === "true"
-      ? ["/sitemap-screenshots/fan-photo-wall.png"]
+      ? ["/sitemap-thumbs/fan-photo-wall.jpg"]
       : [];
   });
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -327,7 +327,7 @@ export default function FanUploadForm() {
                   setDragOver(false);
                   handleFilesChange(e.dataTransfer.files);
                 }}
-                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
+                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden  ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
               >
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 z-20 grid grid-cols-3 gap-3 overflow-y-auto bg-black/90 p-4 sm:grid-cols-4 md:grid-cols-5">
@@ -342,7 +342,7 @@ export default function FanUploadForm() {
                         return (
                           <div
                             key={src}
-                            className="group relative aspect-square overflow-hidden rounded-lg border border-white/10"
+                            className="group relative aspect-square overflow-hidden  border border-white/10"
                           >
                             {isVideo ? (
                               <video
@@ -375,16 +375,16 @@ export default function FanUploadForm() {
                         }
                         fileRef.current?.click();
                       }}
-                      className="plus-button flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 text-white/50 hover:bg-white/10 hover:text-white"
+                      className="plus-button flex aspect-square cursor-pointer flex-col items-center justify-center  border-2 border-dashed border-white/10 text-white/50 hover:bg-white/10 hover:text-white"
                     >
                       <span className="text-2xl font-light">+</span>
                     </button>
                   </div>
                 ) : (
                   <>
-                    <div className="pointer-events-none absolute inset-2.5 rounded-lg border-2 border-dashed border-white/10 group-hover:border-[var(--color-accent)]/50" />
+                    <div className="pointer-events-none absolute inset-2.5  border-2 border-dashed border-white/10 group-hover:border-[var(--color-accent)]/50" />
                     <div className="relative z-10 flex flex-col items-center p-6 text-center">
-                      <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
+                      <div className="mb-3 flex h-12 w-12 items-center justify-center  border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
                         <svg
                           width="20"
                           height="20"
@@ -409,7 +409,7 @@ export default function FanUploadForm() {
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm">
-                    <div className="mb-3 h-11 w-11 animate-spin rounded-lg border-2 border-white/10 border-t-emerald-500" />
+                    <div className="mb-3 h-11 w-11 animate-spin  border-2 border-white/10 border-t-emerald-500" />
                     <p>Safety Scan</p>
                     <p className="text-emerald-400">{scanStatus}</p>
                   </div>
@@ -483,7 +483,7 @@ export default function FanUploadForm() {
                 onClick={() => !isLoggedIn && openModal("login")}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="mt-2 flex h-[40px] w-full shrink-0 cursor-pointer items-center justify-center rounded-lg px-4 disabled:pointer-events-none disabled:opacity-50 lg:mt-0 lg:w-32"
+                className="mt-2 flex  w-full shrink-0 cursor-pointer items-center justify-center   disabled:pointer-events-none disabled:opacity-50 lg:mt-0 lg:w-32"
               >
                 {uploading
                   ? "Uploading…"

@@ -218,8 +218,8 @@ function getDistance(
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLng / 2) ** 2;
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLng / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
@@ -279,8 +279,8 @@ export default function MemberDashboard() {
       setLocalInbox(
         JSON.parse(
           localStorage.getItem("vip_inbox_messages_v1") ||
-            localStorage.getItem("vip_inbox_messages") ||
-            "[]",
+          localStorage.getItem("vip_inbox_messages") ||
+          "[]",
         ),
       );
     }
@@ -312,7 +312,7 @@ export default function MemberDashboard() {
           setMyPhotos(data.filter((p: any) => p.name === member.name));
         }
       }
-    } catch {}
+    } catch { }
   }, [member?.name]);
 
   useEffect(() => {
@@ -496,8 +496,8 @@ export default function MemberDashboard() {
   const nextTier = tierThresholds[tierThresholds.indexOf(currentTierData) + 1];
   const progress = nextTier
     ? ((member!.points - currentTierData.min) /
-        (nextTier.min - currentTierData.min)) *
-      100
+      (nextTier.min - currentTierData.min)) *
+    100
     : 100;
 
   return (
@@ -534,7 +534,7 @@ export default function MemberDashboard() {
                   };
                   return (
                     <span
-                      className={`inline-flex items-center rounded-lg border px-2 py-0.5 text-[var(--font-size-xs)] ${cfg.cls}`}
+                      className={`inline-flex items-center  border px-2 py-0.5 text-[var(--font-size-xs)] ${cfg.cls}`}
                     >
                       {cfg.label}
                     </span>
@@ -573,7 +573,7 @@ export default function MemberDashboard() {
         {/* Digital Tickets / Inbox moved to top */}
         <div className="group relative mb-10 overflow-hidden border border-white/10 bg-[url('/images/card-glow.jpg')] bg-cover bg-center p-6 shadow-[0_0_40px_rgba(255,10,61,0.15)]">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
-          <div className="group-hover:blur-0 absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40">
+          <div className="group-hover:blur-none absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40">
             <svg
               width="150"
               height="150"
@@ -626,7 +626,7 @@ export default function MemberDashboard() {
                       >
                         <div className="flex w-full items-center gap-4">
                           <div
-                            className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg text-xl shadow-inner ${msg.color === "yellow" ? "border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500" : "border border-white/10 bg-[#00000029]"}`}
+                            className={`flex h-12 w-12 flex-shrink-0 items-center justify-center  text-xl shadow-inner ${msg.color === "yellow" ? "border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500" : "border border-white/10 bg-[#00000029]"}`}
                           >
                             {msg.icon}
                           </div>
@@ -757,7 +757,7 @@ export default function MemberDashboard() {
 
                     {/* Declined Details block */}
                     {photo.rejected && (
-                      <div className="mt-2 rounded-lg border border-red-500/15 bg-red-500/5 p-2.5 text-left">
+                      <div className="mt-2  border border-red-500/15 bg-red-500/5 p-2.5 text-left">
                         <p className="mb-1 text-red-400">Reason for Decline</p>
                         <p className="leading-normal text-red-200/80">
                           {photo.rejection_reason ||
@@ -769,7 +769,7 @@ export default function MemberDashboard() {
                     <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-2 text-[0.65rem] text-white/30">
                       {photo.venue && (
                         <span className="flex items-center gap-1">
-                          <MapPin className="text-purple-400shrink-0 h-3 w-3" />{" "}
+                          <MapPin className="text-purple-400 shrink-0 h-3 w-3" />{" "}
                           {photo.venue}
                         </span>
                       )}
@@ -919,7 +919,7 @@ export default function MemberDashboard() {
                     className="overflow-hidden border border-white/10 bg-white/[0.01]"
                   >
                     {/* Order header */}
-                    <div className="flex items-center justify-between border-b border-white/5 bg-white/[0.02] px-4 py-2.5">
+                    <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
                       <div className="flex items-center gap-4">
                         <span className="text-white/30">{order.id}</span>
                         <span className="text-white/20">{order.date}</span>

@@ -97,7 +97,7 @@ export default function CruiseHeroMaskEditor() {
       if (saved) {
         setSettings({ ...DEFAULT_HERO_MASK_SETTINGS, ...JSON.parse(saved) });
       }
-    } catch {}
+    } catch { }
   }, []);
 
   useEffect(() => {
@@ -160,14 +160,14 @@ export default function CruiseHeroMaskEditor() {
     try {
       localStorage.setItem("7h_cruise_hero_mask_v4", JSON.stringify(settings));
       alert("Hero & Itinerary Studio settings saved!");
-    } catch {}
+    } catch { }
   };
 
   const handleReset = () => {
     setSettings(DEFAULT_HERO_MASK_SETTINGS);
     try {
       localStorage.removeItem("7h_cruise_hero_mask_v4");
-    } catch {}
+    } catch { }
   };
 
   const generateCSS = () => {
@@ -236,7 +236,7 @@ export default function CruiseHeroMaskEditor() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed right-6 bottom-6 z-50 flex items-center gap-2 rounded-lg border border-purple-300/40 bg-cyan-600 px-4 py-3 shadow-[0_0_25px_rgba(6,182,212,0.6)] transition-[background-color,box-shadow,border-color] hover:bg-cyan-500"
+          className="fixed right-6 bottom-6 z-50 flex items-center gap-2  border border-purple-300/40 bg-cyan-600 px-4 py-3 shadow-[0_0_25px_rgba(6,182,212,0.6)] transition-[background-color,box-shadow,border-color] hover:bg-cyan-500"
         >
           <Sliders className="h-5 w-5" />
           <span className="r">PAGE & ITINERARY CSS STUDIO</span>
@@ -246,13 +246,13 @@ export default function CruiseHeroMaskEditor() {
       {/* Main Drawer Panel */}
       {isOpen && (
         <div
-          className="fixed top-[88px] right-4 z-50 flex w-96 max-w-[calc(100vw-2rem)] flex-col rounded-lg border border-purple-500/40 bg-[#0c101d]/95 shadow-[0_10px_50px_rgba(0,0,0,0.9)] backdrop-blur-xl"
+          className="fixed top-[88px] right-4 z-50 flex w-96 max-w-[calc(100vw-2rem)] flex-col  border border-purple-500/40 bg-[#0c101d]/95 shadow-[0_10px_50px_rgba(0,0,0,0.9)] backdrop-blur-xl"
           style={{ height: "calc(100vh - 110px)" }}
         >
           {/* Header */}
-          <div className="flex shrink-0 items-center justify-between rounded-t-2xl border-b border-purple-500/20 bg-black/40 p-4">
+          <div className="flex shrink-0 items-center justify-between rounded-t-2xl border-b border-white/10 bg-black/40 p-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-purple-400/40 bg-cyan-500/20">
+              <div className="flex h-7 w-7 items-center justify-center  border border-purple-400/40 bg-cyan-500/20">
                 <Sliders className="h-4 w-4" />
               </div>
               <div>
@@ -288,7 +288,7 @@ export default function CruiseHeroMaskEditor() {
             }}
           >
             {/* 📍 1. OFFICIAL ITINERARY & CRUISING HISTORY SECTION MASK & BG */}
-            <div className="space-y-3 rounded-lg border border-purple-500/30 bg-purple-950/30 p-3.5">
+            <div className="space-y-3  border border-purple-500/30 bg-purple-950/30 p-3.5">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
                   <MapPin className="h-3.5 w-3.5 text-purple-400" /> OFFICIAL
@@ -313,7 +313,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("itinTopFadeStart", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-purple-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-purple-400"
                 />
               </div>
 
@@ -331,7 +331,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("itinTopFadeEnd", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-purple-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-purple-400"
                 />
               </div>
 
@@ -351,7 +351,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("itinBottomFadeStart", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-purple-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-purple-400"
                 />
               </div>
 
@@ -371,7 +371,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("itinBottomFadeEnd", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-purple-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-purple-400"
                 />
               </div>
 
@@ -391,7 +391,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("itinBgOpacity", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-purple-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-purple-400"
                 />
               </div>
 
@@ -409,13 +409,13 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("itinBlur", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-purple-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-purple-400"
                 />
               </div>
             </div>
 
             {/* 📜 2. CRUISING HISTORY SECTION MASK & BG */}
-            <div className="space-y-3 rounded-lg border border-purple-500/30 bg-cyan-950/30 p-3.5">
+            <div className="space-y-3  border border-purple-500/30 bg-cyan-950/30 p-3.5">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
                   <Layers className="h-3.5 w-3.5" /> CRUISING HISTORY CONTAINER
@@ -437,7 +437,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("historyTopFadeStart", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -455,7 +455,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("historyTopFadeEnd", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -478,7 +478,7 @@ export default function CruiseHeroMaskEditor() {
                       Number(e.target.value),
                     )
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -499,7 +499,7 @@ export default function CruiseHeroMaskEditor() {
                       Number(e.target.value),
                     )
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -517,7 +517,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("historyBgOpacity", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -535,13 +535,13 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("historyBlur", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
             </div>
 
             {/* 🎬 2. HERO TOP MASK GRADIENT */}
-            <div className="space-y-3 rounded-lg border border-purple-500/20 bg-cyan-950/30 p-3.5">
+            <div className="space-y-3  border border-white/10 bg-cyan-950/30 p-3.5">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
                   HERO TOP MASK GRADIENT
@@ -562,7 +562,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("topFadeStart", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -580,12 +580,12 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("topFadeEnd", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
               {/* Top Dark Overlay Gradient Height */}
-              <div className="border-t border-purple-500/20 pt-2">
+              <div className="border-t border-white/10 pt-2">
                 <div className="mb-1 flex justify-between">
                   <span className="text-gray-300">
                     Top Dark Gradient Height
@@ -603,7 +603,7 @@ export default function CruiseHeroMaskEditor() {
                       Number(e.target.value),
                     )
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -626,13 +626,13 @@ export default function CruiseHeroMaskEditor() {
                       Number(e.target.value),
                     )
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
             </div>
 
             {/* 🎬 3. HERO BOTTOM MASK GRADIENT */}
-            <div className="space-y-3 rounded-lg border border-purple-500/20 bg-cyan-950/30 p-3.5">
+            <div className="space-y-3  border border-white/10 bg-cyan-950/30 p-3.5">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
                   <Sparkles className="h-3.5 w-3.5" /> HERO BOTTOM MASK GRADIENT
@@ -653,7 +653,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("bottomFadeStart", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -671,13 +671,13 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("bottomFadeEnd", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
             </div>
 
             {/* 🎥 4. VIDEO FILTERS */}
-            <div className="space-y-3 rounded-lg border border-purple-500/20 bg-cyan-950/30 p-3.5">
+            <div className="space-y-3  border border-white/10 bg-cyan-950/30 p-3.5">
               <span className="flex items-center gap-1.5">
                 <Eye className="h-3.5 w-3.5" /> HERO VIDEO FILTERS
               </span>
@@ -696,7 +696,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("videoBlur", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -714,7 +714,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("videoBrightness", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -732,7 +732,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("videoContrast", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -750,13 +750,13 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("videoOpacity", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
             </div>
 
             {/* 🥞 5. ::BEFORE BLUR OVERLAY STRIP */}
-            <div className="space-y-3 rounded-lg border border-purple-500/20 bg-cyan-950/30 p-3.5">
+            <div className="space-y-3  border border-white/10 bg-cyan-950/30 p-3.5">
               <span className="flex items-center gap-1.5">
                 <Layers className="h-3.5 w-3.5" /> ::BEFORE BLUR OVERLAY STRIP
               </span>
@@ -775,7 +775,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("beforeHeight", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -793,7 +793,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("beforeBlur", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -811,7 +811,7 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("beforeBgOpacity", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
 
@@ -829,23 +829,23 @@ export default function CruiseHeroMaskEditor() {
                   onChange={(e) =>
                     updateSetting("beforeZIndex", Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer rounded-lg bg-gray-700 accent-cyan-400"
+                  className="h-1.5 w-full cursor-pointer  bg-gray-700 accent-cyan-400"
                 />
               </div>
             </div>
           </div>
 
           {/* Footer Action Buttons */}
-          <div className="flex shrink-0 items-center gap-2 rounded-b-2xl border-t border-purple-500/20 bg-black/50 p-3">
+          <div className="flex shrink-0 items-center gap-2 rounded-b-2xl border-t border-white/10 bg-black/50 p-3">
             <button
               onClick={handleSave}
-              className="flex-1 rounded-lg bg-cyan-600 py-2 shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-[background-color,box-shadow] hover:bg-cyan-500"
+              className="flex-1  bg-cyan-600 py-2 shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-[background-color,box-shadow] hover:bg-cyan-500"
             >
               Save Changes
             </button>
             <button
               onClick={copyCSS}
-              className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-2 hover:bg-white/20"
+              className="flex items-center gap-1.5  bg-white/10 px-3 py-2 hover:bg-white/20"
             >
               {copied ? (
                 <Check className="h-3.5 w-3.5 text-green-400" />

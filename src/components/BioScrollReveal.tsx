@@ -140,7 +140,7 @@ function BioScrollRevealComponent({
 
         {/* Right Column: Sticky Portrait Image Reveal Container */}
         <div className="z-20 w-full shrink-0 lg:sticky lg:top-28 lg:w-2/5">
-          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border border-white/10 bg-purple-950/20 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+          <div className="relative aspect-[3/4] w-full overflow-hidden  border border-white/10 bg-purple-950/20 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
             {members.map((member, index) => {
               const isActive = activeIndex === index;
               return (

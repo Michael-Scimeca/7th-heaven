@@ -1,12 +1,22 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import localFont from "next/font/local";
+import { Teko } from "next/font/google";
 import "./globals.css";
 
 const tanker = localFont({
   src: "../../public/fonts/Tanker-Regular.woff2",
   variable: "--font-tanker",
   display: "swap",
+  preload: false,
+});
+
+const teko = Teko({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-teko",
+  display: "swap",
+  preload: false,
 });
 
 export const viewport: Viewport = {
@@ -112,7 +122,7 @@ export async function generateMetadata(): Promise<Metadata> {
         { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
       ],
       apple: [
-        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+        { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
       ],
       shortcut: ["/favicon.ico"],
     },
@@ -196,7 +206,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${tanker.variable}`}
+      className={`dark ${tanker.variable} ${teko.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -229,7 +239,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://maps.googleapis.com" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=tanker@400&f[]=switzer@variable,variable- &display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=teko@300,400,500,600,700&f[]=switzer@variable,variable- &display=swap"
         />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *

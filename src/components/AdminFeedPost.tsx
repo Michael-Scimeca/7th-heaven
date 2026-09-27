@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase-client";
 import StatusBadge from "@/components/ui/StatusBadge";
+import { GlowInput, GlowTextarea } from "@/components/GlowInput";
 
 const crewMembers = [
   { name: "Adam Heisler", role: "Lead Vocals", avatar: "AH" },
@@ -45,7 +46,7 @@ export default function AdminFeedPost() {
 
   // ─── Real-time Presence (Who's online) ───
   useEffect(() => {
-    if (!supabase) return () => {};
+    if (!supabase) return () => { };
     let active = true;
 
     const channel = supabase.channel("crew_dashboard_presence", {
@@ -138,13 +139,13 @@ export default function AdminFeedPost() {
                 <div
                   key={m.id || m.name || i}
                   title={m.name}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-[#0a0a0f] bg-[var(--color-accent)]"
+                  className="flex h-8 w-8 items-center justify-center  border-2 border-[#0a0a0f] bg-[var(--color-accent)]"
                 >
                   {m.avatar}
                 </div>
               ),
             )}
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg border-2 border-dashed border-white/10 text-white/20">
+            <div className="flex h-8 w-8 items-center justify-center  border-2 border-dashed border-white/10 text-white/20">
               +
             </div>
           </div>
@@ -168,7 +169,7 @@ export default function AdminFeedPost() {
         <form onSubmit={handlePost} className="space-y-5">
           {/* Who's posting */}
           <div>
-            <span className="mb-2 block text-white/40">I am</span>
+            <span className="mb-2 block">I am</span>
             <div className="grid grid-cols-3 gap-2">
               {crewMembers.map((m) => (
                 <button
@@ -178,7 +179,7 @@ export default function AdminFeedPost() {
                   className={`border p-3 text-center ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
                 >
                   <div
-                    className="mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-lg border"
+                    className="mx-auto mb-1 flex h-8 w-8 items-center justify-center  border"
                     style={{
                       borderColor:
                         selectedMember.avatar === m.avatar
@@ -200,7 +201,7 @@ export default function AdminFeedPost() {
 
           {/* Post type */}
           <div>
-            <span className="mb-2 block text-white/40">Post Type</span>
+            <span className="mb-2 block">Post Type</span>
             <div className="flex flex-wrap gap-2">
               {postTypes.map((t) => (
                 <button
@@ -223,31 +224,25 @@ export default function AdminFeedPost() {
 
           {/* Content */}
           <div>
-            <label
-              htmlFor="admin-feed-post-content"
-              className="mb-2 block text-white/40"
-            >
-              What&apos;s happening?
-            </label>
-            <div className="input-glow-border rounded-xl">
-              <textarea
-                aria-label="Text input"
-                id="admin-feed-post-content"
-                ref={textareaRef}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder={
-                  postType === "setlist"
-                    ? "Now playing: Song Name by Artist..."
-                    : postType === "crowd"
-                      ? "The crowd is going crazy for..."
-                      : "Share what's happening..."
-                }
-                rows={4}
-                className="placeholder: w-full resize-none rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-base text-white/20 outline-none"
-                maxLength={500}
-              />
-            </div>
+            <GlowTextarea
+              id="admin-feed-post-content"
+              label="What's happening?"
+              labelClassName="mb-2 block"
+              ref={textareaRef}
+              aria-label="Text input"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder={
+                postType === "setlist"
+                  ? "Now playing: Song Name by Artist..."
+                  : postType === "crowd"
+                    ? "The crowd is going crazy for..."
+                    : "Share what's happening..."
+              }
+              rows={4}
+              maxLength={500}
+              className="resize-none"
+            />
             <div className="flex justify-between">
               <span className="text-white/20">{content.length}/500</span>
               <span style={{ color: currentType.color }}>
@@ -258,24 +253,15 @@ export default function AdminFeedPost() {
 
           {/* Image URL (for photo type) */}
           {(postType === "photo" || postType === "crowd") && (
-            <div>
-              <label
-                htmlFor="admin-feed-post-image-url"
-                className="mb-2 block text-white/40"
-              >
-                Image URL
-              </label>
-              <div className="input-glow-border rounded-xl">
-                <input
-                  id="admin-feed-post-image-url"
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://..."
-                  className="placeholder: w-full rounded-lg border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
-                />
-              </div>
-            </div>
+            <GlowInput
+              id="admin-feed-post-image-url"
+              label="Image URL"
+              labelClassName="mb-2 block"
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://..."
+            />
           )}
 
           {/* Submit */}
@@ -286,7 +272,7 @@ export default function AdminFeedPost() {
           >
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="h-3 w-3 animate-spin rounded-lg border border-white/10 border-t-white" />
+                <span className="h-3 w-3 animate-spin  border border-white/10 border-t-white" />
                 Posting...
               </span>
             ) : (

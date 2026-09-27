@@ -260,16 +260,16 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
   // ─── Mini variant for hero embedding ───
   if (mini) {
     return (
-      <div className="h-full rounded-lg border border-white/10 bg-black/70 p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+      <div className="h-full  border border-white/10 bg-black/70 p-3 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
         {/* Header */}
         <div className="mb-2 flex items-center gap-1.5">
-          <span className="h-1 w-1 animate-pulse rounded-lg bg-cyan-400" />
+          <span className="h-1 w-1 animate-pulse  bg-cyan-400" />
           <span>Now Playing</span>
         </div>
 
         {locked ? (
           <div className="flex items-center gap-2">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[var(--color-accent)]/15">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center  border border-white/10 bg-[var(--color-accent)]/15">
               🔒
             </div>
             <div className="min-w-0 flex-1">
@@ -290,12 +290,12 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               <button
                 type="button"
                 onClick={togglePlay}
-                className="group relative flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-white/10"
+                className="group relative flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center overflow-hidden  border border-white/10"
               >
                 <div
                   className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? "animate-[spin_6s_linear_infinite]" : ""}`}
                 />
-                <div className="relative z-10 flex h-4 w-4 items-center justify-center rounded-lg bg-black/80">
+                <div className="relative z-10 flex h-4 w-4 items-center justify-center  bg-black/80">
                   {isPlaying ? (
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="white">
                       <rect x="6" y="4" width="4" height="16" />
@@ -326,7 +326,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
-                    className="w-[2px] rounded-lg bg-[var(--color-accent)]/80"
+                    className="w-[2px]  bg-[var(--color-accent)]/80"
                     style={{
                       animationName: isPlaying ? "eqBarShort" : "none",
                       animationDuration: `${MINI_EQ_DURATIONS[i % MINI_EQ_DURATIONS.length]}s`,
@@ -347,7 +347,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               <span className="min-w-[22px] text-[var(--font-size-5xs)] text-white/30">
                 {formatTime(currentTime)}
               </span>
-              <div className="relative h-[2px] flex-1 rounded-lg bg-white/10">
+              <div className="relative h-[2px] flex-1  bg-white/10">
                 <input
                   type="range"
                   min="0"
@@ -357,7 +357,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                 />
                 <div
-                  className="pointer-events-none absolute top-0 left-0 h-full rounded-lg bg-gradient-to-r from-[var(--color-accent)] to-cyan-400"
+                  className="pointer-events-none absolute top-0 left-0 h-full  bg-gradient-to-r from-[var(--color-accent)] to-cyan-400"
                   style={{
                     width: `${duration ? (currentTime / duration) * 100 : 0}%`,
                   }}
@@ -413,7 +413,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
     <section className="relative overflow-hidden border-y border-white/10 bg-[var(--color-bg-primary)] py-16">
       {/* Visual background lights */}
       <div
-        className="pointer-events-none absolute top-1/2 left-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-lg opacity-[0.08] blur-3xl"
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[300px] w-[600px] -translate-x-1/2 -translate-y-1/2  opacity-[0.08] blur-3xl"
         style={{
           background:
             "radial-gradient(circle, var(--color-accent), #3b82f6, transparent)",
@@ -424,7 +424,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
         <div className="mx-auto max-w-3xl">
           {/* Header */}
           <div className="mb-6 flex items-center justify-center gap-3">
-            <span className="h-2 w-2 animate-ping rounded-lg bg-[var(--color-accent)]" />
+            <span className="h-2 w-2 animate-ping  bg-[var(--color-accent)]" />
             <span className="text-[var(--color-accent)]">
               Latest Track Drop
             </span>
@@ -446,14 +446,14 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                 <button
                   type="button"
                   onClick={() => openModal("login")}
-                  className="cursor-pointer rounded-lg bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
+                  className="cursor-pointer  bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
                 >
                   Log In
                 </button>
                 <button
                   type="button"
                   onClick={() => openModal("signup")}
-                  className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-8 py-3 hover:bg-white/10"
+                  className="cursor-pointer  border border-white/10 bg-[#00000029] px-8 py-3 hover:bg-white/10"
                 >
                   Join Fan Club
                 </button>
@@ -464,11 +464,11 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
             <div className="relative overflow-hidden border border-white/10 bg-white/[0.02] p-6 backdrop-blur-xl sm:p-8">
               <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                 {/* Visual Cover/Vinyl */}
-                <div className="group relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border-2 border-white/10">
+                <div className="group relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden  border-2 border-white/10">
                   <div
                     className={`absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/40 to-cyan-500/20 ${isPlaying ? "animate-[spin_6s_linear_infinite]" : ""}`}
                   />
-                  <div className="relative z-10 flex h-6 w-6 items-center justify-center rounded-lg border border-white/10 bg-[var(--color-bg-primary)]">
+                  <div className="relative z-10 flex h-6 w-6 items-center justify-center  border border-white/10 bg-[var(--color-bg-primary)]">
                     💿
                   </div>
                 </div>
@@ -483,7 +483,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   <h4 className="mt-2">{track.title}</h4>
                   {currentSong && (
                     <p className=".5 flex items-center justify-center gap-1.5 md:justify-start">
-                      <span className="h-1.5 w-1.5 animate-ping rounded-lg bg-cyan-400" />
+                      <span className="h-1.5 w-1.5 animate-ping  bg-cyan-400" />
                       Now Playing: <span>{currentSong.title}</span>
                     </p>
                   )}
@@ -494,7 +494,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
-                      className={`w-[3px] rounded-lg ${isCompressorActive ? "bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]" : "bg-[var(--color-accent)]/80"}`}
+                      className={`w-[3px]  ${isCompressorActive ? "bg-gradient-to-t from-[var(--color-accent)] to-cyan-400 shadow-[0_0_8px_rgba(255,10,61,0.8)]" : "bg-[var(--color-accent)]/80"}`}
                       style={{
                         animationName: isPlaying ? "eqBarShort" : "none",
                         animationDuration: `${isCompressorActive ? MAIN_EQ_ACTIVE[i % MAIN_EQ_ACTIVE.length] : MAIN_EQ_NORMAL[i % MAIN_EQ_NORMAL.length]}s`,
@@ -516,7 +516,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   {formatTime(currentTime)}
                 </span>
 
-                <div className="group relative h-[4px] flex-1 rounded-lg bg-white/10">
+                <div className="group relative h-[4px] flex-1  bg-white/10">
                   <input
                     type="range"
                     min="0"
@@ -526,12 +526,12 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                     className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                   />
                   <div
-                    className="pointer-events-none absolute top-0 left-0 h-full rounded-lg bg-gradient-to-r from-[var(--color-accent)] to-cyan-400"
+                    className="pointer-events-none absolute top-0 left-0 h-full  bg-gradient-to-r from-[var(--color-accent)] to-cyan-400"
                     style={{
                       width: `${duration ? (currentTime / duration) * 100 : 0}%`,
                     }}
                   >
-                    <div className="absolute top-1/2 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2 rounded-lg bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.6)] group-hover:opacity-100" />
+                    <div className="absolute top-1/2 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2  bg-white opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.6)] group-hover:opacity-100" />
                   </div>
                 </div>
 
@@ -541,13 +541,13 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
               </div>
 
               {/* Player Controls Strips */}
-              <div className="mt-6 flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-4 sm:flex-row">
+              <div className="mt-6 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-4 sm:flex-row">
                 {/* Play, Prev, Next */}
                 <div className="flex items-center gap-6">
                   <button
                     type="button"
                     onClick={togglePlay}
-                    className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg bg-white active:scale-95"
+                    className="flex h-12 w-12 cursor-pointer items-center justify-center  bg-white active:scale-95"
                   >
                     {isPlaying ? (
                       <svg
@@ -574,7 +574,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
                   {/* Close timer (if temporary) */}
                   {track.expires_at && (
-                    <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-1.5 text-white/30">
+                    <div className="flex items-center gap-1.5  border border-white/10 bg-white/[0.02] px-3 py-1.5 text-white/30">
                       🕒 Drop Expires:{" "}
                       {new Date(track.expires_at).toLocaleTimeString([], {
                         hour: "2-digit",
@@ -587,11 +587,11 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                   <button
                     type="button"
                     onClick={toggleCompressor}
-                    className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3.5 py-2 text-[0.65rem] select-none ${isCompressorActive ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] shadow-[0_0_15px_var(--color-purple-glow)]" : "border-white/10 bg-white/[0.02] hover:border-white/10"}`}
+                    className={`flex cursor-pointer items-center gap-1.5  border px-3.5 py-2 text-[0.65rem] select-none ${isCompressorActive ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] shadow-[0_0_15px_var(--color-purple-glow)]" : "border-white/10 bg-white/[0.02] hover:border-white/10"}`}
                     title="Toggle Dynamic Mastering: boosts warmth, loudness, and transient response"
                   >
                     <span
-                      className={`h-1.5 w-1.5 rounded-lg ${isCompressorActive ? "animate-pulse bg-cyan-400" : "bg-white/20"}`}
+                      className={`h-1.5 w-1.5  ${isCompressorActive ? "animate-pulse bg-cyan-400" : "bg-white/20"}`}
                     />
                     Mastering Compressor {isCompressorActive ? "ON ⚡" : "OFF"}
                   </button>
@@ -644,7 +644,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                     )}
                   </button>
 
-                  <div className="relative h-[3px] flex-1 rounded-lg bg-white/10">
+                  <div className="relative h-[3px] flex-1  bg-white/10">
                     <input
                       type="range"
                       min="0"
@@ -655,7 +655,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                       className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
                     />
                     <div
-                      className="absolute top-0 left-0 h-full rounded-lg bg-[var(--color-accent)]"
+                      className="absolute top-0 left-0 h-full  bg-[var(--color-accent)]"
                       style={{ width: `${volume * 100}%` }}
                     />
                   </div>
@@ -682,7 +682,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                             setCurrentSongIndex(idx);
                             setIsPlaying(true);
                           }}
-                          className={`flex w-full cursor-pointer items-center justify-between border p-3 text-left select-none ${isActive ? "border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.08)]" : "/45 border-transparent hover:border-white/5 hover:bg-white/[0.02] hover:text-white"}`}
+                          className={`flex w-full cursor-pointer items-center justify-between border p-3 text-left select-none ${isActive ? "border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.08)]" : "/45 border-transparent hover:border-white/10 hover:bg-white/[0.02] hover:text-white"}`}
                         >
                           <div className="flex min-w-0 items-center gap-3.5">
                             <span
@@ -698,7 +698,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
                           </div>
                           <div className="flex shrink-0 items-center gap-3">
                             {isActive && isPlaying && (
-                              <span className="animate-pulse rounded-lg border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20 px-2 py-0.5 text-[0.55rem]">
+                              <span className="animate-pulse  border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/20 px-2 py-0.5 text-[0.55rem]">
                                 Playing
                               </span>
                             )}

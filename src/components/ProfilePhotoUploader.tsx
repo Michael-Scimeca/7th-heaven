@@ -77,11 +77,11 @@ export default function ProfilePhotoUploader({
       activeAvatar.startsWith("data:"));
   const initials = member?.name
     ? member.name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2)
     : "ME";
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +100,7 @@ export default function ProfilePhotoUploader({
         setPreviewUrl(dataUrl);
         try {
           localStorage.setItem("7h_profile_avatar", dataUrl);
-        } catch {}
+        } catch { }
         await updateAvatar(dataUrl);
         setMessage({
           text: "Profile & scheduling photo updated!",
@@ -123,7 +123,7 @@ export default function ProfilePhotoUploader({
     try {
       try {
         localStorage.setItem("7h_profile_avatar", trimmed);
-      } catch {}
+      } catch { }
       await updateAvatar(trimmed);
       setMessage({ text: "Photo URL updated!", type: "success" });
       setUrlInput("");
@@ -136,7 +136,7 @@ export default function ProfilePhotoUploader({
   if (compact) {
     return (
       <div className="flex items-center gap-3 border border-white/10 bg-white/[0.03] p-3">
-        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border-2 border-[var(--color-accent)]/60 bg-[var(--color-accent)]/20">
+        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden  border-2 border-[var(--color-accent)]/60 bg-[var(--color-accent)]/20">
           {isAvatarUrl ? (
             <img
               src={activeAvatar}
@@ -165,7 +165,7 @@ export default function ProfilePhotoUploader({
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="btn-primary cursor-pointer rounded-lg px-3 py-1.5 disabled:opacity-50"
+          className="btn-primary cursor-pointer  px-3 py-1.5 disabled:opacity-50"
         >
           {isUploading ? "Uploading..." : isAvatarUrl ? "Change" : "Upload"}
         </button>
@@ -177,7 +177,7 @@ export default function ProfilePhotoUploader({
     <div className="relative overflow-hidden border border-black/15 bg-white p-6 text-black">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-purple-500/30 bg-purple-600/10 text-[var(--color-accent)]">
+          <div className="flex h-11 w-11 items-center justify-center  border border-purple-500/30 bg-purple-600/10 text-[var(--color-accent)]">
             <Camera className="h-4 w-4 text-purple-600" />
           </div>
           <div>
@@ -189,8 +189,8 @@ export default function ProfilePhotoUploader({
           </div>
         </div>
         {isAvatarUrl && (
-          <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-300 bg-emerald-100 px-3 py-1 text-[var(--font-size-2xs)] text-emerald-800">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-[var(--color-accent)]" />
+          <span className="inline-flex items-center gap-1.5  border border-emerald-300 bg-emerald-100 px-3 py-1 text-[var(--font-size-2xs)] text-emerald-800">
+            <span className="h-1.5 w-1.5 animate-pulse  bg-[var(--color-accent)]" />
             Photo Active
           </span>
         )}
@@ -235,7 +235,7 @@ export default function ProfilePhotoUploader({
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="btn-primary flex min-w-[140px] flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2.5 disabled:opacity-50"
+              className="btn-primary flex min-w-[140px] flex-1 cursor-pointer items-center justify-center gap-2  px-4 py-2.5 disabled:opacity-50"
             >
               <svg
                 width="14"
@@ -254,7 +254,7 @@ export default function ProfilePhotoUploader({
 
             <button
               onClick={() => setShowInput(!showInput)}
-              className="btn-secondary cursor-pointer rounded-lg px-4 py-2.5"
+              className="btn-secondary cursor-pointer  px-4 py-2.5"
             >
               {showInput ? "Cancel URL" : "Paste Image URL"}
             </button>
@@ -268,11 +268,11 @@ export default function ProfilePhotoUploader({
                 onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="https://example.com/my-photo.jpg"
                 required
-                className="focus-ring flex-1 rounded-lg border border-black/15 bg-white px-3 py-2 outline-none placeholder:text-black/40"
+                className="focus-ring flex-1  border border-black/15 bg-white px-3 py-2 outline-none placeholder:text-black/40"
               />
               <button
                 type="submit"
-                className="btn-primary cursor-pointer rounded-lg px-4 py-2"
+                className="btn-primary cursor-pointer  px-4 py-2"
               >
                 Save
               </button>
@@ -288,7 +288,7 @@ export default function ProfilePhotoUploader({
 
       {message && (
         <div
-          className={`mt-3 flex items-center justify-between rounded-lg px-4 py-2 ${message.type === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-800" : "border border-rose-200 bg-rose-50 text-rose-800"}`}
+          className={`mt-3 flex items-center justify-between  px-4 py-2 ${message.type === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-800" : "border border-rose-200 bg-rose-50 text-rose-800"}`}
         >
           <span>{message.text}</span>
           <button

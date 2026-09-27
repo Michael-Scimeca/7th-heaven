@@ -3,6 +3,7 @@
 import React from "react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import { SectionBadge } from "@/components/SectionBadge";
+import { GlowTextarea } from "@/components/GlowInput";
 
 export const TextAreaField = ({
   label,
@@ -13,26 +14,20 @@ export const TextAreaField = ({
   label: string;
   required?: boolean;
   id?: string;
-} & React.TextareaHTMLAttributes<HTMLTextAreaElement>) => {
+} & Record<string, any>) => {
   const textareaId =
     id ||
     props.name ||
     `book-textarea-${label.toLowerCase().replace(/[^a-z0-9]/g, "-")}`;
   return (
-    <div>
-      <label htmlFor={textareaId} className="mb-2 block">
-        {label}
-        {required && " *"}
-      </label>
-      <div className="input-glow-border rounded-lg">
-        <textarea
-          id={textareaId}
-          {...props}
-          required={required}
-          className="placeholder: focus-ring min-h-[95px] w-full resize-y rounded-lg border-0 bg-[#00000029] px-4 py-3 text-white/30"
-        />
-      </div>
-    </div>
+    <GlowTextarea
+      id={textareaId}
+      label={label + (required ? " *" : "")}
+      labelClassName="mb-2 block"
+      required={required}
+      className="min-h-[95px] resize-y"
+      {...props}
+    />
   );
 };
 
@@ -92,8 +87,8 @@ export const RadioPillField = ({
   onChange: any;
   required?: boolean;
 }) => (
-  <fieldset className="m-0 mb-2 border-0 p-0">
-    <legend className="mb-3 block text-white/90">
+  <fieldset className="m-0 border-0 p-0">
+    <legend className="mb-1.5 block text-white/90">
       {label}
       {required && " *"}
     </legend>

@@ -6,7 +6,7 @@ import {
   type HeroParallaxController,
 } from "@/lib/useHeroParallax";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 interface HeroParallaxCustomizerProps extends HeroParallaxController {
   /** Tailwind position classes — override when a page already has another
@@ -53,7 +53,7 @@ export default function HeroParallaxCustomizer({
         <button
           aria-label="Open Parallax Customizer"
           onClick={() => setIsPxUiOpen(true)}
-          className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
+          className="group flex h-11 w-11 cursor-pointer items-center justify-center  border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
           title="Open Parallax Customizer"
         >
           <svg
@@ -87,7 +87,7 @@ export default function HeroParallaxCustomizer({
             <button
               aria-label="Close Parallax Customizer"
               onClick={() => setIsPxUiOpen(false)}
-              className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-lg text-white/50 hover:bg-white/10 hover:text-white"
+              className="flex h-6 w-6 cursor-pointer items-center justify-center  text-white/50 hover:bg-white/10 hover:text-white"
             >
               <svg
                 width="14"
@@ -134,7 +134,7 @@ export default function HeroParallaxCustomizer({
               step="1"
               value={pxRange}
               onChange={(e) => updatePxRange(parseFloat(e.target.value))}
-              className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-amber-500"
+              className="h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-amber-500"
             />
           </div>
 
@@ -154,7 +154,7 @@ export default function HeroParallaxCustomizer({
               step="0.1"
               value={pxScrub}
               onChange={(e) => updatePxScrub(parseFloat(e.target.value))}
-              className="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-amber-500"
+              className="h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-amber-500"
             />
           </div>
 
@@ -166,16 +166,16 @@ export default function HeroParallaxCustomizer({
           >
             <span className="r">Foreground Counter-Drift</span>
             <span
-              className={`relative h-4 w-8 rounded-lg ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
+              className={`relative h-4 w-8  ${pxForeground ? "bg-[var(--color-accent)]" : "bg-white/20"}`}
             >
               <span
-                className={`absolute top-0.5 h-3 w-3 rounded-lg bg-white ${pxForeground ? "translate-x-4" : "translate-x-0.5"}`}
+                className={`absolute top-0.5 h-3 w-3  bg-white ${pxForeground ? "translate-x-4" : "translate-x-0.5"}`}
               />
             </span>
           </button>
 
           {/* Active Values HUD */}
-          <div className="space-y-0.5 rounded-lg border border-white/10 bg-white/[0.02] p-2 text-white/40">
+          <div className="space-y-0.5  border border-white/10 bg-white/[0.02] p-2 text-white/40">
             <div>
               Depth: <span>±{pxRange}%</span>
             </div>

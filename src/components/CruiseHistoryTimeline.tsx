@@ -12,17 +12,87 @@ import React, {
   useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, invalidate } from "@react-three/fiber";
 import { StatsGl, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
 import { SectionBadge } from "./SectionBadge";
 
 // Suppress blob URL texture errors that occur during page transitions
 suppressBlobTextureErrors();
+
+interface ShipErrorBoundaryProps {
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+}
+
+interface ShipErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ShipErrorBoundary extends React.Component<ShipErrorBoundaryProps, ShipErrorBoundaryState> {
+  constructor(props: ShipErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.warn("3D Ship GLTF failed to load, rendering procedural fallback:", error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback ?? null;
+    }
+    return this.props.children;
+  }
+}
+
+function FallbackTopDownShip({
+  shipScaleRef,
+}: {
+  shipScaleRef: React.RefObject<number>;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+  useFrame(({ camera }) => {
+    const targetLengthPx = shipScaleRef.current ?? 150;
+    if (groupRef.current) {
+      groupRef.current.rotation.set(0, 0, 0);
+      const scale = targetLengthPx / 10;
+      groupRef.current.scale.set(scale, scale, scale);
+      groupRef.current.updateMatrixWorld(true);
+    }
+    if (camera && "zoom" in camera) {
+      const orthCamera = camera as THREE.OrthographicCamera;
+      orthCamera.zoom = 1;
+      orthCamera.updateProjectionMatrix();
+    }
+  });
+
+  return (
+    <group ref={groupRef}>
+      <mesh position={[0, 0, 0]}>
+        <boxGeometry args={[3, 1, 8]} />
+        <meshStandardMaterial color="#9e852a" metalness={0.6} roughness={0.3} />
+      </mesh>
+      <mesh position={[0, 0, -4.5]} rotation={[0, 0, 0]}>
+        <coneGeometry args={[1.5, 3, 4]} />
+        <meshStandardMaterial color="#9e852a" metalness={0.6} roughness={0.3} />
+      </mesh>
+      <mesh position={[0, 0.8, -0.5]}>
+        <boxGeometry args={[2.2, 0.8, 4.5]} />
+        <meshStandardMaterial color="#ffffff" metalness={0.2} roughness={0.5} />
+      </mesh>
+    </group>
+  );
+}
 
 // 3D ship model is loaded lazily when the timeline mounts in viewport
 
@@ -126,9 +196,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const mobilePathRef = useRef<SVGPathElement>(null);
 
-  const [desktopPathLength, setDesktopPathLength] = useState(0);
+  const containerDimensionsRef = useRef<{ w: number; h: number; top: number }>({
+    w: 1400,
+    h: 2000,
+    top: 0,
+  });
 
-  const [mobileProgress, setMobileProgress] = useState(0);
+  const [desktopPathLength, setDesktopPathLength] = useState(0);
   const [mobilePathLength, setMobilePathLength] = useState(0);
 
   const [pathD, setPathD] = useState("");
@@ -145,7 +219,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           if (parsed.lineColor === "#06b6d4") parsed.lineColor = "#780aed";
           return { ...DEFAULT_HISTORY_TUNING, ...parsed };
         }
-      } catch {}
+      } catch { }
     }
     return DEFAULT_HISTORY_TUNING;
   });
@@ -163,7 +237,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.setItem("7h_history_tuning_v6", JSON.stringify(tuning));
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
   const handleResetTuning = () => {
@@ -172,15 +246,24 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       localStorage.removeItem("7h_history_tuning");
       setSaveToast(true);
       setTimeout(() => setSaveToast(false), 2500);
-    } catch {}
+    } catch { }
   };
 
-  // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
-  const chronologicalHistory = [...history].reverse();
+  const isMobile = useSyncExternalStore(
+    (callback) => {
+      window.addEventListener("resize", callback);
+      return () => window.removeEventListener("resize", callback);
+    },
+    () => (typeof window !== "undefined" ? window.innerWidth < 768 : false),
+    () => false,
+  );
 
-  // Chunk history items into 3 items per row for desktop
+  // Reverse history so timeline starts at 1998 (Inaugural Voyage) and proceeds chronologically to 2028
+  const chronologicalHistory = React.useMemo(() => [...history].reverse(), [history]);
+
+  // Chunk history items dynamically: 1 item per row on mobile, 3 items per row on desktop
+  const chunkSize = isMobile ? 1 : 3;
   const rows: HistoryItem[][] = [];
-  const chunkSize = 3;
   for (let i = 0; i < chronologicalHistory.length; i += chunkSize) {
     rows.push(chronologicalHistory.slice(i, i + chunkSize));
   }
@@ -192,14 +275,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       : 0.88;
   const maxMobileHeight = max2026Ratio * (mobileSvgSize.h || 3000);
 
-  // Measure path distance to 2026 badge and all individual year badges
   const [pathLengthTo2026, setPathLengthTo2026] = useState<number | null>(null);
   const pathLengthTo2026Ref = useRef<number | null>(null);
   const rowCentersRef = useRef<number[]>([]);
   const rowPathLengthsRef = useRef<number[]>([]);
+  const badgePathLengthsRef = useRef<number[]>([]);
   const [badgePathLengths, setBadgePathLengths] = useState<number[]>([]);
-  const [currentShipLength, setCurrentShipLength] = useState<number>(0);
-  const [shipMaxTravelLength, setShipMaxTravelLength] = useState<number>(0);
+
+  const currentShipLengthRef = useRef<number>(0);
+  const shipMaxTravelLengthRef = useRef<number>(0);
+  const [reachedBadges, setReachedBadges] = useState<boolean[]>([]);
+  const reachedBadgesRef = useRef<boolean[]>([]);
+  const desktopGlowPathRef = useRef<SVGPathElement>(null);
 
   // Position ship dynamically using SVG path and relative container percentages
   const updateShipPosition = useCallback(
@@ -218,18 +305,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         0,
         pathLength - (tuning.bowOffsetPx ?? 145),
       );
-      setShipMaxTravelLength(maxTravelLen);
+      shipMaxTravelLengthRef.current = maxTravelLen;
 
       const xProgress = Math.min(1.0, scrollProgressClamped * 1.35);
       const pathDistance = Math.min(
         maxTravelLen,
         Math.max(0, xProgress * maxTravelLen),
       );
-      setCurrentShipLength(pathDistance);
+      currentShipLengthRef.current = pathDistance;
 
-      const containerRect = desktopContainerRef.current.getBoundingClientRect();
-      const containerW = containerRect.width || 1400;
-      const containerH = containerRect.height || 1;
+      const containerW = containerDimensionsRef.current.w || 1400;
+      const containerH = containerDimensionsRef.current.h || 1;
       const widthScale = Math.max(0.5, containerW / 1400);
 
       const startPx = 150 * widthScale;
@@ -239,6 +325,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       const strokeOffset = Math.max(0, pathLength - pathDistance);
       desktopPathRef.current.style.strokeDashoffset = `${strokeOffset}px`;
+      if (desktopGlowPathRef.current) {
+        desktopGlowPathRef.current.style.strokeDashoffset = `${strokeOffset}px`;
+      }
 
       const pt = desktopPathRef.current.getPointAtLength(pathDistance);
       const pPrev = desktopPathRef.current.getPointAtLength(
@@ -261,15 +350,40 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const leftPct = ((pt.x + offX) / containerW) * 100;
       const topPct = ((pt.y + offY) / containerH) * 100;
 
-      shipDivRef.current.style.position = "absolute";
-      shipDivRef.current.style.left = `${leftPct}%`;
-      shipDivRef.current.style.top = `${topPct}%`;
-      shipDivRef.current.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
-      shipDivRef.current.style.zIndex = "10";
-      shipDivRef.current.style.opacity =
-        scrollProgressClamped > 0.005 ? "1" : "0";
+      const ship = shipDivRef.current;
+      ship.style.setProperty("--ship-left", `${leftPct}%`);
+      ship.style.setProperty("--ship-top", `${topPct}%`);
+      ship.style.setProperty("--ship-angle", `${angle}rad`);
+      ship.style.setProperty("--ship-opacity", scrollProgressClamped > 0.005 ? "1" : "0");
+
+      invalidate();
+
+      // Check badge reached states only and flip state if changed
+      const bLengths = badgePathLengthsRef.current;
+      if (bLengths.length > 0) {
+        let changed = false;
+        const newReached = [...reachedBadgesRef.current];
+        chronologicalHistory.forEach((hist, idx) => {
+          const badgePathLen = bLengths[idx] ?? Infinity;
+          const is2026 = hist.year === "2026";
+          const isFutureNode = hist.year === "2027" || hist.year === "2028";
+          const isReached = idx === 0 || (isFutureNode
+            ? false
+            : is2026
+              ? pathDistance > 0 && maxTravelLen > 0 && pathDistance >= maxTravelLen - 10
+              : pathDistance > 0 && pathDistance >= badgePathLen - 80);
+          if (newReached[idx] !== isReached) {
+            newReached[idx] = isReached;
+            changed = true;
+          }
+        });
+        if (changed) {
+          reachedBadgesRef.current = newReached;
+          setReachedBadges(newReached);
+        }
+      }
     },
-    [tuning],
+    [tuning, chronologicalHistory],
   );
 
   // Calculate single continuous SVG path string dynamically from real DOM positions
@@ -279,6 +393,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     const w = containerRect.width;
     const h = containerRect.height;
     if (w === 0 || h === 0) return;
+    const top = containerRect.top + (typeof window !== "undefined" ? window.scrollY : 0);
+    containerDimensionsRef.current = { w, h, top };
     setSvgSize({ w, h });
 
     // Measure exact Y-center for each row's year badge pill
@@ -308,9 +424,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       startY = dotRect.top - containerRect.top + dotRect.height / 2;
     }
 
-    const outerRight = w - 32;
-    const outerLeft = 32;
-    const r = 32; // Corner radius matching 32px layout spacing
+    const outerRight = w < 640 ? w - 16 : w - 32;
+    const outerLeft = w < 640 ? 16 : 32;
+    const r = w < 640 ? 16 : 32; // Corner radius matching layout spacing
 
     // Measure exact X-center for 2026 badge node for path termination
     const allYearBadges = Array.from(
@@ -319,14 +435,17 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     const badge2026El = allYearBadges.find((el) =>
       el.textContent?.includes("2026"),
     );
-    let endX2026 = outerRight - 80;
+    let endX2026 = outerRight - (w < 640 ? 40 : 80);
     if (badge2026El) {
       const bRect = badge2026El.getBoundingClientRect();
       endX2026 = bRect.left - containerRect.left + bRect.width / 2;
     }
 
-    // Active timeline rows from Row 0 (1998) through Row 6 (2024-2026)
-    const activeRowCenters = rowCenters.slice(0, 7);
+    const idx2026 = chronologicalHistory.findIndex((h) => h.year === "2026");
+    const row2026Idx = idx2026 >= 0 ? Math.floor(idx2026 / chunkSize) : rowCenters.length - 1;
+
+    // Active timeline rows from Row 0 (1998) through 2026 row
+    const activeRowCenters = rowCenters.slice(0, row2026Idx + 1);
 
     // Build single continuous SVG path string terminating PRECISELY at 2026 node
     let d = `M ${startX} ${startY} V ${activeRowCenters[0] - r} A ${r} ${r} 0 0 0 ${startX + r} ${activeRowCenters[0]} H ${outerRight - r}`;
@@ -337,8 +456,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const isEven = i % 2 === 0;
 
       if (i === activeRowCenters.length - 2) {
-        // Final row turn into Row 6: draw horizontal line straight to the 2026 badge node!
-        d += ` A ${r} ${r} 0 0 0 ${outerLeft} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 0 ${outerLeft + r} ${yNext} H ${endX2026}`;
+        // Final row turn into 2026 row: draw line straight to the 2026 badge node!
+        const turnX = isEven ? outerRight : outerLeft;
+        const sweep = isEven ? 1 : 0;
+        const endLineX = isEven ? outerRight - r : outerLeft + r;
+        d += ` A ${r} ${r} 0 0 ${sweep} ${turnX} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 ${sweep} ${endLineX} ${yNext} H ${endX2026}`;
       } else if (isEven) {
         // Right bend from Row i to Row i+1
         d += ` A ${r} ${r} 0 0 1 ${outerRight} ${yCurr + r} V ${yNext - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yNext} H ${outerLeft + r}`;
@@ -360,11 +482,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       endX2028 = bRect.left - containerRect.left + bRect.width / 2;
     }
 
-    // Build dim/unfilled connector line for 2026 -> 2027 (right) -> 2028 (middle)
-    if (rowCenters.length >= 8) {
-      const yRow6 = rowCenters[6];
-      const yRow7 = rowCenters[7];
-      const futureD = `M ${endX2026} ${yRow6} H ${outerRight - r} A ${r} ${r} 0 0 1 ${outerRight} ${yRow6 + r} V ${yRow7 - r} A ${r} ${r} 0 0 1 ${outerRight - r} ${yRow7} H ${endX2028}`;
+    // Build dim/unfilled connector line for 2026 -> 2027 -> 2028
+    if (rowCenters.length > row2026Idx + 1) {
+      const yRow2026 = rowCenters[row2026Idx];
+      const yRowNext = rowCenters[row2026Idx + 1];
+      const isEven2026 = row2026Idx % 2 === 0;
+      const turnX = isEven2026 ? outerRight : outerLeft;
+      const sweep = isEven2026 ? 1 : 0;
+      const endLineX = isEven2026 ? outerRight - r : outerLeft + r;
+      const futureD = `M ${endX2026} ${yRow2026} H ${endLineX} A ${r} ${r} 0 0 ${sweep} ${turnX} ${yRow2026 + r} V ${yRowNext - r} A ${r} ${r} 0 0 ${sweep} ${endLineX} ${yRowNext} H ${endX2028}`;
       setStaticFuturePathD(futureD);
     } else {
       setStaticFuturePathD("");
@@ -411,17 +537,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         lengths.push(closestLen);
       });
 
-      setBadgePathLengths(lengths);
+        badgePathLengthsRef.current = lengths;
+        setBadgePathLengths(lengths);
 
-      const targetBadgeIdx = allYearBadges.findIndex((el) =>
-        el.textContent?.includes("2026"),
-      );
-      if (targetBadgeIdx !== -1 && lengths[targetBadgeIdx] !== undefined) {
-        pathLengthTo2026Ref.current = lengths[targetBadgeIdx];
-        setPathLengthTo2026(lengths[targetBadgeIdx]);
+        const targetBadgeIdx = allYearBadges.findIndex((el) =>
+          el.textContent?.includes("2026"),
+        );
+        if (targetBadgeIdx !== -1 && lengths[targetBadgeIdx] !== undefined) {
+          pathLengthTo2026Ref.current = lengths[targetBadgeIdx];
+          setPathLengthTo2026(lengths[targetBadgeIdx]);
+        }
       }
-    }
-  }, []);
+    }, [chronologicalHistory, chunkSize]);
 
   // Update geometry & ship position on mount, window resize, and container ResizeObserver with debouncing
   useEffect(() => {
@@ -432,7 +559,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       resizeTimer = setTimeout(() => {
         updatePathGeometry();
         requestAnimationFrame(() => {
-          updateShipPosition(latestProgressRef.current);
+          updateShipPositionRef.current(latestProgressRef.current);
         });
       }, 150);
     };
@@ -440,7 +567,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     // Immediate initial update
     updatePathGeometry();
     requestAnimationFrame(() => {
-      updateShipPosition(latestProgressRef.current);
+      updateShipPositionRef.current(latestProgressRef.current);
     });
 
     let resizeObserver: ResizeObserver | null = null;
@@ -457,7 +584,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       if (resizeObserver) resizeObserver.disconnect();
       window.removeEventListener("resize", debouncedResize);
     };
-  }, [rows.length, updatePathGeometry, updateShipPosition]);
+  }, [rows.length, updatePathGeometry]);
 
   // Measure path length whenever pathD updates
   useEffect(() => {
@@ -481,9 +608,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     updateShipPositionRef.current = updateShipPosition;
   }, [updateShipPosition]);
 
-  // Native scroll-progress scrub (replaces GSAP ScrollTrigger)
+  // Native scroll-progress scrub with off-screen IntersectionObserver & settled tick loop
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    let isRunning = true;
+    let isVisible = false;
+    let isTicking = false;
+    let rafId: number;
 
     const row2026El =
       rowRefs.current.find((rowEl) =>
@@ -501,14 +633,15 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       if (!triggerEl) return 0;
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
-      const rect = triggerEl.getBoundingClientRect();
-      const startScroll = scrollY + rect.top - vh * startVh;
+      const containerTop = containerDimensionsRef.current.top;
+      const containerH = containerDimensionsRef.current.h;
+      const startScroll = containerTop - vh * startVh;
       let endScroll: number;
       if (endEl) {
         const er = endEl.getBoundingClientRect();
         endScroll = scrollY + (er.top + er.height / 2) - vh * 0.5;
       } else {
-        endScroll = scrollY + rect.bottom - vh * endVh;
+        endScroll = containerTop + containerH - vh * endVh;
       }
       if (endScroll <= startScroll) return 0;
       return Math.min(
@@ -522,21 +655,49 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     let desktopSmoothed = 0;
     let mobileSmoothed = 0;
     const LERP = 0.08;
-    let rafId: number;
 
     const tick = () => {
-      if (Math.abs(desktopRaw - desktopSmoothed) > 0.0001) {
+      if (!isRunning || !isVisible) {
+        isTicking = false;
+        return;
+      }
+
+      let active = false;
+
+      const desktopDiff = Math.abs(desktopRaw - desktopSmoothed);
+      if (desktopDiff > 0.0001) {
         desktopSmoothed += (desktopRaw - desktopSmoothed) * LERP;
         latestProgressRef.current = desktopSmoothed;
         updateShipPositionRef.current(desktopSmoothed);
+        active = true;
       }
-      if (Math.abs(mobileRaw - mobileSmoothed) > 0.0001) {
+
+      const mobileDiff = Math.abs(mobileRaw - mobileSmoothed);
+      if (mobileDiff > 0.0001) {
         mobileSmoothed += (mobileRaw - mobileSmoothed) * LERP;
-        setMobileProgress(mobileSmoothed);
+        if (mobileContainerRef.current) {
+          mobileContainerRef.current.style.setProperty(
+            "--mobile-progress",
+            mobileSmoothed.toFixed(4),
+          );
+        }
+        active = true;
       }
-      rafId = requestAnimationFrame(tick);
+
+      if (active) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        isTicking = false;
+      }
     };
-    rafId = requestAnimationFrame(tick);
+
+    const wakeTick = () => {
+      if (!isTicking && isRunning && isVisible) {
+        isTicking = true;
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(tick);
+      }
+    };
 
     const onScroll = () => {
       desktopRaw = computeProgress(
@@ -546,14 +707,37 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         1 - tuning.scrollEndMul,
       );
       mobileRaw = computeProgress(mobileContainerRef.current, 0.7, null, 0.4);
+      wakeTick();
     };
+
+    let observer: IntersectionObserver | null = null;
+    const targetEl = desktopContainerRef.current || mobileContainerRef.current;
+    if (typeof IntersectionObserver !== "undefined" && targetEl) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) {
+            onScroll();
+            wakeTick();
+          }
+        },
+        { rootMargin: "300px 0px" },
+      );
+      observer.observe(targetEl);
+    } else {
+      isVisible = true;
+    }
 
     window.addEventListener("scroll", onScroll, { passive: true });
     const lenis = (window as any).__lenis;
     if (lenis) lenis.on("scroll", onScroll);
 
+    onScroll();
+
     return () => {
+      isRunning = false;
       cancelAnimationFrame(rafId);
+      if (observer) observer.disconnect();
       window.removeEventListener("scroll", onScroll);
       const l = (window as any).__lenis;
       if (l) l.off("scroll", onScroll);
@@ -574,7 +758,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       if (saved) {
         setMaskSettings((prev) => ({ ...prev, ...JSON.parse(saved) }));
       }
-    } catch {}
+    } catch { }
 
     const handleUpdate = (e: Event) => {
       const customEvent = e as CustomEvent;
@@ -603,7 +787,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
       {/* Section Header — Inside Container Box */}
       <div className="relative z-20 mx-auto mb-6 max-w-4xl px-[25px] text-center md:px-[32px]">
-        <span className="text-purple-400block mb-1">
+        <span className="text-purple-400 block mb-1">
           25+ Years Legacy Pathway
         </span>
         <h3>
@@ -634,21 +818,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
           ref={shipDivRef}
-          style={{
-            position: "absolute",
-            left: 24,
-            top: 20,
-            width: 1200,
-            height: 1200,
-            pointerEvents: "none",
-            zIndex: 10,
-            overflow: "visible",
-            transition: "none",
-            opacity: 1,
-            transform: "translate(-50%, -50%)",
-          }}
+          className="timeline-ship-marker pointer-events-none overflow-visible transition-none w-[400px] h-[400px]"
         >
           <Canvas
+            frameloop="demand"
+            dpr={[1, 1.5]}
             orthographic
             gl={{
               powerPreference: "high-performance",
@@ -656,10 +830,10 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               alpha: true,
             }}
             camera={{
-              left: -600,
-              right: 600,
-              top: 600,
-              bottom: -600,
+              left: -200,
+              right: 200,
+              top: 200,
+              bottom: -200,
               zoom: 1,
               position: [0, 350, 0],
               up: [0, 0, -1],
@@ -674,11 +848,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             <pointLight
               position={[-5, 5, -5]}
               intensity={1}
-              color="#9e852aff"
+              color="#9e852a"
             />
-            <React.Suspense fallback={null}>
-              <TopDownHistoryShip shipScaleRef={shipScaleRef} />
-            </React.Suspense>
+            <ShipErrorBoundary fallback={<FallbackTopDownShip shipScaleRef={shipScaleRef} />}>
+              <React.Suspense fallback={null}>
+                <TopDownHistoryShip shipScaleRef={shipScaleRef} />
+              </React.Suspense>
+            </ShipErrorBoundary>
           </Canvas>
         </div>
         {/* ONE SINGLE CONTINUOUS DYNAMIC SVG PATHWAY WITH WATER WAVE MOTION */}
@@ -759,13 +935,28 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               />
             )}
 
-            {/* 2. Lenis + GSAP ScrollTrigger Scrub Main Liquid Ocean Water Line Filler */}
+            {/* 2. Glow Underlay Path (Wider, low-opacity stroke replacing expensive drop-shadow filter) */}
+            <path
+              ref={desktopGlowPathRef}
+              d={pathD}
+              fill="none"
+              stroke={tuning.lineColor || "#780aed"}
+              strokeWidth={(tuning.lineWidth || 6) + 12}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity={0.3}
+              style={{
+                strokeDasharray: desktopPathLength || 10000,
+                strokeDashoffset: desktopPathLength || 10000,
+              }}
+            />
+
+            {/* 3. Main Liquid Ocean Water Line Filler */}
             <path
               ref={desktopPathRef}
               d={pathD}
               fill="none"
-              fillOpacity={0}
-              stroke={tuning.lineColor || "#780aed8b"}
+              stroke={tuning.lineColor || "#780aed"}
               strokeWidth={tuning.lineWidth || 6}
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -774,7 +965,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 fillOpacity: 0,
                 strokeDasharray: desktopPathLength || 10000,
                 strokeDashoffset: desktopPathLength || 10000,
-                filter: "drop-shadow(0 0 8px rgba(65, 19, 229, 0.72))",
               }}
             />
           </svg>
@@ -787,7 +977,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               ref={startDotRef}
               className="bg-dark-purple z-10 h-5 w-5 rounded-full border-2 border-transparent"
             />
-            <span className="bg-dark-purple z-10 rounded-lg px-3.5 py-1.5 md:px-4">
+            <span className="bg-dark-purple z-10  px-3.5 py-1.5 md:px-4">
               START · INAUGURAL 1998 VOYAGE
             </span>
           </div>
@@ -815,9 +1005,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     const paddedItems =
                       rowItems.length < chunkSize
                         ? [
-                            ...rowItems,
-                            ...Array(chunkSize - rowItems.length).fill(null),
-                          ]
+                          ...rowItems,
+                          ...Array(chunkSize - rowItems.length).fill(null),
+                        ]
                         : rowItems;
 
                     return paddedItems.map((hist, itemIndex) => {
@@ -826,25 +1016,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           <div
                             key={`dummy-${itemIndex}`}
                             className="pointer-events-none shrink-0 opacity-0"
-                            style={{ width: "clamp(200px, 24vw, 380px)" }}
+                            style={{ width: isMobile ? "calc(100% - 32px)" : "clamp(200px, 24vw, 380px)", maxWidth: isMobile ? "280px" : undefined }}
                           />
                         );
                       }
 
                       const globalIdx = rowIndex * chunkSize + itemIndex;
-                      const badgePathLen =
-                        badgePathLengths[globalIdx] ?? Infinity;
-                      const is2026 = hist.year === "2026";
-                      const isFutureNode =
-                        hist.year === "2027" || hist.year === "2028";
-                      const isReached = isFutureNode
-                        ? false
-                        : is2026
-                          ? currentShipLength > 0 &&
-                            shipMaxTravelLength > 0 &&
-                            currentShipLength >= shipMaxTravelLength - 10
-                          : currentShipLength > 0 &&
-                            currentShipLength >= badgePathLen - 80;
+                      const isReached = reachedBadges[globalIdx] ?? (globalIdx === 0);
 
                       const flexAlignClass = isEvenRow
                         ? itemIndex === 0
@@ -862,11 +1040,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                         <div
                           key={itemIndex}
                           className={`group z-30 shrink-0 ${flexAlignClass}`}
-                          style={{ width: "clamp(200px, 24vw, 380px)" }}
+                          style={{ width: isMobile ? "calc(100% - 32px)" : "clamp(200px, 24vw, 380px)", maxWidth: isMobile ? "280px" : undefined }}
                         >
                           <div
                             data-year-badge
-                            className={`z-40 inline-block rounded-lg ${isReached ? "scale-105 border-2 border-purple-400 bg-[#240852] shadow-[0_0_25px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#240852]"}`}
+                            className={`z-40 inline-block  ${isReached ? "scale-105 border-2 border-purple-400 bg-[#240852] shadow-[0_0_25px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#240852]"}`}
                             style={{
                               padding:
                                 "clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.5vw, 1.5rem)",
@@ -874,7 +1052,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           >
                             <h6
                               className={` ${isReached ? " " : "text-white/40"}`}
-                              style={{ fontSize: "clamp(1.5rem, 3.2vw, 3rem)" }}
+                              style={{ fontSize: isMobile ? "clamp(1.75rem, 5vw, 2.5rem)" : "clamp(1.5rem, 3.2vw, 3rem)" }}
                             >
                               {hist.year}
                             </h6>
@@ -893,9 +1071,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                     const paddedItems =
                       rowItems.length < chunkSize
                         ? [
-                            ...rowItems,
-                            ...Array(chunkSize - rowItems.length).fill(null),
-                          ]
+                          ...rowItems,
+                          ...Array(chunkSize - rowItems.length).fill(null),
+                        ]
                         : rowItems;
 
                     return paddedItems.map((hist, itemIndex) => {
@@ -904,40 +1082,26 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           <div
                             key={`dummy-card-${itemIndex}`}
                             className="pointer-events-none shrink-0 opacity-0"
-                            style={{ width: "clamp(200px, 24vw, 380px)" }}
+                            style={{ width: isMobile ? "calc(100% - 32px)" : "clamp(200px, 24vw, 380px)", maxWidth: isMobile ? "280px" : undefined }}
                           />
                         );
                       }
 
                       const globalIdx = rowIndex * chunkSize + itemIndex;
                       const voyageNum = globalIdx + 1;
-                      const badgePathLen =
-                        badgePathLengths[globalIdx] ?? Infinity;
-                      const is2026 = hist.year === "2026";
-                      const isFutureNode =
-                        hist.year === "2027" || hist.year === "2028";
-                      const isReached =
-                        globalIdx === 0 ||
-                        (isFutureNode
-                          ? false
-                          : is2026
-                            ? currentShipLength > 0 &&
-                              shipMaxTravelLength > 0 &&
-                              currentShipLength >= shipMaxTravelLength - 10
-                            : currentShipLength > 0 &&
-                              currentShipLength >= badgePathLen - 80);
+                      const isReached = reachedBadges[globalIdx] ?? (globalIdx === 0);
 
                       return (
                         <div
                           key={itemIndex}
-                          className="group shrink-0 text-left"
-                          style={{ width: "clamp(200px, 24vw, 380px)" }}
+                          className={`group shrink-0 ${isEvenRow ? "text-left" : isMobile ? "text-right" : "text-left"}`}
+                          style={{ width: isMobile ? "calc(100% - 32px)" : "clamp(200px, 24vw, 380px)", maxWidth: isMobile ? "280px" : undefined }}
                         >
                           <div
                             className={`${isReached ? "opacity-100" : "opacity-70"}`}
                             style={{ padding: "0.5rem 0" }}
                           >
-                            <div className="mb-2 flex items-center justify-between gap-2 rounded-lg">
+                            <div className={`mb-2 flex items-center gap-2 ${isEvenRow ? "justify-start" : isMobile ? "justify-end" : "justify-between"}`}>
                               <span
                                 className={`rounded-lg ${isReached ? "border border-white/10 bg-cyan-500/20" : "border border-white/10 bg-[#00000029] text-white/40"}`}
                                 style={{
@@ -952,7 +1116,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             <h4
                               className={` ${isReached ? " " : " "}`}
                               style={{
-                                fontSize: "clamp(0.75rem, 1.1vw, 1rem)",
+                                fontSize: isMobile ? "0.95rem" : "clamp(0.75rem, 1.1vw, 1rem)",
                               }}
                             >
                               {hist.ship}
@@ -960,7 +1124,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             <p
                               className="mt-2"
                               style={{
-                                fontSize: "clamp(0.65rem, 0.85vw, 0.75rem)",
+                                fontSize: isMobile ? "0.8rem" : "clamp(0.65rem, 0.85vw, 0.75rem)",
                               }}
                             >
                               {hist.details}
@@ -977,54 +1141,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         </div>
       </div>
 
-      {/* ── MOBILE VERTICAL SNAKE TIMELINE (MOBILE ONLY, BELOW MD — 0px FULL BLEED EDGE-TO-EDGE) ── */}
-      <div
-        ref={mobileContainerRef}
-        className="relative mx-auto block w-full max-w-7xl px-4 py-6 sm:px-6 md:hidden"
-      >
-        <div className="relative space-y-6 pl-8">
-          {Array.from(chronologicalHistory, (hist, idx) => ({ hist, idx })).map(
-            ({ hist, idx }) => {
-              const isReached =
-                idx === 0 ||
-                mobileProgress >=
-                  Math.max(0, idx / chronologicalHistory.length - 0.03);
-              const nextHist = chronologicalHistory[idx + 1];
-              const isLastHistoricalNode = hist.year === "2026";
-              const isFutureItem = hist.year === "2027" || hist.year === "2028";
-              const showConnectorLine =
-                !isLastHistoricalNode && !isFutureItem && nextHist;
 
-              return (
-                <div key={hist.year || idx} className="group relative">
-                  {/* Node Circle Box */}
-                  <div
-                    className={`absolute top-2 left-[-25px] z-10 h-4 w-4 rounded-lg border-2 border-transparent ${isReached ? "scale-125 bg-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.8)]" : "bg-cyan-500/30"}`}
-                  />
-
-                  {/* Connecting Line Segment — Aligned at 25px Global Mobile Padding */}
-                  {showConnectorLine && (
-                    <div
-                      className={`absolute top-2 bottom-[-32px] left-[-19px] w-[4px] ${isReached ? "bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.6)]" : "bg-cyan-500/20"}`}
-                    />
-                  )}
-
-                  <div
-                    className={`py-1 ${isReached ? "opacity-100" : "opacity-70"}`}
-                  >
-                    <div className="mb-2 flex items-center justify-between gap-3">
-                      <span className="text-purple-400">{hist.year}</span>
-                      <span className="text-white/30">VOYAGE #{idx + 1}</span>
-                    </div>
-                    <h4>{hist.ship}</h4>
-                    <p>{hist.details}</p>
-                  </div>
-                </div>
-              );
-            },
-          )}
-        </div>
-      </div>
 
       {/* ── Persistent Floating History Settings Button & Modal Drawer ── */}
       {showSettings &&
@@ -1041,7 +1158,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="cursor-pointer rounded-lg px-2 py-1 hover:bg-white/10 hover:text-white"
+                  className="cursor-pointer  px-2 py-1 hover:bg-white/10 hover:text-white"
                 >
                   ✕
                 </button>
@@ -1341,7 +1458,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       <button
                         key={col}
                         onClick={() => setTuning({ ...tuning, lineColor: col })}
-                        className={`h-7 w-7 cursor-pointer rounded-lg border-2 ${tuning.lineColor === col ? "scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" : "border-transparent opacity-70 hover:opacity-100"}`}
+                        className={`h-7 w-7 cursor-pointer  border-2 ${tuning.lineColor === col ? "scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" : "border-transparent opacity-70 hover:opacity-100"}`}
                         style={{ backgroundColor: col }}
                       />
                     ))}

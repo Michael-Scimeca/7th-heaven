@@ -9,11 +9,11 @@
 "use client";
 
 import React, { forwardRef } from "react";
-import InputField from "./InputField";
+import InputField, { InputFieldProps } from "./InputField";
 import CustomDropdown from "./CustomDropdown";
 
 /* ─── GlowInput ─────────────────────────────────────────── */
-export interface GlowInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface GlowInputProps extends InputFieldProps {
   wrapperClassName?: string;
   rounded?: string;
 }
@@ -85,7 +85,7 @@ export function GlowSelect({
       placeholder={placeholder || "SELECT OPTION"}
       wrapperClassName={wrapperClassName}
       className={className}
-      onChange={(val) => {
+      onChange={(val: string) => {
         if (onChange) {
           const fakeEvent = {
             target: { value: val },
@@ -99,25 +99,34 @@ export function GlowSelect({
 }
 
 /* ─── GlowTextarea ───────────────────────────────────────── */
-export interface GlowTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface GlowTextareaProps extends InputFieldProps {
   wrapperClassName?: string;
   rounded?: string;
 }
 
-export function GlowTextarea({
-  wrapperClassName = "w-full",
-  rounded = "rounded-xl",
-  className = "",
-  ...props
-}: GlowTextareaProps) {
-  return (
-    <div className={`input-glow-border ${rounded} ${wrapperClassName}`}>
-      <textarea
+export const GlowTextarea = forwardRef<HTMLTextAreaElement, GlowTextareaProps>(
+  (
+    {
+      wrapperClassName = "w-full",
+      rounded = "rounded-xl",
+      className = "",
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <InputField
+        ref={ref}
+        glow={true}
+        multiline={true}
+        containerClassName={wrapperClassName}
+        inputClassName={`${rounded} resize-y ${className}`}
         {...props}
-        className={`form-input ${rounded} resize-y ${className}`}
       />
-    </div>
-  );
-}
+    );
+  },
+);
+
+GlowTextarea.displayName = "GlowTextarea";
 
 export default GlowInput;

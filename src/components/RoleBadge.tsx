@@ -97,7 +97,7 @@ export default function RoleBadge({
 
   return (
     <span
-      className={`inline-flex items-center ${config.bg} ${config.border} border ${config.glow} rounded-lg ${size === "sm" ? "px-2 py-[1px]" : "px-2.5 py-[3px]"} ${className}`}
+      className={`inline-flex items-center ${config.bg} ${config.border} border ${config.glow}  ${size === "sm" ? "px-2 py-[1px]" : "px-2.5 py-[3px]"} ${className}`}
     >
       <span
         className={`${config.color} text-[12px]`}

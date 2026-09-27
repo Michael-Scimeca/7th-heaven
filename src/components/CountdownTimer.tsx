@@ -111,7 +111,7 @@ export default function CountdownTimer({
   return (
     <div className="flex items-center gap-3">
       {isHappening && (
-        <div className="md: flex animate-pulse items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/20 px-3 py-1 text-[10px] text-emerald-300">
+        <div className="flex animate-pulse items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/20 px-3 py-1 text-[10px] text-emerald-300">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
@@ -140,7 +140,7 @@ export default function CountdownTimer({
                 )}
               </span>
               <span
-                className={`r ${compact ? "mt-0.5 text-[9px] text-white/60 sm:text-[10px]" : "mt-1.5"}`}
+                className={`${compact ?"mt-0.5 text-[9px] text-white/60 sm:text-[10px]":"mt-1.5"}`}
               >
                 {u.label}
               </span>

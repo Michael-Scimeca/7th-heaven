@@ -170,7 +170,7 @@ export default function NotificationsPage() {
     >
       {/* Page Header */}
       <div className="mx-auto mb-12 max-w-2xl text-center">
-        <div className="r mb-6 inline-flex items-center gap-2 rounded-lg border border-purple-200 bg-purple-50 px-4 py-1.5 text-purple-700">
+        <div className="mb-6 inline-flex items-center gap-2 border border-purple-200 bg-purple-50 px-4 py-1.5 text-purple-700">
           <BellIcon />
           Free &middot; No Phone Number &middot; No Signup
         </div>
@@ -209,7 +209,7 @@ export default function NotificationsPage() {
               aria-label={`Show ${tab.label} alerts`}
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`cursor-pointer rounded-lg border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
+              className={`cursor-pointer  border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
             >
               {tab.label}
             </button>
@@ -218,7 +218,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* Main Card */}
-      <div className="mx-auto max-w-3xl rounded-lg border border-white/10 bg-[#00000029] p-6 backdrop-blur-xl sm:p-10">
+      <div className="mx-auto max-w-3xl  border border-white/10 bg-[#00000029] p-6 backdrop-blur-xl sm:p-10 min-h-[380px]">
         <p className="mb-8 text-center">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
@@ -253,7 +253,7 @@ export default function NotificationsPage() {
             {/* Steps */}
             <div className="w-full flex-1 space-y-5">
               <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-purple-600">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center  bg-purple-600">
                   1
                 </span>
                 <div>
@@ -265,7 +265,7 @@ export default function NotificationsPage() {
                       href="https://apps.apple.com/us/app/ntfy/id1625396347"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5"
+                      className="btn-secondary inline-flex items-center gap-1.5  px-3 py-1.5"
                     >
                       <AppleIcon /> App Store
                     </a>
@@ -273,7 +273,7 @@ export default function NotificationsPage() {
                       href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5"
+                      className="btn-secondary inline-flex items-center gap-1.5  px-3 py-1.5"
                     >
                       <AndroidIcon /> Google Play
                     </a>
@@ -282,7 +282,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-purple-600">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center  bg-purple-600">
                   2
                 </span>
                 <div className="flex-1">
@@ -293,7 +293,7 @@ export default function NotificationsPage() {
                     <SeventhButton
                       icon={false}
                       onClick={() => window.open(appDeepLink, "_self")}
-                      className="rounded-lg px-5 py-2.5"
+                      className=""
                     >
                       Open in ntfy App
                     </SeventhButton>
@@ -310,7 +310,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-purple-600">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center  bg-purple-600">
                   3
                 </span>
                 <div>
@@ -336,7 +336,7 @@ export default function NotificationsPage() {
       </div>
 
       {/* How it works */}
-      <div className="0 mx-auto max-w-3xl text-center">
+      <div className="mx-auto max-w-3xl text-center">
         <p>
           Under the hood this uses ntfy, a free open-source push service &mdash;
           the site publishes a message to a private channel name and anyone

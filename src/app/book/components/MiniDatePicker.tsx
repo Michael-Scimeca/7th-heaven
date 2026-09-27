@@ -67,7 +67,7 @@ export function MiniDatePicker({
         type="button"
         onClick={() => setShowCal(!showCal)}
 
-        className={`group focus-ring flex w-full cursor-pointer items-center justify-between rounded-lg border border-white/10 px-2.5 py-2.5 text-left ring-0 backdrop-blur-2xl outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? " " : " "}`}
+        className={`group focus-ring flex w-full cursor-pointer items-center justify-between  border border-white/10 px-2.5 py-2.5 text-left ring-0 backdrop-blur-2xl outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? " " : " "}`}
         style={{ background: "transparent", border: "1px solid #ffffff1a" }}
       >
         <span
@@ -75,12 +75,12 @@ export function MiniDatePicker({
         >
           {value
             ? new Date(value + "T12:00:00Z").toLocaleDateString("en-US", {
-                weekday: "short",
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-                timeZone: "UTC",
-              })
+              weekday: "short",
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              timeZone: "UTC",
+            })
             : "Pick a date…"}
         </span>
         <svg
@@ -100,7 +100,7 @@ export function MiniDatePicker({
         </svg>
       </button>
       {showCal && (
-        <div className="absolute top-full left-0 z-50 mt-2 w-72 animate-[fade-in-up_0.15s_ease-out_both] rounded-lg border-0 bg-[#0c0817] p-4">
+        <div className="absolute top-full left-0 z-50 mt-2 w-72 animate-[fade-in-up_0.15s_ease-out_both]  border-0 bg-[#0c0817] p-4">
           <div className="mb-3 flex items-center justify-between">
             <button
               aria-label="Previous Month"
@@ -154,7 +154,7 @@ export function MiniDatePicker({
                 <button
                   type="button"
                   onClick={() => setCalMonth(new Date(year - 1, month, 1))}
-                  className="cursor-pointer text-base hover:text-white"
+                  className="cursor-pointer   hover:text-white"
                 >
                   ← {year - 1}
                 </button>
@@ -162,7 +162,7 @@ export function MiniDatePicker({
                 <button
                   type="button"
                   onClick={() => setCalMonth(new Date(year + 1, month, 1))}
-                  className="cursor-pointer text-base hover:text-white"
+                  className="cursor-pointer   hover:text-white"
                 >
                   {year + 1} →
                 </button>
@@ -180,7 +180,7 @@ export function MiniDatePicker({
                         setCalMonth(new Date(year, i, 1));
                         setShowMonthGrid(false);
                       }}
-                      className={`rounded-lg py-2 text-base ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer hover:bg-white/10"}`}
+                      className={`rounded-lg py-2   ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer hover:bg-white/10"}`}
                     >
                       {m}
                     </button>
@@ -221,7 +221,7 @@ export function MiniDatePicker({
                         onChange(ds);
                         setShowCal(false);
                       }}
-                      className={`flex h-10 w-full items-center justify-center rounded-lg ${isPast ? "cursor-not-allowed text-white/20" : isSel ? "bg-[#a855f7] shadow-purple-600/40" : "cursor-pointer bg-[#00000029] hover:bg-white/15"}`}
+                      className={`flex h-10 w-full items-center justify-center  ${isPast ? "cursor-not-allowed text-white/20" : isSel ? "bg-[#a855f7] shadow-purple-600/40" : "cursor-pointer bg-[#00000029] hover:bg-white/15"}`}
                     >
                       {i + 1}
                     </button>
@@ -235,7 +235,7 @@ export function MiniDatePicker({
                     onChange("");
                     setShowCal(false);
                   }}
-                  className="mt-2 w-full cursor-pointer text-base text-rose-500 hover:text-rose-600"
+                  className="mt-2 w-full cursor-pointer   text-rose-500 hover:text-rose-600"
                 >
                   Clear
                 </button>

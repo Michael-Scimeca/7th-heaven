@@ -800,7 +800,7 @@ export const AdminSectionCrewSchedule = React.memo(
               }}
               className="wiw-card flex min-h-[60px] w-full cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#252530] px-3 py-3 text-center select-none"
             >
-              <span className="r text-white/40">Time Off All Day</span>
+              <span className="text-white/40">Time Off All Day</span>
             </button>
           );
         }
@@ -990,7 +990,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           .map((singleRole: string) => (
                             <span
                               key={singleRole}
-                              className="bg- purple-white/20 max-w-full rounded border border-purple-500/40 px-1.5 py-0.5 text-[8.5px] select-none"
+                              className="max-w-full rounded border border-purple-500/40 px-1.5 py-0.5 text-[8.5px] select-none"
                             >
                               {singleRole}
                             </span>
@@ -1021,7 +1021,7 @@ export const AdminSectionCrewSchedule = React.memo(
                   className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""}`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="drop- text-[var(--font-size-2xs)]">
+                    <span className="text-[var(--font-size-2xs)]">
                       {shift.role || "Shift"}
                     </span>
                     {shift.isDraft && (
@@ -1039,7 +1039,7 @@ export const AdminSectionCrewSchedule = React.memo(
 
               {/* Bottom metadata row */}
               <div className="flex items-center justify-between border-t border-white/10 pt-1">
-                <span className="/90">{timeLabel}</span>
+                <span className="">{timeLabel}</span>
                 <div className="flex items-center gap-1">
                   {showOverlapAvatar &&
                     shift.crewId &&
@@ -1166,7 +1166,7 @@ export const AdminSectionCrewSchedule = React.memo(
             )}
 
             {showCrewName && (
-              <div className=".5 flex w-full items-center gap-1.5 border-t border-white/10 pt-1.5">
+              <div className="flex w-full items-center gap-1.5 border-t border-white/10 pt-1.5">
                 {shift.crewId === "openshifts" ? (
                   <>
                     <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-purple-500 bg-purple-500/10 text-[var(--font-size-5xs)]"></div>
@@ -1218,7 +1218,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       );
                     })()}
 
-                    <span className="/85">
+                    <span className="">
                       {shift.crewName ||
                         (() => {
                           const member = crewMembers.find(
@@ -1290,7 +1290,7 @@ export const AdminSectionCrewSchedule = React.memo(
               className="flex w-full flex-col text-left select-none"
             >
               <div className="sticky top-0 z-30 flex flex-col border-b border-white/10 bg-[#0f0720]/95 backdrop-blur-xl">
-                <div className="r flex w-full border-[var(--border-color)] text-[10px]">
+                <div className="flex w-full border-[var(--border-color)] text-[10px]">
                   <div className="flex w-60 shrink-0 items-center border-r border-b border-l border-[var(--border-color)] p-1.5">
                     <div className="flex items-center gap-2 pl-1">
                       <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-purple-600 bg-purple-500/10">
@@ -1328,7 +1328,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           setSelectedTourDate(nextDate);
                           setScheduleSortByDate(nextDate);
                         }}
-                        className={`group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? "bg- purple-white/20 shadow-[inset_0_-3px_0_#9333ea]" : isNextShow ? "border-x border-purple-500/30 bg-purple-500/10 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]" : " "}`}
+                        className={`group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ?"shadow-[inset_0_-3px_0_#9333ea]": isNextShow ?"border-x border-purple-500/30 bg-purple-500/10 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]":""}`}
                         title="Click to select date & stack working crew at top"
                       >
                         <div className="flex w-full flex-col gap-1">
@@ -1350,7 +1350,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   e.stopPropagation();
                                   handleTextAssignedCrew(day.dateStr);
                                 }}
-                                className="hover: cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
+                                className="cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
                                 title="Alert assigned crew for this show"
                               >
                                 <svg
@@ -1418,7 +1418,7 @@ export const AdminSectionCrewSchedule = React.memo(
                   <div className="flex w-full border-b border-[var(--border-color)]">
                     <div className="wiw-sticky-col flex w-60 shrink-0 items-center border-r border-l border-[var(--border-color)] p-1">
                       <div className="flex items-center gap-2 pl-2">
-                        <span className="r text-[10px]">Open Shifts</span>
+                        <span className="text-[10px]">Open Shifts</span>
                       </div>
                     </div>
                     {filteredDays.map((day) => {
@@ -1465,10 +1465,10 @@ export const AdminSectionCrewSchedule = React.memo(
                               }}
                               className="group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
-                              <span className="group-hover: text-[12px] text-purple-400">
+                              <span className="text-[12px] text-purple-400">
                                 +
                               </span>
-                              <span className="group-hover: mt-0.5 text-[10px] text-purple-400">
+                              <span className="mt-0.5 text-[10px] text-purple-400">
                                 Add Crew Member
                               </span>
                             </div>
@@ -1499,10 +1499,10 @@ export const AdminSectionCrewSchedule = React.memo(
                                 }}
                                 className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                               >
-                                <span className="group-hover: text-[12px] text-purple-400">
+                                <span className="text-[12px] text-purple-400">
                                   +
                                 </span>
-                                <span className="group-hover: mt-0.5 text-center text-[10px] text-purple-400">
+                                <span className="mt-0.5 text-center text-[10px] text-purple-400">
                                   Add Crew Group
                                 </span>
                               </div>
@@ -1536,10 +1536,10 @@ export const AdminSectionCrewSchedule = React.memo(
                                 }}
                                 className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                               >
-                                <span className="group-hover: text-[12px] text-purple-400">
+                                <span className="text-[12px] text-purple-400">
                                   +
                                 </span>
-                                <span className="group-hover: mt-0.5 text-center text-[10px] text-purple-400">
+                                <span className="mt-0.5 text-center text-[10px] text-purple-400">
                                   Create Group
                                 </span>
                               </div>
@@ -1908,7 +1908,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       key={day.dateStr}
                       className="flex min-w-0 flex-col items-center justify-start"
                     >
-                      <p className="r">{day.dayName}</p>
+                      <p className="">{day.dayName}</p>
                       <p className="mt-0.5">
                         {day.monthName} {day.dayOfMonth}
                       </p>
@@ -1922,7 +1922,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="py-0.2 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                            className="py-0.5 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             {dayShow.venue || dayShow.venue_name}
@@ -2172,7 +2172,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           timestamp: "Just now",
                         });
                       }}
-                      className="hover:bg- purple-white/20 flex cursor-pointer items-center gap-1 rounded border border-purple-500/30 bg-purple-500/15 px-2.5 py-1"
+                      className="flex cursor-pointer items-center gap-1 rounded border border-purple-500/30 bg-purple-500/15 px-2.5 py-1"
                       title="Simulate concurrent editing conflict (schedule mix-up) to test live sync warning"
                     >
                       Simulate Mix-Up Conflict
@@ -2190,12 +2190,12 @@ export const AdminSectionCrewSchedule = React.memo(
                 {/*  Schedule Mix-Up Conflict Resolution Modal */}
                 {coEditorConflictAlert?.isOpen && (
                   <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-                    <div className="shadow-[0_0_50px_rgba(147, 51, 234,0.3)] w-full max-w-lg space-y-4 border-2 border-purple-500/50 bg-[#1e1e26] p-6">
+                    <div className="shadow-[0_0_50px_rgba(147, 234,0.3)] w-full max-w-lg space-y-4 border-2 border-purple-500/50 bg-[#1e1e26] p-6">
                       <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-                        <div className="bg- purple-white/20 flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 text-xl"></div>
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 text-xl"></div>
                         <div>
                           <h3>Schedule Mix-Up Prevented!</h3>
-                          <p className="/80">
+                          <p className="">
                             Concurrent Edit Detected from Co-Editor
                           </p>
                         </div>
@@ -2423,7 +2423,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         onClick={handleGoToMonth}
-                        className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "hover:bg- purple-white/20 border-purple-500/30 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                        className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange ==="month"?"border-purple-500/30 bg-purple-500/10":"border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       >
                         MONTH
                       </button>
@@ -2572,7 +2572,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                       }}
                                       className="group flex w-full cursor-pointer items-center gap-3 border-none bg-[#00000029] px-4 py-2.5 text-left"
                                     >
-                                      <span className="/70 group-hover: min-w-[80px]">
+                                      <span className="min-w-[80px]">
                                         {dateLabel}
                                       </span>
                                       <span className="group-hover:text-white">
@@ -2628,7 +2628,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         onClick={() =>
                           setIsFiltersPanelExpanded(!isFiltersPanelExpanded)
                         }
-                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 51, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                         title="Search & advanced filters by person, venue, date range, and event type"
                       >
                         <span></span>{" "}
@@ -2700,7 +2700,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         onClick={handleGenerateTestData}
-                        className="bg- purple-white/20 flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                         title="Generate realistic test schedule data for 2-4 weeks with edge cases"
                       >
                         Generate Test Data
@@ -2716,7 +2716,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         <button
                           type="button"
                           onClick={handlePurgeTestData}
-                          className="bg- purple-white/20 flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                          className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                           title="Purge all test schedule data ([TEST] shifts)"
                         >
                           Purge Test Data
@@ -2780,74 +2780,62 @@ export const AdminSectionCrewSchedule = React.memo(
                     <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 px-6 py-4 backdrop-blur-2xl">
                       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                         {/* Search by Person */}
-                        <div className="flex flex-col gap-1.5">
-                          <label
-                            htmlFor="admin-sched-person-search"
-                            className="r text-white/50"
-                          >
-                            Search Person / Role
-                          </label>
-                          <div className="input-glow-border relative w-full rounded-lg">
-                            <input
-                              id="admin-sched-person-search"
-                              type="text"
-                              value={schedulePersonSearch}
-                              onChange={(e) =>
-                                setSchedulePersonSearch(e.target.value)
-                              }
-                              placeholder="Name, role, e.g. Dave, Audio..."
-                              className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 outline-none"
-                            />
-                            {schedulePersonSearch && (
-                              <button
-                                type="button"
-                                aria-label="Clear person search"
-                                onClick={() => setSchedulePersonSearch("")}
-                                className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer border-none text-white/40 hover:text-white"
-                              >
-                                ✕
-                              </button>
-                            )}
-                          </div>
+                        <div className="relative flex flex-col gap-1.5">
+                          <GlowInput
+                            id="admin-sched-person-search"
+                            label="Search Person / Role"
+                            labelClassName="r text-white/50"
+                            type="text"
+                            value={schedulePersonSearch}
+                            onChange={(e) =>
+                              setSchedulePersonSearch(e.target.value)
+                            }
+                            placeholder="Name, role, e.g. Dave, Audio..."
+                            rounded="rounded-lg"
+                          />
+                          {schedulePersonSearch && (
+                            <button
+                              type="button"
+                              aria-label="Clear person search"
+                              onClick={() => setSchedulePersonSearch("")}
+                              className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                            >
+                              ✕
+                            </button>
+                          )}
                         </div>
 
                         {/* Search by Venue */}
-                        <div className="flex flex-col gap-1.5">
-                          <label
-                            htmlFor="admin-sched-venue-search"
-                            className="r text-white/50"
-                          >
-                            Search Venue Name
-                          </label>
-                          <div className="input-glow-border relative w-full rounded-lg">
-                            <input
-                              id="admin-sched-venue-search"
-                              type="text"
-                              value={scheduleVenueSearch}
-                              onChange={(e) =>
-                                setScheduleVenueSearch(e.target.value)
-                              }
-                              placeholder="Venue, e.g. Blarney, Cruise..."
-                              className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-1.5 placeholder-white/20 outline-none"
-                            />
-                            {scheduleVenueSearch && (
-                              <button
-                                type="button"
-                                aria-label="Clear venue search"
-                                onClick={() => setScheduleVenueSearch("")}
-                                className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer border-none text-white/40 hover:text-white"
-                              >
-                                ✕
-                              </button>
-                            )}
-                          </div>
+                        <div className="relative flex flex-col gap-1.5">
+                          <GlowInput
+                            id="admin-sched-venue-search"
+                            label="Search Venue Name"
+                            labelClassName="r text-white/50"
+                            type="text"
+                            value={scheduleVenueSearch}
+                            onChange={(e) =>
+                              setScheduleVenueSearch(e.target.value)
+                            }
+                            placeholder="Venue, e.g. Blarney, Cruise..."
+                            rounded="rounded-lg"
+                          />
+                          {scheduleVenueSearch && (
+                            <button
+                              type="button"
+                              aria-label="Clear venue search"
+                              onClick={() => setScheduleVenueSearch("")}
+                              className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                            >
+                              ✕
+                            </button>
+                          )}
                         </div>
 
                         {/* Event Type Filter */}
                         <div className="flex flex-col gap-1.5">
                           <label
                             htmlFor="admin-sched-event-type"
-                            className="r text-white/50"
+                            className="text-white/50"
                           >
                             Show / Event Type
                           </label>
@@ -2870,35 +2858,33 @@ export const AdminSectionCrewSchedule = React.memo(
 
                         {/* Date Range Selection */}
                         <div className="col-span-1 flex flex-col gap-1.5">
-                          <span className="r text-white/50">
+                          <span className="text-white/50">
                             Custom Date Range
                           </span>
                           <div className="flex items-center gap-2">
-                            <div className="input-glow-border w-full rounded-lg">
-                              <input
-                                type="date"
-                                aria-label="Schedule start date"
-                                value={scheduleStartDate}
-                                onChange={(e) =>
-                                  setScheduleStartDate(e.target.value)
-                                }
-                                onClick={(e) => e.currentTarget.showPicker?.()}
-                                className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] outline-none"
-                              />
-                            </div>
-                            <span className="/35">TO</span>
-                            <div className="input-glow-border w-full rounded-lg">
-                              <input
-                                type="date"
-                                aria-label="Schedule end date"
-                                value={scheduleEndDate}
-                                onChange={(e) =>
-                                  setScheduleEndDate(e.target.value)
-                                }
-                                onClick={(e) => e.currentTarget.showPicker?.()}
-                                className="w-full cursor-pointer rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 [color-scheme:dark] outline-none"
-                              />
-                            </div>
+                            <GlowInput
+                              rounded="rounded-lg"
+                              type="date"
+                              aria-label="Schedule start date"
+                              value={scheduleStartDate}
+                              onChange={(e) =>
+                                setScheduleStartDate(e.target.value)
+                              }
+                              onClick={(e) => e.currentTarget.showPicker?.()}
+                              className="cursor-pointer [color-scheme:dark]"
+                            />
+                            <span className="">TO</span>
+                            <GlowInput
+                              rounded="rounded-lg"
+                              type="date"
+                              aria-label="Schedule end date"
+                              value={scheduleEndDate}
+                              onChange={(e) =>
+                                setScheduleEndDate(e.target.value)
+                              }
+                              onClick={(e) => e.currentTarget.showPicker?.()}
+                              className="cursor-pointer [color-scheme:dark]"
+                            />
                             {(scheduleStartDate || scheduleEndDate) && (
                               <button
                                 type="button"
@@ -2931,7 +2917,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         </div>
                         {activeFiltersCount > 0 && (
                           <div className="flex items-center gap-2">
-                            <span className="/80">Filters active</span>
+                            <span className="">Filters active</span>
                             <button
                               type="button"
                               onClick={() => {
@@ -2944,7 +2930,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                 setShowTourDatesOnly(false);
                                 setScheduleSortByDate(null);
                               }}
-                              className="hover:bg- purple-white/20 cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 hover:text-white"
+                              className="cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 hover:text-white"
                             >
                               Reset All Filters
                             </button>
@@ -2979,7 +2965,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               <button
                                 type="button"
                                 onClick={() => setSelectedTourDate(null)}
-                                className="/70 hover: cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5"
+                                className="cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5"
                               >
                                 SHOW ALL
                               </button>
@@ -3144,7 +3130,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                       <div className="flex items-center gap-2">
                                         <span></span>
                                         <div>
-                                          <p className="r">
+                                          <p className="">
                                             Coverage Requested
                                           </p>
                                           <p className="mt-0.5">
@@ -3292,7 +3278,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                             "Crew"}
                                                         </span>
                                                         {isOverlapping && (
-                                                          <span className="py-0.2 rounded border border-red-500/35 bg-red-500/20 px-1 text-[var(--font-size-5xs)] text-red-400">
+                                                          <span className="py-0.5 rounded border border-red-500/35 bg-red-500/20 px-1 text-[var(--font-size-5xs)] text-red-400">
                                                             Overlaps{" "}
                                                             {overlaps[0].time}
                                                           </span>
@@ -3562,7 +3548,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                       })()}
                                                       <div className="min-w-0 flex-1">
                                                         <div className="flex items-center justify-between gap-2">
-                                                          <span className="/95 block">
+                                                          <span className="block">
                                                             {member.name}
                                                           </span>
                                                           {assignment.active && (
@@ -3594,7 +3580,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                           )
                                                             return null;
                                                           return (
-                                                            <div className=".5 flex flex-wrap gap-1">
+                                                            <div className="flex flex-wrap gap-1">
                                                               {memberShifts.map(
                                                                 (
                                                                   s: any,
@@ -3898,51 +3884,41 @@ export const AdminSectionCrewSchedule = React.memo(
                                                           </div>
 
                                                           <div className="space-y-1">
-                                                            <label
-                                                              htmlFor={`admin-drawer-role-${index}`}
-                                                              className="mb-1 block text-[10px] text-white/50"
-                                                              style={{
-                                                                fontSize:
-                                                                  "10px",
+                                                            <GlowInput
+                                                              id={`admin-drawer-role-${index}`}
+                                                              label="Role / Duty"
+                                                              labelClassName="mb-1 block text-[10px] text-white/50"
+                                                              rounded="rounded-lg"
+                                                              type="text"
+                                                              value={tf.role}
+                                                              onChange={(
+                                                                e,
+                                                              ) => {
+                                                                const val =
+                                                                  e.target
+                                                                    .value;
+                                                                setDropTimeFrames(
+                                                                  (
+                                                                    prev: any[],
+                                                                  ) =>
+                                                                    prev.map(
+                                                                      (
+                                                                        item: any,
+                                                                        i: number,
+                                                                      ) =>
+                                                                        i ===
+                                                                        index
+                                                                          ? {
+                                                                              ...item,
+                                                                              role: val,
+                                                                            }
+                                                                          : item,
+                                                                    ),
+                                                                );
                                                               }}
-                                                            >
-                                                              Role / Duty
-                                                            </label>
-                                                            <div className="input-glow-border w-full">
-                                                              <input
-                                                                id={`admin-drawer-role-${index}`}
-                                                                type="text"
-                                                                value={tf.role}
-                                                                onChange={(
-                                                                  e,
-                                                                ) => {
-                                                                  const val =
-                                                                    e.target
-                                                                      .value;
-                                                                  setDropTimeFrames(
-                                                                    (
-                                                                      prev: any[],
-                                                                    ) =>
-                                                                      prev.map(
-                                                                        (
-                                                                          item: any,
-                                                                          i: number,
-                                                                        ) =>
-                                                                          i ===
-                                                                          index
-                                                                            ? {
-                                                                                ...item,
-                                                                                role: val,
-                                                                              }
-                                                                            : item,
-                                                                      ),
-                                                                  );
-                                                                }}
-                                                                placeholder="e.g. Audio Mix"
-                                                                className="w-full rounded-lg border border-white/10 px-3 py-2 outline-none"
-                                                              />
-                                                            </div>
-                                                            <div className=".5 flex flex-wrap gap-1">
+                                                              placeholder="e.g. Audio Mix"
+                                                            />
+                                                            <div className="flex flex-wrap gap-1">
                                                               {[
                                                                 "STAGE HAND",
                                                                 "AUDIO MIX",
@@ -4143,7 +4119,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                             {tf.tags &&
                                                               tf.tags.length >
                                                                 0 && (
-                                                                <div className=".5 flex flex-wrap gap-1">
+                                                                <div className="flex flex-wrap gap-1">
                                                                   {tf.tags.map(
                                                                     (
                                                                       tag: string,
@@ -4222,7 +4198,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                             ],
                                                           );
                                                         }}
-                                                        className="hover:bg- purple-white/20 flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2"
+                                                        className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2"
                                                         style={{
                                                           fontSize: "11px",
                                                         }}
@@ -4423,12 +4399,12 @@ export const AdminSectionCrewSchedule = React.memo(
                                       title={`Apply Group: ${g.name}`}
                                     >
                                       <div className="flex min-w-0 items-center gap-3">
-                                        <span className="bg- purple-white/20 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-purple-500/30 shadow-inner">
+                                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-purple-500/30 shadow-inner">
                                           +
                                         </span>
                                         <span>{g.name}</span>
                                       </div>
-                                      <span className="group-hover: shrink-0 text-purple-400">
+                                      <span className="shrink-0 text-purple-400">
                                         Apply
                                       </span>
                                     </button>
@@ -4945,7 +4921,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                               }),
                                             );
                                           }}
-                                          className="hover:bg- purple-white/20 w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center"
+                                          className="w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center"
                                           style={{ fontSize: "8.5px" }}
                                         >
                                           + Add Time Frame
@@ -5025,7 +5001,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="disabled: cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
+                            className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
                           >
                             Save Group
                           </button>
@@ -5078,7 +5054,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               <button
                                 aria-label="Close selected show crew date modal"
                                 onClick={() => setSelectedShowCrewDate(null)}
-                                className="/45 cursor-pointer border-none hover:text-white"
+                                className="cursor-pointer border-none hover:text-white"
                               >
                                 ✕
                               </button>
@@ -5166,14 +5142,14 @@ export const AdminSectionCrewSchedule = React.memo(
                                               <span className="block">
                                                 {shift.crewName}
                                               </span>
-                                              <span className="/45 inline-block rounded bg-[#00000029] px-1.5 py-0.5">
+                                              <span className="inline-block rounded bg-[#00000029] px-1.5 py-0.5">
                                                 {shift.role}
                                               </span>
                                             </div>
                                           </div>
 
                                           <div className="shrink-0 text-right">
-                                            <span className="/85 block">
+                                            <span className="block">
                                               {shift.time}
                                             </span>
                                             <button
@@ -5182,7 +5158,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                 setSelectedShowCrewDate(null);
                                                 handleEditShiftClick(shift);
                                               }}
-                                              className="hover:bg- purple-white/20 inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:text-white"
+                                              className="inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:text-white"
                                             >
                                               Edit
                                             </button>

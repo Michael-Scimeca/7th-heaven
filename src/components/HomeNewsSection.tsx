@@ -124,7 +124,7 @@ export default function HomeNewsSection({
           });
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const handleAddNewsSubmit = async (e: React.FormEvent) => {
@@ -269,7 +269,7 @@ export default function HomeNewsSection({
               <button
                 aria-label="Close modal"
                 onClick={() => setSelectedArticle(null)}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-xl hover:bg-white/10"
+                className="flex h-8 w-8 cursor-pointer items-center justify-center  text-xl hover:bg-white/10"
               >
                 ✕
               </button>
@@ -282,7 +282,7 @@ export default function HomeNewsSection({
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-xl border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
+        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3  border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
           <CheckCircle2 className="h-5 w-5 shrink-0 text-green-400" />
           <span>{toastMessage}</span>
         </div>
@@ -302,7 +302,7 @@ export default function HomeNewsSection({
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <Newspaper className="h-5 w-5" />
                 </div>
                 <div>
@@ -314,7 +314,7 @@ export default function HomeNewsSection({
               </div>
 
               {modalError && (
-                <div className="mb-6 rounded-lg border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   {modalError}
                 </div>
               )}
@@ -330,7 +330,7 @@ export default function HomeNewsSection({
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     placeholder="e.g. New Single Released or Summer 2026 Tour Announcement"
-                    className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                   />
                 </div>
 
@@ -345,7 +345,7 @@ export default function HomeNewsSection({
                       value={newDate}
                       onChange={(e) => setNewDate(e.target.value)}
                       placeholder="e.g. September 2026"
-                      className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                     />
                   </div>
 
@@ -356,7 +356,7 @@ export default function HomeNewsSection({
                     <select
                       value={newCategory}
                       onChange={(e) => setNewCategory(e.target.value)}
-                      className="focus-ring w-full cursor-pointer rounded-xl border border-white/15 bg-black/50 px-3 py-2.5"
+                      className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
                     >
                       <option value="announcement">Announcement</option>
                       <option value="update">Update</option>
@@ -376,7 +376,7 @@ export default function HomeNewsSection({
                     value={newContent}
                     onChange={(e) => setNewContent(e.target.value)}
                     placeholder="Write the news update content here..."
-                    className="focus-ring w-full rounded-xl border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
                   />
                 </div>
 
@@ -384,14 +384,14 @@ export default function HomeNewsSection({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="cursor-pointer rounded-xl bg-white/10 px-5 py-2.5 hover:bg-white/15"
+                    className="cursor-pointer  bg-white/10 px-5 py-2.5 hover:bg-white/15"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="cursor-pointer  bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
                   </button>

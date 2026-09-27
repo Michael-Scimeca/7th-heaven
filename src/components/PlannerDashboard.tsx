@@ -407,7 +407,7 @@ export default function PlannerDashboard() {
         id="planner-portal-auth"
         className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
       >
-        <div className="pointer-events-none absolute top-1/3 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-[var(--color-accent)] opacity-[0.03] blur-3xl" />
+        <div className="pointer-events-none absolute top-1/3 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2  bg-[var(--color-accent)] opacity-[0.03] blur-3xl" />
 
         <div className="relative z-10 w-full max-w-md">
           <div className="overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]">
@@ -433,7 +433,7 @@ export default function PlannerDashboard() {
                   <div>
                     <label
                       htmlFor="planner-full-name"
-                      className="mb-2 block text-white/40"
+                      className="mb-2 block"
                     >
                       Full Name
                     </label>
@@ -443,7 +443,7 @@ export default function PlannerDashboard() {
                       value={plannerName}
                       onChange={(e) => setPlannerName(e.target.value)}
                       placeholder="e.g. Sarah Mitchell"
-                      className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
                       required
                     />
                   </div>
@@ -451,7 +451,7 @@ export default function PlannerDashboard() {
                 <div>
                   <label
                     htmlFor="planner-login-email"
-                    className="mb-2 block text-white/40"
+                    className="mb-2 block"
                   >
                     Email
                   </label>
@@ -461,14 +461,14 @@ export default function PlannerDashboard() {
                     value={plannerEmail}
                     onChange={(e) => setPlannerEmail(e.target.value)}
                     placeholder="planner@company.com"
-                    className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
+                    className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
                     required
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="planner-login-password"
-                    className="mb-2 block text-white/40"
+                    className="mb-2 block"
                   >
                     Password
                   </label>
@@ -478,7 +478,7 @@ export default function PlannerDashboard() {
                     value={plannerPassword}
                     onChange={(e) => setPlannerPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
+                    className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-3 text-white/20 outline-none"
                     required
                   />
                 </div>
@@ -578,7 +578,7 @@ export default function PlannerDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ bookingId: booking.id, status: "cancelled" }),
       });
-    } catch {}
+    } catch { }
   };
 
   const s = STATUS_CONFIG[booking.status];
@@ -598,8 +598,8 @@ export default function PlannerDashboard() {
             onClick={() => setShowCancelConfirm(false)}
             className="fixed inset-0 h-full w-full cursor-default border-0 bg-black/70 backdrop-blur-sm"
           />
-          <div className="relative z-10 w-full max-w-md cursor-auto rounded-lg border border-rose-500/30 bg-[var(--color-bg-surface)] p-8 text-left shadow-[0_0_60px_rgba(244,63,94,0.15)]">
-            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-rose-500/10">
+          <div className="relative z-10 w-full max-w-md cursor-auto  border border-rose-500/30 bg-[var(--color-bg-surface)] p-8 text-left shadow-[0_0_60px_rgba(244,63,94,0.15)]">
+            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center  bg-rose-500/10">
               <History className="h-5 w-5 text-rose-500" />
             </div>
             <h3 id="cancel-modal-heading" className="mb-2 text-center">
@@ -633,10 +633,10 @@ export default function PlannerDashboard() {
       {/* BOOKING CARDS */}
       <section
         aria-label="Active Event Booking Details"
-        className="grid grid-cols-1 gap-6"
+        className="grid grid-cols-1 gap-6 mb-6"
       >
         <div
-          className={`border bg-[var(--color-bg-surface)] ${booking.status === "cancelled" ? "border-rose-500/10 opacity-60" : "border-white/5"} group relative flex flex-col gap-8 overflow-hidden rounded-lg p-6 md:p-8 lg:flex-row`}
+          className={`border bg-[var(--color-bg-surface)] ${booking.status === "cancelled" ? "border-rose-500/10 opacity-60" : "border-white/10"} group relative flex flex-col gap-8 overflow-hidden  p-6 md:p-8 lg:flex-row`}
         >
           <div className={`absolute top-0 left-0 h-full w-1 ${s.bar}`} />
 
@@ -659,21 +659,22 @@ export default function PlannerDashboard() {
                 </p>
 
                 <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                  <div>
+                  <div className="npm">
                     <p className="mb-1">Date</p>
                     <p>{booking.date}</p>
                   </div>
-                  <div>
+                  <div className="npm">
+
                     <p className="mb-1">Time Window</p>
                     <p>
                       {booking.startTime} - {booking.endTime}
                     </p>
                   </div>
-                  <div>
+                  <div className="npm">
                     <p className="mb-1">Venue</p>
                     <p>{booking.venueName}</p>
                   </div>
-                  <div>
+                  <div className="npm">
                     <p className="mb-1">City</p>
                     <p>
                       {booking.venueCity}, {booking.venueState}
@@ -697,7 +698,7 @@ export default function PlannerDashboard() {
                     onChange={(e) =>
                       setEditDraft((d) => ({ ...d, eventName: e.target.value }))
                     }
-                    className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-base outline-none"
+                    className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5   outline-none"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -717,7 +718,7 @@ export default function PlannerDashboard() {
                           startTime: e.target.value,
                         }))
                       }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 text-base outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
                     />
                   </div>
                   <div>
@@ -733,7 +734,7 @@ export default function PlannerDashboard() {
                       onChange={(e) =>
                         setEditDraft((d) => ({ ...d, endTime: e.target.value }))
                       }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 text-base outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
                     />
                   </div>
                   <div>
@@ -752,7 +753,7 @@ export default function PlannerDashboard() {
                           venueName: e.target.value,
                         }))
                       }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 text-base outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
                     />
                   </div>
                   <div>
@@ -771,7 +772,7 @@ export default function PlannerDashboard() {
                           expectedAttendance: e.target.value,
                         }))
                       }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 text-base outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
                     />
                   </div>
                 </div>
@@ -792,7 +793,7 @@ export default function PlannerDashboard() {
                           venueCity: e.target.value,
                         }))
                       }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 text-base outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
                     />
                   </div>
                   <div>
@@ -811,7 +812,7 @@ export default function PlannerDashboard() {
                           venueState: e.target.value,
                         }))
                       }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 text-base outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
                     />
                   </div>
                 </div>
@@ -820,7 +821,7 @@ export default function PlannerDashboard() {
           </div>
 
           {/* Actions — require real sign-in */}
-          <div className="flex flex-col justify-center gap-3 border-white/10 lg:w-64 lg:border-l lg:pl-8">
+          <div className="flex flex-col justify-start gap-3 border-white/10 lg:w-64 lg:border-l lg:pl-8">
             {isSignedInPlanner ? (
               <>
                 {isEditing ? (
@@ -834,7 +835,7 @@ export default function PlannerDashboard() {
                     </button>
                     <button
                       onClick={handleEditCancel}
-                      className="w-full border border-white/5 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                      className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
                     >
                       Discard
                     </button>
@@ -844,7 +845,7 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full rounded-lg border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                      className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
                     >
                       Rebook This Event
                     </a>
@@ -874,19 +875,19 @@ export default function PlannerDashboard() {
                   <>
                     <a
                       href={rebookUrl(booking, member)}
-                      className="w-full rounded-lg border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                      className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
                     >
                       Rebook This Event
                     </a>
                     <button
                       onClick={handleEditStart}
-                      className="w-full border border-white/5 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                      className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
                     >
                       Edit Logistics
                     </button>
                     <button
                       onClick={() => setShowCancelConfirm(true)}
-                      className="w-full py-3 text-rose-400 hover:bg-rose-500/10"
+                      className="w-full  text-rose-400 hover:bg-rose-500/10"
                     >
                       Cancel Request
                     </button>
@@ -908,7 +909,7 @@ export default function PlannerDashboard() {
 
       {/* ── Band & Event Contacts Panel ── */}
       <section aria-label="7th Heaven Band and Event Contacts">
-        <div className="mb-6 flex flex-col justify-between gap-4 border-b border-white/10 pb-4 lg:flex-row lg:items-center">
+        <div className="mb-6 flex flex-col justify-between gap-4 pb-4 lg:flex-row lg:items-center">
           <div>
             <h3>7th Heaven Band & Event Contacts</h3>
             <p className="mt-0.5">
@@ -920,197 +921,197 @@ export default function PlannerDashboard() {
         <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
           {(activeContactFilter === "all" ||
             activeContactFilter === "booking") && (
-            <div className="flex w-full flex-col items-center text-center">
-              <div
-                className="relative flex w-full items-end justify-center overflow-hidden"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                }}
-              >
-                <Image
-                  width={400}
-                  height={400}
-                  unoptimized
-                  src="/images/contact/Dickie-contact.png"
-                  alt="Richard Hofherr"
-                  className="h-full w-full origin-bottom object-contain object-bottom"
-                />
-              </div>
-              <div className="mt-2 flex w-full flex-col items-center text-center">
-                <div className="mb-2">
-                  <SectionBadge
-                    label="BOOKING & MANAGEMENT"
-                    isActive={activeContactFilter === "booking"}
-                    className="r sm: px-5 py-2"
+              <div className="flex w-full flex-col items-center text-center">
+                <div
+                  className="relative flex w-full items-end justify-center overflow-hidden"
+                  style={{
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  }}
+                >
+                  <Image
+                    width={400}
+                    height={400}
+                    unoptimized
+                    src="/images/contact/dickie-contact.png"
+                    alt="Richard Hofherr"
+                    className="h-full w-full origin-bottom object-contain object-bottom"
                   />
                 </div>
-                <h3 className="mb-1 text-xl sm:text-2xl">Richard Hofherr</h3>
-                <p className="mb-2">NTD Management</p>
-                <a
-                  href="tel:8475515363"
-                  className="mb-1 text-base text-[var(--color-accent)] hover:text-white"
-                >
-                  (847) 551-5363
-                </a>
-                <a
-                  href="mailto:info@NTDManagement.com"
-                  className="max-w-full px-2 hover:text-white"
-                >
-                  info@NTDManagement.com
-                </a>
+                <div className="mt-2 flex w-full flex-col items-center text-center">
+                  <div className="mb-2">
+                    <SectionBadge
+                      label="BOOKING & MANAGEMENT"
+                      isActive={activeContactFilter === "booking"}
+                      className="px-5 py-2"
+                    />
+                  </div>
+                  <h3 className="mb-1 text-xl sm:text-2xl">Richard Hofherr</h3>
+                  <p className="mb-2">NTD Management</p>
+                  <a
+                    href="tel:8475515363"
+                    className="mb-1   text-[var(--color-accent)] hover:text-white"
+                  >
+                    (847) 551-5363
+                  </a>
+                  <a
+                    href="mailto:info@NTDManagement.com"
+                    className="max-w-full px-2 hover:text-white"
+                  >
+                    info@NTDManagement.com
+                  </a>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {(activeContactFilter === "all" ||
             activeContactFilter === "tech") && (
-            <div className="flex w-full flex-col items-center text-center">
-              <div
-                className="relative flex w-full items-end justify-center overflow-hidden"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                }}
-              >
-                <Image
-                  width={400}
-                  height={400}
-                  unoptimized
-                  src="/images/contact/Jeff-contact.png"
-                  alt="Jeff Dobbs"
-                  className="h-full w-full origin-bottom object-contain object-bottom"
-                />
-              </div>
-              <div className="mt-2 flex w-full flex-col items-center text-center">
-                <div className="mb-2">
-                  <SectionBadge
-                    label="TECHNICAL ADVANCE"
-                    isActive={activeContactFilter === "tech"}
-                    className="r sm: px-5 py-2"
+              <div className="flex w-full flex-col items-center text-center">
+                <div
+                  className="relative flex w-full items-end justify-center overflow-hidden"
+                  style={{
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  }}
+                >
+                  <Image
+                    width={400}
+                    height={400}
+                    unoptimized
+                    src="/images/contact/jeff-contact.png"
+                    alt="Jeff Dobbs"
+                    className="h-full w-full origin-bottom object-contain object-bottom"
                   />
                 </div>
-                <h3 className="mb-1 text-xl sm:text-2xl">Jeff Dobbs</h3>
-                <p className="mb-2">Production & Sound</p>
-                <a
-                  href="tel:8477725333"
-                  className="mb-1 text-base text-[var(--color-accent)] hover:text-white"
-                >
-                  (847) 772-5333
-                </a>
-                <a
-                  href="mailto:jeffdobbs64@yahoo.com"
-                  className="max-w-full px-2 hover:text-white"
-                >
-                  jeffdobbs64@yahoo.com
-                </a>
+                <div className="mt-2 flex w-full flex-col items-center text-center">
+                  <div className="mb-2">
+                    <SectionBadge
+                      label="TECHNICAL ADVANCE"
+                      isActive={activeContactFilter === "tech"}
+                      className="px-5 py-2"
+                    />
+                  </div>
+                  <h3 className="mb-1 text-xl sm:text-2xl">Jeff Dobbs</h3>
+                  <p className="mb-2">Production & Sound</p>
+                  <a
+                    href="tel:8477725333"
+                    className="mb-1   text-[var(--color-accent)] hover:text-white"
+                  >
+                    (847) 772-5333
+                  </a>
+                  <a
+                    href="mailto:jeffdobbs64@yahoo.com"
+                    className="max-w-full px-2 hover:text-white"
+                  >
+                    jeffdobbs64@yahoo.com
+                  </a>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {(activeContactFilter === "all" ||
             activeContactFilter === "non-tech") && (
-            <div className="flex w-full flex-col items-center text-center">
-              <div
-                className="relative flex w-full items-end justify-center overflow-hidden"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                }}
-              >
-                <Image
-                  width={400}
-                  height={400}
-                  unoptimized
-                  src="/images/contact/Alan-contact.png"
-                  alt="Alan McRae"
-                  className="h-full w-full origin-bottom object-contain object-bottom"
-                />
-              </div>
-              <div className="mt-2 flex w-full flex-col items-center text-center">
-                <div className="mb-2">
-                  <SectionBadge
-                    label="NON-TECH ADVANCE"
-                    isActive={activeContactFilter === "non-tech"}
-                    className="r sm: px-5 py-2"
+              <div className="flex w-full flex-col items-center text-center">
+                <div
+                  className="relative flex w-full items-end justify-center overflow-hidden"
+                  style={{
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  }}
+                >
+                  <Image
+                    width={400}
+                    height={400}
+                    unoptimized
+                    src="/images/contact/alan-contact.png"
+                    alt="Alan McRae"
+                    className="h-full w-full origin-bottom object-contain object-bottom"
                   />
                 </div>
-                <h3 className="mb-1 text-xl sm:text-2xl">Alan McRae</h3>
-                <p className="mb-2">NTD Management</p>
-                <a
-                  href="tel:6308429129"
-                  className="mb-1 text-base text-[var(--color-accent)] hover:text-white"
-                >
-                  (630) 842-9129
-                </a>
-                <a
-                  href="mailto:Alan@NTDManagement.com"
-                  className="max-w-full px-2 hover:text-white"
-                >
-                  Alan@NTDManagement.com
-                </a>
+                <div className="mt-2 flex w-full flex-col items-center text-center">
+                  <div className="mb-2">
+                    <SectionBadge
+                      label="NON-TECH ADVANCE"
+                      isActive={activeContactFilter === "non-tech"}
+                      className="px-5 py-2"
+                    />
+                  </div>
+                  <h3 className="mb-1 text-xl sm:text-2xl">Alan McRae</h3>
+                  <p className="mb-2">NTD Management</p>
+                  <a
+                    href="tel:6308429129"
+                    className="mb-1   text-[var(--color-accent)] hover:text-white"
+                  >
+                    (630) 842-9129
+                  </a>
+                  <a
+                    href="mailto:Alan@NTDManagement.com"
+                    className="max-w-full px-2 hover:text-white"
+                  >
+                    Alan@NTDManagement.com
+                  </a>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {(activeContactFilter === "all" ||
             activeContactFilter === "press") && (
-            <div className="flex w-full flex-col items-center text-center">
-              <div
-                className="relative flex w-full items-end justify-center overflow-hidden"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                }}
-              >
-                <Image
-                  width={400}
-                  height={400}
-                  unoptimized
-                  src="/images/contact/Lenny-contact.png"
-                  alt="Lenny Rago"
-                  className="h-full w-full origin-bottom object-contain object-bottom"
-                />
-              </div>
-              <div className="mt-2 flex w-full flex-col items-center text-center">
-                <div className="mb-2">
-                  <SectionBadge
-                    label="PRESS & MEDIA"
-                    isActive={activeContactFilter === "press"}
-                    className="r sm: px-5 py-2"
+              <div className="flex w-full flex-col items-center text-center">
+                <div
+                  className="relative flex w-full items-end justify-center overflow-hidden"
+                  style={{
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    maskImage:
+                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                  }}
+                >
+                  <Image
+                    width={400}
+                    height={400}
+                    unoptimized
+                    src="/images/contact/lenny-contact.png"
+                    alt="Lenny Rago"
+                    className="h-full w-full origin-bottom object-contain object-bottom"
                   />
                 </div>
-                <h3 className="mb-1 text-xl sm:text-2xl">Lenny Rago</h3>
-                <p className="mb-2">NTD Records</p>
-                <a
-                  href="tel:8472696200"
-                  className="mb-1 text-base text-[var(--color-accent)] hover:text-white"
-                >
-                  (847) 269-6200
-                </a>
-                <a
-                  href="mailto:LRago@NTDRecords.com"
-                  className="max-w-full px-2 hover:text-white"
-                >
-                  LRago@NTDRecords.com
-                </a>
+                <div className="mt-2 flex w-full flex-col items-center text-center">
+                  <div className="mb-2">
+                    <SectionBadge
+                      label="PRESS & MEDIA"
+                      isActive={activeContactFilter === "press"}
+                      className="px-5 py-2"
+                    />
+                  </div>
+                  <h3 className="mb-1 text-xl sm:text-2xl">Lenny Rago</h3>
+                  <p className="mb-2">NTD Records</p>
+                  <a
+                    href="tel:8472696200"
+                    className="mb-1   text-[var(--color-accent)] hover:text-white"
+                  >
+                    (847) 269-6200
+                  </a>
+                  <a
+                    href="mailto:LRago@NTDRecords.com"
+                    className="max-w-full px-2 hover:text-white"
+                  >
+                    LRago@NTDRecords.com
+                  </a>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </section>
 
       {/* ── Booking History Timeline ── */}
       {allBookings.length > 1 && (
-        <section aria-label="Booking History Timeline">
+        <section aria-label="Booking History Timeline" className="py-section-fluid">
           <div className="mb-6 flex items-center">
             <div>
               <h3>Booking History</h3>
@@ -1131,27 +1132,27 @@ export default function PlannerDashboard() {
                 const sc =
                   b.status === "confirmed"
                     ? {
-                        dot: "bg-[var(--color-accent)]",
-                        border: "border-[var(--color-accent)]/30",
-                        bg: "bg-[var(--color-accent)]/10",
-                        text: "text-[var(--color-accent)]",
-                        label: "Confirmed",
-                      }
+                      dot: "bg-[var(--color-accent)]",
+                      border: "border-[var(--color-accent)]/30",
+                      bg: "bg-[var(--color-accent)]/10",
+                      text: "text-[var(--color-accent)]",
+                      label: "Confirmed",
+                    }
                     : b.status === "cancelled"
                       ? {
-                          dot: "bg-rose-500",
-                          border: "border-rose-500/20",
-                          bg: "bg-rose-500/5",
-                          text: "text-rose-400",
-                          label: "Cancelled",
-                        }
+                        dot: "bg-rose-500",
+                        border: "border-rose-500/20",
+                        bg: "bg-rose-500/5",
+                        text: "text-rose-400",
+                        label: "Cancelled",
+                      }
                       : {
-                          dot: "bg-purple-400",
-                          border: "border-white/20",
-                          bg: "bg-purple-600/10",
-                          text: " ",
-                          label: "Pending",
-                        };
+                        dot: "bg-purple-400",
+                        border: "border-white/20",
+                        bg: "bg-purple-600/10",
+                        text: " ",
+                        label: "Pending",
+                      };
 
                 return (
                   <div key={b.id} className="relative flex gap-4">
@@ -1168,9 +1169,8 @@ export default function PlannerDashboard() {
                         setBooking(b);
                         setEditDraft(b);
                       }}
-                      className={`flex-1 cursor-pointer !rounded-none border-b border-white/10 px-5 py-4 text-left ${
-                        isActive ? `` : ""
-                      }`}
+                      className={`flex-1 cursor-pointer !rounded-none border-b border-white/10 px-5 py-4 text-left ${isActive ? `` : ""
+                        }`}
                     >
                       <div className="mb-1 flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -1184,17 +1184,17 @@ export default function PlannerDashboard() {
                       >
                         {b.eventName}
                       </h4>
-                      <div className="flex items-center gap-4 text-white/40">
+                      <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-4">
                         <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" /> {b.date}
+                          <Calendar className="h-3 w-3 shrink-0" /> {b.date}
                         </span>
                         <span className="flex items-center gap-1">
-                          <MapPin className="h-3 w-3" /> {b.venueName},{" "}
+                          <MapPin className="h-3 w-3 shrink-0" /> {b.venueName},{" "}
                           {b.venueCity}
                         </span>
                         {b.startTime && (
                           <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" /> {b.startTime}
+                            <Clock className="h-3 w-3 shrink-0" /> {b.startTime}
                           </span>
                         )}
                       </div>

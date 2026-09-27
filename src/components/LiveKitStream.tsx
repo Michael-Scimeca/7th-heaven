@@ -73,7 +73,7 @@ export function LiveKitStream({
       .then(([reactMod, clientMod]) => {
         if (mounted) {
           // @ts-ignore
-          import("@livekit/components-styles/prefabs").catch(() => {});
+          import("@livekit/components-styles/prefabs").catch(() => { });
           setLk({
             LiveKitRoom: reactMod.LiveKitRoom,
             GridLayout: reactMod.GridLayout,
@@ -151,7 +151,7 @@ export function LiveKitStream({
         className={`flex items-center justify-center bg-black/40 ${className}`}
       >
         <div className="text-center">
-          <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+          <div className="mx-auto mb-3 h-8 w-8 animate-spin  border-2 border-[var(--color-accent)] border-t-transparent" />
           <p>Connecting to stream...</p>
         </div>
       </div>
@@ -238,7 +238,7 @@ function PublisherView({ lk }: { lk: any }) {
           </div>
         ) : (
           <div className="flex h-full items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+            <div className="h-8 w-8 animate-spin  border-2 border-[var(--color-accent)] border-t-transparent" />
           </div>
         )}
       </div>
@@ -275,7 +275,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
       return (
         <div className="flex h-full items-center justify-center">
           <div className="text-center">
-            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-lg border border-white/10 bg-[#00000029]">
+            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center  border border-white/10 bg-[#00000029]">
               <Mic className="h-8 w-8" />
             </div>
             <p>{remoteParticipants[0]?.name || "Crew"} is Live</p>
@@ -288,7 +288,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
     return (
       <div className="flex h-full items-center justify-center">
         <div className="text-center">
-          <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+          <div className="mx-auto mb-3 h-8 w-8 animate-spin  border-2 border-[var(--color-accent)] border-t-transparent" />
           <p>Connecting to stream...</p>
           <p className="opacity-40">Room ID: {room}</p>
           <p>Crew members will appear when they go live</p>

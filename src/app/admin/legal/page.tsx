@@ -449,14 +449,14 @@ export default function AdminLegalPage() {
   };
 
   return (
-    <div className="selection: min-h-screen pt-28 pb-16 selection:bg-purple-600">
+    <div className="min-h-screen pt-28 pb-16 selection:bg-purple-600">
       <div className="site-container py-8">
         {/* Header Bar with Live Compliance Audit Badge */}
         <div className="mb-12 flex flex-col justify-between gap-6 border-b border-white/10 pb-8 lg:flex-row lg:items-center">
           <div>
             <div className="mb-3 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                <span className="h-2 w-2 animate-pulse rounded-lg bg-emerald-400" />
+              <span className="inline-flex items-center gap-1.5  border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <span className="h-2 w-2 animate-pulse  bg-emerald-400" />
                 100% Passed Legal Audit
               </span>
               <span className="text-white/40">
@@ -477,8 +477,8 @@ export default function AdminLegalPage() {
 
           <div className="flex shrink-0 flex-col items-stretch gap-4 sm:flex-row sm:items-center">
             {/* Pass Rate Gauge Box */}
-            <div className="flex items-center gap-4 rounded-lg border border-purple-500/30 bg-[#141422] p-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-600/20">
+            <div className="flex items-center gap-4  border border-purple-500/30 bg-[#141422] p-4">
+              <div className="flex h-12 w-12 items-center justify-center  border border-purple-400/40 bg-purple-600/20">
                 {passPercentage}%
               </div>
               <div>
@@ -518,11 +518,10 @@ export default function AdminLegalPage() {
                   aria-label={sec.title}
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
-                  className={`flex w-full cursor-pointer items-center justify-between rounded-lg border p-4 text-left transition-[border-color,background-color,color,box-shadow] duration-200 ${
-                    isSelected
+                  className={`flex w-full cursor-pointer items-center justify-between  border p-4 text-left transition-[border-color,background-color,color,box-shadow] duration-200 ${isSelected
                       ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)]`
                       : `border-white/10 bg-[#00000029] bg-white/[0.02]`
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-3.5">
                     <div
@@ -536,7 +535,7 @@ export default function AdminLegalPage() {
                     </div>
                   </div>
                   {categoryPassed && (
-                    <span className="ml-2 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg border border-emerald-400/50 bg-emerald-500/20 text-[10px] text-emerald-400">
+                    <span className="ml-2 flex h-5 w-5 shrink-0 items-center justify-center  border border-emerald-400/50 bg-emerald-500/20 text-[10px] text-emerald-400">
                       ✓
                     </span>
                   )}
@@ -545,7 +544,7 @@ export default function AdminLegalPage() {
             })}
 
             {/* Legal Disclaimer Box */}
-            <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.02] p-5">
+            <div className="mt-8  border border-white/10 bg-white/[0.02] p-5">
               <span className="mb-1.5 block text-[0.9rem]">
                 ⚖️ Legal Inspection Note
               </span>
@@ -576,14 +575,14 @@ export default function AdminLegalPage() {
                 </div>
               </div>
 
-              <span className="flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-3.5 py-1.5 text-emerald-300">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-emerald-400" />{" "}
+              <span className="flex items-center gap-1.5  border border-emerald-500/30 bg-emerald-500/15 px-3.5 py-1.5 text-emerald-300">
+                <span className="h-1.5 w-1.5 animate-pulse  bg-emerald-400" />{" "}
                 Verified Compliant
               </span>
             </div>
 
             {/* Compliance Context & Legal Rationale Box */}
-            <div className="mb-8 rounded-lg border border-purple-500/30 bg-purple-950/20 p-5">
+            <div className="mb-8  border border-purple-500/30 bg-purple-950/20 p-5">
               <span className="mb-2 block">
                 📜 Regulatory Context & Legal Mandate
               </span>
@@ -627,7 +626,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.isCritical && (
-                        <span className="shrink-0 rounded-lg border border-rose-500/30 bg-rose-500/20 px-3 py-1 text-[0.55rem] text-rose-300">
+                        <span className="shrink-0  border border-rose-500/30 bg-rose-500/20 px-3 py-1 text-[0.55rem] text-rose-300">
                           Critical Rule
                         </span>
                       )}
@@ -643,7 +642,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.verifiedProof && (
-                        <span className="flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-2.5 py-1 text-[10px]">
+                        <span className="flex shrink-0 items-center gap-1  border border-white/10 bg-[#00000029] px-2.5 py-1 text-[10px]">
                           <span>🔒</span> {req.verifiedProof}
                         </span>
                       )}

@@ -178,7 +178,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
                     onChange={(e) => handleDigit(idx, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(idx, e)}
                     onPaste={handlePaste}
-                    className="focus-ring h-13 w-11 rounded-xl border border-white/15 bg-white/[0.06] text-center text-xl shadow-sm focus:bg-white/[0.1]"
+                    className="focus-ring h-13 w-11  border border-white/15 bg-white/[0.06] text-center text-xl shadow-sm focus:bg-white/[0.1]"
                     aria-label={`Digit ${idx + 1}`}
                   />
                 ))}
@@ -193,7 +193,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
               <button
                 type="submit"
                 disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full cursor-pointer rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3.5 shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
+                className="w-full cursor-pointer  bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3.5 shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {sanityContent?.submitButtonText ||
                   (status === "submitting"

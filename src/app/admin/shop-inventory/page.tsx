@@ -65,7 +65,7 @@ function slugify(text: string) {
 export default function ShopInventoryAdminPage() {
   const { member, isLoggedIn, openModal } = useMember();
   const devBypass = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () =>
       process.env.NODE_ENV === "development" &&
       localStorage.getItem("7h_dev_bypass") === "true",
@@ -136,7 +136,7 @@ export default function ShopInventoryAdminPage() {
   if (!authorized) {
     return (
       <div className="flex min-h-screen items-center justify-center px-6 pt-32 pb-24">
-        <div className="w-full max-w-md rounded-lg border border-white/[0.12] bg-white/[0.04] p-8 text-center">
+        <div className="w-full max-w-md  border border-white/[0.12] bg-white/[0.04] p-8 text-center">
           <h2 className="mb-2 text-xl">Admin Access Required</h2>
           <p className="mb-6">
             This page manages real inventory and pricing. Sign in with an admin,
@@ -159,7 +159,7 @@ export default function ShopInventoryAdminPage() {
       <div className="site-container mx-auto max-w-5xl px-6">
         <Link
           href="/payment-test"
-          className="mb-6 flex items-center gap-2 text-purple-400 hover:text-white"
+          className="mb-6 flex items-center gap-2  hover:text-white"
         >
           ← Back to Shop
         </Link>
@@ -202,7 +202,7 @@ export default function ShopInventoryAdminPage() {
         </div>
 
         {error && (
-          <div className="mb-6 rounded-lg border border-rose-500/20 bg-rose-500/10 p-3 text-rose-400">
+          <div className="mb-6  border border-rose-500/20 bg-rose-500/10 p-3 text-rose-400">
             ⚠️ {error}
           </div>
         )}
@@ -310,10 +310,10 @@ function ProductRow({
               unoptimized
               src={product.image_url}
               alt={product.title}
-              className="h-12 w-12 rounded-lg bg-[#00000029] object-cover"
+              className="h-12 w-12  bg-[#00000029] object-cover"
             />
           ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#00000029] text-white/30">
+            <div className="flex h-12 w-12 items-center justify-center  bg-[#00000029] text-white/30">
               No Pic
             </div>
           )}
@@ -463,7 +463,7 @@ function VariantRow({
   const isOut = Number(stock) <= 0;
 
   return (
-    <div className="grid grid-cols-2 items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] p-2.5 sm:grid-cols-6">
+    <div className="grid grid-cols-2 items-center gap-2  border border-white/[0.06] bg-white/[0.02] p-2.5 sm:grid-cols-6">
       <input
         value={label}
         onChange={(e) => {
@@ -591,7 +591,7 @@ function AddVariantForm({
   };
 
   return (
-    <div className="mt-2 flex flex-wrap items-end gap-2 rounded-lg border border-dashed border-white/10 bg-white/[0.02] p-3">
+    <div className="mt-2 flex flex-wrap items-end gap-2  border border-dashed border-white/10 bg-white/[0.02] p-3">
       <div>
         <label className="mb-1 block text-[12px] text-white/40">Label</label>
         <input
@@ -720,7 +720,7 @@ function AddProductModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-      <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto rounded-lg border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
+      <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto  border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <h2>Add Product</h2>
           <button
@@ -737,7 +737,7 @@ function AddProductModal({
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
+            className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
           />
         </div>
 
@@ -749,7 +749,7 @@ function AddProductModal({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
-            className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
+            className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
           />
         </div>
 
@@ -761,7 +761,7 @@ function AddProductModal({
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             placeholder="/images/merch/logo-tee.png"
-            className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
+            className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
           />
         </div>
 
@@ -773,7 +773,7 @@ function AddProductModal({
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value as typeof category)}
-              className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
+              className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
             >
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
@@ -791,7 +791,7 @@ function AddProductModal({
               onChange={(e) =>
                 setVariantKind(e.target.value as typeof variantKind)
               }
-              className="w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
+              className="w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-2.5"
             >
               {VARIANT_KINDS.map((k) => (
                 <option key={k} value={k}>
@@ -825,7 +825,7 @@ function AddProductModal({
                         ? "Vinyl LP"
                         : "Black"
                   }
-                  className="flex-1 rounded-lg border border-white/[0.12] bg-white/[0.03] px-3 py-2"
+                  className="flex-1  border border-white/[0.12] bg-white/[0.03] px-3 py-2"
                 />
                 <input
                   type="number"
@@ -833,14 +833,14 @@ function AddProductModal({
                   value={v.price}
                   onChange={(e) => updateVariant(i, "price", e.target.value)}
                   placeholder="Price"
-                  className="w-20 rounded-lg border border-white/[0.12] bg-white/[0.03] px-3 py-2"
+                  className="w-20  border border-white/[0.12] bg-white/[0.03] px-3 py-2"
                 />
                 <input
                   type="number"
                   value={v.stock}
                   onChange={(e) => updateVariant(i, "stock", e.target.value)}
                   placeholder="Stock"
-                  className="w-20 rounded-lg border border-white/[0.12] bg-white/[0.03] px-3 py-2"
+                  className="w-20  border border-white/[0.12] bg-white/[0.03] px-3 py-2"
                 />
               </div>
             ))}
@@ -874,7 +874,7 @@ function AddProductModal({
           type="button"
           disabled={submitting}
           onClick={submit}
-          className="w-full rounded-lg bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+          className="w-full  bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
         >
           {submitting ? "Creating…" : "Create Product"}
         </button>

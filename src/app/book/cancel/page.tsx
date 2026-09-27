@@ -88,7 +88,7 @@ function CancelContent() {
               </button>
               <Link
                 href="/"
-                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
+                className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
               >
                 Never Mind — Go Back
               </Link>
@@ -140,7 +140,7 @@ function CancelContent() {
               </Link>
               <Link
                 href="/"
-                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
+                className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
               >
                 Return to Homepage
               </Link>
@@ -164,7 +164,7 @@ function CancelContent() {
               </button>
               <Link
                 href="/"
-                className="inline-flex w-full items-center justify-center border border-white/5 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
+                className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
               >
                 Return to Homepage
               </Link>

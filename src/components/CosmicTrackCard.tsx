@@ -20,9 +20,9 @@ function hexToRgb(hex: string): [number, number, number] {
   const full =
     clean.length === 3
       ? clean
-          .split("")
-          .map((c) => c + c)
-          .join("")
+        .split("")
+        .map((c) => c + c)
+        .join("")
       : clean;
   const num = parseInt(full, 16);
   if (Number.isNaN(num)) return [255, 255, 255];
@@ -111,13 +111,13 @@ export const CosmicTrackCard = React.forwardRef<
         <div className="gob-gradient" aria-hidden="true" />
         <span className="!block !w-full !min-w-0 !p-4 text-left sm:!p-5">
           <div className="mb-2 flex items-center justify-between gap-2">
-            {tag ? <span className="/90">{tag}</span> : <span />}
+            {tag ? <span className="">{tag}</span> : <span />}
             <span className="ml-auto flex shrink-0 items-center gap-1.5">
-              <Play className="/90 h-3 w-3 fill-current" /> Play
+              <Play className="h-3 w-3 fill-current" /> Play
             </span>
           </div>
-          <h4 className="sm:">{title}</h4>
-          {subtitle && <p className="/65 sm: mt-1 font-normal">{subtitle}</p>}
+          <h4 className="">{title}</h4>
+          {subtitle && <p className="mt-1 font-normal">{subtitle}</p>}
         </span>
       </button>
     );

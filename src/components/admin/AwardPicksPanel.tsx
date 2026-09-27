@@ -186,7 +186,7 @@ export default function AwardPicksPanel() {
             const data = await res.json();
             return data.success ? 1 : 0;
           }
-        } catch {}
+        } catch { }
         return 0;
       }),
     );
@@ -199,16 +199,16 @@ export default function AwardPicksPanel() {
     <div className="space-y-6">
       {/* Pick Type Selection */}
       <div>
-        <span className="mb-2 block text-white/40">Select Pick Type</span>
+        <span className="mb-2 block">Select Pick Type</span>
         <div className="grid grid-cols-3 gap-2 md:grid-cols-6">
           {PICK_TYPES.map((pick) => (
             <button
               key={pick.id}
               onClick={() => setSelectedPick(pick.id)}
-              className={`cursor-pointer rounded-lg border p-3 text-center ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"}`}
+              className={`cursor-pointer  border p-3 text-center ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"}`}
             >
               <div
-                className="mx-auto mb-1.5 flex h-11 w-11 items-center justify-center rounded-lg"
+                className="mx-auto mb-1.5 flex h-11 w-11 items-center justify-center "
                 style={{
                   background: `${pick.color}20`,
                   color: pick.color,
@@ -226,13 +226,13 @@ export default function AwardPicksPanel() {
 
       {/* Award Reason */}
       <div>
-        <span className="mb-2 block text-white/40">Reason</span>
+        <span className="mb-2 block">Reason</span>
         <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
           {AWARD_REASONS.map((r) => (
             <button
               key={r.id}
               onClick={() => setSelectedReason(r.id)}
-              className={`cursor-pointer rounded-lg border px-3 py-2 text-left ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+              className={`cursor-pointer  border px-3 py-2 text-left ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
             >
               <span>{r.label}</span>
             </button>
@@ -242,7 +242,7 @@ export default function AwardPicksPanel() {
 
       {/* Fan Search + Selection */}
       <div>
-        <label htmlFor="search-fan-input" className="mb-2 block text-white/40">
+        <label htmlFor="search-fan-input" className="mb-2 block">
           Select Fan{" "}
           {selectedFan && (
             <span className="text-[var(--color-accent)]">
@@ -258,7 +258,7 @@ export default function AwardPicksPanel() {
           containerClassName="max-w-[300px] mb-3"
         />
 
-        <div className="max-h-48 overflow-y-auto rounded-lg border border-white/10">
+        <div className="max-h-48 overflow-y-auto  border border-white/10">
           {filteredFans.length === 0 ? (
             <p className="py-4 text-center">No fans found</p>
           ) : (
@@ -313,15 +313,15 @@ export default function AwardPicksPanel() {
       {/* Recent Awards Log */}
       {recentAwards.length > 0 && (
         <div>
-          <span className="mb-2 block text-white/40">Recent Awards</span>
+          <span className="mb-2 block">Recent Awards</span>
           <div className="space-y-1.5">
             {recentAwards.map((a) => (
               <div
                 key={a.id || `${a.fan}-${a.time}`}
-                className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2"
+                className="flex items-center gap-3  border border-white/10 bg-white/[0.02] px-3 py-2"
               >
                 <span
-                  className="h-3 w-3 rounded-lg"
+                  className="h-3 w-3 "
                   style={{ background: a.color }}
                 />
                 <span>{a.fan}</span>

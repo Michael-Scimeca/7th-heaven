@@ -107,11 +107,11 @@ export default function HeroLiveThumbs() {
     return (
       <button
         onClick={handleOpen}
-        className="group flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-2xl select-none"
+        className="group flex cursor-pointer items-center gap-2  border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-2xl select-none"
       >
         <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-lg bg-red-600" />
+          <span className="absolute inline-flex h-full w-full animate-ping  bg-red-500 opacity-75" />
+          <span className="relative inline-flex h-2 w-2  bg-red-600" />
         </span>
         <span className="group-hover:text-white">Show Live Streams</span>
       </button>
@@ -146,8 +146,8 @@ export default function HeroLiveThumbs() {
         <div className="relative mb-3 flex w-full items-center justify-between px-1">
           <div className="flex items-center gap-2 pr-7">
             <span className="relative flex h-3 w-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-red-500 opacity-75" />
-              <span className="relative inline-flex h-3 w-3 rounded-lg bg-red-600" />
+              <span className="absolute inline-flex h-full w-full animate-ping  bg-red-500 opacity-75" />
+              <span className="relative inline-flex h-3 w-3  bg-red-600" />
             </span>
             <span className="whitespace-nowrap text-[var(--font-size-2xs)]">
               Crew Streaming
@@ -217,13 +217,13 @@ export default function HeroLiveThumbs() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 rounded-lg bg-red-600 px-2.5 py-1 shadow-[0_0_12px_rgba(220,38,38,0.7)]">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-white" />
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5  bg-red-600 px-2.5 py-1 shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                    <span className="h-1.5 w-1.5 animate-pulse  bg-white" />
                     LIVE
                   </div>
 
                   {/* Viewer count — top right */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 rounded-lg bg-black/70 px-2 py-0.5 backdrop-blur-sm">
+                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1  bg-black/70 px-2 py-0.5 backdrop-blur-sm">
                     <svg
                       width="8"
                       height="8"
@@ -240,12 +240,12 @@ export default function HeroLiveThumbs() {
                 </div>
 
                 {/* Info row */}
-                <div className="flex flex-1 items-center justify-between border-t border-white/5 bg-black/30 px-4 py-3">
+                <div className="flex flex-1 items-center justify-between border-t border-white/10 bg-black/30 px-4 py-3">
                   <div className="flex min-w-0 items-center gap-2">
                     {/* Green dot + name */}
                     <span className="relative flex h-2.5 w-2.5 shrink-0">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-lg bg-emerald-400 opacity-60" />
-                      <span className="relative inline-flex h-2.5 w-2.5 rounded-lg bg-emerald-500" />
+                      <span className="absolute inline-flex h-full w-full animate-ping  bg-emerald-400 opacity-60" />
+                      <span className="relative inline-flex h-2.5 w-2.5  bg-emerald-500" />
                     </span>
                     <span className="text-[var(--font-size-2xs)]">
                       {crewName}

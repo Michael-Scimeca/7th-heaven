@@ -633,7 +633,7 @@
       "file": "src/components/CountdownTimer.tsx",
       "line": 134,
       "duplicates": "\"",
-      "val": "leading-none font-black tabular-nums duration-1000 ${compact ? \" sm: \" : \"text-[clamp(18px,4.5vw,3.5rem)]\"}",
+      "val": "leading-none font-black tabular-nums duration-1000 ${compact ? \" \" : \"text-[clamp(18px,4.5vw,3.5rem)]\"}",
       "snippet": "className={`leading-none font-black tabular-nums duration-1000 ${compact ? \" sm:"
     },
     {
@@ -941,7 +941,7 @@
       "file": "src/components/admin/ReferralProgramPanel.tsx",
       "line": 463,
       "duplicates": "===, \"border, i",
-      "val": "flex h-8 w-8 shrink-0 items-center justify-center text-[var(--font-size-sm)] ${i === 0 ? \"border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]\" : i === 1 ? \"border border-white/10 bg-white/10\" : i === 2 ? \"border border-white/5 bg-[#00000029] text-white/40\" : \"text-white/20\"}",
+      "val": "flex h-8 w-8 shrink-0 items-center justify-center text-[var(--font-size-sm)] ${i === 0 ? \"border border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]\" : i === 1 ? \"border border-white/10 bg-white/10\" : i === 2 ? \"border border-white/10 bg-[#00000029] text-white/40\" : \"text-white/20\"}",
       "snippet": "className={`flex h-8 w-8 shrink-0 items-center justify-center text-[var(--font-s"
     }
   ]

@@ -31,7 +31,7 @@ const ALL_PRODUCTS = [
     subtitle: "7th heaven and the Rock'n'Roll Kids Land Of Confusion",
     desc: "The Rock 'N' Roll Kids embark on their first epic adventure, bringing positivity and music to resolve chaos in the city.",
     amazonUrl: "https://www.amazon.com/gp/product/B096TJNDWR",
-    coverImg: "/images/comics/71j5h9aU3iS._SL1500_.jpg",
+    coverImg: "/images/7hrrk/book1.jpg",
     badge: "Episode 1",
   },
   {
@@ -41,7 +41,7 @@ const ALL_PRODUCTS = [
     subtitle: "7th heaven and the Rock'n'Roll Kids Who Are You",
     desc: "Identity, friendship, and staying true to yourself when XEC Records try to change the band's authentic rock sound.",
     amazonUrl: "https://www.amazon.com/gp/product/B08FNMPFTR",
-    coverImg: "/images/comics/71tQzMjwGaL._SL1360_.jpg",
+    coverImg: "/images/7hrrk/book2.jpg",
     badge: "Episode 2",
   },
   {
@@ -51,7 +51,7 @@ const ALL_PRODUCTS = [
     subtitle: "7th heaven and the Rock'n'Roll Kids What You Give",
     desc: "A powerful tale of kindness and social consciousness as the kids use music to help community schools stay open.",
     amazonUrl: "https://www.amazon.com/gp/product/B08GLP426D",
-    coverImg: "/images/comics/71OoJ1jhGXL._SL1360_.jpg",
+    coverImg: "/images/7hrrk/book3.jpg",
     badge: "Episode 3",
   },
   {
@@ -61,7 +61,7 @@ const ALL_PRODUCTS = [
     subtitle: "7th heaven and the Rock'n'Roll Kids Runnin' Down A Dream",
     desc: "High-octane concert energy, flying drones, and an unbelievable battle of the bands showdown against ancient rock rivals.",
     amazonUrl: "https://www.amazon.com/gp/product/B08R68B2QF",
-    coverImg: "/images/comics/719L5F4iUyL._SL1500_.jpg",
+    coverImg: "/images/7hrrk/book4.jpg",
     badge: "Episode 4",
   },
   {
@@ -72,7 +72,7 @@ const ALL_PRODUCTS = [
     desc: "The kids face their biggest challenge yet in an epic concert arena battle of music, heart, and teamwork.",
     amazonUrl:
       "https://www.amazon.com/gp/product/B08VYFJWYF?ref_=dbs_m_mng_rwt_calw_tpbk_4&storeType=ebooks",
-    coverImg: "/images/comics/719CbfCsqyL._SL1500_.jpg",
+    coverImg: "/images/7hrrk/book5.jpg",
     badge: "Episode 5",
   },
   {
@@ -83,7 +83,7 @@ const ALL_PRODUCTS = [
     desc: "Special illustrated black & white edition uncovering the mystery of XEC Records headquarters.",
     amazonUrl:
       "https://www.amazon.com/gp/product/B09HG6KW8M?ref_=dbs_m_mng_rwt_calw_tpbk_5&storeType=ebooks",
-    coverImg: "/images/comics/81yWx2cHMjL._SL1500_.jpg",
+    coverImg: "/images/7hrrk/book6.jpg",
     badge: "Episode 6",
   },
   {
@@ -94,7 +94,7 @@ const ALL_PRODUCTS = [
     desc: "Trapped inside a virtual reality video game grid, the Rock 'N' Roll Kids use music chords to beat the game boss.",
     amazonUrl:
       "https://www.amazon.com/gp/product/B0B1K859QC?ref_=dbs_m_mng_rwt_calw_tpbk_6&storeType=ebooks",
-    coverImg: "/images/comics/61y6zQf1hCL._SL1500_.jpg",
+    coverImg: "/images/7hrrk/book7.jpg",
     badge: "Episode 7",
   },
   {
@@ -105,7 +105,7 @@ const ALL_PRODUCTS = [
     desc: "A silent spell falls over the city until the band powers up their amplifiers to restore music and speech.",
     amazonUrl:
       "https://www.amazon.com/gp/product/B0BTRTCQ5W?ref_=dbs_m_mng_rwt_calw_tpbk_7&storeType=ebooks&qid=1681962352&sr=8-1",
-    coverImg: "/images/comics/71mgiiwhIGL._SL1500_.jpg",
+    coverImg: "/images/7hrrk/book8.jpg",
     badge: "Episode 8",
   },
   {
@@ -116,7 +116,7 @@ const ALL_PRODUCTS = [
     desc: "Wild west desert showdown where the band brings rhythm, harmony, and friendship to outlaws.",
     amazonUrl:
       "https://www.amazon.com/7th-heaven-RocknRoll-Kids-Company/dp/B0CGZ1P2ZJ/ref=sr_1_3?crid=NHCNKT022TUP&keywords=7th+heaven+rock+kids&qid=1705630559&s=digital-text&sprefix=7th+heaven+rock+kids%2Cdigital-text%2C83&sr=1-3-catcorr",
-    coverImg: "/images/comics/71njNs9hT2L._SL1500_.jpg",
+    coverImg: "/images/7hrrk/book9.jpg",
     badge: "Episode 9",
   },
   {
@@ -127,7 +127,7 @@ const ALL_PRODUCTS = [
     desc: "20+ pages of high-resolution line art featuring all 7th Heaven characters, concert stages, and comic scenes.",
     amazonUrl:
       "https://www.amazon.com/heaven-RocknRoll-Kids-Coloring-Book/dp/1791341276/?_encoding=UTF8&pd_rd_w=y3LP8&content-id=amzn1.sym.cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_p=cf86ec3a-68a6-43e9-8115-04171136930a&pf_rd_r=135-6472012-0373844&pd_rd_wg=TnrXj&pd_rd_r=3a94a7b7-c821-4b82-85bb-e305d1283288&ref_=aufs_ap_sc_dsk",
-    coverImg: "/images/comics/51Q94xAzn7L.jpg",
+    coverImg: "/images/comics/51q94xazn7l.jpg",
     badge: "Coloring Book",
   },
   {
@@ -138,7 +138,7 @@ const ALL_PRODUCTS = [
     desc: "Exclusive concept sketches, character designs, storyboards, and development artwork from RNR Studios.",
     amazonUrl:
       "https://www.amazon.com/7th-Heaven-RocknRoll-Kids-Introduction/dp/1718876688/ref=sr_1_2?s=books&ie=UTF8&qid=1526169915&sr=1-2",
-    coverImg: "/images/comics/71d2WbDeBHL._SL1360_.jpg",
+    coverImg: "/images/7hrrk/artbook.jpg",
     badge: "Art Book",
   },
   {
@@ -148,7 +148,7 @@ const ALL_PRODUCTS = [
     subtitle: "7th heaven and the Rock'n'Roll Kids Comic Book Vol. 1",
     desc: "The complete volume 1 anthology combining multiple episode issues, full-color pages, and bonus poster art.",
     amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
-    coverImg: "/images/comics/71d2WbDeBHL._SL1360_.jpg",
+    coverImg: "/images/7hrrk/artbook.jpg",
     badge: "Comic Book Vol. 1",
   },
 ];
@@ -324,7 +324,7 @@ const mainCharacters = [
   {
     role: "Lead Guitarist",
     name: "Barefoot Rocker",
-    image: "/images/comics/Mark.png",
+    image: "/images/comics/mark.png",
     desc: "Blonde hair, shades, and barefoot energy. Plays lightning-fast lead guitar solos and brings fearless optimism.",
     icon: GuitarIcon,
     color: "text-amber-400 border-amber-500/30 bg-amber-500/10",
@@ -332,7 +332,7 @@ const mainCharacters = [
   {
     role: "Bass Guitarist",
     name: "Cap Bassist",
-    image: "/images/comics/Frank.png",
+    image: "/images/comics/frank.png",
     desc: "Baseball cap backwards, driving deep basslines that keep the groove locked down in every battle.",
     icon: BassGuitarIcon,
     color: "border-purple-500/30 bg-cyan-500/10",
@@ -340,7 +340,7 @@ const mainCharacters = [
   {
     role: "Drums & Percussion",
     name: "Power Drummer",
-    image: "/images/comics/Dicky.png",
+    image: "/images/comics/dicky.png",
     desc: "The heartbeat of the band. Thunderous rhythms and high-tempo beats that power up the kids' magical music energy.",
     icon: DrumIcon,
     color: "text-purple-400 border-purple-500/30 bg-purple-500/10",
@@ -394,7 +394,7 @@ const DEFAULT_FOUNDERS = [
     desc: "Co-creator of 7th Heaven & The Rock 'n' Roll Kids animated series, comics, and video games.",
     phone: "(847) 551-5363",
     email: "Rich777@aol.com",
-    mobileImg: "/images/contact/Dickie-contact-mobile.png",
+    mobileImg: "/images/contact/dickie-contact-mobile.png",
     desktopImg: "/images/members/desktop-richy.png",
   },
   {
@@ -540,16 +540,16 @@ export default function RockNRollKidsClient({
         </p>
 
         {/* Full Cast Lineup Image Banner */}
-        <div className="relative mt-6 w-full overflow-hidden rounded-lg">
+        <div className="relative mt-6 w-full overflow-hidden ">
           <Image
             src={getMediaUrl(
               sanityContent?.heroBannerImage,
-              "/images/comics/allc.png",
+              "/images/merch/all-c.png",
             )}
             alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
             width={1400}
             height={550}
-            className="h-auto w-full rounded-xl object-contain"
+            className="h-auto w-full  object-contain"
           />
         </div>
       </header>
@@ -557,7 +557,7 @@ export default function RockNRollKidsClient({
       {/* ── STORY & CONCEPT SECTION (LAYOUT 1: SPLIT DUAL GLASS) ── */}
       <section
         aria-labelledby="rrk-story-heading"
-        className="pb-section-fluid w-full border-b border-white/10"
+        className="pb-section-fluid w-full"
       >
         <div className="grid w-full grid-cols-1 items-start gap-6 text-left sm:gap-6 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -569,15 +569,15 @@ export default function RockNRollKidsClient({
 
             {/* Quick Spec Pills */}
             <ul className="flex flex-col gap-2 pt-2">
-              <li className="flex items-center gap-3 rounded-xl border border-purple-500/20 bg-purple-950/40 p-3 text-purple-200">
+              <li className="flex items-center gap-3  border border-white/10 bg-purple-950/40 p-3 text-purple-200">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
                 <span>Animated TV Series & Comic Books</span>
               </li>
-              <li className="flex items-center gap-3 rounded-xl border border-purple-500/20 bg-purple-950/40 p-3 text-purple-200">
+              <li className="flex items-center gap-3  border border-white/10 bg-purple-950/40 p-3 text-purple-200">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
                 <span>Original Songs, Mobile Apps & Games</span>
               </li>
-              <li className="flex items-center gap-3 rounded-xl border border-purple-500/20 bg-purple-950/40 p-3 text-purple-200">
+              <li className="flex items-center gap-3  border border-white/10 bg-purple-950/40 p-3 text-purple-200">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-purple-400" />
                 <span>Positive Influence & Creative Inspiration</span>
               </li>
@@ -585,8 +585,6 @@ export default function RockNRollKidsClient({
           </div>
 
           <div className="relative space-y-6 overflow-hidden md:col-span-7">
-            <div className="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-purple-600/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-600/15 blur-3xl" />
 
             <div className="relative z-10 space-y-5">
               <div className="flex items-center gap-2">
@@ -594,7 +592,7 @@ export default function RockNRollKidsClient({
               </div>
               <p className="drop-shadow-md sm:text-xl">&ldquo;{para1}&rdquo;</p>
               {para2 && (
-                <p className="border-t border-purple-500/20 pt-5 font-normal sm:text-base">
+                <p className="border-t border-white/10 pt-5 font-normal ">
                   {para2}
                 </p>
               )}
@@ -606,7 +604,7 @@ export default function RockNRollKidsClient({
       {/* Character Roster Info Cards Grid */}
       <section
         aria-labelledby="rrk-cast-heading"
-        className="py-section-fluid border-b border-white/10"
+        className="py-section-fluid "
       >
         <h2 id="rrk-cast-heading" className="sr-only">
           Character Cast Lineup
@@ -619,17 +617,17 @@ export default function RockNRollKidsClient({
             >
               <div>
                 {char.image && (
-                  <div className="relative mb-3 flex h-44 w-full items-center justify-start overflow-hidden">
+                  <div className="relative mb-6 flex h-44 w-full items-center justify-start overflow-hidden">
                     <Image
                       src={char.image}
                       alt={char.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-contain object-left"
+                      className="object-contain object-left mb-6"
                     />
                   </div>
                 )}
-                <SectionBadge className="mb-2 gap-1.5">
+                <SectionBadge className="mb-6 gap-1.5">
                   {char.icon ? <char.icon className="h-3.5 w-3.5" /> : null}
                   {char.role}
                 </SectionBadge>
@@ -644,7 +642,7 @@ export default function RockNRollKidsClient({
       {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
       <section
         aria-labelledby="rrk-videos-heading"
-        className="py-section-fluid border-b border-white/10"
+        className="py-section-fluid"
       >
         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
           {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
@@ -659,7 +657,7 @@ export default function RockNRollKidsClient({
             </div>
 
             {/* Animated Singles Quick Select Buttons */}
-            <div className="space-y-3 border-t border-white/10">
+            <div className="space-y-3">
               <AddCmsButton
                 label="ADD KIDS SONG / VIDEO IN SANITY CMS"
                 onClick={() => window.open("/studio", "_blank")}
@@ -671,7 +669,7 @@ export default function RockNRollKidsClient({
                     key={single.id}
                     onClick={() => setSelectedVideo(single.id)}
                     isActive={selectedVideo === single.id}
-                    className="!w-auto [&>span]:!min-w-0 [&>span]:!px-4 [&>span]:!py-2"
+                    className="!w-auto [&>span]:!min-w-0"
                   >
                     {single.title}
                   </SeventhButton>
@@ -711,7 +709,7 @@ export default function RockNRollKidsClient({
       {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
       <section
         aria-labelledby="rrk-comics-heading"
-        className="py-section-fluid border-b border-white/10"
+        className="py-section-fluid"
       >
         <div className="mb-6 pb-4">
           <div>
@@ -719,7 +717,7 @@ export default function RockNRollKidsClient({
               {comicsSection?.title ||
                 `Comic Books & Publications (${productsList.length} Items)`}
             </h2>
-            <p className="max-w-3xl sm:text-base">
+            <p className="max-w-3xl ">
               {comicsSection?.subtitle ||
                 "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
             </p>
@@ -772,7 +770,7 @@ export default function RockNRollKidsClient({
           <h2 id="rrk-founders-heading" className="mb-1 text-2xl sm:text-3xl">
             {foundersSection?.title || "Series Founders & Contact"}
           </h2>
-          <p className="max-w-3xl sm:text-base">
+          <p className="max-w-3xl ">
             {foundersSection?.subtitle ||
               "Meet the creators and co-founders behind 7th Heaven and the Rock 'n' Roll Kids franchise, bringing animated music adventures, comic books, and live rock performances to life."}
           </p>
@@ -813,7 +811,7 @@ export default function RockNRollKidsClient({
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="! mb-0 block sm:text-base"
+                    className="! mb-0 block "
                   >
                     {founder.phone}
                   </a>
@@ -821,7 +819,7 @@ export default function RockNRollKidsClient({
                 {founder.email ? (
                   <a
                     href={`mailto:${founder.email}`}
-                    className="a-btn block sm:text-base"
+                    className="a-btn block "
                   >
                     {founder.email}
                   </a>

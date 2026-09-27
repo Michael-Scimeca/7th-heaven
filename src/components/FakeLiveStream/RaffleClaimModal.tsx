@@ -58,7 +58,7 @@ export function RaffleClaimModal({
         <button
           aria-label="Close"
           onClick={handleClose}
-          className="hover: absolute top-3 right-3 rounded-lg bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
+          className="hover: absolute top-3 right-3  bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
         >
           <svg
             width="16"
@@ -93,7 +93,7 @@ export function RaffleClaimModal({
                   {pin.split("").map((digit: string, i: number) => (
                     <div
                       key={`raffle-pin-${i}-${digit}`}
-                      className="flex h-12 w-9 items-center justify-center rounded-lg border-2 border-[var(--color-border-purple)] bg-gray-100"
+                      className="flex h-12 w-9 items-center justify-center  border-2 border-[var(--color-border-purple)] bg-gray-100"
                     >
                       <span className="text-2xl text-[var(--color-purple-light)] tabular-nums">
                         {digit}
@@ -105,7 +105,7 @@ export function RaffleClaimModal({
                   href={claimUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mb-2 block w-full rounded-lg bg-[var(--color-purple-primary)] py-2.5 text-[var(--font-size-xs)] hover:bg-[var(--color-purple-hover)]"
+                  className="mb-2 block w-full  bg-[var(--color-purple-primary)] py-2.5 text-[var(--font-size-xs)] hover:bg-[var(--color-purple-hover)]"
                 >
                   Open Full Claim Page
                 </a>
@@ -123,7 +123,7 @@ export function RaffleClaimModal({
                 onClick={() => setClaimMethod("shipping")}
                 className="flex w-full items-center gap-3 border border-black/10 bg-gray-50 p-3 text-left hover:border-purple-500/30"
               >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center  bg-blue-500/20 text-blue-400">
                   <svg
                     width="14"
                     height="14"
@@ -147,7 +147,7 @@ export function RaffleClaimModal({
                 onClick={() => setClaimMethod("merch_table")}
                 className="flex w-full items-center gap-3 border border-black/10 bg-gray-50 p-3 text-left hover:border-purple-500/30"
               >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/20">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center  bg-emerald-500/20">
                   <svg
                     width="14"
                     height="14"
@@ -170,7 +170,7 @@ export function RaffleClaimModal({
           </>
         ) : claimMethod === "shipping" ? (
           <div className="py-4 text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  bg-blue-500/20 text-blue-400">
               <svg
                 width="28"
                 height="28"

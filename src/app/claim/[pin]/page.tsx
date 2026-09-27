@@ -27,8 +27,8 @@ export default function ClaimPage() {
     if (pin) {
       const claimedMap = JSON.parse(
         localStorage.getItem("claimed_raffle_pins_v1") ||
-          localStorage.getItem("claimed_raffle_pins") ||
-          "{}",
+        localStorage.getItem("claimed_raffle_pins") ||
+        "{}",
       );
       if (claimedMap[pin]) {
         setHasClaimed(true);
@@ -42,8 +42,8 @@ export default function ClaimPage() {
     // Save to claimed map
     const claimedMap = JSON.parse(
       localStorage.getItem("claimed_raffle_pins_v1") ||
-        localStorage.getItem("claimed_raffle_pins") ||
-        "{}",
+      localStorage.getItem("claimed_raffle_pins") ||
+      "{}",
     );
     claimedMap[pin] = true;
     localStorage.setItem("claimed_raffle_pins_v1", JSON.stringify(claimedMap));
@@ -55,7 +55,7 @@ export default function ClaimPage() {
       : "Raffle Prize";
     const displayImage = firstPrize
       ? shopifyProductsMap[firstPrize.productId || ""]?.imageUrl ||
-        "/images/mockups/merch-hoodie.png"
+      "/images/mockups/merch-hoodie.png"
       : "/images/mockups/merch-hoodie.png";
 
     const newClaimOrder = {
@@ -90,8 +90,8 @@ export default function ClaimPage() {
     try {
       const currentOrders = JSON.parse(
         localStorage.getItem("admin_orders_list_v1") ||
-          localStorage.getItem("admin_orders_list") ||
-          "[]",
+        localStorage.getItem("admin_orders_list") ||
+        "[]",
       );
       currentOrders.unshift(newClaimOrder);
       localStorage.setItem(
@@ -102,8 +102,8 @@ export default function ClaimPage() {
       // Also add to merch_pickup_queue
       const queue = JSON.parse(
         localStorage.getItem("merch_pickup_queue_v1") ||
-          localStorage.getItem("merch_pickup_queue") ||
-          "[]",
+        localStorage.getItem("merch_pickup_queue") ||
+        "[]",
       );
       queue.unshift({
         id: newClaimOrder.id,
@@ -246,7 +246,7 @@ export default function ClaimPage() {
         {/* Loading */}
         {status === "loading" && (
           <div className="py-16 text-center">
-            <div className="mx-auto mb-6 h-8 w-8 animate-spin rounded-lg border-2 border-purple-500/30 border-t-yellow-500" />
+            <div className="mx-auto mb-6 h-8 w-8 animate-spin  border-2 border-purple-500/30 border-t-yellow-500" />
             <p>Verifying...</p>
           </div>
         )}
@@ -263,7 +263,7 @@ export default function ClaimPage() {
             <SeventhButton
               onClick={() => openModal()}
               icon={false}
-              className="w-full rounded-lg py-3"
+              className="w-full "
             >
               Sign In to Verify
             </SeventhButton>
@@ -279,7 +279,7 @@ export default function ClaimPage() {
               This PIN belongs to a different account. You must be signed in as
               the winning account to verify.
             </p>
-            <p className="inline-block rounded-lg bg-black/40 px-3 py-2">
+            <p className="inline-block  bg-black/40 px-3 py-2">
               Signed in as:{" "}
               <span className="text-white/50">{member?.name}</span>
             </p>
@@ -288,7 +288,7 @@ export default function ClaimPage() {
 
         {/* VALID — logged in AND is the winner */}
         {status === "valid" && (
-          <div className="shadow-[0_0_60px_rgba(192, 132, 252,0.2)] overflow-hidden border-2 border-yellow-500/50 bg-[var(--color-bg-surface)]">
+          <div className="shadow-[0_0_60px_rgba(192, 252,0.2)] overflow-hidden border-2 border-yellow-500/50 bg-[var(--color-bg-surface)]">
             {/* Top bar */}
             <div className="flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3">
               <span className="text-black">✓ PIN Verified</span>
@@ -328,7 +328,7 @@ export default function ClaimPage() {
                       key={item.productId || item.variantId || item.name}
                       className="flex items-center gap-3 border border-white/10 bg-white/[0.03] p-3 text-left"
                     >
-                      <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#00000029] p-1">
+                      <div className="relative flex h-12 w-12 shrink-0 items-center justify-center  bg-[#00000029] p-1">
                         <Image
                           width={200}
                           height={200}
@@ -359,7 +359,7 @@ export default function ClaimPage() {
                     ({ digit, i }) => (
                       <div
                         key={i}
-                        className="shadow-[0_0_8px_rgba(192, 132, 252,0.15)] flex h-14 w-10 items-center justify-center rounded-lg border-2 border-purple-500/40 bg-black/60"
+                        className="shadow-[0_0_8px_rgba(192, 252,0.15)] flex h-14 w-10 items-center justify-center border-2 border-purple-500/40 bg-black/60"
                       >
                         <span className="text-2xl tabular-nums">{digit}</span>
                       </div>
@@ -378,7 +378,7 @@ export default function ClaimPage() {
                   <SeventhButton
                     onClick={handleClaimConfirm}
                     icon={false}
-                    className="w-full rounded-lg py-3"
+                    className="w-full"
                   >
                     Confirm Prize Claim
                   </SeventhButton>
@@ -389,7 +389,7 @@ export default function ClaimPage() {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-white/5 bg-black/30 px-6 py-3 text-center">
+            <div className="border-t border-white/10 bg-black/30 px-6 py-3 text-center">
               <p>7th Heaven · Live Raffle</p>
             </div>
           </div>
@@ -404,7 +404,7 @@ export default function ClaimPage() {
               This PIN doesn't match an active raffle winner, or the raffle has
               ended.
             </p>
-            <p className="inline-block rounded-lg bg-black/40 px-3 py-2">
+            <p className="inline-block  bg-black/40 px-3 py-2">
               PIN: {pin}
             </p>
           </div>

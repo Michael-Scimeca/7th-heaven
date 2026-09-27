@@ -200,9 +200,9 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <Link
                   key={room.name}
                   href={`/live/${room.name}`}
-                  className="group flex items-center gap-2 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-[var(--color-accent)]/50 hover:bg-white/15"
+                  className="group flex items-center gap-2  border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-[var(--color-accent)]/50 hover:bg-white/15"
                 >
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-red-500" />
+                  <span className="h-1.5 w-1.5 animate-pulse  bg-red-500" />
                   <span className="max-w-[120px] group-hover:text-white">
                     {room.title?.split(" — ")[0] || room.name}
                   </span>
@@ -239,7 +239,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute right-0 bottom-0 left-0 p-4">
                   <div className="mb-1 flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--font-size-2xs)]">
+                    <div className="flex h-6 w-6 items-center justify-center  border border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--font-size-2xs)]">
                       {selectedMedia.member_avatar}
                     </div>
                     <span>{selectedMedia.member_name}</span>
@@ -260,8 +260,8 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {activeLiveRooms.length > 0 && (
               <div className="overlay-center-hover z-20 bg-black/60 backdrop-blur">
                 <div className="p-8 text-center">
-                  <div className="mb-6 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-1 shadow-red-600/20">
-                    <span className="h-2 w-2 animate-pulse rounded-lg bg-white" />
+                  <div className="mb-6 inline-flex items-center gap-2  bg-red-600 px-4 py-1 shadow-red-600/20">
+                    <span className="h-2 w-2 animate-pulse  bg-white" />
                     Live Now
                   </div>
                   <h4 className="er mb-6">Join the Crew Live</h4>

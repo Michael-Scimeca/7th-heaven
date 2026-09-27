@@ -96,10 +96,10 @@ export default function HeroUpcomingShows({
 
   if (!upcomingShows || upcomingShows.length === 0) {
     return (
-      <div className="h-full rounded-lg border border-white/10 p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+      <div className="h-full  border border-white/10 p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
         <div className="mb-1.5 flex items-center justify-between px-0.5">
           <div className="flex items-center gap-1">
-            <span className="h-1 w-1 animate-pulse rounded-lg bg-[var(--color-accent)]" />
+            <span className="h-1 w-1 animate-pulse  bg-[var(--color-accent)]" />
             <span className="text-[var(--color-accent)]">Upcoming Shows</span>
           </div>
           <Link
@@ -163,11 +163,11 @@ export default function HeroUpcomingShows({
   const daysLabel = getDaysUntilLabel();
 
   return (
-    <div className="w-full rounded-lg border border-white/10 bg-black/85 p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+    <div className="w-full  border border-white/10 bg-black/85 p-2.5 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl">
       {/* Header */}
       <div className="mb-2 flex items-center justify-between px-0.5">
         <div className="flex items-center gap-1">
-          <span className="h-1 w-1 animate-pulse rounded-lg bg-[var(--color-accent)]" />
+          <span className="h-1 w-1 animate-pulse  bg-[var(--color-accent)]" />
           <span className="text-[var(--color-accent)]">Upcoming Shows</span>
         </div>
         <Link
@@ -190,7 +190,7 @@ export default function HeroUpcomingShows({
       </div>
 
       {/* Main Countdown Banner for Next Show */}
-      <div className="relative mb-2 flex flex-col gap-2.5 overflow-hidden rounded-lg border border-[var(--color-accent)]/15 bg-[rgba(20,15,30,0.85)] p-3">
+      <div className="relative mb-2 flex flex-col gap-2.5 overflow-hidden  border border-[var(--color-accent)]/15 bg-[rgba(20,15,30,0.85)] p-3">
         {/* Subtle purple gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-[rgba(255,10,61,0.06)] via-transparent to-transparent" />
 
@@ -200,7 +200,7 @@ export default function HeroUpcomingShows({
             {/* UP NEXT Badge */}
             <div className="flex items-center gap-1 text-[var(--font-size-5xs)]">
               <span
-                className={`h-0.5 w-0.5 rounded-lg ${daysLabel === "Happening Now" ? "animate-ping bg-red-500" : "animate-pulse bg-[var(--color-accent)]"}`}
+                className={`h-0.5 w-0.5  ${daysLabel === "Happening Now" ? "animate-ping bg-red-500" : "animate-pulse bg-[var(--color-accent)]"}`}
               />
               <span
                 className={
@@ -231,7 +231,7 @@ export default function HeroUpcomingShows({
 
           {/* Middle block: Venue & details (clickable link to tour page) */}
           <Link href="/tour" className="group/venue block hover:opacity-85">
-            <h2 className="group-hover/venue: mb-1">{nextShow.venue}</h2>
+            <h2 className="mb-1">{nextShow.venue}</h2>
             <div className="flex flex-wrap items-center gap-1 text-white/50">
               <span>
                 {nextShow.day}, {nextShow.date}
@@ -277,7 +277,7 @@ export default function HeroUpcomingShows({
           </Link>
 
           {/* Bottom block: Action buttons */}
-          <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-white/5 pt-2">
+          <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-white/10 pt-2">
             {nextShow.mapUrl && (
               <a
                 href={nextShow.mapUrl}
@@ -314,7 +314,7 @@ export default function HeroUpcomingShows({
                 <Calendar className="h-3 w-3" /> Calendar
               </button>
               {activeCalDropdownId === "upnext" && (
-                <div className="absolute right-0 bottom-full z-50 mb-1 min-w-[160px] rounded-xl border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-md">
+                <div className="absolute right-0 bottom-full z-50 mb-1 min-w-[160px]  border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-md">
                   <a
                     href={getGoogleCalendarUrl(nextShow)}
                     target="_blank"
@@ -355,7 +355,7 @@ export default function HeroUpcomingShows({
             href="/tour"
             className="flex items-center gap-2 rounded border border-white/10 bg-white/[0.02] px-2 py-1.5 hover:bg-white/[0.04]"
           >
-            <div className="flex h-7 w-7 shrink-0 flex-col items-center justify-center rounded border border-white/5 bg-white/[0.03] text-white/40">
+            <div className="flex h-7 w-7 shrink-0 flex-col items-center justify-center rounded border border-white/10 bg-white/[0.03] text-white/40">
               <span className="text-[var(--font-size-5xs)]">
                 {show.date.split(" ")[0]?.slice(0, 3)}
               </span>

@@ -43,7 +43,7 @@ function FansRedirectContent() {
     >
       <div className="text-center">
         <h1 className="sr-only">7th Heaven Fan Portal</h1>
-        <div className="mx-auto mb-6 h-11 w-11 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+        <div className="mx-auto mb-6 h-11 w-11 animate-spin  border-2 border-[var(--color-accent)] border-t-transparent" />
         <p>
           {isDemo
             ? "Loading Demo..."
@@ -61,7 +61,7 @@ export default function FansRedirectPage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center">
-          <div className="h-11 w-11 animate-spin rounded-lg border-2 border-[var(--color-accent)] border-t-transparent" />
+          <div className="h-11 w-11 animate-spin  border-2 border-[var(--color-accent)] border-t-transparent" />
         </div>
       }
     >

@@ -63,31 +63,34 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint */}
-      <HomeDataLoader />
+      {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint.
+          min-h reserves space so subsequent sections don't shift up during hydration. */}
+      <div className="min-h-[800px]">
+        <HomeDataLoader />
+      </div>
 
       {/* ====== FEATURED VIDEO SHOWCASE ====== */}
-      <LazySection fallbackHeight="500px">
+      <LazySection fallbackHeight="600px">
         <HomeVideoShowcase sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== SLIDEUP STACK SECTION ====== */}
-      <LazySection fallbackHeight="600px">
+      <LazySection fallbackHeight="700px">
         <SlideupSection sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-      <LazySection fallbackHeight="180px">
+      <LazySection fallbackHeight="220px">
         <HomeLogosSection sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== LATEST BAND NEWS ====== */}
-      <LazySection fallbackHeight="400px">
+      <LazySection fallbackHeight="500px">
         <HomeNewsSection sanityContent={sanityContent} />
       </LazySection>
 
       {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
-      <LazySection fallbackHeight="400px">
+      <LazySection fallbackHeight="500px">
         <HomeMerch sanityContent={sanityContent} />
       </LazySection>
     </main>

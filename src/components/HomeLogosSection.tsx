@@ -58,18 +58,19 @@ export default function HomeLogosSection({
       id="logos"
       className="py-section-fluid relative flex w-full flex-col items-center border-b border-white/10 text-center"
     >
-      <div className="mb-2.5 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#00000029] px-4 py-1.5">
-        <span className="font-black">
-          {sanityContent?.logosBadge ||
-            "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
-        </span>
+      <div className="mb-6">
+        <div className="mb-2.5 inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-4 py-1.5">
+          <span className="font-black">
+            {sanityContent?.logosBadge ||
+              "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
+          </span>
+        </div>
+        <p className="mt-2 max-w-2xl text-purple-200/80">
+          {sanityContent?.logosSubtitle ||
+            "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
+        </p>
       </div>
-      <p className="mt-2 max-w-2xl text-purple-200/80">
-        {sanityContent?.logosSubtitle ||
-          "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
-      </p>
-
-      <div className="w-full space-y-6">
+      <div className="w-full space-y-4">
         <LogoTicker items={artistItems} direction="left" />
         <LogoTicker items={pressItems} direction="right" />
       </div>

@@ -264,7 +264,7 @@ export default async function NewsArticlePage({
                       </h3>
                       <p className="mb-6 line-clamp-3">{other.content}</p>
                     </div>
-                    <div className="flex items-center justify-between border-t border-white/5 pt-3 group-hover:text-white">
+                    <div className="flex items-center justify-between border-t border-white/10 pt-3 group-hover:text-white">
                       <span>Read Article</span>
                       <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-1" />
                     </div>

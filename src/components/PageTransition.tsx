@@ -20,7 +20,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(CustomEase);
   try {
     CustomEase.create("exo", "0.496, 0.004, 0, 1");
-  } catch {}
+  } catch { }
 }
 
 const EXO_EASE = "exo";
@@ -408,7 +408,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           settingsRef.current = merged;
         }
       }
-    } catch {}
+    } catch { }
   }, []);
 
   const updateSetting = <K extends keyof TransitionSettings>(
@@ -440,7 +440,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         "7h_page_transition_settings_v18",
         JSON.stringify(next),
       );
-    } catch {}
+    } catch { }
   };
 
   const resetDefaults = () => {
@@ -451,7 +451,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         "7h_page_transition_settings_v18",
         JSON.stringify(DEFAULT_SETTINGS),
       );
-    } catch {}
+    } catch { }
   };
 
   const triggerReplay = useCallback(() => {
@@ -479,7 +479,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         "7h_page_transition_settings_v16",
         JSON.stringify(next),
       );
-    } catch {}
+    } catch { }
 
     setTimeout(() => {
       triggerReplay();
@@ -504,7 +504,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined" && (window as any).__lenis) {
       try {
         (window as any).__lenis.stop();
-      } catch {}
+      } catch { }
     }
 
     if (shouldSkip()) {
@@ -513,7 +513,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch {}
+        } catch { }
       }
       // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
       router.push(pendingHref);
@@ -577,8 +577,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             v.setAttribute("autoplay", "");
             v.setAttribute("muted", "");
             v.setAttribute("playsinline", "");
-            v.play().catch(() => {});
-          } catch {}
+            v.play().catch(() => { });
+          } catch { }
         }
       });
       snapshotInner.appendChild(clone);
@@ -609,7 +609,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       if ((window as any).__lenis) {
         try {
           (window as any).__lenis.scrollTo(0, { immediate: true });
-        } catch {}
+        } catch { }
       }
     }
   }, [mode, pendingHref, router, clearPendingHref, setMode]);
@@ -720,7 +720,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             try {
               (window as any).__lenis.start();
               (window as any).__lenis.resize();
-            } catch {}
+            } catch { }
           }
 
           navPushedRef.current = null;
@@ -784,7 +784,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         try {
           (window as any).__lenis.start();
           (window as any).__lenis.resize();
-        } catch {}
+        } catch { }
       }
       revealStartedForRef.current = null;
       clearPendingHref();
@@ -853,7 +853,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
       try {
         router.prefetch(href);
-      } catch {}
+      } catch { }
 
       e.preventDefault();
       requestTransitionRef.current(href);
@@ -871,7 +871,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       if (href && href.startsWith("/") && !href.startsWith("/studio")) {
         try {
           router.prefetch(href);
-        } catch {}
+        } catch { }
       }
     };
 
@@ -1051,22 +1051,22 @@ function TransitionTunerPanel({
       {showControls && (
         <div className="flex flex-col gap-3 pt-1">
           {/* ── TAB BAR SWITCHER ── */}
-          <div className="grid grid-cols-3 gap-1 rounded-xl border border-white/10 bg-white/5 p-1">
+          <div className="grid grid-cols-3 gap-1  border border-white/10 bg-white/5 p-1">
             <button
               onClick={() => setActiveTab("master")}
-              className={`r rounded-lg py-1.5 text-[10px] ${activeTab === "master" ? "bg-purple-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+              className={`r  py-1.5 text-[10px] ${activeTab === "master" ? "bg-purple-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
             >
               ⚡ Master
             </button>
             <button
               onClick={() => setActiveTab("exit")}
-              className={`r rounded-lg py-1.5 text-[10px] ${activeTab === "exit" ? "bg-fuchsia-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+              className={`r  py-1.5 text-[10px] ${activeTab === "exit" ? "bg-fuchsia-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
             >
               📤 Exit Path
             </button>
             <button
               onClick={() => setActiveTab("reveal")}
-              className={`r rounded-lg py-1.5 text-[10px] ${activeTab === "reveal" ? "bg-cyan-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+              className={`r  py-1.5 text-[10px] ${activeTab === "reveal" ? "bg-cyan-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
             >
               📥 Reveal Path
             </button>
@@ -1095,7 +1095,7 @@ function TransitionTunerPanel({
           )}
 
           {/* ── SLOW-MO SPEED & REPLAY SECTION (ALWAYS VISIBLE) ── */}
-          <div className="flex flex-col gap-2 rounded-xl border border-purple-500/20 bg-purple-950/20 p-3">
+          <div className="flex flex-col gap-2  border border-white/10 bg-purple-950/20 p-3">
             <div className="flex items-center justify-between">
               <span className="r text-[10px] text-purple-400">
                 Slow-Mo Speed
@@ -1124,12 +1124,12 @@ function TransitionTunerPanel({
               onChange={(e) =>
                 updateSetting("speedMult", parseFloat(e.target.value))
               }
-              className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-purple-500"
+              className="h-1.5 w-full cursor-pointer  bg-white/20 accent-purple-500"
             />
 
             <button
               onClick={triggerReplay}
-              className="r flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
+              className="r flex w-full cursor-pointer items-center justify-center gap-1.5  bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
             >
               <span>🎬 Replay Transition ({settings.speedMult}x)</span>
             </button>
@@ -1155,8 +1155,8 @@ function MasterTabSection({
   updateSetting,
 }: TabSectionProps) {
   return (
-    <div className="flex flex-col gap-2.5 rounded-xl border border-purple-500/30 bg-purple-950/30 p-3">
-      <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
+    <div className="flex flex-col gap-2.5  border border-purple-500/30 bg-purple-950/30 p-3">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2">
         <p>Master Path & Sync</p>
         <span className="rounded border border-purple-500/30 bg-purple-900/60 px-1.5 py-0.5 text-[9px] text-purple-400">
           {settings.syncPaths ? "Paths Synced" : "Paths Independent"}
@@ -1205,7 +1205,7 @@ function MasterTabSection({
         step={0.05}
         value={settings.exitSpeed}
         onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-purple-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-purple-400"
       />
 
       <div className="flex flex-col gap-1">
@@ -1237,7 +1237,7 @@ function MasterTabSection({
         onChange={(e) =>
           updateSetting("exitSlantRatio", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-purple-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-purple-400"
       />
 
       <label className="flex cursor-pointer items-center gap-2 pt-0.5 select-none">
@@ -1258,7 +1258,7 @@ function MasterTabSection({
 
 function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
-    <div className="flex flex-col gap-2.5 rounded-xl border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
+    <div className="flex flex-col gap-2.5  border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
       <p className="border-b border-fuchsia-500/20 pb-1.5 text-fuchsia-400">
         Old Page Exit Controls
       </p>
@@ -1304,7 +1304,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("exitSlantRatio", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1320,7 +1320,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={0.05}
         value={settings.exitScale}
         onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1334,7 +1334,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.exitX || 0}
         onChange={(e) => updateSetting("exitX", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1348,7 +1348,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.exitY || 0}
         onChange={(e) => updateSetting("exitY", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1364,7 +1364,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("exitRotation", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex flex-col gap-1">
@@ -1388,8 +1388,8 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 
 function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
-    <div className="flex flex-col gap-2.5 rounded-xl border border-purple-500/20 bg-cyan-950/20 p-3">
-      <p className="border-b border-purple-500/20 pb-1.5 text-cyan-400">
+    <div className="flex flex-col gap-2.5  border border-white/10 bg-cyan-950/20 p-3">
+      <p className="border-b border-white/10 pb-1.5 text-cyan-400">
         New Page Reveal Controls
       </p>
 
@@ -1434,7 +1434,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("revealSlantRatio", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1452,7 +1452,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("revealScale", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1466,7 +1466,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.revealX || 0}
         onChange={(e) => updateSetting("revealX", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1482,7 +1482,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.revealY !== undefined ? settings.revealY : 40}
         onChange={(e) => updateSetting("revealY", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1498,7 +1498,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("revealRotation", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer rounded-lg bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
       />
 
       <div className="flex flex-col gap-1">

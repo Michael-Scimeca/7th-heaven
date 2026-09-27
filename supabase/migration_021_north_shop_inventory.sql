@@ -99,7 +99,7 @@ BEGIN
     (p_id, 'Vinyl LP', 30, 25, 1), (p_id, 'CD', 18, 40, 2), (p_id, 'Cassette', 15, 10, 3);
 
   INSERT INTO public.north_shop_products (slug, title, description, image_url, category, variant_kind, sort_order)
-  VALUES ('be-here', 'Be Here', 'Fan-favorite release, remastered. Pick your format.', '/images/album/Be-Here.png', 'Albums', 'Format', 4)
+  VALUES ('be-here', 'Be Here', 'Fan-favorite release, remastered. Pick your format.', '/images/album/be-here.png', 'Albums', 'Format', 4)
   RETURNING id INTO p_id;
   INSERT INTO public.north_shop_variants (product_id, label, price, stock_quantity, sort_order) VALUES
     (p_id, 'Vinyl LP', 30, 25, 1), (p_id, 'CD', 18, 40, 2);

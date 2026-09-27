@@ -88,7 +88,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   return (
     <div
       title={data.description || data.title}
-      className={`${isSmall ? "w-[190px]" : "w-60"} overflow-hidden rounded-lg border border-white/10 bg-[#0d0d14] select-none hover:-translate-y-0.5 hover:text-white hover:shadow-black/40 ${accent.ring} group`}
+      className={`${isSmall ? "w-[190px]" : "w-60"} overflow-hidden  border border-white/10 bg-[#0d0d14] select-none hover:-translate-y-0.5 hover:text-white hover:shadow-black/40 ${accent.ring} group`}
     >
       <Handle
         type="target"
@@ -263,7 +263,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "ROCK & ROLL KIDS",
       title: "Rock 'n' Roll Kids Animated Series",
       path: "/rock-and-roll-kids",
-      imgUrl: "/sitemap-thumbs/rrk.jpg",
+      imgUrl: "/images/7hrrk/kids1.png",
       badgeType: "HEADER_NAV",
       description:
         "7th Heaven animated TV series, comic books, media, and original music.",
@@ -506,7 +506,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "SIGN UP FAN MODULE",
       title: "Fan Account Signup & Security PIN",
       path: "/fans",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
       badgeType: "MODULE",
       description:
         "Fan sign up modal, account registration form, and 6-digit security PIN verification step.",
@@ -534,7 +534,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "FAN PIN VERIFICATION MODULE",
       title: "Enter PIN into Module on Fan Page",
       path: "/fans",
-      imgUrl: "/sitemap-screenshots/planner-pin-filled-v3.png",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
       description:
         "Fan inputs 6-digit PIN [5][8][2][9][0][1] into the Fan PIN Verification Module on the fan page to complete verification.",
@@ -548,7 +548,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "FAN DASHBOARD",
       title: "Access Fan Account Dashboard",
       path: "/fans",
-      imgUrl: "/sitemap-screenshots/fan-dashboard.png",
+      imgUrl: "/sitemap-thumbs/fan-dashboard.jpg",
       badgeType: "PORTAL",
       description:
         "Fan successfully verifies PIN security code and accesses their personalized Member Hub, backstage passes, and fan photo wall.",
@@ -592,7 +592,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "FAN LIVE STREAM ROOM",
       title: "Fan Live Stream & Chat Room",
       path: "/live/michael",
-      imgUrl: "/sitemap-thumbs/live-michael-dark.png",
+      imgUrl: "/sitemap-thumbs/live-feed.jpg",
       badgeType: "PORTAL",
       description:
         "What the FAN sees: Interactive live video feed with real-time fan chat box, setlist voting, hype meter, and reaction emojis (/live/michael).",
@@ -606,7 +606,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "🔔 LIVE ALERTS MASTER FORM",
       title: "Name, Email & SquishyToggle Form",
       path: "/live",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
       badgeType: "MODULE",
       description:
         "2-input form (Name & Email) with SquishyToggle for Terms of Service. Requests native browser push permission and triggers Double Opt-In verification email.",
@@ -648,7 +648,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "LIVE ROOM — RYAN",
       title: "Ryan's Broadcast Room",
       path: "/live/live_ryan",
-      imgUrl: "/sitemap-thumbs/live-michael-dark.png",
+      imgUrl: "/sitemap-thumbs/live-feed.jpg",
       badgeType: "PORTAL",
       description:
         "Dedicated live-broadcast camera room for Ryan, mirroring the Michael broadcast room.",
@@ -662,7 +662,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "LIVE ROOM — SAMMY",
       title: "Sammy's Broadcast Room",
       path: "/live/live_sammy",
-      imgUrl: "/sitemap-thumbs/live-michael-dark.png",
+      imgUrl: "/sitemap-thumbs/live-feed.jpg",
       badgeType: "PORTAL",
       description: "Dedicated live-broadcast camera room for Sammy.",
     },
@@ -675,7 +675,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "LIVE ROOM — TONY",
       title: "Tony's Broadcast Room",
       path: "/live/live_tony",
-      imgUrl: "/sitemap-thumbs/live-michael-dark.png",
+      imgUrl: "/sitemap-thumbs/live-feed.jpg",
       badgeType: "PORTAL",
       description: "Dedicated live-broadcast camera room for Tony.",
     },
@@ -688,7 +688,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "LIVE ROOM — MICHAEL (STATIC)",
       title: "Michael's Static Broadcast Room",
       path: "/live/live_michael",
-      imgUrl: "/sitemap-thumbs/live-michael-dark.png",
+      imgUrl: "/sitemap-thumbs/live-feed.jpg",
       badgeType: "PORTAL",
       description:
         "Static per-member broadcast route for Michael — distinct from the dynamic /live/[room] fan-facing room.",
@@ -1054,7 +1054,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "CRUISE SIGNUP MODULE",
       title: "Cruise Account Signup & Registration",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
       badgeType: "MODULE",
       description:
         "Select CRUISE account type, enter email and password to register.",
@@ -1082,7 +1082,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "CRUISE PIN VERIFY MODULE",
       title: "Enter PIN into Module on Cruise Page",
       path: "/cruise",
-      imgUrl: "/sitemap-screenshots/cruise-pin-verify-v2.png",
+      imgUrl: "/sitemap-thumbs/cruise-pin-verify-v2.jpg",
       badgeType: "MODULE",
       description:
         "Registrant inputs 6-digit PIN into Cruise PIN Verification Module.",
@@ -1109,7 +1109,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "CRUISE MEMBER DASHBOARD",
       title: "Access Cruise Member Dashboard",
       path: "/cruise/dashboard",
-      imgUrl: "/sitemap-screenshots/cruise-dashboard.png",
+      imgUrl: "/sitemap-thumbs/cruise-dashboard.jpg",
       badgeType: "PORTAL",
       description:
         "Cruise member accesses Cruise Hub with countdown, lounge chat, and itinerary.",
@@ -1190,7 +1190,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "PLANNER PIN MODULE",
       title: "2. Planner PIN Verification Module",
       path: "/book",
-      imgUrl: "/sitemap-screenshots/planner-pin-filled-v3.png",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
       description:
         "Submitting form opens Planner PIN Verification Module asking for 6-digit PIN.",
@@ -1218,7 +1218,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "ENTER PIN ON BOOKER PAGE",
       title: "4. Enter PIN into Module on Booker Page",
       path: "/book",
-      imgUrl: "/sitemap-screenshots/planner-pin-filled-v3.png",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
       description:
         "Planner inputs 6-digit PIN into Planner PIN Verification Module to complete verification.",
@@ -1232,7 +1232,7 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
       header: "PLANNER DASHBOARD",
       title: "5. Access Planner Dashboard",
       path: "/planner",
-      imgUrl: "/sitemap-screenshots/planner-dashboard-v3.png",
+      imgUrl: "/sitemap-thumbs/email-welcome-planner.jpg",
       badgeType: "PORTAL",
       description:
         "Planner accesses Planner Dashboard to manage event details, schedule, and contract.",
@@ -1930,7 +1930,7 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
       header: "2. PLANNER PIN VERIFICATION MODULE",
       title: "2. Planner PIN Verification Module",
       path: "/book",
-      imgUrl: "/sitemap-screenshots/planner-pin-filled-v3.png",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
       description:
         "Planner inputs 6-digit security PIN into the Planner PIN Verification Module to confirm identity and lock in booking.",
@@ -1958,7 +1958,7 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
       header: "4. PLANNER PIN VERIFICATION MODULE",
       title: "4. Enter PIN into Module on Booker Page",
       path: "/book",
-      imgUrl: "/sitemap-screenshots/planner-pin-filled-v3.png",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
       description:
         "Planner inputs 6-digit PIN [5][8][2][9][0][1] into the Planner PIN Verification Module on the booker page to complete verification.",
@@ -1972,7 +1972,7 @@ const BOOKING_FLOW_NODES: Node<SitemapNodeData>[] = [
       header: "5. PLANNER DASHBOARD",
       title: "5. Access Planner Dashboard",
       path: "/planner",
-      imgUrl: "/sitemap-screenshots/planner-dashboard-v3.png",
+      imgUrl: "/sitemap-thumbs/email-welcome-planner.jpg",
       badgeType: "PORTAL",
       description:
         "Planner accesses their Planner Dashboard to manage event details, schedule, and contract.",
@@ -2043,7 +2043,7 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
       header: "STEP 2 · CRUISE PIN VERIFICATION MODULE",
       title: "2. Cruise PIN Verification Module",
       path: "/cruise",
-      imgUrl: "/sitemap-thumbs/planner-pin-modal.jpg",
+      imgUrl: "/sitemap-thumbs/pin-filled-modal.jpg",
       badgeType: "MODULE",
       description:
         "Submitting cabin registration opens the Cruise PIN Verification Module, asking for a 6-digit security PIN to reserve the cabin on the 2026 Cruise.",
@@ -2071,7 +2071,7 @@ const CRUISE_FLOW_NODES: Node<SitemapNodeData>[] = [
       header: "STEP 4 · CRUISE PIN VERIFICATION MODULE",
       title: "4. Enter PIN into Module on Cruise Page",
       path: "/cruise",
-      imgUrl: "/sitemap-screenshots/cruise-pin-verify-v2.png",
+      imgUrl: "/sitemap-thumbs/cruise-pin-verify-v2.jpg",
       badgeType: "MODULE",
       description:
         "Fan inputs 6-digit PIN [5][8][2][9][0][1] into the Cruise PIN Verification Module on the cruise page to complete the reservation.",
@@ -2142,7 +2142,7 @@ const FAN_SIGNUP_FLOW_NODES: Node<SitemapNodeData>[] = [
       header: "STEP 1 · FAN ACCOUNT SIGNUP",
       title: "1. Fan Account Registration Form",
       path: "/fans",
-      imgUrl: "/sitemap-thumbs/signup-modal.jpg",
+      imgUrl: "/sitemap-thumbs/login-modal.jpg",
       badgeType: "HEADER_NAV",
       description:
         "Fan opens Sign Up modal or /fans portal and inputs display name, email, password, and preferences.",
@@ -2198,7 +2198,7 @@ const FAN_SIGNUP_FLOW_NODES: Node<SitemapNodeData>[] = [
       header: "STEP 5 · MEMBER HUB & FAN WALL",
       title: "5. Member Dashboard & Rewards",
       path: "/fans",
-      imgUrl: "/sitemap-screenshots/fan-dashboard.png",
+      imgUrl: "/sitemap-thumbs/fan-dashboard.jpg",
       badgeType: "PORTAL",
       description:
         "Fan accesses personal Member Hub to view backstage passes, post to Fan Photo Wall, and enter Guitar Pick Lottery.",
@@ -2271,9 +2271,9 @@ export default function VisualSitemapClient() {
   return (
     <div className="min-h-screen bg-[#050505] pt-20 pb-12" id="sitemap-page">
       {/* Header bar with View Selector Tabs */}
-      <div className="mx-auto mb-6 flex max-w-[1700px] flex-wrap items-center justify-between gap-4 rounded-lg border border-purple-500/30 bg-[#0c0c14] px-6 py-4 backdrop-blur-xl">
+      <div className="mx-auto mb-6 flex max-w-[1700px] flex-wrap items-center justify-between gap-4  border border-purple-500/30 bg-[#0c0c14] px-6 py-4 backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-pink-600">
+          <div className="flex h-8 w-8 items-center justify-center  bg-gradient-to-r from-purple-600 to-pink-600">
             7H
           </div>
           <div>
@@ -2299,10 +2299,10 @@ export default function VisualSitemapClient() {
         </div>
 
         {/* VIEW SELECTOR TABS */}
-        <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-black/60 p-1.5">
+        <div className="flex items-center gap-2  border border-white/10 bg-black/60 p-1.5">
           <button
             onClick={() => setActiveTab("ARCH")}
-            className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 ${activeTab === "ARCH" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "ARCH" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
           >
             <Layers className="h-3.5 w-3.5" />
             <span>Full Architecture</span>
@@ -2310,7 +2310,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("BOOKING")}
-            className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 ${activeTab === "BOOKING" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "BOOKING" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
           >
             <Calendar className="h-3.5 w-3.5" />
             <span>Booking Flow</span>
@@ -2318,7 +2318,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("CRUISE")}
-            className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 ${activeTab === "CRUISE" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "CRUISE" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
           >
             <Ship className="h-3.5 w-3.5 text-amber-300" />
             <span>Cruise Flow</span>
@@ -2326,7 +2326,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("FAN_SIGNUP")}
-            className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 ${activeTab === "FAN_SIGNUP" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "FAN_SIGNUP" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
           >
             <UserPlus className="h-3.5 w-3.5 text-pink-300" />
             <span>Fan Signup Flow</span>
@@ -2336,7 +2336,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-1 flex items-center gap-1 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10"
+            className="ml-1 flex items-center gap-1  border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10"
           >
             <span>XML</span>
             <ExternalLink className="h-3 w-3" />
@@ -2345,7 +2345,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="relative mx-auto h-[calc(100vh-180px)] min-h-[650px] max-w-[1700px] overflow-hidden rounded-lg border border-white/10 bg-[#09090f]">
+      <div className="relative mx-auto h-[calc(100vh-180px)] min-h-[650px] max-w-[1700px] overflow-hidden  border border-white/10 bg-[#09090f]">
         <ReactFlow
           key={activeTab}
           nodes={nodes}
@@ -2359,12 +2359,12 @@ export default function VisualSitemapClient() {
           colorMode="dark"
         >
           <Background color="#1e1b2e" gap={24} size={1} />
-          <Controls className="! overflow-hidden rounded-lg border-white/10 !bg-black/90 !shadow-2xl" />
+          <Controls className="! overflow-hidden  border-white/10 !bg-black/90 !shadow-2xl" />
           <MiniMap
             style={{ height: 110, width: 160 }}
             maskColor="rgba(0, 0, 0, 0.8)"
             nodeColor="#71717a"
-            className="! rounded-lg border-white/10 !bg-black/90 !shadow-2xl"
+            className="!  border-white/10 !bg-black/90 !shadow-2xl"
           />
         </ReactFlow>
       </div>

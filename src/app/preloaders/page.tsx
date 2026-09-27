@@ -37,7 +37,7 @@ function DemoFrame({
         </button>
       </div>
       <div
-        className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-black"
+        className="relative w-full overflow-hidden  border border-white/10 bg-black"
         style={{ aspectRatio: "16 / 11" }}
       >
         {/* fixed chrome -- never touched by any transition */}
@@ -255,7 +255,7 @@ function CurtainWipeDemo() {
               unoptimized
               className="h-full w-full object-cover object-top"
             />
-            <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1">
+            <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1">
               Cruise (old)
             </span>
           </div>
@@ -275,7 +275,7 @@ function CurtainWipeDemo() {
                 unoptimized
                 className="h-full w-full object-cover object-top"
               />
-              <span className="r /90 absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1">
+              <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-1">
                 Book (new)
               </span>
             </div>
@@ -284,11 +284,11 @@ function CurtainWipeDemo() {
       </DemoFrame>
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
-      <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+      <div className="flex flex-col gap-3  border border-white/10 bg-white/[0.03] p-3">
         <p>New page reveal</p>
         <div className="flex items-center justify-between gap-3">
           <label className="text-white/60">
-            Reveal speed <span className="/35">(exit + 0.25s, linked)</span>
+            Reveal speed <span className="">(exit + 0.25s, linked)</span>
           </label>
           <span>{revealDuration.toFixed(2)}s</span>
         </div>
@@ -327,7 +327,7 @@ function CurtainWipeDemo() {
           id="reveal-ease"
           value={revealEase}
           onChange={(e) => setRevealEase(e.target.value)}
-          className="/90 w-full rounded border border-white/15 bg-black/40 px-2 py-1.5"
+          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5"
         >
           {REVEAL_EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
@@ -367,7 +367,7 @@ function CurtainWipeDemo() {
 
       {/* Old-page exit panel -- independent speed/easing/slant/flip, wired
           into the tl.fromTo(oldRef.current, ...) tween in play() above. */}
-      <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-3">
+      <div className="flex flex-col gap-3  border border-white/10 bg-white/[0.03] p-3">
         <p className="text-fuchsia-400/80">Old page exit</p>
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="old-duration" className="text-white/60">
@@ -427,7 +427,7 @@ function CurtainWipeDemo() {
           id="old-ease"
           value={oldEase}
           onChange={(e) => setOldEase(e.target.value)}
-          className="/90 w-full rounded border border-white/15 bg-black/40 px-2 py-1.5"
+          className="w-full rounded border border-white/15 bg-black/40 px-2 py-1.5"
         >
           {REVEAL_EASE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
@@ -508,7 +508,7 @@ function FadeThenRiseDemo() {
           <span className="text-2xl font-black">OLD PAGE</span>
         </div>
         {/* title stays pinned/visible through the whole fade, like the reference */}
-        <span className="st absolute bottom-3 left-4 z-10 font-black">
+        <span className="absolute bottom-3 left-4 z-10 font-black">
           old page
         </span>
         <div
@@ -536,7 +536,7 @@ export default function PreloadersTestPage() {
           reference video.
         </p>
 
-        <div className="2 grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <CurtainWipeDemo />
           <FadeThenRiseDemo />
         </div>

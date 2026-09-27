@@ -174,7 +174,7 @@ const pageContent = {
               name: "src",
               title: "Image Path / URL (Optional)",
               type: "string",
-              description: "e.g. /images/press-logos/BonJovi.svg",
+              description: "e.g. /images/press-logos/bonjovi.svg",
             },
           ],
           preview: {
@@ -205,7 +205,7 @@ const pageContent = {
               name: "src",
               title: "Image Path / URL (Optional)",
               type: "string",
-              description: "e.g. /images/press-logos/Billboard.svg",
+              description: "e.g. /images/press-logos/billboard.svg",
             },
           ],
           preview: {
@@ -557,7 +557,7 @@ const pageContent = {
                 {
                   name: "imagePath",
                   title:
-                    "Image Path / URL (e.g. '/images/cruise/q2_interior_plus.jpg')",
+                    "Image Path / URL (e.g. '/images/cruise/q2-interior-plus.jpg')",
                   type: "string",
                 },
                 {

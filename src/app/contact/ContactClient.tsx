@@ -28,8 +28,8 @@ interface ContactPhoto {
 const ALL_PHOTOS: ContactPhoto[] = [
   {
     id: "dickie",
-    desktop: "/images/contact/Dickie-contact.webp",
-    mobile: "/images/contact/Dickie-contact-mobile.webp",
+    desktop: "/images/contact/dickie-contact.webp",
+    mobile: "/images/contact/dickie-contact-mobile.webp",
     alt: "Dickie - Booking & Management",
     scaleClass: "scale-100",
     name: "Dickie",
@@ -37,8 +37,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
   },
   {
     id: "lenny",
-    desktop: "/images/contact/Lenny-contact.webp",
-    mobile: "/images/contact/Lenny-contact-mobile.webp",
+    desktop: "/images/contact/lenny-contact.webp",
+    mobile: "/images/contact/lenny-contact-mobile.webp",
     alt: "Lenny Rago - Press & Media",
     scaleClass: "scale-100",
     name: "Lenny Rago",
@@ -46,8 +46,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
   },
   {
     id: "jeff",
-    desktop: "/images/contact/Jeff-contact.webp",
-    mobile: "/images/contact/Jeff-contact-mobile.webp",
+    desktop: "/images/contact/jeff-contact.webp",
+    mobile: "/images/contact/jeff-contact-mobile.webp",
     alt: "Jeff Dobbs - Technical & Production",
     scaleClass: "scale-100",
     name: "Jeff Dobbs",
@@ -55,8 +55,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
   },
   {
     id: "alan",
-    desktop: "/images/contact/Alan-contact.webp",
-    mobile: "/images/contact/Alan-contact-mobile.webp",
+    desktop: "/images/contact/alan-contact.webp",
+    mobile: "/images/contact/alan-contact-mobile.webp",
     alt: "Alan McRae - Advance Non-Technical",
     scaleClass: "scale-100",
     name: "Alan McRae",
@@ -64,8 +64,8 @@ const ALL_PHOTOS: ContactPhoto[] = [
   },
   {
     id: "mary",
-    desktop: "/images/contact/Mary-contact.webp",
-    mobile: "/images/contact/Mary-contact-mobile.webp",
+    desktop: "/images/contact/mary-contact.webp",
+    mobile: "/images/contact/mary-contact-mobile.webp",
     alt: "Mary Grivas - 7th Heaven Cruise & Vacations",
     scaleClass: "scale-100",
     name: "Mary Grivas",
@@ -151,10 +151,10 @@ export default function ContactClient({
   return (
     <main
       id="contact-page"
-      className="site-container page-container relative flex min-h-screen flex-col pb-16"
+      className="site-container page-container relative flex h-full lg:min-h-screen flex-col pb-section-fluid"
     >
       {/* Hero Header */}
-      <header className="relative z-10 mb-8 max-w-5xl text-start">
+      <header className="relative z-10 mb-6 max-w-5xl text-start">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <h1>{title}</h1>
@@ -174,7 +174,7 @@ export default function ContactClient({
 
       {/* ── MAIN CONTENT (Mobile/Tablet Stacked, Desktop Split) ── */}
       {/* Mobile & Tablet Stacked View (< lg) */}
-      <div className="relative z-10 flex flex-col space-y-12 lg:hidden">
+      <div className="relative z-10 flex flex-col space-y-4 lg:hidden">
         {contacts.map((contact) => {
           const photoKey = getPhotoForCategory(contact);
           const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
@@ -186,17 +186,17 @@ export default function ContactClient({
           return (
             <article
               key={cardKey}
-              className="flex flex-col space-y-3  border-b border-white/10 last:border-b-0"
+              className="flex flex-col"
             >
               {/* Category Pill */}
               <div>
-                <span className="inline-block rounded-full border border-purple-400/30 bg-purple-500/20 px-3.5 py-1 text-xs font-bold text-purple-300 uppercase tracking-wider">
+                <span className="inline-block rounded-full border border-purple-400/30 bg-purple-500/20 px-3.5 py-1   font-bold text-purple-300 uppercase tracking-wider">
                   {contact.category}
                 </span>
               </div>
 
               {/* Name & Company */}
-              <div>
+              <div className="mb-6">
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
                   {contact.name || photo.name || "7th Heaven Representative"}
                 </h3>
@@ -208,17 +208,17 @@ export default function ContactClient({
               </div>
 
               {contact.note && (
-                <p className="text-xs italic text-white/60">
+                <p className="  italic text-white/60">
                   {contact.note}
                 </p>
               )}
 
               {/* Action Buttons: Stacked vertically full width */}
-              <address className="not-italic flex flex-col gap-2.5 pt-2 w-full">
+              <address className="not-italic flex flex-col gap-5  w-full">
                 {contact.email && (
                   <a
                     href={`mailto:${contact.email}`}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-purple-500/40 bg-purple-950/60 px-4 py-3 text-xs font-semibold text-purple-200 transition-all hover:bg-purple-900/80"
+                    className="flex w-full items-center justify-center gap-2  border border-purple-500/40 bg-purple-950/60 px-4 py-3   font-semibold text-purple-200 transition-all hover:bg-purple-900/80"
                   >
                     <Mail className="h-4 w-4 text-purple-400" />
                     <span className="truncate">{contact.email}</span>
@@ -227,7 +227,7 @@ export default function ContactClient({
                 {contact.phone && (
                   <a
                     href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-semibold text-white/80 transition-all hover:bg-white/10"
+                    className="flex w-full items-center justify-center gap-2  border border-white/10 bg-white/5 px-4 py-3   font-semibold text-white/80 transition-all hover:bg-white/10"
                   >
                     <Phone className="h-4 w-4 text-emerald-400" />
                     <span>{contact.phone}</span>
@@ -236,11 +236,11 @@ export default function ContactClient({
               </address>
 
               {/* Representative Full-Width Photo Stacked Underneath */}
-              <div className="relative mt-4 overflow-hidden">
+              <div className="contact-rep-stage-mask relative mt-4 overflow-hidden">
                 <img
                   src={photo.desktop || photo.mobile}
                   alt={photo.alt}
-                  className="w-full object-cover object-top max-h-[500px]"
+                  className="w-full object-contain object-top max-h-[500px]"
                 />
               </div>
             </article>
@@ -249,7 +249,7 @@ export default function ContactClient({
       </div>
 
       {/* Desktop Split View (lg:grid) */}
-      <div className="relative z-10 hidden grid-cols-1 items-stretch gap-6 lg:grid lg:grid-cols-12 h-full">
+      <div className="relative z-10 hidden grid-cols-1 items-start gap-6 lg:grid lg:grid-cols-12 h-full">
         {/* Left Column: Contact Cards Directory */}
         <section
           aria-label="Contact Directory"
@@ -271,7 +271,7 @@ export default function ContactClient({
                     type="button"
                     onMouseEnter={() => setActivePhotoId(photoKey)}
                     onClick={() => setActivePhotoId(photoKey)}
-                    className={`w-full text-left  transition-all duration-300 cursor-pointer ${isCardActive
+                    className={`w-full text-left transition-all duration-300 cursor-pointer ${isCardActive
                       ? ""
                       : ""
                       }`}
@@ -286,12 +286,12 @@ export default function ContactClient({
                       {contact.name || photo.name || "7th Heaven Representative"}
                     </h3>
                     {contact.company && (
-                      <p className="mt-0.5 mb-3 text-xs font-semibold text-purple-200/70">
+                      <p className="mt-0.5 mb-3 font-semibold text-purple-200/70">
                         {contact.company}
                       </p>
                     )}
 
-                    <address className="not-italic flex flex-col gap-1.5 text-xs">
+                    <address className="not-italic flex flex-col gap-1.5">
                       {contact.email && (
                         <a
                           href={`mailto:${contact.email}`}
@@ -323,20 +323,14 @@ export default function ContactClient({
         {/* Right Column: Preloaded Representative Photo Stage for Desktop */}
         <aside
           aria-label="Contact Representative Media Stage"
-          className="pointer-events-none relative hidden min-h-[550px] items-end justify-end self-stretch lg:flex lg:col-span-7"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to bottom, black 0%, black 85%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to bottom, black 0%, black 85%, transparent 100%)",
-          }}
+          className="contact-rep-stage-mask pointer-events-none sticky top-28 hidden h-[calc(100vh-9rem)] max-h-[560px] items-end justify-end pb-6 lg:flex lg:col-span-7"
         >
           {ALL_PHOTOS.map((photo) => {
             const isActive = activePhotoId === photo.id;
             return (
               <div
                 key={photo.id}
-                className={`absolute inset-0 flex items-end justify-end transition-opacity duration-300 ease-out ${isActive
+                className={`absolute inset-0 flex items-end justify-end pb-4 transition-opacity duration-300 ease-out ${isActive
                   ? "pointer-events-auto z-10 opacity-100"
                   : "pointer-events-none z-0 opacity-0"
                   }`}
@@ -350,7 +344,7 @@ export default function ContactClient({
                     loading="eager"
                     fetchPriority={isActive ? "high" : "low"}
                     decoding="sync"
-                    className={`pointer-events-none max-h-full max-w-full origin-bottom-right object-contain object-bottom ${photo.scaleClass}`}
+                    className={`pointer-events-none max-h-[55vh] lg:max-h-[460px] w-auto max-w-full origin-bottom-right object-contain object-bottom ${photo.scaleClass}`}
                   />
                 </picture>
               </div>

@@ -85,9 +85,9 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
   };
 
   return (
-    <div className="bg-black/75backdrop-blur-xl group relative w-full max-w-xl overflow-hidden rounded-lg border border-white/10 p-5 shadow-[0_16px_50px_rgba(0,0,0,0.85)] md:p-6">
+    <div className="bg-black/75 backdrop-blur-xl group relative w-full max-w-xl overflow-hidden  border border-white/10 p-5 shadow-[0_16px_50px_rgba(0,0,0,0.85)] md:p-6">
       {/* Background Subtle Accent Glow */}
-      <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-lg bg-[var(--color-accent)]/20 blur-3xl group-hover:bg-[var(--color-accent)]/30" />
+      <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64  bg-[var(--color-accent)]/20 blur-3xl group-hover:bg-[var(--color-accent)]/30" />
 
       {/* Hidden Audio Element */}
       <audio
@@ -103,7 +103,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
       {/* Header Tag */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 animate-pulse rounded-lg bg-emerald-400 shadow-[0_0_10px_#34d399]" />
+          <span className="h-2 w-2 animate-pulse  bg-emerald-400 shadow-[0_0_10px_#34d399]" />
           <span className="text-[var(--color-accent)]">
             Latest Album & Track
           </span>
@@ -136,7 +136,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
           <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover/art:bg-black/20">
             <SeventhButton
               icon={false}
-              className="! flex h-11 w-11 items-center justify-center rounded-lg border border-purple-300/40 !p-0 group-hover/art:scale-110"
+              className="! flex h-11 w-11 items-center justify-center  border border-purple-300/40 !p-0 group-hover/art:scale-110"
             >
               {isPlaying ? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
@@ -171,7 +171,7 @@ export default function HeroAlbumPlayer({ release }: LatestReleaseProps) {
               max="100"
               value={progress}
               onChange={handleSeek}
-              className="focus-ring h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-white/10 accent-[var(--color-accent)]"
+              className="focus-ring h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
             />
             <div className="flex justify-between text-white/40">
               <span>{currentTime}</span>

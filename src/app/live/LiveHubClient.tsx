@@ -22,6 +22,7 @@ import {
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import { SectionBadge } from "@/components/SectionBadge";
 import SeventhButton from "@/components/SeventhButton";
+import GlassPlayButton from "@/components/GlassPlayButton";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -265,7 +266,7 @@ export default function LiveHubClient({
   const totalViewers = Object.values(viewers).reduce((a, b) => a + b, 0);
 
   return (
-    <main className="site-container page-container w-full" id="live-hub-page">
+    <main className="site-container page-container w-full pb-section-fluid" id="live-hub-page">
       {/* ── HERO HEADER ── */}
       <header className="relative z-10 mb-6 flex max-w-5xl flex-col justify-between gap-6 md:flex-row md:items-end">
         <div className="text-left">
@@ -288,21 +289,9 @@ export default function LiveHubClient({
             ADMIN OVERLAY
         ══════════════════════════════════════════════════ */}
       {showAdmin && (
-        <div
-          className="mx-auto mb-12 max-w-[1440px] overflow-hidden"
-          style={{
-            background: "#08080c",
-            border: "1px solid rgba(239,68,68,0.2)",
-          }}
-        >
+        <div className="mx-auto mb-12 max-w-[1440px] overflow-hidden bg-[#08080c] border border-red-500/20">
           {/* Admin header */}
-          <div
-            className="flex items-center justify-between px-6 py-4"
-            style={{
-              background: "rgba(239,68,68,0.06)",
-              borderBottom: "1px solid rgba(239,68,68,0.15)",
-            }}
-          >
+          <div className="flex items-center justify-between px-6 py-4 bg-red-500/[0.06] border-b border-red-500/15">
             <div className="flex items-center gap-3">
               <svg
                 width="16"
@@ -314,18 +303,12 @@ export default function LiveHubClient({
               >
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               </svg>
-              <span style={{ color: "#f87171" }}>Moderation Dashboard</span>
-              <span
-                className="rounded-lg px-2 py-0.5"
-                style={{ background: "rgba(239,68,68,0.15)", color: "#fca5a5" }}
-              >
+              <span className="text-red-400">Moderation Dashboard</span>
+              <span className="rounded-lg px-2 py-0.5 bg-red-500/15 text-red-300">
                 LIVE SHOW
               </span>
             </div>
-            <div
-              className="flex items-center gap-4"
-              style={{ color: "rgba(255,255,255,0.35)" }}
-            >
+            <div className="flex items-center gap-4 text-white/35">
               <span className="flex items-center gap-1">
                 <Eye className="h-3.5 w-3.5 text-white/50" />{" "}
                 {totalViewers.toLocaleString()} watching
@@ -344,8 +327,7 @@ export default function LiveHubClient({
               </span>
               {flaggedCount > 0 && (
                 <span
-                  className="flex items-center gap-1"
-                  style={{ color: "#fca5a5" }}
+                  className="flex items-center gap-1 text-red-300"
                 >
                   <Siren className="h-3.5 w-3.5" /> {flaggedCount} flagged
                 </span>
@@ -354,10 +336,7 @@ export default function LiveHubClient({
           </div>
 
           {/* Admin tabs */}
-          <div
-            className="flex gap-2 border-b px-6 pt-3 pb-0"
-            style={{ borderColor: "rgba(255,255,255,0.06)" }}
-          >
+          <div className="flex gap-2 border-b border-white/[0.06] px-6 pt-3 pb-0">
             {(["streams", "users", "policy"] as const).map((tab) => (
               <button
                 key={tab}
@@ -400,14 +379,7 @@ export default function LiveHubClient({
             {adminTab === "streams" && (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                 {rooms.map((room) => (
-                  <div
-                    key={room.name}
-                    className="overflow-hidden"
-                    style={{
-                      background: "rgba(255,255,255,0.03)",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                    }}
-                  >
+                  <div key={room.name} className="overflow-hidden bg-white/[0.03] border border-white/[0.07]">
                     {/* Mini feed */}
                     <div className="relative aspect-video">
                       <Image
@@ -421,20 +393,11 @@ export default function LiveHubClient({
                         sizes="(max-width: 768px) 100vw, 400px"
                         className="object-cover"
                       />
-                      <div
-                        className="absolute top-2 left-2 flex items-center gap-1.5 rounded-lg px-2 py-1"
-                        style={{ background: "#dc2626" }}
-                      >
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-white" />
+                      <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-1 bg-red-600">
+                        <span className="h-1.5 w-1.5 animate-pulse  bg-white" />
                         LIVE
                       </div>
-                      <div
-                        className="absolute right-2 bottom-2 rounded px-2 py-0.5"
-                        style={{
-                          background: "rgba(0,0,0,0.7)",
-                          color: "rgba(255,255,255,0.7)",
-                        }}
-                      >
+                      <div className="absolute right-2 bottom-2 rounded px-2 py-0.5 bg-black/70 text-white/70">
                         👁{" "}
                         {(
                           viewers[room.name] ?? room.numParticipants
@@ -444,13 +407,13 @@ export default function LiveHubClient({
                     {/* Card info */}
                     <div className="p-3">
                       <p>{room.title}</p>
-                      <p style={{ color: "rgba(255,255,255,0.3)" }}>
+                      <p className="text-white/30">
                         {getElapsed(room.creationTime)}
                       </p>
                       <div className="mt-3 flex gap-1.5">
                         <Link
                           href={`/live/${room.name.replace(/^live_/, "")}`}
-                          className="flex-1 rounded-lg py-1.5 text-center"
+                          className="flex-1  py-1.5 text-center"
                           style={{
                             background: `rgba(${parseInt(room.color.slice(1, 3), 16)},${parseInt(room.color.slice(3, 5), 16)},${parseInt(room.color.slice(5, 7), 16)},0.15)`,
                             color: room.color,
@@ -468,12 +431,7 @@ export default function LiveHubClient({
                             );
                             addLog("🛑 Ended stream", room.title);
                           }}
-                          className="cursor-pointer rounded-lg px-3 py-1.5"
-                          style={{
-                            background: "rgba(239,68,68,0.1)",
-                            border: "1px solid rgba(239,68,68,0.2)",
-                            color: "#f87171",
-                          }}
+                          className="cursor-pointer px-3 py-1.5 bg-red-500/10 border border-red-500/20 text-red-400"
                         >
                           🛑 End
                         </button>
@@ -507,7 +465,7 @@ export default function LiveHubClient({
                     >
                       <div className="flex min-w-0 items-center gap-3">
                         <div
-                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
+                          className="flex h-11 w-11 shrink-0 items-center justify-center "
                           style={{ background: fan.color }}
                         >
                           {fan.avatar}
@@ -516,43 +474,22 @@ export default function LiveHubClient({
                           <div className="flex flex-wrap items-center gap-1.5">
                             <span style={{ color: fan.color }}>{fan.name}</span>
                             {isBanned && (
-                              <span
-                                className="rounded-lg px-1.5"
-                                style={{
-                                  background: "rgba(239,68,68,0.2)",
-                                  color: "#f87171",
-                                  fontSize: 9,
-                                }}
-                              >
+                              <span className="rounded-lg px-1.5 bg-red-500/20 text-red-400 text-[9px]">
                                 BANNED
                               </span>
                             )}
                             {isMuted && !isBanned && (
-                              <span
-                                className="rounded-lg px-1.5"
-                                style={{
-                                  background: "rgba(156,163,175,0.15)",
-                                  color: "#9ca3af",
-                                  fontSize: 9,
-                                }}
-                              >
+                              <span className="rounded-lg px-1.5 bg-gray-400/15 text-gray-400 text-[9px]">
                                 MUTED
                               </span>
                             )}
                             {isWarned && !isBanned && (
-                              <span
-                                className="rounded-lg px-1.5"
-                                style={{
-                                  background: "rgba(192, 132, 252,0.15)",
-                                  color: "#c084fc",
-                                  fontSize: 9,
-                                }}
-                              >
+                              <span className="rounded-lg px-1.5 bg-purple-400/15 text-purple-400 text-[9px]">
                                 WARNED
                               </span>
                             )}
                           </div>
-                          <p style={{ color: "rgba(255,255,255,0.25)" }}>
+                          <p className="text-white/25">
                             {fan.tier} · {fan.msgs} msgs
                           </p>
                         </div>
@@ -566,8 +503,7 @@ export default function LiveHubClient({
                                 addLog("⚠️ Warned", fan.name);
                               }}
                               title="Warn"
-                              className="flex h-8 w-8 items-center justify-center rounded-lg"
-                              style={{ background: "rgba(192, 132, 252,0.1)" }}
+                              className="flex h-8 w-8 items-center justify-center bg-purple-400/10"
                             >
                               ⚠️
                             </button>
@@ -579,8 +515,7 @@ export default function LiveHubClient({
                                 addLog("🔇 Muted", fan.name);
                               }}
                               title="Mute"
-                              className="flex h-8 w-8 items-center justify-center rounded-lg"
-                              style={{ background: "rgba(156,163,175,0.08)" }}
+                              className="flex h-8 w-8 items-center justify-center bg-gray-400/[0.08]"
                             >
                               🔇
                             </button>
@@ -591,8 +526,7 @@ export default function LiveHubClient({
                               addLog("🚫 Banned", fan.name);
                             }}
                             title="Ban"
-                            className="flex h-8 w-8 items-center justify-center rounded-lg"
-                            style={{ background: "rgba(239,68,68,0.12)" }}
+                            className="flex h-8 w-8 items-center justify-center bg-red-500/12"
                           >
                             🚫
                           </button>
@@ -604,29 +538,16 @@ export default function LiveHubClient({
 
                 {/* Mod log */}
                 {modLog.length > 0 && (
-                  <div
-                    className="col-span-full mt-4 p-4"
-                    style={{
-                      background: "rgba(255,255,255,0.02)",
-                      border: "1px solid rgba(255,255,255,0.06)",
-                    }}
-                  >
-                    <p
-                      className="mb-3"
-                      style={{ color: "rgba(255,255,255,0.3)" }}
-                    >
+                  <div className="col-span-full mt-4 p-4 bg-white/[0.02] border border-white/[0.06]">
+                    <p className="mb-3 text-white/30">
                       📋 Recent Actions
                     </p>
                     <div className="space-y-1">
                       {modLog.slice(0, 5).map((e) => (
-                        <div
-                          key={e.id}
-                          className="flex items-center justify-between"
-                          style={{ color: "rgba(255,255,255,0.4)" }}
-                        >
+                        <div key={e.id} className="flex items-center justify-between text-white/40">
                           <span>
                             {e.action} —{" "}
-                            <span style={{ color: "#c084fc" }}>{e.user}</span>
+                            <span className="text-purple-400">{e.user}</span>
                           </span>
                           <span>{new Date(e.time).toLocaleTimeString()}</span>
                         </div>
@@ -641,7 +562,7 @@ export default function LiveHubClient({
             {adminTab === "policy" && (
               <div className="grid max-w-4xl grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <p className="mb-3" style={{ color: "#f87171" }}>
+                  <p className="mb-3 text-red-400">
                     🚫 Zero-Tolerance — Instant Ban
                   </p>
                   {[
@@ -661,28 +582,18 @@ export default function LiveHubClient({
                       desc: "Any threats toward people, band, or venue staff.",
                     },
                   ].map(({ icon, rule, desc }) => (
-                    <div
-                      key={rule}
-                      className="mb-2 p-3"
-                      style={{
-                        background: "rgba(239,68,68,0.07)",
-                        border: "1px solid rgba(239,68,68,0.18)",
-                      }}
-                    >
+                    <div key={rule} className="mb-2 p-3 bg-red-500/[0.07] border border-red-500/[0.18]">
                       <p>
                         {icon} {rule}
                       </p>
-                      <p
-                        className="mt-0.5"
-                        style={{ color: "rgba(255,255,255,0.35)" }}
-                      >
+                      <p className="mt-0.5 text-white/35">
                         {desc}
                       </p>
                     </div>
                   ))}
                 </div>
                 <div>
-                  <p className="mb-3" style={{ color: "#c084fc" }}>
+                  <p className="mb-3 text-purple-400">
                     ⚠️ Warn First — Then Mute/Kick
                   </p>
                   {[
@@ -707,14 +618,7 @@ export default function LiveHubClient({
                       desc: "Discussion of illegal substances during the event.",
                     },
                   ].map(({ icon, rule, desc }) => (
-                    <div
-                      key={rule}
-                      className="mb-2 p-3"
-                      style={{
-                        background: "rgba(192, 132, 252,0.06)",
-                        border: "1px solid rgba(192, 132, 252,0.15)",
-                      }}
-                    >
+                    <div key={rule} className="mb-2 p-3 bg-purple-400/[0.06] border border-purple-400/15">
                       <p>
                         {icon} {rule}
                       </p>
@@ -726,15 +630,9 @@ export default function LiveHubClient({
                       </p>
                     </div>
                   ))}
-                  <div
-                    className="mt-2 p-3"
-                    style={{
-                      background: "rgba(255,10,61,0.08)",
-                      border: "1px solid rgba(255,10,61,0.2)",
-                    }}
-                  >
+                  <div className="mt-2 p-3 bg-[#ff0a3d]/[0.08] border border-[#ff0a3d]/20">
                     <p className="mb-1">✅ Keep It Positive</p>
-                    <p style={{ color: "rgba(255,255,255,0.35)" }}>
+                    <p className="text-white/35">
                       This is a fan space for music lovers — keep the energy
                       high! 🎸
                     </p>
@@ -756,7 +654,7 @@ export default function LiveHubClient({
         {rooms.map((room, i) => (
           <article
             key={room.name}
-            className="group overflow-hidden"
+            className="group"
             style={{ "--room-color": room.color } as React.CSSProperties}
           >
             <Link href={`/live/${room.name.replace(/^live_/, "")}`}>
@@ -786,7 +684,7 @@ export default function LiveHubClient({
                 {/* Viewer + time pills */}
                 <div className="absolute right-4 bottom-4 z-10 flex items-center gap-2">
                   <div
-                    className="flex items-center gap-1.5 rounded-lg px-2.5 py-1"
+                    className="flex items-center gap-1.5 px-2.5 py-1"
                     style={{
                       background: "rgba(0,0,0,0.75)",
                       backdropFilter: "blur(8px)",
@@ -795,14 +693,14 @@ export default function LiveHubClient({
                       color: "#d1fae5",
                     }}
                   >
-                    <span className="h-1.5 w-1.5 rounded-lg bg-emerald-400" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                     {(
                       viewers[room.name] ?? room.numParticipants
                     ).toLocaleString()}{" "}
                     viewers
                   </div>
                   <div
-                    className="rounded-lg px-2.5 py-1"
+                    className="px-2.5 py-1  "
                     style={{
                       background: "rgba(0,0,0,0.75)",
                       backdropFilter: "blur(8px)",
@@ -815,46 +713,27 @@ export default function LiveHubClient({
                   </div>
                 </div>
 
-                {/* Hover overlay */}
-                <div
-                  className="overlay-center-hover z-10"
-                  style={{ background: "rgba(0,0,0,0.3)" }}
-                >
-                  <div
-                    className="flex h-16 w-16 items-center justify-center rounded-full"
-                    style={{
-                      background: room.color + "33",
-                      border: `2px solid ${room.color}66`,
-                    }}
-                  >
-                    <svg
-                      width="28"
-                      height="28"
-                      viewBox="0 0 24 24"
-                      fill={room.color}
-                    >
-                      <polygon points="5 3 19 12 5 21 5 3" />
-                    </svg>
-                  </div>
+                {/* Hover overlay with official 7th Heaven Glass Play Button */}
+                <div className="overlay-center-hover z-10">
+                  <GlassPlayButton size="lg" as="div" />
                 </div>
               </div>
             </Link>
 
             {/* Card meta */}
-            <div className="relative flex items-center justify-between p-6 ">
-              {/* Avatar badge */}
-              <div
-                className="pointer-events-none absolute -top-5 right-6 z-10 flex h-11 w-11 items-center justify-center rounded-full ring-4 ring-white/20 select-none"
-                style={{ background: room.gradient }}
-              >
-                {room.member}
-              </div>
+            <div className="flex items-center justify-between py-6">
+              <div className="flex min-w-0 flex-1 items-center gap-3.5 pr-2">
+                {/* Avatar badge */}
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full font-bold select-none bg-gradient-to-br from-purple-600/40 to-indigo-900/90 border border-white/10 shadow-md">
+                  {room.member}
+                </div>
 
-              <div className="min-w-0 flex-1 pr-2">
-                <h3 className="md: mb-1 text-base font-bold">{room.title}</h3>
-                <p className="md: text-white/60">
-                  LiveKit Stream · Started {getElapsed(room.creationTime)}
-                </p>
+                <div className="min-w-0 flex-1">
+                  <h3 className="mb-0.5 font-bold">{room.title}</h3>
+                  <p className="text-sm text-white/60">
+                    LiveKit Stream · Started {getElapsed(room.creationTime)}
+                  </p>
+                </div>
               </div>
 
               <SeventhButton

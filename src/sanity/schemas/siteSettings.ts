@@ -181,7 +181,7 @@ const siteSettings = {
               name: "logoPath",
               title: "Logo Path (fallback)",
               type: "string",
-              description: "e.g. /images/sponsor-logos/SHURE.svg",
+              description: "e.g. /images/sponsor-logos/shure.svg",
             },
           ],
           preview: {

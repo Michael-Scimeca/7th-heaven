@@ -39,7 +39,7 @@ function PaymentTestContent() {
           });
         }
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => {
       active = false;
     };
@@ -76,13 +76,13 @@ function PaymentTestContent() {
         <div className="mb-8 text-left">
           <Link
             href="/"
-            className="text-purple-400hover: flex items-center gap-2"
+            className="flex items-center gap-2"
           >
             ← Back to Home
           </Link>
         </div>
 
-        <div className="bg-white/[0.04]backdrop-blur-xl rounded-lg border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04] backdrop-blur-xl  border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
             <span className="mb-1 inline-block">Stripe Test Mode</span>
             <h1>Payment Test Page</h1>
@@ -127,7 +127,7 @@ function PaymentTestContent() {
                 required
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="focus-ring w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3"
+                className="focus-ring w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-3"
               />
             </div>
 
@@ -140,14 +140,14 @@ function PaymentTestContent() {
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="focus-ring w-full rounded-lg border border-white/[0.12] bg-white/[0.03] px-4 py-3"
+                className="focus-ring w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-3"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-[var(--color-accent)] py-3.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+              className="w-full  bg-[var(--color-accent)] py-3.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
             >
               {loading
                 ? "Redirecting to Stripe…"

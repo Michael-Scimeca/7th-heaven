@@ -7,6 +7,7 @@ import React, { useState, useMemo } from "react";
 
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import { SquishyToggle } from "@/components/SquishyToggle";
+import SeventhButton from "@/components/SeventhButton";
 
 interface TourShow {
   date: string;
@@ -179,7 +180,7 @@ export function EmergencyBroadcastCenter({
     <div className="space-y-4 border-none py-5 pl-0">
       {/* Top Banner & Stats */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-        <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.04] p-3.5">
+        <div className="flex items-center justify-between  border border-white/10 bg-white/[0.04] p-3.5">
           <div>
             <span className="block text-rose-400">Target Audience</span>
             <span>{recipientCount.toLocaleString()} Subscribers</span>
@@ -200,7 +201,7 @@ export function EmergencyBroadcastCenter({
           </svg>
         </div>
 
-        <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.04] p-3.5">
+        <div className="flex items-center justify-between  border border-white/10 bg-white/[0.04] p-3.5">
           <div>
             <span className="block">SMS Length & Segments</span>
             <span>
@@ -222,7 +223,7 @@ export function EmergencyBroadcastCenter({
           </svg>
         </div>
 
-        <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.04] p-3.5">
+        <div className="flex items-center justify-between  border border-white/10 bg-white/[0.04] p-3.5">
           <div>
             <span className="block">Twilio SMS Rate</span>
             <span>
@@ -245,7 +246,7 @@ export function EmergencyBroadcastCenter({
           </svg>
         </div>
 
-        <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.04] p-3.5">
+        <div className="flex items-center justify-between  border border-white/10 bg-white/[0.04] p-3.5">
           <div>
             <span className="block">Total Est. Campaign Cost</span>
             <span className="text-[var(--color-accent)]">
@@ -276,7 +277,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`cursor-pointer rounded-lg border px-3.5 py-2.5 text-left ${alertType === "cancellation" ? "border-rose-400/50 bg-rose-600 shadow-rose-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
+            className={`cursor-pointer  border px-3.5 py-2.5 text-left ${alertType === "cancellation" ? "border-rose-400/50 bg-rose-600 shadow-rose-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -300,7 +301,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`cursor-pointer rounded-lg border px-3.5 py-2.5 text-left ${alertType === "time_change" ? "border-purple-400/50 bg-purple-700 shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
+            className={`cursor-pointer  border px-3.5 py-2.5 text-left ${alertType === "time_change" ? "border-purple-400/50 bg-purple-700 shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -323,7 +324,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`cursor-pointer rounded-lg border px-3.5 py-2.5 text-left ${alertType === "venue_change" ? "border-purple-400/50 bg-[var(--color-accent)] shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
+            className={`cursor-pointer  border px-3.5 py-2.5 text-left ${alertType === "venue_change" ? "border-purple-400/50 bg-[var(--color-accent)] shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -346,7 +347,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`cursor-pointer rounded-lg border px-3.5 py-2.5 text-left ${alertType === "announcement" ? "border-purple-400/50 bg-cyan-600 shadow-cyan-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
+            className={`cursor-pointer  border px-3.5 py-2.5 text-left ${alertType === "announcement" ? "border-purple-400/50 bg-cyan-600 shadow-cyan-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -402,7 +403,7 @@ export function EmergencyBroadcastCenter({
           4. Delivery Channels & Cost Estimator
         </span>
         <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-          <label className="flex cursor-pointer items-center justify-between rounded-lg border-none p-2.5">
+          <label className="flex cursor-pointer items-center justify-between  border-none p-2.5">
             <div className="flex items-center gap-2">
               <SquishyToggle
                 id="send-sms"
@@ -432,7 +433,7 @@ export function EmergencyBroadcastCenter({
             </div>
           </label>
 
-          <label className="flex cursor-pointer items-center justify-between rounded-lg border-none p-2.5">
+          <label className="flex cursor-pointer items-center justify-between  border-none p-2.5">
             <div className="flex items-center gap-2">
               <SquishyToggle
                 id="send-email"
@@ -462,7 +463,7 @@ export function EmergencyBroadcastCenter({
             </div>
           </label>
 
-          <label className="flex cursor-pointer items-center justify-between rounded-lg border-none p-2.5">
+          <label className="flex cursor-pointer items-center justify-between  border-none p-2.5">
             <div className="flex items-center gap-2">
               <SquishyToggle
                 id="send-push"
@@ -492,7 +493,7 @@ export function EmergencyBroadcastCenter({
             </div>
           </label>
 
-          <label className="flex cursor-pointer items-center justify-between rounded-lg border-none p-2.5">
+          <label className="flex cursor-pointer items-center justify-between  border-none p-2.5">
             <div className="flex items-center gap-2">
               <SquishyToggle
                 id="send-dashboard-banner"
@@ -538,7 +539,7 @@ export function EmergencyBroadcastCenter({
               value={customTitle !== "" ? customTitle : activeTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. SHOW CANCELLED: Broken Oar"
-              className="! focus-ring w-full rounded-lg border border-[var(--border-color)] px-3 py-2 outline-none"
+              className="! focus-ring w-full  border border-[var(--border-color)] px-3 py-2 outline-none"
             />
           </div>
 
@@ -559,14 +560,14 @@ export function EmergencyBroadcastCenter({
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
-              className="! focus-ring w-full resize-none rounded-lg border border-[var(--border-color)] p-2.5 outline-none"
+              className="! focus-ring w-full resize-none  border border-[var(--border-color)] p-2.5 outline-none"
             />
           </div>
         </div>
 
         {/* Live iPhone SMS Mockup Preview */}
         <div className="flex flex-col justify-between">
-          <div className="mb-2.5 flex items-center justify-between border-b border-[var(--border-color)] pb-1.5">
+          <div className="mb-2.5 flex items-center justify-between  pb-1.5">
             <span className="flex items-center gap-1.5">
               <svg
                 width="14"
@@ -587,7 +588,7 @@ export function EmergencyBroadcastCenter({
           </div>
 
           {/* SMS Bubble */}
-          <div className="space-y-1 rounded-lg border border-white/10 bg-[#a855f71f] p-3.5">
+          <div className="space-y-1  border border-white/10 bg-[#a855f71f] p-3.5">
             <span className="block text-rose-400">{activeTitle}</span>
             <p>{activeBody}</p>
             <span className="block pt-1 text-right text-white/50">
@@ -595,7 +596,7 @@ export function EmergencyBroadcastCenter({
             </span>
           </div>
 
-          <div className="mt-2.5 flex items-center justify-between border-t border-[var(--border-color)] pt-1.5">
+          <div className="mt-2.5 flex items-center justify-between  pt-1.5">
             <span>
               Estimated Cost:{" "}
               <strong className="text-emerald-400">
@@ -624,15 +625,16 @@ export function EmergencyBroadcastCenter({
           to <strong>{recipientCount.toLocaleString()}</strong> recipients.
         </div>
 
-        <button
+        <SeventhButton
           type="button"
           onClick={handleDispatch}
           disabled={isSending}
-          className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 hover:bg-red-700 disabled:opacity-50"
+          icon={false}
+          className="cursor-pointer"
         >
           {isSending ? (
             <>
-              <span className="h-3 w-3 animate-spin rounded-lg border-2 border-white border-t-transparent" />
+              <span className="h-3 w-3 animate-spin border-2 border-white border-t-transparent" />
               Dispatching Broadcast...
             </>
           ) : (
@@ -653,13 +655,13 @@ export function EmergencyBroadcastCenter({
               Dispatch Emergency Broadcast (${totalEstimatedCost.toFixed(2)})
             </>
           )}
-        </button>
+        </SeventhButton>
       </div>
 
       {/* Dispatch Result Feedback */}
       {dispatchResult && (
         <div
-          className={`flex animate-[fadeIn_0.2s_ease-out] items-center justify-between rounded-lg border p-3 ${dispatchResult.success ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-300" : "border-rose-500/30 bg-rose-500/15 text-rose-300"}`}
+          className={`flex animate-[fadeIn_0.2s_ease-out] items-center justify-between  border p-3 ${dispatchResult.success ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-300" : "border-rose-500/30 bg-rose-500/15 text-rose-300"}`}
         >
           <div>
             <span className="block">

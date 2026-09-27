@@ -127,19 +127,19 @@ export default function MerchQRClient({
   const displayProducts: MerchProduct[] =
     initialProducts && initialProducts.length > 0
       ? initialProducts.map((p: any) => ({
-          id: p.id,
-          title: p.title,
-          handle: p.handle,
-          description: p.description || "Official 7th Heaven Band Merchandise",
-          price: p.variants?.edges?.[0]?.node?.price?.amount || "35.00",
-          imageUrl:
-            p.images?.edges?.[0]?.node?.url ||
-            "/images/merch/merch-logo-tee.png",
-          category: "Apparel",
-          inStock: (p.quantityAvailable ?? 1) > 0,
-          stockCount: p.quantityAvailable ?? 10,
-          sizes: ["S", "M", "L", "XL", "2XL"],
-        }))
+        id: p.id,
+        title: p.title,
+        handle: p.handle,
+        description: p.description || "Official 7th Heaven Band Merchandise",
+        price: p.variants?.edges?.[0]?.node?.price?.amount || "35.00",
+        imageUrl:
+          p.images?.edges?.[0]?.node?.url ||
+          "/images/merch/merch-logo-tee.png",
+        category: "Apparel",
+        inStock: (p.quantityAvailable ?? 1) > 0,
+        stockCount: p.quantityAvailable ?? 10,
+        sizes: ["S", "M", "L", "XL", "2XL"],
+      }))
       : FALLBACK_PRODUCTS;
 
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -320,8 +320,8 @@ export default function MerchQRClient({
       {/* ── Top QR Banner Header ── */}
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] px-4 py-8">
         <div className="mx-auto max-w-4xl space-y-3 text-center">
-          <div className="inline-flex animate-pulse items-center gap-2 rounded-lg border border-purple-500/30 px-3.5 py-1.5 text-purple-400">
-            <span className="h-2 w-2 rounded-lg bg-cyan-400"></span>
+          <div className="inline-flex animate-pulse items-center gap-2  border border-purple-500/30 px-3.5 py-1.5 text-purple-400">
+            <span className="h-2 w-2  bg-cyan-400"></span>
             Show Night QR Express Store
           </div>
 
@@ -347,26 +347,26 @@ export default function MerchQRClient({
                 className="h-full w-full object-contain"
               />
             </div>
-            <span className="r text-white/50">7THHEAVENBAND.COM/QR/MERCH</span>
+            <span className="text-white/50">7THHEAVENBAND.COM/QR/MERCH</span>
           </div>
 
           {/* Quick Fulfillment Mode Badges */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <div className="flex items-center gap-2 rounded-lg border border-[var(--color-accent)]/30 bg-emerald-500/10 px-3 py-1.5">
+            <div className="flex items-center gap-2  border border-[var(--color-accent)]/30 bg-emerald-500/10 px-3 py-1.5">
               <span>🎪</span> Table Pickup Ready
             </div>
-            <div className="flex items-center gap-2 rounded-lg border border-purple-500/20 px-3 py-1.5 text-purple-400">
+            <div className="flex items-center gap-2  border border-white/10 px-3 py-1.5 text-purple-400">
               <span>📦</span> Nationwide Shipping
             </div>
             <button
               onClick={() => setShowQRSignModal(true)}
-              className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 px-3 py-1.5 hover:bg-cyan-500/20"
+              className="flex cursor-pointer items-center gap-1.5  border border-purple-500/30 px-3 py-1.5 hover:bg-cyan-500/20"
             >
               <span>🖨️</span> Printable Venue QR Sign
             </button>
             <button
               onClick={() => setShowShopifyGuide(!showShopifyGuide)}
-              className="hover:bg- purple-white/20 flex cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5"
+              className="flex cursor-pointer items-center gap-1.5 border border-purple-500/30 bg-purple-500/10 px-3 py-1.5"
             >
               <span>🔗</span> Shopify Integration Info
             </button>
@@ -471,7 +471,7 @@ export default function MerchQRClient({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-purple-400border rounded border-purple-500/30 bg-cyan-500/20 px-2 py-0.5">
+                  <span className="text-purple-400 border rounded border-purple-500/30 bg-cyan-500/20 px-2 py-0.5">
                     {activeOrder.fulfillment === "pickup"
                       ? "🎪 Table Pickup"
                       : "📦 Shipped Delivery"}
@@ -493,7 +493,7 @@ export default function MerchQRClient({
             {activeOrder.fulfillment === "pickup" && (
               <div className="flex shrink-0 items-center gap-4">
                 <div className="border border-purple-500/40 bg-black/60 px-4 py-2 text-center shadow-inner">
-                  <span className="text-purple-400block">Table Pickup PIN</span>
+                  <span className="text-purple-400 block">Table Pickup PIN</span>
                   <span className="text-2xl tabular-nums">
                     {activeOrder.pin}
                   </span>
@@ -504,7 +504,7 @@ export default function MerchQRClient({
                     setSwitchOrderTarget(activeOrder);
                     setShowSwitchToShippingModal(true);
                   }}
-                  className="bg- purple-white/20 flex cursor-pointer items-center gap-1.5 border border-purple-500/40 px-4 py-2.5 text-yellow-300 hover:bg-yellow-500/30"
+                  className="flex cursor-pointer items-center gap-1.5 border border-purple-500/40 px-4 py-2.5 text-yellow-300 hover:bg-yellow-500/30"
                 >
                   <span>🏃</span> Left the show? Switch to Shipping
                 </button>
@@ -565,13 +565,13 @@ export default function MerchQRClient({
                   />
 
                   {/* Category Tag */}
-                  <span className="absolute top-3 left-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 backdrop-blur-2xl">
+                  <span className="absolute top-3 left-3  border border-white/10 bg-black/70 px-2.5 py-1 backdrop-blur-2xl">
                     {product.category}
                   </span>
 
                   {/* Stock status badge */}
                   {product.stockCount && product.stockCount <= 5 && (
-                    <span className="absolute bottom-3 left-3 animate-pulse rounded-lg bg-red-500/80 px-2.5 py-1">
+                    <span className="absolute bottom-3 left-3 animate-pulse  bg-red-500/80 px-2.5 py-1">
                       ⚡ Only {product.stockCount} Left at Desk!
                     </span>
                   )}
@@ -579,7 +579,7 @@ export default function MerchQRClient({
 
                 {/* Info */}
                 <div className="space-y-2 p-5">
-                  <h3 className="group- line-clamp-1">{product.title}</h3>
+                  <h3 className="line-clamp-1">{product.title}</h3>
                   <p className="line-clamp-2">{product.description}</p>
                 </div>
               </div>
@@ -606,7 +606,7 @@ export default function MerchQRClient({
       {/* ── CHECKOUT MODAL (Pick Up vs Ship Selection) ── */}
       {showCheckout && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-          <div className="max-h-[90vh] w-full max-w-lg space-y-6 overflow-y-auto rounded-lg border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] sm:p-8">
+          <div className="max-h-[90vh] w-full max-w-lg space-y-6 overflow-y-auto  border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] sm:p-8">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
@@ -723,7 +723,7 @@ export default function MerchQRClient({
               {/* Shipping Address Inputs if Shipping selected */}
               {fulfillmentMethod === "shipping" && (
                 <div className="animate-in fade-in space-y-3 border-t border-white/10 pt-2">
-                  <p className="r">Shipping Address</p>
+                  <p className="">Shipping Address</p>
                   <div>
                     <input
                       type="text"
@@ -781,7 +781,7 @@ export default function MerchQRClient({
       {/* ── MISSED PICKUP TO SHIPPING CONVERSION MODAL ── */}
       {showSwitchToShippingModal && switchOrderTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-          <div className="w-full max-w-md space-y-5 rounded-lg border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:p-8">
+          <div className="w-full max-w-md space-y-5  border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🏃</span>
@@ -792,7 +792,7 @@ export default function MerchQRClient({
               </div>
               <button
                 onClick={() => setShowSwitchToShippingModal(false)}
-                className="text-base text-white/40 hover:text-white"
+                className="  text-white/40 hover:text-white"
               >
                 ✕
               </button>
@@ -856,7 +856,7 @@ export default function MerchQRClient({
       {/* ── PRINTABLE QR VENUE SIGN MODAL ── */}
       {showQRSignModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/90 p-4 backdrop-blur-2xl">
-          <div className="w-full max-w-md space-y-6 rounded-lg border border-purple-500/50 bg-[var(--color-bg-surface)] p-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)] sm:p-8">
+          <div className="w-full max-w-md space-y-6  border border-purple-500/50 bg-[var(--color-bg-surface)] p-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span>Venue Printable QR Sign</span>
               <button

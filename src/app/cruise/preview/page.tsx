@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 const INPUT =
-  "w-full bg-white/[0.03] border  border-white/10  rounded-lg px-3 py-2.5     placeholder: text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
+  "w-full bg-white/[0.03] border  border-white/10   px-3 py-2.5     placeholder: text-white/20 focus:border-[var(--color-accent)] focus:outline-none transition-colors";
 const COLORS = [
   "#851DEF",
   "#3b82f6",
@@ -39,10 +39,10 @@ function VersionA() {
               key={`guest-tab-${i}-${guest.name}`}
               type="button"
               onClick={() => setActiveTab(i)}
-              className={`flex cursor-pointer items-center gap-2 rounded-lg px-4 py-2 ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"}`}
+              className={`flex cursor-pointer items-center gap-2  px-4 py-2 ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"}`}
             >
               <span
-                className="flex h-5 w-5 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+                className="flex h-5 w-5 items-center justify-center  text-[var(--font-size-2xs)]"
                 style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}
               >
                 {i === 0
@@ -112,7 +112,7 @@ function VersionB() {
                 onClick={() => setStep(i)}
               >
                 <div
-                  className={`flex h-8 w-8 items-center justify-center rounded-lg ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                  className={`flex h-8 w-8 items-center justify-center  ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30" : "border border-white/10 bg-[#00000029] text-white/30"}`}
                 >
                   {step > i ? "✓" : i + 1}
                 </div>
@@ -160,7 +160,7 @@ function VersionB() {
           <button
             type="button"
             onClick={() => setStep((s) => s - 1)}
-            className="flex-1 cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 text-white/50"
+            className="flex-1 cursor-pointer  border border-white/10 bg-[#00000029] py-2.5 text-white/50"
           >
             ← Back
           </button>
@@ -168,7 +168,7 @@ function VersionB() {
         <button
           type="button"
           onClick={() => setStep((s) => Math.min(s + 1, 2))}
-          className="flex-1 cursor-pointer rounded-lg bg-[var(--color-accent)] py-2.5 hover:bg-[var(--color-accent)]/80"
+          className="flex-1 cursor-pointer  bg-[var(--color-accent)] py-2.5 hover:bg-[var(--color-accent)]/80"
         >
           {step === 2 ? "Submit" : "Next →"}
         </button>
@@ -192,11 +192,11 @@ function VersionC() {
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div
           key={i}
-          className="space-y-2.5 border p-4 border-white/5 bg-white/[0.02] first:border-[var(--color-accent)]/30 first:bg-[var(--color-accent)]/5"
+          className="space-y-2.5 border p-4 border-white/10 bg-white/[0.02] first:border-[var(--color-accent)]/30 first:bg-[var(--color-accent)]/5"
         >
           <div className="mb-1 flex items-center gap-2">
             <span
-              className="flex h-6 w-6 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+              className="flex h-6 w-6 items-center justify-center  text-[var(--font-size-2xs)]"
               style={{ backgroundColor: COLORS[i] }}
             >
               {i + 1}
@@ -265,7 +265,7 @@ function VersionD() {
           className="grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 first:bg-[var(--color-accent)]/10 even:bg-white/[0.01]"
         >
           <span
-            className="flex h-6 w-6 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+            className="flex h-6 w-6 items-center justify-center  text-[var(--font-size-2xs)]"
             style={{ backgroundColor: COLORS[i] }}
           >
             {i + 1}
@@ -317,14 +317,14 @@ function VersionE() {
   return (
     <div className="space-y-2">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
-        <div key={i} className="overflow-hidden border border-white/5">
+        <div key={i} className="overflow-hidden border border-white/10">
           <button
             type="button"
             onClick={() => setOpen(open === i ? -1 : i)}
             className={`flex w-full cursor-pointer items-center gap-3 px-4 py-3 ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"}`}
           >
             <span
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+              className="flex h-8 w-8 shrink-0 items-center justify-center "
               style={{ backgroundColor: COLORS[i] }}
             >
               {g.name ? g.name[0].toUpperCase() : i + 1}
@@ -399,7 +399,7 @@ function VersionF() {
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="flex items-start gap-2">
           <span
-            className="mt-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[var(--font-size-2xs)]"
+            className="mt-2 flex h-7 w-7 shrink-0 items-center justify-center  text-[var(--font-size-2xs)]"
             style={{ backgroundColor: COLORS[i] }}
           >
             {i + 1}
@@ -431,7 +431,7 @@ function VersionF() {
             <button
               type="button"
               onClick={() => remove(i)}
-              className="mt-2 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#00000029] text-white/20 hover:bg-red-500/20 hover:text-red-400"
+              className="mt-2 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center  bg-[#00000029] text-white/20 hover:bg-red-500/20 hover:text-red-400"
             >
               ✕
             </button>
@@ -510,7 +510,7 @@ export default function CruisePreviewPage() {
               className="overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/80"
             >
               <div className="flex items-center gap-3 border-b border-white/10 px-6 py-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-accent)]">
+                <span className="flex h-8 w-8 items-center justify-center  bg-[var(--color-accent)]">
                   {label}
                 </span>
                 <div>

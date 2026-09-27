@@ -170,7 +170,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
 
   if (loading) {
     return (
-      <section className="py-section-fluid border-t border-white/5">
+      <section className="py-section-fluid border-t border-white/10">
         <div className="site-container">
           <div className="mb-10 flex items-center justify-between">
             <div>
@@ -224,11 +224,11 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
   // ── END DEMO FALLBACK ──────────────────────────────────────────────────────
 
   return (
-    <section className="py-section-fluid border-t border-white/5">
+    <section className="py-section-fluid border-t border-white/10">
       <div className="site-container">
         {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ─────────────────────── */}
         {isDemo && (
-          <div className="mb-6 flex items-center gap-2 rounded-lg border border-white/10 bg-purple-600/10 px-4 py-2">
+          <div className="mb-6 flex items-center gap-2  border border-white/10 bg-purple-600/10 px-4 py-2">
             <AlertTriangle className="h-4 w-4 shrink-0" />
             <span>Demo</span>
             <p className="text-purple-200/50">
@@ -298,7 +298,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                   )}
                 </div>
                 <div className="p-4">
-                  <h3 className="group- color-transition mb-1">
+                  <h3 className="color-transition mb-1">
                     {product.title}
                   </h3>
                   <div className="flex items-center justify-between">
@@ -311,7 +311,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                       )}
                     </div>
                     {soldOut ? (
-                      <span className="/15 text-[var(--font-size-2xs)]">
+                      <span className="text-[var(--font-size-2xs)]">
                         Sold Out
                       </span>
                     ) : (

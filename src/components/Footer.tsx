@@ -42,22 +42,22 @@ const FALLBACK_PLATFORM_LINKS = [
 ];
 
 const FALLBACK_ENDORSEMENTS = [
-  { name: "Shure", logoPath: "/images/sponsor-logos/SHURE.svg" },
-  { name: "Dunlop", logoPath: "/images/sponsor-logos/DUNLOP.svg" },
+  { name: "Shure", logoPath: "/images/sponsor-logos/shure.svg" },
+  { name: "Dunlop", logoPath: "/images/sponsor-logos/dunlop.svg" },
   {
     name: "Mesa/Boogie",
-    logoPath: "/images/sponsor-logos/Mesa_Boogie_Engineering_Logo.svg.svg",
+    logoPath: "/images/sponsor-logos/mesa-boogie-engineering-logo.svg.svg",
   },
-  { name: "Paiste", logoPath: "/images/sponsor-logos/PRASISTE.svg" },
-  { name: "Ernie Ball", logoPath: "/images/sponsor-logos/ERNIEBALL.svg" },
+  { name: "Paiste", logoPath: "/images/sponsor-logos/prasiste.svg" },
+  { name: "Ernie Ball", logoPath: "/images/sponsor-logos/ernieball.svg" },
   {
     name: "Dean Markley",
-    logoPath: "/images/sponsor-logos/Dean-Markley-logo.svg",
+    logoPath: "/images/sponsor-logos/dean-markley-logo.svg",
   },
-  { name: "Vic Firth", logoPath: "/images/sponsor-logos/VIC.svg" },
-  { name: "Parker", logoPath: "/images/sponsor-logos/Parker_guitars_logo.svg" },
+  { name: "Vic Firth", logoPath: "/images/sponsor-logos/vic.svg" },
+  { name: "Parker", logoPath: "/images/sponsor-logos/parker-guitars-logo.svg" },
   { name: "Grundorf", logoPath: "/images/sponsor-logos/groundorf.svg" },
-  { name: "Toontrack", logoPath: "/images/sponsor-logos/TOON.svg" },
+  { name: "Toontrack", logoPath: "/images/sponsor-logos/toon.svg" },
 ];
 
 const footerLinks = [
@@ -161,7 +161,6 @@ export function Footer() {
 
         {/* Endorsements */}
         <div className="pb-6 text-left">
-          <p className="mb-2">Official Gear Endorsements</p>
           <div className="flex flex-wrap items-center justify-start gap-x-4 gap-y-4 sm:gap-x-6 sm:gap-y-6">
             {endorsements.map((brand) => (
               <Image

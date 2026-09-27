@@ -318,7 +318,7 @@ export default function ReferralProgramPanel() {
           <button
             onClick={saveMilestones}
             disabled={saving}
-            className={`mt-3 w-full cursor-pointer py-3 ${saved ? "bg-[var(--color-accent)]" : "bg-purple-600 hover:bg-purple-500 disabled:opacity-40"}`}
+            className={`mt-3 w-full cursor-pointer  ${saved ? "bg-[var(--color-accent)]" : "bg-purple-600 hover:bg-purple-500 disabled:opacity-40"}`}
           >
             {saved
               ? " Milestones Saved"
@@ -335,7 +335,7 @@ export default function ReferralProgramPanel() {
             {milestones.map((m) => (
               <div
                 key={m.threshold}
-                className="flex-1 rounded-lg border border-white/10 bg-white/[0.02] p-2 text-center"
+                className="flex-1  border border-white/10 bg-white/[0.02] p-2 text-center"
               >
                 <p>{m.threshold}</p>
                 <p className="mt-0.5">
@@ -353,37 +353,37 @@ export default function ReferralProgramPanel() {
               leaderboard.length > 0
                 ? leaderboard
                 : [
-                    {
-                      referrer_id: "1",
-                      referrer_code: "MIKE2026",
-                      name: "Michael Scimeca",
-                      total: 12,
-                      signed_up: 10,
-                      rewarded: 2,
-                      pending: 0,
-                      recent: ["alex@example.com", "sarah@example.com"],
-                    },
-                    {
-                      referrer_id: "2",
-                      referrer_code: "NICK7H",
-                      name: "Nick Cox",
-                      total: 8,
-                      signed_up: 7,
-                      rewarded: 1,
-                      pending: 0,
-                      recent: ["charlie@example.com"],
-                    },
-                    {
-                      referrer_id: "3",
-                      referrer_code: "RICHARD7H",
-                      name: "Richard Hofherr",
-                      total: 5,
-                      signed_up: 4,
-                      rewarded: 1,
-                      pending: 0,
-                      recent: ["dave@example.com"],
-                    },
-                  ];
+                  {
+                    referrer_id: "1",
+                    referrer_code: "MIKE2026",
+                    name: "Michael Scimeca",
+                    total: 12,
+                    signed_up: 10,
+                    rewarded: 2,
+                    pending: 0,
+                    recent: ["alex@example.com", "sarah@example.com"],
+                  },
+                  {
+                    referrer_id: "2",
+                    referrer_code: "NICK7H",
+                    name: "Nick Cox",
+                    total: 8,
+                    signed_up: 7,
+                    rewarded: 1,
+                    pending: 0,
+                    recent: ["charlie@example.com"],
+                  },
+                  {
+                    referrer_id: "3",
+                    referrer_code: "RICHARD7H",
+                    name: "Richard Hofherr",
+                    total: 5,
+                    signed_up: 4,
+                    rewarded: 1,
+                    pending: 0,
+                    recent: ["dave@example.com"],
+                  },
+                ];
 
             const filteredLeaderboard = displayLeaderboard.filter(
               (e) =>
@@ -459,7 +459,7 @@ export default function ReferralProgramPanel() {
                               <div className="flex items-center gap-3">
                                 {/* Rank badge */}
                                 <div
-                                  className="flex h-8 w-8 shrink-0 items-center justify-center text-[var(--font-size-sm)] text-white/20 first:border first:border-[var(--color-border-purple)] first:bg-[var(--color-purple-glow)] first:text-[var(--color-purple-light)] nth-[2]:border nth-[2]:border-white/10 nth-[2]:bg-white/10 nth-[3]:border nth-[3]:border-white/5 nth-[3]:bg-[#00000029] nth-[3]:text-white/40"
+                                  className="flex h-8 w-8 shrink-0 items-center justify-center text-[var(--font-size-sm)] text-white/20 first:border first:border-[var(--color-border-purple)] first:bg-[var(--color-purple-glow)] first:text-[var(--color-purple-light)] nth-[2]:border nth-[2]:border-white/10 nth-[2]:bg-white/10 nth-[3]:border nth-[3]:border-white/10 nth-[3]:bg-[#00000029] nth-[3]:text-white/40"
                                 >
                                   {i + 1}
                                 </div>
@@ -532,7 +532,7 @@ export default function ReferralProgramPanel() {
                                       {entry.total}/{nextMilestone.threshold}
                                     </span>
                                   </div>
-                                  <div className="h-1.5 overflow-hidden rounded-lg bg-[#00000029]">
+                                  <div className="h-1.5 overflow-hidden  bg-[#00000029]">
                                     <div
                                       className="h-full bg-purple-600"
                                       style={{

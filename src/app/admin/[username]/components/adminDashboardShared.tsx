@@ -136,6 +136,30 @@ export const SidebarDateButton = React.memo(
     shiftCount?: number;
     onClick: (date: string) => void;
   }) => {
+    let dateLabel = show.dateLabel;
+    let dayLabel = show.dayLabel;
+
+    if (!dateLabel || dateLabel.includes("undefined") || dateLabel.includes("NaN")) {
+      if (show.date) {
+        const rawStr = String(show.date).trim();
+        const cleanStr = rawStr.split("T")[0];
+        let d = new Date(cleanStr + "T12:00:00");
+        if (isNaN(d.getTime())) d = new Date(rawStr);
+        if (!isNaN(d.getTime())) {
+          const SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          const SHORT_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+          dateLabel = `${SHORT_MONTHS[d.getMonth()]} ${d.getDate()}`;
+          dayLabel = SHORT_DAYS[d.getDay()];
+        } else {
+          dateLabel = rawStr;
+          dayLabel = "";
+        }
+      } else {
+        dateLabel = "—";
+        dayLabel = "";
+      }
+    }
+
     return (
       <button
         type="button"
@@ -143,14 +167,14 @@ export const SidebarDateButton = React.memo(
         className={`group flex w-full cursor-pointer items-center gap-2 border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
-          <span className="text-[9px] text-white/40">{show.dayLabel}</span>
+          <span className="text-[9px] text-white/40">{dayLabel}</span>
           <span
-            className={` ${isSelected ? " " : isActiveWeek ? " " : "text-white/50"}`}
+            className={`${isSelected ? " " : isActiveWeek ? " " : "text-white/50"}`}
           >
-            {show.dateLabel}
+            {dateLabel}
           </span>
         </div>
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 nmp" >
           <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "}`}>
             {show.venue || show.venue_name}
           </p>

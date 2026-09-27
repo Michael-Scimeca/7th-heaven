@@ -6,7 +6,7 @@ export interface InputFieldProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"
 > {
-  label?: string;
+  label?: React.ReactNode;
   labelRight?: React.ReactNode;
   required?: boolean;
   id?: string;
@@ -48,7 +48,7 @@ export const InputField = forwardRef<
     const autoId = useId();
     const generatedId =
       name ||
-      (label
+      (typeof label === "string"
         ? `input-${label.toLowerCase().replace(/[^a-z0-9]/g, "-")}`
         : undefined);
     const inputId = id || generatedId || autoId;
@@ -66,7 +66,7 @@ export const InputField = forwardRef<
             {labelRight}
           </div>
         )}
-        <div className={`${glow ? "input-glow-border" : ""} w-full rounded-lg`}>
+        <div className={`${glow ? "input-glow-border" : ""} w-full `}>
           {multiline ? (
             <textarea
               ref={ref as React.Ref<HTMLTextAreaElement>}
