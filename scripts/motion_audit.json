@@ -4182,7 +4182,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"booking-input placeholder: w-full rounded-lg border border-white/10 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none\""
+      "snippet": "className=\"booking-input placeholder: w-full rounded-lg   text-base text-white/40 focus:outline-none\""
     },
     {
       "file": "src/app/cruise/CruiseClient.tsx",
@@ -4190,7 +4190,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"booking-input placeholder: w-full rounded-lg border border-white/10 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none\""
+      "snippet": "className=\"booking-input placeholder: w-full rounded-lg   text-base text-white/40 focus:outline-none\""
     },
     {
       "file": "src/app/cruise/CruiseClient.tsx",
@@ -4222,7 +4222,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"booking-input w-full rounded-lg border border-white/10 bg-black/50 px-3.5 py-2.5 text-base focus:outline-none\""
+      "snippet": "className=\"booking-input w-full rounded-lg   text-base focus:outline-none\""
     },
     {
       "file": "src/app/cruise/CruiseClient.tsx",
@@ -4230,7 +4230,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"booking-input placeholder: w-full rounded-lg border border-white/10 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none\""
+      "snippet": "className=\"booking-input placeholder: w-full rounded-lg   text-base text-white/40 focus:outline-none\""
     },
     {
       "file": "src/app/cruise/CruiseClient.tsx",
@@ -4238,7 +4238,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"booking-input placeholder: w-full rounded-lg border border-white/10 bg-black/50 px-3.5 py-2.5 text-base text-white/40 focus:outline-none\""
+      "snippet": "className=\"booking-input placeholder: w-full rounded-lg   text-base text-white/40 focus:outline-none\""
     },
     {
       "file": "src/app/cruise/CruiseClient.tsx",
@@ -4270,7 +4270,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"booking-input w-full rounded-lg border border-white/10 bg-black/50 px-3.5 py-2.5 text-base focus:outline-none\""
+      "snippet": "className=\"booking-input w-full rounded-lg   text-base focus:outline-none\""
     },
     {
       "file": "src/app/cruise/CruiseClient.tsx",
@@ -4622,7 +4622,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
@@ -4630,7 +4630,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
@@ -4638,7 +4638,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
@@ -4646,7 +4646,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
@@ -4671,7 +4671,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
@@ -4679,7 +4679,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
@@ -4687,7 +4687,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",
@@ -4695,7 +4695,7 @@
       "matches": [
         "focus:outline-none"
       ],
-      "snippet": "className=\"w-full rounded-xl border border-white/15 bg-black/60 px-4 py-2.5 focus:outline-none\""
+      "snippet": "className=\"w-full rounded-xl   focus:outline-none\""
     },
     {
       "file": "src/app/cruise/components/CruiseCabinsPricingSection.tsx",

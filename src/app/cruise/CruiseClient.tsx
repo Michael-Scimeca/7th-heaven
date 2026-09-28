@@ -490,7 +490,7 @@ function CruiseCard1Section({
             placeholder="Name on Card"
             value={formData.cardName1}
             onChange={(e) => setFormData({ ...formData, cardName1: e.target.value })}
-            className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3.5 py-2.5 text-white/40"
+            className="booking-input focus-ring w-full  "
           />
         </div>
         <div className="booking-cell pt-4">
@@ -504,7 +504,7 @@ function CruiseCard1Section({
             placeholder="Credit Card Number"
             value={formData.cardNumber1}
             onChange={(e) => setFormData({ ...formData, cardNumber1: e.target.value })}
-            className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3.5 py-2.5 text-white/40"
+            className="booking-input focus-ring w-full  "
           />
         </div>
         <div className="booking-cell pt-4">
@@ -520,7 +520,7 @@ function CruiseCard1Section({
                 placeholder="MM/YY"
                 value={formData.cardExpiry1}
                 onChange={(e) => setFormData({ ...formData, cardExpiry1: e.target.value })}
-                className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3 py-2.5 text-center text-white/40"
+                className="focus-ring w-full text-center"
               />
             </div>
             <div>
@@ -534,7 +534,7 @@ function CruiseCard1Section({
                 placeholder="CVC"
                 value={formData.cardCvv1}
                 onChange={(e) => setFormData({ ...formData, cardCvv1: e.target.value })}
-                className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3 py-2.5 text-center text-white/40"
+                className="focus-ring w-full text-center"
               />
             </div>
             <div>
@@ -548,7 +548,7 @@ function CruiseCard1Section({
                 placeholder="Zip"
                 value={formData.cardZip1}
                 onChange={(e) => setFormData({ ...formData, cardZip1: e.target.value })}
-                className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3 py-2.5 text-center text-white/40"
+                className="focus-ring w-full text-center"
               />
             </div>
           </div>
@@ -563,7 +563,7 @@ function CruiseCard1Section({
             required
             value={formData.cardAmount1}
             onChange={(e) => setFormData({ ...formData, cardAmount1: e.target.value })}
-            className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3.5 py-2.5"
+            className="booking-input focus-ring w-full  "
           />
         </div>
       </div>
@@ -593,7 +593,7 @@ function CruiseCard2Section({
             placeholder="Name on Card"
             value={formData.cardName2}
             onChange={(e) => setFormData({ ...formData, cardName2: e.target.value })}
-            className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3.5 py-2.5 text-white/40"
+            className="booking-input focus-ring w-full  "
           />
         </div>
         <div className="booking-cell p-4">
@@ -607,7 +607,7 @@ function CruiseCard2Section({
             placeholder="Credit Card Number"
             value={formData.cardNumber2}
             onChange={(e) => setFormData({ ...formData, cardNumber2: e.target.value })}
-            className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3.5 py-2.5 text-white/40"
+            className="booking-input focus-ring w-full  "
           />
         </div>
         <div className="booking-cell p-4">
@@ -623,7 +623,7 @@ function CruiseCard2Section({
                 placeholder="MM/YY"
                 value={formData.cardExpiry2}
                 onChange={(e) => setFormData({ ...formData, cardExpiry2: e.target.value })}
-                className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3 py-2.5 text-center text-white/40"
+                className="focus-ring w-full text-center"
               />
             </div>
             <div>
@@ -637,7 +637,7 @@ function CruiseCard2Section({
                 placeholder="CVC"
                 value={formData.cardCvv2}
                 onChange={(e) => setFormData({ ...formData, cardCvv2: e.target.value })}
-                className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3 py-2.5 text-center text-white/40"
+                className="focus-ring w-full text-center"
               />
             </div>
             <div>
@@ -651,7 +651,7 @@ function CruiseCard2Section({
                 placeholder="Zip"
                 value={formData.cardZip2}
                 onChange={(e) => setFormData({ ...formData, cardZip2: e.target.value })}
-                className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3 py-2.5 text-center text-white/40"
+                className="focus-ring w-full text-center"
               />
             </div>
           </div>
@@ -666,7 +666,7 @@ function CruiseCard2Section({
             required
             value={formData.cardAmount2}
             onChange={(e) => setFormData({ ...formData, cardAmount2: e.target.value })}
-            className="booking-input focus-ring w-full border border-white/10 bg-black/50 px-3.5 py-2.5"
+            className="booking-input focus-ring w-full  "
           />
         </div>
       </div>
@@ -706,7 +706,7 @@ function CruiseNotesAndSignatureSection({
               placeholder="e.g. 7th Heaven"
               value={formData.howHeard}
               onChange={(e) => setFormData((f: any) => ({ ...f, howHeard: e.target.value }))}
-              className="booking-input focus-ring w-full border-0 bg-black/50 px-3.5 py-2.5 text-white/40"
+              className="focus-ring w-full"
             />
           </div>
           <div className="flex flex-col justify-start">
@@ -719,7 +719,7 @@ function CruiseNotesAndSignatureSection({
               value={formData.notes}
               onChange={(e) => setFormData((f: any) => ({ ...f, notes: e.target.value }))}
               rows={2}
-              className="booking-input focus-ring w-full resize-none border-0 px-3.5 py-2.5 text-white/40"
+              className="focus-ring w-full resize-none"
             />
           </div>
         </div>
@@ -737,16 +737,16 @@ function CruiseNotesAndSignatureSection({
             placeholder="Type legal name to sign"
             value={signature}
             onChange={(e) => setSignature(e.target.value)}
-            className="booking-signature-input signature-font focus-ring w-full border-0 bg-black/50 px-3.5 py-2.5 text-white/30"
+            className="signature-font focus-ring w-full"
           />
         </div>
-        <div className="booking-cell flex flex-col justify-start border-0 px-0 pt-3">
+        <div className="booking-cell flex flex-col justify-start border-0 ">
           <span className="booking-label mb-1.5 block">Date Signed</span>
           <GlowInput
             type="text"
             readOnly
             value={signatureDate}
-            className="booking-input focus-ring w-full cursor-not-allowed border-0 bg-black/50 px-3.5 py-2.5"
+            className="focus-ring w-full cursor-not-allowed"
           />
         </div>
       </div>

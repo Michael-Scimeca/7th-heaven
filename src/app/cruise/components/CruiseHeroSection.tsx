@@ -32,7 +32,7 @@ export default function CruiseHeroSection({
       ([entry]) => {
         isVisible = entry.isIntersecting;
         if (isVisible) {
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         } else {
           video.pause();
         }
@@ -41,7 +41,7 @@ export default function CruiseHeroSection({
     );
 
     observer.observe(video);
-    video.play().catch(() => {});
+    video.play().catch(() => { });
 
     return () => {
       observer.disconnect();
@@ -81,7 +81,7 @@ export default function CruiseHeroSection({
   return (
     <section
       id="cruise-hero"
-      className="page-container site-container relative -mt-[100px] flex min-h-[710px] flex-col justify-start overflow-hidden md:h-[800px] md:min-h-[800px]"
+      className="page-container site-container relative -mt-[100px] flex min-h-[710px] flex-col justify-start  md:h-[800px] md:min-h-[800px]"
     >
       {/* Full-bleed background video & image mask wrapper */}
       <div

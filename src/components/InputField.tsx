@@ -32,7 +32,7 @@ export const InputField = forwardRef<
       required,
       id,
       className = "",
-      inputClassName = "px-5 py-2.5",
+      inputClassName = "",
       containerClassName = "",
       labelClassName = "",
       glow = true,

@@ -893,7 +893,7 @@ export default function CruiseSnakeItinerary({
 
   return (
     <section
-      className="snake-itinerary-root relative overflow-hidden"
+      className="snake-itinerary-root relative overflow-hidden site-container"
       ref={sectionRef}
     >
 

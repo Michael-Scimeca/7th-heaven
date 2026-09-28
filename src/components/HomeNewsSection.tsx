@@ -8,6 +8,7 @@ import { Plus, X, Newspaper, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "./AddCmsButton";
+import { GlowInput, GlowSelect, GlowTextarea } from "@/components/GlowInput";
 
 export interface NewsItem {
   id?: string;
@@ -324,13 +325,13 @@ export default function HomeNewsSection({
                   <label className="mb-1.5 block text-purple-200/80">
                     Article Title *
                   </label>
-                  <input
+                  <GlowInput
                     type="text"
                     required
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     placeholder="e.g. New Single Released or Summer 2026 Tour Announcement"
-                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full"
                   />
                 </div>
 
@@ -339,13 +340,13 @@ export default function HomeNewsSection({
                     <label className="mb-1.5 block text-purple-200/80">
                       Display Date *
                     </label>
-                    <input
+                    <GlowInput
                       type="text"
                       required
                       value={newDate}
                       onChange={(e) => setNewDate(e.target.value)}
                       placeholder="e.g. September 2026"
-                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                      className="focus-ring w-full"
                     />
                   </div>
 
@@ -353,16 +354,16 @@ export default function HomeNewsSection({
                     <label className="mb-1.5 block text-purple-200/80">
                       Category
                     </label>
-                    <select
+                    <GlowSelect
                       value={newCategory}
-                      onChange={(e) => setNewCategory(e.target.value)}
-                      className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
+                      onChange={(e: any) => setNewCategory(typeof e === "string" ? e : e.target.value)}
+                      className="focus-ring w-full cursor-pointer"
                     >
                       <option value="announcement">Announcement</option>
                       <option value="update">Update</option>
                       <option value="press">Press</option>
                       <option value="release">Release</option>
-                    </select>
+                    </GlowSelect>
                   </div>
                 </div>
 
@@ -370,13 +371,13 @@ export default function HomeNewsSection({
                   <label className="mb-1.5 block text-purple-200/80">
                     Content / Article Body *
                   </label>
-                  <textarea
+                  <GlowTextarea
                     rows={5}
                     required
                     value={newContent}
                     onChange={(e) => setNewContent(e.target.value)}
                     placeholder="Write the news update content here..."
-                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full"
                   />
                 </div>
 

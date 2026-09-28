@@ -35,7 +35,9 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             id={inputId}
             required={required}
             className={cn(
-              "w-full rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-white transition-all duration-200 outline-none placeholder:text-white/30 hover:border-white/20 focus:border-purple-500 focus:bg-black/80 focus:shadow-[0_0_15px_rgba(168,85,247,0.25)]",
+              glow
+                ? "form-input w-full text-white outline-none placeholder:text-white/30"
+                : "w-full rounded-xl  text-white transition-all duration-200 outline-none placeholder:text-white/30 hover:border-white/20 focus:border-purple-500 focus:bg-black/80 focus:shadow-[0_0_15px_rgba(168,85,247,0.25)]",
               icon && "pl-10",
               error &&
               "border-rose-500/50 focus:border-rose-500 focus:shadow-[0_0_15px_rgba(244,63,94,0.25)]",

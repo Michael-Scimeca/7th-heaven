@@ -931,7 +931,7 @@ function CruiseCabinsPricingSectionComponent({
                     }))
                   }
                   placeholder="e.g. Ocean View Balcony (D4) or Suite"
-                  className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-3"
+                  className="focus-ring w-full"
                 />
                 <p className="mt-1.5 text-white/50">
                   EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
@@ -959,7 +959,7 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="First &amp; Last Name (as on Passport/ID)"
-                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                      className="focus-ring w-full"
                     />
                   </div>
                   <div>
@@ -975,7 +975,7 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="your@email.com"
-                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                      className="focus-ring w-full"
                     />
                   </div>
                 </div>
@@ -994,7 +994,7 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="(555) 000-0000"
-                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                      className="focus-ring w-full"
                     />
                   </div>
                   <div>
@@ -1009,7 +1009,7 @@ function CruiseCabinsPricingSectionComponent({
                         }))
                       }
                       placeholder="Royal Caribbean Loyalty #"
-                      className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                      className="focus-ring w-full"
                     />
                   </div>
                   <div>
@@ -1074,7 +1074,7 @@ function CruiseCabinsPricingSectionComponent({
                           value={guests[0].name}
                           onChange={(e) => updateGuest(0, "name", e.target.value)}
                           placeholder="Guest 2 First &amp; Last Name"
-                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                          className="focus-ring w-full"
                         />
                       </div>
                       <div>
@@ -1084,7 +1084,7 @@ function CruiseCabinsPricingSectionComponent({
                           value={guests[0].email}
                           onChange={(e) => updateGuest(0, "email", e.target.value)}
                           placeholder="guest2@email.com"
-                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                          className="focus-ring w-full"
                         />
                       </div>
                     </div>
@@ -1099,7 +1099,7 @@ function CruiseCabinsPricingSectionComponent({
                             updateGuest(0, "phone", formatPhoneDisplay(e.target.value))
                           }
                           placeholder="(555) 000-0000"
-                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                          className="focus-ring w-full"
                         />
                       </div>
                       <div>
@@ -1113,7 +1113,7 @@ function CruiseCabinsPricingSectionComponent({
                             updateGuest(0, "crownAnchor", e.target.value)
                           }
                           placeholder="Loyalty #"
-                          className="focus-ring w-full border border-white/15 bg-black/60 px-4 py-2.5"
+                          className="focus-ring w-full"
                         />
                       </div>
                       <div>

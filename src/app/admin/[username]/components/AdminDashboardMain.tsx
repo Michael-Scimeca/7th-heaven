@@ -836,7 +836,7 @@ function DutyRoleEditorPopover({
           value={editingDutyValue}
           onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
-          className="focus-ring w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white/40 shadow-inner focus:bg-white/15"
+          className="focus-ring w-full  text-white/40 shadow-inner focus:bg-white/15"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSaveDuty(memberId);
@@ -8543,48 +8543,46 @@ export function AdminDashboardMain({
                   </div>
 
                   <div className="overflow-x-auto border-none">
-                    <table className="w-full border-collapse text-left">
-                      <thead className="border-b border-white/20 text-[10px] text-white/40">
-                        <tr>
-                          <th className="py-2.5 pr-4 pl-0">Date</th>
-                          <th className="px-4 py-2.5">Venue / Location</th>
-                          <th className="px-4 py-2.5">Recipients</th>
-                          <th className="px-4 py-2.5">Segments</th>
-                          <th className="px-4 py-2.5">Total Cost</th>
-                          <th className="py-2.5 pr-0 pl-4 text-right">
-                            Status
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-white/10">
+                    <div className="min-w-[600px] w-full text-left">
+                      <div className="grid grid-cols-12 border-b border-white/20 pb-2.5 text-[10px] text-white/40 font-medium">
+                        <div className="col-span-2 pr-4 pl-0">Date</div>
+                        <div className="col-span-3 px-4">Venue / Location</div>
+                        <div className="col-span-2 px-4">Recipients</div>
+                        <div className="col-span-2 px-4">Segments</div>
+                        <div className="col-span-2 px-4">Total Cost</div>
+                        <div className="col-span-1 pr-0 pl-4 text-right">
+                          Status
+                        </div>
+                      </div>
+                      <div className="divide-y divide-white/10">
                         {smsHistoryLogs.map((log) => (
-                          <tr
+                          <div
                             key={log.id}
-                            className="border-b border-white/10 hover:bg-white/[0.04]"
+                            className="grid grid-cols-12 items-center border-b border-white/10 py-2.5 hover:bg-white/[0.04]"
                           >
-                            <td className="py-2.5 pr-4 pl-0">{log.date}</td>
-                            <td className="px-4 py-2.5">
+                            <div className="col-span-2 pr-4 pl-0">{log.date}</div>
+                            <div className="col-span-3 px-4">
                               {log.venue}{" "}
                               <span className="text-white/40">
                                 ({log.city})
                               </span>
-                            </td>
-                            <td className="px-4 py-2.5">
+                            </div>
+                            <div className="col-span-2 px-4">
                               {log.recipients} fans
-                            </td>
-                            <td className="px-4 py-2.5">{log.segments} SMS</td>
-                            <td className="px-4 py-2.5 text-rose-400">
+                            </div>
+                            <div className="col-span-2 px-4">{log.segments} SMS</div>
+                            <div className="col-span-2 px-4 text-rose-400">
                               ${log.cost.toFixed(2)}
-                            </td>
-                            <td className="py-2.5 pr-0 pl-4 text-right">
+                            </div>
+                            <div className="col-span-1 pr-0 pl-4 text-right">
                               <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px]">
                                 {log.status}
                               </span>
-                            </td>
-                          </tr>
+                            </div>
+                          </div>
                         ))}
-                      </tbody>
-                    </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

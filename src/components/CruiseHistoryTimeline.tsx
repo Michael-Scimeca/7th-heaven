@@ -275,7 +275,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       : 0.88;
   const maxMobileHeight = max2026Ratio * (mobileSvgSize.h || 3000);
 
-    const [pathLengthTo2026, setPathLengthTo2026] = useState<number | null>(null);
+  const [pathLengthTo2026, setPathLengthTo2026] = useState<number | null>(null);
   const pathLengthTo2026Ref = useRef<number | null>(null);
   const row2026OffsetTopRef = useRef<number | null>(null);
   const rowCentersRef = useRef<number[]>([]);
@@ -539,18 +539,18 @@ export default function CruiseHistoryTimeline({ history }: Props) {
         lengths.push(closestLen);
       });
 
-        badgePathLengthsRef.current = lengths;
-        setBadgePathLengths(lengths);
+      badgePathLengthsRef.current = lengths;
+      setBadgePathLengths(lengths);
 
-        const targetBadgeIdx = allYearBadges.findIndex((el) =>
-          el.textContent?.includes("2026"),
-        );
-        if (targetBadgeIdx !== -1 && lengths[targetBadgeIdx] !== undefined) {
-          pathLengthTo2026Ref.current = lengths[targetBadgeIdx];
-          setPathLengthTo2026(lengths[targetBadgeIdx]);
-        }
+      const targetBadgeIdx = allYearBadges.findIndex((el) =>
+        el.textContent?.includes("2026"),
+      );
+      if (targetBadgeIdx !== -1 && lengths[targetBadgeIdx] !== undefined) {
+        pathLengthTo2026Ref.current = lengths[targetBadgeIdx];
+        setPathLengthTo2026(lengths[targetBadgeIdx]);
       }
-    }, [chronologicalHistory, chunkSize]);
+    }
+  }, [chronologicalHistory, chunkSize]);
 
   // Update geometry & ship position on mount, window resize, and container ResizeObserver with debouncing
   useEffect(() => {
@@ -1003,7 +1003,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* YEAR HEADERS ROW */}
                 <div
                   data-year-header-row
-                  className={`relative z-30 flex h-12 items-center justify-between px-2 md:px-4 lg:px-6 ${isEvenRow ? "flex-row" : "flex-row-reverse"}`}
+                  className={`relative z-30 flex h-12 items-center justify-between  ${isEvenRow ? "flex-row" : "flex-row-reverse"}`}
                 >
                   {(() => {
                     const paddedItems =

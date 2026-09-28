@@ -411,7 +411,7 @@ function CruiseShipExplorerSectionComponent({
             >
               <span>Bars & Clubs</span>
               <span
-                className={`rounded-lg ${barTab === "bars" ? "bg-white/20" : "bg-white/10"}`}
+                className={`rounded-lg ${barTab === "bars" ? "" : ""}`}
               >
                 20
               </span>
@@ -423,7 +423,7 @@ function CruiseShipExplorerSectionComponent({
             >
               <span>Entertainment</span>
               <span
-                className={` ${barTab === "entertainment" ? "bg-white/20" : "bg-white/10"}`}
+                className={` ${barTab === "entertainment" ? "" : ""}`}
               >
                 20
               </span>

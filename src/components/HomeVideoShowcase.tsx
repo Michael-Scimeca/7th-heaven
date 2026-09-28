@@ -22,6 +22,7 @@ import GlassPlayButton from "./GlassPlayButton";
 import { SectionBadge } from "./SectionBadge";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "./AddCmsButton";
+import { GlowInput, GlowTextarea, GlowSelect } from "@/components/GlowInput";
 
 const InlineYTPlayer = dynamic(() => import("./InlineYTPlayer"), {
   ssr: false,
@@ -979,14 +980,14 @@ export default function HomeVideoShowcase({
                   >
                     Video Title *
                   </label>
-                  <input
+                  <GlowInput
                     id="sanity-video-title"
                     type="text"
                     required
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     placeholder="e.g. 7th Heaven - Live at Summerfest"
-                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full"
                   />
                 </div>
 
@@ -997,14 +998,14 @@ export default function HomeVideoShowcase({
                   >
                     YouTube URL or Video ID *
                   </label>
-                  <input
+                  <GlowInput
                     id="sanity-video-url"
                     type="text"
                     required
                     value={newUrl}
                     onChange={(e) => setNewUrl(e.target.value)}
                     placeholder="e.g. https://www.youtube.com/watch?v=BzHUNTZ66zY or BzHUNTZ66zY"
-                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full"
                   />
                 </div>
 
@@ -1032,28 +1033,29 @@ export default function HomeVideoShowcase({
                     </div>
 
                     {isCustomCategory ? (
-                      <input
+                      <GlowInput
                         id="sanity-video-category"
                         type="text"
                         required
                         value={customCategoryInput}
                         onChange={(e) => setCustomCategoryInput(e.target.value)}
                         placeholder="e.g. Acoustic Sessions"
-                        className="focus-ring w-full  border border-purple-500/50 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                        className="focus-ring w-full"
                       />
                     ) : (
-                      <select
+                      <GlowSelect
                         id="sanity-video-category"
                         value={newCategory}
-                        onChange={(e) => {
-                          if (e.target.value === "__CUSTOM__") {
+                        onChange={(e: any) => {
+                          const val = typeof e === "string" ? e : e.target.value;
+                          if (val === "__CUSTOM__") {
                             setIsCustomCategory(true);
                             setCustomCategoryInput("");
                           } else {
-                            setNewCategory(e.target.value);
+                            setNewCategory(val);
                           }
                         }}
-                        className="focus-ring w-full cursor-pointer  border border-white/15 bg-black/50 px-3 py-2.5"
+                        className="focus-ring w-full cursor-pointer"
                       >
                         {availableCategories.map((cat) => (
                           <option key={cat} value={cat}>
@@ -1063,7 +1065,7 @@ export default function HomeVideoShowcase({
                         <option value="__CUSTOM__">
                           ✨ + Add Custom Category...
                         </option>
-                      </select>
+                      </GlowSelect>
                     )}
                   </div>
 
@@ -1074,12 +1076,12 @@ export default function HomeVideoShowcase({
                     >
                       Year
                     </label>
-                    <input
+                    <GlowInput
                       id="sanity-video-year"
                       type="number"
                       value={newYear}
                       onChange={(e) => setNewYear(e.target.value)}
-                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5"
+                      className="focus-ring w-full"
                     />
                   </div>
 
@@ -1090,13 +1092,13 @@ export default function HomeVideoShowcase({
                     >
                       Duration
                     </label>
-                    <input
+                    <GlowInput
                       id="sanity-video-duration"
                       type="text"
                       value={newDuration}
                       onChange={(e) => setNewDuration(e.target.value)}
                       placeholder="3:30"
-                      className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5"
+                      className="focus-ring w-full"
                     />
                   </div>
                 </div>
@@ -1108,13 +1110,13 @@ export default function HomeVideoShowcase({
                   >
                     Description
                   </label>
-                  <textarea
+                  <GlowTextarea
                     id="sanity-video-description"
                     rows={3}
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
                     placeholder="Optional description or concert highlights..."
-                    className="focus-ring w-full  border border-white/15 bg-black/50 px-4 py-2.5 placeholder-gray-500"
+                    className="focus-ring w-full"
                   />
                 </div>
 

@@ -87,7 +87,6 @@ export default function LazyMount({
       id={id}
       className={className}
       style={{
-        contentVisibility: "auto",
         containIntrinsicSize: `auto ${minHeight}`,
         ...style,
       }}

@@ -1,4 +1,5 @@
 import React from "react";
+import { GlowInput } from "@/components/GlowInput";
 
 interface AdminAuthGateProps {
   isWrongRole: boolean;
@@ -48,14 +49,14 @@ export function AdminAuthGate({
             <label htmlFor="admin-gate-email" className="text-4xs mb-1.5 block">
               Email
             </label>
-            <input
+            <GlowInput
               id="admin-gate-email"
               type="email"
               value={adminLoginEmail}
               onChange={(e) => setAdminLoginEmail(e.target.value)}
               placeholder="admin@7thheaven.com"
               autoComplete="email"
-              className="focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 outline-none"
+              className="focus-ring w-full outline-none"
               required
             />
           </div>
@@ -66,14 +67,14 @@ export function AdminAuthGate({
             >
               Password
             </label>
-            <input
+            <GlowInput
               id="admin-gate-password"
               type="password"
               value={adminLoginPassword}
               onChange={(e) => setAdminLoginPassword(e.target.value)}
               placeholder="••••••••"
               autoComplete="current-password"
-              className="focus-ring w-full  border border-white/10 bg-black/60 px-4 py-2.5 placeholder-white/30 outline-none"
+              className="focus-ring w-full outline-none"
               required
             />
           </div>

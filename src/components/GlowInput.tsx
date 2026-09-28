@@ -22,7 +22,7 @@ export const GlowInput = forwardRef<HTMLInputElement, GlowInputProps>(
   (
     {
       wrapperClassName = "w-full",
-      rounded = "rounded-xl",
+      rounded = "",
       className = "",
       ...props
     },
@@ -108,7 +108,7 @@ export const GlowTextarea = forwardRef<HTMLTextAreaElement, GlowTextareaProps>(
   (
     {
       wrapperClassName = "w-full",
-      rounded = "rounded-xl",
+      rounded = "",
       className = "",
       ...props
     },

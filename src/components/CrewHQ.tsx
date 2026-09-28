@@ -10,6 +10,7 @@ import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import SearchInput from "@/components/SearchInput";
 import { useTransition } from "@/context/TransitionContext";
 import CustomDropdown from "@/components/CustomDropdown";
+import { GlowInput } from "@/components/GlowInput";
 
 const MEMBER_SEEDS: Record<
   string,
@@ -784,7 +785,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     />
                     <button
                       onClick={toggleSimulator}
-                      className={`ml-2 cursor-pointer border px-2.5 py-1 ${simActive ?"shadow-[0_0_12px_rgba(147, 234,0.35)] animate-pulse border-purple-500 bg-purple-600":"border border-white/10 bg-[#00000029] text-white/40"}`}
+                      className={`ml-2 cursor-pointer border px-2.5 py-1 ${simActive ? "shadow-[0_0_12px_rgba(147, 234,0.35)] animate-pulse border-purple-500 bg-purple-600" : "border border-white/10 bg-[#00000029] text-white/40"}`}
                     >
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
                     </button>
@@ -1010,12 +1011,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         onSubmit={handleAddCustomWord}
                         className="mt-2 flex max-w-md gap-2"
                       >
-                        <input
+                        <GlowInput
                           type="text"
                           value={newCustomWord}
                           onChange={(e) => setNewCustomWord(e.target.value)}
                           placeholder="e.g. ticket-scalper"
-                          className="focus-ring flex-1 border border-white/10 bg-black/60 px-4 py-2.5 outline-none"
+                          className="focus-ring flex-1 outline-none"
                         />
                         <button
                           type="submit"
