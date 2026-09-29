@@ -4,6 +4,7 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X, ChevronLeft, ChevronRight, Ticket } from "lucide-react";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 export interface BandMemberFactSheet {
   memberNo?: string;
@@ -63,6 +64,7 @@ export default function MemberFactSheetDrawer({
   allMembers = EMPTY_MEMBERS,
   onSelectMember,
 }: MemberFactSheetDrawerProps) {
+  useScrollLock(isOpen);
   const drawerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (isOpen && drawerRef.current) {

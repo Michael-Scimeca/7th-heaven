@@ -9,12 +9,13 @@ import { Lock, Mail, Zap, Check, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import { isValidEmail } from "@/lib/validation";
-import { SquishyToggle } from "./SquishyToggle";
+import { Toggle } from "./Toggle";
 import GooeyDropdown from "./GooeyDropdown";
 import { GlowInput } from "@/components/GlowInput";
 import Dropdown from "@/components/Dropdown";
 import SeventhButton from "@/components/SeventhButton";
 import { getFakeLogins } from "@/lib/get-fake-logins";
+import { useScrollLock } from "@/lib/useScrollLock";
 // Dev-only: never ships in the production bundle
 const fakeLogins = getFakeLogins();
 
@@ -338,6 +339,7 @@ export default function LoginModal() {
     openModal,
     modalLoginRole,
   } = useMember();
+  useScrollLock(isModalOpen);
   const formState = useLoginFormState();
   const { state } = formState;
 
@@ -859,7 +861,7 @@ export default function LoginModal() {
 
       {/* Modal */}
       <div
-        className="animate-fadeIn relative w-full max-w-lg overflow-hidden  border border-white/10 shadow-[0_30px_90px_rgba(0,0,0,0.8)]"
+        className="animate-fadeIn relative w-full max-w-lg overflow-hidden rounded-[var(--radius-box)] border border-white/10 shadow-[0_30px_90px_rgba(0,0,0,0.8)]"
         style={{
           background: "#120a22",
           backdropFilter: "blur(24px)",
@@ -870,7 +872,7 @@ export default function LoginModal() {
         <button
           onClick={closeModal}
           aria-label="Close login modal"
-          className="absolute top-4 right-4 z-20 flex h-8 w-8 cursor-pointer items-center justify-center  border border-white/10 bg-white/10 hover:bg-white/20 hover:text-white"
+          className="absolute top-4 right-4 z-20 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/10 hover:bg-white/20 hover:text-white"
         >
           <X className="h-4 w-4" />
         </button>
@@ -1017,7 +1019,7 @@ function LoginModalBodyContent(props: any) {
             ) : (
               <span>
                 SIGN UP FOR FREE{" "}
-                <span className="sm: mx-1 inline-block  border border-[var(--color-accent)]/40 bg-[var(--color-accent)] px-2.5 py-0.5  ">
+                <span className="sm: mx-1 inline-block rounded-[var(--radius-box)] border border-[var(--color-accent)]/40 bg-[var(--color-accent)] px-2.5 py-0.5">
                   FAN
                 </span>{" "}
                 MEMBERSHIP
@@ -1028,9 +1030,9 @@ function LoginModalBodyContent(props: any) {
 
         {/* Prominent High-Contrast Sliding Toggle Tabs */}
         {modalMode !== "forgot" && (
-          <div className="relative mx-auto mb-6 grid max-w-sm grid-cols-2 border border-white/10 bg-white/10 p-1 shadow-inner backdrop-blur-2xl select-none">
+          <div className="relative mx-auto mb-6 grid max-w-sm grid-cols-2 rounded-[var(--radius-box)] border border-white/10 bg-white/10 p-1 shadow-inner backdrop-blur-2xl select-none">
             <div
-              className="pointer-events-none absolute top-1 bottom-1 left-1 w-[calc(50%-4px)]  bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]"
+              className="pointer-events-none absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-[calc(var(--radius-box)-2px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]"
               style={{
                 transform:
                   modalMode === "signup"
@@ -1041,7 +1043,7 @@ function LoginModalBodyContent(props: any) {
             <button
               type="button"
               onClick={() => setModalMode("login")}
-              className={`relative z-10 cursor-pointer  px-4 py-2.5 text-center ${modalMode === "login" ? " " : "hover:text-white"}`}
+              className={`relative z-10 cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-4 py-2.5 text-center ${modalMode === "login" ? " " : "hover:text-white"}`}
             >
               Sign In
             </button>
@@ -1052,7 +1054,7 @@ function LoginModalBodyContent(props: any) {
                 if (loginRole === "crew" || loginRole === "cruise")
                   setLoginRole("fan");
               }}
-              className={`relative z-10 cursor-pointer  px-4 py-2.5 text-center ${modalMode === "signup" ? " " : "hover:text-white"}`}
+              className={`relative z-10 cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-4 py-2.5 text-center ${modalMode === "signup" ? " " : "hover:text-white"}`}
             >
               Sign Up
             </button>
@@ -1066,7 +1068,7 @@ function LoginModalBodyContent(props: any) {
               <span className="block text-[10px]">ACCOUNT TYPE:</span>
             </div>
             <div
-              className={`grid gap-1  border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}
+              className={`grid gap-1 rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}
             >
               {[
                 { id: "fan", label: "Fan" },
@@ -1092,7 +1094,7 @@ function LoginModalBodyContent(props: any) {
                       setAdminMode(false);
                     }
                   }}
-                  className={`cursor-pointer  px-1.5 py-1.5 text-center text-[10px] ${loginRole === role.id || (role.id === "admin" && adminMode) ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "/90 bg-[#00000029] text-white/50 hover:text-white"}`}
+                  className={`cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-1.5 py-1.5 text-center text-[10px] ${loginRole === role.id || (role.id === "admin" && adminMode) ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "bg-[#00000029] text-white/50 hover:text-white"}`}
                 >
                   {role.label}
                 </button>
@@ -1103,7 +1105,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Invite flow banner */}
         {isInviteFlow && (
-          <div className="mb-6 flex items-start gap-2 border border-emerald-500/30 bg-emerald-500/10 p-3 text-emerald-200">
+          <div className="mb-6 flex items-start gap-2 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/10 p-3 text-emerald-200">
             <Mail className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
             <div>
               <span className="block">Invited Member Signup</span>
@@ -1137,13 +1139,13 @@ function LoginModalBodyContent(props: any) {
                   setPinCode(e.target.value.replace(/\D/g, "").slice(0, 6))
                 }
                 placeholder="123456"
-                className="placeholder: focus-ring w-full border border-white/10 bg-black/60 px-4 py-3 text-center text-xl tracking-[0.5em] text-white/30 outline-none "
+                className="placeholder: focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/60 px-4 py-3 text-center text-xl tracking-[0.5em] text-white/30 outline-none"
                 required
               />
             </div>
 
             {error && (
-              <p className="border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
+              <p className="rounded-[var(--radius-box)] border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
                 {error}
               </p>
             )}
@@ -1152,7 +1154,7 @@ function LoginModalBodyContent(props: any) {
               type="button"
               onClick={handleVerifyPin}
               disabled={loading || pinCode.length !== 6}
-              className="mx-auto block w-full max-w-sm cursor-pointer bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_0_20px_rgba(124,0,255,0.4)] hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
+              className="mx-auto block w-full max-w-sm cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_0_20px_rgba(124,0,255,0.4)] hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
             >
               {loading ? "Verifying..." : "Verify & Complete Registration"}
             </button>
@@ -1171,7 +1173,7 @@ function LoginModalBodyContent(props: any) {
           </div>
         ) : confirmationRequired ? (
           <div className="my-6 flex flex-col items-center gap-4 text-center">
-            <div className="flex h-12 w-12 items-center justify-center  border border-amber-500/40 bg-amber-500/20 text-amber-300">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[var(--radius-box)] border border-amber-500/40 bg-amber-500/20 text-amber-300">
               <Mail className="h-6 w-6" />
             </div>
             <h3 className="r">Check Your Email</h3>
@@ -1185,7 +1187,7 @@ function LoginModalBodyContent(props: any) {
                 setConfirmationRequired(false);
                 setError("");
               }}
-              className="w-full cursor-pointer border border-black/10 py-3 hover:bg-black/5"
+              className="w-full cursor-pointer rounded-[var(--radius-box)] border border-black/10 py-3 hover:bg-black/5"
             >
               Got it, thanks
             </button>
@@ -1229,7 +1231,7 @@ function LoginModalBodyContent(props: any) {
               <div className="my-4 flex flex-col gap-4">
                 {!forgotPinSent ? (
                   <div>
-                    <label htmlFor="forgot-email-input" className="mb-2 block">
+                    <label htmlFor="forgot-email-input" className="block">
                       Email Address
                     </label>
                     <input
@@ -1249,7 +1251,7 @@ function LoginModalBodyContent(props: any) {
                       <strong>{email}</strong>
                     </div>
                     <div>
-                      <label htmlFor="forgot-pin-input" className="mb-2 block">
+                      <label htmlFor="forgot-pin-input" className="block">
                         Verification PIN
                       </label>
                       <input
@@ -1299,7 +1301,7 @@ function LoginModalBodyContent(props: any) {
                 }
               >
                 <div>
-                  <label htmlFor="login-email-input" className="mb-2 block">
+                  <label htmlFor="login-email-input" className="block">
                     Email{" "}
                     {isInviteFlow && (
                       <span className="flex inline-flex items-center gap-1 text-[var(--color-accent)]">
@@ -1329,7 +1331,7 @@ function LoginModalBodyContent(props: any) {
                   />
                 </div>
                 <div>
-                  <label htmlFor="login-password-input" className="mb-2 block">
+                  <label htmlFor="login-password-input" className=" block">
                     Password
                   </label>
                   <input
@@ -1365,27 +1367,25 @@ function LoginModalBodyContent(props: any) {
             )}
 
             {modalMode === "signup" && (
-              <div className="my-3 flex w-full items-center gap-3.5 text-left select-none">
-                <SquishyToggle
+              <div className="my-3 flex w-full items-center select-none">
+                <Toggle
                   id="modal-age-confirmed-toggle"
-                  label="I confirm that I am 18 years of age or older"
+                  label={
+                    <span>
+                      I confirm that I am{" "}
+                      <span className="text-[#c27aff]">
+                        18 years of age or older
+                      </span>
+                    </span>
+                  }
                   checked={isAgeConfirmed}
                   onChange={(checked) => setIsAgeConfirmed(checked)}
                 />
-                <label
-                  htmlFor="modal-age-confirmed-toggle"
-                  className={`cursor-pointer ${isAgeConfirmed ? " " : " "}`}
-                >
-                  I confirm that I am{" "}
-                  <span className="text-[#c27aff]">
-                    18 years of age or older
-                  </span>
-                </label>
               </div>
             )}
 
             {error && (
-              <p className="border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
+              <p className="rounded-[var(--radius-box)] border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
                 {error}
               </p>
             )}
@@ -1449,7 +1449,7 @@ function LoginModalBodyContent(props: any) {
                 type="button"
                 onClick={() => handleOAuthLogin("google")}
                 disabled={loading}
-                className="flex cursor-pointer items-center justify-center gap-2  border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a] disabled:opacity-50"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a] disabled:opacity-50"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF">
                   <path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" />
@@ -1460,7 +1460,7 @@ function LoginModalBodyContent(props: any) {
                 type="button"
                 onClick={() => handleOAuthLogin("facebook")}
                 disabled={loading}
-                className="flex cursor-pointer items-center justify-center gap-2  border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5] disabled:opacity-50"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5] disabled:opacity-50"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -1472,7 +1472,7 @@ function LoginModalBodyContent(props: any) {
                 onClick={() => handleOAuthLogin("apple")}
                 disabled={loading}
                 style={{ backgroundColor: "#000000" }}
-                className="flex cursor-pointer items-center justify-center gap-2  border-none px-3 py-2.5 hover:bg-zinc-900 disabled:opacity-50"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border-none px-3 py-2.5 hover:bg-zinc-900 disabled:opacity-50"
               >
                 <svg
                   width="15"
@@ -1526,7 +1526,7 @@ function LoginModalBodyContent(props: any) {
                 await login("admin@7thheaven.com", "password123");
                 window.location.href = "/admin";
               }}
-              className="cursor-pointer  border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+              className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
             >
               Admin
             </button>
@@ -1540,7 +1540,7 @@ function LoginModalBodyContent(props: any) {
                 await login("crew@7thheaven.com", "password123");
                 window.location.href = "/crew";
               }}
-              className="cursor-pointer  border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
+              className="cursor-pointer rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
             >
               Crew
             </button>
@@ -1554,7 +1554,7 @@ function LoginModalBodyContent(props: any) {
                 await login("planner@7thheaven.com", "password123");
                 window.location.href = "/planner";
               }}
-              className="cursor-pointer  border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+              className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
             >
               Planner
             </button>
@@ -1568,7 +1568,7 @@ function LoginModalBodyContent(props: any) {
                 await login("cruise@7thheaven.com", "password123");
                 window.location.href = "/cruise/cruise_guest";
               }}
-              className="cursor-pointer  border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
+              className="cursor-pointer rounded-[var(--radius-box)] border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
             >
               Cruise
             </button>
@@ -1582,7 +1582,7 @@ function LoginModalBodyContent(props: any) {
                 await login("fan@7thheaven.com", "password123");
                 window.location.href = "/fans/super_fan";
               }}
-              className="cursor-pointer  border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
+              className="cursor-pointer rounded-[var(--radius-box)] border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
             >
               Fan
             </button>
@@ -1610,7 +1610,7 @@ function OAuthSocialButtons({
         <button
           type="button"
           onClick={() => onOAuthLogin("google")}
-          className="flex cursor-pointer items-center justify-center gap-2  border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a]"
+          className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a]"
           title="Sign in with Google"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF">
@@ -1621,7 +1621,7 @@ function OAuthSocialButtons({
         <button
           type="button"
           onClick={() => onOAuthLogin("facebook")}
-          className="flex cursor-pointer items-center justify-center gap-2  border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5]"
+          className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5]"
           title="Sign in with Facebook"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF">
@@ -1633,7 +1633,7 @@ function OAuthSocialButtons({
           type="button"
           onClick={() => onOAuthLogin("apple")}
           style={{ backgroundColor: "#000000" }}
-          className="flex cursor-pointer items-center justify-center gap-2  border-none px-3 py-2.5 hover:bg-zinc-900"
+          className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border-none px-3 py-2.5 hover:bg-zinc-900"
           title="Sign in with Apple"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -1680,7 +1680,7 @@ function QuickLoginDemoButtons({
             await login("admin@7thheaven.com", "password123");
             window.location.href = "/admin";
           }}
-          className="cursor-pointer  border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+          className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
         >
           Admin
         </button>
@@ -1694,7 +1694,7 @@ function QuickLoginDemoButtons({
             await login("crew@7thheaven.com", "password123");
             window.location.href = "/crew";
           }}
-          className="cursor-pointer  border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
+          className="cursor-pointer rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
         >
           Crew
         </button>
@@ -1708,7 +1708,7 @@ function QuickLoginDemoButtons({
             await login("planner@7thheaven.com", "password123");
             window.location.href = "/planner";
           }}
-          className="cursor-pointer  border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+          className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
         >
           Planner
         </button>
@@ -1722,7 +1722,7 @@ function QuickLoginDemoButtons({
             await login("cruise@7thheaven.com", "password123");
             window.location.href = "/cruise/cruise_guest";
           }}
-          className="cursor-pointer  border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
+          className="cursor-pointer rounded-[var(--radius-box)] border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
         >
           Cruise
         </button>
@@ -1736,7 +1736,7 @@ function QuickLoginDemoButtons({
             await login("fan@7thheaven.com", "password123");
             window.location.href = "/fans/super_fan";
           }}
-          className="cursor-pointer  border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
+          className="cursor-pointer rounded-[var(--radius-box)] border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
         >
           Fan
         </button>
@@ -1875,40 +1875,28 @@ function SignUpExtraFields({
           <div className="flex flex-col gap-3">
             {/* Toggles — side by side */}
             <div className="my-2 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="flex w-full items-center gap-3 select-none">
-                <SquishyToggle
+              <div className="flex w-full items-center select-none">
+                <Toggle
                   id="signup-want-notifications-toggle"
                   label="Show alerts near me"
                   checked={wantNotifications}
                   onChange={(checked) => setWantNotifications(checked)}
                 />
-                <label
-                  htmlFor="signup-want-notifications-toggle"
-                  className={`cursor-pointer text-left ${wantNotifications ? " " : " "}`}
-                >
-                  Show alerts near me
-                </label>
               </div>
-              <div className="flex w-full items-center gap-3 select-none">
-                <SquishyToggle
+              <div className="flex w-full items-center select-none">
+                <Toggle
                   id="signup-want-newsletter-toggle"
                   label="News & updates"
                   checked={wantNewsletter}
                   onChange={(checked) => setWantNewsletter(checked)}
                 />
-                <label
-                  htmlFor="signup-want-newsletter-toggle"
-                  className={`cursor-pointer text-left ${wantNewsletter ? " " : " "}`}
-                >
-                  News & updates
-                </label>
               </div>
             </div>
 
             {/* Zip code & radius — only if opted in */}
             {wantNotifications && (
               <div className="pt-1">
-                <label htmlFor="signup-zip-code" className="mb-2 block">
+                <label htmlFor="signup-zip-code" className="block">
                   Zip Code & Radius
                 </label>
                 <div className="flex items-center gap-2">

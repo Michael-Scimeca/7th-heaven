@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 export interface ModalDialogProps {
   isOpen: boolean;
@@ -29,6 +30,8 @@ export function ModalDialog({
   children,
   className,
 }: ModalDialogProps) {
+  useScrollLock(isOpen);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -37,12 +40,8 @@ export function ModalDialog({
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    const originalStyle = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = originalStyle;
     };
   }, [isOpen, onClose]);
 
@@ -64,7 +63,7 @@ export function ModalDialog({
       {/* Dialog Body */}
       <div
         className={cn(
-          "relative z-10 w-full rounded-2xl border border-white/10 bg-[#0f0f13] p-6 shadow-2xl transition-all",
+          "relative z-10 w-full overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0f0f13] p-6 shadow-2xl transition-all",
           maxWidthStyles[maxWidth],
           className,
         )}
@@ -79,7 +78,7 @@ export function ModalDialog({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
+            className="rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />

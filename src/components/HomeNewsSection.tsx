@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "./AddCmsButton";
 import { GlowInput, GlowSelect, GlowTextarea } from "@/components/GlowInput";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 export interface NewsItem {
   id?: string;
@@ -76,6 +77,7 @@ export default function HomeNewsSection({
 
   // Add News Modal State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  useScrollLock(Boolean(selectedArticle || isAddModalOpen));
   const [newTitle, setNewTitle] = useState("");
   const [newDate, setNewDate] = useState("January 2026");
   const [newCategory, setNewCategory] = useState("update");
@@ -186,12 +188,17 @@ export default function HomeNewsSection({
   const featured = news[0];
 
   return (
-    <section id="news" className="site-container py-section-fluid relative">
+    <section
+      id="news"
+      aria-labelledby="news-heading"
+      className="section cv-auto site-container relative"
+      style={{ "--cv-size": "782px", "--cv-size-lg": "558px" } as React.CSSProperties}
+    >
       <>
         {/* Section Header */}
         <div className="mb-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div className="max-w-2xl text-left">
-            <h2 className="font-[family-name:var(--font-rockstar)]">
+            <h2 id="news-heading" className="font-[family-name:var(--font-rockstar)]">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
             <p className="mt-2">
@@ -260,7 +267,7 @@ export default function HomeNewsSection({
           onClick={() => setSelectedArticle(null)}
         >
           <div
-            className="relative w-full max-w-xl rounded-2xl border-0 bg-[var(--card-bg)] p-8 shadow-2xl"
+            className="relative w-full max-w-xl rounded-2xl border-0   p-8 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-6 flex items-center justify-between">
@@ -283,7 +290,7 @@ export default function HomeNewsSection({
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3  border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
+        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-[var(--radius-box)] border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
           <CheckCircle2 className="h-5 w-5 shrink-0 text-green-400" />
           <span>{toastMessage}</span>
         </div>
@@ -322,7 +329,7 @@ export default function HomeNewsSection({
 
               <form onSubmit={handleAddNewsSubmit} className="space-y-4">
                 <div>
-                  <label className="mb-1.5 block text-purple-200/80">
+                  <label className="  block ">
                     Article Title *
                   </label>
                   <GlowInput
@@ -337,7 +344,7 @@ export default function HomeNewsSection({
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-purple-200/80">
+                    <label className="  block ">
                       Display Date *
                     </label>
                     <GlowInput
@@ -351,7 +358,7 @@ export default function HomeNewsSection({
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-purple-200/80">
+                    <label className="  block t">
                       Category
                     </label>
                     <GlowSelect
@@ -368,7 +375,7 @@ export default function HomeNewsSection({
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-purple-200/80">
+                  <label className="  block ">
                     Content / Article Body *
                   </label>
                   <GlowTextarea

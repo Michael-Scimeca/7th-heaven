@@ -21,6 +21,7 @@ import { useTransition } from "@/context/TransitionContext";
 import SeventhButton from "@/components/SeventhButton";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
 import Avatar from "@/components/Avatar";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 const emptySubscribe = () => () => { };
 
@@ -152,6 +153,7 @@ export function Header() {
   const { mode, pendingHref, requestTransition } = useTransition();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  useScrollLock(mobileOpen);
   const { member, isLoggedIn, openModal, logout, isModalOpen } = useMember();
   const [cartCount, setCartCount] = useState(0);
 

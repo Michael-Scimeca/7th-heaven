@@ -8,6 +8,7 @@ import { SectionBadge } from "./SectionBadge";
 import React, { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import type { CruiseVideoItem } from "@/app/api/cruise/videos/route";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 const FALLBACK_VIDEOS: CruiseVideoItem[] = [
   {
@@ -161,6 +162,7 @@ export default function CruiseVideoGallery() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeVideo, setActiveVideo] = useState<CruiseVideoItem | null>(null);
   const [loading, setLoading] = useState(false);
+  useScrollLock(Boolean(activeVideo));
 
   const fetchVideos = useCallback(async () => {
     try {
@@ -210,96 +212,100 @@ export default function CruiseVideoGallery() {
   return (
     <section
       id="ship-videos"
-      className="py-section-fluid site-container relative z-20"
-      style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}
+      aria-labelledby="ship-videos-heading"
+      className="section cv-auto relative"
+      style={{ "--cv-size": "2100px", "--cv-size-lg": "2006px" } as React.CSSProperties}
     >
-      {/* Header */}
-      <div className="mx-auto mb-6 max-w-3xl text-center">
-        <h2 className="md:text-6xl">
-          Explore <span className="accent-gradient-text">Ship Videos</span>
-        </h2>
-        <p className="mt-4">
-          Watch official walkthroughs, entertainment previews, deck tours, and
-          venue spotlights uploaded by our cruise team.
-        </p>
+      <div className="site-container relative z-20">
+        {/* Header */}
+        <div className="mx-auto mb-6 max-w-3xl text-center">
+          <h2 id="ship-videos-heading" className="md:text-6xl">
+            Explore <span className="accent-gradient-text">Ship Videos</span>
+          </h2>
+          <p className="mt-4">
+            Watch official walkthroughs, entertainment previews, deck tours, and
+            venue spotlights uploaded by our cruise team.
+          </p>
 
-        {/* Category Filters */}
-        {categories.length > 1 && (
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            {categories.map((cat) => (
-              <SeventhButton
-                key={cat}
-                isActive={selectedCategory === cat}
-                onClick={() => setSelectedCategory(cat)}
-                className="px-5 py-2"
+          {/* Category Filters */}
+          {categories.length > 1 && (
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              {categories.map((cat) => (
+                <SeventhButton
+                  key={cat}
+                  isActive={selectedCategory === cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className=""
+                >
+                  {cat}
+                </SeventhButton>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Videos Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {[1, 2, 3].map((n) => (
+              <div
+                key={n}
+                className="bg-[#e1e6ff29] aspect-video animate-pulse rounded-[var(--radius-box)]"
+              />
+            ))}
+          </div>
+        ) : filteredVideos.length === 0 ? (
+          <div className="rounded-[var(--radius-box)] border border-white/10 bg-white/5 py-16 text-center text-white/50">
+            No videos found in this category.
+          </div>
+        ) : (
+          <div
+            key={selectedCategory}
+            className="grid animate-[fade-in_0.35s_ease-out_both] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {filteredVideos.map((vid) => (
+              <div
+                key={vid.id}
+                onClick={() => setActiveVideo(vid)}
+                className="group flex w-full cursor-pointer flex-col justify-between overflow-hidden text-left"
               >
-                {cat}
-              </SeventhButton>
+                {/* Poster Thumbnail */}
+                <div className="relative aspect-video overflow-hidden rounded-[var(--radius-box)] bg-black/90">
+                  <Image
+                    width={480}
+                    height={270}
+                    loading="lazy"
+                    unoptimized
+                    src={vid.poster || "/images/cruise/cruise-hero.png"}
+                    alt={vid.title}
+                    className="h-full w-full overflow-hidden object-cover opacity-90 group-hover:opacity-100"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent">
+                    <GlassPlayButton size="lg" />
+                  </div>
+
+                  <div className="absolute top-3 left-3 z-10">
+                    <SectionBadge
+                      label={vid.category}
+                      className="!border-white/20 !bg-black/80 shadow-md"
+                    />
+                  </div>
+                </div>
+
+                {/* Title & Info */}
+                <div className="flex flex-1 flex-col space-y-3 pt-6">
+                  <div>
+                    <h3 className="">{vid.title}</h3>
+                    {vid.description && (
+                      <p className="mt-2 line-clamp-2">{vid.description}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         )}
       </div>
-
-      {/* Videos Grid */}
-      {loading ? (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {[1, 2, 3].map((n) => (
-            <div
-              key={n}
-              className="bg-[#e1e6ff29] aspect-video animate-pulse "
-            />
-          ))}
-        </div>
-      ) : filteredVideos.length === 0 ? (
-        <div className="border border-white/10 bg-white/5 py-16 text-center text-white/50">
-          No videos found in this category.
-        </div>
-      ) : (
-        <div
-          key={selectedCategory}
-          className="grid animate-[fade-in_0.35s_ease-out_both] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {filteredVideos.map((vid) => (
-            <div
-              key={vid.id}
-              onClick={() => setActiveVideo(vid)}
-              className="group flex w-full cursor-pointer flex-col justify-between overflow-hidden text-left"
-            >
-              {/* Poster Thumbnail */}
-              <div className="relative aspect-video overflow-hidden bg-black/90">
-                <Image
-                  width={200}
-                  height={200}
-                  unoptimized
-                  src={vid.poster || "/images/cruise/cruise-hero.png"}
-                  alt={vid.title}
-                  className="h-full w-full overflow-hidden object-cover opacity-90 group-hover:opacity-100"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent">
-                  <GlassPlayButton size="lg" />
-                </div>
-
-                <div className="absolute top-3 left-3 z-10">
-                  <SectionBadge
-                    label={vid.category}
-                    className="!border-white/20 !bg-black/80 shadow-md !backdrop-blur-md"
-                  />
-                </div>
-              </div>
-
-              {/* Title & Info */}
-              <div className="flex flex-1 flex-col space-y-3 pt-6">
-                <div>
-                  <h3 className="">{vid.title}</h3>
-                  {vid.description && (
-                    <p className="mt-2 line-clamp-2">{vid.description}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
 
       {/* Full-screen Video Player Modal Portaled to Body for Unclipped Viewport Blur */}
       {activeVideo &&
@@ -325,7 +331,7 @@ export default function CruiseVideoGallery() {
 
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl overflow-hidden  bg-[#0c071e] p-4 md:p-6"
+              className="relative w-full max-w-5xl overflow-hidden rounded-[var(--radius-box)] bg-[#0c071e] p-4 md:p-6"
             >
               <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div className="min-w-0 flex-1">
@@ -336,7 +342,7 @@ export default function CruiseVideoGallery() {
                 </div>
               </div>
 
-              <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-2xl">
+              <div className="relative aspect-video w-full overflow-hidden rounded-[var(--radius-box)] bg-black shadow-2xl">
                 {(() => {
                   const ytId =
                     activeVideo.youtubeId ||
@@ -347,7 +353,7 @@ export default function CruiseVideoGallery() {
                   if (ytId) {
                     return (
                       <iframe
-                        src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`}
+                        src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
                         title={activeVideo.title}
                         className="h-full w-full border-0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -361,6 +367,7 @@ export default function CruiseVideoGallery() {
                       controls
                       autoPlay
                       muted
+                      playsInline
                       className="h-full w-full object-contain"
                     >
                       <track kind="captions" />

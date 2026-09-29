@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { Bell, Check, X, Shield, Mail, User, Sparkles } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
-import SquishyToggle from "@/components/SquishyToggle";
+import Toggle from "@/components/Toggle";
 import { useMember } from "@/context/MemberContext";
 import { GlowInput } from "@/components/GlowInput";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 interface PushSubscribeModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export default function PushSubscribeModal({
   group = "fans",
   onSuccess,
 }: PushSubscribeModalProps) {
+  useScrollLock(isOpen);
   const { member } = useMember();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -90,12 +92,12 @@ export default function PushSubscribeModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0a1a] p-6 shadow-2xl sm:p-8">
+      <div className="relative w-full max-w-lg overflow-hidden rounded-[var(--radius-box)] border border-purple-500/30 bg-[#0e0a1a] p-6 shadow-2xl sm:p-8">
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4  bg-[#00000029] p-1 text-white/40 hover:bg-white/10 hover:text-white"
+          className="absolute top-4 right-4 rounded-full bg-[#00000029] p-1 text-white/40 hover:bg-white/10 hover:text-white"
         >
           <X className="h-5 w-5" />
         </button>
@@ -117,14 +119,14 @@ export default function PushSubscribeModal({
             </p>
 
             {error && (
-              <div className="mb-6  border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
+              <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
                 ⚠️ {error}
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-gray-300">
+                <label className="  block text-gray-300">
                   Your Full Name
                 </label>
                 <div className="relative w-full">
@@ -143,7 +145,7 @@ export default function PushSubscribeModal({
               </div>
 
               <div>
-                <label className="mb-1.5 block text-gray-300">
+                <label className="  block text-gray-300">
                   Your Email Address
                 </label>
                 <div className="relative w-full">
@@ -162,37 +164,37 @@ export default function PushSubscribeModal({
               </div>
 
               {/* Legal Terms of Service & Privacy Policy Toggle */}
-              <div className="flex items-center gap-3 pt-1 pb-1">
-                <SquishyToggle
+              <div className="pt-1 pb-1">
+                <Toggle
                   id="modal-terms-toggle"
-                  label="I agree to the Terms of Service & Privacy Policy"
                   checked={agreedToTerms}
                   onChange={(checked) => setAgreedToTerms(checked)}
+                  label={
+                    <span className="leading-normal text-gray-300/90 select-none">
+                      I agree to the{" "}
+                      <a
+                        href="/terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-purple-400"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Terms of Service
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-purple-400"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Privacy Policy
+                      </a>{" "}
+                      to receive live stream push & email notifications.
+                    </span>
+                  }
                 />
-                <label
-                  htmlFor="modal-terms-toggle"
-                  className="cursor-pointer leading-normal text-gray-300/90 select-none"
-                >
-                  I agree to the{" "}
-                  <a
-                    href="/terms"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover: text-purple-400"
-                  >
-                    Terms of Service
-                  </a>{" "}
-                  and{" "}
-                  <a
-                    href="/privacy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover: text-purple-400"
-                  >
-                    Privacy Policy
-                  </a>{" "}
-                  to receive live stream push & email notifications.
-                </label>
               </div>
 
               <div className="pt-2">
@@ -215,7 +217,7 @@ export default function PushSubscribeModal({
           </div>
         ) : (
           <div className="py-6 text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border border-emerald-500/40 bg-emerald-500/20 text-emerald-400">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-emerald-400">
               <Check className="h-8 w-8" />
             </div>
             <h3 className="mb-2">You&apos;re Subscribed! 🔔</h3>
@@ -228,7 +230,7 @@ export default function PushSubscribeModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg bg-white/10 px-6 py-2.5 hover:bg-white/20"
+              className="rounded-[var(--radius-box)] bg-white/10 px-6 py-2.5 hover:bg-white/20"
             >
               DONE
             </button>

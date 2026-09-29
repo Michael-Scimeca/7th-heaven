@@ -20,6 +20,7 @@ import {
   Bell,
 } from "lucide-react";
 import GlowInput from "@/components/GlowInput";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 interface RouteItem {
   path: string;
@@ -442,7 +443,7 @@ export default function PagesPillDrawer() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // Page scroll locked via CSS body:has([data-scroll-lock="true"])
+  useScrollLock(isOpen);
 
   const filtered = ALL_SITE_ROUTES.filter((r) => {
     const matchCat = activeCategory === "All" || r.category === activeCategory;

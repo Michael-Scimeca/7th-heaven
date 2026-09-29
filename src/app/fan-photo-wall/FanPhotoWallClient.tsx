@@ -21,6 +21,7 @@ import React, {
   useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 const emptySubscribe = () => () => { };
 const useMounted = () =>
@@ -121,6 +122,7 @@ export default function FanPhotoWallClient({
   const mounted = useMounted();
 
   const [isAddCmsModalOpen, setIsAddCmsModalOpen] = useState(false);
+  useScrollLock(Boolean(selectedPhoto || showUpload || isAddCmsModalOpen));
   const [cmsForm, setCmsForm] = useState({
     name: "",
     venue: "",

@@ -28,6 +28,7 @@ import GlassPlayButton from "@/components/GlassPlayButton";
 import AddCmsButton from "@/components/AddCmsButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import GlowInput, { GlowSelect, GlowTextarea } from "@/components/GlowInput";
+import { useScrollLock } from "@/lib/useScrollLock";
 
 const CustomVideoPlayer = dynamic(
   () => import("@/components/CustomVideoPlayer"),
@@ -211,6 +212,7 @@ export default function MediaClient({
 
   // Add Video Modal State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  useScrollLock(Boolean(playingVideo || isAddModalOpen));
   const [newTitle, setNewTitle] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [newCategory, setNewCategory] = useState("Official Music Videos");
