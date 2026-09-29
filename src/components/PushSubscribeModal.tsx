@@ -29,11 +29,26 @@ export default function PushSubscribeModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [showIosTip, setShowIosTip] = useState(false);
 
   useEffect(() => {
     if (member?.name) setName(member.name);
     if (member?.email) setEmail(member.email);
   }, [member]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const isStandalone =
+        Boolean((window.navigator as any).standalone) ||
+        window.matchMedia("(display-mode: standalone)").matches;
+      if (isIOS && !isStandalone) {
+        setShowIosTip(true);
+      }
+    }
+  }, []);
 
   if (!isOpen) return null;
 
@@ -117,6 +132,12 @@ export default function PushSubscribeModal({
               Enter your details below to get instant push notifications
               whenever 7th Heaven or a crew member goes live!
             </p>
+
+            {showIosTip && (
+              <div className="mb-6 rounded-[var(--radius-box)] border border-purple-500/40 bg-purple-950/30 p-3 text-xs text-purple-200">
+                📱 <strong>iPhone Note:</strong> To enable push notifications on iOS, tap <strong>Share</strong> (⎋) &rarr; <strong>Add to Home Screen</strong>, then open 7th Heaven from your Home Screen.
+              </div>
+            )}
 
             {error && (
               <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
