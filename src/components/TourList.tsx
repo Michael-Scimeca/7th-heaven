@@ -1856,7 +1856,10 @@ export default function TourList({
                         );
                       })()}
                       {isShowToday(show) && (
-                        <span className="ml-1.5 animate-pulse whitespace-nowrap text-rose-600">
+                        <span
+                          suppressHydrationWarning
+                          className="ml-1.5 animate-pulse whitespace-nowrap text-rose-600"
+                        >
                           {getCountdownString(show)}
                         </span>
                       )}

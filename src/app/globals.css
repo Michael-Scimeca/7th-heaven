@@ -1240,9 +1240,9 @@ label:not(.sr-only),
   color: #ffffff !important;
   position: relative;
   z-index: 33;
-  display: flex;
-  margin-bottom: 8px;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: 14px;
 }
 

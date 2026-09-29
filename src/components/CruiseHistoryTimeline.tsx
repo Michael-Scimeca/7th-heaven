@@ -20,6 +20,7 @@ const emptySubscribe = () => () => { };
 
 import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
 import { SectionBadge } from "./SectionBadge";
+import LazyHeavy from "@/components/LazyHeavy";
 
 // Suppress blob URL texture errors that occur during page transitions
 suppressBlobTextureErrors();
@@ -348,12 +349,9 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const offX = tuning.shipOffsetX ?? 0;
       const offY = tuning.shipOffsetY ?? 0;
 
-      const leftPct = ((pt.x + offX) / containerW) * 100;
-      const topPct = ((pt.y + offY) / containerH) * 100;
-
       const ship = shipDivRef.current;
-      ship.style.setProperty("--ship-left", `${leftPct}%`);
-      ship.style.setProperty("--ship-top", `${topPct}%`);
+      ship.style.setProperty("--ship-left-px", `${(pt.x + offX).toFixed(1)}px`);
+      ship.style.setProperty("--ship-top-px", `${(pt.y + offY).toFixed(1)}px`);
       ship.style.setProperty("--ship-angle", `${angle}rad`);
       ship.style.setProperty("--ship-opacity", scrollProgressClamped > 0.005 ? "1" : "0");
 
@@ -785,7 +783,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
   );
 
   return (
-    <div className="py-section-fluid relative right-1/2 left-1/2 -mr-[50vw] -ml-[50vw] w-screen overflow-x-clip text-left">
+    <div className="relative right-1/2 left-1/2 -mr-[50vw] -ml-[50vw] w-screen overflow-x-clip text-left">
       {/* ── Inner Backdrop & Tint Overlay (Separated from maskImage to eliminate Chrome compositor white polygon bug) ── */}
       <div className="pointer-events-none absolute inset-0 z-0" />
 
@@ -817,49 +815,59 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       {/* ── DESKTOP & TABLET SERPENTINE SNAKE TIMELINE (0px FULL BLEED EDGE-TO-EDGE) ── */}
       <div
         ref={desktopContainerRef}
-        className="site-container relative mx-auto overflow-clip md:block"
+        className="site-container relative mx-auto hidden overflow-clip md:block"
       >
         {/* 3D Top-Down Cruise Ship Follower riding the History & Milestones serpentine path */}
         <div
           ref={shipDivRef}
           className="timeline-ship-marker pointer-events-none overflow-visible transition-none w-[400px] h-[400px]"
         >
-          <Canvas
-            frameloop="demand"
-            dpr={[1, 1.5]}
-            orthographic
-            gl={{
-              powerPreference: "high-performance",
-              antialias: true,
-              alpha: true,
+          <LazyHeavy
+            minHeight="400px"
+            className="w-full h-full overflow-visible"
+            prefetch={() => {
+              if (typeof window !== "undefined") {
+                useGLTF.preload("/objects/ship.glb");
+              }
             }}
-            camera={{
-              left: -200,
-              right: 200,
-              top: 200,
-              bottom: -200,
-              zoom: 1,
-              position: [0, 350, 0],
-              up: [0, 0, -1],
-            }}
-            style={{ width: "100%", height: "100%", overflow: "visible" }}
           >
-            {process.env.NODE_ENV === "development" && (
-              <StatsGl className="r3f-gpu-stats" />
-            )}
-            <ambientLight intensity={1.8} />
-            <directionalLight position={[5, 12, 5]} intensity={2.5} />
-            <pointLight
-              position={[-5, 5, -5]}
-              intensity={1}
-              color="#9e852a"
-            />
-            <ShipErrorBoundary fallback={<FallbackTopDownShip shipScaleRef={shipScaleRef} />}>
-              <React.Suspense fallback={null}>
-                <TopDownHistoryShip shipScaleRef={shipScaleRef} />
-              </React.Suspense>
-            </ShipErrorBoundary>
-          </Canvas>
+            <Canvas
+              frameloop="demand"
+              dpr={[1, 1.5]}
+              orthographic
+              gl={{
+                powerPreference: "high-performance",
+                antialias: true,
+                alpha: true,
+              }}
+              camera={{
+                left: -200,
+                right: 200,
+                top: 200,
+                bottom: -200,
+                zoom: 1,
+                position: [0, 350, 0],
+                up: [0, 0, -1],
+              }}
+              style={{ width: "100%", height: "100%", overflow: "visible" }}
+            >
+              {process.env.NODE_ENV === "development" && (
+                <StatsGl className="r3f-gpu-stats" />
+              )}
+              <ambientLight intensity={1.8} />
+              <directionalLight position={[5, 12, 5]} intensity={2.5} />
+              <pointLight
+                position={[-5, 5, -5]}
+                intensity={1}
+                color="#9e852a"
+              />
+              <ShipErrorBoundary fallback={<FallbackTopDownShip shipScaleRef={shipScaleRef} />}>
+                <React.Suspense fallback={null}>
+                  <TopDownHistoryShip shipScaleRef={shipScaleRef} />
+                </React.Suspense>
+              </ShipErrorBoundary>
+            </Canvas>
+          </LazyHeavy>
         </div>
         {/* ONE SINGLE CONTINUOUS DYNAMIC SVG PATHWAY WITH WATER WAVE MOTION */}
         {pathD && (
@@ -1171,7 +1179,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               <div className="space-y-5">
                 {/* 1. Start Ship Scale */}
                 <div>
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span className="/90">⚓ 1998 Start Ship Size (Scale)</span>
                     <span>{(tuning.startScale ?? 0.7).toFixed(2)}x</span>
                   </div>
@@ -1194,7 +1202,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 2. End Ship Scale */}
                 <div>
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span className="/90">🚀 2028 End Ship Size (Scale)</span>
                     <span>{(tuning.endScale ?? 3.2).toFixed(2)}x</span>
                   </div>
@@ -1249,7 +1257,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* 4. Exponential Curve Exponent (only shown if exponential mode selected) */}
                 {tuning.scalingCurve === "exponential" && (
                   <div>
-                    <div className="mb-1.5 flex items-center justify-between">
+                    <div className="  flex items-center justify-between">
                       <span className="/90">
                         ⚡ Year Acceleration Curve (Exponent)
                       </span>
@@ -1275,7 +1283,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 3. Ship X Position Offset */}
                 <div className="border border-purple-400/30 bg-cyan-950/30 p-3">
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span>↔️ Ship X Position Offset (Horizontal)</span>
                     <span>{tuning.shipOffsetX ?? 0}px</span>
                   </div>
@@ -1300,7 +1308,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 4. Ship Y Position Offset */}
                 <div className="border border-purple-400/30 bg-cyan-950/30 p-3">
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span>↕️ Ship Y Position Offset (Vertical)</span>
                     <span>{tuning.shipOffsetY ?? 0}px</span>
                   </div>
@@ -1323,7 +1331,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 5. Bow Offset / Ship Stop Position */}
                 <div className="border border-purple-400/30 bg-cyan-950/30 p-3">
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span>🎯 Ship & Blue Line Timeline Stop Position</span>
                     <span>{tuning.bowOffsetPx}px</span>
                   </div>
@@ -1349,7 +1357,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 6. Scroll Start Target */}
                 <div className="border border-purple-400/30 bg-cyan-950/30 p-3">
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span>🚀 Scroll Start Trigger (% Viewport)</span>
                     <span>{(tuning.scrollStartMul * 100).toFixed(0)}%</span>
                   </div>
@@ -1375,7 +1383,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 7. Scroll End Target */}
                 <div className="border border-purple-400/30 bg-cyan-950/30 p-3">
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span>🏁 2026 Finish Viewport Position (% Viewport)</span>
                     <span>{(tuning.scrollEndMul * 100).toFixed(0)}%</span>
                   </div>
@@ -1401,7 +1409,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 8. Scrub Damping / Smoothness */}
                 <div className="border border-purple-400/30 bg-cyan-950/30 p-3">
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span>⚡ Scroll Scrub Smoothness (Damping)</span>
                     <span>{(tuning.scrubDamping ?? 0.5).toFixed(1)}s</span>
                   </div>
@@ -1427,7 +1435,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 6. Line Width */}
                 <div>
-                  <div className="mb-1.5 flex items-center justify-between">
+                  <div className="  flex items-center justify-between">
                     <span className="/90">🖊️ Line Thickness</span>
                     <span>{tuning.lineWidth}px</span>
                   </div>

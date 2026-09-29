@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { SectionBadge } from "@/components/SectionBadge";
 import SeventhButton from "@/components/SeventhButton";
-import LazyMount from "@/components/LazyMount";
 
 interface CruiseShipExplorerSectionProps {
   sanityContent?: any;
@@ -27,17 +26,14 @@ function CruiseShipExplorerSectionComponent({
     "Explore structural specs, dining options (included vs fee-based), entertainment venues, and bars on our state-of-the-art vessel.";
 
   return (
-    <LazyMount
-      as="section"
-      id="ship-explorer"
-      aria-label="Ship Specifications and Inclusions"
-      className="py-section-fluid site-container"
-      minHeight="800px"
-      rootMargin="300px 0px"
-      style={{ contentVisibility: "auto", containIntrinsicSize: "800px" }}
+    <section
+      id="ship-specs"
+      aria-labelledby="ship-specs-heading"
+      className="section cv-auto site-container"
+      style={{ "--cv-size": "4200px", "--cv-size-lg": "4051px" } as React.CSSProperties}
     >
       <div className="mb-6 w-full text-left">
-        <h2>{sectionTitle}</h2>
+        <h2 id="ship-specs-heading">{sectionTitle}</h2>
         <p className="mt-3 max-w-2xl">{sectionSubtitle}</p>
       </div>
 
@@ -139,6 +135,7 @@ function CruiseShipExplorerSectionComponent({
                 <Image
                   width={400}
                   height={300}
+                  loading="lazy"
                   unoptimized
                   src={item.img}
                   alt={item.title}
@@ -147,7 +144,7 @@ function CruiseShipExplorerSectionComponent({
                 <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
                   <SectionBadge
                     label={item.category}
-                    className="mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md"
+                    className="  self-start !border-white/20 !bg-black/80 shadow-md"
                   />
                   <p>{item.title}</p>
                 </div>
@@ -376,6 +373,7 @@ function CruiseShipExplorerSectionComponent({
               <Image
                 width={200}
                 height={200}
+                loading="lazy"
                 unoptimized
                 src={food.img}
                 alt={food.name}
@@ -384,7 +382,7 @@ function CruiseShipExplorerSectionComponent({
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
                 <SectionBadge
                   label={food.tag}
-                  className="mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md"
+                  className="  self-start !border-white/20 !bg-black/80 shadow-md"
                 />
                 <p>{food.name}</p>
               </div>
@@ -403,7 +401,7 @@ function CruiseShipExplorerSectionComponent({
               attractions.
             </p>
           </div>
-          <div className="flex max-w-full shrink-0 gap-3 self-start lg:self-center">
+          <div className="flex max-w-full flex-wrap gap-2 sm:gap-3 self-start lg:self-center">
             <SeventhButton
               onClick={() => setBarTab("bars")}
               isActive={barTab === "bars"}
@@ -411,7 +409,7 @@ function CruiseShipExplorerSectionComponent({
             >
               <span>Bars & Clubs</span>
               <span
-                className={`rounded-lg ${barTab === "bars" ? "" : ""}`}
+                className="rounded-full bg-white/10 px-2 py-0.5 text-small text-secondary"
               >
                 20
               </span>
@@ -423,7 +421,7 @@ function CruiseShipExplorerSectionComponent({
             >
               <span>Entertainment</span>
               <span
-                className={` ${barTab === "entertainment" ? "" : ""}`}
+                className="rounded-full bg-white/10 px-2 py-0.5 text-small text-secondary"
               >
                 20
               </span>
@@ -648,6 +646,7 @@ function CruiseShipExplorerSectionComponent({
               <Image
                 width={200}
                 height={200}
+                loading="lazy"
                 unoptimized
                 src={item.img}
                 alt={item.name}
@@ -656,7 +655,7 @@ function CruiseShipExplorerSectionComponent({
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
                 <SectionBadge
                   label={item.tag}
-                  className="mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md"
+                  className="  self-start !border-white/20 !bg-black/80 shadow-md"
                 />
                 <p>{item.name}</p>
               </div>
@@ -664,7 +663,7 @@ function CruiseShipExplorerSectionComponent({
           ))}
         </div>
       </div>
-    </LazyMount>
+    </section>
   );
 }
 
