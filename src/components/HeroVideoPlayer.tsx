@@ -636,7 +636,14 @@ export default function HeroVideoPlayer({
               muted
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
+              onPlaying={() => {
+                setVideoReady(true);
+                if (typeof window !== "undefined") {
+                  (window as any).__7hHeroVideoReady = true;
+                  window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
+                }
+              }}
               className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,

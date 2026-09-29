@@ -212,7 +212,7 @@ function CircleVideoNode({
       loop
       muted
       playsInline
-      preload="auto"
+      preload="metadata"
       className="pointer-events-none h-full w-full scale-125  object-cover"
     >
       <track kind="captions" />
