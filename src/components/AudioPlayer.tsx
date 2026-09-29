@@ -420,7 +420,7 @@ export default function AudioPlayerSection() {
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
     <div className="mb-6">
       <h3
-        className="mb-1.5 text-white/40"
+        className="  text-white/40"
         style={{ fontSize: "clamp(1.2rem, 1.9vw, 2.0rem)" }}
       >
         {title}
@@ -596,8 +596,8 @@ export default function AudioPlayerSection() {
 
   if (!isExpanded) {
     return (
-      <section id="music-player-section" className="site-container ">
-        <div className="relative flex flex-col items-center justify-center gap-6 py-6 border border-white/10  sm:flex-row ">
+      <div id="music-player-collapsed" className="">
+        <div className="relative mx-auto flex w-fit max-w-full flex-col items-center justify-center gap-6 border border-white/10 px-8 py-5 sm:flex-row">
           <div className="flex items-center gap-5">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center border border-purple-400/40 bg-purple-500/20">
               <Music className="h-7 w-7" />
@@ -620,21 +620,15 @@ export default function AudioPlayerSection() {
             <span>Open Audio Player</span>
           </SeventhButton>
         </div>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section
+    <div
       ref={sectionRef}
-      className="relative flex h-[780px] min-h-[700px] w-full flex-col justify-between overflow-hidden"
-      id="music-player-section"
-      style={{
-        WebkitMaskImage:
-          "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
-        maskImage:
-          "linear-gradient(to bottom, transparent 0px, black 33px, black calc(100% - 10px), transparent 100%)",
-      }}
+      className="relative flex h-[780px] min-h-[700px] w-full flex-col justify-between overflow-hidden border border-white/10"
+      id="music-player-expanded"
     >
       {/* Collapse Player Button in Top Bar */}
       <div className="absolute top-3 right-4 z-40">
@@ -774,13 +768,9 @@ export default function AudioPlayerSection() {
                 <div
                   ref={tracklistScrollRef}
                   onScroll={handleTracklistScroll}
-                  className="no-scrollbar h-full min-h-0 flex-1 overflow-y-auto px-0 pt-10 pb-8"
+                  className="no-scrollbar h-full min-h-0 flex-1 overflow-y-auto px-0 pt-3 pb-4"
                   style={{
                     overscrollBehavior: "auto",
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 0%, black calc(100% - 50px), transparent 100%)",
                   }}
                 >
                   {searchQuery.trim() ? (
@@ -966,7 +956,7 @@ export default function AudioPlayerSection() {
                   <div className="relative z-[2] mt-4 w-full border-t border-white/10 pt-4 text-left">
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-6">
-                        <h3 className="/90 mb-1.5">Line-Up</h3>
+                        <h3 className="/90  ">Line-Up</h3>
                         <ul className="flex flex-col gap-1 text-[12px]">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
@@ -977,7 +967,7 @@ export default function AudioPlayerSection() {
 
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-6">
-                        <h3 className="/90 mb-1.5">Credits</h3>
+                        <h3 className="/90  ">Credits</h3>
                         <ul className="flex flex-col gap-1 text-[12px]">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
@@ -1145,15 +1135,16 @@ export default function AudioPlayerSection() {
             </div>
 
             {/* Prev / Next Controls */}
-            <div className="ml-1 flex shrink-0 items-center gap-3 sm:ml-2">
+            <div className="ml-1 flex shrink-0 items-center gap-2 sm:ml-2">
               <button
-                aria-label="Previous"
-                className="cursor-pointer text-white/50 hover:text-white"
+                type="button"
+                aria-label="Previous track"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white/70 transition-colors hover:text-white"
                 onClick={handlePrev}
               >
                 <svg
-                  width="15"
-                  height="15"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -1168,13 +1159,15 @@ export default function AudioPlayerSection() {
 
               {/* Play / Pause */}
               <button
-                className="cursor-pointer hover:scale-110"
+                type="button"
+                aria-label={isPlaying ? "Pause" : "Play"}
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-purple-600/30 text-white transition-transform hover:scale-105"
                 onClick={togglePlay}
               >
                 {isPlaying ? (
                   <svg
-                    width="18"
-                    height="18"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -1187,8 +1180,8 @@ export default function AudioPlayerSection() {
                   </svg>
                 ) : (
                   <svg
-                    width="18"
-                    height="18"
+                    width="20"
+                    height="20"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -1203,13 +1196,14 @@ export default function AudioPlayerSection() {
               </button>
 
               <button
-                aria-label="Next"
-                className="cursor-pointer text-white/50 hover:text-white"
+                type="button"
+                aria-label="Next track"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white/70 transition-colors hover:text-white"
                 onClick={handleNext}
               >
                 <svg
-                  width="15"
-                  height="15"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -1268,13 +1262,13 @@ export default function AudioPlayerSection() {
               <div className="flex w-[110px] items-center gap-2.5 sm:w-[140px]">
                 <button
                   type="button"
-                  aria-label="Toggle mute"
+                  aria-label={volume === 0 ? "Unmute" : "Mute"}
                   onClick={toggleMute}
-                  className="flex shrink-0 cursor-pointer items-center justify-center border-0 p-0 text-white/50 hover:text-white"
+                  className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 p-0 text-white/50 hover:text-white"
                 >
                   <svg
-                    width="15"
-                    height="15"
+                    width="18"
+                    height="18"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -1420,6 +1414,6 @@ export default function AudioPlayerSection() {
         })()}
 
       {/* Close Top Flex container */}
-    </section>
+    </div>
   );
 }
