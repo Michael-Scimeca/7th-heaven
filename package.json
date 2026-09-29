@@ -20,13 +20,16 @@
     "doctor:staged": "npx react-doctor@latest --staged --blocking warning",
     "check-deploy": "node scripts/check-function-size.js",
     "predeploy": "netlify build",
-    "lhci": "lhci autorun"
+    "lhci": "lhci autorun",
+    "test:safari": "playwright test tests/mobile-safari.spec.ts"
   },
   "browserslist": [
     "chrome >= 100",
     "safari >= 15",
+    "ios >= 15",
     "firefox >= 100",
-    "edge >= 100"
+    "edge >= 100",
+    "not dead"
   ],
   "dependencies": {
     "@firecms/neat": "^1.0.2",
