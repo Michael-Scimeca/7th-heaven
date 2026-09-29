@@ -20,6 +20,7 @@ import CruiseWaveAnimation from "@/components/CruiseWaveAnimation";
 import { useTransition } from "@/context/TransitionContext";
 import SeventhButton from "@/components/SeventhButton";
 import ProgressiveBlur from "@/components/ProgressiveBlur";
+import Avatar from "@/components/Avatar";
 
 const emptySubscribe = () => () => { };
 
@@ -560,7 +561,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 right-0 left-0 ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none font-heading`}
+      className={`fixed top-0 right-0 left-0 pt-safe ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none font-heading`}
       data-menu-open={mobileOpen}
       suppressHydrationWarning
     >
@@ -684,45 +685,16 @@ export function Header() {
                   <TransitionLink
                     href={dashboardHref}
                     showSpinner={false}
-                    className="relative flex aspect-square h-10 min-h-10 w-10 min-w-10 shrink-0 items-center justify-center sm:h-10 sm:min-h-10 sm:w-10 sm:min-w-10 md:h-11 md:min-h-11 md:w-11 md:min-w-11"
-                    style={{
-                      borderRadius: "50%",
-                      overflow: "hidden",
-                      clipPath: "circle(50% at 50% 50%)",
-                      aspectRatio: "1 / 1",
-                    }}
+                    className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
                     title={displayName}
                   >
-                    {isAvatarUrl ? (
-                      <Image
-                        width={200}
-                        height={200}
-                        unoptimized
-                        src={avatarSrc}
-                        alt={displayName}
-                        className="aspect-square h-full w-full shrink-0 object-cover"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "50%",
-                          clipPath: "circle(50% at 50% 50%)",
-                          aspectRatio: "1 / 1",
-                        }}
-                      />
-                    ) : (
-                      <div
-                        className="flex aspect-square h-full w-full shrink-0 items-center justify-center border border-white/10 bg-black/40 text-[clamp(10px,1.2vw,14px)] shadow-inner backdrop-blur-2xl"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "50%",
-                          clipPath: "circle(50% at 50% 50%)",
-                          aspectRatio: "1 / 1",
-                        }}
-                      >
-                        {initials}
-                      </div>
-                    )}
+                    <Avatar
+                      src={avatarSrc}
+                      name={displayName}
+                      initials={initials}
+                      size="md"
+                      border="border border-white/10"
+                    />
                     {mode !== "idle" &&
                       (pendingHref === dashboardHref ||
                         (pendingHref &&
@@ -873,7 +845,7 @@ export function Header() {
                 // comment above): it makes the wipe edge read as a slight
                 // diagonal that self-levels as it finishes, rather than a
                 // flat curtain.
-                className="pointer-events-auto fixed inset-0 z-[9999] flex flex-col overflow-y-auto bg-black/30 backdrop-blur-xl"
+                className="pointer-events-auto fixed inset-0 z-[9999] flex h-full h-dvh max-h-dvh flex-col overflow-y-auto bg-black/30 backdrop-blur-xl pt-safe pb-safe pl-safe pr-safe"
                 style={{
                   backdropFilter: "blur(21px)",
                   WebkitBackdropFilter: "blur(21px)",
@@ -905,8 +877,12 @@ export function Header() {
                   from sm up; panel drops out on phones so links get full
                   width rather than getting cramped. */}
                   <div className="flex min-h-0 flex-1 flex-col gap-8 px-6 py-6 sm:flex-row sm:items-center sm:gap-14 sm:px-10 sm:py-8 lg:gap-20">
-                    <div className="group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden  sm:block md:w-[220px] lg:w-[260px]">
-                      {mobileOpen && (
+                    <div
+                      className={`group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:block md:w-[220px] lg:w-[260px] transition-opacity duration-700 ease-out ${
+                        overlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+                      }`}
+                    >
+                      {overlayMounted && (
                         <video
                           src="/movie/fest1-clip.mp4"
                           autoPlay
@@ -921,8 +897,8 @@ export function Header() {
                           }}
                         />
                       )}
-                      <div className="pointer-events-none absolute inset-0" />
-                      <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-[12px]">
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-[12px] font-bold text-white/90">
                         <span>7H FESTIVAL STAGE</span>
                       </div>
                     </div>
@@ -944,36 +920,38 @@ export function Header() {
                         { href: "/book", label: "BOOK US" },
                         { href: "/contact", label: "CONTACT" },
                         { href: "/features", label: "FEATURES" },
-                      ].map((link, i) => (
-                        <TransitionLink
-                          key={link.href}
-                          href={link.href}
-                          onClick={() => setMobileOpen(false)}
-                          className={`inline-flex w-fit max-w-full items-start self-start text-[clamp(2.375rem,10vw,6.25rem)] leading-[1.02] sm:text-5xl lg:text-6xl xl:text-7xl ${link.href === studioHref ? "decoration-[#c084fc] decoration-4 underline-offset-8" : ""} ${effectivePathname === link.href || (link.href === studioHref && effectivePathname.startsWith("/studio")) ? "active cursor-default !text-[#c084fc]" : "! cursor-pointer hover:!text-[#c084fc]"}`}
-                          style={{
-                            // exoape's own per-link reveal: rotate:7deg -> 0 and
-                            // yPercent:100 -> 0 (a full line-height slide, not a
-                            // token nudge) with their easeOut curve, staggered
-                            // 0.1s apart starting half a second into the wipe.
-                            // Their site has ~4 links so the full 0.1s/1s combo
-                            // reads great; ours has 10, so the stagger/duration
-                            // are trimmed a bit to keep the last link's reveal
-                            // from lagging the wipe by seconds — same shape,
-                            // tuned for length.
-                            opacity: overlayVisible ? 1 : 0,
-                            transform: overlayVisible
-                              ? "translateY(0) rotate(0deg)"
-                              : "translateY(100%) rotate(7deg)",
-                            transformOrigin: "0% 100%",
-                            transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
-                            transitionDelay: overlayVisible
-                              ? `${450 + i * 70}ms`
-                              : "0ms",
-                          }}
-                        >
-                          {link.label}
-                        </TransitionLink>
-                      ))}
+                      ].map((link, i) => {
+                        const isActive =
+                          effectivePathname === link.href ||
+                          (link.href === studioHref &&
+                            effectivePathname.startsWith("/studio"));
+
+                        return (
+                          <TransitionLink
+                            key={link.href}
+                            href={link.href}
+                            onClick={() => setMobileOpen(false)}
+                            className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors duration-200 text-[clamp(1.05rem,4.2vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl ${
+                              isActive
+                                ? "active cursor-default !text-[#c084fc]"
+                                : "!text-white hover:!text-[#c084fc] cursor-pointer"
+                            }`}
+                            style={{
+                              opacity: overlayVisible ? 1 : 0,
+                              transform: overlayVisible
+                                ? "translateY(0) rotate(0deg)"
+                                : "translateY(100%) rotate(7deg)",
+                              transformOrigin: "0% 100%",
+                              transition: `transform 650ms ${EASE_OUT_LINEAR}, opacity 650ms ${EASE_OUT_LINEAR}`,
+                              transitionDelay: overlayVisible
+                                ? `${450 + i * 70}ms`
+                                : "0ms",
+                            }}
+                          >
+                            {link.label}
+                          </TransitionLink>
+                        );
+                      })}
                     </nav>
                   </div>
 
@@ -1024,31 +1002,18 @@ export function Header() {
                             href={dashboardHref}
                             showSpinner={false}
                             onClick={() => setMobileOpen(false)}
-                            className="relative flex aspect-square h-8 min-h-8 w-8 min-w-8 shrink-0 items-center justify-center"
-                            style={{
-                              borderRadius: "50%",
-                              overflow: "hidden",
-                              clipPath: "circle(50% at 50% 50%)",
-                            }}
+                            className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
                           >
-                            {isAvatarUrl ? (
-                              <Image
-                                width={100}
-                                height={100}
-                                unoptimized
-                                src={avatarSrc}
-                                alt={displayName}
-                                className="h-full w-full object-cover"
-                              />
-                            ) : (
-                              <div className="flex h-full w-full items-center justify-center border border-white/20 bg-black/60">
-                                {initials}
-                              </div>
-                            )}
+                            <Avatar
+                              src={avatarSrc}
+                              name={displayName}
+                              initials={initials}
+                              size="sm"
+                              border="border border-white/20"
+                            />
                           </TransitionLink>
                           <span
-                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center px-1.5 py-0.5 text-[9px] ${badgeBg}`}
-                            style={{ borderRadius: "9999px" }}
+                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg}`}
                           >
                             {badgeText}
                           </span>

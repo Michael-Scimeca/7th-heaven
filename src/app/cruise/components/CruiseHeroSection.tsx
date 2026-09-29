@@ -81,15 +81,13 @@ export default function CruiseHeroSection({
   return (
     <section
       id="cruise-hero"
-      className="page-container site-container relative -mt-[100px] flex min-h-[710px] flex-col justify-start  md:h-[800px] md:min-h-[800px]"
+      aria-labelledby="cruise-hero-heading"
+      className="section relative overflow-x-clip"
     >
       {/* Full-bleed background video & image mask wrapper */}
       <div
         className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
         style={{
-          marginLeft: "calc(-1 * var(--page-padding-x))",
-          marginRight: "calc(-1 * var(--page-padding-x))",
-          width: "calc(100% + 2 * var(--page-padding-x))",
           bottom: "-8px",
           maskImage: maskImageGradient,
           WebkitMaskImage: maskImageGradient,
@@ -108,12 +106,10 @@ export default function CruiseHeroSection({
           loop
           muted
           playsInline
-          preload="auto"
-          className="absolute -top-[200px] left-0 h-[calc(100%+200px)] w-full object-cover"
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover"
           style={{
             objectPosition: "center center",
-            transform: "scale(1.02)",
-            transformOrigin: "center center",
             WebkitMaskImage: maskImageGradient,
             maskImage: maskImageGradient,
           }}
@@ -132,13 +128,14 @@ export default function CruiseHeroSection({
         )}
       </div>
 
-      {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts */}
-      <HeroParallaxCustomizer {...heroParallax} />
+      <div className="site-container relative flex min-h-[710px] flex-col justify-start pt-[calc(var(--header-height)+var(--page-top))] md:h-[800px] md:min-h-[800px]">
+        {/* Shared across every hero on the site — see src/lib/useHeroParallax.ts */}
+        <HeroParallaxCustomizer {...heroParallax} />
 
-      {/* Hero Text Content — aligned with site-container */}
-      <div ref={heroForegroundRef} className="relative z-10 mb-6 text-left">
+        {/* Hero Text Content — aligned with site-container */}
+        <div ref={heroForegroundRef} className="relative z-10 mb-6 text-left">
         {/* Main Title: Cruise Name */}
-        <h1>
+        <h1 id="cruise-hero-heading">
           {sanityContent?.heroHeading || (
             <>
               7TH HEAVEN{" "}
@@ -173,6 +170,7 @@ export default function CruiseHeroSection({
             <span>💳 MAKE A PAYMENT - GROUP ID: 3325680</span>
           </button>
         </div>
+      </div>
       </div>
     </section>
   );

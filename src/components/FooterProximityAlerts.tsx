@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import GlowInput from "@/components/GlowInput";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 import IphoneClipMask from "@/components/IphoneClipMask";
 
 import CheckMarkIcon from "@/components/CheckMarkIcon";
@@ -309,13 +309,13 @@ export default function FooterProximityAlerts() {
         </div>
 
         {status === "error" && errorMsg && (
-          <div className="mb-6  border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-rose-300">
+          <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-rose-300">
             ⚠️ {errorMsg}
           </div>
         )}
 
         {permission === "denied" && (
-          <div className="mb-6  border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-amber-300">
+          <div className="mb-6 rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-amber-300">
             🔒 Notifications are blocked in your browser settings. Enable them
             to receive show alerts.
           </div>
@@ -424,49 +424,40 @@ export default function FooterProximityAlerts() {
           </div>
         </div>
 
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              setAgreeTerms(!agreeTerms);
-            }
-          }}
-          className="relative z-10 mb-6 flex cursor-pointer items-center gap-3 select-none"
-          onClick={() => setAgreeTerms(!agreeTerms)}
-        >
-          <SquishyToggle
+        <div className="relative z-10 mb-6 flex w-full max-w-full items-center select-none">
+          <Toggle
             id="footer-agree-terms"
-            label="Agree to terms and privacy policy"
             checked={agreeTerms}
             onChange={setAgreeTerms}
+            className="w-full max-w-full text-xs"
+            label={
+              <span className="block break-words min-w-0 text-xs">
+                I agree to the{" "}
+                <Link
+                  href="/terms"
+                  className="hover:text-white underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Terms
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/privacy"
+                  className="hover:text-white underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Privacy Policy
+                </Link>
+                .
+              </span>
+            }
           />
-          <span>
-            I agree to the{" "}
-            <Link
-              href="/terms"
-              className="hover:text-white"
-              onClick={(e) => e.stopPropagation()}
-            >
-              Terms
-            </Link>{" "}
-            and{" "}
-            <Link
-              href="/privacy"
-              className="hover:text-white"
-              onClick={(e) => e.stopPropagation()}
-            >
-              Privacy Policy
-            </Link>
-            .
-          </span>
         </div>
 
         <div className="relative z-10 flex flex-col items-start justify-start gap-3 ">
           {permission === "granted" ? (
             <div className="flex shrink-0 flex-wrap items-center gap-3">
-              <span className="inline-flex shrink-0 items-center gap-1.5  border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 whitespace-nowrap text-emerald-300">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 whitespace-nowrap text-emerald-300">
                 <Check className="h-4 w-4 shrink-0 text-emerald-400" /> Push
                 Enabled
               </span>

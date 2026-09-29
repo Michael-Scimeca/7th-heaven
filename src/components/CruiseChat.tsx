@@ -645,8 +645,8 @@ export default function CruiseChat({
 
   if (isLoading) {
     return (
-      <div className="flex h-[calc(100vh-12rem)] min-h-[500px] flex-col items-center justify-center  border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))]">
-        <div className="h-6 w-6 animate-spin  border-2 border-white/10 border-t-cyan-400" />
+      <div className="flex h-[calc(100vh-12rem)] h-[calc(100dvh-12rem)] min-h-[500px] flex-col items-center justify-center border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))]">
+        <div className="h-6 w-6 animate-spin border-2 border-white/10 border-t-cyan-400" />
         <p className="mt-3">Loading chat...</p>
       </div>
     );
@@ -978,7 +978,7 @@ export default function CruiseChat({
 
             {showEmojiPicker && (
               <div className="absolute right-0 bottom-full z-30 mb-2 w-64 animate-[slideUp_0.15s_ease-out] border border-black/15 bg-white p-2.5">
-                <div className="mb-1.5 flex items-center justify-between px-1 text-[10px] text-black/40">
+                <div className="  flex items-center justify-between px-1 text-[10px] text-black/40">
                   <span>Quick Emojis</span>
                   <button
                     type="button"

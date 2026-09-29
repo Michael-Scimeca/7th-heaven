@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GradientToggle } from "./GradientToggle";
+import { Toggle } from "./Toggle";
 
 type ConsentState = {
   analytics: boolean;
@@ -71,17 +71,17 @@ export default function CookieConsentBanner() {
   return (
     <dialog
       open
-      className={`fixed bottom-4 left-1/2 z-[9999] m-0 w-[calc(100vw-2rem)] max-w-[640px] -translate-x-1/2 border-none p-0 text-inherit ${closing ? "pointer-events-none translate-y-4 scale-[0.98] opacity-0" : "translate-y-0 scale-100 opacity-100"}`}
+      className={`fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-[9999] m-0 w-[calc(100%-2rem)] max-w-[640px] -translate-x-1/2 border-none p-0 text-inherit ${closing ? "pointer-events-none translate-y-4 scale-[0.98] opacity-0" : "translate-y-0 scale-100 opacity-100"}`}
       aria-label="Cookie consent"
     >
-      <div className="relative overflow-hidden border border-white/10 bg-[#0e0e1a]/95 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+      <div className="relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0e0e1a]/95 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl">
         {/* Purple accent line */}
         <div className="absolute top-0 right-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent" />
 
         <div className="p-5 sm:p-6">
           {/* Header */}
           <div className="mb-6 flex items-start gap-3">
-            <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center bg-[var(--color-accent)]/15">
+            <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-box)] bg-[var(--color-accent)]/15">
               <svg
                 width="16"
                 height="16"
@@ -124,7 +124,7 @@ export default function CookieConsentBanner() {
 
           {/* Expandable custom preferences */}
           {expanded && (
-            <div className="mb-6 space-y-2 border border-white/10 bg-white/[0.02] p-4">
+            <div className="mb-6 space-y-2 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-4">
               {/* Essential — always on */}
               <div className="flex items-center justify-between">
                 <div>
@@ -133,22 +133,25 @@ export default function CookieConsentBanner() {
                     Required for the site to function. Cannot be disabled.
                   </p>
                 </div>
-                <div className="flex h-5 w-9 shrink-0 items-center justify-end  bg-[var(--color-accent)]/30 px-0.5">
-                  <div className="h-4 w-4  bg-[var(--color-accent)]" />
+                <div className="flex h-5 w-9 shrink-0 items-center justify-end rounded-full bg-[var(--color-accent)]/30 px-0.5">
+                  <div className="h-4 w-4 rounded-full bg-[var(--color-accent)]" />
                 </div>
               </div>
               <div className="h-px bg-white/10" />
               {/* Analytics */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p>Analytics</p>
+                  <p id="cookie-analytics-title">Analytics</p>
                   <p className="mt-0.5">
                     Helps us understand how fans use the site (Google
                     Analytics).
                   </p>
                 </div>
-                <GradientToggle
+                <Toggle
                   id="cookie-analytics-toggle"
+                  label="Analytics"
+                  hideLabel
+                  aria-labelledby="cookie-analytics-title"
                   checked={analytics}
                   onChange={setAnalytics}
                 />
@@ -157,13 +160,16 @@ export default function CookieConsentBanner() {
               {/* Marketing */}
               <div className="flex items-center justify-between">
                 <div>
-                  <p>Marketing</p>
+                  <p id="cookie-marketing-title">Marketing</p>
                   <p className="mt-0.5">
                     Personalised show recommendations and fan engagement.
                   </p>
                 </div>
-                <GradientToggle
+                <Toggle
                   id="cookie-marketing-toggle"
+                  label="Marketing"
+                  hideLabel
+                  aria-labelledby="cookie-marketing-title"
                   checked={marketing}
                   onChange={setMarketing}
                 />
@@ -176,7 +182,7 @@ export default function CookieConsentBanner() {
             <button
               id="cookie-accept-all"
               onClick={acceptAll}
-              className="min-w-[120px] flex-1 bg-[var(--color-accent)] px-5 py-2.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
+              className="min-w-[120px] flex-1 rounded-[var(--radius-box)] bg-[var(--color-accent)] px-5 py-2.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
             >
               Accept All
             </button>
@@ -185,7 +191,7 @@ export default function CookieConsentBanner() {
                 <button
                   id="cookie-reject-all"
                   onClick={rejectAll}
-                  className="min-w-[100px] flex-1 border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
+                  className="min-w-[100px] flex-1 rounded-[var(--radius-box)] border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
                 >
                   Reject All
                 </button>
@@ -201,7 +207,7 @@ export default function CookieConsentBanner() {
               <button
                 id="cookie-save-custom"
                 onClick={saveCustom}
-                className="min-w-[120px] flex-1 border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
+                className="min-w-[120px] flex-1 rounded-[var(--radius-box)] border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
               >
                 Save Preferences
               </button>

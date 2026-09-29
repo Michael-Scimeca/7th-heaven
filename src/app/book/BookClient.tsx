@@ -34,14 +34,20 @@ import {
   CheckCircle2,
   Trash2,
   Building2,
+  Sliders,
+  User,
+  MessageSquare,
 } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
-import SquishyToggle from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 import SeventhButton from "@/components/SeventhButton";
 import GlowInput, { GlowTextarea } from "@/components/GlowInput";
 import { SectionBadge } from "@/components/SectionBadge";
 import InputField from "@/components/InputField";
+import { SectionHeader } from "@/components/SectionHeader";
+import PageSection from "@/components/PageSection";
+import Stack from "@/components/Stack";
 import dynamic from "next/dynamic";
 
 const PlannerDashboard = dynamic(() => import("@/components/PlannerDashboard"));
@@ -876,217 +882,231 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
   if (submitted) {
     return (
-      <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
-        {/* Background Glows */}
-        <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2  bg-[var(--color-accent)] opacity-[0.05] blur-3xl" />
+      <section
+        id="book-success"
+        aria-labelledby="book-success-heading"
+        className="section relative"
+      >
+        <div className="flex min-h-screen items-center justify-center overflow-hidden px-6">
+          <SectionHeader
+            as="h2"
+            id="book-success-heading"
+            title="Request Received"
+            srOnly
+          />
+          <Stack gap="lg" className="items-center w-full">
+            {/* Background Glows */}
+            <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2  bg-[var(--color-accent)] opacity-[0.05] blur-3xl" />
 
-        <div className="relative z-10 w-full max-w-lg animate-[fade-in-up_0.6s_ease-out_both] rounded-[2rem] border border-white/10 bg-[var(--color-bg-surface)]/80 p-10 text-center backdrop-blur-xl">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[var(--color-accent)] bg-[var(--color-accent)]/20">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="var(--color-accent)"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </div>
-          <h2 className="mb-3">Request Received</h2>
-          <p className="mb-8">
-            Thank you for your interest in booking 7th Heaven! We&apos;ve sent a
-            confirmation email to <strong>{formData.email}</strong>. Please
-            check your inbox to verify your request.
-            <br />
-            <span className="mt-2 inline-block text-[var(--color-accent)]/70">
-              ✓ Notification sent to band management
-            </span>
-          </p>
+            <div className="relative z-10 w-full max-w-lg animate-[fade-in-up_0.6s_ease-out_both] rounded-[2rem] border border-white/10 bg-[var(--color-bg-surface)]/80 p-10 text-center backdrop-blur-xl">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[var(--color-accent)] bg-[var(--color-accent)]/20">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--color-accent)"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <h2 className="mb-3">Request Received</h2>
+              <p className="mb-8">
+                Thank you for your interest in booking 7th Heaven! We&apos;ve sent a
+                confirmation email to <strong>{formData.email}</strong>. Please
+                check your inbox to verify your request.
+                <br />
+                <span className="mt-2 inline-block text-[var(--color-accent)]/70">
+                  ✓ Notification sent to band management
+                </span>
+              </p>
 
-          <div className="flex w-full flex-col gap-3">
-            <Link
-              href="/book"
-              className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4   shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
-            >
-              Book Another Show
-            </Link>
-            {!isLoggedIn &&
-              (creatingAccount ? (
-                <div className="border border-white/10 bg-white/[0.03] p-5 text-left">
-                  <div className="mb-6">
-                    <span className="mb-1.5 block text-white/30">
-                      Account Email
-                    </span>
-                    {editingEmail ? (
-                      <div className="flex gap-2">
-                        <GlowInput
-                          type="email"
-                          value={accountEmail}
-                          onChange={(e) => setAccountEmail(e.target.value)}
-                          autoFocus
-                          disabled={pinSent || pinLoading}
-                          wrapperClassName="flex-1"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setEditingEmail(false)}
-                          className="cursor-pointer px-3"
-                        >
-                          Done
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <span>{accountEmail}</span>
-                        {!pinSent && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setEditingEmail(true);
-                              setPinError("");
-                            }}
-                            className="cursor-pointer text-white/30"
-                          >
-                            Edit
-                          </button>
+              <div className="flex w-full flex-col gap-3">
+                <Link
+                  href="/book"
+                  className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4   shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
+                >
+                  Book Another Show
+                </Link>
+                {!isLoggedIn &&
+                  (creatingAccount ? (
+                    <div className="border border-white/10 bg-white/[0.03] p-5 text-left">
+                      <div className="mb-6">
+                        <span className="  block text-white/30">
+                          Account Email
+                        </span>
+                        {editingEmail ? (
+                          <div className="flex gap-2">
+                            <GlowInput
+                              type="email"
+                              value={accountEmail}
+                              onChange={(e) => setAccountEmail(e.target.value)}
+                              autoFocus
+                              disabled={pinSent || pinLoading}
+                              wrapperClassName="flex-1"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setEditingEmail(false)}
+                              className="cursor-pointer px-3"
+                            >
+                              Done
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <span>{accountEmail}</span>
+                            {!pinSent && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingEmail(true);
+                                  setPinError("");
+                                }}
+                                className="cursor-pointer text-white/30"
+                              >
+                                Edit
+                              </button>
+                            )}
+                          </div>
                         )}
                       </div>
-                    )}
-                  </div>
 
-                  {!pinSent ? (
-                    <div>
-                      <div className="flex gap-2">
-                        <GlowInput
-                          type="password"
-                          placeholder="Set a password (6+ chars)"
-                          value={accountPassword}
-                          onChange={(e) => setAccountPassword(e.target.value)}
-                          disabled={pinLoading}
-                          wrapperClassName="flex-1"
-                        />
-                        <button
-                          type="button"
-                          disabled={
-                            !accountPassword ||
-                            accountPassword.length < 6 ||
-                            !accountEmail ||
-                            pinLoading
-                          }
-                          onClick={handleSendPin}
-                          className="flex min-w-[70px] shrink-0 cursor-pointer items-center justify-center bg-[var(--color-accent)] px-5 py-3 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          {pinLoading ? (
-                            <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
-                          ) : (
-                            "Go →"
-                          )}
-                        </button>
-                      </div>
-                      <p className="mt-2">
-                        We will send a 6-digit verification code to your email.
-                      </p>
+                      {!pinSent ? (
+                        <div>
+                          <div className="flex gap-2">
+                            <GlowInput
+                              type="password"
+                              placeholder="Set a password (6+ chars)"
+                              value={accountPassword}
+                              onChange={(e) => setAccountPassword(e.target.value)}
+                              disabled={pinLoading}
+                              wrapperClassName="flex-1"
+                            />
+                            <button
+                              type="button"
+                              disabled={
+                                !accountPassword ||
+                                accountPassword.length < 6 ||
+                                !accountEmail ||
+                                pinLoading
+                              }
+                              onClick={handleSendPin}
+                              className="flex min-w-[70px] shrink-0 cursor-pointer items-center justify-center bg-[var(--color-accent)] px-5 py-3 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                              {pinLoading ? (
+                                <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+                              ) : (
+                                "Go →"
+                              )}
+                            </button>
+                          </div>
+                          <p className="mt-2">
+                            We will send a 6-digit verification code to your email.
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="mb-2 flex gap-2">
+                            <GlowInput
+                              type="text"
+                              maxLength={6}
+                              placeholder="Enter 6-digit code"
+                              value={pinCode}
+                              onChange={(e) =>
+                                setPinCode(e.target.value.replace(/\D/g, ""))
+                              }
+                              disabled={pinLoading}
+                              wrapperClassName="flex-1"
+                              className="text-center"
+                            />
+                            <button
+                              type="button"
+                              disabled={pinCode.length !== 6 || pinLoading}
+                              onClick={handleVerifyPin}
+                              className="flex min-w-[140px] shrink-0 cursor-pointer items-center justify-center bg-purple-600 px-5 py-3 hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                              {pinLoading ? (
+                                <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+                              ) : (
+                                "Verify & Create"
+                              )}
+                            </button>
+                          </div>
+                          <div className="mt-2 flex items-center justify-between">
+                            <button
+                              type="button"
+                              onClick={handleSendPin}
+                              disabled={pinLoading}
+                              className="text-[var(--color-accent)] hover:text-white disabled:opacity-40"
+                            >
+                              Resend Code
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setPinSent(false);
+                                setPinCode("");
+                                setPinError("");
+                              }}
+                              disabled={pinLoading}
+                              className="text-white/30 hover:underline"
+                            >
+                              Back to Password
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {pinError && (
+                        <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 p-3 text-left text-rose-300">
+                          ⚠️ {pinError}
+                        </div>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCreatingAccount(false);
+                          setEditingEmail(false);
+                          setPinSent(false);
+                          setPinError("");
+                          setPinCode("");
+                        }}
+                        className="mt-4 block w-full cursor-pointer text-center text-white/30 text-white/50 hover:text-white"
+                      >
+                        Cancel
+                      </button>
                     </div>
                   ) : (
-                    <div>
-                      <div className="mb-2 flex gap-2">
-                        <GlowInput
-                          type="text"
-                          maxLength={6}
-                          placeholder="Enter 6-digit code"
-                          value={pinCode}
-                          onChange={(e) =>
-                            setPinCode(e.target.value.replace(/\D/g, ""))
-                          }
-                          disabled={pinLoading}
-                          wrapperClassName="flex-1"
-                          className="text-center"
-                        />
-                        <button
-                          type="button"
-                          disabled={pinCode.length !== 6 || pinLoading}
-                          onClick={handleVerifyPin}
-                          className="flex min-w-[140px] shrink-0 cursor-pointer items-center justify-center bg-purple-600 px-5 py-3 hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          {pinLoading ? (
-                            <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
-                          ) : (
-                            "Verify & Create"
-                          )}
-                        </button>
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-white/40">{formData.email}</span>
                       </div>
-                      <div className="mt-2 flex items-center justify-between">
-                        <button
-                          type="button"
-                          onClick={handleSendPin}
-                          disabled={pinLoading}
-                          className="text-[var(--color-accent)] hover:text-white disabled:opacity-40"
-                        >
-                          Resend Code
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setPinSent(false);
-                            setPinCode("");
-                            setPinError("");
-                          }}
-                          disabled={pinLoading}
-                          className="text-white/30 hover:underline"
-                        >
-                          Back to Password
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCreatingAccount(true);
+                          setAccountEmail(accountEmail || formData.email);
+                        }}
+                        className="inline-flex w-full cursor-pointer items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-4 hover:border-[var(--color-accent)]/60 hover:bg-white/[0.1]"
+                      >
+                        Create Account
+                      </button>
                     </div>
-                  )}
-
-                  {pinError && (
-                    <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] border border-rose-500/20 bg-rose-500/10 p-3 text-left text-rose-300">
-                      ⚠️ {pinError}
-                    </div>
-                  )}
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setCreatingAccount(false);
-                      setEditingEmail(false);
-                      setPinSent(false);
-                      setPinError("");
-                      setPinCode("");
-                    }}
-                    className="mt-4 block w-full cursor-pointer text-center text-white/30 text-white/50 hover:text-white"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <div className="mb-1.5 flex items-center justify-center gap-2">
-                    <span className="text-white/40">{formData.email}</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setCreatingAccount(true);
-                      setAccountEmail(accountEmail || formData.email);
-                    }}
-                    className="inline-flex w-full cursor-pointer items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-4   hover:border-[var(--color-accent)]/60 hover:bg-white/[0.1]"
-                  >
-                    Create Account
-                  </button>
-                </div>
-              ))}
-            <Link
-              href="/"
-              className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.03] px-8 py-4   hover:bg-white/[0.08]"
-            >
-              Return to Homepage
-            </Link>
-          </div>
+                  ))}
+                <Link
+                  href="/"
+                  className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.03] px-8 py-4   hover:bg-white/[0.08]"
+                >
+                  Return to Homepage
+                </Link>
+              </div>
+            </div>
+          </Stack>
         </div>
       </section>
     );
@@ -1094,514 +1114,421 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
   return (
     <main id="book-page" className="page-container relative min-h-screen">
+      <header className="sr-only">
+        <h1 id="book-page-title">Book 7th Heaven</h1>
+      </header>
+
       <form
         id="book-event"
-        className="site-container relative z-10"
+        className="relative z-10 mx-auto w-full  grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_360px]"
         onSubmit={handleSubmit}
       >
-        {isFromPlanner && (
-          <div className="flex items-center gap-4  border border-purple-500/30 bg-purple-950/40 px-6 py-4">
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#c084fc"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <div>
-              <p>
-                {fromParam === "rebook"
-                  ? "Rebooking previous event"
-                  : "Profile details pre-loaded"}
-              </p>
-              <p>
-                {fromParam === "rebook"
-                  ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need."
-                  : "Your contact & venue info has been filled in. Just pick your date and event type."}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {hasSavedForm && !isFromPlanner && (
-          <div className="relative z-10 flex animate-[fade-in-up_0.2s_ease-out_both] flex-col items-start justify-between gap-4  border border-purple-500/30 bg-purple-950/40 p-5 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-3">
-              <ClipboardList className="h-6 w-6 shrink-0" />
+        <div className="steps flex flex-col page-stack">
+          {isFromPlanner && (
+            <div className="mx-[var(--spacing-gutter)] flex items-center gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/40 px-6 py-4">
+              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#c084fc"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
               <div>
-                <p>Re-fill with details from your last booking?</p>
-                <p className="mt-0.5">
-                  We found a booking request you recently filled out. You can
-                  automatically fill in your contact and venue details.
+                <p>
+                  {fromParam === "rebook"
+                    ? "Rebooking previous event"
+                    : "Profile details pre-loaded"}
+                </p>
+                <p>
+                  {fromParam === "rebook"
+                    ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need."
+                    : "Your contact & venue info has been filled in. Just pick your date and event type."}
                 </p>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={handleLoadLastForm}
-              className="flex shrink-0 cursor-pointer items-center gap-1.5  bg-purple-600 px-5 py-2.5 hover:bg-purple-500"
-            >
-              <Zap className="h-3.5 w-3.5" /> Populate
-            </button>
-          </div>
-        )}
+          )}
 
-        {/* Step 1: Event Schedule & Format */}
-        <section
-          aria-label="Event Schedule and Format"
-          className="relative border-0 p-0"
-        >
-          <header className="mb-6">
-            <h1 className="mb-6">Event Schedule & Format</h1>
-            <p className="mt-3 max-w-2xl">
-              Select dates on the calendar to reserve 7th Heaven. You can select{" "}
-              <strong>multiple dates</strong> for multi-day runs, and configure
-              unique times, formats, and venue details for each date below.
-            </p>
-          </header>
-          <div className="mb-6">
-            <CalendarPicker
-              label="Primary Event Schedule"
-              required
-              slots={bookingSlots}
-              onChangeSlots={setBookingSlots}
-              startTime={formData.startTime}
-              onStartTimeChange={(t) =>
-                setFormData((p) => ({ ...p, startTime: t }))
-              }
-              endTime={formData.endTime}
-              onEndTimeChange={(t) =>
-                setFormData((p) => ({ ...p, endTime: t }))
-              }
-              selectedType={selectedType || undefined}
-              onSelectType={(t) => setSelectedType(t)}
-              customDetails={formData.customEventType}
-              onCustomDetailsChange={(d) =>
-                setFormData((p) => ({ ...p, customEventType: d }))
-              }
-              blockedDates={blockedDates}
-              labels={pickerLabels}
-            />
-
-            {/* Alternate Dates */}
-            <div className="mt-6 border-0 p-0">
-              <div className="mb-6 flex items-center gap-3">
-                <CalendarIcon className="h-5 w-5 shrink-0 text-[#c27aff]" />
+          {hasSavedForm && !isFromPlanner && (
+            <div className="mx-[var(--spacing-gutter)] relative z-10 flex animate-[fade-in-up_0.2s_ease-out_both] flex-col items-start justify-between gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/40 p-5 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-3">
+                <ClipboardList className="h-6 w-6 shrink-0" />
                 <div>
-                  <h4>Flexible? Add Backup Dates</h4>
-                  <p>
-                    Increase your chances — we&apos;ll try your preferred date
-                    first
+                  <p>Re-fill with details from your last booking?</p>
+                  <p className="mt-0.5">
+                    We found a booking request you recently filled out. You can
+                    automatically fill in your contact and venue details.
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <MiniDatePicker
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "backup_2nd",
-                    )?.title || "2nd Choice"
-                  }
-                  value={altDate1}
-                  onChange={setAltDate1}
-                />
-                <MiniDatePicker
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "backup_3rd",
-                    )?.title || "3rd Choice"
-                  }
-                  value={altDate2}
-                  onChange={setAltDate2}
-                />
-              </div>
-              {(altDate1 || altDate2) && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="text-white/50">Priority:</span>
-                  <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                    1st:{" "}
-                    {bookingSlots.length > 0
-                      ? bookingSlots
-                        .map((s) =>
-                          new Date(s.date + "T12:00:00").toLocaleDateString(
-                            undefined,
-                            { month: "short", day: "numeric" },
-                          ),
-                        )
-                        .join(", ")
-                      : "—"}
-                  </span>
-                  {altDate1 && (
-                    <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                      2nd:{" "}
-                      {new Date(altDate1 + "T12:00:00").toLocaleDateString(
-                        undefined,
-                        { month: "short", day: "numeric" },
-                      )}
-                    </span>
-                  )}
-                  {altDate2 && (
-                    <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                      3rd:{" "}
-                      {new Date(altDate2 + "T12:00:00").toLocaleDateString(
-                        undefined,
-                        { month: "short", day: "numeric" },
-                      )}
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-          {/* Pricing hint per type */}
-          {selectedType && (
-            <div className="mb-6 border border-purple-500/30 px-5 py-3">
-              <span>Pricing Guide:</span>{" "}
-              {selectedType === "full_band" &&
-                "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
-              {selectedType === "unplugged" &&
-                "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
-              {selectedType === "private" &&
-                "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
-              {selectedType === "custom" &&
-                "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
+              <button
+                type="button"
+                onClick={handleLoadLastForm}
+                className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] bg-purple-600 px-5 py-2.5 hover:bg-purple-500"
+              >
+                <Zap className="h-3.5 w-3.5" /> Populate
+              </button>
             </div>
           )}
-        </section>
 
-        {/* Your Scheduled Shows (Full Width Grid) */}
-        <section
-          aria-label="Your Scheduled Shows"
-          className="relative bg-[var(--color-section-bg)]"
-        >
-          {bookingSlots.length === 0 ? (
-            <div className="rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] p-6 text-center">
-              <span className="mb-6 block text-4xl">📅</span>
-              <h4 className="mb-2">
-                {sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "no_dates",
-                )?.title || "No Dates Selected Yet"}
-              </h4>
-              <p className="mx-auto max-w-md">
-                {sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "no_dates",
-                )?.subtitle ||
-                  "Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once."}
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <h4>Your Scheduled Shows</h4>
-                  <p>
-                    Configure individual times and formats for each show below
+          {/* Step 1: Event Schedule & Format */}
+          <PageSection
+            id="step-1"
+            aria-labelledby="step-1-heading"
+            size="sm"
+          >
+            <SectionHeader
+              as="h2"
+              id="step-1-heading"
+              title="Event Schedule & Format"
+              subtitle={
+                <>
+                  Select dates on the calendar to reserve 7th Heaven. You can select{" "}
+                  <strong>multiple dates</strong> for multi-day runs, and configure
+                  unique times, formats, and venue details for each date below.
+                </>
+              }
+            />
+            <Stack gap="lg">
+              <div>
+                <CalendarPicker
+                  label="Primary Event Schedule"
+                  required
+                  slots={bookingSlots}
+                  onChangeSlots={setBookingSlots}
+                  startTime={formData.startTime}
+                  onStartTimeChange={(t) =>
+                    setFormData((p) => ({ ...p, startTime: t }))
+                  }
+                  endTime={formData.endTime}
+                  onEndTimeChange={(t) =>
+                    setFormData((p) => ({ ...p, endTime: t }))
+                  }
+                  selectedType={selectedType || undefined}
+                  onSelectType={(t) => setSelectedType(t)}
+                  customDetails={formData.customEventType}
+                  onCustomDetailsChange={(d) =>
+                    setFormData((p) => ({ ...p, customEventType: d }))
+                  }
+                  blockedDates={blockedDates}
+                  labels={pickerLabels}
+                />
+
+                {/* Alternate Dates */}
+                <div className="mt-8 border-t border-white/10 pt-4">
+                  <div className="mb-6 flex items-center gap-3">
+                    <CalendarIcon className="h-5 w-5 shrink-0 text-[#c27aff]" />
+                    <div>
+                      <h4>Flexible? Add Backup Dates</h4>
+                      <p>
+                        Increase your chances — we&apos;ll try your preferred date
+                        first
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <MiniDatePicker
+                      label={
+                        sanityContent?.sections?.find(
+                          (s: any) => s.sectionId === "backup_2nd",
+                        )?.title || "2nd Choice"
+                      }
+                      value={altDate1}
+                      onChange={setAltDate1}
+                    />
+                    <MiniDatePicker
+                      label={
+                        sanityContent?.sections?.find(
+                          (s: any) => s.sectionId === "backup_3rd",
+                        )?.title || "3rd Choice"
+                      }
+                      value={altDate2}
+                      onChange={setAltDate2}
+                    />
+                  </div>
+                  {(altDate1 || altDate2) && (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="text-white/50">Priority:</span>
+                      <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
+                        1st:{" "}
+                        {bookingSlots.length > 0
+                          ? bookingSlots
+                            .map((s) =>
+                              new Date(s.date + "T12:00:00").toLocaleDateString(
+                                undefined,
+                                { month: "short", day: "numeric" },
+                              ),
+                            )
+                            .join(", ")
+                          : "—"}
+                      </span>
+                      {altDate1 && (
+                        <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
+                          2nd:{" "}
+                          {new Date(altDate1 + "T12:00:00").toLocaleDateString(
+                            undefined,
+                            { month: "short", day: "numeric" },
+                          )}
+                        </span>
+                      )}
+                      {altDate2 && (
+                        <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
+                          3rd:{" "}
+                          {new Date(altDate2 + "T12:00:00").toLocaleDateString(
+                            undefined,
+                            { month: "short", day: "numeric" },
+                          )}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* Pricing hint per type */}
+              {selectedType && (
+                <div className="border border-purple-500/30 px-5 py-3">
+                  <span>Pricing Guide:</span>{" "}
+                  {selectedType === "full_band" &&
+                    "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
+                  {selectedType === "unplugged" &&
+                    "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
+                  {selectedType === "private" &&
+                    "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
+                  {selectedType === "custom" &&
+                    "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
+                </div>
+              )}
+            </Stack>
+          </PageSection>
+
+          {/* Your Scheduled Shows (Full Width Grid) */}
+          <PageSection
+            id="scheduled-shows"
+            aria-labelledby="scheduled-shows-heading"
+            size="sm"
+            containerClassName="bg-[var(--color-section-bg)]"
+          >
+            <SectionHeader
+              as="h2"
+              id="scheduled-shows-heading"
+              title="Your Scheduled Shows"
+              subtitle="Configure individual times and formats for each show below"
+              action={
+                bookingSlots.length > 0 ? (
+                  <span className="rounded-lg border border-purple-400/30 bg-cyan-500/20 px-3 py-1 text-small font-semibold">
+                    {bookingSlots.length} Show{bookingSlots.length > 1 ? "s" : ""}
+                  </span>
+                ) : null
+              }
+            />
+            <Stack gap="lg">
+              {bookingSlots.length === 0 ? (
+                <div className="rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] p-6 text-center">
+                  <span className="mb-6 block text-4xl">📅</span>
+                  <h4 className="mb-2">
+                    {sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "no_dates",
+                    )?.title || "No Dates Selected Yet"}
+                  </h4>
+                  <p className="mx-auto max-w-md">
+                    {sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "no_dates",
+                    )?.subtitle ||
+                      "Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once."}
                   </p>
                 </div>
-                <span className="rounded-lg border border-purple-400/30 bg-cyan-500/20 px-3 py-1">
-                  {bookingSlots.length} Show{bookingSlots.length > 1 ? "s" : ""}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {bookingSlots.map((slot, index) => {
-                  const formattedDate = new Date(
-                    slot.date + "T12:00:00Z",
-                  ).toLocaleDateString("en-US", {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    timeZone: "UTC",
-                  });
-                  return (
-                    <div
-                      key={slot.id}
-                      className="group relative  border border-white/10 bg-[#00000029] p-6 hover:border-purple-400/40"
-                    >
-                      {/* Duplicate and Remove buttons */}
-                      <div className="absolute top-4 right-4 flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const newSlot = {
-                              ...slot,
-                              id: Math.random().toString(36).substring(2, 9),
-                            };
-                            setBookingSlots([...bookingSlots, newSlot]);
-                          }}
-                          className="flex cursor-pointer items-center gap-1  border border-white/10 bg-white/10 px-2.5 py-1 hover:border-purple-400/30 hover:bg-cyan-500/20"
-                          title="Add another show on this date"
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    {bookingSlots.map((slot, index) => {
+                      const formattedDate = new Date(
+                        slot.date + "T12:00:00Z",
+                      ).toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        timeZone: "UTC",
+                      });
+                      return (
+                        <div
+                          key={slot.id}
+                          className="group relative border border-white/10 bg-[#00000029] p-4 sm:p-6 hover:border-purple-400/40"
                         >
-                          <Plus className="h-3 w-3" /> Add Another
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setBookingSlots(
-                              bookingSlots.filter((s) => s.id !== slot.id),
-                            )
-                          }
-                          className="flex cursor-pointer items-center gap-1  border border-white/10 bg-white/10 px-2.5 py-1 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
-                          title="Remove this show"
-                        >
-                          <X className="h-3 w-3" /> Remove
-                        </button>
-                      </div>
-
-                      <div className="mb-6">
-                        <span className="mb-1 block">Show #{index + 1}</span>
-                        <h5>{formattedDate}</h5>
-                      </div>
-
-                      <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
-                        {/* Format */}
-                        <div>
-                          <label
-                            htmlFor={`slot-format-${slot.id}`}
-                            className="mb-1.5 block text-white/50"
-                          >
-                            Show Format
-                          </label>
-                          <Dropdown
-                            id={`slot-format-${slot.id}`}
-                            fullWidth={true}
-                            selected={slot.eventType}
-                            options={[
-                              { label: "Full Band", value: "full_band" },
-                              { label: "Unplugged", value: "unplugged" },
-                              { label: "Private Event", value: "private" },
-                              { label: "Custom Booking", value: "custom" },
-                            ]}
-                            onChange={(val) => {
-                              const updated = bookingSlots.map((s) =>
-                                s.id === slot.id ? { ...s, eventType: val } : s,
-                              );
-                              setBookingSlots(updated);
-                            }}
-                            className="w-full"
-                          />
-                          {slot.eventType === "custom" && (
-                            <input
-                              type="text"
-                              placeholder="Describe show type (e.g. Street Fest)..."
-                              value={slot.customEventType || ""}
-                              onChange={(e) => {
-                                const updated = bookingSlots.map((s) =>
-                                  s.id === slot.id
-                                    ? { ...s, customEventType: e.target.value }
-                                    : s,
-                                );
-                                setBookingSlots(updated);
-                              }}
-                              className="focus-ring w-full border border-purple-400/40 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner backdrop-blur-2xl outline-none"
-                            />
-                          )}
-                        </div>
-
-                        {/* Times */}
-                        <div className="grid grid-cols-2 gap-2">
-                          <div>
-                            <label
-                              htmlFor={`slot-start-${slot.id}`}
-                              className="mb-1.5 block text-white/50"
-                            >
-                              Start Time
-                            </label>
-                            <Dropdown
-                              id={`slot-start-${slot.id}`}
-                              fullWidth={true}
-                              selected={slot.startTime}
-                              options={[
-                                "12:00 PM",
-                                "1:00 PM",
-                                "2:00 PM",
-                                "3:00 PM",
-                                "4:00 PM",
-                                "5:00 PM",
-                                "6:00 PM",
-                                "7:00 PM",
-                                "8:00 PM",
-                                "9:00 PM",
-                                "10:00 PM",
-                                "11:00 PM",
-                                "12:00 AM",
-                              ]}
-                              onChange={(val) => {
-                                const updated = bookingSlots.map((s) =>
-                                  s.id === slot.id
-                                    ? { ...s, startTime: val }
-                                    : s,
-                                );
-                                setBookingSlots(updated);
-                              }}
-                              className="w-full"
-                            />
-                          </div>
-                          <div>
-                            <label
-                              htmlFor={`slot-end-${slot.id}`}
-                              className="mb-1.5 block text-white/50"
-                            >
-                              End Time
-                            </label>
-                            <Dropdown
-                              id={`slot-end-${slot.id}`}
-                              fullWidth={true}
-                              selected={slot.endTime}
-                              options={[
-                                "12:00 PM",
-                                "1:00 PM",
-                                "2:00 PM",
-                                "3:00 PM",
-                                "4:00 PM",
-                                "5:00 PM",
-                                "6:00 PM",
-                                "7:00 PM",
-                                "8:00 PM",
-                                "9:00 PM",
-                                "10:00 PM",
-                                "11:00 PM",
-                                "12:00 AM",
-                                "1:00 AM",
-                                "2:00 AM",
-                              ]}
-                              onChange={(val) => {
-                                const updated = bookingSlots.map((s) =>
-                                  s.id === slot.id ? { ...s, endTime: val } : s,
-                                );
-                                setBookingSlots(updated);
-                              }}
-                              className="w-full"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Separate Contact/Venue details toggle buttons & form fields */}
-                      <div className="mt-4 border-t border-white/10 pt-4">
-                        <div className="mb-3">
-                          <span className="mb-2 block text-white/50">
-                            Contact & Venue Details
-                          </span>
-                          <div className="grid grid-cols-2 gap-1.5  border border-white/10 bg-black/50 p-1">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const updated = bookingSlots.map((s) =>
-                                  s.id === slot.id
-                                    ? {
-                                      ...s,
-                                      useSeparateInfo: false,
-                                      contactName: "",
-                                      contactEmail: "",
-                                      contactPhone: "",
-                                      venueName: "",
-                                      venueCity: "",
-                                      venueState: "",
-                                    }
-                                    : s,
-                                );
-                                setBookingSlots(updated);
-                              }}
-                              className={`cursor-pointer  py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
-                            >
-                              Share Main Info
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const updated = bookingSlots.map((s) =>
-                                  s.id === slot.id
-                                    ? {
-                                      ...s,
-                                      useSeparateInfo: true,
-                                      contactName:
-                                        s.contactName || formData.name || "",
-                                      contactEmail:
-                                        s.contactEmail ||
-                                        formData.email ||
-                                        "",
-                                      contactPhone:
-                                        s.contactPhone ||
-                                        formData.phone ||
-                                        "",
-                                      venueName:
-                                        s.venueName ||
-                                        formData.venueName ||
-                                        "",
-                                      venueCity:
-                                        s.venueCity ||
-                                        formData.venueCity ||
-                                        "",
-                                      venueState:
-                                        s.venueState ||
-                                        formData.venueState ||
-                                        "",
-                                    }
-                                    : s,
-                                );
-                                setBookingSlots(updated);
-                              }}
-                              className={`cursor-pointer  py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
-                            >
-                              Use Separate Info
-                            </button>
-                          </div>
-                        </div>
-
-                        {!slot.useSeparateInfo ? (
-                          <div className="mt-2 animate-[fade-in-up_0.1s_ease-out_both] space-y-1.5  border border-white/10 bg-white/[0.03] p-3.5 text-white/50">
-                            <div className="flex items-start justify-between gap-2">
-                              <span className="mt-0.5 text-white/40">
-                                Contact:
-                              </span>
-                              <span className="text-right break-all">
-                                {formData.name || (
-                                  <span className="text-white/20">(empty)</span>
-                                )}
-                                {formData.email && (
-                                  <span className="mt-0.5 block text-white/40">
-                                    {formData.email}
-                                  </span>
-                                )}
-                              </span>
+                          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                              <span className="mb-1 block">Show #{index + 1}</span>
+                              <h5>{formattedDate}</h5>
                             </div>
-                            <div className="flex items-start justify-between gap-2">
-                              <span className="mt-0.5 text-white/40">
-                                Venue:
-                              </span>
-                              <span className="text-right break-all">
-                                {formData.venueName || (
-                                  <span className="text-white/20">(empty)</span>
-                                )}
-                                {(formData.venueCity ||
-                                  formData.venueState) && (
-                                    <span className="mt-0.5 block text-white/40">
-                                      {formData.venueCity || "—"},{" "}
-                                      {formData.venueState || "—"}
-                                    </span>
-                                  )}
-                              </span>
+
+                            {/* Duplicate and Remove buttons */}
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const newSlot = {
+                                    ...slot,
+                                    id: Math.random().toString(36).substring(2, 9),
+                                  };
+                                  setBookingSlots([...bookingSlots, newSlot]);
+                                }}
+                                className="flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-purple-400/30 hover:bg-cyan-500/20"
+                                title="Add another show on this date"
+                              >
+                                <Plus className="h-3 w-3" /> Add Another
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setBookingSlots(
+                                    bookingSlots.filter((s) => s.id !== slot.id),
+                                  )
+                                }
+                                className="flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
+                                title="Remove this show"
+                              >
+                                <X className="h-3 w-3" /> Remove
+                              </button>
                             </div>
-                            <p className="mt-2 flex items-center justify-end gap-1 border-t border-white/10 pt-1.5 text-right">
-                              <span>
-                                🔗 Link Active: Shares contact & venue data
-                              </span>
-                            </p>
                           </div>
-                        ) : (
-                          <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] space-y-3  border border-white/10 bg-white/[0.03] p-3.5">
-                            <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-                              <span className="text-white/40">
-                                Separate Show Info
+
+                          <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
+                            {/* Format */}
+                            <div>
+                              <label
+                                htmlFor={`slot-format-${slot.id}`}
+                                className="  block text-white/50"
+                              >
+                                Show Format
+                              </label>
+                              <Dropdown
+                                id={`slot-format-${slot.id}`}
+                                fullWidth={true}
+                                selected={slot.eventType}
+                                options={[
+                                  { label: "Full Band", value: "full_band" },
+                                  { label: "Unplugged", value: "unplugged" },
+                                  { label: "Private Event", value: "private" },
+                                  { label: "Custom Booking", value: "custom" },
+                                ]}
+                                onChange={(val) => {
+                                  const updated = bookingSlots.map((s) =>
+                                    s.id === slot.id ? { ...s, eventType: val } : s,
+                                  );
+                                  setBookingSlots(updated);
+                                }}
+                                className="w-full"
+                              />
+                              {slot.eventType === "custom" && (
+                                <input
+                                  type="text"
+                                  placeholder="Describe show type (e.g. Street Fest)..."
+                                  value={slot.customEventType || ""}
+                                  onChange={(e) => {
+                                    const updated = bookingSlots.map((s) =>
+                                      s.id === slot.id
+                                        ? { ...s, customEventType: e.target.value }
+                                        : s,
+                                    );
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="focus-ring w-full border border-purple-400/40 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner outline-none"
+                                />
+                              )}
+                            </div>
+
+                            {/* Times */}
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label
+                                  htmlFor={`slot-start-${slot.id}`}
+                                  className="  block text-white/50"
+                                >
+                                  Start Time
+                                </label>
+                                <Dropdown
+                                  id={`slot-start-${slot.id}`}
+                                  fullWidth={true}
+                                  selected={slot.startTime}
+                                  options={[
+                                    "12:00 PM",
+                                    "1:00 PM",
+                                    "2:00 PM",
+                                    "3:00 PM",
+                                    "4:00 PM",
+                                    "5:00 PM",
+                                    "6:00 PM",
+                                    "7:00 PM",
+                                    "8:00 PM",
+                                    "9:00 PM",
+                                    "10:00 PM",
+                                    "11:00 PM",
+                                    "12:00 AM",
+                                  ]}
+                                  onChange={(val) => {
+                                    const updated = bookingSlots.map((s) =>
+                                      s.id === slot.id
+                                        ? { ...s, startTime: val }
+                                        : s,
+                                    );
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="w-full"
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor={`slot-end-${slot.id}`}
+                                  className="  block text-white/50"
+                                >
+                                  End Time
+                                </label>
+                                <Dropdown
+                                  id={`slot-end-${slot.id}`}
+                                  fullWidth={true}
+                                  selected={slot.endTime}
+                                  options={[
+                                    "12:00 PM",
+                                    "1:00 PM",
+                                    "2:00 PM",
+                                    "3:00 PM",
+                                    "4:00 PM",
+                                    "5:00 PM",
+                                    "6:00 PM",
+                                    "7:00 PM",
+                                    "8:00 PM",
+                                    "9:00 PM",
+                                    "10:00 PM",
+                                    "11:00 PM",
+                                    "12:00 AM",
+                                    "1:00 AM",
+                                    "2:00 AM",
+                                  ]}
+                                  onChange={(val) => {
+                                    const updated = bookingSlots.map((s) =>
+                                      s.id === slot.id ? { ...s, endTime: val } : s,
+                                    );
+                                    setBookingSlots(updated);
+                                  }}
+                                  className="w-full"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Separate Contact/Venue details toggle buttons & form fields */}
+                          <div className="mt-4 border-t border-white/10 pt-4">
+                            <div className="mb-3">
+                              <span className="mb-2 block text-white/50">
+                                Contact & Venue Details
                               </span>
-                              <div className="flex gap-2">
+                              <div className="grid grid-cols-2 gap-1.5  border border-white/10 bg-black/50 p-1">
                                 <button
                                   type="button"
                                   onClick={() => {
@@ -1609,772 +1536,876 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                       s.id === slot.id
                                         ? {
                                           ...s,
-                                          contactName: formData.name,
-                                          contactEmail: formData.email,
-                                          contactPhone: formData.phone,
-                                          venueName: formData.venueName,
-                                          venueCity: formData.venueCity,
-                                          venueState: formData.venueState,
+                                          useSeparateInfo: false,
+                                          contactName: "",
+                                          contactEmail: "",
+                                          contactPhone: "",
+                                          venueName: "",
+                                          venueCity: "",
+                                          venueState: "",
                                         }
                                         : s,
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="cursor-pointer hover:text-white"
+                                  className={`cursor-pointer  py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
                                 >
-                                  ⚡ Copy Main
+                                  Share Main Info
                                 </button>
-                                {hasSavedForm && (
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      try {
-                                        const saved =
-                                          localStorage.getItem(
-                                            "7h_planner_last_form_v1",
-                                          ) ||
-                                          localStorage.getItem(
-                                            "7h_planner_last_form",
-                                          );
-                                        if (saved) {
-                                          const parsed = JSON.parse(saved);
-                                          const updated = bookingSlots.map(
-                                            (s) =>
-                                              s.id === slot.id
-                                                ? {
-                                                  ...s,
-                                                  contactName:
-                                                    parsed.name ||
-                                                    s.contactName,
-                                                  contactEmail:
-                                                    parsed.email ||
-                                                    s.contactEmail,
-                                                  contactPhone:
-                                                    parsed.phone ||
-                                                    s.contactPhone,
-                                                  venueName:
-                                                    parsed.venueName ||
-                                                    s.venueName,
-                                                  venueCity:
-                                                    parsed.venueCity ||
-                                                    s.venueCity,
-                                                  venueState:
-                                                    parsed.venueState ||
-                                                    s.venueState,
-                                                }
-                                                : s,
-                                          );
-                                          setBookingSlots(updated);
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const updated = bookingSlots.map((s) =>
+                                      s.id === slot.id
+                                        ? {
+                                          ...s,
+                                          useSeparateInfo: true,
+                                          contactName:
+                                            s.contactName || formData.name || "",
+                                          contactEmail:
+                                            s.contactEmail ||
+                                            formData.email ||
+                                            "",
+                                          contactPhone:
+                                            s.contactPhone ||
+                                            formData.phone ||
+                                            "",
+                                          venueName:
+                                            s.venueName ||
+                                            formData.venueName ||
+                                            "",
+                                          venueCity:
+                                            s.venueCity ||
+                                            formData.venueCity ||
+                                            "",
+                                          venueState:
+                                            s.venueState ||
+                                            formData.venueState ||
+                                            "",
                                         }
-                                      } catch { }
-                                    }}
-                                    className="cursor-pointer text-purple-400 hover:text-white"
-                                  >
-                                    ⚡ Load Last
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-2">
-                              <div>
-                                <GlowInput
-                                  id={`slot-contact-name-${slot.id}`}
-                                  label="Contact Name"
-                                  type="text"
-                                  placeholder="e.g. Jane Doe"
-                                  value={slot.contactName || ""}
-                                  onChange={(e) => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? { ...s, contactName: e.target.value }
                                         : s,
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  wrapperClassName="w-full"
-                                />
-                              </div>
-                              <div>
-                                <GlowInput
-                                  id={`slot-contact-email-${slot.id}`}
-                                  label="Contact Email"
-                                  type="email"
-                                  placeholder="e.g. jane@email.com"
-                                  value={slot.contactEmail || ""}
-                                  onChange={(e) => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? { ...s, contactEmail: e.target.value }
-                                        : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  wrapperClassName="w-full"
-                                />
+                                  className={`cursor-pointer  py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
+                                >
+                                  Use Separate Info
+                                </button>
                               </div>
                             </div>
 
-                            <div>
-                              <GlowInput
-                                id={`slot-venue-name-${slot.id}`}
-                                label="Venue Name"
-                                type="text"
-                                placeholder="e.g. House of Blues"
-                                value={slot.venueName || ""}
-                                onChange={(e) => {
-                                  const updated = bookingSlots.map((s) =>
-                                    s.id === slot.id
-                                      ? { ...s, venueName: e.target.value }
-                                      : s,
-                                  );
-                                  setBookingSlots(updated);
-                                }}
-                                wrapperClassName="w-full"
-                              />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-2">
-                              <div>
-                                <GlowInput
-                                  id={`slot-venue-city-${slot.id}`}
-                                  label="City"
-                                  type="text"
-                                  placeholder="Chicago"
-                                  value={slot.venueCity || ""}
-                                  onChange={(e) => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? { ...s, venueCity: e.target.value }
-                                        : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  wrapperClassName="w-full"
-                                />
+                            {!slot.useSeparateInfo ? (
+                              <div className="mt-2 animate-[fade-in-up_0.1s_ease-out_both] space-y-1.5  border border-white/10 bg-white/[0.03] p-3.5 text-white/50">
+                                <div className="flex items-start justify-between gap-2">
+                                  <span className="mt-0.5 text-white/40">
+                                    Contact:
+                                  </span>
+                                  <span className="text-right break-all">
+                                    {formData.name || (
+                                      <span className="text-white/20">(empty)</span>
+                                    )}
+                                    {formData.email && (
+                                      <span className="mt-0.5 block text-white/40">
+                                        {formData.email}
+                                      </span>
+                                    )}
+                                  </span>
+                                </div>
+                                <div className="flex items-start justify-between gap-2">
+                                  <span className="mt-0.5 text-white/40">
+                                    Venue:
+                                  </span>
+                                  <span className="text-right break-all">
+                                    {formData.venueName || (
+                                      <span className="text-white/20">(empty)</span>
+                                    )}
+                                    {(formData.venueCity ||
+                                      formData.venueState) && (
+                                        <span className="mt-0.5 block text-white/40">
+                                          {formData.venueCity || "—"},{" "}
+                                          {formData.venueState || "—"}
+                                        </span>
+                                      )}
+                                  </span>
+                                </div>
+                                <p className="mt-2 flex items-center justify-end gap-1 border-t border-white/10 pt-1.5 text-right">
+                                  <span>
+                                    🔗 Link Active: Shares contact & venue data
+                                  </span>
+                                </p>
                               </div>
-                              <div>
-                                <GlowInput
-                                  id={`slot-venue-state-${slot.id}`}
-                                  label="State"
-                                  type="text"
-                                  placeholder="IL"
-                                  value={slot.venueState || ""}
-                                  onChange={(e) => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? { ...s, venueState: e.target.value }
-                                        : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  wrapperClassName="w-full"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="mt-4 border-t border-white/10 pt-4">
-                        <button
-                          type="button"
-                          aria-label="Toggle tour page details"
-                          onClick={() =>
-                            setExpandedMetadata((prev) => ({
-                              ...prev,
-                              [slot.id]: !prev[slot.id],
-                            }))
-                          }
-                          className="flex w-full items-center justify-between text-left hover:text-purple-400"
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <Megaphone className="h-3.5 w-3.5" /> Tour Page
-                            Details{" "}
-                            {expandedMetadata[slot.id] ? (
-                              <ChevronDown className="inline h-3.5 w-3.5" />
                             ) : (
-                              <ChevronRight className="inline h-3.5 w-3.5" />
+                              <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] space-y-3  border border-white/10 bg-white/[0.03] p-3.5">
+                                <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                                  <span className="text-white/40">
+                                    Separate Show Info
+                                  </span>
+                                  <div className="flex gap-2">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const updated = bookingSlots.map((s) =>
+                                          s.id === slot.id
+                                            ? {
+                                              ...s,
+                                              contactName: formData.name,
+                                              contactEmail: formData.email,
+                                              contactPhone: formData.phone,
+                                              venueName: formData.venueName,
+                                              venueCity: formData.venueCity,
+                                              venueState: formData.venueState,
+                                            }
+                                            : s,
+                                        );
+                                        setBookingSlots(updated);
+                                      }}
+                                      className="cursor-pointer hover:text-white"
+                                    >
+                                      ⚡ Copy Main
+                                    </button>
+                                    {hasSavedForm && (
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          try {
+                                            const saved =
+                                              localStorage.getItem(
+                                                "7h_planner_last_form_v1",
+                                              ) ||
+                                              localStorage.getItem(
+                                                "7h_planner_last_form",
+                                              );
+                                            if (saved) {
+                                              const parsed = JSON.parse(saved);
+                                              const updated = bookingSlots.map(
+                                                (s) =>
+                                                  s.id === slot.id
+                                                    ? {
+                                                      ...s,
+                                                      contactName:
+                                                        parsed.name ||
+                                                        s.contactName,
+                                                      contactEmail:
+                                                        parsed.email ||
+                                                        s.contactEmail,
+                                                      contactPhone:
+                                                        parsed.phone ||
+                                                        s.contactPhone,
+                                                      venueName:
+                                                        parsed.venueName ||
+                                                        s.venueName,
+                                                      venueCity:
+                                                        parsed.venueCity ||
+                                                        s.venueCity,
+                                                      venueState:
+                                                        parsed.venueState ||
+                                                        s.venueState,
+                                                    }
+                                                    : s,
+                                              );
+                                              setBookingSlots(updated);
+                                            }
+                                          } catch { }
+                                        }}
+                                        className="cursor-pointer text-purple-400 hover:text-white"
+                                      >
+                                        ⚡ Load Last
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <GlowInput
+                                      id={`slot-contact-name-${slot.id}`}
+                                      label="Contact Name"
+                                      type="text"
+                                      placeholder="e.g. Jane Doe"
+                                      value={slot.contactName || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map((s) =>
+                                          s.id === slot.id
+                                            ? { ...s, contactName: e.target.value }
+                                            : s,
+                                        );
+                                        setBookingSlots(updated);
+                                      }}
+                                      wrapperClassName="w-full"
+                                    />
+                                  </div>
+                                  <div>
+                                    <GlowInput
+                                      id={`slot-contact-email-${slot.id}`}
+                                      label="Contact Email"
+                                      type="email"
+                                      placeholder="e.g. jane@email.com"
+                                      value={slot.contactEmail || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map((s) =>
+                                          s.id === slot.id
+                                            ? { ...s, contactEmail: e.target.value }
+                                            : s,
+                                        );
+                                        setBookingSlots(updated);
+                                      }}
+                                      wrapperClassName="w-full"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <GlowInput
+                                    id={`slot-venue-name-${slot.id}`}
+                                    label="Venue Name"
+                                    type="text"
+                                    placeholder="e.g. House of Blues"
+                                    value={slot.venueName || ""}
+                                    onChange={(e) => {
+                                      const updated = bookingSlots.map((s) =>
+                                        s.id === slot.id
+                                          ? { ...s, venueName: e.target.value }
+                                          : s,
+                                      );
+                                      setBookingSlots(updated);
+                                    }}
+                                    wrapperClassName="w-full"
+                                  />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <GlowInput
+                                      id={`slot-venue-city-${slot.id}`}
+                                      label="City"
+                                      type="text"
+                                      placeholder="Chicago"
+                                      value={slot.venueCity || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map((s) =>
+                                          s.id === slot.id
+                                            ? { ...s, venueCity: e.target.value }
+                                            : s,
+                                        );
+                                        setBookingSlots(updated);
+                                      }}
+                                      wrapperClassName="w-full"
+                                    />
+                                  </div>
+                                  <div>
+                                    <GlowInput
+                                      id={`slot-venue-state-${slot.id}`}
+                                      label="State"
+                                      type="text"
+                                      placeholder="IL"
+                                      value={slot.venueState || ""}
+                                      onChange={(e) => {
+                                        const updated = bookingSlots.map((s) =>
+                                          s.id === slot.id
+                                            ? { ...s, venueState: e.target.value }
+                                            : s,
+                                        );
+                                        setBookingSlots(updated);
+                                      }}
+                                      wrapperClassName="w-full"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
                             )}
-                          </span>
-                          <span className="font-normal text-white/40 lowercase">
-                            (optional: age limit, tickets, notes)
-                          </span>
-                        </button>
+                          </div>
 
-                        {expandedMetadata[slot.id] && (
-                          <BookingSlotMetadataSection
-                            slot={slot}
-                            bookingSlots={bookingSlots}
-                            setBookingSlots={setBookingSlots}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          )}
-        </section>
+                          <div className="mt-4 border-t border-white/10 pt-4">
+                            <button
+                              type="button"
+                              aria-label="Toggle tour page details"
+                              onClick={() =>
+                                setExpandedMetadata((prev) => ({
+                                  ...prev,
+                                  [slot.id]: !prev[slot.id],
+                                }))
+                              }
+                              className="flex w-full items-center justify-between text-left hover:text-purple-400"
+                            >
+                              <span className="flex items-center gap-1.5">
+                                <Megaphone className="h-3.5 w-3.5" /> Tour Page
+                                Details{" "}
+                                {expandedMetadata[slot.id] ? (
+                                  <ChevronDown className="inline h-3.5 w-3.5" />
+                                ) : (
+                                  <ChevronRight className="inline h-3.5 w-3.5" />
+                                )}
+                              </span>
+                              <span className="font-normal text-white/40 lowercase">
+                                (optional: age limit, tickets, notes)
+                              </span>
+                            </button>
 
-        {/* Step 2: Contact Information */}
-        <section
-          aria-label="Contact Information"
-          className="relative animate-[fade-in-up_0.15s_ease-out_both] border-0"
-        >
-          <h2 className="flex items-center gap-3 pb-3">
-            {sanityContent?.sections?.find(
-              (s: any) => s.sectionId === "contact",
-            )?.title || "Contact Information"}
-          </h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <InputField
-              label={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "contact_name",
-                )?.title || "Full Name"
-              }
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              placeholder="John Smith"
-            />
-            <InputField
-              label={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "contact_org",
-                )?.title || "Organization"
-              }
-              name="organization"
-              value={formData.organization}
-              onChange={handleChange}
-              placeholder="Venue or company name"
-            />
-            <InputField
-              label={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "contact_email",
-                )?.title || "Email"
-              }
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="you@email.com"
-            />
-            <InputField
-              label={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "contact_phone",
-                )?.title || "Phone"
-              }
-              name="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              placeholder="(555) 123-4567"
-            />
-          </div>
-        </section>
-
-        {/* Step 3: Venue Details & Event Schedule */}
-        <section
-          aria-label="Venue and Event Logistics"
-          className="relative animate-[fade-in-up_0.15s_ease-out_both] space-y-6 border-0 p-0"
-        >
-          {/* Show Event Start & End Times + Band Schedule */}
-          <div className="space-y-4">
-            <div className="border-b border-white/10">
-              <h2 className="flex items-center gap-3 pb-3">
-                <MapPin className="h-5 w-5 text-[#c27aff]" /> Venue & Event
-                Logistics
-              </h2>
-            </div>
-
-            {/* Row 1: Overall Event Start & End */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <InputField
-                label="Event Start Time"
-                name="eventStartTime"
-                value={formData.eventStartTime}
-                onChange={handleChange}
-                placeholder="e.g. 5:00 PM (Doors / Event Starts)"
-              />
-              <InputField
-                label="Event End Time"
-                name="eventEndTime"
-                value={formData.eventEndTime}
-                onChange={handleChange}
-                placeholder="e.g. 11:30 PM (Event Ends)"
-              />
-            </div>
-
-            {/* Row 2: Band Load-In & Band Performance Start / End */}
-            <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
-              <InputField
-                label="Band Start Time"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                required
-                placeholder="e.g. 7:00 PM (Band Plays)"
-              />
-              <InputField
-                label="Band End Time"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleChange}
-                required
-                placeholder="e.g. 10:30 PM (Band Finish)"
-              />
-
-              <div>
-                <InputField
-                  label="Load-in / Setup Time"
-                  name="loadInTime"
-                  value={
-                    isLoadInUnsure
-                      ? "Unsure — Band admin will confirm & email setup time"
-                      : formData.loadInTime
-                  }
-                  onChange={handleChange}
-                  disabled={isLoadInUnsure}
-                  placeholder="e.g. 5:00 PM (2 hrs before)"
-                  labelRight={
-                    <div className="flex items-center gap-1.5">
-                      <SquishyToggle
-                        id="toggle-loadin-unsure"
-                        checked={isLoadInUnsure}
-                        onChange={(next) => {
-                          setIsLoadInUnsure(next);
-                          if (next) {
-                            setFormData((prev) => ({
-                              ...prev,
-                              loadInTime:
-                                "Unsure — Band admin will confirm & email setup time",
-                            }));
-                          } else {
-                            setFormData((prev) => ({
-                              ...prev,
-                              loadInTime: "",
-                            }));
-                          }
-                        }}
-                        label="Unsure?"
-                      />
-                      <span className="text-[#c27aff]">Unsure?</span>
-                    </div>
-                  }
-                />
-                <p className="mt-1.5">
-                  Band load-in is usually ~2 hours before band start time.
-                </p>
-              </div>
-            </div>
-
-            {isLoadInUnsure && (
-              <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3  border border-purple-500/40 bg-purple-950/40 p-3.5 text-purple-200">
-                <div className="space-y-1">
-                  <span className="block">
-                    Unsure of exact load-in time? No problem!
-                  </span>
-                  <span className="block">
-                    Our 7th Heaven band booking admin will coordinate your event
-                    schedule, update the load-in setup time, and send a
-                    confirmation email directly to the planner.
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Venue Address & Location Picker */}
-          <div className="space-y-5">
-            <div className="border-b border-white/10 pb-3">
-              <h2 className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-[#c27aff]" /> Venue Address &
-                Location Setup
-              </h2>
-            </div>
-
-            {addressNotification && (
-              <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5  border border-purple-400/40 bg-cyan-950/70 p-3">
-                <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
-                <span>{addressNotification}</span>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <InputField
-                label="Venue Name"
-                name="venueName"
-                value={formData.venueName}
-                onChange={handleChange}
-                required
-                placeholder="Venue name (e.g. Bridges Scoreboard)"
-              />
-              <InputField
-                label="City"
-                name="venueCity"
-                value={formData.venueCity}
-                onChange={handleChange}
-                required
-                placeholder="Chicago"
-              />
-
-              <InputField
-                label="State"
-                name="venueState"
-                value={formData.venueState}
-                onChange={handleChange}
-                required
-                placeholder="IL"
-              />
-
-              {/* Row 2 Right: SquishyToggle for custom parking directions */}
-              <div className="flex flex-wrap items-end gap-2.5 pb-0.5 md:flex-nowrap">
-                <div className="flex items-center gap-3  px-3.5 py-2 text-[#c27aff]  select-none">
-                  <SquishyToggle
-                    id="toggle-parking-notes"
-                    checked={hasParkingNotes}
-                    onChange={(next) => {
-                      setHasParkingNotes(next);
-                      if (!next) {
-                        setFormData((prev) => ({ ...prev, parkingNotes: "" }));
-                      }
-                    }}
-                    label="Add custom parking directions"
-                  />
-                  <span>Add custom parking directions</span>
-                </div>
-              </div>
-
-              {/* Interactive Map Picker Modal */}
-              <MapPickerModal
-                isOpen={showMapPicker}
-                onClose={() => setShowMapPicker(false)}
-                initialAddress={
-                  formData.parkingAddress ||
-                  `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()
-                }
-                savedAddresses={savedAddresses}
-                onSelectSaved={handleSelectSavedAddress}
-                onSaveNewAddress={handleSaveCurrentAddress}
-                onDeleteSavedAddress={handleDeleteSavedAddress}
-                onSave={(savedAddr, fullData) => {
-                  if (fullData && (fullData.venueName || fullData.venueCity)) {
-                    handleSelectSavedAddress(fullData as SavedAddress);
-                  } else {
-                    setFormData((prev) => ({
-                      ...prev,
-                      parkingAddress: savedAddr,
-                    }));
-                    setAddressNotification(
-                      `Updated parking address to: ${savedAddr}`,
-                    );
-                    setTimeout(() => setAddressNotification(null), 3000);
-                  }
-                }}
-              />
-
-              {/* Row 4: Parking location link & directions expands when checkbox is checked */}
-              {hasParkingNotes && (
-                <div className="animate-[fade-in-up_0.15s_ease-out_both] space-y-4  border border-purple-500/30 bg-purple-950/20 p-4 md:col-span-2">
-                  <div className="space-y-2">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <label htmlFor="parkingAddress" className="block">
-                        Google Maps Parking Location or Link
-                      </label>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => setShowMapPicker(true)}
-                          className="flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
-                        >
-                          <MapPin className="h-3.5 w-3.5" /> Pick on Map
-                        </button>
-                        <span className="text-white/20">•</span>
-                        <a
-                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                            [
-                              formData.parkingAddress || formData.venueName,
-                              formData.venueCity,
-                              formData.venueState,
-                              "parking",
-                            ]
-                              .filter(Boolean)
-                              .join(" ") || "Chicago IL parking",
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 hover:text-purple-200 hover:underline"
-                        >
-                          <Compass className="h-3.5 w-3.5" /> Search Google Maps
-                          ↗
-                        </a>
-                        <span className="text-white/20">•</span>
-                        <button
-                          type="button"
-                          onClick={() => handleSaveCurrentAddress()}
-                          className="flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
-                        >
-                          <Bookmark className="h-3.5 w-3.5" /> Save Link
-                        </button>
-                      </div>
-                    </div>
-                    <GlowInput
-                      aria-label="Google Maps Parking Location Link"
-                      id="parkingAddress"
-                      name="parkingAddress"
-                      type="text"
-                      value={formData.parkingAddress}
-                      onChange={handleChange}
-                      placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
-                      className="focus-ring w-full border-0 bg-[#00000029] px-4 py-3 text-white/30"
-                    />
+                            {expandedMetadata[slot.id] && (
+                              <BookingSlotMetadataSection
+                                slot={slot}
+                                bookingSlots={bookingSlots}
+                                setBookingSlots={setBookingSlots}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="parkingNotes" className="block">
-                      Directions for Parking
-                    </label>
-                    <GlowTextarea
-                      id="parkingNotes"
-                      name="parkingNotes"
-                      value={formData.parkingNotes}
-                      onChange={handleChange}
-                      rows={3}
-                      placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
-                      className="focus-ring min-h-[90px] w-full resize-y border-0 bg-[#00000029] px-4 py-3 text-white/30"
-                    />
-                  </div>
-                </div>
+                </>
               )}
-            </div>
-          </div>
-        </section>
+            </Stack>
+          </PageSection>
 
-        {/* Steps 4-6 and Sidebar 2-Column Grid */}
-        <section className="py-section-fluid grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_360px]">
-          <div className="flex flex-col gap-6">
-            {/* Step 4: Technical & Logistics */}
-            <section
-              aria-label="Technical and Logistics"
-              className="relative border-0 pt-10"
-            >
-              <h2 className="flex items-center gap-3 pb-3">
-                {sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "logistics",
-                )?.title || "Technical & Logistics"}
-              </h2>
-              <div className="flex flex-col gap-6">
-                <RadioPillField
+          {/* Step 2: Contact Information */}
+          <PageSection
+            id="contact-info"
+            aria-labelledby="contact-info-heading"
+            size="sm"
+            containerClassName="animate-[fade-in-up_0.15s_ease-out_both]"
+          >
+            <SectionHeader
+              as="h2"
+              id="contact-info-heading"
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) => s.sectionId === "contact",
+                )?.title || "Contact Information"
+              }
+              icon={User}
+            />
+            <Stack gap="lg">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <InputField
                   label={
                     sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "logistics_indoor",
-                    )?.title || "Indoor / Outdoor"
+                      (s: any) => s.sectionId === "contact_name",
+                    )?.title || "Full Name"
                   }
-                  name="indoorOutdoor"
-                  value={formData.indoorOutdoor}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]}
+                  required
+                  placeholder="John Smith"
                 />
-                <RadioPillField
+                <InputField
                   label={
                     sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "logistics_sound",
-                    )?.title || "Sound System Available?"
+                      (s: any) => s.sectionId === "contact_org",
+                    )?.title || "Organization"
                   }
-                  name="soundSystem"
-                  value={formData.soundSystem}
+                  name="organization"
+                  value={formData.organization}
                   onChange={handleChange}
-                  options={[
-                    "Yes — full PA system",
-                    "Partial — need supplemental",
-                    "No — band needs to provide",
-                    "Not sure",
-                  ]}
+                  placeholder="Venue or company name"
                 />
-                <RadioPillField
+                <InputField
                   label={
                     sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "logistics_stage",
-                    )?.title || "Stage Available?"
+                      (s: any) => s.sectionId === "contact_email",
+                    )?.title || "Email"
                   }
-                  name="stageAvailable"
-                  value={formData.stageAvailable}
+                  name="email"
+                  type="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  options={[
-                    "Yes",
-                    "No — performing at floor level",
-                    "Portable / riser can be arranged",
-                    "Not sure",
-                  ]}
+                  required
+                  placeholder="you@email.com"
                 />
-                <RadioPillField
+                <InputField
                   label={
                     sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "logistics_backline",
-                    )?.title || "Backline Provided?"
+                      (s: any) => s.sectionId === "contact_phone",
+                    )?.title || "Phone"
                   }
-                  name="backlineProvided"
-                  value={formData.backlineProvided}
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
                   onChange={handleChange}
-                  options={[
-                    "Yes — amps, drums, etc.",
-                    "Partial",
-                    "No — band brings everything",
-                    "Not sure",
-                  ]}
+                  required
+                  placeholder="(555) 123-4567"
                 />
+              </div>
+            </Stack>
+          </PageSection>
 
-                <div className="grid grid-cols-1 gap-8 border-t border-white/10 pt-8 md:grid-cols-2">
+          {/* Step 3: Venue Details & Event Schedule */}
+          <PageSection
+            id="venue-logistics"
+            aria-labelledby="venue-info-heading"
+            size="sm"
+            containerClassName="animate-[fade-in-up_0.15s_ease-out_both]"
+          >
+            <SectionHeader
+              as="h2"
+              id="venue-info-heading"
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) => s.sectionId === "venue",
+                )?.title || "Venue & Event Logistics"
+              }
+              icon={MapPin}
+            />
+            <Stack gap="lg">
+              {/* Show Event Start & End Times + Band Schedule */}
+              <div className="space-y-6">
+
+                {/* Row 1: Overall Event Start & End */}
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <InputField
+                    label="Event Start Time"
+                    name="eventStartTime"
+                    value={formData.eventStartTime}
+                    onChange={handleChange}
+                    placeholder="e.g. 5:00 PM (Doors / Event Starts)"
+                  />
+                  <InputField
+                    label="Event End Time"
+                    name="eventEndTime"
+                    value={formData.eventEndTime}
+                    onChange={handleChange}
+                    placeholder="e.g. 11:30 PM (Event Ends)"
+                  />
+                </div>
+
+                {/* Row 2: Band Load-In & Band Performance Start / End */}
+                <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
+                  <InputField
+                    label="Band Start Time"
+                    name="startTime"
+                    value={formData.startTime}
+                    onChange={handleChange}
+                    required
+                    placeholder="e.g. 7:00 PM (Band Plays)"
+                  />
+                  <InputField
+                    label="Band End Time"
+                    name="endTime"
+                    value={formData.endTime}
+                    onChange={handleChange}
+                    required
+                    placeholder="e.g. 10:30 PM (Band Finish)"
+                  />
+
                   <div>
                     <InputField
-                      label={
-                        sanityContent?.sections?.find(
-                          (s: any) => s.sectionId === "attendance",
-                        )?.title || "Expected Attendance"
+                      label="Load-in / Setup Time"
+                      name="loadInTime"
+                      value={
+                        isLoadInUnsure
+                          ? "Unsure — Band admin will confirm & email setup time"
+                          : formData.loadInTime
                       }
-                      name="expectedAttendance"
-                      value={formData.expectedAttendance}
                       onChange={handleChange}
-                      placeholder={
-                        sanityContent?.sections?.find(
-                          (s: any) => s.sectionId === "attendance",
-                        )?.subtitle || "~200 people"
+                      disabled={isLoadInUnsure}
+                      placeholder="e.g. 5:00 PM (2 hrs before)"
+                      labelRight={
+                        <Toggle
+                          id="toggle-loadin-unsure"
+                          size="sm"
+                          checked={isLoadInUnsure}
+                          onChange={(next) => {
+                            setIsLoadInUnsure(next);
+                            if (next) {
+                              setFormData((prev) => ({
+                                ...prev,
+                                loadInTime:
+                                  "Unsure — Band admin will confirm & email setup time",
+                              }));
+                            } else {
+                              setFormData((prev) => ({
+                                ...prev,
+                                loadInTime: "",
+                              }));
+                            }
+                          }}
+                          label={<span className="text-purple-400">Unsure?</span>}
+                        />
                       }
                     />
+                    <p className="mt-1.5">
+                      Band load-in is usually ~2 hours before band start time.
+                    </p>
                   </div>
                 </div>
-              </div>
-            </section>
 
-            {/* Step 5: Additional Options */}
-            <section
-              aria-label="Production Extras and Add-Ons"
-              className="relative border-0 p-0"
-            >
-              <h2 className="mb-2 flex items-center gap-3">
-                {sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "extras",
-                )?.title || "Production & Extras"}
-              </h2>
-              <p>
-                {sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "extras",
-                )?.subtitle ||
-                  "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."}
-              </p>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {(() => {
-                  const addOnsSet = new Set(addOns);
-                  return (
-                    [] as {
-                      id: string;
-                      icon: string;
-                      label: string;
-                      desc: string;
-                    }[]
-                  ).map((option) => {
-                    const isActive = addOnsSet.has(option.id);
-                    return (
-                      <button
-                        key={option.id}
-                        type="button"
-                        aria-label={`Toggle ${option.label} option`}
-                        onClick={() =>
-                          setAddOns((prev) =>
-                            isActive
-                              ? prev.filter((a) => a !== option.id)
-                              : [...prev, option.id],
-                          )
-                        }
-                        className={`group flex w-full cursor-pointer items-start gap-3  border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
-                      >
-                        <span className="mt-0.5 text-xl">{option.icon}</span>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2">
-                            <span
-                              className={`block   ${isActive ? " " : " "}`}
+                {isLoadInUnsure && (
+                  <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3  border border-purple-500/40 bg-purple-950/40 p-3.5 text-purple-200">
+                    <div className="space-y-1">
+                      <span className="block">
+                        Unsure of exact load-in time? No problem!
+                      </span>
+                      <span className="block">
+                        Our 7th Heaven band booking admin will coordinate your event
+                        schedule, update the load-in setup time, and send a
+                        confirmation email directly to the planner.
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Venue Address & Location Picker */}
+              <div className="space-y-6">
+                <SectionHeader
+                  as="h3"
+                  title="Venue Address & Location Setup"
+                  icon={Building2}
+                />
+
+                {addressNotification && (
+                  <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5  border border-purple-400/40 bg-cyan-950/70 p-3">
+                    <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
+                    <span>{addressNotification}</span>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <InputField
+                    label="Venue Name"
+                    name="venueName"
+                    value={formData.venueName}
+                    onChange={handleChange}
+                    required
+                    placeholder="Venue name (e.g. Bridges Scoreboard)"
+                  />
+                  <InputField
+                    label="City"
+                    name="venueCity"
+                    value={formData.venueCity}
+                    onChange={handleChange}
+                    required
+                    placeholder="Chicago"
+                  />
+
+                  <InputField
+                    label="State"
+                    name="venueState"
+                    value={formData.venueState}
+                    onChange={handleChange}
+                    required
+                    placeholder="IL"
+                  />
+
+                  {/* Row 2 Right: Toggle for custom parking directions */}
+                  <div className="flex flex-wrap items-end gap-2.5 pb-0.5 md:flex-nowrap">
+                    <div className="flex items-center gap-3 px-3.5 py-2 text-[#c27aff] select-none">
+                      <Toggle
+                        id="toggle-parking-notes"
+                        checked={hasParkingNotes}
+                        onChange={(next) => {
+                          setHasParkingNotes(next);
+                          if (!next) {
+                            setFormData((prev) => ({ ...prev, parkingNotes: "" }));
+                          }
+                        }}
+                        label="Add custom parking directions"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Interactive Map Picker Modal */}
+                  <MapPickerModal
+                    isOpen={showMapPicker}
+                    onClose={() => setShowMapPicker(false)}
+                    initialAddress={
+                      formData.parkingAddress ||
+                      `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()
+                    }
+                    savedAddresses={savedAddresses}
+                    onSelectSaved={handleSelectSavedAddress}
+                    onSaveNewAddress={handleSaveCurrentAddress}
+                    onDeleteSavedAddress={handleDeleteSavedAddress}
+                    onSave={(savedAddr, fullData) => {
+                      if (fullData && (fullData.venueName || fullData.venueCity)) {
+                        handleSelectSavedAddress(fullData as SavedAddress);
+                      } else {
+                        setFormData((prev) => ({
+                          ...prev,
+                          parkingAddress: savedAddr,
+                        }));
+                        setAddressNotification(
+                          `Updated parking address to: ${savedAddr}`,
+                        );
+                        setTimeout(() => setAddressNotification(null), 3000);
+                      }
+                    }}
+                  />
+
+                  {/* Row 4: Parking location link & directions expands when checkbox is checked */}
+                  {hasParkingNotes && (
+                    <div className="animate-[fade-in-up_0.15s_ease-out_both] space-y-4  border border-purple-500/30 bg-purple-950/20 p-4 md:col-span-2">
+                      <div className="space-y-2">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <label htmlFor="parkingAddress" className="block">
+                            Google Maps Parking Location or Link
+                          </label>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setShowMapPicker(true)}
+                              className="flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
                             >
-                              {option.label}
-                            </span>
-                            {isActive && (
-                              <svg
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="#38bdf8"
-                                strokeWidth="3"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <polyline points="20 6 9 17 4 12" />
-                              </svg>
-                            )}
+                              <MapPin className="h-3.5 w-3.5" /> Pick on Map
+                            </button>
+                            <span className="text-white/20">•</span>
+                            <a
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                                [
+                                  formData.parkingAddress || formData.venueName,
+                                  formData.venueCity,
+                                  formData.venueState,
+                                  "parking",
+                                ]
+                                  .filter(Boolean)
+                                  .join(" ") || "Chicago IL parking",
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 hover:text-purple-200 hover:underline"
+                            >
+                              <Compass className="h-3.5 w-3.5" /> Search Google Maps
+                              ↗
+                            </a>
+                            <span className="text-white/20">•</span>
+                            <button
+                              type="button"
+                              onClick={() => handleSaveCurrentAddress()}
+                              className="flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
+                            >
+                              <Bookmark className="h-3.5 w-3.5" /> Save Link
+                            </button>
                           </div>
-                          <span className="block">{option.desc}</span>
                         </div>
-                      </button>
-                    );
-                  });
-                })()}
-              </div>
-              {addOns.length > 0 && (
-                <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-white/10 pt-4">
-                  <span className="text-white/50">Selected:</span>
-                  {addOns.map((id) => (
-                    <span
-                      key={id}
-                      className="inline-flex items-center gap-1.5  border border-purple-400/30 bg-cyan-500/20 px-3 py-1  "
-                    >
-                      {id
-                        .replace(/_/g, " ")
-                        .replace(/\b\w/g, (c) => c.toUpperCase())}
-                      <button
-                        type="button"
-                        aria-label={`Remove ${id.replace(/_/g, " ")} option`}
-                        onClick={() =>
-                          setAddOns((prev) => prev.filter((a) => a !== id))
-                        }
-                        className="ml-0.5 cursor-pointer text-white/50"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-            </section>
+                        <GlowInput
+                          aria-label="Google Maps Parking Location Link"
+                          id="parkingAddress"
+                          name="parkingAddress"
+                          type="text"
+                          value={formData.parkingAddress}
+                          onChange={handleChange}
+                          placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
+                          className="focus-ring w-full border-0 bg-[#00000029] px-4 py-3 text-white/30"
+                        />
+                      </div>
 
-            {/* Step 6: Notes & Questions */}
-            <section
-              aria-label="Notes and Questions"
-              className="relative border-0 p-0"
-            >
-              <h2 className="mb-2 flex items-center gap-3">
-                {sanityContent?.sections?.find(
+                      <div className="space-y-2">
+                        <label htmlFor="parkingNotes" className="block">
+                          Directions for Parking
+                        </label>
+                        <GlowTextarea
+                          id="parkingNotes"
+                          name="parkingNotes"
+                          value={formData.parkingNotes}
+                          onChange={handleChange}
+                          rows={3}
+                          placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
+                          className="focus-ring min-h-[90px] w-full resize-y border-0 bg-[#00000029] px-4 py-3 text-white/30"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Stack>
+          </PageSection>
+
+          {/* Step 4: Technical & Logistics */}
+          <PageSection
+            id="tech-specs"
+            aria-labelledby="tech-info-heading"
+            size="sm"
+          >
+            <SectionHeader
+              as="h2"
+              id="tech-info-heading"
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) => s.sectionId === "logistics",
+                )?.title || "Technical & Logistics"
+              }
+              icon={Sliders}
+            />
+            <Stack gap="lg">
+              <RadioPillField
+                label={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "logistics_indoor",
+                  )?.title || "Indoor / Outdoor"
+                }
+                name="indoorOutdoor"
+                value={formData.indoorOutdoor}
+                onChange={handleChange}
+                options={["Indoor", "Outdoor", "Both / Hybrid", "TBD"]}
+              />
+              <RadioPillField
+                label={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "logistics_sound",
+                  )?.title || "Sound System Available?"
+                }
+                name="soundSystem"
+                value={formData.soundSystem}
+                onChange={handleChange}
+                options={[
+                  "Yes — full PA system",
+                  "Partial — need supplemental",
+                  "No — band needs to provide",
+                  "Not sure",
+                ]}
+              />
+              <RadioPillField
+                label={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "logistics_stage",
+                  )?.title || "Stage Available?"
+                }
+                name="stageAvailable"
+                value={formData.stageAvailable}
+                onChange={handleChange}
+                options={[
+                  "Yes",
+                  "No — performing at floor level",
+                  "Portable / riser can be arranged",
+                  "Not sure",
+                ]}
+              />
+              <RadioPillField
+                label={
+                  sanityContent?.sections?.find(
+                    (s: any) => s.sectionId === "logistics_backline",
+                  )?.title || "Backline Provided?"
+                }
+                name="backlineProvided"
+                value={formData.backlineProvided}
+                onChange={handleChange}
+                options={[
+                  "Yes — amps, drums, etc.",
+                  "Partial",
+                  "No — band brings everything",
+                  "Not sure",
+                ]}
+              />
+
+              <div className="grid grid-cols-1 gap-8 border-t border-white/10 pt-8 md:grid-cols-2">
+                <div>
+                  <InputField
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "attendance",
+                      )?.title || "Expected Attendance"
+                    }
+                    name="expectedAttendance"
+                    value={formData.expectedAttendance}
+                    onChange={handleChange}
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "attendance",
+                      )?.subtitle || "~200 people"
+                    }
+                  />
+                </div>
+              </div>
+            </Stack>
+          </PageSection>
+
+          {/* Step 5: Additional Options (Hidden if no options defined) */}
+          {(() => {
+            const options = [] as {
+              id: string;
+              icon: string;
+              label: string;
+              desc: string;
+            }[];
+            if (options.length === 0) return null;
+            return (
+              <PageSection
+                id="budget-extras"
+                aria-labelledby="budget-info-heading"
+                size="sm"
+              >
+                <SectionHeader
+                  as="h2"
+                  id="budget-info-heading"
+                  title={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "extras",
+                    )?.title || "Production & Extras"
+                  }
+                  subtitle={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "extras",
+                    )?.subtitle ||
+                    "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager."
+                  }
+                  icon={Sparkles}
+                />
+                <Stack gap="lg">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    {options.map((option) => {
+                      const addOnsSet = new Set(addOns);
+                      const isActive = addOnsSet.has(option.id);
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          aria-label={`Toggle ${option.label} option`}
+                          onClick={() =>
+                            setAddOns((prev) =>
+                              isActive
+                                ? prev.filter((a) => a !== option.id)
+                                : [...prev, option.id],
+                            )
+                          }
+                          className={`group flex w-full cursor-pointer items-start gap-3 border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
+                        >
+                          <span className="mt-0.5 text-xl">{option.icon}</span>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="block">{option.label}</span>
+                            </div>
+                            <span className="block">{option.desc}</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </Stack>
+              </PageSection>
+            );
+          })()}
+
+          {/* Step 6: Notes & Questions */}
+          <PageSection
+            id="notes-section"
+            aria-labelledby="hold-confirm-heading"
+            size="sm"
+          >
+            <SectionHeader
+              as="h2"
+              id="hold-confirm-heading"
+              title={
+                sanityContent?.sections?.find(
                   (s: any) => s.sectionId === "notes",
-                )?.title || "Notes & Questions"}
-              </h2>
-              <p className="mb-6">
-                {sanityContent?.sections?.find(
+                )?.title || "Notes & Questions"
+              }
+              subtitle={
+                sanityContent?.sections?.find(
                   (s: any) => s.sectionId === "notes",
                 )?.subtitle ||
-                  "Anything else you'd like to mention? Special requests, questions, or details for our band manager."}
-              </p>
+                "Anything else you'd like to mention? Special requests, questions, or details for our band manager."
+              }
+              icon={MessageSquare}
+            />
+            <Stack gap="md">
               <label htmlFor="details" className="sr-only text-white/90">
                 Notes and Questions for Band Manager
               </label>
               <GlowTextarea
                 id="details"
                 name="details"
+                aria-label="Notes and Questions for Band Manager"
                 value={formData.details}
                 onChange={handleChange}
                 rows={5}
@@ -2384,48 +2415,46 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   )?.body ||
                   "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
                 }
-                className="focus-ring w-full resize-none border-0 bg-[#00000029] px-4 py-3 text-white/40"
+                className="focus-ring w-full resize-none "
               />
               {formData.details && (
-                <div className="mt-3 flex items-center gap-2   text-emerald-400">
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                <div className="mt-3 flex items-center gap-2 text-emerald-400">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Note attached to your booking</span>
                 </div>
               )}
-            </section>
+            </Stack>
+          </PageSection>
 
-            {/* Honeypot */}
-            <div className="hidden" aria-hidden="true">
-              <input
-                type="text"
-                name="website"
-                value={formData.website}
-                onChange={(e) =>
-                  setFormData({ ...formData, website: e.target.value })
-                }
-                tabIndex={-1}
-                autoComplete="off"
-              />
-            </div>
+          {/* Honeypot */}
+          <div className="hidden" aria-hidden="true">
+            <input
+              type="text"
+              name="website"
+              value={formData.website}
+              onChange={(e) =>
+                setFormData({ ...formData, website: e.target.value })
+              }
+              tabIndex={-1}
+              autoComplete="off"
+            />
           </div>
+        </div>
 
-          {/* Right Column: Sticky Summary Sidebar */}
-          <aside aria-label="Booking Summary" className="sticky top-32">
-            <div className="border-0 p-0">
-              <h3 className="mb-6 border-b border-white/10 pb-6">
-                Booking Summary
-              </h3>
+        {/* Right Column: Sticky Summary Sidebar */}
+        <aside
+          aria-label="Booking Summary"
+          className="sticky top-32 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
+        >
+          <div className="border-0 p-0">
+            <SectionHeader
+              as="h3"
+              title="Booking Summary"
+              icon={ClipboardList}
+            />
 
-              <div className="mb-8 flex flex-col">
+            <Stack gap="md">
+              <div className="flex flex-col">
                 <div className="flex items-start justify-between">
                   <span className="text-white/50">Date</span>
                   <span className="text-right">
@@ -2445,7 +2474,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     )}
                   </span>
                 </div>
-                <div className="flex items-start justify-between ">
+                <div className="flex items-start justify-between">
                   <span className="text-white/50">Time</span>
                   <span className="text-right">
                     {bookingSlots.length === 1 ? (
@@ -2476,7 +2505,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       <span className="text-white/30">—</span>
                     )}
                     {formData.venueCity && (
-                      <span className="block   font-normal text-white/50">
+                      <span className="block font-normal text-white/50">
                         {formData.venueCity}, {formData.venueState}
                       </span>
                     )}
@@ -2511,7 +2540,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
               {/* Validation Errors */}
               {validationErrors.length > 0 && (
-                <div className="mb-6  border border-rose-500/30 bg-rose-500/10 p-4">
+                <div className="rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 p-4">
                   <div className="mb-2 flex items-center gap-2">
                     <span className="text-rose-400">⚠</span>
                     <span className="text-rose-300">
@@ -2522,7 +2551,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     {validationErrors.map((err, i) => (
                       <li
                         key={`err-${i}-${err}`}
-                        className="relative pl-5   text-rose-300 before:absolute before:left-1.5 before:text-rose-400 before:content-['•']"
+                        className="relative pl-5 text-rose-300 before:absolute before:left-1.5 before:text-rose-400 before:content-['•']"
                       >
                         {err}
                       </li>
@@ -2531,43 +2560,45 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 </div>
               )}
 
-              <SeventhButton
-                type="submit"
-                icon={false}
-                disabled={
-                  submitting ||
-                  !selectedType ||
-                  bookingSlots.length === 0 ||
-                  !formData.startTime ||
-                  !formData.endTime ||
-                  !formData.email
-                }
-                className="w-full   disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                {submitting ? (
-                  <>
-                    <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
-                    Submitting...
-                  </>
-                ) : (
-                  "Submit Booking Request"
-                )}
-              </SeventhButton>
-              <p className="mt-4 text-center">
-                By submitting, you confirm you are 18 years of age or older and
-                agree to our{" "}
-                <Link href="/privacy" className="hover:text-white">
-                  Privacy Policy
-                </Link>{" "}
-                and{" "}
-                <Link href="/terms" className="hover:text-white">
-                  Terms
-                </Link>
-                .
-              </p>
-            </div>
-          </aside>
-        </section>
+              <div>
+                <SeventhButton
+                  type="submit"
+                  icon={false}
+                  disabled={
+                    submitting ||
+                    !selectedType ||
+                    bookingSlots.length === 0 ||
+                    !formData.startTime ||
+                    !formData.endTime ||
+                    !formData.email
+                  }
+                  className="w-full disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {submitting ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
+                      Submitting...
+                    </>
+                  ) : (
+                    "Submit Booking Request"
+                  )}
+                </SeventhButton>
+                <p className="mt-4 text-center">
+                  By submitting, you confirm you are 18 years of age or older and
+                  agree to our{" "}
+                  <Link href="/privacy" className="hover:text-white">
+                    Privacy Policy
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="/terms" className="hover:text-white">
+                    Terms
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Stack>
+          </div>
+        </aside>
       </form>
     </main>
   );

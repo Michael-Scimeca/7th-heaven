@@ -1427,15 +1427,19 @@ lerpSpeed: ${lerpSpeed}`;
     <section
       id="band"
       ref={sectionRef}
-      className="relative flex h-auto w-full max-w-full flex-col justify-end overflow-x-clip select-none"
+      aria-labelledby="band-heading"
+      className="section relative flex h-auto w-full max-w-full flex-col justify-end overflow-x-clip select-none"
     >
+      <h2 id="band-heading" className="sr-only">
+        Band Members &amp; Biography
+      </h2>
       {/* Live Canvas & Stage UI Customizer Drawer Panel */}
       {isCanvasCustomizerOpen &&
         mounted &&
         typeof document !== "undefined" &&
         createPortal(
           <>
-            <div className="fixed inset-y-0 right-0 z-[9999] flex h-screen max-h-screen w-[360px] max-w-[92vw] flex-col justify-between overflow-y-auto border-l border-white/15 bg-black/95 p-5 shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+            <div className="fixed inset-y-0 right-0 z-[9999] flex h-full h-dvh max-h-dvh w-[360px] max-w-[92vw] flex-col justify-between overflow-y-auto border-l border-white/15 bg-black/95 p-5 pb-safe shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
               <div>
                 {/* Header */}
                 <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
@@ -1491,7 +1495,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                     {/* Palette Theme Presets */}
                     <div>
-                      <span className="mb-1.5 block">
+                      <span className="  block">
                         Fireplace Palette Preset
                       </span>
                       <div className="grid grid-cols-2 gap-1.5">
@@ -1534,7 +1538,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {/* Preset Swatch Shortcuts */}
                       <div className="border-t border-white/10 pt-2">
-                        <span className="mb-1.5 block text-[10px] text-white/50">
+                        <span className="  block text-[10px] text-white/50">
                           Quick Swatch Presets
                         </span>
                         <div className="flex flex-wrap gap-1.5">
@@ -2114,7 +2118,7 @@ lerpSpeed: ${lerpSpeed}`;
       )}
 
       {/* 100VW FULL-SCREEN STAGE CONTAINER */}
-      <div className="relative z-[100] w-full overflow-x-clip">
+      <div className="relative z-[100] w-full overflow-visible">
         {/* 5-CARD FULL-SCREEN CANVAS */}
         <div
           ref={containerRef}
@@ -2186,7 +2190,7 @@ lerpSpeed: ${lerpSpeed}`;
                         {/* WebGL Pixel Fireplace Shader Canvas behind Active Band Member */}
                         {isCanvasEnabled && Math.abs(activeIndex - i) <= 1 && (
                           <div
-                            className="pointer-events-none absolute inset-x-[-20%] top-[-10%] bottom-[60px] z-[-1] overflow-hidden md:bottom-[80px]"
+                            className="bio-fireplace-canvas pointer-events-none absolute inset-x-[-20%] top-[-25%] bottom-[60px] z-[-1] overflow-hidden md:bottom-[80px]"
                             style={{
                               opacity: isActive ? canvasOpacity / 100 : 0,
                             }}
@@ -2208,7 +2212,7 @@ lerpSpeed: ${lerpSpeed}`;
                         )}
                         {/* Radiant Gradient Glow behind Active Image Cutout */}
                         <div
-                          className="pointer-events-none absolute inset-x-[-15%] top-[-10%] bottom-[40px] z-[0] origin-center rounded-full mix-blend-screen blur-2xl md:blur-3xl"
+                          className="pointer-events-none absolute inset-x-[-15%] top-[-25%] bottom-[40px] z-[0] origin-center rounded-full mix-blend-screen blur-2xl md:blur-3xl"
                           style={{
                             background: getGlowGradient(),
                             opacity: isActive ? glowOpacity / 100 : 0,

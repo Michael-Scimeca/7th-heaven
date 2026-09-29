@@ -144,6 +144,7 @@ export default function CountdownTimer({
               className={`flex flex-col items-center justify-center ${compact ? "min-w-[28px] px-1 py-0.5 sm:min-w-[34px]" : "min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]"}`}
             >
               <span
+                suppressHydrationWarning
                 className={`leading-none font-black tabular-nums ${compact ? "sm:" : "text-[clamp(18px,4.5vw,3.5rem)]"}`}
                 style={{ color: numberColor }}
               >

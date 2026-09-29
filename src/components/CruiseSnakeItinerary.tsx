@@ -30,6 +30,7 @@ import Lenis from "lenis";
 import type * as THREE from "three";
 
 import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
+import LazyHeavy from "@/components/LazyHeavy";
 
 // Suppress blob URL texture errors that occur during page transitions
 suppressBlobTextureErrors();
@@ -798,11 +799,14 @@ export default function CruiseSnakeItinerary({
         shipRotYRef.current = headingLeft ? Math.PI : 0;
 
         if (shipContainerRef.current) {
-          const xPct = (pt.x / SVG_W) * 100;
-          const yPct = (pt.y / totalH) * 100;
           const ship = shipContainerRef.current;
-          ship.style.setProperty("--ship-x", `${xPct}%`);
-          ship.style.setProperty("--ship-y", `${yPct}%`);
+          const container = ship.parentElement;
+          const cw = container?.clientWidth || SVG_W;
+          const ch = container?.clientHeight || totalH;
+          const xPx = (pt.x / SVG_W) * cw;
+          const yPx = (pt.y / totalH) * ch;
+          ship.style.setProperty("--ship-x-px", `${xPx.toFixed(1)}px`);
+          ship.style.setProperty("--ship-y-px", `${yPx.toFixed(1)}px`);
           ship.style.setProperty("--ship-angle", `${angle}rad`);
           ship.style.setProperty("--ship-opacity", opacityVal.toFixed(3));
         }
@@ -893,902 +897,918 @@ export default function CruiseSnakeItinerary({
 
   return (
     <section
-      className="snake-itinerary-root relative overflow-hidden site-container"
+      id="cruise-itinerary"
+      aria-labelledby="cruise-itinerary-heading"
+      className="section relative site-container"
       ref={sectionRef}
     >
-
-
-      {/* ── Header (Inside Blue Container Box) ── */}
-      {!hideHeader && (
-        <div className="snake-itinerary-header">
-          <span className="snake-itinerary-eyebrow">
-            <span>—</span> Your Voyage <span>—</span>
-          </span>
-          <h2 id="itinerary" className="snake-itinerary-title">
+      <div className="snake-itinerary-root relative overflow-hidden ">
+        {/* ── Header (Inside Blue Container Box) ── */}
+        {hideHeader ? (
+          <h2 id="cruise-itinerary-heading" className="sr-only">
             Official Itinerary
           </h2>
-        </div>
-      )}
-
-      {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
-      {showSettings &&
-        mounted &&
-        createPortal(
-          <div
-            data-settings-panel
-            className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto  border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)]"
-          >
-            <div className="sticky top-0 z-10 mb-6 flex items-center justify-between border-b border-white/10 pt-1 pb-3 text-white/60">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">⚙️</span>
-                <div>
-                  <h3>SVG Path, Speed & Boat Controls</h3>
-                  <p>All real-time physics tuning parameters</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setShowSettings(false)}
-                className="cursor-pointer bg-white/10 px-3 py-1.5 hover:bg-white/20 hover:text-white"
-              >
-                ✕ Close
-              </button>
-            </div>
-
-            {/* Controls Sliders Grid — 2-Column organized sections */}
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              {/* SECTION 1: Velocity & Viewport Triggers */}
-              <div className="space-y-2 border border-purple-400/40 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 p-3.5 shadow-[0_0_15px_rgba(6,182,212,0.2)] md:col-span-2">
-                <div className="flex items-center justify-between">
-                  <span>⚡ Cruise Boat & Line Travel Speed</span>
-                  <span>{(tuning.speedMultiplier ?? 1.0).toFixed(1)}x</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.2"
-                  max="4.0"
-                  step="0.1"
-                  value={tuning.speedMultiplier ?? 1.0}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      speedMultiplier: Number(e.target.value),
-                    })
-                  }
-                  className="h-2 w-full cursor-pointer accent-cyan-400"
-                />
-                <div className="flex justify-between text-white/50">
-                  <span>0.2x (Slow Motion)</span>
-                  <span>1.0x (1:1 Viewport Lock)</span>
-                  <span>4.0x (Hyper Speed)</span>
-                </div>
-              </div>
-
-              {/* Ship Bow Path Advance Offset */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>🚢 Ship Bow Path Advance Offset</span>
-                  <span>{tuning.shipAdvancePx ?? 80}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="-200"
-                  max="300"
-                  step="5"
-                  value={tuning.shipAdvancePx ?? 80}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      shipAdvancePx: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* Blue Line Lead / Lag Offset */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>🌊 Blue Line Lead/Lag Offset</span>
-                  <span>{tuning.lineFillLeadPx ?? 0}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="-200"
-                  max="200"
-                  step="5"
-                  value={tuning.lineFillLeadPx ?? 0}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      lineFillLeadPx: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* Start Trigger Location */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>📍 Start Trigger Location</span>
-                  <span>
-                    {((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="0.0"
-                  max="1.0"
-                  step="0.01"
-                  value={tuning.scrollStartMul ?? 0.48}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      scrollStartMul: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* End Trigger Location */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>📍 End Trigger Location</span>
-                  <span>
-                    {((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="0.0"
-                  max="1.0"
-                  step="0.01"
-                  value={tuning.scrollEndMul ?? 0.5}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      scrollEndMul: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* Start Node Padding */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>🛑 Start Path Padding</span>
-                  <span>{tuning.minShipDist ?? 0}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="400"
-                  step="10"
-                  value={tuning.minShipDist ?? 0}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      minShipDist: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* End Node Padding */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>🏁 End Path Finish Padding</span>
-                  <span>{tuning.maxShipDistPad ?? 0}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="400"
-                  step="10"
-                  value={tuning.maxShipDistPad ?? 0}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      maxShipDistPad: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* Anchor X Offset */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>⚓ Anchor X Offset</span>
-                  <span>{tuning.anchorOffsetX ?? 0}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="-100"
-                  max="100"
-                  step="1"
-                  value={tuning.anchorOffsetX ?? 0}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      anchorOffsetX: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* Anchor Y Offset */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>⚓ Anchor Y Offset</span>
-                  <span>{tuning.anchorOffsetY ?? 0}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="-100"
-                  max="100"
-                  step="1"
-                  value={tuning.anchorOffsetY ?? 0}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      anchorOffsetY: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* 3D Ship Model Scale */}
-              <div className="space-y-1.5 border border-white/10 bg-black/30 p-3 backdrop-blur-sm">
-                <div className="/90 flex items-center justify-between">
-                  <span>🔎 3D Ship Scale</span>
-                  <span>{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.05"
-                  max="8.0"
-                  step="0.05"
-                  value={tuning.shipScale ?? 1.8}
-                  onChange={(e) =>
-                    setTuning({ ...tuning, shipScale: Number(e.target.value) })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* 3D Hull Y Offset */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>⚓ Hull Y Path Offset</span>
-                  <span>{(tuning.shipOffsetY ?? 0.0).toFixed(1)}</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.0"
-                  max="3.0"
-                  step="0.1"
-                  value={tuning.shipOffsetY ?? 0.0}
-                  onChange={(e) =>
-                    setTuning({
-                      ...tuning,
-                      shipOffsetY: Number(e.target.value),
-                    })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
-              <div className="col-span-1 mt-2 space-y-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
-                <div className="flex items-center gap-2 border-b border-white/10 pb-2">
-                  <span>📍</span>
-                  <h3>Port Circle & Corner Arrival Controls</h3>
-                </div>
-
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                  {/* Action Mode Toggle */}
-                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                    <span className="/90 block">Port Circle Action</span>
-                    <div className="flex gap-1.5 pt-1">
-                      {[
-                        { id: "hide", label: "🙈 Hide & Flip" },
-                        { id: "bounce", label: "🏀 Elastic Bounce" },
-                        { id: "spin", label: "🌀 Spin & Dock" },
-                      ].map((act) => (
-                        <button
-                          key={act.id}
-                          onClick={() =>
-                            setTuning({ ...tuning, nodeAction: act.id })
-                          }
-                          className={`flex-1  px-2 py-1.5 ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"}`}
-                        >
-                          {act.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Min Scale Over Circle */}
-                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                    <div className="/90 flex items-center justify-between">
-                      <span>🔎 Min Scale Over Circle</span>
-                      <span>{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0.0"
-                      max="1.0"
-                      step="0.05"
-                      value={tuning.nodeMinScale ?? 0.0}
-                      onChange={(e) =>
-                        setTuning({
-                          ...tuning,
-                          nodeMinScale: Number(e.target.value),
-                        })
-                      }
-                      className="w-full cursor-pointer accent-cyan-400"
-                    />
-                  </div>
-
-                  {/* Scale Down Distance */}
-                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                    <div className="/90 flex items-center justify-between">
-                      <span>📏 Scale Down Trigger Radius</span>
-                      <span>{tuning.nodeDipRadius ?? 65}px</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="20"
-                      max="250"
-                      step="5"
-                      value={tuning.nodeDipRadius ?? 65}
-                      onChange={(e) =>
-                        setTuning({
-                          ...tuning,
-                          nodeDipRadius: Number(e.target.value),
-                        })
-                      }
-                      className="w-full cursor-pointer accent-cyan-400"
-                    />
-                  </div>
-
-                  {/* Re-appear Pop Distance */}
-                  <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                    <div className="/90 flex items-center justify-between">
-                      <span>🚀 Re-appear Pop Distance</span>
-                      <span>{tuning.nodePopDist ?? 60}px</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="20"
-                      max="200"
-                      step="5"
-                      value={tuning.nodePopDist ?? 60}
-                      onChange={(e) =>
-                        setTuning({
-                          ...tuning,
-                          nodePopDist: Number(e.target.value),
-                        })
-                      }
-                      className="w-full cursor-pointer accent-cyan-400"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Boat Smoothness Lerp */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>🚢 Tracking Smoothness Lerp</span>
-                  <span>{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.05"
-                  max="1.0"
-                  step="0.05"
-                  value={tuning.lerpSpeed ?? 0.85}
-                  onChange={(e) =>
-                    setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* Wave Ripple Height */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>🌊 Wave Ripple Height</span>
-                  <span>{tuning.rippleAmp ?? 7}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="40"
-                  step="1"
-                  value={tuning.rippleAmp ?? 7}
-                  onChange={(e) =>
-                    setTuning({ ...tuning, rippleAmp: Number(e.target.value) })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* Wave Animation Speed */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>⏱️ Wave Motion Speed</span>
-                  <span>
-                    {((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="0.0001"
-                  max="0.0050"
-                  step="0.0001"
-                  value={tuning.waveSpeed ?? 0.0011}
-                  onChange={(e) =>
-                    setTuning({ ...tuning, waveSpeed: Number(e.target.value) })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* SVG Line Thickness */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>📏 SVG Line Thickness</span>
-                  <span>{tuning.lineWidth ?? 6}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="2"
-                  max="20"
-                  step="1"
-                  value={tuning.lineWidth ?? 6}
-                  onChange={(e) =>
-                    setTuning({ ...tuning, lineWidth: Number(e.target.value) })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              {/* SVG Glow Radius */}
-              <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                <div className="/90 flex items-center justify-between">
-                  <span>✨ Neon Glow Blur</span>
-                  <span>{tuning.glowBlur ?? 6}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="25"
-                  step="1"
-                  value={tuning.glowBlur ?? 6}
-                  onChange={(e) =>
-                    setTuning({ ...tuning, glowBlur: Number(e.target.value) })
-                  }
-                  className="w-full cursor-pointer accent-cyan-400"
-                />
-              </div>
-            </div>
-
-            {/* Actions Bar */}
-            <div className="sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 pb-1 text-white/40 backdrop-blur-2xl">
-              <button
-                onClick={handleResetTuning}
-                className="btn-secondary cursor-pointer  px-4 py-2.5"
-              >
-                🔄 Reset to Defaults
-              </button>
-
-              <div className="flex items-center gap-3">
-                {saveToast && <span className="">✓ Settings Saved!</span>}
-                <button
-                  onClick={handleSaveTuning}
-                  className="cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:bg-cyan-400"
-                >
-                  💾 Save Settings
-                </button>
-              </div>
-            </div>
-          </div>,
-          document.body,
+        ) : (
+          <div className="snake-itinerary-header">
+            <span className="snake-itinerary-eyebrow">
+              <span>—</span> Your Voyage <span>—</span>
+            </span>
+            <h2 id="cruise-itinerary-heading" className="snake-itinerary-title">
+              Official Itinerary
+            </h2>
+          </div>
         )}
 
-      {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
-      <div
-        ref={canvasRef}
-        className="snake-itinerary-canvas"
-        style={{
-          position: "relative",
-          height: totalH,
-          width: "100%",
-          maxWidth: "100%",
-        }}
-      >
-        {/* SVG — path + nodes */}
-        <svg
-          className="snake-itinerary-svg"
-          viewBox={`0 0 ${SVG_W} ${totalH}`}
-          preserveAspectRatio="none"
-          aria-hidden="true"
+        {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
+        {showSettings &&
+          mounted &&
+          createPortal(
+            <div
+              data-settings-panel
+              className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto  border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)]"
+            >
+              <div className="sticky top-0 z-10 mb-6 flex items-center justify-between border-b border-white/10 pt-1 pb-3 text-white/60">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">⚙️</span>
+                  <div>
+                    <h3>SVG Path, Speed & Boat Controls</h3>
+                    <p>All real-time physics tuning parameters</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowSettings(false)}
+                  className="cursor-pointer bg-white/10 px-3 py-1.5 hover:bg-white/20 hover:text-white"
+                >
+                  ✕ Close
+                </button>
+              </div>
+
+              {/* Controls Sliders Grid — 2-Column organized sections */}
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                {/* SECTION 1: Velocity & Viewport Triggers */}
+                <div className="space-y-2 border border-purple-400/40 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 p-3.5 shadow-[0_0_15px_rgba(6,182,212,0.2)] md:col-span-2">
+                  <div className="flex items-center justify-between">
+                    <span>⚡ Cruise Boat & Line Travel Speed</span>
+                    <span>{(tuning.speedMultiplier ?? 1.0).toFixed(1)}x</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.2"
+                    max="4.0"
+                    step="0.1"
+                    value={tuning.speedMultiplier ?? 1.0}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        speedMultiplier: Number(e.target.value),
+                      })
+                    }
+                    className="h-2 w-full cursor-pointer accent-cyan-400"
+                  />
+                  <div className="flex justify-between text-white/50">
+                    <span>0.2x (Slow Motion)</span>
+                    <span>1.0x (1:1 Viewport Lock)</span>
+                    <span>4.0x (Hyper Speed)</span>
+                  </div>
+                </div>
+
+                {/* Ship Bow Path Advance Offset */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>🚢 Ship Bow Path Advance Offset</span>
+                    <span>{tuning.shipAdvancePx ?? 80}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-200"
+                    max="300"
+                    step="5"
+                    value={tuning.shipAdvancePx ?? 80}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        shipAdvancePx: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* Blue Line Lead / Lag Offset */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>🌊 Blue Line Lead/Lag Offset</span>
+                    <span>{tuning.lineFillLeadPx ?? 0}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-200"
+                    max="200"
+                    step="5"
+                    value={tuning.lineFillLeadPx ?? 0}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        lineFillLeadPx: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* Start Trigger Location */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>📍 Start Trigger Location</span>
+                    <span>
+                      {((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.0"
+                    max="1.0"
+                    step="0.01"
+                    value={tuning.scrollStartMul ?? 0.48}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        scrollStartMul: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* End Trigger Location */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>📍 End Trigger Location</span>
+                    <span>
+                      {((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.0"
+                    max="1.0"
+                    step="0.01"
+                    value={tuning.scrollEndMul ?? 0.5}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        scrollEndMul: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* Start Node Padding */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>🛑 Start Path Padding</span>
+                    <span>{tuning.minShipDist ?? 0}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="400"
+                    step="10"
+                    value={tuning.minShipDist ?? 0}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        minShipDist: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* End Node Padding */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>🏁 End Path Finish Padding</span>
+                    <span>{tuning.maxShipDistPad ?? 0}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="400"
+                    step="10"
+                    value={tuning.maxShipDistPad ?? 0}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        maxShipDistPad: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* Anchor X Offset */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>⚓ Anchor X Offset</span>
+                    <span>{tuning.anchorOffsetX ?? 0}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-100"
+                    max="100"
+                    step="1"
+                    value={tuning.anchorOffsetX ?? 0}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        anchorOffsetX: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* Anchor Y Offset */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>⚓ Anchor Y Offset</span>
+                    <span>{tuning.anchorOffsetY ?? 0}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-100"
+                    max="100"
+                    step="1"
+                    value={tuning.anchorOffsetY ?? 0}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        anchorOffsetY: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* 3D Ship Model Scale */}
+                <div className="space-y-1.5 border border-white/10 bg-black/30 p-3 backdrop-blur-sm">
+                  <div className="/90 flex items-center justify-between">
+                    <span>🔎 3D Ship Scale</span>
+                    <span>{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.05"
+                    max="8.0"
+                    step="0.05"
+                    value={tuning.shipScale ?? 1.8}
+                    onChange={(e) =>
+                      setTuning({ ...tuning, shipScale: Number(e.target.value) })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* 3D Hull Y Offset */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>⚓ Hull Y Path Offset</span>
+                    <span>{(tuning.shipOffsetY ?? 0.0).toFixed(1)}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.0"
+                    max="3.0"
+                    step="0.1"
+                    value={tuning.shipOffsetY ?? 0.0}
+                    onChange={(e) =>
+                      setTuning({
+                        ...tuning,
+                        shipOffsetY: Number(e.target.value),
+                      })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
+                <div className="col-span-1 mt-2 space-y-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
+                  <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                    <span>📍</span>
+                    <h3>Port Circle & Corner Arrival Controls</h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    {/* Action Mode Toggle */}
+                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                      <span className="/90 block">Port Circle Action</span>
+                      <div className="flex gap-1.5 pt-1">
+                        {[
+                          { id: "hide", label: "🙈 Hide & Flip" },
+                          { id: "bounce", label: "🏀 Elastic Bounce" },
+                          { id: "spin", label: "🌀 Spin & Dock" },
+                        ].map((act) => (
+                          <button
+                            key={act.id}
+                            onClick={() =>
+                              setTuning({ ...tuning, nodeAction: act.id })
+                            }
+                            className={`flex-1  px-2 py-1.5 ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"}`}
+                          >
+                            {act.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Min Scale Over Circle */}
+                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                      <div className="/90 flex items-center justify-between">
+                        <span>🔎 Min Scale Over Circle</span>
+                        <span>{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0.0"
+                        max="1.0"
+                        step="0.05"
+                        value={tuning.nodeMinScale ?? 0.0}
+                        onChange={(e) =>
+                          setTuning({
+                            ...tuning,
+                            nodeMinScale: Number(e.target.value),
+                          })
+                        }
+                        className="w-full cursor-pointer accent-cyan-400"
+                      />
+                    </div>
+
+                    {/* Scale Down Distance */}
+                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                      <div className="/90 flex items-center justify-between">
+                        <span>📏 Scale Down Trigger Radius</span>
+                        <span>{tuning.nodeDipRadius ?? 65}px</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="20"
+                        max="250"
+                        step="5"
+                        value={tuning.nodeDipRadius ?? 65}
+                        onChange={(e) =>
+                          setTuning({
+                            ...tuning,
+                            nodeDipRadius: Number(e.target.value),
+                          })
+                        }
+                        className="w-full cursor-pointer accent-cyan-400"
+                      />
+                    </div>
+
+                    {/* Re-appear Pop Distance */}
+                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                      <div className="/90 flex items-center justify-between">
+                        <span>🚀 Re-appear Pop Distance</span>
+                        <span>{tuning.nodePopDist ?? 60}px</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="20"
+                        max="200"
+                        step="5"
+                        value={tuning.nodePopDist ?? 60}
+                        onChange={(e) =>
+                          setTuning({
+                            ...tuning,
+                            nodePopDist: Number(e.target.value),
+                          })
+                        }
+                        className="w-full cursor-pointer accent-cyan-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Boat Smoothness Lerp */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>🚢 Tracking Smoothness Lerp</span>
+                    <span>{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.05"
+                    max="1.0"
+                    step="0.05"
+                    value={tuning.lerpSpeed ?? 0.85}
+                    onChange={(e) =>
+                      setTuning({ ...tuning, lerpSpeed: Number(e.target.value) })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* Wave Ripple Height */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>🌊 Wave Ripple Height</span>
+                    <span>{tuning.rippleAmp ?? 7}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="40"
+                    step="1"
+                    value={tuning.rippleAmp ?? 7}
+                    onChange={(e) =>
+                      setTuning({ ...tuning, rippleAmp: Number(e.target.value) })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* Wave Animation Speed */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>⏱️ Wave Motion Speed</span>
+                    <span>
+                      {((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.0001"
+                    max="0.0050"
+                    step="0.0001"
+                    value={tuning.waveSpeed ?? 0.0011}
+                    onChange={(e) =>
+                      setTuning({ ...tuning, waveSpeed: Number(e.target.value) })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* SVG Line Thickness */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>📏 SVG Line Thickness</span>
+                    <span>{tuning.lineWidth ?? 6}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="2"
+                    max="20"
+                    step="1"
+                    value={tuning.lineWidth ?? 6}
+                    onChange={(e) =>
+                      setTuning({ ...tuning, lineWidth: Number(e.target.value) })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                {/* SVG Glow Radius */}
+                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                  <div className="/90 flex items-center justify-between">
+                    <span>✨ Neon Glow Blur</span>
+                    <span>{tuning.glowBlur ?? 6}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="25"
+                    step="1"
+                    value={tuning.glowBlur ?? 6}
+                    onChange={(e) =>
+                      setTuning({ ...tuning, glowBlur: Number(e.target.value) })
+                    }
+                    className="w-full cursor-pointer accent-cyan-400"
+                  />
+                </div>
+              </div>
+
+              {/* Actions Bar */}
+              <div className="sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 pb-1 text-white/40 backdrop-blur-2xl">
+                <button
+                  onClick={handleResetTuning}
+                  className="btn-secondary cursor-pointer  px-4 py-2.5"
+                >
+                  🔄 Reset to Defaults
+                </button>
+
+                <div className="flex items-center gap-3">
+                  {saveToast && <span className="">✓ Settings Saved!</span>}
+                  <button
+                    onClick={handleSaveTuning}
+                    className="cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:bg-cyan-400"
+                  >
+                    💾 Save Settings
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )}
+
+        {/* ── CANVAS: Holds the SVG Track + 3D Cruise Ship + HTML Card Layout ── */}
+        <div
+          ref={canvasRef}
+          className="snake-itinerary-canvas"
           style={{
-            position: "absolute",
-            inset: 0,
+            position: "relative",
+            height: totalH,
             width: "100%",
-            height: "100%",
-            pointerEvents: "none",
+            maxWidth: "100%",
           }}
         >
-          {/* FULL ROUTE GUIDE TRACK — Translucent route track line */}
-          <path
-            ref={trackRef}
-            d={initialPathD}
-            fill="none"
-            stroke="rgba(110, 54, 188, 0.39)"
-            strokeWidth={tuning.lineWidth ?? 6}
-            strokeLinecap="round"
-            style={{ fill: "none" }}
-          />
-
-          {/* BRIGHT FILL — scroll-driven, fills as you travel */}
-          <path
-            ref={fillRef}
-            d={initialPathD}
-            fill="none"
-            stroke="#742599d3"
-            strokeWidth={tuning.lineWidth ?? 6}
-            strokeLinecap="round"
-            style={{ fill: "none" }}
-          />
-
-          {/* Flowing current dashes on the fill */}
-          <path
-            ref={currentRef}
-            d={initialPathD}
-            fill="none"
-            stroke="rgba(123, 23, 172, 0.9)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeDasharray="12 24 6 18"
-            className="snake-itinerary-waterCurrent"
-            style={{ fill: "none" }}
-          />
-
-          {/* Bright flowing highlights */}
-          <path
-            ref={highlightRef}
-            d={initialPathD}
-            fill="none"
-            stroke="rgba(255,255,255,0.3)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeDasharray="4 40 2 50"
-            className="snake-itinerary-waterHighlight"
-            style={{ fill: "none" }}
-          />
-        </svg>
-
-        {/* HTML cards — absolutely positioned at each node's coordinates according to layoutMode */}
-        {Array.from(nodes, (node, i) => ({ node, i })).map(({ node, i }) => {
-          const day = itinerary[i];
-          if (!day) return null;
-          const topPct = (node.y / totalH) * 100;
-          const leftPct = (node.x / SVG_W) * 100;
-          const themeColor = day.colorTheme || (node.isLeft ? "#fff" : "#fff");
-          const dayImage = isAtSeaDay(day)
-            ? "/images/cruise/at-sea.png"
-            : day?.photo || DAY_IMAGES[i % 6];
-
-          const cardContent = (
-            <div className="group">
-              {dayImage && (
-                <div className="relative aspect-[21/9] w-full overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
-                  <Image
-                    width={200}
-                    height={200}
-                    unoptimized
-                    src={dayImage}
-                    alt={day.theme}
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                </div>
-              )}
-              {/* Card content header & events list with responsive inner padding */}
-              <div className="rounded-r-2xl rounded-b-2xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur-xl md:p-6">
-                <div className="mb-6 flex items-center justify-between gap-3 border-b border-white/10 pb-3">
-                  <h3 className="text-xl font-black md:text-2xl">
-                    {day.theme}
-                  </h3>
-                  {day.location && (
-                    <span className="md: shrink-0 rounded-full border border-purple-500/30 bg-purple-500/20 px-2.5 py-1 ">
-                      {day.location}
-                    </span>
-                  )}
-                </div>
-                <div className="space-y-4">
-                  {day.events.map((ev) => {
-                    const isGuitar =
-                      ev.title.includes("🎸") ||
-                      (ev as any).cat === "band" ||
-                      ev.title.toLowerCase().includes("concert") ||
-                      ev.title.toLowerCase().includes("live") ||
-                      ev.title.toLowerCase().includes("unplugged") ||
-                      ev.title.toLowerCase().includes("jam") ||
-                      ev.title.toLowerCase().includes("set");
-                    const isShip =
-                      ev.title.includes("🚢") ||
-                      ev.title.toLowerCase().includes("check-in") ||
-                      ev.title.toLowerCase().includes("boarding") ||
-                      ev.title.toLowerCase().includes("sail");
-                    const isIsland =
-                      ev.title.includes("🏝️") ||
-                      ev.title.toLowerCase().includes("cococay") ||
-                      ev.title.toLowerCase().includes("beach") ||
-                      ev.title.toLowerCase().includes("island") ||
-                      ev.title.toLowerCase().includes("excursion");
-                    const cleanTitle = ev.title.replace(
-                      /^[🎸🚢🏝️🌊⚓📍🎤🍹🥂⭐]\s*/u,
-                      "",
-                    );
-
-                    return (
-                      <div
-                        key={ev.id}
-                        className="relative border-l-2 border-purple-500/40 py-0.5 pl-3.5 hover:border-cyan-400"
-                      >
-                        {ev.time && (
-                          <div className="mb-1 inline-flex items-center rounded border border-purple-500/30 bg-purple-500/20 px-2 py-0.5 font-bold">
-                            {ev.time}
-                          </div>
-                        )}
-                        <div className="flex items-start gap-2">
-                          <span className="mt-0.5 shrink-0">
-                            {isGuitar && (
-                              <Guitar className="h-4 w-4 text-purple-400" />
-                            )}
-                            {!isGuitar && isShip && (
-                              <Ship className="h-4 w-4 text-cyan-400" />
-                            )}
-                            {!isGuitar && !isShip && isIsland && (
-                              <Palmtree className="h-4 w-4 text-emerald-400" />
-                            )}
-                            {!isGuitar && !isShip && !isIsland && (
-                              <Compass className="h-4 w-4" />
-                            )}
-                          </span>
-                          <span>{cleanTitle}</span>
-                        </div>
-                        {ev.subtitle && (
-                          <div className="mt-0.5 pl-6 text-white/60">
-                            {ev.subtitle}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          );
-
-          // Card layout positioning logic per layoutMode
-          let cardStyle: React.CSSProperties = {
-            position: "absolute",
-            top: isMobile ? `${((node.y + 40) / totalH) * 100}%` : `${topPct}%`,
-            zIndex: 20,
-          };
-
-          if (isMobile) {
-            // Mobile card layout with 12px horizontal margins
-            cardStyle = {
-              ...cardStyle,
-              left: "12px",
-              right: "12px",
-              width: "calc(100% - 24px)",
-              maxWidth: "calc(100% - 24px)",
-            };
-          } else if (layoutMode === "harbor") {
-            // All cards aligned cleanly to the right of the harbor channel
-            cardStyle = {
-              ...cardStyle,
-              left: "220px",
-              width: "740px",
-            };
-          } else if (layoutMode === "center") {
-            // Cards centered directly along the central channel
-            cardStyle = {
-              ...cardStyle,
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "760px",
-              maxWidth: "760px",
-            };
-          } else if (layoutMode === "zigzag") {
-            // Compact zig-zag cards
-            cardStyle = {
-              ...cardStyle,
-              ...(node.isLeft
-                ? { left: `${leftPct}%` }
-                : { right: `${100 - leftPct}%` }),
-              width: "640px",
-            };
-          } else {
-            // Wide Screen Sweep (default) — 0px edge alignment
-            cardStyle = {
-              ...cardStyle,
-              ...(node.isLeft ? { left: "0px" } : { right: "0px" }),
-              width: "min(620px, 42vw)",
-              maxWidth: "620px",
-            };
-          }
-          return (
-            <div
-              key={`card-${i}-${day?.theme || day?.location || "day"}`}
-              ref={(el) => {
-                cardRefs.current[i] = el;
-              }}
-              className={`snake-itinerary-card overflow-hidden rounded-[28px] ${!isMobile && !node.isLeft ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"}`}
-              style={cardStyle}
-            >
-              {cardContent}
-            </div>
-          );
-        })}
-
-        {/* 3D Cruise Ship follower riding the leading edge of the SVG fill */}
-        <div
-          ref={shipContainerRef}
-          className="snake-ship-marker pointer-events-none z-5 overflow-visible transition-none w-[220px] h-[220px] md:w-[380px] md:h-[380px]"
-        >
-          <Canvas
-            orthographic
-            gl={{
-              powerPreference: "high-performance",
-              antialias: true,
-              alpha: true,
+          {/* SVG — path + nodes */}
+          <svg
+            className="snake-itinerary-svg"
+            viewBox={`0 0 ${SVG_W} ${totalH}`}
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none",
             }}
-            camera={{
-              left: -250,
-              right: 250,
-              top: 250,
-              bottom: -250,
-              zoom: isMobile ? 42 : 55,
-              position: [0, 0, 100],
-            }}
-            style={{ width: "100%", height: "100%", overflow: "visible" }}
           >
-            {process.env.NODE_ENV === "development" && (
-              <StatsGl className="r3f-gpu-stats" />
-            )}
-            <ambientLight intensity={1.5} />
-            <directionalLight position={[5, 10, 5]} intensity={2} />
-            <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
-            <ShipErrorBoundary
-              fallback={
-                <FallbackSnakeShip
-                  scale={tuning.shipScale || 1.0}
-                  offsetY={tuning.shipOffsetY}
-                  shipRotYRef={shipRotYRef}
-                  shipScaleFactorRef={shipScaleFactorRef}
-                />
-              }
+            {/* FULL ROUTE GUIDE TRACK — Translucent route track line */}
+            <path
+              ref={trackRef}
+              d={initialPathD}
+              fill="none"
+              stroke="rgba(110, 54, 188, 0.39)"
+              strokeWidth={tuning.lineWidth ?? 6}
+              strokeLinecap="round"
+              style={{ fill: "none" }}
+            />
+
+            {/* BRIGHT FILL — scroll-driven, fills as you travel */}
+            <path
+              ref={fillRef}
+              d={initialPathD}
+              fill="none"
+              stroke="#742599d3"
+              strokeWidth={tuning.lineWidth ?? 6}
+              strokeLinecap="round"
+              style={{ fill: "none" }}
+            />
+
+            {/* Flowing current dashes on the fill */}
+            <path
+              ref={currentRef}
+              d={initialPathD}
+              fill="none"
+              stroke="rgba(123, 23, 172, 0.9)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeDasharray="12 24 6 18"
+              className="snake-itinerary-waterCurrent"
+              style={{ fill: "none" }}
+            />
+
+            {/* Bright flowing highlights */}
+            <path
+              ref={highlightRef}
+              d={initialPathD}
+              fill="none"
+              stroke="rgba(255,255,255,0.3)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeDasharray="4 40 2 50"
+              className="snake-itinerary-waterHighlight"
+              style={{ fill: "none" }}
+            />
+          </svg>
+
+          {/* HTML cards — absolutely positioned at each node's coordinates according to layoutMode */}
+          {Array.from(nodes, (node, i) => ({ node, i })).map(({ node, i }) => {
+            const day = itinerary[i];
+            if (!day) return null;
+            const topPct = (node.y / totalH) * 100;
+            const leftPct = (node.x / SVG_W) * 100;
+            const themeColor = day.colorTheme || (node.isLeft ? "#fff" : "#fff");
+            const dayImage = isAtSeaDay(day)
+              ? "/images/cruise/at-sea.png"
+              : day?.photo || DAY_IMAGES[i % 6];
+
+            const cardContent = (
+              <div className="group">
+                {dayImage && (
+                  <div className="relative aspect-[21/9] w-full overflow-hidden shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
+                    <Image
+                      width={200}
+                      height={200}
+                      unoptimized
+                      src={dayImage}
+                      alt={day.theme}
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  </div>
+                )}
+                {/* Card content header & events list with responsive inner padding */}
+                <div className="rounded-r-2xl rounded-b-2xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur-xl md:p-6">
+                  <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
+                    <h3 className="text-xl font-black md:text-2xl">
+                      {day.theme}
+                    </h3>
+                    {day.location && (
+                      <span className="rounded-full border border-purple-500/30 bg-purple-500/20 px-2.5 py-1 text-xs break-words max-w-full">
+                        {day.location}
+                      </span>
+                    )}
+                  </div>
+                  <div className="space-y-4">
+                    {day.events.map((ev) => {
+                      const isGuitar =
+                        ev.title.includes("🎸") ||
+                        (ev as any).cat === "band" ||
+                        ev.title.toLowerCase().includes("concert") ||
+                        ev.title.toLowerCase().includes("live") ||
+                        ev.title.toLowerCase().includes("unplugged") ||
+                        ev.title.toLowerCase().includes("jam") ||
+                        ev.title.toLowerCase().includes("set");
+                      const isShip =
+                        ev.title.includes("🚢") ||
+                        ev.title.toLowerCase().includes("check-in") ||
+                        ev.title.toLowerCase().includes("boarding") ||
+                        ev.title.toLowerCase().includes("sail");
+                      const isIsland =
+                        ev.title.includes("🏝️") ||
+                        ev.title.toLowerCase().includes("cococay") ||
+                        ev.title.toLowerCase().includes("beach") ||
+                        ev.title.toLowerCase().includes("island") ||
+                        ev.title.toLowerCase().includes("excursion");
+                      const cleanTitle = ev.title.replace(
+                        /^[🎸🚢🏝️🌊⚓📍🎤🍹🥂⭐]\s*/u,
+                        "",
+                      );
+
+                      return (
+                        <div
+                          key={ev.id}
+                          className="relative border-l-2 border-purple-500/40 py-0.5 pl-3.5 hover:border-cyan-400"
+                        >
+                          {ev.time && (
+                            <div className="mb-1 inline-flex items-center rounded border border-purple-500/30 bg-purple-500/20 px-2 py-0.5 font-bold">
+                              {ev.time}
+                            </div>
+                          )}
+                          <div className="flex items-start gap-2">
+                            <span className="mt-0.5 shrink-0">
+                              {isGuitar && (
+                                <Guitar className="h-4 w-4 text-purple-400" />
+                              )}
+                              {!isGuitar && isShip && (
+                                <Ship className="h-4 w-4 text-cyan-400" />
+                              )}
+                              {!isGuitar && !isShip && isIsland && (
+                                <Palmtree className="h-4 w-4 text-emerald-400" />
+                              )}
+                              {!isGuitar && !isShip && !isIsland && (
+                                <Compass className="h-4 w-4" />
+                              )}
+                            </span>
+                            <span>{cleanTitle}</span>
+                          </div>
+                          {ev.subtitle && (
+                            <div className="mt-0.5 pl-6 text-white/60">
+                              {ev.subtitle}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+
+            // Card layout positioning logic per layoutMode
+            let cardStyle: React.CSSProperties = {
+              position: "absolute",
+              top: isMobile ? `${((node.y + 40) / totalH) * 100}%` : `${topPct}%`,
+              zIndex: 20,
+            };
+
+            if (isMobile) {
+              // Mobile card layout with 12px horizontal margins
+              cardStyle = {
+                ...cardStyle,
+                left: "12px",
+                right: "12px",
+                width: "calc(100% - 24px)",
+                maxWidth: "calc(100% - 24px)",
+              };
+            } else if (layoutMode === "harbor") {
+              // All cards aligned cleanly to the right of the harbor channel
+              cardStyle = {
+                ...cardStyle,
+                left: "220px",
+                width: "740px",
+              };
+            } else if (layoutMode === "center") {
+              // Cards centered directly along the central channel
+              cardStyle = {
+                ...cardStyle,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "760px",
+                maxWidth: "760px",
+              };
+            } else if (layoutMode === "zigzag") {
+              // Compact zig-zag cards
+              cardStyle = {
+                ...cardStyle,
+                ...(node.isLeft
+                  ? { left: `${leftPct}%` }
+                  : { right: `${100 - leftPct}%` }),
+                width: "640px",
+              };
+            } else {
+              // Wide Screen Sweep (default) — 0px edge alignment
+              cardStyle = {
+                ...cardStyle,
+                ...(node.isLeft ? { left: "0px" } : { right: "0px" }),
+                width: "min(620px, 42vw)",
+                maxWidth: "620px",
+              };
+            }
+            return (
+              <div
+                key={`card-${i}-${day?.theme || day?.location || "day"}`}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
+                className={`snake-itinerary-card overflow-hidden rounded-[28px] ${!isMobile && !node.isLeft ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"}`}
+                style={cardStyle}
+              >
+                {cardContent}
+              </div>
+            );
+          })}
+
+          {/* 3D Cruise Ship follower riding the leading edge of the SVG fill */}
+          <div
+            ref={shipContainerRef}
+            className="snake-ship-marker pointer-events-none z-5 overflow-visible transition-none w-[220px] h-[220px] md:w-[380px] md:h-[380px]"
+          >
+            <LazyHeavy
+              minHeight="220px"
+              className="w-full h-full overflow-visible"
+              prefetch={() => {
+                if (typeof window !== "undefined") {
+                  useGLTF.preload("/objects/ship.glb");
+                }
+              }}
             >
-              <Suspense fallback={null}>
-                <ShipModel
-                  scale={tuning.shipScale || 1.0}
-                  offsetY={tuning.shipOffsetY}
-                  shipRotYRef={shipRotYRef}
-                  shipScaleFactorRef={shipScaleFactorRef}
-                />
-              </Suspense>
-            </ShipErrorBoundary>
-          </Canvas>
+              <Canvas
+                orthographic
+                gl={{
+                  powerPreference: "high-performance",
+                  antialias: true,
+                  alpha: true,
+                }}
+                camera={{
+                  left: -250,
+                  right: 250,
+                  top: 250,
+                  bottom: -250,
+                  zoom: isMobile ? 42 : 55,
+                  position: [0, 0, 100],
+                }}
+                style={{ width: "100%", height: "100%", overflow: "visible" }}
+              >
+                {process.env.NODE_ENV === "development" && (
+                  <StatsGl className="r3f-gpu-stats" />
+                )}
+                <ambientLight intensity={1.5} />
+                <directionalLight position={[5, 10, 5]} intensity={2} />
+                <pointLight position={[-5, 5, -5]} intensity={1} color="#06b6d4" />
+                <ShipErrorBoundary
+                  fallback={
+                    <FallbackSnakeShip
+                      scale={tuning.shipScale || 1.0}
+                      offsetY={tuning.shipOffsetY}
+                      shipRotYRef={shipRotYRef}
+                      shipScaleFactorRef={shipScaleFactorRef}
+                    />
+                  }
+                >
+                  <Suspense fallback={null}>
+                    <ShipModel
+                      scale={tuning.shipScale || 1.0}
+                      offsetY={tuning.shipOffsetY}
+                      shipRotYRef={shipRotYRef}
+                      shipScaleFactorRef={shipScaleFactorRef}
+                    />
+                  </Suspense>
+                </ShipErrorBoundary>
+              </Canvas>
+            </LazyHeavy>
+          </div>
+
+          {/* Node circle ring HTML overlays — video element always rendered, paused until ship reaches/passes node */}
+          {Array.from(nodes, (node, i) => ({ node, i })).map(({ node, i }) => {
+            const day = itinerary[i];
+            const isSea = isAtSeaDay(day);
+            const isActive = activeNodeIndex === i;
+            const isPassed = visitedNodes[i];
+            const videoSrc = isSea
+              ? "/movie/ship-sea.mp4"
+              : "/movie/ship-port.mp4";
+
+            const themeColor =
+              day.colorTheme || (node.isLeft ? "#06b6d4" : "#fff");
+            const formatNodeBadgeText = (d: ItineraryDay, idx: number) => {
+              const isSeaDay = isAtSeaDay(d);
+              const loc = (d.location || "").toLowerCase();
+              let locName = "PORT";
+              if (isSeaDay) locName = "DAY AT SEA";
+              else if (loc.includes("maarten")) locName = "ST. MAARTEN";
+              else if (loc.includes("thomas")) locName = "ST. THOMAS";
+              else if (loc.includes("cococay")) locName = "COCOCAY";
+              else if (loc.includes("canaveral")) locName = "PORT CANAVERAL";
+              else if (loc.includes("roatan")) locName = "ROATAN";
+              else if (loc.includes("cozumel")) locName = "COZUMEL";
+              else
+                locName = (d.location || "").split(",")[0].trim().toUpperCase();
+
+              return `DAY ${idx + 1} · ${locName}`;
+            };
+
+            return (
+              <React.Fragment
+                key={`node-group-${day?.id || i}-${day?.location || day?.theme || "day"}`}
+              >
+                {/* Day Badge — aligned with card margin on mobile */}
+                <div
+                  style={{
+                    position: "absolute",
+                    ...(isMobile
+                      ? { left: "12px", right: "auto" }
+                      : node.isLeft
+                        ? { left: "0px" }
+                        : { right: "0px", left: "auto" }),
+                    top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 46 : 40) : isActive ? 76 : 68}px)`,
+                    transform: "none",
+                    zIndex: 35,
+                    pointerEvents: "none",
+                    backgroundColor: "#060614",
+                  }}
+                  className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-3.5 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] font-bold text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"}`}
+                >
+                  {isSea ? (
+                    <Waves className="inline-block h-3.5 w-3.5 shrink-0 text-cyan-400" />
+                  ) : (
+                    <MapPin className="inline-block h-3.5 w-3.5 shrink-0 text-rose-400" />
+                  )}{" "}
+                  {formatNodeBadgeText(day, i)}
+                </div>
+                {/* Circle Video Node — aligned with card margin on mobile */}
+                <div
+                  key={`node-ring-${day?.id || i}-${day?.location || day?.theme || "day"}`}
+                  style={{
+                    position: "absolute",
+                    ...(isMobile
+                      ? { left: "16px", right: "auto" }
+                      : node.isLeft
+                        ? { left: "0px" }
+                        : { right: "0px", left: "auto" }),
+                    top: `${(node.y / totalH) * 100}%`,
+                    transform: "translate(0, -50%)",
+                    width: isMobile ? (isActive ? 68 : 56) : isActive ? 109 : 93,
+                    height: isMobile ? (isActive ? 68 : 56) : isActive ? 109 : 93,
+                    borderRadius: "50%",
+                    backgroundColor: "#0a0a12",
+                    border: isActive
+                      ? "3px solid #06b6d4"
+                      : "2px solid rgba(6,182,212,0.4)",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.6)",
+                    zIndex: isActive ? 30 : 25,
+                    overflow: "hidden",
+                    transition: "all 0.3s ease",
+                    pointerEvents: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <CircleVideoNode
+                    src={videoSrc}
+                    shouldPlay={hasScrolledIntoRange && (isActive || isPassed)}
+                  />
+                </div>
+              </React.Fragment>
+            );
+          })}
         </div>
-
-        {/* Node circle ring HTML overlays — video element always rendered, paused until ship reaches/passes node */}
-        {Array.from(nodes, (node, i) => ({ node, i })).map(({ node, i }) => {
-          const day = itinerary[i];
-          const isSea = isAtSeaDay(day);
-          const isActive = activeNodeIndex === i;
-          const isPassed = visitedNodes[i];
-          const videoSrc = isSea
-            ? "/movie/ship-sea.mp4"
-            : "/movie/ship-port.mp4";
-
-          const themeColor =
-            day.colorTheme || (node.isLeft ? "#06b6d4" : "#fff");
-          const formatNodeBadgeText = (d: ItineraryDay, idx: number) => {
-            const isSeaDay = isAtSeaDay(d);
-            const loc = (d.location || "").toLowerCase();
-            let locName = "PORT";
-            if (isSeaDay) locName = "DAY AT SEA";
-            else if (loc.includes("maarten")) locName = "ST. MAARTEN";
-            else if (loc.includes("thomas")) locName = "ST. THOMAS";
-            else if (loc.includes("cococay")) locName = "COCOCAY";
-            else if (loc.includes("canaveral")) locName = "PORT CANAVERAL";
-            else if (loc.includes("roatan")) locName = "ROATAN";
-            else if (loc.includes("cozumel")) locName = "COZUMEL";
-            else
-              locName = (d.location || "").split(",")[0].trim().toUpperCase();
-
-            return `DAY ${idx + 1} · ${locName}`;
-          };
-
-          return (
-            <React.Fragment
-              key={`node-group-${day?.id || i}-${day?.location || day?.theme || "day"}`}
-            >
-              {/* Day Badge — aligned with card margin on mobile */}
-              <div
-                style={{
-                  position: "absolute",
-                  ...(isMobile
-                    ? { left: "12px", right: "auto" }
-                    : node.isLeft
-                      ? { left: "0px" }
-                      : { right: "0px", left: "auto" }),
-                  top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 46 : 40) : isActive ? 76 : 68}px)`,
-                  transform: "none",
-                  zIndex: 35,
-                  pointerEvents: "none",
-                  backgroundColor: "#060614",
-                }}
-                className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-3.5 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] font-bold text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"}`}
-              >
-                {isSea ? (
-                  <Waves className="inline-block h-3.5 w-3.5 shrink-0 text-cyan-400" />
-                ) : (
-                  <MapPin className="inline-block h-3.5 w-3.5 shrink-0 text-rose-400" />
-                )}{" "}
-                {formatNodeBadgeText(day, i)}
-              </div>
-              {/* Circle Video Node — aligned with card margin on mobile */}
-              <div
-                key={`node-ring-${day?.id || i}-${day?.location || day?.theme || "day"}`}
-                style={{
-                  position: "absolute",
-                  ...(isMobile
-                    ? { left: "16px", right: "auto" }
-                    : node.isLeft
-                      ? { left: "0px" }
-                      : { right: "0px", left: "auto" }),
-                  top: `${(node.y / totalH) * 100}%`,
-                  transform: "translate(0, -50%)",
-                  width: isMobile ? (isActive ? 68 : 56) : isActive ? 109 : 93,
-                  height: isMobile ? (isActive ? 68 : 56) : isActive ? 109 : 93,
-                  borderRadius: "50%",
-                  backgroundColor: "#0a0a12",
-                  border: isActive
-                    ? "3px solid #06b6d4"
-                    : "2px solid rgba(6,182,212,0.4)",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.6)",
-                  zIndex: isActive ? 30 : 25,
-                  overflow: "hidden",
-                  transition: "all 0.3s ease",
-                  pointerEvents: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CircleVideoNode
-                  src={videoSrc}
-                  shouldPlay={hasScrolledIntoRange && (isActive || isPassed)}
-                />
-              </div>
-            </React.Fragment>
-          );
-        })}
       </div>
     </section>
   );

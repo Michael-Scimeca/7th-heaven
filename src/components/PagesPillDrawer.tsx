@@ -458,19 +458,19 @@ export default function PagesPillDrawer() {
       {/* ── PURPLE FLOATING PILL BUTTON (Matching Screenshot) ── */}
       <button
         onClick={() => setIsOpen(true)}
-        className="group md: fixed bottom-6 left-6 z-[9999] flex cursor-pointer items-center gap-3  border-2 border-white/30 bg-[#8b3dff] px-8 py-4.5   font-black shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] transition-[background-color,box-shadow,transform] hover:bg-[#7b2cff] active:scale-95"
+        className="group md: fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))] left-[calc(1.5rem+env(safe-area-inset-left,0px))] z-[9999] flex cursor-pointer items-center gap-3 border-2 border-white/30 bg-[#8b3dff] px-8 py-4.5 font-black shadow-[0_12px_40px_rgba(139,61,255,0.85),0_0_20px_rgba(255,255,255,0.3)] transition-[background-color,box-shadow,transform] hover:bg-[#7b2cff] active:scale-95"
         aria-label="Open Pages Directory"
       >
         <Menu className="h-6 w-6 group-hover:scale-110 md:h-7 md:w-7" />
         <span>PAGES</span>
-        <span className="ml-1  bg-white/25 px-2.5 py-1">
+        <span className="ml-1 bg-white/25 px-2.5 py-1">
           {ALL_SITE_ROUTES.length}
         </span>
       </button>
 
       {/* ── MODAL DRAWER OVERLAY ── */}
       {isOpen && (
-        <div data-scroll-lock={isOpen} className="animate-fadeIn fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 p-4 backdrop-blur-xl md:p-6">
+        <div data-scroll-lock={isOpen} className="animate-fadeIn fixed inset-0 z-[10000] flex items-center justify-center bg-black/80 p-4 p-safe backdrop-blur-xl md:p-6">
           {/* Backdrop Click to Close */}
           <div
             className="absolute inset-0 cursor-pointer"
@@ -478,7 +478,7 @@ export default function PagesPillDrawer() {
           />
 
           {/* Modal Container */}
-          <div className="relative z-10 flex max-h-[85vh] w-full max-w-5xl flex-col overflow-hidden  border border-purple-500/30 bg-[rgba(18,18,26,0.95)] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.9)] md:p-8">
+          <div className="relative z-10 flex max-h-[85vh] max-h-[85dvh] w-full max-w-5xl flex-col overflow-hidden border border-purple-500/30 bg-[rgba(18,18,26,0.95)] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.9)] md:p-8">
             {/* Modal Header */}
             <div className="flex shrink-0 items-center justify-between border-b border-white/10 pb-6">
               <div className="flex items-center gap-3">

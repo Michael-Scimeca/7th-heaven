@@ -100,7 +100,7 @@ export default function HeroYTBackground({
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-black select-none">
       <div
         id={playerDivId.current}
-        className="pointer-events-none absolute top-1/2 left-1/2 h-[100vh] min-h-[56.25vw] w-[177.77vh] min-w-full -translate-x-1/2 -translate-y-1/2 scale-105"
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[100vh] h-[100svh] min-h-[56.25vw] w-[177.77vh] w-[177.77svh] min-w-full -translate-x-1/2 -translate-y-1/2 scale-105"
       />
     </div>
   );

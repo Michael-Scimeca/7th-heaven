@@ -72,7 +72,7 @@ export default async function Home() {
           title="7th Heaven"
           visuallyHidden
         />
-        <div className="relative !h-[calc(100vh)] w-full">
+        <div className="relative h-[100vh] h-[100svh] w-full">
           <div
             id="hero-card"
             className="relative flex h-full w-full flex-col justify-between pb-15"

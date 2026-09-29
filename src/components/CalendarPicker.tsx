@@ -174,16 +174,16 @@ export function CalendarPicker({
         {/* Row 1, Col 1: Calendar */}
         <div className="col-span-1 min-[1500px]:col-span-1">
           {/* Month & Year Selection Bar */}
-          <div className="mb-6 flex items-center justify-between border-0 p-0">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-0 p-0">
             <button
-              aria-label="Previous"
+              aria-label="Previous Month"
               type="button"
               onClick={handlePrevMonth}
-              className="flex cursor-pointer items-center gap-1  border border-white/10 bg-white/10 px-3 py-1.5 hover:bg-white/20"
+              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
             >
               <svg
-                width="14"
-                height="14"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -191,10 +191,10 @@ export function CalendarPicker({
               >
                 <polyline points="15 18 9 12 15 6" />
               </svg>
-              <span>Prev</span>
+              <span className="hidden sm:inline">Prev</span>
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-1 items-center justify-center gap-2 min-w-0">
               {/* Month Select Dropdown */}
               <GooeyMessagesDropdown
                 placeholder="Month"
@@ -241,15 +241,15 @@ export function CalendarPicker({
             </div>
 
             <button
-              aria-label="Next"
+              aria-label="Next Month"
               type="button"
               onClick={handleNextMonth}
-              className="flex cursor-pointer items-center gap-1  border border-white/10 bg-white/10 px-3 py-1.5 hover:bg-white/20"
+              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
             >
-              <span>Next</span>
+              <span className="hidden sm:inline">Next</span>
               <svg
-                width="14"
-                height="14"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -335,7 +335,7 @@ export function CalendarPicker({
           <div className="flex flex-col gap-3">
             {/* Show Start Time */}
             <div>
-              <label htmlFor="cal-show-start-time" className="mb-1 block">
+              <label htmlFor="cal-show-start-time" className="block">
                 {labels?.showStartLabel || "When does the show start?"}
               </label>
               <GooeyMessagesDropdown
@@ -364,7 +364,7 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label htmlFor="cal-show-finish-time" className="mb-1 block">
+              <label htmlFor="cal-show-finish-time" className=" block">
                 {labels?.showFinishLabel || "When does the show finish?"}
               </label>
               <GooeyMessagesDropdown
