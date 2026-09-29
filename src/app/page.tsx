@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
+import ReactDOM from "react-dom";
 import nextDynamic from "next/dynamic";
 import { fetchPageContent } from "@/lib/sanity";
-import { ARTIST_LOGOS, PRESS_LOGOS } from "@/components/LogoTicker";
-const LogoTicker = nextDynamic(() => import("@/components/LogoTicker"));
+import HeroVideoPlayer from "@/components/HeroVideoPlayer";
 
-const HeroVideoPlayer = nextDynamic(
-  () => import("@/components/HeroVideoPlayer"),
-);
-const BioParallaxSlider = nextDynamic(
-  () => import("@/components/BioParallaxSlider"),
+const HomeShaderGradient = nextDynamic(
+  () => import("@/components/HomeShaderGradient"),
 );
 const HomeVideoShowcase = nextDynamic(
   () => import("@/components/HomeVideoShowcase"),
 );
 const SlideupSection = nextDynamic(() => import("@/components/SlideupSection"));
-const HomeMerch = nextDynamic(() => import("@/components/HomeMerch"));
 const HomeNewsSection = nextDynamic(
   () => import("@/components/HomeNewsSection"),
 );
@@ -24,7 +20,7 @@ const HomeLogosSection = nextDynamic(
   () => import("@/components/HomeLogosSection"),
 );
 
-import LazySection from "@/components/LazySection";
+import SectionHeader from "@/components/SectionHeader";
 
 export const revalidate = 60;
 
@@ -45,54 +41,63 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
   const sanityContent = await fetchPageContent("home");
 
+  // Preload LCP hero posters immediately in SSR HTML for zero request discovery delay
+  ReactDOM.preload("/images/hero/hero-mobile-poster.webp", {
+    as: "image",
+    type: "image/webp",
+    fetchPriority: "high",
+    media: "(max-width: 1023px)",
+  });
+  ReactDOM.preload("/images/hero/hero-desktop-poster.webp", {
+    as: "image",
+    type: "image/webp",
+    fetchPriority: "high",
+    media: "(min-width: 1024px)",
+  });
+
   return (
-    <main id="home-page">
+    <>
+      <HomeShaderGradient />
+      <main id="home-page" className="page-container page-container--hero page-stack">
       {/* ====== HERO (Viewport Height) ====== */}
       <section
-        className="relative !h-[calc(100vh)] w-full"
-        data-pick-label="Play Music"
         id="hero"
+        aria-labelledby="hero-heading"
+        className="section relative"
+        data-pick-label="Play Music"
       >
-        <h1 className="sr-only">7th Heaven — Official Band Website</h1>
-        <div
-          id="hero-card"
-          className="relative flex h-full w-full flex-col justify-between pb-15"
-          data-pick-label="Play Music"
-        >
-          <HeroVideoPlayer sanityContent={sanityContent} />
+        <SectionHeader
+          id="hero-heading"
+          as="h1"
+          title="7th Heaven"
+          visuallyHidden
+        />
+        <div className="relative !h-[calc(100vh)] w-full">
+          <div
+            id="hero-card"
+            className="relative flex h-full w-full flex-col justify-between pb-15"
+            data-pick-label="Play Music"
+          >
+            <HeroVideoPlayer sanityContent={sanityContent} />
+          </div>
         </div>
       </section>
 
-      {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint.
-          min-h reserves space so subsequent sections don't shift up during hydration. */}
-      <div className="min-h-[800px]">
-        <HomeDataLoader />
-      </div>
+      {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint. */}
+      <HomeDataLoader />
 
       {/* ====== FEATURED VIDEO SHOWCASE ====== */}
-      <LazySection fallbackHeight="600px">
-        <HomeVideoShowcase sanityContent={sanityContent} />
-      </LazySection>
+      <HomeVideoShowcase sanityContent={sanityContent} />
 
       {/* ====== SLIDEUP STACK SECTION ====== */}
-      <LazySection fallbackHeight="700px">
-        <SlideupSection sanityContent={sanityContent} />
-      </LazySection>
+      <SlideupSection sanityContent={sanityContent} />
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-      <LazySection fallbackHeight="220px">
-        <HomeLogosSection sanityContent={sanityContent} />
-      </LazySection>
+      <HomeLogosSection sanityContent={sanityContent} />
 
       {/* ====== LATEST BAND NEWS ====== */}
-      <LazySection fallbackHeight="500px">
-        <HomeNewsSection sanityContent={sanityContent} />
-      </LazySection>
-
-      {/* ====== MERCH QUICK SHOP (Shopify) ====== */}
-      <LazySection fallbackHeight="500px">
-        <HomeMerch sanityContent={sanityContent} />
-      </LazySection>
+      <HomeNewsSection sanityContent={sanityContent} />
     </main>
+    </>
   );
 }

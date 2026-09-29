@@ -66,3 +66,10 @@ sim_curl2.sh
 
 # Original uncompressed hero videos (kept locally as backups)
 public/movie/hero-colorinmostion-original.mp4
+
+# Temporary files and local audit artifacts
+.tmp_*.b64
+button_width_test.png
+snapshot.txt
+_unused-images/
+

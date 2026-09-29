@@ -50,8 +50,8 @@ const GooeyMessagesDropdown = dynamic(
   () => import("@/components/GooeyMessagesDropdown"),
   { ssr: false },
 );
-import { SquishyToggle } from "@/components/SquishyToggle";
-import LazySection from "@/components/LazySection";
+import { Toggle } from "@/components/Toggle";
+import LazyHeavy from "@/components/LazyHeavy";
 import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AddCmsButton from "./AddCmsButton";
@@ -1324,30 +1324,33 @@ export default function TourList({
     sortBar.style.opacity = "1";
     sortBar.style.pointerEvents = "auto";
 
+    const checkStuck = () => {
+      const isStuck = sentinel.getBoundingClientRect().top <= mobileHeaderOffset + 2;
+      if (isStuckRef.current !== isStuck) {
+        isStuckRef.current = isStuck;
+        sortBar.classList.toggle("is-stuck", isStuck);
+        if (isStuck) {
+          document.documentElement.classList.add("tour-sort-stuck");
+        } else {
+          document.documentElement.classList.remove("tour-sort-stuck");
+        }
+      }
+    };
+
+    window.addEventListener("scroll", checkStuck, { passive: true });
+    checkStuck();
+
     let observer: IntersectionObserver | null = null;
-    const targetOffset = 165;
+    const targetOffset = mobileHeaderOffset;
 
     if (typeof IntersectionObserver !== "undefined") {
       observer = new IntersectionObserver(
         ([entry]) => {
-          // If sentinel is above the root margin threshold (scrolled past header)
-          const isStuck =
-            !entry.isIntersecting &&
-            entry.boundingClientRect.top <
-            (entry.rootBounds?.top ?? targetOffset);
-          if (isStuckRef.current !== isStuck) {
-            isStuckRef.current = isStuck;
-            sortBar.classList.toggle("is-stuck", isStuck);
-            if (isStuck) {
-              document.documentElement.classList.add("tour-sort-stuck");
-            } else {
-              document.documentElement.classList.remove("tour-sort-stuck");
-            }
-          }
+          checkStuck();
         },
         {
           threshold: 0,
-          rootMargin: "-165px 0px 0px 0px",
+          rootMargin: `-${mobileHeaderOffset}px 0px 0px 0px`,
         },
       );
 
@@ -1355,6 +1358,7 @@ export default function TourList({
     }
 
     return () => {
+      window.removeEventListener("scroll", checkStuck);
       if (observer) observer.disconnect();
       document.documentElement.classList.remove("tour-sort-stuck");
     };
@@ -1607,12 +1611,28 @@ export default function TourList({
                 WebkitBackfaceVisibility: "hidden",
               }}
             >
-              <TourMap
-                shows={hasActiveFilters ? filtered : displayShows}
-                nextShowVenue={upNext?.venue}
-                nextShowCity={upNext?.city}
-                onPinClick={handleMapPinClick}
-              />
+              <LazyHeavy
+                minHeight="400px"
+                rootMargin="100px 0px"
+                className="relative h-[400px] w-full sm:h-[600px]"
+                fallback={
+                  <div className="relative flex h-[400px] w-full items-center justify-center border-y border-white/10 bg-[var(--color-bg-surface,#0f0f13)] sm:h-[600px]">
+                    <div className="flex flex-col items-center gap-3 text-white/40">
+                      <div className="h-8 w-8 animate-spin rounded-full border-2 border-purple-500 border-t-transparent" />
+                      <span className="font-mono text-xs tracking-widest uppercase">
+                        Loading Tour Map...
+                      </span>
+                    </div>
+                  </div>
+                }
+              >
+                <TourMap
+                  shows={hasActiveFilters ? filtered : displayShows}
+                  nextShowVenue={upNext?.venue}
+                  nextShowCity={upNext?.city}
+                  onPinClick={handleMapPinClick}
+                />
+              </LazyHeavy>
             </div>
           )}
 
@@ -1634,7 +1654,7 @@ export default function TourList({
           </div>
 
           {/* Sentinel — detection only; no longer a spacer (sort bar stays in normal flow always) */}
-          <div ref={sentinelRef} className="h-0" aria-hidden="true" />
+          <div ref={sentinelRef} className="h-px pointer-events-none opacity-0" aria-hidden="true" />
           <div
             id="tour-sort-bar"
             ref={sortBarRef}
@@ -1645,20 +1665,7 @@ export default function TourList({
             }}
             className="relative sticky z-[40] flex w-full flex-col sm:gap-0 md:gap-2 lg:gap-2 border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-6"
           >
-            <div
-              className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-1 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity duration-300 ease-out backdrop-blur-[24px]"
-              style={{
-                height: "calc(100% + 100px)",
-                WebkitBackdropFilter: "blur(24px)",
-                backdropFilter: "blur(24px)",
-                maskImage:
-                  "linear-gradient(to bottom, black 0%, black 70%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, black 0%, black 70%, transparent 100%)",
-              }}
-            />
-
-            {/* Search Bar ON TOP (Sticks cleanly above table header on scroll for desktop & mobile) */}
+            <div className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-1 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity duration-300 ease-out backdrop-blur-[24px]" />
             <div className="relative my-3 w-full max-w-[300px] shrink-0">
               <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
               <GlowInput
@@ -1743,7 +1750,7 @@ export default function TourList({
           </div>
 
           <div
-            className="pb-section-fluid flex flex-col gap-0 overflow-visible"
+            className="flex flex-col  overflow-visible"
             id="tour-rows-container"
           >
             {Array.from(
@@ -1791,7 +1798,7 @@ export default function TourList({
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
                 <div
                   key={`tour_row_${i}_${show.id || rowId}`}
-                  className="group overflow-visible sm:pb-6 pb-6"
+                  className="group overflow-visible"
                 >
                   {/* Desktop Row Layout */}
                   <div
@@ -1962,7 +1969,7 @@ export default function TourList({
                               <CalendarDays className="h-5.5 w-5.5" />
                             </button>
                             {activeCalDropdownId === rowId && (
-                              <div className="absolute right-0 z-50 mt-2 min-w-[165px]  border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-[var(--radius-box)] border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                                 <a
                                   href={getGoogleCalendarUrl(show)}
                                   target="_blank"
@@ -2118,7 +2125,7 @@ export default function TourList({
 
                     {/* Action Buttons Row */}
                     {!isPrivate && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3">
                         {/* Map Directions */}
                         {(() => {
                           const effectiveMapUrl = getEffectiveMapUrl(show);
@@ -2234,7 +2241,7 @@ export default function TourList({
                               <CalendarDays className="h-4 w-4" />
                             </button>
                             {activeCalDropdownId === `${rowId}-mobile` && (
-                              <div className="absolute right-0 z-50 mt-2 min-w-[165px]  border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+                              <div className="absolute right-0 z-50 mt-2 min-w-[165px] rounded-[var(--radius-box)] border border-purple-400/30 bg-[#0c0721]/95 py-1.5 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                                 <a
                                   href={getGoogleCalendarUrl(show)}
                                   target="_blank"
@@ -2322,7 +2329,7 @@ export default function TourList({
         typeof window !== "undefined" &&
         createPortal(
           <div className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
-            <div className="relative my-8 w-full max-w-2xl animate-[fade-in-up_0.2s_ease-out] overflow-hidden  border border-white/10 bg-[var(--color-bg-surface)]">
+            <div className="relative my-8 w-full max-w-2xl animate-[fade-in-up_0.2s_ease-out] overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)]">
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
               <div className="p-6 text-left md:p-8">
                 <div className="mb-6 flex items-center justify-between">
@@ -2348,7 +2355,7 @@ export default function TourList({
                 </div>
 
                 {modalError && (
-                  <div className="mb-6 border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
+                  <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
                     {modalError}
                   </div>
                 )}
@@ -2358,7 +2365,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-venue"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Venue Name *
                       </label>
@@ -2375,7 +2382,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-date"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Event Date *
                       </label>
@@ -2394,7 +2401,7 @@ export default function TourList({
                     <div className="sm:col-span-2">
                       <label
                         htmlFor="tour-form-city"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         City *
                       </label>
@@ -2411,7 +2418,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-state"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         State *
                       </label>
@@ -2431,7 +2438,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-time"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Show Time
                       </label>
@@ -2447,7 +2454,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-doors-time"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Doors Open
                       </label>
@@ -2463,7 +2470,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-play-time"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Band Plays
                       </label>
@@ -2479,7 +2486,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-cover"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Cover / Admission
                       </label>
@@ -2498,7 +2505,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-ticket-link"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Ticket Link (URL)
                       </label>
@@ -2514,7 +2521,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-directions-link"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Directions / Google Maps (URL)
                       </label>
@@ -2536,7 +2543,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-parking-url"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Parking Directions Link (URL)
                       </label>
@@ -2552,7 +2559,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-parking-info"
-                        className="mb-1.5 block text-white/30"
+                        className="  block text-white/30"
                       >
                         Parking Info / Notes
                       </label>
@@ -2570,7 +2577,7 @@ export default function TourList({
                   <div>
                     <label
                       htmlFor="tour-form-notes"
-                      className="mb-1.5 block text-white/30"
+                      className="  block text-white/30"
                     >
                       Notes / Description
                     </label>
@@ -2586,69 +2593,48 @@ export default function TourList({
                   </div>
 
                   <div className="my-2 grid grid-cols-2 gap-4 border-t border-b border-white/10 py-3 sm:grid-cols-4">
-                    <div className="flex cursor-pointer items-center gap-2 select-none">
-                      <SquishyToggle
-                        id="tour-all-ages-toggle"
-                        label="All Ages Show"
-                        checked={formAllAges}
-                        onChange={setFormAllAges}
-                      />
-                      <span>All Ages Show</span>
-                    </div>
-                    <div className="flex cursor-pointer items-center gap-2 select-none">
-                      <SquishyToggle
-                        id="tour-is-festival-toggle"
-                        label="Is Festival"
-                        checked={formIsFestival}
-                        onChange={setFormIsFestival}
-                      />
-                      <span>Is Festival</span>
-                    </div>
-                    <div className="flex cursor-pointer items-center gap-2 select-none">
-                      <SquishyToggle
-                        id="tour-is-private-toggle"
-                        label="Private Event"
-                        checked={formIsPrivate}
-                        onChange={setFormIsPrivate}
-                      />
-                      <span>Private Event</span>
-                    </div>
-                    <div className="flex cursor-pointer items-center gap-2 select-none">
-                      <SquishyToggle
-                        id="tour-is-unplugged-toggle"
-                        label="Unplugged Show"
-                        checked={formIsUnplugged}
-                        onChange={setFormIsUnplugged}
-                      />
-                      <span>Unplugged Show</span>
-                    </div>
-                    <div className="flex cursor-pointer items-center gap-2 select-none">
-                      <SquishyToggle
-                        id="tour-is-outdoor-toggle"
-                        label="Outdoor Show"
-                        checked={formIsOutdoor}
-                        onChange={setFormIsOutdoor}
-                      />
-                      <span>Outdoor Show</span>
-                    </div>
-                    <div className="flex cursor-pointer items-center gap-2 select-none">
-                      <SquishyToggle
-                        id="tour-is-casino-toggle"
-                        label="Casino Show"
-                        checked={formIsCasino}
-                        onChange={setFormIsCasino}
-                      />
-                      <span>Casino Show</span>
-                    </div>
-                    <div className="flex cursor-pointer items-center gap-2 select-none">
-                      <SquishyToggle
-                        id="tour-is-special-event-toggle"
-                        label="Special Event"
-                        checked={formIsSpecialEvent}
-                        onChange={setFormIsSpecialEvent}
-                      />
-                      <span>Special Event</span>
-                    </div>
+                    <Toggle
+                      id="tour-all-ages-toggle"
+                      label="All Ages Show"
+                      checked={formAllAges}
+                      onChange={setFormAllAges}
+                    />
+                    <Toggle
+                      id="tour-is-festival-toggle"
+                      label="Is Festival"
+                      checked={formIsFestival}
+                      onChange={setFormIsFestival}
+                    />
+                    <Toggle
+                      id="tour-is-private-toggle"
+                      label="Private Event"
+                      checked={formIsPrivate}
+                      onChange={setFormIsPrivate}
+                    />
+                    <Toggle
+                      id="tour-is-unplugged-toggle"
+                      label="Unplugged Show"
+                      checked={formIsUnplugged}
+                      onChange={setFormIsUnplugged}
+                    />
+                    <Toggle
+                      id="tour-is-outdoor-toggle"
+                      label="Outdoor Show"
+                      checked={formIsOutdoor}
+                      onChange={setFormIsOutdoor}
+                    />
+                    <Toggle
+                      id="tour-is-casino-toggle"
+                      label="Casino Show"
+                      checked={formIsCasino}
+                      onChange={setFormIsCasino}
+                    />
+                    <Toggle
+                      id="tour-is-special-event-toggle"
+                      label="Special Event"
+                      checked={formIsSpecialEvent}
+                      onChange={setFormIsSpecialEvent}
+                    />
                   </div>
 
                   <div className="flex gap-3 border-t border-white/10 pt-4">
@@ -2682,17 +2668,17 @@ export default function TourList({
             onClick={() => setNotifyPopupShow(null)}
           >
             <div
-              className="relative mx-4 w-full max-w-sm animate-[fadeIn_0.2s_ease] cursor-auto border border-white/10 bg-[var(--color-bg-surface)] text-left"
+              className="relative mx-4 w-full max-w-sm animate-[fadeIn_0.2s_ease] cursor-auto overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] text-left"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Accent bar */}
-              <div className="h-1 rounded-t-2xl bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
+              <div className="h-1 bg-gradient-to-r from-[var(--color-accent)] via-[#c026d3] to-[var(--color-accent)]" />
 
               <div className="p-6">
                 {/* Header */}
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center  border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-box)] border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5 text-[var(--color-accent)]"
@@ -2709,7 +2695,7 @@ export default function TourList({
                   </div>
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center  bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
                   >
                     <svg
                       width="12"
@@ -2726,7 +2712,7 @@ export default function TourList({
                 </div>
 
                 {/* Show info */}
-                <div className="mb-6  border border-white/10 bg-white/[0.03] px-3 py-2.5">
+                <div className="mb-6 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] px-3 py-2.5">
                   <p>
                     {notifyPopupShow.venue} — {notifyPopupShow.city},{" "}
                     {notifyPopupShow.state}
@@ -2748,13 +2734,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, thisShow: !p.thisShow }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3  border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0  ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3  bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2773,13 +2759,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, proximity: !p.proximity }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3  border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0  ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3  bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2801,13 +2787,13 @@ export default function TourList({
                         newsletter: !p.newsletter,
                       }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3  border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0  ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3  bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2826,13 +2812,13 @@ export default function TourList({
                   </p>
                 ) : (
                   <div className="mt-3">
-                    <label className="mb-1 block">Your Email Address</label>
+                    <label className=" block">Your Email Address</label>
                     <input
                       type="email"
                       placeholder="fan@example.com"
                       value={notifyEmail}
                       onChange={(e) => setNotifyEmail(e.target.value)}
-                      className="focus-ring w-full  border border-white/15 bg-white/5 px-3 py-2"
+                      className="focus-ring w-full rounded-[var(--radius-box)] border border-white/15 bg-white/5 px-3 py-2"
                     />
                   </div>
                 )}
@@ -2841,7 +2827,7 @@ export default function TourList({
                 <div className="mt-4 flex gap-2">
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex-1 cursor-pointer  bg-[#00000029] py-2.5 hover:bg-white/10"
+                    className="flex-1 cursor-pointer rounded-[var(--radius-box)] bg-[#00000029] py-2.5 hover:bg-white/10"
                   >
                     Cancel
                   </button>
@@ -2853,7 +2839,7 @@ export default function TourList({
                         !notifyPrefs.proximity &&
                         !notifyPrefs.newsletter)
                     }
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-1.5  bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-40"
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius-box)] bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-40"
                   >
                     {subscribingId ? (
                       "Saving..."
@@ -2873,7 +2859,7 @@ export default function TourList({
       {isFontCustomizerOpen && (
         <div className="pointer-events-none fixed right-6 bottom-6 z-50 p-0">
           <div
-            className="pointer-events-auto relative flex w-full max-w-sm animate-[fadeIn_0.2s_ease] flex-col border border-white/10 bg-[var(--color-bg-surface)]/95 p-6 select-none md:p-8"
+            className="pointer-events-auto relative flex w-full max-w-sm animate-[fadeIn_0.2s_ease] flex-col overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)]/95 p-6 select-none md:p-8"
             style={{ animation: "scaleIn 0.2s ease" }}
           >
             {/* Header */}
@@ -2881,7 +2867,7 @@ export default function TourList({
               <h3 className="r">Font Tester</h3>
               <button
                 onClick={() => setIsFontCustomizerOpen(false)}
-                className="flex h-6 w-6 cursor-pointer items-center justify-center  bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
+                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
               >
                 ✕
               </button>
@@ -2945,7 +2931,7 @@ export default function TourList({
 
             {/* Font Size */}
             <div className="mb-6">
-              <div className="mb-1.5 flex items-center justify-between">
+              <div className="  flex items-center justify-between">
                 <label
                   htmlFor="tour-font-size-slider"
                   className="r text-white/50"
@@ -2974,7 +2960,7 @@ export default function TourList({
 
             {/* Website Button Font Size */}
             <div className="mb-6">
-              <div className="mb-1.5 flex items-center justify-between">
+              <div className="  flex items-center justify-between">
                 <label
                   htmlFor="tour-website-btn-size-slider"
                   className="r text-white/50"
@@ -3007,7 +2993,7 @@ export default function TourList({
 
             {/* Row Padding */}
             <div className="mb-6">
-              <div className="mb-1.5 flex items-center justify-between">
+              <div className="  flex items-center justify-between">
                 <label
                   htmlFor="tour-row-padding-slider"
                   className="r text-white/50"
@@ -3036,7 +3022,7 @@ export default function TourList({
 
             {/* Row Spacing */}
             <div className="mb-6">
-              <div className="mb-1.5 flex items-center justify-between">
+              <div className="  flex items-center justify-between">
                 <label
                   htmlFor="tour-row-spacing-slider"
                   className="r text-white/50"
@@ -3063,7 +3049,7 @@ export default function TourList({
 
             {/* Row Height */}
             <div className="mb-5">
-              <div className="mb-1.5 flex items-center justify-between">
+              <div className="  flex items-center justify-between">
                 <label
                   htmlFor="tour-row-height-slider"
                   className="r text-white/50"
@@ -3093,10 +3079,12 @@ export default function TourList({
             {/* Map Fade Mask Controls */}
             <div className="mb-5 border-t border-white/10 pt-4">
               <div className="mb-3 flex items-center justify-between">
-                <label className="r">Map Fade Mask</label>
-                <SquishyToggle
+                <span id="map-fade-mask-label">Map Fade Mask</span>
+                <Toggle
                   id="map-fade-mask-toggle"
                   label="Map Fade Mask"
+                  hideLabel
+                  aria-labelledby="map-fade-mask-label"
                   checked={mapMaskEnabled}
                   onChange={(checked) => {
                     setMapMaskEnabled(checked);
@@ -3115,7 +3103,7 @@ export default function TourList({
                     <div className="mb-1 flex items-center justify-between">
                       <label
                         htmlFor="map-mask-top-slider"
-                        className="r text-white/50"
+                        className="text-white/50"
                       >
                         Top Fade Clip
                       </label>
@@ -3258,7 +3246,7 @@ export default function TourList({
             </div>
 
             {/* Code telemetry */}
-            <div className="mb-5  border border-white/10 bg-black/40 p-3.5 whitespace-pre-wrap select-all">
+            <div className="mb-5 rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-3.5 whitespace-pre-wrap select-all">
               {`font-size: ${tourFontSize};\nfont-family: ${tourFontFamily === "var(--font-body)" ? "Barlow" : tourFontFamily === "var(--font-heading)" ? "Rockstar" : tourFontFamily};\npadding: ${tourRowPadding} 0;\nmargin-bottom: ${tourRowGap};\nmin-height: ${tourRowHeight};`}
             </div>
 
@@ -3272,7 +3260,7 @@ export default function TourList({
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="transition-all cursor-pointer  border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10"
+                className="transition-all cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10"
               >
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>
@@ -3285,7 +3273,7 @@ export default function TourList({
                   localStorage.setItem("7h_tour_row_height", tourRowHeight);
                   setIsFontCustomizerOpen(false);
                 }}
-                className="cursor-pointer  bg-[var(--color-accent)] py-2.5 hover:bg-[rgba(255,10,61,0.9)]"
+                className="cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-2.5 hover:bg-[rgba(255,10,61,0.9)]"
               >
                 Apply & Save
               </button>

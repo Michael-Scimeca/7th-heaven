@@ -40,10 +40,11 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Cache the homepage HTML at the Edge CDN for 1 hour
-# This guarantees <50ms TTFB on all non-first requests
+# Cache the homepage HTML at the Edge CDN for 1 hour with SWR, matching ISR revalidate = 60
+# This guarantees <50ms TTFB on all non-first requests while allowing instant background revalidation
 [[headers]]
   for = "/"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+    Netlify-CDN-Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 

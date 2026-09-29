@@ -283,6 +283,7 @@ export default function TourMap({
   const [mapLoadError, setMapLoadError] = useState<string | null>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [loadProgress, setLoadProgress] = useState(25);
+  const [shouldLoadMaps, setShouldLoadMaps] = useState(false);
 
   // ── Date Range Zoom & Filter state ──
   const [dateRange, setDateRange] = useState<[number, number] | null>(null);
@@ -516,11 +517,42 @@ export default function TourMap({
   // sequential Maps SDK script requests were kicking off in the same window as the hero
   // video/poster and stealing bandwidth + fetch priority from it. Lighthouse's simulated
   // mobile run showed this clearly: observed (real) LCP was 4.1s, but the throttled lab
-  // estimate ballooned to ~12s because of this contention. Deferring to idle keeps tiles
-  // Defer loading Google Maps API until the tour map element approaches viewport threshold.
-  // This prevents maps.googleapis.com (main.js + util.js ~153KB) from loading on initial page render,
-  // Load the Google Maps API eagerly on component mount so the map is fully ready on page load.
+  // Observe when the map element actually scrolls into the viewport
+  // before initializing Google Maps. This prevents maps.googleapis.com scripts
+  // and the unoptimized Roboto font from blocking initial page render/LCP.
   useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      typeof (window as any).google?.maps?.Map === "function"
+    ) {
+      setShouldLoadMaps(true);
+      return;
+    }
+
+    const container = mapRef.current;
+    if (typeof IntersectionObserver === "undefined") {
+      setShouldLoadMaps(true);
+      return;
+    }
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setShouldLoadMaps(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px", threshold: 0.05 },
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  // Load the Google Maps API once the map approaches the viewport
+  useEffect(() => {
+    if (!shouldLoadMaps) return;
     let active = true;
 
     if (
@@ -577,7 +609,7 @@ export default function TourMap({
     return () => {
       active = false;
     };
-  }, []);
+  }, [shouldLoadMaps]);
 
   // Initialize the Google Map once the API script is ready using requestAnimationFrame to prevent forced reflows.
   useEffect(() => {
@@ -1268,6 +1300,44 @@ export default function TourMap({
         ref={mapRef}
         className={`map-masked-tiles absolute inset-0 h-full w-full ${isLoaded ? "opacity-100" : "pointer-events-none opacity-0"}`}
       />
+
+      {/* ── Gradient Mask Edge Overlays ── */}
+      {mapGradTop && (
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 z-[5]"
+          style={{
+            height: `${mapGradSize}%`,
+            background: `linear-gradient(to bottom, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
+      )}
+      {mapGradBottom && (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[5]"
+          style={{
+            height: `${mapGradSize}%`,
+            background: `linear-gradient(to top, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
+      )}
+      {mapGradLeft && (
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 z-[5]"
+          style={{
+            width: `${mapGradSize}%`,
+            background: `linear-gradient(to right, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
+      )}
+      {mapGradRight && (
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 z-[5]"
+          style={{
+            width: `${mapGradSize}%`,
+            background: `linear-gradient(to left, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%)`,
+          }}
+        />
+      )}
 
       {/* ── Google Maps Preloader Intro Animation Overlay ── */}
       <div

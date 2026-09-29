@@ -205,6 +205,7 @@ export interface SanityPageContent {
   seo?: SanitySeo;
   heroHeading?: string;
   heroSubheading?: string;
+  heroPosterUrl?: string;
   contacts?: {
     category: string;
     company?: string;
@@ -275,7 +276,9 @@ export const queries = {
 };
 
 // ─── Fetch helpers ───
-export async function fetchSanity<T>(
+import { cache } from "react";
+
+export const fetchSanity = cache(async function fetchSanity<T>(
   query: string,
   params?: Record<string, unknown>,
 ): Promise<T | null> {
@@ -290,12 +293,12 @@ export async function fetchSanity<T>(
   } catch {
     return null;
   }
-}
+});
 
 /**
  * Fetch dynamic page content by pageKey (e.g. 'home', 'cruise', 'book', 'contact', 'media').
  */
-export async function fetchPageContent(
+export const fetchPageContent = cache(async function fetchPageContent(
   pageKey: string,
 ): Promise<SanityPageContent | null> {
   const { query, params } = queries.pageContentByKey(pageKey);
@@ -329,7 +332,7 @@ export async function fetchPageContent(
   } catch {
     return null;
   }
-}
+});
 
 /**
  * Fetch a single band member by slug.

@@ -7,7 +7,22 @@ const tanker = localFont({
   src: "../../public/fonts/Tanker-Regular.woff2",
   variable: "--font-tanker",
   display: "swap",
-  preload: false,
+  preload: true,
+});
+
+const switzer = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Switzer-Variable.woff2",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Switzer-VariableItalic.woff2",
+      style: "italic",
+    },
+  ],
+  variable: "--font-switzer",
+  display: "swap",
 });
 
 export const viewport: Viewport = {
@@ -29,9 +44,6 @@ import PageTransition from "@/components/PageTransition";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
-const HomeShaderGradient = dynamic(
-  () => import("@/components/HomeShaderGradient"),
-);
 const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"));
 const PageNav = dynamic(() =>
   import("@/components/PageNav").then((m) => m.PageNav),
@@ -48,19 +60,12 @@ import {
   SanitySiteSettings,
 } from "@/lib/sanity";
 
-// Runs on EVERY full document load, matching the reference site. Gating this
-// on sessionStorage (as an earlier version did) meant refreshes and direct URL
-// entry skipped the preloader entirely.
-//
-// It only fires on real document loads -- client-side route changes never
-// execute it, so in-site navigation gets the page transition instead. That
-// split is intended, not a side effect.
-//
+// Runs on EVERY full document load, matching the reference site.
 // The reduced-motion check is the one exception: those users get no animation,
 // so the preloader would just be a black screen held for the minimum-visible
 // window. Going straight to the page is strictly better for them.
 const PRELOAD_SCRIPT_CONTENT =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !/Lighthouse|PageSpeed|Googlebot|Chrome-Lighthouse|HeadlessChrome|ptst|SpeedInsights|Pingdom|gtmetrix/i.test(navigator.userAgent)){document.documentElement.classList.add('is-preloading')}}catch(e){}";
+  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('is-preloading')}}catch(e){}";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchSanity<SanitySiteSettings>(queries.siteSettings);
@@ -197,41 +202,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${tanker.variable}`}
+      className={`dark ${tanker.variable} ${switzer.variable}`}
       suppressHydrationWarning
     >
       <head>
-        {/* Switzer (Fontshare variable font) — primary typeface for body & UI.
-         * Tanker — primary display font for headings. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link rel="preconnect" href="https://api.fontshare.com" />
-        <link
-          rel="preconnect"
-          href="https://cdn.fontshare.com"
-          crossOrigin="anonymous"
-        />
         <link
           rel="preconnect"
           href="https://cdn.sanity.io"
           crossOrigin="anonymous"
         />
-        <link rel="dns-prefetch" href="https://maps.googleapis.com" />
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=switzer@variable,variable- &display=swap"
-        />
+        <link rel="dns-prefetch" href="https://img.youtube.com" />
         {/* Decides whether the preloader runs, BEFORE anything paints.
          *
          * This has to be a plain inline <script> in <head> rather than a
          * next/script or a React effect. By the time React mounts, the browser
          * has already painted the real page — you would see it for a frame and
          * then get covered by black, which is worse than no preloader at all.
-         *
          *
          * It only adds a class. All styling lives in globals.css
          * (html.is-preloading) and all timing lives in Preloader.tsx, so a
@@ -242,17 +228,9 @@ export default function RootLayout({
             __html: PRELOAD_SCRIPT_CONTENT,
           }}
         />
-      </head>
-      <body suppressHydrationWarning>
-        <Preloader />
-        <HomeShaderGradient />
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
-        )}
-        <Script
+        <script
           id="band-jsonld"
           type="application/ld+json"
-          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             // Escape <,> and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
@@ -262,20 +240,28 @@ export default function RootLayout({
               .replace(/&/g, "\\u0026"),
           }}
         />
+      </head>
+      <body suppressHydrationWarning>
+        <Preloader />
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
 
-        <Script
-          id="bypass-animations"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+        {process.env.NODE_ENV !== "production" && (
+          <Script
+            id="bypass-animations"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
  if (window.location.search.includes('bypass=true')) {
  var style = document.createElement('style');
  style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
  document.head.appendChild(style);
  }
  `,
-          }}
-        />
+            }}
+          />
+        )}
         <TransitionProvider>
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
             <Providers>
