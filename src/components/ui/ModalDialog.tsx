@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useScrollLock } from "@/lib/useScrollLock";
@@ -52,6 +52,7 @@ export function ModalDialog({
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       aria-modal="true"
       role="dialog"
+      aria-label={title || "Modal Dialog"}
     >
       {/* Backdrop */}
       <div
