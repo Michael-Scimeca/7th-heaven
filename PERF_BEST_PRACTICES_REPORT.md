@@ -6,15 +6,15 @@ All audits were executed against a production build (`next build --turbopack && 
 
 | Route | Metric | Baseline (Before) | Current Pass (After) | Delta / Status | Budget Target (`budget.json`) |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **`/` (Home)** | **Performance Score** | 67 / 100 | **71 / 100** | +4 pts | >= 90 |
+| **`/` (Home)** | **Performance Score** | 67 / 100 | **74 / 100** | **+7 pts** | >= 90 |
 | | **Best Practices Score** | ~80 / 100 | **100 / 100** | **+20 pts (PERFECT)** | 100 |
 | | **Accessibility Score** | 88 / 100 | **91 / 100** | +3 pts | >= 90 |
 | | **SEO Score** | 85 / 100 | **92 / 100** | +7 pts | >= 90 |
-| | **Largest Contentful Paint (LCP)** | 12.1 s | **6.69 s** | **-5.41 s (-45% faster)** | < 2.5 s |
-| | **Total Blocking Time (TBT)** | 120 ms | **156 ms** | **PASS (< 200 ms)** | < 200 ms |
+| | **Largest Contentful Paint (LCP)** | 12.1 s | **6.54 s** | **-5.56 s (-46% faster)** | < 2.5 s |
+| | **Total Blocking Time (TBT)** | 120 ms | **110 ms** | **PASS (< 200 ms)** | < 200 ms |
 | | **Cumulative Layout Shift (CLS)** | 0.000 | **0.000** | **PERFECT ZERO SHIFT** | < 0.1 |
-| | **Speed Index** | 7.1 s | **4.43 s** | **-2.67 s (-38% faster)** | < 3.5 s |
-| | **Time to Interactive (TTI)** | 12.2 s | **8.41 s** | **-3.79 s (-31% faster)** | < 3.5 s |
+| | **Speed Index** | 7.1 s | **3.63 s** | **-3.47 s (-49% faster)** | < 3.5 s |
+| | **Time to Interactive (TTI)** | 12.2 s | **8.12 s** | **-4.08 s (-33% faster)** | < 3.5 s |
 | **`/book`** | **Performance Score** | — | **77 / 100** | **FAST** | >= 75 |
 | | **Best Practices Score** | — | **100 / 100** | **100/100** | 100 |
 | | **Accessibility Score** | — | **95 / 100** | **PASS** | >= 90 |
@@ -32,19 +32,22 @@ All audits were executed against a production build (`next build --turbopack && 
 
 ## 2. 🛠️ Key Architectural Changes Grouped by Phase
 
-### Phase 1: Homepage LCP & Main-Thread Weight (Commit: `1011d9a3`)
+### Phase 1: Homepage LCP & Main-Thread Weight (Commits: `1011d9a3`, `67b2ccb3`)
 1. **Eliminated User-Agent Score Gaming in `src/app/layout.tsx`**:
    - Removed all regex user-agent sniffing (`Lighthouse|PageSpeed|HeadlessChrome...`) in `PRELOAD_SCRIPT_CONTENT`.
    - The preloader now operates identically for test runners and real visitors, preserving the mandatory `prefers-reduced-motion` exception.
 2. **Server-Side Rendered Hero Above-the-Fold LCP Content (`src/app/page.tsx`)**:
    - Replaced client-only `nextDynamic(() => import("@/components/HeroVideoPlayer"))` with static SSR import `import HeroVideoPlayer from "@/components/HeroVideoPlayer"`.
    - Guaranteed immediate HTML server discovery of hero heading, poster image (`hero-mobile-poster.webp`), and layout nodes without client hydration delays.
-3. **Scoped WebGL Background Shader to Homepage Only (`src/app/page.tsx` & `src/app/layout.tsx`)**:
+3. **Trimmed Preloader Timing & Stabilized Layout Shifts (`src/components/Preloader.tsx`, `HeroUpNextBanner.tsx`, `HeroVideoPlayer.tsx`, `CountdownTimer.tsx`)**:
+   - Trimmed `LOADER_TOTAL_MS` from 500ms to 250ms and `WIPE_DURATION` from 0.35s to 0.25s.
+   - Synchronously initialized `CountdownTimer` state and added min-height bounding boxes to `HeroUpNextBanner` and announcements to guarantee 0.000 CLS across all runs.
+4. **Scoped WebGL Background Shader to Homepage Only (`src/app/page.tsx` & `src/app/layout.tsx`)**:
    - Extracted `<HomeShaderGradient />` from global `RootLayout` so all non-home routes (`/book`, `/cruise`, `/shows`, `/media`, etc.) no longer bundle or initialize the Three.js / WebGL canvas pipeline.
-4. **Deferred Google Maps SDK & Eliminated Unused Roboto Font (`src/components/TourMap.tsx` & `TourList.tsx`)**:
+5. **Deferred Google Maps SDK & Eliminated Unused Roboto Font (`src/components/TourMap.tsx` & `TourList.tsx`)**:
    - Replaced eager idle prefetching (`prefetch={() => import("./TourMap")}` and 1500px root margin) with an active in-viewport intersection trigger (`rootMargin: "0px"`).
    - Prevents Google Maps (~400 KB JS) and un-optimized Google Fonts (`Roboto`) from loading on initial homepage load.
-5. **Static Server JSON-LD Injection (`src/app/layout.tsx`)**:
+6. **Static Server JSON-LD Injection (`src/app/layout.tsx`)**:
    - Converted `band-jsonld` from `next/script` (`afterInteractive`) to an inline server-rendered `<script type="application/ld+json">`, making rich snippet structured data immediately discoverable to web crawlers without executing JavaScript.
 
 ### Phase 2: React & Next.js Best Practices Site-Wide (Commit: `1011d9a3`)
@@ -71,12 +74,9 @@ All audits were executed against a production build (`next build --turbopack && 
 
 ## 3. ⚖️ Decisions & Items Requiring User Confirmation
 
-### 1. Preloader Timing vs. LCP Trade-Off
-- **Current Behavior**: The curtain preloader takes ~500ms (fill) + ~350ms (wipe) = **~850ms total** on first document load.
-- **Cost**: In synthetic mobile Lighthouse (which throttles CPU by 4x), an 850ms animation translates to ~3.5–4.0s of simulated elapsed time before the hero poster is considered visually stable.
-- **Options**:
-  - *Keep Current*: Real mobile users experience an 850ms branded intro animation.
-  - *Alternative (Faster LCP)*: Reduce `LOADER_TOTAL_MS` to 250ms and `WIPE_DURATION` to 0.2s (saves ~400ms real time / ~1.6s simulated time), or gate full preloader to first-session-only via cookie/sessionStorage.
+### 1. Preloader Timing vs. LCP Trade-Off (Implemented)
+- **Status**: Implemented with user approval in commit `67b2ccb3`.
+- **Details**: Reduced `LOADER_TOTAL_MS` to 250ms (50ms per step) and `WIPE_DURATION` to 0.25s. Delivers snappy branded intro while cutting Speed Index down to **3.63s** and boosting overall Mobile Performance to **74 / 100**.
 
 ### 2. Dev & Test Routes Catalog
 The following routes in `src/app/` are internal prototypes or dev testing harnesses:
