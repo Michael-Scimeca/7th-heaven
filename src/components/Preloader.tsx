@@ -46,14 +46,14 @@ import {
 // unchanged from before.
 type Phase = "loading" | "wiping" | "done";
 
-const WIPE_DURATION = 0.35;
+const WIPE_DURATION = 0.25;
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
 
-// Loader fill: cycles through colors in 500ms total
+// Loader fill: cycles through colors in 250ms total for fast mobile LCP
 const LOADER_PALETTE = ["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"];
-const LOADER_STEP_MS = 100; // 100ms per color step = 500ms total fill time
-const LOADER_TOTAL_MS = 500; // 500ms total preloader time
+const LOADER_STEP_MS = 50; // 50ms per color step = 250ms total fill time
+const LOADER_TOTAL_MS = 250; // 250ms total preloader time
 
 const HARD_CEILING_MS = 3500;
 

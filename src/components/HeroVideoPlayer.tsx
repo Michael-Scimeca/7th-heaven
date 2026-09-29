@@ -14,6 +14,8 @@ import { createPortal } from "react-dom";
 import { useHeroParallax } from "@/lib/useHeroParallax";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import HeroUpNextBanner from "@/components/HeroUpNextBanner";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
+import { useSettings } from "@/lib/useSettings";
 const emptySubscribe = () => () => { };
 
 // Safe SSR-compatible desktop media query using useSyncExternalStore
@@ -122,6 +124,24 @@ export default function HeroVideoPlayer({
   const videoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const [snapshots, setSnapshots] = useState<string[]>([]);
+
+  const { settings } = useSettings();
+  const announcement = useMemo(() => {
+    const data = (sanityContent?.announcement || (settings as any)?.announcement) as {
+      isActive: boolean;
+      text: string;
+      link?: string;
+      linkText?: string;
+      expiresAt?: string;
+    } | null;
+    if (data?.isActive && data.text) {
+      const exp = data.expiresAt;
+      if (!exp || new Date(exp) > new Date()) {
+        return data;
+      }
+    }
+    return null;
+  }, [sanityContent, settings]);
 
   // SSR-safe desktop detection — server always returns false, client reads matchMedia
   const isDesktop = useSyncExternalStore(
@@ -611,6 +631,7 @@ export default function HeroVideoPlayer({
             <video
               ref={mobileVideoRef}
               src="/movie/hero-mobile.mp4"
+              poster="/images/hero/hero-mobile-poster.webp"
               autoPlay
               muted
               loop
@@ -647,6 +668,7 @@ export default function HeroVideoPlayer({
             <video
               key={videoSrc}
               ref={videoRef}
+              poster="/images/hero/hero-desktop-poster.webp"
               onCanPlay={handleCanPlay}
               onLoadedMetadata={handleLoadedMetadata}
               onTimeUpdate={handleTimeUpdate}
@@ -923,8 +945,23 @@ export default function HeroVideoPlayer({
         {/* ── Hero Foreground Content & Text Overlay (Parallaxes UP on scroll) ── */}
         <div
           ref={foregroundRef}
-          className="site-container pointer-events-none relative z-[10] flex h-full w-full flex-col justify-end pb-20"
+          className="site-container pointer-events-none relative z-[10] flex h-full w-full flex-col justify-between pt-[76px] pb-16 md:pt-[88px] md:pb-20"
         >
+          {/* Top Banner (Hero Section Announcement) */}
+          {announcement ? (
+            <div className="pointer-events-auto w-full pt-1 sm:pt-2">
+              <AnnouncementBanner
+                text={announcement.text}
+                link={announcement.link}
+                linkText={announcement.linkText}
+                inline={true}
+                className="w-full animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.2s_both]"
+              />
+            </div>
+          ) : (
+            <div />
+          )}
+
           {/* Two-column layout on Desktop (lg+), stacked on Tablet & Mobile */}
           <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             {/* Left Column: Hero Title & Subheading Content */}

@@ -250,8 +250,8 @@ export default function HeroUpNextBanner() {
   const dateLabel = `${formattedDay ? `${formattedDay}, ` : ""}${upNext.date}`;
 
   return (
-    <div className="pointer-events-auto relative z-20 w-full max-w-[550px]">
-      <div className="flex w-full flex-col gap-2.5 rounded-2xl border border-white/10 p-4 text-left shadow-[0_15px_50px_rgba(0,0,0,0.85)] backdrop-blur-[24px] select-none">
+    <div className="pointer-events-auto relative z-20 min-h-[178px] w-full max-w-[550px]">
+      <div className="flex min-h-[178px] w-full flex-col justify-between gap-2.5 rounded-2xl border border-white/10 p-4 text-left shadow-[0_15px_50px_rgba(0,0,0,0.85)] backdrop-blur-[24px] select-none">
         {/* Top Header: UP NEXT Badge + Compact Countdown Timer */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-2.5">
           <span
@@ -296,7 +296,11 @@ export default function HeroUpNextBanner() {
         </div>
 
         {/* Subtitle / Notes */}
-        {upNext.info && <h3 className="/90 font-normal">{upNext.info}</h3>}
+        <div className="min-h-[1.5rem]">
+          {upNext.info ? (
+            <h3 className="/90 font-normal">{upNext.info}</h3>
+          ) : null}
+        </div>
 
         {/* Action Links (DIRECTIONS | WEBSITE | ADD TO CALENDAR) */}
         <div className="mt-1 flex flex-wrap items-center gap-4 border-t border-white/10 pt-4 font-black sm:gap-6">
