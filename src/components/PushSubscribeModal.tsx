@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import { Bell, Check, X, Shield, Mail, User, Sparkles } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import Toggle from "@/components/Toggle";
@@ -15,6 +15,8 @@ interface PushSubscribeModalProps {
   onSuccess?: () => void;
 }
 
+const emptySubscribe = () => () => {};
+
 export default function PushSubscribeModal({
   isOpen,
   onClose,
@@ -23,32 +25,32 @@ export default function PushSubscribeModal({
 }: PushSubscribeModalProps) {
   useScrollLock(isOpen);
   const { member } = useMember();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(member?.name || "");
+  const [email, setEmail] = useState(member?.email || "");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-  const [showIosTip, setShowIosTip] = useState(false);
 
-  useEffect(() => {
-    if (member?.name) setName(member.name);
-    if (member?.email) setEmail(member.email);
-  }, [member]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
+  const showIosTip = useSyncExternalStore(
+    emptySubscribe,
+    () => {
+      if (typeof window === "undefined") return false;
       const isIOS =
         /iPad|iPhone|iPod/.test(navigator.userAgent) ||
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       const isStandalone =
         Boolean((window.navigator as any).standalone) ||
         window.matchMedia("(display-mode: standalone)").matches;
-      if (isIOS && !isStandalone) {
-        setShowIosTip(true);
-      }
-    }
-  }, []);
+      return isIOS && !isStandalone;
+    },
+    () => false
+  );
+
+  useEffect(() => {
+    if (member?.name) setName(member.name);
+    if (member?.email) setEmail(member.email);
+  }, [member?.name, member?.email]);
 
   if (!isOpen) return null;
 

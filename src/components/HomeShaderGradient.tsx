@@ -253,7 +253,6 @@ function HomeShaderGradientComponent() {
         neatInstance = new NeatGradient({
           ref: canvasRef.current,
           ...GRADIENT_SETTINGS,
-          renderScale: isMobile ? 0.75 : 1,
           resolution: isMobile ? 0.75 : 1,
         });
 
