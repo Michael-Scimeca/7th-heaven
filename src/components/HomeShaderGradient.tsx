@@ -245,9 +245,16 @@ function HomeShaderGradientComponent() {
           (window as any).__neatInstance = null;
         }
 
+        const isMobile =
+          typeof window !== "undefined" &&
+          (window.innerWidth < 768 ||
+            window.matchMedia("(pointer: coarse)").matches);
+
         neatInstance = new NeatGradient({
           ref: canvasRef.current,
           ...GRADIENT_SETTINGS,
+          renderScale: isMobile ? 0.75 : 1,
+          resolution: isMobile ? 0.75 : 1,
         });
 
         // Completely disable WebGL watermark rendering pass inside NeatGradient canvas
@@ -288,11 +295,17 @@ function HomeShaderGradientComponent() {
       if (neatInstance) {
         neatInstance.yOffset =
           (GRADIENT_SETTINGS.yOffset || 50041) + window.scrollY;
+        // Pause WebGL animation while scrolling to free GPU bandwidth for Lenis
+        try { neatInstance.pause?.(); } catch {}
       }
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         isScrolling = false;
-      }, 150);
+        // Resume WebGL animation once scroll settles
+        if (neatInstance) {
+          try { neatInstance.resume?.(); } catch {}
+        }
+      }, 200);
     };
 
     if (typeof window !== "undefined") {

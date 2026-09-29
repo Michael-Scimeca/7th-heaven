@@ -6350,14 +6350,15 @@ span {
   justify-content: center;
   overflow: hidden;
   border-radius: var(--radius-box) var(--radius-box) 0 0;
-  will-change: transform, filter;
+  will-change: transform;
   background: transparent;
 }
 
 .su-card-inner {
   position: relative;
   z-index: 2;
-  width: 100vw;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -254,6 +254,16 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
 
   vec3 col = max(fire,sparks);
   float alpha = clamp(length(col) * 1.8, 0.0, 1.0);
+
+  // Smoothly fade out fire, sparks, and haze towards canvas edges so there is never a hard boundary
+  float yTopFade = smoothstep(1.0, 0.65, ypart);
+  float yBottomFade = smoothstep(0.0, 0.10, ypart);
+  float xFade = smoothstep(0.0, 0.06, xpart) * smoothstep(1.0, 0.94, xpart);
+  float edgeFade = yTopFade * yBottomFade * xFade;
+
+  col *= edgeFade;
+  alpha *= edgeFade;
+
   fragColor = vec4(col, alpha);
 }
 
@@ -435,6 +445,7 @@ export default function PixelFireplaceCanvas({
 
     let animFrameId = 0;
     let isVisible = true;
+    let isDisposed = false;
 
     const intersectionObserver = new IntersectionObserver(
       (entries) => {
@@ -451,7 +462,8 @@ export default function PixelFireplaceCanvas({
 
     function resize() {
       if (!canvas || !gl) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const isMobile = typeof window !== "undefined" && (window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches);
+      const dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1.5) : Math.min(window.devicePixelRatio || 1, 2);
       const width = canvas.clientWidth || window.innerWidth;
       const height = canvas.clientHeight || window.innerHeight;
       const targetW = Math.max(1, Math.floor(width * dpr));
@@ -502,17 +514,26 @@ export default function PixelFireplaceCanvas({
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
-      animFrameId = requestAnimationFrame(render);
+      if (isVisible && !isDisposed) {
+        animFrameId = requestAnimationFrame(render);
+      } else {
+        animFrameId = 0;
+      }
     }
 
     animFrameId = requestAnimationFrame(render);
 
     return () => {
-      if (animFrameId) cancelAnimationFrame(animFrameId);
+      isDisposed = true;
+      cancelAnimationFrame(animFrameId);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("resize", resize);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      try {
+        const loseCtx = gl.getExtension("WEBGL_lose_context");
+        if (loseCtx) loseCtx.loseContext();
+      } catch {}
     };
   }, []);
 
