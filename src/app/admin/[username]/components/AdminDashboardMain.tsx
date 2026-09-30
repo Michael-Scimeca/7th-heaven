@@ -11809,12 +11809,14 @@ export function AdminDashboardMain({
           onClick={() => toggleSection("cruisesignups")}
           className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
         >
-          <div className="flex items-center">
+          <div className="title-group title-group--sub">
             <h3 className="flex cursor-pointer items-center gap-2">
-
               Cruise Signups
               {renderInfoToggle("cruisesignups")}
             </h3>
+            <p>
+              View and manage passenger reservations, cabins, guest manifests, and payment statuses
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <span>{signups.length} registered</span>
@@ -17914,13 +17916,11 @@ export function AdminDashboardMain({
               {/* Column 1: Cruise Information & Guidelines Editor */}
               <div className="relative z-10">
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <h3>Cruise Information & Guidelines</h3>
-                      <p className="mt-0.5">
-                        Welcome Pack content rendered on passenger hub
-                      </p>
-                    </div>
+                  <div className="title-group title-group--sub">
+                    <h3>Cruise Information & Guidelines</h3>
+                    <p>
+                      Welcome Pack content rendered on passenger hub
+                    </p>
                   </div>
                   {adminGuidelinesSaveStatus === "saved" && (
                     <span className="animate-pulse rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[var(--color-accent)]">
@@ -18042,14 +18042,12 @@ export function AdminDashboardMain({
               <div className="group relative z-10 flex flex-col overflow-hidden">
                 <div className="relative z-10 flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
-                    <div className="flex items-center gap-4">
-                      <div>
-                        <h3>Passenger Notice & Email Broadcast</h3>
-                        <p className="mt-0.5">
-                          Post an update to the Cruise Dashboard & email
-                          passengers
-                        </p>
-                      </div>
+                    <div className="title-group title-group--sub">
+                      <h3>Passenger Notice & Email Broadcast</h3>
+                      <p>
+                        Post an update to the Cruise Dashboard & email
+                        passengers
+                      </p>
                     </div>
                   </div>
 
@@ -18245,11 +18243,9 @@ export function AdminDashboardMain({
             <div className="group relative z-10 flex flex-col overflow-hidden">
               <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
               <div className="relative z-10 flex flex-col gap-5">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <h3>Cruise Roster</h3>
-                    <p className="mt-0.5">Signups & Passenger Manifest</p>
-                  </div>
+                <div className="title-group title-group--sub border-b border-white/10 pb-4">
+                  <h3>Cruise Roster</h3>
+                  <p>Signups & Passenger Manifest</p>
                 </div>
 
                 {/* Stats Grid */}
@@ -18358,7 +18354,7 @@ export function AdminDashboardMain({
         <div className="no-print fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div className="flex max-h-[90vh] w-full max-w-4xl animate-[scaleIn_0.2s_ease-out] flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]">
             <div className="flex items-center justify-between border-b border-white/10 bg-black/20 p-6">
-              <div>
+              <div className="title-group title-group--sub">
                 <h3 className="flex items-center gap-2">
                   <svg
                     width="20"
@@ -18377,7 +18373,7 @@ export function AdminDashboardMain({
                   </svg>
                   Print Merchandise QR Code
                 </h3>
-                <p className="mt-1">
+                <p>
                   Generate printable retail labels for the merch table
                 </p>
               </div>
