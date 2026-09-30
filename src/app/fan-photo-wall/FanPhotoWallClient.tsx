@@ -420,14 +420,14 @@ export default function FanPhotoWallClient({
             >
               {/* Login Promo text if guest */}
               {!effectivelyLoggedIn && (
-                <div className="flex max-w-xl flex-wrap items-center gap-2">
+                <div className="flex items-center gap-2 text-small text-muted">
                   <Lock className="h-4 w-4 shrink-0 text-purple-400" />
-                  <p className="text-small text-muted">
+                  <p className="m-0 inline">
                     {sanityContent?.guestLockText ? (
                       sanityContent.guestLockText
                     ) : (
                       <>
-                        You must be a <span className="text-white font-medium">Fan Member</span> to share your
+                        You must be a <span className="font-medium text-white">Fan Member</span> to share your
                         moments.{" "}
                         <button
                           onClick={() => openModal("signup")}
@@ -735,7 +735,7 @@ export default function FanPhotoWallClient({
                       {/* Header Bar */}
                       <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/95 px-4 pt-safe sm:px-6">
                         <div className="flex items-center gap-3 min-w-0">
-                          <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 font-bold text-purple-300 shrink-0">
+                          <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1   text-purple-300 shrink-0">
                             {mediaDetails.isVideo ? "FAN VIDEO" : "FAN PHOTO"}
                           </span>
                           <div className="flex items-center gap-2 truncate text-sm text-white font-semibold">
