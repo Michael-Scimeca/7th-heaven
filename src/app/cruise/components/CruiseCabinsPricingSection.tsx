@@ -25,6 +25,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
+import { SectionHeader } from "@/components/SectionHeader";
 import GlowInput, { GlowSelect } from "@/components/GlowInput";
 
 const FacebookIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -50,7 +51,6 @@ const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 );
 import SeventhButton from "@/components/SeventhButton";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
-import LazyMount from "@/components/LazyMount";
 import AddCmsButton from "@/components/AddCmsButton";
 import CustomDropdown from "@/components/CustomDropdown";
 import { useMember } from "@/context/MemberContext";
@@ -256,26 +256,23 @@ function CruiseCabinsPricingSectionComponent({
   return (
     <>
       {/* ── SECTION 2: CABINS & PRICING ── */}
-      <LazyMount
-        as="section"
+      <section
         id="pricing"
         className="site-container relative z-20 -mt-85 lg:-mt-[460px]"
-        minHeight="800px"
-        rootMargin="300px 0px"
       >
-        <div className="max-w-3xl text-left">
+        <div className="title-group title-group--section max-w-3xl text-left">
           <h2>
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
               ?.title || "Staterooms & Cruise Rates"}
           </h2>
-          <p className="mt-4">
+          <p>
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
               ?.subtitle ||
               "Browse group rate options, prevailing market rates, suite class inclusions, and booking cancellation terms."}
           </p>
 
           {/* Pricing Year Toggle */}
-          <div className="mt-8 flex flex-col items-stretch justify-start gap-3 sm:flex-row sm:items-center">
+          <div className="mt-6 flex flex-col items-stretch justify-start gap-3 sm:flex-row sm:items-center">
             <SeventhButton
               type="button"
               onClick={() => setActivePriceYear(2027)}
@@ -447,21 +444,18 @@ function CruiseCabinsPricingSectionComponent({
                 </li>
               </ul>
             </div>
-            <p className="mt-3">
-              Legend of the Seas is an exact sister-ship duplicate.
-            </p>
           </div>
 
           {/* Column 2: Booking Policy */}
           <div className="relative rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-8 lg:col-span-5">
-            <div className="mb-6 flex items-center gap-3">
+            <div className="mb-2 flex items-center gap-3">
               <AlertTriangle className="h-6 w-6 shrink-0 text-yellow-400" />
-              <h3>
+              <h3 className="uppercase">
                 {sanityContent?.cruiseInfo?.bookingPolicyTitle ||
                   "Booking Policy"}
               </h3>
             </div>
-            <p className="mb-6">
+            <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
               {sanityContent?.cruiseInfo?.bookingPolicyHeading ||
                 "Book through us to participate & lock in best rates"}
             </p>
@@ -475,7 +469,7 @@ function CruiseCabinsPricingSectionComponent({
                 </>
               )}
             </p>
-            <ul className="mb-6 space-y-2.5">
+            <ul className="mb-6 pb-6 space-y-3 border-b border-white/10">
               <li className="flex items-start gap-2">
                 <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
                 <span>
@@ -498,7 +492,7 @@ function CruiseCabinsPricingSectionComponent({
                 </span>
               </li>
             </ul>
-            <div className="space-y-1.5 border-t border-white/10 pt-3">
+            <div className="space-y-1.5">
               <p>
                 <strong>Email:</strong>{" "}
                 <a
@@ -525,7 +519,7 @@ function CruiseCabinsPricingSectionComponent({
                 {sanityContent?.cruiseInfo?.depositInfo ||
                   "$250/person ($500/room)."}
               </p>
-              <p className="!mt-1">
+              <p>
                 <CalendarIcon className="mr-1 inline h-3.5 w-3.5 text-purple-400" />
                 <strong>Final Payment:</strong>{" "}
                 {activePriceYear === 2027
@@ -537,20 +531,20 @@ function CruiseCabinsPricingSectionComponent({
             </div>
 
             {/* Cancellation Policy Card */}
-            <div className="mt-6  ">
-              <div className="mb-3 flex items-center gap-3">
+            <div className="mt-8 border-t border-white/10 pt-8">
+              <div className="mb-2 flex items-center gap-3">
                 <CalendarIcon className="h-6 w-6 shrink-0 text-purple-400" />
-                <h3 className="font-bold uppercase">
+                <h3 className="uppercase">
                   {sanityContent?.cruiseInfo?.cancellationTitle ||
                     "Cancellation Policy"}
                 </h3>
               </div>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
+              <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
                 {sanityContent?.cruiseInfo?.cancellationSubheading ||
                   "Refund terms before booking"}
               </p>
-              <div className="space-y-2">
-                <h4 className="text-sm font-bold uppercase tracking-wide text-white">
+              <div>
+                <h4 className="pb-3 text-sm font-semibold uppercase tracking-wide text-white">
                   Group Rate Rooms:
                 </h4>
                 {activePriceYear === 2027 ? (
@@ -590,27 +584,32 @@ function CruiseCabinsPricingSectionComponent({
 
           {/* Column 3: Passport Guidelines */}
           <div className="relative rounded-2xl text-left min-[1600px]:col-span-4 md:col-span-6 lg:col-span-4">
-            <div className="mb-6 flex items-center gap-3">
+            <div className="mb-2 flex items-center gap-3">
               <Compass className="h-6 w-6 shrink-0 text-purple-400" />
-              <h3>
+              <h3 className="uppercase">
                 {sanityContent?.cruiseInfo?.passportTitle ||
                   "Passport Guidelines"}
               </h3>
             </div>
-            <p className="mb-6 text-purple-400">
+            <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
               {sanityContent?.cruiseInfo?.passportSubheading ||
                 "Essential travel document guidelines"}
             </p>
             <div className="space-y-4">
-              <p>
-                {sanityContent?.cruiseInfo?.passportBody ||
-                  "A physical passport book valid for 6 months post-cruise is highly recommended for all travelers."}
-              </p>
-              <p>
-                For closed-loop U.S. sailings, a certified state birth
-                certificate accompanied by a government-issued photo ID is
-                legally acceptable.
-              </p>
+              {sanityContent?.cruiseInfo?.passportBody ? (
+                <p>{sanityContent.cruiseInfo.passportBody}</p>
+              ) : (
+                <>
+                  <p>
+                    A physical passport book valid for 6 months post-cruise is highly recommended for all travelers.
+                  </p>
+                  <p>
+                    For closed-loop U.S. sailings, a certified state birth
+                    certificate accompanied by a government-issued photo ID is
+                    legally acceptable.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -792,41 +791,44 @@ function CruiseCabinsPricingSectionComponent({
                 <div
                   key={(room.code || room.selectValue) + idx}
                   onClick={() => handleSelectCabin(room.selectValue)}
-                  className="group flex w-full cursor-pointer flex-col justify-between border-0 text-left"
+                  className="group flex h-full w-full cursor-pointer flex-col gap-4 border-0 text-left"
                 >
-                  <div>
-                    {room.image && (
-                      <div className="relative h-44 w-full overflow-hidden text-center">
-                        <Image
-                          width={200}
-                          height={200}
-                          unoptimized
-                          src={room.image}
-                          alt={room.title}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="px-0 py-5">
-                      <div className="mb-3 flex items-start justify-between gap-2 text-left">
-                        <SectionBadge label={room.badge} />
-                      </div>
-                      <span className="block">{room.code} Category</span>
-                      <h4 className="text-left">{room.title}</h4>
+                  {room.image && (
+                    <div className="relative h-44 w-full overflow-hidden text-center">
+                      <Image
+                        width={200}
+                        height={200}
+                        unoptimized
+                        src={room.image}
+                        alt={room.title}
+                        className="h-full w-full object-cover"
+                      />
                     </div>
+                  )}
+
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-start justify-between gap-2 text-left">
+                      <SectionBadge label={room.badge} />
+                    </div>
+                    <span className="block">{room.code} Category</span>
+                    <h4 className="text-left">{room.title}</h4>
                   </div>
 
-                  <div className="px-0 pt-0 text-left">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-xl">{room.price}</span>
-                      <span className="text-white/50">USD pp</span>
+                  <div className="mt-auto flex flex-col gap-4 text-left">
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-xl">{room.price}</span>
+                        <span className="text-white/50">USD pp</span>
+                      </div>
+                      {room.inclusions ? (
+                        <span className="flex items-center gap-1 text-purple-400">
+                          <CheckMarkIcon className="h-3.5 w-3.5 shrink-0" />
+                          <span>{room.inclusions}</span>
+                        </span>
+                      ) : (
+                        <span className="inline-block h-5" aria-hidden="true" />
+                      )}
                     </div>
-                    {room.inclusions && (
-                      <span className="flex items-center gap-1 text-purple-400">
-                        <CheckMarkIcon className="h-3.5 w-3.5 shrink-0" />
-                        <span>{room.inclusions}</span>
-                      </span>
-                    )}
                     <SeventhButton
                       onClick={(e) => {
                         e.stopPropagation();
@@ -842,434 +844,438 @@ function CruiseCabinsPricingSectionComponent({
             </div>
           </div>
         </div>
-      </LazyMount>
+      </section>
 
       {/* ── CRUISE RESERVATION & SIGNUP FORM SECTION ── */}
       <section
         id="signup"
-        className="site-container py-section-fluid relative z-20 "
+        aria-labelledby="signup-heading"
+        className="section relative"
       >
-        <div id="booking" />
-        <div id="book-now" />
-        <div id="payment-portal" />
+        <div className="site-container relative z-20">
+          <div id="booking" />
+          <div id="book-now" />
+          <div id="payment-portal" />
 
-        <div>
-          <div className="mb-6  text-center">
-            <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
-              <span className="inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
-                Official Booking Form
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-rose-200 hover:bg-rose-600/50"
-              >
-                💳{" "}
-                {isPaymentDropdownOpen
-                  ? "Hide Payment Form"
-                  : "Make A Payment On Existing Booking"}
-              </button>
-            </div>
-            <h2>RESERVE YOUR CRUISE STATEROOM</h2>
-            <p className="mx-auto mt-2 max-w-xl ">
-              Every booking requires a $500 deposit per room ($250 per person).
-              Complete the form below to lock in your cabin rate.
-            </p>
-          </div>
-
-          {PaymentPortalDropdownPanel && isPaymentDropdownOpen && (
-            <div className="mb-8">
-              <PaymentPortalDropdownPanel
-                isOpen={isPaymentDropdownOpen}
-                onClose={() => setIsPaymentDropdownOpen(false)}
+          <div>
+            <div className="mb-6  text-center">
+              <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
+                <span className="inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
+                  Official Booking Form
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-rose-200 hover:bg-rose-600/50"
+                >
+                  💳{" "}
+                  {isPaymentDropdownOpen
+                    ? "Hide Payment Form"
+                    : "Make A Payment On Existing Booking"}
+                </button>
+              </div>
+              <SectionHeader
+                id="signup-heading"
+                title="RESERVE YOUR CRUISE STATEROOM"
+                subtitle="Every booking requires a $500 deposit per room ($250 per person). Complete the form below to lock in your cabin rate."
+                icon={Ship}
               />
             </div>
-          )}
 
-          {signupStatus === "success" ? (
-            <div className="animate-fade-in space-y-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/40 p-8 text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-2xl text-emerald-400">
-                <CheckCircle2 className="h-8 w-8 text-emerald-400" />
-              </div>
-              <h3 className="text-2xl">Reservation Submitted!</h3>
-              <p className="mx-auto max-w-md">
-                Thank you,{" "}
-                <strong className="text-emerald-400">{formData.name}</strong>!
-                Your cruise booking request for cabin{" "}
-                <strong>
-                  {formData.cabinPreference || "selected stateroom"}
-                </strong>{" "}
-                has been received by NTD Vacations concierge.
-              </p>
-              <p className="text-white/50">
-                A confirmation email has been dispatched to {formData.email}.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSignup} className="space-y-3 text-left">
-              {formError && (
-                <div className="flex items-center gap-3  border border-red-500/50 bg-red-900/40 p-4 text-red-200">
-                  <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
-                  <span>{formError}</span>
-                </div>
-              )}
-
-              {/* ROOM CATEGORY SELECTION */}
-              <div>
-                <label htmlFor="cabinPreference" className="mb-2 block">
-                  Room Category / Cabin Preference *
-                </label>
-                <GlowInput
-                  id="cabinPreference"
-                  type="text"
-                  required
-                  value={formData.cabinPreference || ""}
-                  onChange={(e) =>
-                    setFormData((prev: any) => ({
-                      ...prev,
-                      cabinPreference: e.target.value,
-                    }))
-                  }
-                  placeholder="e.g. Ocean View Balcony (D4) or Suite"
-                  className="focus-ring w-full"
+            {PaymentPortalDropdownPanel && isPaymentDropdownOpen && (
+              <div className="mb-8">
+                <PaymentPortalDropdownPanel
+                  isOpen={isPaymentDropdownOpen}
+                  onClose={() => setIsPaymentDropdownOpen(false)}
                 />
-                <p className="mt-1.5 text-white/50">
-                  EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
+              </div>
+            )}
+
+            {signupStatus === "success" ? (
+              <div className="animate-fade-in space-y-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/40 p-8 text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-2xl text-emerald-400">
+                  <CheckCircle2 className="h-8 w-8 text-emerald-400" />
+                </div>
+                <h3 className="text-2xl">Reservation Submitted!</h3>
+                <p className="mx-auto max-w-md">
+                  Thank you,{" "}
+                  <strong className="text-emerald-400">{formData.name}</strong>!
+                  Your cruise booking request for cabin{" "}
+                  <strong>
+                    {formData.cabinPreference || "selected stateroom"}
+                  </strong>{" "}
+                  has been received by NTD Vacations concierge.
+                </p>
+                <p className="text-white/50">
+                  A confirmation email has been dispatched to {formData.email}.
                 </p>
               </div>
-
-              {/* GUEST 1 DETAILS & PAYMENT */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between border-b border-white/10 pb-6">
-                  <h3>GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
-                  <span className="text-purple-400">Primary Guest</span>
-                </div>
-
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div>
-                    <label>Full Legal Name *</label>
-                    <GlowInput
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData((prev: any) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }))
-                      }
-                      placeholder="First &amp; Last Name (as on Passport/ID)"
-                      className="focus-ring w-full"
-                    />
-                  </div>
-                  <div>
-                    <label>Email Address *</label>
-                    <GlowInput
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData((prev: any) => ({
-                          ...prev,
-                          email: e.target.value,
-                        }))
-                      }
-                      placeholder="your@email.com"
-                      className="focus-ring w-full"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                  <div>
-                    <label>Cell Phone *</label>
-                    <GlowInput
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData((prev: any) => ({
-                          ...prev,
-                          phone: formatPhoneDisplay(e.target.value),
-                        }))
-                      }
-                      placeholder="(555) 000-0000"
-                      className="focus-ring w-full"
-                    />
-                  </div>
-                  <div>
-                    <label>Crown &amp; Anchor # (If Any)</label>
-                    <GlowInput
-                      type="text"
-                      value={formData.crownAnchor1 || ""}
-                      onChange={(e) =>
-                        setFormData((prev: any) => ({
-                          ...prev,
-                          crownAnchor1: e.target.value,
-                        }))
-                      }
-                      placeholder="Royal Caribbean Loyalty #"
-                      className="focus-ring w-full"
-                    />
-                  </div>
-                  <div>
-                    <label>T-Shirt Size</label>
-                    <CustomDropdown
-                      value={formData.tshirtSize1 || "L"}
-                      onChange={(val) =>
-                        setFormData((prev: any) => ({
-                          ...prev,
-                          tshirtSize1: val,
-                        }))
-                      }
-                      options={[
-                        { value: "S", label: "Small (S)" },
-                        { value: "M", label: "Medium (M)" },
-                        { value: "L", label: "Large (L)" },
-                        { value: "XL", label: "X-Large (XL)" },
-                        { value: "2XL", label: "2X-Large (2XL)" },
-                        { value: "3XL", label: "3X-Large (3XL)" },
-                      ]}
-                      chevronColor="#f43f5e"
-                      className=""
-                    />
-                  </div>
-                </div>
-
-                {/* GUEST 1 PAYMENT CARD */}
-                <div>
-                  <CruiseCard1Section
-                    formData={formData}
-                    setFormData={setFormData}
-                  />
-                </div>
-              </div>
-
-              {/* GUEST 2 DETAILS (OPTIONAL / TOGGLEABLE) */}
-              <div>
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
-                  <div>
-                    <h3>GUEST 2 (IF NEEDED)</h3>
-                    <p className="mt-0.5">
-                      YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF
-                      YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                    className={`cursor-pointer rounded-full border px-4 py-1.5 transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600" : "border-white/20 bg-white/10 hover:text-white"}`}
-                  >
-                    {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
-                  </button>
-                </div>
-
-                {guests[0]?.active && (
-                  <div className="animate-fade-in space-y-4">
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                      <div>
-                        <label className="mb-1">Guest 2 Full Legal Name</label>
-                        <GlowInput
-                          type="text"
-                          value={guests[0].name}
-                          onChange={(e) => updateGuest(0, "name", e.target.value)}
-                          placeholder="Guest 2 First &amp; Last Name"
-                          className="focus-ring w-full"
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-1 block">Guest 2 Email</label>
-                        <GlowInput
-                          type="email"
-                          value={guests[0].email}
-                          onChange={(e) => updateGuest(0, "email", e.target.value)}
-                          placeholder="guest2@email.com"
-                          className="focus-ring w-full"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                      <div>
-                        <label className="mb-1">Guest 2 Phone</label>
-                        <GlowInput
-                          type="tel"
-                          value={guests[0].phone}
-                          onChange={(e) =>
-                            updateGuest(0, "phone", formatPhoneDisplay(e.target.value))
-                          }
-                          placeholder="(555) 000-0000"
-                          className="focus-ring w-full"
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-1">
-                          Guest 2 Crown &amp; Anchor #
-                        </label>
-                        <GlowInput
-                          type="text"
-                          value={guests[0].crownAnchor}
-                          onChange={(e) =>
-                            updateGuest(0, "crownAnchor", e.target.value)
-                          }
-                          placeholder="Loyalty #"
-                          className="focus-ring w-full"
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-1">Guest 2 T-Shirt Size</label>
-                        <CustomDropdown
-                          value={guests[0]?.tshirtSize || "L"}
-                          onChange={(val) => updateGuest(0, "tshirtSize", val)}
-                          options={[
-                            { value: "S", label: "Small (S)" },
-                            { value: "M", label: "Medium (M)" },
-                            { value: "L", label: "Large (L)" },
-                            { value: "XL", label: "X-Large (XL)" },
-                            { value: "2XL", label: "2X-Large (2XL)" },
-                            { value: "3XL", label: "3X-Large (3XL)" },
-                          ]}
-                          chevronColor="#f43f5e"
-                        />
-                      </div>
-                    </div>
-
-                    {/* OPTIONAL SPLIT PAYMENT FOR GUEST 2 */}
-                    <div className="pt-2">
-                      <div className="mb-3 flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          id="splitPayment"
-                          checked={formData.splitPayment}
-                          onChange={(e) =>
-                            setFormData((prev: any) => ({
-                              ...prev,
-                              splitPayment: e.target.checked,
-                            }))
-                          }
-                          className="cursor-pointer rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500"
-                        />
-                        <label
-                          htmlFor="splitPayment"
-                          className="cursor-pointer text-purple-200"
-                        >
-                          Split deposit onto 2 separate credit cards?
-                        </label>
-                      </div>
-
-                      {formData.splitPayment && (
-                        <CruiseCard2Section
-                          formData={formData}
-                          setFormData={setFormData}
-                        />
-                      )}
-                    </div>
+            ) : (
+              <form onSubmit={handleSignup} className="space-y-3 text-left">
+                {formError && (
+                  <div className="flex items-center gap-3  border border-red-500/50 bg-red-900/40 p-4 text-red-200">
+                    <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
+                    <span>{formError}</span>
                   </div>
                 )}
-              </div>
 
-              {/* EXTRA / OPTIONS & NOTES */}
-              <div className="space-y-3">
-                <h3 className="border-b border-white/10 pb-3">
-                  EXTRA &amp; SPECIAL REQUESTS
-                </h3>
+                {/* ROOM CATEGORY SELECTION */}
+                <div>
+                  <label htmlFor="cabinPreference" className=" block">
+                    Room Category / Cabin Preference *
+                  </label>
+                  <GlowInput
+                    id="cabinPreference"
+                    type="text"
+                    required
+                    value={formData.cabinPreference || ""}
+                    onChange={(e) =>
+                      setFormData((prev: any) => ({
+                        ...prev,
+                        cabinPreference: e.target.value,
+                      }))
+                    }
+                    placeholder="e.g. Ocean View Balcony (D4) or Suite"
+                    className="focus-ring w-full"
+                  />
+                  <p className="mt-1.5 text-white/50">
+                    EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
+                  </p>
+                </div>
 
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div>
-                    <label>Travel Insurance? (Yes / No)</label>
-                    <CustomDropdown
-                      value={formData.insurance || "no"}
-                      onChange={(val) =>
-                        setFormData((prev: any) => ({
-                          ...prev,
-                          insurance: val,
-                        }))
-                      }
-                      options={[
-                        { value: "no", label: "No - I decline insurance" },
-                        {
-                          value: "yes",
-                          label: "Yes - Send me insurance quote options",
-                        },
-                      ]}
-                      chevronColor="#f43f5e"
-                    />
+                {/* GUEST 1 DETAILS & PAYMENT */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-6">
+                    <h3>GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
+                    <span className="text-purple-400">Primary Guest</span>
                   </div>
 
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                      <label>Full Legal Name *</label>
+                      <GlowInput
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
+                        placeholder="First &amp; Last Name (as on Passport/ID)"
+                        className="focus-ring w-full"
+                      />
+                    </div>
+                    <div>
+                      <label>Email Address *</label>
+                      <GlowInput
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }))
+                        }
+                        placeholder="your@email.com"
+                        className="focus-ring w-full"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    <div>
+                      <label>Cell Phone *</label>
+                      <GlowInput
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            phone: formatPhoneDisplay(e.target.value),
+                          }))
+                        }
+                        placeholder="(555) 000-0000"
+                        className="focus-ring w-full"
+                      />
+                    </div>
+                    <div>
+                      <label>Crown &amp; Anchor # (If Any)</label>
+                      <GlowInput
+                        type="text"
+                        value={formData.crownAnchor1 || ""}
+                        onChange={(e) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            crownAnchor1: e.target.value,
+                          }))
+                        }
+                        placeholder="Royal Caribbean Loyalty #"
+                        className="focus-ring w-full"
+                      />
+                    </div>
+                    <div>
+                      <label>T-Shirt Size</label>
+                      <CustomDropdown
+                        value={formData.tshirtSize1 || "L"}
+                        onChange={(val) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            tshirtSize1: val,
+                          }))
+                        }
+                        options={[
+                          { value: "S", label: "Small (S)" },
+                          { value: "M", label: "Medium (M)" },
+                          { value: "L", label: "Large (L)" },
+                          { value: "XL", label: "X-Large (XL)" },
+                          { value: "2XL", label: "2X-Large (2XL)" },
+                          { value: "3XL", label: "3X-Large (3XL)" },
+                        ]}
+                        chevronColor="#f43f5e"
+                        className=""
+                      />
+                    </div>
+                  </div>
+
+                  {/* GUEST 1 PAYMENT CARD */}
                   <div>
-                    <label>Pre-Paid Gratuities? (Y/N?) *</label>
-                    <CustomDropdown
-                      value={formData.prepaidGratuities || "yes"}
-                      onChange={(val) =>
-                        setFormData((prev: any) => ({
-                          ...prev,
-                          prepaidGratuities: val,
-                        }))
-                      }
-                      options={[
-                        {
-                          value: "yes",
-                          label: "Yes - Add pre-paid gratuities",
-                        },
-                        {
-                          value: "no",
-                          label: "No - Pay gratuities onboard ship",
-                        },
-                      ]}
-                      chevronColor="#f43f5e"
+                    <CruiseCard1Section
+                      formData={formData}
+                      setFormData={setFormData}
                     />
-                    <p className="mt-1 text-white/50">
-                      GROUP RATE ROOMS MUST HAVE THIS
-                    </p>
                   </div>
                 </div>
 
-                {/* NOTES & SIGNATURE COMPONENT */}
-                <CruiseNotesAndSignatureSection
-                  formData={formData}
-                  setFormData={setFormData}
-                  signature={signature}
-                  setSignature={setSignature}
-                  signatureDate={signatureDate}
-                />
-                {/* SUBMIT BUTTON */}
-                <div className="text-center">
-                  <SeventhButton
-                    type="submit"
-                    disabled={signupStatus === "submitting"}
-                    className="w-full justify-center sm:w-auto"
-                  >
-                    {signupStatus === "submitting" ? (
-                      <div className="flex items-center gap-2">
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                        <span>SUBMITTING RESERVATION...</span>
+                {/* GUEST 2 DETAILS (OPTIONAL / TOGGLEABLE) */}
+                <div>
+                  <div className="flex flex-col justify-between gap-3 border-b border-white/10 pb-3 sm:flex-row sm:items-center">
+                    <div>
+                      <h3>GUEST 2 (IF NEEDED)</h3>
+                      <p className="mt-0.5">
+                        YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF
+                        YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => toggleGuestActive(0, !guests[0]?.active)}
+                      className={`cursor-pointer rounded-full border px-4 py-1.5 transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600" : "border-white/20 bg-white/10 hover:text-white"}`}
+                    >
+                      {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
+                    </button>
+                  </div>
+
+                  {guests[0]?.active && (
+                    <div className="animate-fade-in space-y-4">
+                      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        <div>
+                          <label className="">Guest 2 Full Legal Name</label>
+                          <GlowInput
+                            type="text"
+                            value={guests[0].name}
+                            onChange={(e) => updateGuest(0, "name", e.target.value)}
+                            placeholder="Guest 2 First &amp; Last Name"
+                            className="focus-ring w-full"
+                          />
+                        </div>
+                        <div>
+                          <label className="block">Guest 2 Email</label>
+                          <GlowInput
+                            type="email"
+                            value={guests[0].email}
+                            onChange={(e) => updateGuest(0, "email", e.target.value)}
+                            placeholder="guest2@email.com"
+                            className="focus-ring w-full"
+                          />
+                        </div>
                       </div>
-                    ) : (
-                      <span>SUBMIT RESERVATION &amp; BOOKING</span>
-                    )}
-                  </SeventhButton>
+
+                      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                        <div>
+                          <label className="">Guest 2 Phone</label>
+                          <GlowInput
+                            type="tel"
+                            value={guests[0].phone}
+                            onChange={(e) =>
+                              updateGuest(0, "phone", formatPhoneDisplay(e.target.value))
+                            }
+                            placeholder="(555) 000-0000"
+                            className="focus-ring w-full"
+                          />
+                        </div>
+                        <div>
+                          <label className="">
+                            Guest 2 Crown &amp; Anchor #
+                          </label>
+                          <GlowInput
+                            type="text"
+                            value={guests[0].crownAnchor}
+                            onChange={(e) =>
+                              updateGuest(0, "crownAnchor", e.target.value)
+                            }
+                            placeholder="Loyalty #"
+                            className="focus-ring w-full"
+                          />
+                        </div>
+                        <div>
+                          <label className="">Guest 2 T-Shirt Size</label>
+                          <CustomDropdown
+                            value={guests[0]?.tshirtSize || "L"}
+                            onChange={(val) => updateGuest(0, "tshirtSize", val)}
+                            options={[
+                              { value: "S", label: "Small (S)" },
+                              { value: "M", label: "Medium (M)" },
+                              { value: "L", label: "Large (L)" },
+                              { value: "XL", label: "X-Large (XL)" },
+                              { value: "2XL", label: "2X-Large (2XL)" },
+                              { value: "3XL", label: "3X-Large (3XL)" },
+                            ]}
+                            chevronColor="#f43f5e"
+                          />
+                        </div>
+                      </div>
+
+                      {/* OPTIONAL SPLIT PAYMENT FOR GUEST 2 */}
+                      <div className="pt-2">
+                        <div className="mb-3 flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            id="splitPayment"
+                            checked={formData.splitPayment}
+                            onChange={(e) =>
+                              setFormData((prev: any) => ({
+                                ...prev,
+                                splitPayment: e.target.checked,
+                              }))
+                            }
+                            className="cursor-pointer rounded border-white/20 bg-black/50 text-purple-600 focus:ring-purple-500"
+                          />
+                          <label
+                            htmlFor="splitPayment"
+                            className="cursor-pointer text-purple-200"
+                          >
+                            Split deposit onto 2 separate credit cards?
+                          </label>
+                        </div>
+
+                        {formData.splitPayment && (
+                          <CruiseCard2Section
+                            formData={formData}
+                            setFormData={setFormData}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </form>
-          )}
+
+                {/* EXTRA / OPTIONS & NOTES */}
+                <div className="space-y-3">
+                  <h3 className="border-b border-white/10 pb-3">
+                    EXTRA &amp; SPECIAL REQUESTS
+                  </h3>
+
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                      <label>Travel Insurance? (Yes / No)</label>
+                      <CustomDropdown
+                        value={formData.insurance || "no"}
+                        onChange={(val) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            insurance: val,
+                          }))
+                        }
+                        options={[
+                          { value: "no", label: "No - I decline insurance" },
+                          {
+                            value: "yes",
+                            label: "Yes - Send me insurance quote options",
+                          },
+                        ]}
+                        chevronColor="#f43f5e"
+                      />
+                    </div>
+
+                    <div>
+                      <label>Pre-Paid Gratuities? (Y/N?) *</label>
+                      <CustomDropdown
+                        value={formData.prepaidGratuities || "yes"}
+                        onChange={(val) =>
+                          setFormData((prev: any) => ({
+                            ...prev,
+                            prepaidGratuities: val,
+                          }))
+                        }
+                        options={[
+                          {
+                            value: "yes",
+                            label: "Yes - Add pre-paid gratuities",
+                          },
+                          {
+                            value: "no",
+                            label: "No - Pay gratuities onboard ship",
+                          },
+                        ]}
+                        chevronColor="#f43f5e"
+                      />
+                      <p className="mt-1 text-white/50">
+                        GROUP RATE ROOMS MUST HAVE THIS
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* NOTES & SIGNATURE COMPONENT */}
+                  <CruiseNotesAndSignatureSection
+                    formData={formData}
+                    setFormData={setFormData}
+                    signature={signature}
+                    setSignature={setSignature}
+                    signatureDate={signatureDate}
+                  />
+                  {/* SUBMIT BUTTON */}
+                  <div className="text-center">
+                    <SeventhButton
+                      type="submit"
+                      disabled={signupStatus === "submitting"}
+                      className="w-full justify-center sm:w-auto"
+                    >
+                      {signupStatus === "submitting" ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="h-5 w-5 animate-spin" />
+                          <span>SUBMITTING RESERVATION...</span>
+                        </div>
+                      ) : (
+                        <span>SUBMIT RESERVATION &amp; BOOKING</span>
+                      )}
+                    </SeventhButton>
+                  </div>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       </section>
 
       {/* Cruise Support Team */}
-      <LazyMount
-        as="section"
+      <section
         id="concierge"
-        className="site-container py-section-fluid relative z-20  text-center"
-        minHeight="400px"
-        rootMargin="300px 0px"
+        aria-labelledby="concierge-heading"
+        className="section cv-auto site-container relative z-20"
+        style={{ "--cv-size": "400px", "--cv-size-lg": "719px" } as React.CSSProperties}
       >
-        <div className="mx-auto mb-6 max-w-2xl">
-          <h2>Official Cruise Concierge &amp; Booking Team</h2>
-          <p className="mx-auto mt-3 max-w-2xl ">
-            Have questions about your booking, cabin options, group travel, or
-            excursions? Our dedicated 7th Heaven Cruise concierge team is here
-            to assist you every step of the way.
-          </p>
+        <div className="mb-6 max-w-3xl text-left">
+          <SectionHeader
+            id="concierge-heading"
+            title="Official Cruise Concierge & Booking Team"
+            subtitle="Have questions about your booking, cabin options, group travel, or excursions? Our dedicated 7th Heaven Cruise concierge team is here to assist you every step of the way."
+            align="left"
+            divider={false}
+          />
         </div>
         <div className="grid grid-cols-1 gap-6 text-center sm:grid-cols-2 lg:grid-cols-3">
           {(
@@ -1369,25 +1375,26 @@ function CruiseCabinsPricingSectionComponent({
             );
           })}
         </div>
-      </LazyMount>
+      </section>
 
       {/* FEATURED ARTISTS */}
-      <LazyMount
-        as="section"
+      <section
         id="artists"
-        className="site-container py-section-fluid "
-        minHeight="500px"
-        rootMargin="300px 0px"
+        aria-labelledby="artists-heading"
+        className="section cv-auto site-container"
+        style={{ "--cv-size": "500px", "--cv-size-lg": "665px" } as React.CSSProperties}
       >
         <div className="mb-6 w-full max-w-3xl text-left">
-          <h2>
-            Featured <span className="accent-gradient-text">Artists</span>
-          </h2>
-          <p className="mt-2.5 ">
-            Get ready for non-stop live music! Join 7th Heaven along with an
-            extraordinary lineup of world-class performers and special guest
-            bands across multiple stages throughout the voyage.
-          </p>
+          <SectionHeader
+            id="artists-heading"
+            title={
+              <>
+                Featured <span className="accent-gradient-text">Artists</span>
+              </>
+            }
+            subtitle="Get ready for non-stop live music! Join 7th Heaven along with an extraordinary lineup of world-class performers and special guest bands across multiple stages throughout the voyage."
+            divider={false}
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -1434,7 +1441,7 @@ function CruiseCabinsPricingSectionComponent({
             </div>
           ))}
         </div>
-      </LazyMount>
+      </section>
 
       {/* ── ADD ROOM MODAL PORTAL ── */}
       {mounted &&
@@ -1517,7 +1524,7 @@ function CruiseCabinsPricingSectionComponent({
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-purple-200/80">
+                    <label className="  block ">
                       Cruise Year *
                     </label>
                     <GlowSelect
@@ -1557,7 +1564,7 @@ function CruiseCabinsPricingSectionComponent({
                   />
 
                   <div>
-                    <label className="mb-1.5 block text-purple-200/80">
+                    <label className="  block ">
                       Badge Status Color
                     </label>
                     <GlowSelect
