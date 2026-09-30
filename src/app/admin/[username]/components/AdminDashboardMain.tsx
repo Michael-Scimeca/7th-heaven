@@ -24,12 +24,13 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import Dropdown from "@/components/Dropdown";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 import GooeyDropdown from "@/components/GooeyDropdown";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import GlowInput, { GlowTextarea, GlowSelect } from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
 import SeventhButton from "@/components/SeventhButton";
+import Avatar from "@/components/Avatar";
 
 import {
   adminKillStream,
@@ -51,7 +52,7 @@ const AdminMap = dynamic(() => import("@/components/AdminMap"), {
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 import "react-quill-new/dist/quill.snow.css";
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
-import { sanitizeHtml } from "@/lib/sanitize-html";
+import { sanitizeHtml, sanitizeBannerHtml } from "@/lib/sanitize-html";
 
 const STANDARD_ROLE_TAGS_SET = new Set([
   "AUDIO",
@@ -76,7 +77,7 @@ const STANDARD_ROLE_TAGS_SET = new Set([
 ]);
 
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
-import { Clock, CheckCircle2, Plus } from "lucide-react";
+import { Clock, CheckCircle2, Plus, Bell, Radio, Send, Users, Mail, MessageSquare, Sparkles, AlertTriangle, ShieldCheck } from "lucide-react";
 import { CruiseLivePreview } from "./CruiseLivePreview";
 import { AdminAuthGate } from "./AdminAuthGate";
 import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
@@ -541,39 +542,14 @@ const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
 };
 
 const CrewAvatar = React.memo(({ member }: { member: any }) => {
-  const name = member?.name || "Crew";
-  const avatarUrl = resolveMemberAvatar(
-    name,
-    member?.avatar || (member as any)?.avatarUrl,
-  );
-  const initials =
-    member?.initials ||
-    name
-      .split(" ")
-      .map((n: string) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  const [imgError, setImgError] = React.useState(false);
-
-  if (avatarUrl && !imgError) {
-    return (
-      <img
-        src={avatarUrl}
-        alt={name}
-        onError={() => setImgError(true)}
-        className="h-11 w-11 shrink-0 rounded-full border border-white/10 object-cover"
-      />
-    );
-  }
-
   return (
-    <div
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 select-none"
-      style={{ color: "#ffffff" }}
-    >
-      {initials}
-    </div>
+    <Avatar
+      src={member?.avatar || (member as any)?.avatarUrl}
+      name={member?.name || "Crew"}
+      initials={member?.initials}
+      size="md"
+      border="border border-white/10"
+    />
   );
 });
 CrewAvatar.displayName = "CrewAvatar";
@@ -761,7 +737,7 @@ function DutyRoleEditorPopover({
 
       {/* Quick-Select Chips (All Roles) */}
       <div>
-        <span className="mb-1.5 block text-[10px]">Quick Toggle Presets:</span>
+        <span className="  block text-[10px]">Quick Toggle Presets:</span>
         <div className="custom-scrollbar flex max-h-[240px] min-h-[140px] flex-wrap gap-1.5 overflow-y-auto rounded-lg border border-white/10 bg-black/40 p-2.5 shadow-inner">
           {Array.from(
             new Set([
@@ -2880,6 +2856,8 @@ export function AdminDashboardMain({
   // Global Announcement State
   const [bannerActive, setBannerActive] = useState(false);
   const [bannerText, setBannerText] = useState("");
+  const [bannerLink, setBannerLink] = useState("");
+  const [bannerLinkText, setBannerLinkText] = useState("Read More");
   const bannerLinkRef = useRef("");
   const [bannerExpiresAt, setBannerExpiresAt] = useState<string | null>(null);
   const [bannerUpdating, setBannerUpdating] = useState(false);
@@ -3414,7 +3392,7 @@ export function AdminDashboardMain({
     }
   };
 
-  // SMS Proximity Blast (Fan Show Alerts)
+  // Multi-Channel Alert & Broadcast Center (Fans, Crew, Band, Planners)
   const [smsShows, setSmsShows] = useState<any[]>([]);
   const [smsSelectedShow, setSmsSelectedShow] = useState<string>("");
   const [smsCustomMsg, setSmsCustomMsg] = useState("");
@@ -3428,6 +3406,62 @@ export function AdminDashboardMain({
   const [smsCostPerSegment] = useState(0.0079); // Twilio US SMS Segment standard rate
   const [smsTotalSentAllTime, setSmsTotalSentAllTime] = useState(4820);
   const [smsTotalSpentAllTime, setSmsTotalSpentAllTime] = useState(38.08);
+
+  // Multi-Channel State & Controls
+  const [alertTargetAudience, setAlertTargetAudience] = useState<string>("fans");
+  const [alertCategory, setAlertCategory] = useState<string>("announcement");
+  const [alertTitle, setAlertTitle] = useState<string>("");
+  const [alertRadius, setAlertRadius] = useState<string>("50");
+  const [channelPush, setChannelPush] = useState(true);
+  const [channelWebPush, setChannelWebPush] = useState(true);
+  const [channelEmail, setChannelEmail] = useState(true);
+  const [channelSms, setChannelSms] = useState(false);
+  const [broadcastLogs, setBroadcastLogs] = useState<any[]>([]);
+  const [broadcastQuota, setBroadcastQuota] = useState<{
+    dailyLimit: number;
+    monthlyLimit: number;
+    dailySent: number;
+    monthlySent: number;
+    dailyRemaining: number;
+    monthlyRemaining: number;
+    remaining: number;
+    pendingInQueue: number;
+  } | null>(null);
+  const [audienceCounts, setAudienceCounts] = useState<{
+    fansPush: number;
+    crewPush: number;
+    bandPush: number;
+    fanEmails: number;
+    crewTotal: number;
+    bandTotal: number;
+  }>({
+    fansPush: 0,
+    crewPush: 0,
+    bandPush: 0,
+    fanEmails: 0,
+    crewTotal: 0,
+    bandTotal: 0,
+  });
+
+  const fetchBroadcastStats = async () => {
+    try {
+      const res = await fetch("/api/admin/broadcast");
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        if (data.logs) setBroadcastLogs(data.logs);
+        if (data.quota) setBroadcastQuota(data.quota);
+        if (data.audienceCounts) setAudienceCounts(data.audienceCounts);
+      }
+    } catch {
+      // ignore
+    }
+  };
+
+  useEffect(() => {
+    fetchBroadcastStats();
+  }, []);
+
   const [smsHistoryLogs, setSmsHistoryLogs] = useState<
     {
       id: string;
@@ -3679,15 +3713,44 @@ export function AdminDashboardMain({
           settingsMap[row.key] = val;
         });
 
-        // 1. Banner
-        const ann = settingsMap["announcement_banner"];
-        if (ann) {
-          const isExpired =
-            ann?.expiresAt && new Date(ann.expiresAt) < new Date();
-          setBannerActive(isExpired ? false : ann?.isActive || false);
-          setBannerText(ann?.text || "");
-          bannerLinkRef.current = ann?.link || "";
-          setBannerExpiresAt(ann?.expiresAt || null);
+        // 1. Banner - fetch from /api/announcement (Sanity + Supabase fallback)
+        try {
+          const res = await fetch("/api/announcement");
+          if (res.ok) {
+            const ann = await res.json();
+            if (ann && isMountedRef.current) {
+              const isExpired =
+                ann?.expiresAt && new Date(ann.expiresAt) < new Date();
+              setBannerActive(isExpired ? false : !!ann?.isActive);
+              setBannerText(ann?.text || "");
+              setBannerLink(ann?.link || "");
+              setBannerLinkText(ann?.linkText || "Read More");
+              bannerLinkRef.current = ann?.link || "";
+              setBannerExpiresAt(ann?.expiresAt || null);
+            }
+          } else if (settingsMap["announcement_banner"] && isMountedRef.current) {
+            const ann = settingsMap["announcement_banner"];
+            const isExpired =
+              ann?.expiresAt && new Date(ann.expiresAt) < new Date();
+            setBannerActive(isExpired ? false : !!ann?.isActive);
+            setBannerText(ann?.text || "");
+            setBannerLink(ann?.link || "");
+            setBannerLinkText(ann?.linkText || "Read More");
+            bannerLinkRef.current = ann?.link || "";
+            setBannerExpiresAt(ann?.expiresAt || null);
+          }
+        } catch {
+          if (settingsMap["announcement_banner"] && isMountedRef.current) {
+            const ann = settingsMap["announcement_banner"];
+            const isExpired =
+              ann?.expiresAt && new Date(ann.expiresAt) < new Date();
+            setBannerActive(isExpired ? false : !!ann?.isActive);
+            setBannerText(ann?.text || "");
+            setBannerLink(ann?.link || "");
+            setBannerLinkText(ann?.linkText || "Read More");
+            bannerLinkRef.current = ann?.link || "";
+            setBannerExpiresAt(ann?.expiresAt || null);
+          }
         }
 
         // 2. Cruise Announcement
@@ -4682,19 +4745,38 @@ export function AdminDashboardMain({
   const updateGlobalBanner = async (overrides?: {
     isActive?: boolean;
     expiresAt?: string | null;
+    text?: string;
+    link?: string;
+    linkText?: string;
   }) => {
     setBannerUpdating(true);
     setBannerSaveStatus(null);
     try {
+      const activeVal =
+        overrides?.isActive !== undefined ? overrides.isActive : bannerActive;
+      const textVal =
+        overrides?.text !== undefined ? overrides.text : bannerText;
+      const linkVal =
+        overrides?.link !== undefined
+          ? overrides.link
+          : (bannerLink || bannerLinkRef.current || "");
+      const linkTextVal =
+        overrides?.linkText !== undefined
+          ? overrides.linkText
+          : (bannerLinkText || "Read More");
+      const expiresVal =
+        overrides?.expiresAt !== undefined
+          ? overrides.expiresAt
+          : bannerExpiresAt;
+
       const payload = {
-        active:
-          overrides?.isActive !== undefined ? overrides.isActive : bannerActive,
-        text: bannerText,
-        linkUrl: bannerLinkRef.current,
-        expiresAt:
-          overrides?.expiresAt !== undefined
-            ? overrides.expiresAt
-            : bannerExpiresAt,
+        isActive: activeVal,
+        active: activeVal,
+        text: textVal,
+        link: linkVal,
+        linkUrl: linkVal,
+        linkText: linkTextVal,
+        expiresAt: expiresVal,
       };
 
       const res = await fetch("/api/announcement", {
@@ -4906,7 +4988,7 @@ export function AdminDashboardMain({
           onClick={() => toggleSection("emergencybroadcast")}
           className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
         >
-          <div className="flex flex-col">
+          <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
               <svg
                 width="18"
@@ -4923,7 +5005,7 @@ export function AdminDashboardMain({
               </svg>
               Emergency Show & Fan Alert Dispatcher
             </h3>
-            <p className="mt-0.5">
+            <p>
               Dispatch urgent show cancellations, time changes, or venue updates
               sitewide
             </p>
@@ -4985,7 +5067,7 @@ export function AdminDashboardMain({
           onClick={() => toggleSection("emaildirectory")}
           className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
         >
-          <div className="flex flex-col">
+          <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
               <svg
                 width="18"
@@ -5004,7 +5086,7 @@ export function AdminDashboardMain({
               </svg>
               Role-Based Email Lists & Subscriber Directory
             </h3>
-            <p className="mt-0.5">
+            <p>
               Browse categorized email lists for Crew, Fans, Cruise Guests,
               Event Planners, and Admins
             </p>
@@ -5045,7 +5127,7 @@ export function AdminDashboardMain({
       </div>
 
       {/* Web Push & Proximity Alert Subscribers */}
-      <div id="admin-sec-pushsubscribers" className="overflow-hidden">
+      <div id="admin-sec-pushsubscribers" className="">
         <div
           role="button"
           tabIndex={0}
@@ -5058,7 +5140,7 @@ export function AdminDashboardMain({
           onClick={() => toggleSection("pushsubscribers")}
           className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
         >
-          <div className="flex flex-col">
+          <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
               <svg
                 width="18"
@@ -5073,9 +5155,9 @@ export function AdminDashboardMain({
                 <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
                 <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
               </svg>
-              Proximity Push Subscriber Controls
+              Fan Proximity Alerts
             </h3>
-            <p className="mt-0.5">
+            <p>
               Manage fan notification preferences, distance radii & targeted
               broadcasts
             </p>
@@ -5105,7 +5187,7 @@ export function AdminDashboardMain({
         </div>
         {renderInfoBanner(
           "pushsubscribers",
-          "Proximity Push Subscriber Controls",
+          "Fan Proximity Alerts",
           "View and manage real-time browser push subscribers stored in Supabase. Edit distance radii, filter by zip code, and dispatch test notifications.",
         )}
         <div
@@ -5120,7 +5202,7 @@ export function AdminDashboardMain({
           )}
         </div>
       </div>
-      <div id="admin-sec-announcements" className="">
+      <div id="admin-sec-announcements" className="overflow-visible">
         <div
           role="button"
           tabIndex={0}
@@ -5133,7 +5215,7 @@ export function AdminDashboardMain({
           onClick={() => toggleSection("announcements")}
           className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
         >
-          <div className="flex flex-col">
+          <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
               <svg
                 width="18"
@@ -5150,11 +5232,36 @@ export function AdminDashboardMain({
               </svg>
               Band Announcements
             </h3>
-            <p className="mt-0.5">
+            <p>
               Post band updates, news, and urgent alerts across the public site
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-2"
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => e.stopPropagation()}
+            >
+              <Toggle
+                id="band-announcement-toggle"
+                size="sm"
+                label={
+                  <span
+                    className={`text-[0.8rem] font-bold ${bannerActive ? "text-purple-300" : "text-white/40"}`}
+                  >
+                    {bannerActive ? "LIVE ON SITE" : "OFF"}
+                  </span>
+                }
+                labelPosition="left"
+                checked={bannerActive}
+                disabled={bannerUpdating}
+                onChange={async (newVal) => {
+                  setBannerActive(newVal);
+                  await updateGlobalBanner({ isActive: newVal });
+                }}
+              />
+            </div>
+
             <div
               className={
                 "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
@@ -5186,213 +5293,199 @@ export function AdminDashboardMain({
           style={{
             display: isSectionOpen("announcements") ? undefined : "none",
           }}
+          className="mt-6 flex flex-col gap-6"
         >
           {isSectionOpen("announcements") && (
             <>
-              {/* Global Announcement Banner Control */}
-              <div className="group relative z-10 flex flex-col">
+              {/* Save status toast */}
+              {bannerSaveStatus && (
                 <div
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      toggleSection("globalalert");
-                    }
-                  }}
-                  onClick={() => toggleSection("globalalert")}
-                  className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
+                  className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 rounded-[var(--radius-box)] px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"}`}
                 >
-                  <div className="flex flex-col">
-                    <h3 className="flex items-center gap-2">
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#a855f7"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="m3 11 18-5v12L3 13v-2z"></path>
-                        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
-                      </svg>
-                      Global Alert Banner
-                    </h3>
-                    <p className="mt-0.5">
-                      Pin a band announcement or urgent notice sitewide
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    {/* Main toggle — auto-saves */}
-                    <div onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={async () => {
-                          const newActive = !bannerActive;
-                          setBannerActive(newActive);
-                          await updateGlobalBanner({ isActive: newActive });
-                        }}
-                        disabled={bannerUpdating}
-                        className={`relative shrink-0 cursor-pointer overflow-hidden rounded-lg border px-4 py-1.5 text-[0.9rem] ${bannerActive ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] text-white/50 hover:border-white/20"} disabled:opacity-50`}
-                      >
-                        <span className="relative z-10 flex items-center gap-2">
-                          <span
-                            className={`h-1.5 w-1.5 rounded-full ${bannerActive ? "animate-pulse bg-white shadow-[0_0_5px_white]" : "bg-white/30"}`}
-                          />
-                          {bannerActive ? "LIVE ON SITE" : "OFF"}
-                        </span>
-                        {bannerActive && (
-                          <div className="absolute inset-0 -translate-x-[100%] animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                        )}
-                      </button>
-                    </div>
-
-                    {/* Arrow chevron on far right side */}
-                    <div
-                      className={
-                        "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                        (isSectionOpen("globalalert")
-                          ? "rotate-0"
-                          : "-rotate-90")
-                      }
-                    >
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-white/40"
-                      >
-                        <path d="M2 4l4 4 4-4" />
-                      </svg>
-                    </div>
-                  </div>
+                  {bannerSaveStatus === "saved"
+                    ? "✓ Announcement updated and published successfully"
+                    : "✗ Failed to update announcement — please try again"}
                 </div>
+              )}
 
-                {/* Collapsible Content */}
-                <div
-                  style={{
-                    display: isSectionOpen("globalalert") ? undefined : "none",
-                  }}
-                  className="mt-6 flex flex-col gap-6"
-                >
-                  {isSectionOpen("globalalert") && (
-                    <>
-                      {/* Save status toast */}
-                      {bannerSaveStatus && (
-                        <div
-                          className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"}`}
-                        >
-                          {bannerSaveStatus === "saved"
-                            ? " Banner updated successfully"
-                            : " Failed to update — try again"}
-                        </div>
-                      )}
+              {/* Live Preview Card */}
+              <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[0.75rem] font-bold uppercase tracking-wider text-purple-400">
+                    Live Banner Preview
+                  </span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[0.7rem] font-bold ${bannerActive
+                      ? "border border-purple-500/40 bg-purple-500/20 text-purple-300"
+                      : "border border-white/10 bg-white/5 text-white/40"
+                      }`}
+                  >
+                    {bannerActive
+                      ? "Visible on Homepage"
+                      : "Currently Hidden (OFF)"}
+                  </span>
+                </div>
+                {bannerText ? (
+                  <div className="relative flex flex-col items-center justify-between gap-4 overflow-hidden rounded-lg border border-white/10 bg-gradient-to-r from-[var(--color-purple-primary)] to-[var(--color-purple-hover)] p-4 shadow-[0_8px_30px_var(--color-purple-glow)] sm:flex-row">
+                    <div className="flex items-center gap-3">
+                      <span className="shrink-0 animate-pulse">⚠️</span>
+                      <div
+                        className="text-sm font-medium text-white [&_p]:m-0 [&_p]:inline"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeBannerHtml(bannerText),
+                        }}
+                      />
+                    </div>
+                    {bannerLink && (
+                      <span className="shrink-0 rounded border border-white/10 bg-black/30 px-4 py-1.5 text-xs font-bold text-white">
+                        {bannerLinkText || "Read More"}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center rounded-lg border border-dashed border-white/10 py-6 text-xs text-white/40">
+                    No announcement message set. Type an alert below and click
+                    Dispatch.
+                  </div>
+                )}
+              </div>
 
-                      {/* Message input */}
-                      <div className="mt-auto flex flex-col gap-3">
-                        <div className="w-full [&_.ql-editor]:min-h-[200px]">
-                          <ReactQuill
-                            theme="snow"
-                            value={bannerText}
-                            onChange={setBannerText}
-                            placeholder="Alert message (e.g. Weather delay tonight)"
-                            className="overflow-hidden"
-                          />
-                        </div>
-
-                        {/* Controls row */}
-                        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 py-2 pr-2 pl-0">
-                          <SeventhButton
-                            type="button"
-                            onClick={() => updateGlobalBanner()}
-                            disabled={bannerUpdating}
-                            icon={false}
-                            className="cursor-pointer"
-                          >
-                            {bannerUpdating ? "Saving..." : "Dispatch"}
-                          </SeventhButton>
-
-                          {/* Auto-expire buttons */}
-                          <div className="hide-scrollbar flex items-center gap-1.5 md:pb-0">
-                            <span className="mr-2 shrink-0 text-white/30">
-                              Expiry:
-                            </span>
-                            {[
-                              { label: "1H", hours: 1 },
-                              { label: "3H", hours: 3 },
-                              { label: "12H", hours: 12 },
-                              { label: "24H", hours: 24 },
-                            ].map(({ label, hours }) => {
-                              const isSelected =
-                                !!bannerExpiresAt &&
-                                Math.abs(
-                                  new Date(bannerExpiresAt).getTime() -
-                                  (Date.now() + hours * 3600000),
-                                ) < 60000;
-                              return (
-                                <SeventhButton
-                                  key={label}
-                                  isActive={isSelected}
-                                  onClick={async () => {
-                                    const expiry = new Date(
-                                      Date.now() + hours * 3600000,
-                                    ).toISOString();
-                                    setBannerExpiresAt(expiry);
-                                    await updateGlobalBanner({
-                                      expiresAt: expiry,
-                                    });
-                                  }}
-                                  className="cursor-pointer whitespace-nowrap"
-                                >
-                                  {label}
-                                </SeventhButton>
-                              );
-                            })}
-                            <SeventhButton
-                              isActive={!bannerExpiresAt}
-                              onClick={async () => {
-                                setBannerExpiresAt(null);
-                                await updateGlobalBanner({ expiresAt: null });
-                              }}
-                              className="cursor-pointer  whitespace-nowrap"
-                            >
-                              OFF
-                            </SeventhButton>
-                          </div>
-                        </div>
-
-                        {/* Expiry info */}
-                        {bannerExpiresAt && (
-                          <div className="flex w-fit items-center gap-2 rounded-lg border border-white/10 bg-black/30 px-2 py-1 text-[0.55rem]">
-                            <span className="text-white/30">Auto-off at:</span>
-                            <span className="">
-                              {new Date(bannerExpiresAt).toLocaleString(
-                                undefined,
-                                {
-                                  weekday: "short",
-                                  hour: "numeric",
-                                  minute: "2-digit",
-                                },
-                              )}
-                            </span>
-                            {new Date(bannerExpiresAt) < new Date() && (
-                              <span className="rounded bg-rose-500/20 px-1.5 text-rose-400">
-                                Expired
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  )}
+              {/* Editor */}
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                  Announcement Message
+                </label>
+                <div className="w-full [&_.ql-editor]:min-h-[140px]">
+                  <ReactQuill
+                    theme="snow"
+                    value={bannerText}
+                    onChange={setBannerText}
+                    placeholder="Alert message (e.g. Weather delay tonight, VIP pre-sale open, new tour dates added!)"
+                    className="overflow-hidden"
+                  />
                 </div>
               </div>
+
+              {/* Action Link & Button Text Inputs */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-1.5">
+                  <label
+                    htmlFor="banner-action-link"
+                    className="text-xs font-bold uppercase tracking-wider text-white/60"
+                  >
+                    Optional Action Link URL
+                  </label>
+                  <input
+                    id="banner-action-link"
+                    type="text"
+                    value={bannerLink}
+                    onChange={(e) => {
+                      setBannerLink(e.target.value);
+                      bannerLinkRef.current = e.target.value;
+                    }}
+                    placeholder="/tour, /cruise, or https://..."
+                    className="h-10 rounded-lg border border-white/10 bg-black/40 px-3 text-sm text-white placeholder-white/30 focus:border-purple-500/60 focus:outline-none"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label
+                    htmlFor="banner-action-link-text"
+                    className="text-xs font-bold uppercase tracking-wider text-white/60"
+                  >
+                    Button Text
+                  </label>
+                  <input
+                    id="banner-action-link-text"
+                    type="text"
+                    value={bannerLinkText}
+                    onChange={(e) => setBannerLinkText(e.target.value)}
+                    placeholder="Read More"
+                    className="h-10 rounded-lg border border-white/10 bg-black/40 px-3 text-sm text-white placeholder-white/30 focus:border-purple-500/60 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Controls row */}
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6">
+                <SeventhButton
+                  type="button"
+                  onClick={() => updateGlobalBanner()}
+                  disabled={bannerUpdating}
+                  icon={false}
+                  className="cursor-pointer whitespace-nowrap"
+                >
+                  {bannerUpdating ? "Dispatching..." : "Dispatch Announcement"}
+                </SeventhButton>
+
+                {/* Auto-expire buttons */}
+                <div className="hide-scrollbar flex items-center gap-1.5 md:pb-0">
+                  <span className="mr-2 shrink-0 text-xs text-white/40">
+                    Auto-Expire:
+                  </span>
+                  {[
+                    { label: "1H", hours: 1 },
+                    { label: "3H", hours: 3 },
+                    { label: "12H", hours: 12 },
+                    { label: "24H", hours: 24 },
+                  ].map(({ label, hours }) => {
+                    const isSelected =
+                      !!bannerExpiresAt &&
+                      Math.abs(
+                        new Date(bannerExpiresAt).getTime() -
+                        (Date.now() + hours * 3600000),
+                      ) < 60000;
+                    return (
+                      <SeventhButton
+                        key={label}
+                        isActive={isSelected}
+                        onClick={async () => {
+                          const expiry = new Date(
+                            Date.now() + hours * 3600000,
+                          ).toISOString();
+                          setBannerExpiresAt(expiry);
+                          await updateGlobalBanner({
+                            expiresAt: expiry,
+                          });
+                        }}
+                        className="cursor-pointer whitespace-nowrap"
+                      >
+                        {label}
+                      </SeventhButton>
+                    );
+                  })}
+                  <SeventhButton
+                    isActive={!bannerExpiresAt}
+                    onClick={async () => {
+                      setBannerExpiresAt(null);
+                      await updateGlobalBanner({ expiresAt: null });
+                    }}
+                    className="cursor-pointer whitespace-nowrap"
+                  >
+                    OFF
+                  </SeventhButton>
+                </div>
+              </div>
+
+              {/* Expiry info */}
+              {bannerExpiresAt && (
+                <div className="flex w-fit items-center gap-2 rounded-lg border border-white/10 bg-black/30 px-3 py-1.5 text-xs">
+                  <span className="text-white/40">Auto-off at:</span>
+                  <span className="font-semibold text-white/80">
+                    {new Date(bannerExpiresAt).toLocaleString(undefined, {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                  {new Date(bannerExpiresAt) < new Date() && (
+                    <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-xs text-rose-400">
+                      Expired
+                    </span>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>
@@ -5414,7 +5507,7 @@ export function AdminDashboardMain({
         onClick={() => toggleSection("analytics")}
         className="mb-5 flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex items-center gap-2">
             <svg
               width="18"
@@ -5432,7 +5525,7 @@ export function AdminDashboardMain({
             </svg>
             Google Analytics GA4 Suite
           </h3>
-          <p className="mt-0.5">
+          <p>
             Monitor sitewide visitor traffic, engagement, and conversion metrics
           </p>
         </div>
@@ -5475,7 +5568,7 @@ export function AdminDashboardMain({
           <>
             {/* 1. Executive Top Metrics Grid */}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              <div className="bg-[var(--card-bg)]">
+              <div className=" ">
                 <span className="mb-1 block text-[0.55rem]">Active Users</span>
                 <span className="block text-2xl text-[#c27aff]">
                   {gaData.activeUsers}
@@ -5486,7 +5579,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className="bg-[var(--card-bg)]">
+              <div className=" ">
                 <span className="mb-1 block text-[0.55rem]">
                   Total Sessions
                 </span>
@@ -5496,7 +5589,7 @@ export function AdminDashboardMain({
                 <span className="mt-1 block text-[0.55rem]">Last 30 Days</span>
               </div>
 
-              <div className="bg-[var(--card-bg)]">
+              <div className=" ">
                 <span className="mb-1 block text-[0.55rem]">Page Views</span>
                 <span className="block text-2xl">
                   {gaData.pageViews.toLocaleString()}
@@ -5506,7 +5599,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className="bg-[var(--card-bg)]">
+              <div className=" ">
                 <span className="mb-1 block text-[0.55rem]">
                   Conversion Rate
                 </span>
@@ -5516,7 +5609,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className="bg-[var(--card-bg)]">
+              <div className=" ">
                 <span className="mb-1 block text-[0.55rem]">Rev / Session</span>
                 <span className="block text-2xl">
                   {gaData.revenuePerSession}
@@ -5524,7 +5617,7 @@ export function AdminDashboardMain({
                 <span className="mt-1 block text-[0.55rem]">Avg Fan Value</span>
               </div>
 
-              <div className="bg-[var(--card-bg)]">
+              <div className=" ">
                 <span className="mb-1 block text-[0.55rem]">Bounce Rate</span>
                 <span className="block text-2xl">{gaData.bounceRate}</span>
                 <span className="mt-1 block text-[0.55rem]">
@@ -5536,7 +5629,7 @@ export function AdminDashboardMain({
             {/* 2. Traffic Acquisition Channels & Device Ratio */}
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               {/* Acquisition Channels */}
-              <div className="bg-[var(--card-bg)] py-6">
+              <div className="  py-6">
                 <h4 className="mb-6 flex items-center justify-between">
                   <span> Traffic Acquisition Channels</span>
                   <span>GA4 Attribution</span>
@@ -5611,7 +5704,7 @@ export function AdminDashboardMain({
               </div>
 
               {/* Device & Browser Hardware */}
-              <div className="flex flex-col justify-between bg-[var(--card-bg)] pt-5 pb-5">
+              <div className="flex flex-col justify-between   pt-5 pb-5">
                 <div>
                   <h4 className="mb-6 flex items-center justify-between">
                     <span> User Devices & Browsers</span>
@@ -5661,7 +5754,7 @@ export function AdminDashboardMain({
             </div>
 
             {/* 3. Top Performing Sitewide Pages Table */}
-            <div className="bg-[var(--card-bg)]">
+            <div className=" ">
               <h4 className="mb-6 flex items-center justify-between">
                 <span> Top Performing Site Pages (Screen Views)</span>
                 <span>GA4 Event Metrics</span>
@@ -5750,7 +5843,7 @@ export function AdminDashboardMain({
             </div>
 
             {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
-            <div className="bg-[var(--card-bg)] pt-5 pb-5">
+            <div className="  pt-5 pb-5">
               <h4 className="mb-6 flex items-center justify-between">
                 <span> Visitor Geo Demographics & Fan Density</span>
                 <span>Top Cities</span>
@@ -5841,26 +5934,12 @@ export function AdminDashboardMain({
         }}
         className="flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2 text-left">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="9" cy="21" r="1" />
-              <circle cx="20" cy="21" r="1" />
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-            </svg>
             Shopify
             {renderInfoToggle("shopify")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Track real-time Shopify store order statistics, sales charts, and
             recent drop activity
           </p>
@@ -6744,29 +6823,15 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("bookings")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center">
-            <h3 className="flex cursor-pointer items-center gap-2">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-              Booking Requests
-              {renderInfoToggle("bookings")}
-            </h3>
-          </div>
-          <p className="mt-0.5">
+        <div className="title-group title-group--sub">
+          <h3 className="flex cursor-pointer items-center gap-2">
+
+            Booking Requests
+            {renderInfoToggle("bookings")}
+          </h3>
+          <p>
             Review and manage incoming client event booking requests, set
             official load-in/out schedules, and approve or decline reservations.
           </p>
@@ -7247,27 +7312,14 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("planners")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-            >
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
             Event Planners Directory
             {renderInfoToggle("planners")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Browse the directory of event planners, view contact information,
             and review past and current booking requests
           </p>
@@ -7307,11 +7359,13 @@ export function AdminDashboardMain({
           </div>
         </div>
       </div>
-      {renderInfoBanner(
-        "planners",
-        "Event Planners Directory",
-        "Browse the list of event planners, view their contact information, and review past and current booking requests.",
-      )}
+      {
+        renderInfoBanner(
+          "planners",
+          "Event Planners Directory",
+          "Browse the list of event planners, view their contact information, and review past and current booking requests.",
+        )
+      }
       <div style={{ display: isSectionOpen("planners") ? undefined : "none" }}>
         {isSectionOpen("planners") && (
           <>
@@ -7433,7 +7487,7 @@ export function AdminDashboardMain({
           </>
         )}
       </div>
-    </div>
+    </div >
   );
 
   const renderPhotoMod = () => (
@@ -7450,7 +7504,7 @@ export function AdminDashboardMain({
         onClick={() => toggleSection("photomod")}
         className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex items-center gap-2">
             <svg
               width="18"
@@ -7466,7 +7520,7 @@ export function AdminDashboardMain({
             </svg>
             Fan Photo Moderation Queue
           </h3>
-          <p className="mt-0.5">
+          <p>
             Review fan-submitted concert and show photos, check compliance, and
             approve for public photo wall
           </p>
@@ -7574,27 +7628,15 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("memorymod")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" />
-              <path d="M12 8v4l3 3" />
-            </svg>
+
             Memory Moderation Queue
             {renderInfoToggle("memorymod")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Review fan memories, stories, and concert anecdotes before they are
             published to the public website timeline
           </p>
@@ -7708,25 +7750,15 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("livealerts")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-            >
-              <path d="M23 7l-7 5 7 5V7z"></path>
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-            </svg>
+
             Active Live Streams
             {renderInfoToggle("livealerts")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Monitor active video feeds and broadcast room channels in real time,
             view subscriber notifications, and manage stream controls
           </p>
@@ -7855,743 +7887,619 @@ export function AdminDashboardMain({
     </div>
   );
 
-  const renderSmsBlast = () => (
-    <div className="">
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => toggleSection("smsblast")}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("smsblast");
-          }
-        }}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
-      >
-        <div className="flex flex-col">
-          <h3 className="flex items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-            SMS Proximity Blast
-            {renderInfoToggle("smsblast")}
-          </h3>
-          <p className="mt-0.5">
-            Draft and dispatch geofenced text message updates and blast
-            notifications to fans based on their proximity to upcoming concert
-            venues
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-4">
-            {/* Auto-blast toggle */}
-            <div
-              className="flex items-center gap-2"
-              onClick={(e) => e.stopPropagation()}
-              onKeyDown={(e) => e.stopPropagation()}
-            >
-              <span className="text-white/30 whitespace-nowrap">Auto-Blast</span>
-              <SquishyToggle
-                id="sms-auto-blast-toggle"
-                label="Toggle Auto-Blast"
-                checked={smsAutoBlast}
-                onChange={async (newVal) => {
-                  setSmsAutoBlast(newVal);
-                  try {
-                    await fetch("/api/admin/settings", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        key: "sms_auto_blast",
-                        value: newVal ? "on" : "off",
-                      }),
-                    });
-                  } catch { }
-                }}
-              />
-            </div>
-          </div>
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("smsblast") ? "rotate-0" : "-rotate-90")
+  const renderSmsBlast = () => {
+    // Dynamic recipient estimation
+    let estCrew = audienceCounts.crewTotal || 12;
+    let estBand = audienceCounts.bandTotal || 6;
+    let estFansPush = audienceCounts.fansPush || 480;
+    let estFansEmail = audienceCounts.fanEmails || 1250;
+
+    let targetSummary = "";
+    if (alertTargetAudience === "fans") {
+      targetSummary = `${estFansPush} push subscribers · ${estFansEmail} email subscribers`;
+    } else if (alertTargetAudience === "crew") {
+      targetSummary = `${estCrew} crew members`;
+    } else if (alertTargetAudience === "band") {
+      targetSummary = `${estBand} band members`;
+    } else {
+      targetSummary = `${estCrew + estBand} band/crew · ${estFansPush + estFansEmail} fans`;
+    }
+
+    const estSmsRecipients = alertTargetAudience === "crew" ? estCrew : alertTargetAudience === "band" ? estBand : 480;
+    const estSegments = Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, "").trim() || smsPreview || alertTitle).length || 1) / 160);
+    const estSmsCost = (estSegments * estSmsRecipients * smsCostPerSegment).toFixed(2);
+
+    return (
+      <div className="">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => toggleSection("smsblast")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleSection("smsblast");
             }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
+          }}
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+        >
+          <div className="title-group title-group--sub">
+            <h3 className="flex items-center gap-2">
+              <Bell className="h-5 w-5 text-purple-400" />
+              Send Alert
+              {renderInfoToggle("smsblast")}
+            </h3>
+            <p>
+              Broadcast zero-cost notifications across App Push, Web Push, and Email with optional paid SMS fallback
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
+              {/* Auto-blast toggle */}
+              <div
+                className="flex items-center gap-2"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+              >
+                <Toggle
+                  id="sms-auto-blast-toggle"
+                  size="sm"
+                  label={<span className="text-white/30 whitespace-nowrap">Auto-Blast</span>}
+                  labelPosition="left"
+                  checked={smsAutoBlast}
+                  onChange={async (newVal) => {
+                    setSmsAutoBlast(newVal);
+                    try {
+                      await fetch("/api/admin/settings", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          key: "sms_auto_blast",
+                          value: newVal ? "on" : "off",
+                        }),
+                      });
+                    } catch { }
+                  }}
+                />
+              </div>
+            </div>
+            <div
+              className={
+                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
+                (isSectionOpen("smsblast") ? "rotate-0" : "-rotate-90")
+              }
             >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-white/40"
+              >
+                <path d="M2 4l4 4 4-4" />
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
-      {renderInfoBanner(
-        "smsblast",
-        "SMS Proximity Blast",
-        "Draft and dispatch geofenced text message updates and blast notifications to fans based on their proximity to upcoming concert venues.",
-      )}
-      <div style={{ display: isSectionOpen("smsblast") ? undefined : "none" }}>
-        {isSectionOpen("smsblast") && (
-          <>
-            {/* Auto-blast info bar */}
-            <div className="flex items-center justify-between border-b border-white/10 py-3 pl-0">
-              <div className="flex items-center gap-2">
-                <span
-                  className={`h-2 w-2 rounded-full ${smsAutoBlast ? "animate-pulse bg-purple-500" : "bg-white/10"}`}
-                />
-                <span>
-                  {smsAutoBlast
-                    ? `Auto-sending ${smsAutoBlastDays} day${smsAutoBlastDays !== 1 ? "s" : ""} before each public show`
-                    : "Auto-blast disabled — manual sends only"}
-                </span>
-              </div>
-              {smsAutoBlast && (
+        {renderInfoBanner(
+          "smsblast",
+          "Send Alert & Multi-Channel Broadcast",
+          "Reach fans, crew, and band members instantly. App Push, Web Push, and Email are 100% free by default. SMS is available as an opt-in emergency channel.",
+        )}
+        <div style={{ display: isSectionOpen("smsblast") ? undefined : "none" }}>
+          {isSectionOpen("smsblast") && (
+            <>
+              {/* Quota & Channel Summary Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 py-3 pl-0">
                 <div className="flex items-center gap-2">
-                  <span>Days before:</span>
-                  <GooeyMessagesDropdown
-                    selected={String(smsAutoBlastDays)}
-                    options={[1, 2, 3, 5, 7].map((d) => ({
-                      label: String(d),
-                      value: String(d),
-                    }))}
-                    onChange={async (selectedVal: string) => {
-                      const d = parseInt(selectedVal, 10);
-                      if (isNaN(d)) return;
-                      setSmsAutoBlastDays(d);
-                      try {
-                        await fetch("/api/admin/settings", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({
-                            key: "sms_auto_blast_days",
-                            value: String(d),
-                          }),
-                        });
-                      } catch { }
-                    }}
-                    showAllOption={false}
-                  />
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-sm font-medium text-white/90">Zero-Cost Channels Active</span>
+                  <span className="text-xs text-white/40">· App Push (ntfy) · Web Push · Resend Email</span>
                 </div>
-              )}
-            </div>
+                {broadcastQuota && (
+                  <div className="flex items-center gap-3 text-xs text-white/50">
+                    <span>
+                      Daily Email: <strong className="text-emerald-400">{broadcastQuota.dailySent}</strong> / {broadcastQuota.dailyLimit}
+                    </span>
+                    <span>·</span>
+                    <span>
+                      Queue: <strong className="text-purple-300">{broadcastQuota.pendingInQueue}</strong> pending
+                    </span>
+                  </div>
+                )}
+              </div>
 
-            <div className="py-6 pl-0">
-              <p className="mb-5">
-                {smsAutoBlast
-                  ? "Blasts auto-send for public shows. You can still manually send or override below. Private events are always excluded."
-                  : "Pick an upcoming show and we\u0027ll auto-compose a text with all the details. Only fans subscribed within proximity of the venue will receive it."}
-              </p>
-
-              {/* Show Picker */}
-              <div className="space-y-4">
+              <div className="pt-6 pl-0 space-y-6">
+                {/* 1. Target Audience Selector */}
                 <div>
-                  <Dropdown
-                    id="sms-selected-show-select"
-                    fullWidth={false}
-                    placeholder="Select an upcoming show"
-                    selected={smsSelectedShow}
-                    options={[
-                      { label: "Select an upcoming show", value: "" },
-                      ...smsShows.map((show: any) => {
-                        const dateStr = (() => {
-                          try {
-                            const d = new Date(show.date + "T12:00:00");
-                            return d.toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            });
-                          } catch {
-                            return show.date;
-                          }
-                        })();
-                        const loc = show.state
-                          ? `${show.city}, ${show.state}`
-                          : show.city;
-                        return {
-                          label: `${dateStr} — ${show.venue} (${loc}) ${show.time ? `@ ${show.time}` : ""}`,
-                          value: show._id || show.date,
-                        };
-                      }),
-                    ]}
-                    onChange={(val) => {
-                      setSmsSelectedShow(val);
-                      setSmsResult(null);
-                      const show = smsShows.find(
-                        (s: any) => s._id === val || s.date === val,
-                      );
-                      if (show) {
-                        const location = show.state
-                          ? `${show.city}, ${show.state}`
-                          : show.city;
-                        const dateStr = (() => {
-                          try {
-                            const d = new Date(show.date + "T12:00:00");
-                            return d.toLocaleDateString("en-US", {
-                              weekday: "long",
-                              month: "long",
-                              day: "numeric",
-                            });
-                          } catch {
-                            return show.date;
-                          }
-                        })();
-                        const lines: string[] = [
-                          ` 7th Heaven is playing in your area!`,
-                          ``,
-                          ` ${show.venue} — ${location}`,
-                        ];
-                        if (dateStr) lines.push(` ${dateStr}`);
-                        let timeLine = "";
-                        if (show.doorsTime)
-                          timeLine += ` Doors: ${show.doorsTime}`;
-                        if (show.time)
-                          timeLine += `${timeLine ? " | " : ""}Show: ${show.time}`;
-                        if (show.playTime)
-                          timeLine += `${timeLine ? " | " : ""}Plays: ${show.playTime}`;
-                        if (timeLine) lines.push(timeLine);
-                        if (show.allAges === true) lines.push(` All Ages`);
-                        else if (show.allAges === false) lines.push(` 21+`);
-                        if (show.cover) {
-                          const lc = show.cover.toLowerCase();
-                          if (lc === "free" || lc === "no cover" || lc === "$0")
-                            lines.push(` FREE — No Cover`);
-                          else lines.push(` Cover: ${show.cover}`);
-                        }
-                        lines.push(``);
-                        lines.push(`Reply STOP to unsubscribe.`);
-                        setSmsPreview(lines.join("\n"));
-                      } else {
-                        setSmsPreview("");
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Twilio Gateway & Cost Summary Bar */}
-                <div className="space-y-4 border-none p-0">
-                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
-                    <div className="flex items-center gap-2">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span>Twilio A2P 10DLC Gateway</span>
-                          <span className="flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2 py-0.5 text-[10px]">
-                            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />{" "}
-                            Connected
-                          </span>
-                        </div>
-                        <span className="text-white/50">
-                          Sender Number: <strong>+1 (888) 7H-ROCKS</strong>{" "}
-                          (Toll-Free Verified) • SID:{" "}
-                          <code className="text-rose-300/80">
-                            AC89f2a...98e4
-                          </code>
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="text-[10px] text-white/40">
-                          Twilio Credit Balance
-                        </div>
-                        <div className="text-emerald-400">
-                          ${smsTwilioBalance.toFixed(2)}
-                        </div>
-                      </div>
-                      <div className="border-l border-white/10 pl-4 text-right">
-                        <div className="text-[10px] text-white/40">
-                          Total Spent So Far
-                        </div>
-                        <div className="text-rose-400">
-                          ${smsTotalSpentAllTime.toFixed(2)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Quick Metric Cards */}
+                  <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
+                    1. Select Target Audience
+                  </label>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    <div className="border-none p-0 text-start">
-                      <div className="text-[10px] text-white/40">
-                        Target Audience
-                      </div>
-                      <div>480 fans</div>
-                      <div className="text-[12px] text-[var(--color-accent)]">
-                        Within 25mi radius
-                      </div>
-                    </div>
-                    <div className="border-none p-0 text-start">
-                      <div className="text-[10px] text-white/40">
-                        Twilio Rate
-                      </div>
-                      <div>${smsCostPerSegment}/SMS</div>
-                      <div className="text-[12px] text-white/40">
-                        US Standard Rate
-                      </div>
-                    </div>
-                    <div className="border-none p-0 text-start">
-                      <div className="text-[10px] text-white/40">
-                        Cost to Send This Blast
-                      </div>
-                      <div className="text-rose-400">
-                        $
-                        {(
-                          (smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                            smsPreview
-                            ? Math.ceil(
-                              ((
-                                smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                                smsPreview
-                              ).length || 1) / 160,
-                            )
-                            : 1) *
-                          480 *
-                          smsCostPerSegment
-                        ).toFixed(2)}
-                      </div>
-                      <div className="text-[12px] text-white/40">
-                        {smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                          smsPreview
-                          ? Math.ceil(
-                            ((
-                              smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                              smsPreview
-                            ).length || 1) / 160,
-                          )
-                          : 1}{" "}
-                        Segment per fan
-                      </div>
-                    </div>
-                    <div className="border-none p-0 text-start">
-                      <div className="text-[10px] text-white/40">
-                        Total SMS Sent
-                      </div>
-                      <div>{smsTotalSpentAllTime.toLocaleString()}</div>
-                      <div className="text-[12px]">Across 4 blasts</div>
-                    </div>
+                    {[
+                      { id: "fans", label: "Fans & Concertgoers", desc: "Push + Email", icon: Users },
+                      { id: "crew", label: "Crew Members", desc: "Private Crew Topic", icon: ShieldCheck },
+                      { id: "band", label: "Band Members", desc: "Private Band Topic", icon: Sparkles },
+                      { id: "all", label: "Everyone", desc: "Full Broadcast", icon: Radio },
+                    ].map((aud) => {
+                      const IconComp = aud.icon;
+                      const isSelected = alertTargetAudience === aud.id;
+                      return (
+                        <button
+                          key={aud.id}
+                          type="button"
+                          onClick={() => setAlertTargetAudience(aud.id)}
+                          className={`flex flex-col items-start rounded-xl border p-3.5 text-left transition-all ${
+                            isSelected
+                              ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                              : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full mb-1">
+                            <IconComp className={`h-4 w-4 ${isSelected ? "text-purple-400" : "text-white/40"}`} />
+                            {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />}
+                          </div>
+                          <div className="font-semibold text-sm text-white">{aud.label}</div>
+                          <div className="text-[11px] text-white/40 mt-0.5">{aud.desc}</div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/*  Interactive Smartphone Text Message Preview */}
-                <div className="grid grid-cols-1 items-start gap-6 pt-2 lg:grid-cols-12">
-                  <div className="space-y-4 lg:col-span-6">
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1.5 text-[0.65rem] text-rose-400">
-                        <span></span> Live Twilio SMS Smartphone Preview
-                      </span>
-                      <span className="text-[10px] text-white/40">
-                        Renders exact recipient view
-                      </span>
-                    </div>
-
-                    {/* Real iPhone 16 Pro Frame Device */}
-                    <div
-                      className="relative mx-auto h-[660px] w-[330px] overflow-hidden rounded-[52px] drop-shadow-[0_20px_50px_rgba(0,0,0,0.9)] filter select-none"
-                      style={{
-                        clipPath: "inset(5.2% 8.8% 5.2% 8.8% round 52px)",
-                        WebkitClipPath: "inset(5.2% 8.8% 5.2% 8.8% round 52px)",
-                      }}
-                    >
-                      {/* Screen Content placed precisely inside the screen cutout */}
-                      <div className="absolute top-[24px] right-[20px] bottom-[24px] left-[20px] flex flex-col justify-between overflow-hidden rounded-[44px] bg-[#07070b] pt-7">
-                        {/* Status Bar */}
-                        <div className="z-10 flex shrink-0 items-center justify-between px-6 pt-1 pb-1">
-                          <span>9:41</span>
+                {/* 2. Channel Selection Bar (Free by default, SMS optional) */}
+                <div>
+                  <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
+                    2. Delivery Channels
+                  </label>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    {/* App Push (ntfy) */}
+                    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3.5">
+                      <div className="flex items-center gap-2.5">
+                        <Bell className="h-4 w-4 text-purple-400" />
+                        <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-[10px]">5G</span>
-                            <div className="flex h-2 w-4 items-center rounded border border-white/70 p-0.5">
-                              <div className="h-full w-2.5 rounded-xs bg-emerald-400" />
-                            </div>
+                            <span className="text-sm font-medium text-white">App Push</span>
+                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300">FREE</span>
                           </div>
-                        </div>
-
-                        {/* Messages App Header */}
-                        <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-[#181824] px-4 py-2.5">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-rose-600 via-purple-600 to-amber-500">
-                            7H
-                          </div>
-                          <div>
-                            <div>7th Heaven Band</div>
-                            <div className="mt-0.5 text-[12px]">
-                              Verified Twilio SMS
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Message Body Screen */}
-                        <div className="custom-scrollbar flex-1 space-y-3 overflow-y-auto bg-[#07070b] p-4">
-                          <div className="text-center text-[12px] text-white/40">
-                            Today 9:41 AM
-                          </div>
-
-                          {/* SMS Bubble */}
-                          <div className="rounded-lg rounded-tl-xs border border-white/10 bg-[#242333] p-3.5 whitespace-pre-wrap">
-                            {smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                              smsPreview || (
-                                <span className="text-white/40">
-                                  Select an upcoming show above or type a custom
-                                  message to preview the SMS...
-                                </span>
-                              )}
-                          </div>
-                        </div>
-
-                        {/* Footer Reply Bar Mock */}
-                        <div className="mb-3 flex shrink-0 items-center justify-between border-t border-white/10 bg-[#181824] px-4 py-3 text-[10px] text-white/50">
-                          <span>iMessage / SMS</span>
-                          <span className="text-rose-400">
-                            Reply STOP to unsubscribe
-                          </span>
+                          <div className="text-[10px] text-white/40">Lock-screen via ntfy</div>
                         </div>
                       </div>
-
-                      {/* Real iPhone 16 Pro Bezel Frame Image Overlay */}
-                      <NextImage
-                        src="/images/mockups/iphone-frame.png"
-                        alt="iPhone 16 Pro Frame"
-                        fill
-                        sizes="(max-width: 768px) 100vw, 380px"
-                        className="pointer-events-none z-20 object-contain"
+                      <Toggle
+                        id="channel-push-toggle"
+                        size="sm"
+                        checked={channelPush}
+                        onChange={setChannelPush}
                       />
                     </div>
 
-                    {/* Character & Segment Stats */}
-                    <div className="flex items-center justify-between border border-white/10 bg-black/30 p-3">
-                      <div>
-                        <span className="text-white/40">Character Count: </span>
-                        <strong>
-                          {
-                            (
-                              smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                              smsPreview
-                            ).length
-                          }{" "}
-                          chars
-                        </strong>
+                    {/* Web Push */}
+                    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3.5">
+                      <div className="flex items-center gap-2.5">
+                        <Radio className="h-4 w-4 text-purple-400" />
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-sm font-medium text-white">Web Push</span>
+                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300">FREE</span>
+                          </div>
+                          <div className="text-[10px] text-white/40">Browser Service Worker</div>
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-white/40">Twilio Segments: </span>
-                        <strong>
-                          {Math.ceil(
-                            ((
-                              smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                              smsPreview
-                            ).length || 1) / 160,
-                          )}{" "}
-                          Segment (
-                          {Math.ceil(
-                            ((
-                              smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                              smsPreview
-                            ).length || 1) / 160,
-                          ) * 160}{" "}
-                          max)
-                        </strong>
+                      <Toggle
+                        id="channel-webpush-toggle"
+                        size="sm"
+                        checked={channelWebPush}
+                        onChange={setChannelWebPush}
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3.5">
+                      <div className="flex items-center gap-2.5">
+                        <Mail className="h-4 w-4 text-purple-400" />
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-sm font-medium text-white">Email</span>
+                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300">FREE</span>
+                          </div>
+                          <div className="text-[10px] text-white/40">Daily quota + auto queue</div>
+                        </div>
+                      </div>
+                      <Toggle
+                        id="channel-email-toggle"
+                        size="sm"
+                        checked={channelEmail}
+                        onChange={setChannelEmail}
+                      />
+                    </div>
+
+                    {/* SMS (Twilio) */}
+                    <div className={`flex items-center justify-between rounded-xl border p-3.5 transition-all ${
+                      channelSms ? "border-amber-500/60 bg-amber-500/10" : "border-white/10 bg-white/[0.02]"
+                    }`}>
+                      <div className="flex items-center gap-2.5">
+                        <MessageSquare className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"}`} />
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-sm font-medium text-white">Twilio SMS</span>
+                            <span className="rounded bg-amber-500/20 px-1.5 py-0.2 text-[9px] font-bold text-amber-300">PAID</span>
+                          </div>
+                          <div className="text-[10px] text-white/40">$0.0079/segment</div>
+                        </div>
+                      </div>
+                      <Toggle
+                        id="channel-sms-toggle"
+                        size="sm"
+                        checked={channelSms}
+                        onChange={setChannelSms}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Real-time Recipient Preview Bar */}
+                <div className="rounded-xl border border-purple-500/30 bg-purple-500/10 p-4 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <Sparkles className="h-4 w-4 text-purple-400 shrink-0" />
+                    <div>
+                      <div className="text-xs font-semibold text-purple-200">Real-Time Recipient Reach</div>
+                      <div className="text-sm text-white">
+                        This alert will target: <strong className="text-purple-300">{targetSummary}</strong>
                       </div>
                     </div>
                   </div>
-
-                  <div className="space-y-4 lg:col-span-6">
-                    {/* Custom message override */}
-                    <div>
-                      <span className="mb-2 block text-[0.9rem] text-white/40">
-                        Custom Message Override{" "}
-                        <span className="text-white/20 normal-case">
-                          (optional — replaces auto-message)
-                        </span>
-                      </span>
-                      <div className="relative z-20 w-full [&_.ql-editor]:min-h-[110px]">
-                        <ReactQuill
-                          theme="snow"
-                          value={smsCustomMsg}
-                          onChange={setSmsCustomMsg}
-                          placeholder="Leave empty to use the auto-generated message above"
-                          className="overflow-hidden"
-                        />
-                      </div>
+                  {channelSms && (
+                    <div className="flex items-center gap-2 rounded-lg bg-amber-500/20 border border-amber-500/40 px-3 py-1.5 text-xs text-amber-200">
+                      <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                      <span>Estimated SMS cost: <strong>${estSmsCost}</strong> ({estSegments} segment{estSegments !== 1 ? "s" : ""})</span>
                     </div>
+                  )}
+                </div>
 
-                    {/*  Cost Breakdown Calculator */}
-                    <div className="space-y-3 border border-white/10 bg-black/40 p-4">
-                      <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                        <span className="flex items-center gap-1.5">
-                          {" "}
-                          Blast Cost Breakdown
-                        </span>
-                        <span className="text-emerald-400">
-                          Twilio Pay-As-You-Go
-                        </span>
-                      </div>
-                      <div className="space-y-1.5">
-                        <div className="flex items-center justify-between">
-                          <span>Recipients (25mi Radius):</span>
-                          <span>480 subscribers</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span>Segments per Message:</span>
-                          <span>
-                            {Math.ceil(
-                              ((
-                                smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                                smsPreview
-                              ).length || 1) / 160,
-                            )}{" "}
-                            Segment
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span>Twilio Carrier Fee:</span>
-                          <span>$0.0079 / SMS</span>
-                        </div>
-                        <div className="flex items-center justify-between border-t border-white/10 pt-2">
-                          <span>Total Estimated Cost:</span>
-                          <span className="text-rose-400">
-                            $
-                            {(
-                              (smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                                smsPreview
-                                ? Math.ceil(
-                                  ((
-                                    smsCustomMsg
-                                      .replace(/<[^>]*>/g, "")
-                                      .trim() || smsPreview
-                                  ).length || 1) / 160,
-                                )
-                                : 1) *
-                              480 *
-                              smsCostPerSegment
-                            ).toFixed(2)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Send controls */}
-                    <div className="flex items-center justify-between pt-2">
-                      <div>
-                        {smsResult && (
-                          <div
-                            className={`${smsResult.success ? "text-emerald-400" : "text-rose-400"}`}
-                          >
-                            {smsResult.success ? (
-                              <>
-                                {smsResult.sent !== undefined
-                                  ? `Sent to ${smsResult.sent} fan${smsResult.sent !== 1 ? "s" : ""}`
-                                  : smsResult.message}
-                                {smsResult.note && (
-                                  <span className="ml-2">
-                                    ({smsResult.note})
-                                  </span>
-                                )}
-                              </>
-                            ) : (
-                              <> {smsResult.error}</>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                      <SeventhButton
-                        type="button"
-                        disabled={smsSending || !smsSelectedShow}
-                        icon={false}
-                        onClick={async () => {
-                          if (smsSendingRef.current) return;
-                          const show = smsShows.find(
-                            (s: any) => s._id === smsSelectedShow,
-                          );
-                          if (!show) return;
-                          const recipientDesc = `480 fans near ${show.venue}`;
-                          const calcCost = (
-                            (smsCustomMsg.replace(/<[^>]*>/g, "").trim() ||
-                              smsPreview
-                              ? Math.ceil(
-                                ((
-                                  smsCustomMsg
-                                    .replace(/<[^>]*>/g, "")
-                                    .trim() || smsPreview
-                                ).length || 1) / 160,
-                              )
-                              : 1) *
-                            480 *
-                            smsCostPerSegment
-                          ).toFixed(2);
-                          if (
-                            !confirm(
-                              `Send Twilio proximity SMS to ${recipientDesc}? (Estimated cost: ${calcCost})`,
-                            )
-                          )
-                            return;
-                          smsSendingRef.current = true;
-                          setSmsSending(true);
-                          setSmsResult(null);
-                          try {
-                            const body: any = {
-                              venue: show.venue,
-                              city: show.city,
-                              state: show.state || "",
-                              lat: show.lat,
-                              lng: show.lng,
-                            };
-                            if (smsCustomMsg.replace(/<[^>]*>/g, "").trim()) {
-                              body.message = smsCustomMsg;
-                            } else {
+                {/* 3. Show Picker & Category */}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
+                      Related Show (Optional)
+                    </label>
+                    <Dropdown
+                      id="sms-selected-show-select"
+                      fullWidth={false}
+                      placeholder="Select an upcoming show"
+                      selected={smsSelectedShow}
+                      options={[
+                        { label: "Select an upcoming show", value: "" },
+                        ...smsShows.map((show: any) => {
+                          const dateStr = (() => {
+                            try {
                               const d = new Date(show.date + "T12:00:00");
-                              body.date = d.toLocaleDateString("en-US", {
+                              return d.toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                              });
+                            } catch {
+                              return show.date;
+                            }
+                          })();
+                          const loc = show.state
+                            ? `${show.city}, ${show.state}`
+                            : show.city;
+                          return {
+                            label: `${dateStr} — ${show.venue} (${loc}) ${show.time ? `@ ${show.time}` : ""}`,
+                            value: show._id || show.date,
+                          };
+                        }),
+                      ]}
+                      onChange={(val) => {
+                        setSmsSelectedShow(val);
+                        setSmsResult(null);
+                        const show = smsShows.find(
+                          (s: any) => s._id === val || s.date === val,
+                        );
+                        if (show) {
+                          const location = show.state
+                            ? `${show.city}, ${show.state}`
+                            : show.city;
+                          const dateStr = (() => {
+                            try {
+                              const d = new Date(show.date + "T12:00:00");
+                              return d.toLocaleDateString("en-US", {
                                 weekday: "long",
                                 month: "long",
                                 day: "numeric",
                               });
-                              body.time = show.time || "";
-                              body.doorsTime = show.doorsTime || "";
-                              body.playTime = show.playTime || "";
-                              if (
-                                show.allAges !== undefined &&
-                                show.allAges !== null
-                              )
-                                body.allAges = show.allAges;
-                              if (show.cover) body.cover = show.cover;
+                            } catch {
+                              return show.date;
                             }
-                            const res = await fetch("/api/sms/send", {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify(body),
-                            });
-                            if (res.ok) {
-                              const data = await res.json();
-                              setSmsResult(data);
-                              if (data.success) {
-                                const costNum = parseFloat(calcCost);
-                                setSmsTwilioBalance((prev) =>
-                                  Math.max(0, prev - costNum),
-                                );
-                                setSmsTotalSpentAllTime(
-                                  (prev) => prev + costNum,
-                                );
-                                setSmsTotalSentAllTime((prev) => prev + 480);
-                                setSmsHistoryLogs((prev) => [
-                                  {
-                                    id: `blast_${Date.now()}`,
-                                    date: new Date().toLocaleDateString(
-                                      "en-US",
-                                      {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                      },
-                                    ),
-                                    venue: show.venue,
-                                    city: show.city,
-                                    recipients: 480,
-                                    segments: 1,
-                                    cost: costNum,
-                                    status: "Delivered (Twilio 10DLC)",
-                                  },
-                                  ...prev,
-                                ]);
-                              }
-                            }
-                          } catch (err: any) {
-                            setSmsResult({ error: err.message });
-                          }
-                          smsSendingRef.current = false;
-                          setSmsSending(false);
-                        }}
-                        className=" cursor-pointer"
-                      >
-                        {smsSending ? (
-                          <>
-                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/10 border-t-white" />{" "}
-                            Sending Twilio Blast...
-                          </>
-                        ) : (
-                          <>Send Proximity Blast</>
-                        )}
-                      </SeventhButton>
+                          })();
+                          setAlertTitle(`7th Heaven Live at ${show.venue}!`);
+                          const lines: string[] = [
+                            `7th Heaven is performing at ${show.venue} in ${location}!`,
+                            ``,
+                            `Date: ${dateStr}`,
+                          ];
+                          if (show.time) lines.push(`Showtime: ${show.time}`);
+                          if (show.doorsTime) lines.push(`Doors: ${show.doorsTime}`);
+                          if (show.allAges === true) lines.push(`Admission: All Ages`);
+                          else if (show.allAges === false) lines.push(`Admission: 21+`);
+                          if (show.cover) lines.push(`Cover: ${show.cover}`);
+                          lines.push(``);
+                          lines.push(`See full tour details at 7thheavenband.com`);
+                          setSmsPreview(lines.join("\n"));
+                        } else {
+                          setSmsPreview("");
+                        }
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
+                      Alert Category
+                    </label>
+                    <GooeyMessagesDropdown
+                      selected={alertCategory}
+                      options={[
+                        { label: "General Announcement", value: "announcement" },
+                        { label: "Show Reminder / Schedule", value: "show_reminder" },
+                        { label: "Emergency / Cancellation", value: "cancellation" },
+                        { label: "Venue / Time Change", value: "venue_change" },
+                        { label: "Merch / Exclusive Drop", value: "merch_drop" },
+                      ]}
+                      onChange={setAlertCategory}
+                      showAllOption={false}
+                    />
+                  </div>
+                </div>
+
+                {/* 4. Subject & Message Body */}
+                <div className="space-y-4">
+                  <div>
+                    <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
+                      Alert Title / Email Subject
+                    </label>
+                    <GlowInput
+                      id="alert-title-input"
+                      value={alertTitle}
+                      onChange={(e) => setAlertTitle(e.target.value)}
+                      placeholder="e.g. 7th Heaven Tonight in Addison!"
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
+                      Message Body
+                    </label>
+                    <div className="relative z-20 w-full [&_.ql-editor]:min-h-[120px]">
+                      <ReactQuill
+                        theme="snow"
+                        value={smsCustomMsg}
+                        onChange={setSmsCustomMsg}
+                        placeholder="Enter the alert message to send to all selected channels..."
+                        className="overflow-hidden rounded-xl border border-white/10"
+                      />
                     </div>
                   </div>
                 </div>
 
-                {/*  Cumulative Twilio Spending & History Log Table */}
-                <div className="space-y-3 border-t border-white/10 pt-5">
+                {/* Result Feedback Banner */}
+                {smsResult && (
+                  <div
+                    className={`rounded-xl border p-4 ${
+                      smsResult.success
+                        ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"
+                        : "border-rose-500/40 bg-rose-500/10 text-rose-300"
+                    }`}
+                  >
+                    <div className="font-semibold text-sm">
+                      {smsResult.success ? "Broadcast Dispatched Successfully!" : "Broadcast Failed"}
+                    </div>
+                    <div className="text-xs mt-1 text-white/70">
+                      {smsResult.message || smsResult.error || JSON.stringify(smsResult)}
+                    </div>
+                  </div>
+                )}
+
+                {/* 5. Dispatch Action Button */}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="text-xs text-white/40">
+                    {!channelPush && !channelWebPush && !channelEmail && !channelSms && (
+                      <span className="text-amber-400">Select at least one channel to dispatch</span>
+                    )}
+                  </div>
+                  <SeventhButton
+                    type="button"
+                    disabled={smsSending || (!channelPush && !channelWebPush && !channelEmail && !channelSms)}
+                    icon={false}
+                    onClick={async () => {
+                      if (smsSendingRef.current) return;
+                      const cleanBodyText = smsCustomMsg.replace(/<[^>]*>/g, "").trim() || smsPreview;
+                      const titleToSend = alertTitle.trim() || "7th Heaven Show Alert";
+
+                      if (!cleanBodyText && !titleToSend) {
+                        alert("Please enter a message or title for the alert.");
+                        return;
+                      }
+
+                      // Paid SMS Confirmation Check
+                      if (channelSms) {
+                        const confirmMsg = `You have enabled Twilio SMS fallback for ${estSmsRecipients} recipients.\nEstimated Twilio carrier cost: $${estSmsCost}.\n\nPush notifications and emails are 100% free.\nDo you want to proceed with sending SMS?`;
+                        if (!confirm(confirmMsg)) return;
+                      }
+
+                      smsSendingRef.current = true;
+                      setSmsSending(true);
+                      setSmsResult(null);
+
+                      try {
+                        const show = smsShows.find((s: any) => s._id === smsSelectedShow || s.date === smsSelectedShow);
+                        const res = await fetch("/api/admin/broadcast", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            showName: show ? show.venue : undefined,
+                            showDate: show ? show.date : undefined,
+                            alertType: alertCategory,
+                            messageTitle: titleToSend,
+                            messageBody: cleanBodyText,
+                            channels: {
+                              push: channelPush,
+                              webPush: channelWebPush,
+                              email: channelEmail,
+                              sms: channelSms,
+                            },
+                            targetAudience: alertTargetAudience,
+                            distanceMiles: alertRadius !== "all" ? parseInt(alertRadius, 10) : undefined,
+                            urgent: alertCategory === "cancellation",
+                          }),
+                        });
+
+                        const data = await res.json();
+                        if (res.ok && data.success) {
+                          setSmsResult({
+                            success: true,
+                            message: `Dispatched to ${alertTargetAudience} across active channels.`,
+                          });
+                          setSmsCustomMsg("");
+                          setAlertTitle("");
+                          // Refresh live stats & logs
+                          fetchBroadcastStats();
+                        } else {
+                          setSmsResult({
+                            success: false,
+                            error: data.error || `Error dispatching broadcast (HTTP ${res.status})`,
+                          });
+                        }
+                      } catch (err: any) {
+                        setSmsResult({ success: false, error: err.message || "Network error occurred." });
+                      } finally {
+                        smsSendingRef.current = false;
+                        setSmsSending(false);
+                      }
+                    }}
+                    className="cursor-pointer"
+                  >
+                    {smsSending ? (
+                      <span className="flex items-center gap-2">
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+                        Dispatching Broadcast...
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2">
+                        <Send className="h-4 w-4" />
+                        {channelSms ? `Send Broadcast (Paid SMS $${estSmsCost})` : "Send Alert (100% Free)"}
+                      </span>
+                    )}
+                  </SeventhButton>
+                </div>
+
+                {/* 6. Broadcast History Logs */}
+                <div className="space-y-3 border-t border-white/10 pt-6">
                   <div className="flex items-center justify-between">
-                    <h4 className="flex items-center gap-2">
-                      <span></span> Twilio Blast History & Spending Logs
+                    <h4 className="flex items-center gap-2 text-sm font-semibold text-white">
+                      <Clock className="h-4 w-4 text-purple-400" />
+                      Broadcast History & Audit Logs
                     </h4>
-                    <span className="text-white/40">
-                      Total Spent:{" "}
-                      <strong className="text-rose-400">
-                        ${smsTotalSpentAllTime.toFixed(2)}
-                      </strong>
-                    </span>
+                    <span className="text-xs text-white/40">Real-time log across all channels</span>
                   </div>
 
-                  <div className="overflow-x-auto border-none">
+                  <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/30">
                     <div className="min-w-[600px] w-full text-left">
-                      <div className="grid grid-cols-12 border-b border-white/20 pb-2.5 text-[10px] text-white/40 font-medium">
-                        <div className="col-span-2 pr-4 pl-0">Date</div>
-                        <div className="col-span-3 px-4">Venue / Location</div>
-                        <div className="col-span-2 px-4">Recipients</div>
-                        <div className="col-span-2 px-4">Segments</div>
-                        <div className="col-span-2 px-4">Total Cost</div>
-                        <div className="col-span-1 pr-0 pl-4 text-right">
-                          Status
-                        </div>
+                      <div className="grid grid-cols-12 border-b border-white/10 p-3 text-[11px] font-medium text-white/50">
+                        <div className="col-span-3">Timestamp / Title</div>
+                        <div className="col-span-2">Audience</div>
+                        <div className="col-span-3">Channels</div>
+                        <div className="col-span-2">Counts / Reach</div>
+                        <div className="col-span-2 text-right">Status</div>
                       </div>
-                      <div className="divide-y divide-white/10">
-                        {smsHistoryLogs.map((log) => (
-                          <div
-                            key={log.id}
-                            className="grid grid-cols-12 items-center border-b border-white/10 py-2.5 hover:bg-white/[0.04]"
-                          >
-                            <div className="col-span-2 pr-4 pl-0">{log.date}</div>
-                            <div className="col-span-3 px-4">
-                              {log.venue}{" "}
-                              <span className="text-white/40">
-                                ({log.city})
-                              </span>
+                      <div className="divide-y divide-white/5">
+                        {broadcastLogs.length > 0 ? (
+                          broadcastLogs.map((log) => (
+                            <div
+                              key={log.id}
+                              className="grid grid-cols-12 items-center p-3 text-xs hover:bg-white/[0.02]"
+                            >
+                              <div className="col-span-3">
+                                <div className="font-medium text-white truncate">{log.title}</div>
+                                <div className="text-[10px] text-white/40">
+                                  {new Date(log.created_at).toLocaleString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                  })}
+                                </div>
+                              </div>
+                              <div className="col-span-2 capitalize text-purple-300 font-medium">
+                                {log.audience}
+                              </div>
+                              <div className="col-span-3 flex flex-wrap gap-1">
+                                {(Array.isArray(log.channels) ? log.channels : []).map((ch: string) => (
+                                  <span
+                                    key={ch}
+                                    className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-white/70"
+                                  >
+                                    {ch}
+                                  </span>
+                                ))}
+                              </div>
+                              <div className="col-span-2 text-white/60 text-[11px]">
+                                {typeof log.counts === "object" && log.counts !== null
+                                  ? `${log.counts.web_push || 0} push · ${log.counts.email || 0} email`
+                                  : "Completed"}
+                              </div>
+                              <div className="col-span-2 text-right">
+                                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-300">
+                                  {log.status || "Delivered"}
+                                </span>
+                              </div>
                             </div>
-                            <div className="col-span-2 px-4">
-                              {log.recipients} fans
+                          ))
+                        ) : (
+                          smsHistoryLogs.map((log) => (
+                            <div
+                              key={log.id}
+                              className="grid grid-cols-12 items-center p-3 text-xs hover:bg-white/[0.02]"
+                            >
+                              <div className="col-span-3">
+                                <div className="font-medium text-white truncate">{log.venue}</div>
+                                <div className="text-[10px] text-white/40">{log.date}</div>
+                              </div>
+                              <div className="col-span-2 text-purple-300 font-medium">
+                                Fans ({log.city})
+                              </div>
+                              <div className="col-span-3 flex gap-1">
+                                <span className="rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-white/70">
+                                  Push + SMS
+                                </span>
+                              </div>
+                              <div className="col-span-2 text-white/60 text-[11px]">
+                                {log.recipients} recipients
+                              </div>
+                              <div className="col-span-2 text-right">
+                                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-300">
+                                  {log.status}
+                                </span>
+                              </div>
                             </div>
-                            <div className="col-span-2 px-4">{log.segments} SMS</div>
-                            <div className="col-span-2 px-4 text-rose-400">
-                              ${log.cost.toFixed(2)}
-                            </div>
-                            <div className="col-span-1 pr-0 pl-4 text-right">
-                              <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px]">
-                                {log.status}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderCrewSms = () => {
     const rawRecipients = crewAlertStats?.recipients || [];
@@ -8860,28 +8768,15 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("crewsms")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
         >
-          <div className="flex flex-col">
+          <div className="title-group title-group--sub">
             <h3 className="flex cursor-pointer items-center gap-2">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              Crew SMS Alert & Group Setup
+              Crew & Band Groups
               {renderInfoToggle("crewsms")}
             </h3>
-            <p className="mt-0.5">
-              Select target crew members or saved groups to broadcast emergency
-              text messages or load-in notices
+            <p>
+              Manage crew and band rosters, duties, phone numbers, and direct group notifications
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -8909,8 +8804,8 @@ export function AdminDashboardMain({
         </div>
         {renderInfoBanner(
           "crewsms",
-          "Crew SMS Alert & Group Setup",
-          "Select target crew members or saved groups to broadcast emergency text messages or load-in notices.",
+          "Crew & Band Groups",
+          "Select target crew members or saved groups to broadcast emergency notifications or load-in notices.",
         )}
         <div style={{ display: isSectionOpen("crewsms") ? undefined : "none" }}>
           {isSectionOpen("crewsms") && (
@@ -9007,9 +8902,11 @@ export function AdminDashboardMain({
                                       onClick={() => handleToggleMember(r)}
                                       className="flex h-full min-w-0 flex-1 cursor-pointer items-center gap-2.5 border-none select-none"
                                     >
-                                      <SquishyToggle
+                                      <Toggle
                                         id={`roster-toggle-1-${r.id}`}
+                                        size="sm"
                                         label={`Select ${r.name}`}
+                                        hideLabel
                                         checked={isChecked}
                                         onChange={() => handleToggleMember(r)}
                                       />
@@ -9378,9 +9275,11 @@ export function AdminDashboardMain({
                                                 handleToggleMember(r);
                                               }}
                                             >
-                                              <SquishyToggle
+                                              <Toggle
                                                 id={`roster-toggle-popover-${r.id}`}
+                                                size="sm"
                                                 label={`Select ${r.name}`}
+                                                hideLabel
                                                 checked={isChecked}
                                                 onChange={() =>
                                                   handleToggleMember(r)
@@ -9481,7 +9380,7 @@ export function AdminDashboardMain({
                                 type="button"
                                 onClick={handleSaveSmsGroup}
                                 icon={false}
-                                className="flex-1 cursor-pointer "
+                                className="flex-1 cursor-pointer whitespace-nowrap"
                               >
                                 Save Group
                               </SeventhButton>
@@ -9505,7 +9404,7 @@ export function AdminDashboardMain({
                               setShowSaveSmsGroup(true);
                             }}
                             icon={false}
-                            className="w-full cursor-pointer"
+                            className="w-full cursor-pointer whitespace-nowrap"
                           >
                             CREATE NEW GROUP FROM SELECTION
                           </SeventhButton>
@@ -9659,13 +9558,13 @@ export function AdminDashboardMain({
                       className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <SquishyToggle
+                        <Toggle
                           id="alert-sms-toggle"
+                          size="sm"
                           label="SMS TEXTS"
                           checked={sendSmsAlert}
                           onChange={(val) => setSendSmsAlert(val)}
                         />
-                        <span>SMS TEXTS</span>
                       </div>
                       <span className="leading-normal text-white/40">
                         Sends raw text alerts to active mobile numbers
@@ -9685,13 +9584,13 @@ export function AdminDashboardMain({
                       className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                     >
                       <div className="flex items-center gap-2">
-                        <SquishyToggle
+                        <Toggle
                           id="alert-email-toggle"
+                          size="sm"
                           label="EMAIL ALERTS"
                           checked={sendEmailAlert}
                           onChange={(val) => setSendEmailAlert(val)}
                         />
-                        <span>EMAIL ALERTS</span>
                       </div>
                       <span className="leading-normal text-white/40">
                         Sends styled HTML alerts to registered emails
@@ -9712,13 +9611,13 @@ export function AdminDashboardMain({
                         className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${crewSendAsGroup ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                       >
                         <div className="flex items-center gap-2">
-                          <SquishyToggle
+                          <Toggle
                             id="alert-group-toggle"
+                            size="sm"
                             label="SEND AS GROUP TEXT"
                             checked={crewSendAsGroup}
                             onChange={(val) => setCrewSendAsGroup(val)}
                           />
-                          <span>SEND AS GROUP TEXT</span>
                         </div>
                         <span className="leading-normal text-white/40">
                           Appends list of recipients to SMS so everyone sees who
@@ -9858,7 +9757,7 @@ export function AdminDashboardMain({
                 {(sendSmsAlert || sendEmailAlert) && (
                   <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 border-t border-white/5 pt-4 md:grid-cols-2">
                     {/* Left Column: SMS Text Message Preview (50% Width) */}
-                    <div className="flex flex-col justify-between space-y-4 !rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-5">
+                    <div className="flex flex-col justify-between space-y-4 !rounded-lg border border-[var(--border-color)]   p-5">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                           <span>SMS TEXT MESSAGE PREVIEW</span>
@@ -10072,26 +9971,15 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("bandsms")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
         >
-          <div className="flex flex-col">
+          <div className="title-group title-group--sub">
             <h3 className="flex cursor-pointer items-center gap-2">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
+
               Band Member SMS Text
               {renderInfoToggle("bandsms")}
             </h3>
-            <p className="mt-0.5">
+            <p>
               Broadcast instant SMS alerts or show notices directly to the band
               members
             </p>
@@ -10239,9 +10127,11 @@ export function AdminDashboardMain({
                                   title={`Click to toggle selection for ${r.name}\n ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                 >
                                   <div className="flex min-w-0 flex-1 items-center gap-3">
-                                    <SquishyToggle
+                                    <Toggle
                                       id={`roster-toggle-2-${r.id}`}
+                                      size="sm"
                                       label={`Select ${r.name}`}
+                                      hideLabel
                                       checked={isChecked}
                                       onChange={() => toggleSelection()}
                                     />
@@ -10367,13 +10257,13 @@ export function AdminDashboardMain({
                           className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                         >
                           <div className="flex items-center gap-2">
-                            <SquishyToggle
+                            <Toggle
                               id="band-alert-sms-toggle"
+                              size="sm"
                               label="SMS TEXTS"
                               checked={sendBandSmsAlert}
                               onChange={(val) => setSendBandSmsAlert(val)}
                             />
-                            <span>SMS TEXTS</span>
                           </div>
                           <span className="leading-normal text-white/40">
                             Sends raw text alerts to active mobile numbers
@@ -10393,13 +10283,13 @@ export function AdminDashboardMain({
                           className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                         >
                           <div className="flex items-center gap-2">
-                            <SquishyToggle
+                            <Toggle
                               id="band-alert-email-toggle"
+                              size="sm"
                               label="EMAIL ALERTS"
                               checked={sendBandEmailAlert}
                               onChange={(val) => setSendBandEmailAlert(val)}
                             />
-                            <span>EMAIL ALERTS</span>
                           </div>
                           <span className="leading-normal text-white/40">
                             Sends styled HTML alerts to registered emails
@@ -10409,7 +10299,7 @@ export function AdminDashboardMain({
 
                       {/* Email Subject Line (Conditional) */}
                       {sendBandEmailAlert && (
-                        <section className="flex animate-[fadeIn_0.2s_ease-out] flex-col gap-1">
+                        <div className="flex animate-[fadeIn_0.2s_ease-out] flex-col gap-1">
                           <GlowInput
                             id="admin-band-email-subject"
                             label="EMAIL SUBJECT LINE"
@@ -10421,7 +10311,7 @@ export function AdminDashboardMain({
                             }
                             placeholder="e.g. Band Schedule Update"
                           />
-                        </section>
+                        </div>
                       )}
 
                       {/* Message Form */}
@@ -10581,7 +10471,7 @@ export function AdminDashboardMain({
                 {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
                 <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 pt-2 md:grid-cols-2">
                   {/* Left Column: SMS Text Message Preview (50% Width) */}
-                  <div className="flex flex-col justify-between space-y-4 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-5">
+                  <div className="flex flex-col justify-between space-y-4 rounded-lg border border-[var(--border-color)]   p-5">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                         <span>SMS TEXT MESSAGE PREVIEW</span>
@@ -10648,27 +10538,15 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("newsletter")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
-            </svg>
+
             Newsletter Blast
             {renderInfoToggle("newsletter")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Compose and broadcast marketing campaigns, newsletter updates, and
             band announcements to all email subscribers
           </p>
@@ -10789,7 +10667,7 @@ export function AdminDashboardMain({
                       setBlastSending(false);
                     }}
                     icon={false}
-                    className="flex cursor-pointer items-center gap-2"
+                    className="flex cursor-pointer whitespace-nowrap items-center"
                   >
                     {blastSending ? (
                       <>
@@ -10821,29 +10699,15 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("registry")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
+
             Community Registry
             {renderInfoToggle("registry")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Search and manage all user accounts registered in the database, view
             roles, and configure site settings
           </p>
@@ -10858,7 +10722,7 @@ export function AdminDashboardMain({
                 key={role}
                 isActive={filterRole === role}
                 onClick={() => setFilterRole(role as any)}
-                className="cursor-pointer text-[0.65rem] whitespace-nowrap"
+                className="cursor-pointer whitespace-nowrap"
               >
                 {role}
               </SeventhButton>
@@ -11125,29 +10989,15 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("crewcreation")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="8.5" cy="7" r="4"></circle>
-              <line x1="20" y1="8" x2="20" y2="14"></line>
-              <line x1="23" y1="11" x2="17" y2="11"></line>
-            </svg>
+
             Create Crew Account
             {renderInfoToggle("crewcreation")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Create and register new crew members in the system, set contact
             information, and provision login credentials
           </p>
@@ -11264,7 +11114,7 @@ export function AdminDashboardMain({
                     !newCrewEmail.trim() ||
                     !newCrewPassword.trim()
                   }
-                  className="flex items-center gap-2  whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
+                  className="flex items-center whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   <svg
                     width="16"
@@ -11430,9 +11280,9 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("admincreation")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="title-group title-group--sub" onClick={(e) => e.stopPropagation()}>
           <h3 className="flex items-center gap-2">
             <svg
               width="20"
@@ -11449,7 +11299,7 @@ export function AdminDashboardMain({
             Create Admin Account
             {renderInfoToggle("admincreation")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Register new band administrator or planner accounts with full
             database access and management permissions
           </p>
@@ -11530,7 +11380,7 @@ export function AdminDashboardMain({
                     !newAdminUsername.trim() ||
                     adminCreateLoading
                   }
-                  className="flex items-center gap-2 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
+                  className="flex items-center whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   <svg
                     width="16"
@@ -11718,27 +11568,15 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("bulkinvites")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
       >
-        <div className="flex flex-col">
+        <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
+
             Bulk Invites
             {renderInfoToggle("bulkinvites")}
           </h3>
-          <p className="mt-0.5">
+          <p>
             Upload CSV lists of emails or phone numbers to bulk-invite members
             to the crew directory
           </p>
@@ -11895,24 +11733,11 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("cruisesignups")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
         >
           <div className="flex items-center">
             <h3 className="flex cursor-pointer items-center gap-2">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="5" r="3"></circle>
-                <line x1="12" y1="22" x2="12" y2="8"></line>
-                <path d="M5 12H2a10 10 0 0 0 20 0h-3"></path>
-              </svg>
+
               Cruise Signups
               {renderInfoToggle("cruisesignups")}
             </h3>
@@ -12012,19 +11837,7 @@ export function AdminDashboardMain({
                       disabled={cruiseSelectedEmails.length === 0}
                       className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-600/15 px-4 py-2 text-[0.9rem] hover:bg-purple-600/25 disabled:cursor-not-allowed disabled:opacity-30"
                     >
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
-                      </svg>
+
                       Email{" "}
                       {cruiseSelectedEmails.length > 0
                         ? `(${cruiseSelectedEmails.length})`
@@ -12068,7 +11881,7 @@ export function AdminDashboardMain({
                       <GlowInput
                         id="admin-cruise-email-subject"
                         label="Subject"
-                        labelClassName="mb-1.5 block text-[0.55rem] text-white/30"
+                        labelClassName="  block text-[0.55rem] text-white/30"
                         type="text"
                         value={cruiseEmailSubject}
                         onChange={(e) =>
@@ -12082,7 +11895,7 @@ export function AdminDashboardMain({
                       <GlowTextarea
                         id="admin-cruise-email-body"
                         label="Message"
-                        labelClassName="mb-1.5 block text-[0.55rem] text-white/30"
+                        labelClassName="  block text-[0.55rem] text-white/30"
                         value={cruiseEmailBody}
                         onChange={(e) => setCruiseEmailBody(e.target.value)}
                         placeholder="Write your message to cruise passengers..."
@@ -12159,9 +11972,11 @@ export function AdminDashboardMain({
                         >
                           {/* Email checkbox */}
                           <div className="flex justify-center">
-                            <SquishyToggle
+                            <Toggle
                               id={`cruise-email-toggle-${s.email || i}`}
+                              size="sm"
                               label={`Select ${s.name || s.email}`}
+                              hideLabel
                               checked={cruiseSelectedEmailsSet.has(s.email)}
                               onChange={() => s.email && toggleEmail(s.email)}
                             />
@@ -14078,7 +13893,7 @@ export function AdminDashboardMain({
                               )}
                             </div>
 
-                            <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-3 text-left">
+                            <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)]   p-3 text-left">
                               <div>{member.name}</div>
                               <div className="mb-2 text-[12px] text-[var(--color-accent)]">
                                 Role: {member.role || "Crew Member"}
@@ -14125,7 +13940,7 @@ export function AdminDashboardMain({
                                 );
                               }
                             }}
-                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : "bg-[var(--card-bg)]"}`}
+                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
                             onDragOver={(e) => {
                               e.preventDefault();
                               if (e.dataTransfer)
@@ -14312,7 +14127,7 @@ export function AdminDashboardMain({
     const renderTimelineGrid = () => {
       const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
       return (
-        <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)] bg-[var(--card-bg)] p-4 select-none">
+        <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)]   p-4 select-none">
           <div className="flex select-none">
             <div className="w-14 shrink-0" />
             <div className="mb-2 grid flex-1 grid-cols-7 gap-2 border-b border-[var(--border-color)] pb-2 text-center">
@@ -14359,7 +14174,7 @@ export function AdminDashboardMain({
               ))}
             </div>
 
-            <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)] bg-[var(--card-bg)] p-0">
+            <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)]   p-0">
               <div className="pointer-events-none absolute inset-0 flex flex-col justify-between">
                 {Array.from({ length: 17 }).map((_, idx) => (
                   <div
@@ -14496,7 +14311,7 @@ export function AdminDashboardMain({
           onClick={() => toggleSection("calendar")}
           className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
         >
-          <div className="flex flex-col">
+          <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
               <svg
                 width="18"
@@ -14515,7 +14330,7 @@ export function AdminDashboardMain({
               </svg>
               Crew Work Schedule Calendar
             </h3>
-            <p className="mt-0.5">
+            <p>
               Schedule band/crew work shifts, manage open roles, publish shifts,
               and prevent overlaps
             </p>
@@ -15851,9 +15666,11 @@ export function AdminDashboardMain({
                                               >
                                                 <div className="flex items-center justify-between">
                                                   <label className="flex w-full cursor-pointer items-center gap-3 select-none">
-                                                    <SquishyToggle
+                                                    <Toggle
                                                       id={`crew-assign-toggle-${member.id}`}
+                                                      size="sm"
                                                       label={`Toggle assignment for ${member.name || member.id}`}
+                                                      hideLabel
                                                       checked={
                                                         !!assignment.active
                                                       }
@@ -16884,9 +16701,11 @@ export function AdminDashboardMain({
                                     <label className="group -mx-1.5 flex cursor-pointer items-center justify-between gap-3 rounded-lg px-1.5 py-1 select-none">
                                       {/* Left checkbox and avatar */}
                                       <div className="flex min-w-0 items-center gap-3">
-                                        <SquishyToggle
+                                        <Toggle
                                           id={`group-member-toggle-${m.id}`}
+                                          size="sm"
                                           label={`Toggle active for ${m.name || m.id}`}
+                                          hideLabel
                                           checked={!!setting.active}
                                           onChange={(act) => {
                                             setNewGroupMemberSettings(
@@ -17568,10 +17387,10 @@ export function AdminDashboardMain({
   return (
     <main
       id="admin-dashboard-root"
-      className="site-container page-container relative min-h-screen overflow-x-clip selection:bg-[var(--color-accent)]"
+      className="site-container page-container page-stack relative min-h-screen overflow-x-clip selection:bg-[var(--color-accent)]"
     >
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
-      <header className="mb-6 flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-center">
+      <header className=" flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-center">
         {/* Admin Identity & Badges */}
         <div className="flex gap-5">
           <input
@@ -17681,7 +17500,7 @@ export function AdminDashboardMain({
                 adminTabRef.current = "cruise";
                 setUnreadCruiseChat(0);
               }}
-              className="flex cursor-pointer items-center justify-center gap-1.5  whitespace-nowrap"
+              className="flex cursor-pointer items-center justify-center whitespace-nowrap"
             >
               <span>Cruise</span>
               {unreadCruiseChat > 0 && adminTab !== "cruise" && (
@@ -17739,7 +17558,7 @@ export function AdminDashboardMain({
           </div>
 
           {activeCategoryTab === "overview" && (
-            <section className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
               {METRICS.map((metric) => (
                 <div
                   key={metric.label}
@@ -17780,7 +17599,7 @@ export function AdminDashboardMain({
                   </div>
                 </div>
               ))}
-            </section>
+            </div>
           )}
 
           {sectionOrder
@@ -17858,111 +17677,112 @@ export function AdminDashboardMain({
               }
 
               return (
-                <section key={key} id={"admin-sec-" + key}>
+                <div key={key} id={"admin-sec-" + key}>
                   {component}
-                </section>
+                </div>
               );
             })}
 
-          <section className="mt-4 flex w-full flex-col gap-4">
-            <div className="flex h-full flex-col overflow-hidden">
-              <div className="admin-section-header flex shrink-0 items-center justify-between py-6 pr-6 pl-0">
-                <h3 className="flex items-center gap-2">
-                  Audit Log
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-                </h3>
-                <span className="text-[0.9rem] text-white/30">
-                  {auditLog.length} Events
-                </span>
-              </div>
-              <div className="flex max-h-[500px] flex-1 flex-col gap-5 overflow-y-auto py-6 pl-0">
-                {auditLog.map((entry, i) => (
-                  <div
-                    key={entry.id}
-                    className="relative flex gap-2.5 pb-4 pl-0 last:pb-0"
-                    style={{
-                      animation: i === 0 ? "slideIn 0.4s ease-out" : "none",
-                    }}
-                  >
-                    {i < auditLog.length - 1 && (
-                      <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/10" />
-                    )}
-                    <div className="mt-1 shrink-0">
-                      <div
-                        className={`h-3.5 w-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`}
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="mb-1">{entry.text}</p>
+          <section id="admin-audit-log" aria-labelledby="admin-audit-log-heading" className="section">
+            <div className="mt-4 flex w-full flex-col gap-4">
+              <div className="flex h-full flex-col overflow-hidden">
+                <div className="admin-section-header flex shrink-0 items-center justify-between py-6 pr-6 pl-0">
+                  <h3 id="admin-audit-log-heading" className="flex items-center gap-2">
+                    Audit Log
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+                  </h3>
+                  <span className="text-[0.9rem] text-white/30">
+                    {auditLog.length} Events
+                  </span>
+                </div>
+                <div className="flex max-h-[500px] flex-1 flex-col gap-5 overflow-y-auto py-6 pl-0">
+                  {auditLog.map((entry, i) => (
+                    <div
+                      key={entry.id}
+                      className="relative flex gap-2.5 pb-4 pl-0 last:pb-0"
+                      style={{
+                        animation: i === 0 ? "slideIn 0.4s ease-out" : "none",
+                      }}
+                    >
+                      {i < auditLog.length - 1 && (
+                        <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/10" />
+                      )}
+                      <div className="mt-1 shrink-0">
+                        <div
+                          className={`h-3.5 w-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`}
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="mb-1">{entry.text}</p>
 
-                      {entry.details && (
-                        <div className="mt-1 mb-2">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setExpandedAuditId((prev) =>
-                                prev === entry.id ? null : entry.id,
-                              )
-                            }
-                            className="a-btn inline-flex cursor-pointer items-center gap-1 hover:text-white"
-                          >
-                            {expandedAuditId === entry.id
-                              ? "Hide Details "
-                              : "View Message Content "}
-                          </button>
+                        {entry.details && (
+                          <div className="mt-1 mb-2">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setExpandedAuditId((prev) =>
+                                  prev === entry.id ? null : entry.id,
+                                )
+                              }
+                              className="a-btn inline-flex cursor-pointer items-center gap-1 hover:text-white"
+                            >
+                              {expandedAuditId === entry.id
+                                ? "Hide Details "
+                                : "View Message Content "}
+                            </button>
 
-                          {expandedAuditId === entry.id && (
-                            <div className="mt-2 max-w-full animate-[slideDown_0.2s_ease-out] space-y-3 overflow-hidden border border-white/10 p-3 md:max-w-[650px]">
-                              {entry.details.type === "signin" && (
-                                <div className="space-y-1.5">
-                                  <div className="flex justify-between border-b border-white/10 pb-1">
-                                    <span className="text-white/40">
-                                      User
-                                    </span>
-                                    <span className="text-[var(--color-accent)]">
-                                      {entry.details.username}
-                                    </span>
+                            {expandedAuditId === entry.id && (
+                              <div className="mt-2 max-w-full animate-[slideDown_0.2s_ease-out] space-y-3 overflow-hidden border border-white/10 p-3 md:max-w-[650px]">
+                                {entry.details.type === "signin" && (
+                                  <div className="space-y-1.5">
+                                    <div className="flex justify-between border-b border-white/10 pb-1">
+                                      <span className="text-white/40">
+                                        User
+                                      </span>
+                                      <span className="text-[var(--color-accent)]">
+                                        {entry.details.username}
+                                      </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span className="text-white/40">
+                                        IP Address
+                                      </span>
+                                      <span>{entry.details.ipAddress}</span>
+                                    </div>
                                   </div>
-                                  <div className="flex justify-between">
-                                    <span className="text-white/40">
-                                      IP Address
-                                    </span>
-                                    <span>{entry.details.ipAddress}</span>
-                                  </div>
-                                </div>
-                              )}
+                                )}
 
-                              {entry.details.smsText && (
-                                <div className="space-y-1.5">
-                                  <span className="block text-white/40">
-                                    {" "}
-                                    SMS Message Body
-                                  </span>
-                                  <div className="rounded-lg border border-white/10 p-2.5 whitespace-pre-wrap">
-                                    {entry.details.smsText}
-                                  </div>
-                                </div>
-                              )}
-
-                              {entry.details.emailHtml && (
-                                <div className="space-y-2">
-                                  <div className="border-b border-white/10 pb-1">
-                                    <span className="mb-1 block text-white/40">
-                                      {" "}
-                                      Email Template
-                                    </span>
-                                    <span className="">
-                                      Subject: {entry.details.emailSubject}
-                                    </span>
-                                  </div>
-
+                                {entry.details.smsText && (
                                   <div className="space-y-1.5">
                                     <span className="block text-white/40">
-                                      Visual Template Render
+                                      {" "}
+                                      SMS Message Body
                                     </span>
-                                    <div className="overflow-hidden rounded-lg border border-white/10 bg-[var(--color-bg-surface)] p-0.5">
-                                      <iframe
-                                        srcDoc={`
+                                    <div className="rounded-lg border border-white/10 p-2.5 whitespace-pre-wrap">
+                                      {entry.details.smsText}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {entry.details.emailHtml && (
+                                  <div className="space-y-2">
+                                    <div className="border-b border-white/10 pb-1">
+                                      <span className="mb-1 block text-white/40">
+                                        {" "}
+                                        Email Template
+                                      </span>
+                                      <span className="">
+                                        Subject: {entry.details.emailSubject}
+                                      </span>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                      <span className="block text-white/40">
+                                        Visual Template Render
+                                      </span>
+                                      <div className="overflow-hidden rounded-lg border border-white/10 bg-[var(--color-bg-surface)] p-0.5">
+                                        <iframe
+                                          srcDoc={`
  <!DOCTYPE html>
                                           <html>
                                             <head>
@@ -17984,23 +17804,24 @@ export function AdminDashboardMain({
                                             </body>
                                           </html>
                                         `}
-                                        className="h-[180px] w-full border-none bg-[var(--color-bg-surface)]"
-                                        title="Email Preview"
-                                        sandbox="allow-same-origin"
-                                      />
+                                          className="h-[180px] w-full border-none bg-[var(--color-bg-surface)]"
+                                          title="Email Preview"
+                                          sandbox="allow-same-origin"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
 
-                      <span>{entry.time}</span>
+                        <span>{entry.time}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -18078,7 +17899,7 @@ export function AdminDashboardMain({
                   </div>
 
                   <div>
-                    <span className="mb-1.5 block">
+                    <span className="  block">
                       Guidelines Content (WYSIWYG)
                     </span>
                     <div className="guidelines-wysiwyg-editor w-full !rounded-lg [&_.ql-editor]:min-h-[220px]">
@@ -18185,7 +18006,7 @@ export function AdminDashboardMain({
                       </div>
 
                       <div>
-                        <span className="mb-1.5 block text-[0.9rem] text-white/40">
+                        <span className="  block text-[0.9rem] text-white/40">
                           Notice & Email Content
                         </span>
                         <div className="guidelines-wysiwyg-editor w-full [&_.ql-editor]:min-h-[160px]">
@@ -18201,34 +18022,20 @@ export function AdminDashboardMain({
 
                       {/* Target checkboxes */}
                       <div className="flex flex-wrap items-center gap-6 border-t border-white/5 pt-2">
-                        <div
-                          className="flex cursor-pointer items-center gap-2 select-none"
-                          onClick={() =>
-                            setPostNoticeToDashboard(!postNoticeToDashboard)
-                          }
-                        >
-                          <SquishyToggle
-                            id="post-notice-dashboard-toggle"
-                            label="Live Banner on Dashboard"
-                            checked={postNoticeToDashboard}
-                            onChange={setPostNoticeToDashboard}
-                          />
-                          <span> Live Banner on Dashboard</span>
-                        </div>
-                        <div
-                          className="flex cursor-pointer items-center gap-2 select-none"
-                          onClick={() =>
-                            setSendEmailToPassengers(!sendEmailToPassengers)
-                          }
-                        >
-                          <SquishyToggle
-                            id="send-email-passengers-toggle"
-                            label="Email Passenger Signups"
-                            checked={sendEmailToPassengers}
-                            onChange={setSendEmailToPassengers}
-                          />
-                          <span> Email Passenger Signups</span>
-                        </div>
+                        <Toggle
+                          id="post-notice-dashboard-toggle"
+                          size="sm"
+                          label="Live Banner on Dashboard"
+                          checked={postNoticeToDashboard}
+                          onChange={setPostNoticeToDashboard}
+                        />
+                        <Toggle
+                          id="send-email-passengers-toggle"
+                          size="sm"
+                          label="Email Passenger Signups"
+                          checked={sendEmailToPassengers}
+                          onChange={setSendEmailToPassengers}
+                        />
                       </div>
 
                       <div className="mt-auto flex flex-wrap items-center justify-end gap-2 border-t border-white/5 pt-3">
@@ -18280,7 +18087,7 @@ export function AdminDashboardMain({
                             cruiseUpdating ||
                             (!postNoticeToDashboard && !sendEmailToPassengers)
                           }
-                          className="flex cursor-pointer items-center justify-center"
+                          className="flex cursor-pointer whitespace-nowrap items-center justify-center"
                         >
                           {cruiseUpdating
                             ? "Dispatching..."
@@ -18512,7 +18319,7 @@ export function AdminDashboardMain({
                   <h4 className="mb-6">1. Select Target Destination</h4>
                   <div className="space-y-3">
                     <div>
-                      <span className="mb-1.5 block text-[0.65rem]">
+                      <span className="  block text-[0.65rem]">
                         Link Destination Type
                       </span>
                       <div className="grid grid-cols-2 gap-2">
@@ -18542,7 +18349,7 @@ export function AdminDashboardMain({
                         <div>
                           <label
                             htmlFor="admin-qr-variant-select"
-                            className="mb-1.5 block text-[0.65rem]"
+                            className="  block text-[0.65rem]"
                           >
                             {qrLinkType === "checkout"
                               ? "Product Variant (Required)"
@@ -18603,19 +18410,18 @@ export function AdminDashboardMain({
 
                     <div className="flex items-center justify-between border border-white/5 bg-black/20 p-3">
                       <div>
-                        <p>Show Price Tag</p>
+                        <p id="qr-price-tag-label">Show Price Tag</p>
                         <p>Include product price at the bottom of the card</p>
                       </div>
-                      <button
-                        type="button"
-                        aria-label="Toggle include price tag"
-                        onClick={() => setQrIncludePrice(!qrIncludePrice)}
-                        className={`h-6 w-10 cursor-pointer rounded-full p-1 ${qrIncludePrice ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
-                      >
-                        <div
-                          className={`h-4 w-4 rounded-full bg-white ${qrIncludePrice ? "translate-x-4" : "translate-x-0"}`}
-                        />
-                      </button>
+                      <Toggle
+                        id="qr-include-price-toggle"
+                        size="sm"
+                        label="Show Price Tag"
+                        hideLabel
+                        aria-labelledby="qr-price-tag-label"
+                        checked={qrIncludePrice}
+                        onChange={setQrIncludePrice}
+                      />
                     </div>
                   </div>
                 </div>
@@ -18701,20 +18507,7 @@ export function AdminDashboardMain({
                 onClick={() => window.print()}
                 className="flex cursor-pointer items-center gap-2 border border-white/10 bg-[var(--color-accent)] px-6 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/90"
               >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="6 9 6 2 18 2 18 9" />
-                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                  <rect x="6" y="14" width="12" height="8" />
-                </svg>
+
                 Print Label
               </button>
             </div>
@@ -18722,7 +18515,7 @@ export function AdminDashboardMain({
         </div>
       )}
       {activeToast && (
-        <div className="fixed right-6 bottom-6 z-[9999] flex items-start gap-3 border border-emerald-500/30 bg-[var(--color-bg-card)] px-5 py-4">
+        <div className="fixed right-6 bottom-6 z-[9999] flex items-start gap-3 rounded-[var(--radius-box)] border border-emerald-500/30 bg-[var(--color-bg-card)] px-5 py-4">
           <div className="text-xl"></div>
           <div>
             <p>{activeToast.title}</p>

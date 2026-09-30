@@ -80,3 +80,99 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
+
+    const { getEmailQuotaStatus } = await import("@/lib/email-quota");
+    const { createClient } = await import("@supabase/supabase-js");
+
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+
+    // 1. Quota status
+    const quota = await getEmailQuotaStatus();
+
+    // 2. Broadcast history logs (last 20)
+    let logs: any[] = [];
+    try {
+      const { data } = await sb
+        .from("notification_broadcast_logs")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (data) logs = data;
+    } catch {
+      // Table may not exist or empty
+    }
+
+    // 3. Audience counts
+    let fansPushCount = 0;
+    let crewPushCount = 0;
+    let bandPushCount = 0;
+    let fanEmailsCount = 0;
+    let crewCount = 0;
+    let bandCount = 0;
+
+    try {
+      const { count: fanPush } = await sb
+        .from("push_subscribers")
+        .select("*", { count: "exact", head: true })
+        .eq("audience", "fan");
+      fansPushCount = fanPush || 0;
+
+      const { count: crewPush } = await sb
+        .from("push_subscribers")
+        .select("*", { count: "exact", head: true })
+        .eq("audience", "crew");
+      crewPushCount = crewPush || 0;
+
+      const { count: bandPush } = await sb
+        .from("push_subscribers")
+        .select("*", { count: "exact", head: true })
+        .eq("audience", "band");
+      bandPushCount = bandPush || 0;
+
+      const { count: crewTotal } = await sb
+        .from("profiles")
+        .select("*", { count: "exact", head: true })
+        .eq("role", "crew");
+      crewCount = crewTotal || 0;
+
+      const { count: bandTotal } = await sb
+        .from("profiles")
+        .select("*", { count: "exact", head: true })
+        .or("role.eq.band,is_band.eq.true");
+      bandCount = bandTotal || 0;
+
+      const { count: newsEmails } = await sb
+        .from("newsletter_subscribers")
+        .select("*", { count: "exact", head: true });
+      fanEmailsCount = newsEmails || 0;
+    } catch {
+      // Best-effort audience count
+    }
+
+    return NextResponse.json({
+      success: true,
+      quota,
+      logs,
+      audienceCounts: {
+        fansPush: fansPushCount,
+        crewPush: crewPushCount,
+        bandPush: bandPushCount,
+        fanEmails: fanEmailsCount,
+        crewTotal: crewCount,
+        bandTotal: bandCount,
+      },
+    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Internal server error";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
