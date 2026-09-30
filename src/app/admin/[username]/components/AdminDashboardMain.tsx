@@ -8014,13 +8014,14 @@ export function AdminDashboardMain({
                       <Dropdown
                         id="sms-selected-planner-booking-select"
                         fullWidth={false}
-                        placeholder="All Active Event Planners"
+                        showAllOption={false}
+                        placeholder="All Active Event Planners (Broadcast)"
                         selected={alertSelectedPlannerBooking}
                         options={[
                           { label: "All Active Event Planners (Broadcast)", value: "" },
-                          ...(bookings || []).map((b: any) => ({
+                          ...(bookings || []).map((b: any, bIdx: number) => ({
                             label: `${b.event_date || b.date || "TBD"} — ${b.name || b.contact_name || "Planner"} (${b.venue || b.location || "Private Event"})`,
-                            value: b.id || b._id,
+                            value: String(b.id || b._id || `booking-${bIdx}`),
                           })),
                         ]}
                         onChange={(val) => setAlertSelectedPlannerBooking(val)}

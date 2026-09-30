@@ -83,15 +83,20 @@ export default function GooeyMessagesDropdown({
 
   let normalizedCustomers: GooeyCustomer[] =
     options && options.length > 0
-      ? options.map((opt) =>
+      ? options.map((opt, i) =>
         typeof opt === "string"
           ? { id: opt, name: opt }
-          : { id: opt.value, name: opt.label },
+          : {
+            id: opt?.value !== undefined && opt?.value !== null ? String(opt.value) : `opt-${i}`,
+            name: opt?.label || opt?.value || `Option ${i + 1}`,
+          },
       )
       : customers;
 
   const hasAllOption = normalizedCustomers.some(
-    (c) => c.id.toLowerCase() === "all" || c.name.toLowerCase() === "all",
+    (c) =>
+      String(c?.id || "").toLowerCase() === "all" ||
+      String(c?.name || "").toLowerCase() === "all",
   );
 
   if (showAllOption && !hasAllOption) {
@@ -101,10 +106,11 @@ export default function GooeyMessagesDropdown({
   const activeSelectedId = selected !== undefined ? selected : selectedIdState;
   const selectedItem = normalizedCustomers.find(
     (c) =>
-      c.id === activeSelectedId ||
-      c.id.toLowerCase() === activeSelectedId?.toLowerCase() ||
-      ((!activeSelectedId || activeSelectedId?.toLowerCase() === "all") &&
-        c.id.toLowerCase() === "all"),
+      c &&
+      (c.id === activeSelectedId ||
+        (activeSelectedId && String(c.id || "").toLowerCase() === String(activeSelectedId).toLowerCase()) ||
+        ((!activeSelectedId || String(activeSelectedId).toLowerCase() === "all") &&
+          String(c.id || "").toLowerCase() === "all")),
   );
   const triggerText = selectedItem ? selectedItem.name : placeholder;
 
@@ -218,9 +224,9 @@ export default function GooeyMessagesDropdown({
               {normalizedCustomers.map((c) => {
                 const isSelected =
                   c.id === activeSelectedId ||
-                  c.id.toLowerCase() === activeSelectedId?.toLowerCase() ||
-                  ((!activeSelectedId || activeSelectedId?.toLowerCase() === "all") &&
-                    c.id.toLowerCase() === "all");
+                  (activeSelectedId && String(c.id || "").toLowerCase() === String(activeSelectedId).toLowerCase()) ||
+                  ((!activeSelectedId || String(activeSelectedId).toLowerCase() === "all") &&
+                    String(c.id || "").toLowerCase() === "all");
                 return (
                   <button
                     key={c.id}
