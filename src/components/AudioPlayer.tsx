@@ -597,13 +597,13 @@ export default function AudioPlayerSection() {
   if (!isExpanded) {
     return (
       <div id="music-player-collapsed" className="">
-        <div className="relative mx-auto flex w-fit max-w-full flex-col items-center justify-center gap-6 border border-white/10 px-8 py-5 sm:flex-row">
+        <div className="relative flex w-full max-w-[800px] flex-col items-start justify-between gap-6 rounded-[var(--radius-box)] border border-white/10 p-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-5">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center border border-purple-400/40 bg-purple-500/20">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/40 bg-purple-500/20">
               <Music className="h-7 w-7" />
             </div>
-            <div>
-              <span className="mb-1 block text-purple-400">
+            <div className="title-group title-group--sub">
+              <span className="block text-purple-400">
                 7th Heaven Music Vault
               </span>
               <h3 className="text-xl sm:text-2xl">
@@ -627,7 +627,7 @@ export default function AudioPlayerSection() {
   return (
     <div
       ref={sectionRef}
-      className="relative flex h-[780px] min-h-[700px] w-full flex-col justify-between overflow-hidden border border-white/10"
+      className="relative flex h-[780px] min-h-[700px] w-full flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10"
       id="music-player-expanded"
     >
       {/* Collapse Player Button in Top Bar */}
@@ -1353,7 +1353,7 @@ export default function AudioPlayerSection() {
               onClick={() => setShowLyrics(false)}
             >
               <div
-                className="relative mx-4 flex max-h-[85vh] w-full max-w-[600px] cursor-auto flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]"
+                className="relative mx-4 flex max-h-[85vh] w-full max-w-[600px] cursor-auto flex-col overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)]"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Modal Header */}
