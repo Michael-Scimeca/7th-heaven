@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
@@ -100,8 +100,31 @@ export default function Preloader() {
     const html = document.documentElement;
     let finished = false;
 
+    const preventScroll = (e: Event) => {
+      e.preventDefault();
+    };
+
+    const preventScrollKeys = (e: KeyboardEvent) => {
+      const keys = [
+        "ArrowDown",
+        "ArrowUp",
+        "PageDown",
+        "PageUp",
+        "Space",
+        "Home",
+        "End",
+        " ",
+      ];
+      if (keys.includes(e.key)) {
+        e.preventDefault();
+      }
+    };
+
     const unlockScroll = () => {
       html.classList.remove("is-preloading");
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventScrollKeys);
       if (typeof window !== "undefined" && (window as any).__lenis) {
         try {
           (window as any).__lenis.start();
@@ -125,6 +148,11 @@ export default function Preloader() {
       setPhase("done");
       return;
     }
+
+    // Attach active event listeners to block any scroll attempts while preloading
+    window.addEventListener("wheel", preventScroll, { passive: false });
+    window.addEventListener("touchmove", preventScroll, { passive: false });
+    window.addEventListener("keydown", preventScrollKeys, { passive: false });
 
     // Reset scroll to top and pause Lenis while preloading
     window.scrollTo(0, 0);
@@ -287,6 +315,9 @@ export default function Preloader() {
       colorTimeouts.forEach(clearTimeout);
       particleTimeouts.forEach(clearTimeout);
       wipeTween?.kill();
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventScrollKeys);
       // Deliberately NOT calling unlockScroll() here. This component lives
       // once at the root layout and never unmounts during normal app
       // life, so the only time this cleanup fires is React StrictMode's
@@ -318,7 +349,7 @@ export default function Preloader() {
         justifyContent: "center",
         backgroundColor: CURTAIN_BG,
         clipPath: buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
-        pointerEvents: "none",
+        pointerEvents: "auto",
       }}
     >
       <div

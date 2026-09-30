@@ -1000,6 +1000,7 @@ p {
   font-size: 1rem;
   line-height: var(--leading-body, 1.65);
   font-weight: 600;
+  text-wrap: pretty;
 }
 
 button,
@@ -1242,16 +1243,21 @@ a.btn-action-del {
   outline: none;
 }
 
+label {
+  margin-bottom: 16px;
+}
+
 label:not(.sr-only),
 .booking-label {
   font-weight: 600;
-  color: #ffffff !important;
   position: relative;
   z-index: 33;
-  white-space: normal;
+  white-space: nowrap;
   overflow-wrap: anywhere;
   word-break: break-word;
-  font-size: 14px;
+  margin-bottom: 10px;
+  display: flex;
+
 }
 
 .sr-only {
@@ -4035,7 +4041,11 @@ html.tour-sort-stuck #tour-sort-bar {
 html.is-preloading,
 html.is-preloading body {
   overflow: hidden !important;
-  touch-action: none;
+  height: 100% !important;
+  max-height: 100vh !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+  -webkit-overflow-scrolling: auto !important;
 }
 
 /* ── Preloader overlay + PageTransition heading reveal (original impl,
@@ -6395,15 +6405,16 @@ span {
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   gap: 16px;
 }
 
 .su-headline {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
   gap: 16px;
   flex-wrap: wrap;
   font-size: clamp(2.2rem, 5.2vw, 4.6rem);
@@ -6415,7 +6426,8 @@ span {
 }
 
 .su-desc {
-  max-width: 740px;
+  max-width: 42rem;
+  text-align: left;
 }
 
 .su-thumbs {
