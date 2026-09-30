@@ -29,6 +29,7 @@ export async function POST(req: Request) {
       url = "/notifications",
       image,
       distanceMiles,
+      bookingId,
     } = body;
 
     const cleanTitle = sanitizeInput(messageTitle || "Show Update Alert");
@@ -41,8 +42,14 @@ export async function POST(req: Request) {
       mappedAudiences = targetAudience as AlertAudience[];
     } else if (targetAudience === "all_fans" || targetAudience === "show_fans" || targetAudience === "fans") {
       mappedAudiences = ["fans"];
-    } else if (targetAudience === "crew_and_band" || targetAudience === "crew") {
+    } else if (targetAudience === "crew") {
+      mappedAudiences = ["crew"];
+    } else if (targetAudience === "band") {
+      mappedAudiences = ["band"];
+    } else if (targetAudience === "crew_and_band") {
       mappedAudiences = ["crew", "band"];
+    } else if (targetAudience === "planners" || targetAudience === "planner") {
+      mappedAudiences = ["planners"];
     } else if (targetAudience === "all") {
       mappedAudiences = ["all"];
     } else {
@@ -51,6 +58,7 @@ export async function POST(req: Request) {
 
     const alertResult = await sendAlert({
       audience: mappedAudiences,
+      bookingId: bookingId || undefined,
       title: cleanTitle,
       body: cleanBody,
       category: alertType,

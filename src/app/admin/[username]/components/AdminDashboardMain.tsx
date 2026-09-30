@@ -77,7 +77,7 @@ const STANDARD_ROLE_TAGS_SET = new Set([
 ]);
 
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
-import { Clock, CheckCircle2, Plus, Bell, Radio, Send, Users, Mail, MessageSquare, Sparkles, AlertTriangle, ShieldCheck } from "lucide-react";
+import { Clock, CheckCircle2, Plus, Bell, Radio, Send, Users, Mail, MessageSquare, Sparkles, AlertTriangle, ShieldCheck, Calendar } from "lucide-react";
 import { CruiseLivePreview } from "./CruiseLivePreview";
 import { AdminAuthGate } from "./AdminAuthGate";
 import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
@@ -875,15 +875,15 @@ const STATIC_BAND = [
 const DEFAULT_SECTION_ORDER = [
   "bookings",
   "planners",
+  "smsblast",
   "crewsms",
-  "bandsms",
+  "pushsubscribers",
+  "newsletter",
   "calendar",
   "livealerts",
   "analytics",
   "announcements",
   "photomod",
-  "smsblast",
-  "newsletter",
   "registry",
   "crewcreation",
   "admincreation",
@@ -2085,9 +2085,9 @@ export function AdminDashboardMain({
   const [sectionOrder, setSectionOrder] = useState<string[]>(() => {
     if (typeof window === "undefined") return DEFAULT_SECTION_ORDER;
     try {
-      const migrated = localStorage.getItem("7h_admin_order_migrated_v9");
+      const migrated = localStorage.getItem("7h_admin_order_migrated_v10");
       if (!migrated) {
-        localStorage.setItem("7h_admin_order_migrated_v9", "true");
+        localStorage.setItem("7h_admin_order_migrated_v10", "true");
         localStorage.setItem(
           "7h_admin_section_order_v1",
           JSON.stringify(DEFAULT_SECTION_ORDER),
@@ -3412,6 +3412,7 @@ export function AdminDashboardMain({
   const [alertCategory, setAlertCategory] = useState<string>("announcement");
   const [alertTitle, setAlertTitle] = useState<string>("");
   const [alertRadius, setAlertRadius] = useState<string>("50");
+  const [alertSelectedPlannerBooking, setAlertSelectedPlannerBooking] = useState<string>("");
   const [channelPush, setChannelPush] = useState(true);
   const [channelWebPush, setChannelWebPush] = useState(true);
   const [channelEmail, setChannelEmail] = useState(true);
@@ -5126,82 +5127,6 @@ export function AdminDashboardMain({
         </div>
       </div>
 
-      {/* Web Push & Proximity Alert Subscribers */}
-      <div id="admin-sec-pushsubscribers" className="">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("pushsubscribers");
-            }
-          }}
-          onClick={() => toggleSection("pushsubscribers")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex items-center gap-2">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#ec4899"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-              </svg>
-              Fan Proximity Alerts
-            </h3>
-            <p>
-              Manage fan notification preferences, distance radii & targeted
-              broadcasts
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("pushsubscribers") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
-        {renderInfoBanner(
-          "pushsubscribers",
-          "Fan Proximity Alerts",
-          "View and manage real-time browser push subscribers stored in Supabase. Edit distance radii, filter by zip code, and dispatch test notifications.",
-        )}
-        <div
-          style={{
-            display: isSectionOpen("pushsubscribers") ? undefined : "none",
-          }}
-        >
-          {isSectionOpen("pushsubscribers") && (
-            <>
-              <ProximitySubscriberAdminPanel />
-            </>
-          )}
-        </div>
-      </div>
       <div id="admin-sec-announcements" className="overflow-visible">
         <div
           role="button"
@@ -7893,19 +7818,24 @@ export function AdminDashboardMain({
     let estBand = audienceCounts.bandTotal || 6;
     let estFansPush = audienceCounts.fansPush || 480;
     let estFansEmail = audienceCounts.fanEmails || 1250;
+    let estPlanners = bookings?.length || 18;
 
     let targetSummary = "";
     if (alertTargetAudience === "fans") {
-      targetSummary = `${estFansPush} push subscribers · ${estFansEmail} email subscribers`;
+      targetSummary = `${estFansPush} push subscribers · ${estFansEmail} email subscribers${alertRadius !== "all" ? ` (within ${alertRadius} miles)` : ""}`;
     } else if (alertTargetAudience === "crew") {
-      targetSummary = `${estCrew} crew members`;
+      targetSummary = `${estCrew} crew members (7h-crew-alerts-v1)`;
     } else if (alertTargetAudience === "band") {
-      targetSummary = `${estBand} band members`;
+      targetSummary = `${estBand} band members (7h-band-alerts-v1)`;
+    } else if (alertTargetAudience === "planners") {
+      targetSummary = alertSelectedPlannerBooking
+        ? "Selected event planner"
+        : `${estPlanners} event planners`;
     } else {
-      targetSummary = `${estCrew + estBand} band/crew · ${estFansPush + estFansEmail} fans`;
+      targetSummary = `${estCrew + estBand} band/crew · ${estFansPush + estFansEmail} fans · ${estPlanners} planners`;
     }
 
-    const estSmsRecipients = alertTargetAudience === "crew" ? estCrew : alertTargetAudience === "band" ? estBand : 480;
+    const estSmsRecipients = alertTargetAudience === "crew" ? estCrew : alertTargetAudience === "band" ? estBand : alertTargetAudience === "planners" ? 1 : 480;
     const estSegments = Math.ceil(((smsCustomMsg.replace(/<[^>]*>/g, "").trim() || smsPreview || alertTitle).length || 1) / 160);
     const estSmsCost = (estSegments * estSmsRecipients * smsCostPerSegment).toFixed(2);
 
@@ -7988,7 +7918,7 @@ export function AdminDashboardMain({
         {renderInfoBanner(
           "smsblast",
           "Send Alert & Multi-Channel Broadcast",
-          "Reach fans, crew, and band members instantly. App Push, Web Push, and Email are 100% free by default. SMS is available as an opt-in emergency channel.",
+          "Reach fans, crew, band members, and event planners instantly. App Push, Web Push, and Email are 100% free by default. SMS is available as an opt-in emergency channel.",
         )}
         <div style={{ display: isSectionOpen("smsblast") ? undefined : "none" }}>
           {isSectionOpen("smsblast") && (
@@ -8019,11 +7949,12 @@ export function AdminDashboardMain({
                   <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
                     1. Select Target Audience
                   </label>
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                     {[
                       { id: "fans", label: "Fans & Concertgoers", desc: "Push + Email", icon: Users },
                       { id: "crew", label: "Crew Members", desc: "Private Crew Topic", icon: ShieldCheck },
                       { id: "band", label: "Band Members", desc: "Private Band Topic", icon: Sparkles },
+                      { id: "planners", label: "Event Planners", desc: "Booking & Event Info", icon: Calendar },
                       { id: "all", label: "Everyone", desc: "Full Broadcast", icon: Radio },
                     ].map((aud) => {
                       const IconComp = aud.icon;
@@ -8049,6 +7980,67 @@ export function AdminDashboardMain({
                       );
                     })}
                   </div>
+
+                  {/* Fan Audience Radius Options */}
+                  {alertTargetAudience === "fans" && (
+                    <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-3">
+                      <span className="text-xs font-semibold text-white/60 mr-1">Proximity Radius:</span>
+                      {[
+                        { label: "25 Miles", value: "25" },
+                        { label: "50 Miles", value: "50" },
+                        { label: "100 Miles", value: "100" },
+                        { label: "All Subscribers", value: "all" },
+                      ].map((r) => (
+                        <button
+                          key={r.value}
+                          type="button"
+                          onClick={() => setAlertRadius(r.value)}
+                          className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+                            alertRadius === r.value
+                              ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]"
+                              : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                          }`}
+                        >
+                          {r.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Planner Audience Booking Selector */}
+                  {alertTargetAudience === "planners" && (
+                    <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 space-y-2">
+                      <label className="text-xs font-semibold text-white/60 block">Target Specific Booking / Event Planner:</label>
+                      <Dropdown
+                        id="sms-selected-planner-booking-select"
+                        fullWidth={false}
+                        placeholder="All Active Event Planners"
+                        selected={alertSelectedPlannerBooking}
+                        options={[
+                          { label: "All Active Event Planners (Broadcast)", value: "" },
+                          ...(bookings || []).map((b: any) => ({
+                            label: `${b.event_date || b.date || "TBD"} — ${b.name || b.contact_name || "Planner"} (${b.venue || b.location || "Private Event"})`,
+                            value: b.id || b._id,
+                          })),
+                        ]}
+                        onChange={(val) => setAlertSelectedPlannerBooking(val)}
+                      />
+                    </div>
+                  )}
+
+                  {/* Crew & Band Topic Info */}
+                  {(alertTargetAudience === "crew" || alertTargetAudience === "band") && (
+                    <div className="mt-3 flex items-center gap-2 rounded-xl border border-purple-500/20 bg-purple-500/5 px-3 py-2.5 text-xs text-purple-200">
+                      <ShieldCheck className="h-4 w-4 text-purple-400 shrink-0" />
+                      <span>
+                        Broadcasts instantly to the private encrypted{" "}
+                        <code className="rounded bg-purple-500/20 px-1.5 py-0.5 font-mono text-[11px] text-purple-300">
+                          {alertTargetAudience === "crew" ? "7h-crew-alerts-v1" : "7h-band-alerts-v1"}
+                        </code>{" "}
+                        app push channel and verified email roster.
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* 2. Channel Selection Bar (Free by default, SMS optional) */}
@@ -8354,7 +8346,8 @@ export function AdminDashboardMain({
                               sms: channelSms,
                             },
                             targetAudience: alertTargetAudience,
-                            distanceMiles: alertRadius !== "all" ? parseInt(alertRadius, 10) : undefined,
+                            bookingId: alertTargetAudience === "planners" && alertSelectedPlannerBooking ? alertSelectedPlannerBooking : undefined,
+                            distanceMiles: alertRadius !== "all" && alertTargetAudience === "fans" ? parseInt(alertRadius, 10) : undefined,
                             urgent: alertCategory === "cancellation",
                           }),
                         });
@@ -9909,6 +9902,86 @@ export function AdminDashboardMain({
                 )}
               </div>
             </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderPushSubscribers = () => {
+    return (
+      <div id="admin-sec-pushsubscribers" className="overflow-visible">
+        <div
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleSection("pushsubscribers");
+            }
+          }}
+          onClick={() => toggleSection("pushsubscribers")}
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+        >
+          <div className="title-group title-group--sub">
+            <h3 className="flex items-center gap-2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#ec4899"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+              </svg>
+              Fan Proximity Alerts
+              {renderInfoToggle("pushsubscribers")}
+            </h3>
+            <p>
+              Manage fan notification preferences, distance radii & targeted broadcasts
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div
+              className={
+                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
+                (isSectionOpen("pushsubscribers") ? "rotate-0" : "-rotate-90")
+              }
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-white/40"
+              >
+                <path d="M2 4l4 4 4-4" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        {renderInfoBanner(
+          "pushsubscribers",
+          "Fan Proximity Alerts",
+          "View and manage real-time browser push subscribers stored in Supabase. Edit distance radii, filter by zip code, and dispatch test notifications.",
+        )}
+        <div
+          style={{
+            display: isSectionOpen("pushsubscribers") ? undefined : "none",
+          }}
+        >
+          {isSectionOpen("pushsubscribers") && (
+            <div className="pt-6 pl-0">
+              <ProximitySubscriberAdminPanel />
+            </div>
           )}
         </div>
       </div>
@@ -17606,7 +17679,7 @@ export function AdminDashboardMain({
             .filter((key) => {
               const CATEGORY_MAP: Record<string, string[]> = {
                 overview: ["analytics"],
-                messages: ["crewsms", "bandsms", "smsblast", "newsletter"],
+                messages: ["smsblast", "crewsms", "pushsubscribers", "newsletter"],
                 broadcasts: ["announcements", "livealerts"],
                 schedule: ["calendar"],
                 directory: ["registry", "crewcreation", "admincreation", "bulkinvites"],
@@ -17654,6 +17727,9 @@ export function AdminDashboardMain({
                   break;
                 case "crewsms":
                   component = renderCrewSms();
+                  break;
+                case "pushsubscribers":
+                  component = renderPushSubscribers();
                   break;
                 case "bandsms":
                   component = renderBandSms();
