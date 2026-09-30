@@ -51,7 +51,7 @@ interface SmallCardProps {
 function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
   return (
     <div className="group flex flex-col">
-      <div className="relative aspect-video overflow-hidden border border-white/10 bg-[var(--color-bg-card)]">
+      <div className="relative aspect-video overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-card)]">
         {playingId === video.id ? (
           <InlineYTPlayer
             videoId={video.id}
@@ -77,7 +77,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
             />
             {/* YouTube-style hover overlay */}
             <div className="absolute inset-0 z-[2] flex items-center justify-center group-hover/thumb:bg-black/40">
-              <div className="flex h-12 w-12 scale-75 items-center justify-center  bg-[var(--color-accent)] opacity-0 group-hover/thumb:scale-100 group-hover/thumb:opacity-100">
+              <div className="flex h-12 w-12 scale-75 items-center justify-center rounded-full bg-[var(--color-accent)] opacity-0 group-hover/thumb:scale-100 group-hover/thumb:opacity-100">
                 <svg
                   width="16"
                   height="18"
@@ -90,7 +90,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
             </div>
             {/* Duration badge */}
             {video.duration && (
-              <div className="r absolute right-2 bottom-2 z-[3] rounded-[2px] bg-black/80 px-1.5 py-0.5 backdrop-blur-sm">
+              <div className="r absolute right-2 bottom-2 z-[3] rounded-[var(--radius-sm)] bg-black/80 px-1.5 py-0.5">
                 {video.duration}
               </div>
             )}
@@ -98,7 +98,7 @@ function SmallCard({ video, playingId, onPlay, onClose }: SmallCardProps) {
         )}
       </div>
       <div className="mt-3">
-        <h3 className="mb-1 line-clamp-2 group-hover:text-[var(--color-accent)]">
+        <h3 className="transition-colors mb-1 line-clamp-2 group-hover:text-[var(--color-accent)]">
           {video.title}
         </h3>
         <div className="flex flex-col gap-0.5">
@@ -193,7 +193,7 @@ export default function VideoSection() {
             <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
               {/* Big featured video — left */}
               <div className="group flex flex-col">
-                <div className="relative aspect-video overflow-hidden border border-white/10 bg-[var(--color-bg-card)]">
+                <div className="relative aspect-video overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-card)]">
                   {playingId === `featured-${latest.id}` ? (
                     <InlineYTPlayer
                       videoId={latest.id}
@@ -234,7 +234,7 @@ export default function VideoSection() {
                         </SeventhButton>
                       </div>
                       {latest.duration && (
-                        <div className="r absolute right-3 bottom-3 z-[3] rounded bg-black/80 px-2 py-1 backdrop-blur-sm">
+                        <div className="r absolute right-3 bottom-3 z-[3] rounded bg-black/80 px-2 py-1">
                           {latest.duration}
                         </div>
                       )}
@@ -242,11 +242,11 @@ export default function VideoSection() {
                   )}
                 </div>
                 <div className="mt-4">
-                  <h3 className="mb-2 group-hover:text-[var(--color-accent)]">
+                  <h3 className="transition-colors mb-2 group-hover:text-[var(--color-accent)]">
                     {latest.title}
                   </h3>
                   <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center  bg-[var(--color-accent)]">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent)]">
                       7H
                     </div>
                     <div className="flex flex-col">
@@ -285,7 +285,7 @@ export default function VideoSection() {
 
       {/* Sticky category nav — Pill Tabs */}
       <div
-        className={`sticky top-[72px] z-30 mb-8 ${navStuck ? "border-b border-white/10 backdrop-blur-lg" : ""}`}
+        className={`sticky top-[72px] z-30 mb-8 ${navStuck ? "border-b border-white/10 backdrop-blur-lg" : ""} `}
         style={
           navStuck ? { backgroundColor: "rgba(10, 10, 15, 0.95)" } : undefined
         }
@@ -307,7 +307,7 @@ export default function VideoSection() {
                     setPendingFilter(null);
                   }, 250);
                 }}
-                className={`cursor-pointer  px-6 py-2 whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white"}`}
+                className={`cursor-pointer rounded-full px-6 py-2 whitespace-nowrap ${(pendingFilter || activeFilter) === cat.category ? "bg-white text-black" : "bg-white/[0.05] hover:bg-white/10 hover:text-white"} `}
               >
                 {cat.category}
               </button>
@@ -319,7 +319,7 @@ export default function VideoSection() {
       {/* Video Grid */}
       <div ref={gridRef} className="scroll-mt-[140px] px-8">
         <div
-          className={`grid grid-cols-1 gap-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 ${gridVisible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+          className={`grid grid-cols-1 gap-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 ${gridVisible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"} `}
         >
           {filteredVideos.slice(0, visibleCount).map((video, idx) => (
             <div
@@ -328,7 +328,7 @@ export default function VideoSection() {
               style={{ animationDelay: gridVisible ? `${idx * 40}ms` : "0ms" }}
             >
               {/* Thumbnail */}
-              <div className="relative aspect-video overflow-hidden rounded-[8px] border border-white/10 bg-[var(--color-bg-card)]">
+              <div className="relative aspect-video overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-card)]">
                 {playingId === video.id ? (
                   <InlineYTPlayer
                     videoId={video.id}
@@ -376,7 +376,7 @@ export default function VideoSection() {
                     </div>
                     {/* Duration badge */}
                     {video.duration && (
-                      <div className="r absolute right-2 bottom-2 z-[3] rounded-[2px] bg-black/80 px-1.5 py-0.5 backdrop-blur-sm">
+                      <div className="r absolute right-2 bottom-2 z-[3] rounded-[2px] bg-black/80 px-1.5 py-0.5">
                         {video.duration}
                       </div>
                     )}
@@ -386,13 +386,13 @@ export default function VideoSection() {
 
               {/* Info below thumbnail */}
               <div className="mt-3 flex gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center  border border-white/10 bg-[var(--color-accent)]/20 text-[var(--color-accent)]">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[var(--color-accent)]/20 text-[var(--color-accent)]">
                   7H
                 </div>
                 <div className="flex flex-1 flex-col overflow-hidden">
                   <h3 className="group- mb-1 line-clamp-2">{video.title}</h3>
                   <div className="flex flex-col">
-                    <span className="cursor-pointer text-white/40 hover:text-white">
+                    <span className="transition-colors cursor-pointer text-white/40 hover:text-white">
                       7th Heaven Official
                     </span>
                     <div className="flex items-center gap-1.5 text-white/40">
@@ -413,7 +413,7 @@ export default function VideoSection() {
             <button
               aria-label="Previous"
               onClick={() => setVisibleCount((prev) => prev + 15)}
-              className="inline-flex items-center gap-2 bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
+              className="transition-colors inline-flex items-center gap-2 rounded-[var(--radius-box)] bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
             >
               Load More{" "}
               <span className="font-normal text-white/50">

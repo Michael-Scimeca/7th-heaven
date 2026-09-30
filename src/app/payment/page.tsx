@@ -71,7 +71,7 @@ function PaymentTestContent() {
   };
 
   return (
-    <div className="page-container min-h-screen pb-20">
+    <div className="page-container min-h-screen">
       <div className="site-container mx-auto max-w-xl px-6">
         <div className="mb-8 text-left">
           <Link
@@ -82,7 +82,7 @@ function PaymentTestContent() {
           </Link>
         </div>
 
-        <div className="bg-white/[0.04] backdrop-blur-xl  border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
+        <div className="bg-white/[0.04] backdrop-blur-xl rounded-[var(--radius-box)] border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
             <span className="mb-1 inline-block">Stripe Test Mode</span>
             <h1>Payment Test Page</h1>
@@ -95,7 +95,7 @@ function PaymentTestContent() {
           </div>
 
           {status === "success" && (
-            <div className="mb-6 border border-white/10 bg-emerald-500/10 p-4 leading-normal">
+            <div className="mb-6 rounded-[var(--radius-box)] border border-white/10 bg-emerald-500/10 p-4 leading-normal">
               🎉{" "}
               {confirmed
                 ? `Payment confirmed: $${(confirmed.amountTotal / 100).toFixed(2)} ${confirmed.currency?.toUpperCase()}.`
@@ -104,20 +104,20 @@ function PaymentTestContent() {
           )}
 
           {status === "cancelled" && (
-            <div className="mb-6 border border-rose-500/20 bg-rose-500/10 p-4 leading-normal text-rose-400">
+            <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 p-4 leading-normal text-rose-400">
               Checkout was cancelled. No charge was made.
             </div>
           )}
 
           {error && (
-            <div className="mb-6 border border-rose-500/20 bg-rose-500/10 p-4 leading-normal text-rose-400">
+            <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 p-4 leading-normal text-rose-400">
               ⚠️ {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-1 block text-[10px] text-white/40">
+              <label className="block">
                 Amount (USD)
               </label>
               <input
@@ -127,12 +127,12 @@ function PaymentTestContent() {
                 required
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="focus-ring w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-3"
+                className="focus-ring w-full rounded-[var(--radius-box)] border border-white/[0.12] bg-white/[0.03] px-4 py-3"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-[10px] text-white/40">
+              <label className="block">
                 Description
               </label>
               <input
@@ -140,14 +140,14 @@ function PaymentTestContent() {
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="focus-ring w-full  border border-white/[0.12] bg-white/[0.03] px-4 py-3"
+                className="focus-ring w-full rounded-[var(--radius-box)] border border-white/[0.12] bg-white/[0.03] px-4 py-3"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full  bg-[var(--color-accent)] py-3.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+              className="transition-colors w-full rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
             >
               {loading
                 ? "Redirecting to Stripe…"

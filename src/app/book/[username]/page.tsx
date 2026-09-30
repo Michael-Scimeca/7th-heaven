@@ -125,10 +125,10 @@ export default function PlannerDashboardPage() {
   return (
     <main
       id="planner-dashboard-page"
-      className="site-container page-container selection:bg-[var(--color-accent)]"
+      className="site-container page-container page-stack min-h-screen selection:bg-[var(--color-accent)]"
     >
       {/* Planner Profile Header */}
-      <header className="mb-6 flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-6 md:flex-row md:items-center">
+      <header className="flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-6 md:flex-row md:items-center">
         <MemberHeaderBadge
           name={displayName}
           email={effectiveMember?.email || ""}
@@ -143,7 +143,7 @@ export default function PlannerDashboardPage() {
           <SeventhButton
             icon={<Plus className="h-4 w-4" />}
             onClick={handleCreateNewEvent}
-            className="flex cursor-pointer items-center gap-2 "
+            className="flex cursor-pointer items-center"
           >
             Create New Event
           </SeventhButton>

@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { requireAdmin } from "@/lib/api-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -21,8 +22,11 @@ const DEFAULT_PERMISSIONS: Record<string, Record<string, boolean>> = {
   },
 };
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
+
     const { data } = await supabaseAdmin
       .from("site_settings")
       .select("value")
@@ -43,8 +47,10 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
     const { permissions } = await req.json();
     const { error } = await supabaseAdmin.from("site_settings").upsert(
       {

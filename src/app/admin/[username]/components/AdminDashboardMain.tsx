@@ -152,12 +152,12 @@ function ShiftCardHoverActions({
   onDelete: (e: React.MouseEvent) => void;
 }) {
   return (
-    <div className="opacity-transition absolute top-0.5 right-0.5 z-10 flex items-center gap-0.5 opacity-0 group-hover:opacity-100">
+    <div className="transition-opacity absolute top-0.5 right-0.5 z-10 flex items-center gap-0.5 opacity-0 group-hover:opacity-100">
       <button
         type="button"
         aria-label="Edit shift"
         onClick={onEdit}
-        className="hover:text-white bg-black/80 color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none backdrop-blur-sm"
+        className="hover:text-white bg-black/80 transition-colors flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none backdrop-blur-sm"
         title="Edit shift"
       >
         <svg
@@ -178,7 +178,7 @@ function ShiftCardHoverActions({
         type="button"
         aria-label="Delete shift"
         onClick={onDelete}
-        className="hover:text-white hover:bg-red-600 color-transition flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm"
+        className="hover:text-white hover:bg-red-600 transition-colors flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm"
         title="Delete shift"
       >
         <svg
@@ -600,18 +600,18 @@ const SidebarDateButton = React.memo(
       <button
         type="button"
         onClick={() => show.date && onClick(show.date)}
-        className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
+        className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "} `}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
           <span className="text-[9px] text-white/40">{dayLabel}</span>
           <span
-            className={` ${isSelected ? " " : isActiveWeek ? " " : "text-white/50"}`}
+            className={` ${isSelected ? " " : isActiveWeek ? " " : "text-white/50"} `}
           >
             {dateLabel}
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "}`}>
+          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "} `}>
             {show.venue || show.venue_name}
           </p>
           {show.city && (
@@ -738,7 +738,7 @@ function DutyRoleEditorPopover({
 
       {/* Quick-Select Chips (All Roles) */}
       <div>
-        <span className="  block text-[10px]">Quick Toggle Presets:</span>
+        <span className="block text-[10px]">Quick Toggle Presets:</span>
         <div className="custom-scrollbar flex max-h-[240px] min-h-[140px] flex-wrap gap-1.5 overflow-y-auto rounded-lg border border-white/10 bg-black/40 p-2.5 shadow-inner">
           {Array.from(
             new Set([
@@ -784,7 +784,7 @@ function DutyRoleEditorPopover({
                   }
                   setEditingDutyValue(updated.join(", "));
                 }}
-                className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[10px] transition-[background-color,border-color,color,transform] select-none ${isSelected ? "scale-[1.02] border-purple-400 bg-purple-600" : "/90 border-white/10 bg-white/10 hover:border-purple-400/40 hover:bg-white/20 hover:text-white"}`}
+                className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[10px] transition-[background-color,border-color,color,transform] select-none ${isSelected ? "scale-[1.02] border-purple-400 bg-purple-600" : "/90 border-white/10 bg-white/10 hover:border-purple-400/40 hover:bg-white/20 hover:text-white"} `}
               >
                 {isSelected ? `✓ ${chip}` : `+ ${chip}`}
               </button>
@@ -801,7 +801,7 @@ function DutyRoleEditorPopover({
             <button
               type="button"
               onClick={() => setEditingDutyValue("")}
-              className="cursor-pointer border-none text-[10px] text-rose-400 hover:text-rose-300"
+              className="transition-colors cursor-pointer border-none text-[10px] text-rose-400 hover:text-rose-300"
             >
               Clear Roles
             </button>
@@ -813,7 +813,7 @@ function DutyRoleEditorPopover({
           value={editingDutyValue}
           onChange={(e) => setEditingDutyValue(e.target.value)}
           placeholder="e.g. STAGE HAND, MERCH..."
-          className="focus-ring w-full  text-white/40 shadow-inner focus:bg-white/15"
+          className="focus-ring w-full text-white/40 shadow-inner focus:bg-white/15"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSaveDuty(memberId);
@@ -5173,7 +5173,7 @@ export function AdminDashboardMain({
                 size="sm"
                 label={
                   <span
-                    className={`text-[0.8rem] font-bold ${bannerActive ? "text-purple-300" : "text-white/40"}`}
+                    className={`text-[0.8rem] ${bannerActive ? "text-purple-300" : "text-white/40"} `}
                   >
                     {bannerActive ? "LIVE ON SITE" : "OFF"}
                   </span>
@@ -5226,7 +5226,7 @@ export function AdminDashboardMain({
               {/* Save status toast */}
               {bannerSaveStatus && (
                 <div
-                  className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 rounded-[var(--radius-box)] px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"}`}
+                  className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 rounded-[var(--radius-box)] px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"} `}
                 >
                   {bannerSaveStatus === "saved"
                     ? "✓ Announcement updated and published successfully"
@@ -5237,14 +5237,14 @@ export function AdminDashboardMain({
               {/* Live Preview Card */}
               <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-[0.75rem] font-bold uppercase tracking-wider text-purple-400">
+                  <span className="text-[0.75rem] uppercase tracking-wider text-purple-400">
                     Live Banner Preview
                   </span>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[0.7rem] font-bold ${bannerActive
+                    className={`rounded-full px-2 py-0.5 text-[0.7rem] ${bannerActive
                       ? "border border-purple-500/40 bg-purple-500/20 text-purple-300"
                       : "border border-white/10 bg-white/5 text-white/40"
-                      }`}
+                      } `}
                   >
                     {bannerActive
                       ? "Visible on Homepage"
@@ -5263,7 +5263,7 @@ export function AdminDashboardMain({
                       />
                     </div>
                     {bannerLink && (
-                      <span className="shrink-0 rounded border border-white/10 bg-black/30 px-4 py-1.5 text-xs font-bold text-white">
+                      <span className="shrink-0 rounded border border-white/10 bg-black/30 px-4 py-1.5 text-xs text-white">
                         {bannerLinkText || "Read More"}
                       </span>
                     )}
@@ -5278,7 +5278,7 @@ export function AdminDashboardMain({
 
               {/* Editor */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-white/60">
+                <label className="text-xs uppercase tracking-wider text-white/60">
                   Announcement Message
                 </label>
                 <div className="w-full [&_.ql-editor]:min-h-[140px]">
@@ -5297,7 +5297,7 @@ export function AdminDashboardMain({
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="banner-action-link"
-                    className="text-xs font-bold uppercase tracking-wider text-white/60"
+                    className="text-xs uppercase tracking-wider text-white/60"
                   >
                     Optional Action Link URL
                   </label>
@@ -5316,7 +5316,7 @@ export function AdminDashboardMain({
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="banner-action-link-text"
-                    className="text-xs font-bold uppercase tracking-wider text-white/60"
+                    className="text-xs uppercase tracking-wider text-white/60"
                   >
                     Button Text
                   </label>
@@ -5494,7 +5494,7 @@ export function AdminDashboardMain({
           <>
             {/* 1. Executive Top Metrics Grid */}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              <div className=" ">
+              <div className="">
                 <span className="mb-1 block text-[0.55rem]">Active Users</span>
                 <span className="block text-2xl text-[#c27aff]">
                   {gaData.activeUsers}
@@ -5505,7 +5505,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className=" ">
+              <div className="">
                 <span className="mb-1 block text-[0.55rem]">
                   Total Sessions
                 </span>
@@ -5515,7 +5515,7 @@ export function AdminDashboardMain({
                 <span className="mt-1 block text-[0.55rem]">Last 30 Days</span>
               </div>
 
-              <div className=" ">
+              <div className="">
                 <span className="mb-1 block text-[0.55rem]">Page Views</span>
                 <span className="block text-2xl">
                   {gaData.pageViews.toLocaleString()}
@@ -5525,7 +5525,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className=" ">
+              <div className="">
                 <span className="mb-1 block text-[0.55rem]">
                   Conversion Rate
                 </span>
@@ -5535,7 +5535,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className=" ">
+              <div className="">
                 <span className="mb-1 block text-[0.55rem]">Rev / Session</span>
                 <span className="block text-2xl">
                   {gaData.revenuePerSession}
@@ -5543,7 +5543,7 @@ export function AdminDashboardMain({
                 <span className="mt-1 block text-[0.55rem]">Avg Fan Value</span>
               </div>
 
-              <div className=" ">
+              <div className="">
                 <span className="mb-1 block text-[0.55rem]">Bounce Rate</span>
                 <span className="block text-2xl">{gaData.bounceRate}</span>
                 <span className="mt-1 block text-[0.55rem]">
@@ -5555,7 +5555,7 @@ export function AdminDashboardMain({
             {/* 2. Traffic Acquisition Channels & Device Ratio */}
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               {/* Acquisition Channels */}
-              <div className="  py-6">
+              <div className="py-6">
                 <h4 className="mb-6 flex items-center justify-between">
                   <span> Traffic Acquisition Channels</span>
                   <span>GA4 Attribution</span>
@@ -5630,7 +5630,7 @@ export function AdminDashboardMain({
               </div>
 
               {/* Device & Browser Hardware */}
-              <div className="flex flex-col justify-between   pt-5 pb-5">
+              <div className="flex flex-col justify-between pt-5 pb-5">
                 <div>
                   <h4 className="mb-6 flex items-center justify-between">
                     <span> User Devices & Browsers</span>
@@ -5680,7 +5680,7 @@ export function AdminDashboardMain({
             </div>
 
             {/* 3. Top Performing Sitewide Pages Table */}
-            <div className=" ">
+            <div className="">
               <h4 className="mb-6 flex items-center justify-between">
                 <span> Top Performing Site Pages (Screen Views)</span>
                 <span>GA4 Event Metrics</span>
@@ -5769,7 +5769,7 @@ export function AdminDashboardMain({
             </div>
 
             {/* 4. Visitor Geo Demographics Grid & Heatmap Map */}
-            <div className="  pt-5 pb-5">
+            <div className="pt-5 pb-5">
               <h4 className="mb-6 flex items-center justify-between">
                 <span> Visitor Geo Demographics & Fan Density</span>
                 <span>Top Cities</span>
@@ -5858,7 +5858,7 @@ export function AdminDashboardMain({
             toggleSection("shopify");
           }
         }}
-        className="flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
+        className="transition-colors flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
       >
         <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2 text-left">
@@ -5886,7 +5886,7 @@ export function AdminDashboardMain({
             <SeventhButton
               isActive={shopifyTab === "simulated"}
               onClick={() => setShopifyTab("simulated")}
-              className="cursor-pointer  whitespace-nowrap"
+              className="cursor-pointer whitespace-nowrap"
             >
               Simulated Checkouts
             </SeventhButton>
@@ -5932,7 +5932,7 @@ export function AdminDashboardMain({
                   } catch { }
                   setShopifyLoading(false);
                 }}
-                className="rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40 hover:bg-white/10 hover:text-white whitespace-nowrap"
+                className="transition-colors rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40 hover:bg-white/10 hover:text-white whitespace-nowrap"
               >
                 ↻ Refresh
               </button>
@@ -6069,7 +6069,7 @@ export function AdminDashboardMain({
                           {shopifyData.products.map((p: any) => (
                             <tr
                               key={p.id || p.handle || p.title}
-                              className="border-b border-white/10 hover:bg-white/[0.02]"
+                              className="transition-colors border-b border-white/10 hover:bg-white/[0.02]"
                             >
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
@@ -6089,7 +6089,7 @@ export function AdminDashboardMain({
                                 <button
                                   type="button"
                                   onClick={() => openQrModal(p)}
-                                  className="group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 hover:bg-white/15"
+                                  className="transition-colors group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 hover:bg-white/15"
                                   title="View & Print QR Code"
                                 >
                                   <svg
@@ -6101,7 +6101,7 @@ export function AdminDashboardMain({
                                     strokeWidth="2.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="group-hover:text-white"
+                                    className="transition-colors group-hover:text-white"
                                   >
                                     <rect x="3" y="3" width="7" height="7" />
                                     <rect x="14" y="3" width="7" height="7" />
@@ -6219,12 +6219,12 @@ export function AdminDashboardMain({
                                 (p: any, i: number) => (
                                   <tr
                                     key={p.id || p.handle || p.title}
-                                    className="border-b border-white/10 hover:bg-white/[0.02]"
+                                    className="transition-colors border-b border-white/10 hover:bg-white/[0.02]"
                                   >
                                     <td className="px-4 py-3">
                                       <div className="flex items-center gap-3">
                                         <span
-                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20 text-purple-300" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20 text-purple-300" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"} `}
                                         >
                                           {i + 1}
                                         </span>
@@ -6354,7 +6354,7 @@ export function AdminDashboardMain({
                             {shopifyData.orders.map((order: any) => (
                               <tr
                                 key={order.id}
-                                className="border-b border-white/10 hover:bg-white/[0.02]"
+                                className="transition-colors border-b border-white/10 hover:bg-white/[0.02]"
                               >
                                 <td className="px-4 py-3">
                                   <div className="text-[#96bf48]">
@@ -6390,7 +6390,7 @@ export function AdminDashboardMain({
                                 <td className="px-4 py-3">
                                   <div className="flex flex-col gap-1">
                                     <span
-                                      className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === "PAID" ? "border border-emerald-500/30 bg-emerald-500/15" : order.financialStatus === "REFUNDED" || order.financialStatus === "PARTIALLY_REFUNDED" ? "border border-rose-500/30 bg-rose-500/15 text-rose-400" : "border border-purple-500/30 bg-purple-500/15"}`}
+                                      className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === "PAID" ? "border border-emerald-500/30 bg-emerald-500/15" : order.financialStatus === "REFUNDED" || order.financialStatus === "PARTIALLY_REFUNDED" ? "border border-rose-500/30 bg-rose-500/15 text-rose-400" : "border border-purple-500/30 bg-purple-500/15"} `}
                                     >
                                       {order.financialStatus
                                         ?.toLowerCase()
@@ -6398,7 +6398,7 @@ export function AdminDashboardMain({
                                     </span>
                                     {order.fulfillmentStatus && (
                                       <span
-                                        className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.fulfillmentStatus === "FULFILLED" ? "border border-blue-500/30 bg-blue-500/15 text-blue-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                                        className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.fulfillmentStatus === "FULFILLED" ? "border border-blue-500/30 bg-blue-500/15 text-blue-400" : "border border-white/10 bg-[#00000029] text-white/30"} `}
                                       >
                                         {order.fulfillmentStatus?.toLowerCase()}
                                       </span>
@@ -6456,7 +6456,7 @@ export function AdminDashboardMain({
                           {shopifyData.products.map((p: any) => (
                             <tr
                               key={p.id || p.handle || p.title}
-                              className="border-b border-white/10 hover:bg-white/[0.02]"
+                              className="transition-colors border-b border-white/10 hover:bg-white/[0.02]"
                             >
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
@@ -6476,7 +6476,7 @@ export function AdminDashboardMain({
                                 <button
                                   type="button"
                                   onClick={() => openQrModal(p)}
-                                  className="group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 hover:bg-white/15"
+                                  className="transition-colors group inline-flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 hover:bg-white/15"
                                   title="View & Print QR Code"
                                 >
                                   <svg
@@ -6488,7 +6488,7 @@ export function AdminDashboardMain({
                                     strokeWidth="2.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="group-hover:text-white"
+                                    className="transition-colors group-hover:text-white"
                                   >
                                     <rect x="3" y="3" width="7" height="7" />
                                     <rect x="14" y="3" width="7" height="7" />
@@ -6525,7 +6525,7 @@ export function AdminDashboardMain({
               <div className="py-6 pl-0">
                 {/* Simulated Metrics Grid */}
                 <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-                  <div className="border border-white/10 bg-black/30 p-5 hover:border-purple-500/40">
+                  <div className="transition-colors border border-white/10 bg-black/30 p-5 hover:border-purple-500/40">
                     <p className="mb-2">Simulated Revenue</p>
                     <p>
                       $
@@ -6608,7 +6608,7 @@ export function AdminDashboardMain({
                           {simulatedOrders.map((order) => (
                             <tr
                               key={order.id}
-                              className="border-b border-white/10 hover:bg-white/[0.02]"
+                              className="transition-colors border-b border-white/10 hover:bg-white/[0.02]"
                             >
                               <td className="px-4 py-3">
                                 <div className="text-[var(--color-accent)]">
@@ -6665,7 +6665,7 @@ export function AdminDashboardMain({
                               </td>
                               <td className="px-4 py-3">
                                 <span
-                                  className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === "Flash Drop" ? "border border-pink-500/30 bg-pink-500/15 text-pink-400" : order.source === "Raffle" ? "border border-purple-500/30 bg-purple-500/15" : "border border-blue-500/30 bg-blue-500/15 text-blue-400"}`}
+                                  className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === "Flash Drop" ? "border border-pink-500/30 bg-pink-500/15 text-pink-400" : order.source === "Raffle" ? "border border-purple-500/30 bg-purple-500/15" : "border border-blue-500/30 bg-blue-500/15 text-blue-400"} `}
                                 >
                                   {order.source}
                                 </span>
@@ -6673,7 +6673,7 @@ export function AdminDashboardMain({
                               <td className="px-4 py-3">
                                 <div className="flex flex-col gap-1">
                                   <span
-                                    className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === "Shipped" || order.status === "Claimed" ? "border border-emerald-500/30 bg-emerald-500/15" : order.status === "Ready for Pickup" ? "border border-purple-500/30 bg-purple-500/15" : "border border-white/10 bg-[#00000029] text-white/40"}`}
+                                    className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === "Shipped" || order.status === "Claimed" ? "border border-emerald-500/30 bg-emerald-500/15" : order.status === "Ready for Pickup" ? "border border-purple-500/30 bg-purple-500/15" : "border border-white/10 bg-[#00000029] text-white/40"} `}
                                   >
                                     {order.status}
                                   </span>
@@ -6694,7 +6694,7 @@ export function AdminDashboardMain({
                                           "Shipped",
                                         )
                                       }
-                                      className="cursor-pointer rounded bg-purple-500 px-2.5 py-1 text-[0.55rem] shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:bg-purple-400 active:scale-95"
+                                      className="transition-colors cursor-pointer rounded bg-purple-500 px-2.5 py-1 text-[0.55rem] shadow-[0_0_10px_rgba(255,10,61,0.3)] hover:bg-purple-400 active:scale-95"
                                     >
                                       Ship Package
                                     </button>
@@ -6707,7 +6707,7 @@ export function AdminDashboardMain({
                                         "Claimed",
                                       )
                                     }
-                                    className="shadow-[0_0_10px_rgba(147, 234,0.3)] cursor-pointer rounded bg-purple-600 px-2.5 py-1 text-[0.55rem] hover:bg-purple-500 active:scale-95"
+                                    className="transition-colors shadow-[0_0_10px_rgba(147, 234,0.3)] cursor-pointer rounded bg-purple-600 px-2.5 py-1 text-[0.55rem] hover:bg-purple-500 active:scale-95"
                                   >
                                     Claim Merch
                                   </button>
@@ -6801,7 +6801,7 @@ export function AdminDashboardMain({
               ) : (
                 <div className="flex w-full flex-col gap-0 select-none">
                   {/* Header Row */}
-                  <div className="hidden grid-cols-12 gap-3 border-b border-[#ffffff1f]  py-3 text-left md:grid">
+                  <div className="hidden grid-cols-12 gap-3 border-b border-[#ffffff1f] py-3 text-left md:grid">
                     <div className="col-span-4">Client</div>
                     <div className="col-span-2">Event Type</div>
                     <div className="col-span-2">Date</div>
@@ -6838,7 +6838,7 @@ export function AdminDashboardMain({
                             }}
                             className="group relative col-span-4 flex cursor-pointer items-center gap-3"
                           >
-                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-gradient-to-br from-purple-500/30 to-purple-800/20 group-hover:border-purple-400">
+                            <div className="transition-colors flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-gradient-to-br from-purple-500/30 to-purple-800/20 group-hover:border-purple-400">
                               {b.name?.substring(0, 2).toUpperCase() || "EP"}
                             </div>
                             <div className="min-w-0 flex-1">
@@ -6890,7 +6890,7 @@ export function AdminDashboardMain({
                                         e.stopPropagation();
                                         setEditingInlineLoadInId(null);
                                       }}
-                                      className="cursor-pointer px-2 py-1 text-[12px] text-white/50 hover:text-white"
+                                      className="transition-colors cursor-pointer px-2 py-1 text-[12px] text-white/50 hover:text-white"
                                     >
                                       Cancel
                                     </button>
@@ -6905,7 +6905,7 @@ export function AdminDashboardMain({
                                         );
                                         setEditingInlineLoadInId(null);
                                       }}
-                                      className="cursor-pointer rounded-lg border-none bg-purple-600 px-2.5 py-1 text-[12px] hover:bg-purple-500 disabled:opacity-50"
+                                      className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-2.5 py-1 text-[12px] hover:bg-purple-500 disabled:opacity-50"
                                     >
                                       {loadInSaving[b.bookingId]
                                         ? "Saving..."
@@ -6921,7 +6921,7 @@ export function AdminDashboardMain({
                                     setEditingInlineLoadInId(b.bookingId);
                                   }}
                                   title="Click to set official load-in/out time and email planner"
-                                  className={`mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime ? "animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30" : "border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25"}`}
+                                  className={`mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime ? "animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30" : "border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25"} `}
                                 >
                                   {b.loadInTime?.includes("Unsure") ||
                                     b.load_in_time?.includes("Unsure") ||
@@ -7110,7 +7110,7 @@ export function AdminDashboardMain({
                                     href={b.ticketLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block max-w-[200px] hover:text-white"
+                                    className="transition-colors block max-w-[200px] hover:text-white"
                                     title={b.ticketLink}
                                   >
                                     {b.ticketLink}
@@ -7198,7 +7198,7 @@ export function AdminDashboardMain({
                                         b.plannerEmail || b.email,
                                       )
                                     }
-                                    className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 px-4 py-2 hover:from-purple-500 hover:to-cyan-400 disabled:opacity-50"
+                                    className="transition-colors flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 px-4 py-2 hover:from-purple-500 hover:to-cyan-400 disabled:opacity-50"
                                   >
                                     {loadInSaving[b.bookingId]
                                       ? "Sending..."
@@ -7252,7 +7252,7 @@ export function AdminDashboardMain({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-[#00000029] px-3 py-1 text-[0.9rem] text-white/40 whitespace-nowrap  ">
+          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-[#00000029] px-3 py-1 text-[0.9rem] text-white/40 whitespace-nowrap">
             {
               Array.from(
                 new Map(
@@ -7321,7 +7321,7 @@ export function AdminDashboardMain({
                   ).map((planner: any) => (
                     <div
                       key={planner.email}
-                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10  py-4 md:grid-cols-12"
+                      className="grid grid-cols-1 items-center gap-4 border-b border-white/10 py-4 md:grid-cols-12"
                     >
                       <div className="col-span-12 flex min-w-0 items-center gap-4 md:col-span-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5">
@@ -7375,7 +7375,7 @@ export function AdminDashboardMain({
                               ...prev,
                             ])
                           }
-                          className="rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-white"
+                          className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-white"
                         >
                           Email
                         </a>
@@ -7393,7 +7393,7 @@ export function AdminDashboardMain({
                                 ...prev,
                               ])
                             }
-                            className="rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-[var(--color-accent)]"
+                            className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-[var(--color-accent)]"
                           >
                             Text
                           </a>
@@ -7494,7 +7494,7 @@ export function AdminDashboardMain({
                   {moderationQueue.map((photo) => (
                     <div
                       key={photo.id}
-                      className="group relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] hover:border-[var(--color-accent)]/50"
+                      className="transition-colors group relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] hover:border-[var(--color-accent)]/50"
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
                         <img
@@ -7521,13 +7521,13 @@ export function AdminDashboardMain({
                       <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
                         <button
                           onClick={() => moderatePhoto(photo.id, "reject")}
-                          className="cursor-pointer bg-red-600 py-3 text-[0.9rem] shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:bg-red-500"
+                          className="transition-colors cursor-pointer bg-red-600 py-3 text-[0.9rem] shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:bg-red-500"
                         >
                           Reject & Delete
                         </button>
                         <button
                           onClick={() => moderatePhoto(photo.id, "approve")}
-                          className="bg-emerald-400 py-3 text-[0.9rem] text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300"
+                          className="transition-colors bg-emerald-400 py-3 text-[0.9rem] text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300"
                         >
                           Safe & Approve
                         </button>
@@ -7678,7 +7678,7 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("livealerts")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+        className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
       >
         <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
@@ -7754,7 +7754,7 @@ export function AdminDashboardMain({
                     {feeds.map((feed) => (
                       <tr
                         key={feed.id}
-                        className="border-b border-white/10 hover:bg-white/[0.02]"
+                        className="transition-colors border-b border-white/10 hover:bg-white/[0.02]"
                       >
                         <td className="p-4">
                           <div className="flex items-center gap-2">
@@ -7791,13 +7791,13 @@ export function AdminDashboardMain({
                                   ? feed.route
                                   : `/live/${feed.id}`
                               }
-                              className="inline-block rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-[0.9rem] hover:bg-white/10 hover:text-white"
+                              className="transition-colors inline-block rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-[0.9rem] hover:bg-white/10 hover:text-white"
                             >
                               View
                             </Link>
                             <button
                               onClick={() => killStream(feed)}
-                              className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2 text-[0.9rem] text-red-500 hover:bg-red-500 hover:text-white"
+                              className="transition-colors rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2 text-[0.9rem] text-red-500 hover:bg-red-500 hover:text-white"
                             >
                               Shut Down
                             </button>
@@ -7854,7 +7854,7 @@ export function AdminDashboardMain({
               toggleSection("smsblast");
             }
           }}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
@@ -7967,13 +7967,13 @@ export function AdminDashboardMain({
                           key={aud.id}
                           type="button"
                           onClick={() => setAlertTargetAudience(aud.id)}
-                          className={`flex flex-col items-start rounded-xl border p-3.5 text-left transition-all ${isSelected
+                          className={`flex flex-col items-start rounded-xl border p-3.5 text-left transition-[background-color,color,border-color,box-shadow,transform] ${isSelected
                             ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                             : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
-                            }`}
+                            } `}
                         >
                           <div className="flex items-center justify-between w-full mb-1">
-                            <IconComp className={`h-4 w-4 ${isSelected ? "text-purple-400" : "text-white/40"}`} />
+                            <IconComp className={`h-4 w-4 ${isSelected ? "text-purple-400" : "text-white/40"} `} />
                             {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />}
                           </div>
                           <div className="font-semibold text-sm text-white">{aud.label}</div>
@@ -7997,10 +7997,10 @@ export function AdminDashboardMain({
                           key={r.value}
                           type="button"
                           onClick={() => setAlertRadius(r.value)}
-                          className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${alertRadius === r.value
+                          className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-[background-color,color,border-color,box-shadow,transform] ${alertRadius === r.value
                             ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]"
                             : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
-                            }`}
+                            } `}
                         >
                           {r.label}
                         </button>
@@ -8058,7 +8058,7 @@ export function AdminDashboardMain({
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-sm font-medium text-white">App Push</span>
-                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300">FREE</span>
+                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-300">FREE</span>
                           </div>
                           <div className="text-[10px] text-white/40">Lock-screen via ntfy</div>
                         </div>
@@ -8078,7 +8078,7 @@ export function AdminDashboardMain({
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-sm font-medium text-white">Web Push</span>
-                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300">FREE</span>
+                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-300">FREE</span>
                           </div>
                           <div className="text-[10px] text-white/40">Browser Service Worker</div>
                         </div>
@@ -8098,7 +8098,7 @@ export function AdminDashboardMain({
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-sm font-medium text-white">Email</span>
-                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300">FREE</span>
+                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-300">FREE</span>
                           </div>
                           <div className="text-[10px] text-white/40">Daily quota + auto queue</div>
                         </div>
@@ -8112,14 +8112,14 @@ export function AdminDashboardMain({
                     </div>
 
                     {/* SMS (Twilio) */}
-                    <div className={`flex items-center justify-between rounded-xl border p-3.5 transition-all ${channelSms ? "border-amber-500/60 bg-amber-500/10" : "border-white/10 bg-white/[0.02]"
-                      }`}>
+                    <div className={`flex items-center justify-between rounded-xl border p-3.5 transition-[background-color,color,border-color,box-shadow,transform] ${channelSms ? "border-amber-500/60 bg-amber-500/10" : "border-white/10 bg-white/[0.02]"
+                      } `}>
                       <div className="flex items-center gap-2.5">
-                        <MessageSquare className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"}`} />
+                        <MessageSquare className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"} `} />
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-sm font-medium text-white">Twilio SMS</span>
-                            <span className="rounded bg-amber-500/20 px-1.5 py-0.2 text-[9px] font-bold text-amber-300">PAID</span>
+                            <span className="rounded bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300">PAID</span>
                           </div>
                           <div className="text-[10px] text-white/40">$0.0079/segment</div>
                         </div>
@@ -8286,7 +8286,7 @@ export function AdminDashboardMain({
                     className={`rounded-xl border p-4 ${smsResult.success
                       ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"
                       : "border-rose-500/40 bg-rose-500/10 text-rose-300"
-                      }`}
+                      } `}
                   >
                     <div className="font-semibold text-sm">
                       {smsResult.success ? "Broadcast Dispatched Successfully!" : "Broadcast Failed"}
@@ -8415,7 +8415,7 @@ export function AdminDashboardMain({
                           broadcastLogs.map((log) => (
                             <div
                               key={log.id}
-                              className="grid grid-cols-12 items-center p-3 text-xs hover:bg-white/[0.02]"
+                              className="transition-colors grid grid-cols-12 items-center p-3 text-xs hover:bg-white/[0.02]"
                             >
                               <div className="col-span-3">
                                 <div className="font-medium text-white truncate">{log.title}</div>
@@ -8457,7 +8457,7 @@ export function AdminDashboardMain({
                           smsHistoryLogs.map((log) => (
                             <div
                               key={log.id}
-                              className="grid grid-cols-12 items-center p-3 text-xs hover:bg-white/[0.02]"
+                              className="transition-colors grid grid-cols-12 items-center p-3 text-xs hover:bg-white/[0.02]"
                             >
                               <div className="col-span-3">
                                 <div className="font-medium text-white truncate">{log.venue}</div>
@@ -8815,7 +8815,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           onClick={() => setIsManageRolesModalOpen(true)}
-                          className="a-btn flex cursor-pointer items-center gap-1 border-none p-0 hover:text-white"
+                          className="transition-colors a-btn flex cursor-pointer items-center gap-1 border-none p-0 hover:text-white"
                         >
                           <Plus className="h-3 w-3 text-purple-400" />
                           <span>Manage Preset Roles</span>
@@ -8877,7 +8877,7 @@ export function AdminDashboardMain({
                                   className="!mb-0 list-none border-b border-white/10 last:border-b-0"
                                 >
                                   <div
-                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5  py-2 ${isChecked ? " " : ""}`}
+                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5 py-2 ${isChecked ? " " : ""} `}
                                     title={` ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                   >
                                     <div
@@ -8915,7 +8915,7 @@ export function AdminDashboardMain({
 
                                       {/* Name */}
                                       <span
-                                        className={` ${!r.phone ? "dark: text-black/40 text-white/40" : "dark:"}`}
+                                        className={` ${!r.phone ? "dark: text-black/40 text-white/40" : "dark:"} `}
                                       >
                                         {r.name}
                                       </span>
@@ -8933,7 +8933,7 @@ export function AdminDashboardMain({
                                             );
                                             setEditingDutyValue(r.duty || "");
                                           }}
-                                          className="group relative inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1 hover:bg-white/20"
+                                          className="transition-colors group relative inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1 hover:bg-white/20"
                                           title={`Click to change or edit role(s): ${r.duty}`}
                                         >
                                           <span className="max-w-[200px] md:max-w-[320px]">
@@ -8950,7 +8950,7 @@ export function AdminDashboardMain({
                                             );
                                             setEditingDutyValue(r.duty || "");
                                           }}
-                                          className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 text-white/60 hover:bg-white/10"
+                                          className="transition-colors flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-[#00000029] px-3 py-1 text-white/60 hover:bg-white/10"
                                           title="Click to assign role(s)"
                                         >
                                           <span>+ Assign Role</span>
@@ -8980,7 +8980,7 @@ export function AdminDashboardMain({
                                           );
                                           setEditingDutyValue(r.duty || "");
                                         }}
-                                        className="flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 text-white/40 hover:bg-white/10 hover:text-white"
+                                        className="transition-colors flex cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] p-1.5 text-white/40 hover:bg-white/10 hover:text-white"
                                         title="Edit Role"
                                       >
                                         <svg
@@ -9124,7 +9124,7 @@ export function AdminDashboardMain({
                             <button
                               type="button"
                               onClick={() => selectShowForSms("")}
-                              className="cursor-pointer border-none text-white/40 hover:text-white"
+                              className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                               title="Clear targeted show"
                             ></button>
                           </div>
@@ -9169,7 +9169,7 @@ export function AdminDashboardMain({
                                     setSelectedCrewPhones([]);
                                   }
                                 }}
-                                className="cursor-pointer border-none text-rose-400 hover:text-rose-300"
+                                className="transition-colors cursor-pointer border-none text-rose-400 hover:text-rose-300"
                               >
                                 Delete Group
                               </button>
@@ -9234,7 +9234,7 @@ export function AdminDashboardMain({
                                         return (
                                           <div
                                             key={r.id}
-                                            className="relative flex items-center justify-between gap-2 px-1.5 py-2 text-[var(--font-size-2xs)] select-none hover:bg-white/10 hover:text-white"
+                                            className="transition-colors relative flex items-center justify-between gap-2 px-1.5 py-2 text-[var(--font-size-2xs)] select-none hover:bg-white/10 hover:text-white"
                                           >
                                             <div
                                               className="flex flex-1 cursor-pointer items-center gap-2"
@@ -9278,7 +9278,7 @@ export function AdminDashboardMain({
                                                     r.duty || r.role || "",
                                                   );
                                                 }}
-                                                className="flex max-w-[200px] shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[9px] hover:bg-white/20"
+                                                className="transition-colors flex max-w-[200px] shrink-0 cursor-pointer items-center gap-1 rounded-lg border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.5 text-[9px] hover:bg-white/20"
                                                 title={`Click to edit role(s): ${displayRole}`}
                                               >
                                                 <span>{displayRole}</span>
@@ -9340,7 +9340,7 @@ export function AdminDashboardMain({
                                   setNewSmsGroupError("");
                                   setShowSaveSmsGroup(false);
                                 }}
-                                className="cursor-pointer border-none px-2.5 py-1.5 text-white/40 hover:text-white"
+                                className="transition-colors cursor-pointer border-none px-2.5 py-1.5 text-white/40 hover:text-white"
                               >
                                 Cancel
                               </button>
@@ -9476,7 +9476,7 @@ export function AdminDashboardMain({
                           crewAlertSendingRef.current = false;
                           setCrewAlertSending(false);
                         }}
-                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                        className="transition-colors flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                       >
                         {crewAlertSending ? (
                           <>
@@ -9505,7 +9505,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       onClick={() => setSendSmsAlert((prev) => !prev)}
-                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
                     >
                       <div className="flex items-center gap-2">
                         <Toggle
@@ -9531,7 +9531,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       onClick={() => setSendEmailAlert((prev) => !prev)}
-                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
                     >
                       <div className="flex items-center gap-2">
                         <Toggle
@@ -9558,7 +9558,7 @@ export function AdminDashboardMain({
                           }
                         }}
                         onClick={() => setCrewSendAsGroup((prev) => !prev)}
-                        className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${crewSendAsGroup ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                        className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${crewSendAsGroup ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
                       >
                         <div className="flex items-center gap-2">
                           <Toggle
@@ -9689,7 +9689,7 @@ export function AdminDashboardMain({
                         }
                         setCrewAlertSending(false);
                       }}
-                      className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                      className="transition-colors flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                     >
                       {crewAlertSending ? (
                         <>
@@ -9707,7 +9707,7 @@ export function AdminDashboardMain({
                 {(sendSmsAlert || sendEmailAlert) && (
                   <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 border-t border-white/10 pt-4 md:grid-cols-2">
                     {/* Left Column: SMS Text Message Preview (50% Width) */}
-                    <div className="flex flex-col justify-between space-y-4 !rounded-lg border border-[var(--border-color)]   p-5">
+                    <div className="flex flex-col justify-between space-y-4 !rounded-lg border border-[var(--border-color)] p-5">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                           <span>SMS TEXT MESSAGE PREVIEW</span>
@@ -9769,7 +9769,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           onClick={() => setIsManageRolesModalOpen(false)}
-                          className="cursor-pointer border-none text-white/40 hover:text-white"
+                          className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                         >
                           Close
                         </button>
@@ -9802,7 +9802,7 @@ export function AdminDashboardMain({
                               handleAddPresetRole(newPresetRoleInput);
                               setNewPresetRoleInput("");
                             }}
-                            className="cursor-pointer rounded-lg border-none bg-purple-600 px-4 py-2 hover:bg-purple-500"
+                            className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-4 py-2 hover:bg-purple-500"
                           >
                             Add
                           </button>
@@ -9823,13 +9823,13 @@ export function AdminDashboardMain({
                             presetRoles.map((role) => (
                               <div
                                 key={role}
-                                className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 hover:bg-white/[0.04]"
+                                className="transition-colors flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 hover:bg-white/[0.04]"
                               >
                                 <span className="">{role}</span>
                                 <button
                                   type="button"
                                   onClick={() => handleDeletePresetRole(role)}
-                                  className="flex cursor-pointer items-center justify-center border-none bg-rose-500/10 p-1 text-rose-400 hover:bg-rose-500/20 hover:text-rose-300"
+                                  className="transition-colors flex cursor-pointer items-center justify-center border-none bg-rose-500/10 p-1 text-rose-400 hover:bg-rose-500/20 hover:text-rose-300"
                                   title="Delete Preset"
                                 >
                                   <svg
@@ -9878,7 +9878,7 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("pushsubscribers")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
@@ -10153,7 +10153,7 @@ export function AdminDashboardMain({
                                     }
                                   }}
                                   onClick={toggleSelection}
-                                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2 select-none ${isChecked ? " " : "hover:bg-white/[0.04]"}`}
+                                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2 select-none ${isChecked ? " " : "hover:bg-white/[0.04]"} `}
                                   title={`Click to toggle selection for ${r.name}\n ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                 >
                                   <div className="flex min-w-0 flex-1 items-center gap-3">
@@ -10255,7 +10255,7 @@ export function AdminDashboardMain({
                             }
                           }}
                           onClick={() => setSendBandSmsAlert((prev) => !prev)}
-                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
                         >
                           <div className="flex items-center gap-2">
                             <Toggle
@@ -10281,7 +10281,7 @@ export function AdminDashboardMain({
                             }
                           }}
                           onClick={() => setSendBandEmailAlert((prev) => !prev)}
-                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
+                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
                         >
                           <div className="flex items-center gap-2">
                             <Toggle
@@ -10333,7 +10333,7 @@ export function AdminDashboardMain({
                       {/* Feedback Logs */}
                       {bandAlertResult && (
                         <div
-                          className={`flex flex-col gap-1 border p-3 ${bandAlertResult.success ? "border-white/10 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/20 bg-red-500/10 text-red-400"}`}
+                          className={`flex flex-col gap-1 border p-3 ${bandAlertResult.success ? "border-white/10 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/20 bg-red-500/10 text-red-400"} `}
                         >
                           <span className="flex items-center gap-1">
                             {bandAlertResult.success
@@ -10358,7 +10358,7 @@ export function AdminDashboardMain({
                             !bandAlertMsg.trim() ||
                             selectedBandPhones.length === 0
                           }
-                          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
+                          className="transition-colors flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-none bg-purple-600 py-3 text-white/30 shadow-[0_0_20px_rgba(147,51,234,0.3)] hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-900/30 disabled:opacity-20"
                         >
                           {bandAlertSending ? (
                             <>
@@ -10440,7 +10440,7 @@ export function AdminDashboardMain({
                                           ),
                                         )
                                       }
-                                      className="shrink-0 cursor-pointer border-none p-1 text-[var(--font-size-2xs)] text-white/30 hover:text-rose-400"
+                                      className="transition-colors shrink-0 cursor-pointer border-none p-1 text-[var(--font-size-2xs)] text-white/30 hover:text-rose-400"
                                     ></button>
                                   </div>
 
@@ -10472,7 +10472,7 @@ export function AdminDashboardMain({
                 {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
                 <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 pt-2 md:grid-cols-2">
                   {/* Left Column: SMS Text Message Preview (50% Width) */}
-                  <div className="flex flex-col justify-between space-y-4 rounded-lg border border-[var(--border-color)]   p-5">
+                  <div className="flex flex-col justify-between space-y-4 rounded-lg border border-[var(--border-color)] p-5">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                         <span>SMS TEXT MESSAGE PREVIEW</span>
@@ -10799,7 +10799,7 @@ export function AdminDashboardMain({
                       ) as any;
                       return (
                         <div key={user.id} className="">
-                          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10  py-2 pr-2 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
+                          <div className="transition-colors grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-2 pr-2 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
                             <div className="max-w-[220px]">
                               <div className="flex items-center gap-2.5">
                                 <Avatar
@@ -10823,7 +10823,7 @@ export function AdminDashboardMain({
                             </div>
                             <div>
                               <span
-                                className={`rounded py-0.5 text-[0.9rem] ${user.role === "crew" || user.role === "admin" ? " " : " "}`}
+                                className={`rounded py-0.5 text-[0.9rem] ${user.role === "crew" || user.role === "admin" ? " " : " "} `}
                               >
                                 {user.role}
                               </span>
@@ -10831,7 +10831,7 @@ export function AdminDashboardMain({
                             <div>
                               <div className="flex items-center gap-1.5">
                                 <span
-                                  className={`h-2 w-2 rounded-full ${user.status === "streaming" ? "animate-pulse bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" : user.status === "watching" ? "bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]" : "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"}`}
+                                  className={`h-2 w-2 rounded-full ${user.status === "streaming" ? "animate-pulse bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" : user.status === "watching" ? "bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]" : "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"} `}
                                 />
                                 <span className="text-[0.9rem] text-white/50">
                                   {user.status}
@@ -10930,7 +10930,7 @@ export function AdminDashboardMain({
                                           );
                                         }
                                       }}
-                                      className="ml-2 rounded border border-purple-500/30 bg-white/20 px-2 py-0.5 text-[0.55rem] hover:bg-purple-500/30"
+                                      className="transition-colors ml-2 rounded border border-purple-500/30 bg-white/20 px-2 py-0.5 text-[0.55rem] hover:bg-purple-500/30"
                                     >
                                       Reset Password
                                     </button>
@@ -11152,7 +11152,7 @@ export function AdminDashboardMain({
                                 createdCrew.password,
                               );
                             }}
-                            className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
+                            className="transition-colors ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
                           >
                             Copy
                           </button>
@@ -11162,14 +11162,14 @@ export function AdminDashboardMain({
                     <button
                       aria-label="Dismiss created crew notification"
                       onClick={() => setCreatedCrew(null)}
-                      className="shrink-0 text-white/20 hover:text-white"
+                      className="transition-colors shrink-0 text-white/20 hover:text-white"
                     >
                       ✕
                     </button>
                   </div>
                   <button
                     onClick={scrollToRegistry}
-                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-emerald-500/10 py-2.5 text-[0.65rem] hover:bg-emerald-500/20"
+                    className="transition-colors mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-emerald-500/10 py-2.5 text-[0.65rem] hover:bg-emerald-500/20"
                   >
                     <svg
                       width="14"
@@ -11199,7 +11199,7 @@ export function AdminDashboardMain({
                   <button
                     aria-label="Dismiss crew error"
                     onClick={() => setCrewError("")}
-                    className="ml-auto text-white/30 hover:text-white"
+                    className="transition-colors ml-auto text-white/30 hover:text-white"
                   >
                     ✕
                   </button>
@@ -11357,11 +11357,11 @@ export function AdminDashboardMain({
                                 };
                                 savePermissionsToBackend(updated);
                               }}
-                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-2.5 text-left ${enabled ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-black/40 text-white/40 hover:border-white/20"}`}
+                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-2.5 text-left ${enabled ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-black/40 text-white/40 hover:border-white/20"} `}
                             >
                               <span>{label}</span>
                               <span
-                                className={`flex h-4 w-4 items-center justify-center rounded-full ${enabled ? "bg-purple-500" : "bg-white/10 text-white/30"}`}
+                                className={`flex h-4 w-4 items-center justify-center rounded-full ${enabled ? "bg-purple-500" : "bg-white/10 text-white/30"} `}
                               >
                                 {enabled ? "" : ""}
                               </span>
@@ -11475,7 +11475,7 @@ export function AdminDashboardMain({
                                   createdAdmin.password,
                                 );
                               }}
-                              className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
+                              className="transition-colors ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
                             >
                               Copy
                             </button>
@@ -11489,7 +11489,7 @@ export function AdminDashboardMain({
                       <button
                         aria-label="Dismiss created admin notification"
                         onClick={() => setCreatedAdmin(null)}
-                        className="shrink-0 text-white/20 hover:text-white"
+                        className="transition-colors shrink-0 text-white/20 hover:text-white"
                       >
                         ✕
                       </button>
@@ -11504,7 +11504,7 @@ export function AdminDashboardMain({
                     <button
                       aria-label="Dismiss admin error"
                       onClick={() => setAdminCreateError("")}
-                      className="ml-auto text-white/30 hover:text-white"
+                      className="transition-colors ml-auto text-white/30 hover:text-white"
                     >
                       ✕
                     </button>
@@ -11765,12 +11765,12 @@ export function AdminDashboardMain({
 
                 {/* Email action bar */}
                 {signups.length > 0 && (
-                  <div className="flex items-center justify-between  border-white/10 bg-black/20 px-4 py-3">
+                  <div className="flex items-center justify-between border-white/10 bg-black/20 px-4 py-3">
                     <div className="flex items-center gap-3">
                       <button
                         aria-label="Select all passenger emails"
                         onClick={toggleAllEmails}
-                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded border ${allSelected ? "border-purple-500/40 bg-cyan-500/20" : "border-white/10 bg-black/20 text-white/10 hover:border-white/25"}`}
+                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded border ${allSelected ? "border-purple-500/40 bg-cyan-500/20" : "border-white/10 bg-black/20 text-white/10 hover:border-white/25"} `}
                       >
                         {allSelected && (
                           <svg
@@ -11818,7 +11818,7 @@ export function AdminDashboardMain({
                       <button
                         aria-label="Close email compose panel"
                         onClick={() => setCruiseEmailOpen(false)}
-                        className="cursor-pointer text-white/20 text-white/50 hover:text-white"
+                        className="transition-colors cursor-pointer text-white/20 text-white/50 hover:text-white"
                       >
                         ✕
                       </button>
@@ -11834,7 +11834,7 @@ export function AdminDashboardMain({
                           <button
                             aria-label={`Remove ${email}`}
                             onClick={() => toggleEmail(email)}
-                            className="cursor-pointer text-white/20 hover:text-rose-400"
+                            className="transition-colors cursor-pointer text-white/20 hover:text-rose-400"
                           >
                             ×
                           </button>
@@ -11935,7 +11935,7 @@ export function AdminDashboardMain({
                       return signups.map((s: any, i: number) => (
                         <div
                           key={s.id || s.email}
-                          className={`group/row mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] items-center gap-3 border-b bg-black/20 py-3 hover:bg-white/[0.03] ${cruiseSelectedEmailsSet.has(s.email) ? "border-purple-500/40 bg-cyan-500/10" : "border-white/10 hover:border-purple-500/20"}`}
+                          className={`transition-colors group/row mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] items-center gap-3 border-b bg-black/20 py-3 hover:bg-white/[0.03] ${cruiseSelectedEmailsSet.has(s.email) ? "border-purple-500/40 bg-cyan-500/10" : "border-white/10 hover:border-purple-500/20"} `}
                         >
                           {/* Email checkbox */}
                           <div className="flex justify-center">
@@ -11973,7 +11973,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "checked_off", !s.checkedOff)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.checkedOff ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.checkedOff ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"} `}
                             >
                               {s.checkedOff && (
                                 <svg
@@ -11998,7 +11998,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "deposit_paid", !s.depositPaid)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.depositPaid ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.depositPaid ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"} `}
                             >
                               {s.depositPaid && (
                                 <svg
@@ -12023,7 +12023,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "full_paid", !s.fullPaid)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.fullPaid ? "border-purple-500/40 bg-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.fullPaid ? "border-purple-500/40 bg-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"} `}
                             >
                               {s.fullPaid && (
                                 <svg
@@ -13138,7 +13138,7 @@ export function AdminDashboardMain({
             backgroundColor: roleStyle.bg,
             opacity: isBeingDragged ? 0.3 : 1,
           }}
-          className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? "min-h-[100px]" : "min-h-[48px]"} ${shift.isDraft ? "wiw-striped" : ""} ${activeLockingEditor ? "animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80" : ""}`}
+          className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? "min-h-[100px]" : "min-h-[48px]"}  ${shift.isDraft ? "wiw-striped" : ""}  ${activeLockingEditor ? "animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80" : ""} `}
           title={
             shift.crewId !== "openshifts"
               ? (() => {
@@ -13266,7 +13266,7 @@ export function AdminDashboardMain({
             ) : (
               /* Expanded style for Timeline / List / Detail views */
               <div
-                className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""}`}
+                className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""} `}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-[var(--font-size-2xs)]">
@@ -13536,7 +13536,7 @@ export function AdminDashboardMain({
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? " " : isNextShow ? "border-x border-white/10" : " "}`}
+                      className={`group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? " " : isNextShow ? "border-x border-white/10" : " "} `}
                       title="Click to select date & stack working crew at top"
                     >
                       <div className="flex w-full flex-col gap-1">
@@ -13551,14 +13551,14 @@ export function AdminDashboardMain({
                               </span>
                             )}
                           </div>
-                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                          <div className="transition-opacity flex items-center gap-1 opacity-0 group-hover:opacity-100">
                             <button
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleTextAssignedCrew(day.dateStr);
                               }}
-                              className="cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
+                              className="transition-colors cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
                               title="Alert assigned crew for this show"
                             >
                               <svg
@@ -13582,7 +13582,7 @@ export function AdminDashboardMain({
                                   prev === day.dateStr ? null : day.dateStr,
                                 );
                               }}
-                              className={`cursor-pointer rounded border-none p-0.5 ${scheduleSortByDate === day.dateStr ? "bg-white/20" : " "}`}
+                              className={`cursor-pointer rounded border-none p-0.5 ${scheduleSortByDate === day.dateStr ? "bg-white/20" : " "} `}
                               title={
                                 scheduleSortByDate === day.dateStr
                                   ? "Reset crew sorting"
@@ -13610,7 +13610,7 @@ export function AdminDashboardMain({
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="mt-1 flex w-full cursor-pointer items-center justify-center gap-1 text-[12px] select-none hover:text-white"
+                            className="transition-colors mt-1 flex w-full cursor-pointer items-center justify-center gap-1 text-[12px] select-none hover:text-white"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             {dayShow.venue || dayShow.venue_name}
@@ -13635,7 +13635,7 @@ export function AdminDashboardMain({
                     return (
                       <div
                         key={day.dateStr}
-                        className={`min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
+                        className={`min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "} `}
                         onDragOver={(e) => {
                           e.preventDefault();
                           if (e.dataTransfer)
@@ -13671,7 +13671,7 @@ export function AdminDashboardMain({
                                 "SERVER",
                               );
                             }}
-                            className="group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
+                            className="transition-colors group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                           >
                             <span className="text-[12px] text-purple-400">
                               +
@@ -13705,7 +13705,7 @@ export function AdminDashboardMain({
                                     : `openshifts_group_${day.dateStr}`,
                                 );
                               }}
-                              className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
+                              className="transition-colors group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
                               <span className="text-[12px] text-purple-400">
                                 +
@@ -13742,7 +13742,7 @@ export function AdminDashboardMain({
                                 setNewGroupNameInput("");
                                 setIsCreateGroupModalOpen(true);
                               }}
-                              className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
+                              className="transition-colors group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
                               <span className="text-[12px] text-purple-400">
                                 +
@@ -13793,10 +13793,10 @@ export function AdminDashboardMain({
                   return (
                     <div
                       key={member.id}
-                      className={`flex w-full border-b border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"}`}
+                      className={`flex w-full border-b border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"} `}
                     >
                       <div
-                        className={`wiw-sticky-col relative w-60 shrink-0 border-r border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]" : " "}`}
+                        className={`wiw-sticky-col relative w-60 shrink-0 border-r border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]" : " "} `}
                       >
                         <div className="flex items-center gap-2.5">
                           {hasExclamation && (
@@ -13849,7 +13849,7 @@ export function AdminDashboardMain({
                               )}
                             </div>
 
-                            <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)]   p-3 text-left">
+                            <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)] p-3 text-left">
                               <div>{member.name}</div>
                               <div className="mb-2 text-[12px] text-[var(--color-accent)]">
                                 Role: {member.role || "Crew Member"}
@@ -13896,7 +13896,7 @@ export function AdminDashboardMain({
                                 );
                               }
                             }}
-                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
+                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "} `}
                             onDragOver={(e) => {
                               e.preventDefault();
                               if (e.dataTransfer)
@@ -13927,7 +13927,7 @@ export function AdminDashboardMain({
                                     member.role || "SERVER",
                                   );
                                 }}
-                                className="mt-1 flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-purple-500/30 bg-purple-500/20 py-1 text-[10px] hover:bg-purple-500/40 hover:text-white"
+                                className="transition-colors mt-1 flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-purple-500/30 bg-purple-500/20 py-1 text-[10px] hover:bg-purple-500/40 hover:text-white"
                               >
                                 <svg
                                   width="10"
@@ -13977,7 +13977,7 @@ export function AdminDashboardMain({
             return (
               <div
                 key={day.dateStr}
-                className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"}`}
+                className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"} `}
                 onDragOver={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer) {
@@ -14055,7 +14055,7 @@ export function AdminDashboardMain({
                           e.stopPropagation();
                           setSelectedShowCrewDate(day.dateStr);
                         }}
-                        className="mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                        className="transition-colors mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                         title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                       >
                         {dayShow.venue || dayShow.venue_name}
@@ -14083,7 +14083,7 @@ export function AdminDashboardMain({
     const renderTimelineGrid = () => {
       const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
       return (
-        <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)]   p-4 select-none">
+        <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)] p-4 select-none">
           <div className="flex select-none">
             <div className="w-14 shrink-0" />
             <div className="mb-2 grid flex-1 grid-cols-7 gap-2 border-b border-[var(--border-color)] pb-2 text-center">
@@ -14108,7 +14108,7 @@ export function AdminDashboardMain({
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
-                          className="py-0.5 mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                          className="transition-colors py-0.5 mt-1 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                         >
                           {dayShow.venue || dayShow.venue_name}
@@ -14130,7 +14130,7 @@ export function AdminDashboardMain({
               ))}
             </div>
 
-            <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)]   p-0">
+            <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)] p-0">
               <div className="pointer-events-none absolute inset-0 flex flex-col justify-between">
                 {Array.from({ length: 17 }).map((_, idx) => (
                   <div
@@ -14228,7 +14228,7 @@ export function AdminDashboardMain({
                             left: "4px",
                             right: "4px",
                           }}
-                          className={`wiw-card cursor-pointer overflow-hidden rounded-lg p-1 ${shift.isDraft ? "wiw-striped" : ""}`}
+                          className={`wiw-card cursor-pointer overflow-hidden rounded-lg p-1 ${shift.isDraft ? "wiw-striped" : ""} `}
                         >
                           <div>{shift.crewName}</div>
                           <div className="text-[var(--font-size-5xs)]">
@@ -14341,7 +14341,7 @@ export function AdminDashboardMain({
                     {coEditors.map((ed) => (
                       <span
                         key={ed.id}
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"}`}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"} `}
                       >
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
                         {ed.name}{" "}
@@ -14363,7 +14363,7 @@ export function AdminDashboardMain({
                         timestamp: "Just now",
                       });
                     }}
-                    className="flex cursor-pointer items-center gap-1 rounded border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 hover:bg-white/20"
+                    className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 hover:bg-white/20"
                     title="Simulate concurrent editing conflict (schedule mix-up) to test live sync warning"
                   >
                     Simulate Mix-Up Conflict
@@ -14371,7 +14371,7 @@ export function AdminDashboardMain({
                   <button
                     type="button"
                     onClick={() => setShowCoEditorModal(true)}
-                    className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2.5 py-1 hover:bg-white/10 hover:text-white"
+                    className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2.5 py-1 hover:bg-white/10 hover:text-white"
                   >
                     Co-Editor Settings
                   </button>
@@ -14420,7 +14420,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={() => setCoEditorConflictAlert(null)}
-                        className="cursor-pointer rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
+                        className="transition-colors cursor-pointer rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
                       >
                         Accept Remote Sync
                       </button>
@@ -14440,7 +14440,7 @@ export function AdminDashboardMain({
                       <button
                         aria-label="Close co-editor modal"
                         onClick={() => setShowCoEditorModal(false)}
-                        className="text-white/40 hover:text-white"
+                        className="transition-colors text-white/40 hover:text-white"
                       >
                         ✕
                       </button>
@@ -14469,7 +14469,7 @@ export function AdminDashboardMain({
                             </div>
                           </div>
                           <span
-                            className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? "border border-pink-500/40 bg-pink-500/20 text-pink-400" : "border border-emerald-500/40 bg-emerald-500/20"}`}
+                            className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? "border border-pink-500/40 bg-pink-500/20 text-pink-400" : "border border-emerald-500/40 bg-emerald-500/20"} `}
                           >
                             {ed.isEditing ? " Shift Locked" : "🟢 Viewing"}
                           </span>
@@ -14492,7 +14492,7 @@ export function AdminDashboardMain({
                     <div className="flex items-center justify-end">
                       <button
                         onClick={() => setShowCoEditorModal(false)}
-                        className="rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
+                        className="transition-colors rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
                       >
                         Close
                       </button>
@@ -14518,7 +14518,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={handlePrevWeek}
-                        className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
+                        className="transition-colors cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Previous Week"
                       >
                         <svg
@@ -14539,7 +14539,7 @@ export function AdminDashboardMain({
                         onClick={() => {
                           document.getElementById("wiw-date-picker")?.click();
                         }}
-                        className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
+                        className="transition-colors cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Choose Date"
                       >
                         <svg
@@ -14583,7 +14583,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={handleNextWeek}
-                        className="cursor-pointer border-none bg-[#00000029] p-2 text-white/40 hover:text-white"
+                        className="transition-colors cursor-pointer border-none bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Next Week"
                       >
                         <svg
@@ -14604,7 +14604,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={handleGoToToday}
-                      className="cursor-pointer rounded-lg border border-solid border-white/10 bg-[#00000029] bg-black/40 px-3 py-1.5 hover:text-white"
+                      className="transition-colors cursor-pointer rounded-lg border border-solid border-white/10 bg-[#00000029] bg-black/40 px-3 py-1.5 hover:text-white"
                     >
                       TODAY
                     </button>
@@ -14612,7 +14612,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={handleGoToMonth}
-                      className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10 hover:bg-white/20" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                      className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10 hover:bg-white/20" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                     >
                       MONTH
                     </button>
@@ -14685,7 +14685,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={() => setShowTourDropdown((prev) => !prev)}
-                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                       >
                         SHOWS
                         <svg
@@ -14742,12 +14742,12 @@ export function AdminDashboardMain({
                                     }
                                     setShowTourDropdown(false);
                                   }}
-                                  className="group flex w-full cursor-pointer items-center gap-3 border-b border-solid border-white/10 bg-[#00000029] px-4 py-3 text-left last:border-b-0 hover:bg-purple-500/20"
+                                  className="transition-colors group flex w-full cursor-pointer items-center gap-3 border-b border-solid border-white/10 bg-[#00000029] px-4 py-3 text-left last:border-b-0 hover:bg-purple-500/20"
                                 >
                                   <span className="min-w-[80px] font-semibold text-purple-300">
                                     {dateLabel}
                                   </span>
-                                  <span className="group-hover:text-white">
+                                  <span className="transition-colors group-hover:text-white">
                                     {show.venue || show.venue_name}
                                   </span>
                                   {show.city && (
@@ -14767,7 +14767,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={() => setShowTourDatesOnly((prev) => !prev)}
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                       title="Show only days with tour shows"
                     >
                       {showTourDatesOnly ? " SHOWS ONLY" : "ALL DAYS"}
@@ -14800,7 +14800,7 @@ export function AdminDashboardMain({
                       onClick={() =>
                         setIsFiltersPanelExpanded(!isFiltersPanelExpanded)
                       }
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                       title="Search & advanced filters by person, venue, date range, and event type"
                     >
                       <span></span>{" "}
@@ -14838,7 +14838,7 @@ export function AdminDashboardMain({
                           setShowTourDatesOnly(false);
                           setScheduleSortByDate(null);
                         }}
-                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-rose-500/30 bg-rose-500/15 px-3 py-1.5 text-rose-400 select-none hover:bg-rose-500/25 hover:text-rose-300"
+                        className="transition-colors flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-rose-500/30 bg-rose-500/15 px-3 py-1.5 text-rose-400 select-none hover:bg-rose-500/25 hover:text-rose-300"
                         title="Reset all search filters"
                       >
                         Clear All
@@ -14861,7 +14861,7 @@ export function AdminDashboardMain({
                             }
                           }
                         }}
-                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-red-500/40 bg-red-500/20 px-3 py-1.5 text-red-400 select-none hover:bg-red-500/30 hover:text-red-300"
+                        className="transition-colors flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-red-500/40 bg-red-500/20 px-3 py-1.5 text-red-400 select-none hover:bg-red-500/30 hover:text-red-300"
                         title="Clear all scheduled shift timeframes and start fresh"
                       >
                         Clear All Shifts
@@ -14872,7 +14872,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={handleGenerateTestData}
-                      className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                      className="transition-colors flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                       title="Generate realistic test schedule data for 2-4 weeks with edge cases"
                     >
                       Generate Test Data
@@ -14888,7 +14888,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           onClick={handlePurgeTestData}
-                          className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                          className="transition-colors flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 bg-white/20 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                           title="Purge all test schedule data ([TEST] shifts)"
                         >
                           Purge Test Data
@@ -14947,7 +14947,7 @@ export function AdminDashboardMain({
 
                 {/* Expandable Advanced Filters Panel */}
                 {isFiltersPanelExpanded && (
-                  <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10  py-4">
+                  <div className="relative z-50 flex shrink-0 animate-[slideDown_0.2s_ease-out] flex-col gap-4 border-b border-white/10 py-4">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                       {/* Search by Person */}
                       <div className="relative flex flex-col gap-1.5">
@@ -14968,7 +14968,7 @@ export function AdminDashboardMain({
                             type="button"
                             aria-label="Clear person search"
                             onClick={() => setSchedulePersonSearch("")}
-                            className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                            className="transition-colors absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
                           >
                             ✕
                           </button>
@@ -14994,7 +14994,7 @@ export function AdminDashboardMain({
                             type="button"
                             aria-label="Clear venue search"
                             onClick={() => setScheduleVenueSearch("")}
-                            className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                            className="transition-colors absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
                           >
                             ✕
                           </button>
@@ -15062,7 +15062,7 @@ export function AdminDashboardMain({
                                 setScheduleStartDate("");
                                 setScheduleEndDate("");
                               }}
-                              className="cursor-pointer rounded border-none bg-[#00000029] px-2 py-1 text-white/40 hover:bg-white/10 hover:text-white"
+                              className="transition-colors cursor-pointer rounded border-none bg-[#00000029] px-2 py-1 text-white/40 hover:bg-white/10 hover:text-white"
                               title="Reset Date Range"
                             >
                               Clear
@@ -15099,7 +15099,7 @@ export function AdminDashboardMain({
                               setShowTourDatesOnly(false);
                               setScheduleSortByDate(null);
                             }}
-                            className="cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 hover:bg-white/20 hover:text-white"
+                            className="transition-colors cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 hover:bg-white/20 hover:text-white"
                           >
                             Reset All Filters
                           </button>
@@ -15234,7 +15234,7 @@ export function AdminDashboardMain({
                                 setDraggedCrewMemberId(null);
                                 setEditingShiftId(null);
                               }}
-                              className="cursor-pointer border-none text-white/40 hover:text-white"
+                              className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                             >
                               ✕
                             </button>
@@ -15268,7 +15268,7 @@ export function AdminDashboardMain({
                                           return updated;
                                         });
                                       }}
-                                      className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+                                      className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                                     >
                                       <span></span> Request Coverage
                                     </button>
@@ -15307,7 +15307,7 @@ export function AdminDashboardMain({
                                           }),
                                         );
                                       }}
-                                      className="rounded border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-300 hover:bg-red-500/40"
+                                      className="transition-colors rounded border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-300 hover:bg-red-500/40"
                                     >
                                       Clear
                                     </button>
@@ -15326,7 +15326,7 @@ export function AdminDashboardMain({
                                           onClick={() =>
                                             setOnlyShowFitRole(true)
                                           }
-                                          className={`cursor-pointer rounded px-2 py-0.5 ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"}`}
+                                          className={`cursor-pointer rounded px-2 py-0.5 ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"} `}
                                         >
                                           Fit Role ({editingShift.role})
                                         </button>
@@ -15335,7 +15335,7 @@ export function AdminDashboardMain({
                                           onClick={() =>
                                             setOnlyShowFitRole(false)
                                           }
-                                          className={`cursor-pointer rounded px-2 py-0.5 ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"}`}
+                                          className={`cursor-pointer rounded px-2 py-0.5 ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"} `}
                                         >
                                           Override (All)
                                         </button>
@@ -15380,7 +15380,7 @@ export function AdminDashboardMain({
                                           return (
                                             <div
                                               key={member.id}
-                                              className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5 hover:bg-black/40"
+                                              className="transition-colors flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5 hover:bg-black/40"
                                             >
                                               <div className="flex items-center gap-2">
                                                 {(() => {
@@ -15466,7 +15466,7 @@ export function AdminDashboardMain({
                                                   setDraggedCrewMemberId(null);
                                                   setEditingShiftId(null);
                                                 }}
-                                                className={`rounded border-none px-2 py-1 ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"}`}
+                                                className={`rounded border-none px-2 py-1 ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"} `}
                                               >
                                                 Assign
                                               </button>
@@ -15618,7 +15618,7 @@ export function AdminDashboardMain({
                                             return (
                                               <div
                                                 key={member.id}
-                                                className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
+                                                className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"} `}
                                               >
                                                 <div className="flex items-center justify-between">
                                                   <label className="flex w-full cursor-pointer items-center gap-3 select-none">
@@ -15794,7 +15794,7 @@ export function AdminDashboardMain({
                                                                         ),
                                                                     );
                                                                   }}
-                                                                  className="cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
+                                                                  className="transition-colors cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
                                                                   style={{
                                                                     fontSize:
                                                                       "10px",
@@ -16284,7 +16284,7 @@ export function AdminDashboardMain({
                                                                                 ),
                                                                             );
                                                                           }}
-                                                                          className="text-4xs cursor-pointer border-none p-0 hover:text-white"
+                                                                          className="transition-colors text-4xs cursor-pointer border-none p-0 hover:text-white"
                                                                         >
                                                                           ✕
                                                                         </button>
@@ -16315,7 +16315,7 @@ export function AdminDashboardMain({
                                                               ],
                                                             );
                                                           }}
-                                                          className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 hover:bg-white/20"
+                                                          className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 hover:bg-white/20"
                                                           style={{
                                                             fontSize: "11px",
                                                           }}
@@ -16341,7 +16341,7 @@ export function AdminDashboardMain({
                             <button
                               type="button"
                               onClick={addScheduleItem}
-                              className="w-full cursor-pointer rounded-lg border-none bg-purple-600 py-2 hover:bg-purple-500"
+                              className="transition-colors w-full cursor-pointer rounded-lg border-none bg-purple-600 py-2 hover:bg-purple-500"
                             >
                               {editingShiftId
                                 ? "Save Changes"
@@ -16357,7 +16357,7 @@ export function AdminDashboardMain({
                                   setDraggedCrewMemberId(null);
                                   setEditingShiftId(null);
                                 }}
-                                className="w-full cursor-pointer rounded-lg border border-red-500/30 bg-red-600/20 py-1.5 text-[10.5px] text-red-200 hover:bg-red-600 hover:text-white"
+                                className="transition-colors w-full cursor-pointer rounded-lg border border-red-500/30 bg-red-600/20 py-1.5 text-[10.5px] text-red-200 hover:bg-red-600 hover:text-white"
                               >
                                 Delete Shift
                               </button>
@@ -16412,7 +16412,7 @@ export function AdminDashboardMain({
                         onClick={() =>
                           setAlertModal({ ...alertModal, isOpen: false })
                         }
-                        className="mt-2 w-full cursor-pointer border-none bg-purple-600 py-2.5 hover:bg-purple-500"
+                        className="transition-colors mt-2 w-full cursor-pointer border-none bg-purple-600 py-2.5 hover:bg-purple-500"
                       >
                         Got It
                       </button>
@@ -16460,7 +16460,7 @@ export function AdminDashboardMain({
                               <button
                                 aria-label="Close select group drawer"
                                 onClick={() => setCellGroupPopover(null)}
-                                className="cursor-pointer border-none text-white/40 hover:text-white"
+                                className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                               >
                                 ✕
                               </button>
@@ -16493,7 +16493,7 @@ export function AdminDashboardMain({
                                     setNewGroupNameInput("");
                                     setIsCreateGroupModalOpen(true);
                                   }}
-                                  className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
+                                  className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
                                 >
                                   + Create First Crew Group
                                 </button>
@@ -16511,11 +16511,11 @@ export function AdminDashboardMain({
                                       handleAddGroupToDay(dateStr, g);
                                       setCellGroupPopover(null);
                                     }}
-                                    className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3.5 text-left shadow-2xs hover:bg-white/10"
+                                    className="transition-colors group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3.5 text-left shadow-2xs hover:bg-white/10"
                                     title={`Apply Group: ${g.name}`}
                                   >
                                     <div className="flex min-w-0 items-center gap-3">
-                                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-purple-500/30 bg-white/20 shadow-inner group-hover:scale-105">
+                                      <span className="transition-transform flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-purple-500/30 bg-white/20 shadow-inner group-hover:scale-105">
                                         +
                                       </span>
                                       <span>{g.name}</span>
@@ -16534,7 +16534,7 @@ export function AdminDashboardMain({
                             <button
                               type="button"
                               onClick={() => setCellGroupPopover(null)}
-                              className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
+                              className="transition-colors cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
                             >
                               Cancel
                             </button>
@@ -16558,7 +16558,7 @@ export function AdminDashboardMain({
                                 setNewGroupNameInput("");
                                 setIsCreateGroupModalOpen(true);
                               }}
-                              className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
+                              className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
                             >
                               + Create New Group
                             </button>
@@ -16603,7 +16603,7 @@ export function AdminDashboardMain({
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer border-none text-white/40 hover:text-white"
+                            className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                           >
                             ✕
                           </button>
@@ -16697,7 +16697,7 @@ export function AdminDashboardMain({
                                               onClick={(e) =>
                                                 e.stopPropagation()
                                               }
-                                              className="hover:text-white"
+                                              className="transition-colors hover:text-white"
                                             >
                                               {m.phone || "(555) 123-4567"}
                                             </a>
@@ -16709,7 +16709,7 @@ export function AdminDashboardMain({
                                               onClick={(e) =>
                                                 e.stopPropagation()
                                               }
-                                              className="hover:text-white"
+                                              className="transition-colors hover:text-white"
                                             >
                                               {m.email ||
                                                 `${(m.name || "crew").toLowerCase().replace(/\s+/g, "")}@7thheavenband.com`}
@@ -16764,7 +16764,7 @@ export function AdminDashboardMain({
                                                         }),
                                                       );
                                                     }}
-                                                    className="cursor-pointer border-none text-red-400 hover:text-red-300"
+                                                    className="transition-colors cursor-pointer border-none text-red-400 hover:text-red-300"
                                                     style={{ fontSize: "8px" }}
                                                   >
                                                     Remove
@@ -17045,7 +17045,7 @@ export function AdminDashboardMain({
                                               }),
                                             );
                                           }}
-                                          className="w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center hover:bg-white/20"
+                                          className="transition-colors w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center hover:bg-white/20"
                                           style={{ fontSize: "8.5px" }}
                                         >
                                           + Add Time Frame
@@ -17067,7 +17067,7 @@ export function AdminDashboardMain({
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
+                            className="transition-colors cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
                           >
                             Cancel
                           </button>
@@ -17123,7 +17123,7 @@ export function AdminDashboardMain({
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
+                            className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
                           >
                             Save Group
                           </button>
@@ -17178,7 +17178,7 @@ export function AdminDashboardMain({
                             <button
                               aria-label="Close selected show crew date modal"
                               onClick={() => setSelectedShowCrewDate(null)}
-                              className="cursor-pointer border-none hover:text-white"
+                              className="transition-colors cursor-pointer border-none hover:text-white"
                             >
                               ✕
                             </button>
@@ -17277,7 +17277,7 @@ export function AdminDashboardMain({
                                               setSelectedShowCrewDate(null);
                                               handleEditShiftClick(shift);
                                             }}
-                                            className="mt-1 inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-white/20 hover:text-white"
+                                            className="transition-colors mt-1 inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-white/20 hover:text-white"
                                           >
                                             Edit
                                           </button>
@@ -17303,7 +17303,7 @@ export function AdminDashboardMain({
                                   {openShifts.map((shift) => (
                                     <div
                                       key={shift.id}
-                                      className="flex items-center justify-between gap-3 border border-dashed border-purple-500/25 bg-purple-500/[0.02] p-3 hover:border-purple-500/40"
+                                      className="transition-colors flex items-center justify-between gap-3 border border-dashed border-purple-500/25 bg-purple-500/[0.02] p-3 hover:border-purple-500/40"
                                     >
                                       <div>
                                         <span className="mt-0.5 block text-white/40">
@@ -17316,7 +17316,7 @@ export function AdminDashboardMain({
                                           setSelectedShowCrewDate(null);
                                           handleEditShiftClick(shift);
                                         }}
-                                        className="cursor-pointer rounded-lg border-none bg-purple-600 px-3 py-1.5 hover:bg-purple-500"
+                                        className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-3 py-1.5 hover:bg-purple-500"
                                       >
                                         Fill Slot
                                       </button>
@@ -17346,7 +17346,7 @@ export function AdminDashboardMain({
       className="site-container page-container page-stack relative min-h-screen overflow-x-clip selection:bg-[var(--color-accent)]"
     >
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
-      <header className=" flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-center">
+      <header className="flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-center">
         {/* Admin Identity & Badges */}
         <div className="flex gap-5">
           <input
@@ -17401,7 +17401,7 @@ export function AdminDashboardMain({
                 </span>
               )}
               {/* Hover overlay with camera icon */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-[12px] opacity-0 group-hover:opacity-100">
+              <div className="transition-opacity absolute inset-0 flex flex-col items-center justify-center bg-black/60 text-[12px] opacity-0 group-hover:opacity-100">
                 <span>{adminAvatarUploading ? "..." : "Upload"}</span>
               </div>
             </button>
@@ -17542,13 +17542,13 @@ export function AdminDashboardMain({
                       }, 50);
                     }
                   }}
-                  className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
+                  className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""} `}
                 >
                   <p className="mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
                     <span className="text-3xl">{metric.value}</span>
                     <span
-                      className={`rounded px-2 py-0.5 text-[0.9rem] ${metric.color}`}
+                      className={`rounded px-2 py-0.5 text-[0.9rem] ${metric.color} `}
                     >
                       {metric.trend}
                     </span>
@@ -17658,14 +17658,14 @@ export function AdminDashboardMain({
                   {auditLog.map((entry, i) => (
                     <div
                       key={entry.id}
-                      className={`relative flex gap-2.5 pb-4 pl-0 last:pb-0 ${i === 0 ? "animate-[slideIn_0.4s_ease-out]" : ""}`}
+                      className={`relative flex gap-2.5 pb-4 pl-0 last:pb-0 ${i === 0 ? "animate-[slideIn_0.4s_ease-out]" : ""} `}
                     >
                       {i < auditLog.length - 1 && (
                         <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/10" />
                       )}
                       <div className="mt-1 shrink-0">
                         <div
-                          className={`h-3.5 w-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`}
+                          className={`h-3.5 w-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color} `}
                         />
                       </div>
                       <div className="min-w-0 flex-1">
@@ -17680,7 +17680,7 @@ export function AdminDashboardMain({
                                   prev === entry.id ? null : entry.id,
                                 )
                               }
-                              className="a-btn inline-flex cursor-pointer items-center gap-1 hover:text-white"
+                              className="transition-colors a-btn inline-flex cursor-pointer items-center gap-1 hover:text-white"
                             >
                               {expandedAuditId === entry.id
                                 ? "Hide Details"
@@ -17855,7 +17855,7 @@ export function AdminDashboardMain({
                   </div>
 
                   <div>
-                    <span className="  block">
+                    <span className="block">
                       Guidelines Content (WYSIWYG)
                     </span>
                     <div className="guidelines-wysiwyg-editor w-full !rounded-lg [&_.ql-editor]:min-h-[220px]">
@@ -17900,7 +17900,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       disabled={adminGuidelinesUpdating}
-                      className="!h-auto cursor-pointer  disabled:opacity-50"
+                      className="!h-auto cursor-pointer disabled:opacity-50"
                     >
                       {adminGuidelinesUpdating
                         ? "SAVING..."
@@ -17915,8 +17915,8 @@ export function AdminDashboardMain({
             </div>
 
             {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
-            <div className="relative  grid grid-cols-1 items-start gap-6">
-              <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full " />
+            <div className="relative grid grid-cols-1 items-start gap-6">
+              <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full" />
 
               <div className="group relative z-10 flex flex-col overflow-hidden">
                 <div className="relative z-10 flex flex-col gap-6">
@@ -17960,7 +17960,7 @@ export function AdminDashboardMain({
                       </div>
 
                       <div>
-                        <span className="  block text-[0.9rem] text-white/40">
+                        <span className="block text-[0.9rem] text-white/40">
                           Notice & Email Content
                         </span>
                         <div className="guidelines-wysiwyg-editor w-full [&_.ql-editor]:min-h-[160px]">
@@ -18070,7 +18070,7 @@ export function AdminDashboardMain({
                           <SeventhButton
                             isActive={livePreviewTab === "dashboard"}
                             onClick={() => setLivePreviewTab("dashboard")}
-                            className="cursor-pointer  whitespace-nowrap"
+                            className="cursor-pointer whitespace-nowrap"
                           >
                             CRUISE DASHBOARD BANNER
                           </SeventhButton>
@@ -18108,7 +18108,7 @@ export function AdminDashboardMain({
             className="relative grid grid-cols-1 items-start gap-6"
           >
             <div className="group relative z-10 flex flex-col overflow-hidden">
-              <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
+              <div className="transition-colors pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="title-group title-group--sub border-b border-white/10 pb-4">
                   <h3>Cruise Roster</h3>
@@ -18143,7 +18143,7 @@ export function AdminDashboardMain({
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div
                           key={s.email || s.name}
-                          className="group/row mb-0 flex items-center gap-3 border-b border-white/10  py-2.5"
+                          className="group/row mb-0 flex items-center gap-3 border-b border-white/10 py-2.5"
                         >
                           <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-emerald-500/10 text-[0.5rem]">
                             {s.name
@@ -18247,7 +18247,7 @@ export function AdminDashboardMain({
               <button
                 aria-label="Close QR product label modal"
                 onClick={() => setSelectedQrProduct(null)}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"
+                className="transition-colors flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"
               >
                 ✕
               </button>
@@ -18259,14 +18259,14 @@ export function AdminDashboardMain({
                   <h4 className="mb-6">1. Select Target Destination</h4>
                   <div className="space-y-3">
                     <div>
-                      <span className="  block text-[0.65rem]">
+                      <span className="block text-[0.65rem]">
                         Link Destination Type
                       </span>
                       <div className="grid grid-cols-2 gap-2">
                         <button
                           type="button"
                           onClick={() => setQrLinkType("product")}
-                          className={`cursor-pointer rounded-lg border px-3 py-2 ${qrLinkType === "product" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
+                          className={`cursor-pointer rounded-lg border px-3 py-2 ${qrLinkType === "product" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"} `}
                         >
                           Product Detail Page
                         </button>
@@ -18277,7 +18277,7 @@ export function AdminDashboardMain({
                             !selectedQrProduct.variants ||
                             selectedQrProduct.variants.length === 0
                           }
-                          className={`cursor-pointer rounded-lg border px-3 py-2 disabled:pointer-events-none disabled:opacity-30 ${qrLinkType === "checkout" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
+                          className={`cursor-pointer rounded-lg border px-3 py-2 disabled:pointer-events-none disabled:opacity-30 ${qrLinkType === "checkout" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"} `}
                         >
                           Direct Add to Cart
                         </button>
@@ -18289,7 +18289,7 @@ export function AdminDashboardMain({
                         <div>
                           <label
                             htmlFor="admin-qr-variant-select"
-                            className="  block text-[0.65rem]"
+                            className="block text-[0.65rem]"
                           >
                             {qrLinkType === "checkout"
                               ? "Product Variant (Required)"
@@ -18439,13 +18439,13 @@ export function AdminDashboardMain({
             <div className="flex items-center justify-end gap-3 border-t border-white/10 bg-black/20 p-6">
               <button
                 onClick={() => setSelectedQrProduct(null)}
-                className="cursor-pointer rounded-lg px-4 py-2 hover:text-white"
+                className="transition-colors cursor-pointer rounded-lg px-4 py-2 hover:text-white"
               >
                 Cancel
               </button>
               <button
                 onClick={() => window.print()}
-                className="flex cursor-pointer items-center gap-2 border border-white/10 bg-[var(--color-accent)] px-6 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/90"
+                className="transition-colors flex cursor-pointer items-center gap-2 border border-white/10 bg-[var(--color-accent)] px-6 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/90"
               >
 
                 Print Label

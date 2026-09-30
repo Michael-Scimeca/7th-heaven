@@ -13,7 +13,7 @@ const InputStyleEditor = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="animate-pulse  border border-white/10 bg-black/40 p-8 text-center text-white/40">
+      <div className="animate-pulse border border-white/10 bg-black/40 p-8 text-center text-white/40">
         Loading Input Style Editor Studio...
       </div>
     ),
@@ -23,13 +23,13 @@ const InputStyleEditor = dynamic(
 const CruiseChat = dynamic(() => import("@/components/CruiseChat"), {
   ssr: false,
   loading: () => (
-    <div className="animate-pulse  border border-purple-500/30 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-12 text-center text-white/40 backdrop-blur-xl">
+    <div className="animate-pulse border border-purple-500/30 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-12 text-center text-white/40 backdrop-blur-xl">
       Loading Live Cruise Chat Box...
     </div>
   ),
 });
 
-const SquishyToggle = dynamic(() => import("@/components/SquishyToggle"), {
+const Toggle = dynamic(() => import("@/components/Toggle"), {
   ssr: false,
 });
 
@@ -55,6 +55,7 @@ const GooeyMessagesDropdown = dynamic(
 );
 
 import RoleBadge from "@/components/RoleBadge";
+import Avatar from "@/components/Avatar";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import SeventhButton from "@/components/SeventhButton";
 import CosmicTrackCard from "@/components/CosmicTrackCard";
@@ -62,6 +63,7 @@ import PillBadgeButton from "@/components/PillBadgeButton";
 import GlassPlayButton from "@/components/GlassPlayButton";
 import AddCmsButton from "@/components/AddCmsButton";
 import { SectionBadge } from "@/components/SectionBadge";
+import PageHero from "@/components/PageHero";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import { useThemeTokens } from "@/components/ThemeProvider";
@@ -186,6 +188,11 @@ const sections = [
     label: "13. Crew Scheduling & Groups",
     icon: Calendar,
   },
+  {
+    id: "shared-sections",
+    label: "14. Shared Sections (PageHero)",
+    icon: Layout,
+  },
 ];
 
 /* ── Hold to Activate Button Demo Component ── */
@@ -231,7 +238,7 @@ function HoldToActivateButtonDemo() {
   };
 
   return (
-    <div className="space-y-3  border border-white/10 bg-white/[0.02] p-5">
+    <div className="space-y-3 border border-white/10 bg-white/[0.02] p-5">
       <div className="flex items-center justify-between">
         <h3 className="text-amber-400">Hold to Activate Action Button</h3>
         <span className="text-white/40">
@@ -246,7 +253,7 @@ function HoldToActivateButtonDemo() {
           onMouseLeave={cancelHold}
           onTouchStart={startHold}
           onTouchEnd={cancelHold}
-          className={`relative cursor-pointer overflow-hidden  border px-8 py-3.5 select-none ${activated ? "border-emerald-400 bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.6)]" : "border-purple-500/40 bg-purple-950/80 text-purple-200 hover:border-purple-400"}`}
+          className={`relative cursor-pointer overflow-hidden border px-8 py-3.5 select-none ${activated ? "border-emerald-400 bg-emerald-600 shadow-[0_0_30px_rgba(16,185,129,0.6)]" : "border-purple-500/40 bg-purple-950/80 text-purple-200 hover:border-purple-400"} `}
         >
           {holding && !activated && (
             <div
@@ -273,7 +280,7 @@ function HoldToActivateButtonDemo() {
         {activated && (
           <button
             onClick={reset}
-            className="rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
+            className="transition-colors rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
           >
             Reset
           </button>
@@ -290,14 +297,14 @@ function SparkleGenerateButtonDemo() {
   const [particleCount, setParticleCount] = useState(12);
 
   return (
-    <div className="space-y-5  border border-white/10 bg-white/[0.02] p-5">
+    <div className="space-y-5 border border-white/10 bg-white/[0.02] p-5">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
         <div className="flex items-center gap-3">
           <h3 className="text-violet-400">
             Sparkle Generate Button (GSAP Dust Particles)
           </h3>
           <span
-            className={`rounded border px-2 py-0.5 ${isActive ? "border-purple-500/50 bg-purple-500/20" : "border-white/10 bg-white/5 text-white/50"}`}
+            className={`rounded border px-2 py-0.5 ${isActive ? "border-purple-500/50 bg-purple-500/20" : "border-white/10 bg-white/5 text-white/50"} `}
           >
             {isActive ? "ACTIVE (LOCKED)" : "HOVER TRIGGER"}
           </span>
@@ -309,7 +316,7 @@ function SparkleGenerateButtonDemo() {
       </div>
 
       {/* Interactive Controls Bar */}
-      <div className="grid grid-cols-1 gap-4  border border-white/10 bg-black/30 p-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 border border-white/10 bg-black/30 p-4 sm:grid-cols-3">
         {/* Active Checkbox */}
         <label className="group flex cursor-pointer items-center gap-3 select-none">
           <input
@@ -319,7 +326,7 @@ function SparkleGenerateButtonDemo() {
             className="h-5 w-5 cursor-pointer rounded border-purple-400/50 bg-purple-950/40 text-purple-600 accent-purple-500 focus:ring-purple-500 focus:ring-offset-gray-900"
           />
           <div>
-            <span className="text-purple-200 group-hover:text-white">
+            <span className="transition-colors text-purple-200 group-hover:text-white">
               Active State
             </span>
             <p className="text-white/40">Lock active glow &amp; dust loop</p>
@@ -364,7 +371,7 @@ function SparkleGenerateButtonDemo() {
       </div>
 
       {/* Button Render Display Area */}
-      <div className="relative flex min-h-[140px] flex-col items-center justify-center overflow-hidden  border border-white/10 bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 py-8">
+      <div className="relative flex min-h-[140px] flex-col items-center justify-center overflow-hidden border border-white/10 bg-gradient-to-b from-purple-900/20 via-black/40 to-black/60 py-8">
         <SeventhButton active={isActive} dotCount={particleCount}>
           {buttonText || "Generate Site"}
         </SeventhButton>
@@ -406,9 +413,9 @@ function CosmicTrackCardDemo() {
   ];
 
   return (
-    <div className="space-y-5  border border-white/10 bg-white/[0.02] p-5">
+    <div className="space-y-5 border border-white/10 bg-white/[0.02] p-5">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
-        <h3 className="text-violet-400 ">
+        <h3 className="text-violet-400">
           Cosmic Track Card (Media Grid Selector Component)
         </h3>
         <span className="rounded border border-purple-500/50 bg-purple-500/20 px-2 py-0.5">
@@ -464,7 +471,7 @@ function GlassPlayButtonDemo() {
         <button
           type="button"
           onClick={handleCopy}
-          className="flex cursor-pointer items-center gap-1.5 border border-purple-400/30 bg-purple-500/20 px-3 py-1.5 text-purple-200 hover:bg-purple-500/30"
+          className="transition-colors flex cursor-pointer items-center gap-1.5 border border-purple-400/30 bg-purple-500/20 px-3 py-1.5 text-purple-200 hover:bg-purple-500/30"
         >
           {copiedCode ? (
             <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -476,7 +483,7 @@ function GlassPlayButtonDemo() {
       </div>
 
       {/* Control Panel Grid */}
-      <div className="grid grid-cols-1 gap-4  border border-white/10 bg-black/40 p-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 border border-white/10 bg-black/40 p-4 sm:grid-cols-3">
         <div>
           <label className="mb-1 block">Button Size</label>
           <select
@@ -534,7 +541,7 @@ function GlassPlayButtonDemo() {
       </div>
 
       {/* Interactive Display Area */}
-      <div className="relative flex min-h-[160px] items-center justify-center overflow-hidden  border border-white/10 bg-gradient-to-br from-[#120a21] via-[#1c0d38] to-[#080214] p-8 shadow-inner">
+      <div className="relative flex min-h-[160px] items-center justify-center overflow-hidden border border-white/10 bg-gradient-to-br from-[#120a21] via-[#1c0d38] to-[#080214] p-8 shadow-inner">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(168,85,247,0.3)_0%,_transparent_70%)] opacity-30" />
         <GlassPlayButton
           size={playSize}
@@ -632,10 +639,10 @@ function ButtonMasterGalleryAndStudio() {
       <CosmicTrackCardDemo />
 
       {/* Interactive Control Studio Header & Inputs */}
-      <div className="space-y-6  border border-purple-500/30 bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 p-6 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
+      <div className="space-y-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 p-6 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center  border border-purple-400/40 bg-purple-500/20">
+            <div className="flex h-9 w-9 items-center justify-center border border-purple-400/40 bg-purple-500/20">
               <Sliders className="h-5 w-5" />
             </div>
             <div>
@@ -661,7 +668,7 @@ function ButtonMasterGalleryAndStudio() {
               type="text"
               value={buttonLabel}
               onChange={(e) => setButtonLabel(e.target.value)}
-              className="focus-ring w-full  border border-purple-500/40 bg-black/60 px-3 py-2"
+              className="focus-ring w-full border border-purple-500/40 bg-black/60 px-3 py-2"
               placeholder="Button Label..."
             />
           </div>
@@ -669,13 +676,13 @@ function ButtonMasterGalleryAndStudio() {
           {/* Size Selector */}
           <div className="space-y-1.5">
             <label>Size Variant</label>
-            <div className="flex items-center gap-1  border border-purple-500/40 bg-black/60 p-1">
+            <div className="flex items-center gap-1 border border-purple-500/40 bg-black/60 p-1">
               {(["sm", "md", "lg"] as const).map((sz) => (
                 <button
                   key={sz}
                   type="button"
                   onClick={() => setButtonSize(sz)}
-                  className={`flex-1 rounded py-1 ${buttonSize === sz ? "bg-purple-600 shadow-[0_0_10px_rgba(168,85,247,0.6)]" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+                  className={`flex-1 rounded py-1 ${buttonSize === sz ? "bg-purple-600 shadow-[0_0_10px_rgba(168,85,247,0.6)]" : "text-white/60 hover:bg-white/5 hover:text-white"} `}
                 >
                   {sz}
                 </button>
@@ -689,7 +696,7 @@ function ButtonMasterGalleryAndStudio() {
             <select
               value={iconName}
               onChange={(e) => setIconName(e.target.value as any)}
-              className="focus-ring w-full  border border-purple-500/40 bg-black/60 px-3 py-2"
+              className="focus-ring w-full border border-purple-500/40 bg-black/60 px-3 py-2"
             >
               <option value="sparkles">Sparkles</option>
               <option value="zap">Zap</option>
@@ -707,7 +714,7 @@ function ButtonMasterGalleryAndStudio() {
             <select
               value={dotColor}
               onChange={(e) => setDotColor(e.target.value as any)}
-              className="focus-ring w-full  border border-purple-500/40 bg-black/60 px-3 py-2"
+              className="focus-ring w-full border border-purple-500/40 bg-black/60 px-3 py-2"
             >
               <option value="purple">Purple Glow</option>
               <option value="emerald">Emerald Glow</option>
@@ -761,7 +768,7 @@ function ButtonMasterGalleryAndStudio() {
       {/* Grid of All Site Buttons */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* 1. SeventhButton (Credits & High-converting CTA) */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-amber-400">SeventhButton / AlwaysButton</h4>
@@ -777,7 +784,7 @@ function ButtonMasterGalleryAndStudio() {
                   "foolish",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "foolish" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -807,7 +814,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 3. SparkleGenerateButton */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-violet-400">
@@ -825,7 +832,7 @@ function ButtonMasterGalleryAndStudio() {
                   "sparkle",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "sparkle" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -843,7 +850,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4. PillBadgeButton Component */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-emerald-400">PillBadgeButton Component</h4>
@@ -859,7 +866,7 @@ function ButtonMasterGalleryAndStudio() {
                   "pill",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "pill" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -881,7 +888,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4c. Unified GlassPlayButton Component */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-pink-400">GlassPlayButton Component</h4>
@@ -898,7 +905,7 @@ function ButtonMasterGalleryAndStudio() {
                   "glassplaypill",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "glassplaypill" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -916,7 +923,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4b. Glass Pill Tag Badge Button (.btn-pill-glass / SectionBadge) */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-indigo-400">
@@ -930,11 +937,11 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={() =>
                 handleCopyCode(
-                  `<button className="btn-pill-glass ${isActiveState ? "active" : ""}">\n  ${buttonLabel || "FEATURED TAG"}\n</button>`,
+                  `<button className="btn-pill-glass ${isActiveState ?"active" : ""}">\n  ${buttonLabel || "FEATURED TAG"}\n</button>`,
                   "pillglass",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "pillglass" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -948,7 +955,7 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`btn-pill-glass cursor-pointer ${isActiveState ? "active" : ""} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}`}
+              className={`btn-pill-glass cursor-pointer ${isActiveState ? "active" : ""}  ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} `}
             >
               {buttonLabel || "FEATURED TAG"}
             </button>
@@ -960,28 +967,36 @@ function ButtonMasterGalleryAndStudio() {
 
         {/* 4d. GlowOrbButton (Cursor-Tracking Glow) */}
 
-        {/* 6. SquishyToggle Physics Switch */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        {/* 6. Standardized Toggle Component */}
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4 className="text-pink-400">SquishyToggle Switch</h4>
+              <h4 className="text-pink-400">Toggle Switch</h4>
               <p className="text-white/50">
-                Spring-physics squishy state toggle switch
+                Unified accessible switch with spring-squish physics (sizes: md & sm)
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-4 py-2">
-            <SquishyToggle
+          <div className="flex flex-wrap items-center gap-6 py-2">
+            <Toggle
               id="button-studio-squishy"
+              size="md"
               checked={squishyVal}
               onChange={setSquishyVal}
-              label="Spring Toggle"
+              label="Standard (md)"
+            />
+            <Toggle
+              id="button-studio-squishy-sm"
+              size="sm"
+              checked={squishyVal}
+              onChange={setSquishyVal}
+              label="Compact (sm)"
             />
           </div>
         </div>
 
         {/* 7. AddCmsButton Admin Component */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-amber-300">AddCmsButton Component</h4>
@@ -997,7 +1012,7 @@ function ButtonMasterGalleryAndStudio() {
                   "addcms",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "addcms" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1016,12 +1031,12 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 8. Update Sanity CMS Action Button */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="flex items-center gap-2 text-emerald-400">
                 <RefreshCw
-                  className={`h-4 w-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""}`}
+                  className={`h-4 w-4 ${sanitySyncing ? "animate-spin text-cyan-400" : ""} `}
                 />
                 Update Sanity CMS Button
               </h4>
@@ -1033,7 +1048,7 @@ function ButtonMasterGalleryAndStudio() {
               <Link
                 href="/studio"
                 target="_blank"
-                className="flex items-center gap-1 rounded border border-purple-500/30 bg-purple-900/40 px-2.5 py-1 hover:bg-purple-800/60"
+                className="transition-colors flex items-center gap-1 rounded border border-purple-500/30 bg-purple-900/40 px-2.5 py-1 hover:bg-purple-800/60"
               >
                 Open Studio ↗
               </Link>
@@ -1045,7 +1060,7 @@ function ButtonMasterGalleryAndStudio() {
                     "updatesanity",
                   )
                 }
-                className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+                className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
               >
                 {copiedTag === "updatesanity" ? (
                   <Check className="h-3 w-3 text-emerald-400" />
@@ -1061,10 +1076,10 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={handleUpdateSanity}
               disabled={sanitySyncing || isDisabled}
-              className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full ${sizePaddingClass} ${sanitySyncing ? "bg-purple-800 opacity-90" : ""} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}`}
+              className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full ${sizePaddingClass}  ${sanitySyncing ? "bg-purple-800 opacity-90" : ""}  ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} `}
             >
               <RefreshCw
-                className={`h-4 w-4 ${sanitySyncing ? "animate-spin text-cyan-300" : ""}`}
+                className={`h-4 w-4 ${sanitySyncing ? "animate-spin text-cyan-300" : ""} `}
               />
               <span>
                 {sanitySyncing ? "UPDATING SANITY..." : "UPDATE SANITY CMS"}
@@ -1079,7 +1094,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 9. Inline Table Action Buttons (EDIT & DEL) */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-blue-400">
@@ -1093,11 +1108,11 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={() =>
                 handleCopyCode(
-                  `<button className="px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white">EDIT</button>\n<button className="px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white">DEL</button>`,
+                  `<button className="transition-colors px-3 py-1 rounded-full border border-blue-500/50 text-blue-400 bg-blue-950/30 hover:bg-blue-600 hover:text-white">EDIT</button>\n<button className="transition-colors px-3 py-1 rounded-full border border-red-500/50 text-red-400 bg-red-950/30 hover:bg-red-600 hover:text-white">DEL</button>`,
                   "editdel",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "editdel" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1111,14 +1126,14 @@ function ButtonMasterGalleryAndStudio() {
             <button
               type="button"
               disabled={isDisabled}
-              className={`cursor-pointer rounded-full border border-blue-500/60 bg-blue-950/40 px-3.5 py-1.5 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.3)] hover:bg-blue-600 hover:text-white ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 border-blue-400 bg-blue-600 shadow-[0_0_18px_rgba(59,130,246,0.7)]" : ""}`}
+              className={`transition-colors cursor-pointer rounded-full border border-blue-500/60 bg-blue-950/40 px-3.5 py-1.5 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.3)] hover:bg-blue-600 hover:text-white ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}  ${isActiveState ? "scale-95 border-blue-400 bg-blue-600 shadow-[0_0_18px_rgba(59,130,246,0.7)]" : ""} `}
             >
               EDIT
             </button>
             <button
               type="button"
               disabled={isDisabled}
-              className={`cursor-pointer rounded-full border border-red-500/60 bg-red-950/40 px-3.5 py-1.5 text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.3)] hover:bg-red-600 hover:text-white ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 border-red-400 bg-red-600 shadow-[0_0_18px_rgba(239,68,68,0.7)]" : ""}`}
+              className={`transition-colors cursor-pointer rounded-full border border-red-500/60 bg-red-950/40 px-3.5 py-1.5 text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.3)] hover:bg-red-600 hover:text-white ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}  ${isActiveState ? "scale-95 border-red-400 bg-red-600 shadow-[0_0_18px_rgba(239,68,68,0.7)]" : ""} `}
             >
               DEL
             </button>
@@ -1126,7 +1141,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 8. Primary Purple Glow CTA */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-purple-400">
@@ -1144,7 +1159,7 @@ function ButtonMasterGalleryAndStudio() {
                   "btn-prim",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "btn-prim" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1157,7 +1172,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-50" : ""} ${isActiveState ? "scale-[0.98] ring-4 ring-purple-400/50" : ""}`}
+              className={`btn-primary inline-flex cursor-pointer items-center justify-center gap-2 rounded-full ${sizePaddingClass}  ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-50" : ""}  ${isActiveState ? "scale-[0.98] ring-4 ring-purple-400/50" : ""} `}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1166,7 +1181,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 9. Cyan Neon Cyber Button */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-cyan-400">Cyan Neon Cyber Action</h4>
@@ -1178,11 +1193,11 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={() =>
                 handleCopyCode(
-                  `<button className="bg-cyan-400 hover:bg-cyan-300 text-slate-950 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] ${sizePaddingClass}">${buttonLabel}</button>`,
+                  `<button className="transition-colors bg-cyan-400 hover:bg-cyan-300 text-slate-950 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.4)] ${sizePaddingClass}">${buttonLabel}</button>`,
                   "cyan-neon",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "cyan-neon" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1195,7 +1210,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:bg-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 ring-2 ring-cyan-200" : ""}`}
+              className={`transition-[background-color,color,border-color,box-shadow] inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cyan-400 text-slate-950 shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:bg-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.7)] ${sizePaddingClass}  ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}  ${isActiveState ? "scale-95 ring-2 ring-cyan-200" : ""} `}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1204,7 +1219,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 10. Secondary Glass Pill */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4>Secondary Glass (.btn-secondary / .site-link)</h4>
@@ -1214,11 +1229,11 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={() =>
                 handleCopyCode(
-                  `<button className="bg-white/10 hover:bg-white/20 border border-white/10 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`,
+                  `<button className="transition-colors bg-white/10 hover:bg-white/20 border border-white/10 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`,
                   "glass",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "glass" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1231,7 +1246,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed bg-[#00000029] opacity-30" : ""} ${isActiveState ? "scale-95 bg-white/30 ring-2 ring-white/30" : ""}`}
+              className={`transition-colors inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/10 hover:bg-white/20 ${sizePaddingClass}  ${isDisabled ? "pointer-events-none cursor-not-allowed bg-[#00000029] opacity-30" : ""}  ${isActiveState ? "scale-95 bg-white/30 ring-2 ring-white/30" : ""} `}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1240,7 +1255,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 11. Danger Destructive Action */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-rose-400">Danger Action Button</h4>
@@ -1252,11 +1267,11 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={() =>
                 handleCopyCode(
-                  `<button className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`,
+                  `<button className="transition-colors bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 rounded-full ${sizePaddingClass}">${buttonLabel}</button>`,
                   "danger",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "danger" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1269,7 +1284,7 @@ function ButtonMasterGalleryAndStudio() {
           <div className="flex flex-wrap items-center gap-4 py-2">
             <button
               disabled={isDisabled}
-              className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-red-500/40 bg-red-500/20 text-red-300 hover:bg-red-500/30 ${sizePaddingClass} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} ${isActiveState ? "scale-95 border-red-400 bg-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)]" : ""}`}
+              className={`transition-colors inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-red-500/40 bg-red-500/20 text-red-300 hover:bg-red-500/30 ${sizePaddingClass}  ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}  ${isActiveState ? "scale-95 border-red-400 bg-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)]" : ""} `}
             >
               {currentIconNode}
               <span>{buttonLabel}</span>
@@ -1278,7 +1293,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 12. Track & Animated Video Quick-Select Card Buttons */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="flex items-center gap-2">
@@ -1297,7 +1312,7 @@ function ButtonMasterGalleryAndStudio() {
                   "trackcard",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "trackcard" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1341,7 +1356,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 13. Booking Show Format & Event Type Selector Pill Buttons */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="flex items-center gap-2 text-violet-300">
@@ -1356,11 +1371,11 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={() =>
                 handleCopyCode(
-                  `<button className="w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="mr-1.5">Full Band</span>\n    <span className="text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`,
+                  `<button className="transition-colors w-full text-left p-3.5 rounded-full border border-purple-400/80 bg-purple-900/50 hover:bg-purple-800/60 flex items-center gap-3">\n  <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">\n    <Guitar className="w-4 h-4" />\n  </div>\n  <div className="flex-1 min-w-0">\n    <span className="mr-1.5">Full Band</span>\n    <span className="text-white/60">High energy, full 5-piece concert setup</span>\n  </div>\n</button>`,
                   "bookingpills",
                 )
               }
-              className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
+              className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/5 px-2.5 py-1 hover:bg-white/10"
             >
               {copiedTag === "bookingpills" ? (
                 <Check className="h-3 w-3 text-emerald-400" />
@@ -1405,7 +1420,7 @@ function ButtonMasterGalleryAndStudio() {
                 key={opt.id}
                 type="button"
                 disabled={isDisabled}
-                className={`flex w-full cursor-pointer items-center gap-3 rounded-full border px-4 py-3 text-left ${isActiveState || opt.active ? "scale-[1.01] border-purple-400/80 bg-purple-900/50 shadow-[0_0_20px_rgba(168,85,247,0.35)]" : "border-white/10 bg-white/[0.03] hover:border-purple-400/40 hover:bg-white/10"} ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""}`}
+                className={`flex w-full cursor-pointer items-center gap-3 rounded-full border px-4 py-3 text-left ${isActiveState || opt.active ? "scale-[1.01] border-purple-400/80 bg-purple-900/50 shadow-[0_0_20px_rgba(168,85,247,0.35)]" : "border-white/10 bg-white/[0.03] hover:border-purple-400/40 hover:bg-white/10"}  ${isDisabled ? "pointer-events-none cursor-not-allowed opacity-30" : ""} `}
               >
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-purple-400/40 bg-purple-500/20">
                   {opt.icon}
@@ -1420,7 +1435,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 14. Hold To Activate Pressure Button */}
-        <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
+        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
           <HoldToActivateButtonDemo />
         </div>
       </div>
@@ -1829,7 +1844,7 @@ export default function StyleGuidePage() {
         <div className="flex flex-col justify-between gap-6 border-b border-white/10 pb-8 md:flex-row md:items-center">
           <div>
             <div className="mb-2 flex items-center gap-2">
-              <span className="flex items-center gap-1.5  border border-purple-500/30 bg-purple-500/10 px-3 py-1">
+              <span className="flex items-center gap-1.5 border border-purple-500/30 bg-purple-500/10 px-3 py-1">
                 7th Heaven Design System
               </span>
             </div>
@@ -1846,14 +1861,14 @@ export default function StyleGuidePage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => resetToDefaults()}
-              className="flex items-center gap-2  border border-white/10 bg-[#00000029] px-4 py-2.5 hover:bg-white/10"
+              className="transition-colors flex items-center gap-2 border border-white/10 bg-[#00000029] px-4 py-2.5 hover:bg-white/10"
             >
               <RefreshCw className="h-3.5 w-3.5" /> Reset Tokens
             </button>
             <button
               onClick={() => saveTheme()}
               disabled={isSaving}
-              className={`flex items-center gap-2  px-5 py-2.5 ${hasUnsavedChanges ? "bg-purple-600 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:bg-purple-500" : "cursor-default bg-white/10 text-white/50"}`}
+              className={`flex items-center gap-2 px-5 py-2.5 ${hasUnsavedChanges ? "bg-purple-600 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:bg-purple-500" : "cursor-default bg-white/10 text-white/50"} `}
             >
               {isSaving ? "Saving..." : "Save Theme Tokens"}
             </button>
@@ -1861,7 +1876,7 @@ export default function StyleGuidePage() {
         </div>
 
         {/* Sticky Section Quick Navigation Bar */}
-        <div className="sticky top-20 z-40 flex scrollbar-none items-center gap-2 overflow-x-auto  border border-white/10 bg-[#070510]/90 p-2 backdrop-blur-xl">
+        <div className="sticky top-20 z-40 flex scrollbar-none items-center gap-2 overflow-x-auto border border-white/10 bg-[#070510]/90 p-2 backdrop-blur-xl">
           {sections.map((sec) => {
             const Icon = sec.icon;
             const isActive = activeSection === sec.id;
@@ -1870,7 +1885,7 @@ export default function StyleGuidePage() {
                 key={sec.id}
                 href={`#${sec.id}`}
                 onClick={() => setActiveSection(sec.id)}
-                className={`flex items-center gap-2  border px-4 py-2.5 whitespace-nowrap ${isActive ? "border-purple-500/50 bg-purple-600/30" : "border-transparent hover:border-white/10 hover:text-white"}`}
+                className={`flex items-center gap-2 border px-4 py-2.5 whitespace-nowrap ${isActive ? "border-purple-500/50 bg-purple-600/30" : "border-transparent hover:border-white/10 hover:text-white"} `}
               >
                 <Icon className="h-3.5 w-3.5" />
                 <span>{sec.label}</span>
@@ -1882,7 +1897,7 @@ export default function StyleGuidePage() {
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
         <section
           id="typography"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -1940,10 +1955,10 @@ export default function StyleGuidePage() {
             };
 
             return (
-              <div className="relative space-y-6 overflow-hidden  border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 backdrop-blur-xl sm:p-8">
+              <div className="relative space-y-6 overflow-hidden border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 backdrop-blur-xl sm:p-8">
                 {/* Glow Backdrop */}
-                <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64  bg-purple-600/10 blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64  bg-pink-600/10 blur-3xl" />
+                <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 bg-purple-600/10 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 bg-pink-600/10 blur-3xl" />
 
                 {/* Studio Header */}
                 <div className="relative z-10 flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
@@ -1967,7 +1982,7 @@ export default function StyleGuidePage() {
 
                   <button
                     onClick={handleCopyStudioFormula}
-                    className={`flex items-center gap-2 self-start  border px-4 py-2.5 sm:self-auto ${copiedStudioFormula ? "border-emerald-500/50 bg-emerald-500/20 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]" : "border-purple-500/50 bg-purple-600/30 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)] hover:bg-purple-600/50"}`}
+                    className={`flex items-center gap-2 self-start border px-4 py-2.5 sm:self-auto ${copiedStudioFormula ? "border-emerald-500/50 bg-emerald-500/20 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.3)]" : "border-purple-500/50 bg-purple-600/30 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)] hover:bg-purple-600/50"} `}
                   >
                     {copiedStudioFormula ? (
                       <Check className="h-3.5 w-3.5" />
@@ -1993,7 +2008,7 @@ export default function StyleGuidePage() {
                       <button
                         key={t}
                         onClick={() => setStudioSelectedTier(t)}
-                        className={`rounded-lg px-3 py-1.5 ${studioSelectedTier === t ? "scale-105 border border-purple-300 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.5)]" : "border border-white/10 bg-white/[0.04] hover:bg-white/10 hover:text-white"}`}
+                        className={`rounded-lg px-3 py-1.5 ${studioSelectedTier === t ? "scale-105 border border-purple-300 bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.5)]" : "border border-white/10 bg-white/[0.04] hover:bg-white/10 hover:text-white"} `}
                       >
                         .text-{t}
                       </button>
@@ -2004,12 +2019,12 @@ export default function StyleGuidePage() {
                 {/* Controls Grid */}
                 <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* 1. Min Font Size */}
-                  <div className="space-y-2  border border-white/10 bg-white/[0.03] p-4">
+                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1 text-emerald-400">
                         1. Min Font Size:
                       </span>
-                      <div className="flex items-center gap-1  border border-white/10 bg-black/40 px-2 py-0.5">
+                      <div className="flex items-center gap-1 border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMinFs}
@@ -2042,12 +2057,12 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 2. Max Font Size */}
-                  <div className="space-y-2  border border-white/10 bg-white/[0.03] p-4">
+                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1 text-purple-400">
                         2. Max Font Size:
                       </span>
-                      <div className="flex items-center gap-1  border border-white/10 bg-black/40 px-2 py-0.5">
+                      <div className="flex items-center gap-1 border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMaxFs}
@@ -2080,12 +2095,12 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 3. Min Viewport Width */}
-                  <div className="space-y-2  border border-white/10 bg-white/[0.03] p-4">
+                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1 text-amber-400">
                         3. Min Viewport Width:
                       </span>
-                      <div className="flex items-center gap-1  border border-white/10 bg-black/40 px-2 py-0.5">
+                      <div className="flex items-center gap-1 border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMinVw}
@@ -2119,12 +2134,12 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* 4. Max Viewport Width */}
-                  <div className="space-y-2  border border-white/10 bg-white/[0.03] p-4">
+                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1">
                         4. Max Viewport Width:
                       </span>
-                      <div className="flex items-center gap-1  border border-white/10 bg-black/40 px-2 py-0.5">
+                      <div className="flex items-center gap-1 border border-white/10 bg-black/40 px-2 py-0.5">
                         <input
                           type="number"
                           value={studioMaxVw}
@@ -2159,7 +2174,7 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* 5. Below Min Viewport Behavior Toggle */}
-                <div className="relative z-10 flex flex-col justify-between gap-4  border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center">
+                <div className="relative z-10 flex flex-col justify-between gap-4 border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center">
                   <div>
                     <h4 className="flex items-center gap-2">
                       5. Below {studioMinVw}px Boundary Behavior:
@@ -2169,16 +2184,16 @@ export default function StyleGuidePage() {
                       {studioMinVw}px or chains into Tablet/Mobile ranges.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 self-start  border border-white/10 bg-black/40 p-1 sm:self-auto">
+                  <div className="flex items-center gap-2 self-start border border-white/10 bg-black/40 p-1 sm:self-auto">
                     <button
                       onClick={() => setStudioMode("locked")}
-                      className={`rounded-lg px-3 py-1.5 ${studioMode === "locked" ? "bg-purple-500" : "text-white/50 hover:text-white"}`}
+                      className={`rounded-lg px-3 py-1.5 ${studioMode === "locked" ? "bg-purple-500" : "text-white/50 hover:text-white"} `}
                     >
                       🔒 Lock at {studioMinFs}px
                     </button>
                     <button
                       onClick={() => setStudioMode("chained")}
-                      className={`rounded-lg px-3 py-1.5 ${studioMode === "chained" ? "bg-purple-500" : "text-white/50 hover:text-white"}`}
+                      className={`rounded-lg px-3 py-1.5 ${studioMode === "chained" ? "bg-purple-500" : "text-white/50 hover:text-white"} `}
                     >
                       🔗 Chain to Tablet ({studioMinFs}px $\rightarrow$ 25px)
                     </button>
@@ -2186,7 +2201,7 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* Live Formula & Computed Viewport Readout Card */}
-                <div className="relative z-10 space-y-4  border border-purple-500/30 bg-black/60 p-5">
+                <div className="relative z-10 space-y-4 border border-purple-500/30 bg-black/60 p-5">
                   <div className="flex flex-col justify-between gap-2 border-b border-white/10 pb-3 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-2">
                       <span>Generated CSS Formula & Live Inspection:</span>
@@ -2205,7 +2220,7 @@ export default function StyleGuidePage() {
                   </div>
 
                   {/* Code snippet */}
-                  <div className="overflow-x-auto  border border-white/20 bg-black/80 pt-3 pb-3 text-purple-200">
+                  <div className="overflow-x-auto border border-white/20 bg-black/80 pt-3 pb-3 text-purple-200">
                     <code className="text-purple-400">font-size</code>:{" "}
                     <span>{studioClamp.clampStr}</span> !important;
                   </div>
@@ -2249,8 +2264,8 @@ export default function StyleGuidePage() {
                     <span className="mb-2 block text-[10px] text-white/40">
                       Live Sample Render (`.text-{studioSelectedTier}`):
                     </span>
-                    <div className="flex min-h-[120px] items-center justify-center overflow-x-auto  border border-white/10 bg-white/[0.02] p-6">
-                      <div className={`text-${studioSelectedTier} text-center`}>
+                    <div className="flex min-h-[120px] items-center justify-center overflow-x-auto border border-white/10 bg-white/[0.02] p-6">
+                      <div className={`text- ${studioSelectedTier} text-center`}>
                         {studioSelectedTier.toUpperCase()} FLUID SCALING SAMPLE
                       </div>
                     </div>
@@ -2523,7 +2538,7 @@ ${deskRules.join("\n")}
                     <div
                       key={tier.key}
                       data-tier={tier.key}
-                      className="group  border border-white/10 bg-white/[0.02] p-4 hover:border-purple-500/30"
+                      className="transition-colors group border border-white/10 bg-white/[0.02] p-4 hover:border-purple-500/30"
                     >
                       <div className="grid grid-cols-1 items-center gap-4 xl:grid-cols-[90px_1fr_220px_220px_220px]">
                         {/* Label */}
@@ -2536,7 +2551,7 @@ ${deskRules.join("\n")}
                         {/* Live Preview */}
                         <div
                           data-fluid-sample={tier.key}
-                          className={`text-${tier.key} ${tier.weight} ${tier.extra} min-w-0 overflow-visible py-1`}
+                          className={`text- ${tier.key}  ${tier.weight}  ${tier.extra} min-w-0 overflow-visible py-1`}
                         >
                           {tier.sample}
                         </div>
@@ -2551,8 +2566,8 @@ ${deskRules.join("\n")}
                               {remToPx(tier.mobMax)}px
                             </span>
                           </div>
-                          <div className="flex items-center gap-2  border border-emerald-500/40 bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
-                            <div className="flex w-1/2 items-center  border border-white/10 bg-white/[0.04] px-3 py-1.5">
+                          <div className="flex items-center gap-2 border border-emerald-500/40 bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(52,211,153,0.15)]">
+                            <div className="flex w-1/2 items-center border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
                                 type="range"
                                 step="0.01"
@@ -2574,7 +2589,7 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="flex w-1/2 items-center  border border-white/10 bg-white/[0.04] px-3 py-1.5">
+                            <div className="flex w-1/2 items-center border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
                                 type="range"
                                 step="0.01"
@@ -2628,8 +2643,8 @@ ${deskRules.join("\n")}
                               {remToPx(tier.tabMax)}px
                             </span>
                           </div>
-                          <div className="flex items-center gap-2  border border-amber-500/40 bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
-                            <div className="flex w-1/2 items-center  border border-white/10 bg-white/[0.04] px-3 py-1.5">
+                          <div className="flex items-center gap-2 border border-amber-500/40 bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(251,191,36,0.15)]">
+                            <div className="flex w-1/2 items-center border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
                                 type="range"
                                 step="0.01"
@@ -2666,7 +2681,7 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="flex w-1/2 items-center  border border-white/10 bg-white/[0.04] px-3 py-1.5">
+                            <div className="flex w-1/2 items-center border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
                                 type="range"
                                 step="0.01"
@@ -2720,8 +2735,8 @@ ${deskRules.join("\n")}
                               {remToPx(tier.deskMax)}px
                             </span>
                           </div>
-                          <div className="flex items-center gap-2  bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
-                            <div className="flex w-1/2 items-center  border border-white/10 bg-white/[0.04] px-3 py-1.5">
+                          <div className="flex items-center gap-2 bg-white/[0.02] p-1.5 shadow-[0_0_12px_rgba(168,85,247,0.15)]">
+                            <div className="flex w-1/2 items-center border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
                                 type="range"
                                 step="0.01"
@@ -2758,7 +2773,7 @@ ${deskRules.join("\n")}
                                 }}
                               />
                             </div>
-                            <div className="flex w-1/2 items-center  border border-white/10 bg-white/[0.04] px-3 py-1.5">
+                            <div className="flex w-1/2 items-center border border-white/10 bg-white/[0.04] px-3 py-1.5">
                               <input
                                 type="range"
                                 step="0.01"
@@ -2883,7 +2898,7 @@ ${deskRules.join("\n")}
                         setShowCssModal(true);
                         setTimeout(() => setCssCopied(false), 3000);
                       }}
-                      className="flex transform items-center gap-2  bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 px-6 py-2.5 shadow-purple-500/25 hover:scale-[1.02] hover:from-purple-500 hover:to-emerald-400"
+                      className="transition-[background-color,color,border-color,transform] flex transform items-center gap-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 px-6 py-2.5 shadow-purple-500/25 hover:scale-[1.02] hover:from-purple-500 hover:to-emerald-400"
                     >
                       <span>💾 Save & Copy Global CSS</span>
                       {cssCopied && (
@@ -2935,7 +2950,7 @@ ${deskRules.join("\n")}
                           });
                         }
                       }}
-                      className="flex items-center gap-2  border border-white/10 bg-[#00000029] px-4 py-2.5 hover:bg-white/10"
+                      className="transition-colors flex items-center gap-2 border border-white/10 bg-[#00000029] px-4 py-2.5 hover:bg-white/10"
                     >
                       ↺ Reset All to Defaults
                     </button>
@@ -2945,15 +2960,15 @@ ${deskRules.join("\n")}
                 {/* CSS Export Modal Drawer */}
                 {showCssModal && (
                   <div className="animate-fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-                    <div className="relative w-full max-w-3xl space-y-4  border border-purple-500/30 bg-[#0d0914] p-6">
+                    <div className="relative w-full max-w-3xl space-y-4 border border-purple-500/30 bg-[#0d0914] p-6">
                       <div className="flex items-center justify-between border-b border-white/10 pb-3">
                         <div className="flex items-center gap-3">
-                          <span className="h-3 w-3 animate-ping  bg-emerald-400" />
+                          <span className="h-3 w-3 animate-ping bg-emerald-400" />
                           <h3>Global CSS Saved to Clipboard</h3>
                         </div>
                         <button
                           onClick={() => setShowCssModal(false)}
-                          className="p-1 text-xl text-white/40 hover:text-white"
+                          className="transition-colors p-1 text-xl text-white/40 hover:text-white"
                         >
                           ✕
                         </button>
@@ -2969,7 +2984,7 @@ ${deskRules.join("\n")}
                         globally across the entire site.
                       </p>
 
-                      <pre className="max-h-80 overflow-y-auto  border border-white/10 bg-black/60 p-4 text-emerald-400 select-all">
+                      <pre className="max-h-80 overflow-y-auto border border-white/10 bg-black/60 p-4 text-emerald-400 select-all">
                         {generatedCssExport}
                       </pre>
 
@@ -2980,13 +2995,13 @@ ${deskRules.join("\n")}
                             setCssCopied(true);
                             setTimeout(() => setCssCopied(false), 2000);
                           }}
-                          className="rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
+                          className="transition-colors rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
                         >
                           📋 Copy Again
                         </button>
                         <button
                           onClick={() => setShowCssModal(false)}
-                          className="rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
+                          className="transition-colors rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
                         >
                           Close
                         </button>
@@ -3002,7 +3017,7 @@ ${deskRules.join("\n")}
         {/* SECTION 2: COLORS */}
         <section
           id="colors"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 md:flex-row md:items-center">
             <div>
@@ -3017,7 +3032,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* White Standard Callout */}
-          <div className="flex flex-col justify-between gap-4  border border-purple-500/30 bg-white/[0.03] p-5 md:flex-row md:items-center">
+          <div className="flex flex-col justify-between gap-4 border border-purple-500/30 bg-white/[0.03] p-5 md:flex-row md:items-center">
             <div>
               <span className="mb-1 block text-purple-400">
                 Standardized White Palette Rules
@@ -3046,11 +3061,11 @@ ${deskRules.join("\n")}
               <div
                 key={varName}
                 onClick={() => handleCopyToken(varName, colorVal)}
-                className="group relative flex h-40 cursor-pointer flex-col justify-between  border border-white/10 bg-[#0d091a] p-3 hover:border-purple-500/40"
+                className="transition-colors group relative flex h-40 cursor-pointer flex-col justify-between border border-white/10 bg-[#0d091a] p-3 hover:border-purple-500/40"
               >
                 {/* Swatch Box with Dark Checkerboard Pattern */}
                 <div
-                  className="relative flex h-20 w-full items-center justify-center overflow-hidden  border border-white/10 group-hover:scale-[1.02]"
+                  className="transition-transform relative flex h-20 w-full items-center justify-center overflow-hidden border border-white/10 group-hover:scale-[1.02]"
                   style={{
                     backgroundImage: `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0)`,
                     backgroundSize: "8px 8px",
@@ -3065,7 +3080,7 @@ ${deskRules.join("\n")}
                         : colorVal,
                     }}
                   >
-                    <span className="flex items-center gap-1 rounded bg-black/80 px-2 py-1 text-[10px] opacity-0 group-hover:opacity-100">
+                    <span className="transition-opacity flex items-center gap-1 rounded bg-black/80 px-2 py-1 text-[10px] opacity-0 group-hover:opacity-100">
                       {copiedToken === varName ? (
                         <Check className="h-3 w-3 text-emerald-400" />
                       ) : (
@@ -3086,7 +3101,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Inline Theme Token Editor */}
-          <div className="space-y-4  border border-purple-500/30 bg-black/40 p-5">
+          <div className="space-y-4 border border-purple-500/30 bg-black/40 p-5">
             <h3 className="flex items-center gap-2">
               <Sliders className="h-4 w-4 text-purple-400" /> Quick Theme Token
               Overrides
@@ -3103,7 +3118,7 @@ ${deskRules.join("\n")}
                   onChange={(e) =>
                     updateToken("colors", "--color-accent-glow", e.target.value)
                   }
-                  className="focus-ring w-full  border border-white/10 bg-[#00000029] px-3 py-2 outline-none"
+                  className="focus-ring w-full border border-white/10 bg-[#00000029] px-3 py-2 outline-none"
                 />
               </div>
               <div>
@@ -3117,7 +3132,7 @@ ${deskRules.join("\n")}
                   onChange={(e) =>
                     updateToken("colors", "--color-border-main", e.target.value)
                   }
-                  className="focus-ring w-full  border border-white/10 bg-[#00000029] px-3 py-2 outline-none"
+                  className="focus-ring w-full border border-white/10 bg-[#00000029] px-3 py-2 outline-none"
                 />
               </div>
               <div>
@@ -3131,7 +3146,7 @@ ${deskRules.join("\n")}
                   onChange={(e) =>
                     updateToken("colors", "--chat-glow-color", e.target.value)
                   }
-                  className="focus-ring w-full  border border-white/10 bg-[#00000029] px-3 py-2 outline-none"
+                  className="focus-ring w-full border border-white/10 bg-[#00000029] px-3 py-2 outline-none"
                 />
               </div>
             </div>
@@ -3141,7 +3156,7 @@ ${deskRules.join("\n")}
         {/* SECTION 3: BUTTONS */}
         <section
           id="buttons"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-emerald-400">
@@ -3161,7 +3176,7 @@ ${deskRules.join("\n")}
         {/* SECTION 4: FORM ELEMENTS */}
         <section
           id="form-elements"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-amber-400">
@@ -3177,17 +3192,17 @@ ${deskRules.join("\n")}
           {/* Interactive Form Controls grid */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Text Inputs */}
-            <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5">
+            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
               <h3>Text Inputs</h3>
 
               {/* Default */}
               <div>
                 <label className="mb-1 block">Default State</label>
-                <div className="input-glow-border ">
+                <div className="input-glow-border">
                   <input
                     type="text"
                     placeholder="Enter full name..."
-                    className="w-full  border border-white/10 bg-[#00000029] px-4 py-2.5 placeholder-white/40 outline-none"
+                    className="w-full border border-white/10 bg-[#00000029] px-4 py-2.5 placeholder-white/40 outline-none"
                   />
                 </div>
               </div>
@@ -3195,12 +3210,12 @@ ${deskRules.join("\n")}
               {/* Focused / Active */}
               <div>
                 <label className="mb-1 block">Focused / Active State</label>
-                <div className="input-glow-border active ">
+                <div className="input-glow-border active">
                   <input
                     type="text"
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full  border-none bg-white/10 px-4 py-2.5 outline-none"
+                    className="w-full border-none bg-white/10 px-4 py-2.5 outline-none"
                   />
                 </div>
               </div>
@@ -3212,7 +3227,7 @@ ${deskRules.join("\n")}
                   type="text"
                   value="invalid_email_format"
                   readOnly
-                  className="focus-ring w-full  border border-red-500/50 bg-red-500/10 px-4 py-2.5 text-red-300 outline-none"
+                  className="focus-ring w-full border border-red-500/50 bg-red-500/10 px-4 py-2.5 text-red-300 outline-none"
                 />
                 <span className="block text-[10px] text-red-400">
                   Please enter a valid email address.
@@ -3228,13 +3243,13 @@ ${deskRules.join("\n")}
                   type="text"
                   value="Read-only System ID: 7H-ADMIN-99"
                   disabled
-                  className="w-full cursor-not-allowed  border border-white/10 bg-[#00000029] px-4 py-2.5 text-white/30"
+                  className="w-full cursor-not-allowed border border-white/10 bg-[#00000029] px-4 py-2.5 text-white/30"
                 />
               </div>
             </div>
 
             {/* Search & Textarea */}
-            <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5">
+            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
               <h3>Search & Textarea Controls</h3>
 
               {/* Search input with icon */}
@@ -3253,19 +3268,19 @@ ${deskRules.join("\n")}
               {/* Textarea */}
               <div>
                 <label className="mb-1 block">Textarea Input</label>
-                <div className="input-glow-border w-full ">
+                <div className="input-glow-border w-full">
                   <textarea
                     rows={4}
                     value={textareaInput}
                     onChange={(e) => setTextareaInput(e.target.value)}
-                    className="focus-ring w-full resize-none  border-none bg-[#00000029] px-4 py-2.5 placeholder-white/40 outline-none"
+                    className="focus-ring w-full resize-none border-none bg-[#00000029] px-4 py-2.5 placeholder-white/40 outline-none"
                   />
                 </div>
               </div>
             </div>
 
             {/* PIN / OTP Digit Input */}
-            <div className="space-y-5  border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
+            <div className="space-y-5 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>PIN / OTP Digit Input</h3>
 
               {/* Default State */}
@@ -3284,7 +3299,7 @@ ${deskRules.join("\n")}
                     return (
                       <div
                         key={id}
-                        className="input-glow-border !h-14 !w-11 shrink-0 "
+                        className="input-glow-border !h-14 !w-11 shrink-0"
                       >
                         <input
                           aria-label={`Default PIN digit ${i + 1}`}
@@ -3303,7 +3318,7 @@ ${deskRules.join("\n")}
                             handlePinDefaultDigit(i, e.target.value)
                           }
                           onKeyDown={(e) => handlePinDefaultKeyDown(i, e)}
-                          className={`h-full w-full  border-2 bg-black/70 !p-0 text-center text-xl tabular-nums placeholder-white/20 outline-none ${pinDefaultFocusedIndex === i ? "border-white/40" : digit ? "border-white/30" : "border-white/10 text-white/40 hover:border-white/30"}`}
+                          className={`h-full w-full border-2 bg-black/70 !p-0 text-center text-xl tabular-nums placeholder-white/20 outline-none ${pinDefaultFocusedIndex === i ? "border-white/40" : digit ? "border-white/30" : "border-white/10 text-white/40 hover:border-white/30"} `}
                         />
                       </div>
                     );
@@ -3327,7 +3342,7 @@ ${deskRules.join("\n")}
                     return (
                       <div
                         key={id}
-                        className="input-glow-border !h-14 !w-11 shrink-0 "
+                        className="input-glow-border !h-14 !w-11 shrink-0"
                       >
                         <input
                           aria-label={`PIN digit ${i + 1}`}
@@ -3343,7 +3358,7 @@ ${deskRules.join("\n")}
                           onBlur={() => setPinFocusedIndex(null)}
                           onChange={(e) => handlePinDigit(i, e.target.value)}
                           onKeyDown={(e) => handlePinKeyDown(i, e)}
-                          className={`h-full w-full  border-2 bg-black/70 !p-0 text-center text-xl tabular-nums outline-none ${pinFocusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"}`}
+                          className={`h-full w-full border-2 bg-black/70 !p-0 text-center text-xl tabular-nums outline-none ${pinFocusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"} `}
                         />
                       </div>
                     );
@@ -3367,7 +3382,7 @@ ${deskRules.join("\n")}
                   ].map(({ id, char: d }, i) => (
                     <div
                       key={id}
-                      className="input-glow-border !h-14 !w-11 shrink-0 "
+                      className="input-glow-border !h-14 !w-11 shrink-0"
                     >
                       <input
                         aria-label={`Filled PIN digit ${i + 1}`}
@@ -3377,7 +3392,7 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="h-full w-full cursor-default  border-2 border-purple-500/80 bg-black/70 !p-0 text-center text-xl shadow-[0_0_14px_rgba(147,51,234,0.4)] outline-none"
+                        className="h-full w-full cursor-default border-2 border-purple-500/80 bg-black/70 !p-0 text-center text-xl shadow-[0_0_14px_rgba(147,51,234,0.4)] outline-none"
                       />
                     </div>
                   ))}
@@ -3398,7 +3413,7 @@ ${deskRules.join("\n")}
                   ].map(({ id, char: d }, i) => (
                     <div
                       key={id}
-                      className="input-glow-border !h-14 !w-11 shrink-0 "
+                      className="input-glow-border !h-14 !w-11 shrink-0"
                     >
                       <input
                         aria-label={`Error PIN digit ${i + 1}`}
@@ -3408,7 +3423,7 @@ ${deskRules.join("\n")}
                         value={d}
                         readOnly
                         style={{ padding: 0 }}
-                        className="h-full w-full animate-[shake_0.3s_ease-in-out] cursor-default  border-2 border-red-500/70 bg-red-950/50 !p-0 text-center text-xl text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] outline-none"
+                        className="h-full w-full animate-[shake_0.3s_ease-in-out] cursor-default border-2 border-red-500/70 bg-red-950/50 !p-0 text-center text-xl text-red-400 shadow-[0_0_14px_rgba(239,68,68,0.3)] outline-none"
                       />
                     </div>
                   ))}
@@ -3420,7 +3435,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Verify Module Cards */}
-            <div className="space-y-6  border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
+            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
               <p>
                 Full glassmorphism verify card modules as used on{" "}
@@ -3438,7 +3453,7 @@ ${deskRules.join("\n")}
                       Enter your 6-digit PIN to verify crew access
                     </p>
                     <div
-                      className="no-glow w-full  px-4 py-6"
+                      className="no-glow w-full px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(24px)",
@@ -3454,7 +3469,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div
                             key={`crew-pin-${i}`}
-                            className="input-glow-border h-12 w-9 shrink-0 "
+                            className="input-glow-border h-12 w-9 shrink-0"
                           >
                             <input
                               aria-label={`Crew PIN digit ${i + 1}`}
@@ -3462,7 +3477,7 @@ ${deskRules.join("\n")}
                               inputMode="numeric"
                               maxLength={1}
                               style={{ padding: 0 }}
-                              className="h-full w-full  border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
+                              className="transition-colors h-full w-full border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
                             />
                           </div>
                         ))}
@@ -3475,7 +3490,7 @@ ${deskRules.join("\n")}
                           border: "none",
                           color: "rgba(255,255,255,0.4)",
                         }}
-                        className="mb-3 w-full cursor-not-allowed  py-3 text-[10px]"
+                        className="mb-3 w-full cursor-not-allowed py-3 text-[10px]"
                       >
                         Access My Dashboard →
                       </button>
@@ -3531,7 +3546,7 @@ ${deskRules.join("\n")}
                       Enter your 6-digit PIN to access your Planner Dashboard
                     </p>
                     <div
-                      className="no-glow w-full  px-4 py-6"
+                      className="no-glow w-full px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(24px)",
@@ -3546,7 +3561,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div
                             key={`planner-pin-${i}`}
-                            className="input-glow-border h-12 w-9 shrink-0 "
+                            className="input-glow-border h-12 w-9 shrink-0"
                           >
                             <input
                               aria-label={`Planner PIN digit ${i + 1}`}
@@ -3554,7 +3569,7 @@ ${deskRules.join("\n")}
                               inputMode="numeric"
                               maxLength={1}
                               style={{ padding: 0 }}
-                              className="h-full w-full  border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
+                              className="transition-colors h-full w-full border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
                             />
                           </div>
                         ))}
@@ -3567,7 +3582,7 @@ ${deskRules.join("\n")}
                           border: "none",
                           color: "rgba(255,255,255,0.4)",
                         }}
-                        className="mb-3 w-full cursor-not-allowed  py-3 text-[10px]"
+                        className="mb-3 w-full cursor-not-allowed py-3 text-[10px]"
                       >
                         Access My Dashboard →
                       </button>
@@ -3654,11 +3669,11 @@ ${deskRules.join("\n")}
                     <p className="mb-1">
                       We sent a 6-digit verification code to
                     </p>
-                    <p className="mb-6  border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 text-purple-400">
+                    <p className="mb-6 border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 text-purple-400">
                       your email address
                     </p>
                     <div
-                      className="no-glow w-full  px-4 py-6"
+                      className="no-glow w-full px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(24px)",
@@ -3670,9 +3685,9 @@ ${deskRules.join("\n")}
                       }}
                     >
                       {/* Progress bar */}
-                      <div className="mb-5 h-0.5 w-full overflow-hidden  bg-white/10">
+                      <div className="mb-5 h-0.5 w-full overflow-hidden bg-white/10">
                         <div
-                          className="h-full  bg-gradient-to-r from-purple-500 to-pink-500"
+                          className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
                           style={{ width: "0%" }}
                         />
                       </div>
@@ -3680,7 +3695,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div
                             key={`cruise-pin-${i}`}
-                            className="input-glow-border h-12 w-9 shrink-0 "
+                            className="input-glow-border h-12 w-9 shrink-0"
                           >
                             <input
                               aria-label={`Cruise PIN digit ${i + 1}`}
@@ -3688,7 +3703,7 @@ ${deskRules.join("\n")}
                               inputMode="numeric"
                               maxLength={1}
                               style={{ padding: 0 }}
-                              className="h-full w-full  border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
+                              className="transition-colors h-full w-full border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
                             />
                           </div>
                         ))}
@@ -3701,7 +3716,7 @@ ${deskRules.join("\n")}
                           border: "none",
                           color: "rgba(255,255,255,0.4)",
                         }}
-                        className="mb-3 w-full cursor-not-allowed  py-3 text-[10px]"
+                        className="mb-3 w-full cursor-not-allowed py-3 text-[10px]"
                       >
                         Access My Dashboard →
                       </button>
@@ -3756,7 +3771,7 @@ ${deskRules.join("\n")}
                     <h4 className="mb-1">Admin 2FA Verification</h4>
                     <p className="mb-6">Enter your 6-digit PIN after login</p>
                     <div
-                      className="no-glow w-full  px-4 py-6"
+                      className="no-glow w-full px-4 py-6"
                       style={{
                         background: "rgba(18, 10, 34, 0.85)",
                         backdropFilter: "blur(24px)",
@@ -3772,7 +3787,7 @@ ${deskRules.join("\n")}
                         {Array.from({ length: 6 }).map((_, i) => (
                           <div
                             key={`admin-pin-${i}`}
-                            className="input-glow-border h-12 w-9 shrink-0 "
+                            className="input-glow-border h-12 w-9 shrink-0"
                           >
                             <input
                               aria-label={`Admin PIN digit ${i + 1}`}
@@ -3780,7 +3795,7 @@ ${deskRules.join("\n")}
                               inputMode="numeric"
                               maxLength={1}
                               style={{ padding: 0 }}
-                              className="h-full w-full  border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
+                              className="transition-colors h-full w-full border-2 border-white/10 bg-black/70 !p-0 text-center text-white/40 tabular-nums outline-none hover:border-white/40"
                             />
                           </div>
                         ))}
@@ -3793,7 +3808,7 @@ ${deskRules.join("\n")}
                           border: "none",
                           color: "rgba(255,255,255,0.4)",
                         }}
-                        className="mb-3 w-full cursor-not-allowed  py-3 text-[10px]"
+                        className="mb-3 w-full cursor-not-allowed py-3 text-[10px]"
                       >
                         Access My Dashboard →
                       </button>
@@ -3846,7 +3861,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Auth Modal Modules */}
-            <div className="space-y-6  border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
+            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>Auth Modal Modules (Sign In · Sign Up)</h3>
               <p>
                 Full glassmorphism authentication modal cards as used in{" "}
@@ -3860,7 +3875,7 @@ ${deskRules.join("\n")}
                   <h4 className="mb-1">Sign In Modal</h4>
                   <p className="mb-6">Existing member login interface</p>
                   <div
-                    className="no-glow relative w-full  p-6"
+                    className="no-glow relative w-full p-6"
                     style={{
                       background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(24px)",
@@ -3872,7 +3887,7 @@ ${deskRules.join("\n")}
                     }}
                   >
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 flex h-7 w-7 cursor-pointer items-center justify-center  bg-white/10 hover:bg-white/20">
+                    <div className="transition-colors absolute top-4 right-4 flex h-7 w-7 cursor-pointer items-center justify-center bg-white/10 hover:bg-white/20">
                       ✕
                     </div>
 
@@ -3888,8 +3903,8 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative mb-6 grid grid-cols-2  border border-white/10 bg-white/10 p-1 backdrop-blur-2xl select-none">
-                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)]  bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
+                    <div className="relative mb-6 grid grid-cols-2 border border-white/10 bg-white/10 p-1 backdrop-blur-2xl select-none">
+                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
                       <button className="relative z-10 py-2 text-center">
                         Sign In
                       </button>
@@ -3905,7 +3920,7 @@ ${deskRules.join("\n")}
                           ACCOUNT TYPE:
                         </span>
                       </div>
-                      <div className="grid grid-cols-5 gap-1  border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none">
+                      <div className="grid grid-cols-5 gap-1 border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none">
                         {(
                           ["fan", "crew", "planner", "cruise", "admin"] as const
                         ).map((r) => (
@@ -3913,7 +3928,7 @@ ${deskRules.join("\n")}
                             key={r}
                             type="button"
                             onClick={() => setSignInRole(r as any)}
-                            className={`cursor-pointer  px-1 py-1.5 text-center text-[10px] ${signInRole === (r as any) ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "/90 text-white/50 hover:text-white"}`}
+                            className={`cursor-pointer px-1 py-1.5 text-center text-[10px] ${signInRole === (r as any) ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "/90 text-white/50 hover:text-white"} `}
                           >
                             {r}
                           </button>
@@ -3930,7 +3945,7 @@ ${deskRules.join("\n")}
                             type="email"
                             readOnly
                             value="your@email.com"
-                            className="w-full  border border-white/10 bg-black/60 px-4 py-2.5 text-white/50 outline-none"
+                            className="w-full border border-white/10 bg-black/60 px-4 py-2.5 text-white/50 outline-none"
                           />
                         </div>
                       </div>
@@ -3943,12 +3958,12 @@ ${deskRules.join("\n")}
                             type="password"
                             readOnly
                             value="••••••••"
-                            className="w-full  border border-white/10 bg-black/60 px-4 py-2.5 text-white/50 outline-none"
+                            className="w-full border border-white/10 bg-black/60 px-4 py-2.5 text-white/50 outline-none"
                           />
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="cursor-pointer hover:text-white">
+                        <span className="transition-colors cursor-pointer hover:text-white">
                           Forgot Password?
                         </span>
                       </div>
@@ -3963,7 +3978,7 @@ ${deskRules.join("\n")}
                         border: "none",
                         color: "#fff",
                       }}
-                      className="mb-6 w-full  py-3 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                      className="mb-6 w-full py-3 shadow-[0_0_20px_rgba(168,85,247,0.4)]"
                     >
                       SIGN IN
                     </button>
@@ -3978,7 +3993,7 @@ ${deskRules.join("\n")}
                       </span>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
-                      <button className="flex items-center justify-center gap-1.5  border border-red-500/30 bg-[#EA4335] py-2.5 text-center hover:bg-[#d9382a]">
+                      <button className="transition-colors flex items-center justify-center gap-1.5 border border-red-500/30 bg-[#EA4335] py-2.5 text-center hover:bg-[#d9382a]">
                         <svg
                           width="14"
                           height="14"
@@ -3989,7 +4004,7 @@ ${deskRules.join("\n")}
                         </svg>
                         Google
                       </button>
-                      <button className="flex items-center justify-center gap-1.5  border border-blue-400/30 bg-[#1877F2] py-2.5 text-center hover:bg-[#166fe5]">
+                      <button className="transition-colors flex items-center justify-center gap-1.5 border border-blue-400/30 bg-[#1877F2] py-2.5 text-center hover:bg-[#166fe5]">
                         <svg
                           width="14"
                           height="14"
@@ -4002,7 +4017,7 @@ ${deskRules.join("\n")}
                       </button>
                       <button
                         style={{ backgroundColor: "#000000" }}
-                        className="flex items-center justify-center gap-1.5  border-none py-2.5 text-center hover:bg-zinc-900"
+                        className="transition-colors flex items-center justify-center gap-1.5 border-none py-2.5 text-center hover:bg-zinc-900"
                       >
                         <svg
                           width="14"
@@ -4024,7 +4039,7 @@ ${deskRules.join("\n")}
                   <h4 className="mb-1">Sign Up Modal</h4>
                   <p className="mb-6">New fan registration interface</p>
                   <div
-                    className="no-glow relative w-full  p-6"
+                    className="no-glow relative w-full p-6"
                     style={{
                       background: "rgba(18, 10, 34, 0.85)",
                       backdropFilter: "blur(24px)",
@@ -4036,7 +4051,7 @@ ${deskRules.join("\n")}
                     }}
                   >
                     {/* Close Button */}
-                    <div className="absolute top-4 right-4 flex h-7 w-7 cursor-pointer items-center justify-center  bg-white/10 hover:bg-white/20">
+                    <div className="transition-colors absolute top-4 right-4 flex h-7 w-7 cursor-pointer items-center justify-center bg-white/10 hover:bg-white/20">
                       ✕
                     </div>
 
@@ -4058,8 +4073,8 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Mode Tabs */}
-                    <div className="relative mb-6 grid grid-cols-2  border border-white/10 bg-white/10 p-1 backdrop-blur-2xl select-none">
-                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] translate-x-full  bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
+                    <div className="relative mb-6 grid grid-cols-2 border border-white/10 bg-white/10 p-1 backdrop-blur-2xl select-none">
+                      <div className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] translate-x-full bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" />
                       <button className="relative z-10 py-2 text-center">
                         Sign In
                       </button>
@@ -4073,13 +4088,13 @@ ${deskRules.join("\n")}
                       <span className="block text-left text-[10px]">
                         ACCOUNT TYPE:
                       </span>
-                      <div className="grid grid-cols-2 gap-1  border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none">
+                      <div className="grid grid-cols-2 gap-1 border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none">
                         {(["fan", "planner"] as const).map((r) => (
                           <button
                             key={r}
                             type="button"
                             onClick={() => setSignUpRole(r)}
-                            className={`cursor-pointer px-2 py-1.5 text-center text-[10px] ${signUpRole === r ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "text-white/50 hover:text-white"}`}
+                            className={`cursor-pointer px-2 py-1.5 text-center text-[10px] ${signUpRole === r ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "text-white/50 hover:text-white"} `}
                           >
                             {r}
                           </button>
@@ -4100,7 +4115,7 @@ ${deskRules.join("\n")}
                                 type="text"
                                 readOnly
                                 value="Your full name"
-                                className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                               />
                             </div>
                           </div>
@@ -4113,7 +4128,7 @@ ${deskRules.join("\n")}
                                 type="text"
                                 readOnly
                                 value="e.g. Dream Events / Venue"
-                                className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                               />
                             </div>
                           </div>
@@ -4129,7 +4144,7 @@ ${deskRules.join("\n")}
                                 type="text"
                                 readOnly
                                 value="Your full name"
-                                className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                               />
                             </div>
                           </div>
@@ -4145,7 +4160,7 @@ ${deskRules.join("\n")}
                                 type="text"
                                 readOnly
                                 value="e.g. Stateroom 7102"
-                                className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                               />
                             </div>
                           </div>
@@ -4162,7 +4177,7 @@ ${deskRules.join("\n")}
                                   type="text"
                                   readOnly
                                   value="Your name"
-                                  className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                  className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                                 />
                               </div>
                             </div>
@@ -4178,35 +4193,27 @@ ${deskRules.join("\n")}
                                   type="text"
                                   readOnly
                                   value="e.g. rocknroller_7h"
-                                  className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                  className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                                 />
                               </div>
                             </div>
                           </div>
 
                           <div className="grid grid-cols-2 gap-3 pt-1">
-                            <div className="flex items-center gap-2">
-                              <SquishyToggle
-                                id="preview-alerts"
-                                checked={previewAlerts}
-                                onChange={setPreviewAlerts}
-                                label="Show alerts near me"
-                              />
-                              <span className="text-[10px]">
-                                Show alerts near me
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <SquishyToggle
-                                id="preview-news"
-                                checked={previewNews}
-                                onChange={setPreviewNews}
-                                label="News & updates"
-                              />
-                              <span className="text-[10px]">
-                                News & updates
-                              </span>
-                            </div>
+                            <Toggle
+                              id="preview-alerts"
+                              size="sm"
+                              checked={previewAlerts}
+                              onChange={setPreviewAlerts}
+                              label={<span className="text-[10px]">Show alerts near me</span>}
+                            />
+                            <Toggle
+                              id="preview-news"
+                              size="sm"
+                              checked={previewNews}
+                              onChange={setPreviewNews}
+                              label={<span className="text-[10px]">News & updates</span>}
+                            />
                           </div>
 
                           {previewAlerts && (
@@ -4215,12 +4222,12 @@ ${deskRules.join("\n")}
                                 Zip Code & Radius
                               </label>
                               <div className="flex items-center gap-2">
-                                <div className="input-glow-border flex-1 ">
+                                <div className="input-glow-border flex-1">
                                   <input
                                     type="text"
                                     readOnly
                                     value="60601"
-                                    className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                                    className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                                     placeholder="Zip code"
                                   />
                                 </div>
@@ -4266,7 +4273,7 @@ ${deskRules.join("\n")}
                               type="email"
                               readOnly
                               value="your@email.com"
-                              className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                              className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                             />
                           </div>
                         </div>
@@ -4279,23 +4286,25 @@ ${deskRules.join("\n")}
                               type="password"
                               readOnly
                               value="••••••••"
-                              className="w-full  border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
+                              className="w-full border border-white/10 bg-black/60 px-3 py-2 text-white/50 outline-none"
                             />
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 pt-1">
-                        <SquishyToggle
+                      <div className="pt-1">
+                        <Toggle
                           id="preview-age"
+                          size="sm"
                           checked={previewAge}
                           onChange={setPreviewAge}
-                          label="Age confirmation"
+                          label={
+                            <span className="text-[10px]">
+                              I confirm that I am{" "}
+                              <strong>18 years of age or older</strong>
+                            </span>
+                          }
                         />
-                        <span className="text-[10px]">
-                          I confirm that I am{" "}
-                          <strong>18 years of age or older</strong>
-                        </span>
                       </div>
                     </div>
 
@@ -4308,7 +4317,7 @@ ${deskRules.join("\n")}
                         border: "none",
                         color: "#fff",
                       }}
-                      className="mb-2 w-full  bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] py-3"
+                      className="mb-2 w-full bg-linear-to-r from-[#6917BF] via-[#8c0eaf] to-[#6F008E] py-3"
                     >
                       CREATE ACCOUNT
                     </button>
@@ -4318,44 +4327,33 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Checkboxes & Radios */}
-            <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5">
+            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
               <h3 className="text-emerald-400">
                 Checkboxes & Radio Controls
               </h3>
 
               <div className="space-y-3">
-                <div className="flex cursor-pointer items-center gap-3">
-                  <SquishyToggle
-                    id="sg-newsletter-toggle"
-                    label="Subscribe to official band newsletter announcements"
-                    checked={checkboxState}
-                    onChange={setCheckboxState}
-                  />
-                  <span className="">
-                    Subscribe to official band newsletter announcements
-                  </span>
-                </div>
+                <Toggle
+                  id="sg-newsletter-toggle"
+                  label="Subscribe to official band newsletter announcements"
+                  checked={checkboxState}
+                  onChange={setCheckboxState}
+                />
 
-                <div className="flex cursor-pointer items-center gap-3">
-                  <SquishyToggle
-                    id="sg-unchecked-toggle"
-                    label="Unchecked state"
-                    checked={false}
-                    onChange={() => { }}
-                  />
-                  <span>Unchecked state</span>
-                </div>
+                <Toggle
+                  id="sg-unchecked-toggle"
+                  label="Unchecked state"
+                  checked={false}
+                  onChange={() => { }}
+                />
 
-                <div className="flex items-center gap-3 opacity-40">
-                  <SquishyToggle
-                    id="sg-disabled-toggle"
-                    label="Disabled checked state"
-                    disabled={true}
-                    checked={true}
-                    onChange={() => { }}
-                  />
-                  <span className="text-white/40">Disabled checked state</span>
-                </div>
+                <Toggle
+                  id="sg-disabled-toggle"
+                  label="Disabled checked state"
+                  disabled={true}
+                  checked={true}
+                  onChange={() => { }}
+                />
               </div>
 
               <div className="space-y-2 border-t border-white/10 pt-3">
@@ -4388,36 +4386,53 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Switches & Toggles */}
-            <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5">
+            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
               <h3 className="text-pink-400">Toggles & Switches</h3>
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <span className="block">Push Notifications</span>
-                    <span className="block text-white/50">
-                      Receive live show reminders
-                    </span>
-                  </div>
-                  <SquishyToggle
+                  <Toggle
                     id="style-guide-push-notifications"
+                    size="md"
                     checked={toggleState}
                     onChange={setToggleState}
-                    label="Push Notifications"
+                    label="Push Notifications (size=md)"
+                    description="Receive live show reminders"
                   />
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div>
-                    <span className="block">Disabled Toggle (Off)</span>
-                    <span className="block text-white/40">System locked</span>
-                  </div>
-                  <SquishyToggle
-                    id="style-guide-disabled-toggle"
+                  <Toggle
+                    id="style-guide-compact-toggle"
+                    size="sm"
+                    checked={toggleState}
+                    onChange={setToggleState}
+                    label="Compact Toggle (size=sm)"
+                    description="Used in dense admin tables and cards"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Toggle
+                    id="style-guide-disabled-off"
+                    size="sm"
                     checked={false}
                     onChange={() => { }}
                     disabled
-                    label="Disabled toggle"
+                    label="Disabled Toggle (Off)"
+                    description="System locked"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Toggle
+                    id="style-guide-disabled-on"
+                    size="sm"
+                    checked={true}
+                    onChange={() => { }}
+                    disabled
+                    label="Disabled Toggle (On)"
+                    description="Admin enforced permission"
                   />
                 </div>
               </div>
@@ -4428,7 +4443,7 @@ ${deskRules.join("\n")}
         {/* SECTION 5: DROPDOWNS */}
         <section
           id="dropdowns"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -4443,7 +4458,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
-            <div className="space-y-4  border border-white/10 bg-white/[0.02] p-6">
+            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between">
                 <h3>Default Site Pill Dropdown (`CITY ▼`)</h3>
                 <span className="rounded border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
@@ -4474,7 +4489,7 @@ ${deskRules.join("\n")}
         {/* SECTION 6: CHAT BOX COMPONENT */}
         <section
           id="chat"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 md:flex-row md:items-center">
             <div>
@@ -4509,7 +4524,7 @@ ${deskRules.join("\n")}
                   setCopiedSpec(true);
                   setTimeout(() => setCopiedSpec(null as any), 2500);
                 }}
-                className="flex items-center gap-1.5  bg-purple-600 px-3.5 py-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)] hover:bg-purple-500"
+                className="transition-colors flex items-center gap-1.5 bg-purple-600 px-3.5 py-1.5 shadow-[0_0_15px_rgba(147,51,234,0.4)] hover:bg-purple-500"
               >
                 {copiedSpec ? (
                   <Check className="h-3.5 w-3.5 text-emerald-300" />
@@ -4536,7 +4551,7 @@ ${deskRules.join("\n")}
                   setMultiUserColorMode(true);
                   setBubbleColorPalette("default");
                 }}
-                className="rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10 hover:text-white"
+                className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10 hover:text-white"
               >
                 Reset Controls
               </button>
@@ -4544,19 +4559,19 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Chat Bubble Customizer UI Control Bar */}
-          <div className="space-y-6  border border-white/10 bg-white/[0.03] p-5">
+          <div className="space-y-6 border border-white/10 bg-white/[0.03] p-5">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <h3 className="flex items-center gap-2">
                 <Sliders className="h-4 w-4" /> Chat Bubble UI Controls Studio
               </h3>
 
               {/* Multi-User Distinct Color Mode Toggle */}
-              <div className="flex items-center gap-2  border border-white/10 bg-[#00000029] p-1.5">
+              <div className="flex items-center gap-2 border border-white/10 bg-[#00000029] p-1.5">
                 <span className="pl-1">Multi-User Unique Colors:</span>
                 <button
                   type="button"
                   onClick={() => setMultiUserColorMode(!multiUserColorMode)}
-                  className={`rounded-lg px-2.5 py-1 text-[10px] ${multiUserColorMode ? "bg-emerald-600" : "bg-white/10 text-white/50"}`}
+                  className={`rounded-lg px-2.5 py-1 text-[10px] ${multiUserColorMode ? "bg-emerald-600" : "bg-white/10 text-white/50"} `}
                 >
                   {multiUserColorMode
                     ? "ON (Unique Per Person)"
@@ -4578,7 +4593,7 @@ ${deskRules.join("\n")}
                   max="32"
                   value={bubbleRadius}
                   onChange={(e) => setBubbleRadius(Number(e.target.value))}
-                  className="w-full cursor-pointer  bg-white/10 accent-purple-500"
+                  className="w-full cursor-pointer bg-white/10 accent-purple-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[0, 8, 16, 24].map((r) => (
@@ -4586,7 +4601,7 @@ ${deskRules.join("\n")}
                       key={r}
                       type="button"
                       onClick={() => setBubbleRadius(r)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleRadius === r ? "border-purple-400 bg-purple-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleRadius === r ? "border-purple-400 bg-purple-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {r === 0 ? "0px" : `${r}px`}
                     </button>
@@ -4606,7 +4621,7 @@ ${deskRules.join("\n")}
                   max="6"
                   value={bubbleBorderWidth}
                   onChange={(e) => setBubbleBorderWidth(Number(e.target.value))}
-                  className="w-full cursor-pointer  bg-white/10 accent-cyan-500"
+                  className="w-full cursor-pointer bg-white/10 accent-cyan-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[0, 1, 2, 3].map((w) => (
@@ -4614,7 +4629,7 @@ ${deskRules.join("\n")}
                       key={w}
                       type="button"
                       onClick={() => setBubbleBorderWidth(w)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleBorderWidth === w ? "border-purple-400 bg-cyan-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleBorderWidth === w ? "border-purple-400 bg-cyan-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {w === 0 ? "0px" : `${w}px`}
                     </button>
@@ -4634,7 +4649,7 @@ ${deskRules.join("\n")}
                   max="20"
                   value={bubbleFontSize}
                   onChange={(e) => setBubbleFontSize(Number(e.target.value))}
-                  className="w-full cursor-pointer  bg-white/10 accent-emerald-500"
+                  className="w-full cursor-pointer bg-white/10 accent-emerald-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[10, 12, 14, 16].map((s) => (
@@ -4642,7 +4657,7 @@ ${deskRules.join("\n")}
                       key={s}
                       type="button"
                       onClick={() => setBubbleFontSize(s)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleFontSize === s ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleFontSize === s ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {s}px
                     </button>
@@ -4662,7 +4677,7 @@ ${deskRules.join("\n")}
                   max="24"
                   value={bubblePaddingY}
                   onChange={(e) => setBubblePaddingY(Number(e.target.value))}
-                  className="w-full cursor-pointer  bg-white/10 accent-cyan-500"
+                  className="w-full cursor-pointer bg-white/10 accent-cyan-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[6, 10, 14, 18].map((py) => (
@@ -4670,7 +4685,7 @@ ${deskRules.join("\n")}
                       key={py}
                       type="button"
                       onClick={() => setBubblePaddingY(py)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${bubblePaddingY === py ? "border-purple-400 bg-cyan-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${bubblePaddingY === py ? "border-purple-400 bg-cyan-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {py}px
                     </button>
@@ -4690,7 +4705,7 @@ ${deskRules.join("\n")}
                   max="32"
                   value={bubblePaddingX}
                   onChange={(e) => setBubblePaddingX(Number(e.target.value))}
-                  className="w-full cursor-pointer  bg-white/10 accent-purple-500"
+                  className="w-full cursor-pointer bg-white/10 accent-purple-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[12, 16, 20, 24].map((px) => (
@@ -4698,7 +4713,7 @@ ${deskRules.join("\n")}
                       key={px}
                       type="button"
                       onClick={() => setBubblePaddingX(px)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${bubblePaddingX === px ? "border-purple-400 bg-purple-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${bubblePaddingX === px ? "border-purple-400 bg-purple-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {px}px
                     </button>
@@ -4718,7 +4733,7 @@ ${deskRules.join("\n")}
                   max="28"
                   value={messageSpacing}
                   onChange={(e) => setMessageSpacing(Number(e.target.value))}
-                  className="w-full cursor-pointer  bg-white/10 accent-amber-500"
+                  className="w-full cursor-pointer bg-white/10 accent-amber-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[8, 12, 16, 20].map((sp) => (
@@ -4726,7 +4741,7 @@ ${deskRules.join("\n")}
                       key={sp}
                       type="button"
                       onClick={() => setMessageSpacing(sp)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${messageSpacing === sp ? "border-amber-400 bg-amber-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${messageSpacing === sp ? "border-amber-400 bg-amber-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {sp}px
                     </button>
@@ -4746,7 +4761,7 @@ ${deskRules.join("\n")}
                   max="100"
                   value={bubbleOpacity}
                   onChange={(e) => setBubbleOpacity(Number(e.target.value))}
-                  className="w-full cursor-pointer  bg-white/10 accent-pink-500"
+                  className="w-full cursor-pointer bg-white/10 accent-pink-500"
                 />
                 <div className="flex items-center gap-1 pt-1">
                   {[20, 50, 80, 100].map((o) => (
@@ -4754,7 +4769,7 @@ ${deskRules.join("\n")}
                       key={o}
                       type="button"
                       onClick={() => setBubbleOpacity(o)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleOpacity === o ? "border-pink-400 bg-pink-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${bubbleOpacity === o ? "border-pink-400 bg-pink-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {o}%
                     </button>
@@ -4783,7 +4798,7 @@ ${deskRules.join("\n")}
                       }}
                       style={{ backgroundColor: p.bg }}
                       title={p.label}
-                      className={`h-5 w-5 transform  border-2 hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode ? "scale-110 border-white ring-2 ring-white/50" : "border-transparent opacity-80"}`}
+                      className={`transition-transform h-5 w-5 transform border-2 hover:scale-110 ${bubbleColorPalette === p.val && !multiUserColorMode ? "scale-110 border-white ring-2 ring-white/50" : "border-transparent opacity-80"} `}
                     />
                   ))}
                 </div>
@@ -4796,7 +4811,7 @@ ${deskRules.join("\n")}
                       setBubbleColorPalette(e.target.value);
                       setMultiUserColorMode(false);
                     }}
-                    className="h-5 w-5 cursor-pointer  border border-white/10"
+                    className="h-5 w-5 cursor-pointer border border-white/10"
                     title="Custom Color Picker"
                   />
                   <span className="max-w-[80px] text-[12px]">
@@ -4819,7 +4834,7 @@ ${deskRules.join("\n")}
                       key={bg.val}
                       type="button"
                       onClick={() => setBubbleBgStyle(bg.val)}
-                      className={`rounded border px-1.5 py-1 text-[10px] ${bubbleBgStyle === bg.val ? "border-purple-400 bg-purple-600/40 text-purple-200" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`rounded border px-1.5 py-1 text-[10px] ${bubbleBgStyle === bg.val ? "border-purple-400 bg-purple-600/40 text-purple-200" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {bg.label}
                     </button>
@@ -4874,7 +4889,7 @@ ${deskRules.join("\n")}
                         ? "#581c87"
                         : `rgba(46, 16, 101, ${bubbleOpacity / 100})`,
             }}
-            className="morph-pick overflow-hidden  border border-white/10 shadow-[0_0_30px_rgba(147,51,234,0.15)]"
+            className="morph-pick overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(147,51,234,0.15)]"
             data-pick-label="Live Chat"
           >
             <CruiseChat activeChannel="general" />
@@ -4884,7 +4899,7 @@ ${deskRules.join("\n")}
         {/* SECTION 7: CARDS & BADGES */}
         <section
           id="components"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-pink-400">
@@ -4908,6 +4923,52 @@ ${deskRules.join("\n")}
             </div>
           </div>
 
+          {/* Unified Avatar Component Showcase */}
+          <div className="space-y-4 border-t border-white/10 pt-4">
+            <h3>Unified Avatar Component</h3>
+            <p className="text-white/60 text-sm">
+              Supports photos/images, automatic initials fallback, role &amp; bottom badges, custom sizes, and neon glow.
+            </p>
+            <div className="flex flex-wrap items-end gap-6">
+              <div className="flex flex-col items-center gap-1.5">
+                <Avatar initials="MA" size="lg" glow border="border-2 border-purple-400/50" />
+                <span className="text-xs text-white/50">Initials (MA)</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Avatar initials="SF" size="lg" badge="ADMIN" glow role="admin" />
+                <span className="text-xs text-white/50">Badge (SF Admin)</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Avatar src="/images/crew/emily.png" name="Emily" size="lg" />
+                <span className="text-xs text-white/50">Image (Emily)</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Avatar src="/images/crew/chris.png" name="Chris" size="lg" />
+                <span className="text-xs text-white/50">Image (Chris)</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Avatar src="/images/crew/arjun.png" name="Arjun" size="lg" />
+                <span className="text-xs text-white/50">Image (Arjun)</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Avatar src="/images/crew/al.png" name="Al" size="lg" />
+                <span className="text-xs text-white/50">Image (Al)</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <Avatar src="/images/crew/abbie.png" name="Abbie" size="lg" />
+                <span className="text-xs text-white/50">Image (Abbie)</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 pt-2">
+              <span className="text-xs text-white/40">Sizes:</span>
+              <Avatar initials="7H" size="xs" />
+              <Avatar initials="7H" size="sm" />
+              <Avatar initials="7H" size="md" />
+              <Avatar initials="7H" size="lg" />
+              <Avatar initials="7H" size="xl" />
+            </div>
+          </div>
+
           {/* Announcement Banner Component */}
           <div className="space-y-3 border-t border-white/10 pt-4">
             <h3 className="text-amber-400">Announcement Banner Component</h3>
@@ -4922,20 +4983,20 @@ ${deskRules.join("\n")}
           {/* Cards & Alerts Grid */}
           <div className="grid grid-cols-1 gap-6 border-t border-white/10 pt-4 md:grid-cols-3">
             {/* Glass Card Container */}
-            <div className="space-y-3  border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl hover:border-purple-500/40">
+            <div className="transition-colors space-y-3 border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl hover:border-purple-500/40">
               <span className="text-purple-400">Glassmorphism Card</span>
               <h4>House of Blues Chicago</h4>
               <p>
                 Standard container card with 1px border{" "}
                 <code>rgba(255,255,255,0.08)</code>.
               </p>
-              <button className="rounded-lg border border-purple-500/40 bg-purple-600/30 px-4 py-2 hover:bg-purple-600/40">
+              <button className="transition-colors rounded-lg border border-purple-500/40 bg-purple-600/30 px-4 py-2 hover:bg-purple-600/40">
                 View Event Details
               </button>
             </div>
 
             {/* Alert Banner Callout */}
-            <div className="space-y-3  border border-amber-500/30 bg-amber-500/10 p-6">
+            <div className="space-y-3 rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 p-6">
               <div className="flex items-center gap-2 text-amber-400">
                 <AlertTriangle className="h-4 w-4" /> System Warning Notice
               </div>
@@ -4946,7 +5007,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Modal Trigger */}
-            <div className="flex flex-col justify-between space-y-3  border border-white/10 bg-white/[0.03] p-6">
+            <div className="flex flex-col justify-between space-y-3 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6">
               <div>
                 <span className="text-emerald-400">Interactive Modal</span>
                 <h4>Login & Authentication Modal</h4>
@@ -4954,7 +5015,7 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="flex items-center justify-center gap-2  border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 text-emerald-300 hover:bg-emerald-500/30"
+                className="transition-colors flex items-center justify-center gap-2 rounded-[var(--radius-box)] border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 text-emerald-300 hover:bg-emerald-500/30"
               >
                 <Lock className="h-3.5 w-3.5" /> Launch Login Modal
               </button>
@@ -4965,7 +5026,7 @@ ${deskRules.join("\n")}
         {/* SECTION 8: MODALS & DIALOGS */}
         <section
           id="modals"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -4979,7 +5040,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {/* 1 — Glassmorphism Modal Shell */}
-            <div className="flex flex-col justify-between space-y-3  border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span>Glass Shell</span>
                 <h4>Glassmorphism Modal</h4>
@@ -4990,14 +5051,14 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => setShowGlassModal(true)}
-                className="flex cursor-pointer items-center justify-center gap-2  border border-purple-500/40 bg-cyan-500/20 px-4 py-2.5 hover:bg-cyan-500/30"
+                className="transition-colors flex cursor-pointer items-center justify-center gap-2 border border-purple-500/40 bg-cyan-500/20 px-4 py-2.5 hover:bg-cyan-500/30"
               >
                 <Eye className="h-3.5 w-3.5" /> Preview Glass Modal
               </button>
             </div>
 
             {/* 2 — Confirmation / Alert Dialog */}
-            <div className="flex flex-col justify-between space-y-3  border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-amber-400">Confirm / Alert</span>
                 <h4>Confirmation Dialog</h4>
@@ -5006,7 +5067,7 @@ ${deskRules.join("\n")}
                 </p>
                 {confirmResult && (
                   <p
-                    className={`mt-2 ${confirmResult === "confirmed" ? "text-red-400" : "text-white/50"}`}
+                    className={`mt-2 ${confirmResult === "confirmed" ? "text-red-400" : "text-white/50"} `}
                   >
                     Result:{" "}
                     {confirmResult === "confirmed"
@@ -5020,14 +5081,14 @@ ${deskRules.join("\n")}
                   setShowConfirmModal(true);
                   setConfirmResult(null);
                 }}
-                className="flex cursor-pointer items-center justify-center gap-2  border border-amber-500/40 bg-amber-500/20 px-4 py-2.5 text-amber-300 hover:bg-amber-500/30"
+                className="transition-colors flex cursor-pointer items-center justify-center gap-2 border border-amber-500/40 bg-amber-500/20 px-4 py-2.5 text-amber-300 hover:bg-amber-500/30"
               >
                 <Trash2 className="h-3.5 w-3.5" /> Open Confirm Dialog
               </button>
             </div>
 
             {/* 3 — Login / Auth Modal */}
-            <div className="flex flex-col justify-between space-y-3  border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-emerald-400">Auth Modal</span>
                 <h4>Login & Signup Modal</h4>
@@ -5038,7 +5099,7 @@ ${deskRules.join("\n")}
               </div>
               <button
                 onClick={() => openModal("login")}
-                className="flex cursor-pointer items-center justify-center gap-2  border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 text-emerald-300 hover:bg-emerald-500/30"
+                className="transition-colors flex cursor-pointer items-center justify-center gap-2 border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 text-emerald-300 hover:bg-emerald-500/30"
               >
                 <Lock className="h-3.5 w-3.5" /> Launch Login Modal
               </button>
@@ -5046,11 +5107,11 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Alert / Success Toast Demo (inline) */}
-          <div className="space-y-4  border border-white/10 bg-white/[0.02] p-5">
+          <div className="space-y-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
             <h3>Alert / Success Toast Patterns</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {/* Success */}
-              <div className="flex items-start gap-3  border border-emerald-500/30 bg-emerald-500/10 p-4">
+              <div className="flex items-start gap-3 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/10 p-4">
                 <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
                 <div>
                   <p className="text-emerald-300">Success</p>
@@ -5060,7 +5121,7 @@ ${deskRules.join("\n")}
                 </div>
               </div>
               {/* Warning */}
-              <div className="flex items-start gap-3  border border-amber-500/30 bg-amber-500/10 p-4">
+              <div className="flex items-start gap-3 rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 p-4">
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
                 <div>
                   <p className="text-amber-300">Warning</p>
@@ -5070,7 +5131,7 @@ ${deskRules.join("\n")}
                 </div>
               </div>
               {/* Error */}
-              <div className="flex items-start gap-3  border border-red-500/30 bg-red-500/10 p-4">
+              <div className="flex items-start gap-3 rounded-[var(--radius-box)] border border-red-500/30 bg-red-500/10 p-4">
                 <X className="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
                 <div>
                   <p className="text-red-300">Error</p>
@@ -5092,7 +5153,7 @@ ${deskRules.join("\n")}
                 onClick={() => setShowGlassModal(false)}
               />
               <div
-                className="relative w-full max-w-sm animate-[fadeIn_0.3s_ease]  px-6 py-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+                className="relative w-full max-w-sm animate-[fadeIn_0.3s_ease] px-6 py-8 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
                 style={{
                   background: "var(--color-bg-glass)",
                   backdropFilter: "blur(24px)",
@@ -5103,7 +5164,7 @@ ${deskRules.join("\n")}
                 <button
                   onClick={() => setShowGlassModal(false)}
                   aria-label="Close modal"
-                  className="absolute top-3 right-3 flex h-7 w-7 cursor-pointer items-center justify-center  border border-white/10 bg-white/10 hover:bg-white/20 hover:text-white"
+                  className="transition-colors absolute top-3 right-3 flex h-7 w-7 cursor-pointer items-center justify-center border border-white/10 bg-white/10 hover:bg-white/20 hover:text-white"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -5122,12 +5183,12 @@ ${deskRules.join("\n")}
                     <input
                       type="text"
                       placeholder="Enter your email..."
-                      className="w-full  border border-white/10 bg-[#00000029] px-4 py-2.5 placeholder-white/40 outline-none"
+                      className="w-full border border-white/10 bg-[#00000029] px-4 py-2.5 placeholder-white/40 outline-none"
                     />
                   </div>
                   <button
                     onClick={() => setShowGlassModal(false)}
-                    className="w-full cursor-pointer  bg-purple-600 py-3 hover:bg-purple-500"
+                    className="transition-colors w-full cursor-pointer bg-purple-600 py-3 hover:bg-purple-500"
                   >
                     Continue
                   </button>
@@ -5149,7 +5210,7 @@ ${deskRules.join("\n")}
                 }}
               />
               <div
-                className="relative w-full max-w-sm animate-[fadeIn_0.3s_ease]  px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+                className="relative w-full max-w-sm animate-[fadeIn_0.3s_ease] px-6 py-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
                 style={{
                   background: "var(--color-bg-surface)",
                   backdropFilter: "blur(24px)",
@@ -5157,7 +5218,7 @@ ${deskRules.join("\n")}
                   border: "1px solid var(--color-border-main)",
                 }}
               >
-                <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center  border border-red-500/30 bg-red-500/20">
+                <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center border border-red-500/30 bg-red-500/20">
                   <Trash2 className="h-7 w-7 text-red-400" />
                 </div>
                 <h3 className="mb-1 text-center">Delete Item?</h3>
@@ -5171,7 +5232,7 @@ ${deskRules.join("\n")}
                       setShowConfirmModal(false);
                       setConfirmResult("cancelled");
                     }}
-                    className="flex-1 cursor-pointer  border border-white/10 bg-white/10 py-3 hover:bg-white/20"
+                    className="transition-colors flex-1 cursor-pointer border border-white/10 bg-white/10 py-3 hover:bg-white/20"
                   >
                     Cancel
                   </button>
@@ -5180,7 +5241,7 @@ ${deskRules.join("\n")}
                       setShowConfirmModal(false);
                       setConfirmResult("confirmed");
                     }}
-                    className="flex-1 cursor-pointer  bg-red-600 py-3 hover:bg-red-500"
+                    className="transition-colors flex-1 cursor-pointer bg-red-600 py-3 hover:bg-red-500"
                   >
                     Delete
                   </button>
@@ -5193,7 +5254,7 @@ ${deskRules.join("\n")}
         {/* SECTION 9: BORDERS & GLASS */}
         <section
           id="borders"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5206,7 +5267,7 @@ ${deskRules.join("\n")}
             </p>
           </div>
 
-          <div className="space-y-4  border border-white/10 bg-white/[0.02] p-6">
+          <div className="space-y-4 border border-white/10 bg-white/[0.02] p-6">
             <div className="flex items-center justify-between">
               <span>
                 Variable: <strong>--color-border-main</strong>
@@ -5235,7 +5296,7 @@ ${deskRules.join("\n")}
         {/* SCROLLBAR SHOWCASE */}
         <section
           id="scrollbars"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5253,14 +5314,14 @@ ${deskRules.join("\n")}
             {/* Vertical scroll demo */}
             <div className="space-y-3">
               <p className="text-purple-400">Vertical Scroll</p>
-              <div className="overflow-hidden  border border-white/10 bg-white/[0.02]">
+              <div className="overflow-hidden border border-white/10 bg-white/[0.02]">
                 <CustomScrollbar height={256} className="space-y-3 p-4">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-3  border border-white/[0.06] bg-white/[0.03] p-3"
+                      className="flex items-center gap-3 border border-white/[0.06] bg-white/[0.03] p-3"
                     >
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center  border border-purple-500/40 bg-purple-600/30 text-[10px]">
+                      <div className="flex h-7 w-7 shrink-0 items-center justify-center border border-purple-500/40 bg-purple-600/30 text-[10px]">
                         {i + 1}
                       </div>
                       <div>
@@ -5277,15 +5338,15 @@ ${deskRules.join("\n")}
             {/* Horizontal scroll demo */}
             <div className="space-y-3">
               <p className="text-purple-400">Horizontal Scroll</p>
-              <div className="overflow-hidden  border border-white/10 bg-white/[0.02]">
+              <div className="overflow-hidden border border-white/10 bg-white/[0.02]">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
                   <div className="flex gap-3" style={{ minWidth: 900 }}>
                     {Array.from({ length: 12 }).map((_, i) => (
                       <div
                         key={i}
-                        className="flex h-24 w-28 shrink-0 flex-col items-center justify-center gap-1  border border-white/[0.06] bg-white/[0.03]"
+                        className="flex h-24 w-28 shrink-0 flex-col items-center justify-center gap-1 border border-white/[0.06] bg-white/[0.03]"
                       >
-                        <div className="flex h-8 w-8 items-center justify-center  border border-purple-500/40 bg-purple-600/30 text-[10px]">
+                        <div className="flex h-8 w-8 items-center justify-center border border-purple-500/40 bg-purple-600/30 text-[10px]">
                           {i + 1}
                         </div>
                         <span className="text-[10px] text-white/40">
@@ -5304,7 +5365,7 @@ ${deskRules.join("\n")}
               <p className="text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
-                className="custom-scrollbar max-h-48 overflow-scroll  border border-white/10 bg-white/[0.02] p-4"
+                className="custom-scrollbar max-h-48 overflow-scroll border border-white/10 bg-white/[0.02] p-4"
               >
                 <div style={{ minWidth: 900 }} className="space-y-2">
                   {Array.from({ length: 10 }).map((_, row) => (
@@ -5312,7 +5373,7 @@ ${deskRules.join("\n")}
                       {Array.from({ length: 10 }).map((_, col) => (
                         <div
                           key={col}
-                          className="flex h-10 w-20 shrink-0 items-center justify-center  border border-white/10 bg-purple-600/10 text-[12px]"
+                          className="flex h-10 w-20 shrink-0 items-center justify-center border border-white/10 bg-purple-600/10 text-[12px]"
                         >
                           {row},{col}
                         </div>
@@ -5345,7 +5406,7 @@ ${deskRules.join("\n")}
         {/* SECTION 10: SPACING & PADDING TOKENS */}
         <section
           id="spacing"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5359,7 +5420,7 @@ ${deskRules.join("\n")}
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="space-y-2  border border-white/10 bg-white/[0.02] p-5">
+            <div className="space-y-2 border border-white/10 bg-white/[0.02] p-5">
               <span>Mobile Page Padding</span>
               <div className="text-2xl">
                 16px (
@@ -5368,7 +5429,7 @@ ${deskRules.join("\n")}
               <p>Used on screens below 768px viewport width.</p>
             </div>
 
-            <div className="space-y-2  border border-white/10 bg-white/[0.02] p-5">
+            <div className="space-y-2 border border-white/10 bg-white/[0.02] p-5">
               <span className="text-purple-400">Tablet Page Padding</span>
               <div className="text-2xl">
                 32px (
@@ -5377,7 +5438,7 @@ ${deskRules.join("\n")}
               <p>Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
-            <div className="space-y-2  border border-white/10 bg-white/[0.02] p-5">
+            <div className="space-y-2 border border-white/10 bg-white/[0.02] p-5">
               <span className="text-emerald-400">Desktop Page Padding</span>
               <div className="text-2xl">
                 42px (
@@ -5388,7 +5449,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Dedicated .site-container Utility Specification Card */}
-          <div className="flex flex-col justify-between gap-4  border border-purple-500/30 bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black p-6 md:flex-row md:items-center">
+          <div className="flex flex-col justify-between gap-4 border border-purple-500/30 bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black p-6 md:flex-row md:items-center">
             <div className="space-y-1">
               <span className="block text-purple-400">
                 Primary Layout Wrapper Class
@@ -5409,7 +5470,7 @@ ${deskRules.join("\n")}
                 <code className="text-emerald-300">42px</code> Desktop).
               </p>
             </div>
-            <div className="shrink-0 space-y-1  border border-white/10 bg-black/60 p-4">
+            <div className="shrink-0 space-y-1 border border-white/10 bg-black/60 p-4">
               <div>
                 <span className="text-white/40">width:</span> 100%;
               </div>
@@ -5428,7 +5489,7 @@ ${deskRules.join("\n")}
         {/* SECTION 11: CANVAS SHADER & FILM GRAIN STUDIO */}
         <section
           id="canvas-studio"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
             <div>
@@ -5443,7 +5504,7 @@ ${deskRules.join("\n")}
             </div>
             <button
               onClick={handleCopyCanvasSpec}
-              className={`flex items-center gap-2 self-start  border px-4 py-2.5 sm:self-auto ${copiedCanvasSpec ? "border-emerald-400 bg-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "border-emerald-500/40 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"}`}
+              className={`flex items-center gap-2 self-start border px-4 py-2.5 sm:self-auto ${copiedCanvasSpec ? "border-emerald-400 bg-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "border-emerald-500/40 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"} `}
             >
               {copiedCanvasSpec ? (
                 <Check className="h-3.5 w-3.5" />
@@ -5460,7 +5521,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* Full-Page Film Grain Controls */}
-            <div className="space-y-6  border border-white/10 bg-white/[0.02] p-6">
+            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-6">
               <h3 className="flex items-center gap-2 text-emerald-400">
                 Film Grain Controls
               </h3>
@@ -5487,7 +5548,7 @@ ${deskRules.join("\n")}
                   onChange={(e) =>
                     setCanvasGrainOpacity(Number(e.target.value))
                   }
-                  className="h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-emerald-500"
+                  className="h-1.5 w-full cursor-pointer appearance-none bg-white/10 accent-emerald-500"
                 />
                 <div className="flex gap-1.5 pt-1">
                   {[0, 4, 6, 10, 18, 25].map((op) => (
@@ -5495,7 +5556,7 @@ ${deskRules.join("\n")}
                       key={op}
                       type="button"
                       onClick={() => setCanvasGrainOpacity(op)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${canvasGrainOpacity === op ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${canvasGrainOpacity === op ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {op}%
                     </button>
@@ -5516,7 +5577,7 @@ ${deskRules.join("\n")}
                   step="0.05"
                   value={canvasGrainSize}
                   onChange={(e) => setCanvasGrainSize(Number(e.target.value))}
-                  className="h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-emerald-500"
+                  className="h-1.5 w-full cursor-pointer appearance-none bg-white/10 accent-emerald-500"
                 />
                 <div className="flex gap-1.5 pt-1">
                   {[0.3, 0.5, 0.65, 0.85, 1.2, 2.0].map((sz) => (
@@ -5524,7 +5585,7 @@ ${deskRules.join("\n")}
                       key={sz}
                       type="button"
                       onClick={() => setCanvasGrainSize(sz)}
-                      className={`flex-1 rounded border py-1 text-[10px] ${canvasGrainSize === sz ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`flex-1 rounded border py-1 text-[10px] ${canvasGrainSize === sz ? "border-emerald-400 bg-emerald-600" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {sz}
                     </button>
@@ -5547,7 +5608,7 @@ ${deskRules.join("\n")}
                       key={mode.val}
                       type="button"
                       onClick={() => setCanvasGrainBlend(mode.val)}
-                      className={`rounded border px-1 py-1.5 text-[10px] ${canvasGrainBlend === mode.val ? "border-emerald-400 bg-emerald-600/40 text-emerald-200" : "border-white/10 bg-[#00000029] hover:text-white"}`}
+                      className={`rounded border px-1 py-1.5 text-[10px] ${canvasGrainBlend === mode.val ? "border-emerald-400 bg-emerald-600/40 text-emerald-200" : "border-white/10 bg-[#00000029] hover:text-white"} `}
                     >
                       {mode.label}
                     </button>
@@ -5557,7 +5618,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
-            <div className="space-y-5  border border-white/10 bg-white/[0.02] p-6">
+            <div className="space-y-5 border border-white/10 bg-white/[0.02] p-6">
               <h3 className="flex items-center gap-2">
                 <Sliders className="h-4 w-4" /> 2. Background Shader Parameters
                 (Live)
@@ -5685,7 +5746,7 @@ ${deskRules.join("\n")}
                     step={ctrl.step}
                     value={ctrl.value}
                     onChange={(e) => ctrl.set(Number(e.target.value))}
-                    className={`h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-${ctrl.color}-500`}
+                    className={`h-1.5 w-full cursor-pointer appearance-none bg-white/10 accent- ${ctrl.color} -500`}
                   />
                 </div>
               ))}
@@ -5707,14 +5768,14 @@ ${deskRules.join("\n")}
                       onClick={() => setCanvasBgColor(bg.bg)}
                       style={{ backgroundColor: bg.bg }}
                       title={bg.label}
-                      className={`h-6 w-6 transform  border-2 hover:scale-110 ${canvasBgColor === bg.bg ? "scale-110 border-white ring-2 ring-white/50" : "border-white/10"}`}
+                      className={`transition-transform h-6 w-6 transform border-2 hover:scale-110 ${canvasBgColor === bg.bg ? "scale-110 border-white ring-2 ring-white/50" : "border-white/10"} `}
                     />
                   ))}
                   <input
                     type="color"
                     value={canvasBgColor}
                     onChange={(e) => setCanvasBgColor(e.target.value)}
-                    className="ml-auto h-6 w-6 cursor-pointer  border border-white/10"
+                    className="ml-auto h-6 w-6 cursor-pointer border border-white/10"
                     title="Custom Hex Picker"
                   />
                 </div>
@@ -5726,7 +5787,7 @@ ${deskRules.join("\n")}
         {/* SECTION 11: GLOBAL CONTAINER STYLES */}
         <section
           id="global-containers"
-          className="scroll-mt-36 space-y-8  border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-pink-400">
@@ -5820,7 +5881,7 @@ ${deskRules.join("\n")}
               return (
                 <div
                   key={item.token}
-                  className="space-y-3  border border-white/10 bg-white/[0.02] p-4"
+                  className="space-y-3 border border-white/10 bg-white/[0.02] p-4"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -5833,7 +5894,7 @@ ${deskRules.join("\n")}
                   </div>
                   <div className="flex items-center gap-3">
                     <div
-                      className="h-8 w-8 shrink-0  border border-white/10"
+                      className="h-8 w-8 shrink-0 border border-white/10"
                       style={{ backgroundColor: currentValue }}
                     />
                     <input
@@ -5842,7 +5903,7 @@ ${deskRules.join("\n")}
                       onChange={(e) =>
                         updateToken(item.category, item.token, e.target.value)
                       }
-                      className="focus-ring flex-1  border border-white/10 bg-[#00000029] px-3 py-1.5"
+                      className="focus-ring flex-1 border border-white/10 bg-[#00000029] px-3 py-1.5"
                       placeholder="rgba(255,255,255,0.03)"
                     />
                     <button
@@ -5850,7 +5911,7 @@ ${deskRules.join("\n")}
                       onClick={() =>
                         updateToken(item.category, item.token, "transparent")
                       }
-                      className="rounded-lg border border-white/10 bg-[#00000029] px-2 py-1.5 text-[10px] hover:border-white/30 hover:text-white"
+                      className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-2 py-1.5 text-[10px] hover:border-white/30 hover:text-white"
                     >
                       Clear
                     </button>
@@ -5880,7 +5941,7 @@ ${deskRules.join("\n")}
                         onClick={() =>
                           updateToken(item.category, item.token, preset)
                         }
-                        className={`rounded border px-2 py-1 text-[12px] ${currentValue === preset ? "border-pink-400 bg-pink-600/40 text-pink-200" : "border-white/10 bg-[#00000029] text-white/50 hover:text-white"}`}
+                        className={`rounded border px-2 py-1 text-[12px] ${currentValue === preset ? "border-pink-400 bg-pink-600/40 text-pink-200" : "border-white/10 bg-[#00000029] text-white/50 hover:text-white"} `}
                       >
                         {preset === "transparent"
                           ? "none"
@@ -5900,7 +5961,7 @@ ${deskRules.join("\n")}
             <h3>Live Preview</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div
-                className="space-y-2  p-5"
+                className="space-y-2 p-5"
                 style={{
                   backgroundColor: tokens.colors["--color-bg-card"],
                   border: `1px solid ${tokens.colors["--color-border-main"]}`,
@@ -5919,7 +5980,7 @@ ${deskRules.join("\n")}
                 </p>
               </div>
               <div
-                className="space-y-2  p-5 backdrop-blur-xl"
+                className="space-y-2 p-5 backdrop-blur-xl"
                 style={{
                   backgroundColor: tokens.colors["--color-bg-glass"],
                   border: `1px solid ${tokens.colors["--color-border-main"]}`,
@@ -5931,7 +5992,7 @@ ${deskRules.join("\n")}
                 </p>
               </div>
               <div
-                className="space-y-2  p-5"
+                className="space-y-2 p-5"
                 style={{
                   backgroundColor: tokens.colors["--color-bg-surface"],
                   border: `1px solid ${tokens.colors["--color-border-purple"]}`,
@@ -5950,7 +6011,7 @@ ${deskRules.join("\n")}
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section
           id="stateroom-perks"
-          className="scroll-mt-36 space-y-6 overflow-hidden  border-0 p-0"
+          className="scroll-mt-36 space-y-6 overflow-hidden border-0 p-0"
         >
           <div className="border-b border-white/10 px-0 py-4 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5996,7 +6057,7 @@ ${deskRules.join("\n")}
                       key={tab.id}
                       type="button"
                       onClick={() => setStateroomTab(tab.id as any)}
-                      className={`w-full cursor-pointer  border-0 p-4 text-left ${stateroomTab === tab.id ? "bg-purple-600/30" : "bg-[#00000029] hover:bg-white/10"}`}
+                      className={`w-full cursor-pointer border-0 p-4 text-left ${stateroomTab === tab.id ? "bg-purple-600/30" : "bg-[#00000029] hover:bg-white/10"} `}
                     >
                       <h4 className="">{tab.label}</h4>
                       <p>{tab.desc}</p>
@@ -6044,20 +6105,20 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Suite Class Benefits Column (Span 2) */}
-            <div className="flex flex-col justify-between  border border-[var(--color-section-border)] bg-[var(--color-section-bg)] p-6 backdrop-blur-xl md:p-8 lg:col-span-2">
+            <div className="flex flex-col justify-between border border-[var(--color-section-border)] bg-[var(--color-section-bg)] p-6 backdrop-blur-xl md:p-8 lg:col-span-2">
               <div>
                 <div className="mb-6 flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
                   <div>
                     <span className="">VIP Experiences</span>
                     <h3>Suite Class Perks</h3>
                   </div>
-                  <div className="flex gap-1.5  border border-white/10 bg-[#00000029] p-1.5">
+                  <div className="flex gap-1.5 border border-white/10 bg-[#00000029] p-1.5">
                     {(["sea", "sky", "star"] as const).map((perk) => (
                       <button
                         key={perk}
                         type="button"
                         onClick={() => setSuiteTab(perk)}
-                        className={`cursor-pointer  px-4 py-2 ${suiteTab === perk ? "bg-cyan-600 shadow-cyan-600/30" : "hover:text-white"}`}
+                        className={`cursor-pointer px-4 py-2 ${suiteTab === perk ? "bg-cyan-600 shadow-cyan-600/30" : "hover:text-white"} `}
                       >
                         {perk} Class
                       </button>
@@ -6082,7 +6143,7 @@ ${deskRules.join("\n")}
                         key={`sea-perk-${perk}`}
                         className="flex items-center gap-2.5"
                       >
-                        <span className="shrink-0   text-purple-400">
+                        <span className="shrink-0 text-purple-400">
                           ✓
                         </span>
                         <span>{perk}</span>
@@ -6141,7 +6202,7 @@ ${deskRules.join("\n")}
                         key={`star-perk-${perk}`}
                         className="flex items-center gap-2.5"
                       >
-                        <span className="shrink-0   text-[var(--color-accent)]">
+                        <span className="shrink-0 text-[var(--color-accent)]">
                           ✓
                         </span>
                         <span>{perk}</span>
@@ -6249,11 +6310,11 @@ ${deskRules.join("\n")}
                 return (
                   <div
                     key={room.code}
-                    className="group relative flex flex-col justify-between overflow-hidden  border-0"
+                    className="group relative flex flex-col justify-between overflow-hidden border-0"
                   >
                     {isYo && (
-                      <div className="absolute top-3 right-3 z-10 flex items-center gap-1  border-0 bg-purple-600 px-2.5 py-1 text-[10px]">
-                        <span className="h-1.5 w-1.5 animate-pulse  bg-white" />
+                      <div className="absolute top-3 right-3 z-10 flex items-center gap-1 border-0 bg-purple-600 px-2.5 py-1 text-[10px]">
+                        <span className="h-1.5 w-1.5 animate-pulse bg-white" />
                         <span>Popular</span>
                       </div>
                     )}
@@ -6273,7 +6334,7 @@ ${deskRules.join("\n")}
                       <div className="px-0 py-5">
                         <div className="mb-3 flex items-start justify-between gap-2 text-left">
                           <span
-                            className={`rounded border-0 px-2.5 py-0.5 text-[10px] ${isYo ? "bg-purple-500/30 text-purple-200" : "bg-white/10"}`}
+                            className={`rounded border-0 px-2.5 py-0.5 text-[10px] ${isYo ? "bg-purple-500/30 text-purple-200" : "bg-white/10"} `}
                           >
                             {room.label}
                           </span>
@@ -6295,7 +6356,7 @@ ${deskRules.join("\n")}
                       </span>
                       <button
                         type="button"
-                        className={`mt-4 flex w-full cursor-pointer items-center justify-center gap-1.5  border-0 px-4 py-2.5 ${isYo ? "bg-purple-600 hover:bg-purple-500" : "bg-purple-600 hover:bg-purple-500"}`}
+                        className={`mt-4 flex w-full cursor-pointer items-center justify-center gap-1.5 border-0 px-4 py-2.5 ${isYo ? "bg-purple-600 hover:bg-purple-500" : "bg-purple-600 hover:bg-purple-500"} `}
                       >
                         <span>Select Prevailing Rate</span>
                       </button>
@@ -6315,7 +6376,7 @@ ${deskRules.join("\n")}
               </div>
             </div>
 
-            <div className="booking-form-card overflow-hidden  border-0 p-0 text-left">
+            <div className="booking-form-card overflow-hidden border-0 p-0 text-left">
               {/* Header Banner */}
               <div className="booking-header-banner border-0 px-0 py-2 text-left">
                 <h2>
@@ -6353,7 +6414,7 @@ ${deskRules.join("\n")}
                   >
                     <label
                       htmlFor="sg-guest1-name"
-                      className="booking-label mb-1.5 block text-purple-400"
+                      className="booking-label block text-purple-400"
                     >
                       Full Legal Name (as spelled on passport) *
                     </label>
@@ -6373,7 +6434,7 @@ ${deskRules.join("\n")}
                   >
                     <label
                       htmlFor="sg-guest1-phone"
-                      className="booking-label mb-1.5 block text-purple-400"
+                      className="booking-label block text-purple-400"
                     >
                       Phone Number *
                     </label>
@@ -6393,7 +6454,7 @@ ${deskRules.join("\n")}
                   >
                     <label
                       htmlFor="sg-guest1-email"
-                      className="booking-label mb-1.5 block text-purple-400"
+                      className="booking-label block text-purple-400"
                     >
                       Email Address *
                     </label>
@@ -6413,7 +6474,7 @@ ${deskRules.join("\n")}
                   >
                     <label
                       htmlFor="sg-guest1-tshirt"
-                      className="booking-label mb-1.5 block text-purple-400"
+                      className="booking-label block text-purple-400"
                     >
                       T-Shirt Size
                     </label>
@@ -6422,7 +6483,7 @@ ${deskRules.join("\n")}
                       id="sg-guest1-tshirt"
                       defaultValue="L"
                       suppressHydrationWarning
-                      className="booking-input focus-ring w-full cursor-pointer appearance-none  border-0 bg-black/50 px-3.5 py-2.5  "
+                      className="booking-input focus-ring w-full cursor-pointer appearance-none border-0 bg-black/50 px-3.5 py-2.5"
                     >
                       {["S", "M", "L", "XL", "XXL", "3XL"].map((sz) => (
                         <option key={sz} value={sz} className="bg-[#0c0817]">
@@ -6438,7 +6499,7 @@ ${deskRules.join("\n")}
                   >
                     <label
                       htmlFor="sg-guest1-crown"
-                      className="booking-label mb-1.5 block text-purple-400"
+                      className="booking-label block text-purple-400"
                     >
                       Crown & Anchor Number (if applicable)
                     </label>
@@ -6466,7 +6527,7 @@ ${deskRules.join("\n")}
                           key={opt}
                           type="button"
                           onClick={() => setSgGuestInsurance(opt)}
-                          className={`flex-1 cursor-pointer  border-0 py-2.5 ${sgGuestInsurance === opt ? "bg-cyan-600 shadow-cyan-600/30" : "bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+                          className={`flex-1 cursor-pointer border-0 py-2.5 ${sgGuestInsurance === opt ? "bg-cyan-600 shadow-cyan-600/30" : "bg-[#00000029] hover:bg-white/10 hover:text-white"} `}
                         >
                           {opt === "yes" ? "Yes, Protect" : "No, Decline"}
                         </button>
@@ -6485,7 +6546,7 @@ ${deskRules.join("\n")}
                           key={opt}
                           type="button"
                           onClick={() => setSgGuestGratuities(opt)}
-                          className={`flex-1 cursor-pointer  border-0 py-2.5 ${sgGuestGratuities === opt ? "bg-purple-600 shadow-purple-600/30" : "bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+                          className={`flex-1 cursor-pointer border-0 py-2.5 ${sgGuestGratuities === opt ? "bg-purple-600 shadow-purple-600/30" : "bg-[#00000029] hover:bg-white/10 hover:text-white"} `}
                         >
                           {opt === "yes" ? "Yes, Include" : "No, Exclude"}
                         </button>
@@ -6567,14 +6628,14 @@ ${deskRules.join("\n")}
                     <strong>Need help?</strong>{" "}
                     <a
                       href="mailto:info@NTDVacations.com"
-                      className="hover:text-white"
+                      className="transition-colors hover:text-white"
                     >
                       info@NTDVacations.com
                     </a>{" "}
                     or{" "}
                     <a
                       href="mailto:Mary@NTDVacations.com"
-                      className="hover:text-white"
+                      className="transition-colors hover:text-white"
                     >
                       Mary@NTDVacations.com
                     </a>
@@ -6616,7 +6677,7 @@ ${deskRules.join("\n")}
                       href="http://travel.state.gov"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block hover:text-white"
+                      className="transition-colors inline-block hover:text-white"
                     >
                       travel.state.gov
                     </a>{" "}
@@ -6672,7 +6733,7 @@ ${deskRules.join("\n")}
         {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
         <section
           id="crew-scheduling"
-          className="scroll-mt-36 space-y-8 overflow-hidden  border-0 p-0"
+          className="scroll-mt-36 space-y-8 overflow-hidden border-0 p-0"
         >
           <div className="border-b border-white/10 px-0 py-4 pb-4">
             <h2 className="flex items-center gap-2">
@@ -6688,7 +6749,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
-            <div className="flex flex-col justify-between space-y-6  border border-white/10 bg-white/[0.02] p-6">
+            <div className="flex flex-col justify-between space-y-6 border border-white/10 bg-white/[0.02] p-6">
               <div>
                 <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-3">
                   <div>
@@ -6708,8 +6769,8 @@ ${deskRules.join("\n")}
                   <span className="block text-[10px] text-white/40">
                     1. OpenShifts Grid Cell Buttons
                   </span>
-                  <div className="max-w-sm space-y-2  border border-white/10 bg-[#0d0d14] p-3">
-                    <div className="group flex w-full cursor-pointer flex-col items-center justify-center  border border-dashed border-purple-500/40 py-1.5 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10">
+                  <div className="max-w-sm space-y-2 border border-white/10 bg-[#0d0d14] p-3">
+                    <div className="transition-colors group flex w-full cursor-pointer flex-col items-center justify-center border border-dashed border-purple-500/40 py-1.5 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10">
                       <span className="text-purple-400">+</span>
                       <span className="mt-0.5 text-[12px] text-purple-400">
                         Add Crew Member
@@ -6717,13 +6778,13 @@ ${deskRules.join("\n")}
                     </div>
 
                     <div className="flex w-full gap-2">
-                      <div className="group flex flex-1 cursor-pointer flex-col items-center justify-center  border border-dashed border-purple-500/40 py-1.5 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10">
+                      <div className="transition-colors group flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-purple-500/40 py-1.5 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10">
                         <span className="text-purple-400">+</span>
                         <span className="mt-0.5 text-center text-[12px] text-purple-400">
                           Add Crew Group
                         </span>
                       </div>
-                      <div className="group flex flex-1 cursor-pointer flex-col items-center justify-center  border border-dashed border-purple-500/40 py-1.5 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10">
+                      <div className="transition-colors group flex flex-1 cursor-pointer flex-col items-center justify-center border border-dashed border-purple-500/40 py-1.5 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10">
                         <span className="text-purple-400">+</span>
                         <span className="mt-0.5 text-center text-[12px] text-purple-400">
                           Create Group
@@ -6739,7 +6800,7 @@ ${deskRules.join("\n")}
                     2. Frosted Glass Select Crew Group Popover
                   </span>
                   <div
-                    className="bg-[#14151f]/80 backdrop-blur-xl flex w-full max-w-sm flex-col gap-2  border border-white/10 p-4"
+                    className="bg-[#14151f]/80 backdrop-blur-xl flex w-full max-w-sm flex-col gap-2 border border-white/10 p-4"
                     style={{
                       backdropFilter: "blur(24px)",
                       WebkitBackdropFilter: "blur(24px)",
@@ -6761,7 +6822,7 @@ ${deskRules.join("\n")}
                         <button
                           key={grp.name}
                           type="button"
-                          className="flex w-full cursor-pointer items-center gap-3  border border-white/10 px-4 py-3 text-left hover:bg-white/10"
+                          className="transition-colors flex w-full cursor-pointer items-center gap-3 border border-white/10 px-4 py-3 text-left hover:bg-white/10"
                         >
                           <span className="flex h-7 w-7 shrink-0 items-center justify-center border border-purple-500/30 shadow-inner">
                             +
@@ -6781,7 +6842,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* MODULE 2: Create New Crew Group Modal Spec */}
-            <div className="space-y-6  border border-white/10 bg-white/[0.02] p-6">
+            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
                   <h3>Create New Crew Group Glass Modal</h3>
@@ -6796,7 +6857,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Modal Frame Mockup */}
-              <div className="bg-black/30 backdrop-blur-xl overflow-hidden  border border-white/10">
+              <div className="bg-black/30 backdrop-blur-xl overflow-hidden border border-white/10">
                 {/* Header */}
                 <div className="flex shrink-0 items-center justify-between border-b border-white/10 p-4">
                   <div>
@@ -6807,7 +6868,7 @@ ${deskRules.join("\n")}
                   </div>
                   <button
                     type="button"
-                    className="cursor-pointer border-none text-white/40 hover:text-white"
+                    className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                   >
                     ✕
                   </button>
@@ -6827,7 +6888,7 @@ ${deskRules.join("\n")}
                       type="text"
                       readOnly
                       value="Weekend Tech Crew"
-                      className="w-full  border border-white/10 px-3.5 py-2.5"
+                      className="w-full border border-white/10 px-3.5 py-2.5"
                     />
                   </div>
 
@@ -6836,13 +6897,13 @@ ${deskRules.join("\n")}
                     <span className="block text-[12px] text-white/50">
                       Select Crew Members
                     </span>
-                    <div className="space-y-3  border border-white/10 p-3">
+                    <div className="space-y-3 border border-white/10 p-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                          <div className="relative h-4 w-8 cursor-pointer  bg-purple-600">
-                            <div className="absolute top-0.25 right-0.5 h-3.5 w-3.5  bg-white" />
+                          <div className="relative h-4 w-8 cursor-pointer bg-purple-600">
+                            <div className="absolute top-0.25 right-0.5 h-3.5 w-3.5 bg-white" />
                           </div>
-                          <div className="flex h-7 w-7 items-center justify-center  border border-purple-400/40 bg-purple-600 text-[10px]">
+                          <div className="flex h-7 w-7 items-center justify-center border border-purple-400/40 bg-purple-600 text-[10px]">
                             AJ
                           </div>
                           <div>
@@ -6855,7 +6916,7 @@ ${deskRules.join("\n")}
                       </div>
 
                       {/* Time Frame box */}
-                      <div className="space-y-2  border border-white/10 p-2.5">
+                      <div className="space-y-2 border border-white/10 p-2.5">
                         <div className="flex items-center justify-between">
                           <span className="text-[9.5px]">Time Frame 1</span>
                         </div>
@@ -6886,7 +6947,7 @@ ${deskRules.join("\n")}
                               return (
                                 <span
                                   key={preset}
-                                  className={`rounded-lg border px-2 py-0.5 text-[10.5px] ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029]"}`}
+                                  className={`rounded-lg border px-2 py-0.5 text-[10.5px] ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029]"} `}
                                 >
                                   {isSelected ? `✓ ${preset}` : preset}
                                 </span>
@@ -6903,17 +6964,86 @@ ${deskRules.join("\n")}
                 <div className="flex shrink-0 items-center justify-between gap-3 border-t border-white/10 p-4">
                   <button
                     type="button"
-                    className="cursor-pointer  border border-white/10 bg-[#00000029] px-4 py-2"
+                    className="cursor-pointer border border-white/10 bg-[#00000029] px-4 py-2"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="cursor-pointer  border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
+                    className="transition-colors cursor-pointer border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
                   >
                     Save Group
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 14: SHARED SECTIONS — PAGE HERO */}
+        <section
+          id="shared-sections"
+          className="scroll-mt-36 space-y-8 rounded-2xl border border-white/10 p-6 sm:p-8 bg-white/[0.01]"
+        >
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="flex items-center gap-2">
+              <Layout className="h-6 w-6" /> 14. Shared Sections: PageHero
+            </h2>
+            <p className="mt-1 text-white/70">
+              Unified page hero intro component (<code className="text-purple-400">&lt;PageHero /&gt;</code>) for all public pages.
+              Provides consistent typography (<code className="text-purple-400">text-h1</code>), eyebrow badge, subtitle, and action slots with parent-owned spacing.
+            </p>
+          </div>
+
+          <div className="space-y-10">
+            {/* 1. Left-aligned Hero (Default Standard) */}
+            <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-6">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <span className="text-sm font-semibold text-purple-300">
+                  Variant A: Left-Aligned with Actions (Proposed Standard)
+                </span>
+                <span className="border border-purple-500/30 px-2.5 py-0.5 text-xs text-purple-400">
+                  align=&quot;left&quot; (default)
+                </span>
+              </div>
+              <div className="p-6 rounded-lg bg-black/40 border border-white/5">
+                <PageHero
+                  badge="CONTACT &amp; BOOKING"
+                  title="GET IN TOUCH"
+                  titleId="styleguide-hero-left"
+                  subtitle="Have a question about booking 7th Heaven for your festival, club, private event, or the annual cruise? Reach out directly."
+                  actions={
+                    <SeventhButton>
+                      Send Message
+                    </SeventhButton>
+                  }
+                />
+              </div>
+            </div>
+
+            {/* 2. Centered Hero */}
+            <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-6">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <span className="text-sm font-semibold text-purple-300">
+                  Variant B: Centered Alignment
+                </span>
+                <span className="border border-purple-500/30 px-2.5 py-0.5 text-xs text-purple-400">
+                  align=&quot;center&quot;
+                </span>
+              </div>
+              <div className="p-6 rounded-lg bg-black/40 border border-white/5">
+                <PageHero
+                  align="center"
+                  badge="HELP CENTER"
+                  title="FREQUENTLY ASKED QUESTIONS"
+                  titleId="styleguide-hero-center"
+                  subtitle="Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise."
+                  actions={
+                    <SeventhButton>
+                      Browse Topics
+                    </SeventhButton>
+                  }
+                />
               </div>
             </div>
           </div>

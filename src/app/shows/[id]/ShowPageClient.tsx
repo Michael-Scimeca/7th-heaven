@@ -13,7 +13,7 @@ import {
 import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { GradientToggle } from "@/components/GradientToggle";
+import { Toggle } from "@/components/Toggle";
 import SeventhButton from "@/components/SeventhButton";
 import InputField from "@/components/InputField";
 import QRCode from "react-qr-code";
@@ -339,7 +339,7 @@ export default function ShowPageClient({
       >
         {/* Avatar */}
         <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center  border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10"} bg-white/[0.04]`}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center border-2 ${isAnon ? "border-white/10 text-white/30" : tierColors[tier] || "border-white/10"} bg-white/[0.04]`}
         >
           {!isAnon && a.profiles?.profile_photo_url ? (
             <Image
@@ -348,7 +348,7 @@ export default function ShowPageClient({
               unoptimized
               src={a.profiles.profile_photo_url}
               alt="7th Heaven Media"
-              className="h-full w-full  object-cover"
+              className="h-full w-full object-cover"
             />
           ) : isAnon ? (
             "👤"
@@ -370,7 +370,7 @@ export default function ShowPageClient({
           <div className="mt-0.5 flex items-center gap-2">
             {!isAnon && tier !== "Bronze" && (
               <span
-                className={`text-[var(--font-size-2xs)] ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}
+                className={`text-[var(--font-size-2xs)] ${tierColors[tier]?.split(" ")[1] || "text-white/30"} `}
               >
                 {tier}
               </span>
@@ -405,8 +405,8 @@ export default function ShowPageClient({
               >
                 <div className="flex items-center gap-3">
                   <span className="relative flex h-3 w-3">
-                    <span className="absolute inline-flex h-full w-full animate-ping  bg-red-500 opacity-75" />
-                    <span className="relative inline-flex h-3 w-3  bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping bg-red-500 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   </span>
                   <span>
                     🎥 {feed.host} is LIVE from the show
@@ -420,7 +420,7 @@ export default function ShowPageClient({
                     </span>
                   )}
                 </div>
-                <span className="shrink-0  bg-red-500 px-4 py-1.5 group-hover:bg-white group-hover:text-red-600">
+                <span className="transition-colors shrink-0 bg-red-500 px-4 py-1.5 group-hover:bg-white group-hover:text-red-600">
                   Watch Now →
                 </span>
               </Link>
@@ -456,12 +456,14 @@ export default function ShowPageClient({
                 )}
               </div>
 
-              <h1 className="mb-3">{show.venue_name}</h1>
-              <p>
-                {show.city}
-                {show.state ? `, ${show.state}` : ""}
-              </p>
-              <p>{dateStr}</p>
+              <div className="title-group title-group--page">
+                <h1>{show.venue_name}</h1>
+                <p>
+                  {show.city}
+                  {show.state ? `, ${show.state}` : ""}
+                </p>
+                <p>{dateStr}</p>
+              </div>
 
               {/* Detail pills */}
               <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -477,7 +479,7 @@ export default function ShowPageClient({
                 )}
                 {show.all_ages !== null && (
                   <span
-                    className={`flex items-center gap-1.5 border px-3 py-1.5 ${show.all_ages ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-purple-500/30 bg-purple-600/10"}`}
+                    className={`flex items-center gap-1.5 border px-3 py-1.5 ${show.all_ages ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-purple-500/30 bg-purple-600/10"} `}
                   >
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
@@ -499,7 +501,7 @@ export default function ShowPageClient({
                       onClick={handleRsvp}
                       disabled={rsvpLoading}
                       id="rsvp-btn"
-                      className="cursor-pointer border border-white/10 bg-white/10 px-8 py-4 hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-50"
+                      className="transition-colors cursor-pointer border border-white/10 bg-white/10 px-8 py-4 hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-50"
                     >
                       {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
                     </button>
@@ -517,8 +519,8 @@ export default function ShowPageClient({
 
                   {/* Anonymous toggle — only before RSVP */}
                   {!isGoing && isLoggedIn && (
-                    <div className="flex items-center gap-2  border border-white/10 bg-[#00000029] px-3 py-1.5">
-                      <GradientToggle
+                    <div className="flex items-center gap-2 border border-white/10 bg-[#00000029] px-3 py-1.5">
+                      <Toggle
                         id="show-anonymous-toggle"
                         label="Go anonymously"
                         checked={wantAnonymous}
@@ -533,14 +535,14 @@ export default function ShowPageClient({
                 target="_blank"
                 rel="noopener noreferrer"
                 id="directions-btn"
-                className="border border-white/10 px-6 py-3 text-center hover:border-white/30 hover:text-white"
+                className="transition-colors border border-white/10 px-6 py-3 text-center hover:border-white/30 hover:text-white"
               >
                 📍 Directions
               </a>
               <button
                 onClick={copyLink}
                 id="share-show-btn"
-                className="border border-white/10 px-6 py-3 hover:border-white/30 hover:text-white"
+                className="transition-colors border border-white/10 px-6 py-3 hover:border-white/30 hover:text-white"
               >
                 {copied ? "✓ Copied!" : "🔗 Share"}
               </button>
@@ -557,9 +559,9 @@ export default function ShowPageClient({
             <div className="mb-12 grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
               {/* Notify Me Column */}
               <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
-                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32  bg-[var(--color-accent)]/5 blur-3xl" />
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 bg-[var(--color-accent)]/5 blur-3xl" />
                 <div>
-                  <span className="mb-6 inline-flex items-center gap-1.5  border border-white/10 bg-purple-500/10 px-3 py-1 text-[var(--font-size-2xs)]">
+                  <span className="mb-6 inline-flex items-center gap-1.5 border border-white/10 bg-purple-500/10 px-3 py-1 text-[var(--font-size-2xs)]">
                     Missed this show?
                   </span>
                   <h3 className="mb-2">Notify Me Next Time</h3>
@@ -571,7 +573,7 @@ export default function ShowPageClient({
                 </div>
                 <div>
                   {notifySuccess ? (
-                    <div className="border border-white/10 bg-emerald-500/10 p-4 text-center">
+                    <div className="rounded-[var(--radius-box)] border border-white/10 bg-emerald-500/10 p-4 text-center">
                       <p className="text-emerald-400">
                         ✓ Successfully subscribed!
                       </p>
@@ -600,7 +602,7 @@ export default function ShowPageClient({
                         </SeventhButton>
                       </div>
                       {notifyError && (
-                        <p className="rounded border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
+                        <p className="rounded-[var(--radius-box)] border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
                           {notifyError}
                         </p>
                       )}
@@ -611,9 +613,9 @@ export default function ShowPageClient({
 
               {/* Video Embed Column */}
               <div className="group relative flex flex-col justify-between overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
-                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32  bg-red-500/5 blur-3xl" />
+                <div className="pointer-events-none absolute top-0 right-0 h-32 w-32 bg-red-500/5 blur-3xl" />
                 <div>
-                  <span className="mb-6 inline-flex items-center gap-1.5  border border-red-500/20 bg-red-500/10 px-3 py-1 text-[var(--font-size-2xs)] text-red-400">
+                  <span className="mb-6 inline-flex items-center gap-1.5 border border-red-500/20 bg-red-500/10 px-3 py-1 text-[var(--font-size-2xs)] text-red-400">
                     Live Performance
                   </span>
                   <h3 className="mb-3">Live Show Clips</h3>
@@ -663,7 +665,7 @@ export default function ShowPageClient({
                 </span>
               )}
               <span
-                className={`text-xl text-white/40 ${attendeeListOpen ? "rotate-180" : ""}`}
+                className={`text-xl text-white/40 ${attendeeListOpen ? "rotate-180" : ""} `}
               >
                 ↓
               </span>
@@ -680,7 +682,7 @@ export default function ShowPageClient({
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`cursor-pointer px-4 py-1.5 ${goingFilter === f ? "bg-white/10" : "text-white/30"}`}
+                      className={`cursor-pointer px-4 py-1.5 ${goingFilter === f ? "bg-white/10" : "text-white/30"} `}
                     >
                       {f === "all"
                         ? `All (${totalCount})`
@@ -725,7 +727,7 @@ export default function ShowPageClient({
               <p className="mb-6">Share this show page</p>
 
               {/* QR Code */}
-              <div className="mb-8 flex flex-col items-center">
+              <div className="mb-6 flex flex-col items-center">
                 <div className="mb-3 inline-block bg-white p-4 shadow-[0_0_40px_rgba(255,10,61,0.25)]">
                   <QRCode
                     value={shareUrl}
@@ -742,13 +744,13 @@ export default function ShowPageClient({
                 <SeventhButton
                   onClick={copyLink}
                   icon={false}
-                  className="rounded-lg "
+                  className="rounded-lg"
                 >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </SeventhButton>
                 <a
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="border border-white/10 px-6 py-3 text-white/50 hover:border-white/30 hover:text-white"
+                  className="transition-colors border border-white/10 px-6 py-3 text-white/50 hover:border-white/30 hover:text-white"
                 >
                   💬 Text a Friend
                 </a>

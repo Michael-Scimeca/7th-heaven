@@ -6,6 +6,8 @@ import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Music } from "lucide-react";
 import SearchInput from "@/components/SearchInput";
+import PageHero from "@/components/PageHero";
+import { SectionHeader } from "@/components/SectionHeader";
 
 export interface PastShowItem {
   raw: string;
@@ -161,47 +163,46 @@ export default function PastShowsClient({
   return (
     <>
       {/* ── BREADCRUMB & HEADER SECTION ── */}
-      <header>
-        <div className="flex flex-col justify-between gap-6 pb-0 md:flex-row md:items-end md:pb-6">
-          <div>
-            <h1 className="mb-3">
-              {sanityContent?.heroHeading ||
-                sanityContent?.title ||
-                "Past Shows Archive"}
-            </h1>
-            <p className="max-w-2xl">
-              {sanityContent?.heroSubheading ||
-                sanityContent?.subtitle ||
-                "A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985."}
-            </p>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-3"></div>
-        </div>
-      </header>
+      <PageHero
+        badge={sanityContent?.badge || "ARCHIVE"}
+        title={
+          sanityContent?.heroHeading ||
+          sanityContent?.title ||
+          "Past Shows Archive"
+        }
+        titleId="past-shows-heading"
+        subtitle={
+          sanityContent?.heroSubheading ||
+          sanityContent?.subtitle ||
+          "A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985."
+        }
+        align="left"
+        className=""
+      />
 
       {/* ── STATS BAR ── */}
-      <section
+      <div
+        role="region"
         aria-label="Archive Statistics"
-        className="mb-6 flex flex-wrap items-center justify-start gap-4"
+        className="grid w-full grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-10 lg:gap-16"
       >
-        <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl">{totalShowsCount}+</span>
-          <span>Concerts Cataloged</span>
+        <div className="title-group title-group--sub">
+          <span className="text-3xl font-extrabold text-primary sm:text-4xl">{totalShowsCount}+</span>
+          <span className="text-sm text-muted">Concerts Cataloged</span>
         </div>
-        <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl">40+</span>
-          <span>Years of Live Rock</span>
+        <div className="title-group title-group--sub">
+          <span className="text-3xl font-extrabold text-primary sm:text-4xl">40+</span>
+          <span className="text-sm text-muted">Years of Live Rock</span>
         </div>
-        <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl">500+</span>
-          <span>Unique Venues</span>
+        <div className="title-group title-group--sub">
+          <span className="text-3xl font-extrabold text-primary sm:text-4xl">500+</span>
+          <span className="text-sm text-muted">Unique Venues</span>
         </div>
-        <div className="flex flex-col items-start text-left">
-          <span className="text-3xl sm:text-4xl">5+</span>
-          <span>Countries Played</span>
+        <div className="title-group title-group--sub">
+          <span className="text-3xl font-extrabold text-primary sm:text-4xl">5+</span>
+          <span className="text-sm text-muted">Countries Played</span>
         </div>
-      </section>
+      </div>
 
       {/* ── FILTER & SEARCH CONTROLS ── */}
       <nav
@@ -221,17 +222,17 @@ export default function PastShowsClient({
         </div>
 
         {/* Years Pill List Stacked Below Search */}
-        <div className="flex flex-wrap items-center gap-2 max-w-[48vw] w-full">
-          <span className="mr-1 shrink-0">
+        <div className="flex w-full max-w-5xl flex-wrap items-center gap-2">
+          <span className="mr-1 shrink-0 font-medium text-white/90">
             {sanityContent?.jumpToYearLabel || "Jump to Year:"}
           </span>
           <button
             type="button"
             onClick={() => handleYearClick("ALL")}
-            className={`cursor-pointer  px-3 py-1.5 text-sm font-medium transition-all duration-200 ${selectedYear === "ALL" || selectedYear === "All"
+            className={`cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium transition-[background-color,color,border-color,box-shadow,transform] ${selectedYear === "ALL" || selectedYear === "All"
               ? "bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(147,51,234,0.4)] hover:bg-purple-500 hover:scale-105"
               : "bg-white/10 text-white/80 border border-transparent hover:bg-purple-600/50 hover:text-white hover:border-purple-400/40 hover:scale-105"
-              }`}
+              } `}
           >
             {sanityContent?.allYearsLabel || "All Years"}
           </button>
@@ -240,24 +241,24 @@ export default function PastShowsClient({
               key={y.year}
               type="button"
               onClick={() => handleYearClick(y.year)}
-              className={`cursor-pointer  px-3 py-1.5 text-sm font-medium transition-all duration-200 ${selectedYear === y.year
+              className={`cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium transition-[background-color,color,border-color,box-shadow,transform] ${selectedYear === y.year
                 ? "bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(147,51,234,0.4)] hover:bg-purple-500 hover:scale-105"
                 : "bg-white/10 text-white/80 border border-transparent hover:bg-purple-600/50 hover:text-white hover:border-purple-400/40 hover:scale-105"
-                }`}
+                } `}
             >
               {y.year}
             </button>
           ))}
         </div>
 
-        <div className="my-6 text-white/60">
+        <div className="mt-6 text-white/60">
           Showing <span>{displayedCount}</span> of {totalShowsCount} shows
         </div>
       </nav>
 
       {/* ── SHOWS LIST GROUPED BY YEAR ── */}
       {filteredYears.length === 0 ? (
-        <div className="my-8  border border-[var(--border-color)] bg-[var(--card-bg)] p-12 text-center">
+        <div className="my-8 rounded-[var(--radius-box)] border border-[var(--border-color)] p-12 text-center">
           <Music className="mx-auto mb-6 h-11 w-11 text-purple-400" />
           <h3 className="mb-2">
             {sanityContent?.noShowsTitle || "No Past Shows Found"}
@@ -274,111 +275,114 @@ export default function PastShowsClient({
               handleYearClick("ALL");
               setSelectedCategory("ALL");
             }}
-            className="btn-accent cursor-pointer bg-[var(--color-accent)] px-6 py-2.5"
+            className="btn-accent cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] px-6 py-2.5"
           >
             {sanityContent?.resetFiltersText || "Reset Filters"}
           </button>
         </div>
       ) : (
         <section
-          id="shows-archive-section"
-          aria-label="Past Shows Accordion Archive"
-          className="min-h-[60vh] space-y-0"
+          id="past-shows-archive"
+          aria-labelledby="past-shows-archive-heading"
+          className="section"
         >
-          {filteredYears.map((yGroup) => {
-            const isOpen = !!openYears[yGroup.year];
-            const accordionContentId = `year-shows-${yGroup.year}`;
-            return (
-              <article key={yGroup.year} className="overflow-hidden">
-                {/* Year Header Accordion Bar */}
-                <button
-                  type="button"
-                  onClick={() => toggleYear(yGroup.year)}
-                  aria-expanded={isOpen}
-                  aria-controls={accordionContentId}
-                  className="accordion-trigger flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/15 py-2.5 pr-6 text-left"
-                >
-                  <h2 className="flex items-center gap-3   font-medium">
-                    <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1 font-bold">
-                      {yGroup.year}
-                    </span>
-                    <span>
-                      {yGroup.shows.length}{" "}
-                      {yGroup.shows.length === 1 ? "Show" : "Shows"}
-                    </span>
-                  </h2>
-                </button>
-
-                {/* Shows Table / Grid */}
-                {isOpen && (
-                  <ul
-                    id={accordionContentId}
-                    className="divide-y divide-[var(--border-color)]"
+          <SectionHeader id="past-shows-archive-heading" title="Past Shows Archive" visuallyHidden />
+          <div className="min-h-[60vh] space-y-0">
+            {filteredYears.map((yGroup) => {
+              const isOpen = !!openYears[yGroup.year];
+              const accordionContentId = `year-shows-${yGroup.year}`;
+              return (
+                <article key={yGroup.year} className="overflow-hidden">
+                  {/* Year Header Accordion Bar */}
+                  <button
+                    type="button"
+                    onClick={() => toggleYear(yGroup.year)}
+                    aria-expanded={isOpen}
+                    aria-controls={accordionContentId}
+                    className="accordion-trigger flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/15 py-2.5 pr-6 text-left"
                   >
-                    {yGroup.shows.map((show, idx) => {
-                      const isCancelled = show.venue
-                        .toLowerCase()
-                        .includes("cancelled");
-                      const isUnplugged = show.venue
-                        .toLowerCase()
-                        .includes("unplugged");
-                      const isPrivate = show.venue
-                        .toLowerCase()
-                        .includes("private");
-                      const isCruise =
-                        show.venue.toLowerCase().includes("cruise") ||
-                        show.venue.toLowerCase().includes("greece") ||
-                        show.venue.toLowerCase().includes("london") ||
-                        show.venue.toLowerCase().includes("amsterdam");
+                    <h2 className="flex items-center gap-3 font-medium">
+                      <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1">
+                        {yGroup.year}
+                      </span>
+                      <span>
+                        {yGroup.shows.length}{" "}
+                        {yGroup.shows.length === 1 ? "Show" : "Shows"}
+                      </span>
+                    </h2>
+                  </button>
 
-                      return (
-                        <li
-                          key={`${yGroup.year}-${idx}`}
-                          className="text-link group flex flex-col justify-between gap-2 border-b border-white/[0.12] stagger-item py-3.5 sm:flex-row sm:items-center"
-                          style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
-                        >
-                          {/* Date & Day */}
-                          <time className="flex w-full shrink-0 items-center gap-2 font-medium sm:w-48">
-                            <span className="h-2 w-2  bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
-                            {show.date || yGroup.year}
-                          </time>
+                  {/* Shows Table / Grid */}
+                  {isOpen && (
+                    <ul
+                      id={accordionContentId}
+                      className="divide-y divide-[var(--border-color)]"
+                    >
+                      {yGroup.shows.map((show, idx) => {
+                        const isCancelled = show.venue
+                          .toLowerCase()
+                          .includes("cancelled");
+                        const isUnplugged = show.venue
+                          .toLowerCase()
+                          .includes("unplugged");
+                        const isPrivate = show.venue
+                          .toLowerCase()
+                          .includes("private");
+                        const isCruise =
+                          show.venue.toLowerCase().includes("cruise") ||
+                          show.venue.toLowerCase().includes("greece") ||
+                          show.venue.toLowerCase().includes("london") ||
+                          show.venue.toLowerCase().includes("amsterdam");
 
-                          {/* Venue Name */}
-                          <span className="flex-1 font-medium ">
-                            {show.venue}
-                          </span>
+                        return (
+                          <li
+                            key={`${yGroup.year}-${idx}`}
+                            className="text-link group flex flex-col justify-between gap-2 border-b border-white/[0.12] stagger-item py-3.5 sm:flex-row sm:items-center"
+                            style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
+                          >
+                            {/* Date & Day */}
+                            <time className="flex w-full shrink-0 items-center gap-2 font-medium sm:w-48">
+                              <span className="transition-colors h-2 w-2 rounded-full bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
+                              {show.date || yGroup.year}
+                            </time>
 
-                          {/* Badges */}
-                          <div className="flex shrink-0 items-center gap-1.5 pt-1 sm:pt-0">
-                            {isCancelled && (
-                              <span className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-2 py-0.5  text-rose-600">
-                                Cancelled
-                              </span>
-                            )}
-                            {isUnplugged && (
-                              <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-2 py-0.5 ">
-                                Unplugged
-                              </span>
-                            )}
-                            {isPrivate && (
-                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
-                                Private Event
-                              </span>
-                            )}
-                            {isCruise && (
-                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5  ">
-                                Special Tour
-                              </span>
-                            )}
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </article>
-            );
-          })}
+                            {/* Venue Name */}
+                            <span className="flex-1 font-medium">
+                              {show.venue}
+                            </span>
+
+                            {/* Badges */}
+                            <div className="flex shrink-0 items-center gap-1.5 pt-1 sm:pt-0">
+                              {isCancelled && (
+                                <span className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-2 py-0.5 text-rose-600">
+                                  Cancelled
+                                </span>
+                              )}
+                              {isUnplugged && (
+                                <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-2 py-0.5">
+                                  Unplugged
+                                </span>
+                              )}
+                              {isPrivate && (
+                                <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
+                                  Private Event
+                                </span>
+                              )}
+                              {isCruise && (
+                                <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
+                                  Special Tour
+                                </span>
+                              )}
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </article>
+              );
+            })}
+          </div>
         </section>
       )}
     </>

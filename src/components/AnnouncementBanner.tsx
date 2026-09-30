@@ -66,7 +66,7 @@ export default function AnnouncementBanner({
           {link && (
             <Link
               href={link}
-              className="shrink-0 rounded-[var(--radius-box)] border border-white/10 bg-black/30 px-5 py-2 text-[var(--font-size-xs)] hover:bg-black/50"
+              className="transition-colors shrink-0 rounded-[var(--radius-box)] border border-white/10 bg-black/30 px-5 py-2 text-[var(--font-size-xs)] hover:bg-black/50"
             >
               {linkText || "Read More"}
             </Link>
@@ -75,7 +75,7 @@ export default function AnnouncementBanner({
           {/* Close Button */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#00000029] p-1 text-white/50 hover:bg-white/10 hover:text-white sm:relative sm:top-0 sm:right-0"
+            className="transition-colors absolute top-4 right-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#00000029] p-1 text-white/50 hover:bg-white/10 hover:text-white sm:relative sm:top-0 sm:right-0"
             aria-label="Close Announcement"
             title="Close Banner"
           >
@@ -100,7 +100,7 @@ export default function AnnouncementBanner({
   }
 
   return (
-    <div className="fixed top-[72px] left-0 z-[49] w-full animate-[fade-in-down_0.5s_var(--ease-out-expo)_0.2s_both] border-b border-white/10 bg-gradient-to-r from-[var(--color-accent)] to-[#6b1dcf] shadow-[0_4px_25px_rgba(255,10,61,0.4)]">
+    <div className="fixed top-[72px] left-0 z-[49] w-full animate-[fade-in-down_0.5s_var(---expo)_0.2s_both] border-b border-white/10 bg-gradient-to-r from-[var(--color-accent)] to-[#6b1dcf] shadow-[0_4px_25px_rgba(255,10,61,0.4)]">
       <div className="site-container relative flex flex-col items-center justify-center gap-4 py-3 pr-10 sm:flex-row">
         <div className="flex min-w-0 items-center gap-3">
           <span className="shrink-0 animate-pulse">⚠️</span>
@@ -112,7 +112,7 @@ export default function AnnouncementBanner({
         {link && (
           <Link
             href={link}
-            className="shrink-0  border border-white/10 bg-black/30 px-5 py-2 hover:bg-black/50"
+            className="transition-colors shrink-0 border border-white/10 bg-black/30 px-5 py-2 hover:bg-black/50"
           >
             {linkText || "Read More"}
           </Link>
@@ -121,7 +121,7 @@ export default function AnnouncementBanner({
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute top-1/2 right-4 flex -translate-y-1/2 cursor-pointer items-center justify-center  bg-[#00000029] p-1 text-white/50 hover:bg-white/10 hover:text-white"
+          className="transition-colors absolute top-1/2 right-4 flex -translate-y-1/2 cursor-pointer items-center justify-center bg-[#00000029] p-1 text-white/50 hover:bg-white/10 hover:text-white"
           aria-label="Close Announcement"
           title="Close Banner"
         >

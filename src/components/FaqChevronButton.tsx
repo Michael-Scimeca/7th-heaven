@@ -33,10 +33,10 @@ export function FaqChevronButton({
       aria-label={
         ariaLabel || (isExpanded ? "Collapse answer" : "Expand answer")
       }
-      className={`accordion-chevron focus-ring shrink-0  border border-white/20 bg-white/10 p-1.5 ${isExpanded
+      className={`accordion-chevron focus-ring shrink-0 border border-white/20 bg-white/10 p-1.5 ${isExpanded
           ? "rotate-90 border-purple-500/60 text-purple-400"
           : "text-white"
-        } ${className}`}
+        }  ${className} `}
     >
       <ChevronRight className="h-4 w-4" />
     </Component>

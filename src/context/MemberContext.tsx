@@ -39,6 +39,7 @@ export interface Member {
   venueState?: string;
   cruise_signup_id?: string;
   signup_source?: string;
+  zip?: string;
   is_warned?: boolean;
 }
 
@@ -127,7 +128,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
             const { data: profile } = await supabase
               .from("profiles")
               .select(
-                "role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source, is_banned, is_warned",
+                "role, username, points, tier, shows_attended, notifications_enabled, notification_radius, cruise_signup_id, signup_source, is_banned, is_warned, zip, latitude, longitude",
               )
               .eq("id", user.id)
               .single();
@@ -169,6 +170,11 @@ export function MemberProvider({ children }: { children: ReactNode }) {
               tier: (profile?.tier as Member["tier"]) ?? "Bronze",
               showsAttended: profile?.shows_attended ?? 0,
               favoriteVenues: [],
+              location:
+                profile?.latitude && profile?.longitude
+                  ? { lat: profile.latitude, lng: profile.longitude }
+                  : undefined,
+              zip: profile?.zip || undefined,
               notificationsEnabled: profile?.notifications_enabled ?? false,
               notificationRadius: profile?.notification_radius ?? 25,
               role: role as Member["role"],

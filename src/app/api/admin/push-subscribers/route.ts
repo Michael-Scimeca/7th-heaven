@@ -1,13 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   getPushSubscriptions,
   updatePushSubscription,
   removePushSubscription,
   sendWebPushNotification,
 } from "@/lib/push-subscriptions";
+import { requireAdmin } from "@/lib/api-utils";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
+
     const subscribers = await getPushSubscriptions();
     return NextResponse.json({
       ok: true,
@@ -22,8 +26,10 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
     const body = await req.json();
     const { action, id, zip, radius, selectedTypes, fanName, title, message } =
       body;

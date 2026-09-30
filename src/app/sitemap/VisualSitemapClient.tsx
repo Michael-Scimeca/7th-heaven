@@ -88,7 +88,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
   return (
     <div
       title={data.description || data.title}
-      className={`${isSmall ? "w-[190px]" : "w-60"} overflow-hidden  border border-white/10 bg-[#0d0d14] select-none hover:-translate-y-0.5 hover:text-white hover:shadow-black/40 ${accent.ring} group`}
+      className={` ${isSmall ? "w-[190px]" : "w-60"} transition-[background-color,color,border-color,box-shadow,transform] overflow-hidden border border-white/10 bg-[#0d0d14] select-none hover:-translate-y-0.5 hover:text-white hover:shadow-black/40 ${accent.ring} group`}
     >
       <Handle
         type="target"
@@ -97,16 +97,16 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
       />
 
       <Link href={targetPath} className="block cursor-pointer">
-        <div className={`h-1 w-full ${accent.bar}`} />
+        <div className={`h-1 w-full ${accent.bar} `} />
 
         <div className="flex items-center justify-between gap-1 px-2 py-1">
           <span
-            className={`${isSmall ? "text-[10px]" : "text-[12px]"} ${accent.text}`}
+            className={` ${isSmall ? "text-[10px]" : "text-[12px]"}  ${accent.text} `}
           >
             {data.header}
           </span>
           <span
-            className={`shrink-0 rounded px-1 py-[1px] text-[7px] ${accent.chip}`}
+            className={`shrink-0 rounded px-1 py-[1px] text-[7px] ${accent.chip} `}
           >
             {BADGE_LABEL[data.badgeType || "PORTAL"]}
           </span>
@@ -123,7 +123,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
               height={160}
               unoptimized
               onError={() => setImgError(true)}
-              className="block h-full w-full object-cover object-top opacity-90 group-hover:opacity-100"
+              className="transition-opacity block h-full w-full object-cover object-top opacity-90 group-hover:opacity-100"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-[12px] text-white/20">
@@ -134,7 +134,7 @@ function SitemapCardNode({ data }: NodeProps<Node<SitemapNodeData>>) {
 
         <div className="px-2 py-1.5">
           <p
-            className={` ${isSmall ? "text-[12px]" : "text-[10.5px]"} /85 group-hover:text-white`}
+            className={` ${isSmall ? "text-[12px]" : "text-[10.5px]"} transition-colors /85 group-hover:text-white`}
           >
             {data.title}
           </p>
@@ -604,12 +604,12 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     position: { x: 1440, y: 560 },
     data: {
       header: "🔔 LIVE ALERTS MASTER FORM",
-      title: "Name, Email & SquishyToggle Form",
+      title: "Name, Email & Toggle Form",
       path: "/live",
       imgUrl: "/sitemap-thumbs/login-modal.jpg",
       badgeType: "MODULE",
       description:
-        "2-input form (Name & Email) with SquishyToggle for Terms of Service. Requests native browser push permission and triggers Double Opt-In verification email.",
+        "2-input form (Name & Email) with Toggle for Terms of Service. Requests native browser push permission and triggers Double Opt-In verification email.",
     },
   },
   {
@@ -2271,12 +2271,12 @@ export default function VisualSitemapClient() {
   return (
     <div className="min-h-screen bg-[#050505] pt-20 pb-12" id="sitemap-page">
       {/* Header bar with View Selector Tabs */}
-      <div className="mx-auto mb-6 flex max-w-[1700px] flex-wrap items-center justify-between gap-4  border border-purple-500/30 bg-[#0c0c14] px-6 py-4 backdrop-blur-xl">
+      <div className="mx-auto mb-6 flex max-w-[1700px] flex-wrap items-center justify-between gap-4 border border-purple-500/30 bg-[#0c0c14] px-6 py-4 backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center  bg-gradient-to-r from-purple-600 to-pink-600">
+          <div className="flex h-8 w-8 items-center justify-center bg-gradient-to-r from-purple-600 to-pink-600">
             7H
           </div>
-          <div>
+          <div className="title-group title-group--page">
             <h1>
               {activeTab === "ARCH"
                 ? "7th Heaven Site Architecture & Header Navigation Flow"
@@ -2299,10 +2299,10 @@ export default function VisualSitemapClient() {
         </div>
 
         {/* VIEW SELECTOR TABS */}
-        <div className="flex items-center gap-2  border border-white/10 bg-black/60 p-1.5">
+        <div className="flex items-center gap-2 border border-white/10 bg-black/60 p-1.5">
           <button
             onClick={() => setActiveTab("ARCH")}
-            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "ARCH" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "ARCH" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"} `}
           >
             <Layers className="h-3.5 w-3.5" />
             <span>Full Architecture</span>
@@ -2310,7 +2310,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("BOOKING")}
-            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "BOOKING" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "BOOKING" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"} `}
           >
             <Calendar className="h-3.5 w-3.5" />
             <span>Booking Flow</span>
@@ -2318,7 +2318,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("CRUISE")}
-            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "CRUISE" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "CRUISE" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"} `}
           >
             <Ship className="h-3.5 w-3.5 text-amber-300" />
             <span>Cruise Flow</span>
@@ -2326,7 +2326,7 @@ export default function VisualSitemapClient() {
 
           <button
             onClick={() => setActiveTab("FAN_SIGNUP")}
-            className={`flex items-center gap-1.5  px-3.5 py-1.5 ${activeTab === "FAN_SIGNUP" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "FAN_SIGNUP" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"} `}
           >
             <UserPlus className="h-3.5 w-3.5 text-pink-300" />
             <span>Fan Signup Flow</span>
@@ -2336,7 +2336,7 @@ export default function VisualSitemapClient() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-1 flex items-center gap-1  border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10"
+            className="transition-colors ml-1 flex items-center gap-1 border border-white/10 bg-[#00000029] px-3 py-1.5 hover:bg-white/10"
           >
             <span>XML</span>
             <ExternalLink className="h-3 w-3" />
@@ -2345,7 +2345,7 @@ export default function VisualSitemapClient() {
       </div>
 
       {/* Interactive Flow Canvas */}
-      <div className="relative mx-auto h-[calc(100vh-180px)] min-h-[650px] max-w-[1700px] overflow-hidden  border border-white/10 bg-[#09090f]">
+      <div className="relative mx-auto h-[calc(100vh-180px)] min-h-[650px] max-w-[1700px] overflow-hidden border border-white/10 bg-[#09090f]">
         <ReactFlow
           key={activeTab}
           nodes={nodes}
@@ -2359,12 +2359,12 @@ export default function VisualSitemapClient() {
           colorMode="dark"
         >
           <Background color="#1e1b2e" gap={24} size={1} />
-          <Controls className="! overflow-hidden  border-white/10 !bg-black/90 !shadow-2xl" />
+          <Controls className="! overflow-hidden border-white/10 !bg-black/90 !shadow-2xl" />
           <MiniMap
             style={{ height: 110, width: 160 }}
             maskColor="rgba(0, 0, 0, 0.8)"
             nodeColor="#71717a"
-            className="!  border-white/10 !bg-black/90 !shadow-2xl"
+            className="! border-white/10 !bg-black/90 !shadow-2xl"
           />
         </ReactFlow>
       </div>

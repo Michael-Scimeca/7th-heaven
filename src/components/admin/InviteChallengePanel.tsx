@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import Toggle from "@/components/Toggle";
 
 interface Show {
   _id: string;
@@ -97,7 +97,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
       <button
         type="button"
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="group relative flex w-full cursor-pointer items-center justify-between border-0 p-6 text-left select-none hover:bg-white/[0.02]"
+        className="transition-colors group relative flex w-full cursor-pointer items-center justify-between border-0 p-6 text-left select-none hover:bg-white/[0.02]"
       >
         <div>
           <p>Show Promotions</p>
@@ -118,7 +118,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
             {isCollapsed ? "Expand" : "Collapse"}
           </span>
           <div
-            className={`flex h-8 w-8 items-center justify-center  border border-white/10 ${!isCollapsed ? "rotate-180" : ""}`}
+            className={`flex h-8 w-8 items-center justify-center border border-white/10 ${!isCollapsed ? "rotate-180" : ""} `}
           ></div>
         </div>
       </button>
@@ -129,7 +129,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
           <div className="mt-4 mb-6">
             <label
               htmlFor="invite-challenge-show-select"
-              className="mb-1.5 block text-white/40"
+              className="block text-white/40"
             >
               Select Show
             </label>
@@ -159,14 +159,17 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   {/* Enable toggle */}
                   <div className="flex items-center justify-between border border-white/[0.05] bg-white/[0.02] p-4">
                     <div>
-                      <p>Enable challenge for this show</p>
+                      <p id="challenge-enabled-label">Enable challenge for this show</p>
                       <p className="mt-0.5">
                         Fans will see this on the show page
                       </p>
                     </div>
-                    <SquishyToggle
+                    <Toggle
                       id="challenge-enabled"
+                      size="sm"
                       label="Enable challenge for this show"
+                      hideLabel
+                      aria-labelledby="challenge-enabled-label"
                       checked={!!challenge.enabled}
                       onChange={(v) =>
                         setChallenge((c) => ({ ...c, enabled: v }))
@@ -180,7 +183,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       <div>
                         <label
                           htmlFor="invite-challenge-threshold"
-                          className="mb-1.5 block text-white/40"
+                          className="block text-white/40"
                         >
                           Invite Threshold
                         </label>
@@ -209,7 +212,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       <div>
                         <label
                           htmlFor="invite-challenge-reward-name"
-                          className="mb-1.5 block text-white/40"
+                          className="block text-white/40"
                         >
                           Reward Name
                         </label>
@@ -232,7 +235,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                       <div>
                         <label
                           htmlFor="invite-challenge-claim-instructions"
-                          className="mb-1.5 block text-white/40"
+                          className="block text-white/40"
                         >
                           Claim Instructions
                         </label>
@@ -283,7 +286,7 @@ export default function InviteChallengePanel({ shows }: { shows: Show[] }) {
                   <button
                     onClick={save}
                     disabled={saving || !challenge.reward_name}
-                    className={`w-full py-3.5 ${saved ? "bg-[var(--color-accent)]" : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40"}`}
+                    className={`w-full py-3.5 ${saved ? "bg-[var(--color-accent)]" : "bg-[var(--color-accent)] hover:brightness-110 disabled:opacity-40"} `}
                   >
                     {saved
                       ? " Challenge Saved"

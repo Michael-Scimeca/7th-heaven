@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SectionHeader from "@/components/SectionHeader";
 
 export interface RevealMember {
   id: string;
@@ -73,8 +74,12 @@ function BioScrollRevealComponent({
     >
       {/* Header */}
       <div className="mb-16 max-w-2xl">
-        <span className="mb-2 flex items-center gap-2">{subtitle}</span>
-        <h2 className="er md:text-6xl">{title}</h2>
+        <SectionHeader
+          id="bio-reveal-heading"
+          title={title}
+          badge={subtitle}
+          divider={false}
+        />
       </div>
 
       <div className="flex flex-col items-start gap-12 lg:flex-row lg:gap-16">
@@ -95,20 +100,20 @@ function BioScrollRevealComponent({
                   <span className="text-purple-400 opacity-60">
                     0{index + 1}
                   </span>
-                  <span className="text-white/50 group-hover:text-white">
+                  <span className="transition-colors text-white/50 group-hover:text-white">
                     {member.role}
                   </span>
                 </div>
 
                 <h3
-                  className={`md:text-7xl ${isActive ? "translate-x-2 scale-[1.02] drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : "text-white/30 group-hover:text-white"}`}
+                  className={`md:text-7xl ${isActive ? "translate-x-2 scale-[1.02] drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : "text-white/30 group-hover:text-white"} `}
                 >
                   {member.name}
                 </h3>
 
                 {member.description && (
                   <p
-                    className={`mt-3 max-w-lg ${isActive ? "opacity-100" : "text-white/30 opacity-40"}`}
+                    className={`mt-3 max-w-lg ${isActive ? "opacity-100" : "text-white/30 opacity-40"} `}
                   >
                     {member.description}
                   </p>
@@ -118,7 +123,7 @@ function BioScrollRevealComponent({
                   <Link
                     href={member.linkHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`mt-4 inline-flex items-center gap-2 hover:text-white ${isActive ? "opacity-100" : "pointer-events-none opacity-0"}`}
+                    className={`transition-colors mt-4 inline-flex items-center gap-2 hover:text-white ${isActive ? "opacity-100" : "pointer-events-none opacity-0"} `}
                   >
                     <span>View Full Bio</span>
                     <svg
@@ -140,13 +145,13 @@ function BioScrollRevealComponent({
 
         {/* Right Column: Sticky Portrait Image Reveal Container */}
         <div className="z-20 w-full shrink-0 lg:sticky lg:top-28 lg:w-2/5">
-          <div className="relative aspect-[3/4] w-full overflow-hidden  border border-white/10 bg-purple-950/20 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+          <div className="relative aspect-[3/4] w-full overflow-hidden border border-white/10 bg-purple-950/20 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
             {members.map((member, index) => {
               const isActive = activeIndex === index;
               return (
                 <div
                   key={member.id}
-                  className={`absolute inset-0 h-full w-full ${isActive ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-105 opacity-0"}`}
+                  className={`absolute inset-0 h-full w-full ${isActive ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-105 opacity-0"} `}
                 >
                   <Image
                     src={member.imageUrl}
@@ -161,7 +166,7 @@ function BioScrollRevealComponent({
 
                   {/* Portrait Caption Overlay */}
                   <div className="absolute right-6 bottom-6 left-6">
-                    <span className="rounded-lg border border-white/10 bg-black/60 px-2.5 py-1 backdrop-blur-2xl">
+                    <span className="rounded-lg border border-white/10 bg-black/60 px-2.5 py-1">
                       {member.role}
                     </span>
                     <h4 className="drop- mt-2">{member.name}</h4>

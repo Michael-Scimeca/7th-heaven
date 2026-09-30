@@ -90,7 +90,7 @@ export function InstallAppButton({
 
   if (isStandalone || installed) {
     return (
-      <div className={`inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300 font-medium ${className}`}>
+      <div className={`inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300 font-medium ${className} `}>
         <Check className="h-3.5 w-3.5 shrink-0" />
         <span>7th Heaven App Installed</span>
       </div>
@@ -101,7 +101,7 @@ export function InstallAppButton({
   if (variant === "card") {
     return (
       <>
-        <div className={`relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-950/40 via-purple-900/20 to-black/80 p-5 backdrop-blur-xl ${className}`}>
+        <div className={`relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-950/40 via-purple-900/20 to-black/80 p-5 backdrop-blur-xl ${className} `}>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-600/30 border border-purple-500/40 text-purple-300">
@@ -109,8 +109,8 @@ export function InstallAppButton({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="font-bold text-white text-base">Install the 7th Heaven App</h4>
-                  <span className="rounded bg-purple-500/20 border border-purple-400/30 px-1.5 py-0.5 text-[9px] font-bold text-purple-200">
+                  <h4 className="text-white text-base">Install the 7th Heaven App</h4>
+                  <span className="rounded bg-purple-500/20 border border-purple-400/30 px-1.5 py-0.5 text-[9px] text-purple-200">
                     PWA
                   </span>
                 </div>
@@ -142,7 +142,7 @@ export function InstallAppButton({
   if (variant === "banner") {
     return (
       <>
-        <div className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/60 p-3 backdrop-blur-md ${className}`}>
+        <div className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/60 p-3 backdrop-blur-md ${className} `}>
           <div className="flex items-center gap-2.5">
             <Sparkles className="h-4 w-4 text-purple-400 shrink-0" />
             <span className="text-xs text-white/80">
@@ -171,7 +171,7 @@ export function InstallAppButton({
         <button
           type="button"
           onClick={handleInstallClick}
-          className={`flex items-center gap-1.5 text-xs text-purple-300 hover:text-purple-200 font-medium transition-colors ${className}`}
+          className={`flex items-center gap-1.5 text-xs text-purple-300 hover:text-purple-200 font-medium transition-colors ${className} `}
         >
           <Download className="h-3.5 w-3.5 shrink-0" />
           <span>Install 7th Heaven App</span>
@@ -189,7 +189,7 @@ export function InstallAppButton({
         type="button"
         onClick={handleInstallClick}
         icon={false}
-        className={`cursor-pointer ${className}`}
+        className={`cursor-pointer ${className} `}
       >
         <span className="flex items-center gap-2">
           <Download className="h-4 w-4" />
@@ -204,12 +204,12 @@ export function InstallAppButton({
 
 function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boolean }) {
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in">
       <div className="relative w-full max-w-md rounded-2xl border border-purple-500/40 bg-[#0d0d15] p-6 text-white shadow-2xl">
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 rounded-full border border-white/10 bg-white/5 p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
+          className="transition-colors absolute top-4 right-4 rounded-full border border-white/10 bg-white/5 p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
           aria-label="Close"
         >
           <X className="h-4 w-4" />
@@ -220,7 +220,7 @@ function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boole
             <Smartphone className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="font-bold text-lg text-white">Install 7th Heaven App</h3>
+            <h3 className="text-lg text-white">Install 7th Heaven App</h3>
             <p className="text-xs text-white/50">Add to your Home Screen for instant notifications</p>
           </div>
         </div>
@@ -228,7 +228,7 @@ function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boole
         {isIos ? (
           <div className="space-y-4 my-5 text-sm text-white/80">
             <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3.5">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 font-bold text-xs">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 text-xs">
                 1
               </div>
               <div>
@@ -240,7 +240,7 @@ function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boole
             </div>
 
             <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3.5">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 font-bold text-xs">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 text-xs">
                 2
               </div>
               <div>
@@ -252,7 +252,7 @@ function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boole
             </div>
 
             <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3.5">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 font-bold text-xs">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 text-xs">
                 3
               </div>
               <div>

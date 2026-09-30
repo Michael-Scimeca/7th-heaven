@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import PageHero from "@/components/PageHero";
 
 interface ReturnsClientProps {
   sanityContent?: any;
@@ -9,43 +10,48 @@ interface ReturnsClientProps {
 export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
   return (
     <main
-      className="site-container page-container text-left"
+      className="site-container page-container page-stack-sm prose-legal min-h-screen text-left"
       id="returns-page"
     >
-      <header className="mb-6 text-left">
-        <h1 className="mb-2">
-          {sanityContent?.heroHeading ||
-            sanityContent?.title ||
-            "Return & Refund Policy"}
-        </h1>
-        <p>
-          {sanityContent?.lastUpdated ||
-            sanityContent?.subtitle ||
-            "Last Updated: April 12, 2026"}
-        </p>
-      </header>
+      <PageHero
+        title={
+          sanityContent?.heroHeading ||
+          sanityContent?.title ||
+          "Return & Refund Policy"
+        }
+        titleId="returns-heading"
+        subtitle={
+          sanityContent?.lastUpdated ||
+          sanityContent?.subtitle ||
+          "Last Updated: April 12, 2026"
+        }
+        align="left"
+      />
 
-      <div className="prose-legal flex flex-col gap-6 pb-section-fluid">
-        {sanityContent?.sections &&
-          Array.isArray(sanityContent.sections) &&
-          sanityContent.sections.length > 0 ? (
-          sanityContent.sections.map((sec: any, idx: number) => {
+      {sanityContent?.sections &&
+        Array.isArray(sanityContent.sections) &&
+        sanityContent.sections.length > 0 ? (
+        sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
               sec.sectionId ||
               sec._id ||
               sec.title ||
               `returns-sec-${sec._key || sec.sectionId}`;
-            const headingId = `returns-sec-${sec.sectionId || sec._key || idx + 1}`;
+            const secId = `returns-sec-${sec.sectionId || sec._key || idx + 1}`;
             return (
               <section
                 key={sectionKey}
-                aria-labelledby={`${headingId}-heading`}
+                id={secId}
+                className="section-sm"
+                aria-labelledby={`${secId}-heading`}
               >
-                <h2 id={`${headingId}-heading`} className="mb-3">
-                  {sec.title || `${idx + 1}. Policy Section`}
-                </h2>
-                {sec.subtitle && <p className="mb-2">{sec.subtitle}</p>}
+                <div className="title-group title-group--section">
+                  <h2 id={`${secId}-heading`}>
+                    {sec.title || `${idx + 1}. Policy Section`}
+                  </h2>
+                  {sec.subtitle && <p>{sec.subtitle}</p>}
+                </div>
                 {sec.body && (
                   <div className="whitespace-pre-line">{sec.body}</div>
                 )}
@@ -55,7 +61,11 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
         ) : (
           <>
             {/* Section 1 */}
-            <section aria-labelledby="returns-sec-1-heading">
+            <section
+              id="returns-sec-1"
+              className="section-sm"
+              aria-labelledby="returns-sec-1-heading"
+            >
               <h2 id="returns-sec-1-heading" className="mb-3">
                 1. In-Person Concert Sales (Merch Table)
               </h2>
@@ -68,7 +78,11 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
             </section>
 
             {/* Section 2 */}
-            <section aria-labelledby="returns-sec-2-heading">
+            <section
+              id="returns-sec-2"
+              className="section-sm"
+              aria-labelledby="returns-sec-2-heading"
+            >
               <h2 id="returns-sec-2-heading" className="mb-3">
                 2. Online Store Orders (Shipped to Home)
               </h2>
@@ -103,7 +117,11 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
             </section>
 
             {/* Section 3 */}
-            <section aria-labelledby="returns-sec-3-heading">
+            <section
+              id="returns-sec-3"
+              className="section-sm"
+              aria-labelledby="returns-sec-3-heading"
+            >
               <h2 id="returns-sec-3-heading" className="mb-3">
                 3. Merch Table Pickups (Pre-Ordered Online)
               </h2>
@@ -131,7 +149,11 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
             </section>
 
             {/* Section 4 */}
-            <section aria-labelledby="returns-sec-4-heading">
+            <section
+              id="returns-sec-4"
+              className="section-sm"
+              aria-labelledby="returns-sec-4-heading"
+            >
               <h2 id="returns-sec-4-heading" className="mb-3">
                 4. Damaged or Defective Items
               </h2>
@@ -148,7 +170,11 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
             </section>
 
             {/* Section 5 */}
-            <section aria-labelledby="returns-sec-5-heading">
+            <section
+              id="returns-sec-5"
+              className="section-sm"
+              aria-labelledby="returns-sec-5-heading"
+            >
               <h2 id="returns-sec-5-heading" className="mb-3">
                 5. Contact Information
               </h2>
@@ -180,7 +206,6 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
             </section>
           </>
         )}
-      </div>
     </main>
   );
 }

@@ -32,7 +32,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       <div
         ref={ref}
         className={cn(
-          "rounded-2xl transition-colors",
+          "overflow-hidden rounded-[var(--radius-box)] transition-colors",
           variantStyles[variant],
           paddingStyles[padding],
           className,

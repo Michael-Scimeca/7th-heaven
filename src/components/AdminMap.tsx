@@ -52,7 +52,7 @@ class MapErrorBoundary extends React.Component<
           <p>Map reloading...</p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="cursor-pointer rounded border-none bg-purple-600 px-3 py-1.5 hover:bg-purple-500"
+            className="transition-colors cursor-pointer rounded border-none bg-purple-600 px-3 py-1.5 hover:bg-purple-500"
           >
             Reset Map
           </button>

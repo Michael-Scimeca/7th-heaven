@@ -872,7 +872,7 @@ export default function LoginModal() {
         <button
           onClick={closeModal}
           aria-label="Close login modal"
-          className="absolute top-4 right-4 z-20 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/10 hover:bg-white/20 hover:text-white"
+          className="transition-colors absolute top-4 right-4 z-20 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/10 hover:bg-white/20 hover:text-white"
         >
           <X className="h-4 w-4" />
         </button>
@@ -1043,7 +1043,7 @@ function LoginModalBodyContent(props: any) {
             <button
               type="button"
               onClick={() => setModalMode("login")}
-              className={`relative z-10 cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-4 py-2.5 text-center ${modalMode === "login" ? " " : "hover:text-white"}`}
+              className={`relative z-10 cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-4 py-2.5 text-center ${modalMode === "login" ? " " : "hover:text-white"} `}
             >
               Sign In
             </button>
@@ -1054,7 +1054,7 @@ function LoginModalBodyContent(props: any) {
                 if (loginRole === "crew" || loginRole === "cruise")
                   setLoginRole("fan");
               }}
-              className={`relative z-10 cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-4 py-2.5 text-center ${modalMode === "signup" ? " " : "hover:text-white"}`}
+              className={`relative z-10 cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-4 py-2.5 text-center ${modalMode === "signup" ? " " : "hover:text-white"} `}
             >
               Sign Up
             </button>
@@ -1068,7 +1068,7 @@ function LoginModalBodyContent(props: any) {
               <span className="block text-[10px]">ACCOUNT TYPE:</span>
             </div>
             <div
-              className={`grid gap-1 rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"}`}
+              className={`grid gap-1 rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-1 backdrop-blur-2xl select-none ${modalMode === "signup" ? "grid-cols-2" : "grid-cols-5"} `}
             >
               {[
                 { id: "fan", label: "Fan" },
@@ -1094,7 +1094,7 @@ function LoginModalBodyContent(props: any) {
                       setAdminMode(false);
                     }
                   }}
-                  className={`cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-1.5 py-1.5 text-center text-[10px] ${loginRole === role.id || (role.id === "admin" && adminMode) ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "bg-[#00000029] text-white/50 hover:text-white"}`}
+                  className={`cursor-pointer rounded-[calc(var(--radius-box)-2px)] px-1.5 py-1.5 text-center text-[10px] ${loginRole === role.id || (role.id === "admin" && adminMode) ? "border border-purple-400/40 bg-gradient-to-r from-[#7c00ff] to-[#a855f7] shadow-[0_0_15px_rgba(124,0,255,0.6)]" : "bg-[#00000029] text-white/50 hover:text-white"} `}
                 >
                   {role.label}
                 </button>
@@ -1154,7 +1154,7 @@ function LoginModalBodyContent(props: any) {
               type="button"
               onClick={handleVerifyPin}
               disabled={loading || pinCode.length !== 6}
-              className="mx-auto block w-full max-w-sm cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_0_20px_rgba(124,0,255,0.4)] hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
+              className="transition-[filter] mx-auto block w-full max-w-sm cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] px-6 py-2.5 shadow-[0_0_20px_rgba(124,0,255,0.4)] hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
             >
               {loading ? "Verifying..." : "Verify & Complete Registration"}
             </button>
@@ -1166,7 +1166,7 @@ function LoginModalBodyContent(props: any) {
                 setPinCode("");
                 setError("");
               }}
-              className="cursor-pointer text-center hover:text-white"
+              className="transition-colors cursor-pointer text-center hover:text-white"
             >
               ← Back to details
             </button>
@@ -1187,7 +1187,7 @@ function LoginModalBodyContent(props: any) {
                 setConfirmationRequired(false);
                 setError("");
               }}
-              className="w-full cursor-pointer rounded-[var(--radius-box)] border border-black/10 py-3 hover:bg-black/5"
+              className="transition-colors w-full cursor-pointer rounded-[var(--radius-box)] border border-black/10 py-3 hover:bg-black/5"
             >
               Got it, thanks
             </button>
@@ -1240,7 +1240,7 @@ function LoginModalBodyContent(props: any) {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your@email.com"
-                      className="w-full  border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30"
+                      className="w-full border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30"
                       required
                     />
                   </div>
@@ -1265,7 +1265,7 @@ function LoginModalBodyContent(props: any) {
                           )
                         }
                         placeholder="123456"
-                        className="w-full  border border-white/10 bg-black/60 px-4 py-3 text-center tracking-[0.5em] text-white outline-none placeholder:text-white/30"
+                        className="w-full border border-white/10 bg-black/60 px-4 py-3 text-center tracking-[0.5em] text-white outline-none placeholder:text-white/30"
                         required
                       />
                     </div>
@@ -1283,7 +1283,7 @@ function LoginModalBodyContent(props: any) {
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
                         autoComplete="new-password"
-                        className="w-full  border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30"
+                        className="w-full border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30"
                         required
                       />
                     </div>
@@ -1327,11 +1327,11 @@ function LoginModalBodyContent(props: any) {
                     readOnly={isInviteFlow}
                     data-lpignore="true"
                     data-form-type="other"
-                    className={`w-full  border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30  ${isInviteFlow ? "cursor-not-allowed opacity-60" : ""}`}
+                    className={`w-full border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30 ${isInviteFlow ? "cursor-not-allowed opacity-60" : ""} `}
                   />
                 </div>
                 <div>
-                  <label htmlFor="login-password-input" className=" block">
+                  <label htmlFor="login-password-input" className="block">
                     Password
                   </label>
                   <input
@@ -1347,7 +1347,7 @@ function LoginModalBodyContent(props: any) {
                     }
                     data-lpignore="true"
                     data-form-type="other"
-                    className="w-full  border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30 "
+                    className="w-full border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/30"
                   />
                   {modalMode === "login" && (
                     <button
@@ -1357,7 +1357,7 @@ function LoginModalBodyContent(props: any) {
                         setError("");
                         setForgotPinSent(false);
                       }}
-                      className="mt-2 block w-full cursor-pointer text-right hover:text-white"
+                      className="transition-colors mt-2 block w-full cursor-pointer text-right hover:text-white"
                     >
                       Forgot Password?
                     </button>
@@ -1394,7 +1394,7 @@ function LoginModalBodyContent(props: any) {
               type="submit"
               icon={false}
               disabled={loading}
-              className="flex w-full items-center justify-center gap-2  disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <span className="inline-flex items-center justify-center gap-2">
@@ -1424,7 +1424,7 @@ function LoginModalBodyContent(props: any) {
                   setError("");
                   setForgotPinSent(false);
                 }}
-                className="mt-2 cursor-pointer text-center hover:text-white"
+                className="transition-colors mt-2 cursor-pointer text-center hover:text-white"
               >
                 ← Back to Sign In
               </button>
@@ -1449,7 +1449,7 @@ function LoginModalBodyContent(props: any) {
                 type="button"
                 onClick={() => handleOAuthLogin("google")}
                 disabled={loading}
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a] disabled:opacity-50"
+                className="transition-colors flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a] disabled:opacity-50"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF">
                   <path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.761H12.545z" />
@@ -1460,7 +1460,7 @@ function LoginModalBodyContent(props: any) {
                 type="button"
                 onClick={() => handleOAuthLogin("facebook")}
                 disabled={loading}
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5] disabled:opacity-50"
+                className="transition-colors flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5] disabled:opacity-50"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -1472,7 +1472,7 @@ function LoginModalBodyContent(props: any) {
                 onClick={() => handleOAuthLogin("apple")}
                 disabled={loading}
                 style={{ backgroundColor: "#000000" }}
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border-none px-3 py-2.5 hover:bg-zinc-900 disabled:opacity-50"
+                className="transition-colors flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border-none px-3 py-2.5 hover:bg-zinc-900 disabled:opacity-50"
               >
                 <svg
                   width="15"
@@ -1509,7 +1509,7 @@ function LoginModalBodyContent(props: any) {
                   setLoginRole("fan");
                 }
               }}
-              className="cursor-pointer text-[10px] text-white/40 hover:text-white"
+              className="transition-colors cursor-pointer text-[10px] text-white/40 hover:text-white"
             >
               {adminMode ? "Exit Admin Mode" : "Admin Quick Mode"}
             </button>
@@ -1526,7 +1526,7 @@ function LoginModalBodyContent(props: any) {
                 await login("admin@7thheaven.com", "password123");
                 window.location.href = "/admin";
               }}
-              className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+              className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
             >
               Admin
             </button>
@@ -1540,7 +1540,7 @@ function LoginModalBodyContent(props: any) {
                 await login("crew@7thheaven.com", "password123");
                 window.location.href = "/crew";
               }}
-              className="cursor-pointer rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
+              className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
             >
               Crew
             </button>
@@ -1554,7 +1554,7 @@ function LoginModalBodyContent(props: any) {
                 await login("planner@7thheaven.com", "password123");
                 window.location.href = "/planner";
               }}
-              className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+              className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
             >
               Planner
             </button>
@@ -1568,7 +1568,7 @@ function LoginModalBodyContent(props: any) {
                 await login("cruise@7thheaven.com", "password123");
                 window.location.href = "/cruise/cruise_guest";
               }}
-              className="cursor-pointer rounded-[var(--radius-box)] border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
+              className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
             >
               Cruise
             </button>
@@ -1582,7 +1582,7 @@ function LoginModalBodyContent(props: any) {
                 await login("fan@7thheaven.com", "password123");
                 window.location.href = "/fans/super_fan";
               }}
-              className="cursor-pointer rounded-[var(--radius-box)] border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
+              className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
             >
               Fan
             </button>
@@ -1610,7 +1610,7 @@ function OAuthSocialButtons({
         <button
           type="button"
           onClick={() => onOAuthLogin("google")}
-          className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a]"
+          className="transition-colors flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-red-500/30 bg-[#EA4335] px-3 py-2.5 hover:bg-[#d9382a]"
           title="Sign in with Google"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF">
@@ -1621,7 +1621,7 @@ function OAuthSocialButtons({
         <button
           type="button"
           onClick={() => onOAuthLogin("facebook")}
-          className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5]"
+          className="transition-colors flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border border-blue-400/30 bg-[#1877F2] px-3 py-2.5 hover:bg-[#166fe5]"
           title="Sign in with Facebook"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF">
@@ -1633,7 +1633,7 @@ function OAuthSocialButtons({
           type="button"
           onClick={() => onOAuthLogin("apple")}
           style={{ backgroundColor: "#000000" }}
-          className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border-none px-3 py-2.5 hover:bg-zinc-900"
+          className="transition-colors flex cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] border-none px-3 py-2.5 hover:bg-zinc-900"
           title="Sign in with Apple"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -1680,7 +1680,7 @@ function QuickLoginDemoButtons({
             await login("admin@7thheaven.com", "password123");
             window.location.href = "/admin";
           }}
-          className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+          className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
         >
           Admin
         </button>
@@ -1694,7 +1694,7 @@ function QuickLoginDemoButtons({
             await login("crew@7thheaven.com", "password123");
             window.location.href = "/crew";
           }}
-          className="cursor-pointer rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
+          className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/20 px-1 py-2.5 text-center text-emerald-200 hover:bg-emerald-500/40 hover:text-white"
         >
           Crew
         </button>
@@ -1708,7 +1708,7 @@ function QuickLoginDemoButtons({
             await login("planner@7thheaven.com", "password123");
             window.location.href = "/planner";
           }}
-          className="cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
+          className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-accent)]/20 px-1 py-2.5 text-center hover:bg-[var(--color-accent)]/40 hover:text-white"
         >
           Planner
         </button>
@@ -1722,7 +1722,7 @@ function QuickLoginDemoButtons({
             await login("cruise@7thheaven.com", "password123");
             window.location.href = "/cruise/cruise_guest";
           }}
-          className="cursor-pointer rounded-[var(--radius-box)] border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
+          className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-sky-500/30 bg-sky-500/20 px-1 py-2.5 text-center text-sky-200 hover:bg-sky-500/40 hover:text-white"
         >
           Cruise
         </button>
@@ -1736,7 +1736,7 @@ function QuickLoginDemoButtons({
             await login("fan@7thheaven.com", "password123");
             window.location.href = "/fans/super_fan";
           }}
-          className="cursor-pointer rounded-[var(--radius-box)] border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
+          className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-blue-500/30 bg-blue-500/20 px-1 py-2.5 text-center text-blue-200 hover:bg-blue-500/40 hover:text-white"
         >
           Fan
         </button>

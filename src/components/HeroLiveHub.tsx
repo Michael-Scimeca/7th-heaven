@@ -200,10 +200,10 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <Link
                   key={room.name}
                   href={`/live/${room.name}`}
-                  className="group flex items-center gap-2  border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-[var(--color-accent)]/50 hover:bg-white/15"
+                  className="transition-colors group flex items-center gap-2 border border-white/10 bg-[#00000029] px-3 py-1.5 hover:border-[var(--color-accent)]/50 hover:bg-white/15"
                 >
-                  <span className="h-1.5 w-1.5 animate-pulse  bg-red-500" />
-                  <span className="max-w-[120px] group-hover:text-white">
+                  <span className="h-1.5 w-1.5 animate-pulse bg-red-500" />
+                  <span className="transition-colors max-w-[120px] group-hover:text-white">
                     {room.title?.split(" — ")[0] || room.name}
                   </span>
                 </Link>
@@ -239,7 +239,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute right-0 bottom-0 left-0 p-4">
                   <div className="mb-1 flex items-center gap-2">
-                    <div className="flex h-6 w-6 items-center justify-center  border border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--font-size-2xs)]">
+                    <div className="flex h-6 w-6 items-center justify-center border border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--font-size-2xs)]">
                       {selectedMedia.member_avatar}
                     </div>
                     <span>{selectedMedia.member_name}</span>
@@ -260,11 +260,11 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
             {activeLiveRooms.length > 0 && (
               <div className="overlay-center-hover z-20 bg-black/60 backdrop-blur">
                 <div className="p-8 text-center">
-                  <div className="mb-6 inline-flex items-center gap-2  bg-red-600 px-4 py-1 shadow-red-600/20">
-                    <span className="h-2 w-2 animate-pulse  bg-white" />
+                  <div className="mb-6 inline-flex items-center gap-2 bg-red-600 px-4 py-1 shadow-red-600/20">
+                    <span className="h-2 w-2 animate-pulse bg-white" />
                     Live Now
                   </div>
-                  <h4 className="er mb-6">Join the Crew Live</h4>
+                  <h3 className="mb-6 text-h3">Join the Crew Live</h3>
                   <Link
                     href="/live"
                     className="btn-primary flex items-center justify-center gap-3 px-8 py-4 shadow-[0_0_30px_rgba(255,10,61,0.3)]"
@@ -289,7 +289,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                   <button
                     key={post.id}
                     onClick={() => setSelectedMedia(post)}
-                    className={`group relative aspect-square cursor-pointer overflow-hidden border ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/10 border-white/[0.06]"}`}
+                    className={`group relative aspect-square cursor-pointer overflow-hidden border ${isActive ? "border-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50" : "border-white/10 border-white/[0.06]"} `}
                   >
                     {thumbSrc && (
                       <Image
@@ -334,7 +334,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CP5NWKWMEQMMJ"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
+              className="transition-colors flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
             >
               Buy CD
             </a>
@@ -342,7 +342,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               href="https://open.spotify.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
+              className="transition-colors flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
             >
               Spotify
             </a>
@@ -350,7 +350,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
               href="https://music.apple.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
+              className="transition-colors flex-1 bg-[var(--color-accent)] py-2.5 text-center hover:bg-[var(--color-accent)]/80"
             >
               Apple Music
             </a>

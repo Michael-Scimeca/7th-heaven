@@ -1,0 +1,412 @@
+{
+  "390": {
+    "/book": {
+      "headerBottom": 60,
+      "topGap": 24,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 27,
+      "mainPt": "85px",
+      "mainPb": "27.3px"
+    },
+    "/": {
+      "headerBottom": 60,
+      "topGap": 375,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "0px",
+      "mainPb": "0px"
+    },
+    "/cruise": {
+      "headerBottom": 60,
+      "topGap": 60,
+      "sectionGaps": [
+        -340,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "85px",
+      "mainPb": "0px"
+    },
+    "/contact": {
+      "headerBottom": 60,
+      "topGap": 25,
+      "sectionGaps": [],
+      "bottomGap": 27,
+      "mainPt": "85px",
+      "mainPb": "27.3px"
+    },
+    "/faq": {
+      "headerBottom": 60,
+      "topGap": 69,
+      "sectionGaps": [],
+      "bottomGap": 0,
+      "mainPt": "85px",
+      "mainPb": "0px"
+    },
+    "/privacy": {
+      "headerBottom": 60,
+      "topGap": 123,
+      "sectionGaps": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "bottomGap": 27,
+      "mainPt": "85px",
+      "mainPb": "27.3px"
+    },
+    "/terms": {
+      "headerBottom": 60,
+      "topGap": 123,
+      "sectionGaps": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "bottomGap": 27,
+      "mainPt": "85px",
+      "mainPb": "27.3px"
+    },
+    "/returns": {
+      "headerBottom": 60,
+      "topGap": 123,
+      "sectionGaps": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "bottomGap": 27,
+      "mainPt": "85px",
+      "mainPb": "27.3px"
+    },
+    "/media": {
+      "headerBottom": 60,
+      "topGap": 69,
+      "sectionGaps": [
+        366
+      ],
+      "bottomGap": 0,
+      "mainPt": "85px",
+      "mainPb": "0px"
+    },
+    "/merch": {
+      "headerBottom": 60,
+      "topGap": 338,
+      "sectionGaps": [],
+      "bottomGap": null,
+      "mainPt": null,
+      "mainPb": null
+    },
+    "/live": {
+      "headerBottom": 60,
+      "topGap": 69,
+      "sectionGaps": [],
+      "bottomGap": 27,
+      "mainPt": "85px",
+      "mainPb": "27.3px"
+    },
+    "/features": {
+      "headerBottom": 60,
+      "topGap": 194,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "0px",
+      "mainPb": "0px"
+    },
+    "/fans/[username]": {
+      "headerBottom": 60,
+      "topGap": 295,
+      "sectionGaps": [],
+      "bottomGap": 355,
+      "mainPt": "192px",
+      "mainPb": "192px"
+    },
+    "/rock-and-roll-kids": {
+      "headerBottom": 60,
+      "topGap": 69,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "85px",
+      "mainPb": "0px"
+    },
+    "/notifications": {
+      "headerBottom": 60,
+      "topGap": 154,
+      "sectionGaps": [],
+      "bottomGap": null,
+      "mainPt": null,
+      "mainPb": null
+    },
+    "/claim": {
+      "headerBottom": 60,
+      "topGap": 167,
+      "sectionGaps": [],
+      "bottomGap": -48,
+      "mainPt": "85px",
+      "mainPb": "24px"
+    },
+    "/book/success": {
+      "headerBottom": 60,
+      "topGap": 343,
+      "sectionGaps": [],
+      "bottomGap": 123,
+      "mainPt": "85px",
+      "mainPb": "0px"
+    }
+  },
+  "1440": {
+    "/book": {
+      "headerBottom": 70,
+      "topGap": 29,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 50,
+      "mainPt": "100px",
+      "mainPb": "50.4px"
+    },
+    "/": {
+      "headerBottom": 70,
+      "topGap": 734,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "0px",
+      "mainPb": "0px"
+    },
+    "/cruise": {
+      "headerBottom": 70,
+      "topGap": 142,
+      "sectionGaps": [
+        -460,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "100px",
+      "mainPb": "0px"
+    },
+    "/contact": {
+      "headerBottom": 70,
+      "topGap": 30,
+      "sectionGaps": [],
+      "bottomGap": 50,
+      "mainPt": "100px",
+      "mainPb": "50.4px"
+    },
+    "/faq": {
+      "headerBottom": 70,
+      "topGap": 78,
+      "sectionGaps": [],
+      "bottomGap": 0,
+      "mainPt": "100px",
+      "mainPb": "0px"
+    },
+    "/privacy": {
+      "headerBottom": 70,
+      "topGap": 174,
+      "sectionGaps": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "bottomGap": 50,
+      "mainPt": "100px",
+      "mainPb": "50.4px"
+    },
+    "/terms": {
+      "headerBottom": 70,
+      "topGap": 174,
+      "sectionGaps": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "bottomGap": 50,
+      "mainPt": "100px",
+      "mainPb": "50.4px"
+    },
+    "/returns": {
+      "headerBottom": 70,
+      "topGap": 174,
+      "sectionGaps": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "bottomGap": 50,
+      "mainPt": "100px",
+      "mainPb": "50.4px"
+    },
+    "/media": {
+      "headerBottom": 70,
+      "topGap": 78,
+      "sectionGaps": [
+        186
+      ],
+      "bottomGap": 0,
+      "mainPt": "100px",
+      "mainPb": "0px"
+    },
+    "/merch": {
+      "headerBottom": 70,
+      "topGap": 309,
+      "sectionGaps": [],
+      "bottomGap": null,
+      "mainPt": null,
+      "mainPb": null
+    },
+    "/live": {
+      "headerBottom": 70,
+      "topGap": 78,
+      "sectionGaps": [],
+      "bottomGap": 50,
+      "mainPt": "100px",
+      "mainPb": "50.4px"
+    },
+    "/features": {
+      "headerBottom": 70,
+      "topGap": 250,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "0px",
+      "mainPb": "0px"
+    },
+    "/fans/[username]": {
+      "headerBottom": 70,
+      "topGap": 270,
+      "sectionGaps": [],
+      "bottomGap": 340,
+      "mainPt": "192px",
+      "mainPb": "192px"
+    },
+    "/rock-and-roll-kids": {
+      "headerBottom": 70,
+      "topGap": 78,
+      "sectionGaps": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bottomGap": 0,
+      "mainPt": "100px",
+      "mainPb": "0px"
+    },
+    "/notifications": {
+      "headerBottom": 70,
+      "topGap": 210,
+      "sectionGaps": [],
+      "bottomGap": null,
+      "mainPt": null,
+      "mainPb": null
+    },
+    "/claim": {
+      "headerBottom": 70,
+      "topGap": 91,
+      "sectionGaps": [],
+      "bottomGap": -48,
+      "mainPt": "100px",
+      "mainPb": "24px"
+    },
+    "/book/success": {
+      "headerBottom": 70,
+      "topGap": 325,
+      "sectionGaps": [],
+      "bottomGap": 38,
+      "mainPt": "100px",
+      "mainPb": "0px"
+    }
+  }
+}

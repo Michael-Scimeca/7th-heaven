@@ -51,18 +51,18 @@ export function PageHero({
               </div>
             )}
             <div
-              className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"}`}
+              className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"} `}
               style={gapStyle}
             >
               <h1
                 id={titleId}
-                className={`text-h1 font-black tracking-tight text-primary w-full ${isCenter ? "text-center" : "text-left"}`}
+                className={`text-h1 font-black tracking-tight text-primary w-full ${isCenter ? "text-center" : "text-left"} `}
               >
                 {title}
               </h1>
               {subtitle && (
                 <p
-                  className={`text-body text-muted max-w-2xl w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
+                  className={`text-body text-muted max-w-2xl w-full ${isCenter ? "mx-auto text-center" : "text-left"} `}
                 >
                   {subtitle}
                 </p>
@@ -92,18 +92,18 @@ export function PageHero({
             </div>
           )}
           <div
-            className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"}`}
+            className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"} `}
             style={gapStyle}
           >
             <h1
               id={titleId}
-              className={`text-h1 font-black tracking-tight text-primary w-full ${isCenter ? "text-center" : "text-left"}`}
+              className={`text-h1 font-black tracking-tight text-primary w-full ${isCenter ? "text-center" : "text-left"} `}
             >
               {title}
             </h1>
             {subtitle && (
               <p
-                className={`text-body text-muted max-w-2xl w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
+                className={`text-body text-muted max-w-2xl w-full ${isCenter ? "mx-auto text-center" : "text-left"} `}
               >
                 {subtitle}
               </p>

@@ -49,7 +49,7 @@ export function SearchInput({
 
   return (
     <div
-      className={`relative inline-flex w-full max-w-[300px] min-w-[220px] items-center ${containerClassName}`}
+      className={`relative inline-flex w-full max-w-[300px] min-w-[220px] items-center ${containerClassName} `}
       style={widthStyle}
     >
       <InputField

@@ -153,38 +153,40 @@ export default async function NewsArticlePage({
     CATEGORY_LABELS[article.category ?? ""] ?? article.category ?? "";
 
   return (
-    <main className="page-container min-h-screen">
-      {/* Top nav bar */}
-      <div className="site-container py-3">
-        <Link
-          href="/#news"
-          className="inline-flex items-center gap-2 hover:text-white"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to News
-        </Link>
-      </div>
-
+    <main id="news-article-page" className="page-container page-stack min-h-screen">
       {/* Article */}
-      <article className="site-container pb-24">
-        {/* Meta row */}
-        <div className="mb-6 flex flex-wrap items-center gap-4">
-          {article.date && (
-            <span className="inline-flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5" />
-              {article.date}
-            </span>
-          )}
-          {categoryLabel && (
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-400/30 bg-purple-500/15 px-3 py-1">
-              <Tag className="h-3 w-3" />
-              {categoryLabel}
-            </span>
-          )}
-        </div>
+      <article className="site-container">
+        <header className="">
+          {/* Top nav back link */}
+          <div className="py-3 mb-4">
+            <Link
+              href="/#news"
+              className="transition-colors inline-flex items-center gap-2 hover:text-white"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to News
+            </Link>
+          </div>
 
-        {/* Title */}
-        <h1 className="mb-4 max-w-3xl">{article.title}</h1>
+          {/* Meta row */}
+          <div className="mb-6 flex flex-wrap items-center gap-4">
+            {article.date && (
+              <span className="inline-flex items-center gap-1.5">
+                <Calendar className="h-3.5 w-3.5" />
+                {article.date}
+              </span>
+            )}
+            {categoryLabel && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-400/30 bg-purple-500/15 px-3 py-1">
+                <Tag className="h-3 w-3" />
+                {categoryLabel}
+              </span>
+            )}
+          </div>
+
+          {/* Title */}
+          <h1 className="mb-4 max-w-3xl">{article.title}</h1>
+        </header>
 
         {/* Body */}
         <div className="max-w-2xl space-y-5">
@@ -214,63 +216,69 @@ export default async function NewsArticlePage({
 
         {/* Other Articles Section */}
         {otherArticles.length > 0 && (
-          <section className="mt-6 border-t border-white/10">
-            <div className="mb-8 flex items-center justify-between">
-              <div>
-                <h2 className="flex items-center gap-2 text-2xl">
-                  <Newspaper className="h-5 w-5 text-[var(--color-accent)]" />
-                  Other Articles
-                </h2>
-                <p className="mt-1 text-purple-200/70">
-                  Explore more updates, tour announcements, and news from 7th
-                  heaven
-                </p>
+          <section
+            id="other-articles"
+            aria-labelledby="other-articles-heading"
+            className="section"
+          >
+            <div className="mt-6 border-t border-white/10">
+              <div className="mb-8 flex items-center justify-between">
+                <div className="title-group title-group--section">
+                  <h2 id="other-articles-heading" className="flex items-center gap-2 text-2xl">
+                    <Newspaper className="h-5 w-5 text-[var(--color-accent)]" />
+                    Other Articles
+                  </h2>
+                  <p className="">
+                    Explore more updates, tour announcements, and news from 7th
+                    heaven
+                  </p>
+                </div>
+                <Link
+                  href="/#news"
+                  className="transition-colors hidden items-center gap-1.5 hover:text-white sm:inline-flex"
+                >
+                  View All <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
-              <Link
-                href="/#news"
-                className="hidden items-center gap-1.5 hover:text-white sm:inline-flex"
-              >
-                View All <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {otherArticles.map((other) => {
-                const itemSlug = other.slug || other._id || toSlug(other.title);
-                const category =
-                  CATEGORY_LABELS[other.category ?? ""] ?? other.category ?? "";
-                return (
-                  <Link
-                    key={other._id || other.title}
-                    href={`/news/${itemSlug}`}
-                    className="group block flex flex-col justify-between rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-purple-500/50 hover:bg-white/[0.08]"
-                  >
-                    <div>
-                      <div className="mb-3 flex items-center justify-between gap-2">
-                        {other.date && (
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {other.date}
-                          </span>
-                        )}
-                        {category && (
-                          <span className="rounded-full border border-purple-400/20 bg-purple-500/15 px-2.5 py-0.5 text-[10px]">
-                            {category}
-                          </span>
-                        )}
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {otherArticles.map((other) => {
+                  const itemSlug = other.slug || other._id || toSlug(other.title);
+                  const category =
+                    CATEGORY_LABELS[other.category ?? ""] ?? other.category ?? "";
+                  return (
+                    <Link
+                      key={other._id || other.title}
+                      href={`/news/${itemSlug}`}
+                      className="transition-colors group block flex flex-col justify-between rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-purple-500/50 hover:bg-white/[0.08]"
+                    >
+                      <div>
+                        <div className="mb-3 flex items-center justify-between gap-2">
+                          {other.date && (
+                            <span className="flex items-center gap-1">
+                              <Calendar className="h-3 w-3" />
+                              {other.date}
+                            </span>
+                          )}
+                          {category && (
+                            <span className="rounded-full border border-purple-400/20 bg-purple-500/15 px-2.5 py-0.5 text-[10px]">
+                              {category}
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="group-hover: mb-2 line-clamp-2">
+                          {other.title}
+                        </h3>
+                        <p className="mb-6 line-clamp-3">{other.content}</p>
                       </div>
-                      <h3 className="group-hover: mb-2 line-clamp-2">
-                        {other.title}
-                      </h3>
-                      <p className="mb-6 line-clamp-3">{other.content}</p>
-                    </div>
-                    <div className="flex items-center justify-between border-t border-white/10 pt-3 group-hover:text-white">
-                      <span>Read Article</span>
-                      <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-1" />
-                    </div>
-                  </Link>
-                );
-              })}
+                      <div className="transition-colors flex items-center justify-between border-t border-white/10 pt-3 group-hover:text-white">
+                        <span>Read Article</span>
+                        <ArrowRight className="transition-transform h-3.5 w-3.5 transform group-hover:translate-x-1" />
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </section>
         )}

@@ -61,7 +61,7 @@ import { VENUE_LINKS } from "@/lib/venue-links";
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
-      className={`h-[1px] w-full ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent" : "bg-white/10"}`}
+      className={`h-[1px] w-full ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent" : "bg-white/10"} `}
       aria-hidden="true"
     />
   );
@@ -1590,7 +1590,7 @@ export default function TourList({
             className="title-group title-group--section pointer-events-none z-30 mx-auto py-5 items-center text-center"
           >
             <h2>Upcoming Tour Dates</h2>
-            <p className="md: ">
+            <p className="md:">
               Catch 7th Heaven live on stage! Explore all upcoming show dates,
               venues, directions, and sync concerts directly to your calendar.
             </p>
@@ -1641,7 +1641,7 @@ export default function TourList({
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="whitespace-nowrap cursor-pointer  border border-[var(--color-accent)re] px-2.5 py-1 text-[0.9rem] hover:border-[rgba(255,10,61,0.6)] hover:text-white"
+                  className="transition-colors whitespace-nowrap cursor-pointer border border-[var(--color-accent)re] px-2.5 py-1 text-[0.9rem] hover:border-[rgba(255,10,61,0.6)] hover:text-white"
                 >
                   Clear
                 </button>
@@ -1661,7 +1661,7 @@ export default function TourList({
             }}
             className="relative sticky z-[40] flex w-full flex-col sm:gap-0 md:gap-2 lg:gap-2 border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-6"
           >
-            <div className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-1 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity duration-300 ease-out backdrop-blur-[24px]" />
+            <div className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-1 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity backdrop-blur-[24px]" />
             <div className="relative my-3 w-full max-w-[300px] shrink-0">
               <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
               <GlowInput
@@ -1678,7 +1678,7 @@ export default function TourList({
                 <button
                   aria-label="Clear search"
                   onClick={() => setSearchQuery("")}
-                  className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer text-[1.08rem] hover:text-white"
+                  className="transition-colors absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer text-[1.08rem] hover:text-white"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -1746,7 +1746,7 @@ export default function TourList({
           </div>
 
           <div
-            className="flex flex-col  overflow-visible"
+            className="flex flex-col overflow-visible"
             id="tour-rows-container"
           >
             {Array.from(
@@ -1798,7 +1798,7 @@ export default function TourList({
                 >
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? "" : " "}  ${!show.city ? "opacity-50" : ""}  ${isPast && !isHighlighted ? "opacity-65" : ""} `}
                     id={rowId}
                   >
                     <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">
@@ -1872,10 +1872,10 @@ export default function TourList({
                                   ? "Mute notifications for this show"
                                   : "Notify me about this show"
                               }
-                              className={`icon-btn flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-1 ${subscribedShowIdsSet.has(show._id) ? "text-[var(--color-accent)]" : "text-white/70"}`}
+                              className={`icon-btn flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-1 ${subscribedShowIdsSet.has(show._id) ? "text-[var(--color-accent)]" : "text-white/70"} `}
                             >
                               {subscribingId === show._id ? (
-                                <span className="h-5 w-5 animate-spin  border-2 border-current border-t-transparent" />
+                                <span className="h-5 w-5 animate-spin border-2 border-current border-t-transparent" />
                               ) : (
                                 <Bell className="h-5.5 w-5.5" />
                               )}
@@ -1974,7 +1974,7 @@ export default function TourList({
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Google Cal
                                 </a>
@@ -1982,7 +1982,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   iCal / Apple
                                 </a>
@@ -1990,7 +1990,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Outlook
                                 </a>
@@ -2001,7 +2001,7 @@ export default function TourList({
                                       .getElementById("proximity-notify")
                                       ?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   <MessageSquare className="h-3.5 w-3.5 shrink-0 text-purple-400" />{" "}
                                   SMS / Text Alerts
@@ -2026,7 +2026,7 @@ export default function TourList({
                               ? "Official Venue Website"
                               : "Search Venue Info"
                           }
-                          className="a-btn inline-flex cursor-pointer items-center justify-center whitespace-nowrap hover:opacity-80"
+                          className="transition-opacity a-btn inline-flex cursor-pointer items-center justify-center whitespace-nowrap hover:opacity-80"
                         >
                           Website
                         </a>
@@ -2035,13 +2035,13 @@ export default function TourList({
                         <div className="ml-1 flex shrink-0 items-center gap-1">
                           <button
                             onClick={() => handleEditClick(show)}
-                            className="cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 py-1 text-[0.65rem] text-blue-400 hover:bg-blue-600 hover:text-white"
+                            className="transition-colors cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 py-1 text-[0.65rem] text-blue-400 hover:bg-blue-600 hover:text-white"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteShow(show._id)}
-                            className="cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 py-1 text-[0.65rem] text-rose-400 hover:bg-rose-600 hover:text-white"
+                            className="transition-colors cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 py-1 text-[0.65rem] text-rose-400 hover:bg-rose-600 hover:text-white"
                           >
                             Del
                           </button>
@@ -2052,7 +2052,7 @@ export default function TourList({
 
                   {/* Mobile/Tablet Card Layout — Stacked Venue-First */}
                   <div
-                    className={`tour-row-item relative sm:mb-6 mb-6 flex flex-col gap-1 lg:hidden ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative sm:mb-6 mb-6 flex flex-col gap-1 lg:hidden ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""}  ${!show.city ? "opacity-50" : ""}  ${isPast && !isHighlighted ? "opacity-65" : ""} `}
                     id={`${rowId}-mobile`}
                   >
                     {/* 1. Venue & City (FIRST) */}
@@ -2195,7 +2195,7 @@ export default function TourList({
                                   ? `Parking: ${show.parkingInfo}`
                                   : "Parking Directions"
                               }
-                              className="btn-action-purple flex flex-1 items-center justify-center gap-1.5  px-3 py-2"
+                              className="btn-action-purple flex flex-1 items-center justify-center gap-1.5 px-3 py-2"
                             >
                               <CarIcon className="h-3.5 w-3.5 shrink-0" />
                               <span>Park</span>
@@ -2215,7 +2215,7 @@ export default function TourList({
                             className="btn-action-purple btn-icon-square"
                           >
                             {subscribingId === show._id ? (
-                              <span className="h-3.5 w-3.5 animate-spin  border-2 border-white border-t-transparent" />
+                              <span className="h-3.5 w-3.5 animate-spin border-2 border-white border-t-transparent" />
                             ) : (
                               <Bell className="h-4 w-4" />
                             )}
@@ -2245,7 +2245,7 @@ export default function TourList({
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Google Cal
                                 </a>
@@ -2253,7 +2253,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   iCal / Apple
                                 </a>
@@ -2261,7 +2261,7 @@ export default function TourList({
                                   href={getICSFileUrl(show)}
                                   download={`${show.venue.replace(/\s+/g, "_")}_show.ics`}
                                   onClick={() => setActiveCalDropdownId(null)}
-                                  className="flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full items-center gap-2 px-4 py-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   Outlook
                                 </a>
@@ -2272,7 +2272,7 @@ export default function TourList({
                                       .getElementById("proximity-notify")
                                       ?.scrollIntoView({ behavior: "smooth" });
                                   }}
-                                  className="flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
+                                  className="transition-colors flex w-full cursor-pointer items-center gap-2 border-t border-white/10 px-4 py-2 pt-2 text-left hover:bg-[var(--color-accent)]/20 hover:text-white"
                                 >
                                   <MessageSquare className="h-3.5 w-3.5 shrink-0 text-purple-400" />{" "}
                                   SMS / Text Alerts
@@ -2289,13 +2289,13 @@ export default function TourList({
                       <div className="mt-3 flex shrink-0 items-center gap-1.5">
                         <button
                           onClick={() => handleEditClick(show)}
-                          className="h-9 cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 text-blue-400 hover:bg-blue-600 hover:text-white"
+                          className="transition-colors h-9 cursor-pointer rounded border border-blue-500/20 bg-blue-600/10 px-2 text-blue-400 hover:bg-blue-600 hover:text-white"
                         >
                           <Edit className="mr-1 inline h-3.5 w-3.5" /> Edit
                         </button>
                         <button
                           onClick={() => handleDeleteShow(show._id)}
-                          className="h-9 cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 text-rose-400 hover:bg-rose-600 hover:text-white"
+                          className="transition-colors h-9 cursor-pointer rounded border border-rose-500/20 bg-rose-600/10 px-2 text-rose-400 hover:bg-rose-600 hover:text-white"
                         >
                           <X className="mr-1 inline h-3.5 w-3.5" /> Delete
                         </button>
@@ -2313,7 +2313,7 @@ export default function TourList({
               <p>No shows match your filters.</p>
               <button
                 onClick={clearAll}
-                className="mt-4 cursor-pointer hover:text-white"
+                className="transition-colors mt-4 cursor-pointer hover:text-white"
               >
                 Clear all filters
               </button>
@@ -2346,7 +2346,7 @@ export default function TourList({
                   </h3>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="cursor-pointer p-2 text-white/50 hover:text-white"
+                    className="transition-colors cursor-pointer p-2 text-white/50 hover:text-white"
                   >
                     ✕ Close
                   </button>
@@ -2363,7 +2363,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-venue"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Venue Name *
                       </label>
@@ -2380,7 +2380,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-date"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Event Date *
                       </label>
@@ -2399,7 +2399,7 @@ export default function TourList({
                     <div className="sm:col-span-2">
                       <label
                         htmlFor="tour-form-city"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         City *
                       </label>
@@ -2416,7 +2416,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-state"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         State *
                       </label>
@@ -2436,7 +2436,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-time"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Show Time
                       </label>
@@ -2452,7 +2452,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-doors-time"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Doors Open
                       </label>
@@ -2468,7 +2468,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-play-time"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Band Plays
                       </label>
@@ -2484,7 +2484,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-cover"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Cover / Admission
                       </label>
@@ -2503,7 +2503,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-ticket-link"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Ticket Link (URL)
                       </label>
@@ -2519,7 +2519,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-directions-link"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Directions / Google Maps (URL)
                       </label>
@@ -2541,7 +2541,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-parking-url"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Parking Directions Link (URL)
                       </label>
@@ -2557,7 +2557,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-parking-info"
-                        className="  block text-white/30"
+                        className="block text-white/30"
                       >
                         Parking Info / Notes
                       </label>
@@ -2575,7 +2575,7 @@ export default function TourList({
                   <div>
                     <label
                       htmlFor="tour-form-notes"
-                      className="  block text-white/30"
+                      className="block text-white/30"
                     >
                       Notes / Description
                     </label>
@@ -2639,14 +2639,14 @@ export default function TourList({
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(false)}
-                      className="flex-1 cursor-pointer bg-[#00000029] py-3 hover:bg-white/10"
+                      className="transition-colors flex-1 cursor-pointer bg-[#00000029] py-3 hover:bg-white/10"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="flex-1 cursor-pointer bg-[var(--color-accent)] py-3 hover:bg-emerald-500 disabled:opacity-50"
+                      className="transition-colors flex-1 cursor-pointer bg-[var(--color-accent)] py-3 hover:bg-emerald-500 disabled:opacity-50"
                     >
                       {submitting ? "Saving..." : "Save Show"}
                     </button>
@@ -2693,7 +2693,7 @@ export default function TourList({
                   </div>
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
+                    className="transition-colors flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
                   >
                     <svg
                       width="12"
@@ -2732,13 +2732,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, thisShow: !p.thisShow }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"} `}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"} `}
                       />
                     </span>
                     <div className="text-left">
@@ -2757,13 +2757,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, proximity: !p.proximity }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"} `}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"} `}
                       />
                     </span>
                     <div className="text-left">
@@ -2785,13 +2785,13 @@ export default function TourList({
                         newsletter: !p.newsletter,
                       }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"} `}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"} `}
                       />
                     </span>
                     <div className="text-left">
@@ -2810,7 +2810,7 @@ export default function TourList({
                   </p>
                 ) : (
                   <div className="mt-3">
-                    <label className=" block">Your Email Address</label>
+                    <label className="block">Your Email Address</label>
                     <input
                       type="email"
                       placeholder="fan@example.com"
@@ -2825,7 +2825,7 @@ export default function TourList({
                 <div className="mt-4 flex gap-2">
                   <button
                     onClick={() => setNotifyPopupShow(null)}
-                    className="flex-1 cursor-pointer rounded-[var(--radius-box)] bg-[#00000029] py-2.5 hover:bg-white/10"
+                    className="transition-colors flex-1 cursor-pointer rounded-[var(--radius-box)] bg-[#00000029] py-2.5 hover:bg-white/10"
                   >
                     Cancel
                   </button>
@@ -2837,7 +2837,7 @@ export default function TourList({
                         !notifyPrefs.proximity &&
                         !notifyPrefs.newsletter)
                     }
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius-box)] bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-40"
+                    className="transition-[filter] flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius-box)] bg-[var(--color-accent)] py-2.5 shadow-[0_0_15px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-40"
                   >
                     {subscribingId ? (
                       "Saving..."
@@ -2865,7 +2865,7 @@ export default function TourList({
               <h3 className="r">Font Tester</h3>
               <button
                 onClick={() => setIsFontCustomizerOpen(false)}
-                className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
+                className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
               >
                 ✕
               </button>
@@ -2929,7 +2929,7 @@ export default function TourList({
 
             {/* Font Size */}
             <div className="mb-6">
-              <div className="  flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-font-size-slider"
                   className="r text-white/50"
@@ -2947,7 +2947,7 @@ export default function TourList({
                 max="24"
                 value={parseInt(tourFontSize) || 13}
                 onChange={(e) => setTourFontSize(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>10px</span>
@@ -2958,7 +2958,7 @@ export default function TourList({
 
             {/* Website Button Font Size */}
             <div className="mb-6">
-              <div className="  flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-website-btn-size-slider"
                   className="r text-white/50"
@@ -2980,7 +2980,7 @@ export default function TourList({
                   setWebsiteBtnFontSize(v);
                   localStorage.setItem("7h_tour_website_btn_font_size", v);
                 }}
-                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>8px</span>
@@ -2991,7 +2991,7 @@ export default function TourList({
 
             {/* Row Padding */}
             <div className="mb-6">
-              <div className="  flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-row-padding-slider"
                   className="r text-white/50"
@@ -3009,7 +3009,7 @@ export default function TourList({
                 max="40"
                 value={parseInt(tourRowPadding) || 0}
                 onChange={(e) => setTourRowPadding(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>0px</span>
@@ -3020,7 +3020,7 @@ export default function TourList({
 
             {/* Row Spacing */}
             <div className="mb-6">
-              <div className="  flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-row-spacing-slider"
                   className="r text-white/50"
@@ -3036,7 +3036,7 @@ export default function TourList({
                 max="30"
                 value={parseInt(tourRowGap) || 0}
                 onChange={(e) => setTourRowGap(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>0px</span>
@@ -3047,7 +3047,7 @@ export default function TourList({
 
             {/* Row Height */}
             <div className="mb-5">
-              <div className="  flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-row-height-slider"
                   className="r text-white/50"
@@ -3065,7 +3065,7 @@ export default function TourList({
                 max="100"
                 value={parseInt(tourRowHeight) || 40}
                 onChange={(e) => setTourRowHeight(`${e.target.value}px`)}
-                className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
               />
               <div className="mt-0.5 flex justify-between text-white/30">
                 <span>30px</span>
@@ -3123,7 +3123,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3159,7 +3159,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3195,7 +3195,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3231,7 +3231,7 @@ export default function TourList({
                           String(val),
                         );
                       }}
-                      className="h-1 w-full cursor-pointer appearance-none  bg-white/10 accent-[var(--color-accent)]"
+                      className="h-1 w-full cursor-pointer appearance-none bg-white/10 accent-[var(--color-accent)]"
                     />
                     <div className="mt-0.5 flex justify-between text-white/30">
                       <span>0px</span>
@@ -3258,7 +3258,7 @@ export default function TourList({
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 }}
-                className="transition-all cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10"
+                className="transition-colors cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10"
               >
                 {copied ? "Copied! ✓" : "Copy CSS"}
               </button>
@@ -3271,7 +3271,7 @@ export default function TourList({
                   localStorage.setItem("7h_tour_row_height", tourRowHeight);
                   setIsFontCustomizerOpen(false);
                 }}
-                className="cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-2.5 hover:bg-[rgba(255,10,61,0.9)]"
+                className="transition-colors cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-2.5 hover:bg-[rgba(255,10,61,0.9)]"
               >
                 Apply & Save
               </button>

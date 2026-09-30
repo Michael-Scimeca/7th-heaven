@@ -900,7 +900,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           />
           <Stack gap="lg" className="items-center w-full">
             {/* Background Glows */}
-            <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2  bg-[var(--color-accent)] opacity-[0.05] blur-3xl" />
+            <div className="pointer-events-none absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[var(--color-accent)] opacity-[0.05] blur-3xl" />
 
             <div className="relative z-10 w-full max-w-lg animate-[fade-in-up_0.6s_ease-out_both] rounded-[2rem] border border-white/10 bg-[var(--color-bg-surface)]/80 p-10 text-center backdrop-blur-xl">
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[var(--color-accent)] bg-[var(--color-accent)]/20">
@@ -931,7 +931,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <div className="flex w-full flex-col gap-3">
                 <Link
                   href="/book"
-                  className="inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4   shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
+                  className="transition-[background-color,color,border-color,box-shadow] inline-flex w-full items-center justify-center bg-[var(--color-accent)] px-8 py-4 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:bg-[var(--color-accent)]/80 hover:shadow-[0_0_30px_rgba(255,10,61,0.5)]"
                 >
                   Book Another Show
                 </Link>
@@ -939,7 +939,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   (creatingAccount ? (
                     <div className="border border-white/10 bg-white/[0.03] p-5 text-left">
                       <div className="mb-6">
-                        <span className="  block text-white/30">
+                        <span className="block text-white/30">
                           Account Email
                         </span>
                         {editingEmail ? (
@@ -999,10 +999,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 pinLoading
                               }
                               onClick={handleSendPin}
-                              className="flex min-w-[70px] shrink-0 cursor-pointer items-center justify-center bg-[var(--color-accent)] px-5 py-3 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
+                              className="transition-colors flex min-w-[70px] shrink-0 cursor-pointer items-center justify-center bg-[var(--color-accent)] px-5 py-3 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                               {pinLoading ? (
-                                <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+                                <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
                               ) : (
                                 "Go →"
                               )}
@@ -1031,10 +1031,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               type="button"
                               disabled={pinCode.length !== 6 || pinLoading}
                               onClick={handleVerifyPin}
-                              className="flex min-w-[140px] shrink-0 cursor-pointer items-center justify-center bg-purple-600 px-5 py-3 hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-40"
+                              className="transition-colors flex min-w-[140px] shrink-0 cursor-pointer items-center justify-center bg-purple-600 px-5 py-3 hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                               {pinLoading ? (
-                                <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+                                <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
                               ) : (
                                 "Verify & Create"
                               )}
@@ -1045,7 +1045,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               type="button"
                               onClick={handleSendPin}
                               disabled={pinLoading}
-                              className="text-[var(--color-accent)] hover:text-white disabled:opacity-40"
+                              className="transition-colors text-[var(--color-accent)] hover:text-white disabled:opacity-40"
                             >
                               Resend Code
                             </button>
@@ -1080,7 +1080,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           setPinError("");
                           setPinCode("");
                         }}
-                        className="mt-4 block w-full cursor-pointer text-center text-white/30 text-white/50 hover:text-white"
+                        className="transition-colors mt-4 block w-full cursor-pointer text-center text-white/30 text-white/50 hover:text-white"
                       >
                         Cancel
                       </button>
@@ -1096,7 +1096,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           setCreatingAccount(true);
                           setAccountEmail(accountEmail || formData.email);
                         }}
-                        className="inline-flex w-full cursor-pointer items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-4 hover:border-[var(--color-accent)]/60 hover:bg-white/[0.1]"
+                        className="transition-colors inline-flex w-full cursor-pointer items-center justify-center border border-white/10 bg-white/[0.05] px-8 py-4 hover:border-[var(--color-accent)]/60 hover:bg-white/[0.1]"
                       >
                         Create Account
                       </button>
@@ -1104,7 +1104,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   ))}
                 <Link
                   href="/"
-                  className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.03] px-8 py-4   hover:bg-white/[0.08]"
+                  className="transition-colors inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.03] px-8 py-4 hover:bg-white/[0.08]"
                 >
                   Return to Homepage
                 </Link>
@@ -1124,7 +1124,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
       <form
         id="book-event"
-        className="relative z-10 mx-auto w-full  grid grid-cols-1 items-start  lg:grid-cols-[1fr_360px]"
+        className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_360px]"
         onSubmit={handleSubmit}
       >
         <div className="steps flex flex-col page-stack">
@@ -1174,7 +1174,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <button
                 type="button"
                 onClick={handleLoadLastForm}
-                className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] bg-purple-600 px-5 py-2.5 hover:bg-purple-500"
+                className="transition-colors flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] bg-purple-600 px-5 py-2.5 hover:bg-purple-500"
               >
                 <Zap className="h-3.5 w-3.5" /> Populate
               </button>
@@ -1362,7 +1362,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       return (
                         <div
                           key={slot.id}
-                          className="group relative border border-white/10 bg-[#00000029] p-4 sm:p-6 hover:border-purple-400/40"
+                          className="transition-colors group relative border border-white/10 bg-[#00000029] p-4 sm:p-6 hover:border-purple-400/40"
                         >
                           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
@@ -1381,7 +1381,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   };
                                   setBookingSlots([...bookingSlots, newSlot]);
                                 }}
-                                className="flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-purple-400/30 hover:bg-cyan-500/20"
+                                className="transition-colors flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-purple-400/30 hover:bg-cyan-500/20"
                                 title="Add another show on this date"
                               >
                                 <Plus className="h-3 w-3" /> Add Another
@@ -1393,7 +1393,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     bookingSlots.filter((s) => s.id !== slot.id),
                                   )
                                 }
-                                className="flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
+                                className="transition-colors flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
                                 title="Remove this show"
                               >
                                 <X className="h-3 w-3" /> Remove
@@ -1430,7 +1430,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <div>
                               <label
                                 htmlFor={`slot-format-${slot.id}`}
-                                className="  block text-white/50"
+                                className="block text-white/50"
                               >
                                 Show Format
                               </label>
@@ -1475,7 +1475,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               <div>
                                 <label
                                   htmlFor={`slot-start-${slot.id}`}
-                                  className="  block text-white/50"
+                                  className="block text-white/50"
                                 >
                                   Start Time
                                 </label>
@@ -1512,7 +1512,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               <div>
                                 <label
                                   htmlFor={`slot-end-${slot.id}`}
-                                  className="  block text-white/50"
+                                  className="block text-white/50"
                                 >
                                   End Time
                                 </label>
@@ -1555,7 +1555,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               <span className="mb-2 block text-white/50">
                                 Contact & Venue Details
                               </span>
-                              <div className="grid grid-cols-2 gap-1.5  border border-white/10 bg-black/50 p-1">
+                              <div className="grid grid-cols-2 gap-1.5 border border-white/10 bg-black/50 p-1">
                                 <button
                                   type="button"
                                   onClick={() => {
@@ -1575,7 +1575,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className={`cursor-pointer  py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
+                                  className={`cursor-pointer py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "} `}
                                 >
                                   Share Main Info
                                 </button>
@@ -1614,7 +1614,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className={`cursor-pointer  py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
+                                  className={`cursor-pointer py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "} `}
                                 >
                                   Use Separate Info
                                 </button>
@@ -1622,7 +1622,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             </div>
 
                             {!slot.useSeparateInfo ? (
-                              <div className="mt-2 animate-[fade-in-up_0.1s_ease-out_both] space-y-1.5  border border-white/10 bg-white/[0.03] p-3.5 text-white/50">
+                              <div className="mt-2 animate-[fade-in-up_0.1s_ease-out_both] space-y-1.5 border border-white/10 bg-white/[0.03] p-3.5 text-white/50">
                                 <div className="flex items-start justify-between gap-2">
                                   <span className="mt-0.5 text-white/40">
                                     Contact:
@@ -1662,7 +1662,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 </p>
                               </div>
                             ) : (
-                              <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] space-y-3  border border-white/10 bg-white/[0.03] p-3.5">
+                              <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] space-y-3 border border-white/10 bg-white/[0.03] p-3.5">
                                 <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                                   <span className="text-white/40">
                                     Separate Show Info
@@ -1686,7 +1686,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                         );
                                         setBookingSlots(updated);
                                       }}
-                                      className="cursor-pointer hover:text-white"
+                                      className="transition-colors cursor-pointer hover:text-white"
                                     >
                                       ⚡ Copy Main
                                     </button>
@@ -1734,7 +1734,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                             }
                                           } catch { }
                                         }}
-                                        className="cursor-pointer text-purple-400 hover:text-white"
+                                        className="transition-colors cursor-pointer text-purple-400 hover:text-white"
                                       >
                                         ⚡ Load Last
                                       </button>
@@ -1852,7 +1852,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   [slot.id]: !prev[slot.id],
                                 }))
                               }
-                              className="flex w-full items-center justify-between text-left hover:text-purple-400"
+                              className="transition-colors flex w-full items-center justify-between text-left hover:text-purple-400"
                             >
                               <span className="flex items-center gap-1.5">
                                 <Megaphone className="h-3.5 w-3.5" /> Tour Page
@@ -2070,7 +2070,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 </div>
 
                 {isLoadInUnsure && (
-                  <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3  border border-purple-500/40 bg-purple-950/40 p-3.5 text-purple-200">
+                  <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3 border border-purple-500/40 bg-purple-950/40 p-3.5 text-purple-200">
                     <div className="space-y-1">
                       <span className="block">
                         Unsure of exact load-in time? No problem!
@@ -2095,7 +2095,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 />
 
                 {addressNotification && (
-                  <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5  border border-purple-400/40 bg-cyan-950/70 p-3">
+                  <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5 border border-purple-400/40 bg-cyan-950/70 p-3">
                     <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
                     <span>{addressNotification}</span>
                   </div>
@@ -2175,7 +2175,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                   {/* Row 4: Parking location link & directions expands when checkbox is checked */}
                   {hasParkingNotes && (
-                    <div className="animate-[fade-in-up_0.15s_ease-out_both] space-y-4  border border-purple-500/30 bg-purple-950/20 p-4 md:col-span-2">
+                    <div className="animate-[fade-in-up_0.15s_ease-out_both] space-y-4 border border-purple-500/30 bg-purple-950/20 p-4 md:col-span-2">
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <label htmlFor="parkingAddress" className="block">
@@ -2185,7 +2185,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <button
                               type="button"
                               onClick={() => setShowMapPicker(true)}
-                              className="flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
+                              className="transition-colors flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
                             >
                               <MapPin className="h-3.5 w-3.5" /> Pick on Map
                             </button>
@@ -2203,7 +2203,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               )}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-1 hover:text-purple-200 hover:underline"
+                              className="transition-colors flex items-center gap-1 hover:text-purple-200 hover:underline"
                             >
                               <Compass className="h-3.5 w-3.5" /> Search Google Maps
                               ↗
@@ -2212,7 +2212,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <button
                               type="button"
                               onClick={() => handleSaveCurrentAddress()}
-                              className="flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
+                              className="transition-colors flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
                             >
                               <Bookmark className="h-3.5 w-3.5" /> Save Link
                             </button>
@@ -2404,7 +2404,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 : [...prev, option.id],
                             )
                           }
-                          className={`group flex w-full cursor-pointer items-start gap-3 border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
+                          className={`group flex w-full cursor-pointer items-start gap-3 border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"} `}
                         >
                           <span className="mt-0.5 text-xl">{option.icon}</span>
                           <div className="min-w-0 flex-1">
@@ -2461,7 +2461,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   )?.body ||
                   "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
                 }
-                className="focus-ring w-full resize-none "
+                className="focus-ring w-full resize-none"
               />
               {formData.details && (
                 <div className="mt-3 flex items-center gap-2 text-emerald-400">
@@ -2490,7 +2490,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         {/* Right Column: Sticky Summary Sidebar */}
         <aside
           aria-label="Booking Summary"
-          className="sticky top-25 md:mt-6 lg:mt-0 mt-6  pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
+          className="sticky top-25 md:mt-6 lg:mt-0 mt-6 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
         >
           <div className="border-0 p-0">
             <SectionHeader
@@ -2633,11 +2633,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <p className="mt-4 text-center">
                   By submitting, you confirm you are 18 years of age or older and
                   agree to our{" "}
-                  <Link href="/privacy" className="hover:text-white">
+                  <Link href="/privacy" className="transition-colors hover:text-white">
                     Privacy Policy
                   </Link>{" "}
                   and{" "}
-                  <Link href="/terms" className="hover:text-white">
+                  <Link href="/terms" className="transition-colors hover:text-white">
                     Terms
                   </Link>
                   .
@@ -2806,7 +2806,7 @@ function MapPickerModal({
         onClick={onClose}
         className="fixed inset-0 h-full w-full cursor-default border-0 bg-black/80 backdrop-blur-2xl"
       />
-      <div className="relative z-10 max-h-[90vh] w-full max-w-2xl space-y-5 overflow-hidden overflow-y-auto  border border-purple-500/40 bg-[#0f0921] p-6">
+      <div className="relative z-10 max-h-[90vh] w-full max-w-2xl space-y-5 overflow-hidden overflow-y-auto border border-purple-500/40 bg-[#0f0921] p-6">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="h-5 w-5 text-[#c27aff]" />
@@ -2818,7 +2818,7 @@ function MapPickerModal({
             aria-label="Close modal"
             type="button"
             onClick={onClose}
-            className="cursor-pointer p-1 text-white/50 hover:text-white"
+            className="transition-colors cursor-pointer p-1 text-white/50 hover:text-white"
           >
             <X className="h-5 w-5" />
           </button>
@@ -2843,7 +2843,7 @@ function MapPickerModal({
                 <button
                   type="button"
                   key={item.id}
-                  className="group flex w-full cursor-pointer items-start justify-between gap-2  border border-white/10 bg-[#00000029] p-3 text-left hover:border-purple-400/50 hover:bg-white/10"
+                  className="transition-colors group flex w-full cursor-pointer items-start justify-between gap-2 border border-white/10 bg-[#00000029] p-3 text-left hover:border-purple-400/50 hover:bg-white/10"
                   onClick={() => {
                     if (onSelectSaved) {
                       onSelectSaved(item);
@@ -2864,8 +2864,8 @@ function MapPickerModal({
                       {item.venueCity ? `, ${item.venueCity}` : ""}
                     </div>
                   </div>
-                  <div className="flex shrink-0 items-center gap-1 opacity-80 group-hover:opacity-100">
-                    <span className="rounded border border-purple-400/40 bg-purple-600/40 px-2 py-1 text-[10px] hover:bg-purple-600/70">
+                  <div className="transition-opacity flex shrink-0 items-center gap-1 opacity-80 group-hover:opacity-100">
+                    <span className="transition-colors rounded border border-purple-400/40 bg-purple-600/40 px-2 py-1 text-[10px] hover:bg-purple-600/70">
                       Use
                     </span>
                     {!item.id.startsWith("preset-") && onDeleteSavedAddress && (
@@ -2874,7 +2874,7 @@ function MapPickerModal({
                           e.stopPropagation();
                           onDeleteSavedAddress(item.id);
                         }}
-                        className="p-1 text-white/40 hover:text-red-400"
+                        className="transition-colors p-1 text-white/40 hover:text-red-400"
                         title="Delete saved address"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -2907,7 +2907,7 @@ function MapPickerModal({
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressInput || "Chicago, IL")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-1.5  border border-purple-400/40 bg-purple-600/40 px-3.5 py-2.5 hover:bg-purple-600/60"
+              className="transition-colors inline-flex shrink-0 items-center gap-1.5 border border-purple-400/40 bg-purple-600/40 px-3.5 py-2.5 hover:bg-purple-600/60"
             >
               <Navigation className="h-3.5 w-3.5" /> Open Map
             </a>
@@ -2923,7 +2923,7 @@ function MapPickerModal({
                   onSaveNewAddress(addressInput.trim());
                 }
               }}
-              className="flex cursor-pointer items-center gap-1.5  bg-[var(--color-accent)] px-3.5 py-2"
+              className="flex cursor-pointer items-center gap-1.5 bg-[var(--color-accent)] px-3.5 py-2"
             >
               <Bookmark className="h-3.5 w-3.5" /> Save to Favorites
             </button>
@@ -2933,7 +2933,7 @@ function MapPickerModal({
               type="button"
               aria-label="Cancel location picker"
               onClick={onClose}
-              className="rounded-lg bg-[#00000029] px-4 py-2.5 hover:bg-white/10 hover:text-white"
+              className="transition-colors rounded-lg bg-[#00000029] px-4 py-2.5 hover:bg-white/10 hover:text-white"
             >
               Cancel
             </button>
@@ -2944,7 +2944,7 @@ function MapPickerModal({
                 onSave(addressInput);
                 onClose();
               }}
-              className="flex cursor-pointer items-center gap-1.5  bg-gradient-to-r from-purple-600 to-cyan-500 px-5 py-2.5 hover:from-purple-500 hover:to-cyan-400"
+              className="transition-colors flex cursor-pointer items-center gap-1.5 bg-gradient-to-r from-purple-600 to-cyan-500 px-5 py-2.5 hover:from-purple-500 hover:to-cyan-400"
             >
               <Check className="h-4 w-4" /> Save Location to Form
             </button>

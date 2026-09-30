@@ -574,15 +574,15 @@ export default function RockNRollKidsClient({
 
             {/* Quick Spec Pills */}
             <ul className="flex flex-col gap-2 pt-2">
-              <li className="flex items-center gap-3  border border-white/10 bg-purple-950/40 p-3 text-purple-200">
+              <li className="flex items-center gap-3 border border-white/10 bg-purple-950/40 p-3 text-purple-200">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
                 <span>Animated TV Series & Comic Books</span>
               </li>
-              <li className="flex items-center gap-3  border border-white/10 bg-purple-950/40 p-3 text-purple-200">
+              <li className="flex items-center gap-3 border border-white/10 bg-purple-950/40 p-3 text-purple-200">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
                 <span>Original Songs, Mobile Apps & Games</span>
               </li>
-              <li className="flex items-center gap-3  border border-white/10 bg-purple-950/40 p-3 text-purple-200">
+              <li className="flex items-center gap-3 border border-white/10 bg-purple-950/40 p-3 text-purple-200">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-purple-400" />
                 <span>Positive Influence & Creative Inspiration</span>
               </li>
@@ -597,7 +597,7 @@ export default function RockNRollKidsClient({
               </div>
               <p className="drop-shadow-md sm:text-xl">&ldquo;{para1}&rdquo;</p>
               {para2 && (
-                <p className="border-t border-white/10 pt-5 font-normal ">
+                <p className="border-t border-white/10 pt-5 font-normal">
                   {para2}
                 </p>
               )}
@@ -750,7 +750,7 @@ export default function RockNRollKidsClient({
                   />
                 </div>
                 <span className="mb-1 block text-purple-400">{prod.badge}</span>
-                <h3 className="  line-clamp-1">{prod.title}</h3>
+                <h3 className="line-clamp-1">{prod.title}</h3>
                 <p className="mb-6 line-clamp-2">{prod.desc}</p>
               </div>
 
@@ -822,7 +822,7 @@ export default function RockNRollKidsClient({
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="! mb-0 block "
+                    className="! mb-0 block"
                   >
                     {founder.phone}
                   </a>
@@ -830,7 +830,7 @@ export default function RockNRollKidsClient({
                 {founder.email ? (
                   <a
                     href={`mailto:${founder.email}`}
-                    className="a-btn block "
+                    className="a-btn block"
                   >
                     {founder.email}
                   </a>

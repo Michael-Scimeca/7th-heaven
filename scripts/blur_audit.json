@@ -688,7 +688,7 @@
       "actualPx": "12px",
       "type": "Backdrop Blur",
       "tagContext": "Element",
-      "lineContent": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+      "lineContent": "className=\"  self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
     },
     {
       "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
@@ -698,7 +698,7 @@
       "actualPx": "12px",
       "type": "Backdrop Blur",
       "tagContext": "Element",
-      "lineContent": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+      "lineContent": "className=\"  self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
     },
     {
       "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
@@ -708,7 +708,7 @@
       "actualPx": "12px",
       "type": "Backdrop Blur",
       "tagContext": "Element",
-      "lineContent": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+      "lineContent": "className=\"  self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
     },
     {
       "file": "src/app/cruise/dashboard/page.tsx",

@@ -20,4 +20,37 @@ In this project, **never write static values** in `style={{...}}` or `element.st
 - **Naming**: Use **lowercase kebab-case** descriptive names (e.g. `band-stage-lighting.webp`, `tour-map-bg.png`).
 - **No Raw IDs**: Never use camera IDs, Amazon seller IDs (e.g. `71tQzMjwGaL._SL1500_.jpg`), stock photo hashes, or raw IDs in image filenames.
 
+## 🔤 Typography & Color Hierarchy Rule (MANDATORY)
+
+Use only the type-scale and color tokens. No text-[Npx], no inline fontSize, no hex text colors. One h1 per page, no skipped heading levels.
+
+## 📐 Section Heading & Spacing Rule (MANDATORY)
+
+Every section heading uses `<SectionHeader>`. Sections are spaced by the parent's gap, never by margins on the heading.
+Padding = inside boxes with a visible edge. Gap = between siblings (parent owns it). No margins on components except mt-auto / mx-auto.
+All values on the 8px grid via spacing tokens (no off-grid values like 20px / py-5). Parent gap owns space between siblings; a child's padding must never add to the parent's gap.
+
+## 🏗️ Page Structure Rule (MANDATORY)
+
+Page structure: `<main>` → optional `<header>` with the `h1` → `<section>`s (each with a heading + `aria-labelledby`). Layout divs go inside sections, never beside them. Sidebars are `<aside>`. Form steps are sibling `<section>`s.
+
+## 🔘 Unified Toggle Rule (MANDATORY)
+
+All on/off switches across the site must use `<Toggle>`. Toggle styling lives only in the `TOGGLE` component block in `src/app/globals.css`. Never create hand-built toggle switches or write inline toggle styles. Use `size="sm"` for compact admin tables and dense cards, and `size="md"` for standard forms. Always ensure accessible labels are provided via `label`, or `hideLabel` with `aria-labelledby`.
+
+## 📦 Standard Section Recipe Rule (MANDATORY)
+
+Every section = `<PageSection>` + `<SectionHeader>` + `<Stack>`. No section spacing, gutter or heading styles written by hand. PageSection owns vertical spacing (`size="sm|md|lg"`) and gutter (`site-container`). SectionHeader handles badges, icons, subtitles, and headings. Stack owns spacing between siblings via `gap`.
+
+## 🧩 Shared Components & Anti-Duplication Rule (MANDATORY)
+
+Before building a section, check the style guide for an existing component (PageHero, LegalPage, FaqAccordion, VerifyFlow, StatusScreen, VideoGrid, ShowCard, Countdown, NotifyPrompt, ProductCard, PageSection). Never build a second version of an existing section type.
+
+## 📑 Section Pattern Rule (MANDATORY)
+
+Page sections = `<section id aria-labelledby className="section|section-sm|section-lg">` (or `<PageSection>`) stacked in a flex-col parent. Only the section size class on the `<section>`; layout/background/animation go inside. Heading id = `'<section-id>-heading'`.
+
+## 🔲 Corner Radius Consistency Rule (MANDATORY)
+
+Boxes use rounded-[var(--radius-box)] (8px) via the shared components; pills use rounded-full; media gets radius on an overflow-hidden wrapper. Never redefine radius tokens.
 

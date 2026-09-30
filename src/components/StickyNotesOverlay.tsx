@@ -287,7 +287,7 @@ export default function StickyNotesOverlay() {
           type="button"
           onClick={() => handleToggleWidgetHidden(false)}
           title="Show Sticky Notes Toolbar"
-          className="fixed right-5 bottom-5 z-[99999] flex cursor-pointer items-center gap-1.5  border border-amber-500/40 bg-black/90 p-2.5 text-amber-400 backdrop-blur-xl transition-[background-color,color,transform] hover:scale-110 hover:bg-black hover:text-amber-300 active:scale-95"
+          className="fixed right-5 bottom-5 z-[99999] flex cursor-pointer items-center gap-1.5 border border-amber-500/40 bg-black/90 p-2.5 text-amber-400 backdrop-blur-xl transition-[background-color,color,transform] hover:scale-110 hover:bg-black hover:text-amber-300 active:scale-95"
         >
           <StickyNote className="h-4 w-4 text-amber-400" />
           <span className="pr-1 text-[10px] text-amber-300">Sticky Notes</span>
@@ -297,7 +297,7 @@ export default function StickyNotesOverlay() {
           <button
             type="button"
             onClick={handleAddInstantNote}
-            className="flex cursor-pointer items-center gap-2  border border-amber-400/50 bg-gradient-to-r from-amber-500 to-amber-600 px-3.5 py-2 shadow-amber-500/20 transition-[background-color,transform,box-shadow] hover:from-amber-400 hover:to-amber-500 active:scale-95"
+            className="flex cursor-pointer items-center gap-2 border border-amber-400/50 bg-gradient-to-r from-amber-500 to-amber-600 px-3.5 py-2 shadow-amber-500/20 transition-[background-color,transform,box-shadow] hover:from-amber-400 hover:to-amber-500 active:scale-95"
           >
             <Plus className="h-4 w-4" />
             <span>Add Sticky Note</span>
@@ -307,7 +307,7 @@ export default function StickyNotesOverlay() {
             type="button"
             onClick={handleToggleGlobalVisibility}
             title={visible ? "Hide All Sticky Notes" : "Show All Sticky Notes"}
-            className={`cursor-pointer  border p-2 ${visible ? "border-white/10 bg-white/10 hover:bg-white/20" : "border-red-500/40 bg-red-500/20 text-red-300"}`}
+            className={`cursor-pointer border p-2 ${visible ? "border-white/10 bg-white/10 hover:bg-white/20" : "border-red-500/40 bg-red-500/20 text-red-300"} `}
           >
             {visible ? (
               <Eye className="h-4 w-4 text-emerald-400" />
@@ -319,7 +319,7 @@ export default function StickyNotesOverlay() {
           <button
             type="button"
             onClick={() => setIsDrawerOpen(true)}
-            className="flex cursor-pointer items-center gap-1.5  border border-white/10 bg-[#00000029] px-3 py-2 hover:bg-white/10"
+            className="transition-colors flex cursor-pointer items-center gap-1.5 border border-white/10 bg-[#00000029] px-3 py-2 hover:bg-white/10"
           >
             <List className="h-4 w-4 text-amber-400" />
             <span className="hidden sm:inline">Notes</span>
@@ -332,7 +332,7 @@ export default function StickyNotesOverlay() {
             type="button"
             onClick={() => handleToggleWidgetHidden(true)}
             title="Minimize Sticky Notes Toolbar"
-            className="ml-0.5 cursor-pointer  p-1.5 text-white/40 hover:bg-white/10 hover:text-white"
+            className="transition-colors ml-0.5 cursor-pointer p-1.5 text-white/40 hover:bg-white/10 hover:text-white"
           >
             <X className="h-4 w-4" />
           </button>
@@ -351,20 +351,20 @@ export default function StickyNotesOverlay() {
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen(false)}
-                className="cursor-pointer  bg-white/10 p-1.5 hover:bg-white/20"
+                className="transition-colors cursor-pointer bg-white/10 p-1.5 hover:bg-white/20"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-1.5  border border-white/10 bg-[#00000029] p-1">
+            <div className="flex gap-1.5 border border-white/10 bg-[#00000029] p-1">
               {(["open", "resolved", "all"] as const).map((f) => (
                 <button
                   key={f}
                   type="button"
                   onClick={() => setActiveFilter(f)}
-                  className={`flex-1 cursor-pointer  py-1.5 ${activeFilter === f ? "bg-amber-400" : "hover:text-white"}`}
+                  className={`flex-1 cursor-pointer py-1.5 ${activeFilter === f ? "bg-amber-400" : "hover:text-white"} `}
                 >
                   {f}
                 </button>
@@ -384,7 +384,7 @@ export default function StickyNotesOverlay() {
                 acc.push(
                   <div
                     key={n.id}
-                    className="space-y-2  border border-white/10 bg-white/[0.03] p-4 hover:border-amber-400/40"
+                    className="transition-colors space-y-2 border border-white/10 bg-white/[0.03] p-4 hover:border-amber-400/40"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -412,7 +412,7 @@ export default function StickyNotesOverlay() {
                             setIsDrawerOpen(false);
                             handleScrollToNote(n.id);
                           }}
-                          className="flex cursor-pointer items-center gap-1 text-[10px] text-amber-300 hover:text-white"
+                          className="transition-colors flex cursor-pointer items-center gap-1 text-[10px] text-amber-300 hover:text-white"
                         >
                           <CornerDownRight className="h-3 w-3" /> Go To Note
                         </button>
@@ -420,7 +420,7 @@ export default function StickyNotesOverlay() {
                         <button
                           type="button"
                           onClick={() => handleToggleHideNote(n.id)}
-                          className="flex cursor-pointer items-center gap-1 text-[10px] hover:text-white"
+                          className="transition-colors flex cursor-pointer items-center gap-1 text-[10px] hover:text-white"
                         >
                           {isNoteHidden ? (
                             <Eye className="h-3 w-3 text-emerald-400" />
@@ -434,7 +434,7 @@ export default function StickyNotesOverlay() {
                       <button
                         type="button"
                         onClick={() => handleDeleteNote(n.id)}
-                        className="cursor-pointer p-1 text-white/40 hover:text-red-400"
+                        className="transition-colors cursor-pointer p-1 text-white/40 hover:text-red-400"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
@@ -615,7 +615,7 @@ function SingleStickyCard({
   return (
     <div
       onPointerDown={handlePointerDown}
-      className={`sticky-note-card bg-[#0c0915]/95 backdrop-blur-xl fixed z-[99990] w-72 cursor-grab rounded-2xl border p-4 transition-shadow active:cursor-grabbing ${isHighlighted ? "scale-105 border-amber-300 shadow-[0_0_40px_rgba(245,158,11,0.8)] ring-4 ring-amber-400/50" : note.status === "submitted" ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]" : "border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.25)]"}`}
+      className={`sticky-note-card bg-[#0c0915]/95 backdrop-blur-xl fixed z-[99990] w-72 cursor-grab rounded-2xl border p-4 transition-shadow active:cursor-grabbing ${isHighlighted ? "scale-105 border-amber-300 shadow-[0_0_40px_rgba(245,158,11,0.8)] ring-4 ring-amber-400/50" : note.status === "submitted" ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]" : "border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.25)]"} `}
       style={{
         left: `${pos.left}px`,
         top: `${pos.top}px`,
@@ -632,7 +632,7 @@ function SingleStickyCard({
 
         <div className="flex shrink-0 items-center gap-1.5">
           <span
-            className={`shrink-0  px-2 py-0.5 text-[12px] whitespace-nowrap ${note.status === "submitted" ? "border border-emerald-500/40 bg-emerald-500/20 text-emerald-300" : "border border-amber-500/40 bg-amber-500/20 text-amber-300"}`}
+            className={`shrink-0 px-2 py-0.5 text-[12px] whitespace-nowrap ${note.status === "submitted" ? "border border-emerald-500/40 bg-emerald-500/20 text-emerald-300" : "border border-amber-500/40 bg-amber-500/20 text-amber-300"} `}
           >
             {note.status === "submitted" ? "✓ Submitted" : "Draft"}
           </span>
@@ -641,7 +641,7 @@ function SingleStickyCard({
             type="button"
             onClick={() => onHideNote(note.id)}
             title="Hide Note"
-            className="cursor-pointer p-0.5 text-white/40 hover:text-amber-400"
+            className="transition-colors cursor-pointer p-0.5 text-white/40 hover:text-amber-400"
           >
             <Minus className="h-3.5 w-3.5" />
           </button>
@@ -650,7 +650,7 @@ function SingleStickyCard({
             type="button"
             onClick={() => onDelete(note.id)}
             title="Delete Note"
-            className="cursor-pointer p-0.5 text-white/40 hover:text-red-400"
+            className="transition-colors cursor-pointer p-0.5 text-white/40 hover:text-red-400"
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -673,7 +673,7 @@ function SingleStickyCard({
           <button
             type="button"
             onClick={handleSubmit}
-            className="flex cursor-pointer items-center gap-1.5  bg-amber-400 px-3 py-1.5 text-[10px] shadow-amber-400/20 hover:bg-amber-300"
+            className="transition-colors flex cursor-pointer items-center gap-1.5 bg-amber-400 px-3 py-1.5 text-[10px] shadow-amber-400/20 hover:bg-amber-300"
           >
             <Send className="h-3 w-3" />
             <span>Submit Note</span>

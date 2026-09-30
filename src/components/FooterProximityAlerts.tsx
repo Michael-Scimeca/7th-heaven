@@ -264,7 +264,7 @@ export default function FooterProximityAlerts() {
   const isBusy = status === "saving";
 
   return (
-    <div className="relative z-10 flex w-full flex-col items-start gap-6 md:flex-row md:items-start  mb-6">
+    <div className="relative z-10 flex w-full flex-col items-start gap-6 md:flex-row md:items-start mb-6">
       {/* ── LEFT COLUMN: iPhone Mobile Preview Device Mockup (Hidden on mobile, shown on tablet/desktop) ── */}
       <div className="hidden w-full shrink-0 items-start justify-start md:flex md:w-auto">
         <div className="relative aspect-[9/19.5] w-[190px] filter select-none sm:w-[210px] lg:w-[230px]">
@@ -296,15 +296,13 @@ export default function FooterProximityAlerts() {
       {/* ── RIGHT COLUMN: Proximity Alert Filters Form ── */}
       <div className="w-full min-w-0 flex-1">
         <div className="relative z-10 mb-6 flex flex-col items-start justify-between gap-4 border-b border-white/10 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-3">
-            <div className="mb-6">
-              <h3 className="flex items-center gap-2">
-                Proximity & Show Alert Filters
-              </h3>
-              <p>
-                Get notified only for shows within your distance & preferences
-              </p>
-            </div>
+          <div className="title-group title-group--sub mb-6">
+            <h3>
+              Proximity & Show Alert Filters
+            </h3>
+            <p>
+              Get notified only for shows within your distance & preferences
+            </p>
           </div>
         </div>
 
@@ -324,7 +322,7 @@ export default function FooterProximityAlerts() {
         {/* Top Row: Form Inputs */}
         <div className="relative z-10 mb-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
           <div>
-            <label className=" block flex items-center gap-1.5">
+            <label className="block flex items-center gap-1.5">
               Full Name
             </label>
             <GlowInput
@@ -387,7 +385,7 @@ export default function FooterProximityAlerts() {
           </div>
 
           <div>
-            <label className=" block flex items-center gap-1.5">
+            <label className="block flex items-center gap-1.5">
               Which Types of Show Notifications?
             </label>
             <div className="flex flex-wrap gap-2">
@@ -435,7 +433,7 @@ export default function FooterProximityAlerts() {
                 I agree to the{" "}
                 <Link
                   href="/terms"
-                  className="hover:text-white underline"
+                  className="transition-colors hover:text-white underline"
                   onClick={(e) => e.stopPropagation()}
                 >
                   Terms
@@ -443,7 +441,7 @@ export default function FooterProximityAlerts() {
                 and{" "}
                 <Link
                   href="/privacy"
-                  className="hover:text-white underline"
+                  className="transition-colors hover:text-white underline"
                   onClick={(e) => e.stopPropagation()}
                 >
                   Privacy Policy
@@ -454,7 +452,7 @@ export default function FooterProximityAlerts() {
           />
         </div>
 
-        <div className="relative z-10 flex flex-col items-start justify-start gap-3 ">
+        <div className="relative z-10 flex flex-col items-start justify-start gap-3">
           {permission === "granted" ? (
             <div className="flex shrink-0 flex-wrap items-center gap-3">
               <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 whitespace-nowrap text-emerald-300">
@@ -469,7 +467,7 @@ export default function FooterProximityAlerts() {
               >
                 <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                   {status === "saving" ? (
-                    <span className="inline-block h-4 w-4 shrink-0 animate-spin  border-2 border-white/10 border-t-white" />
+                    <span className="inline-block h-4 w-4 shrink-0 animate-spin border-2 border-white/10 border-t-white" />
                   ) : status === "saved" ? (
                     <>
                       <Check className="h-4 w-4 shrink-0 text-emerald-300" />{" "}
@@ -490,7 +488,7 @@ export default function FooterProximityAlerts() {
             >
               <span className="flex shrink-0 flex-nowrap items-center justify-center gap-2 whitespace-nowrap">
                 {status === "saving" ? (
-                  <span className="inline-block h-4 w-4 shrink-0 animate-spin  border-2 border-white/10 border-t-white" />
+                  <span className="inline-block h-4 w-4 shrink-0 animate-spin border-2 border-white/10 border-t-white" />
                 ) : status === "saved" ? (
                   <>
                     <Check className="h-4 w-4 shrink-0 text-emerald-300" />{" "}

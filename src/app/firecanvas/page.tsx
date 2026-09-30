@@ -73,7 +73,7 @@ function ColorField({
 }) {
   return (
     <div>
-      <label className="mb-1 block text-white/50">{label}</label>
+      <label className="lock">{label}</label>
       <div className="flex items-center gap-2">
         <input
           type="color"
@@ -193,14 +193,14 @@ export default function FireCanvasTunerPage() {
             <button
               type="button"
               onClick={resetAll}
-              className="border border-white/15 px-3 py-1.5 hover:bg-white/5"
+              className="transition-colors border border-white/15 px-3 py-1.5 hover:bg-white/5"
             >
               Reset
             </button>
             <button
               type="button"
               onClick={copyProps}
-              className="bg-amber-500 px-3 py-1.5 whitespace-nowrap hover:bg-amber-400"
+              className="transition-colors bg-amber-500 px-3 py-1.5 whitespace-nowrap hover:bg-amber-400"
             >
               {copied ? "Copied!" : "Copy JSX props"}
             </button>
@@ -272,7 +272,7 @@ export default function FireCanvasTunerPage() {
                   setPaletteTheme(theme.id);
                   setUseCustomColors(false);
                 }}
-                className={`rounded-full border px-3 py-1.5 ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
+                className={`rounded-full border px-3 py-1.5 ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"} `}
               >
                 {theme.label}
               </button>
@@ -280,7 +280,7 @@ export default function FireCanvasTunerPage() {
             <button
               type="button"
               onClick={() => setUseCustomColors(true)}
-              className={`rounded-full border px-3 py-1.5 ${useCustomColors ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
+              className={`rounded-full border px-3 py-1.5 ${useCustomColors ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"} `}
             >
               Custom Colors
             </button>
@@ -288,7 +288,7 @@ export default function FireCanvasTunerPage() {
         </div>
 
         {useCustomColors && (
-          <div className="grid gap-4  border border-white/10 bg-white/[0.03] p-4 sm:grid-cols-2">
+          <div className="grid gap-4 border border-white/10 bg-white/[0.03] p-4 sm:grid-cols-2">
             <ColorField
               label="Base (coolest)"
               value={colorBaseHex}

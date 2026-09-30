@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 import {
@@ -7,6 +7,7 @@ import {
   flattenThemeTokens,
   ThemeTokens,
 } from "@/lib/theme-tokens";
+import { requireAdmin } from "@/lib/api-utils";
 
 const THEME_FILE_PATH = path.join(process.cwd(), "src/data/theme.json");
 const GLOBALS_CSS_PATH = path.join(process.cwd(), "src/app/globals.css");
@@ -51,13 +52,18 @@ async function writeThemeTokens(tokens: ThemeTokens): Promise<boolean> {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authDenied = await requireAdmin(req);
+  if (authDenied) return authDenied;
+
   const tokens = await readThemeTokens();
   return NextResponse.json({ success: true, tokens });
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
     const body = await req.json();
     const tokens: ThemeTokens | undefined = body.tokens;
 

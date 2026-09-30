@@ -88,7 +88,7 @@ export const RadioPillField = ({
   required?: boolean;
 }) => (
   <fieldset className="m-0 border-0 p-0">
-    <legend className="mb-1.5 block text-white/90">
+    <legend className="block text-white/90">
       {label}
       {required && " *"}
     </legend>

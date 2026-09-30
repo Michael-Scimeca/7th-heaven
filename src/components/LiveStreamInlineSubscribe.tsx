@@ -11,7 +11,7 @@ import {
   QrCode,
 } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
-import SquishyToggle from "@/components/SquishyToggle";
+import Toggle from "@/components/Toggle";
 import { useMember } from "@/context/MemberContext";
 import { GlowInput } from "@/components/GlowInput";
 
@@ -97,10 +97,10 @@ export default function LiveStreamInlineSubscribe({
   if (subscribed) {
     return (
       <div
-        className={`w-full ${maxWidth} flex flex-col items-center justify-between gap-4 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] p-6 backdrop-blur-xl sm:flex-row ${className}`}
+        className={`w-full ${maxWidth} flex flex-col items-center justify-between gap-4 rounded-[var(--radius-box)] border border-purple-500/40 bg-gradient-to-b from-purple-950/40 via-[#0d071b] to-[#080410] p-6 backdrop-blur-xl sm:flex-row ${className} `}
       >
         <div className="flex items-center gap-4">
-          <div className="bg- purple-white/20 flex h-12 w-12 shrink-0 animate-pulse items-center justify-center  border border-purple-500/40">
+          <div className="flex h-12 w-12 shrink-0 animate-pulse items-center justify-center rounded-[var(--radius-box)] border border-purple-500/40 bg-purple-950/40">
             <Mail className="h-6 w-6" />
           </div>
           <div>
@@ -117,7 +117,7 @@ export default function LiveStreamInlineSubscribe({
           href={topicUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex shrink-0 items-center gap-2  border border-purple-500/30 bg-white/10 px-4 py-2.5 hover:bg-white/20 hover:text-white"
+          className="transition-colors flex shrink-0 items-center gap-2 rounded-[var(--radius-box)] border border-purple-500/30 bg-white/10 px-4 py-2.5 hover:bg-white/20 hover:text-white"
         >
           <span>Web Alerts Feed</span>
           <ExternalLink className="h-3.5 w-3.5" />
@@ -128,32 +128,32 @@ export default function LiveStreamInlineSubscribe({
 
   return (
     <>
-      <div className={`w-full ${maxWidth} ${className}`}>
+      <div className={`w-full ${maxWidth}  ${className} `}>
         {/* Header Title & Pill */}
         <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
-            <div className="bg- purple-white/20 flex h-11 w-11 shrink-0 items-center justify-center  border border-purple-500/40 text-yellow-300 shadow-inner">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-500/40 bg-purple-950/40 text-yellow-300 shadow-inner">
               <Bell className="h-5 w-5 animate-bounce" />
             </div>
-            <div>
+            <div className="title-group title-group--sub">
               <h3 className="r">
                 {title || "Crew Member Live Stream Push & Email Alerts"}
               </h3>
-              <p className="text-purple-200/70">
+              <p className="">
                 {subtitle ||
                   "Enter your details below to get instant push notifications on your phone & email whenever a 7th Heaven crew member goes live!"}
               </p>
             </div>
           </div>
 
-          <span className="inline-flex shrink-0 items-center gap-1.5 self-start  border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] text-emerald-400 sm:self-auto">
-            <span className="h-2 w-2 animate-ping  bg-emerald-400" />
+          <span className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] text-emerald-400 sm:self-auto">
+            <span className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
             100% Free Push Alerts
           </span>
         </div>
 
         {error && (
-          <div className="mb-6  border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
+          <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 p-3 text-rose-300">
             ⚠️ {error}
           </div>
         )}
@@ -161,28 +161,28 @@ export default function LiveStreamInlineSubscribe({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="relative w-full">
-                <GlowInput
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your Full Name"
-                  className="!pl-10"
-                />
+              <GlowInput
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Full Name"
+                className="!pl-10"
+              />
               <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
                 <User className="h-4 w-4" />
               </div>
             </div>
 
             <div className="relative w-full">
-                <GlowInput
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your Email Address"
-                  className="!pl-10"
-                />
+              <GlowInput
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your Email Address"
+                className="!pl-10"
+              />
               <div className="pointer-events-none absolute top-1/2 left-3.5 z-20 flex -translate-y-1/2 items-center justify-center text-white/40">
                 <Mail className="h-4 w-4" />
               </div>
@@ -190,37 +190,37 @@ export default function LiveStreamInlineSubscribe({
           </div>
 
           {/* Legal Terms & Privacy Toggle */}
-          <div className="flex items-center gap-3 pt-1">
-            <SquishyToggle
+          <div className="pt-1">
+            <Toggle
               id="inline-terms-toggle"
-              label="I agree to the Terms of Service & Privacy Policy"
               checked={agreedToTerms}
               onChange={(checked) => setAgreedToTerms(checked)}
+              label={
+                <span className="text-gray-300/90 select-none">
+                  I agree to the{" "}
+                  <a
+                    href="/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-purple-400"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Terms of Service
+                  </a>{" "}
+                  &{" "}
+                  <a
+                    href="/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-purple-400"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Privacy Policy
+                  </a>{" "}
+                  for instant push & email alerts.
+                </span>
+              }
             />
-            <label
-              htmlFor="inline-terms-toggle"
-              className="cursor-pointer text-gray-300/90 select-none"
-            >
-              I agree to the{" "}
-              <a
-                href="/terms"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover: text-purple-400"
-              >
-                Terms of Service
-              </a>{" "}
-              &{" "}
-              <a
-                href="/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover: text-purple-400"
-              >
-                Privacy Policy
-              </a>{" "}
-              for instant push & email alerts.
-            </label>
           </div>
 
           {/* Action Button */}
@@ -229,7 +229,7 @@ export default function LiveStreamInlineSubscribe({
               type="submit"
               disabled={loading}
               icon={<Sparkles className="h-4 w-4 text-yellow-300" />}
-              className="flex w-full items-center justify-center gap-2 "
+              className="flex w-full items-center justify-center gap-2"
             >
               {loading
                 ? "SUBSCRIBING & ENABLING PUSH ALERTS..."

@@ -113,7 +113,7 @@ export default function PushAlertsCard({
 
   return (
     <>
-      <GlassCard className={`relative overflow-hidden ${className}`}>
+      <GlassCard className={`relative overflow-hidden ${className} `}>
         <div className="relative z-10">
           <div className="title-group title-group--sub mb-6">
             <h3>{title || defaultTitle}</h3>
@@ -139,7 +139,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-4 py-3 text-center hover:border-white/30 hover:bg-white/15 sm:w-auto"
+                  className="transition-colors inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-4 py-3 text-center hover:border-white/30 hover:bg-white/15 sm:w-auto"
                 >
                   Web Alerts <ExternalIcon />
                 </a>

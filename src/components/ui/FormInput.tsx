@@ -18,7 +18,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="mb-1.5 block font-medium tracking-wide text-white/80"
+            className="block font-medium tracking-wide text-white/80"
           >
             {label}
             {required && <span className="ml-1 text-rose-400">*</span>}

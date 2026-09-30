@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { signupSchema } from "@/lib/validation";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 import SeventhButton from "@/components/SeventhButton";
 import { GlowInput } from "@/components/GlowInput";
 import IphoneClipMask from "@/components/IphoneClipMask";
@@ -299,9 +299,9 @@ export default function ProximityNotify({
           {/* ── RIGHT COLUMN: Metrics Display + Proximity Signup Form (7 Cols) ── */}
           <div className="flex w-full flex-col items-start justify-center space-y-6 md:col-span-7 md:mx-0 md:pl-0">
             {/* Header Title */}
-            <div>
-              <h2 className="mb-3 lg:text-6xl">Never Miss a Show</h2>
-              <p className="max-w-xl text-purple-200/70">
+            <div className="title-group title-group--section">
+              <h2 className="lg:text-6xl">Never Miss a Show</h2>
+              <p className="max-w-xl">
                 Get exclusives. Stay connected to the 7th Heaven community. Join
                 1,000s of fans getting proximity alerts &amp; show updates.
               </p>
@@ -343,7 +343,7 @@ export default function ProximityNotify({
               {status === "success" ? (
                 <div className="rounded-lg border border-purple-500/30 bg-purple-950/40 p-8 text-center shadow-2xl backdrop-blur-xl">
                   <div className="mb-3 flex items-center justify-center gap-2.5">
-                    <div className="bg- purple-white/20 flex h-12 w-12 items-center justify-center  text-purple-400">
+                    <div className="bg- purple-white/20 flex h-12 w-12 items-center justify-center text-purple-400">
                       <svg
                         width="24"
                         height="24"
@@ -359,7 +359,7 @@ export default function ProximityNotify({
                     </div>
                     <span className="text-xl">Check your email!</span>
                   </div>
-                  <p className="mb-1 text-purple-200/70">
+                  <p className="">
                     We&apos;ve sent a confirmation link to your inbox.
                   </p>
                   <p>
@@ -375,7 +375,7 @@ export default function ProximityNotify({
                   {/* Input Fields (Matching Footer Setup) */}
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block flex items-center gap-1">
+                      <label className="block flex items-center gap-1">
                         Full Name
                       </label>
                       <GlowInput
@@ -387,7 +387,7 @@ export default function ProximityNotify({
                       />
                     </div>
                     <div>
-                      <label className="text- mb-1 block flex items-center gap-1">
+                      <label className="block flex items-center gap-1">
                         Email address
                       </label>
                       <GlowInput
@@ -400,7 +400,7 @@ export default function ProximityNotify({
                     </div>
                     <div className="flex flex-col items-start gap-3 sm:col-span-2 sm:flex-row sm:items-center">
                       <div className="w-full sm:w-[220px]">
-                        <label className="mb-1 block flex items-center gap-1">
+                        <label className="block flex items-center gap-1">
                           Zip Code / City
                         </label>
                         <GlowInput
@@ -412,7 +412,7 @@ export default function ProximityNotify({
                         />
                       </div>
                       <div className="w-full flex-1">
-                        <label className="mb-1 block flex items-center gap-1">
+                        <label className="block flex items-center gap-1">
                           Distance Radius
                         </label>
                         <div className="inline-flex w-fit max-w-full flex-wrap items-center gap-1">
@@ -486,37 +486,33 @@ export default function ProximityNotify({
 
                   {/* Agreements */}
                   <div className="space-y-2 pt-2">
-                    <div
-                      className="flex w-full cursor-pointer items-start gap-2.5 text-left select-none"
-                      onClick={() => setAgreeTerms(!agreeTerms)}
-                    >
-                      <div className="mt-0.5 shrink-0">
-                        <SquishyToggle
-                          id="agree-terms"
-                          label="Agree to terms and privacy policy"
-                          checked={agreeTerms}
-                          onChange={setAgreeTerms}
-                        />
-                      </div>
-                      <span className="text-white/40">
-                        I agree to the{" "}
-                        <Link
-                          href="/terms"
-                          className="hover:text-white"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Terms
-                        </Link>{" "}
-                        and{" "}
-                        <Link
-                          href="/privacy"
-                          className="hover:text-white"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Privacy Policy
-                        </Link>
-                        .
-                      </span>
+                    <div className="flex w-full items-start select-none">
+                      <Toggle
+                        id="agree-terms"
+                        checked={agreeTerms}
+                        onChange={setAgreeTerms}
+                        label={
+                          <span className="text-white/40">
+                            I agree to the{" "}
+                            <Link
+                              href="/terms"
+                              className="transition-colors hover:text-white"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Terms
+                            </Link>{" "}
+                            and{" "}
+                            <Link
+                              href="/privacy"
+                              className="transition-colors hover:text-white"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Privacy Policy
+                            </Link>
+                            .
+                          </span>
+                        }
+                      />
                     </div>
                   </div>
 

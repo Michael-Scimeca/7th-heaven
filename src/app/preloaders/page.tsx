@@ -31,17 +31,17 @@ function DemoFrame({
         <button
           onClick={onPlay}
           disabled={playing}
-          className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+          className="transition-colors rounded-full border border-white/20 bg-white/5 px-4 py-1.5 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {playing ? "Playing…" : "Replay"}
         </button>
       </div>
       <div
-        className="relative w-full overflow-hidden  border border-white/10 bg-black"
+        className="relative w-full overflow-hidden border border-white/10 bg-black"
         style={{ aspectRatio: "16 / 11" }}
       >
         {/* fixed chrome -- never touched by any transition */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2 backdrop-blur-sm">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2">
           <span>7th Heaven Studio</span>
           <span className="flex gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
@@ -284,10 +284,10 @@ function CurtainWipeDemo() {
       </DemoFrame>
 
       {/* Tuning panel -- speed / easing / slant, live-wired into play() above */}
-      <div className="flex flex-col gap-3  border border-white/10 bg-white/[0.03] p-3">
+      <div className="flex flex-col gap-3 border border-white/10 bg-white/[0.03] p-3">
         <p>New page reveal</p>
         <div className="flex items-center justify-between gap-3">
-          <label className="text-white/60">
+          <label className="">
             Reveal speed <span className="">(exit + 0.25s, linked)</span>
           </label>
           <span>{revealDuration.toFixed(2)}s</span>
@@ -304,7 +304,7 @@ function CurtainWipeDemo() {
         />
 
         <div className="flex items-center justify-between gap-3">
-          <label htmlFor="reveal-scale" className="text-white/60">
+          <label htmlFor="reveal-scale" className="">
             Reveal scale
           </label>
           <span>{revealScale.toFixed(2)}x</span>
@@ -367,7 +367,7 @@ function CurtainWipeDemo() {
 
       {/* Old-page exit panel -- independent speed/easing/slant/flip, wired
           into the tl.fromTo(oldRef.current, ...) tween in play() above. */}
-      <div className="flex flex-col gap-3  border border-white/10 bg-white/[0.03] p-3">
+      <div className="flex flex-col gap-3 border border-white/10 bg-white/[0.03] p-3">
         <p className="text-fuchsia-400/80">Old page exit</p>
         <div className="flex items-center justify-between gap-3">
           <label htmlFor="old-duration" className="text-white/60">

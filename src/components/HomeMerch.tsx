@@ -5,7 +5,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useTransition } from "@/context/TransitionContext";
 import Image from "next/image";
 import Link from "next/link";
-import { AlertTriangle, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
+import SectionHeader from "@/components/SectionHeader";
 
 type ShopifyProduct = {
   id: string;
@@ -170,27 +171,32 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
 
   if (loading) {
     return (
-      <section className="py-section-fluid border-t border-white/10">
+      <section
+        id="merch"
+        aria-labelledby="merch-heading"
+        className="section cv-auto border-t border-white/10"
+        style={{ "--cv-size": "1050px" } as React.CSSProperties}
+      >
         <div className="site-container">
-          <div className="mb-10 flex items-center justify-between">
-            <div>
-              <span className="mb-2 block text-[var(--color-accent)]">
-                Specials
-              </span>
-              <h2>On Sale Now</h2>
-            </div>
-            <Link
-              href="/merch"
-              className="border border-white/10 px-4 py-2 text-white/40 hover:text-white"
-            >
-              Shop All →
-            </Link>
-          </div>
+          <SectionHeader
+            id="merch-heading"
+            title="On Sale Now"
+            badge="Specials"
+            divider={false}
+            action={
+              <Link
+                href="/merch"
+                className="transition-colors border border-white/10 px-4 py-2 text-white/40 hover:text-white"
+              >
+                Shop All →
+              </Link>
+            }
+          />
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
-                className="animate-pulse overflow-hidden border border-white/10 bg-white/[0.02]"
+                className="animate-pulse overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02]"
               >
                 <div className="aspect-square bg-white/[0.03]" />
                 <div className="space-y-2 p-4">
@@ -208,52 +214,37 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
 
   // ── END DEMO DATA ──────────────────────────────────────────────────────────
 
-  // If no specials from Shopify, fall back to demo products
-  // ── DEMO FALLBACK — DELETE BEFORE GO-LIVE ─────────────────────────────────
-  if (products.length === 0) {
-    return null; // Originally returned null here — swapped to demo data below
-  }
-  // ── END DEMO FALLBACK ──────────────────────────────────────────────────────
-
   // ── DEMO FALLBACK — DELETE BEFORE GO-LIVE ─────────────────────────────────
   // When Shopify has no specials, show demo items so the client can see this
   // section. Remove DEMO_PRODUCTS and this block + restore the `return null`
   // below once real Shopify products with sale/featured tags are configured.
   const displayProducts = products.length > 0 ? products : DEMO_PRODUCTS;
-  const isDemo = products.length === 0;
   // ── END DEMO FALLBACK ──────────────────────────────────────────────────────
 
   return (
-    <section className="py-section-fluid border-t border-white/10">
+    <section
+      id="merch"
+      aria-labelledby="merch-heading"
+      className="section cv-auto border-t border-white/10"
+      style={{ "--cv-size": "816px", "--cv-size-lg": "753px" } as React.CSSProperties}
+    >
       <div className="site-container">
-        {/* ── DEMO BANNER — DELETE BEFORE GO-LIVE ─────────────────────── */}
-        {isDemo && (
-          <div className="mb-6 flex items-center gap-2  border border-white/10 bg-purple-600/10 px-4 py-2">
-            <AlertTriangle className="h-4 w-4 shrink-0" />
-            <span>Demo</span>
-            <p className="text-purple-200/50">
-              Official 7th Heaven Band Gear — Direct Merchant Store &amp; Fast
-              Shipping.
-            </p>
-          </div>
-        )}
-        {/* ── END DEMO BANNER ─────────────────────────────────────────── */}
-        <div className="mb-10 flex items-center justify-between">
-          <div>
-            <span className="mb-2 block text-[var(--color-accent)]">
-              {sanityContent?.merchBadge || "Specials"}
-            </span>
-            <h2>{sanityContent?.merchTitle || "On Sale Now"}</h2>
-          </div>
-          <Link
-            href="/merch"
-            className="hover- color-transition border border-white/10 px-4 py-2 text-white/40"
-          >
-            {sanityContent?.merchCtaText || "Shop All →"}
-          </Link>
-        </div>
+        <SectionHeader
+          id="merch-heading"
+          title={sanityContent?.merchTitle || "On Sale Now"}
+          badge={sanityContent?.merchBadge || "Specials"}
+          divider={false}
+          action={
+            <Link
+              href="/merch"
+              className="hover- color-transition rounded-[var(--radius-box)] border border-white/10 px-4 py-2 text-white/40"
+            >
+              {sanityContent?.merchCtaText || "Shop All →"}
+            </Link>
+          }
+        />
         <div
-          className={`grid gap-4 ${displayProducts.length <= 3 ? "grid-cols-2 md:grid-cols-3" : "grid-cols-2 md:grid-cols-3 lg:grid-cols-5"}`}
+          className={`grid gap-4 ${displayProducts.length <= 3 ? "grid-cols-2 md:grid-cols-3" : "grid-cols-2 md:grid-cols-3 lg:grid-cols-5"} `}
         >
           {displayProducts.map((product) => {
             const variant = product.variants?.edges?.[0]?.node;
@@ -269,7 +260,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
             return (
               <article
                 key={product.id}
-                className="color-transition group relative overflow-hidden border border-white/10 bg-white/[0.02]"
+                className="color-transition group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02]"
               >
                 {/* Sale Badge */}
                 <div className="absolute top-3 left-3 z-10">
@@ -284,7 +275,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                       alt={product.title}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                      className="object-cover group-hover:scale-105"
+                      className="transition-transform object-cover group-hover:scale-105"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -292,32 +283,32 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                     </div>
                   )}
                   {soldOut && (
-                    <span className="absolute top-2 right-2 rounded bg-red-500/80 px-2 py-0.5 text-[var(--font-size-2xs)] backdrop-blur-sm">
+                    <span className="absolute top-2 right-2 rounded bg-red-500/80 px-2 py-0.5 text-[var(--font-size-2xs)]">
                       Sold Out
                     </span>
                   )}
                 </div>
-                <div className="p-4">
-                  <h3 className="color-transition mb-1">
+                <div className="flex flex-1 flex-col gap-3 p-4">
+                  <h3 className="color-transition font-semibold">
                     {product.title}
                   </h3>
-                  <div className="flex items-center justify-between">
+                  <div className="mt-auto flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-[var(--color-accent)]">
                         {price}
                       </span>
                       {compareAt && (
-                        <span className="line-through">{compareAt}</span>
+                        <span className="line-through text-white/40">{compareAt}</span>
                       )}
                     </div>
                     {soldOut ? (
-                      <span className="text-[var(--font-size-2xs)]">
+                      <span className="text-[var(--font-size-2xs)] text-white/40">
                         Sold Out
                       </span>
                     ) : (
                       <button
                         onClick={() => handleBuy()}
-                        className="hover- color-transition cursor-pointer text-[var(--font-size-2xs)] text-white/30"
+                        className="transition-colors cursor-pointer text-[var(--font-size-2xs)] text-white/50 hover:text-white"
                       >
                         Buy →
                       </button>

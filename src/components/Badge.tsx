@@ -45,7 +45,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       <span
         ref={ref}
         onClick={onClick}
-        className={`inline-flex items-center justify-center rounded-full transition-[background-color,border-color,color,transform] select-none ${onClick ? "cursor-pointer active:scale-95" : ""} ${VARIANT_CLASSES[variant] || VARIANT_CLASSES.purple} ${SIZE_CLASSES[size] || SIZE_CLASSES.md} ${className}`}
+        className={`inline-flex items-center justify-center rounded-full transition-[background-color,border-color,color,transform] select-none ${onClick ? "cursor-pointer active:scale-95" : ""}  ${VARIANT_CLASSES[variant] || VARIANT_CLASSES.purple}  ${SIZE_CLASSES[size] || SIZE_CLASSES.md}  ${className} `}
         {...props}
       >
         {children || label || "CEO / BOOKING / BANDS"}

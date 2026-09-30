@@ -849,7 +849,7 @@ export const AdminSectionCrewSchedule = React.memo(
               backgroundColor: roleStyle.bg,
               opacity: isBeingDragged ? 0.3 : 1,
             }}
-            className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? "min-h-[100px]" : "min-h-[48px]"} ${shift.isDraft ? "wiw-striped" : ""} ${activeLockingEditor ? "animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80" : ""}`}
+            className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? "min-h-[100px]" : "min-h-[48px]"}  ${shift.isDraft ? "wiw-striped" : ""}  ${activeLockingEditor ? "animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80" : ""} `}
             title={
               shift.crewId !== "openshifts"
                 ? (() => {
@@ -872,7 +872,7 @@ export const AdminSectionCrewSchedule = React.memo(
             )}
 
             {/* Action buttons — visible on hover */}
-            <div className="absolute top-0.5 right-0.5 z-10 flex items-center gap-0.5 opacity-0 group-hover:opacity-100">
+            <div className="transition-opacity absolute top-0.5 right-0.5 z-10 flex items-center gap-0.5 opacity-0 group-hover:opacity-100">
               <button
                 type="button"
                 aria-label="Edit shift"
@@ -880,7 +880,7 @@ export const AdminSectionCrewSchedule = React.memo(
                   e.stopPropagation();
                   handleEditShiftClick(shift);
                 }}
-                className="flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm hover:bg-black/80 hover:text-white"
+                className="transition-colors flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm hover:bg-black/80 hover:text-white"
                 title="Edit shift"
               >
                 <svg
@@ -904,7 +904,7 @@ export const AdminSectionCrewSchedule = React.memo(
                   e.stopPropagation();
                   deleteScheduleItem(shift.id);
                 }}
-                className="flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm hover:bg-red-600 hover:text-white"
+                className="transition-colors flex h-5 w-5 cursor-pointer items-center justify-center rounded border-none bg-black/50 backdrop-blur-sm hover:bg-red-600 hover:text-white"
                 title="Delete shift"
               >
                 <svg
@@ -1020,7 +1020,7 @@ export const AdminSectionCrewSchedule = React.memo(
               ) : (
                 /* Expanded style for Timeline / List / Detail views */
                 <div
-                  className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""}`}
+                  className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""} `}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[var(--font-size-2xs)]">
@@ -1268,7 +1268,7 @@ export const AdminSectionCrewSchedule = React.memo(
             return (
               <span
                 key={r}
-                className={`inline-block shrink-0 rounded-lg border px-1.5 py-0.5 ${colorClass}`}
+                className={`inline-block shrink-0 rounded-lg border px-1.5 py-0.5 ${colorClass} `}
               >
                 {r}
               </span>
@@ -1330,7 +1330,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           setSelectedTourDate(nextDate);
                           setScheduleSortByDate(nextDate);
                         }}
-                        className={`group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? "shadow-[inset_0_-3px_0_#9333ea]" : isNextShow ? "border-x border-purple-500/30 bg-purple-500/10 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]" : ""}`}
+                        className={`group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? "shadow-[inset_0_-3px_0_#9333ea]" : isNextShow ? "border-x border-purple-500/30 bg-purple-500/10 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]" : ""} `}
                         title="Click to select date & stack working crew at top"
                       >
                         <div className="flex w-full flex-col gap-1">
@@ -1345,14 +1345,14 @@ export const AdminSectionCrewSchedule = React.memo(
                                 </span>
                               )}
                             </div>
-                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                            <div className="transition-opacity flex items-center gap-1 opacity-0 group-hover:opacity-100">
                               <button
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleTextAssignedCrew(day.dateStr);
                                 }}
-                                className="cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
+                                className="transition-colors cursor-pointer rounded border-none p-0.5 hover:bg-purple-500/10"
                                 title="Alert assigned crew for this show"
                               >
                                 <svg
@@ -1376,7 +1376,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                     prev === day.dateStr ? null : day.dateStr,
                                   );
                                 }}
-                                className={`cursor-pointer rounded border-none p-0.5 ${scheduleSortByDate === day.dateStr ? "bg- purple-white/20" : "hover:text-[var(--text-color)"}`}
+                                className={`cursor-pointer rounded border-none p-0.5 ${scheduleSortByDate === day.dateStr ? "bg- purple-white/20" : "hover:text-[var(--text-color)"} `}
                                 title={
                                   scheduleSortByDate === day.dateStr
                                     ? "Reset crew sorting"
@@ -1404,7 +1404,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                 e.stopPropagation();
                                 setSelectedShowCrewDate(day.dateStr);
                               }}
-                              className="flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-500/30 hover:text-white"
+                              className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-500/30 hover:text-white"
                               title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                             >
                               {dayShow.venue || dayShow.venue_name}
@@ -1429,7 +1429,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       return (
                         <div
                           key={day.dateStr}
-                          className={`relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
+                          className={`relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "} `}
                           onDragOver={(e) => {
                             e.preventDefault();
                             if (e.dataTransfer)
@@ -1465,7 +1465,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   "SERVER",
                                 );
                               }}
-                              className="group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
+                              className="transition-colors group flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                             >
                               <span className="text-[12px] text-purple-400">
                                 +
@@ -1499,7 +1499,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                       : `openshifts_group_${day.dateStr}`,
                                   );
                                 }}
-                                className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
+                                className="transition-colors group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                               >
                                 <span className="text-[12px] text-purple-400">
                                   +
@@ -1536,7 +1536,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   setNewGroupNameInput("");
                                   setIsCreateGroupModalOpen(true);
                                 }}
-                                className="group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
+                                className="transition-colors group flex flex-1 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-purple-500/40 py-1 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10"
                               >
                                 <span className="text-[12px] text-purple-400">
                                   +
@@ -1591,10 +1591,10 @@ export const AdminSectionCrewSchedule = React.memo(
                     return (
                       <div
                         key={member.id}
-                        className={`flex w-full border-b border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"}`}
+                        className={`flex w-full border-b border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"} `}
                       >
                         <div
-                          className={`wiw-sticky-col relative w-60 shrink-0 border-b border-l border-[var(--border-color)] p-2 ${isWorkingOnActiveDate ? "bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]" : " "}`}
+                          className={`wiw-sticky-col relative w-60 shrink-0 border-b border-l border-[var(--border-color)] p-2 ${isWorkingOnActiveDate ? "bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]" : " "} `}
                         >
                           <div className="flex items-center gap-2.5">
                             {hasExclamation && (
@@ -1653,7 +1653,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                 )}
                               </div>
 
-                              <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)]   p-3 text-left">
+                              <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)] p-3 text-left">
                                 <div>{member.name}</div>
                                 <div className="mb-2 text-[12px] text-[var(--color-accent)]">
                                   Role: {member.role || "Crew Member"}
@@ -1707,7 +1707,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   );
                                 }
                               }}
-                              className={`group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
+                              className={`group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "} `}
                               onDragOver={(e) => {
                                 e.preventDefault();
                                 if (e.dataTransfer)
@@ -1740,7 +1740,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                       member.role || "SERVER",
                                     );
                                   }}
-                                  className="flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-purple-500/30 bg-purple-500/20 py-1 text-[10px] hover:bg-purple-500/40 hover:text-white"
+                                  className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1 rounded border border-purple-500/30 bg-purple-500/20 py-1 text-[10px] hover:bg-purple-500/40 hover:text-white"
                                 >
                                   <svg
                                     width="10"
@@ -1790,7 +1790,7 @@ export const AdminSectionCrewSchedule = React.memo(
               return (
                 <div
                   key={day.dateStr}
-                  className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"}`}
+                  className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"} `}
                   onDragOver={(e) => {
                     e.preventDefault();
                     if (e.dataTransfer) {
@@ -1871,7 +1871,7 @@ export const AdminSectionCrewSchedule = React.memo(
                             e.stopPropagation();
                             setSelectedShowCrewDate(day.dateStr);
                           }}
-                          className="flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                          className="transition-colors flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                           title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                         >
                           {dayShow.venue || dayShow.venue_name}
@@ -1899,7 +1899,7 @@ export const AdminSectionCrewSchedule = React.memo(
       const renderTimelineGrid = () => {
         const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
         return (
-          <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)]   p-4 select-none">
+          <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)] p-4 select-none">
             <div className="flex select-none">
               <div className="w-14 shrink-0" />
               <div className="mb-2 grid flex-1 grid-cols-7 gap-2 border-b border-[var(--border-color)] pb-2 text-center">
@@ -1924,7 +1924,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               e.stopPropagation();
                               setSelectedShowCrewDate(day.dateStr);
                             }}
-                            className="py-0.5 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
+                            className="transition-colors py-0.5 flex w-full max-w-full cursor-pointer items-center justify-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1 text-center text-[9px] hover:border-purple-500/40 hover:bg-purple-500/30 hover:text-white"
                             title={`Click to view crew working at ${dayShow.venue || dayShow.venue_name}`}
                           >
                             {dayShow.venue || dayShow.venue_name}
@@ -1946,7 +1946,7 @@ export const AdminSectionCrewSchedule = React.memo(
                 ))}
               </div>
 
-              <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)]   p-0">
+              <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)] p-0">
                 <div className="pointer-events-none absolute inset-0 flex flex-col justify-between">
                   {Array.from({ length: 17 }).map((_, idx) => (
                     <div
@@ -2044,7 +2044,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               left: "4px",
                               right: "4px",
                             }}
-                            className={`wiw-card cursor-pointer overflow-hidden rounded-lg p-1 ${shift.isDraft ? "wiw-striped" : ""}`}
+                            className={`wiw-card cursor-pointer overflow-hidden rounded-lg p-1 ${shift.isDraft ? "wiw-striped" : ""} `}
                           >
                             <div>{shift.crewName}</div>
                             <div className="text-[var(--font-size-5xs)]">
@@ -2152,7 +2152,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       {coEditors.map((ed) => (
                         <span
                           key={ed.id}
-                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"}`}
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"} `}
                         >
                           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
                           {ed.name}{" "}
@@ -2182,7 +2182,7 @@ export const AdminSectionCrewSchedule = React.memo(
                     <button
                       type="button"
                       onClick={() => setShowCoEditorModal(true)}
-                      className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2.5 py-1 hover:bg-white/10 hover:text-white"
+                      className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2.5 py-1 hover:bg-white/10 hover:text-white"
                     >
                       Co-Editor Settings
                     </button>
@@ -2231,7 +2231,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         <button
                           type="button"
                           onClick={() => setCoEditorConflictAlert(null)}
-                          className="cursor-pointer rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
+                          className="transition-colors cursor-pointer rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
                         >
                           Accept Remote Sync
                         </button>
@@ -2251,7 +2251,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         <button
                           aria-label="Close co-editor modal"
                           onClick={() => setShowCoEditorModal(false)}
-                          className="text-white/40 hover:text-white"
+                          className="transition-colors text-white/40 hover:text-white"
                         >
                           ✕
                         </button>
@@ -2280,7 +2280,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               </div>
                             </div>
                             <span
-                              className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? "border border-pink-500/40 bg-pink-500/20 text-pink-400" : "border border-emerald-500/40 bg-emerald-500/20"}`}
+                              className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? "border border-pink-500/40 bg-pink-500/20 text-pink-400" : "border border-emerald-500/40 bg-emerald-500/20"} `}
                             >
                               {ed.isEditing ? " Shift Locked" : "🟢 Viewing"}
                             </span>
@@ -2303,7 +2303,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <div className="flex items-center justify-end">
                         <button
                           onClick={() => setShowCoEditorModal(false)}
-                          className="rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
+                          className="transition-colors rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20"
                         >
                           Close
                         </button>
@@ -2329,7 +2329,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         <button
                           type="button"
                           onClick={handlePrevWeek}
-                          className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
+                          className="transition-colors cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
                           title="Previous Week"
                         >
                           <svg
@@ -2350,7 +2350,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           onClick={() => {
                             document.getElementById("wiw-date-picker")?.click();
                           }}
-                          className="cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
+                          className="transition-colors cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
                           title="Choose Date"
                         >
                           <svg
@@ -2396,7 +2396,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         <button
                           type="button"
                           onClick={handleNextWeek}
-                          className="cursor-pointer border-none bg-[#00000029] p-2 text-white/40 hover:text-white"
+                          className="transition-colors cursor-pointer border-none bg-[#00000029] p-2 text-white/40 hover:text-white"
                           title="Next Week"
                         >
                           <svg
@@ -2417,7 +2417,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         onClick={handleGoToToday}
-                        className="cursor-pointer rounded-lg border border-solid border-white/10 bg-[#00000029] bg-black/40 px-3 py-1.5 hover:text-white"
+                        className="transition-colors cursor-pointer rounded-lg border border-solid border-white/10 bg-[#00000029] bg-black/40 px-3 py-1.5 hover:text-white"
                       >
                         TODAY
                       </button>
@@ -2425,7 +2425,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         onClick={handleGoToMonth}
-                        className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                        className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                       >
                         MONTH
                       </button>
@@ -2502,7 +2502,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         <button
                           type="button"
                           onClick={() => setShowTourDropdown((prev) => !prev)}
-                          className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                          className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                         >
                           SHOWS
                           <svg
@@ -2559,12 +2559,12 @@ export const AdminSectionCrewSchedule = React.memo(
                                       }
                                       setShowTourDropdown(false);
                                     }}
-                                    className="group flex w-full cursor-pointer items-center gap-3 border-b border-solid border-white/10 bg-[#00000029] px-4 py-3 text-left last:border-b-0 hover:bg-purple-500/20"
+                                    className="transition-colors group flex w-full cursor-pointer items-center gap-3 border-b border-solid border-white/10 bg-[#00000029] px-4 py-3 text-left last:border-b-0 hover:bg-purple-500/20"
                                   >
                                     <span className="min-w-[80px] font-semibold text-purple-300">
                                       {dateLabel}
                                     </span>
-                                    <span className="group-hover:text-white">
+                                    <span className="transition-colors group-hover:text-white">
                                       {show.venue || show.venue_name}
                                     </span>
                                     {show.city && (
@@ -2584,7 +2584,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         onClick={() => setShowTourDatesOnly((prev) => !prev)}
-                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                         title="Show only days with tour shows"
                       >
                         {showTourDatesOnly ? " SHOWS ONLY" : "ALL DAYS"}
@@ -2617,7 +2617,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         onClick={() =>
                           setIsFiltersPanelExpanded(!isFiltersPanelExpanded)
                         }
-                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
                         title="Search & advanced filters by person, venue, date range, and event type"
                       >
                         <span></span>{" "}
@@ -2655,7 +2655,7 @@ export const AdminSectionCrewSchedule = React.memo(
                             setShowTourDatesOnly(false);
                             setScheduleSortByDate(null);
                           }}
-                          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-rose-500/30 bg-rose-500/15 px-3 py-1.5 text-rose-400 select-none hover:bg-rose-500/25 hover:text-rose-300"
+                          className="transition-colors flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-rose-500/30 bg-rose-500/15 px-3 py-1.5 text-rose-400 select-none hover:bg-rose-500/25 hover:text-rose-300"
                           title="Reset all search filters"
                         >
                           Clear All
@@ -2678,7 +2678,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               }
                             }
                           }}
-                          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-red-500/40 bg-red-500/20 px-3 py-1.5 text-red-400 select-none hover:bg-red-500/30 hover:text-red-300"
+                          className="transition-colors flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-red-500/40 bg-red-500/20 px-3 py-1.5 text-red-400 select-none hover:bg-red-500/30 hover:text-red-300"
                           title="Clear all scheduled shift timeframes and start fresh"
                         >
                           Clear All Shifts
@@ -2689,7 +2689,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         onClick={handleGenerateTestData}
-                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                        className="transition-colors flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                         title="Generate realistic test schedule data for 2-4 weeks with edge cases"
                       >
                         Generate Test Data
@@ -2705,7 +2705,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           <button
                             type="button"
                             onClick={handlePurgeTestData}
-                            className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                            className="transition-colors flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
                             title="Purge all test schedule data ([TEST] shifts)"
                           >
                             Purge Test Data
@@ -2787,7 +2787,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               type="button"
                               aria-label="Clear person search"
                               onClick={() => setSchedulePersonSearch("")}
-                              className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                              className="transition-colors absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
                             >
                               ✕
                             </button>
@@ -2813,7 +2813,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               type="button"
                               aria-label="Clear venue search"
                               onClick={() => setScheduleVenueSearch("")}
-                              className="absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
+                              className="transition-colors absolute bottom-1.5 right-2.5 z-10 cursor-pointer border-none text-white/40 hover:text-white"
                             >
                               ✕
                             </button>
@@ -2881,7 +2881,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   setScheduleStartDate("");
                                   setScheduleEndDate("");
                                 }}
-                                className="cursor-pointer rounded border-none bg-[#00000029] px-2 py-1 text-white/40 hover:bg-white/10 hover:text-white"
+                                className="transition-colors cursor-pointer rounded border-none bg-[#00000029] px-2 py-1 text-white/40 hover:bg-white/10 hover:text-white"
                                 title="Reset Date Range"
                               >
                                 Clear
@@ -2919,7 +2919,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                 setShowTourDatesOnly(false);
                                 setScheduleSortByDate(null);
                               }}
-                              className="cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 hover:text-white"
+                              className="transition-colors cursor-pointer rounded border-none bg-purple-500/10 px-2 py-0.5 hover:text-white"
                             >
                               Reset All Filters
                             </button>
@@ -3068,7 +3068,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   setDraggedCrewMemberId(null);
                                   setEditingShiftId(null);
                                 }}
-                                className="cursor-pointer border-none text-white/40 hover:text-white"
+                                className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                               >
                                 ✕
                               </button>
@@ -3104,7 +3104,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                             return updated;
                                           });
                                         }}
-                                        className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+                                        className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                                       >
                                         <span></span> Request Coverage
                                       </button>
@@ -3146,7 +3146,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                             }),
                                           );
                                         }}
-                                        className="rounded border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-300 hover:bg-red-500/40"
+                                        className="transition-colors rounded border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-300 hover:bg-red-500/40"
                                       >
                                         Clear
                                       </button>
@@ -3165,7 +3165,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                             onClick={() =>
                                               setOnlyShowFitRole(true)
                                             }
-                                            className={`cursor-pointer rounded px-2 py-0.5 ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"}`}
+                                            className={`cursor-pointer rounded px-2 py-0.5 ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"} `}
                                           >
                                             Fit Role ({editingShift.role})
                                           </button>
@@ -3174,7 +3174,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                             onClick={() =>
                                               setOnlyShowFitRole(false)
                                             }
-                                            className={`cursor-pointer rounded px-2 py-0.5 ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"}`}
+                                            className={`cursor-pointer rounded px-2 py-0.5 ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"} `}
                                           >
                                             Override (All)
                                           </button>
@@ -3221,7 +3221,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                               return (
                                                 <div
                                                   key={member.id}
-                                                  className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5 hover:bg-black/40"
+                                                  className="transition-colors flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5 hover:bg-black/40"
                                                 >
                                                   <div className="flex items-center gap-2">
                                                     {(() => {
@@ -3308,7 +3308,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                       );
                                                       setEditingShiftId(null);
                                                     }}
-                                                    className={`rounded border-none px-2 py-1 ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"}`}
+                                                    className={`rounded border-none px-2 py-1 ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"} `}
                                                   >
                                                     Assign
                                                   </button>
@@ -3462,7 +3462,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                               return (
                                                 <div
                                                   key={member.id}
-                                                  className={`rounded-lg p-3.5 ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
+                                                  className={`rounded-lg p-3.5 ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"} `}
                                                 >
                                                   <div className="flex items-center justify-between">
                                                     <label className="flex w-full cursor-pointer items-center gap-3 select-none">
@@ -3651,7 +3651,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                                           ),
                                                                       );
                                                                     }}
-                                                                    className="cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
+                                                                    className="transition-colors cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
                                                                     style={{
                                                                       fontSize:
                                                                         "10px",
@@ -4022,7 +4022,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                                               ),
                                                                           );
                                                                         }}
-                                                                        className={`cursor-pointer rounded-full border px-2 py-0.5 text-[10.5px] ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+                                                                        className={`cursor-pointer rounded-full border px-2 py-0.5 text-[10.5px] ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"} `}
                                                                       >
                                                                         {isSelected
                                                                           ? ` ${preset}`
@@ -4158,7 +4158,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                                                   ),
                                                                               );
                                                                             }}
-                                                                            className="text-4xs cursor-pointer border-none p-0 hover:text-white"
+                                                                            className="transition-colors text-4xs cursor-pointer border-none p-0 hover:text-white"
                                                                           >
                                                                             ✕
                                                                           </button>
@@ -4216,7 +4216,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               <button
                                 type="button"
                                 onClick={addScheduleItem}
-                                className="w-full cursor-pointer rounded-lg border-none bg-purple-600 py-2 hover:bg-purple-500"
+                                className="transition-colors w-full cursor-pointer rounded-lg border-none bg-purple-600 py-2 hover:bg-purple-500"
                               >
                                 {editingShiftId
                                   ? "Save Changes"
@@ -4232,7 +4232,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                     setDraggedCrewMemberId(null);
                                     setEditingShiftId(null);
                                   }}
-                                  className="w-full cursor-pointer rounded-lg border border-red-500/30 bg-red-600/20 py-1.5 text-[10.5px] text-red-200 hover:bg-red-600 hover:text-white"
+                                  className="transition-colors w-full cursor-pointer rounded-lg border border-red-500/30 bg-red-600/20 py-1.5 text-[10.5px] text-red-200 hover:bg-red-600 hover:text-white"
                                 >
                                   Delete Shift
                                 </button>
@@ -4286,7 +4286,7 @@ export const AdminSectionCrewSchedule = React.memo(
                           onClick={() =>
                             setAlertModal({ ...alertModal, isOpen: false })
                           }
-                          className="mt-2 w-full cursor-pointer border-none bg-purple-600 py-2.5 hover:bg-purple-500"
+                          className="transition-colors mt-2 w-full cursor-pointer border-none bg-purple-600 py-2.5 hover:bg-purple-500"
                         >
                           Got It
                         </button>
@@ -4333,7 +4333,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                 <button
                                   aria-label="Close select group drawer"
                                   onClick={() => setCellGroupPopover(null)}
-                                  className="cursor-pointer border-none text-white/40 hover:text-white"
+                                  className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                                 >
                                   ✕
                                 </button>
@@ -4368,7 +4368,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                       setNewGroupNameInput("");
                                       setIsCreateGroupModalOpen(true);
                                     }}
-                                    className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
+                                    className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
                                   >
                                     + Create First Crew Group
                                   </button>
@@ -4386,7 +4386,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                         handleAddGroupToDay(dateStr, g);
                                         setCellGroupPopover(null);
                                       }}
-                                      className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3.5 text-left hover:bg-white/10"
+                                      className="transition-colors group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#00000029] px-4 py-3.5 text-left hover:bg-white/10"
                                       title={`Apply Group: ${g.name}`}
                                     >
                                       <div className="flex min-w-0 items-center gap-3">
@@ -4409,7 +4409,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               <button
                                 type="button"
                                 onClick={() => setCellGroupPopover(null)}
-                                className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
+                                className="transition-colors cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
                               >
                                 Cancel
                               </button>
@@ -4433,7 +4433,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   setNewGroupNameInput("");
                                   setIsCreateGroupModalOpen(true);
                                 }}
-                                className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
+                                className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 shadow-purple-900/30 hover:bg-purple-500"
                               >
                                 + Create New Group
                               </button>
@@ -4475,7 +4475,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer border-none text-white/40 hover:text-white"
+                            className="transition-colors cursor-pointer border-none text-white/40 hover:text-white"
                           >
                             ✕
                           </button>
@@ -4569,7 +4569,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                               onClick={(e) =>
                                                 e.stopPropagation()
                                               }
-                                              className="hover:text-white"
+                                              className="transition-colors hover:text-white"
                                             >
                                               {m.phone || "(555) 123-4567"}
                                             </a>
@@ -4581,7 +4581,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                               onClick={(e) =>
                                                 e.stopPropagation()
                                               }
-                                              className="hover:text-white"
+                                              className="transition-colors hover:text-white"
                                             >
                                               {m.email ||
                                                 `${(m.name || "crew").toLowerCase().replace(/\s+/g, "")}@7thheavenband.com`}
@@ -4637,7 +4637,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                         }),
                                                       );
                                                     }}
-                                                    className="cursor-pointer border-none text-red-400 hover:text-red-300"
+                                                    className="transition-colors cursor-pointer border-none text-red-400 hover:text-red-300"
                                                     style={{ fontSize: "8px" }}
                                                   >
                                                     Remove
@@ -4858,7 +4858,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                           }),
                                                         );
                                                       }}
-                                                      className={`cursor-pointer rounded-full border px-1.5 py-0.5 ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+                                                      className={`cursor-pointer rounded-full border px-1.5 py-0.5 ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"} `}
                                                       style={{
                                                         fontSize: "7.5px",
                                                       }}
@@ -4936,7 +4936,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
+                            className="transition-colors cursor-pointer rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:text-white"
                           >
                             Cancel
                           </button>
@@ -4994,7 +4994,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               setIsCreateGroupModalOpen(false);
                               createGroupForDateRef.current = null;
                             }}
-                            className="cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
+                            className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-6 py-2.5 text-white/30 shadow-purple-900/30 hover:bg-purple-500 disabled:bg-purple-600/20"
                           >
                             Save Group
                           </button>
@@ -5047,7 +5047,7 @@ export const AdminSectionCrewSchedule = React.memo(
                               <button
                                 aria-label="Close selected show crew date modal"
                                 onClick={() => setSelectedShowCrewDate(null)}
-                                className="cursor-pointer border-none hover:text-white"
+                                className="transition-colors cursor-pointer border-none hover:text-white"
                               >
                                 ✕
                               </button>
@@ -5151,7 +5151,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                                 setSelectedShowCrewDate(null);
                                                 handleEditShiftClick(shift);
                                               }}
-                                              className="inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:text-white"
+                                              className="transition-colors inline-block cursor-pointer rounded border border-white/10 bg-purple-500/10 px-2 py-0.5 text-[8.5px] hover:border-purple-500/40 hover:text-white"
                                             >
                                               Edit
                                             </button>
@@ -5177,7 +5177,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                     {openShifts.map((shift: any) => (
                                       <div
                                         key={shift.id}
-                                        className="flex items-center justify-between gap-3 border border-dashed border-purple-500/25 bg-purple-500/[0.02] p-3 hover:border-purple-500/40"
+                                        className="transition-colors flex items-center justify-between gap-3 border border-dashed border-purple-500/25 bg-purple-500/[0.02] p-3 hover:border-purple-500/40"
                                       >
                                         <div>
                                           <span className="mt-0.5 block text-white/40">
@@ -5190,7 +5190,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                             setSelectedShowCrewDate(null);
                                             handleEditShiftClick(shift);
                                           }}
-                                          className="cursor-pointer rounded-lg border-none bg-purple-600 px-3 py-1.5 hover:bg-purple-500"
+                                          className="transition-colors cursor-pointer rounded-lg border-none bg-purple-600 px-3 py-1.5 hover:bg-purple-500"
                                         >
                                           Fill Slot
                                         </button>

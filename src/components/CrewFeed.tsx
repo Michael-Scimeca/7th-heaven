@@ -252,8 +252,8 @@ export default function CrewFeed() {
               {liveStatus.live ? (
                 <div className="flex items-center gap-2 border border-red-500/40 bg-red-500/20 px-3 py-1">
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping  bg-red-500 opacity-75" />
-                    <span className="relative inline-flex h-2.5 w-2.5  bg-red-500" />
+                    <span className="absolute inline-flex h-full w-full animate-ping bg-red-500 opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 bg-red-500" />
                   </span>
                   <span className="text-red-400">
                     Live Now{liveStatus.venue ? ` — ${liveStatus.venue}` : ""}
@@ -261,7 +261,7 @@ export default function CrewFeed() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 animate-pulse  bg-green-500" />
+                  <span className="h-2 w-2 animate-pulse bg-green-500" />
                   <span className="text-green-500">Crew Feed</span>
                 </div>
               )}
@@ -305,7 +305,7 @@ export default function CrewFeed() {
               return (
                 <article
                   key={post.id}
-                  className={`relative pb-8 pl-16 ${isNew ? "animate-slide-in-feed" : ""}`}
+                  className={`relative pb-8 pl-16 ${isNew ? "animate-slide-in-feed" : ""} `}
                   id={`crew-feed-${post.id}`}
                   style={
                     isNew
@@ -318,7 +318,7 @@ export default function CrewFeed() {
                 >
                   {/* Timeline dot */}
                   <div
-                    className="absolute top-3 left-[18px] z-10 h-3 w-3  border-2"
+                    className="absolute top-3 left-[18px] z-10 h-3 w-3 border-2"
                     style={{
                       borderColor: config.color,
                       background: isNew
@@ -339,13 +339,13 @@ export default function CrewFeed() {
 
                   {/* Post Card */}
                   <div
-                    className={`border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.04] ${isNew ? "border-white/10" : "border-white/[0.06]"}`}
+                    className={`transition-colors border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.04] ${isNew ? "border-white/10" : "border-white/[0.06]"} `}
                   >
                     {/* Header: Avatar + Name + Time */}
                     <div className="mb-6 flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div
-                          className="flex h-11 w-11 items-center justify-center  border"
+                          className="flex h-11 w-11 items-center justify-center border"
                           style={{
                             borderColor: config.color,
                             color: config.color,

@@ -89,15 +89,6 @@
   --page-top: 32px;
   --page-bottom: var(--spacing-section);
 
-  /* Motion Duration Tokens */
-  --duration-fast: 150ms;
-  --duration-base: 300ms;
-  --duration-slow: 500ms;
-
-  /* Easing Functions */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-
   /* Interactive Theme Color Tokens */
   --color-focus-ring: rgba(192, 132, 252, 0.5);
   --color-hover-border: rgba(192, 132, 252, 0.4);
@@ -451,21 +442,21 @@ header button,
       align-items: flex-end;
       justify-content: flex-end;
       position: sticky;
-      top: calc(var(--header-height) + 1.5rem);
-      height: calc(100vh - 320px);
-      height: calc(100dvh - 320px);
-      max-height: 540px;
-      min-height: 320px;
+      bottom: 0;
+      top: auto;
+      height: 520px;
+      max-height: calc(100dvh - var(--header-height) - 2rem);
       width: 100%;
       pointer-events: none;
       z-index: 1;
+      align-self: flex-end;
     }
   }
 
   .contact-rep-stage-img {
     pointer-events: none;
     height: 100%;
-    max-height: 100%;
+    max-height: 520px;
     width: auto;
     max-width: 100%;
     transform-origin: bottom right;
@@ -473,8 +464,8 @@ header button,
     object-position: bottom right;
     display: block;
     vertical-align: bottom;
-    mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 98%);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 98%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
   }
 
   /* Text & Nav Links */
@@ -1920,14 +1911,20 @@ button,
   --z-preloader: 100000;
 
   /* ═══════════════════════════════════════════════════════
-    TRANSITIONS
+    TRANSITIONS & MOTION (Single Source of Truth)
     ═══════════════════════════════════════════════════════ */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 200ms;
-  --duration-normal: 300ms;
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
   --duration-slow: 500ms;
+  --duration-normal: var(--duration-base);
   --duration-slower: 700ms;
   --duration-slowest: 1000ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-expo: var(--ease-out);
+
+  --default-transition-duration: var(--duration-base);
+  --default-transition-timing-function: var(--ease-out);
 
   /* Animations */
   --animate-fade-in-up: fade-in-up 0.8s var(--ease-out-expo) forwards;
@@ -6496,4 +6493,12 @@ span {
 .exo-text-line-inner {
   display: inline-block;
   will-change: transform;
+}
+
+/* ── Reduced Motion Universal Transition Support ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -31,6 +31,7 @@ export default function SmoothScroll({
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.5,
+      autoResize: true,
     });
 
     (window as any).__lenis = lenis;
@@ -57,14 +58,13 @@ export default function SmoothScroll({
       });
     };
 
-    const t1 = setTimeout(safeResize, 300);
+    safeResize();
 
     const targetEl = document.querySelector("main") || document.body;
     const ro = new ResizeObserver(safeResize);
     if (targetEl) ro.observe(targetEl);
 
     return () => {
-      clearTimeout(t1);
       if (resizeRaf) cancelAnimationFrame(resizeRaf);
       cancelAnimationFrame(rafId);
       ro.disconnect();

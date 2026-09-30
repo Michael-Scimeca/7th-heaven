@@ -452,7 +452,7 @@ export default function FanPhotoWallClient({
 
             {/* Dynamic Upload Form */}
             {showUpload && effectivelyLoggedIn && (
-              <div className="animate-[fade-in-up_0.4s_var(--ease-out-expo)_both]">
+              <div className="animate-[fade-in-up_0.4s_var(---expo)_both]">
                 <FanUploadForm />
               </div>
             )}
@@ -469,7 +469,7 @@ export default function FanPhotoWallClient({
           aria-labelledby="pending-queue-heading"
           className="section"
         >
-          <div className="site-container  mx-auto">
+          <div className="site-container mx-auto">
             <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
               <div>
                 <h3 id="pending-queue-heading">
@@ -493,7 +493,7 @@ export default function FanPhotoWallClient({
                 return (
                   <div
                     key={photo.id}
-                    className="flex w-full flex-col justify-between rounded-2xl border border-white/10 p-4 text-left shadow-xl hover:border-purple-400/40"
+                    className="transition-colors flex w-full flex-col justify-between rounded-2xl border border-white/10 p-4 text-left shadow-xl hover:border-purple-400/40"
                   >
                     <div>
                       <div className="relative mb-3 aspect-[4/3] w-full overflow-hidden border border-white/10 bg-black/40 rounded-xl">
@@ -519,7 +519,7 @@ export default function FanPhotoWallClient({
                             className="object-cover"
                           />
                         )}
-                        <div className="absolute top-2.5 right-2.5 border border-white/10 bg-black/80 px-2.5 py-1   text-white">
+                        <div className="absolute top-2.5 right-2.5 border border-white/10 bg-black/80 px-2.5 py-1 text-white">
                           {photo.date || "Pending"}
                         </div>
                       </div>
@@ -575,7 +575,7 @@ export default function FanPhotoWallClient({
         aria-labelledby="featured-media-heading"
         className="section"
       >
-        <div className="site-container  mx-auto">
+        <div className="site-container mx-auto">
           <div className="title-group title-group--section mb-6">
             <h2 id="featured-media-heading">{sanityContent?.sectionTitle || "FEATURED MEDIA"}</h2>
             <p className="max-w-2xl">
@@ -603,7 +603,17 @@ export default function FanPhotoWallClient({
                 return (
                   <div
                     key={photo.id}
-                    className="flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-purple-900/30 hover:bg-[#0b041a]/90"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`View ${mediaDetails.isVideo ? "video" : "photo"} by ${photo.name || "Fan"}`}
+                    onClick={() => setSelectedPhoto(photo)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedPhoto(photo);
+                      }
+                    }}
+                    className="group transition-colors flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-purple-900/30 hover:bg-[#0b041a]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
                   >
                     <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-black/[0.02] p-4">
                       <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
@@ -623,7 +633,7 @@ export default function FanPhotoWallClient({
                         <div className="npm min-w-0">
                           <p className="font-semibold text-white">{photo.name}</p>
                           {(photo.venue || photo.city) && (
-                            <p className="mt-0.5   text-white/60">
+                            <p className="mt-0.5 text-white/60">
                               {photo.venue}
                               {photo.venue && photo.city && " • "}
                               {photo.city}
@@ -631,23 +641,12 @@ export default function FanPhotoWallClient({
                           )}
                         </div>
                       </div>
-                      <div className="flex shrink-0 flex-col items-end gap-0.5   text-white/60">
+                      <div className="flex shrink-0 flex-col items-end gap-0.5 text-white/60">
                         <span>{mediaDetails.isVideo ? "Video" : "Photo"}</span>
                         {photo.date && <span>{photo.date}</span>}
                       </div>
                     </div>
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      className="group relative w-full flex-1 cursor-pointer text-left select-none"
-                      onClick={() => setSelectedPhoto(photo)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          setSelectedPhoto(photo);
-                        }
-                      }}
-                    >
+                    <div className="relative w-full flex-1 select-none">
                       <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/40">
                         {mediaDetails.isDirectVideo ? (
                           <video
@@ -663,7 +662,7 @@ export default function FanPhotoWallClient({
                             src={
                               mediaDetails.isYouTube
                                 ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg`
-                                : photo.src
+                              : photo.src
                             }
                             alt={`Media by ${photo.name}`}
                             fill
@@ -674,8 +673,8 @@ export default function FanPhotoWallClient({
                             loading={index < 3 ? undefined : "lazy"}
                           />
                         )}
-                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 transition-opacity duration-300 group-hover:bg-black/60">
-                          <SeventhButton>
+                        <div className="transition-colors absolute inset-0 z-10 flex items-center justify-center bg-black/40 group-hover:bg-black/60 group-focus-visible:bg-black/60 motion-reduce:">
+                          <SeventhButton className="pointer-events-none" tabIndex={-1}>
                             {mediaDetails.isVideo ? "Play Video" : "Expand Photo"}
                           </SeventhButton>
                         </div>
@@ -735,7 +734,7 @@ export default function FanPhotoWallClient({
                       {/* Header Bar */}
                       <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/95 px-4 pt-safe sm:px-6">
                         <div className="flex items-center gap-3 min-w-0">
-                          <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1   text-purple-300 shrink-0">
+                          <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 text-purple-300 shrink-0">
                             {mediaDetails.isVideo ? "FAN VIDEO" : "FAN PHOTO"}
                           </span>
                           <div className="flex items-center gap-2 truncate text-sm text-white font-semibold">
@@ -818,7 +817,7 @@ export default function FanPhotoWallClient({
                         {/* Optional Caption Overlay at Bottom */}
                         {selectedPhoto.caption && (
                           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 text-center">
-                            <p className="mx-auto max-w-3xl text-sm  text-white/90 drop-shadow">
+                            <p className="mx-auto max-w-3xl text-sm text-white/90 drop-shadow">
                               &ldquo;{selectedPhoto.caption}&rdquo;
                             </p>
                           </div>
@@ -842,14 +841,14 @@ export default function FanPhotoWallClient({
               <button
                 type="button"
                 onClick={() => setIsAddCmsModalOpen(false)}
-                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
+                className="transition-colors absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
                 aria-label="Close modal"
               >
                 <X className="h-5 w-5" />
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <Camera className="h-5 w-5" />
                 </div>
                 <div>
@@ -861,14 +860,14 @@ export default function FanPhotoWallClient({
               </div>
 
               {cmsError && (
-                <div className="mb-6 flex items-center gap-2  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6 flex items-center gap-2 border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
                   <span>{cmsError}</span>
                 </div>
               )}
 
               {cmsSuccess && (
-                <div className="mb-6 flex items-center gap-2  border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
+                <div className="mb-6 flex items-center gap-2 border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Moment added successfully!</span>
                 </div>
@@ -926,7 +925,7 @@ export default function FanPhotoWallClient({
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="block min-h-[24px] ">
+                    <label className="block min-h-[24px]">
                       Media Type
                     </label>
                     <CustomDropdown
@@ -1011,14 +1010,14 @@ export default function FanPhotoWallClient({
                   <button
                     type="button"
                     onClick={() => setIsAddCmsModalOpen(false)}
-                    className="btn-secondary cursor-pointer  px-5 py-2.5"
+                    className="btn-secondary cursor-pointer px-5 py-2.5"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSavingCms}
-                    className="btn-primary flex cursor-pointer items-center gap-2  px-6 py-2.5 disabled:opacity-50"
+                    className="btn-primary flex cursor-pointer items-center gap-2 px-6 py-2.5 disabled:opacity-50"
                   >
                     {isSavingCms ? (
                       <>

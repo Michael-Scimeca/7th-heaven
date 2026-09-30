@@ -1,0 +1,111 @@
+/* Layered progressive blur: 5 stacked backdrop-filter layers, each twice as
+ * blurry as the last and masked to a band closer to the edge, so the blur
+ * fades smoothly from sharp to soft. The top strip is the bottom strip
+ * rotated 180deg so both can share the same masks.
+ *
+ * Tunable via CSS variables (the dev-only BlurTuner panel edits these live):
+ *   --pb-blur   strength of the blurriest layer (others are /2, /4, /8, /16)
+ *   --pb-scale  strip height as a multiple of --header-height
+ *   --pb-tint   0-1 opacity of a dark fade behind the blur
+ *   html[data-pb-layers="3|4|5"] how many layers render                     */
+:root {
+  --pb-blur: 2.5em;
+  --pb-scale: 3.2;
+  --pb-tint: 0;
+}
+
+.progressive-blur {
+  --pb-height: calc(var(--header-height, 70px) * var(--pb-scale));
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 40;
+  width: 100%;
+  height: var(--pb-height);
+  pointer-events: none;
+  isolation: isolate;
+  contain: paint;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.progressive-blur.is-top {
+  top: -1px;
+  bottom: auto;
+  height: calc(var(--pb-height) + env(safe-area-inset-top, 0px));
+  transform: rotate(180deg) translateZ(0);
+}
+
+.progressive-blur__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.progressive-blur__layer.is--1 {
+  -webkit-backdrop-filter: blur(calc(var(--pb-blur) / 16));
+  backdrop-filter: blur(calc(var(--pb-blur) / 16));
+  -webkit-mask: linear-gradient(transparent 50%, #000 62.5%, #000 75%, transparent 87.5%);
+  mask: linear-gradient(transparent 50%, #000 62.5%, #000 75%, transparent 87.5%);
+}
+.progressive-blur__layer.is--2 {
+  -webkit-backdrop-filter: blur(calc(var(--pb-blur) / 8));
+  backdrop-filter: blur(calc(var(--pb-blur) / 8));
+  -webkit-mask: linear-gradient(transparent 62.5%, #000 75%, #000 87.5%, transparent 100%);
+  mask: linear-gradient(transparent 62.5%, #000 75%, #000 87.5%, transparent 100%);
+}
+.progressive-blur__layer.is--3 {
+  -webkit-backdrop-filter: blur(calc(var(--pb-blur) / 4));
+  backdrop-filter: blur(calc(var(--pb-blur) / 4));
+  -webkit-mask: linear-gradient(transparent 75%, #000 87.5%, #000 100%);
+  mask: linear-gradient(transparent 75%, #000 87.5%, #000 100%);
+}
+.progressive-blur__layer.is--4 {
+  -webkit-backdrop-filter: blur(calc(var(--pb-blur) / 2));
+  backdrop-filter: blur(calc(var(--pb-blur) / 2));
+  -webkit-mask: linear-gradient(transparent 82%, #000 92%, #000 100%);
+  mask: linear-gradient(transparent 82%, #000 92%, #000 100%);
+}
+.progressive-blur__layer.is--5 {
+  -webkit-backdrop-filter: blur(var(--pb-blur));
+  backdrop-filter: blur(var(--pb-blur));
+  -webkit-mask: linear-gradient(transparent 88%, #000 100%);
+  mask: linear-gradient(transparent 88%, #000 100%);
+}
+
+/* Optional dark fade behind the blur (off by default). */
+.progressive-blur.is-top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #05030a 0%, transparent 100%);
+  opacity: var(--pb-tint);
+  pointer-events: none;
+}
+
+/* Layer count set by the tuner. */
+html[data-pb-layers="4"] .progressive-blur__layer.is--1,
+html[data-pb-layers="3"] .progressive-blur__layer.is--1,
+html[data-pb-layers="3"] .progressive-blur__layer.is--2 {
+  display: none;
+}
+
+/* Phones / touch: 3 layers and a shorter strip keep iOS Safari scrolling smooth. */
+@media (max-width: 1023px), (pointer: coarse) {
+  :root {
+    --pb-scale: 1.4;
+  }
+  html:not([data-pb-layers]) .progressive-blur__layer.is--1,
+  html:not([data-pb-layers]) .progressive-blur__layer.is--2 {
+    display: none;
+  }
+}
+
+/* No backdrop-filter support, or the user asked for less transparency. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .progressive-blur__layer { display: none; }
+  .progressive-blur.is-top { background: linear-gradient(to top, #05030a 0%, transparent 100%); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .progressive-blur__layer { display: none; }
+  .progressive-blur.is-top { background: linear-gradient(to top, #05030a 0%, transparent 100%); }
+}

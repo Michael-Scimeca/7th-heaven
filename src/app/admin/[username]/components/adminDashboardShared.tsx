@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element, react-doctor/nextjs-no-img-element */
 import React from "react";
+import Avatar from "@/components/Avatar";
 
 export const STANDARD_ROLE_TAGS_SET = new Set([
   "AUDIO",
@@ -86,39 +87,14 @@ export const resolveMemberAvatar = (
 };
 
 export const CrewAvatar = React.memo(({ member }: { member: any }) => {
-  const name = member?.name || "Crew";
-  const avatarUrl = resolveMemberAvatar(
-    name,
-    member?.avatar || member?.avatarUrl,
-  );
-  const initials =
-    member?.initials ||
-    name
-      .split(" ")
-      .map((n: string) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  const [imgError, setImgError] = React.useState(false);
-
-  if (avatarUrl && !imgError) {
-    return (
-      <img
-        src={avatarUrl}
-        alt={name}
-        onError={() => setImgError(true)}
-        className="h-11 w-11 shrink-0 rounded-full border border-white/10 object-cover"
-      />
-    );
-  }
-
   return (
-    <div
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 select-none"
-      style={{ color: "#ffffff" }}
-    >
-      {initials}
-    </div>
+    <Avatar
+      src={member?.avatar || member?.avatarUrl}
+      name={member?.name || "Crew"}
+      initials={member?.initials}
+      size="md"
+      border="border border-white/10"
+    />
   );
 });
 CrewAvatar.displayName = "CrewAvatar";
@@ -164,7 +140,7 @@ export const SidebarDateButton = React.memo(
       <button
         type="button"
         onClick={() => show.date && onClick(show.date)}
-        className={`group flex w-full cursor-pointer items-center gap-2 border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
+        className={`group flex w-full cursor-pointer items-center gap-2 px-2 py-1.5 text-left ${isSelected ? "" : isActiveWeek ? "" : " "} `}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
           <span className="text-[9px] text-white/40">{dayLabel}</span>
@@ -175,7 +151,7 @@ export const SidebarDateButton = React.memo(
           </span>
         </div>
         <div className="min-w-0 flex-1 nmp" >
-          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "}`}>
+          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "} `}>
             {show.venue || show.venue_name}
           </p>
           {show.city && (

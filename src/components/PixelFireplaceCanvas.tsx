@@ -13,7 +13,7 @@ const FS_SOURCE = `
 #ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
 #else
-precision highp float;
+precision mediump float;
 #endif
 
 uniform vec2 resolution;
@@ -113,7 +113,7 @@ float prng(in vec2 seed) {
   return fract (seed.x * seed.y );
 }
 
-float PI = 3.1415926535897932384626433832795;
+#define PI 3.1415926535897932384626433832795
 
 vec3 flamePalette(float t, int theme) {
   float s = clamp(t, 0.0, 1.0);
@@ -196,7 +196,6 @@ vec2 noiseStackUV(vec3 pos,int octaves,float falloff,float diff){
 }
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
-  float time = time;
   vec2 res = resolution.xy;
   vec2 drag = mouse.xy + sin(time);
   vec2 offset = mouse.xy + cos(time);
@@ -374,26 +373,35 @@ export default function PixelFireplaceCanvas({
         alpha: true,
         premultipliedAlpha: false,
       })) as WebGLRenderingContext | null;
-    if (!gl) return;
+    if (!gl || gl.isContextLost()) return;
 
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     function compileShader(src: string, type: number) {
-      if (!gl) return null;
+      if (!gl || gl.isContextLost()) return null;
       const shader = gl.createShader(type);
       if (!shader) return null;
       gl.shaderSource(shader, src);
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Shader compile error:", gl.getShaderInfoLog(shader));
+        const info = gl.getShaderInfoLog(shader);
+        if (info && info.trim().length > 0) {
+          console.warn("PixelFireplaceCanvas: shader compilation failed:", info);
+        }
+        gl.deleteShader(shader);
+        return null;
       }
       return shader;
     }
 
     const vertexShader = compileShader(VS_SOURCE, gl.VERTEX_SHADER);
     const fragmentShader = compileShader(FS_SOURCE, gl.FRAGMENT_SHADER);
-    if (!vertexShader || !fragmentShader) return;
+    if (!vertexShader || !fragmentShader) {
+      if (vertexShader) gl.deleteShader(vertexShader);
+      if (fragmentShader) gl.deleteShader(fragmentShader);
+      return;
+    }
 
     const program = gl.createProgram();
     if (!program) return;
@@ -401,7 +409,14 @@ export default function PixelFireplaceCanvas({
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program link error:", gl.getProgramInfoLog(program));
+      const info = gl.getProgramInfoLog(program);
+      if (info && info.trim().length > 0) {
+        console.warn("PixelFireplaceCanvas: program link failed:", info);
+      }
+      gl.deleteProgram(program);
+      gl.deleteShader(vertexShader);
+      gl.deleteShader(fragmentShader);
+      return;
     }
     gl.useProgram(program);
 
@@ -456,7 +471,7 @@ export default function PixelFireplaceCanvas({
           }
         });
       },
-      { threshold: 0.01 },
+      { threshold: 0 },
     );
     intersectionObserver.observe(canvas);
 
@@ -464,8 +479,8 @@ export default function PixelFireplaceCanvas({
       if (!canvas || !gl) return;
       const isMobile = typeof window !== "undefined" && (window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches);
       const dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1.5) : Math.min(window.devicePixelRatio || 1, 2);
-      const width = canvas.clientWidth || window.innerWidth;
-      const height = canvas.clientHeight || window.innerHeight;
+      const width = canvas.clientWidth || canvas.parentElement?.clientWidth || window.innerWidth;
+      const height = canvas.clientHeight || canvas.parentElement?.clientHeight || window.innerHeight;
       const targetW = Math.max(1, Math.floor(width * dpr));
       const targetH = Math.max(1, Math.floor(height * dpr));
       if (canvas.width !== targetW || canvas.height !== targetH) {
@@ -475,7 +490,12 @@ export default function PixelFireplaceCanvas({
       }
     }
 
-    const resizeObserver = new ResizeObserver(() => resize());
+    const resizeObserver = new ResizeObserver(() => {
+      resize();
+      if (!animFrameId && !isDisposed) {
+        animFrameId = requestAnimationFrame(render);
+      }
+    });
     if (canvas.parentElement) {
       resizeObserver.observe(canvas.parentElement);
     }
@@ -484,11 +504,16 @@ export default function PixelFireplaceCanvas({
 
     const startTime = performance.now();
     function render(now: number) {
-      if (!gl || !canvas || !isVisible) {
+      if (!gl || gl.isContextLost() || !canvas || !isVisible) {
         animFrameId = 0;
         return;
       }
       const t = (now - startTime) * 0.001;
+
+      gl.useProgram(program);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.enableVertexAttribArray(positionLoc);
+      gl.vertexAttribPointer(positionLoc, 3, gl.FLOAT, false, 0, 0);
 
       gl.uniform2f(uResolution, canvas.width, canvas.height);
       gl.uniform1f(uTime, t);
@@ -531,6 +556,10 @@ export default function PixelFireplaceCanvas({
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       try {
+        if (buffer) gl.deleteBuffer(buffer);
+        if (vertexShader) gl.deleteShader(vertexShader);
+        if (fragmentShader) gl.deleteShader(fragmentShader);
+        if (program) gl.deleteProgram(program);
         const loseCtx = gl.getExtension("WEBGL_lose_context");
         if (loseCtx) loseCtx.loseContext();
       } catch {}
@@ -540,9 +569,11 @@ export default function PixelFireplaceCanvas({
   return (
     <canvas
       ref={canvasRef}
-      className={`pointer-events-none block ${className}`}
+      className={`pointer-events-none block h-full w-full ${className} `}
       style={{
         display: "block",
+        width: "100%",
+        height: "100%",
         ...style,
       }}
     />

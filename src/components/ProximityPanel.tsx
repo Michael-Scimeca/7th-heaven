@@ -3,11 +3,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 import { GlowInput, GlowSelect } from "@/components/GlowInput";
 import CustomDropdown from "@/components/CustomDropdown";
 import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
+import SectionHeader from "@/components/SectionHeader";
 
 interface NearbyShow {
   id: string;
@@ -172,22 +173,24 @@ export default function ProximityPanel() {
     <div className="space-y-6">
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
-        <div className="mb-6 flex items-center gap-2"></div>
-        <h3 className="mb-1">Shows Near You</h3>
-        <p className="mb-6 max-w-md">
-          Get notified when 7th Heaven is performing within your chosen radius.
-          See who else is going!
-        </p>
+        <SectionHeader
+          as="h3"
+          title="Shows Near You"
+          subtitle="Get notified when 7th Heaven is performing within your chosen radius. See who else is going!"
+          divider={false}
+        />
 
         {/* Notification Toggle */}
         <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-6">
           <div>
-            <p>Enable Proximity Notifications</p>
+            <p id="proximity-notifications-label">Enable Proximity Notifications</p>
             <p className="mt-0.5">SMS & email alerts for nearby shows</p>
           </div>
-          <SquishyToggle
+          <Toggle
             id="proximity-notifications-toggle"
             label="Enable proximity notifications"
+            hideLabel
+            aria-labelledby="proximity-notifications-label"
             checked={notificationsEnabled}
             onChange={setNotificationsEnabled}
           />
@@ -196,7 +199,7 @@ export default function ProximityPanel() {
         {/* Zip + Radius */}
         <div className="mb-6 grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="proximity-zip-input" className="mb-2 block">
+            <label htmlFor="proximity-zip-input" className="block">
               Your Zip Code
             </label>
             <GlowInput
@@ -210,7 +213,7 @@ export default function ProximityPanel() {
             />
           </div>
           <div>
-            <label htmlFor="proximity-radius-select" className="mb-2 block">
+            <label htmlFor="proximity-radius-select" className="block">
               Radius
             </label>
             <CustomDropdown
@@ -251,7 +254,7 @@ export default function ProximityPanel() {
             </span>
             <button
               onClick={fetchNearbyShows}
-              className="text-white/40 hover:text-white"
+              className="transition-colors text-white/40 hover:text-white"
             >
               Refresh
             </button>
@@ -264,7 +267,7 @@ export default function ProximityPanel() {
               </span>
             </div>
           ) : nearbyShows.length === 0 ? (
-            <div className="flex flex-col items-center  border border-dashed border-white/10 bg-[#00000029] py-8">
+            <div className="flex flex-col items-center rounded-[var(--radius-box)] border border-dashed border-white/10 bg-[#00000029] py-8">
               <p>No shows in your area yet.</p>
               <p>We&apos;ll alert you the moment one is booked near you!</p>
             </div>
@@ -273,7 +276,7 @@ export default function ProximityPanel() {
               {nearbyShows.map((show) => (
                 <div
                   key={show.id}
-                  className="group border border-white/10 bg-[#00000029] p-4 hover:border-blue-500/40"
+                  className="transition-colors group rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-4 hover:border-blue-500/40"
                 >
                   <div className="flex items-center justify-between">
                     <button
@@ -281,7 +284,7 @@ export default function ProximityPanel() {
                       onClick={() => loadAttendees(show)}
                       className="flex flex-1 cursor-pointer items-center gap-4 text-left"
                     >
-                      <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center  border border-blue-500/20 bg-blue-500/10">
+                      <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-[var(--radius-box)] border border-blue-500/20 bg-blue-500/10">
                         <span className="text-blue-400">
                           {new Date(show.date + "T12:00:00").toLocaleDateString(
                             "en-US",
@@ -293,7 +296,7 @@ export default function ProximityPanel() {
                         </span>
                       </div>
                       <div>
-                        <p className="group-hover:text-blue-400">
+                        <p className="transition-colors group-hover:text-blue-400">
                           {show.venue_name}
                         </p>
                         <p>
@@ -312,7 +315,7 @@ export default function ProximityPanel() {
                         e.stopPropagation();
                         toggleGoing(show);
                       }}
-                      className={`rounded-lg border px-4 py-2 ${myStatus && selectedShow?.id === show.id ? "border-blue-600 bg-blue-600" : "hover: border-white/10 bg-white/10 hover:border-blue-500 hover:bg-blue-500"}`}
+                      className={`rounded-[var(--radius-box)] border px-4 py-2 ${myStatus && selectedShow?.id === show.id ? "border-blue-600 bg-blue-600" : "hover: border-white/10 bg-white/10 hover:border-blue-500 hover:bg-blue-500"} `}
                     >
                       {myStatus && selectedShow?.id === show.id
                         ? "Going"
@@ -331,14 +334,14 @@ export default function ProximityPanel() {
                         <div className="flex items-center gap-2">
                           <a
                             href={show.showPageUrl || `/shows/${show.id}`}
-                            className="text-blue-400 hover:text-white"
+                            className="transition-colors text-blue-400 hover:text-white"
                           >
                             View Show Page →
                           </a>
                           <span className="text-white/20">·</span>
                           <a
                             href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — check it out: ${show.showPageUrl || `https://7thheavenband.com/shows/${show.id}`}`)}`}
-                            className="text-white/40 hover:text-white"
+                            className="transition-colors text-white/40 hover:text-white"
                           >
                             Share
                           </a>
@@ -357,9 +360,9 @@ export default function ProximityPanel() {
                           {attendees.slice(0, 12).map((a) => (
                             <div
                               key={a.id}
-                              className="flex items-center gap-2  border border-black/10 bg-white px-3 py-1.5"
+                              className="flex items-center gap-2 rounded-[var(--radius-box)] border border-black/10 bg-white px-3 py-1.5"
                             >
-                              <div className="flex h-5 w-5 items-center justify-center  bg-[var(--color-accent)] text-[var(--color-accent)] text-[var(--font-size-2xs)]">
+                              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-accent)] text-[var(--color-accent)] text-[var(--font-size-2xs)]">
                                 {a.profiles?.full_name?.charAt(0) || "?"}
                               </div>
                               <span className="text-black/70">
@@ -368,7 +371,7 @@ export default function ProximityPanel() {
                               {a.profiles?.tier &&
                                 a.profiles.tier !== "Bronze" && (
                                   <span
-                                    className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]}`}
+                                    className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]} `}
                                   >
                                     {a.profiles.tier}
                                   </span>
@@ -376,7 +379,7 @@ export default function ProximityPanel() {
                             </div>
                           ))}
                           {attendees.length > 12 && (
-                            <div className="rounded-lg border border-black/10 bg-white px-3 py-1.5">
+                            <div className="rounded-[var(--radius-box)] border border-black/10 bg-white px-3 py-1.5">
                               <span className="text-black/50">
                                 +{attendees.length - 12} more
                               </span>

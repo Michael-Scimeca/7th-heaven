@@ -114,7 +114,7 @@ export default function PushSubscribeModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 rounded-full bg-[#00000029] p-1 text-white/40 hover:bg-white/10 hover:text-white"
+          className="transition-colors absolute top-4 right-4 rounded-full bg-[#00000029] p-1 text-white/40 hover:bg-white/10 hover:text-white"
         >
           <X className="h-5 w-5" />
         </button>
@@ -149,7 +149,7 @@ export default function PushSubscribeModal({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="  block text-gray-300">
+                <label className="block text-gray-300">
                   Your Full Name
                 </label>
                 <div className="relative w-full">
@@ -168,7 +168,7 @@ export default function PushSubscribeModal({
               </div>
 
               <div>
-                <label className="  block text-gray-300">
+                <label className="block text-gray-300">
                   Your Email Address
                 </label>
                 <div className="relative w-full">
@@ -199,7 +199,7 @@ export default function PushSubscribeModal({
                         href="/terms"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-purple-400"
+                        className="transition-colors hover:text-purple-400"
                         onClick={(e) => e.stopPropagation()}
                       >
                         Terms of Service
@@ -209,7 +209,7 @@ export default function PushSubscribeModal({
                         href="/privacy"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-purple-400"
+                        className="transition-colors hover:text-purple-400"
                         onClick={(e) => e.stopPropagation()}
                       >
                         Privacy Policy
@@ -253,7 +253,7 @@ export default function PushSubscribeModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-[var(--radius-box)] bg-white/10 px-6 py-2.5 hover:bg-white/20"
+              className="transition-colors rounded-[var(--radius-box)] bg-white/10 px-6 py-2.5 hover:bg-white/20"
             >
               DONE
             </button>

@@ -237,7 +237,7 @@ export function CalendarPicker({
               aria-label="Previous Month"
               type="button"
               onClick={handlePrevMonth}
-              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
+              className="transition-colors flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
             >
               <svg
                 width="16"
@@ -304,7 +304,7 @@ export function CalendarPicker({
               aria-label="Next Month"
               type="button"
               onClick={handleNextMonth}
-              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
+              className="transition-colors flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
             >
               <span className="hidden sm:inline">Next</span>
               <svg
@@ -394,17 +394,17 @@ export function CalendarPicker({
                     }
                   }}
                   title={buttonTitle}
-                  className={`relative flex h-12 w-full items-center justify-center rounded-[var(--radius-box)] transition-all ${
+                  className={`relative flex h-12 w-full items-center justify-center rounded-[var(--radius-box)] transition-[background-color,color,border-color,box-shadow,transform] ${
                     isPastDate
                       ? "cursor-not-allowed opacity-25"
                       : "cursor-pointer"
-                  } ${
+                  }  ${
                     isSelected
                       ? "scale-105 border-2 border-purple-400 bg-purple-600 text-white shadow-purple-600/40"
                       : isBlocked
                         ? "border border-rose-500/40 bg-rose-500/15 text-rose-300 hover:border-rose-400 hover:bg-rose-500/25"
                         : "border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10"
-                  }`}
+                  } `}
                 >
                   {date.getDate()}
                   {isBlocked && (
@@ -445,7 +445,7 @@ export function CalendarPicker({
         </div>
 
         {/* Row 1, Col 2: Booking Window */}
-        <div className="col-span-1 border-t border-white/10 pt-6 min-[1500px]:col-span-1  md:border-t-0  md:pt-0">
+        <div className="col-span-1 border-t border-white/10 pt-6 min-[1500px]:col-span-1 md:border-t-0 md:pt-0">
           <h4 className="mb-6 text-white/50">
             {labels?.bookingWindowHeading || "Booking Window"}
           </h4>
@@ -481,7 +481,7 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label htmlFor="cal-show-finish-time" className=" block">
+              <label htmlFor="cal-show-finish-time" className="block">
                 {labels?.showFinishLabel || "When does the show finish?"}
               </label>
               <GooeyMessagesDropdown
@@ -613,13 +613,13 @@ export function CalendarPicker({
                     className="group flex !h-auto w-full cursor-pointer !justify-start gap-3 !rounded-[2.5rem] text-left sm:gap-4 [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal"
                   >
                     <div
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full sm:h-11 sm:w-11 ${isSelected ? "bg-purple-600/30" : "bg-white/10 text-white/50"}`}
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full sm:h-11 sm:w-11 ${isSelected ? "bg-purple-600/30" : "bg-white/10 text-white/50"} `}
                     >
                       <TypeIcon className="h-5 w-5 shrink-0" />
                     </div>
                     <div className="flex min-w-0 flex-1 items-center gap-2 text-left">
                       <span
-                        className={`block  ${isSelected ? " " : " "}`}
+                        className={`block ${isSelected ? " " : " "} `}
                       >
                         {displayLabel}
                       </span>

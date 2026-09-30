@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NorthCartProvider } from "@/context/NorthCartContext";
 
 export const metadata: Metadata = {
   title: "Merchant & Payment Portal — 7th Heaven",
@@ -14,5 +15,5 @@ export default function PaymentTestLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <NorthCartProvider>{children}</NorthCartProvider>;
 }

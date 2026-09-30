@@ -185,7 +185,7 @@ export default function GooeyDropdown({
     ? {
         width: panelWidth,
         height: triggerSize.height + targetHeight,
-        borderRadius: 16,
+        borderRadius: 8,
       }
     : {
         width: triggerSize.width,
@@ -196,7 +196,7 @@ export default function GooeyDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`gooey-drop-wrap ${className}`}
+      className={`gooey-drop-wrap ${className} `}
       data-open={open}
     >
       {/* Filter lives once per instance so multiple dropdowns don't fight
@@ -263,7 +263,7 @@ export default function GooeyDropdown({
         <button
           ref={triggerRef}
           type="button"
-          className={`gooey-drop-trigger ${buttonClassName}`}
+          className={`gooey-drop-trigger ${buttonClassName} `}
           style={{ color: textColor }}
           onClick={toggle}
           aria-haspopup="menu"

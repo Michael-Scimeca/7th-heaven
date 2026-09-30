@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import path from "path";
 import { sanityFetch } from "@/sanity/live";
 import { queries, SanityTourDate } from "@/lib/sanity";
+import { validateCrewCalendarToken } from "@/lib/crew-calendar-auth";
 
 const FILE_PATH = path.join(process.cwd(), "schedules.json");
 
@@ -41,10 +42,26 @@ const formatICalDate = (dateStr: string, hourDecimal: number) => {
   return `${yyyy}${mm}${dd}T${hourStr}${minStr}00`;
 };
 
+// Helper to scrub private email addresses and phone numbers
+const sanitizeDescription = (text: string) => {
+  return text
+    .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "[Email Protected]")
+    .replace(/\b(?:\+?1[-.\s]?)?\(?[2-9]\d{2}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g, "[Phone Protected]");
+};
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const crewId = searchParams.get("crewId");
+    const token = searchParams.get("token");
+
+    // Require valid signed per-user token to access crew calendar
+    if (!crewId || !validateCrewCalendarToken(crewId, token)) {
+      return new Response(
+        "Unauthorized: A valid signed crew calendar token is required. Subscribe or refresh your link from the Crew Dashboard.",
+        { status: 401, headers: { "Content-Type": "text/plain; charset=utf-8" } },
+      );
+    }
 
     const [schedules, tourDates] = await Promise.all([
       readSchedules(),
@@ -148,7 +165,7 @@ export async function GET(request: NextRequest) {
       }
 
       const descCleaned = descLines
-        .map((line) => line.replace(/[,;]/g, "\\$1"))
+        .map((line) => sanitizeDescription(line).replace(/[,;]/g, "\\$1"))
         .join("\\n");
 
       icsContent.push(`DESCRIPTION:${descCleaned}`);

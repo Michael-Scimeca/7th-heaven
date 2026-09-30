@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import PageHero from "@/components/PageHero";
 
 interface PrivacyClientProps {
   sanityContent?: any;
@@ -9,43 +10,48 @@ interface PrivacyClientProps {
 export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
   return (
     <main
-      className="site-container page-container min-h-screen text-left"
+      className="site-container page-container page-stack-sm prose-legal min-h-screen text-left"
       id="privacy-page"
     >
-      <header className="mb-6 text-left">
-        <h1 className="mb-2">
-          {sanityContent?.heroHeading ||
-            sanityContent?.title ||
-            "Privacy Policy"}
-        </h1>
-        <p>
-          {sanityContent?.lastUpdated ||
-            sanityContent?.subtitle ||
-            "Last Updated: April 12, 2026"}
-        </p>
-      </header>
+      <PageHero
+        title={
+          sanityContent?.heroHeading ||
+          sanityContent?.title ||
+          "Privacy Policy"
+        }
+        titleId="privacy-heading"
+        subtitle={
+          sanityContent?.lastUpdated ||
+          sanityContent?.subtitle ||
+          "Last Updated: April 12, 2026"
+        }
+        align="left"
+      />
 
-      <div className="prose-legal flex flex-col gap-6 pb-section-fluid">
-        {sanityContent?.sections &&
-          Array.isArray(sanityContent.sections) &&
-          sanityContent.sections.length > 0 ? (
-          sanityContent.sections.map((sec: any, idx: number) => {
+      {sanityContent?.sections &&
+        Array.isArray(sanityContent.sections) &&
+        sanityContent.sections.length > 0 ? (
+        sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
               sec.sectionId ||
               sec._id ||
               sec.title ||
               `privacy-sec-${sec._key || sec.sectionId}`;
-            const headingId = `privacy-sec-${sec.sectionId || sec._key || idx + 1}`;
+            const secId = `privacy-sec-${sec.sectionId || sec._key || idx + 1}`;
             return (
               <section
                 key={sectionKey}
-                aria-labelledby={`${headingId}-heading`}
+                id={secId}
+                className="section-sm"
+                aria-labelledby={`${secId}-heading`}
               >
-                <h2 id={`${headingId}-heading`} className="mb-3">
-                  {sec.title || `${idx + 1}. Policy Section`}
-                </h2>
-                {sec.subtitle && <p className="mb-2">{sec.subtitle}</p>}
+                <div className="title-group title-group--section">
+                  <h2 id={`${secId}-heading`}>
+                    {sec.title || `${idx + 1}. Policy Section`}
+                  </h2>
+                  {sec.subtitle && <p>{sec.subtitle}</p>}
+                </div>
                 {sec.body && (
                   <div className="whitespace-pre-line">{sec.body}</div>
                 )}
@@ -55,7 +61,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
         ) : (
           <>
             {/* 1 */}
-            <section aria-labelledby="privacy-sec-1-heading">
+            <section
+              id="privacy-sec-1"
+              className="section-sm"
+              aria-labelledby="privacy-sec-1-heading"
+            >
               <h2 id="privacy-sec-1-heading" className="mb-3">
                 1. Introduction
               </h2>
@@ -74,7 +84,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 2 */}
-            <section aria-labelledby="privacy-sec-2-heading">
+            <section
+              id="privacy-sec-2"
+              className="section-sm"
+              aria-labelledby="privacy-sec-2-heading"
+            >
               <h2 id="privacy-sec-2-heading" className="mb-3">
                 2. Information We Collect
               </h2>
@@ -117,7 +131,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 3 */}
-            <section aria-labelledby="privacy-sec-3-heading">
+            <section
+              id="privacy-sec-3"
+              className="section-sm"
+              aria-labelledby="privacy-sec-3-heading"
+            >
               <h2 id="privacy-sec-3-heading" className="mb-3">
                 3. How We Use Your Information
               </h2>
@@ -141,7 +159,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 4 */}
-            <section aria-labelledby="privacy-sec-4-heading">
+            <section
+              id="privacy-sec-4"
+              className="section-sm"
+              aria-labelledby="privacy-sec-4-heading"
+            >
               <h2 id="privacy-sec-4-heading" className="mb-3">
                 4. Proximity Alerts & Web Push Program
               </h2>
@@ -150,7 +172,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 consent to receive automated notifications regarding nearby
                 concerts and show updates. Key details:
               </p>
-              <ul className="list-disc space-y-2 pl-5  ">
+              <ul className="list-disc space-y-2 pl-5">
                 <li>
                   <strong>Data Collected:</strong> Full name (optional), email
                   address (optional), zip code or city, distance radius (e.g. 15
@@ -182,7 +204,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 5 */}
-            <section aria-labelledby="privacy-sec-5-heading">
+            <section
+              id="privacy-sec-5"
+              className="section-sm"
+              aria-labelledby="privacy-sec-5-heading"
+            >
               <h2 id="privacy-sec-5-heading" className="mb-3">
                 5. How We Share Your Information
               </h2>
@@ -205,7 +231,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 6 */}
-            <section aria-labelledby="privacy-sec-6-heading">
+            <section
+              id="privacy-sec-6"
+              className="section-sm"
+              aria-labelledby="privacy-sec-6-heading"
+            >
               <h2 id="privacy-sec-6-heading" className="mb-3">
                 6. Data Security
               </h2>
@@ -219,7 +249,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 7 */}
-            <section aria-labelledby="privacy-sec-7-heading">
+            <section
+              id="privacy-sec-7"
+              className="section-sm"
+              aria-labelledby="privacy-sec-7-heading"
+            >
               <h2 id="privacy-sec-7-heading" className="mb-3">
                 7. Data Retention
               </h2>
@@ -233,7 +267,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 8 */}
-            <section aria-labelledby="privacy-sec-8-heading">
+            <section
+              id="privacy-sec-8"
+              className="section-sm"
+              aria-labelledby="privacy-sec-8-heading"
+            >
               <h2 id="privacy-sec-8-heading" className="mb-3">
                 8. Your Rights
               </h2>
@@ -258,7 +296,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 9 */}
-            <section aria-labelledby="privacy-sec-9-heading">
+            <section
+              id="privacy-sec-9"
+              className="section-sm"
+              aria-labelledby="privacy-sec-9-heading"
+            >
               <h2 id="privacy-sec-9-heading" className="mb-3">
                 9. Cookies & Tracking
               </h2>
@@ -271,7 +313,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 10 */}
-            <section aria-labelledby="privacy-sec-10-heading">
+            <section
+              id="privacy-sec-10"
+              className="section-sm"
+              aria-labelledby="privacy-sec-10-heading"
+            >
               <h2 id="privacy-sec-10-heading" className="mb-3">
                 10. Children&apos;s Privacy
               </h2>
@@ -285,7 +331,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 11 */}
-            <section aria-labelledby="privacy-sec-11-heading">
+            <section
+              id="privacy-sec-11"
+              className="section-sm"
+              aria-labelledby="privacy-sec-11-heading"
+            >
               <h2 id="privacy-sec-11-heading" className="mb-3">
                 11. Changes to This Policy
               </h2>
@@ -298,7 +348,11 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
 
             {/* 12 */}
-            <section aria-labelledby="privacy-sec-12-heading">
+            <section
+              id="privacy-sec-12"
+              className="section-sm"
+              aria-labelledby="privacy-sec-12-heading"
+            >
               <h2 id="privacy-sec-12-heading" className="mb-3">
                 12. Contact Us
               </h2>
@@ -328,7 +382,6 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
             </section>
           </>
         )}
-      </div>
     </main>
   );
 }

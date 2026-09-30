@@ -72,7 +72,7 @@ const pageContent = {
       title: "Contact Department Cards",
       type: "array",
       description:
-        "List of contact department cards (Category Pill, Representative Name, Company, Email, Phone)",
+        "List of contact department cards (Category / Department, Representative Name, Email, Phone)",
       hidden: ({ document }: any) => !isContactDoc(document),
       of: [
         {
@@ -82,11 +82,10 @@ const pageContent = {
           fields: [
             {
               name: "category",
-              title: "Category / Department Pill",
+              title: "Category / Department",
               type: "string",
             },
             { name: "name", title: "Representative Name", type: "string" },
-            { name: "company", title: "Company Name", type: "string" },
             { name: "email", title: "Email Address", type: "string" },
             { name: "phone", title: "Phone Number", type: "string" },
             {

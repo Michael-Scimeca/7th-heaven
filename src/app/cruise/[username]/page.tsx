@@ -23,6 +23,7 @@ import PushAlertsCard from "@/components/PushAlertsCard";
 import SeventhButton from "@/components/SeventhButton";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 import GlowInput from "@/components/GlowInput";
+import { SectionHeader } from "@/components/SectionHeader";
 
 const CruiseSnakeItinerary = dynamic(
   () => import("@/components/CruiseSnakeItinerary"),
@@ -313,17 +314,19 @@ function PassengersWidget() {
 
   return (
     <div className="group relative overflow-hidden p-2">
-      <div className="relative z-10 mb-6 flex items-end justify-between">
-        <div>
-          <h2 className="mb-1">Community</h2>
-          <div className="flex items-center gap-2">
+      <SectionHeader
+        id="community-heading"
+        title="Community"
+        subtitle={
+          <span className="flex items-center gap-2">
             <span className="text-2xl">{totalCount}</span>
-            <span className="text-[var(--color-accent)] ">
+            <span className="text-[var(--color-accent)]">
               Cruise Members Onboard
             </span>
-          </div>
-        </div>
-      </div>
+          </span>
+        }
+        divider={false}
+      />
 
       {/* Avatar Circle Row */}
       <div className="relative z-10 mb-6 flex flex-wrap items-center gap-2">
@@ -336,14 +339,14 @@ function PassengersWidget() {
           </div>
         ))}
         {extraAvatarsCount > 0 && (
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60  sm:h-10 sm:w-10">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60 sm:h-10 sm:w-10">
             +{extraAvatarsCount}
           </div>
         )}
       </div>
 
       {/* Member Names Dot-Separated List */}
-      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1 ">
+      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1">
         {passengers.map((p, idx) => (
           <div key={`passenger-${p.id}`} className="inline-flex items-center">
             <span>
@@ -788,11 +791,11 @@ export default function CruiseDashboard() {
     return (
       <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-32 pb-20">
         {/* Subtle background elements */}
-        <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px]  bg-[var(--color-accent)]/5 blur-3xl" />
-        <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px]  bg-cyan-500/5 blur-3xl" />
+        <div className="pointer-events-none absolute top-1/4 left-1/4 h-[400px] w-[400px] bg-[var(--color-accent)]/5 blur-3xl" />
+        <div className="pointer-events-none absolute right-1/4 bottom-1/4 h-[400px] w-[400px] bg-cyan-500/5 blur-3xl" />
 
         <div className="relative z-10 w-full max-w-md animate-[fadeIn_0.3s_ease-out]">
-          <div className="mb-8 text-center">
+          <div className="title-group title-group--page items-center text-center mb-8">
             <h1>Cruise Hub</h1>
             <p>Exclusive Passenger Community</p>
           </div>
@@ -804,12 +807,14 @@ export default function CruiseDashboard() {
                   <span className="mb-3 block animate-[pulse_1.5s_infinite] text-4xl">
                     🔑
                   </span>
-                  <h3 className="mb-2">Verify Your Email</h3>
-                  <p className="text-black/60">
-                    We've sent a 6-digit verification PIN to{" "}
-                    <strong>{email}</strong>. Enter it below to activate your
-                    account.
-                  </p>
+                  <div className="title-group title-group--sub items-center text-center">
+                    <h3>Verify Your Email</h3>
+                    <p className="text-black/60">
+                      We've sent a 6-digit verification PIN to{" "}
+                      <strong>{email}</strong>. Enter it below to activate your
+                      account.
+                    </p>
+                  </div>
                 </div>
 
                 <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
@@ -839,10 +844,10 @@ export default function CruiseDashboard() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
+                    className="transition-colors mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
                   >
                     {submitting ? (
-                      <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+                      <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
                     ) : (
                       "Verify PIN & Access Hub →"
                     )}
@@ -865,19 +870,21 @@ export default function CruiseDashboard() {
             ) : regSuccess ? (
               <div className="animate-[fadeIn_0.3s_ease-out] p-8 text-center">
                 <span className="mb-6 block text-4xl">📧</span>
-                <h3 className="mb-2">Check Your Email</h3>
-                <p className="mb-6 text-black/60">
-                  We've sent a verification link to{" "}
-                  <strong className="text-black">{email}</strong>. Please check
-                  your inbox and click the link to activate your Cruise Hub
-                  account.
-                </p>
+                <div className="title-group title-group--sub items-center text-center mb-6">
+                  <h3>Check Your Email</h3>
+                  <p className="text-black/60">
+                    We've sent a verification link to{" "}
+                    <strong className="text-black">{email}</strong>. Please check
+                    your inbox and click the link to activate your Cruise Hub
+                    account.
+                  </p>
+                </div>
                 <button
                   onClick={() => {
                     setRegSuccess(false);
                     setAuthTab("login");
                   }}
-                  className="w-full cursor-pointer border border-black/10 bg-gray-50 py-2.5 text-black/80 hover:bg-gray-100"
+                  className="transition-colors w-full cursor-pointer border border-black/10 bg-gray-50 py-2.5 text-black/80 hover:bg-gray-100"
                 >
                   Go to Log In
                 </button>
@@ -891,7 +898,7 @@ export default function CruiseDashboard() {
                       setAuthTab("login");
                       setAuthError("");
                     }}
-                    className={`flex-1 cursor-pointer py-4 ${authTab === "login" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
+                    className={`flex-1 cursor-pointer py-4 ${authTab === "login" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"} `}
                   >
                     Log In
                   </button>
@@ -900,7 +907,7 @@ export default function CruiseDashboard() {
                       setAuthTab("register");
                       setAuthError("");
                     }}
-                    className={`flex-1 cursor-pointer py-4 ${authTab === "register" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"}`}
+                    className={`flex-1 cursor-pointer py-4 ${authTab === "register" ? "border-b-2 border-purple-500 bg-gray-50" : "text-black/40 hover:text-black/70"} `}
                   >
                     Register
                   </button>
@@ -945,10 +952,10 @@ export default function CruiseDashboard() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
+                        className="transition-colors mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-purple-600 py-3 shadow-purple-600/30 hover:bg-purple-500 disabled:opacity-50"
                       >
                         {submitting ? (
-                          <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+                          <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
                         ) : (
                           "Access Cruise Hub →"
                         )}
@@ -1018,10 +1025,10 @@ export default function CruiseDashboard() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 hover:brightness-110 disabled:opacity-50"
+                        className="transition-[filter] mt-4 flex w-full cursor-pointer items-center justify-center gap-2 bg-[var(--color-accent)] py-3 hover:brightness-110 disabled:opacity-50"
                       >
                         {submitting ? (
-                          <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+                          <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
                         ) : (
                           "Register & Access Hub →"
                         )}
@@ -1044,203 +1051,217 @@ export default function CruiseDashboard() {
   }
 
   return (
-    <main className="site-container page-container min-h-screen selection:bg-cyan-500 selection:text-black">
-      <div>
-        <header className="mb-6 pb-3 flex flex-col justify-between gap-8 border-b border-white/10 md:flex-row">
-          <MemberHeaderBadge
-            name={effectiveMember?.name || "Cruise Guest"}
-            email={effectiveMember?.email || ""}
-            avatar={effectiveMember?.avatar}
-            badgeLabel="Cruise"
-            badgeColorClass="bg-sky-500 border-sky-400/50"
-          />
+    <main className="site-container page-container page-stack min-h-screen selection:bg-cyan-500 selection:text-black">
+      <header className="pb-3 flex flex-col justify-between gap-8 border-b border-white/10 md:flex-row">
+        <MemberHeaderBadge
+          name={effectiveMember?.name || "Cruise Guest"}
+          email={effectiveMember?.email || ""}
+          avatar={effectiveMember?.avatar}
+          badgeLabel="Cruise"
+          badgeColorClass="bg-sky-500 border-sky-400/50"
+        />
 
-          <div className="shrink-0">
-            <EmbarkationCountdown />
-          </div>
-        </header>
+        <div className="shrink-0">
+          <EmbarkationCountdown />
+        </div>
+      </header>
 
-        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
-          {/* Main Content Column (Left 2 Cols) */}
-          <section
-            aria-label="Cruise Information & Booking Details"
-            className="flex max-w-full min-w-0 flex-col gap-8 lg:col-span-2"
-          >
-            {/* 1. Cruise Information & Guidelines */}
-            <article className="h-fit max-w-full min-w-0 overflow-hidden">
-              <div className="relative z-10 max-w-full min-w-0">
-                <div className="mb-6 pb-6 flex flex-wrap items-center gap-3 border-b border-white/10">
-                  <div>
-                    <h2>{guidelines.title}</h2>
-                    <p className="mt-0.5 text-purple-400">
-                      {guidelines.subtitle}
-                    </p>
-                  </div>
-                  {isAdmin && !isEditingGuidelines && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setGuidelinesTitleInput(guidelines.title);
-                        setGuidelinesSubtitleInput(guidelines.subtitle);
-                        setGuidelinesContentInput(guidelines.content);
-                        setIsEditingGuidelines(true);
-                      }}
-                      className="ml-auto cursor-pointer  border border-purple-500/30 px-3 py-1.5 hover:text-white"
-                    >
-                      ✏️ Edit Guidelines
-                    </button>
-                  )}
-                </div>
-
-                {isEditingGuidelines ? (
-                  <div className="max-w-full min-w-0 space-y-4">
-                    <div>
-                      <GlowInput
-                        id="cruise-hub-guidelines-title"
-                        label="Section Title"
-                        type="text"
-                        value={guidelinesTitleInput}
-                        onChange={(e) =>
-                          setGuidelinesTitleInput(e.target.value)
-                        }
-                        wrapperClassName="w-full"
-                      />
-                    </div>
-                    <div>
-                      <GlowInput
-                        id="cruise-hub-guidelines-sub"
-                        label="Subtitle / Badge"
-                        type="text"
-                        value={guidelinesSubtitleInput}
-                        onChange={(e) =>
-                          setGuidelinesSubtitleInput(e.target.value)
-                        }
-                        wrapperClassName="w-full"
-                        className="text-purple-400"
-                      />
-                    </div>
-                    <div>
-                      <span className="mb-1 block text-white/50">
-                        Content (WYSIWYG - Reflects Live Card Colors)
+      {/* Main Cruise Dashboard Section */}
+      <section id="cruise-info" aria-labelledby="cruise-info-heading" className="section">
+        <h2 id="cruise-info-heading" className="sr-only">Cruise Dashboard</h2>
+        <div className="w-full">
+          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
+            {/* Main Content Column (Left 2 Cols) */}
+            <div className="flex max-w-full min-w-0 flex-col gap-8 lg:col-span-2">
+              {/* 1. Cruise Information & Guidelines */}
+              <article className="h-fit max-w-full min-w-0 overflow-hidden">
+                <div className="relative z-10 max-w-full min-w-0">
+                  <SectionHeader
+                    id="cruise-guidelines-heading"
+                    title={guidelines.title}
+                    subtitle={
+                      <span className="text-purple-400">
+                        {guidelines.subtitle}
                       </span>
-                      <div className="guidelines-wysiwyg-editor w-full [&_.ql-editor]:min-h-[180px]">
-                        <ReactQuill
-                          theme="snow"
-                          value={guidelinesContentInput}
-                          onChange={setGuidelinesContentInput}
-                          placeholder="Type guidelines & welcome pack information here..."
-                          className="form-input overflow-hidden"
+                    }
+                    divider={true}
+                    action={
+                      isAdmin && !isEditingGuidelines ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setGuidelinesTitleInput(guidelines.title);
+                            setGuidelinesSubtitleInput(guidelines.subtitle);
+                            setGuidelinesContentInput(guidelines.content);
+                            setIsEditingGuidelines(true);
+                          }}
+                          className="transition-colors cursor-pointer border border-purple-500/30 px-3 py-1.5 hover:text-white"
+                        >
+                          ✏️ Edit Guidelines
+                        </button>
+                      ) : undefined
+                    }
+                  />
+
+                  {isEditingGuidelines ? (
+                    <div className="max-w-full min-w-0 space-y-4">
+                      <div>
+                        <GlowInput
+                          id="cruise-hub-guidelines-title"
+                          label="Section Title"
+                          type="text"
+                          value={guidelinesTitleInput}
+                          onChange={(e) =>
+                            setGuidelinesTitleInput(e.target.value)
+                          }
+                          wrapperClassName="w-full"
                         />
                       </div>
+                      <div>
+                        <GlowInput
+                          id="cruise-hub-guidelines-sub"
+                          label="Subtitle / Badge"
+                          type="text"
+                          value={guidelinesSubtitleInput}
+                          onChange={(e) =>
+                            setGuidelinesSubtitleInput(e.target.value)
+                          }
+                          wrapperClassName="w-full"
+                          className="text-purple-400"
+                        />
+                      </div>
+                      <div>
+                        <span className="mb-1 block text-white/50">
+                          Content (WYSIWYG - Reflects Live Card Colors)
+                        </span>
+                        <div className="guidelines-wysiwyg-editor w-full [&_.ql-editor]:min-h-[180px]">
+                          <ReactQuill
+                            theme="snow"
+                            value={guidelinesContentInput}
+                            onChange={setGuidelinesContentInput}
+                            placeholder="Type guidelines & welcome pack information here..."
+                            className="form-input overflow-hidden"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex justify-end gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setIsEditingGuidelines(false)}
+                          className="transition-colors cursor-pointer bg-white/10 px-4 py-2 hover:bg-white/20"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleSaveGuidelines}
+                          className="transition-colors cursor-pointer bg-purple-600 px-5 py-2 shadow-purple-600/30 hover:bg-purple-500"
+                        >
+                          Save Guidelines
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex justify-end gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setIsEditingGuidelines(false)}
-                        className="cursor-pointer  bg-white/10 px-4 py-2 hover:bg-white/20"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleSaveGuidelines}
-                        className="cursor-pointer  bg-purple-600 px-5 py-2 shadow-purple-600/30 hover:bg-purple-500"
-                      >
-                        Save Guidelines
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    className="max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] [&_a]:underline-offset-4 [&_p]:max-w-full"
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        sanitizedGuidelinesContent ||
-                        sanitizeHtml(cleanWysiwygHtml(guidelines.content)),
-                    }}
-                  />
-                )}
-              </div>
-            </article>
+                  ) : (
+                    <div
+                      className="max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] [&_a]:underline-offset-4 [&_p]:max-w-full"
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          sanitizedGuidelinesContent ||
+                          sanitizeHtml(cleanWysiwygHtml(guidelines.content)),
+                      }}
+                    />
+                  )}
+                </div>
+              </article>
 
-            {/* 2. Priority Status & Cabin Booking Details */}
-            <BookingManager email={effectiveMember?.email} />
+              {/* 2. Priority Status & Cabin Booking Details */}
+              <BookingManager email={effectiveMember?.email} />
 
-            {/* 3. Important Links */}
-            <ImportantLinksWidget />
-          </section>
-
-          {/* Right Sidebar Column (1 Col) */}
-          <aside
-            aria-label="Passenger Community & Lounge"
-            className="lg:col-span-1"
-          >
-            <div className="flex flex-col gap-6">
-              <CruiseChat
-                memberOverride={effectiveMember}
-                className="h-[750px] min-h-[600px]"
-              />
-              <PassengersWidget />
+              {/* 3. Important Links */}
+              <ImportantLinksWidget />
             </div>
-          </aside>
+
+            {/* Right Sidebar Column (1 Col) */}
+            <aside
+              aria-label="Passenger Community & Lounge"
+              className="lg:col-span-1"
+            >
+              <div className="flex flex-col gap-6">
+                <CruiseChat
+                  memberOverride={effectiveMember}
+                  className="h-[750px] min-h-[600px]"
+                />
+                <PassengersWidget />
+              </div>
+            </aside>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* 4. Official Winding Snake Itinerary Timeline — Full Width */}
       <section
         id="itinerary"
-        aria-label="Voyage Itinerary Schedule"
-        className="relative w-full max-w-none overflow-x-clip px-0 pt-16  md:pt-24 "
-        style={{
-          position: "relative",
-          left: "50%",
-          right: "50%",
-          marginLeft: "-50vw",
-          marginRight: "-50vw",
-          width: "100vw",
-          maxWidth: "100vw",
-        }}
+        aria-labelledby="itinerary-heading"
+        className="section relative"
       >
-        {/* Background layer with edge mask (text remains unmasked above in z-10) */}
-        <div className="pointer-events-none absolute inset-0 z-0 cruise-itinerary-backdrop" />
+        <div
+          className="relative w-full max-w-none overflow-x-clip"
+          style={{
+            position: "relative",
+            left: "50%",
+            right: "50%",
+            marginLeft: "-50vw",
+            marginRight: "-50vw",
+            width: "100vw",
+            maxWidth: "100vw",
+          }}
+        >
+          {/* Background layer with edge mask (text remains unmasked above in z-10) */}
+          <div className="pointer-events-none absolute inset-0 z-0 cruise-itinerary-backdrop" />
 
-        <div className="relative z-10 mx-auto w-full px-4 md:px-8 xl:px-12">
-          <div className="mx-auto mb-6 max-w-3xl px-4 text-center">
-            <span>Interactive Voyage Map</span>
-            <h2>
-              Day-by-Day <span className="accent-gradient-text">Schedules</span>
-            </h2>
-            <p className="mt-4">
-              Explore daily port calls, cruising coordinates, sail-away party
-              times, and exclusive fan concerts.
-            </p>
+          <div className="relative z-10">
+            <div className="site-container mb-6 w-full text-left">
+              <SectionHeader
+                id="itinerary-heading"
+                title={
+                  <>
+                    Day-by-Day{" "}
+                    <span className="accent-gradient-text">Schedules</span>
+                  </>
+                }
+                subtitle="Explore daily port calls, cruising coordinates, sail-away party times, and exclusive fan concerts."
+                divider={false}
+              />
 
-            {/* Itinerary Year Toggle */}
-            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-              <SeventhButton
-                type="button"
-                onClick={() => setActiveItinYear(2027)}
-                isActive={activeItinYear === 2027}
-              >
-                2027 Star of the Seas (7-Night)
-              </SeventhButton>
-              <SeventhButton
-                type="button"
-                onClick={() => setActiveItinYear(2028)}
-                isActive={activeItinYear === 2028}
-              >
-                2028 Legend of the Seas (8-Night)
-              </SeventhButton>
+              {/* Itinerary Year Toggle */}
+              <div className="mt-6 flex flex-wrap items-center justify-start gap-3">
+                <SeventhButton
+                  type="button"
+                  onClick={() => setActiveItinYear(2027)}
+                  isActive={activeItinYear === 2027}
+                  className="!w-auto"
+                >
+                  2027 Star of the Seas (7-Night)
+                </SeventhButton>
+                <SeventhButton
+                  type="button"
+                  onClick={() => setActiveItinYear(2028)}
+                  isActive={activeItinYear === 2028}
+                  className="!w-auto"
+                >
+                  2028 Legend of the Seas (8-Night)
+                </SeventhButton>
+              </div>
             </div>
-          </div>
 
-          <div className="w-full">
-            <CruiseSnakeItinerary
-              key={`itin-${activeItinYear}`}
-              itinerary={mapToSnakeItinerary(
-                activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028,
-              )}
-            />
+            <div className="w-full">
+              <CruiseSnakeItinerary
+                key={`itin-${activeItinYear}`}
+                itinerary={mapToSnakeItinerary(
+                  activeItinYear === 2027 ? ITINERARY_2027 : ITINERARY_2028,
+                )}
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -409,7 +409,7 @@ export default function PlannerDashboard() {
         id="planner-portal-auth"
         className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
       >
-        <div className="pointer-events-none absolute top-1/3 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2  bg-[var(--color-accent)] opacity-[0.03] blur-3xl" />
+        <div className="pointer-events-none absolute top-1/3 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 bg-[var(--color-accent)] opacity-[0.03] blur-3xl" />
 
         <div className="relative z-10 w-full max-w-md">
           <div className="overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]">
@@ -511,7 +511,7 @@ export default function PlannerDashboard() {
                 <button
                   type="submit"
                   disabled={plannerLoginLoading}
-                  className="w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3.5 shadow-[0_0_20px_rgba(217,70,239,0.2)] hover:bg-[var(--color-accent)] disabled:opacity-50"
+                  className="transition-colors w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3.5 shadow-[0_0_20px_rgba(217,70,239,0.2)] hover:bg-[var(--color-accent)] disabled:opacity-50"
                 >
                   {plannerLoginLoading
                     ? "Authenticating..."
@@ -608,14 +608,14 @@ export default function PlannerDashboard() {
               <button
                 type="button"
                 onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 rounded-[var(--radius-box)] bg-[#00000029] py-3 hover:bg-white/10"
+                className="transition-colors flex-1 rounded-[var(--radius-box)] bg-[#00000029] py-3 hover:bg-white/10"
               >
                 Keep Booking
               </button>
               <button
                 type="button"
                 onClick={handleCancelRequest}
-                className="flex-1 rounded-[var(--radius-box)] bg-rose-500 py-3 hover:bg-rose-600"
+                className="transition-colors flex-1 rounded-[var(--radius-box)] bg-rose-500 py-3 hover:bg-rose-600"
               >
                 Yes, Cancel
               </button>
@@ -633,9 +633,9 @@ export default function PlannerDashboard() {
         <SectionHeader id="active-booking-heading" title="Active Event Booking Details" visuallyHidden />
         <div className="grid grid-cols-1 gap-6">
           <div
-            className={`border bg-[var(--color-bg-surface)] ${booking.status === "cancelled" ? "border-rose-500/10 opacity-60" : "border-white/10"} group relative flex flex-col gap-8 overflow-hidden  p-6 md:p-8 lg:flex-row`}
+            className={`border bg-[var(--color-bg-surface)] ${booking.status === "cancelled" ? "border-rose-500/10 opacity-60" : "border-white/10"} group relative flex flex-col gap-8 overflow-hidden p-6 md:p-8 lg:flex-row`}
           >
-            <div className={`absolute top-0 left-0 h-full w-1 ${s.bar}`} />
+            <div className={`absolute top-0 left-0 h-full w-1 ${s.bar} `} />
 
             <div className="flex-1">
               <div className="mb-6 flex items-center gap-3">
@@ -697,7 +697,7 @@ export default function PlannerDashboard() {
                       onChange={(e) =>
                         setEditDraft((d) => ({ ...d, eventName: e.target.value }))
                       }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5   outline-none"
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 outline-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -717,7 +717,7 @@ export default function PlannerDashboard() {
                             startTime: e.target.value,
                           }))
                         }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
                       />
                     </div>
                     <div>
@@ -733,7 +733,7 @@ export default function PlannerDashboard() {
                         onChange={(e) =>
                           setEditDraft((d) => ({ ...d, endTime: e.target.value }))
                         }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
                       />
                     </div>
                     <div>
@@ -752,7 +752,7 @@ export default function PlannerDashboard() {
                             venueName: e.target.value,
                           }))
                         }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
                       />
                     </div>
                     <div>
@@ -771,7 +771,7 @@ export default function PlannerDashboard() {
                             expectedAttendance: e.target.value,
                           }))
                         }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
                       />
                     </div>
                   </div>
@@ -792,7 +792,7 @@ export default function PlannerDashboard() {
                             venueCity: e.target.value,
                           }))
                         }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
                       />
                     </div>
                     <div>
@@ -811,7 +811,7 @@ export default function PlannerDashboard() {
                             venueState: e.target.value,
                           }))
                         }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
                       />
                     </div>
                   </div>
@@ -828,13 +828,13 @@ export default function PlannerDashboard() {
                     <>
                       <button
                         onClick={handleEditSave}
-                        className="w-full border border-emerald-500/30 bg-emerald-500/10 py-3 hover:border-transparent hover:bg-emerald-500 hover:text-white"
+                        className="transition-colors w-full border border-emerald-500/30 bg-emerald-500/10 py-3 hover:border-transparent hover:bg-emerald-500 hover:text-white"
                       >
                         Save Changes
                       </button>
                       <button
                         onClick={handleEditCancel}
-                        className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                        className="transition-colors w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
                       >
                         Discard
                       </button>
@@ -844,7 +844,7 @@ export default function PlannerDashboard() {
                     <>
                       <a
                         href={rebookUrl(booking, member)}
-                        className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                        className="transition-colors w-full border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
                       >
                         Rebook This Event
                       </a>
@@ -859,7 +859,7 @@ export default function PlannerDashboard() {
                                 cancelledAt: undefined,
                               }))
                             }
-                            className="w-full border border-purple-500/30 bg-purple-500/10 py-3 hover:border-transparent hover:bg-purple-500 hover:text-white"
+                            className="transition-colors w-full border border-purple-500/30 bg-purple-500/10 py-3 hover:border-transparent hover:bg-purple-500 hover:text-white"
                           >
                             Revive Booking
                           </button>
@@ -874,19 +874,19 @@ export default function PlannerDashboard() {
                     <>
                       <a
                         href={rebookUrl(booking, member)}
-                        className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                        className="transition-colors w-full border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
                       >
                         Rebook This Event
                       </a>
                       <button
                         onClick={handleEditStart}
-                        className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                        className="transition-colors w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
                       >
                         Edit Logistics
                       </button>
                       <button
                         onClick={() => setShowCancelConfirm(true)}
-                        className="w-full  text-rose-400 hover:bg-rose-500/10"
+                        className="transition-colors w-full text-rose-400 hover:bg-rose-500/10"
                       >
                         Cancel Request
                       </button>
@@ -896,7 +896,7 @@ export default function PlannerDashboard() {
               ) : (
                 <Link
                   href="/planner"
-                  className="flex w-full items-center justify-center gap-2 border border-white/10 bg-white/[0.03] py-3 text-white/50 hover:bg-white/[0.08] hover:text-white"
+                  className="transition-colors flex w-full items-center justify-center gap-2 border border-white/10 bg-white/[0.03] py-3 text-white/50 hover:bg-white/[0.08] hover:text-white"
                 >
                   <History className="h-4 w-4" />
                   Sign in to manage
@@ -973,13 +973,13 @@ export default function PlannerDashboard() {
                     </div>
                     <a
                       href="tel:8475515363"
-                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                      className="transition-colors mb-1 text-[var(--color-accent)] hover:text-white"
                     >
                       (847) 551-5363
                     </a>
                     <a
                       href="mailto:info@NTDManagement.com"
-                      className="max-w-full px-2 hover:text-white"
+                      className="transition-colors max-w-full px-2 hover:text-white"
                     >
                       info@NTDManagement.com
                     </a>
@@ -1022,13 +1022,13 @@ export default function PlannerDashboard() {
                     </div>
                     <a
                       href="tel:8477725333"
-                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                      className="transition-colors mb-1 text-[var(--color-accent)] hover:text-white"
                     >
                       (847) 772-5333
                     </a>
                     <a
                       href="mailto:jeffdobbs64@yahoo.com"
-                      className="max-w-full px-2 hover:text-white"
+                      className="transition-colors max-w-full px-2 hover:text-white"
                     >
                       jeffdobbs64@yahoo.com
                     </a>
@@ -1071,13 +1071,13 @@ export default function PlannerDashboard() {
                     </div>
                     <a
                       href="tel:6308429129"
-                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                      className="transition-colors mb-1 text-[var(--color-accent)] hover:text-white"
                     >
                       (630) 842-9129
                     </a>
                     <a
                       href="mailto:Alan@NTDManagement.com"
-                      className="max-w-full px-2 hover:text-white"
+                      className="transition-colors max-w-full px-2 hover:text-white"
                     >
                       Alan@NTDManagement.com
                     </a>
@@ -1120,13 +1120,13 @@ export default function PlannerDashboard() {
                     </div>
                     <a
                       href="tel:8472696200"
-                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                      className="transition-colors mb-1 text-[var(--color-accent)] hover:text-white"
                     >
                       (847) 269-6200
                     </a>
                     <a
                       href="mailto:LRago@NTDRecords.com"
-                      className="max-w-full px-2 hover:text-white"
+                      className="transition-colors max-w-full px-2 hover:text-white"
                     >
                       LRago@NTDRecords.com
                     </a>

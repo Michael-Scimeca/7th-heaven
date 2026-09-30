@@ -1,13 +1,10 @@
 "use client";
 /* eslint-disable react-doctor/nextjs-no-img-element */
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Mail, Phone } from "lucide-react";
-import { useMember } from "@/context/MemberContext";
-import AddCmsButton from "@/components/AddCmsButton";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
-import SectionBadge from "@/components/SectionBadge";
 
 export interface ContactItem {
   category: string;
@@ -135,26 +132,11 @@ export default function ContactClient({
   subtitle?: string;
 }) {
   const [activePhotoId, setActivePhotoId] = useState<string>(DEFAULT_PHOTO_ID);
-  const { member } = useMember();
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    if (
-      member?.role === "admin" ||
-      member?.role === "crew" ||
-      (typeof window !== "undefined" &&
-        window.location.pathname.startsWith("/admin"))
-    ) {
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
-    }
-  }, [member?.role]);
 
   return (
     <main
       id="contact-page"
-      className="site-container page-container page-stack-sm relative flex h-full lg:min-h-screen flex-col"
+      className="site-container page-container page-stack-sm relative flex h-full lg:min-h-[calc(100dvh-var(--header-height))] flex-col justify-between"
     >
       {/* Hero Header */}
       <PageHero
@@ -163,24 +145,13 @@ export default function ContactClient({
         subtitle={subtitle}
         className="relative z-10 max-w-5xl"
         align="left"
-        actions={
-          isAdmin ? (
-            <AddCmsButton
-              label="EDIT IN SANITY"
-              onClick={() =>
-                window.open("/studio/structure/pageContent;contactUs", "_blank")
-              }
-              className="shrink-0 self-start sm:self-auto"
-            />
-          ) : undefined
-        }
       />
 
       {/* ── MAIN CONTENT (Mobile/Tablet Stacked, Desktop Split) ── */}
       <section
         id="contact-team"
         aria-labelledby="contact-team-heading"
-        className="section relative"
+        className="section relative flex-1 flex flex-col justify-end pb-0"
       >
         <SectionHeader id="contact-team-heading" title="Contact Directory" visuallyHidden />
         <div className="relative z-10 w-full flex-1 flex flex-col justify-end">
@@ -199,37 +170,37 @@ export default function ContactClient({
                   key={cardKey}
                   className="flex flex-col"
                 >
-                  {/* Category Pill */}
-                  <div className="mb-2">
-                    <SectionBadge variant="pill" color="purple">
+                  {/* Category + Company */}
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <span className="">
                       {contact.category}
-                    </SectionBadge>
-                  </div>
-
-                  {/* Name & Company */}
-                  <div className="title-group title-group--sub mb-6">
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
-                      {contact.name || photo.name || "7th Heaven Representative"}
-                    </h3>
+                    </span>
                     {contact.company && (
-                      <p className="text-sm font-semibold  ">
+                      <span className="text-sm font-semibold text-white/80">
                         {contact.company}
-                      </p>
+                      </span>
                     )}
                   </div>
 
+                  {/* Name */}
+                  <div className="title-group title-group--sub mb-4">
+                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
+                      {contact.name || photo.name || "7th Heaven Representative"}
+                    </h3>
+                  </div>
+
                   {contact.note && (
-                    <p className="  italic text-white/60">
+                    <p className="italic text-white/60">
                       {contact.note}
                     </p>
                   )}
 
                   {/* Action Buttons: Stacked vertically full width */}
-                  <address className="not-italic flex flex-col gap-5  w-full">
+                  <address className="not-italic flex flex-col gap-5 w-full">
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="flex w-full items-center justify-center gap-2  border border-purple-500/40 bg-purple-950/60 px-4 py-3   font-semibold text-purple-200 transition-all hover:bg-purple-900/80"
+                        className="flex w-full items-center justify-center gap-2 border border-purple-500/40 bg-purple-950/60 px-4 py-3 font-semibold text-purple-200 transition-colors hover:bg-purple-900/80"
                       >
                         <Mail className="h-4 w-4 text-purple-400" />
                         <span className="truncate">{contact.email}</span>
@@ -238,7 +209,7 @@ export default function ContactClient({
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                        className="flex w-full items-center justify-center gap-2  border border-white/10 bg-white/5 px-4 py-3   font-semibold text-white/80 transition-all hover:bg-white/10"
+                        className="flex w-full items-center justify-center gap-2 border border-white/10 bg-white/5 px-4 py-3 font-semibold text-white/80 transition-colors hover:bg-white/10"
                       >
                         <Phone className="h-4 w-4 text-emerald-400" />
                         <span>{contact.phone}</span>
@@ -260,9 +231,9 @@ export default function ContactClient({
           </div>
 
           {/* Desktop Split View (lg:grid) */}
-          <div className="hidden grid-cols-1 items-start gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
+          <div className="hidden grid-cols-1  gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
             {/* Left Column: Contact Cards Directory */}
-            <div className="flex flex-col text-left lg:col-span-5">
+            <div className="flex flex-col text-left lg:col-span-5 pb-6 lg:pb-8">
               <ul className="flex flex-col space-y-3">
                 {contacts.map((contact) => {
                   const photoKey = getPhotoForCategory(contact);
@@ -279,32 +250,34 @@ export default function ContactClient({
                         type="button"
                         onMouseEnter={() => setActivePhotoId(photoKey)}
                         onClick={() => setActivePhotoId(photoKey)}
-                        className={`w-full text-left transition-all duration-300 cursor-pointer ${isCardActive
+                        className={`w-full text-left transition-[background-color,color,border-color,box-shadow,transform] cursor-pointer ${isCardActive
                           ? "opacity-100"
                           : "opacity-75 hover:opacity-100"
-                          }`}
+                          } `}
                       >
-                        <div className="mb-2">
-                          <SectionBadge variant="pill" color="purple">
+                        <h2 className="text-lg text-white font-bold">
+                          {contact.name || photo.name || "7th Heaven Representative"}
+                        </h2>
+
+                        <div className="mb-1 flex flex-wrap items-center gap-2">
+                          <span className="">
                             {contact.category}
-                          </SectionBadge>
+                          </span>
+                          {contact.company && (
+                            <span className="">
+                              {contact.company}
+                            </span>
+                          )}
                         </div>
 
-                        <h3 className="text-lg font-bold text-white">
-                          {contact.name || photo.name || "7th Heaven Representative"}
-                        </h3>
-                        {contact.company && (
-                          <p className="mb-3 font-semibold  ">
-                            {contact.company}
-                          </p>
-                        )}
+
 
                         <address className="not-italic flex flex-col gap-1.5">
                           {contact.email && (
                             <a
                               href={`mailto:${contact.email}`}
                               onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center gap-2 text-purple-200/90 hover:text-white hover:underline decoration-purple-400"
+                              className="transition-colors inline-flex items-center gap-2 text-purple-200/90 hover:text-white hover:underline decoration-purple-400"
                             >
                               <Mail className="h-3.5 w-3.5 text-purple-400" />
                               <span>{contact.email}</span>
@@ -314,7 +287,7 @@ export default function ContactClient({
                             <a
                               href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
                               onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center gap-2 text-white/70 hover:text-emerald-400"
+                              className="transition-colors inline-flex items-center gap-2 text-white/70 hover:text-emerald-400"
                             >
                               <Phone className="h-3.5 w-3.5 text-emerald-400" />
                               <span>{contact.phone}</span>
@@ -338,10 +311,10 @@ export default function ContactClient({
                 return (
                   <div
                     key={photo.id}
-                    className={`absolute inset-0 flex items-end justify-end transition-opacity duration-300 ease-out ${isActive
+                    className={`absolute inset-0 flex items-end justify-end transition-opacity ${isActive
                       ? "pointer-events-none z-10 opacity-100"
                       : "pointer-events-none z-0 opacity-0"
-                      }`}
+                      } `}
                   >
                     <picture className="pointer-events-none flex h-full w-full items-end justify-end">
                       <source media="(max-width: 768px)" srcSet={photo.mobile} />
@@ -352,7 +325,7 @@ export default function ContactClient({
                         loading="eager"
                         fetchPriority={isActive ? "high" : "low"}
                         decoding="sync"
-                        className={`contact-rep-stage-img ${photo.scaleClass}`}
+                        className={`contact-rep-stage-img ${photo.scaleClass} `}
                       />
                     </picture>
                   </div>

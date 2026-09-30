@@ -39,10 +39,10 @@ function Node({
 }) {
   return (
     <div
-      className={`flex w-full flex-col items-center justify-center border text-center ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}
+      className={`flex w-full flex-col items-center justify-center border text-center ${COLORS[color]}  ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"} `}
     >
       <div className="flex items-center gap-1.5">
-        <span className={`h-1.5 w-1.5 shrink-0  ${DOTS[color]}`} />
+        <span className={`h-1.5 w-1.5 shrink-0 ${DOTS[color]} `} />
         <span>
           {icon && <span className="mr-1">{icon}</span>}
           {label}
@@ -61,7 +61,7 @@ function VertLine() {
   return (
     <div className="flex shrink-0 flex-col items-center py-0.5">
       <div className="h-4 w-px bg-white/[0.08]" />
-      <div className="h-1 w-1  bg-white/[0.08]" />
+      <div className="h-1 w-1 bg-white/[0.08]" />
       <div className="h-2 w-px bg-white/[0.08]" />
     </div>
   );
@@ -78,7 +78,7 @@ function Branch({ cols }: { cols: number }) {
       {Array.from({ length: cols }).map((_, i) => (
         <div key={i} className="flex flex-1 flex-col items-center">
           <div className="mt-3 h-3 w-px bg-white/[0.08]" />
-          <div className="h-1 w-1  bg-white/[0.08]" />
+          <div className="h-1 w-1 bg-white/[0.08]" />
           <div className="h-2 w-px bg-white/[0.08]" />
         </div>
       ))}
@@ -113,19 +113,19 @@ export default function EmailMapPage() {
         {/* Legend */}
         <div className="mb-12 flex flex-wrap items-center gap-6 border-b border-white/[0.06] pb-8">
           <span className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2  bg-purple-500" />{" "}
+            <span className="inline-block h-2 w-2 bg-purple-500" />{" "}
             Fan Transactional
           </span>
           <span className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2  bg-cyan-500" />{" "}
+            <span className="inline-block h-2 w-2 bg-cyan-500" />{" "}
             Cruise System
           </span>
           <span className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2  bg-emerald-500" />{" "}
+            <span className="inline-block h-2 w-2 bg-emerald-500" />{" "}
             Event Planner
           </span>
           <span className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2  bg-red-500" />{" "}
+            <span className="inline-block h-2 w-2 bg-red-500" />{" "}
             Admin / Crew Alerts
           </span>
         </div>
@@ -357,7 +357,7 @@ export default function EmailMapPage() {
         <div className="mt-20 grid gap-4 md:grid-cols-2">
           <div className="border border-white/[0.06] bg-white/[0.02] p-6">
             <h3 className="mb-6 flex items-center gap-2">
-              <span className="h-1.5 w-1.5  bg-blue-500" />
+              <span className="h-1.5 w-1.5 bg-blue-500" />
               The API Bridge
             </h3>
             <p className="mb-6">
@@ -373,7 +373,7 @@ export default function EmailMapPage() {
           </div>
           <div className="border border-white/[0.06] bg-white/[0.02] p-6">
             <h3 className="mb-6 flex items-center gap-2">
-              <span className="h-1.5 w-1.5  bg-cyan-500" />
+              <span className="h-1.5 w-1.5 bg-cyan-500" />
               Token Security
             </h3>
             <p className="mb-6">

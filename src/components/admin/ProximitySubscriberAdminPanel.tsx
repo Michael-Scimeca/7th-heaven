@@ -163,17 +163,17 @@ export default function ProximitySubscriberAdminPanel() {
   });
 
   return (
-    <div className="relative my-8 w-full ">
+    <div className="relative my-8 w-full">
       {/* Action Controls Bar */}
       <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
-        <span className="flex items-center gap-1.5  border border-purple-500/30 bg-purple-900/60 px-3.5 py-1.5 text-purple-200">
+        <span className="flex items-center gap-1.5 border border-purple-500/30 bg-purple-900/60 px-3.5 py-1.5 text-purple-200">
           <Users className="h-4 w-4 text-pink-400" /> {subscribers.length}{" "}
           Subscribers
         </span>
         <button
           type="button"
           onClick={fetchSubscribers}
-          className="flex cursor-pointer items-center gap-1.5  border border-white/10 bg-white/10 px-3.5 py-1.5 hover:bg-white/20"
+          className="transition-colors flex cursor-pointer items-center gap-1.5 border border-white/10 bg-white/10 px-3.5 py-1.5 hover:bg-white/20"
         >
           <RefreshCw className="h-3.5 w-3.5" />
           <span>Refresh</span>
@@ -181,7 +181,7 @@ export default function ProximitySubscriberAdminPanel() {
       </div>
 
       {actionStatus && (
-        <div className="mb-6 flex animate-pulse items-center gap-2  border border-purple-500/40 bg-purple-950/80 p-4 text-purple-200">
+        <div className="mb-6 flex animate-pulse items-center gap-2 border border-purple-500/40 bg-purple-950/80 p-4 text-purple-200">
           <span>{actionStatus}</span>
         </div>
       )}
@@ -337,7 +337,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleSaveEdit(sub.id)}
-                            className="cursor-pointer rounded bg-emerald-600 p-1.5 hover:bg-emerald-500"
+                            className="transition-colors cursor-pointer rounded bg-emerald-600 p-1.5 hover:bg-emerald-500"
                             title="Save Preference"
                           >
                             <Check className="h-4 w-4" />
@@ -345,7 +345,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => setEditingId(null)}
-                            className="cursor-pointer rounded bg-white/10 p-1.5 hover:bg-white/20"
+                            className="transition-colors cursor-pointer rounded bg-white/10 p-1.5 hover:bg-white/20"
                             title="Cancel"
                           >
                             <X className="h-4 w-4" />
@@ -356,7 +356,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleSendTestPush(sub.id)}
-                            className="inline-flex cursor-pointer items-center gap-1 rounded bg-purple-600/80 px-2.5 py-1.5 text-xs hover:bg-purple-600"
+                            className="transition-colors inline-flex cursor-pointer items-center gap-1 rounded bg-purple-600/80 px-2.5 py-1.5 text-xs hover:bg-purple-600"
                             title="Send Targeted Test Push"
                           >
                             <Send className="h-3.5 w-3.5" /> Test Push
@@ -365,7 +365,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleStartEdit(sub)}
-                            className="cursor-pointer rounded bg-white/10 p-1.5 hover:bg-white/20 hover:text-white"
+                            className="transition-colors cursor-pointer rounded bg-white/10 p-1.5 hover:bg-white/20 hover:text-white"
                             title="Edit Fan Preference"
                           >
                             <Edit2 className="h-3.5 w-3.5" />
@@ -374,7 +374,7 @@ export default function ProximitySubscriberAdminPanel() {
                           <button
                             type="button"
                             onClick={() => handleDelete(sub.id)}
-                            className="cursor-pointer rounded bg-rose-500/20 p-1.5 text-rose-300 hover:bg-rose-500/40"
+                            className="transition-colors cursor-pointer rounded bg-rose-500/20 p-1.5 text-rose-300 hover:bg-rose-500/40"
                             title="Delete Subscriber"
                           >
                             <Trash2 className="h-3.5 w-3.5" />

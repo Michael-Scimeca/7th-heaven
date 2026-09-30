@@ -227,7 +227,7 @@ export default function InlineYTPlayer({
               e.stopPropagation();
               onClose();
             }}
-            className="absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center  border border-white/10 bg-black/70 hover:bg-black/90"
+            className="transition-colors absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center border border-white/10 bg-black/70 hover:bg-black/90"
             aria-label="Close video"
           >
             <svg
@@ -281,7 +281,7 @@ export default function InlineYTPlayer({
       {onClose && (
         <button
           onClick={handleClose}
-          className={`absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center  bg-black/50 hover:bg-black/80 ${showControls ? "opacity-100" : "opacity-0"}`}
+          className={`transition-colors absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center bg-black/50 hover:bg-black/80 ${showControls ? "opacity-100" : "opacity-0"} `}
           aria-label="Close"
         >
           <svg
@@ -300,7 +300,7 @@ export default function InlineYTPlayer({
 
       {/* Controls overlay */}
       <div
-        className={`absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 ${showControls ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 ${showControls ? "opacity-100" : "opacity-0"} `}
         aria-label="Player controls container"
         onClick={(e) => e.stopPropagation()}
       >
@@ -308,20 +308,20 @@ export default function InlineYTPlayer({
         <button
           type="button"
           ref={progressRef as any}
-          className="group/progress relative mb-3 h-1 w-full cursor-pointer  border-0 bg-white/10 p-0 text-left outline-none hover:h-1.5"
+          className="group/progress relative mb-3 h-1 w-full cursor-pointer border-0 bg-white/10 p-0 text-left outline-none hover:h-1.5"
           aria-label="Seek progress bar"
           onClick={handleProgressClick}
         >
           <div
-            className="absolute top-0 left-0 h-full  bg-white/15"
+            className="absolute top-0 left-0 h-full bg-white/15"
             style={{ width: `${buffered}%` }}
           />
           <div
-            className="absolute top-0 left-0 h-full  bg-[var(--color-accent)]"
+            className="absolute top-0 left-0 h-full bg-[var(--color-accent)]"
             style={{ width: `${progress}%` }}
           />
           <div
-            className="absolute top-1/2 h-3 w-3 -translate-y-1/2  bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 group-hover/progress:opacity-100"
+            className="absolute top-1/2 h-3 w-3 -translate-y-1/2 bg-[var(--color-accent)] opacity-0 shadow-[var(--color-accent)]/30 group-hover/progress:opacity-100"
             style={{ left: `calc(${progress}% - 6px)` }}
           />
         </button>
@@ -358,7 +358,7 @@ export default function InlineYTPlayer({
             <div className="group relative flex items-center gap-1.5">
               <button
                 onClick={toggleMute}
-                className="cursor-pointer hover:text-white"
+                className="transition-colors cursor-pointer hover:text-white"
                 aria-label={isMuted ? "Unmute" : "Mute"}
               >
                 {isMuted || volume === 0 ? (
@@ -407,7 +407,7 @@ export default function InlineYTPlayer({
                     playerRef.current?.setVolume(v);
                     if (v > 0) playerRef.current?.unMute();
                   }}
-                  className="h-1 w-full cursor-pointer appearance-none  bg-white/20 accent-[var(--color-accent)]"
+                  className="h-1 w-full cursor-pointer appearance-none bg-white/20 accent-[var(--color-accent)]"
                 />
               </div>
             </div>
@@ -421,7 +421,7 @@ export default function InlineYTPlayer({
           {/* Fullscreen */}
           <button
             onClick={toggleFullscreen}
-            className="cursor-pointer hover:text-white"
+            className="transition-colors cursor-pointer hover:text-white"
             aria-label="Fullscreen"
           >
             <svg

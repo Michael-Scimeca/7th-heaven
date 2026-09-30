@@ -9,6 +9,9 @@ import { getShopifyProductForPrize } from "@/lib/shopify";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  if (process.env.NODE_ENV === "production") {
+    return new NextResponse("Not Found", { status: 404 });
+  }
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id") || "";
 

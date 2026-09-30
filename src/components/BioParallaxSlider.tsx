@@ -1453,7 +1453,7 @@ lerpSpeed: ${lerpSpeed}`;
                   <button
                     type="button"
                     onClick={() => setIsCanvasCustomizerOpen(false)}
-                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-white/10 hover:bg-white/20 hover:text-white"
+                    className="transition-colors flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-white/10 hover:bg-white/20 hover:text-white"
                     aria-label="Close UI Controls"
                   >
                     ✕
@@ -1461,18 +1461,18 @@ lerpSpeed: ${lerpSpeed}`;
                 </div>
 
                 {/* Tabs */}
-                <div className="mb-4 flex gap-2  border border-white/10 bg-white/5 p-1">
+                <div className="mb-4 flex gap-2 border border-white/10 bg-white/5 p-1">
                   <button
                     type="button"
                     onClick={() => setActiveCustomizerTab("canvas")}
-                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "canvas" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"}`}
+                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "canvas" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"} `}
                   >
                     🔥 Shader Canvas
                   </button>
                   <button
                     type="button"
                     onClick={() => setActiveCustomizerTab("stage")}
-                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "stage" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"}`}
+                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "stage" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"} `}
                   >
                     📐 Bio Stage
                   </button>
@@ -1481,12 +1481,12 @@ lerpSpeed: ${lerpSpeed}`;
                 {activeCustomizerTab === "canvas" && (
                   <div className="space-y-4">
                     {/* Enable Shader Canvas Toggle */}
-                    <div className="flex items-center justify-between  border border-white/10 bg-white/5 p-2.5">
+                    <div className="flex items-center justify-between border border-white/10 bg-white/5 p-2.5">
                       <span className="">Enable Fireplace Shader</span>
                       <button
                         type="button"
                         onClick={() => setIsCanvasEnabled((prev) => !prev)}
-                        className={`cursor-pointer rounded-full px-3 py-1 ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20"}`}
+                        className={`cursor-pointer rounded-full px-3 py-1 ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20"} `}
                       >
                         {isCanvasEnabled ? "ON" : "OFF"}
                       </button>
@@ -1494,7 +1494,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                     {/* Palette Theme Presets */}
                     <div>
-                      <span className="  block">
+                      <span className="block">
                         Fireplace Palette Preset
                       </span>
                       <div className="grid grid-cols-2 gap-1.5">
@@ -1512,7 +1512,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setPaletteTheme(theme.id);
                               setUseCustomColors(false);
                             }}
-                            className={`cursor-pointer  border p-2 text-left ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 hover:bg-white/10"}`}
+                            className={`cursor-pointer border p-2 text-left ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 hover:bg-white/10"} `}
                           >
                             {theme.label}
                           </button>
@@ -1521,7 +1521,7 @@ lerpSpeed: ${lerpSpeed}`;
                     </div>
 
                     {/* Custom Color Swatches & Toggle */}
-                    <div className="space-y-3  border border-white/10 bg-white/5 p-3">
+                    <div className="space-y-3 border border-white/10 bg-white/5 p-3">
                       <div className="flex items-center justify-between">
                         <span className="flex items-center gap-1.5">
                           <span>🎨</span> Custom Palette Swatches
@@ -1529,7 +1529,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <button
                           type="button"
                           onClick={() => setUseCustomColors((prev) => !prev)}
-                          className={`cursor-pointer rounded-full px-2.5 py-0.5 text-[10px] ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20"}`}
+                          className={`cursor-pointer rounded-full px-2.5 py-0.5 text-[10px] ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20"} `}
                         >
                           {useCustomColors ? "CUSTOM" : "PRESET"}
                         </button>
@@ -1537,7 +1537,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {/* Preset Swatch Shortcuts */}
                       <div className="border-t border-white/10 pt-2">
-                        <span className="  block text-[10px] text-white/50">
+                        <span className="block text-[10px] text-white/50">
                           Quick Swatch Presets
                         </span>
                         <div className="flex flex-wrap gap-1.5">
@@ -1588,7 +1588,7 @@ lerpSpeed: ${lerpSpeed}`;
                                 setColorCoreHex(s.core);
                                 setColorSparkHex(s.spark);
                               }}
-                              className="cursor-pointer rounded border border-white/15 bg-white/10 px-2 py-1 text-[10px] hover:bg-white/20"
+                              className="transition-colors cursor-pointer rounded border border-white/15 bg-white/10 px-2 py-1 text-[10px] hover:bg-white/20"
                             >
                               {s.label}
                             </button>
@@ -1998,14 +1998,14 @@ lerpSpeed: ${lerpSpeed}`;
                   <button
                     type="button"
                     onClick={handleResetCanvasDefaults}
-                    className="flex-1 cursor-pointer  bg-white/10 py-2 hover:bg-white/20"
+                    className="transition-colors flex-1 cursor-pointer bg-white/10 py-2 hover:bg-white/20"
                   >
                     🔄 Reset Defaults
                   </button>
                   <button
                     type="button"
                     onClick={handleCopyConfig}
-                    className="flex-1 cursor-pointer  bg-amber-500 py-2 hover:bg-amber-400"
+                    className="transition-colors flex-1 cursor-pointer bg-amber-500 py-2 hover:bg-amber-400"
                   >
                     {copiedConfigNotification ? "✓ Copied!" : "📋 Copy Config"}
                   </button>
@@ -2032,7 +2032,7 @@ lerpSpeed: ${lerpSpeed}`;
                     e.stopPropagation();
                     goToSlide(idx);
                   }}
-                  className={`group relative flex cursor-pointer items-center gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
+                  className={`group relative flex cursor-pointer items-center gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""} `}
                 >
                   {/* Member Card Thumbnail */}
                   <div
@@ -2047,13 +2047,13 @@ lerpSpeed: ${lerpSpeed}`;
                       alt={m?.name || "Band Member"}
                       fill
                       sizes="100px"
-                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
+                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"} `}
                     />
                   </div>
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div
-                    className={`block text-left whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
+                    className={`block text-left whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"} `}
                   >
                     <p className="">{m?.name || "Band Member"}</p>
                     <p className="mt-0.5">{m?.role || "Musician"}</p>
@@ -2083,11 +2083,11 @@ lerpSpeed: ${lerpSpeed}`;
                     setSelectedMemberForSheet(m as BandMemberFactSheet);
                     setIsFactSheetOpen(true);
                   }}
-                  className={`group relative flex cursor-pointer items-center justify-end gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
+                  className={`group relative flex cursor-pointer items-center justify-end gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""} `}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div
-                    className={`block text-right whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
+                    className={`block text-right whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"} `}
                   >
                     <p className="">{m?.name || "Band Member"}</p>
                     <p className="mt-0.5">{m?.role || "Musician"}</p>
@@ -2106,7 +2106,7 @@ lerpSpeed: ${lerpSpeed}`;
                       alt={m?.name || "Band Member"}
                       fill
                       sizes="100px"
-                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
+                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"} `}
                     />
                   </div>
                 </button>
@@ -2174,7 +2174,7 @@ lerpSpeed: ${lerpSpeed}`;
                       i < displayMembers.length - 1 ? `${gap}px` : "0px",
                     isolation: "isolate",
                   }}
-                  className="focus-ring relative flex shrink-0 origin-bottom cursor-pointer flex-col justify-end overflow-visible border-0 text-left ring-0 outline-none focus-visible:ring-0 focus-visible:outline-none active:outline-none"
+                  className="transition-colors focus-ring relative flex shrink-0 origin-bottom cursor-pointer flex-col justify-end overflow-visible border-0 text-left ring-0 outline-none focus-visible:ring-0 focus-visible:outline-none active:outline-none"
                 >
                   <div className="relative z-10 flex h-full flex-col justify-end overflow-visible">
                     <div className="relative overflow-visible">
@@ -2215,7 +2215,7 @@ lerpSpeed: ${lerpSpeed}`;
                           {/* Glare Masked strictly to Non-Transparent Pixels of the Member Photo Cutout */}
                           <div
                             key={`glare-${i}-${isActive ? "active" : "inactive"}`}
-                            className={`glarer-mask glarer pointer-events-none absolute inset-0 z-20 overflow-hidden ${isActive ? "active-glare" : ""}`}
+                            className={`glarer-mask glarer pointer-events-none absolute inset-0 z-20 overflow-hidden ${isActive ? "active-glare" : ""} `}
                             style={{
                               maskImage: `url(${imageSrc})`,
                               WebkitMaskImage: `url(${imageSrc})`,
@@ -2374,7 +2374,7 @@ lerpSpeed: ${lerpSpeed}`;
 
                       {textPos === "center-glass" && (
                         <div
-                          className="pointer-events-none absolute left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 flex-col items-center  border border-white/10 bg-black/85 px-4 py-2.5 text-center backdrop-blur-xl"
+                          className="pointer-events-none absolute left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 flex-col items-center border border-white/10 bg-black/85 px-4 py-2.5 text-center backdrop-blur-xl"
                           style={{
                             bottom: `${textBottomOffset}px`,
                             opacity:

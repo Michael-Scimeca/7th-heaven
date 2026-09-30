@@ -213,7 +213,7 @@ function CircleVideoNode({
       muted
       playsInline
       preload="metadata"
-      className="pointer-events-none h-full w-full scale-125  object-cover"
+      className="pointer-events-none h-full w-full scale-125 object-cover"
     >
       <track kind="captions" />
     </video>
@@ -902,22 +902,13 @@ export default function CruiseSnakeItinerary({
       className="section relative site-container"
       ref={sectionRef}
     >
-      <div className="snake-itinerary-root relative overflow-hidden ">
+      <div className="snake-itinerary-root relative overflow-hidden">
         {/* ── Header (Inside Blue Container Box) ── */}
-        {hideHeader ? (
-          <h2 id="cruise-itinerary-heading" className="sr-only">
-            Official Itinerary
-          </h2>
-        ) : (
-          <div className="snake-itinerary-header">
-            <span className="snake-itinerary-eyebrow">
-              <span>—</span> Your Voyage <span>—</span>
-            </span>
-            <h2 id="cruise-itinerary-heading" className="snake-itinerary-title">
-              Official Itinerary
-            </h2>
-          </div>
-        )}
+
+        <h2 id="cruise-itinerary-heading" className="sr-only">
+          Official Itinerary
+        </h2>
+
 
         {/* ── FIXED RIGHT SIDEBAR SETTINGS DRAWER (PORTAL TO BODY FOR TOP-MOST STACKING) ── */}
         {showSettings &&
@@ -925,7 +916,7 @@ export default function CruiseSnakeItinerary({
           createPortal(
             <div
               data-settings-panel
-              className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto  border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)]"
+              className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)]"
             >
               <div className="sticky top-0 z-10 mb-6 flex items-center justify-between border-b border-white/10 pt-1 pb-3 text-white/60">
                 <div className="flex items-center gap-2">
@@ -937,7 +928,7 @@ export default function CruiseSnakeItinerary({
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="cursor-pointer bg-white/10 px-3 py-1.5 hover:bg-white/20 hover:text-white"
+                  className="transition-colors cursor-pointer bg-white/10 px-3 py-1.5 hover:bg-white/20 hover:text-white"
                 >
                   ✕ Close
                 </button>
@@ -1215,7 +1206,7 @@ export default function CruiseSnakeItinerary({
                             onClick={() =>
                               setTuning({ ...tuning, nodeAction: act.id })
                             }
-                            className={`flex-1  px-2 py-1.5 ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"}`}
+                            className={`flex-1 px-2 py-1.5 ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"} `}
                           >
                             {act.label}
                           </button>
@@ -1393,7 +1384,7 @@ export default function CruiseSnakeItinerary({
               <div className="sticky bottom-0 z-10 mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4 pb-1 text-white/40 backdrop-blur-2xl">
                 <button
                   onClick={handleResetTuning}
-                  className="btn-secondary cursor-pointer  px-4 py-2.5"
+                  className="btn-secondary cursor-pointer px-4 py-2.5"
                 >
                   🔄 Reset to Defaults
                 </button>
@@ -1402,7 +1393,7 @@ export default function CruiseSnakeItinerary({
                   {saveToast && <span className="">✓ Settings Saved!</span>}
                   <button
                     onClick={handleSaveTuning}
-                    className="cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:bg-cyan-400"
+                    className="transition-colors cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:bg-cyan-400"
                   >
                     💾 Save Settings
                   </button>
@@ -1553,10 +1544,10 @@ export default function CruiseSnakeItinerary({
                       return (
                         <div
                           key={ev.id}
-                          className="relative border-l-2 border-purple-500/40 py-0.5 pl-3.5 hover:border-cyan-400"
+                          className="transition-colors relative border-l-2 border-purple-500/40 py-0.5 pl-3.5 hover:border-cyan-400"
                         >
                           {ev.time && (
-                            <div className="mb-1 inline-flex items-center rounded border border-purple-500/30 bg-purple-500/20 px-2 py-0.5 font-bold">
+                            <div className="mb-1 inline-flex items-center rounded border border-purple-500/30 bg-purple-500/20 px-2 py-0.5">
                               {ev.time}
                             </div>
                           )}
@@ -1646,7 +1637,7 @@ export default function CruiseSnakeItinerary({
                 ref={(el) => {
                   cardRefs.current[i] = el;
                 }}
-                className={`snake-itinerary-card overflow-hidden rounded-[28px] ${!isMobile && !node.isLeft ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"}`}
+                className={`snake-itinerary-card overflow-hidden rounded-[28px] ${!isMobile && !node.isLeft ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"} `}
                 style={cardStyle}
               >
                 {cardContent}
@@ -1762,7 +1753,7 @@ export default function CruiseSnakeItinerary({
                     pointerEvents: "none",
                     backgroundColor: "#060614",
                   }}
-                  className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-3.5 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] font-bold text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"}`}
+                  className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-3.5 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"} `}
                 >
                   {isSea ? (
                     <Waves className="inline-block h-3.5 w-3.5 shrink-0 text-cyan-400" />

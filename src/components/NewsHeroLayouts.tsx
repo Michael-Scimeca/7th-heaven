@@ -41,7 +41,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               key={opt.id}
               type="button"
               onClick={() => setActiveLayout(opt.id)}
-              className={`cursor-pointer border px-3 py-1.5 ${activeLayout === opt.id ? "border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+              className={`cursor-pointer border px-3 py-1.5 ${activeLayout === opt.id ? "border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"} `}
             >
               {opt.name}
             </button>
@@ -63,14 +63,16 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="border border-white/10 px-3 py-1 text-purple-400">
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
-              <h1 className="mt-4 mb-6">
-                7th Heaven <br />
-                <span>Band News</span>
-              </h1>
-              <p className="mb-6">
-                Direct updates from the band — tour announcements, new releases,
-                and live event updates.
-              </p>
+              <div className="title-group title-group--page mt-4 mb-6">
+                <h1>
+                  7th Heaven <br />
+                  <span>Band News</span>
+                </h1>
+                <p>
+                  Direct updates from the band — tour announcements, new releases,
+                  and live event updates.
+                </p>
+              </div>
             </div>
 
             <div className="relative border border-white/10 bg-[#110b20]/90 p-8 text-left lg:col-span-7">
@@ -80,8 +82,10 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </span>
                 <span className="text-white/50">{featured.date}</span>
               </div>
-              <h2 className="mb-6">{featured.title}</h2>
-              <p>{featured.content}</p>
+              <div className="title-group title-group--section">
+                <h2>{featured.title}</h2>
+                <p>{featured.content}</p>
+              </div>
             </div>
           </div>
         </section>
@@ -93,13 +97,15 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
           <div className="site-container grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <span>OPTION 2B — PHOTO BOX RIGHT</span>
-              <h1 className="mt-3 mb-3">
-                Band Bulletins <span>&</span> Updates
-              </h1>
-              <p>
-                Stay tuned for studio news, upcoming summer festival dates, and
-                cruise announcements.
-              </p>
+              <div className="title-group title-group--page mt-3">
+                <h1>
+                  Band Bulletins <span>&</span> Updates
+                </h1>
+                <p>
+                  Stay tuned for studio news, upcoming summer festival dates, and
+                  cruise announcements.
+                </p>
+              </div>
             </div>
 
             <div className="relative overflow-hidden border border-purple-500/40 bg-black/80 p-8 md:p-10 lg:col-span-7">
@@ -116,11 +122,13 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   </span>
                   <span>{featured.date}</span>
                 </div>
-                <h2 className="mb-6">{featured.title}</h2>
-                <p className="mb-6">{featured.content}</p>
+                <div className="title-group title-group--section mb-6">
+                  <h2>{featured.title}</h2>
+                  <p>{featured.content}</p>
+                </div>
                 <button
                   type="button"
-                  className="cursor-pointer bg-purple-600 px-5 py-2.5 shadow-purple-600/30 hover:bg-purple-500"
+                  className="transition-colors cursor-pointer bg-purple-600 px-5 py-2.5 shadow-purple-600/30 hover:bg-purple-500"
                 >
                   Read Full Story →
                 </button>
@@ -142,21 +150,25 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </span>
                 <span className="text-white/50">{featured.date}</span>
               </div>
-              <h2 className="mb-6">{featured.title}</h2>
-              <p>{featured.content}</p>
+              <div className="title-group title-group--section">
+                <h2>{featured.title}</h2>
+                <p>{featured.content}</p>
+              </div>
             </div>
 
             {/* Right Branding */}
             <div className="lg:col-span-5">
               <span className="text-purple-400">Official Channel</span>
-              <h1 className="mt-2 mb-6">
-                7th Heaven <br />
-                <span>News Feed</span>
-              </h1>
-              <p>
-                Get real-time alerts on tour additions, VIP packages, and new
-                merchandise drops.
-              </p>
+              <div className="title-group title-group--page mt-2">
+                <h1>
+                  7th Heaven <br />
+                  <span>News Feed</span>
+                </h1>
+                <p>
+                  Get real-time alerts on tour additions, VIP packages, and new
+                  merchandise drops.
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -171,13 +183,15 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="text-purple-400 mb-2">
                 OPTION 2D — NEON LINE DIVIDER
               </span>
-              <h1>
-                7th Heaven <br />
-                <span>Dispatch</span>
-              </h1>
-              <p className="mt-4">
-                Direct updates from the band's official news desk.
-              </p>
+              <div className="title-group title-group--page">
+                <h1>
+                  7th Heaven <br />
+                  <span>Dispatch</span>
+                </h1>
+                <p>
+                  Direct updates from the band's official news desk.
+                </p>
+              </div>
             </div>
 
             {/* Right Column */}
@@ -188,8 +202,10 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   Featured
                 </span>
               </div>
-              <h2 className="mb-6">{featured.title}</h2>
-              <p>{featured.content}</p>
+              <div className="title-group title-group--section">
+                <h2>{featured.title}</h2>
+                <p>{featured.content}</p>
+              </div>
             </div>
           </div>
         </section>
@@ -204,17 +220,21 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="inline-block border border-purple-500/40 bg-cyan-500/20 px-3 py-1">
                   OPTION 2E — STACKED BADGE
                 </span>
-                <h1>Band Updates</h1>
-                <p>
-                  Latest releases, festival schedules, and band announcements.
-                </p>
+                <div className="title-group title-group--page">
+                  <h1>Band Updates</h1>
+                  <p>
+                    Latest releases, festival schedules, and band announcements.
+                  </p>
+                </div>
               </div>
             </div>
 
             <div className="border border-purple-400/30 bg-gradient-to-r from-[#120a24] to-[#0a0514] p-8 md:p-12 lg:col-span-8">
               <span className="mb-2 block">{featured.date}</span>
-              <h2 className="mb-6">{featured.title}</h2>
-              <p>{featured.content}</p>
+              <div className="title-group title-group--section">
+                <h2>{featured.title}</h2>
+                <p>{featured.content}</p>
+              </div>
             </div>
           </div>
         </section>
@@ -237,11 +257,13 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-8">
               <div className="mb-3 flex items-center gap-4">
                 <span>{featured.date}</span>
-                <span className="h-1.5 w-1.5  bg-cyan-400" />
+                <span className="h-1.5 w-1.5 bg-cyan-400" />
                 <span className="text-white/50">Band Announcement</span>
               </div>
-              <h2 className="mb-6">{featured.title}</h2>
-              <p>{featured.content}</p>
+              <div className="title-group title-group--section">
+                <h2>{featured.title}</h2>
+                <p>{featured.content}</p>
+              </div>
             </div>
           </div>
         </section>

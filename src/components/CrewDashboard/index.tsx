@@ -34,15 +34,18 @@ import {
   Shield,
   Siren,
   Clock,
+  Radio,
+  Calendar,
 } from "lucide-react";
 import { getShowDateTime } from "@/lib/date-utils";
 import ChatInputBar from "@/components/ChatInputBar";
-import SquishyToggle from "@/components/SquishyToggle";
+import Toggle from "@/components/Toggle";
 import PushAlertsCard from "@/components/PushAlertsCard";
 import SeventhButton from "@/components/SeventhButton";
 import { useTransition } from "@/context/TransitionContext";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 import SectionBadge from "@/components/SectionBadge";
+import SectionHeader from "@/components/SectionHeader";
 import CustomDropdown from "@/components/CustomDropdown";
 
 // ── Constants & types extracted from this file ──
@@ -90,7 +93,7 @@ function TimeOffItemRow({
       className="flex flex-col justify-between gap-4 border border-white/10 bg-[#00000029] p-4 md:flex-row md:items-center"
     >
       <div className="flex items-center gap-4">
-        <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center  border border-white/10 bg-purple-600/10 text-center">
+        <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center border border-white/10 bg-purple-600/10 text-center">
           <span className="r text-[9px] text-rose-400">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
             {MONTH_SHORT_FORMATTER.format(reqDate).toUpperCase()}
@@ -122,7 +125,7 @@ function TimeOffItemRow({
             <button
               type="button"
               onClick={() => onRemove(req.id)}
-              className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 hover:bg-red-500 hover:text-white"
+              className="transition-colors cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 hover:bg-red-500 hover:text-white"
             >
               Cancel
             </button>
@@ -157,7 +160,7 @@ function AvailabilityItemRow({
     >
       <div className="flex items-center gap-3">
         <div
-          className={`flex h-8 w-8 shrink-0 flex-col items-center justify-center  border text-center ${item.type === "available" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+          className={`flex h-8 w-8 shrink-0 flex-col items-center justify-center border text-center ${item.type === "available" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border-red-500/30 bg-red-500/10 text-red-400"} `}
         >
           <span className="r text-[9px]">
             {/* eslint-disable-next-line react-doctor/no-locale-format-in-render */}
@@ -172,7 +175,7 @@ function AvailabilityItemRow({
               {SHORT_DAY_FORMATTER.format(itemDate)}
             </span>
             <span
-              className={`py-0.5 rounded border px-1.5 text-[12px] ${item.type === "available" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+              className={`py-0.5 rounded border px-1.5 text-[12px] ${item.type === "available" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" : "border-red-500/30 bg-red-500/10 text-red-400"} `}
             >
               {item.type}
             </span>
@@ -187,7 +190,7 @@ function AvailabilityItemRow({
       <button
         type="button"
         onClick={() => onRemove(item.id)}
-        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-white/10 text-white/40 hover:bg-red-500 hover:text-white"
+        className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-white/10 text-white/40 hover:bg-red-500 hover:text-white"
         title="Remove Block"
       >
         ✕
@@ -223,7 +226,7 @@ function AvailabilityCardForm({
           className="mb-6 grid grid-cols-1 items-end gap-6 sm:grid-cols-2"
         >
           <div>
-            <label htmlFor="avail-date-input" className="mb-1.5 block">
+            <label htmlFor="avail-date-input" className="block">
               Date
             </label>
             <input
@@ -232,11 +235,11 @@ function AvailabilityCardForm({
               required
               value={availDate}
               onChange={(e) => setAvailDate(e.target.value)}
-              className="focus-ring w-full  border border-white/10 px-3 py-2 outline-none"
+              className="focus-ring w-full border border-white/10 px-3 py-2 outline-none"
             />
           </div>
           <div>
-            <label htmlFor="avail-type-select" className="mb-1.5 block">
+            <label htmlFor="avail-type-select" className="block">
               Status
             </label>
             <CustomDropdown
@@ -255,7 +258,7 @@ function AvailabilityCardForm({
           </div>
           <div className="flex items-end gap-3 sm:col-span-2">
             <div className="flex-1">
-              <label htmlFor="avail-note-select" className="mb-1.5 block">
+              <label htmlFor="avail-note-select" className="block">
                 Comment / Note (Optional)
               </label>
               <CustomDropdown
@@ -344,7 +347,7 @@ function TimeOffCardForm({
           className="mb-6 grid grid-cols-1 items-end gap-6 sm:grid-cols-2"
         >
           <div>
-            <label htmlFor="time-off-date-input" className="mb-1.5 block">
+            <label htmlFor="time-off-date-input" className="block">
               Request Date
             </label>
             <input
@@ -353,12 +356,12 @@ function TimeOffCardForm({
               required
               value={timeOffDate}
               onChange={(e) => setTimeOffDate(e.target.value)}
-              className="focus-ring w-full  border border-white/10 px-3 py-2 outline-none"
+              className="focus-ring w-full border border-white/10 px-3 py-2 outline-none"
             />
           </div>
           <div className="flex items-end gap-3 sm:col-span-2">
             <div className="flex-1">
-              <label htmlFor="time-off-reason-select" className="mb-1.5 block">
+              <label htmlFor="time-off-reason-select" className="block">
                 Reason for Time-off
               </label>
               <CustomDropdown
@@ -3327,12 +3330,11 @@ export function CrewDashboard({
   return (
     <main
       id="crew-portal-page"
-      className="site-container min-h-screen pt-20 selection:bg-purple-600/30"
+      className="site-container page-container page-stack min-h-screen selection:bg-purple-600/30"
     >
-      <h1 className="sr-only">7th Heaven Crew Portal & Dashboard</h1>
-
       {/* ─── EXACT HEADER LAYOUT ─── */}
-      <header>
+      <header className="border-b border-white/10">
+        <h1 className="sr-only">7th Heaven Crew Portal & Dashboard</h1>
         <div className="flex items-center justify-between py-5">
           <MemberHeaderBadge
             name={
@@ -3351,547 +3353,537 @@ export function CrewDashboard({
         </div>
       </header>
 
-      {/* ─── MAIN CONTENT CONTAINER ─── */}
-      <div className="space-y-6">
-        {/* ─── LIVE BROADCAST & FEED CENTER (COLLAPSIBLE BOX) ─── */}
-        <section
-          id="broadcast-center"
-          aria-label="Live Broadcast & Feed Center"
-          className=""
-        >
-          {/* Accordion Toggle Header */}
-          <button
-            type="button"
-            onClick={() =>
-              setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)
-            }
-            className="group flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/10 text-left select-none"
-          >
-            <div className="flex min-w-0 items-center gap-3">
-              <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center">
-                <div>
-                  <h3>Live Broadcast & Feed Center</h3>
-                  <p>
-                    Stream Feed, Chat, Moderation, Merch Drops & Dashboard
-                    Controls
-                  </p>
-                </div>
-
-                {/* Live/Offline status pill button in the feed container */}
-                <div
-                  className={`flex w-fit shrink-0 items-center gap-1.5  border px-3 py-1 ${isLive ? "animate-pulse border-red-500/30 bg-red-900/30 text-red-500" : "border-white/10 bg-[#00000029]"}`}
-                >
-                  <span
-                    className={`h-1.5 w-1.5  ${isLive ? "animate-pulse bg-red-500" : "bg-white/20"}`}
-                  />
-                  <span>
-                    {isLive ? `LIVE - ${viewerCount} VIEWERS` : "OFFLINE"}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="ml-4 flex shrink-0 items-center gap-3">
-              <span className="hidden whitespace-nowrap sm:inline">
-                {isBroadcastPanelCollapsed
-                  ? "Expand Feed Box"
-                  : "Collapse Feed Box"}
-              </span>
+      {/* ─── LIVE BROADCAST & FEED CENTER ─── */}
+      <section
+        id="broadcast-center"
+        aria-labelledby="broadcast-center-heading"
+        className="section"
+      >
+        <SectionHeader
+          id="broadcast-center-heading"
+          title="Live Broadcast & Feed Center"
+          subtitle="Stream Feed, Chat, Moderation, Merch Drops & Dashboard Controls"
+          icon={Radio}
+          action={
+            <div className="flex items-center gap-3">
               <div
-                className={`flex h-8 w-8 items-center justify-center  border border-white/10 ${isBroadcastPanelCollapsed ? "rotate-180" : ""}`}
+                className={`flex items-center gap-1.5 border px-3 py-1 font-mono text-xs tracking-wider ${isLive ? "animate-pulse border-red-500/30 bg-red-900/30 text-red-500" : "border-white/10 bg-[#00000029] text-white/50"} `}
               >
-                <ChevronDown className="h-4 w-4" />
+                <span
+                  className={`h-1.5 w-1.5 ${isLive ? "animate-pulse bg-red-500" : "bg-white/20"} `}
+                />
+                <span>
+                  {isLive ? `LIVE - ${viewerCount} VIEWERS` : "OFFLINE"}
+                </span>
               </div>
+              <button
+                type="button"
+                onClick={() =>
+                  setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)
+                }
+                className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                aria-expanded={!isBroadcastPanelCollapsed}
+              >
+                <span className="hidden whitespace-nowrap sm:inline">
+                  {isBroadcastPanelCollapsed
+                    ? "Expand Feed Box"
+                    : "Collapse Feed Box"}
+                </span>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${isBroadcastPanelCollapsed ? "rotate-180" : ""} `}
+                />
+              </button>
             </div>
-          </button>
+          }
+        />
 
-          {/* Collapsible Content */}
-          {!isBroadcastPanelCollapsed && (
-            <div className="space-y-2.5">
-              {/* Switch Feed and Fan page links moved from header */}
-              <div className="flex flex-col justify-between gap-2 pt-6 sm:flex-row sm:items-center">
-                <div className="no-glow flex items-center gap-3">
-                  <span>Switch Dashboard Feed:</span>
-                  <CustomDropdown
-                    ariaLabel="Switch Dashboard Feed"
-                    value={`/crew-${defaultMemberId || memberSlug}`}
-                    options={Object.values(MEMBER_SEEDS).map((member) => ({
-                      value: `/crew-${member.id}`,
-                      label: member.name,
-                    }))}
-                    onChange={(val) => {
-                      if (val) requestTransition(val);
-                    }}
-                    wrapperClassName="w-auto min-w-[200px]"
+        {/* Collapsible Content */}
+        {!isBroadcastPanelCollapsed && (
+          <div className="space-y-4">
+            {/* Switch Feed and Fan page links moved from header */}
+            <div className="flex flex-col justify-between gap-3 pt-2 sm:flex-row sm:items-center">
+              <div className="no-glow flex items-center gap-3">
+                <span>Switch Dashboard Feed:</span>
+                <CustomDropdown
+                  ariaLabel="Switch Dashboard Feed"
+                  value={`/crew-${defaultMemberId || memberSlug}`}
+                  options={Object.values(MEMBER_SEEDS).map((member) => ({
+                    value: `/crew-${member.id}`,
+                    label: member.name,
+                  }))}
+                  onChange={(val) => {
+                    if (val) requestTransition(val);
+                  }}
+                  wrapperClassName="w-auto min-w-[200px]"
 
-                    chevronColor="#c084fc"
-                  />
-                </div>
-
-                <Link
-                  href={`/live/${defaultMemberId || memberSlug}`}
-                  target="_blank"
-                  className="flex items-center justify-center gap-2 self-start  border border-white/10 bg-[#00000029] px-3.5 py-1.5 backdrop-blur-xl hover:text-white sm:self-auto"
-                >
-                  <span>See Fan Feed Page</span>
-                  <svg
-                    width="11"
-                    height="11"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
-                  </svg>
-                </Link>
+                  chevronColor="#c084fc"
+                />
               </div>
 
-              <div className="flex items-center gap-2">
+              <Link
+                href={`/live/${defaultMemberId || memberSlug}`}
+                target="_blank"
+                className="transition-colors flex items-center justify-center gap-2 self-start border border-white/10 bg-[#00000029] px-3.5 py-1.5 backdrop-blur-xl hover:text-white sm:self-auto"
+              >
+                <span>See Fan Feed Page</span>
                 <svg
-                  width="14"
-                  height="14"
+                  width="11"
+                  height="11"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                 >
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
                 </svg>
-                Crew Broadcast <span className="px-1.5 text-white/20">·</span>{" "}
-                <span>{viewerCount} viewers</span>
-              </div>
+              </Link>
+            </div>
 
-              {/* Callout Link - Only visible when stream is LIVE */}
-              {isLive && (
-                <div className="flex flex-col items-center justify-between border border-emerald-500/30 bg-gradient-to-r from-emerald-900/40 to-transparent p-4 shadow-[0_0_20px_rgba(16,185,129,0.15)] sm:flex-row">
-                  <div className="mb-6 text-center sm:mb-0 sm:text-left">
-                    <p className="mb-1.5 flex flex-col items-center gap-1.5 sm:flex-row">
-                      <span className="h-1.5 w-1.5 animate-pulse  bg-emerald-400 shadow-[0_0_8px_#34d399]" />
-                      Fan Watch Link — Share with your audience
+            <div className="flex items-center gap-2">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              Crew Broadcast <span className="px-1.5 text-white/20">·</span>{" "}
+              <span>{viewerCount} viewers</span>
+            </div>
+
+            {/* Callout Link - Only visible when stream is LIVE */}
+            {isLive && (
+              <div className="flex flex-col items-center justify-between border border-emerald-500/30 bg-gradient-to-r from-emerald-900/40 to-transparent p-4 shadow-[0_0_20px_rgba(16,185,129,0.15)] sm:flex-row">
+                <div className="mb-6 text-center sm:mb-0 sm:text-left">
+                  <p className="flex flex-col items-center gap-1.5 sm:flex-row">
+                    <span className="h-1.5 w-1.5 animate-pulse bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+                    Fan Watch Link — Share with your audience
+                  </p>
+                  <p className="relative z-10 block break-all text-emerald-300/90 select-all">
+                    {`http://localhost:3000/live/${defaultMemberId || memberSlug}`}
+                  </p>
+                </div>
+                <div className="flex w-full items-center gap-2 sm:w-auto">
+                  <Link
+                    href={`/live/${defaultMemberId || memberSlug}`}
+                    target="_blank"
+                    className="transition-colors flex-1 rounded border border-white/10 bg-white/10 px-4 py-2 text-center text-emerald-300 hover:border-emerald-500/50 hover:bg-white/20 hover:text-white sm:flex-none sm:py-1.5"
+                  >
+                    Open <span className="ml-0.5">→</span>
+                  </Link>
+                  <button
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        `http://localhost:3000/live/${defaultMemberId || memberSlug}`,
+                      )
+                    }
+                    className="transition-[background-color,color,border-color,box-shadow] flex-1 cursor-pointer rounded bg-emerald-500 px-4 py-2 text-[#05110d] shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:bg-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] sm:flex-none sm:py-1.5"
+                  >
+                    Copy Link
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* ─── VIDEO + CHAT GRID ─── */}
+            <div
+              className="flex h-auto flex-col overflow-hidden lg:h-[600px] lg:flex-row"
+              style={{
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                borderRadius: "12px",
+              }}
+            >
+              {/* VIDEO PLAYER (Left side) */}
+              <div className="group relative h-[300px] w-full min-w-0 border-b border-white/15 sm:h-[400px] lg:h-full lg:flex-1 lg:border-r lg:border-b-0">
+                {userId && isLive ? (
+                  <LiveKitStream
+                    room={`live_${userId.toString().toLowerCase().replace(/\s+/g, "_")}`}
+                    username={displayName}
+                    isPublisher={true}
+                    onDisconnected={() => {
+                      console.log("Remote termination detected");
+                      setIsLive(false);
+                      localStorage.setItem(LS("is_live"), "false");
+                    }}
+                    className="absolute inset-0 z-0"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                    <div className="mb-3 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[#00000029] sm:h-16 sm:w-16">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className="text-white/40"
+                      >
+                        <path d="M23 7l-7 5 7 5V7z" />
+                        <rect
+                          x="1"
+                          y="5"
+                          width="15"
+                          height="14"
+                          rx="2"
+                          ry="2"
+                        />
+                        <line
+                          x1="1"
+                          y1="1"
+                          x2="23"
+                          y2="23"
+                          stroke="rgba(255,255,255,0.2)"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="mb-1">Camera Standby</h3>
+                    <p className="sm: mb-6 max-w-[250px] text-center text-white/60">
+                      Click <span>GO LIVE</span> below to start your camera
+                      and begin broadcasting.
                     </p>
-                    <p className="relative z-10 block break-all text-emerald-300/90 select-all">
-                      {`http://localhost:3000/live/${defaultMemberId || memberSlug}`}
-                    </p>
+                    <SeventhButton
+                      onClick={attemptEndStream}
+                      disabled={toggling}
+                      icon={false}
+                      className="sm:z-20 flex cursor-pointer items-center gap-2.5 disabled:opacity-50"
+                    >
+                      <span
+                        className="shrink-0 animate-pulse shadow-[0_0_12px_#ffffff]"
+                        style={{
+                          backgroundColor: "#ffffff",
+                          width: "10px",
+                          height: "10px",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                        }}
+                      />
+                      {toggling ? "Starting..." : "Go Live"}
+                    </SeventhButton>
                   </div>
-                  <div className="flex w-full items-center gap-2 sm:w-auto">
-                    <Link
-                      href={`/live/${defaultMemberId || memberSlug}`}
-                      target="_blank"
-                      className="flex-1 rounded border border-white/10 bg-white/10 px-4 py-2 text-center text-emerald-300 hover:border-emerald-500/50 hover:bg-white/20 hover:text-white sm:flex-none sm:py-1.5"
+                )}
+
+                {/* Floating Emojis overlay synced from fans */}
+                <div className="pointer-events-none absolute inset-0 z-[15] overflow-hidden">
+                  {floating.map((item) => (
+                    <span
+                      key={item.id}
+                      className="animate-float-up absolute text-4xl"
+                      style={{
+                        left: `${item.x}%`,
+                        bottom: "8%",
+                        animationDuration: "2800ms",
+                      }}
                     >
-                      Open <span className="ml-0.5">→</span>
-                    </Link>
+                      {item.emoji}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Live Indicator overlay — only visible when actually broadcasting */}
+                {isLive && (
+                  <div className="absolute top-4 left-4 z-20 flex gap-2">
+                    <div className="flex items-center gap-1.5 bg-red-600 px-3 py-1 shadow-red-600/30">
+                      <span className="h-1.5 w-1.5 animate-pulse bg-white" />
+                      <span>Live</span>
+                    </div>
+                    <div className="/90 flex items-center gap-1.5 border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
+                      <span>{viewerCount} Viewers</span>
+                    </div>
+                    <div className="/90 flex items-center gap-1.5 border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
+                      <span>{formatTime(elapsed)}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Video Controls overlay — only when live */}
+                {isLive && (
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-center justify-end gap-4 p-4">
                     <button
-                      onClick={() =>
-                        navigator.clipboard.writeText(
-                          `http://localhost:3000/live/${defaultMemberId || memberSlug}`,
-                        )
-                      }
-                      className="flex-1 cursor-pointer rounded bg-emerald-500 px-4 py-2 text-[#05110d] shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:bg-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] sm:flex-none sm:py-1.5"
+                      onClick={attemptEndStream}
+                      disabled={toggling}
+                      className="transition-colors hover: pointer-events-auto shrink-0 border border-red-500/50 bg-red-900/80 px-8 py-3 text-red-500 hover:bg-red-600 disabled:opacity-50"
                     >
-                      Copy Link
+                      {toggling ? "..." : "● End Stream"}
                     </button>
                   </div>
-                </div>
-              )}
-
-              {/* ─── VIDEO + CHAT GRID ─── */}
-              <div
-                className="flex h-auto flex-col overflow-hidden  lg:h-[600px] lg:flex-row"
-                style={{
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
-                  borderRadius: "12px",
-                }}
-              >
-                {/* VIDEO PLAYER (Left side) */}
-                <div className="group relative h-[300px] w-full min-w-0 border-b border-white/15 sm:h-[400px] lg:h-full lg:flex-1 lg:border-r lg:border-b-0">
-                  {userId && isLive ? (
-                    <LiveKitStream
-                      room={`live_${userId.toString().toLowerCase().replace(/\s+/g, "_")}`}
-                      username={displayName}
-                      isPublisher={true}
-                      onDisconnected={() => {
-                        console.log("Remote termination detected");
-                        setIsLive(false);
-                        localStorage.setItem(LS("is_live"), "false");
-                      }}
-                      className="absolute inset-0 z-0"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                      <div className="mb-3 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[#00000029] sm:h-16 sm:w-16">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          className="text-white/40"
-                        >
-                          <path d="M23 7l-7 5 7 5V7z" />
-                          <rect
-                            x="1"
-                            y="5"
-                            width="15"
-                            height="14"
-                            rx="2"
-                            ry="2"
-                          />
-                          <line
-                            x1="1"
-                            y1="1"
-                            x2="23"
-                            y2="23"
-                            stroke="rgba(255,255,255,0.2)"
-                          />
-                        </svg>
-                      </div>
-                      <h3 className="mb-1 ">Camera Standby</h3>
-                      <p className="sm: mb-6 max-w-[250px] text-center text-white/60">
-                        Click <span>GO LIVE</span> below to start your camera
-                        and begin broadcasting.
-                      </p>
-                      <SeventhButton
-                        onClick={attemptEndStream}
-                        disabled={toggling}
-                        icon={false}
-                        className="sm: z-20 flex cursor-pointer items-center gap-2.5 px-8 py-3 disabled:opacity-50 sm:px-10 sm:py-3.5"
-                      >
-                        <span
-                          className="shrink-0 animate-pulse shadow-[0_0_12px_#ffffff]"
-                          style={{
-                            backgroundColor: "#ffffff",
-                            width: "10px",
-                            height: "10px",
-                            borderRadius: "50%",
-                            display: "inline-block",
-                          }}
-                        />
-                        {toggling ? "Starting..." : "Go Live"}
-                      </SeventhButton>
-                    </div>
-                  )}
-
-                  {/* Floating Emojis overlay synced from fans */}
-                  <div className="pointer-events-none absolute inset-0 z-[15] overflow-hidden">
-                    {floating.map((item) => (
-                      <span
-                        key={item.id}
-                        className="animate-float-up absolute text-4xl"
-                        style={{
-                          left: `${item.x}%`,
-                          bottom: "8%",
-                          animationDuration: "2800ms",
-                        }}
-                      >
-                        {item.emoji}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Live Indicator overlay — only visible when actually broadcasting */}
-                  {isLive && (
-                    <div className="absolute top-4 left-4 z-20 flex gap-2">
-                      <div className="flex items-center gap-1.5  bg-red-600 px-3 py-1 shadow-red-600/30">
-                        <span className="h-1.5 w-1.5 animate-pulse  bg-white" />
-                        <span>Live</span>
-                      </div>
-                      <div className="/90 flex items-center gap-1.5  border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
-                        <span>{viewerCount} Viewers</span>
-                      </div>
-                      <div className="/90 flex items-center gap-1.5  border border-white/10 bg-black/60 px-3 py-1 backdrop-blur">
-                        <span>{formatTime(elapsed)}</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Video Controls overlay — only when live */}
-                  {isLive && (
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-center justify-end gap-4 p-4">
-                      <button
-                        onClick={attemptEndStream}
-                        disabled={toggling}
-                        className="hover: pointer-events-auto shrink-0  border border-red-500/50 bg-red-900/80 px-8 py-3 text-red-500 hover:bg-red-600 disabled:opacity-50"
-                      >
-                        {toggling ? "..." : "● End Stream"}
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* CHAT PANEL (Right side) */}
-                <div className="flex h-[260px] w-full shrink-0 flex-col sm:h-[320px] lg:h-full lg:w-[400px]">
-                  <div
-                    className="flex shrink-0 items-center justify-between p-4"
-                    style={{
-                      borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
-                    }}
-                  >
-                    <span className="/90">Live Chat</span>
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1">
-                        <span className="h-1.5 w-1.5 animate-pulse  bg-emerald-500" />{" "}
-                        {viewerCount} online
-                      </div>
-                      <span>·</span>
-                      <span>{posts.length} msgs</span>
-                    </div>
-                  </div>
-
-                  {/* 📌 Pinned Message Alert */}
-                  {activePinned && (
-                    <div className="group relative shrink-0 border-b border-white/[0.06] bg-gradient-to-r from-emerald-500/10 to-transparent px-4 py-3">
-                      <div className="flex items-start gap-2.5 pr-6">
-                        <div className="min-w-0 flex-1">
-                          <p className="text-black/90">{activePinned.text}</p>
-                          <p className="text-emerald-400/80">
-                            PINNED BY {activePinned.by}
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => {
-                          setActivePinned(null);
-                          localStorage.setItem("7h_global_pinned", "null");
-                        }}
-                        className="absolute top-3 right-3 text-black/30 opacity-0 group-hover:opacity-100 hover:text-red-400"
-                        title="Unpin Message"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  )}
-
-                  <div
-                    ref={chatScrollRef}
-                    data-lenis-prevent
-                    className="custom-scrollbar flex min-h-0 flex-1 flex-col space-y-3 overflow-y-auto p-4"
-                  >
-                    {posts.length === 0 && (
-                      <div className="my-auto flex flex-1 flex-col items-center justify-center py-6 text-center text-white/30">
-                        <svg
-                          className="mb-1.5 h-7 w-7 opacity-30"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
-                        <p className="r text-white/40">No Messages Yet</p>
-                        <p className="mt-0.5">
-                          Stream chat messages will appear here
-                        </p>
-                      </div>
-                    )}
-                    {posts.map((p) => {
-                      const isSystem = !p.account || p.isSystem;
-                      if (isSystem) {
-                        const isWarning =
-                          p.text.includes("warned") ||
-                          p.text.includes("Warning");
-                        const isBan = p.text.includes("banned");
-                        const bg = isWarning
-                          ? "rgba(147, 51, 234,0.1)"
-                          : isBan
-                            ? "rgba(239,68,68,0.1)"
-                            : "rgba(255,255,255,0.05)";
-                        const color = isWarning
-                          ? "#c084fc"
-                          : isBan
-                            ? "#f87171"
-                            : "rgba(255,255,255,0.35)";
-                        const border = isWarning
-                          ? "1px solid rgba(147, 51, 234,0.2)"
-                          : isBan
-                            ? "1px solid rgba(239,68,68,0.2)"
-                            : "1px solid transparent";
-                        return (
-                          <div
-                            key={p.id}
-                            className="flex items-center justify-center py-1"
-                          >
-                            <span
-                              className="rounded-lg px-3 py-1 text-[var(--font-size-2xs)]"
-                              style={{
-                                background: bg,
-                                color: color,
-                                border: border,
-                                fontSize: 10,
-                              }}
-                            >
-                              {p.text}
-                            </span>
-                          </div>
-                        );
-                      }
-
-                      const username =
-                        p.account?.displayName ||
-                        p.account?.name ||
-                        "Anonymous";
-                      const isUserBanned = bannedUsers.has(username);
-                      const isUserWarned = warnedUsers.has(username);
-
-                      return (
-                        <div key={p.id} className="group relative flex gap-3">
-                          <div
-                            className="flex h-8 w-8 shrink-0 items-center justify-center !rounded-full "
-                            style={{
-                              backgroundColor:
-                                p.account?.color || getAvatarColor(username),
-                            }}
-                          >
-                            {p.account?.avatar || "C"}
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center gap-1.5">
-                              <p
-                                style={{
-                                  color:
-                                    p.account?.color ||
-                                    getAvatarColor(username),
-                                }}
-                              >
-                                {username}
-                              </p>
-                              {(p.account?.role === "crew" ||
-                                p.account?.role === "admin") && (
-                                  <span className="rounded border border-[#8a1cfc]/40 bg-[var(--color-accent)]/20 px-1 py-0.5 text-[#c084fc] text-[var(--font-size-2xs)]">
-                                    CREW
-                                  </span>
-                                )}
-                              {isUserWarned && (
-                                <span className="rounded border border-purple-500/30 bg-purple-600/10 px-1 py-0.5 text-[var(--font-size-2xs)]">
-                                  WARNED
-                                </span>
-                              )}
-                              {isUserBanned && (
-                                <span className="rounded border border-red-500/30 bg-red-500/10 px-1 py-0.5 text-[var(--font-size-2xs)] text-red-400">
-                                  BANNED
-                                </span>
-                              )}
-                            </div>
-                            <p
-                              className="break-words text-black/90"
-                              style={{
-                                textDecoration: isUserBanned
-                                  ? "line-through"
-                                  : "none",
-                                opacity: isUserBanned ? 0.5 : 1,
-                              }}
-                            >
-                              {p.text}
-                            </p>
-                          </div>
-
-                          {/* Moderation Actions */}
-                          {p.account?.role !== "crew" &&
-                            p.account?.role !== "admin" && (
-                              <div className="absolute top-2 right-2 z-20 flex gap-1  border border-black/10 bg-white/95 p-1 opacity-0 group-hover:opacity-100">
-                                <button
-                                  onClick={() => handleWarn(username)}
-                                  title={
-                                    isUserWarned ? "Unwarn User" : "Warn User"
-                                  }
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded hover:bg-purple-600/15"
-                                >
-                                  ⚠️
-                                </button>
-                                <button
-                                  onClick={() => handleBan(username)}
-                                  title={
-                                    isUserBanned ? "Unban User" : "Ban User"
-                                  }
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 hover:bg-red-500/15"
-                                >
-                                  🚫
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteMsg(p.id)}
-                                  title="Delete Message"
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-black/40 hover:bg-gray-100"
-                                >
-                                  🗑
-                                </button>
-                                <button
-                                  onClick={() => handleKick(username)}
-                                  title="Remove Fan Completely"
-                                  className="flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 hover:bg-red-500/20"
-                                >
-                                  🚪
-                                </button>
-                              </div>
-                            )}
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="shrink-0 space-y-0 pt-2">
-                    {/* Pin message input */}
-                    <div className="relative">
-                      <input
-                        aria-label="Pin a message to all fans"
-                        value={globalPinText}
-                        onChange={(e) => setGlobalPinText(e.target.value)}
-                        onKeyDown={(e) =>
-                          e.key === "Enter" && handleGlobalPinBox()
-                        }
-                        placeholder="Pin a message to all fans..."
-                        className="w-full !rounded-none !border-0 bg-emerald-500/[0.08] px-4 py-3.5 pr-24 outline-none placeholder:text-emerald-400/50"
-                      />
-                      <div className="absolute top-1.5 right-1.5 bottom-1.5 z-10 flex items-center">
-                        <button
-                          onClick={handleGlobalPinBox}
-                          disabled={!globalPinText.trim()}
-                          className="disabled: h-full  bg-emerald-500 px-3 hover:bg-emerald-400 disabled:bg-white/10 disabled:opacity-50"
-                        >
-                          PIN
-                        </button>
-                      </div>
-                    </div>
-                    {/* Chat message input */}
-                    <ChatInputBar
-                      value={content}
-                      onChange={setContent}
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        handlePost();
-                      }}
-                      disabled={posting}
-                      placeholder="Type a message..."
-                    />
-                  </div>
-                </div>
+                )}
               </div>
 
-              {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
-              <section
-                id="live-analytics"
-                aria-label="Live Stream Performance & Analytics"
-                className="mt-6 border border-white/10 bg-[#00000029] p-6"
-              >
-                <div className="mb-6 flex items-center justify-between border-b border-white/10">
+              {/* CHAT PANEL (Right side) */}
+              <div className="flex h-[260px] w-full shrink-0 flex-col sm:h-[320px] lg:h-full lg:w-[400px]">
+                <div
+                  className="flex shrink-0 items-center justify-between p-4"
+                  style={{
+                    borderBottom: "1px solid rgba(255, 255, 255, 0.15)",
+                  }}
+                >
+                  <span className="/90">Live Chat</span>
                   <div className="flex items-center gap-3">
-                    <div>
-                      <h3>Live Stream Performance & Chat Analytics</h3>
+                    <div className="flex items-center gap-1">
+                      <span className="h-1.5 w-1.5 animate-pulse bg-emerald-500" />{" "}
+                      {viewerCount} online
+                    </div>
+                    <span>·</span>
+                    <span>{posts.length} msgs</span>
+                  </div>
+                </div>
+
+                {/* 📌 Pinned Message Alert */}
+                {activePinned && (
+                  <div className="group relative shrink-0 border-b border-white/[0.06] bg-gradient-to-r from-emerald-500/10 to-transparent px-4 py-3">
+                    <div className="flex items-start gap-2.5 pr-6">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-black/90">{activePinned.text}</p>
+                        <p className="text-emerald-400/80">
+                          PINNED BY {activePinned.by}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setActivePinned(null);
+                        localStorage.setItem("7h_global_pinned", "null");
+                      }}
+                      className="transition-[background-color,color,border-color,opacity] absolute top-3 right-3 text-black/30 opacity-0 group-hover:opacity-100 hover:text-red-400"
+                      title="Unpin Message"
+                    >
+                      ×
+                    </button>
+                  </div>
+                )}
+
+                <div
+                  ref={chatScrollRef}
+                  data-lenis-prevent
+                  className="custom-scrollbar flex min-h-0 flex-1 flex-col space-y-3 overflow-y-auto p-4"
+                >
+                  {posts.length === 0 && (
+                    <div className="my-auto flex flex-1 flex-col items-center justify-center py-6 text-center text-white/30">
+                      <svg
+                        className="h-7 w-7 opacity-30"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="1.5"
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
+                      </svg>
+                      <p className="r text-white/40">No Messages Yet</p>
                       <p className="mt-0.5">
-                        Real-time Sales and Engagement Metrics
+                        Stream chat messages will appear here
                       </p>
                     </div>
-                  </div>
-                  {isLive && (
-                    <span className="flex animate-pulse items-center gap-1.5  border border-emerald-500/30 bg-emerald-500/10 px-3 py-1">
-                      ● Live Tracking
-                    </span>
                   )}
+                  {posts.map((p) => {
+                    const isSystem = !p.account || p.isSystem;
+                    if (isSystem) {
+                      const isWarning =
+                        p.text.includes("warned") ||
+                        p.text.includes("Warning");
+                      const isBan = p.text.includes("banned");
+                      const bg = isWarning
+                        ? "rgba(147, 51, 234,0.1)"
+                        : isBan
+                          ? "rgba(239,68,68,0.1)"
+                          : "rgba(255,255,255,0.05)";
+                      const color = isWarning
+                        ? "#c084fc"
+                        : isBan
+                          ? "#f87171"
+                          : "rgba(255,255,255,0.35)";
+                      const border = isWarning
+                        ? "1px solid rgba(147, 51, 234,0.2)"
+                        : isBan
+                          ? "1px solid rgba(239,68,68,0.2)"
+                          : "1px solid transparent";
+                      return (
+                        <div
+                          key={p.id}
+                          className="flex items-center justify-center py-1"
+                        >
+                          <span
+                            className="rounded-lg px-3 py-1 text-[var(--font-size-2xs)]"
+                            style={{
+                              background: bg,
+                              color: color,
+                              border: border,
+                              fontSize: 10,
+                            }}
+                          >
+                            {p.text}
+                          </span>
+                        </div>
+                      );
+                    }
+
+                    const username =
+                      p.account?.displayName ||
+                      p.account?.name ||
+                      "Anonymous";
+                    const isUserBanned = bannedUsers.has(username);
+                    const isUserWarned = warnedUsers.has(username);
+
+                    return (
+                      <div key={p.id} className="group relative flex gap-3">
+                        <div
+                          className="flex h-8 w-8 shrink-0 items-center justify-center !rounded-full"
+                          style={{
+                            backgroundColor:
+                              p.account?.color || getAvatarColor(username),
+                          }}
+                        >
+                          {p.account?.avatar || "C"}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <p
+                              style={{
+                                color:
+                                  p.account?.color ||
+                                  getAvatarColor(username),
+                              }}
+                            >
+                              {username}
+                            </p>
+                            {(p.account?.role === "crew" ||
+                              p.account?.role === "admin") && (
+                                <span className="rounded border border-[#8a1cfc]/40 bg-[var(--color-accent)]/20 px-1 py-0.5 text-[#c084fc] text-[var(--font-size-2xs)]">
+                                  CREW
+                                </span>
+                              )}
+                            {isUserWarned && (
+                              <span className="rounded border border-purple-500/30 bg-purple-600/10 px-1 py-0.5 text-[var(--font-size-2xs)]">
+                                WARNED
+                              </span>
+                            )}
+                            {isUserBanned && (
+                              <span className="rounded border border-red-500/30 bg-red-500/10 px-1 py-0.5 text-[var(--font-size-2xs)] text-red-400">
+                                BANNED
+                              </span>
+                            )}
+                          </div>
+                          <p
+                            className="break-words text-black/90"
+                            style={{
+                              textDecoration: isUserBanned
+                                ? "line-through"
+                                : "none",
+                              opacity: isUserBanned ? 0.5 : 1,
+                            }}
+                          >
+                            {p.text}
+                          </p>
+                        </div>
+
+                        {/* Moderation Actions */}
+                        {p.account?.role !== "crew" &&
+                          p.account?.role !== "admin" && (
+                            <div className="transition-opacity absolute top-2 right-2 z-20 flex gap-1 border border-black/10 bg-white/95 p-1 opacity-0 group-hover:opacity-100">
+                              <button
+                                onClick={() => handleWarn(username)}
+                                title={
+                                  isUserWarned ? "Unwarn User" : "Warn User"
+                                }
+                                className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded hover:bg-purple-600/15"
+                              >
+                                ⚠️
+                              </button>
+                              <button
+                                onClick={() => handleBan(username)}
+                                title={
+                                  isUserBanned ? "Unban User" : "Ban User"
+                                }
+                                className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 hover:bg-red-500/15"
+                              >
+                                🚫
+                              </button>
+                              <button
+                                onClick={() => handleDeleteMsg(p.id)}
+                                title="Delete Message"
+                                className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded text-black/40 hover:bg-gray-100"
+                              >
+                                🗑
+                              </button>
+                              <button
+                                onClick={() => handleKick(username)}
+                                title="Remove Fan Completely"
+                                className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded text-red-500 hover:bg-red-500/20"
+                              >
+                                🚪
+                              </button>
+                            </div>
+                          )}
+                      </div>
+                    );
+                  })}
                 </div>
+
+                <div className="shrink-0 space-y-0 pt-2">
+                  {/* Pin message input */}
+                  <div className="relative">
+                    <input
+                      aria-label="Pin a message to all fans"
+                      value={globalPinText}
+                      onChange={(e) => setGlobalPinText(e.target.value)}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && handleGlobalPinBox()
+                      }
+                      placeholder="Pin a message to all fans..."
+                      className="w-full !rounded-none !border-0 bg-emerald-500/[0.08] px-4 py-3.5 pr-24 outline-none placeholder:text-emerald-400/50"
+                    />
+                    <div className="absolute top-1.5 right-1.5 bottom-1.5 z-10 flex items-center">
+                      <button
+                        onClick={handleGlobalPinBox}
+                        disabled={!globalPinText.trim()}
+                        className="transition-colors disabled: h-full bg-emerald-500 px-3 hover:bg-emerald-400 disabled:bg-white/10 disabled:opacity-50"
+                      >
+                        PIN
+                      </button>
+                    </div>
+                  </div>
+                  {/* Chat message input */}
+                  <ChatInputBar
+                    value={content}
+                    onChange={setContent}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handlePost();
+                    }}
+                    disabled={posting}
+                    placeholder="Type a message..."
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* ─── LIVE STREAM PERFORMANCE & ANALYTICS CARD ─── */}
+            <section
+              id="live-analytics"
+              aria-labelledby="live-analytics-heading"
+              className="section"
+            >
+              <div className="border border-white/10 bg-[#00000029] p-6">
+                <SectionHeader
+                  as="h3"
+                  id="live-analytics-heading"
+                  title="Live Stream Performance & Chat Analytics"
+                  subtitle="Real-time Sales and Engagement Metrics"
+                  action={
+                    isLive ? (
+                      <span className="flex animate-pulse items-center gap-1.5 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-400">
+                        ● Live Tracking
+                      </span>
+                    ) : null
+                  }
+                />
 
                 <div>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -3958,29 +3950,32 @@ export function CrewDashboard({
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
+            </section>
 
-              {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
-              <div className="mt-6 grid w-full grid-cols-1 gap-6 xl:grid-cols-2">
-                {/* FLASH MERCH DROP */}
-                <section
-                  id="flash-merch-drop"
-                  aria-label="Flash Merch Drop Management"
-                  className="flex-1"
-                >
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <h3>Flash Merch Drop</h3>
-                      <p>Limited time, limited stock</p>
-                    </div>
-                  </div>
+            {/* ─── BOTTOM RIGHT CARDS (Merch & Raffle) ─── */}
+            <div className="mt-6 grid w-full grid-cols-1 gap-6 xl:grid-cols-2">
+              {/* FLASH MERCH DROP */}
+              <section
+                id="flash-merch-drop"
+                aria-labelledby="flash-merch-drop-heading"
+                className="section"
+              >
+                <div className="flex-1 border border-white/10 bg-[#00000029] p-6">
+                  <SectionHeader
+                    as="h3"
+                    id="flash-merch-drop-heading"
+                    title="Flash Merch Drop"
+                    subtitle="Limited time, limited stock"
+                    icon={Sparkles}
+                  />
                   <div>
                     {activeDrop ? (
                       <div className="space-y-4">
                         {/* Submitted Status Header */}
                         <div className="flex items-center justify-between border border-emerald-500/30 bg-emerald-500/10 p-3">
                           <div className="flex items-center gap-2">
-                            <span className="h-2.5 w-2.5 animate-pulse  bg-emerald-500" />
+                            <span className="h-2.5 w-2.5 animate-pulse bg-emerald-500" />
                             <span className="text-[var(--color-accent)]">
                               Flash Sale Active
                             </span>
@@ -3997,7 +3992,7 @@ export function CrewDashboard({
                             {Math.floor(activeDrop.timeLeft / 60)}m{" "}
                             {activeDrop.timeLeft % 60}s
                           </p>
-                          <div className="mt-3 h-1.5 w-full overflow-hidden  bg-[#00000029]">
+                          <div className="mt-3 h-1.5 w-full overflow-hidden bg-[#00000029]">
                             <div
                               className="h-full bg-gradient-to-r from-purple-600 to-violet-600"
                               style={{
@@ -4046,7 +4041,7 @@ export function CrewDashboard({
                           <button
                             type="button"
                             onClick={cancelFlashDrop}
-                            className="flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/30 bg-red-500/10 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+                            className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/30 bg-red-500/10 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                           >
                             Cancel Flash Drop
                           </button>
@@ -4054,8 +4049,8 @@ export function CrewDashboard({
                       </div>
                     ) : (
                       <>
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
+                        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                          <div className="flex flex-wrap items-center gap-3">
                             <span className="text-[var(--color-accent-pink)]">
                               LIVE SHOPIFY INVENTORY
                             </span>
@@ -4063,7 +4058,7 @@ export function CrewDashboard({
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "7th-heaven-7012.myshopify.com").replace(/"/g, "").split(".")[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="! flex items-center gap-1 rounded  border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-xl"
+                              className="! flex items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-xl"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -4071,7 +4066,7 @@ export function CrewDashboard({
                           </div>
                           <button
                             onClick={() => window.location.reload()}
-                            className="flex items-center gap-1 border border-white/10 p-2 text-white/40 hover:text-white"
+                            className="transition-colors flex items-center gap-1 border border-white/10 p-2 text-white/40 hover:text-white"
                           >
                             ↻ Refresh
                           </button>
@@ -4138,7 +4133,7 @@ export function CrewDashboard({
                                   </p>
                                 </div>
                                 <div className="flex shrink-0 items-center gap-2">
-                                  <div className="flex max-w-[90px] items-center  border border-white/10 bg-black/60 px-2 py-1">
+                                  <div className="flex max-w-[90px] items-center border border-white/10 bg-black/60 px-2 py-1">
                                     <span className="mr-1 text-white/40">
                                       $
                                     </span>
@@ -4158,7 +4153,7 @@ export function CrewDashboard({
                                   </div>
                                   <button
                                     onClick={() => removeProductFromDrop(p.id)}
-                                    className="flex h-7 w-7 cursor-pointer items-center justify-center  border-none bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                                    className="transition-colors flex h-7 w-7 cursor-pointer items-center justify-center border-none bg-red-500/10 text-red-400 hover:bg-red-500/20"
                                     title="Remove from drop"
                                   >
                                     ✕
@@ -4171,7 +4166,7 @@ export function CrewDashboard({
 
                         <div className="mb-6 grid grid-cols-2 gap-4">
                           <div>
-                            <p className="mb-2">Total Products</p>
+                            <p className="mb-3">Total Products</p>
                             <button
                               type="button"
                               onClick={() => {
@@ -4183,7 +4178,7 @@ export function CrewDashboard({
                                   selectEl.focus();
                                 }
                               }}
-                              className="flex h-[36px] w-full cursor-pointer items-center justify-center gap-1.5  border border-white/10 bg-[#00000029] p-2 text-center shadow-sm hover:border-purple-400/60"
+                              className="transition-colors flex h-[36px] w-full cursor-pointer items-center justify-center gap-1.5 border border-white/10 bg-[#00000029] p-2 text-center shadow-sm hover:border-purple-400/60"
                               title="Click to select products from the dropdown above"
                             >
                               <span>{selectedProducts.length}</span>
@@ -4195,7 +4190,7 @@ export function CrewDashboard({
                             </button>
                           </div>
                           <div>
-                            <p className="mb-2">Duration</p>
+                            <p className="mb-3">Duration</p>
                             <div className="grid grid-cols-4 gap-2">
                               {["2m", "5m", "10m", "15m"].map((d) => (
                                 <SeventhButton
@@ -4211,19 +4206,13 @@ export function CrewDashboard({
                           </div>
                         </div>
 
-                        <div className="no-glow mb-6 flex items-center gap-3">
-                          <SquishyToggle
+                        <div className="no-glow mb-6">
+                          <Toggle
                             id="global-drop-toggle"
                             checked={globalDrop}
                             onChange={setGlobalDrop}
                             label="Drop on ALL live streams (Global)"
                           />
-                          <label
-                            htmlFor="global-drop-toggle"
-                            className="cursor-pointer select-none hover:text-white"
-                          >
-                            Drop on ALL live streams (Global)
-                          </label>
                         </div>
 
                         <SeventhButton
@@ -4260,48 +4249,51 @@ export function CrewDashboard({
                               });
                             } catch { }
                           }}
-                          className="mt-2 w-full  border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20"
+                          className="transition-colors mt-2 w-full border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20"
                         >
                           [TESTING] Simulate Sold Out Merch Drop
                         </button>
                       </>
                     )}
                   </div>
-                </section>
+                </div>
+              </section>
 
-                {/* LIVE RAFFLE (Rebuilt as requested) */}
-                <section
-                  id="live-raffle"
-                  aria-label="Live Event Raffle Management"
-                  className="flex flex-1 flex-col"
-                >
-                  <div className="mb-6 flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <h3>Live Event Raffle</h3>
-                        <p>
-                          {raffleStatus === "idle"
-                            ? "Standby"
-                            : raffleStatus === "open"
-                              ? "Accepting Entries"
-                              : raffleStatus === "drawing"
-                                ? "Drawing Winner..."
-                                : "Complete"}
-                        </p>
-                      </div>
-                    </div>
-                    {raffleStatus !== "idle" && (
-                      <button
-                        type="button"
-                        onClick={cancelRaffle}
-                        className="rounded-lg border border-red-500/20 bg-red-500/10 px-6 py-2.5 text-red-400 hover:bg-red-500/20"
-                      >
-                        {raffleStatus === "complete"
-                          ? "Clear Results"
-                          : "Cancel Raffle"}
-                      </button>
-                    )}
-                  </div>
+              {/* LIVE RAFFLE (Rebuilt as requested) */}
+              <section
+                id="live-raffle"
+                aria-labelledby="live-raffle-heading"
+                className="section"
+              >
+                <div className="flex flex-1 flex-col border border-white/10 bg-[#00000029] p-6">
+                  <SectionHeader
+                    as="h3"
+                    id="live-raffle-heading"
+                    title="Live Event Raffle"
+                    subtitle={
+                      raffleStatus === "idle"
+                        ? "Standby"
+                        : raffleStatus === "open"
+                          ? "Accepting Entries"
+                          : raffleStatus === "drawing"
+                            ? "Drawing Winner..."
+                            : "Complete"
+                    }
+                    icon={Gift}
+                    action={
+                      raffleStatus !== "idle" ? (
+                        <button
+                          type="button"
+                          onClick={cancelRaffle}
+                          className="transition-colors rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-1.5 text-xs text-red-400 hover:bg-red-500/20"
+                        >
+                          {raffleStatus === "complete"
+                            ? "Clear Results"
+                            : "Cancel Raffle"}
+                        </button>
+                      ) : null
+                    }
+                  />
                   <div className="flex flex-1 flex-col gap-5">
                     {/* Multi-Raffle Queue Configuration */}
                     <div className="-mx-4 px-4 pb-4 sm:mx-0 sm:px-0">
@@ -4312,7 +4304,7 @@ export function CrewDashboard({
                         })).map(({ item, idx }) => (
                           <div
                             key={item.name || idx}
-                            className={`sm: relative flex flex-col gap-2  border border-white/10  p-3.5 sm:rounded-none sm:border-0 sm:p-0 ${idx !== activeQueueIndex && raffleStatus !== "idle" && raffleStatus !== "complete" ? "pointer-events-none opacity-30" : ""}`}
+                            className={`sm: relative flex flex-col gap-2 border border-white/10 p-3.5 sm:rounded-none sm:border-0 sm:p-0 ${idx !== activeQueueIndex && raffleStatus !== "idle" && raffleStatus !== "complete" ? "pointer-events-none opacity-30" : ""} `}
                           >
                             {/* Show indicator if it's the currently active raffle */}
                             {idx === activeQueueIndex &&
@@ -4325,7 +4317,7 @@ export function CrewDashboard({
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-2">
                               {/* Input 1: Prize Name */}
                               <div className="no-glow flex w-full flex-col gap-1.5 sm:flex-1">
-                                <span className="sm: ">
+                                <span className="sm:">
                                   <span className="inline sm:hidden">
                                     1. Prize Name
                                   </span>
@@ -4358,7 +4350,7 @@ export function CrewDashboard({
                               <div className="grid grid-cols-2 gap-2 sm:flex sm:items-end">
                                 {/* Input 2: Entries Needed */}
                                 <div className="no-glow relative flex w-full flex-col gap-1.5 sm:w-28">
-                                  <span className="whitespace-nowrap ">
+                                  <span className="whitespace-nowrap">
                                     <span className="inline sm:hidden">
                                       2. Entries
                                     </span>
@@ -4398,7 +4390,7 @@ export function CrewDashboard({
 
                                 {/* Input 3: Prize Qty */}
                                 <div className="no-glow flex w-full flex-col gap-1.5 sm:w-20">
-                                  <span className="whitespace-nowrap ">
+                                  <span className="whitespace-nowrap">
                                     <span className="inline sm:hidden">
                                       3. Qty
                                     </span>
@@ -4439,7 +4431,7 @@ export function CrewDashboard({
                                     raffleStatus !== "idle" &&
                                     raffleStatus !== "complete"
                                   }
-                                  className={`flex h-11 flex-1 shrink-0 items-center justify-center  border px-4 sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === "idle" || raffleStatus === "complete" ? "border-purple-500 hover:bg-purple-600/10" : idx === activeQueueIndex && (raffleStatus === "open" || raffleStatus === "drawing") ? "border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]" : "border-white/10 text-white/30 opacity-30"}`}
+                                  className={`flex h-11 flex-1 shrink-0 items-center justify-center border px-4 sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === "idle" || raffleStatus === "complete" ? "border-purple-500 hover:bg-purple-600/10" : idx === activeQueueIndex && (raffleStatus === "open" || raffleStatus === "drawing") ? "border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]" : "border-white/10 text-white/30 opacity-30"} `}
                                 >
                                   {idx === activeQueueIndex &&
                                     (raffleStatus === "open" ||
@@ -4456,7 +4448,7 @@ export function CrewDashboard({
                                     raffleStatus !== "idle" ||
                                     raffleQueue.length === 1
                                   }
-                                  className="flex h-11 w-11 shrink-0 items-center justify-center  border border-red-500/20 text-red-500/70 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-500 disabled:opacity-0 sm:h-[42px]"
+                                  className="transition-colors flex h-11 w-11 shrink-0 items-center justify-center border border-red-500/20 text-red-500/70 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-500 disabled:opacity-0 sm:h-[42px]"
                                 >
                                   ✕
                                 </button>
@@ -4472,7 +4464,7 @@ export function CrewDashboard({
                             raffleStatus !== "idle" &&
                             raffleStatus !== "complete"
                           }
-                          className="w-full  border border-dashed border-white/10 bg-[#00000029] py-2.5 hover:border-white/100 hover:text-white disabled:opacity-30"
+                          className="transition-colors w-full border border-dashed border-white/10 bg-[#00000029] py-2.5 hover:border-white/100 hover:text-white disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -4493,14 +4485,14 @@ export function CrewDashboard({
                             <button
                               type="button"
                               onClick={addFakeEntry}
-                              className="flex-1  border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
+                              className="transition-colors flex-1 border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
                             >
                               + Fake Entry
                             </button>
                             <button
                               type="button"
                               onClick={addLotsOfFakeEntries}
-                              className="flex-1  border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
+                              className="transition-colors flex-1 border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
                             >
                               + Multi Fake
                             </button>
@@ -4508,7 +4500,7 @@ export function CrewDashboard({
                           <button
                             type="button"
                             onClick={rigWinForMe}
-                            className="w-full  border border-[#10b981]/30 bg-emerald-500/10 py-2 hover:bg-[#10b981]/25"
+                            className="transition-colors w-full border border-[#10b981]/30 bg-emerald-500/10 py-2 hover:bg-[#10b981]/25"
                           >
                             🧪 TEST: Rig Win for Me
                           </button>
@@ -4535,7 +4527,7 @@ export function CrewDashboard({
                         </SeventhButton>
                       ) : (
                         <div className="border border-purple-500/30 bg-gray-50 p-4 text-center">
-                          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center  bg-purple-600 text-2xl shadow-[0_0_15px_rgba(147,51,234,0.5)]">
+                          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center bg-purple-600 text-2xl shadow-[0_0_15px_rgba(147,51,234,0.5)]">
                             🎉
                           </div>
                           <h4 className="text-black">Winner Selected</h4>
@@ -4543,7 +4535,7 @@ export function CrewDashboard({
                             {drawnWinners.map((w, i) => (
                               <div
                                 key={w.id}
-                                className="flex items-center justify-between  border border-purple-500/30 bg-purple-600/10 px-3 py-1.5"
+                                className="flex items-center justify-between border border-purple-500/30 bg-purple-600/10 px-3 py-1.5"
                               >
                                 <span>{w.name}</span>
                                 <span className="text-purple-200">
@@ -4567,32 +4559,31 @@ export function CrewDashboard({
                       )}
                     </div>
                   </div>
-                </section>
-              </div>
-
-              {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
-              <section
-                id="chat-moderation"
-                aria-label="Chat Moderation & Policies"
-                className="mt-6"
-              >
-                <div className="mb-6 flex items-center gap-3">
-                  <div>
-                    <h3>Chat Moderation & Policies</h3>
-                    <p>
-                      Add specific keywords, slurs, or phrases. Any message
-                      containing these (case-insensitive substring match) will
-                      be automatically flagged on all live feeds.
-                    </p>
-                  </div>
                 </div>
+              </section>
+            </div>
+
+            {/* ─── CHAT MODERATION PANEL (Under Video & Chat Box) ─── */}
+            <section
+              id="chat-moderation"
+              aria-labelledby="chat-moderation-heading"
+              className="section"
+            >
+              <div className="border border-white/10 bg-[#00000029] p-6">
+                <SectionHeader
+                  as="h3"
+                  id="chat-moderation-heading"
+                  title="Chat Moderation & Policies"
+                  subtitle="Add specific keywords, slurs, or phrases to automatically flag messages across live feeds"
+                  icon={Shield}
+                />
 
                 <div className="space-y-4">
                   <div className="flex flex-col items-start gap-6 lg:flex-row">
                     <div className="w-full max-w-[600px] space-y-2">
                       <form
                         onSubmit={handleAddCustomWord}
-                        className="no-glow mt-2 flex max-w-[340px] gap-2"
+                        className="no-glow mt-2 flex max-w-[340px] gap-3"
                       >
                         <GlowInput
                           wrapperClassName="flex-1"
@@ -4629,7 +4620,7 @@ export function CrewDashboard({
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="flex h-5 w-5 items-center justify-center  hover:bg-white/20 hover:text-white"
+                                className="transition-colors flex h-5 w-5 items-center justify-center hover:bg-white/20 hover:text-white"
                               >
                                 &times;
                               </button>
@@ -4640,34 +4631,36 @@ export function CrewDashboard({
                     </div>
                   </div>
                 </div>
-              </section>
-            </div>
-          )}
-        </section>
-
-        {/* LIVE SETLIST & FAN LIKES */}
-        <div
-          className={`flex flex-col  xl:col-span-2 ${isSetlistCollapsed ? "" : "min-h-[500px]"} mt-6`}
-        >
-          <div className="group flex w-full flex-col items-start justify-between gap-3 border-b border-white/10 py-4 text-left select-none md:flex-row md:items-center">
-            <button
-              type="button"
-              onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-              className="flex flex-1 cursor-pointer items-center gap-3 border-none p-0 text-left"
-            >
-              <div>
-                <h3>Live Setlist & Fan Likes</h3>
-                <p>
-                  Now Playing:{" "}
-                  {setlist.find((s) => s.isPlaying)?.title || "None"}
-                </p>
               </div>
-            </button>
-            <div className="flex items-center gap-3 self-end md:self-auto">
+            </section>
+          </div>
+        )}
+      </section>
+
+      {/* ─── LIVE SETLIST & FAN LIKES ─── */}
+      <section
+        id="live-setlist"
+        aria-labelledby="live-setlist-heading"
+        className="section"
+      >
+        <SectionHeader
+          id="live-setlist-heading"
+          title="Live Setlist & Fan Likes"
+          subtitle={
+            <span>
+              Now Playing:{" "}
+              <strong className="font-semibold text-[var(--color-accent)]">
+                {setlist.find((s) => s.isPlaying)?.title || "None"}
+              </strong>
+            </span>
+          }
+          icon={Music}
+          action={
+            <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="cursor-pointer  border border-white/10 bg-[#00000029] px-4 py-2 text-[var(--font-size-2xs)] hover:bg-white/10 hover:text-white"
+                className="transition-colors cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
               >
                 Reset Likes
               </button>
@@ -4675,15 +4668,23 @@ export function CrewDashboard({
                 type="button"
                 aria-label="Toggle setlist"
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className={`flex h-8 w-8 items-center justify-center  border border-white/10 ${isSetlistCollapsed ? "rotate-180" : ""}`}
+                className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                aria-expanded={!isSetlistCollapsed}
               >
-                <ChevronDown className="h-4 w-4" />
+                <span className="hidden whitespace-nowrap sm:inline">
+                  {isSetlistCollapsed ? "Expand Setlist" : "Collapse Setlist"}
+                </span>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${isSetlistCollapsed ? "rotate-180" : ""} `}
+                />
               </button>
             </div>
-          </div>
+          }
+        />
 
-          {!isSetlistCollapsed && (
-            <div className="pb-4 flex-1 flex flex-col justify-between gap-4">
+        {!isSetlistCollapsed && (
+          <div className="border border-white/10 bg-[#00000029] p-6">
+            <div className="flex flex-col justify-between gap-4">
               {/* Song rows */}
               <div
                 data-lenis-prevent
@@ -4692,12 +4693,12 @@ export function CrewDashboard({
                 {setlist.map((song, idx) => (
                   <div
                     key={song.id}
-                    className={`flex items-center justify-between pt-3 pb-3 ${song.isPlaying ? "" : ""} ${idx < setlist.length - 1 ? "border-b border-white/10" : ""}`}
+                    className={`flex items-center justify-between pt-3 pb-3 ${idx < setlist.length - 1 ? "border-b border-white/10" : ""} `}
                   >
                     <div className="flex min-w-0 items-center gap-2">
                       <div className="flex min-w-0 flex-wrap items-center gap-2">
                         <span
-                          className={`${song.isPlaying ? "text-[var(--color-accent)]" : ""}`}
+                          className={`${song.isPlaying ? "font-semibold text-[var(--color-accent)]" : ""}`}
                         >
                           {song.title}
                         </span>
@@ -4711,7 +4712,7 @@ export function CrewDashboard({
                     <div className="flex shrink-0 items-center gap-1.5">
                       <button
                         onClick={() => deleteSongFromSetlist(song.id)}
-                        className="text-3xs flex h-6 w-6 items-center justify-center  border border-red-500/20 text-red-400 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
+                        className="transition-colors flex h-6 w-6 items-center justify-center border border-red-500/20 text-red-400 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
                         title="Delete Song"
                       >
                         <X className="h-3.5 w-3.5" />
@@ -4739,7 +4740,7 @@ export function CrewDashboard({
                           setIsBulkImport(false);
                           setNewSongTitle("");
                         }}
-                        className="text-3xs text-white/40"
+                        className="transition-colors text-xs text-white/40 hover:text-white"
                       >
                         Cancel
                       </button>
@@ -4755,7 +4756,7 @@ export function CrewDashboard({
                   </div>
                 ) : (
                   <div className="max-w-[300px] space-y-2">
-                    <div className="flex gap-2">
+                    <div className="flex gap-3">
                       <input
                         type="text"
                         aria-label="New song title"
@@ -4765,13 +4766,13 @@ export function CrewDashboard({
                         onKeyDown={(e) =>
                           e.key === "Enter" && addSongToSetlist(newSongTitle)
                         }
-                        className="placeholder: focus-ring flex-1  border border-white/10 bg-[#00000029] px-3 py-2 text-white/30 outline-none"
+                        className="placeholder: focus-ring flex-1 border border-white/10 bg-[#00000029] px-3 py-2 text-white outline-none"
                       />
                       <SeventhButton
                         type="button"
                         onClick={() => addSongToSetlist(newSongTitle)}
                         icon={false}
-                        className="cursor-pointe"
+                        className="cursor-pointer"
                       >
                         Add
                       </SeventhButton>
@@ -4783,7 +4784,7 @@ export function CrewDashboard({
                           setIsBulkImport(true);
                           setNewSongTitle("");
                         }}
-                        className="text-3xs flex cursor-pointer items-center gap-1.5 border-none hover:brightness-125"
+                        className="transition-[background-color,color,border-color,box-shadow,transform] flex cursor-pointer items-center gap-1.5 border-none text-xs text-white/50 hover:text-white hover:brightness-125"
                       >
                         <FileText className="inline h-3.5 w-3.5" /> Bulk Import
                         / Paste List
@@ -4793,800 +4794,469 @@ export function CrewDashboard({
                 )}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+      </section>
 
-        {/* ─── YOUR WORK SCHEDULE CARD ─── */}
-        {(() => {
-          const myShifts = crewSchedules.filter((s) => s.crewId === slug);
-          const pendingShifts = myShifts.filter(
-            (s) => s.approvalStatus === "pending",
-          );
-          const activeShifts = myShifts;
-          const coverageShifts = crewSchedules.filter(
-            (s) =>
-              s.isCoverageRequested === true &&
-              s.crewId !== slug &&
-              isQualifiedForRole(slug, s.role),
-          );
+      {/* ─── YOUR WORK SCHEDULE CARD ─── */}
+      {(() => {
+        const myShifts = crewSchedules.filter((s) => s.crewId === slug);
+        const pendingShifts = myShifts.filter(
+          (s) => s.approvalStatus === "pending",
+        );
+        const activeShifts = myShifts;
+        const coverageShifts = crewSchedules.filter(
+          (s) =>
+            s.isCoverageRequested === true &&
+            s.crewId !== slug &&
+            isQualifiedForRole(slug, s.role),
+        );
 
-          return (
-            <>
-              <div className="mt-6">
-                <div className="group mb-6 flex w-full items-center justify-between text-left select-none">
+        return (
+          <section
+            id="work-schedule"
+            aria-labelledby="work-schedule-heading"
+            className="section"
+          >
+            <SectionHeader
+              id="work-schedule-heading"
+              title="Your Work Schedule"
+              subtitle="Assigned shifts, locations & responsibilities"
+              icon={Calendar}
+              action={
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <button
                     type="button"
-                    onClick={() => setIsScheduleCollapsed(!isScheduleCollapsed)}
-                    className="flex cursor-pointer items-center gap-3 border-none p-0 text-left"
+                    onClick={() => {
+                      setEmailSubject("General Scheduling Inquiry");
+                      setEmailMessage(`Hi Admin,\n\n[Your message here]`);
+                      setIsEmailModalOpen(true);
+                    }}
+                    className="transition-colors flex cursor-pointer items-center gap-1.5 border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
                   >
-                    <div>
-                      <h3>Your Work Schedule</h3>
-                      <p>Assigned shifts, locations & responsibilities</p>
-                    </div>
+                    <Mail className="h-3.5 w-3.5" />
+                    <span>Contact Admins</span>
                   </button>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setEmailSubject("General Scheduling Inquiry");
-                        setEmailMessage(`Hi Admin,\n\n[Your message here]`);
-                        setIsEmailModalOpen(true);
-                      }}
-                      className="flex cursor-pointer items-center gap-1  border border-white/10 bg-[#00000029] px-3 py-1 backdrop-blur-xl"
-                    >
-                      Contact Admins
-                    </button>
-                    {pendingShifts.length > 0 && (
-                      <span className="animate-pulse  border border-white/10 bg-[var(--color-accent)]/10 px-3 py-1">
-                        {pendingShifts.length} Pending
-                      </span>
-                    )}
-                    <span className="backdrop-blur-[16px] border border-white/10 bg-[#00000029] px-3 py-1">
-                      {activeShifts.length} Shifts
+                  {pendingShifts.length > 0 && (
+                    <span className="animate-pulse border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 text-xs text-yellow-400">
+                      {pendingShifts.length} Pending
                     </span>
+                  )}
+                  <span className="border border-white/10 bg-[#00000029] px-3 py-1 text-xs text-white/70">
+                    {activeShifts.length} Shifts
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Toggle schedule"
+                    onClick={() =>
+                      setIsScheduleCollapsed(!isScheduleCollapsed)
+                    }
+                    className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                    aria-expanded={!isScheduleCollapsed}
+                  >
+                    <span className="hidden whitespace-nowrap sm:inline">
+                      {isScheduleCollapsed ? "Expand Schedule" : "Collapse Schedule"}
+                    </span>
+                    <ChevronDown
+                      className={`h-4 w-4 transition-transform ${isScheduleCollapsed ? "rotate-180" : ""} `}
+                    />
+                  </button>
+                </div>
+              }
+            />
+            {!isScheduleCollapsed && (
+              <div className="border border-white/10 bg-[#00000029] p-6">
+                {/* Calendar Feed Subscription Utility */}
+                <div className="mb-6 flex flex-col items-center justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 sm:flex-row">
+                  <div className="flex items-start gap-3">
+                    <div>
+                      <p>Sync with Google & Apple Calendar</p>
+                      <p className="mt-0.5">
+                        Subscribe to your personal live shift calendar feed
+                        to view updates on your phone.
+                      </p>
+                    </div>
+                  </div>
+                  <SeventhButton
+                    onClick={async () => {
+                      try {
+                        const tokenRes = await fetch(`/api/crew/calendar-token?crewId=${encodeURIComponent(slug)}`);
+                        const tokenData = tokenRes.ok ? await tokenRes.json() : null;
+                        const tokenParam = tokenData?.token ? `&token=${tokenData.token}` : "";
+                        const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${encodeURIComponent(slug)}${tokenParam}`;
+                        await navigator.clipboard.writeText(icsUrl);
+                        alert(
+                          "📅 Secure calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.",
+                        );
+                      } catch (err) {
+                        console.error("Failed to copy calendar token:", err);
+                        alert("Could not generate secure calendar link. Please try again.");
+                      }
+                    }}
+                    icon={
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect
+                          x="9"
+                          y="9"
+                          width="13"
+                          height="13"
+                          rx="2"
+                          ry="2"
+                        />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </svg>
+                    }
+                    className="shrink-0 cursor-pointer"
+                  >
+                    Copy Feed URL
+                  </SeventhButton>
+                </div>
+
+                {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
+                <div className="mb-6 grid shrink-0 grid-cols-2 gap-2 border border-white/10 bg-[#00000029] p-1">
+                  {activeScheduleTab === "my_schedule" ? (
+                    <SeventhButton
+                      type="button"
+                      onClick={() => setActiveScheduleTab("my_schedule")}
+                      icon={false}
+                      className="cursor-pointer"
+                    >
+                      My Shift Schedule ({activeShifts.length})
+                    </SeventhButton>
+                  ) : (
                     <button
                       type="button"
-                      aria-label="Toggle schedule"
-                      onClick={() =>
-                        setIsScheduleCollapsed(!isScheduleCollapsed)
-                      }
-                      className={`flex h-8 w-8 items-center justify-center  border border-white/10 ${isScheduleCollapsed ? "rotate-180" : ""}`}
+                      onClick={() => setActiveScheduleTab("my_schedule")}
+                      className="transition-colors flex cursor-pointer items-center justify-center border-none py-2 hover:text-white"
                     >
-                      <ChevronDown className="h-4 w-4" />
+                      My Shift Schedule ({activeShifts.length})
                     </button>
-                  </div>
+                  )}
+
+                  {activeScheduleTab === "tour_events" ? (
+                    <SeventhButton
+                      type="button"
+                      onClick={() => setActiveScheduleTab("tour_events")}
+                      icon={false}
+                      className="cursor-pointer"
+                    >
+                      Band Tour Events ({tourDates.length})
+                    </SeventhButton>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setActiveScheduleTab("tour_events")}
+                      className="transition-colors flex cursor-pointer items-center justify-center border-none py-2 hover:text-white"
+                    >
+                      Band Tour Events ({tourDates.length})
+                    </button>
+                  )}
                 </div>
-                {!isScheduleCollapsed && (
-                  <div className="pt-4">
-                    {/* Calendar Feed Subscription Utility */}
-                    <div className="mb-6 flex flex-col items-center justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 sm:flex-row">
-                      <div className="flex items-start gap-3">
-                        <div>
-                          <p>Sync with Google & Apple Calendar</p>
-                          <p className="mt-0.5">
-                            Subscribe to your personal live shift calendar feed
-                            to view updates on your phone.
-                          </p>
-                        </div>
-                      </div>
-                      <SeventhButton
-                        onClick={() => {
-                          const icsUrl = `${window.location.origin}/api/crew/calendar.ics?crewId=${slug}`;
-                          navigator.clipboard.writeText(icsUrl);
-                          alert(
-                            "📅 Calendar subscription link copied to clipboard!\n\nPaste this URL into Google Calendar (Add by URL) or Apple Calendar (Calendar Subscription) to sync your shifts.",
-                          );
-                        }}
-                        icon={
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+
+                {activeScheduleTab === "my_schedule" ? (
+                  activeShifts.length === 0 ? (
+                    <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center">
+                      <p>You have no upcoming work shifts scheduled.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col">
+                      {activeShifts.map((shift, index) => {
+                        const dateObj = new Date(shift.date + "T00:00:00");
+                        const month = isNaN(dateObj.getTime())
+                          ? "JAN"
+                          : dateObj
+                            .toLocaleDateString("en-US", {
+                              month: "short",
+                            })
+                            .toUpperCase();
+                        const dayNum = isNaN(dateObj.getTime())
+                          ? "00"
+                          : dateObj.getDate();
+                        const weekday = isNaN(dateObj.getTime())
+                          ? "Day"
+                          : dateObj.toLocaleDateString("en-US", {
+                            weekday: "short",
+                          });
+
+                        return (
+                          <div
+                            key={shift.id}
+                            className="transition-colors flex flex-col justify-between gap-3 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
+                            style={{
+                              borderBottom:
+                                "1px solid rgba(255, 255, 255, 0.08)",
+                            }}
                           >
-                            <rect
-                              x="9"
-                              y="9"
-                              width="13"
-                              height="13"
-                              rx="2"
-                              ry="2"
-                            />
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                          </svg>
-                        }
-                        className="shrink-0 cursor-pointer"
-                      >
-                        Copy Feed URL
-                      </SeventhButton>
-                    </div>
-
-                    {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
-                    <div className="mb-6 grid shrink-0 grid-cols-2 gap-2  border border-white/10 bg-[#00000029] p-1">
-                      {activeScheduleTab === "my_schedule" ? (
-                        <SeventhButton
-                          type="button"
-                          onClick={() => setActiveScheduleTab("my_schedule")}
-                          icon={false}
-                          className="cursor-pointer"
-                        >
-                          My Shift Schedule ({activeShifts.length})
-                        </SeventhButton>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setActiveScheduleTab("my_schedule")}
-                          className="flex cursor-pointer items-center justify-center  border-none py-2 hover:text-white"
-                        >
-                          My Shift Schedule ({activeShifts.length})
-                        </button>
-                      )}
-
-                      {activeScheduleTab === "tour_events" ? (
-                        <SeventhButton
-                          type="button"
-                          onClick={() => setActiveScheduleTab("tour_events")}
-                          icon={false}
-                          className="cursor-pointer"
-                        >
-                          Band Tour Events ({tourDates.length})
-                        </SeventhButton>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setActiveScheduleTab("tour_events")}
-                          className="flex cursor-pointer items-center justify-center  border-none py-2 hover:text-white"
-                        >
-                          Band Tour Events ({tourDates.length})
-                        </button>
-                      )}
-                    </div>
-
-                    {activeScheduleTab === "my_schedule" ? (
-                      activeShifts.length === 0 ? (
-                        <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center">
-                          <p>You have no upcoming work shifts scheduled.</p>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col">
-                          {activeShifts.map((shift, index) => {
-                            const dateObj = new Date(shift.date + "T00:00:00");
-                            const month = isNaN(dateObj.getTime())
-                              ? "JAN"
-                              : dateObj
-                                .toLocaleDateString("en-US", {
-                                  month: "short",
-                                })
-                                .toUpperCase();
-                            const dayNum = isNaN(dateObj.getTime())
-                              ? "00"
-                              : dateObj.getDate();
-                            const weekday = isNaN(dateObj.getTime())
-                              ? "Day"
-                              : dateObj.toLocaleDateString("en-US", {
-                                weekday: "short",
-                              });
-
-                            return (
+                            {/* Date & Time Column */}
+                            <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
                               <div
-                                key={shift.id}
-                                className="flex flex-col justify-between gap-3 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
-                                style={{
-                                  borderBottom:
-                                    "1px solid rgba(255, 255, 255, 0.08)",
-                                }}
+                                className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center border text-center ${shift.approvalStatus === "pending" ? "border-yellow-500/30 bg-yellow-500/10" : "border-white/20 bg-purple-600/10"} `}
                               >
-                                {/* Date & Time Column */}
-                                <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
-                                  <div
-                                    className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center  border text-center ${shift.approvalStatus === "pending" ? "border-yellow-500/30 bg-yellow-500/10" : "border-white/20 bg-purple-600/10"}`}
-                                  >
-                                    <span
-                                      className={`text-[8px] ${shift.approvalStatus === "pending" ? "text-yellow-400" : " "}`}
-                                    >
-                                      {month}
-                                    </span>
-                                    <span className="mt-0.5">{dayNum}</span>
-                                  </div>
-                                  <div className="flex flex-col">
-                                    <span className="text-[10px] text-white/40">
-                                      {weekday}
-                                    </span>
-                                    <span className="mt-0.5 text-[10px]">
-                                      Call: {shift.time}
-                                    </span>
-                                  </div>
-                                </div>
+                                <span
+                                  className={`text-[8px] ${shift.approvalStatus === "pending" ? "text-yellow-400" : " "} `}
+                                >
+                                  {month}
+                                </span>
+                                <span className="mt-0.5">{dayNum}</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-[10px] text-white/40">
+                                  {weekday}
+                                </span>
+                                <span className="mt-0.5 text-[10px]">
+                                  Call: {shift.time}
+                                </span>
+                              </div>
+                            </div>
 
-                                {/* Role & Location Column */}
-                                <div className="min-w-[160px] flex-1">
-                                  <div className="flex flex-wrap items-center gap-2">
-                                    <SectionBadge label={shift.role} />
-                                    {(() => {
-                                      const matchingVenue = venues.find(
-                                        (v) =>
-                                          v.name.toLowerCase() ===
-                                          shift.location.toLowerCase(),
-                                      );
-                                      if (matchingVenue) {
-                                        return (
-                                          <button
-                                            type="button"
-                                            onClick={() =>
-                                              setSelectedVenuePopup(
-                                                matchingVenue,
-                                              )
-                                            }
-                                            className="flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
-                                            title="Click to view venue load-in, parking & WiFi details"
-                                          >
-                                            <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
-                                            {shift.location}{" "}
-                                            <span className="text-[12px] text-[var(--color-accent)]/80">
-                                              ℹ️
-                                            </span>
-                                          </button>
-                                        );
-                                      }
-                                      return (
-                                        <span className="/90">
-                                          📍 {shift.location}
-                                        </span>
-                                      );
-                                    })()}
-                                    {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
-                                    <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                                      <AvailabilityCardForm
-                                        availDate={availDate}
-                                        setAvailDate={setAvailDate}
-                                        availType={availType}
-                                        setAvailType={setAvailType}
-                                        availNote={availNote}
-                                        setAvailNote={setAvailNote}
-                                        onSubmit={handleAddAvailability}
-                                        myAvailabilities={myAvailabilities}
-                                        onRemove={handleRemoveAvailability}
-                                      />
-                                      <TimeOffCardForm
-                                        timeOffDate={timeOffDate}
-                                        setTimeOffDate={setTimeOffDate}
-                                        timeOffReason={timeOffReason}
-                                        setTimeOffReason={setTimeOffReason}
-                                        onSubmit={handleAddTimeOffRequest}
-                                        myTimeOffRequests={myTimeOffRequests}
-                                        onRemove={handleRemoveTimeOffRequest}
-                                      />
-                                    </div>
-                                    <button
-                                      type="button"
-                                      onClick={() =>
-                                        setActiveDiscussionDate(shift.date)
-                                      }
-                                      className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
-                                      title="View show lineup acts and discuss details with crew"
-                                    >
-                                      💬 Lineup & Discuss
-                                    </button>
-                                  </div>
-                                </div>
-
-                                {/* Status Badge & Action Column */}
-                                <div className="flex min-w-[130px] shrink-0 items-center text-left md:justify-end md:text-right">
-                                  {shift.approvalStatus === "approved" ||
-                                    !shift.approvalStatus ? (
-                                    <div className="flex items-center gap-1.5">
-                                      <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[12px] text-[var(--color-accent)]">
-                                        ✓ Confirmed
-                                      </span>
-                                      {shift.isCoverageRequested ? (
-                                        <span className="shrink-0 animate-pulse rounded border border-white/10 bg-[var(--color-accent)]/10 px-1.5 py-0.5 text-[12px]">
-                                          ⏳ Coverage Requested
-                                        </span>
-                                      ) : (
-                                        <>
-                                          <button
-                                            type="button"
-                                            onClick={() => {
-                                              setEmailSubject(
-                                                `Shift Inquiry: ${shift.date} at ${shift.location}`,
-                                              );
-                                              setEmailMessage(`Hi Admin,
-
-I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
-
-[Your message here]`);
-                                              setIsEmailModalOpen(true);
-                                            }}
-                                            className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
-                                          >
-                                            ✉️ Email Admin
-                                          </button>
-                                          <button
-                                            type="button"
-                                            onClick={() =>
-                                              setRequestingCoverageShift(shift)
-                                            }
-                                            className="cursor-pointer rounded border-none bg-[var(--color-accent)] px-2 py-0.5 text-[12px] hover:bg-[var(--color-accent)]"
-                                          >
-                                            🙋 Swap
-                                          </button>
-                                        </>
-                                      )}
-                                    </div>
-                                  ) : shift.approvalStatus === "declined" ? (
-                                    <div className="flex items-center gap-1.5">
-                                      <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
-                                        ✗ Declined
-                                      </span>
+                            {/* Role & Location Column */}
+                            <div className="min-w-[160px] flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <SectionBadge label={shift.role} />
+                                {(() => {
+                                  const matchingVenue = venues.find(
+                                    (v) =>
+                                      v.name.toLowerCase() ===
+                                      shift.location.toLowerCase(),
+                                  );
+                                  if (matchingVenue) {
+                                    return (
                                       <button
                                         type="button"
                                         onClick={() =>
-                                          handleShiftResponse(
-                                            shift.id,
-                                            "approved",
+                                          setSelectedVenuePopup(
+                                            matchingVenue,
                                           )
                                         }
-                                        className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
+                                        className="transition-colors flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
+                                        title="Click to view venue load-in, parking & WiFi details"
                                       >
-                                        Confirm
+                                        <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
+                                        {shift.location}{" "}
+                                        <span className="text-[12px] text-[var(--color-accent)]/80">
+                                          ℹ️
+                                        </span>
                                       </button>
+                                    );
+                                  }
+                                  return (
+                                    <span className="/90">
+                                      📍 {shift.location}
+                                    </span>
+                                  );
+                                })()}
+                                {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
+                                <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                                  <AvailabilityCardForm
+                                    availDate={availDate}
+                                    setAvailDate={setAvailDate}
+                                    availType={availType}
+                                    setAvailType={setAvailType}
+                                    availNote={availNote}
+                                    setAvailNote={setAvailNote}
+                                    onSubmit={handleAddAvailability}
+                                    myAvailabilities={myAvailabilities}
+                                    onRemove={handleRemoveAvailability}
+                                  />
+                                  <TimeOffCardForm
+                                    timeOffDate={timeOffDate}
+                                    setTimeOffDate={setTimeOffDate}
+                                    timeOffReason={timeOffReason}
+                                    setTimeOffReason={setTimeOffReason}
+                                    onSubmit={handleAddTimeOffRequest}
+                                    myTimeOffRequests={myTimeOffRequests}
+                                    onRemove={handleRemoveTimeOffRequest}
+                                  />
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setActiveDiscussionDate(shift.date)
+                                  }
+                                  className="transition-colors cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
+                                  title="View show lineup acts and discuss details with crew"
+                                >
+                                  💬 Lineup & Discuss
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Status Badge & Action Column */}
+                            <div className="flex min-w-[130px] shrink-0 items-center text-left md:justify-end md:text-right">
+                              {shift.approvalStatus === "approved" ||
+                                !shift.approvalStatus ? (
+                                <div className="flex items-center gap-1.5">
+                                  <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[12px] text-[var(--color-accent)]">
+                                    ✓ Confirmed
+                                  </span>
+                                  {shift.isCoverageRequested ? (
+                                    <span className="shrink-0 animate-pulse rounded border border-white/10 bg-[var(--color-accent)]/10 px-1.5 py-0.5 text-[12px]">
+                                      ⏳ Coverage Requested
+                                    </span>
+                                  ) : (
+                                    <>
                                       <button
                                         type="button"
                                         onClick={() => {
                                           setEmailSubject(
-                                            `Declined Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                            `Shift Inquiry: ${shift.date} at ${shift.location}`,
                                           );
                                           setEmailMessage(`Hi Admin,
+
+I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
+
+[Your message here]`);
+                                          setIsEmailModalOpen(true);
+                                        }}
+                                        className="transition-colors cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
+                                      >
+                                        ✉️ Email Admin
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          setRequestingCoverageShift(shift)
+                                        }
+                                        className="transition-colors cursor-pointer rounded border-none bg-[var(--color-accent)] px-2 py-0.5 text-[12px] hover:bg-[var(--color-accent)]"
+                                      >
+                                        🙋 Swap
+                                      </button>
+                                    </>
+                                  )}
+                                </div>
+                              ) : shift.approvalStatus === "declined" ? (
+                                <div className="flex items-center gap-1.5">
+                                  <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
+                                    ✗ Declined
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      handleShiftResponse(
+                                        shift.id,
+                                        "approved",
+                                      )
+                                    }
+                                    className="transition-colors cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
+                                  >
+                                    Confirm
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setEmailSubject(
+                                        `Declined Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                      );
+                                      setEmailMessage(`Hi Admin,
 
 I wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.
 
 Reason for decline: ${shift.declineReason || ""}
 
 [Your message here]`);
-                                          setIsEmailModalOpen(true);
-                                        }}
-                                        className="cursor-pointer rounded border-none bg-purple-600 px-2 py-0.5 text-[12px] hover:bg-purple-500"
-                                      >
-                                        ✉️ Email
-                                      </button>
-                                    </div>
-                                  ) : (
-                                    <div className="flex flex-col gap-1 md:items-end">
-                                      <span className="rounded border border-yellow-500/20 bg-yellow-500/10 px-1.5 py-0.5 text-[9px] text-yellow-500">
-                                        ⚠️ Action Required
-                                      </span>
-                                      <div className="flex items-center gap-1">
-                                        <button
-                                          type="button"
-                                          onClick={() =>
-                                            handleShiftResponse(
-                                              shift.id,
-                                              "approved",
-                                            )
-                                          }
-                                          className="cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
-                                        >
-                                          Confirm
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            decliningShiftIdRef.current =
-                                              shift.id;
-                                            setIsDeclineModalOpen(true);
-                                          }}
-                                          className="cursor-pointer rounded border border-rose-500/30 bg-rose-600/20 px-2 py-0.5 text-[12px] text-rose-200 hover:bg-rose-600 hover:text-white"
-                                        >
-                                          Decline
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setEmailSubject(
-                                              `Pending Shift Inquiry: ${shift.date} at ${shift.location}`,
-                                            );
-                                            setEmailMessage(`Hi Admin,
+                                      setIsEmailModalOpen(true);
+                                    }}
+                                    className="transition-colors cursor-pointer rounded border-none bg-purple-600 px-2 py-0.5 text-[12px] hover:bg-purple-500"
+                                  >
+                                    ✉️ Email
+                                  </button>
+                                </div>
+                              ) : (
+                                <div className="flex flex-col gap-1 md:items-end">
+                                  <span className="rounded border border-yellow-500/20 bg-yellow-500/10 px-1.5 py-0.5 text-[9px] text-yellow-500">
+                                    ⚠️ Action Required
+                                  </span>
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleShiftResponse(
+                                          shift.id,
+                                          "approved",
+                                        )
+                                      }
+                                      className="transition-colors cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
+                                    >
+                                      Confirm
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        decliningShiftIdRef.current =
+                                          shift.id;
+                                        setIsDeclineModalOpen(true);
+                                      }}
+                                      className="transition-colors cursor-pointer rounded border border-rose-500/30 bg-rose-600/20 px-2 py-0.5 text-[12px] text-rose-200 hover:bg-rose-600 hover:text-white"
+                                    >
+                                      Decline
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setEmailSubject(
+                                          `Pending Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                        );
+                                        setEmailMessage(`Hi Admin,
 
 I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
 
 [Your message here]`);
-                                            setIsEmailModalOpen(true);
-                                          }}
-                                          className="cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
-                                        >
-                                          ✉️ Email
-                                        </button>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-
-                                {/* Instructions/Notes Column */}
-                                {shift.notes || shift.declineReason ? (
-                                  <div className="flex-1 space-y-0.5  border border-white/10 bg-[#00000029] p-2 md:max-w-[40%]">
-                                    {shift.notes && (
-                                      <>
-                                        <p className="r">Instructions:</p>
-                                        <p className="leading-normal">
-                                          “{shift.notes}”
-                                        </p>
-                                      </>
-                                    )}
-                                    {shift.declineReason && (
-                                      <>
-                                        <p className="r text-rose-400/60">
-                                          Decline Reason:
-                                        </p>
-                                        <p className="leading-normal text-rose-300/80">
-                                          “{shift.declineReason}”
-                                        </p>
-                                      </>
-                                    )}
-                                  </div>
-                                ) : null}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )
-                    ) : tourDates.length === 0 ? (
-                      <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center">
-                        <p>No band tour events or shows loaded.</p>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col">
-                        {tourDates.map((show, index) => {
-                          const dateObj = new Date(show.date + "T00:00:00");
-                          const month = isNaN(dateObj.getTime())
-                            ? "JAN"
-                            : dateObj
-                              .toLocaleDateString("en-US", { month: "short" })
-                              .toUpperCase();
-                          const dayNum = isNaN(dateObj.getTime())
-                            ? "00"
-                            : dateObj.getDate();
-                          const weekday = isNaN(dateObj.getTime())
-                            ? "Day"
-                            : dateObj.toLocaleDateString("en-US", {
-                              weekday: "short",
-                            });
-
-                          const userShift = crewSchedules.find(
-                            (s) => s.date === show.date && s.crewId === slug,
-                          );
-                          const userAvail = myAvailabilities.find(
-                            (a) => a.date === show.date,
-                          );
-                          const matchingVenue = venues.find(
-                            (v) =>
-                              v.name.toLowerCase() === show.venue.toLowerCase(),
-                          );
-
-                          return (
-                            <div
-                              key={show.date + "_" + show.venue}
-                              className="flex flex-col justify-between gap-2.5 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
-                              style={{
-                                borderBottom:
-                                  "1px solid rgba(255, 255, 255, 0.08)",
-                              }}
-                            >
-                              {/* Date Column */}
-                              <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
-                                <div
-                                  className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center  border text-center ${userShift ? "border-purple-500/30 bg-purple-600/10" : "border-white/10 bg-[#00000029]"}`}
-                                >
-                                  <span
-                                    className={`text-[8px] ${userShift ? " " : "text-white/50"}`}
-                                  >
-                                    {month}
-                                  </span>
-                                  <span className="mt-0.5">{dayNum}</span>
-                                </div>
-                                <div className="flex flex-col">
-                                  <span className="text-[10px] text-white/40">
-                                    {weekday}
-                                  </span>
-                                  {show.playTime ? (
-                                    <>
-                                      <span
-                                        className="mt-0.5 text-[10px] text-rose-400"
-                                        title="Band Play Time"
-                                      >
-                                        🎸 {show.playTime}
-                                      </span>
-                                      {show.time && (
-                                        <span
-                                          className="mt-0.5 text-[8px] text-white/40"
-                                          title="Event Show Time"
-                                        >
-                                          Event: {show.time}
-                                        </span>
-                                      )}
-                                    </>
-                                  ) : (
-                                    <span className="mt-0.5 text-[10px]">
-                                      {show.time || "TBA"}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Show Venue & Details */}
-                              <div className="min-w-[160px] flex-1">
-                                <div className="flex flex-wrap items-center gap-1.5">
-                                  {matchingVenue ? (
-                                    <button
-                                      type="button"
-                                      onClick={() =>
-                                        setSelectedVenuePopup(matchingVenue)
-                                      }
-                                      className="flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
-                                      title="Click to view venue specs"
+                                        setIsEmailModalOpen(true);
+                                      }}
+                                      className="transition-colors cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
                                     >
-                                      <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
-                                      {show.venue}{" "}
-                                      <span className="text-[12px] text-[var(--color-accent)]/80">
-                                        ℹ️
-                                      </span>
+                                      ✉️ Email
                                     </button>
-                                  ) : (
-                                    <span className="/90 flex items-center gap-1">
-                                      <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
-                                      {show.venue}
-                                    </span>
-                                  )}
-                                  <span className="text-[10px] text-white/50">
-                                    ({show.city || "TBD"}
-                                    {show.state ? `, ${show.state}` : ""})
-                                  </span>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      setActiveDiscussionDate(show.date)
-                                    }
-                                    className="flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
-                                  >
-                                    <MessageSquare className="inline h-3 w-3" />{" "}
-                                    Lineup & Discuss
-                                  </button>
+                                  </div>
                                 </div>
-                                {show.notes && (
-                                  <p className="mt-0.5 max-w-md">
-                                    “{show.notes}”
-                                  </p>
-                                )}
-                              </div>
-
-                              {/* Staffing Status Column */}
-                              <div className="flex shrink-0 flex-wrap items-center gap-2 text-left md:justify-end md:text-right">
-                                {userShift ? (
-                                  <div className="flex items-center gap-1.5">
-                                    <SectionBadge
-                                      label={`🛡️ ${userShift.role}`}
-                                    />
-                                    {userShift.approvalStatus === "approved" ? (
-                                      <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[12px] text-[var(--color-accent)]">
-                                        ✓ Confirmed
-                                      </span>
-                                    ) : userShift.approvalStatus ===
-                                      "declined" ? (
-                                      <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
-                                        ✗ Declined
-                                      </span>
-                                    ) : (
-                                      <span className="shrink-0 animate-pulse rounded border border-yellow-500/30 bg-yellow-500/10 px-1.5 py-0.5 text-[12px] text-yellow-400">
-                                        ⏳ Pending
-                                      </span>
-                                    )}
-                                  </div>
-                                ) : (
-                                  <div className="flex items-center gap-1.5">
-                                    {userAvail ? (
-                                      <div className="flex items-center gap-1.5">
-                                        {userAvail.type === "available" ? (
-                                          <span className="rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 text-[12px]">
-                                            🟢 Available
-                                          </span>
-                                        ) : (
-                                          <span className="rounded-lg border border-purple-500/25 bg-purple-600/10 px-1.5 py-0.5 text-[12px]">
-                                            🔴 Unavailable
-                                          </span>
-                                        )}
-                                        <button
-                                          type="button"
-                                          onClick={() =>
-                                            handleRemoveAvailability(
-                                              userAvail.id,
-                                            )
-                                          }
-                                          className="cursor-pointer rounded border-none bg-white/10 px-1 py-0.5 text-[10px] text-white/50 hover:bg-rose-500 hover:text-white"
-                                          title="Clear Availability"
-                                        >
-                                          ✕
-                                        </button>
-                                      </div>
-                                    ) : (
-                                      <>
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            const newItem: AvailabilityItem = {
-                                              id:
-                                                "avail_" +
-                                                Date.now() +
-                                                "_" +
-                                                Math.random()
-                                                  .toString(36)
-                                                  .substr(2, 4),
-                                              crewId: slug,
-                                              date: show.date,
-                                              type: "available",
-                                            };
-                                            try {
-                                              const savedAvail =
-                                                localStorage.getItem(
-                                                  "7h_crew_availability_v1",
-                                                ) ||
-                                                localStorage.getItem(
-                                                  "7h_crew_availability",
-                                                );
-                                              const currentList: AvailabilityItem[] =
-                                                savedAvail
-                                                  ? JSON.parse(savedAvail)
-                                                  : [];
-                                              const filtered =
-                                                currentList.filter(
-                                                  (item) =>
-                                                    !(
-                                                      item.crewId === slug &&
-                                                      item.date === show.date
-                                                    ),
-                                                );
-                                              const nextList = [
-                                                ...filtered,
-                                                newItem,
-                                              ];
-                                              localStorage.setItem(
-                                                "7h_crew_availability_v1",
-                                                JSON.stringify(nextList),
-                                              );
-                                              window.dispatchEvent(
-                                                new Event("storage"),
-                                              );
-                                              setMyAvailabilities(
-                                                nextList.filter(
-                                                  (a) => a.crewId === slug,
-                                                ),
-                                              );
-                                              showToast(
-                                                "Logged as Available!",
-                                                "success",
-                                                "Logged Available",
-                                              );
-                                            } catch (err) {
-                                              showToast(
-                                                "Failed to save availability",
-                                                "error",
-                                                "Error",
-                                              );
-                                            }
-                                          }}
-                                          className="hover: cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] hover:border-emerald-500/40 hover:bg-emerald-500"
-                                        >
-                                          🟢 Available
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            const newItem: AvailabilityItem = {
-                                              id:
-                                                "avail_" +
-                                                Date.now() +
-                                                "_" +
-                                                Math.random()
-                                                  .toString(36)
-                                                  .substr(2, 4),
-                                              crewId: slug,
-                                              date: show.date,
-                                              type: "unavailable",
-                                            };
-                                            try {
-                                              const savedAvail =
-                                                localStorage.getItem(
-                                                  "7h_crew_availability_v1",
-                                                ) ||
-                                                localStorage.getItem(
-                                                  "7h_crew_availability",
-                                                );
-                                              const currentList: AvailabilityItem[] =
-                                                savedAvail
-                                                  ? JSON.parse(savedAvail)
-                                                  : [];
-                                              const filtered =
-                                                currentList.filter(
-                                                  (item) =>
-                                                    !(
-                                                      item.crewId === slug &&
-                                                      item.date === show.date
-                                                    ),
-                                                );
-                                              const nextList = [
-                                                ...filtered,
-                                                newItem,
-                                              ];
-                                              localStorage.setItem(
-                                                "7h_crew_availability_v1",
-                                                JSON.stringify(nextList),
-                                              );
-                                              window.dispatchEvent(
-                                                new Event("storage"),
-                                              );
-                                              setMyAvailabilities(
-                                                nextList.filter(
-                                                  (a) => a.crewId === slug,
-                                                ),
-                                              );
-                                              showToast(
-                                                "Logged as Unavailable!",
-                                                "info",
-                                                "Logged Unavailable",
-                                              );
-                                            } catch (err) {
-                                              showToast(
-                                                "Failed to save availability",
-                                                "error",
-                                                "Error",
-                                              );
-                                            }
-                                          }}
-                                          className="cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] hover:border-purple-500/40 hover:bg-purple-600 hover:text-white"
-                                        >
-                                          🔴 Unavailable
-                                        </button>
-                                      </>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
+                              )}
                             </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
 
-              {/* Available Shift Coverage Requests */}
-              {coverageShifts.length > 0 && (
-                <div className="mt-6 overflow-hidden border border-black/10 bg-white">
-                  <div className="flex items-center justify-between border-b border-black/10 bg-gray-50 p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center border border-white/10 bg-[var(--color-accent)]/20 text-xl">
-                        🚨
-                      </div>
-                      <div>
-                        <h3 className="text-black">
-                          Available Shift Coverage Requests
-                        </h3>
-                        <p className="text-black/40">
-                          First qualified crew member to claim gets it
-                        </p>
-                      </div>
+                            {/* Instructions/Notes Column */}
+                            {shift.notes || shift.declineReason ? (
+                              <div className="flex-1 space-y-0.5 border border-white/10 bg-[#00000029] p-2 md:max-w-[40%]">
+                                {shift.notes && (
+                                  <>
+                                    <p className="r">Instructions:</p>
+                                    <p className="leading-normal">
+                                      “{shift.notes}”
+                                    </p>
+                                  </>
+                                )}
+                                {shift.declineReason && (
+                                  <>
+                                    <p className="r text-rose-400/60">
+                                      Decline Reason:
+                                    </p>
+                                    <p className="leading-normal text-rose-300/80">
+                                      “{shift.declineReason}”
+                                    </p>
+                                  </>
+                                )}
+                              </div>
+                            ) : null}
+                          </div>
+                        );
+                      })}
                     </div>
-                    <span className="animate-pulse  border border-white/10 bg-[var(--color-accent)]/10 px-3 py-1">
-                      {coverageShifts.length} Available
-                    </span>
+                  )
+                ) : tourDates.length === 0 ? (
+                  <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center">
+                    <p>No band tour events or shows loaded.</p>
                   </div>
-                  <div className="flex flex-col gap-3 p-6">
-                    {coverageShifts.map((shift) => {
-                      const dateObj = new Date(shift.date + "T00:00:00");
+                ) : (
+                  <div className="flex flex-col">
+                    {tourDates.map((show, index) => {
+                      const dateObj = new Date(show.date + "T00:00:00");
                       const month = isNaN(dateObj.getTime())
                         ? "JAN"
                         : dateObj
@@ -5601,206 +5271,548 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           weekday: "short",
                         });
 
+                      const userShift = crewSchedules.find(
+                        (s) => s.date === show.date && s.crewId === slug,
+                      );
+                      const userAvail = myAvailabilities.find(
+                        (a) => a.date === show.date,
+                      );
+                      const matchingVenue = venues.find(
+                        (v) =>
+                          v.name.toLowerCase() === show.venue.toLowerCase(),
+                      );
+
                       return (
                         <div
-                          key={shift.id}
-                          className="flex flex-col justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 hover:border-[var(--color-accent)]/40 md:flex-row md:items-center"
+                          key={show.date + "_" + show.venue}
+                          className="transition-colors flex flex-col justify-between gap-2.5 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
+                          style={{
+                            borderBottom:
+                              "1px solid rgba(255, 255, 255, 0.08)",
+                          }}
                         >
-                          {/* Date & Time */}
-                          <div className="flex min-w-[180px] shrink-0 items-center gap-3">
-                            <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center  border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 text-center">
-                              <span className="r text-[var(--color-accent)]">
+                          {/* Date Column */}
+                          <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
+                            <div
+                              className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center border text-center ${userShift ? "border-purple-500/30 bg-purple-600/10" : "border-white/10 bg-[#00000029]"} `}
+                            >
+                              <span
+                                className={`text-[8px] ${userShift ? " " : "text-white/50"} `}
+                              >
                                 {month}
                               </span>
                               <span className="mt-0.5">{dayNum}</span>
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-black/30">{weekday}</span>
-                              <span className="mt-0.5 text-[var(--color-accent)]">
-                                {shift.time}
+                              <span className="text-[10px] text-white/40">
+                                {weekday}
                               </span>
+                              {show.playTime ? (
+                                <>
+                                  <span
+                                    className="mt-0.5 text-[10px] text-rose-400"
+                                    title="Band Play Time"
+                                  >
+                                    🎸 {show.playTime}
+                                  </span>
+                                  {show.time && (
+                                    <span
+                                      className="mt-0.5 text-[8px] text-white/40"
+                                      title="Event Show Time"
+                                    >
+                                      Event: {show.time}
+                                    </span>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="mt-0.5 text-[10px]">
+                                  {show.time || "TBA"}
+                                </span>
+                              )}
                             </div>
                           </div>
 
-                          {/* Role & Location */}
-                          <div className="min-w-[200px] flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <SectionBadge label={shift.role} />
-                              {(() => {
-                                const matchingVenue = venues.find(
-                                  (v) =>
-                                    v.name.toLowerCase() ===
-                                    shift.location.toLowerCase(),
-                                );
-                                if (matchingVenue) {
-                                  return (
-                                    <button
-                                      type="button"
-                                      onClick={() =>
-                                        setSelectedVenuePopup(matchingVenue)
-                                      }
-                                      className="flex cursor-pointer items-center gap-0.5 border-none p-0 hover:text-purple-200 hover:underline"
-                                      title="Click to view venue load-in, parking & WiFi details"
-                                    >
-                                      📍 {shift.location}{" "}
-                                      <span className="text-[var(--color-accent)]/80">
-                                        ℹ️
-                                      </span>
-                                    </button>
-                                  );
-                                }
-                                return (
-                                  <span className="text-black/80">
-                                    📍 {shift.location}
+                          {/* Show Venue & Details */}
+                          <div className="min-w-[160px] flex-1">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              {matchingVenue ? (
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setSelectedVenuePopup(matchingVenue)
+                                  }
+                                  className="transition-colors flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
+                                  title="Click to view venue specs"
+                                >
+                                  <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
+                                  {show.venue}{" "}
+                                  <span className="text-[12px] text-[var(--color-accent)]/80">
+                                    ℹ️
                                   </span>
-                                );
-                              })()}
+                                </button>
+                              ) : (
+                                <span className="/90 flex items-center gap-1">
+                                  <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
+                                  {show.venue}
+                                </span>
+                              )}
+                              <span className="text-[10px] text-white/50">
+                                ({show.city || "TBD"}
+                                {show.state ? `, ${show.state}` : ""})
+                              </span>
                               <button
                                 type="button"
                                 onClick={() =>
-                                  setActiveDiscussionDate(shift.date)
+                                  setActiveDiscussionDate(show.date)
                                 }
-                                className="cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 select-none hover:bg-purple-600 hover:text-white"
-                                title="View show lineup acts and discuss details with crew"
+                                className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
                               >
-                                💬 Lineup & Discuss
+                                <MessageSquare className="inline h-3 w-3" />{" "}
+                                Lineup & Discuss
                               </button>
-                              <span className="ml-1 text-[var(--color-accent)]/80">
-                                (For: {shift.crewName})
-                              </span>
                             </div>
+                            {show.notes && (
+                              <p className="mt-0.5 max-w-md">
+                                “{show.notes}”
+                              </p>
+                            )}
                           </div>
 
-                          {/* Action Column */}
-                          <div className="flex min-w-[120px] shrink-0 items-center gap-2 text-left md:justify-end md:text-right">
-                            <button
-                              type="button"
-                              onClick={() => handleAcceptCoverage(shift.id)}
-                              className="flex cursor-pointer items-center gap-1  border-none bg-[var(--color-accent)] px-3 py-1.5 hover:bg-[var(--color-accent)]"
-                            >
-                              🙋 Accept Shift
-                            </button>
+                          {/* Staffing Status Column */}
+                          <div className="flex shrink-0 flex-wrap items-center gap-2 text-left md:justify-end md:text-right">
+                            {userShift ? (
+                              <div className="flex items-center gap-1.5">
+                                <SectionBadge
+                                  label={`🛡️ ${userShift.role}`}
+                                />
+                                {userShift.approvalStatus === "approved" ? (
+                                  <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[12px] text-[var(--color-accent)]">
+                                    ✓ Confirmed
+                                  </span>
+                                ) : userShift.approvalStatus ===
+                                  "declined" ? (
+                                  <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
+                                    ✗ Declined
+                                  </span>
+                                ) : (
+                                  <span className="shrink-0 animate-pulse rounded border border-yellow-500/30 bg-yellow-500/10 px-1.5 py-0.5 text-[12px] text-yellow-400">
+                                    ⏳ Pending
+                                  </span>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1.5">
+                                {userAvail ? (
+                                  <div className="flex items-center gap-1.5">
+                                    {userAvail.type === "available" ? (
+                                      <span className="rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 text-[12px]">
+                                        🟢 Available
+                                      </span>
+                                    ) : (
+                                      <span className="rounded-lg border border-purple-500/25 bg-purple-600/10 px-1.5 py-0.5 text-[12px]">
+                                        🔴 Unavailable
+                                      </span>
+                                    )}
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleRemoveAvailability(
+                                          userAvail.id,
+                                        )
+                                      }
+                                      className="transition-colors cursor-pointer rounded border-none bg-white/10 px-1 py-0.5 text-[10px] text-white/50 hover:bg-rose-500 hover:text-white"
+                                      title="Clear Availability"
+                                    >
+                                      ✕
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const newItem: AvailabilityItem = {
+                                          id:
+                                            "avail_" +
+                                            Date.now() +
+                                            "_" +
+                                            Math.random()
+                                              .toString(36)
+                                              .substr(2, 4),
+                                          crewId: slug,
+                                          date: show.date,
+                                          type: "available",
+                                        };
+                                        try {
+                                          const savedAvail =
+                                            localStorage.getItem(
+                                              "7h_crew_availability_v1",
+                                            ) ||
+                                            localStorage.getItem(
+                                              "7h_crew_availability",
+                                            );
+                                          const currentList: AvailabilityItem[] =
+                                            savedAvail
+                                              ? JSON.parse(savedAvail)
+                                              : [];
+                                          const filtered =
+                                            currentList.filter(
+                                              (item) =>
+                                                !(
+                                                  item.crewId === slug &&
+                                                  item.date === show.date
+                                                ),
+                                            );
+                                          const nextList = [
+                                            ...filtered,
+                                            newItem,
+                                          ];
+                                          localStorage.setItem(
+                                            "7h_crew_availability_v1",
+                                            JSON.stringify(nextList),
+                                          );
+                                          window.dispatchEvent(
+                                            new Event("storage"),
+                                          );
+                                          setMyAvailabilities(
+                                            nextList.filter(
+                                              (a) => a.crewId === slug,
+                                            ),
+                                          );
+                                          showToast(
+                                            "Logged as Available!",
+                                            "success",
+                                            "Logged Available",
+                                          );
+                                        } catch (err) {
+                                          showToast(
+                                            "Failed to save availability",
+                                            "error",
+                                            "Error",
+                                          );
+                                        }
+                                      }}
+                                      className="transition-colors hover: cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] hover:border-emerald-500/40 hover:bg-emerald-500"
+                                    >
+                                      🟢 Available
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const newItem: AvailabilityItem = {
+                                          id:
+                                            "avail_" +
+                                            Date.now() +
+                                            "_" +
+                                            Math.random()
+                                              .toString(36)
+                                              .substr(2, 4),
+                                          crewId: slug,
+                                          date: show.date,
+                                          type: "unavailable",
+                                        };
+                                        try {
+                                          const savedAvail =
+                                            localStorage.getItem(
+                                              "7h_crew_availability_v1",
+                                            ) ||
+                                            localStorage.getItem(
+                                              "7h_crew_availability",
+                                            );
+                                          const currentList: AvailabilityItem[] =
+                                            savedAvail
+                                              ? JSON.parse(savedAvail)
+                                              : [];
+                                          const filtered =
+                                            currentList.filter(
+                                              (item) =>
+                                                !(
+                                                  item.crewId === slug &&
+                                                  item.date === show.date
+                                                ),
+                                            );
+                                          const nextList = [
+                                            ...filtered,
+                                            newItem,
+                                          ];
+                                          localStorage.setItem(
+                                            "7h_crew_availability_v1",
+                                            JSON.stringify(nextList),
+                                          );
+                                          window.dispatchEvent(
+                                            new Event("storage"),
+                                          );
+                                          setMyAvailabilities(
+                                            nextList.filter(
+                                              (a) => a.crewId === slug,
+                                            ),
+                                          );
+                                          showToast(
+                                            "Logged as Unavailable!",
+                                            "info",
+                                            "Logged Unavailable",
+                                          );
+                                        } catch (err) {
+                                          showToast(
+                                            "Failed to save availability",
+                                            "error",
+                                            "Error",
+                                          );
+                                        }
+                                      }}
+                                      className="transition-colors cursor-pointer rounded border border-white/10 bg-white/10 px-2 py-0.5 text-[12px] hover:border-purple-500/40 hover:bg-purple-600 hover:text-white"
+                                    >
+                                      🔴 Unavailable
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       );
                     })}
                   </div>
-                </div>
-              )}
-            </>
-          );
-        })()}
+                )}
+              </div>
+            )}
 
-        {/* End Stream Modal */}
-        {showEndModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-            <div className="relative w-full max-w-md overflow-hidden border border-black/10 bg-white p-8">
-              {isSavingReplay && (
-                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
-                  <div className="mb-6 h-12 w-12 animate-spin  border-4 border-emerald-500 border-t-transparent"></div>
-                  <h3 className="text-emerald-400">Processing & Saving...</h3>
-                  <p className="mt-2 text-black/40">
-                    Compressing VOD to Gallery
-                  </p>
+            {/* Available Shift Coverage Requests */}
+            {coverageShifts.length > 0 && (
+              <div className="mt-6 overflow-hidden border border-black/10 bg-white">
+                <div className="flex items-center justify-between border-b border-black/10 bg-gray-50 p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center border border-white/10 bg-[var(--color-accent)]/20 text-xl">
+                      🚨
+                    </div>
+                    <div>
+                      <h3 className="text-black">
+                        Available Shift Coverage Requests
+                      </h3>
+                      <p className="text-black/40">
+                        First qualified crew member to claim gets it
+                      </p>
+                    </div>
+                  </div>
+                  <span className="animate-pulse border border-white/10 bg-[var(--color-accent)]/10 px-3 py-1">
+                    {coverageShifts.length} Available
+                  </span>
                 </div>
-              )}
+                <div className="flex flex-col gap-3 p-6">
+                  {coverageShifts.map((shift) => {
+                    const dateObj = new Date(shift.date + "T00:00:00");
+                    const month = isNaN(dateObj.getTime())
+                      ? "JAN"
+                      : dateObj
+                        .toLocaleDateString("en-US", { month: "short" })
+                        .toUpperCase();
+                    const dayNum = isNaN(dateObj.getTime())
+                      ? "00"
+                      : dateObj.getDate();
+                    const weekday = isNaN(dateObj.getTime())
+                      ? "Day"
+                      : dateObj.toLocaleDateString("en-US", {
+                        weekday: "short",
+                      });
 
-              <div className="relative z-10 mb-8 text-center">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border border-red-500/30 bg-red-500/20">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#ef4444"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <rect x="9" y="9" width="6" height="6" />
-                  </svg>
+                    return (
+                      <div
+                        key={shift.id}
+                        className="transition-colors flex flex-col justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 hover:border-[var(--color-accent)]/40 md:flex-row md:items-center"
+                      >
+                        {/* Date & Time */}
+                        <div className="flex min-w-[180px] shrink-0 items-center gap-3">
+                          <div className="flex h-11 w-11 shrink-0 flex-col items-center justify-center border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 text-center">
+                            <span className="r text-[var(--color-accent)]">
+                              {month}
+                            </span>
+                            <span className="mt-0.5">{dayNum}</span>
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-black/30">{weekday}</span>
+                            <span className="mt-0.5 text-[var(--color-accent)]">
+                              {shift.time}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Role & Location */}
+                        <div className="min-w-[200px] flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <SectionBadge label={shift.role} />
+                            {(() => {
+                              const matchingVenue = venues.find(
+                                (v) =>
+                                  v.name.toLowerCase() ===
+                                  shift.location.toLowerCase(),
+                              );
+                              if (matchingVenue) {
+                                return (
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setSelectedVenuePopup(matchingVenue)
+                                    }
+                                    className="transition-colors flex cursor-pointer items-center gap-0.5 border-none p-0 hover:text-purple-200 hover:underline"
+                                    title="Click to view venue load-in, parking & WiFi details"
+                                  >
+                                    📍 {shift.location}{" "}
+                                    <span className="text-[var(--color-accent)]/80">
+                                      ℹ️
+                                    </span>
+                                  </button>
+                                );
+                              }
+                              return (
+                                <span className="text-black/80">
+                                  📍 {shift.location}
+                                </span>
+                              );
+                            })()}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setActiveDiscussionDate(shift.date)
+                              }
+                              className="transition-colors cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 select-none hover:bg-purple-600 hover:text-white"
+                              title="View show lineup acts and discuss details with crew"
+                            >
+                              💬 Lineup & Discuss
+                            </button>
+                            <span className="ml-1 text-[var(--color-accent)]/80">
+                              (For: {shift.crewName})
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Action Column */}
+                        <div className="flex min-w-[120px] shrink-0 items-center gap-2 text-left md:justify-end md:text-right">
+                          <button
+                            type="button"
+                            onClick={() => handleAcceptCoverage(shift.id)}
+                            className="transition-colors flex cursor-pointer items-center gap-1 border-none bg-[var(--color-accent)] px-3 py-1.5 hover:bg-[var(--color-accent)]"
+                          >
+                            🙋 Accept Shift
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-                <h2 className="er mb-2 text-black">End Broadcast?</h2>
-                <p className="text-black/60">
-                  You are about to terminate the live broadcast to all fans. Are
-                  you sure you want to terminate the stream?
+              </div>
+            )}
+          </section>
+        );
+      })()}
+
+      {/* End Stream Modal */}
+      {showEndModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
+          <div className="relative w-full max-w-md overflow-hidden border border-black/10 bg-white p-8">
+            {isSavingReplay && (
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
+                <div className="mb-6 h-12 w-12 animate-spin border-4 border-emerald-500 border-t-transparent"></div>
+                <h3 className="text-emerald-400">Processing & Saving...</h3>
+                <p className="mt-2 text-black/40">
+                  Compressing VOD to Gallery
                 </p>
               </div>
+            )}
 
-              <div className="relative z-10 flex flex-col gap-3">
-                <button
-                  onClick={confirmEndDiscard}
-                  className="w-full  bg-red-500 py-4 shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:bg-red-400"
+            <div className="relative z-10 mb-8 text-center">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-red-500/30 bg-red-500/20">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#ef4444"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  End Broadcast
-                </button>
-                <button
-                  onClick={() => setShowEndModal(false)}
-                  className="hover: mt-2 w-full py-2 text-black/40"
-                >
-                  Cancel, Keep Streaming
-                </button>
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <rect x="9" y="9" width="6" height="6" />
+                </svg>
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* ─── DECLINE REASON MODAL ─── */}
-        {isDeclineModalOpen && (
-          <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-            <div className="relative w-full max-w-md space-y-4 border border-black/10 bg-gray-50 p-6">
-              <h3 className="flex items-center gap-2">
-                <span className="text-rose-500">✗</span> Decline Work Shift
-              </h3>
-              <p className="text-black/50">
-                Please provide a reason for declining this shift. This will be
-                saved to your shift history and shared with the
-                planner/administrator to assist with scheduling.
+              <h2 className="er mb-2 text-black">End Broadcast?</h2>
+              <p className="text-black/60">
+                You are about to terminate the live broadcast to all fans. Are
+                you sure you want to terminate the stream?
               </p>
-              <textarea
-                aria-label="Decline shift reason"
-                value={declineReason}
-                onChange={(e) => setDeclineReason(e.target.value)}
-                placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
-                className="focus-ring min-h-[100px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 outline-none"
-              />
-              <div className="flex items-center justify-end gap-2.5 pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsDeclineModalOpen(false);
-                    decliningShiftIdRef.current = null;
-                    setDeclineReason("");
-                  }}
-                  className="hover:  border border-black/10 px-4 py-2 text-black/70 hover:bg-gray-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  disabled={!declineReason.trim()}
-                  onClick={() => {
-                    if (decliningShiftIdRef.current) {
-                      handleShiftResponse(
-                        decliningShiftIdRef.current,
-                        "declined",
-                        declineReason,
-                      );
-                    }
-                    setIsDeclineModalOpen(false);
-                    decliningShiftIdRef.current = null;
-                    setDeclineReason("");
-                  }}
-                  className="cursor-pointer  border-none bg-rose-600 px-4 py-2 hover:bg-rose-500 disabled:cursor-not-allowed disabled:bg-rose-600/30 disabled:text-black/30"
-                >
-                  Submit Decline
-                </button>
-              </div>
+            </div>
+
+            <div className="relative z-10 flex flex-col gap-3">
+              <button
+                onClick={confirmEndDiscard}
+                className="transition-colors w-full bg-red-500 py-4 shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:bg-red-400"
+              >
+                End Broadcast
+              </button>
+              <button
+                onClick={() => setShowEndModal(false)}
+                className="hover: mt-2 w-full py-2 text-black/40"
+              >
+                Cancel, Keep Streaming
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* ─── DECLINE REASON MODAL ─── */}
+      {isDeclineModalOpen && (
+        <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+          <div className="relative w-full max-w-md space-y-4 border border-black/10 bg-gray-50 p-6">
+            <h3 className="flex items-center gap-2">
+              <span className="text-rose-500">✗</span> Decline Work Shift
+            </h3>
+            <p className="text-black/50">
+              Please provide a reason for declining this shift. This will be
+              saved to your shift history and shared with the
+              planner/administrator to assist with scheduling.
+            </p>
+            <textarea
+              aria-label="Decline shift reason"
+              value={declineReason}
+              onChange={(e) => setDeclineReason(e.target.value)}
+              placeholder="e.g., Conflict with another gig, Out of town, Personal reasons..."
+              className="focus-ring min-h-[100px] w-full resize-none border border-black/10 bg-black/40 p-3 placeholder-white/30 outline-none"
+            />
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDeclineModalOpen(false);
+                  decliningShiftIdRef.current = null;
+                  setDeclineReason("");
+                }}
+                className="transition-colors hover: border border-black/10 px-4 py-2 text-black/70 hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={!declineReason.trim()}
+                onClick={() => {
+                  if (decliningShiftIdRef.current) {
+                    handleShiftResponse(
+                      decliningShiftIdRef.current,
+                      "declined",
+                      declineReason,
+                    );
+                  }
+                  setIsDeclineModalOpen(false);
+                  decliningShiftIdRef.current = null;
+                  setDeclineReason("");
+                }}
+              >
+                Submit Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ─── EMAIL ADMIN MODAL ─── */}
       {isEmailModalOpen && (
@@ -5861,7 +5873,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setEmailSubject("");
                   setEmailMessage("");
                 }}
-                className="hover:  border border-black/10 px-4 py-2 text-black/70 hover:bg-gray-100"
+                className="transition-colors hover: border border-black/10 px-4 py-2 text-black/70 hover:bg-gray-100"
               >
                 Cancel
               </button>
@@ -5871,7 +5883,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   isSendingEmail || !emailSubject.trim() || !emailMessage.trim()
                 }
                 onClick={handleSendEmailToAdmins}
-                className="cursor-pointer  border-none bg-purple-600 px-4 py-2 hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-600/30 disabled:text-black/30"
+                className="transition-colors cursor-pointer border-none bg-purple-600 px-4 py-2 hover:bg-purple-500 disabled:cursor-not-allowed disabled:bg-purple-600/30 disabled:text-black/30"
               >
                 {isSendingEmail ? "Sending..." : "Send Message"}
               </button>
@@ -5882,11 +5894,11 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
       {/* 🔔 Premium Toast Notification */}
       {toast.visible && (
-        <div className="gap-3 text-black fixed right-6 bottom-6 z-[10000] flex w-full max-w-sm animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
+        <div className="gap-3 text-black fixed right-6 bottom-6 z-[10000] flex w-full max-w-sm animate-[slideInRight_0.3s_cubic-bezier(0.16,1,0.3,1)] rounded-[var(--radius-box)] border border-black/10 bg-white/95 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
           <div className="flex-1 text-left">
             {toast.title && (
               <h4
-                className={`mb-1 ${toast.type === "success" ? "text-emerald-400" : toast.type === "error" ? "text-rose-400" : "text-[var(--color-accent)]"}`}
+                className={`mb-1 ${toast.type === "success" ? "text-emerald-400" : toast.type === "error" ? "text-rose-400" : "text-[var(--color-accent)]"} `}
               >
                 {toast.title}
               </h4>
@@ -5936,7 +5948,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   href={`https://maps.google.com/?q=${encodeURIComponent(selectedVenuePopup.address)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block hover:text-white"
+                  className="transition-colors inline-block hover:text-white"
                 >
                   {selectedVenuePopup.address}
                 </a>
@@ -5963,7 +5975,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                         "COPIED",
                       );
                     }}
-                    className="cursor-pointer rounded border-none bg-purple-600 px-2.5 py-1 hover:bg-purple-500"
+                    className="transition-colors cursor-pointer rounded border-none bg-purple-600 px-2.5 py-1 hover:bg-purple-500"
                   >
                     Copy
                   </button>
@@ -5989,7 +6001,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   {selectedVenuePopup.contactPhone && (
                     <a
                       href={`tel:${selectedVenuePopup.contactPhone.replace(/[^0-9]/g, "")}`}
-                      className="mt-0.5 block hover:text-white"
+                      className="transition-colors mt-0.5 block hover:text-white"
                     >
                       {selectedVenuePopup.contactPhone}
                     </a>
@@ -6021,7 +6033,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <button
                 type="button"
                 onClick={() => setSelectedVenuePopup(null)}
-                className="cursor-pointer  border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
+                className="transition-colors cursor-pointer border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
               >
                 Dismiss Details
               </button>
@@ -6102,7 +6114,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           </div>
                           {changeover && (
                             <div className="text-center">
-                              <span className="inline-block  border border-purple-500/25 bg-purple-600/10 px-2.5 py-0.5 text-[8.5px]">
+                              <span className="inline-block border border-purple-500/25 bg-purple-600/10 px-2.5 py-0.5 text-[8.5px]">
                                 🔄 {changeover}
                               </span>
                             </div>
@@ -6146,7 +6158,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                               className="space-y-2 border-b border-black/10 pb-2.5 last:border-none"
                             >
                               <div className="flex items-start gap-2">
-                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center  bg-gray-100">
+                                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-gray-100">
                                   {c.authorName[0]}
                                 </div>
                                 <div className="min-w-0 flex-1">
@@ -6216,7 +6228,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                       setReplyText("");
                                       setReplyingToCommentId(null);
                                     }}
-                                    className="cursor-pointer rounded border-none bg-purple-600 px-2 py-1 hover:bg-purple-500 disabled:opacity-30"
+                                    className="transition-colors cursor-pointer rounded border-none bg-purple-600 px-2 py-1 hover:bg-purple-500 disabled:opacity-30"
                                   >
                                     Send
                                   </button>
@@ -6229,7 +6241,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                                   key={r.id}
                                   className="mt-2 flex items-start gap-2 border-l border-black/10 pl-7"
                                 >
-                                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center  bg-gray-50 text-[var(--font-size-5xs)] text-black/50">
+                                  <div className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center bg-gray-50 text-[var(--font-size-5xs)] text-black/50">
                                     {r.authorName[0]}
                                   </div>
                                   <div className="min-w-0 flex-1">
@@ -6270,7 +6282,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                           placeholder="Post a gig note..."
                           value={newCommentText}
                           onChange={(e) => setNewCommentText(e.target.value)}
-                          className="focus-ring flex-1  border border-black/10 bg-[#f0f2f5] px-3 py-2 outline-none"
+                          className="focus-ring flex-1 border border-black/10 bg-[#f0f2f5] px-3 py-2 outline-none"
                         />
                         <button
                           type="button"
@@ -6289,7 +6301,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                             ]);
                             setNewCommentText("");
                           }}
-                          className="cursor-pointer  border-none bg-purple-600 px-3.5 py-2 hover:bg-purple-500 disabled:pointer-events-none disabled:opacity-30"
+                          className="transition-colors cursor-pointer border-none bg-purple-600 px-3.5 py-2 hover:bg-purple-500 disabled:pointer-events-none disabled:opacity-30"
                         >
                           Post
                         </button>
@@ -6305,7 +6317,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               <button
                 type="button"
                 onClick={() => setActiveDiscussionDate(null)}
-                className="cursor-pointer  border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
+                className="transition-colors cursor-pointer border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
               >
                 Close Specs
               </button>
@@ -6352,18 +6364,18 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
               </p>
 
               {/* Selection Tabs / Modes */}
-              <div className="grid grid-cols-2 gap-2  border border-black/10 p-1">
+              <div className="grid grid-cols-2 gap-2 border border-black/10 p-1">
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId("")}
-                  className={`cursor-pointer rounded border-none py-2 ${!swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
+                  className={`cursor-pointer rounded border-none py-2 ${!swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"} `}
                 >
                   General Coverage
                 </button>
                 <button
                   type="button"
                   onClick={() => setSwapTargetColleagueId("openshifts")} // default target to enable dropdown
-                  className={`cursor-pointer rounded border-none py-2 ${swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"}`}
+                  className={`cursor-pointer rounded border-none py-2 ${swapTargetColleagueId ? "bg-[var(--color-accent)]" : "text-black/50 hover:text-black"} `}
                 >
                   Propose Direct Swap
                 </button>
@@ -6425,7 +6437,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId("");
                 }}
-                className="cursor-pointer  border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
+                className="transition-colors cursor-pointer border border-black/10 bg-gray-50 px-4 py-2 hover:bg-gray-100"
               >
                 Cancel
               </button>
@@ -6443,7 +6455,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                   setRequestingCoverageShift(null);
                   setSwapTargetColleagueId("");
                 }}
-                className="cursor-pointer  border-none bg-[var(--color-accent)] px-4 py-2 hover:bg-[var(--color-accent)]"
+                className="transition-colors cursor-pointer border-none bg-[var(--color-accent)] px-4 py-2 hover:bg-[var(--color-accent)]"
               >
                 Submit Request
               </button>

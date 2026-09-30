@@ -155,7 +155,7 @@ export default function GooeyMessagesDropdown({
   return (
     <div
       ref={wrapRef}
-      className={`seventh-heaven-dropdown ${fullWidth ? "seventh-heaven-dropdown-full-width" : "seventh-heaven-dropdown-inline"} ${open ? "is-open" : "is-closed"} ${className}`}
+      className={`seventh-heaven-dropdown ${fullWidth ? "seventh-heaven-dropdown-full-width" : "seventh-heaven-dropdown-inline"}  ${open ? "is-open" : "is-closed"}  ${className} `}
     >
       {/* Hidden SVG Gooey Filter Definition */}
 
@@ -169,7 +169,7 @@ export default function GooeyMessagesDropdown({
       <button
         type="button"
         disabled={disabled}
-        className={`transition-all seventh-heaven-dropdown-trigger ${fullWidth ? "seventh-heaven-dropdown-trigger-full" : "seventh-heaven-dropdown-trigger-fit"} ${noPadding ? "seventh-heaven-dropdown-trigger-no-padding" : "seventh-heaven-dropdown-trigger-padding"} ${open ? "is-open" : "is-closed"} ${noBorder ? "no-border" : ""}`}
+        className={`transition-[background-color,color,border-color,box-shadow,transform] seventh-heaven-dropdown-trigger ${fullWidth ? "seventh-heaven-dropdown-trigger-full" : "seventh-heaven-dropdown-trigger-fit"}  ${noPadding ? "seventh-heaven-dropdown-trigger-no-padding" : "seventh-heaven-dropdown-trigger-padding"}  ${open ? "is-open" : "is-closed"}  ${noBorder ? "no-border" : ""} `}
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -178,7 +178,7 @@ export default function GooeyMessagesDropdown({
         name={name}
       >
         <span
-          className={`seventh-heaven-dropdown-text ${triggerTextClassName}`}
+          className={`seventh-heaven-dropdown-text ${triggerTextClassName} `}
         >
           {triggerText}
         </span>
@@ -191,7 +191,7 @@ export default function GooeyMessagesDropdown({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`seventh-heaven-dropdown-chevron ${open ? "is-open" : ""}`}
+          className={`seventh-heaven-dropdown-chevron ${open ? "is-open" : ""} `}
           aria-hidden="true"
         >
           <path d="M4 2l4 4-4 4" />
@@ -233,7 +233,7 @@ export default function GooeyMessagesDropdown({
                     type="button"
                     role="option"
                     aria-selected={isSelected}
-                    className={`seventh-heaven-dropdown-item ${isSelected ? "is-selected" : ""}`}
+                    className={`seventh-heaven-dropdown-item ${isSelected ? "is-selected" : ""} `}
                     onClick={() => {
                       setSelectedIdState(c.id);
                       onSelect?.(c);

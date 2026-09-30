@@ -94,7 +94,7 @@ export default function EmailPreviewPage() {
               <button
                 key={c}
                 onClick={() => setActiveCategory(c)}
-                className={`cursor-pointer  px-3 py-1 ${activeCategory === c ? "bg-[var(--color-accent)]" : "bg-white/[0.03] text-white/30"}`}
+                className={`cursor-pointer px-3 py-1 ${activeCategory === c ? "bg-[var(--color-accent)]" : "bg-white/[0.03] text-white/30"} `}
               >
                 {c}
               </button>
@@ -107,16 +107,16 @@ export default function EmailPreviewPage() {
               <button
                 key={t.id}
                 onClick={() => setActiveId(t.id)}
-                className={`group w-full cursor-pointer p-4 text-left ${activeId === t.id ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10" : "border border-transparent"}`}
+                className={`group w-full cursor-pointer p-4 text-left ${activeId === t.id ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10" : "border border-transparent"} `}
               >
-                <div className="mb-1.5 flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <span
                     className={`${activeId === t.id ? " " : "group-hover:text-white"}`}
                   >
                     {t.name}
                   </span>
                   <span
-                    className={`rounded-lg px-2 py-0.5 ${t.status === "live" ? "border border-[var(--color-accent)]/30 bg-emerald-500/10" : "border border-white/20 bg-purple-600/10"}`}
+                    className={`rounded-lg px-2 py-0.5 ${t.status === "live" ? "border border-[var(--color-accent)]/30 bg-emerald-500/10" : "border border-white/20 bg-purple-600/10"} `}
                   >
                     {t.status}
                   </span>
@@ -137,7 +137,7 @@ export default function EmailPreviewPage() {
             <div className="flex items-center gap-3">
               <h2>{active.name}</h2>
               <span
-                className={`rounded-lg px-2 py-0.5 ${active.status === "live" ? "bg-emerald-500/10 text-[var(--color-accent)]" : "bg-purple-600/10"}`}
+                className={`rounded-lg px-2 py-0.5 ${active.status === "live" ? "bg-emerald-500/10 text-[var(--color-accent)]" : "bg-purple-600/10"} `}
               >
                 {active.status}
               </span>
@@ -145,7 +145,7 @@ export default function EmailPreviewPage() {
 
             <div className="flex items-center gap-4">
               {/* Test Email Form */}
-              <div className="group flex items-center gap-2  border border-white/10 bg-white/[0.03] py-1 pr-1 pl-3 focus-within:border-[var(--color-accent)]/50">
+              <div className="group flex items-center gap-2 border border-white/10 bg-white/[0.03] py-1 pr-1 pl-3 focus-within:border-[var(--color-accent)]/50">
                 <input
                   type="email"
                   placeholder="test@example.com"
@@ -156,7 +156,7 @@ export default function EmailPreviewPage() {
                 <button
                   onClick={handleSendTest}
                   disabled={sending}
-                  className="cursor-pointer  bg-[var(--color-accent)] px-3 py-1.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+                  className="transition-colors cursor-pointer bg-[var(--color-accent)] px-3 py-1.5 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
                 >
                   {sending ? "Sending..." : "Send Test"}
                 </button>
@@ -168,13 +168,13 @@ export default function EmailPreviewPage() {
                 <button
                   aria-label="Previous"
                   onClick={() => setViewMode("preview")}
-                  className={`cursor-pointer  px-3 py-1.5 ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
+                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"} `}
                 >
                   Preview
                 </button>
                 <button
                   onClick={() => setViewMode("code")}
-                  className={`cursor-pointer  px-3 py-1.5 ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
+                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"} `}
                 >
                   HTML
                 </button>
@@ -185,7 +185,7 @@ export default function EmailPreviewPage() {
           {/* Feedback Toast */}
           {sendResult && (
             <div
-              className={`animate-[fade-in_0.3s_ease-out] px-6 py-2 text-center ${sendResult.success ? "border-b border-[var(--color-accent)]/30 bg-emerald-500/10" : "border-b border-red-500/20 bg-red-500/10 text-red-400"}`}
+              className={`animate-[fade-in_0.3s_ease-out] px-6 py-2 text-center ${sendResult.success ? "border-b border-[var(--color-accent)]/30 bg-emerald-500/10" : "border-b border-red-500/20 bg-red-500/10 text-red-400"} `}
             >
               {sendResult.message}
             </div>

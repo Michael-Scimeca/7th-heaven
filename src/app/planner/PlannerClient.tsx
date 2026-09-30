@@ -218,7 +218,7 @@ export default function PlannerClient() {
       >
         <div className="site-container mx-auto max-w-4xl space-y-12 px-4">
           {/* Hero Header */}
-          <header className="relative overflow-hidden  p-8 text-center sm:p-12">
+          <header className="relative overflow-hidden p-8 text-center sm:p-12">
             <div className="relative z-10 mx-auto max-w-2xl space-y-4">
               <h1>
                 Planner <span className="text-[#c27aff]">Portal</span>
@@ -232,14 +232,14 @@ export default function PlannerClient() {
                 <button
                   type="button"
                   onClick={() => openModal("login", "planner")}
-                  className="cursor-pointer  bg-[var(--color-accent)] px-8 py-3.5 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:bg-purple-500 hover:shadow-[0_0_40px_rgba(194,122,255,0.6)]"
+                  className="transition-[background-color,color,border-color,box-shadow] cursor-pointer bg-[var(--color-accent)] px-8 py-3.5 shadow-[0_0_30px_rgba(194,122,255,0.4)] hover:bg-purple-500 hover:shadow-[0_0_40px_rgba(194,122,255,0.6)]"
                 >
                   Sign In to Planner Portal
                 </button>
                 <button
                   type="button"
                   onClick={() => openModal("signup", "planner")}
-                  className="cursor-pointer  border border-white/10 bg-white/10 px-8 py-3.5 hover:bg-white/20"
+                  className="transition-colors cursor-pointer border border-white/10 bg-white/10 px-8 py-3.5 hover:bg-white/20"
                 >
                   Create Account
                 </button>
@@ -363,7 +363,7 @@ export default function PlannerClient() {
             aria-label="Booking Status Sidebar"
             className="hidden w-[220px] shrink-0 lg:block"
           >
-            <div className="sticky top-24  border border-[var(--border-color)] bg-[var(--card-bg)] p-6">
+            <div className="sticky top-24 border border-[var(--border-color)] p-6">
               <h3 className="mb-8 text-white/50">Booking Status</h3>
               <div className="relative pl-5">
                 <div className="absolute top-2 bottom-2 left-[9px] w-[2px] bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/30 to-white/5" />
@@ -374,14 +374,14 @@ export default function PlannerClient() {
                       className="relative flex items-center gap-4"
                     >
                       <div
-                        className={`z-10 flex h-5 w-5 shrink-0 items-center justify-center  border-2 ${step.active ? "border-purple-400 bg-purple-600 shadow-[0_0_12px_rgba(255,10,61,0.5)]" : "border-white/10 bg-white/10"}`}
+                        className={`z-10 flex h-5 w-5 shrink-0 items-center justify-center border-2 ${step.active ? "border-purple-400 bg-purple-600 shadow-[0_0_12px_rgba(255,10,61,0.5)]" : "border-white/10 bg-white/10"} `}
                       >
                         {step.active && (
-                          <div className="h-2 w-2  bg-white" />
+                          <div className="h-2 w-2 bg-white" />
                         )}
                       </div>
                       <span
-                        className={` ${step.active ? " " : "text-white/40"}`}
+                        className={` ${step.active ? " " : "text-white/40"} `}
                       >
                         {step.label}
                       </span>
@@ -396,7 +396,7 @@ export default function PlannerClient() {
               <div className="mt-6">
                 <p className="mb-2">Planner</p>
                 <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center  bg-purple-600">
+                  <div className="flex h-7 w-7 items-center justify-center bg-purple-600">
                     {initials}
                   </div>
                   <span>{member?.name || "Planner"}</span>
@@ -408,13 +408,13 @@ export default function PlannerClient() {
           {/* MAIN CONTENT AREA */}
           <div className="min-w-0 flex-1">
             {/* Hero Card */}
-            <header className="relative mb-6 overflow-hidden  border border-[var(--border-color)] bg-[var(--card-bg)] p-8">
-              <div className="absolute top-0 right-0 h-64 w-64  bg-purple-600/5 blur-3xl" />
+            <header className="relative mb-6 overflow-hidden border border-[var(--border-color)] p-8">
+              <div className="absolute top-0 right-0 h-64 w-64 bg-purple-600/5 blur-3xl" />
               <div className="relative">
                 <div className="mb-6 flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <span
-                      className={`rounded-lg border px-3 py-1 ${statusColor}`}
+                      className={`rounded-lg border px-3 py-1 ${statusColor} `}
                     >
                       {statusLabel}
                     </span>
@@ -422,7 +422,7 @@ export default function PlannerClient() {
                   </div>
                   <Link
                     href="/book"
-                    className="rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
+                    className="transition-colors rounded-lg bg-purple-600 px-4 py-2 hover:bg-purple-500"
                   >
                     + New Booking
                   </Link>
@@ -464,7 +464,7 @@ export default function PlannerClient() {
               className="grid grid-cols-1 gap-4 md:grid-cols-3"
             >
               {/* Notes */}
-              <div className="rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6">
+              <div className="rounded-lg border border-[var(--border-color)] p-6">
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span>📝</span>
@@ -502,14 +502,14 @@ export default function PlannerClient() {
                     setNotesSaving(false);
                   }}
                   disabled={notesSaving}
-                  className="mt-3 w-full cursor-pointer  border border-purple-600/20 bg-purple-600/10 py-2 hover:border-transparent hover:bg-purple-600 hover:text-white disabled:opacity-50"
+                  className="transition-colors mt-3 w-full cursor-pointer border border-purple-600/20 bg-purple-600/10 py-2 hover:border-transparent hover:bg-purple-600 hover:text-white disabled:opacity-50"
                 >
                   {notesSaving ? "Saving..." : "Save Notes"}
                 </button>
               </div>
 
               {/* Checklist — editable */}
-              <div className="rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6">
+              <div className="rounded-lg border border-[var(--border-color)] p-6">
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span>✅</span>
@@ -521,9 +521,9 @@ export default function PlannerClient() {
                     {done}/{checklist.length}
                   </span>
                 </div>
-                <div className="mb-6 h-2 w-full overflow-hidden  bg-[#00000029]">
+                <div className="mb-6 h-2 w-full overflow-hidden bg-[#00000029]">
                   <div
-                    className={`h-full  ${pct === 100 ? "bg-emerald-500" : pct >= 50 ? "bg-purple-600" : "bg-rose-500"}`}
+                    className={`h-full ${pct === 100 ? "bg-emerald-500" : pct >= 50 ? "bg-purple-600" : "bg-rose-500"} `}
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -544,14 +544,14 @@ export default function PlannerClient() {
                     return (
                       <div
                         key={item.label}
-                        className={`flex items-center gap-2  border px-2.5 py-1.5 ${item.done ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/10 bg-[#00000029]"}`}
+                        className={`flex items-center gap-2 border px-2.5 py-1.5 ${item.done ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/10 bg-[#00000029]"} `}
                       >
                         <span className="shrink-0">
                           {item.done ? "✅" : "⬜"}
                         </span>
                         <div className="min-w-0 flex-1">
                           <span
-                            className={` ${item.done ? " " : "text-white/40"}`}
+                            className={` ${item.done ? " " : "text-white/40"} `}
                           >
                             {item.label}
                           </span>
@@ -624,7 +624,7 @@ export default function PlannerClient() {
                             <button
                               type="button"
                               onClick={() => setEditField(i)}
-                              className="shrink-0 cursor-pointer rounded border border-purple-500/15 bg-purple-600/10 px-1.5 py-0.5 text-[var(--font-size-2xs)] hover:bg-purple-600/20"
+                              className="transition-colors shrink-0 cursor-pointer rounded border border-purple-500/15 bg-purple-600/10 px-1.5 py-0.5 text-[var(--font-size-2xs)] hover:bg-purple-600/20"
                             >
                               NEEDED
                             </button>
@@ -635,7 +635,7 @@ export default function PlannerClient() {
                   {done < checklist.length && (
                     <Link
                       href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}`}
-                      className="mt-2 border border-purple-500/15 bg-purple-600/5 py-2 text-center hover:bg-purple-600/10"
+                      className="transition-colors mt-2 border border-purple-500/15 bg-purple-600/5 py-2 text-center hover:bg-purple-600/10"
                     >
                       Fill Missing Details →
                     </Link>
@@ -644,7 +644,7 @@ export default function PlannerClient() {
               </div>
 
               {/* Quick Actions */}
-              <div className="rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6">
+              <div className="rounded-lg border border-[var(--border-color)] p-6">
                 <div className="mb-6 flex items-center gap-2">
                   <span>⚡</span>
                   <h3>Quick Actions</h3>
@@ -652,19 +652,19 @@ export default function PlannerClient() {
                 <div className="flex flex-col gap-3">
                   <Link
                     href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="flex w-full cursor-pointer items-center gap-3  border border-purple-600/20 bg-purple-600/10 px-4 py-3 hover:bg-purple-600 hover:text-white"
+                    className="transition-colors flex w-full cursor-pointer items-center gap-3 border border-purple-600/20 bg-purple-600/10 px-4 py-3 hover:bg-purple-600 hover:text-white"
                   >
                     <span>🔄</span> Rebook This Event
                   </Link>
                   <Link
                     href={`/book?from=rebook&eventType=${encodeURIComponent(booking.eventType)}&venueName=${encodeURIComponent(booking.venueName)}&venueCity=${encodeURIComponent(booking.venueCity)}&venueState=${encodeURIComponent(booking.venueState)}&indoorOutdoor=${encodeURIComponent(booking.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(booking.expectedAttendance)}`}
-                    className="flex w-full cursor-pointer items-center gap-3  border border-white/10 bg-[#00000029] px-4 py-3 hover:bg-white/10 hover:text-white"
+                    className="transition-colors flex w-full cursor-pointer items-center gap-3 border border-white/10 bg-[#00000029] px-4 py-3 hover:bg-white/10 hover:text-white"
                   >
                     <span>✏️</span> Edit Logistics
                   </Link>
                   <a
                     href={`mailto:7thheaven@gmail.com?subject=${encodeURIComponent(`[Booking ${booking.id}] Question about ${booking.eventName}`)}&body=${encodeURIComponent(`Hi 7th Heaven,\n\nRe: ${booking.eventName}\nBooking ID: ${booking.id}\nDate: ${booking.date}\nVenue: ${booking.venueName}\n\nMy question:\n\n`)}`}
-                    className="flex w-full cursor-pointer items-center gap-3  border border-white/10 bg-[#00000029] px-4 py-3 hover:bg-white/10 hover:text-white"
+                    className="transition-colors flex w-full cursor-pointer items-center gap-3 border border-white/10 bg-[#00000029] px-4 py-3 hover:bg-white/10 hover:text-white"
                   >
                     <span>✉️</span> Contact 7th Heaven
                   </a>
@@ -672,7 +672,7 @@ export default function PlannerClient() {
                     aria-label="Cancel request"
                     onClick={handleCancelBooking}
                     disabled={isCancelling}
-                    className="flex w-full cursor-pointer items-center gap-3  border border-rose-500/10 bg-rose-500/5 px-4 py-3 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50"
+                    className="transition-colors flex w-full cursor-pointer items-center gap-3 border border-rose-500/10 bg-rose-500/5 px-4 py-3 text-rose-400/60 hover:bg-rose-500 hover:text-white disabled:opacity-50"
                   >
                     <span>✕</span>{" "}
                     {isCancelling ? "Cancelling..." : "Cancel Request"}
@@ -717,10 +717,10 @@ export default function PlannerClient() {
                     return (
                       <article
                         key={pb.id || pb.eventName || pb.date}
-                        className="group flex items-center gap-4  border border-[var(--border-color)] bg-[var(--card-bg)] p-4 hover:border-purple-500/30"
+                        className="transition-colors group flex items-center gap-4 border border-[var(--border-color)] p-4 hover:border-purple-500/30"
                       >
                         <div
-                          className={`h-2.5 w-2.5  ${sc.dot} shrink-0`}
+                          className={`h-2.5 w-2.5 ${sc.dot} shrink-0`}
                         />
                         <div className="min-w-0 flex-1">
                           <h4>{pb.eventName}</h4>
@@ -731,13 +731,13 @@ export default function PlannerClient() {
                           </div>
                         </div>
                         <span
-                          className={`text-[var(--font-size-2xs)] ${sc.text} ${sc.bg} rounded border px-2 py-0.5 ${sc.border}`}
+                          className={`text-[var(--font-size-2xs)] ${sc.text}  ${sc.bg} rounded border px-2 py-0.5 ${sc.border} `}
                         >
                           {pb.status}
                         </span>
                         <Link
                           href={`/book?from=rebook&eventType=${encodeURIComponent(pb.eventType)}&venueName=${encodeURIComponent(pb.venueName)}&venueCity=${encodeURIComponent(pb.venueCity)}&venueState=${encodeURIComponent(pb.venueState)}&indoorOutdoor=${encodeURIComponent(pb.indoorOutdoor)}&expectedAttendance=${encodeURIComponent(pb.expectedAttendance)}&organization=${encodeURIComponent(pb.organization)}`}
-                          className="shrink-0 cursor-pointer  border border-purple-600/20 bg-purple-600/10 px-4 py-2 hover:border-transparent hover:bg-purple-600 hover:text-white"
+                          className="transition-colors shrink-0 cursor-pointer border border-purple-600/20 bg-purple-600/10 px-4 py-2 hover:border-transparent hover:bg-purple-600 hover:text-white"
                         >
                           Rebook →
                         </Link>

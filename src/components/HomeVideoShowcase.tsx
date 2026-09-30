@@ -399,7 +399,7 @@ export default function HomeVideoShowcase({
     "h-[300px] sm:h-[400px] md:h-[500px]",
   );
   const [cardGap, setCardGap] = useState<string>("gap-6");
-  const [borderRadius, setBorderRadius] = useState<string>("");
+  const [borderRadius, setBorderRadius] = useState<string>("rounded-[var(--radius-box)]");
   const [borderStyle, setBorderStyle] = useState<string>(
     "border border-white/10",
   );
@@ -694,7 +694,7 @@ export default function HomeVideoShowcase({
     setCardsVisible(3);
     setAspectRatio("h-[300px] sm:h-[400px] md:h-[500px]");
     setCardGap("gap-6");
-    setBorderRadius("");
+    setBorderRadius("rounded-[var(--radius-box)]");
     setBorderStyle("border border-white/10");
 
     setIsAutoPlayEnabled(false);
@@ -740,13 +740,15 @@ export default function HomeVideoShowcase({
     <section
       ref={sectionRef}
       id="video-slider"
-      className="py-section-fluid relative w-full overflow-hidden border-b border-white/10 select-none"
+      aria-labelledby="video-slider-heading"
+      className="section cv-auto relative w-full overflow-hidden select-none"
+      style={{ "--cv-size": "618px", "--cv-size-lg": "773px" } as React.CSSProperties}
     >
       {/* Section Header inside site-container */}
       <div className="site-container relative z-10">
         <div className="mb-6 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <div className="max-w-2xl">
-            <h2 className="mb-2.5">
+          <div className="title-group title-group--section max-w-2xl">
+            <h2 id="video-slider-heading" className="">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
             <p>
@@ -774,7 +776,7 @@ export default function HomeVideoShowcase({
           type="button"
           onClick={handlePrev}
           aria-label="Previous Video Slide"
-          className="absolute top-1/2 left-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
+          className="transition-[background-color,color,border-color,transform] absolute top-1/2 left-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
@@ -782,7 +784,7 @@ export default function HomeVideoShowcase({
           type="button"
           onClick={handleNext}
           aria-label="Next Video Slide"
-          className="absolute top-1/2 right-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
+          className="transition-[background-color,color,border-color,transform] absolute top-1/2 right-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
@@ -791,7 +793,7 @@ export default function HomeVideoShowcase({
           ref={trackRef}
           data-slider="true"
           data-vertical={smooothyVertical}
-          className={`w-full cursor-grab overflow-hidden select-none active:cursor-grabbing ${smooothyVertical ? "flex h-[750px] flex-col" : "flex flex-nowrap"}`}
+          className={`w-full cursor-grab overflow-hidden select-none active:cursor-grabbing ${smooothyVertical ? "flex h-[750px] flex-col" : "flex flex-nowrap"} `}
           style={{
             touchAction: "pan-y",
             ...(smooothyVertical
@@ -852,7 +854,7 @@ export default function HomeVideoShowcase({
                       setPlayingVideoId(video.id);
                     }
                   }}
-                  className={`relative h-[300px] w-full sm:h-[400px] md:h-[500px] ${borderRadius} cursor-pointer overflow-hidden bg-black/60 ${playingVideoId === video.id ? "shadow-[0_0_35px_rgba(217,70,239,0.6)] ring-2 ring-purple-400" : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"}`}
+                  className={`relative h-[300px] w-full sm:h-[400px] md:h-[500px] ${borderRadius || "rounded-[var(--radius-box)]"} cursor-pointer overflow-hidden bg-black/60 ${playingVideoId === video.id ? "shadow-[0_0_35px_rgba(217,70,239,0.6)] ring-2 ring-purple-400" : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"} `}
                 >
                   {playingVideoId === video.id ? (
                     <div className="relative z-30 h-full w-full bg-black">
@@ -877,12 +879,12 @@ export default function HomeVideoShowcase({
                       />
 
                       {/* Gradient shadow overlay for legibility */}
-                      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/30 to-black/20 group-hover:opacity-0" />
+                      <div className="transition-opacity pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/30 to-black/20 group-hover:opacity-0" />
 
                       {/* Interactive Play Button Overlay (Centered in Middle of Video Card) */}
                       {playButtonVisibility !== "hidden" && (
                         <div
-                          className={`media-hover-overlay z-20 group-hover:opacity-0 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}
+                          className={`transition-opacity media-hover-overlay z-20 group-hover:opacity-0 ${playButtonVisibility === "always" ? "is-always-visible" : ""} `}
                         >
                           <GlassPlayButton
                             size="lg"
@@ -894,7 +896,7 @@ export default function HomeVideoShowcase({
                       )}
 
                       {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
-                      <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex flex-col items-center justify-end p-5 text-center group-hover:opacity-0 sm:p-6 md:p-8">
+                      <div className="transition-opacity pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex flex-col items-center justify-end p-5 text-center group-hover:opacity-0 sm:p-6 md:p-8">
                         {showBadges && (
                           <div className="mb-2.5 flex flex-wrap items-center justify-center gap-2">
                             {video.badges.map((badge, bIdx) => (
@@ -907,7 +909,7 @@ export default function HomeVideoShowcase({
                           </div>
                         )}
 
-                        <h3 className="sm: line-clamp-2   font-black md:text-xl">
+                        <h3 className="sm: line-clamp-2 font-black md:text-xl">
                           {video.title}
                         </h3>
                       </div>
@@ -935,7 +937,7 @@ export default function HomeVideoShowcase({
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3  border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
+        <div className="animate-fade-in fixed right-6 bottom-6 z-[99999] flex items-center gap-3 rounded-[var(--radius-box)] border border-purple-400/50 bg-gradient-to-r from-purple-900/90 to-pink-900/90 px-6 py-3.5 shadow-2xl backdrop-blur-md">
           <CheckCircle2 className="h-5 w-5 shrink-0 text-green-400" />
           <span>{toastMessage}</span>
         </div>
@@ -946,16 +948,16 @@ export default function HomeVideoShowcase({
         typeof window !== "undefined" &&
         createPortal(
           <div className="animate-fade-in fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md">
-            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-neutral-900 p-6 shadow-2xl sm:p-8">
+            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-[var(--radius-box)] border border-purple-500/30 bg-neutral-900 p-6 shadow-2xl sm:p-8">
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
+                className="transition-colors absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
               >
                 <X className="h-5 w-5" />
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-box)] border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <VideoIcon className="h-5 w-5" />
                 </div>
                 <div>
@@ -967,7 +969,7 @@ export default function HomeVideoShowcase({
               </div>
 
               {modalError && (
-                <div className="mb-6  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6 rounded-[var(--radius-box)] border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   {modalError}
                 </div>
               )}
@@ -976,7 +978,7 @@ export default function HomeVideoShowcase({
                 <div>
                   <label
                     htmlFor="sanity-video-title"
-                    className="mb-1.5 block text-purple-200/80"
+                    className="block text-purple-200/80"
                   >
                     Video Title *
                   </label>
@@ -994,7 +996,7 @@ export default function HomeVideoShowcase({
                 <div>
                   <label
                     htmlFor="sanity-video-url"
-                    className="mb-1.5 block text-purple-200/80"
+                    className="block text-purple-200/80"
                   >
                     YouTube URL or Video ID *
                   </label>
@@ -1011,7 +1013,7 @@ export default function HomeVideoShowcase({
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                   <div>
-                    <div className="mb-1.5 flex items-center justify-between">
+                    <div className="flex items-center justify-between">
                       <label
                         htmlFor="sanity-video-category"
                         className="block text-purple-200/80"
@@ -1072,7 +1074,7 @@ export default function HomeVideoShowcase({
                   <div>
                     <label
                       htmlFor="sanity-video-year"
-                      className="mb-1.5 block text-purple-200/80"
+                      className="block text-purple-200/80"
                     >
                       Year
                     </label>
@@ -1088,7 +1090,7 @@ export default function HomeVideoShowcase({
                   <div>
                     <label
                       htmlFor="sanity-video-duration"
-                      className="mb-1.5 block text-purple-200/80"
+                      className="block text-purple-200/80"
                     >
                       Duration
                     </label>
@@ -1106,7 +1108,7 @@ export default function HomeVideoShowcase({
                 <div>
                   <label
                     htmlFor="sanity-video-description"
-                    className="mb-1.5 block text-purple-200/80"
+                    className="block text-purple-200/80"
                   >
                     Description
                   </label>
@@ -1124,14 +1126,14 @@ export default function HomeVideoShowcase({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="cursor-pointer  bg-white/10 px-5 py-2.5 hover:bg-white/15"
+                    className="transition-colors cursor-pointer rounded-[var(--radius-box)] bg-white/10 px-5 py-2.5 hover:bg-white/15"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="cursor-pointer  bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="transition-colors cursor-pointer rounded-[var(--radius-box)] bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting ? "Saving..." : "+ SAVE VIDEO TO SANITY"}
                   </button>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { fetchPageContent } from "@/lib/sanity";
+import { getApprovedFanPhotos } from "@/lib/fanPhotos";
 import FanPhotoWallClient from "./FanPhotoWallClient";
 
 export const metadata: Metadata = {
@@ -11,7 +12,15 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function FansPage() {
-  const sanityContent = await fetchPageContent("fan-photo-wall");
+  const [sanityContent, initialPhotos] = await Promise.all([
+    fetchPageContent("fan-photo-wall"),
+    getApprovedFanPhotos(),
+  ]);
 
-  return <FanPhotoWallClient sanityContent={sanityContent} />;
+  return (
+    <FanPhotoWallClient
+      sanityContent={sanityContent}
+      initialPhotos={initialPhotos}
+    />
+  );
 }

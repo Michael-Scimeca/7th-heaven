@@ -102,7 +102,7 @@ export function CrewSetPasswordModal({
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           border: "1px solid var(--color-border-main)",
-          borderRadius: "24px",
+          borderRadius: "var(--radius-box)",
           padding: "36px 32px",
           width: "100%",
           maxWidth: "420px",
@@ -164,7 +164,7 @@ export function CrewSetPasswordModal({
             margin: "0 0 24px",
             background: "rgba(147, 51, 234, 0.12)",
             border: "1px solid var(--color-border-purple)",
-            borderRadius: 8,
+            borderRadius: "var(--radius-box)",
             padding: "6px 12px",
           }}
         >
@@ -230,7 +230,7 @@ export function CrewSetPasswordModal({
                 boxSizing: "border-box",
                 background: "rgba(255,255,255,0.05)",
                 border: "1px solid var(--color-border-main)",
-                borderRadius: 10,
+                borderRadius: "var(--radius-box)",
                 padding: "12px 14px",
                 color: "var(--color-text-main)",
                 fontSize: "var(--font-size-md)",
@@ -274,7 +274,7 @@ export function CrewSetPasswordModal({
                 boxSizing: "border-box",
                 background: "rgba(255,255,255,0.05)",
                 border: "1px solid var(--color-border-main)",
-                borderRadius: 10,
+                borderRadius: "var(--radius-box)",
                 padding: "12px 14px",
                 color: "var(--color-text-main)",
                 fontSize: "var(--font-size-md)",
@@ -296,7 +296,7 @@ export function CrewSetPasswordModal({
                 style={{
                   background: "rgba(239,68,68,0.1)",
                   border: "1px solid rgba(239,68,68,0.3)",
-                  borderRadius: 8,
+                  borderRadius: "var(--radius-box)",
                   padding: "10px 14px",
                   color: "var(--color-error-light)",
                   fontSize: "var(--font-size-md)",
@@ -318,7 +318,7 @@ export function CrewSetPasswordModal({
                   ? "rgba(147, 51, 234, 0.3)"
                   : "linear-gradient(135deg, var(--color-purple-primary), var(--color-purple-hover))",
                 border: "none",
-                borderRadius: 12,
+                borderRadius: "var(--radius-box)",
                 padding: "14px",
                 color: "var(--color-text-main)",
                 fontWeight: 800,

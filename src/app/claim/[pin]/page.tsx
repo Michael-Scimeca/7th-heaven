@@ -231,189 +231,202 @@ export default function ClaimPage() {
   }, [pin, isLoggedIn, member]);
 
   return (
-    <div
-      className={`flex min-h-screen flex-col items-center justify-center p-6 ${status === "valid" ? "flash-bg" : " "}`}
+    <main
+      id="claim-page"
+      className={`page-container flex min-h-screen flex-col items-center justify-center px-6 ${status === "valid" ? "flash-bg" : " "} `}
       style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}
     >
       {/* Header */}
-      <div className="mb-8 w-full max-w-sm text-center">
-        <p className="mb-1 text-purple-500">7th Heaven</p>
-        <p>Live Raffle · Claim Verification</p>
-      </div>
+      <header className="mb-8 w-full max-w-sm text-center">
+        <p className="mb-1 text-purple-500 font-semibold">7th Heaven</p>
+        <h1 id="claim-heading" className="text-xl text-white">
+          Live Raffle · Claim Verification
+        </h1>
+      </header>
 
       {/* Card */}
-      <div className="w-full max-w-sm">
-        {/* Loading */}
-        {status === "loading" && (
-          <div className="py-16 text-center">
-            <div className="mx-auto mb-6 h-8 w-8 animate-spin  border-2 border-purple-500/30 border-t-yellow-500" />
-            <p>Verifying...</p>
-          </div>
-        )}
-
-        {/* NOT LOGGED IN */}
-        {status === "not_logged_in" && (
-          <div className="border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
-            <span className="mb-6 block text-5xl">🔐</span>
-            <h2 className="mb-2">Sign In Required</h2>
-            <p className="mb-6">
-              You must be signed in to your 7th Heaven account to verify your
-              raffle win.
-            </p>
-            <SeventhButton
-              onClick={() => openModal()}
-              icon={false}
-              className="w-full "
-            >
-              Sign In to Verify
-            </SeventhButton>
-          </div>
-        )}
-
-        {/* WRONG USER — logged in but not the winner */}
-        {status === "wrong_user" && (
-          <div className="border border-red-500/30 bg-[var(--color-bg-surface)] p-8 text-center">
-            <span className="mb-6 block text-5xl">🚫</span>
-            <h2 className="mb-2">Not Your Claim</h2>
-            <p className="mb-6">
-              This PIN belongs to a different account. You must be signed in as
-              the winning account to verify.
-            </p>
-            <p className="inline-block  bg-black/40 px-3 py-2">
-              Signed in as:{" "}
-              <span className="text-white/50">{member?.name}</span>
-            </p>
-          </div>
-        )}
-
-        {/* VALID — logged in AND is the winner */}
-        {status === "valid" && (
-          <div className="shadow-[0_0_60px_rgba(192, 252,0.2)] overflow-hidden border-2 border-yellow-500/50 bg-[var(--color-bg-surface)]">
-            {/* Top bar */}
-            <div className="flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3">
-              <span className="text-black">✓ PIN Verified</span>
+      <section id="claim-verification" aria-labelledby="claim-heading" className="section">
+        <div className="w-full max-w-sm">
+          {/* Loading */}
+          {status === "loading" && (
+            <div className="py-16 text-center">
+              <div className="mx-auto mb-6 h-8 w-8 animate-spin border-2 border-purple-500/30 border-t-yellow-500" />
+              <p>Verifying...</p>
             </div>
+          )}
 
-            <div className="p-8 text-center">
-              <span className="mb-5 block text-6xl">🏆</span>
-              <h1 className="mb-1">Raffle Winner</h1>
-              <p className="mb-8">
-                Show this screen to the 7th Heaven crew at the merch table.
+          {/* NOT LOGGED IN */}
+          {status === "not_logged_in" && (
+            <div className="rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
+              <span className="mb-6 block text-5xl">🔐</span>
+              <div className="title-group title-group--sub items-center text-center mb-6">
+                <h2>Sign In Required</h2>
+                <p>
+                  You must be signed in to your 7th Heaven account to verify your
+                  raffle win.
+                </p>
+              </div>
+              <SeventhButton
+                onClick={() => openModal()}
+                icon={false}
+                className="w-full"
+              >
+                Sign In to Verify
+              </SeventhButton>
+            </div>
+          )}
+
+          {/* WRONG USER — logged in but not the winner */}
+          {status === "wrong_user" && (
+            <div className="rounded-[var(--radius-box)] border border-red-500/30 bg-[var(--color-bg-surface)] p-8 text-center">
+              <span className="mb-6 block text-5xl">🚫</span>
+              <div className="title-group title-group--sub items-center text-center mb-6">
+                <h2>Not Your Claim</h2>
+                <p>
+                  This PIN belongs to a different account. You must be signed in as
+                  the winning account to verify.
+                </p>
+              </div>
+              <p className="inline-block rounded-[var(--radius-box)] bg-black/40 px-3 py-2">
+                Signed in as:{" "}
+                <span className="text-white/50">{member?.name}</span>
               </p>
+            </div>
+          )}
 
-              {/* Winner name */}
-              <div className="mb-6 border border-purple-500/30 bg-purple-500/10 px-6 py-4">
-                <p className="mb-1 text-[var(--color-accent)]/60">
-                  Account Name
-                </p>
-                <p>{winnerName}</p>
+          {/* VALID — logged in AND is the winner */}
+          {status === "valid" && (
+            <div className="shadow-[0_0_60px_rgba(192, 252,0.2)] overflow-hidden rounded-[var(--radius-box)] border-2 border-yellow-500/50 bg-[var(--color-bg-surface)]">
+              {/* Top bar */}
+              <div className="flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-500 to-orange-400 px-6 py-3">
+                <span className="text-black">✓ PIN Verified</span>
               </div>
 
-              {/* Prizes List */}
-              <div className="mb-8 space-y-3">
-                <p className="mb-1 text-center">
-                  Prizes Won ({prizesList.length})
-                </p>
-                {prizesList.map((item) => {
-                  const shopifyDetails = item.productId
-                    ? shopifyProductsMap[item.productId]
-                    : null;
-                  const displayTitle = shopifyDetails?.title || item.name;
-                  const displayImage =
-                    shopifyDetails?.imageUrl ||
-                    "/images/mockups/merch-hoodie.png";
+              <div className="p-8 text-center">
+                <span className="mb-5 block text-6xl">🏆</span>
+                <div className="title-group title-group--sub items-center text-center mb-8">
+                  <h2 className="text-2xl">Raffle Winner</h2>
+                  <p>
+                    Show this screen to the 7th Heaven crew at the merch table.
+                  </p>
+                </div>
 
-                  return (
-                    <div
-                      key={item.productId || item.variantId || item.name}
-                      className="flex items-center gap-3 border border-white/10 bg-white/[0.03] p-3 text-left"
-                    >
-                      <div className="relative flex h-12 w-12 shrink-0 items-center justify-center  bg-[#00000029] p-1">
-                        <Image
-                          width={200}
-                          height={200}
-                          unoptimized
-                          src={displayImage}
-                          alt={displayTitle}
-                          className="h-full w-full object-contain mix-blend-screen"
-                          onError={(e) => {
-                            e.currentTarget.src =
-                              "/images/mockups/merch-hoodie.png";
-                          }}
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p>{displayTitle}</p>
-                        <p className="mt-0.5">Qty: {item.qty || 1}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                {/* Winner name */}
+                <div className="mb-6 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-500/10 px-6 py-4">
+                  <p className="mb-1 text-[var(--color-accent)]/60">
+                    Account Name
+                  </p>
+                  <p>{winnerName}</p>
+                </div>
 
-              {/* PIN display */}
-              <div className="mb-6">
-                <p className="mb-3">Verification PIN</p>
-                <div className="flex items-center justify-center gap-2">
-                  {Array.from(pin, (digit, i) => ({ digit, i })).map(
-                    ({ digit, i }) => (
+                {/* Prizes List */}
+                <div className="mb-8 space-y-3">
+                  <p className="mb-1 text-center">
+                    Prizes Won ({prizesList.length})
+                  </p>
+                  {prizesList.map((item) => {
+                    const shopifyDetails = item.productId
+                      ? shopifyProductsMap[item.productId]
+                      : null;
+                    const displayTitle = shopifyDetails?.title || item.name;
+                    const displayImage =
+                      shopifyDetails?.imageUrl ||
+                      "/images/mockups/merch-hoodie.png";
+
+                    return (
                       <div
-                        key={i}
-                        className="shadow-[0_0_8px_rgba(192, 252,0.15)] flex h-14 w-10 items-center justify-center border-2 border-purple-500/40 bg-black/60"
+                        key={item.productId || item.variantId || item.name}
+                        className="flex items-center gap-3 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-3 text-left"
                       >
-                        <span className="text-2xl tabular-nums">{digit}</span>
+                        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[var(--radius-box)] bg-[#00000029] p-1">
+                          <Image
+                            width={200}
+                            height={200}
+                            unoptimized
+                            src={displayImage}
+                            alt={displayTitle}
+                            className="h-full w-full object-contain mix-blend-screen"
+                            onError={(e) => {
+                              e.currentTarget.src =
+                                "/images/mockups/merch-hoodie.png";
+                            }}
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p>{displayTitle}</p>
+                          <p className="mt-0.5">Qty: {item.qty || 1}</p>
+                        </div>
                       </div>
-                    ),
+                    );
+                  })}
+                </div>
+
+                {/* PIN display */}
+                <div className="mb-6">
+                  <p className="mb-3">Verification PIN</p>
+                  <div className="flex items-center justify-center gap-2">
+                    {Array.from(pin, (digit, i) => ({ digit, i })).map(
+                      ({ digit, i }) => (
+                        <div
+                          key={i}
+                          className="shadow-[0_0_8px_rgba(192, 252,0.15)] flex h-14 w-10 items-center justify-center rounded-[var(--radius-box)] border-2 border-purple-500/40 bg-black/60"
+                        >
+                          <span className="text-2xl tabular-nums">{digit}</span>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </div>
+
+                {/* Claim Confirm Button */}
+                <div className="mt-6 mb-6">
+                  {hasClaimed ? (
+                    <div className="flex animate-pulse items-center justify-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/15 px-4 py-3">
+                      <span>✓ Claim Confirmed & Admin Notified</span>
+                    </div>
+                  ) : (
+                    <SeventhButton
+                      onClick={handleClaimConfirm}
+                      icon={false}
+                      className="w-full"
+                    >
+                      Confirm Prize Claim
+                    </SeventhButton>
                   )}
                 </div>
+
+                <p>Only visible to the winning account. One claim per raffle.</p>
               </div>
 
-              {/* Claim Confirm Button */}
-              <div className="mt-6 mb-6">
-                {hasClaimed ? (
-                  <div className="flex animate-pulse items-center justify-center gap-1.5 border border-emerald-500/30 bg-emerald-500/15 px-4 py-3">
-                    <span>✓ Claim Confirmed & Admin Notified</span>
-                  </div>
-                ) : (
-                  <SeventhButton
-                    onClick={handleClaimConfirm}
-                    icon={false}
-                    className="w-full"
-                  >
-                    Confirm Prize Claim
-                  </SeventhButton>
-                )}
+              {/* Footer */}
+              <div className="border-t border-white/10 bg-black/30 px-6 py-3 text-center">
+                <p>7th Heaven · Live Raffle</p>
               </div>
-
-              <p>Only visible to the winning account. One claim per raffle.</p>
             </div>
+          )}
 
-            {/* Footer */}
-            <div className="border-t border-white/10 bg-black/30 px-6 py-3 text-center">
-              <p>7th Heaven · Live Raffle</p>
+          {/* INVALID — PIN not found */}
+          {status === "invalid" && (
+            <div className="rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
+              <span className="mb-6 block text-5xl">❌</span>
+              <div className="title-group title-group--sub items-center text-center mb-6">
+                <h2>PIN Not Found</h2>
+                <p>
+                  This PIN doesn't match an active raffle winner, or the raffle has
+                  ended.
+                </p>
+              </div>
+              <p className="inline-block rounded-[var(--radius-box)] bg-black/40 px-3 py-2">
+                PIN: {pin}
+              </p>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+      </section>
 
-        {/* INVALID — PIN not found */}
-        {status === "invalid" && (
-          <div className="border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
-            <span className="mb-6 block text-5xl">❌</span>
-            <h2 className="mb-2">PIN Not Found</h2>
-            <p className="mb-6">
-              This PIN doesn't match an active raffle winner, or the raffle has
-              ended.
-            </p>
-            <p className="inline-block  bg-black/40 px-3 py-2">
-              PIN: {pin}
-            </p>
-          </div>
-        )}
-      </div>
-
-      <p className="mt-8 max-w-xs text-center">
-        This page is for prize redemption only. One claim per raffle.
-      </p>
-    </div>
+      <footer className="mt-8 max-w-xs text-center text-sm text-white/50">
+        <p>This page is for prize redemption only. One claim per raffle.</p>
+      </footer>
+    </main>
   );
 }

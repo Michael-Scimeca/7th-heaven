@@ -1527,17 +1527,17 @@
       {
         "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
         "line": 150,
-        "snippet": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+        "snippet": "className=\"  self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
       },
       {
         "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
         "line": 387,
-        "snippet": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+        "snippet": "className=\"  self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
       },
       {
         "file": "src/app/cruise/components/CruiseShipExplorerSection.tsx",
         "line": 659,
-        "snippet": "className=\"mb-1.5 self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
+        "snippet": "className=\"  self-start !border-white/20 !bg-black/80 shadow-md !backdrop-blur-md\""
       },
       {
         "file": "src/app/fan-photo-wall/FanPhotoWallClient.tsx",

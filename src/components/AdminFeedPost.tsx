@@ -139,13 +139,13 @@ export default function AdminFeedPost() {
                 <div
                   key={m.id || m.name || i}
                   title={m.name}
-                  className="flex h-8 w-8 items-center justify-center  border-2 border-[#0a0a0f] bg-[var(--color-accent)]"
+                  className="flex h-8 w-8 items-center justify-center border-2 border-[#0a0a0f] bg-[var(--color-accent)]"
                 >
                   {m.avatar}
                 </div>
               ),
             )}
-            <div className="flex h-8 w-8 items-center justify-center  border-2 border-dashed border-white/10 text-white/20">
+            <div className="flex h-8 w-8 items-center justify-center border-2 border-dashed border-white/10 text-white/20">
               +
             </div>
           </div>
@@ -176,10 +176,10 @@ export default function AdminFeedPost() {
                   key={m.avatar}
                   type="button"
                   onClick={() => setSelectedMember(m)}
-                  className={`border p-3 text-center ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
+                  className={`border p-3 text-center ${selectedMember.avatar === m.avatar ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"} `}
                 >
                   <div
-                    className="mx-auto mb-1 flex h-8 w-8 items-center justify-center  border"
+                    className="mx-auto mb-1 flex h-8 w-8 items-center justify-center border"
                     style={{
                       borderColor:
                         selectedMember.avatar === m.avatar
@@ -208,7 +208,7 @@ export default function AdminFeedPost() {
                   key={t.value}
                   type="button"
                   onClick={() => setPostType(t.value)}
-                  className={`flex items-center gap-1.5 border px-3 py-2 ${postType === t.value ? "border-white/10 bg-white/[0.06]" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"}`}
+                  className={`flex items-center gap-1.5 border px-3 py-2 ${postType === t.value ? "border-white/10 bg-white/[0.06]" : "border-white/[0.06] bg-white/[0.02] hover:border-white/10"} `}
                   style={
                     postType === t.value
                       ? { color: t.color }
@@ -268,11 +268,11 @@ export default function AdminFeedPost() {
           <button
             type="submit"
             disabled={!content.trim() || isPosting}
-            className={`w-full py-3 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover" : "cursor-not-allowed bg-white/[0.05] text-white/20"}`}
+            className={`w-full py-3 ${content.trim() && !isPosting ? "btn-primary btn-primary-hover" : "cursor-not-allowed bg-white/[0.05] text-white/20"} `}
           >
             {isPosting ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="h-3 w-3 animate-spin  border border-white/10 border-t-white" />
+                <span className="h-3 w-3 animate-spin border border-white/10 border-t-white" />
                 Posting...
               </span>
             ) : (
@@ -284,7 +284,7 @@ export default function AdminFeedPost() {
         {/* Status Message */}
         {status && (
           <div
-            className={`mt-4 border p-3 text-center ${status.type === "success" ? "border-green-500/30 bg-green-500/10 text-green-400" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+            className={`mt-4 border p-3 text-center ${status.type === "success" ? "border-green-500/30 bg-green-500/10 text-green-400" : "border-red-500/30 bg-red-500/10 text-red-400"} `}
           >
             {status.message}
           </div>

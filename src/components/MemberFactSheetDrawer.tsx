@@ -179,7 +179,7 @@ export default function MemberFactSheetDrawer({
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
+                  className="transition-colors border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
                   title="Previous Member"
                   aria-label="Previous member"
                 >
@@ -191,7 +191,7 @@ export default function MemberFactSheetDrawer({
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
+                  className="transition-colors border border-white/10 bg-white/5 p-1 text-neutral-300 hover:bg-purple-500/20 hover:text-white"
                   title="Next Member"
                   aria-label="Next member"
                 >
@@ -203,7 +203,7 @@ export default function MemberFactSheetDrawer({
             <button
               type="button"
               onClick={onClose}
-              className="hover:bg-white/20 rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 hover:text-white"
+              className="transition-colors hover:bg-white/20 rounded-full border border-white/10 bg-white/10 p-1.5 text-neutral-300 hover:text-white"
               aria-label="Close modal"
             >
               <X className="h-4 w-4" />
@@ -216,12 +216,12 @@ export default function MemberFactSheetDrawer({
           {/* 🎟️ VINTAGE LIGHT PAPER TICKET STUB / FACT SHEET CARD */}
           <div className="relative overflow-hidden sm:py-2">
             {/* Member Name */}
-            <h2 className="font-serif text-2xl font-black sm:text-3xl">
-              {fullName}
-            </h2>
-
-            {/* Role Subtitle */}
-            <p className="sm: mt-2 mb-5">{member.role}</p>
+            <div className="title-group title-group--section mb-5">
+              <h2 className="font-serif text-2xl font-black sm:text-3xl">
+                {fullName}
+              </h2>
+              <p className="sm:">{member.role}</p>
+            </div>
 
             {/* 4-Column Quick Metadata Grid */}
             <div className="grid grid-cols-4 gap-2 border-t border-white/10 pt-3">
@@ -252,7 +252,7 @@ export default function MemberFactSheetDrawer({
 
             <div className="space-y-3.5">
               {/* Best Trait vs Worst Trait Row */}
-              <div className="flex items-center justify-between gap-2  border border-white/10 bg-black/40 px-3 py-3 text-center">
+              <div className="flex items-center justify-between gap-2 border border-white/10 bg-black/40 px-3 py-3 text-center">
                 <div className="flex-1">
                   <span className="mb-1 block">BEST TRAIT</span>
                   <span className="block text-rose-400">{bestTrait}</span>
@@ -266,7 +266,7 @@ export default function MemberFactSheetDrawer({
 
               {/* Favorite Quote Box */}
               <div className="border-l-2 border-purple-500/60 py-1 pt-2 pl-3.5">
-                <p className="font-serif text-neutral-200 ">
+                <p className="font-serif text-neutral-200">
                   &ldquo;{favQuote}&rdquo;
                 </p>
                 <span className="block text-[12px] text-purple-400">

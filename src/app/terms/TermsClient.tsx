@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import PageHero from "@/components/PageHero";
 
 interface TermsClientProps {
   sanityContent?: any;
@@ -10,43 +11,48 @@ interface TermsClientProps {
 export default function TermsClient({ sanityContent }: TermsClientProps) {
   return (
     <main
-      className="site-container page-container min-h-screen text-left"
+      className="site-container page-container page-stack-sm prose-legal min-h-screen text-left"
       id="terms-page"
     >
-      <header className="mb-6 text-left">
-        <h1 className="mb-2">
-          {sanityContent?.heroHeading ||
-            sanityContent?.title ||
-            "Terms of Service"}
-        </h1>
-        <p>
-          {sanityContent?.lastUpdated ||
-            sanityContent?.subtitle ||
-            "Last Updated: April 12, 2026"}
-        </p>
-      </header>
+      <PageHero
+        title={
+          sanityContent?.heroHeading ||
+          sanityContent?.title ||
+          "Terms of Service"
+        }
+        titleId="terms-heading"
+        subtitle={
+          sanityContent?.lastUpdated ||
+          sanityContent?.subtitle ||
+          "Last Updated: April 12, 2026"
+        }
+        align="left"
+      />
 
-      <div className="prose-legal flex flex-col gap-6 pb-section-fluid">
-        {sanityContent?.sections &&
-          Array.isArray(sanityContent.sections) &&
-          sanityContent.sections.length > 0 ? (
-          sanityContent.sections.map((sec: any, idx: number) => {
+      {sanityContent?.sections &&
+        Array.isArray(sanityContent.sections) &&
+        sanityContent.sections.length > 0 ? (
+        sanityContent.sections.map((sec: any, idx: number) => {
             const sectionKey =
               sec._key ||
               sec.sectionId ||
               sec._id ||
               sec.title ||
               `terms-sec-${sec._key || sec.sectionId}`;
-            const headingId = `terms-sec-${sec.sectionId || sec._key || idx + 1}`;
+            const secId = `terms-sec-${sec.sectionId || sec._key || idx + 1}`;
             return (
               <section
                 key={sectionKey}
-                aria-labelledby={`${headingId}-heading`}
+                id={secId}
+                className="section-sm"
+                aria-labelledby={`${secId}-heading`}
               >
-                <h2 id={`${headingId}-heading`} className="mb-3">
-                  {sec.title || `${idx + 1}. Policy Section`}
-                </h2>
-                {sec.subtitle && <p className="mb-2">{sec.subtitle}</p>}
+                <div className="title-group title-group--section">
+                  <h2 id={`${secId}-heading`}>
+                    {sec.title || `${idx + 1}. Policy Section`}
+                  </h2>
+                  {sec.subtitle && <p>{sec.subtitle}</p>}
+                </div>
                 {sec.body && (
                   <div className="whitespace-pre-line">{sec.body}</div>
                 )}
@@ -56,7 +62,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
         ) : (
           <>
             {/* 1 */}
-            <section aria-labelledby="terms-sec-1-heading">
+            <section
+              id="terms-sec-1"
+              className="section-sm"
+              aria-labelledby="terms-sec-1-heading"
+            >
               <h2 id="terms-sec-1-heading" className="mb-3">
                 1. Acceptance of Terms
               </h2>
@@ -73,7 +83,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 2 */}
-            <section aria-labelledby="terms-sec-2-heading">
+            <section
+              id="terms-sec-2"
+              className="section-sm"
+              aria-labelledby="terms-sec-2-heading"
+            >
               <h2 id="terms-sec-2-heading" className="mb-3">
                 2. Services Provided
               </h2>
@@ -99,7 +113,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 3 */}
-            <section aria-labelledby="terms-sec-3-heading">
+            <section
+              id="terms-sec-3"
+              className="section-sm"
+              aria-labelledby="terms-sec-3-heading"
+            >
               <h2 id="terms-sec-3-heading" className="mb-3">
                 3. Member Accounts
               </h2>
@@ -126,7 +144,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 4 */}
-            <section aria-labelledby="terms-sec-4-heading">
+            <section
+              id="terms-sec-4"
+              className="section-sm"
+              aria-labelledby="terms-sec-4-heading"
+            >
               <h2 id="terms-sec-4-heading" className="mb-3">
                 4. Proximity Alerts & Web Push Notifications
               </h2>
@@ -200,7 +222,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 5 */}
-            <section aria-labelledby="terms-sec-5-heading">
+            <section
+              id="terms-sec-5"
+              className="section-sm"
+              aria-labelledby="terms-sec-5-heading"
+            >
               <h2 id="terms-sec-5-heading" className="mb-3">
                 5. Intellectual Property
               </h2>
@@ -215,7 +241,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 6 */}
-            <section aria-labelledby="terms-sec-6-heading">
+            <section
+              id="terms-sec-6"
+              className="section-sm"
+              aria-labelledby="terms-sec-6-heading"
+            >
               <h2 id="terms-sec-6-heading" className="mb-3">
                 6. User Content & Conduct
               </h2>
@@ -237,7 +267,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 7 */}
-            <section aria-labelledby="terms-sec-7-heading">
+            <section
+              id="terms-sec-7"
+              className="section-sm"
+              aria-labelledby="terms-sec-7-heading"
+            >
               <h2 id="terms-sec-7-heading" className="mb-3">
                 7. E-Commerce & Merch Purchases
               </h2>
@@ -261,7 +295,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 8 */}
-            <section aria-labelledby="terms-sec-8-heading">
+            <section
+              id="terms-sec-8"
+              className="section-sm"
+              aria-labelledby="terms-sec-8-heading"
+            >
               <h2 id="terms-sec-8-heading" className="mb-3">
                 8. Prohibited Activities
               </h2>
@@ -284,7 +322,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 9 */}
-            <section aria-labelledby="terms-sec-9-heading">
+            <section
+              id="terms-sec-9"
+              className="section-sm"
+              aria-labelledby="terms-sec-9-heading"
+            >
               <h2 id="terms-sec-9-heading" className="mb-3">
                 9. Disclaimers
               </h2>
@@ -298,7 +340,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 10 */}
-            <section aria-labelledby="terms-sec-10-heading">
+            <section
+              id="terms-sec-10"
+              className="section-sm"
+              aria-labelledby="terms-sec-10-heading"
+            >
               <h2 id="terms-sec-10-heading" className="mb-3">
                 10. Limitation of Liability
               </h2>
@@ -312,7 +358,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 11 */}
-            <section aria-labelledby="terms-sec-11-heading">
+            <section
+              id="terms-sec-11"
+              className="section-sm"
+              aria-labelledby="terms-sec-11-heading"
+            >
               <h2 id="terms-sec-11-heading" className="mb-3">
                 11. Changes to These Terms
               </h2>
@@ -325,7 +375,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 12 */}
-            <section aria-labelledby="terms-sec-12-heading">
+            <section
+              id="terms-sec-12"
+              className="section-sm"
+              aria-labelledby="terms-sec-12-heading"
+            >
               <h2 id="terms-sec-12-heading" className="mb-3">
                 12. Governing Law
               </h2>
@@ -337,7 +391,11 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
 
             {/* 13 */}
-            <section aria-labelledby="terms-sec-13-heading">
+            <section
+              id="terms-sec-13"
+              className="section-sm"
+              aria-labelledby="terms-sec-13-heading"
+            >
               <h2 id="terms-sec-13-heading" className="mb-3">
                 13. Contact
               </h2>
@@ -366,7 +424,6 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
             </section>
           </>
         )}
-      </div>
     </main>
   );
 }

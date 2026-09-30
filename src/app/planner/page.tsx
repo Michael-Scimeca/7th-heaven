@@ -31,8 +31,8 @@ export default function PlannerRedirectPage() {
       className="flex min-h-screen items-center justify-center"
     >
       <div className="text-center">
-        <h1 className="sr-only">7th Heaven Event Planner Portal</h1>
-        <div className="mx-auto mb-6 h-8 w-8 animate-spin  border-2 border-white/10 border-t-[var(--color-accent)]" />
+        <p className="sr-only">7th Heaven Event Planner Portal</p>
+        <div className="mx-auto mb-6 h-8 w-8 animate-spin border-2 border-white/10 border-t-[var(--color-accent)]" />
         <p>Redirecting to Planner Dashboard...</p>
       </div>
     </main>

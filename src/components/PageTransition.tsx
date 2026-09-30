@@ -1028,20 +1028,20 @@ function TransitionTunerPanel({
               }
             }}
             title="Copy current settings JSON to clipboard"
-            className="rounded border border-purple-500/40 bg-purple-950/40 px-1.5 py-0.5 text-[10px] hover:border-purple-400 hover:text-white"
+            className="transition-colors rounded border border-purple-500/40 bg-purple-950/40 px-1.5 py-0.5 text-[10px] hover:border-purple-400 hover:text-white"
           >
             Copy JSON
           </button>
           <button
             onClick={resetDefaults}
             title="Reset all settings to default"
-            className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/50 hover:border-white/30 hover:text-white"
+            className="transition-colors rounded border border-white/15 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/50 hover:border-white/30 hover:text-white"
           >
             Reset
           </button>
           <button
             onClick={() => setShowControls(!showControls)}
-            className="rounded border border-purple-500/30 bg-purple-950/40 px-2 py-0.5 text-[10px] hover:bg-purple-600/30 hover:text-white"
+            className="transition-colors rounded border border-purple-500/30 bg-purple-950/40 px-2 py-0.5 text-[10px] hover:bg-purple-600/30 hover:text-white"
           >
             {showControls ? "Collapse" : "Expand"}
           </button>
@@ -1051,22 +1051,22 @@ function TransitionTunerPanel({
       {showControls && (
         <div className="flex flex-col gap-3 pt-1">
           {/* ── TAB BAR SWITCHER ── */}
-          <div className="grid grid-cols-3 gap-1  border border-white/10 bg-white/5 p-1">
+          <div className="grid grid-cols-3 gap-1 border border-white/10 bg-white/5 p-1">
             <button
               onClick={() => setActiveTab("master")}
-              className={`r  py-1.5 text-[10px] ${activeTab === "master" ? "bg-purple-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+              className={`r py-1.5 text-[10px] ${activeTab === "master" ? "bg-purple-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"} `}
             >
               ⚡ Master
             </button>
             <button
               onClick={() => setActiveTab("exit")}
-              className={`r  py-1.5 text-[10px] ${activeTab === "exit" ? "bg-fuchsia-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+              className={`r py-1.5 text-[10px] ${activeTab === "exit" ? "bg-fuchsia-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"} `}
             >
               📤 Exit Path
             </button>
             <button
               onClick={() => setActiveTab("reveal")}
-              className={`r  py-1.5 text-[10px] ${activeTab === "reveal" ? "bg-cyan-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+              className={`r py-1.5 text-[10px] ${activeTab === "reveal" ? "bg-cyan-600 shadow" : "text-white/60 hover:bg-white/5 hover:text-white"} `}
             >
               📥 Reveal Path
             </button>
@@ -1095,7 +1095,7 @@ function TransitionTunerPanel({
           )}
 
           {/* ── SLOW-MO SPEED & REPLAY SECTION (ALWAYS VISIBLE) ── */}
-          <div className="flex flex-col gap-2  border border-white/10 bg-purple-950/20 p-3">
+          <div className="flex flex-col gap-2 border border-white/10 bg-purple-950/20 p-3">
             <div className="flex items-center justify-between">
               <span className="r text-[10px] text-purple-400">
                 Slow-Mo Speed
@@ -1108,7 +1108,7 @@ function TransitionTunerPanel({
                 <button
                   key={m}
                   onClick={() => handleSpeedPreset(m)}
-                  className={`flex-1 rounded py-1 text-[10px] ${settings.speedMult === m ? "bg-purple-600 shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black" : "bg-white/10 hover:bg-white/20 hover:text-white"}`}
+                  className={`flex-1 rounded py-1 text-[10px] ${settings.speedMult === m ? "bg-purple-600 shadow ring-1 ring-purple-300 ring-offset-1 ring-offset-black" : "bg-white/10 hover:bg-white/20 hover:text-white"} `}
                 >
                   {m}x
                 </button>
@@ -1124,12 +1124,12 @@ function TransitionTunerPanel({
               onChange={(e) =>
                 updateSetting("speedMult", parseFloat(e.target.value))
               }
-              className="h-1.5 w-full cursor-pointer  bg-white/20 accent-purple-500"
+              className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-500"
             />
 
             <button
               onClick={triggerReplay}
-              className="r flex w-full cursor-pointer items-center justify-center gap-1.5  bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
+              className="transition-colors r flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
             >
               <span>🎬 Replay Transition ({settings.speedMult}x)</span>
             </button>
@@ -1155,7 +1155,7 @@ function MasterTabSection({
   updateSetting,
 }: TabSectionProps) {
   return (
-    <div className="flex flex-col gap-2.5  border border-purple-500/30 bg-purple-950/30 p-3">
+    <div className="flex flex-col gap-2.5 border border-purple-500/30 bg-purple-950/30 p-3">
       <div className="flex items-center justify-between border-b border-white/10 pb-2">
         <p>Master Path & Sync</p>
         <span className="rounded border border-purple-500/30 bg-purple-900/60 px-1.5 py-0.5 text-[9px] text-purple-400">
@@ -1205,7 +1205,7 @@ function MasterTabSection({
         step={0.05}
         value={settings.exitSpeed}
         onChange={(e) => updateSetting("exitSpeed", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-purple-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
       />
 
       <div className="flex flex-col gap-1">
@@ -1237,10 +1237,10 @@ function MasterTabSection({
         onChange={(e) =>
           updateSetting("exitSlantRatio", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-purple-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
       />
 
-      <label className="flex cursor-pointer items-center gap-2 pt-0.5 select-none">
+      <label className="flex cursor-pointer items-center gap-2 select-none">
         <input
           type="checkbox"
           checked={settings.exitFlipSlant}
@@ -1258,7 +1258,7 @@ function MasterTabSection({
 
 function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
-    <div className="flex flex-col gap-2.5  border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
+    <div className="flex flex-col gap-2.5 border border-fuchsia-500/20 bg-fuchsia-950/20 p-3">
       <p className="border-b border-fuchsia-500/20 pb-1.5 text-fuchsia-400">
         Old Page Exit Controls
       </p>
@@ -1304,7 +1304,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("exitSlantRatio", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1320,7 +1320,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={0.05}
         value={settings.exitScale}
         onChange={(e) => updateSetting("exitScale", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1334,7 +1334,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.exitX || 0}
         onChange={(e) => updateSetting("exitX", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1348,7 +1348,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.exitY || 0}
         onChange={(e) => updateSetting("exitY", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1364,7 +1364,7 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("exitRotation", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-fuchsia-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
       />
 
       <div className="flex flex-col gap-1">
@@ -1388,12 +1388,12 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 
 function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
   return (
-    <div className="flex flex-col gap-2.5  border border-white/10 bg-cyan-950/20 p-3">
+    <div className="flex flex-col gap-2.5 border border-white/10 bg-cyan-950/20 p-3">
       <p className="border-b border-white/10 pb-1.5 text-cyan-400">
         New Page Reveal Controls
       </p>
 
-      <label className="flex cursor-pointer items-center gap-2 text-cyan-200 select-none">
+      <label className="flex cursor-pointer items-center gap-2 select-none">
         <input
           type="checkbox"
           checked={settings.clipRevealPath}
@@ -1434,7 +1434,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("revealSlantRatio", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1452,7 +1452,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("revealScale", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1466,7 +1466,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.revealX || 0}
         onChange={(e) => updateSetting("revealX", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1482,7 +1482,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         step={5}
         value={settings.revealY !== undefined ? settings.revealY : 40}
         onChange={(e) => updateSetting("revealY", parseFloat(e.target.value))}
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
       />
 
       <div className="flex items-center justify-between">
@@ -1498,7 +1498,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         onChange={(e) =>
           updateSetting("revealRotation", parseFloat(e.target.value))
         }
-        className="h-1.5 w-full cursor-pointer  bg-white/20 accent-cyan-400"
+        className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
       />
 
       <div className="flex flex-col gap-1">

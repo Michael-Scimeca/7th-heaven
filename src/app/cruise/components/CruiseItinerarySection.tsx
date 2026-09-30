@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
-import LazyMount from "@/components/LazyMount";
-import { useGLTF } from "@react-three/drei";
 import {
   ITINERARY_2027,
   ITINERARY_2028,
@@ -29,29 +27,23 @@ export default function CruiseItinerarySection({
     : ITINERARY_2028;
 
   return (
-    <LazyMount
-      as="section"
+    <section
       id="itinerary"
-      className="py-section-fluid relative z-20 border-b border-white/10"
-      minHeight="800px"
-      rootMargin="300px 0px"
-      onVisible={() => {
-        if (typeof window !== "undefined") {
-          useGLTF.preload("/objects/ship.glb");
-        }
-      }}
+      aria-labelledby="itinerary-heading"
+      className="section relative z-20 border-b"
     >
       <div className="mx-auto w-full">
         <div className="site-container w-full text-left">
-          <SectionBadge label="Interactive Voyage Map" className="mb-3" />
-          <h2>
-            Day-by-Day{" "}
-            <span className="accent-gradient-text">Voyage Itinerary</span>
-          </h2>
-          <p className="mt-3 max-w-2xl">
-            Explore daily port calls, cruising coordinates, sail-away party
-            times, and exclusive fan concerts.
-          </p>
+          <div className="title-group title-group--section">
+            <h2 id="itinerary-heading">
+              Day-by-Day{" "}
+              <span className="accent-gradient-text">Voyage Itinerary</span>
+            </h2>
+            <p className="max-w-2xl">
+              Explore daily port calls, cruising coordinates, sail-away party
+              times, and exclusive fan concerts.
+            </p>
+          </div>
 
           {/* Itinerary Year Toggle */}
           <div className="my-6 flex flex-wrap items-center gap-3">
@@ -84,6 +76,6 @@ export default function CruiseItinerarySection({
           />
         </div>
       </div>
-    </LazyMount>
+    </section>
   );
 }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
 import SeventhButton from "@/components/SeventhButton";
+import PageHero from "@/components/PageHero";
 import {
   FEATURES,
   TECH,
@@ -80,11 +81,16 @@ export default function FeaturesPage() {
   const highlights = FEATURES.filter((f) => f.highlight);
 
   return (
-    <main className="min-h-screen overflow-x-hidden">
+    <main className="page-container page-stack min-h-screen overflow-x-hidden">
       {/* ═══ HERO ═══════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-6 pt-40 pb-28 md:px-12 lg:px-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 h-[600px] w-[1100px] -translate-x-1/2  bg-[var(--color-accent)] opacity-[0.10] blur-3xl" />
+      <section
+        id="features-hero"
+        aria-labelledby="features-heading"
+        className="section relative"
+      >
+        <div className="relative overflow-hidden px-6 md:px-12 lg:px-20">
+          <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-0 left-1/2 h-[600px] w-[1100px] -translate-x-1/2 bg-[var(--color-accent)] opacity-[0.10] blur-3xl" />
           <div
             className="absolute inset-0 opacity-[0.025]"
             style={{
@@ -95,28 +101,22 @@ export default function FeaturesPage() {
           />
         </div>
 
-        <div className="relative mx-auto max-w-5xl text-center">
-          <div className="mb-10 inline-flex items-center gap-2.5  border border-[#851DEF]/30 bg-[var(--color-accent)]/10 px-5 py-2 text-[#c084fc]">
-            Full Platform Overview · All Features Live & Documented
-          </div>
-
-          <h1
-            className="mb-6 text-6xl leading-[0.9]"
-            style={{ fontStyle: " " }}
-          >
-            Everything
-            <br />
-            <span style={{ color: "#851DEF" }}>Built In.</span>
-          </h1>
-
-          <p className="mx-auto mb-6 max-w-3xl">
-            A production-grade digital platform for 7th Heaven. Every feature is
-            live, documented, and explained in full — from interactive visual
-            sitemaps to live-stream raffles, 6-digit PIN security flows, and AI
-            photo moderation.
-          </p>
-
-          <div className="mb-12 flex flex-wrap items-center justify-center gap-2">
+        <div className="relative mx-auto max-w-5xl">
+          <PageHero
+          badge="Full Platform Overview · All Features Live & Documented"
+          title={
+            <>
+              Everything
+              <br />
+              <span className="text-[var(--color-accent)]">Built In.</span>
+            </>
+          }
+          titleId="features-heading"
+          subtitle="A production-grade digital platform for 7th Heaven. Every feature is live, documented, and explained in full — from interactive visual sitemaps to live-stream raffles, 6-digit PIN security flows, and AI photo moderation."
+          align="left"
+          className="relative max-w-5xl mb-8"
+        >
+          <div className="flex flex-wrap items-center gap-2 mb-8">
             {[
               "Interactive Visual Sitemap",
               "WebRTC Live Streaming",
@@ -131,52 +131,62 @@ export default function FeaturesPage() {
             ].map((p) => (
               <span
                 key={p}
-                className="rounded-lg border border-white/10 bg-[#00000029] px-3 py-1.5 text-white/40"
+                className="btn-pill-glass"
               >
                 {p}
               </span>
             ))}
           </div>
+        </PageHero>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/sitemap"
-              className="inline-flex items-center gap-2  bg-[var(--color-accent)] px-8 py-3.5   hover:bg-[var(--color-accent-hover)] hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]"
+              className="transition-[background-color,color,border-color,box-shadow] inline-flex items-center gap-2 bg-[var(--color-accent)] px-8 py-3.5 hover:bg-[var(--color-accent-hover)] hover:shadow-[0_0_40px_rgba(255,10,61,0.5)]"
             >
               Interactive Sitemap →
             </Link>
             <Link
               href="/live"
-              className="inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-3.5   hover:border-white/30 hover:bg-white/10"
+              className="transition-colors inline-flex items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-3.5 hover:border-white/30 hover:bg-white/10"
             >
-              <span className="h-2 w-2 animate-pulse  bg-white" />
+              <span className="h-2 w-2 animate-pulse bg-white" />
               Watch Live
             </Link>
             <Link
               href="/book"
-              className="inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-3.5   hover:border-white/30 hover:bg-white/10"
+              className="transition-colors inline-flex items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-3.5 hover:border-white/30 hover:bg-white/10"
             >
               Book The Band →
             </Link>
             <Link
               href="/fans"
-              className="inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-3.5   hover:border-white/30 hover:bg-white/10"
+              className="transition-colors inline-flex items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-3.5 hover:border-white/30 hover:bg-white/10"
             >
               Fan Dashboard →
             </Link>
             <a
               href="#all-features"
-              className="inline-flex items-center gap-2  border border-emerald-500/30 bg-emerald-500/10 px-8 py-3.5   hover:border-emerald-500/60 hover:bg-emerald-500/20"
+              className="transition-colors inline-flex items-center gap-2 border border-emerald-500/30 bg-emerald-500/10 px-8 py-3.5 hover:border-emerald-500/60 hover:bg-emerald-500/20"
             >
               View All Features ↓
             </a>
           </div>
         </div>
+        </div>
       </section>
 
       {/* ═══ STATS ═══════════════════════════════════════ */}
-      <section className="border-y border-white/[0.06] bg-gradient-to-r from-[#851DEF]/5 via-transparent to-[#851DEF]/5">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-white/[0.06] md:grid-cols-4 md:divide-y-0">
+      <section
+        id="platform-stats"
+        aria-labelledby="platform-stats-heading"
+        className="section"
+      >
+        <h2 id="platform-stats-heading" className="sr-only">
+          Platform Statistics
+        </h2>
+        <div className="border-y border-white/[0.06] bg-gradient-to-r from-[#851DEF]/5 via-transparent to-[#851DEF]/5">
+          <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-white/[0.06] md:grid-cols-4 md:divide-y-0">
           <Counter
             end={30}
             label="Features Live"
@@ -198,15 +208,21 @@ export default function FeaturesPage() {
             sublabel="Web Push — proximity, RSVP, live broadcasts, crew"
           />
         </div>
+        </div>
       </section>
 
       {/* ═══ FLAGSHIP FEATURES ═══════════════════════════ */}
-      <section className="px-6 py-24 md:px-12 lg:px-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-3 flex items-center gap-3">
-            <span className="text-[var(--color-accent)]">✦</span>
-            <h2 style={{ fontStyle: " " }}>Flagship Features</h2>
-          </div>
+      <section
+        id="flagship-features"
+        aria-labelledby="flagship-features-heading"
+        className="section"
+      >
+        <div className="px-6 py-24 md:px-12 lg:px-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="text-[var(--color-accent)]">✦</span>
+              <h2 id="flagship-features-heading">Flagship Features</h2>
+            </div>
           <p className="mb-12 max-w-2xl">
             The ten defining features of the platform — each explained in full
             with bullet points, business impact, and a technical walkthrough.
@@ -219,18 +235,21 @@ export default function FeaturesPage() {
             ))}
           </div>
         </div>
+        </div>
       </section>
 
       {/* ═══ FULL FEATURE SET ════════════════════════════ */}
       <section
         id="all-features"
-        className="bg-white/[0.01] px-6 py-24 md:px-12 lg:px-20"
+        aria-labelledby="all-features-heading"
+        className="section"
       >
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-3 flex items-center gap-3">
-            <span className="text-white/30">◈</span>
-            <h2 style={{ fontStyle: " " }}>All {FEATURES.length} Features</h2>
-          </div>
+        <div className="bg-white/[0.01] px-6 py-24 md:px-12 lg:px-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="text-white/30">◈</span>
+              <h2 id="all-features-heading">All {FEATURES.length} Features</h2>
+            </div>
           <p className="mb-10">
             Filter by category. Every feature card includes a full description,
             bullet list, business impact statement, and expandable technical
@@ -249,11 +268,11 @@ export default function FeaturesPage() {
                 <button
                   key={cat.key}
                   onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex cursor-pointer items-center gap-1.5  border px-4 py-2 ${activeCategory === cat.key ? "border-[#851DEF] bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/30 hover:text-white"}`}
+                  className={`flex cursor-pointer items-center gap-1.5 border px-4 py-2 ${activeCategory === cat.key ? "border-[#851DEF] bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/30 hover:text-white"} `}
                 >
                   {cat.icon} {cat.label}
                   <span
-                    className={`ml-1  px-1.5 py-0.5 ${activeCategory === cat.key ? "bg-white/20" : "bg-[#00000029] text-white/30"}`}
+                    className={`ml-1 px-1.5 py-0.5 ${activeCategory === cat.key ? "bg-white/20" : "bg-[#00000029] text-white/30"} `}
                   >
                     {count}
                   </span>
@@ -268,15 +287,21 @@ export default function FeaturesPage() {
             ))}
           </div>
         </div>
+        </div>
       </section>
 
       {/* ═══ TECH STACK ══════════════════════════════════ */}
-      <section className="px-6 py-24 md:px-12 lg:px-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-3 flex items-center gap-3">
-            <span className="text-white/30">◈</span>
-            <h2 style={{ fontStyle: " " }}>Built With</h2>
-          </div>
+      <section
+        id="tech-stack"
+        aria-labelledby="tech-stack-heading"
+        className="section"
+      >
+        <div className="px-6 py-24 md:px-12 lg:px-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="text-white/30">◈</span>
+              <h2 id="tech-stack-heading">Built With</h2>
+            </div>
           <p className="mb-10">
             Best-in-class services and frameworks — each chosen for reliability,
             scalability, and fit-for-purpose performance.
@@ -285,9 +310,9 @@ export default function FeaturesPage() {
             {TECH.map((t) => (
               <div
                 key={t.name}
-                className="flex cursor-default items-start gap-4 border border-white/10 border-white/[0.06] bg-white/[0.02] p-5 hover:bg-white/[0.04]"
+                className="transition-colors flex cursor-default items-start gap-4 border border-white/10 border-white/[0.06] bg-white/[0.02] p-5 hover:bg-white/[0.04]"
               >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center  border border-white/10 bg-[#00000029] text-2xl">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-white/10 bg-[#00000029] text-2xl">
                   {t.icon}
                 </div>
                 <div>
@@ -298,27 +323,33 @@ export default function FeaturesPage() {
             ))}
           </div>
         </div>
+        </div>
       </section>
 
       {/* ═══ CTA ═════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-6 py-32">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#851DEF]/8 to-transparent" />
-          <div className="absolute top-1/2 left-1/2 h-[400px] w-[1000px] -translate-x-1/2 -translate-y-1/2  bg-[var(--color-accent)] opacity-[0.07] blur-3xl" />
-          <div
-            className="absolute inset-0 opacity-[0.02]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
-            }}
-          />
-        </div>
-        <div className="relative mx-auto max-w-4xl text-center">
-          <h2 className="mb-6 text-6xl md:text-8xl" style={{ fontStyle: " " }}>
+      <section
+        id="features-cta"
+        aria-labelledby="features-cta-heading"
+        className="section relative"
+      >
+        <div className="relative overflow-hidden px-6 py-32">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#851DEF]/8 to-transparent" />
+            <div className="absolute top-1/2 left-1/2 h-[400px] w-[1000px] -translate-x-1/2 -translate-y-1/2 bg-[var(--color-accent)] opacity-[0.07] blur-3xl" />
+            <div
+              className="absolute inset-0 opacity-[0.02]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)",
+                backgroundSize: "60px 60px",
+              }}
+            />
+          </div>
+          <div className="relative mx-auto max-w-4xl text-center">
+            <h2 id="features-cta-heading" className="mb-6 text-6xl md:text-8xl">
             Ready to
             <br />
-            <span style={{ color: "#851DEF" }}>Experience It?</span>
+            <span className="text-[#851DEF]">Experience It?</span>
           </h2>
           <p className="mx-auto mb-3 max-w-2xl">
             Every feature on this page is live and ready. No demos, no mockups —
@@ -334,29 +365,30 @@ export default function FeaturesPage() {
             </SeventhButton>
             <Link
               href="/live"
-              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
+              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
             >
               Watch Live
             </Link>
             <Link
               href="/#tour"
-              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
+              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
             >
               See Tour Dates
             </Link>
             <Link
               href="/book"
-              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
+              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
             >
               Book the Band
             </Link>
             <TransitionLink
               href="/contact"
-              className="inline-flex cursor-pointer items-center gap-2  border border-white/10 bg-[#00000029] px-8 py-4   hover:border-white/30 hover:bg-white/10"
+              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
             >
               Contact Us
             </TransitionLink>
           </div>
+        </div>
         </div>
       </section>
     </main>

@@ -7,6 +7,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 import { supabase } from "@/lib/supabase-client";
+import PageHero from "@/components/PageHero";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface PickupOrder {
@@ -312,13 +313,15 @@ function MerchDashboard() {
         className="flex min-h-screen items-center justify-center p-6"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
-        <div className="w-full max-w-sm border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
+        <div className="w-full max-w-sm rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
           <span className="mb-6 block text-5xl">🔐</span>
-          <h2 className="mb-2">Merch Login Required</h2>
-          <p className="mb-6">Sign in with your merch team account.</p>
+          <div className="title-group title-group--sub mb-6 items-center text-center">
+            <h2>Merch Login Required</h2>
+            <p>Sign in with your merch team account.</p>
+          </div>
           <button
             onClick={() => openModal()}
-            className="w-full bg-purple-600 py-3 hover:bg-purple-500"
+            className="transition-colors w-full rounded-[var(--radius-box)] bg-purple-600 py-3 hover:bg-purple-500"
           >
             Sign In
           </button>
@@ -332,10 +335,12 @@ function MerchDashboard() {
         className="flex min-h-screen items-center justify-center p-6"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
-        <div className="w-full max-w-sm border border-red-500/20 bg-[var(--color-bg-surface)] p-8 text-center">
+        <div className="w-full max-w-sm rounded-[var(--radius-box)] border border-red-500/20 bg-[var(--color-bg-surface)] p-8 text-center">
           <span className="mb-6 block text-5xl">🚫</span>
-          <h2 className="mb-2">Merch Team Only</h2>
-          <p>This page is only accessible to 7th Heaven merch staff.</p>
+          <div className="title-group title-group--sub items-center text-center">
+            <h2>Merch Team Only</h2>
+            <p>This page is only accessible to 7th Heaven merch staff.</p>
+          </div>
         </div>
       </div>
     );
@@ -345,41 +350,49 @@ function MerchDashboard() {
 
   return (
     <main
-      className="site-container min-h-screen pt-[123px]"
+      className="site-container page-container page-stack min-h-screen"
       id="merch-page"
-      style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* Header — sits below global nav */}
-      <header className="sticky top-[95px] z-20 border-b border-white/10 bg-[var(--color-bg-surface)]/90 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
-          <div>
-            <p className="text-pink-500">7th Heaven</p>
-            <h1>Merch Table</h1>
-          </div>
+      {/* Header */}
+      <PageHero
+        badge="7th Heaven"
+        title="Merch Table"
+        titleId="merch-heading"
+        align="left"
+        className="mb-6"
+        actions={
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (
-              <span className="animate-pulse  border border-pink-500/30 bg-pink-500/20 px-2.5 py-1 text-pink-400">
+              <span className="animate-pulse rounded-[var(--radius-box)] border border-pink-500/30 bg-pink-500/20 px-2.5 py-1 text-pink-400 text-xs">
                 {pendingPickups.length} Pickup
                 {pendingPickups.length !== 1 ? "s" : ""} Pending
               </span>
             )}
-            <span className="text-white/30">
+            <span className="text-muted text-xs">
               {isDemo ? "DEMO MODE" : member?.name}
             </span>
           </div>
-        </div>
-      </header>
+        }
+      />
 
-      <div className="mx-auto flex min-h-[55vh] max-w-4xl flex-col items-center justify-center px-4 py-24 text-center">
-        <div className="flex h-16 w-16 items-center justify-center  border border-white/10 bg-purple-600/10 text-2xl shadow-[0_0_30px_rgba(147,51,234,0.15)]">
-          ✨
+      <section
+        id="merch-coming-soon"
+        aria-labelledby="merch-coming-soon-heading"
+        className="section"
+      >
+        <div className="mx-auto flex min-h-[55vh] max-w-4xl flex-col items-center justify-center px-4 py-24 text-center">
+          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-white/10 bg-purple-600/10 text-2xl shadow-[0_0_30px_rgba(147,51,234,0.15)]">
+            ✨
+          </div>
+          <div className="title-group title-group--section items-center text-center">
+            <h2 id="merch-coming-soon-heading">Coming Soon</h2>
+            <p className="max-w-sm">
+              The 7th Heaven Merch Table portal is currently under maintenance and
+              will be live soon.
+            </p>
+          </div>
         </div>
-        <h2>Coming Soon</h2>
-        <p className="mt-2 max-w-sm">
-          The 7th Heaven Merch Table portal is currently under maintenance and
-          will be live soon.
-        </p>
-      </div>
+      </section>
     </main>
   );
 }

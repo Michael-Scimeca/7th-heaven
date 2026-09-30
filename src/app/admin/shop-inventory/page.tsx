@@ -137,7 +137,7 @@ export default function ShopInventoryAdminPage() {
   if (!authorized) {
     return (
       <div className="flex min-h-screen items-center justify-center px-6 pt-32 pb-24">
-        <div className="w-full max-w-md  border border-white/[0.12] bg-white/[0.04] p-8 text-center">
+        <div className="w-full max-w-md border border-white/[0.12] bg-white/[0.04] p-8 text-center">
           <h2 className="mb-2 text-xl">Admin Access Required</h2>
           <p className="mb-6">
             This page manages real inventory and pricing. Sign in with an admin,
@@ -156,19 +156,22 @@ export default function ShopInventoryAdminPage() {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-24">
-      <div className="site-container mx-auto max-w-5xl px-6">
-        <Link
-          href="/payment-test"
-          className="mb-6 flex items-center gap-2  hover:text-white"
-        >
-          ← Back to Shop
-        </Link>
+    <main id="shop-inventory-admin-page" className="site-container page-container page-stack mx-auto max-w-5xl min-h-screen">
+      {/* Header: Back link, Title, Actions & Nav Tabs */}
+      <header className="mb-8">
+        <div className="mb-4">
+          <Link
+            href="/payment-test"
+            className="transition-colors inline-flex items-center gap-2 hover:text-white"
+          >
+            ← Back to Shop
+          </Link>
+        </div>
 
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <span className="mb-1 inline-block text-[10px]">Shop Backend</span>
-            <h1>Inventory Management</h1>
+            <h1 id="shop-inventory-heading">Inventory Management</h1>
             {lowStockCount > 0 && (
               <p className="text-yellow-300">
                 ⚠️ {lowStockCount} variant{lowStockCount === 1 ? "" : "s"} at or
@@ -179,43 +182,58 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setShowAddProduct(true)}
-            className="rounded-lg bg-[var(--color-accent)] px-4 py-2.5 hover:bg-[var(--color-accent)]/80"
+            className="transition-colors rounded-lg bg-[var(--color-accent)] px-4 py-2.5 hover:bg-[var(--color-accent)]/80"
           >
             + Add Product
           </button>
         </div>
 
-        <div className="mb-6 flex gap-2">
+        {/* Tab Navigation */}
+        <nav aria-label="Shop Inventory Sections" className="mt-6 flex gap-2">
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`rounded-lg px-4 py-2 ${activeTab === "products" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+            className={`rounded-lg px-4 py-2 ${activeTab === "products" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`rounded-lg px-4 py-2 ${activeTab === "orders" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+            className={`rounded-lg px-4 py-2 ${activeTab === "orders" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
           >
             Orders ({orders.length})
           </button>
+        </nav>
+      </header>
+
+      {error && (
+        <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 p-3 text-rose-400">
+          ⚠️ {error}
         </div>
+      )}
 
-        {error && (
-          <div className="mb-6  border border-rose-500/20 bg-rose-500/10 p-3 text-rose-400">
-            ⚠️ {error}
-          </div>
-        )}
-
-        {loading ? (
-          <p className="py-12 text-center">Loading…</p>
-        ) : activeTab === "products" ? (
-          <ProductsTab products={products} onChanged={loadProducts} />
-        ) : (
-          <OrdersTab orders={orders} />
-        )}
-      </div>
+      {/* Inventory Workspace Section */}
+      <section id="inventory-workspace" aria-labelledby="inventory-workspace-heading" className="section">
+        <h2 id="inventory-workspace-heading" className="sr-only">Inventory Workspace</h2>
+        <div className="w-full">
+          {loading ? (
+            <div role="tabpanel" aria-labelledby="shop-inventory-heading" className="w-full">
+              <p className="py-12 text-center">Loading…</p>
+            </div>
+          ) : activeTab === "products" ? (
+            <div role="tabpanel" aria-labelledby="products-tab-heading" className="w-full">
+              <h3 id="products-tab-heading" className="sr-only">Products Inventory</h3>
+              <ProductsTab products={products} onChanged={loadProducts} />
+            </div>
+          ) : (
+            <div role="tabpanel" aria-labelledby="orders-tab-heading" className="w-full">
+              <h3 id="orders-tab-heading" className="sr-only">Shop Orders</h3>
+              <OrdersTab orders={orders} />
+            </div>
+          )}
+        </div>
+      </section>
 
       {showAddProduct && (
         <AddProductModal
@@ -226,7 +244,7 @@ export default function ShopInventoryAdminPage() {
           }}
         />
       )}
-    </div>
+    </main>
   );
 }
 
@@ -300,7 +318,7 @@ function ProductRow({
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border bg-white/[0.04] ${product.active ? "border-white/[0.12]" : "border-white/[0.06] opacity-50"}`}
+      className={`overflow-hidden rounded-2xl border bg-white/[0.04] ${product.active ? "border-white/[0.12]" : "border-white/[0.06] opacity-50"} `}
     >
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] p-4">
         <div className="flex min-w-0 items-center gap-3">
@@ -311,10 +329,10 @@ function ProductRow({
               unoptimized
               src={product.image_url}
               alt={product.title}
-              className="h-12 w-12  bg-[#00000029] object-cover"
+              className="h-12 w-12 bg-[#00000029] object-cover"
             />
           ) : (
-            <div className="flex h-12 w-12 items-center justify-center  bg-[#00000029] text-white/30">
+            <div className="flex h-12 w-12 items-center justify-center bg-[#00000029] text-white/30">
               No Pic
             </div>
           )}
@@ -334,7 +352,7 @@ function ProductRow({
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`rounded-lg px-3 py-1.5 ${product.active ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-300" : "border border-white/10 bg-[#00000029] text-white/40"}`}
+            className={`rounded-lg px-3 py-1.5 ${product.active ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-300" : "border border-white/10 bg-[#00000029] text-white/40"} `}
           >
             {product.active ? "Active" : "Inactive"}
           </button>
@@ -342,14 +360,14 @@ function ProductRow({
             type="button"
             disabled={busy}
             onClick={deleteProduct}
-            className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-3 py-1.5 text-rose-300 hover:bg-rose-500/30"
+            className="transition-colors rounded-lg border border-rose-500/30 bg-rose-500/20 px-3 py-1.5 text-rose-300 hover:bg-rose-500/30"
           >
             Delete
           </button>
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="rounded-lg bg-[#00000029] px-3 py-1.5 hover:text-white"
+            className="transition-colors rounded-lg bg-[#00000029] px-3 py-1.5 hover:text-white"
           >
             {expanded
               ? "Collapse"
@@ -464,7 +482,7 @@ function VariantRow({
   const isOut = Number(stock) <= 0;
 
   return (
-    <div className="grid grid-cols-2 items-center gap-2  border border-white/[0.06] bg-white/[0.02] p-2.5 sm:grid-cols-6">
+    <div className="grid grid-cols-2 items-center gap-2 border border-white/[0.06] bg-white/[0.02] p-2.5 sm:grid-cols-6">
       <GlowInput
         value={label}
         onChange={(e) => {
@@ -534,7 +552,7 @@ function VariantRow({
           type="button"
           disabled={busy}
           onClick={toggleActive}
-          className={`rounded-lg px-2 py-1.5 text-[10px] ${variant.active ? "bg-emerald-500/15 text-emerald-300" : "bg-[#00000029] text-white/40"}`}
+          className={`rounded-lg px-2 py-1.5 text-[10px] ${variant.active ? "bg-emerald-500/15 text-emerald-300" : "bg-[#00000029] text-white/40"} `}
         >
           {variant.active ? "On" : "Off"}
         </button>
@@ -542,7 +560,7 @@ function VariantRow({
           type="button"
           disabled={busy}
           onClick={deleteVariant}
-          className="px-1 text-white/30 hover:text-rose-400"
+          className="transition-colors px-1 text-white/30 hover:text-rose-400"
           aria-label={`Delete ${variant.label}`}
         >
           ✕
@@ -596,7 +614,7 @@ function AddVariantForm({
   };
 
   return (
-    <div className="mt-2 flex flex-wrap items-end gap-2  border border-dashed border-white/10 bg-white/[0.02] p-3">
+    <div className="mt-2 flex flex-wrap items-end gap-2 border border-dashed border-white/10 bg-white/[0.02] p-3">
       <GlowInput
         label="Label"
         value={label}
@@ -722,13 +740,13 @@ function AddProductModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-      <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto  border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
+      <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <h2>Add Product</h2>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-white/40 hover:text-white"
+            className="transition-colors p-1 text-white/40 hover:text-white"
           >
             ✕
           </button>
@@ -775,7 +793,7 @@ function AddProductModal({
             </GlowSelect>
           </div>
           <div>
-            <label className="mb-1 block text-[10px] text-white/40">
+            <label className="block">
               Variant Type
             </label>
             <GlowSelect
@@ -795,7 +813,7 @@ function AddProductModal({
         </div>
 
         <div>
-          <label className="mb-2 block text-[10px] text-white/40">
+          <label className="block">
             Variants (
             {variantKind === "Size"
               ? "sizes"
@@ -866,7 +884,7 @@ function AddProductModal({
           type="button"
           disabled={submitting}
           onClick={submit}
-          className="w-full  bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
+          className="transition-colors w-full bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-50"
         >
           {submitting ? "Creating…" : "Create Product"}
         </button>
@@ -914,7 +932,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
             <div className="flex items-center gap-2">
               <span>{order.tran_nbr}</span>
               <span
-                className={`rounded-lg border px-2 py-0.5 text-[10px] ${statusStyles[order.status]}`}
+                className={`rounded-lg border px-2 py-0.5 text-[10px] ${statusStyles[order.status]} `}
               >
                 {order.status}
               </span>

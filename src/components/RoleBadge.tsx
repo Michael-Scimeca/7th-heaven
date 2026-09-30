@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Avatar, { AvatarSize } from "./Avatar";
 
 export type UserRole = "fan" | "crew" | "admin";
 
@@ -97,10 +98,10 @@ export default function RoleBadge({
 
   return (
     <span
-      className={`inline-flex items-center ${config.bg} ${config.border} border ${config.glow}  ${size === "sm" ? "px-2 py-[1px]" : "px-2.5 py-[3px]"} ${className}`}
+      className={`inline-flex items-center ${config.bg}  ${config.border} border ${config.glow}  ${size === "sm" ? "px-2 py-[1px]" : "px-2.5 py-[3px]"}  ${className} `}
     >
       <span
-        className={`${config.color} text-[12px]`}
+        className={` ${config.color} text-[12px]`}
         style={{ fontSize: "12px" }}
       >
         {config.label}
@@ -110,39 +111,29 @@ export default function RoleBadge({
 }
 
 /* ── Avatar wrapper with role indicator ── */
-const BORDER_COLOR: Record<UserRole, string> = {
-  fan: "border-white/[0.15]",
-  crew: "border-purple-400/50",
-  admin: "border-purple-400/50",
-};
-
-function RoleAvatar({
+export function RoleAvatar({
+  src,
+  name,
   initials,
   role,
-  gradient,
-  size = 30,
+  size = "sm",
   className = "",
 }: {
-  initials: string;
+  src?: string | null;
+  name?: string;
+  initials?: string;
   role: UserRole;
-  gradient: string;
-  size?: number;
+  size?: AvatarSize;
   className?: string;
 }) {
   return (
-    <div className={`relative ${className}`}>
-      <div
-        className={`rounded-lg bg-gradient-to-br ${gradient} ${BORDER_COLOR[role]} flex aspect-square shrink-0 items-center justify-center border-2`}
-        style={{
-          width: size,
-          height: size,
-          minWidth: size,
-          minHeight: size,
-          aspectRatio: "1 / 1",
-        }}
-      >
-        <span style={{ fontSize: size * 0.33 }}>{initials}</span>
-      </div>
-    </div>
+    <Avatar
+      src={src}
+      name={name}
+      initials={initials}
+      role={role}
+      size={size}
+      className={className}
+    />
   );
 }

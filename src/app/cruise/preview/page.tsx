@@ -42,10 +42,10 @@ function VersionA() {
               key={`guest-tab-${i}-${guest.name}`}
               type="button"
               onClick={() => setActiveTab(i)}
-              className={`flex cursor-pointer items-center gap-2  px-4 py-2 ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"}`}
+              className={`flex cursor-pointer items-center gap-2 px-4 py-2 ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"} `}
             >
               <span
-                className="flex h-5 w-5 items-center justify-center  text-[var(--font-size-2xs)]"
+                className="flex h-5 w-5 items-center justify-center text-[var(--font-size-2xs)]"
                 style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}
               >
                 {i === 0
@@ -115,19 +115,19 @@ function VersionB() {
                 onClick={() => setStep(i)}
               >
                 <div
-                  className={`flex h-8 w-8 items-center justify-center  ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30" : "border border-white/10 bg-[#00000029] text-white/30"}`}
+                  className={`flex h-8 w-8 items-center justify-center ${step === i ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : step > i ? "bg-[var(--color-accent)]/30" : "border border-white/10 bg-[#00000029] text-white/30"} `}
                 >
                   {step > i ? "✓" : i + 1}
                 </div>
                 <span
-                  className={`text-[var(--font-size-2xs)] ${step === i ? " " : "text-white/20"}`}
+                  className={`text-[var(--font-size-2xs)] ${step === i ? " " : "text-white/20"} `}
                 >
                   {label}
                 </span>
               </button>
               {i < STEP_LABELS.length - 1 && (
                 <div
-                  className={`mx-2 h-px flex-1 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"}`}
+                  className={`mx-2 h-px flex-1 ${step > i ? "bg-[var(--color-accent)]/50" : "bg-white/10"} `}
                 />
               )}
             </React.Fragment>
@@ -163,7 +163,7 @@ function VersionB() {
           <button
             type="button"
             onClick={() => setStep((s) => s - 1)}
-            className="flex-1 cursor-pointer  border border-white/10 bg-[#00000029] py-2.5 text-white/50"
+            className="flex-1 cursor-pointer border border-white/10 bg-[#00000029] py-2.5 text-white/50"
           >
             ← Back
           </button>
@@ -171,7 +171,7 @@ function VersionB() {
         <button
           type="button"
           onClick={() => setStep((s) => Math.min(s + 1, 2))}
-          className="flex-1 cursor-pointer  bg-[var(--color-accent)] py-2.5 hover:bg-[var(--color-accent)]/80"
+          className="transition-colors flex-1 cursor-pointer bg-[var(--color-accent)] py-2.5 hover:bg-[var(--color-accent)]/80"
         >
           {step === 2 ? "Submit" : "Next →"}
         </button>
@@ -199,7 +199,7 @@ function VersionC() {
         >
           <div className="mb-1 flex items-center gap-2">
             <span
-              className="flex h-6 w-6 items-center justify-center  text-[var(--font-size-2xs)]"
+              className="flex h-6 w-6 items-center justify-center text-[var(--font-size-2xs)]"
               style={{ backgroundColor: COLORS[i] }}
             >
               {i + 1}
@@ -233,7 +233,7 @@ function VersionC() {
       ))}
       <button
         type="button"
-        className="flex cursor-pointer items-center justify-center gap-2 border border-dashed border-white/10 p-4 text-white/20 text-white/40 hover:text-white"
+        className="transition-colors flex cursor-pointer items-center justify-center gap-2 border border-dashed border-white/10 p-4 text-white/20 text-white/40 hover:text-white"
       >
         <span className="text-xl">+</span>
         <span>Add Guest</span>
@@ -268,7 +268,7 @@ function VersionD() {
           className="grid grid-cols-[40px_1fr_1fr_1fr] items-center px-3 py-1 first:bg-[var(--color-accent)]/10 even:bg-white/[0.01]"
         >
           <span
-            className="flex h-6 w-6 items-center justify-center  text-[var(--font-size-2xs)]"
+            className="flex h-6 w-6 items-center justify-center text-[var(--font-size-2xs)]"
             style={{ backgroundColor: COLORS[i] }}
           >
             {i + 1}
@@ -299,7 +299,7 @@ function VersionD() {
       <div className="pt-2">
         <button
           type="button"
-          className="w-full cursor-pointer py-2.5 text-[var(--color-accent)]/60 hover:bg-white/[0.02]"
+          className="transition-colors w-full cursor-pointer py-2.5 text-[var(--color-accent)]/60 hover:bg-white/[0.02]"
         >
           + Add Guest
         </button>
@@ -326,10 +326,10 @@ function VersionE() {
           <button
             type="button"
             onClick={() => setOpen(open === i ? -1 : i)}
-            className={`flex w-full cursor-pointer items-center gap-3 px-4 py-3 ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"}`}
+            className={`flex w-full cursor-pointer items-center gap-3 px-4 py-3 ${i === 0 ? "bg-[var(--color-accent)]/20" : "bg-white/[0.03] hover:bg-white/[0.05]"} `}
           >
             <span
-              className="flex h-8 w-8 shrink-0 items-center justify-center "
+              className="flex h-8 w-8 shrink-0 items-center justify-center"
               style={{ backgroundColor: COLORS[i] }}
             >
               {g.name ? g.name[0].toUpperCase() : i + 1}
@@ -345,7 +345,7 @@ function VersionE() {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              className={`text-white/30 ${open === i ? "rotate-90 text-purple-400" : ""}`}
+              className={`text-white/30 ${open === i ? "rotate-90 text-purple-400" : ""} `}
             >
               <polyline points="9 18 15 12 9 6" />
             </svg>
@@ -406,7 +406,7 @@ function VersionF() {
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="flex items-start gap-2">
           <span
-            className="mt-2 flex h-7 w-7 shrink-0 items-center justify-center  text-[var(--font-size-2xs)]"
+            className="mt-2 flex h-7 w-7 shrink-0 items-center justify-center text-[var(--font-size-2xs)]"
             style={{ backgroundColor: COLORS[i] }}
           >
             {i + 1}
@@ -438,7 +438,7 @@ function VersionF() {
             <button
               type="button"
               onClick={() => remove(i)}
-              className="mt-2 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center  bg-[#00000029] text-white/20 hover:bg-red-500/20 hover:text-red-400"
+              className="transition-colors mt-2 flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center bg-[#00000029] text-white/20 hover:bg-red-500/20 hover:text-red-400"
             >
               ✕
             </button>
@@ -449,7 +449,7 @@ function VersionF() {
         <button
           type="button"
           onClick={() => setGuests((g) => [...g, emptyGuest()])}
-          className="cursor-pointer text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]"
+          className="transition-colors cursor-pointer text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]"
         >
           + Add another guest
         </button>

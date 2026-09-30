@@ -420,7 +420,7 @@ export default function AudioPlayerSection() {
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
     <div className="mb-6">
       <h3
-        className="  text-white/40"
+        className="text-white/40"
         style={{ fontSize: "clamp(1.2rem, 1.9vw, 2.0rem)" }}
       >
         {title}
@@ -445,7 +445,7 @@ export default function AudioPlayerSection() {
                     );
                   }
                 }}
-                className={`group flex w-full items-center justify-between gap-2.5 overflow-hidden !rounded-none py-1 text-left ${originalIdx === activeAlbumIndex ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer hover:bg-white/10"}`}
+                className={`group flex w-full items-center justify-between gap-2.5 overflow-hidden !rounded-none py-1 text-left ${originalIdx === activeAlbumIndex ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer hover:bg-white/10"} `}
               >
                 <div className="flex min-w-0 flex-1 items-center gap-2.5 pr-1">
                   {album.image && (
@@ -460,7 +460,7 @@ export default function AudioPlayerSection() {
                     </div>
                   )}
                   <span
-                    className={` ${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "group-hover:text-white"}`}
+                    className={` ${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "group-hover:text-white"} `}
                   >
                     {album.title
                       .replace(/&apos;/gi, "'")
@@ -469,7 +469,7 @@ export default function AudioPlayerSection() {
                 </div>
                 {album.year && (
                   <span
-                    className={`shrink-0 text-[0.9rem] ${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "text-white/40 group-hover:text-white"}`}
+                    className={`shrink-0 text-[0.9rem] ${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "text-white/40 group-hover:text-white"} `}
                   >
                     {album.year}
                   </span>
@@ -640,7 +640,7 @@ export default function AudioPlayerSection() {
             }
             setIsExpanded(false);
           }}
-          className="flex items-center gap-1.5  border border-white/20 bg-black/60 px-3 py-1.5 backdrop-blur-md hover:bg-black/80 hover:text-white"
+          className="transition-colors flex items-center gap-1.5 border border-white/20 bg-black/60 px-3 py-1.5 backdrop-blur-md hover:bg-black/80 hover:text-white"
         >
           <X className="h-4 w-4" />
           <span>Close Player</span>
@@ -680,7 +680,7 @@ export default function AudioPlayerSection() {
               <button
                 aria-label="Clear search"
                 onClick={() => setSearchQuery("")}
-                className="absolute top-1/2 right-3 z-20 -translate-y-1/2 cursor-pointer text-white/40 hover:text-white"
+                className="transition-colors absolute top-1/2 right-3 z-20 -translate-y-1/2 cursor-pointer text-white/40 hover:text-white"
               >
                 ✕
               </button>
@@ -703,11 +703,11 @@ export default function AudioPlayerSection() {
             {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
             <div
               onClick={handleSidebarTrackClick}
-              className={`relative mb-6 ml-1 w-2.5 shrink-0 cursor-pointer overflow-hidden  border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${sidebarThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"}`}
+              className={`transition-colors relative mb-6 ml-1 w-2.5 shrink-0 cursor-pointer overflow-hidden border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${sidebarThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"} `}
             >
               <div
                 onMouseDown={handleSidebarThumbMouseDown}
-                className="absolute w-full cursor-grab  border border-white/40 bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 shadow-[0_0_12px_#c084fc] hover:brightness-125 active:cursor-grabbing"
+                className="transition-[filter] absolute w-full cursor-grab border border-white/40 bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 shadow-[0_0_12px_#c084fc] hover:brightness-125 active:cursor-grabbing"
                 style={{
                   height: `${sidebarThumbHeight}%`,
                   top: `${(sidebarScrollProgress * (100 - sidebarThumbHeight)) / 100}%`,
@@ -726,7 +726,7 @@ export default function AudioPlayerSection() {
               {/* Tablet & Mobile Album Header Bar */}
               <div className="z-20 flex shrink-0 items-center justify-between border-b border-white/10 bg-black/50 px-4 py-3 backdrop-blur-xl lg:hidden">
                 <div className="flex min-w-0 items-center gap-3">
-                  <div className="relative h-11 w-11 shrink-0 overflow-hidden  border border-white/10">
+                  <div className="relative h-11 w-11 shrink-0 overflow-hidden border border-white/10">
                     {activeAlbum?.image ? (
                       <Image
                         src={activeAlbum.image}
@@ -758,7 +758,7 @@ export default function AudioPlayerSection() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="placeholder: w-full  border border-white/10 bg-black/40 px-2.5 py-1.5 text-white/40 outline-none"
+                    className="placeholder: w-full border border-white/10 bg-black/40 px-2.5 py-1.5 text-white/40 outline-none"
                   />
                 </div>
               </div>
@@ -785,7 +785,7 @@ export default function AudioPlayerSection() {
                             <button
                               type="button"
                               key={`${albumIdx}-${trackIdx}`}
-                              className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"}`}
+                              className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"} `}
                               onClick={() => {
                                 setActiveAlbumIndex(albumIdx);
                                 setActiveTrackIndex(trackIdx);
@@ -797,7 +797,7 @@ export default function AudioPlayerSection() {
                                   {album.title.split(" ")[0]}
                                 </span>
                                 <span
-                                  className={` ${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"}`}
+                                  className={` ${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"} `}
                                 >
                                   {cleanName}
                                 </span>
@@ -828,7 +828,7 @@ export default function AudioPlayerSection() {
                         <button
                           type="button"
                           key={track.title}
-                          className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"}`}
+                          className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"} `}
                           onClick={() => {
                             if (isActive) togglePlay();
                             else {
@@ -839,19 +839,19 @@ export default function AudioPlayerSection() {
                         >
                           <div className="flex items-center gap-5">
                             <span
-                              className={`w-6 text-left ${isActive ? "text-[var(--color-accent)]" : "text-white/40"}`}
+                              className={`w-6 text-left ${isActive ? "text-[var(--color-accent)]" : "text-white/40"} `}
                             >
                               {trackNumber}
                             </span>
                             <span
-                              className={`max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"}`}
+                              className={`max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"} `}
                             >
                               {cleanName}
                             </span>
                           </div>
 
                           <span
-                            className={`mr-2 ${isActive ? "text-[var(--color-accent)]" : "text-white/40"}`}
+                            className={`mr-2 ${isActive ? "text-[var(--color-accent)]" : "text-white/40"} `}
                           >
                             {isActive && duration
                               ? formatTime(duration)
@@ -866,11 +866,11 @@ export default function AudioPlayerSection() {
                 {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
                 <div
                   onClick={handleTracklistTrackClick}
-                  className={`relative z-20 my-8 mr-2 w-2.5 shrink-0 cursor-pointer overflow-hidden  border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${tracklistThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"}`}
+                  className={`transition-colors relative z-20 my-8 mr-2 w-2.5 shrink-0 cursor-pointer overflow-hidden border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${tracklistThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"} `}
                 >
                   <div
                     onMouseDown={handleTracklistThumbMouseDown}
-                    className="absolute w-full cursor-grab  border border-white/40 bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 shadow-[0_0_12px_#c084fc] hover:brightness-125 active:cursor-grabbing"
+                    className="transition-[filter] absolute w-full cursor-grab border border-white/40 bg-gradient-to-b from-purple-400 via-purple-500 to-purple-700 shadow-[0_0_12px_#c084fc] hover:brightness-125 active:cursor-grabbing"
                     style={{
                       height: `${tracklistThumbHeight}%`,
                       top: `${(tracklistScrollProgress * (100 - tracklistThumbHeight)) / 100}%`,
@@ -895,7 +895,7 @@ export default function AudioPlayerSection() {
               {/* Animated gradient orb */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                 <div
-                  className="h-[300px] w-[300px] animate-[orbPulse_8s_ease-in-out_infinite]  opacity-10 blur-3xl"
+                  className="h-[300px] w-[300px] animate-[orbPulse_8s_ease-in-out_infinite] opacity-10 blur-3xl"
                   style={{
                     background:
                       "radial-gradient(circle, var(--color-accent), #3b82f6, transparent)",
@@ -956,7 +956,7 @@ export default function AudioPlayerSection() {
                   <div className="relative z-[2] mt-4 w-full border-t border-white/10 pt-4 text-left">
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-6">
-                        <h3 className="/90  ">Line-Up</h3>
+                        <h3 className="/90">Line-Up</h3>
                         <ul className="flex flex-col gap-1 text-[12px]">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
@@ -967,7 +967,7 @@ export default function AudioPlayerSection() {
 
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-6">
-                        <h3 className="/90  ">Credits</h3>
+                        <h3 className="/90">Credits</h3>
                         <ul className="flex flex-col gap-1 text-[12px]">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
@@ -1015,7 +1015,7 @@ export default function AudioPlayerSection() {
                               if (url)
                                 window.open(url, "_blank", "noopener,noreferrer");
                             }}
-                            className="! w-full  px-4 py-2.5"
+                            className="! w-full px-4 py-2.5"
                           >
                             Buy CD
                           </SeventhButton>
@@ -1026,7 +1026,7 @@ export default function AudioPlayerSection() {
                             href={activeAlbum.spotifyUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="! flex w-full flex-1 items-center justify-center gap-1.5  border border-[#1DB954] bg-[#1DB954] px-3 py-2 hover:bg-[#179a45]"
+                            className="transition-colors ! flex w-full flex-1 items-center justify-center gap-1.5 border border-[#1DB954] bg-[#1DB954] px-3 py-2 hover:bg-[#179a45]"
                           >
                             <svg
                               width="10"
@@ -1044,7 +1044,7 @@ export default function AudioPlayerSection() {
                             href={activeAlbum.appleMusicUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="! flex w-full flex-1 items-center justify-center gap-1.5  !bg-black px-3 py-2 hover:!bg-zinc-900"
+                            className="! flex w-full flex-1 items-center justify-center gap-1.5 !bg-black px-3 py-2 hover:!bg-zinc-900"
                           >
                             <svg
                               width="10"
@@ -1079,7 +1079,7 @@ export default function AudioPlayerSection() {
             <button
               type="button"
               aria-label="Toggle play"
-              className="group relative z-20 h-[46px] w-[46px] shrink-0 cursor-pointer overflow-hidden  border-0 p-0 shadow-[4px_0_15px_rgba(0,0,0,0.5)]"
+              className="group relative z-20 h-[46px] w-[46px] shrink-0 cursor-pointer overflow-hidden border-0 p-0 shadow-[4px_0_15px_rgba(0,0,0,0.5)]"
               onClick={togglePlay}
             >
               {activeAlbum?.image ? (
@@ -1094,7 +1094,7 @@ export default function AudioPlayerSection() {
                 <div className="h-full w-full bg-[var(--color-bg-card)]" />
               )}
               <div className="overlay-center-hover">
-                <div className="flex h-7 w-7 transform items-center justify-center  border border-white bg-black/30 backdrop-blur-sm group-hover:scale-110">
+                <div className="transition-transform flex h-7 w-7 transform items-center justify-center border border-white bg-black/30 backdrop-blur-sm group-hover:scale-110">
                   {isPlaying ? (
                     <svg
                       width="12"
@@ -1223,9 +1223,9 @@ export default function AudioPlayerSection() {
             {/* Progress Bar (Extends across all available space to the right!) */}
             <div className="group relative mx-2 flex h-3 min-w-[100px] flex-1 cursor-pointer items-center sm:mx-3">
               {/* Track Background */}
-              <div className="h-1.5 w-full overflow-hidden  border border-white/10 bg-white/15 backdrop-blur-2xl group-hover:bg-white/25">
+              <div className="transition-colors h-1.5 w-full overflow-hidden border border-white/10 bg-white/15 backdrop-blur-2xl group-hover:bg-white/25">
                 <div
-                  className="h-full  bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                   style={{
                     width: `${duration ? (currentTime / duration) * 100 : 0}%`,
                   }}
@@ -1233,7 +1233,7 @@ export default function AudioPlayerSection() {
               </div>
               {/* Glowing Thumb Indicator Dot */}
               <div
-                className="pointer-events-none absolute top-1/2 -ml-1.5 h-3.5 w-3.5 -translate-y-1/2 scale-90  border-2 border-[#d946ef] bg-white shadow-[0_0_10px_#d946ef] group-hover:scale-125"
+                className="transition-transform pointer-events-none absolute top-1/2 -ml-1.5 h-3.5 w-3.5 -translate-y-1/2 scale-90 border-2 border-[#d946ef] bg-white shadow-[0_0_10px_#d946ef] group-hover:scale-125"
                 style={{
                   left: `${duration ? (currentTime / duration) * 100 : 0}%`,
                 }}
@@ -1264,7 +1264,7 @@ export default function AudioPlayerSection() {
                   type="button"
                   aria-label={volume === 0 ? "Unmute" : "Mute"}
                   onClick={toggleMute}
-                  className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 p-0 text-white/50 hover:text-white"
+                  className="transition-colors flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 p-0 text-white/50 hover:text-white"
                 >
                   <svg
                     width="18"
@@ -1304,9 +1304,9 @@ export default function AudioPlayerSection() {
                   }}
                 >
                   {/* Track Background */}
-                  <div className="h-1.5 w-full overflow-hidden  border border-white/10 bg-white/15 backdrop-blur-2xl group-hover:bg-white/25">
+                  <div className="transition-colors h-1.5 w-full overflow-hidden border border-white/10 bg-white/15 backdrop-blur-2xl group-hover:bg-white/25">
                     <div
-                      className="h-full  bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] shadow-[0_0_8px_rgba(217,70,239,0.8)]"
+                      className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] shadow-[0_0_8px_rgba(217,70,239,0.8)]"
                       style={{
                         width: `${Math.min(100, Math.max(0, volume * 100))}%`,
                       }}
@@ -1314,7 +1314,7 @@ export default function AudioPlayerSection() {
                   </div>
                   {/* Glowing Thumb Handle */}
                   <div
-                    className="pointer-events-none absolute top-1/2 -ml-1.5 h-3.5 w-3.5 -translate-y-1/2 scale-90  border-2 border-[#d946ef] bg-white shadow-[0_0_8px_#d946ef] group-hover:scale-125"
+                    className="transition-transform pointer-events-none absolute top-1/2 -ml-1.5 h-3.5 w-3.5 -translate-y-1/2 scale-90 border-2 border-[#d946ef] bg-white shadow-[0_0_8px_#d946ef] group-hover:scale-125"
                     style={{
                       left: `${Math.min(100, Math.max(0, volume * 100))}%`,
                     }}
@@ -1368,7 +1368,7 @@ export default function AudioPlayerSection() {
                   </div>
                   <button
                     onClick={() => setShowLyrics(false)}
-                    className="ml-4 flex h-8 w-8 shrink-0 items-center justify-center text-white/50 hover:text-white"
+                    className="transition-colors ml-4 flex h-8 w-8 shrink-0 items-center justify-center text-white/50 hover:text-white"
                   >
                     <svg
                       width="20"

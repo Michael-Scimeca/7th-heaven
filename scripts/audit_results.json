@@ -856,8 +856,8 @@
         "\"border-x",
         "bg-purple-500/10\""
       ],
-      "value": "group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}",
-      "lineContent": "className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}`}"
+      "value": "group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}",
+      "lineContent": "className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}`}"
     },
     {
       "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
@@ -922,8 +922,8 @@
         "\"border-x",
         "bg-purple-500/10\""
       ],
-      "value": "group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}",
-      "lineContent": "className={`group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \"bg-[var(--card-bg)]\"}`}"
+      "value": "group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}",
+      "lineContent": "className={`group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1  ${isSelectedDay ? \"border-x border-purple-500/30 bg-purple-500/10\" : isNextShow ? \"border-x border-white/20 bg-purple-500/10\" : \" \"}`}"
     },
     {
       "file": "src/app/admin/[username]/components/AdminSectionCrewSchedule.tsx",

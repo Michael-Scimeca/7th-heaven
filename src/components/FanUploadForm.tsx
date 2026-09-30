@@ -257,7 +257,7 @@ export default function FanUploadForm() {
   return (
     <div>
       <div className="mb-6 flex items-center gap-3">
-        <div>
+        <div className="title-group title-group--section">
           <h2>Submit to Fan Wall</h2>
           <p>Share your concert moments</p>
         </div>
@@ -279,14 +279,16 @@ export default function FanUploadForm() {
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
-          <h3 className="mb-2">Moments Submitted!</h3>
-          <p className="mb-6">
-            They are now live on your account and will appear on the global wall
-            after admin review.
-          </p>
+          <div className="title-group title-group--sub mb-6 items-center text-center">
+            <h3>Moments Submitted!</h3>
+            <p>
+              They are now live on your account and will appear on the global wall
+              after admin review.
+            </p>
+          </div>
           <button
             onClick={() => setUploadSuccess(false)}
-            className="cursor-pointer rounded border border-[var(--color-accent)] px-6 py-2 text-[var(--color-accent)] hover:text-white"
+            className="transition-colors cursor-pointer rounded border border-[var(--color-accent)] px-6 py-2 text-[var(--color-accent)] hover:text-white"
           >
             Upload Another
           </button>
@@ -327,7 +329,7 @@ export default function FanUploadForm() {
                   setDragOver(false);
                   handleFilesChange(e.dataTransfer.files);
                 }}
-                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden  ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
+                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"} `}
               >
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 z-20 grid grid-cols-3 gap-3 overflow-y-auto bg-black/90 p-4 sm:grid-cols-4 md:grid-cols-5">
@@ -342,7 +344,7 @@ export default function FanUploadForm() {
                         return (
                           <div
                             key={src}
-                            className="group relative aspect-square overflow-hidden  border border-white/10"
+                            className="group relative aspect-square overflow-hidden border border-white/10"
                           >
                             {isVideo ? (
                               <video
@@ -375,16 +377,16 @@ export default function FanUploadForm() {
                         }
                         fileRef.current?.click();
                       }}
-                      className="plus-button flex aspect-square cursor-pointer flex-col items-center justify-center  border-2 border-dashed border-white/10 text-white/50 hover:bg-white/10 hover:text-white"
+                      className="transition-colors plus-button flex aspect-square cursor-pointer flex-col items-center justify-center border-2 border-dashed border-white/10 text-white/50 hover:bg-white/10 hover:text-white"
                     >
                       <span className="text-2xl font-light">+</span>
                     </button>
                   </div>
                 ) : (
                   <>
-                    <div className="pointer-events-none absolute inset-2.5  border-2 border-dashed border-white/10 group-hover:border-[var(--color-accent)]/50" />
+                    <div className="transition-colors pointer-events-none absolute inset-2.5 border-2 border-dashed border-white/10 group-hover:border-[var(--color-accent)]/50" />
                     <div className="relative z-10 flex flex-col items-center p-6 text-center">
-                      <div className="mb-3 flex h-12 w-12 items-center justify-center  border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
+                      <div className="mb-3 flex h-12 w-12 items-center justify-center border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
                         <svg
                           width="20"
                           height="20"
@@ -400,7 +402,7 @@ export default function FanUploadForm() {
                           <line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
                       </div>
-                      <p className="mb-1 group-hover:text-[var(--color-accent)]">
+                      <p className="transition-colors mb-1 group-hover:text-[var(--color-accent)]">
                         Upload Hero Moment
                       </p>
                       <p>Max file size: 10MB | HQ JPG/PNG/MP4/MOV</p>
@@ -409,7 +411,7 @@ export default function FanUploadForm() {
                 )}
                 {isScanning && (
                   <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm">
-                    <div className="mb-3 h-11 w-11 animate-spin  border-2 border-white/10 border-t-emerald-500" />
+                    <div className="mb-3 h-11 w-11 animate-spin border-2 border-white/10 border-t-emerald-500" />
                     <p>Safety Scan</p>
                     <p className="text-emerald-400">{scanStatus}</p>
                   </div>
@@ -431,7 +433,7 @@ export default function FanUploadForm() {
                 <div>
                   <label
                     htmlFor="fan-upload-venue"
-                    className="mb-1.5 block px-1"
+                    className="block px-1"
                   >
                     Venue / Event{" "}
                     <span className="text-[var(--color-accent)]">*</span>
@@ -448,7 +450,7 @@ export default function FanUploadForm() {
                 <div>
                   <label
                     htmlFor="fan-upload-date"
-                    className="mb-1.5 block px-1"
+                    className="block px-1"
                   >
                     Date <span className="text-[var(--color-accent)]">*</span>
                   </label>
@@ -464,7 +466,7 @@ export default function FanUploadForm() {
                 <div className="md:col-span-2">
                   <label
                     htmlFor="fan-upload-caption"
-                    className="mb-1.5 block px-1"
+                    className="block px-1"
                   >
                     Caption
                   </label>
@@ -483,7 +485,7 @@ export default function FanUploadForm() {
                 onClick={() => !isLoggedIn && openModal("login")}
                 disabled={uploading || isScanning}
                 icon={false}
-                className="mt-2 flex  w-full shrink-0 cursor-pointer items-center justify-center   disabled:pointer-events-none disabled:opacity-50 lg:mt-0 lg:w-32"
+                className="mt-2 flex w-full shrink-0 cursor-pointer items-center justify-center disabled:pointer-events-none disabled:opacity-50 lg:mt-0 lg:w-32"
               >
                 {uploading
                   ? "Uploading…"

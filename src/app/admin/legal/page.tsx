@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 
 interface RequirementItem {
   id: string;
@@ -455,8 +455,8 @@ export default function AdminLegalPage() {
         <div className="mb-12 flex flex-col justify-between gap-6 border-b border-white/10 pb-8 lg:flex-row lg:items-center">
           <div>
             <div className="mb-3 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-1.5  border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                <span className="h-2 w-2 animate-pulse  bg-emerald-400" />
+              <span className="inline-flex items-center gap-1.5 border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <span className="h-2 w-2 animate-pulse bg-emerald-400" />
                 100% Passed Legal Audit
               </span>
               <span className="text-white/40">
@@ -477,8 +477,8 @@ export default function AdminLegalPage() {
 
           <div className="flex shrink-0 flex-col items-stretch gap-4 sm:flex-row sm:items-center">
             {/* Pass Rate Gauge Box */}
-            <div className="flex items-center gap-4  border border-purple-500/30 bg-[#141422] p-4">
-              <div className="flex h-12 w-12 items-center justify-center  border border-purple-400/40 bg-purple-600/20">
+            <div className="flex items-center gap-4 border border-purple-500/30 bg-[#141422] p-4">
+              <div className="flex h-12 w-12 items-center justify-center border border-purple-400/40 bg-purple-600/20">
                 {passPercentage}%
               </div>
               <div>
@@ -492,7 +492,7 @@ export default function AdminLegalPage() {
 
             <Link
               href="/admin/admin"
-              className="rounded-lg border border-white/10 bg-[#00000029] px-5 py-3 text-center hover:bg-white/10 hover:text-white"
+              className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-5 py-3 text-center hover:bg-white/10 hover:text-white"
             >
               ← Back to Admin
             </Link>
@@ -519,8 +519,8 @@ export default function AdminLegalPage() {
                   key={sec.id}
                   onClick={() => setSelectedSection(sec.id)}
                   className={`flex w-full cursor-pointer items-center justify-between  border p-4 text-left transition-[border-color,background-color,color,box-shadow] duration-200 ${isSelected
-                      ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)]`
-                      : `border-white/10 bg-[#00000029] bg-white/[0.02]`
+                    ? `border-purple-500/60 bg-purple-600/20 shadow-[0_4px_25px_rgba(168,85,247,0.2)]`
+                    : `border-white/10 bg-[#00000029] bg-white/[0.02]`
                     }`}
                 >
                   <div className="flex items-center gap-3.5">
@@ -535,7 +535,7 @@ export default function AdminLegalPage() {
                     </div>
                   </div>
                   {categoryPassed && (
-                    <span className="ml-2 flex h-5 w-5 shrink-0 items-center justify-center  border border-emerald-400/50 bg-emerald-500/20 text-[10px] text-emerald-400">
+                    <span className="ml-2 flex h-5 w-5 shrink-0 items-center justify-center border border-emerald-400/50 bg-emerald-500/20 text-[10px] text-emerald-400">
                       ✓
                     </span>
                   )}
@@ -544,8 +544,8 @@ export default function AdminLegalPage() {
             })}
 
             {/* Legal Disclaimer Box */}
-            <div className="mt-8  border border-white/10 bg-white/[0.02] p-5">
-              <span className="mb-1.5 block text-[0.9rem]">
+            <div className="mt-8 border border-white/10 bg-white/[0.02] p-5">
+              <span className="block text-[0.9rem]">
                 ⚖️ Legal Inspection Note
               </span>
               <p>
@@ -575,14 +575,14 @@ export default function AdminLegalPage() {
                 </div>
               </div>
 
-              <span className="flex items-center gap-1.5  border border-emerald-500/30 bg-emerald-500/15 px-3.5 py-1.5 text-emerald-300">
-                <span className="h-1.5 w-1.5 animate-pulse  bg-emerald-400" />{" "}
+              <span className="flex items-center gap-1.5 border border-emerald-500/30 bg-emerald-500/15 px-3.5 py-1.5 text-emerald-300">
+                <span className="h-1.5 w-1.5 animate-pulse bg-emerald-400" />{" "}
                 Verified Compliant
               </span>
             </div>
 
             {/* Compliance Context & Legal Rationale Box */}
-            <div className="mb-8  border border-purple-500/30 bg-purple-950/20 p-5">
+            <div className="mb-8 border border-purple-500/30 bg-purple-950/20 p-5">
               <span className="mb-2 block">
                 📜 Regulatory Context & Legal Mandate
               </span>
@@ -603,21 +603,25 @@ export default function AdminLegalPage() {
                 return (
                   <div
                     key={req.id}
-                    className={`rounded-lg border p-5 transition-[background-color,border-color] ${isChecked ? "border-white/10 bg-white/[0.02]" : "border-rose-500/30 bg-rose-950/10"}`}
+                    className={`rounded-lg border p-5 transition-[background-color,border-color] ${isChecked ? "border-white/10 bg-white/[0.02]" : "border-rose-500/30 bg-rose-950/10"} `}
                   >
                     <div className="mb-2 flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
                         <div className="mt-0.5 shrink-0">
-                          <SquishyToggle
+                          <Toggle
                             id={`legal-toggle-${req.id}`}
+                            size="sm"
                             label={`Toggle inspection for ${req.title}`}
+                            hideLabel
+                            aria-labelledby={`legal-title-${req.id}`}
                             checked={!!isChecked}
                             onChange={() => toggleCheck(req.id)}
                           />
                         </div>
                         <div>
                           <h4
-                            className={` ${isChecked ? " " : "text-rose-200"}`}
+                            id={`legal-title-${req.id}`}
+                            className={` ${isChecked ? " " : "text-rose-200"} `}
                           >
                             {req.title}
                           </h4>
@@ -626,7 +630,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.isCritical && (
-                        <span className="shrink-0  border border-rose-500/30 bg-rose-500/20 px-3 py-1 text-[0.55rem] text-rose-300">
+                        <span className="shrink-0 border border-rose-500/30 bg-rose-500/20 px-3 py-1 text-[0.55rem] text-rose-300">
                           Critical Rule
                         </span>
                       )}
@@ -642,7 +646,7 @@ export default function AdminLegalPage() {
                       </div>
 
                       {req.verifiedProof && (
-                        <span className="flex shrink-0 items-center gap-1  border border-white/10 bg-[#00000029] px-2.5 py-1 text-[10px]">
+                        <span className="flex shrink-0 items-center gap-1 border border-white/10 bg-[#00000029] px-2.5 py-1 text-[10px]">
                           <span>🔒</span> {req.verifiedProof}
                         </span>
                       )}

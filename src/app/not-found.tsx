@@ -37,13 +37,13 @@ export default function NotFound() {
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/"
-            className="rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-3.5 hover:brightness-110"
+            className="transition-[filter] rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-3.5 hover:brightness-110"
           >
             Back to Home
           </Link>
           <Link
             href="/#tour"
-            className="border border-white/10 px-8 py-3.5 text-white/50 hover:border-white/30 hover:text-white"
+            className="transition-colors border border-white/10 px-8 py-3.5 text-white/50 hover:border-white/30 hover:text-white"
           >
             View Tour Dates
           </Link>

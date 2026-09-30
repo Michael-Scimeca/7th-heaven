@@ -113,133 +113,138 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
   };
 
   return (
-    <div
-      className={`${outfit.className} relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020818] p-4`}
+    <main
+      id="cruise-verify-page"
+      className={` ${outfit.className} page-container relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020818] px-4`}
     >
       {/* Background Glow */}
       <div className="pointer-events-none absolute top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-3xl" />
       <div className="pointer-events-none absolute top-2/3 left-1/3 h-[300px] w-[300px] rounded-full bg-indigo-600/10 blur-3xl" />
 
       {/* Main Card */}
-      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center backdrop-blur-xl">
-        {/* Header Icon */}
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-purple-400/30 bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 text-3xl shadow-inner">
-          🚢
-        </div>
-
-        <h1 className="mb-1 text-2xl">
-          {sanityContent?.heroHeading ||
-            sanityContent?.title ||
-            "Verify Cruise Access"}
-        </h1>
-        <p className="mb-6 text-white/60">
-          {sanityContent?.heroSubheading || sanityContent?.subtitle || (
-            <>
-              Enter the 6-digit access code sent to <br />
-              <span>{email}</span>
-            </>
-          )}
-        </p>
-
-        {status === "success" ? (
-          <div className="space-y-3 py-8">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-500/20 text-2xl text-emerald-400">
-              ✓
+      <section id="cruise-verify" aria-labelledby="cruise-verify-heading" className="section relative">
+        <div className="w-full max-w-md rounded-[var(--radius-box)] border border-white/10 bg-white/[0.04] p-8 text-center backdrop-blur-xl">
+          {/* Header Icon & Title */}
+          <header className="">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/30 bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 text-3xl shadow-inner">
+              🚢
             </div>
-            <p className="text-emerald-300">Access Granted!</p>
-            <p className="text-white/50">
-              Redirecting to your cruise dashboard…
+
+            <h1 id="cruise-verify-heading" className="mb-1 text-2xl text-white">
+              {sanityContent?.heroHeading ||
+                sanityContent?.title ||
+                "Verify Cruise Access"}
+            </h1>
+            <p className="text-white/60">
+              {sanityContent?.heroSubheading || sanityContent?.subtitle || (
+                <>
+                  Enter the 6-digit access code sent to <br />
+                  <span>{email}</span>
+                </>
+              )}
             </p>
-          </div>
-        ) : (
-          <>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* 6 Digit PIN Inputs */}
-              <div className="flex justify-center gap-2">
-                {digits.map((digit, idx) => (
-                  <input
-                    key={
-                      [
-                        "slot-0",
-                        "slot-1",
-                        "slot-2",
-                        "slot-3",
-                        "slot-4",
-                        "slot-5",
-                      ][idx]
-                    }
-                    ref={(el) => {
-                      inputRefs.current[idx] = el;
-                    }}
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={1}
-                    value={digit}
-                    onChange={(e) => handleDigit(idx, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(idx, e)}
-                    onPaste={handlePaste}
-                    className="focus-ring h-13 w-11  border border-white/15 bg-white/[0.06] text-center text-xl shadow-sm focus:bg-white/[0.1]"
-                    aria-label={`Digit ${idx + 1}`}
-                  />
-                ))}
+          </header>
+
+          {status === "success" ? (
+            <div className="space-y-3 py-8">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-500/20 text-2xl text-emerald-400">
+                ✓
+              </div>
+              <p className="text-emerald-300">Access Granted!</p>
+              <p className="text-white/50">
+                Redirecting to your cruise dashboard…
+              </p>
+            </div>
+          ) : (
+            <>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* 6 Digit PIN Inputs */}
+                <div className="flex justify-center gap-2">
+                  {digits.map((digit, idx) => (
+                    <input
+                      key={
+                        [
+                          "slot-0",
+                          "slot-1",
+                          "slot-2",
+                          "slot-3",
+                          "slot-4",
+                          "slot-5",
+                        ][idx]
+                      }
+                      ref={(el) => {
+                        inputRefs.current[idx] = el;
+                      }}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleDigit(idx, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(idx, e)}
+                      onPaste={handlePaste}
+                      className="focus-ring h-13 w-11 rounded-[var(--radius-box)] border border-white/15 bg-white/[0.06] text-center text-xl shadow-sm focus:bg-white/[0.1]"
+                      aria-label={`Digit ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                {errorMsg && (
+                  <p className="rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 p-2.5 text-rose-400">
+                    {errorMsg}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={pin.length !== 6 || status === "submitting"}
+                  className="transition-colors w-full cursor-pointer rounded-[var(--radius-box)] bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3.5 shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {sanityContent?.submitButtonText ||
+                    (status === "submitting"
+                      ? "Verifying…"
+                      : "Access My Dashboard →")}
+                </button>
+              </form>
+
+              {/* Resend */}
+              <div className="mt-5 flex flex-col items-center gap-1.5 border-t border-white/10 pt-4">
+                <p className="text-white/60">Didn&apos;t receive the code?</p>
+                {resendStatus === "sent" ? (
+                  <p className="text-emerald-400">
+                    ✓ Code resent! Check your inbox.
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleResend}
+                    disabled={resendStatus === "sending"}
+                    className="transition-colors cursor-pointer hover:text-white disabled:opacity-50"
+                  >
+                    {resendStatus === "sending" ? "Sending…" : "Resend Code"}
+                  </button>
+                )}
               </div>
 
-              {errorMsg && (
-                <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 p-2.5 text-rose-400">
-                  {errorMsg}
-                </p>
-              )}
+              {/* Back link */}
+              <div className="mt-4">
+                <Link href="/cruise" className="transition-colors text-white/40 hover:text-white">
+                  ← Back to Cruise Page
+                </Link>
+              </div>
 
-              <button
-                type="submit"
-                disabled={pin.length !== 6 || status === "submitting"}
-                className="w-full cursor-pointer  bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3.5 shadow-purple-500/20 hover:from-purple-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                {sanityContent?.submitButtonText ||
-                  (status === "submitting"
-                    ? "Verifying…"
-                    : "Access My Dashboard →")}
-              </button>
-            </form>
-
-            {/* Resend */}
-            <div className="mt-5 flex flex-col items-center gap-1.5 border-t border-white/10 pt-4">
-              <p className="text-white/60">Didn&apos;t receive the code?</p>
-              {resendStatus === "sent" ? (
-                <p className="text-emerald-400">
-                  ✓ Code resent! Check your inbox.
-                </p>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleResend}
-                  disabled={resendStatus === "sending"}
-                  className="cursor-pointer hover:text-white disabled:opacity-50"
-                >
-                  {resendStatus === "sending" ? "Sending…" : "Resend Code"}
-                </button>
-              )}
-            </div>
-
-            {/* Back link */}
-            <div className="mt-4">
-              <Link href="/cruise" className="text-white/40 hover:text-white">
-                ← Back to Cruise Page
-              </Link>
-            </div>
-
-            {/* Brand footer */}
-            <div className="mt-5 flex items-center justify-center gap-3">
-              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/10" />
-              <span className="text-[10px] text-white/30">
-                7th Heaven · Caribbean Cruise 2025
-              </span>
-              <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/10" />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+              {/* Brand footer */}
+              <div className="mt-5 flex items-center justify-center gap-3">
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/10" />
+                <span className="text-[10px] text-white/30">
+                  7th Heaven · Caribbean Cruise 2025
+                </span>
+                <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/10" />
+              </div>
+            </>
+          )}
+        </div>
+      </section >
+    </main >
   );
 }
 

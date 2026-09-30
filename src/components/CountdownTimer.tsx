@@ -133,19 +133,19 @@ export default function CountdownTimer({
         </div>
       )}
       <div
-        className={`no-scrollbar flex max-w-full shrink-0 items-start overflow-x-auto ${className ? className : compact ? "gap-0.5 sm:gap-1" : "gap-1 sm:gap-3 md:gap-4"}`}
+        className={`no-scrollbar flex max-w-full shrink-0 items-start overflow-x-auto ${className ? className : compact ? "gap-0.5 sm:gap-1" : "gap-1 sm:gap-3 md:gap-4"} `}
       >
         {units.map((u, i) => (
           <div
             key={u.label}
-            className={`flex items-start ${compact ? "gap-0.5 sm:gap-1" : "gap-1 sm:gap-2.5 md:gap-3.5"}`}
+            className={`flex items-start ${compact ? "gap-0.5 sm:gap-1" : "gap-1 sm:gap-2.5 md:gap-3.5"} `}
           >
             <div
-              className={`flex flex-col items-center justify-center ${compact ? "min-w-[28px] px-1 py-0.5 sm:min-w-[34px]" : "min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]"}`}
+              className={`flex flex-col items-center justify-center ${compact ? "min-w-[28px] px-1 py-0.5 sm:min-w-[34px]" : "min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]"} `}
             >
               <span
                 suppressHydrationWarning
-                className={`leading-none font-black tabular-nums ${compact ? "sm:" : "text-[clamp(18px,4.5vw,3.5rem)]"}`}
+                className={`leading-none font-black tabular-nums ${compact ? "sm:" : "text-[clamp(18px,4.5vw,3.5rem)]"} `}
                 style={{ color: numberColor }}
               >
                 {String(isNaN(u.value) || u.value < 0 ? 0 : u.value).padStart(
@@ -161,7 +161,7 @@ export default function CountdownTimer({
             </div>
             {i < 3 && (
               <span
-                className={`flex items-center justify-center self-start leading-none text-white/40 select-none ${compact ? "sm: mt-0.5 h-3.5" : "h-[clamp(18px,4.5vw,3.5rem)] sm:text-2xl md:text-4xl"}`}
+                className={`flex items-center justify-center self-start leading-none text-white/40 select-none ${compact ? "sm: mt-0.5 h-3.5" : "h-[clamp(18px,4.5vw,3.5rem)] sm:text-2xl md:text-4xl"} `}
               >
                 :
               </span>

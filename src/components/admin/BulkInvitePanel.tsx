@@ -234,13 +234,20 @@ export default function BulkInvitePanel() {
       {invites.length === 0 ? (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* CSV File Upload Dropzone */}
-          <button
-            type="button"
+          <div
+            role="button"
+            tabIndex={0}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`flex w-full cursor-pointer flex-col items-center justify-center !border-2 !border-dashed border-white/10 p-8 text-center ${isDragging ? "scale-[0.99]" : "] border-black/20"}`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+            className={`flex w-full cursor-pointer flex-col items-center justify-center !border-2 !border-dashed border-white/10 p-8 text-center transition-transform ${isDragging ? "scale-[0.99] border-purple-500/50" : "border-white/10"} `}
           >
             <input
               type="file"
@@ -249,9 +256,9 @@ export default function BulkInvitePanel() {
               accept=".csv"
               className="hidden"
             />
-            <span className="mb-3 block text-3xl"></span>
-            <p className="r">Drag & Drop CSV File</p>
-            <p className=".5 max-w-xs text-black/60">
+            <span className="mb-3 block text-3xl">📁</span>
+            <p className="font-semibold text-white">Drag & Drop CSV File</p>
+            <p className="mt-1 max-w-xs text-xs text-white/60">
               Supports standard comma/tab-separated files. We automatically
               search for Name and Email fields.
             </p>
@@ -265,14 +272,14 @@ export default function BulkInvitePanel() {
             >
               Browse Files
             </SeventhButton>
-          </button>
+          </div>
 
           {/* Direct Copy-Paste Text Area */}
           <div className="flex flex-col">
             <GlowTextarea
               id="bulk-invite-text-input"
               label="Copy-Paste Contact List"
-              wrapperClassName="w-full mb-6"
+              wrapperClassName="w-full"
               aria-label="Text input"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
@@ -284,7 +291,7 @@ export default function BulkInvitePanel() {
               type="button"
               onClick={() => parseInvites(inputText)}
               disabled={!inputText.trim()}
-              className="w-full justify-center  disabled:opacity-30"
+              className="w-full justify-center disabled:opacity-30"
             >
               Parse & Import List
             </SeventhButton>
@@ -310,7 +317,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="hover: cursor-pointer  border border-black/15 bg-black/5 px-4 py-2 text-black/70 hover:bg-black/10 disabled:opacity-30"
+                className="transition-colors hover: cursor-pointer border border-black/15 bg-black/5 px-4 py-2 text-black/70 hover:bg-black/10 disabled:opacity-30"
               >
                 Clear List
               </button>
@@ -318,7 +325,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={dispatchInvites}
                 disabled={sending}
-                className=" disabled:opacity-40"
+                className="disabled:opacity-40"
               >
                 {sending
                   ? " Sending Invites..."
@@ -330,7 +337,7 @@ export default function BulkInvitePanel() {
           {/* Results Toast */}
           {results && (
             <div
-              className={`flex items-center gap-3 border p-4 ${results.failed > 0 ? "border-rose-200 bg-rose-50 text-rose-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}
+              className={`flex items-center gap-3 rounded-[var(--radius-box)] border p-4 ${results.failed > 0 ? "border-rose-200 bg-rose-50 text-rose-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"} `}
             >
               <span>{results.failed > 0 ? "" : ""}</span>
               <p>
@@ -352,7 +359,7 @@ export default function BulkInvitePanel() {
               </thead>
               <tbody className="divide-y divide-black/5">
                 {invites.map((inv) => (
-                  <tr key={inv.email} className="hover:bg-black/[0.01]">
+                  <tr key={inv.email} className="transition-colors hover:bg-black/[0.01]">
                     <td className="px-4 py-3.5 text-black">{inv.email}</td>
                     <td className="px-4 py-3.5 text-black/70">
                       {inv.name || <span className="text-black/30">N/A</span>}
@@ -364,7 +371,7 @@ export default function BulkInvitePanel() {
                         </span>
                       )}
                       {inv.status === "sending" && (
-                        <span className="animate-pulse  bg-[var(--color-accent)] px-2.5 py-1 text-[0.55rem]">
+                        <span className="animate-pulse bg-[var(--color-accent)] px-2.5 py-1 text-[0.55rem]">
                           Sending…
                         </span>
                       )}
@@ -376,7 +383,7 @@ export default function BulkInvitePanel() {
                       {inv.status === "failed" && (
                         <span
                           title={inv.error}
-                          className="cursor-help  border border-rose-300 bg-rose-100 px-2.5 py-1 text-[0.55rem] text-rose-800"
+                          className="cursor-help border border-rose-300 bg-rose-100 px-2.5 py-1 text-[0.55rem] text-rose-800"
                         >
                           Failed
                         </span>

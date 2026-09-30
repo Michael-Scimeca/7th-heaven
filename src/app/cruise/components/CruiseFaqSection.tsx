@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import LazyMount from "@/components/LazyMount";
+import { HelpCircle } from "lucide-react";
+import { SectionHeader } from "@/components/SectionHeader";
 import FaqChevronButton from "@/components/FaqChevronButton";
 import { FAQS_EXTENDED } from "../cruiseData";
 
@@ -34,25 +35,20 @@ export default function CruiseFaqSection({
   };
 
   return (
-    <LazyMount
-      as="section"
+    <section
       id="faqs"
-      aria-label="Frequently Asked Questions"
-      className="py-section-fluid site-container"
-      minHeight="600px"
-      rootMargin="300px 0px"
-      style={{ contentVisibility: "auto", containIntrinsicSize: "600px" }}
+      aria-labelledby="faqs-heading"
+      className="section cv-auto site-container"
+      style={{ "--cv-size": "600px" } as React.CSSProperties}
     >
-      <div className="mx-auto ">
+      <div className="mx-auto">
         {/* Header Box */}
-        <div className="p-6 text-center sm:p-8">
-          <h2 className="text-2xl font-bold tracking-wider text-white uppercase sm:text-3xl">
-            {sectionTitle}
-          </h2>
-          <p className="mx-auto mt-2 max-w-2xl text-white/80 ">
-            {sectionSubtitle}
-          </p>
-        </div>
+        <SectionHeader
+          id="faqs-heading"
+          title={sectionTitle}
+          subtitle={sectionSubtitle}
+          icon={HelpCircle}
+        />
 
         {/* Clean Border-Separated Accordion Dropdown Layout */}
         <ul className="divide-y divide-white/20">
@@ -76,7 +72,7 @@ export default function CruiseFaqSection({
                   className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-5 text-left sm:py-6"
                 >
                   <span
-                    className={`font-semibold  ${isExpanded ? "text-purple-300" : "text-white"}`}
+                    className={`font-semibold ${isExpanded ? "text-purple-300" : "text-white"} `}
                   >
                     {faq.q}
                   </span>
@@ -88,11 +84,11 @@ export default function CruiseFaqSection({
                   id={`faq-answer-${i}`}
                   role="region"
                   aria-label={faq.q}
-                  className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                  className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} `}
                 >
                   <div className="overflow-hidden">
                     <div className="pl-3 pb-6 text-left">
-                      <p className="text-white/80 ">{faq.a}</p>
+                      <p className="text-white/80">{faq.a}</p>
                     </div>
                   </div>
                 </div>
@@ -101,6 +97,6 @@ export default function CruiseFaqSection({
           })}
         </ul>
       </div>
-    </LazyMount>
+    </section>
   );
 }

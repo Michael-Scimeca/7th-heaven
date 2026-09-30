@@ -107,13 +107,13 @@ export default function HeroLiveThumbs() {
     return (
       <button
         onClick={handleOpen}
-        className="group flex cursor-pointer items-center gap-2  border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-2xl select-none"
+        className="group flex cursor-pointer items-center gap-2 border border-white/10 bg-[var(--color-bg-surface)]/80 px-3 py-1.5 backdrop-blur-2xl select-none"
       >
         <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping  bg-red-500 opacity-75" />
-          <span className="relative inline-flex h-2 w-2  bg-red-600" />
+          <span className="absolute inline-flex h-full w-full animate-ping bg-red-500 opacity-75" />
+          <span className="relative inline-flex h-2 w-2 bg-red-600" />
         </span>
-        <span className="group-hover:text-white">Show Live Streams</span>
+        <span className="transition-colors group-hover:text-white">Show Live Streams</span>
       </button>
     );
   }
@@ -141,13 +141,13 @@ export default function HeroLiveThumbs() {
 
   return (
     <div className="relative flex max-w-[452px] items-end justify-start">
-      <div className="animate-[fade-in-up_0.6s_var(--ease-out-expo)_1.1s_both] select-none">
+      <div className="animate-[fade-in-up_0.6s_var(---expo)_1.1s_both] select-none">
         {/* ── LIVE NOW header ── */}
         <div className="relative mb-3 flex w-full items-center justify-between px-1">
           <div className="flex items-center gap-2 pr-7">
             <span className="relative flex h-3 w-3">
-              <span className="absolute inline-flex h-full w-full animate-ping  bg-red-500 opacity-75" />
-              <span className="relative inline-flex h-3 w-3  bg-red-600" />
+              <span className="absolute inline-flex h-full w-full animate-ping bg-red-500 opacity-75" />
+              <span className="relative inline-flex h-3 w-3 bg-red-600" />
             </span>
             <span className="whitespace-nowrap text-[var(--font-size-2xs)]">
               Crew Streaming
@@ -155,7 +155,7 @@ export default function HeroLiveThumbs() {
             {mediaPosts.length > 2 && (
               <Link
                 href="/live"
-                className="ml-2 flex cursor-pointer items-center gap-0.5 whitespace-nowrap text-red-500 hover:text-red-400 hover:text-white"
+                className="transition-colors ml-2 flex cursor-pointer items-center gap-0.5 whitespace-nowrap text-red-500 hover:text-red-400 hover:text-white"
               >
                 + {mediaPosts.length - 2} More →
               </Link>
@@ -163,7 +163,7 @@ export default function HeroLiveThumbs() {
           </div>
           <button
             onClick={handleClose}
-            className="flex min-h-[48px] min-w-[48px] shrink-0 cursor-pointer items-center justify-center rounded p-2.5 text-white/40 hover:bg-white/10 hover:text-white"
+            className="transition-colors flex min-h-[48px] min-w-[48px] shrink-0 cursor-pointer items-center justify-center rounded p-2.5 text-white/40 hover:bg-white/10 hover:text-white"
             aria-label="Hide Live Streams"
           >
             <svg
@@ -198,7 +198,7 @@ export default function HeroLiveThumbs() {
               <Link
                 key={post.id}
                 href="/live"
-                className="group flex h-[250px] w-[220px] shrink-0 flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)]"
+                className="transition-[background-color,color,border-color,box-shadow,transform] group flex h-[250px] w-[220px] shrink-0 flex-col overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] shadow-[0_8px_30px_rgba(0,0,0,0.8)] hover:scale-[1.03] hover:shadow-[0_12px_40px_rgba(220,38,38,0.25)]"
               >
                 {/* Thumbnail */}
                 <div className="relative h-[195px] w-full overflow-hidden bg-zinc-950">
@@ -217,13 +217,13 @@ export default function HeroLiveThumbs() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
                   {/* LIVE badge — top left */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5  bg-red-600 px-2.5 py-1 shadow-[0_0_12px_rgba(220,38,38,0.7)]">
-                    <span className="h-1.5 w-1.5 animate-pulse  bg-white" />
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 bg-red-600 px-2.5 py-1 shadow-[0_0_12px_rgba(220,38,38,0.7)]">
+                    <span className="h-1.5 w-1.5 animate-pulse bg-white" />
                     LIVE
                   </div>
 
                   {/* Viewer count — top right */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1  bg-black/70 px-2 py-0.5 backdrop-blur-sm">
+                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1 bg-black/70 px-2 py-0.5">
                     <svg
                       width="8"
                       height="8"
@@ -244,8 +244,8 @@ export default function HeroLiveThumbs() {
                   <div className="flex min-w-0 items-center gap-2">
                     {/* Green dot + name */}
                     <span className="relative flex h-2.5 w-2.5 shrink-0">
-                      <span className="absolute inline-flex h-full w-full animate-ping  bg-emerald-400 opacity-60" />
-                      <span className="relative inline-flex h-2.5 w-2.5  bg-emerald-500" />
+                      <span className="absolute inline-flex h-full w-full animate-ping bg-emerald-400 opacity-60" />
+                      <span className="relative inline-flex h-2.5 w-2.5 bg-emerald-500" />
                     </span>
                     <span className="text-[var(--font-size-2xs)]">
                       {crewName}
@@ -253,7 +253,7 @@ export default function HeroLiveThumbs() {
                   </div>
 
                   {/* Watch now cta */}
-                  <span className="shrink-0 text-red-400 group-hover:text-red-300">
+                  <span className="transition-colors shrink-0 text-red-400 group-hover:text-red-300">
                     WATCH →
                   </span>
                 </div>

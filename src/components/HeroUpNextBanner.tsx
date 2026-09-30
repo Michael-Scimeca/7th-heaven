@@ -253,10 +253,10 @@ export default function HeroUpNextBanner() {
         {/* Top Header: UP NEXT Badge + Compact Countdown Timer */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-2.5">
           <span
-            className={`st inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-[10px] font-black ${isHappeningNow ? "border-emerald-500/50 bg-emerald-950/80 text-emerald-300" : "border-purple-400/40 bg-purple-950/80"}`}
+            className={`st inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-[10px] font-black ${isHappeningNow ? "border-emerald-500/50 bg-emerald-950/80 text-emerald-300" : "border-purple-400/40 bg-purple-950/80"} `}
           >
             <span
-              className={`h-2 w-2 rounded-full ${isHappeningNow ? "animate-ping bg-emerald-400" : "animate-pulse bg-purple-400"}`}
+              className={`h-2 w-2 rounded-full ${isHappeningNow ? "animate-ping bg-emerald-400" : "animate-pulse bg-purple-400"} `}
             />
             <span>{isHappeningNow ? "HAPPENING NOW" : "UP NEXT"}</span>
           </span>
@@ -332,13 +332,13 @@ export default function HeroUpNextBanner() {
             </button>
 
             {isCalOpen && (
-              <div className="absolute bottom-full left-0 z-50 mb-2 min-w-[170px]  border border-purple-400/40 bg-[#0c0721]/95 py-2 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+              <div className="absolute bottom-full left-0 z-50 mb-2 min-w-[170px] border border-purple-400/40 bg-[#0c0721]/95 py-2 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                 <a
                   href={getGoogleCalendarUrl(upNext)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsCalOpen(false)}
-                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
+                  className="transition-colors flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
                 >
                   Google Calendar
                 </a>
@@ -346,7 +346,7 @@ export default function HeroUpNextBanner() {
                   href={getICSFileUrl(upNext)}
                   download={`${upNext.venue.replace(/\s+/g, "_")}_show.ics`}
                   onClick={() => setIsCalOpen(false)}
-                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
+                  className="transition-colors flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
                 >
                   Apple / iCal
                 </a>
@@ -354,7 +354,7 @@ export default function HeroUpNextBanner() {
                   href={getICSFileUrl(upNext)}
                   download={`${upNext.venue.replace(/\s+/g, "_")}_show.ics`}
                   onClick={() => setIsCalOpen(false)}
-                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
+                  className="transition-colors flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
                 >
                   Outlook
                 </a>

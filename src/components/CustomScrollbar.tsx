@@ -238,13 +238,13 @@ export default function CustomScrollbar({
   const inner = (
     <div
       ref={wrapperRef}
-      className="relative flex flex-1 flex-col min-h-0 min-w-0 "
+      className="relative flex flex-1 flex-col min-h-0 min-w-0"
     >
       {/* Scrollable content with hidden native scrollbar */}
       <div
         ref={containerRef}
         className={`flex-1 min-h-0 min-w-0 [scrollbar-width:none] [-ms-overflow-style:none] [webkit-overflow-scrolling:touch] ${showVertical ? "overflow-y-scroll" : "overflow-y-hidden"
-          } ${showHorizontal ? "o" : ""} ${className}`}
+          }  ${showHorizontal ? "o" : ""}  ${className} `}
         data-lenis-prevent
       >
         {children}
@@ -271,7 +271,7 @@ export default function CustomScrollbar({
             className={`absolute left-1/2 w-[5px] rounded-full backdrop-blur-md pointer-events-auto bg-gradient-to-b from-[#f0abfc] via-[#c084fc] to-[#9333ea] ${isDragging
               ? "cursor-grabbing transition-none"
               : "cursor-grab transition-[opacity,box-shadow] duration-200"
-              }`}
+              } `}
             style={{
               top: thumbPos,
               transform: "translateX(-50%)",
@@ -312,7 +312,7 @@ export default function CustomScrollbar({
             className={`absolute top-1/2 h-[6px] rounded-full pointer-events-auto bg-gradient-to-r from-[#d8b4fe] to-[#9333ea] ${isDragging
               ? "cursor-grabbing transition-none"
               : "cursor-grab transition-[opacity,box-shadow] duration-200"
-              }`}
+              } `}
             style={{
               left: hThumbPos,
               transform: "translateY(-50%)",

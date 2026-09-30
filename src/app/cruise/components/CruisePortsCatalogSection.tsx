@@ -44,9 +44,9 @@ export default function CruisePortsCatalogSection({
       style={{ "--cv-size": "2800px", "--cv-size-lg": "1814px" } as React.CSSProperties}
     >
       <div>
-        <div className="mb-6 max-w-3xl text-center md:text-left">
+        <div className="title-group title-group--section mb-6 max-w-3xl text-center md:text-left">
           <h2 id="ports-heading">{sectionTitle}</h2>
-          <p className="mt-2.5 ">
+          <p className="">
             Discover tropical paradises, pristine beaches, and breathtaking
             Caribbean destinations featured on our upcoming concert cruise
             itineraries.
@@ -122,7 +122,7 @@ export default function CruisePortsCatalogSection({
                                     [port.name]: gImg,
                                   }))
                                 }
-                                className={`h-11 w-14 shrink-0 cursor-pointer overflow-hidden border ${isActive ? "z-10 scale-105 border-purple-400 ring-2 shadow-purple-500/20 ring-purple-500/60" : "border-white/20"}`}
+                                className={`h-11 w-14 shrink-0 cursor-pointer overflow-hidden border ${isActive ? "z-10 scale-105 border-purple-400 ring-2 shadow-purple-500/20 ring-purple-500/60" : "border-white/20"} `}
                                 title={`View photo ${gIdx + 1}`}
                               >
                                 <Image
@@ -150,7 +150,7 @@ export default function CruisePortsCatalogSection({
         {portLayoutMode === "spotlight" && (
           <div className="animate-fadeIn grid grid-cols-1 gap-8 text-left lg:grid-cols-3">
             {/* Main Featured Hero Card */}
-            <div className="relative overflow-hidden  border-white/10 bg-[#00000029] shadow-2xl lg:col-span-2">
+            <div className="relative overflow-hidden border-white/10 bg-[#00000029] shadow-2xl lg:col-span-2">
               <div className="relative h-72 w-full overflow-hidden bg-black md:h-96">
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0c0c14] via-black/30 to-transparent" />
                 {(spotlightHoveredImage ||
@@ -189,7 +189,7 @@ export default function CruisePortsCatalogSection({
                     {PORTS_DATA[activeSpotlightPort].highlights.map((h) => (
                       <span
                         key={h}
-                        className="inline-flex items-center gap-1.5  border border-purple-500/40 bg-purple-900/60 px-3 py-1"
+                        className="inline-flex items-center gap-1.5 border border-purple-500/40 bg-purple-900/60 px-3 py-1"
                       >
                         <CheckMarkIcon className="h-3.5 w-3.5 shrink-0" />
                         <span>{h}</span>
@@ -219,7 +219,7 @@ export default function CruisePortsCatalogSection({
                                 setSpotlightHoveredImage(gImg)
                               }
                               onClick={() => setSpotlightHoveredImage(gImg)}
-                              className={`h-16 w-24 shrink-0 cursor-pointer overflow-hidden  border ${isActive ? "z-10 scale-105 border-purple-400 ring-2 shadow-purple-500/30 ring-purple-500/60" : "border-white/10"}`}
+                              className={`h-16 w-24 shrink-0 cursor-pointer overflow-hidden border ${isActive ? "z-10 scale-105 border-purple-400 ring-2 shadow-purple-500/30 ring-purple-500/60" : "border-white/10"} `}
                               title={`View gallery image ${gIdx + 1}`}
                             >
                               <Image
@@ -246,7 +246,7 @@ export default function CruisePortsCatalogSection({
                         .getElementById("book-now")
                         ?.scrollIntoView({ behavior: "smooth" })
                     }
-                    className="cursor-pointer  border-none bg-purple-600 px-6 py-3 hover:bg-purple-500"
+                    className="transition-colors cursor-pointer border-none bg-purple-600 px-6 py-3 hover:bg-purple-500"
                   >
                     Book Cruise &amp; Visit{" "}
                     {PORTS_DATA[activeSpotlightPort].name.split(",")[0]}
@@ -268,9 +268,9 @@ export default function CruisePortsCatalogSection({
                     setActiveSpotlightPort(idx);
                     setSpotlightHoveredImage(null);
                   }}
-                  className={`flex w-full cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left ${activeSpotlightPort === idx ? "border-white/10 bg-[#00000029]" : "border-white/10 bg-[#00000029]"}`}
+                  className={`flex w-full cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left ${activeSpotlightPort === idx ? "border-white/10 bg-[#00000029]" : "border-white/10 bg-[#00000029]"} `}
                 >
-                  <div className="h-12 w-12 shrink-0 overflow-hidden  border border-white/10 bg-black">
+                  <div className="h-12 w-12 shrink-0 overflow-hidden border border-white/10 bg-black">
                     {port.image && (
                       <Image
                         width={200}
@@ -284,7 +284,7 @@ export default function CruisePortsCatalogSection({
                   </div>
                   <div className="min-w-0 flex-1">
                     <h4
-                      className={` ${activeSpotlightPort === idx ? " " : " "}`}
+                      className={` ${activeSpotlightPort === idx ? " " : " "} `}
                     >
                       {port.name}
                     </h4>
@@ -310,7 +310,7 @@ export default function CruisePortsCatalogSection({
                       behavior: "smooth",
                     });
                 }}
-                className="flex h-11 w-11 cursor-pointer items-center justify-center  border-white/10 bg-[#00000029]"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center border-white/10 bg-[#00000029]"
               >
                 ◀
               </button>
@@ -323,7 +323,7 @@ export default function CruisePortsCatalogSection({
                       behavior: "smooth",
                     });
                 }}
-                className="flex h-11 w-11 cursor-pointer items-center justify-center  border border-white/10 bg-[#00000029]"
+                className="flex h-11 w-11 cursor-pointer items-center justify-center border border-white/10 bg-[#00000029]"
               >
                 ▶
               </button>
@@ -339,7 +339,7 @@ export default function CruisePortsCatalogSection({
                 return (
                   <div
                     key={`carousel-${port.name}`}
-                    className="group flex w-[85vw] max-w-[320px] shrink-0 snap-start flex-col justify-between overflow-hidden border-white/10 bg-[#00000029] hover:-translate-y-1 md:w-[380px]"
+                    className="transition-transform group flex w-[85vw] max-w-[320px] shrink-0 snap-start flex-col justify-between overflow-hidden border-white/10 bg-[#00000029] hover:-translate-y-1 md:w-[380px]"
                   >
                     <div className="relative h-52 w-full overflow-hidden bg-black/60">
                       <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0b0b12] via-transparent to-black/30" />
@@ -354,7 +354,7 @@ export default function CruisePortsCatalogSection({
                           className="h-full w-full object-cover"
                         />
                       )}
-                      <span className="absolute top-4 left-4 z-20  border border-white/10 bg-black/70 px-3 py-1">
+                      <span className="absolute top-4 left-4 z-20 border border-white/10 bg-black/70 px-3 py-1">
                         {idx + 1} / {PORTS_DATA.length}
                       </span>
                     </div>
@@ -397,7 +397,7 @@ export default function CruisePortsCatalogSection({
                                     [port.name]: gImg,
                                   }))
                                 }
-                                className={`h-10 w-12 shrink-0 cursor-pointer overflow-hidden  border ${isActive ? "z-10 scale-105 border-purple-400 ring-2 shadow-purple-500/20 ring-purple-500/60" : "border-white/10"}`}
+                                className={`h-10 w-12 shrink-0 cursor-pointer overflow-hidden border ${isActive ? "z-10 scale-105 border-purple-400 ring-2 shadow-purple-500/20 ring-purple-500/60" : "border-white/10"} `}
                               >
                                 <Image
                                   width={48}
@@ -426,9 +426,9 @@ export default function CruisePortsCatalogSection({
             {PORTS_DATA.map((port, idx) => (
               <div
                 key={`list-${port.name}`}
-                className="flex flex-col items-start gap-6 rounded-2xl border-white/10 bg-[#00000029] p-4 hover:bg-white/[0.08] md:flex-row md:items-center md:p-6"
+                className="transition-colors flex flex-col items-start gap-6 rounded-2xl border-white/10 bg-[#00000029] p-4 hover:bg-white/[0.08] md:flex-row md:items-center md:p-6"
               >
-                <div className="relative h-32 w-full shrink-0 overflow-hidden  md:h-28 md:w-48">
+                <div className="relative h-32 w-full shrink-0 overflow-hidden md:h-28 md:w-48">
                   {port.image && (
                     <Image
                       width={200}
@@ -470,7 +470,7 @@ export default function CruisePortsCatalogSection({
                       .getElementById("book-now")
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
-                  className="shrink-0 cursor-pointer  border-white/10 bg-[#00000029] px-4 py-2"
+                  className="shrink-0 cursor-pointer border-white/10 bg-[#00000029] px-4 py-2"
                 >
                   Book →
                 </button>

@@ -644,7 +644,7 @@ export default function HeroVideoPlayer({
                   window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
                 }
               }}
-              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"}`}
+              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"} `}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
@@ -691,7 +691,7 @@ export default function HeroVideoPlayer({
               muted
               loop
               playsInline
-              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"}`}
+              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"} `}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
@@ -728,7 +728,7 @@ export default function HeroVideoPlayer({
             {!isCustomizerOpen ? (
               <button
                 onClick={() => setIsCustomizerOpen(true)}
-                className="group flex h-11 w-11 cursor-pointer items-center justify-center  border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
+                className="transition-colors group flex h-11 w-11 cursor-pointer items-center justify-center border border-white/10 bg-black/60 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-2xl hover:bg-black/85 active:scale-95"
                 title="Open Video Tint Customizer"
               >
                 <svg
@@ -740,7 +740,7 @@ export default function HeroVideoPlayer({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="group- group-hover:rotate-45"
+                  className="transition-transform group- group-hover:rotate-45"
                 >
                   <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
                   <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
@@ -768,7 +768,7 @@ export default function HeroVideoPlayer({
                   </div>
                   <button
                     onClick={() => setIsCustomizerOpen(false)}
-                    className="flex h-6 w-6 cursor-pointer items-center justify-center  text-white/50 hover:bg-white/10 hover:text-white"
+                    className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center text-white/50 hover:bg-white/10 hover:text-white"
                   >
                     <svg
                       width="14"
@@ -792,7 +792,7 @@ export default function HeroVideoPlayer({
                       <button
                         key={preset.color}
                         onClick={() => updateColor(preset.color)}
-                        className="relative flex h-6 w-6 cursor-pointer items-center justify-center  border hover:scale-115"
+                        className="transition-transform relative flex h-6 w-6 cursor-pointer items-center justify-center border hover:scale-115"
                         style={{
                           backgroundColor: preset.color,
                           borderColor:
@@ -803,13 +803,13 @@ export default function HeroVideoPlayer({
                         title={preset.name}
                       >
                         {tintColor === preset.color && (
-                          <div className="shadow-[0_0_4px_rgba(147, 51, 234,0.8)] h-1.5 w-1.5  bg-purple-600" />
+                          <div className="shadow-[0_0_4px_rgba(147, 51, 234,0.8)] h-1.5 w-1.5 bg-purple-600" />
                         )}
                       </button>
                     ))}
                     {/* Custom Color Selector */}
                     <div
-                      className="relative flex h-6 w-6 cursor-pointer items-center justify-center overflow-hidden  border border-white/10 bg-[var(--color-accent)]/80 hover:scale-115"
+                      className="transition-transform relative flex h-6 w-6 cursor-pointer items-center justify-center overflow-hidden border border-white/10 bg-[var(--color-accent)]/80 hover:scale-115"
                       title="Custom Color"
                     >
                       <input
@@ -847,7 +847,7 @@ export default function HeroVideoPlayer({
                     step="0.02"
                     value={tintOpacity}
                     onChange={(e) => updateOpacity(parseFloat(e.target.value))}
-                    className="h-1.5 w-full cursor-pointer appearance-none  bg-white/10 accent-amber-500"
+                    className="h-1.5 w-full cursor-pointer appearance-none bg-white/10 accent-amber-500"
                   />
                 </div>
 
@@ -868,7 +868,7 @@ export default function HeroVideoPlayer({
                       <button
                         key={mode}
                         onClick={() => updateBlend(mode)}
-                        className={`cursor-pointer rounded border px-1 py-1 ${mixBlendMode === mode ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
+                        className={`cursor-pointer rounded border px-1 py-1 ${mixBlendMode === mode ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"} `}
                       >
                         {mode}
                       </button>
@@ -877,7 +877,7 @@ export default function HeroVideoPlayer({
                 </div>
 
                 {/* Active Values HUD */}
-                <div className="space-y-0.5  border border-white/10 bg-white/[0.02] p-2 text-white/40">
+                <div className="space-y-0.5 border border-white/10 bg-white/[0.02] p-2 text-white/40">
                   <div>
                     Color: <span>{tintColor}</span>
                   </div>
@@ -892,7 +892,7 @@ export default function HeroVideoPlayer({
                 {/* Copy CSS Button */}
                 <button
                   onClick={copyCSS}
-                  className="shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 py-2 text-[var(--font-size-2xs)] hover:from-amber-600 hover:to-orange-700 active:scale-97"
+                  className="transition-colors shadow-[0_4px_12px_rgba(147, 51, 234,0.2)] flex w-full cursor-pointer items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-600 py-2 text-[var(--font-size-2xs)] hover:from-amber-600 hover:to-orange-700 active:scale-97"
                 >
                   {copied ? (
                     <>
@@ -962,7 +962,7 @@ export default function HeroVideoPlayer({
                 link={announcement.link}
                 linkText={announcement.linkText}
                 inline={true}
-                className="w-full animate-[fade-in-up_0.8s_var(--ease-out-expo)_0.2s_both]"
+                className="w-full animate-[fade-in-up_0.8s_var(---expo)_0.2s_both]"
               />
             </div>
           ) : (
@@ -979,7 +979,7 @@ export default function HeroVideoPlayer({
               </h1>
 
               {/* Hero Subheading */}
-              <p className="/90 md: drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]  lg:text-xl">
+              <p className="/90 md: drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] lg:text-xl">
                 {sanityContent?.heroSubheading ||
                   "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
               </p>

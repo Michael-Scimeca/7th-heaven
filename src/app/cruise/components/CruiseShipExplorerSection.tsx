@@ -32,9 +32,9 @@ function CruiseShipExplorerSectionComponent({
       className="section cv-auto site-container"
       style={{ "--cv-size": "4200px", "--cv-size-lg": "4051px" } as React.CSSProperties}
     >
-      <div className="mb-6 w-full text-left">
+      <div className="title-group title-group--section mb-6 w-full text-left">
         <h2 id="ship-specs-heading">{sectionTitle}</h2>
-        <p className="mt-3 max-w-2xl">{sectionSubtitle}</p>
+        <p className="max-w-2xl">{sectionSubtitle}</p>
       </div>
 
       {/* Specs & Dimensions */}
@@ -47,7 +47,7 @@ function CruiseShipExplorerSectionComponent({
         ].map((stat) => (
           <div key={stat.label} className="border-0 p-0 text-left">
             <dt className="block text-white/50">{stat.label}</dt>
-            <dd className="block font-bold text-white/90 md:text-xl">
+            <dd className="block text-white/90 md:text-xl">
               {stat.value}
             </dd>
           </div>
@@ -56,7 +56,7 @@ function CruiseShipExplorerSectionComponent({
 
       {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
       <div>
-        <div className="mb-6 text-left">
+        <div className="title-group title-group--sub mb-6 text-left">
           <h3>
             Star of the Seas{" "}
             <span className="accent-gradient-text">Official Photo Gallery</span>
@@ -131,7 +131,7 @@ function CruiseShipExplorerSectionComponent({
             },
           ].map((item) => (
             <li key={item.title}>
-              <article className="group relative h-52 overflow-hidden  sm:h-60">
+              <article className="group relative h-52 overflow-hidden sm:h-60">
                 <Image
                   width={400}
                   height={300}
@@ -144,7 +144,7 @@ function CruiseShipExplorerSectionComponent({
                 <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
                   <SectionBadge
                     label={item.category}
-                    className="  self-start !border-white/20 !bg-black/80 shadow-md"
+                    className="self-start !border-white/20 !bg-black/80 shadow-md"
                   />
                   <p>{item.title}</p>
                 </div>
@@ -382,7 +382,7 @@ function CruiseShipExplorerSectionComponent({
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
                 <SectionBadge
                   label={food.tag}
-                  className="  self-start !border-white/20 !bg-black/80 shadow-md"
+                  className="self-start !border-white/20 !bg-black/80 shadow-md"
                 />
                 <p>{food.name}</p>
               </div>
@@ -655,7 +655,7 @@ function CruiseShipExplorerSectionComponent({
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
                 <SectionBadge
                   label={item.tag}
-                  className="  self-start !border-white/20 !bg-black/80 shadow-md"
+                  className="self-start !border-white/20 !bg-black/80 shadow-md"
                 />
                 <p>{item.name}</p>
               </div>

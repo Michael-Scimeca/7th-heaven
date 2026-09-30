@@ -197,11 +197,11 @@ export default function HomeNewsSection({
       <>
         {/* Section Header */}
         <div className="mb-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <div className="max-w-2xl text-left">
+          <div className="title-group title-group--section max-w-2xl text-left">
             <h2 id="news-heading" className="font-[family-name:var(--font-rockstar)]">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
-            <p className="mt-2">
+            <p className="">
               {sanityContent?.newsSubtitle ||
                 "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
             </p>
@@ -226,7 +226,7 @@ export default function HomeNewsSection({
               <h3 className="mb-6">
                 <Link
                   href={`/news/${featured.slug || featured.id || toSlug(featured.title)}`}
-                  className="hover:text-[var(--color-accent)]"
+                  className="transition-colors hover:text-[var(--color-accent)]"
                 >
                   {featured.title}
                 </Link>
@@ -243,7 +243,7 @@ export default function HomeNewsSection({
                 <Link
                   key={item.title}
                   href={href}
-                  className="group block w-full border-0 pb-3 text-left font-normal hover:opacity-90 md:pb-2"
+                  className="transition-opacity group block w-full border-0 pb-3 text-left font-normal hover:opacity-90 md:pb-2"
                 >
                   <div className="mb-2 flex items-center justify-between">
                     <span className="text-[var(--color-accent)]">
@@ -267,7 +267,7 @@ export default function HomeNewsSection({
           onClick={() => setSelectedArticle(null)}
         >
           <div
-            className="relative w-full max-w-xl rounded-2xl border-0   p-8 shadow-2xl"
+            className="relative w-full max-w-xl rounded-2xl border-0 p-8 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-6 flex items-center justify-between">
@@ -277,7 +277,7 @@ export default function HomeNewsSection({
               <button
                 aria-label="Close modal"
                 onClick={() => setSelectedArticle(null)}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center  text-xl hover:bg-white/10"
+                className="transition-colors flex h-8 w-8 cursor-pointer items-center justify-center text-xl hover:bg-white/10"
               >
                 ✕
               </button>
@@ -304,13 +304,13 @@ export default function HomeNewsSection({
             <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-neutral-900 p-6 shadow-2xl sm:p-8">
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
+                className="transition-colors absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
               >
                 <X className="h-5 w-5" />
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <Newspaper className="h-5 w-5" />
                 </div>
                 <div>
@@ -322,14 +322,14 @@ export default function HomeNewsSection({
               </div>
 
               {modalError && (
-                <div className="mb-6  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6 border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   {modalError}
                 </div>
               )}
 
               <form onSubmit={handleAddNewsSubmit} className="space-y-4">
                 <div>
-                  <label className="  block ">
+                  <label className="block">
                     Article Title *
                   </label>
                   <GlowInput
@@ -344,7 +344,7 @@ export default function HomeNewsSection({
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="  block ">
+                    <label className="block">
                       Display Date *
                     </label>
                     <GlowInput
@@ -358,7 +358,7 @@ export default function HomeNewsSection({
                   </div>
 
                   <div>
-                    <label className="  block t">
+                    <label className="block t">
                       Category
                     </label>
                     <GlowSelect
@@ -375,7 +375,7 @@ export default function HomeNewsSection({
                 </div>
 
                 <div>
-                  <label className="  block ">
+                  <label className="block">
                     Content / Article Body *
                   </label>
                   <GlowTextarea
@@ -392,14 +392,14 @@ export default function HomeNewsSection({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="cursor-pointer  bg-white/10 px-5 py-2.5 hover:bg-white/15"
+                    className="transition-colors cursor-pointer bg-white/10 px-5 py-2.5 hover:bg-white/15"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="cursor-pointer  bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="transition-colors cursor-pointer bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting ? "Publishing..." : "+ PUBLISH NEWS TO SANITY"}
                   </button>

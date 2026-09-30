@@ -31,27 +31,31 @@ export function ModalDialog({
   className,
 }: ModalDialogProps) {
   useScrollLock(isOpen);
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     if (!isOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") onCloseRef.current();
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+    <dialog
+      open
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-transparent border-0 m-0 w-full h-full max-w-none max-h-none"
       aria-modal="true"
-      role="dialog"
       aria-label={title || "Modal Dialog"}
     >
       {/* Backdrop */}
@@ -64,7 +68,7 @@ export function ModalDialog({
       {/* Dialog Body */}
       <div
         className={cn(
-          "relative z-10 w-full overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0f0f13] p-6 shadow-2xl transition-all",
+          "relative z-10 w-full overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0f0f13] p-6 shadow-2xl transition-[opacity,transform]",
           maxWidthStyles[maxWidth],
           className,
         )}
@@ -72,14 +76,14 @@ export function ModalDialog({
         {/* Header */}
         <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
           {title ? (
-            <h2 className="font-bold tracking-tight text-white">{title}</h2>
+            <h2 className="tracking-tight text-white">{title}</h2>
           ) : (
             <div />
           )}
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
+            className="transition-colors rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -89,7 +93,7 @@ export function ModalDialog({
         {/* Content */}
         <div>{children}</div>
       </div>
-    </div>
+    </dialog>
   );
 }
 

@@ -78,7 +78,7 @@ export default function HamburgerTestPage() {
           <nav
             ref={navRef}
             id="nav"
-            className={`nav ${isOpen ? "nav--open" : ""}`}
+            className={`nav ${isOpen ? "nav--open" : ""} `}
           >
             {/* ACTUAL NAVIGATION MENU */}
             <ul

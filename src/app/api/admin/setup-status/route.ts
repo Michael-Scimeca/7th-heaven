@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/api-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -59,8 +60,11 @@ function getStatusConfig() {
   };
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
+
     const status = getStatusConfig();
     return NextResponse.json(status);
   } catch (e: any) {

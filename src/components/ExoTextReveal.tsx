@@ -22,7 +22,7 @@ export default function ExoTextReveal({
   const Tag = Component as any;
 
   return (
-    <Tag className={`exo-text-reveal ${className}`}>
+    <Tag className={`exo-text-reveal ${className} `}>
       {lineArray.map((line) => (
         <span
           key={`line-${line}`}

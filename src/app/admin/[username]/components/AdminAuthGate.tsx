@@ -31,8 +31,8 @@ export function AdminAuthGate({
       id="admin-auth-gate-page"
       className="flex min-h-screen items-center justify-center bg-[var(--color-bg-base)] p-4"
     >
-      <div className="w-full max-w-md  border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border border-white/10 bg-purple-500/10 text-2xl">
+      <div className="w-full max-w-md border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-white/10 bg-purple-500/10 text-2xl">
           🔒
         </div>
         <h1 className="mb-2">
@@ -46,7 +46,7 @@ export function AdminAuthGate({
 
         <form onSubmit={handleAdminLoginSubmit} className="space-y-4 text-left">
           <div>
-            <label htmlFor="admin-gate-email" className="text-4xs mb-1.5 block">
+            <label htmlFor="admin-gate-email" className="text-4xs block">
               Email
             </label>
             <GlowInput
@@ -63,7 +63,7 @@ export function AdminAuthGate({
           <div>
             <label
               htmlFor="admin-gate-password"
-              className="text-4xs mb-1.5 block"
+              className="text-4xs block"
             >
               Password
             </label>
@@ -88,7 +88,7 @@ export function AdminAuthGate({
           <button
             type="submit"
             disabled={adminLoginLoading}
-            className="btn-primary w-full cursor-pointer  py-3 disabled:opacity-50"
+            className="btn-primary w-full cursor-pointer py-3 disabled:opacity-50"
           >
             {adminLoginLoading ? "Authenticating..." : "Sign In to Admin"}
           </button>
@@ -98,7 +98,7 @@ export function AdminAuthGate({
           <button
             type="button"
             onClick={() => router.push("/")}
-            className="cursor-pointer border-none p-0 text-white/40 hover:text-white"
+            className="transition-colors cursor-pointer border-none p-0 text-white/40 hover:text-white"
           >
             ← Back to Home
           </button>

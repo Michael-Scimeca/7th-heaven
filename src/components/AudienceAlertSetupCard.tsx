@@ -191,7 +191,7 @@ export function AudienceAlertSetupCard({
   };
 
   return (
-    <div className={`rounded-2xl border border-white/10 bg-gradient-to-br from-purple-950/30 via-black/60 to-black/90 p-6 backdrop-blur-xl ${className}`}>
+    <div className={`rounded-2xl border border-white/10 bg-gradient-to-br from-purple-950/30 via-black/60 to-black/90 p-6 backdrop-blur-xl ${className} `}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div className="flex items-center gap-3">
@@ -199,7 +199,7 @@ export function AudienceAlertSetupCard({
             <Bell className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white">{defaultTitle}</h3>
+            <h3 className="text-base text-white">{defaultTitle}</h3>
             <p className="text-xs text-white/60 mt-0.5">{defaultSubtitle}</p>
           </div>
         </div>
@@ -217,7 +217,7 @@ export function AudienceAlertSetupCard({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold text-white">Browser & Lock-Screen Push</span>
-                <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300">
+                <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-300">
                   FREE · INSTANT
                 </span>
               </div>

@@ -47,7 +47,7 @@ function CancelContent() {
         </p>
         <Link
           href="/cruise"
-          className="text-[var(--color-accent)] hover:text-white"
+          className="transition-colors text-[var(--color-accent)] hover:text-white"
         >
           ← Back to Cruise Page
         </Link>
@@ -71,7 +71,7 @@ function CancelContent() {
           </p>
           <Link
             href="/cruise"
-            className="inline-block bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
+            className="transition-colors inline-block bg-[var(--color-accent)] px-8 py-3 hover:bg-[var(--color-accent)]/80"
           >
             Back to Cruise Page
           </Link>
@@ -85,7 +85,7 @@ function CancelContent() {
           </p>
           <Link
             href="/cruise"
-            className="text-[var(--color-accent)] hover:text-white"
+            className="transition-colors text-[var(--color-accent)] hover:text-white"
           >
             ← Back to Cruise Page
           </Link>
@@ -102,13 +102,13 @@ function CancelContent() {
             <button
               onClick={handleCancel}
               disabled={status === "cancelling"}
-              className="cursor-pointer bg-rose-500 px-8 py-3 hover:bg-rose-400 disabled:opacity-70"
+              className="transition-colors cursor-pointer bg-rose-500 px-8 py-3 hover:bg-rose-400 disabled:opacity-70"
             >
               {status === "cancelling"
                 ? "Cancelling..."
                 : "Yes, Cancel My Signup"}
             </button>
-            <Link href="/cruise" className="text-white/30 hover:text-white">
+            <Link href="/cruise" className="transition-colors text-white/30 hover:text-white">
               Never mind, keep me on the list
             </Link>
           </div>
@@ -124,7 +124,7 @@ export default function CruiseCancelPage() {
       <Suspense
         fallback={
           <div className="text-center">
-            <span className="inline-block h-8 w-8 animate-spin  border-2 border-white/10 border-t-white" />
+            <span className="inline-block h-8 w-8 animate-spin border-2 border-white/10 border-t-white" />
           </div>
         }
       >

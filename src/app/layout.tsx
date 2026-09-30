@@ -227,7 +227,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${tanker.variable} ${switzer.variable}`}
+      className={`dark ${tanker.variable}  ${switzer.variable} `}
       suppressHydrationWarning
     >
       <head>

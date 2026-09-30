@@ -91,18 +91,18 @@ export default function BehindTheScenes({
                 Official YouTube
               </span>
 
-              {/* Heading */}
-              <h2 className="mb-6 leading-[0.95]">
-                Explore Behind the <span className="gradient-text">Scenes</span>
-              </h2>
-
-              {/* Subtitle */}
-              <h3 className="mb-10 max-w-[500px]">{featured.subtitle}</h3>
+              {/* Heading & Subtitle */}
+              <div className="title-group title-group--section mb-10">
+                <h2 className="leading-[0.95]">
+                  Explore Behind the <span className="gradient-text">Scenes</span>
+                </h2>
+                <p className="max-w-[500px] text-lg text-white/70">{featured.subtitle}</p>
+              </div>
 
               {/* Play CTA */}
               <button
                 onClick={() => setPlayingId(featured.id)}
-                className="group inline-flex cursor-pointer items-center gap-3 bg-white px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white"
+                className="transition-colors group inline-flex cursor-pointer items-center gap-3 bg-white px-8 py-4 hover:bg-[var(--color-accent)] hover:text-white"
               >
                 <svg
                   width="14"
@@ -127,7 +127,7 @@ export default function BehindTheScenes({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="group-hover:translate-x-1"
+                  className="transition-transform group-hover:translate-x-1"
                 >
                   <line x1="7" y1="17" x2="17" y2="7" />
                   <polyline points="7 7 17 7 17 17" />
@@ -170,13 +170,13 @@ export default function BehindTheScenes({
                         unoptimized
                         src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                         alt={video.title}
-                        className="absolute inset-0 z-[1] h-full w-full object-cover grayscale group-hover:grayscale-0"
+                        className="transition-[filter] absolute inset-0 z-[1] h-full w-full object-cover grayscale group-hover:grayscale-0"
                         loading="lazy"
                         onError={(e) => {
                           e.currentTarget.src = "/images/video-placeholder.jpg";
                         }}
                       />
-                      <div className="absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10" />
+                      <div className="transition-colors absolute inset-0 z-[2] bg-black/30 group-hover:bg-black/10" />
                       <div className="absolute top-4 right-4 z-[3]">
                         <SeventhButton
                           icon={false}

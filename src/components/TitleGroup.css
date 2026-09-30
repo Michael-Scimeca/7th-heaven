@@ -1,0 +1,46 @@
+/* ─────────────────────────────────────────────────────────────
+ * Title → paragraph spacing, site-wide.
+ * Change these three values to adjust the gap between a heading
+ * and the text right under it everywhere on the site.
+ *   --title-gap-page     <PageHero>      (page H1 + intro line)
+ *   --title-gap-section  <SectionHeader> as h2
+ *   --title-gap-sub      <SectionHeader> as h3
+ * One-off override on a single instance: titleGap="1.5rem" prop.
+ * ───────────────────────────────────────────────────────────── */
+:root {
+  --title-gap-page: var(--spacing-xs, 0.5rem);
+  --title-gap-section: 0rem;
+  --title-gap-sub: 0.375rem;
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: var(--title-gap);
+}
+
+.title-group h1,
+.title-group h2,
+.title-group h3,
+.title-group h4 {
+  text-wrap: balance;
+}
+
+.title-group p {
+  max-width: 42rem;
+  text-wrap: pretty;
+}
+
+.title-group--page {
+  --title-gap: var(--title-gap-page);
+}
+
+.title-group--section {
+  --title-gap: var(--title-gap-section);
+}
+
+.title-group--sub {
+  --title-gap: var(--title-gap-sub);
+}

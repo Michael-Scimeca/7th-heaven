@@ -21,7 +21,7 @@ function AutoPlayVideo({ src }: { src: string }) {
       ([entry]) => {
         if (entry.isIntersecting) {
           setShouldLoad(true);
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         } else {
           video.pause();
         }
@@ -44,7 +44,7 @@ function AutoPlayVideo({ src }: { src: string }) {
     if (video.currentTime >= MAX_DURATION) {
       try {
         video.currentTime = 0;
-      } catch (_) {}
+      } catch (_) { }
     }
   };
 
@@ -81,139 +81,139 @@ const SLIDES: {
   accent: string;
   thumbs: ThumbItem[];
 }[] = [
-  {
-    tag: "[ 01 ]",
-    title: "Thousands of shows. Fans who never miss one.",
-    desc: "40 years, thousands of shows, and a crowd that shows up every time — 7th Heaven built a career on fans who sing every word and keep coming back for more.",
-    bg: "transparent",
-    accent: "#c084fc",
-    thumbs: [
-      {
-        label: "Soldier Field",
-        badge: "Stadium Stage",
-        gradient: "linear-gradient(160deg,#3b4a3f,#0e1a12)",
-        video: "/movie/luminous-clip.mp4",
-      },
-      {
-        label: "Cruise Stage",
-        badge: "Live at Sea",
-        gradient: "linear-gradient(160deg,#4a7fae,#8a3d2d)",
-        video: "/movie/cruise-desktop.mp4",
-      },
-      {
-        label: "At Sea Crowd",
-        badge: "Fan Audience",
-        gradient: "linear-gradient(160deg,#d986a8,#5b2340)",
-        video: "/movie/ship-sea.mp4",
-      },
-      {
-        label: "Port Sunset",
-        badge: "Caribbean Stage",
-        gradient: "linear-gradient(160deg,#2b4c6f,#0e1b2a)",
-        video: "/movie/ship-port.mp4",
-      },
-    ],
-  },
-  {
-    tag: "[ 02 ]",
-    title: "We love doing private events",
-    desc: "Weddings, corporate parties, intimate acoustic sets — bring us in for your private event and we'll bring the same energy we give 20,000 people at a festival.",
-    bg: "transparent",
-    accent: "#d8b4fe",
-    thumbs: [
-      {
-        label: "Weddings",
-        badge: "Private Event",
-        gradient: "linear-gradient(160deg,#c9b48a,#3c2f1e)",
-        video: "/movie/Frankie.mp4",
-      },
-      {
-        label: "Corporate Events",
-        badge: "Corporate Show",
-        gradient: "linear-gradient(160deg,#8a8a8a,#1a1a1a)",
-        video: "/movie/Mark.mp4",
-      },
-      {
-        label: "Private Parties",
-        badge: "VIP Celebration",
-        gradient: "linear-gradient(160deg,#e0c9a6,#5a4326)",
-        video: "/movie/Nick.mp4",
-      },
-      {
-        label: "VIP Galas",
-        badge: "Special Event",
-        gradient: "linear-gradient(160deg,#6b4f77,#231429)",
-        video: "/movie/Rich.mp4",
-      },
-    ],
-  },
-  {
-    tag: "[ 03 ]",
-    title: "Fest season, every summer",
-    desc: "From county fairgrounds to Soldier Field, we've headlined more fests than we can count — same energy, bigger stage, same fans singing in the crowd.",
-    bg: "transparent",
-    accent: "#f2f1e6",
-    thumbs: [
-      {
-        label: "DeKalb Cornfest",
-        badge: "Summer Fest",
-        gradient: "linear-gradient(160deg,#6f6fce,#1a1a3a)",
-        video: "/movie/fest1-clip.mp4",
-      },
-      {
-        label: "Schaumburg Fest",
-        badge: "Main Stage",
-        gradient: "linear-gradient(160deg,#e0a35a,#4a2410)",
-        video: "/movie/hero-colorinmostion.mp4",
-      },
-      {
-        label: "Rock N' Wheels",
-        badge: "Outdoor Fest",
-        gradient: "linear-gradient(160deg,#5ad0c0,#0d2a26)",
-        video: "/movie/Adam.mp4",
-      },
-      {
-        label: "Main Stage",
-        badge: "Headliner",
-        gradient: "linear-gradient(160deg,#7a3b8e,#240d2a)",
-        video: "/movie/spectrum.mp4",
-      },
-    ],
-  },
-  {
-    tag: "[ 04 ]",
-    title: "We love playing at bars",
-    desc: "Packing local clubs, sports bars, and music venues with high-energy rock sets, classic anthems, and fans singing along all night long.",
-    bg: "transparent",
-    accent: "#bfa0e9",
-    thumbs: [
-      {
-        label: "Local Club",
-        badge: "Nightclub",
-        gradient: "linear-gradient(160deg,#6a3b8e,#1b0d2a)",
-        video: "/movie/be-here-clip.mp4",
-      },
-      {
-        label: "Sports Bar",
-        badge: "High Energy",
-        gradient: "linear-gradient(160deg,#8e4a3b,#2a0d1b)",
-        video: "/movie/color-in-motion-clip.mp4",
-      },
-      {
-        label: "Pub & Grill",
-        badge: "Live Rock",
-        gradient: "linear-gradient(160deg,#3b8e7f,#0d2a23)",
-        video: "/movie/next.mp4",
-      },
-      {
-        label: "Late Night Jam",
-        badge: "Live Set",
-        gradient: "linear-gradient(160deg,#8e3b5e,#2a0d1b)",
-        video: "/movie/luminous.mp4",
-      },
-    ],
-  },
-];
+    {
+      tag: "[ 01 ]",
+      title: "Thousands of shows. Fans who never miss one.",
+      desc: "40 years, thousands of shows, and a crowd that shows up every time — 7th Heaven built a career on fans who sing every word and keep coming back for more.",
+      bg: "transparent",
+      accent: "#c084fc",
+      thumbs: [
+        {
+          label: "Soldier Field",
+          badge: "Stadium Stage",
+          gradient: "linear-gradient(160deg,#3b4a3f,#0e1a12)",
+          video: "/movie/luminous-clip.mp4",
+        },
+        {
+          label: "Cruise Stage",
+          badge: "Live at Sea",
+          gradient: "linear-gradient(160deg,#4a7fae,#8a3d2d)",
+          video: "/movie/cruise-desktop.mp4",
+        },
+        {
+          label: "At Sea Crowd",
+          badge: "Fan Audience",
+          gradient: "linear-gradient(160deg,#d986a8,#5b2340)",
+          video: "/movie/ship-sea.mp4",
+        },
+        {
+          label: "Port Sunset",
+          badge: "Caribbean Stage",
+          gradient: "linear-gradient(160deg,#2b4c6f,#0e1b2a)",
+          video: "/movie/ship-port.mp4",
+        },
+      ],
+    },
+    {
+      tag: "[ 02 ]",
+      title: "We love doing private events",
+      desc: "Weddings, corporate parties, intimate acoustic sets — bring us in for your private event and we'll bring the same energy we give 20,000 people at a festival.",
+      bg: "transparent",
+      accent: "#d8b4fe",
+      thumbs: [
+        {
+          label: "Weddings",
+          badge: "Private Event",
+          gradient: "linear-gradient(160deg,#c9b48a,#3c2f1e)",
+          video: "/movie/Frankie.mp4",
+        },
+        {
+          label: "Corporate Events",
+          badge: "Corporate Show",
+          gradient: "linear-gradient(160deg,#8a8a8a,#1a1a1a)",
+          video: "/movie/Mark.mp4",
+        },
+        {
+          label: "Private Parties",
+          badge: "VIP Celebration",
+          gradient: "linear-gradient(160deg,#e0c9a6,#5a4326)",
+          video: "/movie/Nick.mp4",
+        },
+        {
+          label: "VIP Galas",
+          badge: "Special Event",
+          gradient: "linear-gradient(160deg,#6b4f77,#231429)",
+          video: "/movie/Rich.mp4",
+        },
+      ],
+    },
+    {
+      tag: "[ 03 ]",
+      title: "Fest season, every summer",
+      desc: "From county fairgrounds to Soldier Field, we've headlined more fests than we can count — same energy, bigger stage, same fans singing in the crowd.",
+      bg: "transparent",
+      accent: "#f2f1e6",
+      thumbs: [
+        {
+          label: "DeKalb Cornfest",
+          badge: "Summer Fest",
+          gradient: "linear-gradient(160deg,#6f6fce,#1a1a3a)",
+          video: "/movie/fest1-clip.mp4",
+        },
+        {
+          label: "Schaumburg Fest",
+          badge: "Main Stage",
+          gradient: "linear-gradient(160deg,#e0a35a,#4a2410)",
+          video: "/movie/hero-colorinmostion.mp4",
+        },
+        {
+          label: "Rock N' Wheels",
+          badge: "Outdoor Fest",
+          gradient: "linear-gradient(160deg,#5ad0c0,#0d2a26)",
+          video: "/movie/Adam.mp4",
+        },
+        {
+          label: "Main Stage",
+          badge: "Headliner",
+          gradient: "linear-gradient(160deg,#7a3b8e,#240d2a)",
+          video: "/movie/spectrum.mp4",
+        },
+      ],
+    },
+    {
+      tag: "[ 04 ]",
+      title: "We love playing at bars",
+      desc: "Packing local clubs, sports bars, and music venues with high-energy rock sets, classic anthems, and fans singing along all night long.",
+      bg: "transparent",
+      accent: "#bfa0e9",
+      thumbs: [
+        {
+          label: "Local Club",
+          badge: "Nightclub",
+          gradient: "linear-gradient(160deg,#6a3b8e,#1b0d2a)",
+          video: "/movie/be-here-clip.mp4",
+        },
+        {
+          label: "Sports Bar",
+          badge: "High Energy",
+          gradient: "linear-gradient(160deg,#8e4a3b,#2a0d1b)",
+          video: "/movie/color-in-motion-clip.mp4",
+        },
+        {
+          label: "Pub & Grill",
+          badge: "Live Rock",
+          gradient: "linear-gradient(160deg,#3b8e7f,#0d2a23)",
+          video: "/movie/next.mp4",
+        },
+        {
+          label: "Late Night Jam",
+          badge: "Live Set",
+          gradient: "linear-gradient(160deg,#8e3b5e,#2a0d1b)",
+          video: "/movie/luminous.mp4",
+        },
+      ],
+    },
+  ];
 
 export default function SlideupSection({
   showIntro = false,
@@ -229,56 +229,33 @@ export default function SlideupSection({
   >([]);
 
   const activeSlides = SLIDES.map((slide, idx) => {
-    const sanitySection = sanityContent?.sections?.[idx];
+    const sanitySlide = sanityContent?.slideupSlides?.[idx];
     return {
       ...slide,
-      title: sanitySection?.title || slide.title,
-      desc: sanitySection?.subtitle || sanitySection?.body || slide.desc,
+      title: sanitySlide?.title || slide.title,
+      desc: sanitySlide?.subtitle || sanitySlide?.body || slide.desc,
     };
   });
+
+  const stackRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const vh = () => window.innerHeight - HEADER_H;
 
-    let cardMetrics: { cardTop: number; innerBottomOffset: number; innerHeight: number }[] = [];
-
-    function updateMetrics() {
-      const scrollY = window.scrollY;
-      cardMetrics = cardRefs.current.map((card) => {
-        if (!card) return { cardTop: 0, innerBottomOffset: 0, innerHeight: 0 };
-        const cardRect = card.getBoundingClientRect();
-        const innerEl =
-          (card.querySelector(".su-card-inner") as HTMLElement) || card;
-        const innerRect = innerEl.getBoundingClientRect();
-        return {
-          cardTop: cardRect.top + scrollY,
-          innerBottomOffset: innerRect.bottom + scrollY,
-          innerHeight: innerRect.height,
-        };
-      });
-    }
-
     function onScroll() {
       const viewportH = vh();
-      const scrollY = window.scrollY;
 
-      if (cardMetrics.length === 0 || cardMetrics.some((m) => m.cardTop === 0)) {
-        updateMetrics();
-      }
-
-      const rects = cardRefs.current.map((card, i) => {
-        if (!card || !cardMetrics[i]) return null;
-        const m = cardMetrics[i];
+      const rects = cardRefs.current.map((card) => {
+        if (!card) return null;
+        const innerEl =
+          (card.querySelector(".su-card-inner") as HTMLElement) || card;
         return {
-          innerRect: {
-            bottom: m.innerBottomOffset - scrollY,
-            height: m.innerHeight,
-          },
-          cardRect: {
-            top: m.cardTop - scrollY,
-          },
+          innerRect: innerEl.getBoundingClientRect(),
+          cardRect: card.getBoundingClientRect(),
         };
       });
+
+      const stackRect = stackRef.current?.getBoundingClientRect();
 
       const last = lastStateRef.current;
       cardRefs.current.forEach((card, i) => {
@@ -330,6 +307,28 @@ export default function SlideupSection({
             }
             prev.overlap = overlapPercent;
           }
+        } else if (stackRect) {
+          // Last card in the slideup stack: mask out smoothly as the section scrolls into the next section
+          const innerRect = rects[i]!.innerRect;
+          const overlapPx = Math.max(0, innerRect.bottom - stackRect.bottom + 40);
+          const overlapPercent =
+            Math.round(
+              Math.min(100, (overlapPx / innerRect.height) * 100) * 4,
+            ) / 4;
+
+          if (overlapPercent !== prev.overlap) {
+            if (overlapPercent > 0) {
+              const maskTopPercent = Math.max(0, 100 - overlapPercent);
+              const fadeEdge = Math.max(0, maskTopPercent - 6);
+              const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
+              card.style.setProperty("--card-mask", maskVal);
+              prev.masked = true;
+            } else if (prev.masked) {
+              card.style.removeProperty("--card-mask");
+              prev.masked = false;
+            }
+            prev.overlap = overlapPercent;
+          }
         } else if (prev.overlap !== 0 || prev.masked) {
           card.style.removeProperty("--card-scale");
           card.style.removeProperty("--card-ty");
@@ -354,19 +353,13 @@ export default function SlideupSection({
       raf = requestAnimationFrame(onScroll);
     };
 
-    const handleResize = () => {
-      updateMetrics();
-      handler();
-    };
-
     document.addEventListener("scroll", handler, { passive: true });
-    window.addEventListener("resize", handleResize, { passive: true });
-    updateMetrics();
+    window.addEventListener("resize", handler, { passive: true });
     onScroll();
 
     return () => {
       document.removeEventListener("scroll", handler);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handler);
       cancelAnimationFrame(raf);
     };
   }, [showIntro]);
@@ -374,8 +367,12 @@ export default function SlideupSection({
   return (
     <section
       id="slide-up"
-      className="su-bleed py-section-fluid border-b border-white/10"
+      aria-labelledby="slide-up-heading"
+      className="su-bleed"
     >
+      <h2 id="slide-up-heading" className="sr-only">
+        Interactive Experience Showcase
+      </h2>
       {showIntro && (
         <section className="su-intro">
           <h1>Slideup</h1>
@@ -388,7 +385,7 @@ export default function SlideupSection({
         </section>
       )}
 
-      <section className="su-stack site-container">
+      <section ref={stackRef} className="su-stack site-container">
         {activeSlides.map((slide, i) => (
           <article
             key={slide.title}
@@ -402,12 +399,12 @@ export default function SlideupSection({
               cardRefs.current[i] = el;
             }}
           >
-            <div className="su-card-inner relative z-[2] flex w-full flex-col items-center text-center">
-              <div className="mb-6 flex flex-col items-center gap-4 text-center">
-                <h2 className="su-headline flex w-full max-w-[800px] flex-wrap items-center justify-center gap-4 text-[clamp(1.75rem,4.2vw,3.8rem)] tracking-[-0.02em]">
-                  <span>{slide.title}</span>
+            <div className="su-card-inner relative z-[2] flex w-full flex-col items-start text-left">
+              <div className="title-group title-group--section mb-6 items-start text-left">
+                <h2 className="su-headline flex w-full max-w-[800px] flex-wrap items-start justify-start gap-4 text-left text-[clamp(1.75rem,4.2vw,3.8rem)] tracking-[-0.02em]">
+                  {slide.title}
                 </h2>
-                <p className="su-desc m-0 max-w-[600px]">{slide.desc}</p>
+                <p className="su-desc m-0 max-w-2xl text-left">{slide.desc}</p>
               </div>
               <div className="su-thumbs flex w-full max-w-full gap-6">
                 {slide.thumbs.map((t, ti) => {
@@ -423,7 +420,7 @@ export default function SlideupSection({
                   return (
                     <div
                       key={`${t.label}-${ti}`}
-                      className={`su-thumb group relative aspect-[16/10] h-[clamp(230px,42vh,600px)] max-h-[600px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-[28px] ${visibilityClass}`}
+                      className={`su-thumb group relative aspect-[16/10] h-[clamp(230px,42vh,600px)] max-h-[600px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-[28px] ${visibilityClass} `}
                     >
                       {t.video && <AutoPlayVideo src={t.video} />}
                       {t.youtube && (

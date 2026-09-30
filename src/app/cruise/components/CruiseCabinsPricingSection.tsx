@@ -103,14 +103,14 @@ function RoomModalFooterButtons({
       <button
         type="button"
         onClick={onCancel}
-        className="cursor-pointer  bg-white/10 px-5 py-2.5 hover:bg-white/15"
+        className="transition-colors cursor-pointer bg-white/10 px-5 py-2.5 hover:bg-white/15"
       >
         Cancel
       </button>
       <button
         type="submit"
         disabled={isSaving}
-        className="flex cursor-pointer items-center gap-2  bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-[background-color,box-shadow] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+        className="flex cursor-pointer items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-[background-color,box-shadow] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
       >
         {isSaving ? (
           <>
@@ -312,7 +312,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start "
+                    className="!w-full !justify-start"
                   >
                     <Globe className="h-4 w-4 shrink-0 text-purple-400" />
                     <span>WIKI</span>
@@ -329,7 +329,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start "
+                    className="!w-full !justify-start"
                   >
                     <Ship className="h-4 w-4 shrink-0" />
                     <span>ROYAL CARIBBEAN PAGE</span>
@@ -346,7 +346,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start "
+                    className="!w-full !justify-start"
                   >
                     <Map className="h-4 w-4 shrink-0 text-emerald-400" />
                     <span>DECK PLAN</span>
@@ -363,7 +363,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start "
+                    className="!w-full !justify-start"
                   >
                     <Video className="h-4 w-4 shrink-0 text-rose-400" />
                     <span>VIDEO OF THE SHIP</span>
@@ -380,7 +380,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start "
+                    className="!w-full !justify-start"
                   >
                     <FileText className="h-4 w-4 shrink-0 text-amber-400" />
                     <span>PAST CRUISE COMPASS</span>
@@ -397,7 +397,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start "
+                    className="!w-full !justify-start"
                   >
                     <Film className="h-4 w-4 shrink-0 text-indigo-400" />
                     <span>SHIP TOUR VIDEO</span>
@@ -414,7 +414,7 @@ function CruiseCabinsPricingSectionComponent({
                         "noopener,noreferrer",
                       );
                     }}
-                    className="!w-full !justify-start "
+                    className="!w-full !justify-start"
                   >
                     <Flame className="h-4 w-4 shrink-0 text-orange-400" />
                     <span>PROMO VIDEO</span>
@@ -548,7 +548,7 @@ function CruiseCabinsPricingSectionComponent({
                   Group Rate Rooms:
                 </h4>
                 {activePriceYear === 2027 ? (
-                  <ul className="list-disc space-y-1.5 pl-4 text-sm text-purple-100/90">
+                  <ul className="list-disc space-y-1.5 pl-4 text-purple-100/90">
                     <li>
                       Cancel before May 12, 2026:{" "}
                       <strong className="text-white">No penalty</strong>
@@ -567,7 +567,7 @@ function CruiseCabinsPricingSectionComponent({
                     </li>
                   </ul>
                 ) : (
-                  <ul className="list-disc space-y-1.5 pl-4 text-sm text-purple-100/90">
+                  <ul className="list-disc space-y-1.5 pl-4 text-purple-100/90">
                     <li>
                       Cancel before May 13, 2027:{" "}
                       <strong className="text-white">No penalty</strong>
@@ -858,7 +858,7 @@ function CruiseCabinsPricingSectionComponent({
           <div id="payment-portal" />
 
           <div>
-            <div className="mb-6  text-center">
+            <div className="mb-6 text-center">
               <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
                 <span className="inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
                   Official Booking Form
@@ -866,7 +866,7 @@ function CruiseCabinsPricingSectionComponent({
                 <button
                   type="button"
                   onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                  className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-rose-200 hover:bg-rose-600/50"
+                  className="transition-colors inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-rose-200 hover:bg-rose-600/50"
                 >
                   💳{" "}
                   {isPaymentDropdownOpen
@@ -913,7 +913,7 @@ function CruiseCabinsPricingSectionComponent({
             ) : (
               <form onSubmit={handleSignup} className="space-y-3 text-left">
                 {formError && (
-                  <div className="flex items-center gap-3  border border-red-500/50 bg-red-900/40 p-4 text-red-200">
+                  <div className="flex items-center gap-3 border border-red-500/50 bg-red-900/40 p-4 text-red-200">
                     <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
                     <span>{formError}</span>
                   </div>
@@ -921,7 +921,7 @@ function CruiseCabinsPricingSectionComponent({
 
                 {/* ROOM CATEGORY SELECTION */}
                 <div>
-                  <label htmlFor="cabinPreference" className=" block">
+                  <label htmlFor="cabinPreference" className="block">
                     Room Category / Cabin Preference *
                   </label>
                   <GlowInput
@@ -1052,22 +1052,20 @@ function CruiseCabinsPricingSectionComponent({
 
                 {/* GUEST 2 DETAILS (OPTIONAL / TOGGLEABLE) */}
                 <div>
-                  <div className="flex flex-col justify-between gap-3 border-b border-white/10 pb-3 sm:flex-row sm:items-center">
-                    <div>
-                      <h3>GUEST 2 (IF NEEDED)</h3>
-                      <p className="mt-0.5">
-                        YOU DO NOT NEED TO FILL OUT GUEST 2 CREDIT CARD INFO IF
-                        YOU ARE A COUPLE GOING TOGETHER ON ONE CREDIT CARD
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                      className={`cursor-pointer rounded-full border px-4 py-1.5 transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600" : "border-white/20 bg-white/10 hover:text-white"}`}
-                    >
-                      {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
-                    </button>
-                  </div>
+                  <SectionHeader
+                    as="h3"
+                    title="GUEST 2 (IF NEEDED)"
+                    subtitle="You do not need to fill out Guest 2 credit card info if you are a couple going together on one credit card."
+                    action={
+                      <button
+                        type="button"
+                        onClick={() => toggleGuestActive(0, !guests[0]?.active)}
+                        className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm font-semibold transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600 text-white" : "border-white/20 bg-white/10 text-white/80 hover:text-white"} `}
+                      >
+                        {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
+                      </button>
+                    }
+                  />
 
                   {guests[0]?.active && (
                     <div className="animate-fade-in space-y-4">
@@ -1360,7 +1358,7 @@ function CruiseCabinsPricingSectionComponent({
                   {phoneStr && (
                     <a
                       href={`tel:${phoneStr.replace(/[^0-9]/g, "")}`}
-                      className="hover:text-white"
+                      className="transition-colors hover:text-white"
                     >
                       <span>{phoneStr}</span>
                     </a>
@@ -1401,7 +1399,7 @@ function CruiseCabinsPricingSectionComponent({
           {BANDS_DATA.map((band) => (
             <div
               key={band.name}
-              className="group relative flex flex-col justify-between  border-0"
+              className="group relative flex flex-col justify-between border-0"
             >
               {band.photo && (
                 <div
@@ -1452,14 +1450,14 @@ function CruiseCabinsPricingSectionComponent({
               <button
                 type="button"
                 onClick={() => setIsAddRoomModalOpen(false)}
-                className="absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
+                className="transition-colors absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"
                 aria-label="Close modal"
               >
                 <X className="h-5 w-5" />
               </button>
 
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center  border border-purple-500/40 bg-purple-600/20 text-purple-400">
+                <div className="flex h-10 w-10 items-center justify-center border border-purple-500/40 bg-purple-600/20 text-purple-400">
                   <Ship className="h-5 w-5" />
                 </div>
                 <div>
@@ -1472,14 +1470,14 @@ function CruiseCabinsPricingSectionComponent({
               </div>
 
               {roomError && (
-                <div className="mb-6 flex items-center gap-2  border border-red-500/50 bg-red-900/40 p-3 text-red-200">
+                <div className="mb-6 flex items-center gap-2 border border-red-500/50 bg-red-900/40 p-3 text-red-200">
                   <AlertTriangle className="h-4 w-4 shrink-0 text-red-400" />
                   <span>{roomError}</span>
                 </div>
               )}
 
               {roomSuccess && (
-                <div className="mb-6 flex items-center gap-2  border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
+                <div className="mb-6 flex items-center gap-2 border border-emerald-500/50 bg-emerald-900/40 p-3 text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Stateroom saved successfully to Sanity!</span>
                 </div>
@@ -1524,7 +1522,7 @@ function CruiseCabinsPricingSectionComponent({
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
-                    <label className="  block ">
+                    <label className="block">
                       Cruise Year *
                     </label>
                     <GlowSelect
@@ -1564,7 +1562,7 @@ function CruiseCabinsPricingSectionComponent({
                   />
 
                   <div>
-                    <label className="  block ">
+                    <label className="block">
                       Badge Status Color
                     </label>
                     <GlowSelect

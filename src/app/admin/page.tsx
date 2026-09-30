@@ -7,7 +7,9 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
+import { Shield } from "lucide-react";
 import { GlowInput } from "@/components/GlowInput";
+import { SectionHeader } from "@/components/SectionHeader";
 
 const MODAL_GLASS_STYLE: React.CSSProperties = {
   background: "var(--color-bg-glass)",
@@ -237,7 +239,7 @@ export default function AdminGatewayPage() {
     return (
       <div className="fixed inset-0 flex h-screen w-screen items-center justify-center">
         <div className="text-center">
-          <div className="mx-auto mb-6 h-12 w-12 animate-spin  border-4 border-purple-500 border-t-transparent" />
+          <div className="mx-auto mb-6 h-12 w-12 animate-spin border-4 border-purple-500 border-t-transparent" />
           <p>Redirecting to dashboard...</p>
         </div>
       </div>
@@ -274,7 +276,7 @@ export default function AdminGatewayPage() {
         {/* ═══════════ STEP 1: Login Form ═══════════ */}
         {step === "login" && (
           <div
-            className="overflow-hidden  shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+            className="overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
             <div className="p-8 sm:p-10">
@@ -317,7 +319,7 @@ export default function AdminGatewayPage() {
                     </Link>
                     <button
                       onClick={() => logout()}
-                      className="cursor-pointer text-[0.65rem] text-rose-400 hover:text-rose-300"
+                      className="transition-colors cursor-pointer text-[0.65rem] text-rose-400 hover:text-rose-300"
                     >
                       Sign Out & Switch Account
                     </button>
@@ -333,7 +335,7 @@ export default function AdminGatewayPage() {
                   <div>
                     <label
                       htmlFor="root-admin-login-email"
-                      className="mb-1.5 block text-[0.65rem] text-white/50"
+                      className="block text-[0.65rem] text-white/50"
                     >
                       Email
                     </label>
@@ -345,14 +347,14 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="placeholder: focus-ring w-full border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
+                      className="placeholder: focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
                       required
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="root-admin-login-password"
-                      className="mb-1.5 block text-[0.65rem] text-white/50"
+                      className="block text-[0.65rem] text-white/50"
                     >
                       Password
                     </label>
@@ -364,13 +366,13 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="placeholder: focus-ring w-full border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
+                      className="placeholder: focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
                       required
                     />
                   </div>
 
                   {adminLoginError && (
-                    <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-center text-rose-400">
+                    <p className="rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-center text-rose-400">
                       {adminLoginError}
                     </p>
                   )}
@@ -378,7 +380,7 @@ export default function AdminGatewayPage() {
                   <button
                     type="submit"
                     disabled={adminLoginLoading}
-                    className="btn-primary w-full cursor-pointer  py-3.5 disabled:opacity-50"
+                    className="btn-primary w-full cursor-pointer rounded-[var(--radius-box)] py-3.5 disabled:opacity-50"
                   >
                     {adminLoginLoading
                       ? "Authenticating..."
@@ -398,7 +400,7 @@ export default function AdminGatewayPage() {
                           router.replace("/admin/admin");
                         }
                       }}
-                      className="btn-action-purple flex w-full cursor-pointer items-center justify-center gap-2  py-3"
+                      className="btn-action-purple flex w-full cursor-pointer items-center justify-center gap-2 rounded-[var(--radius-box)] py-3"
                     >
                       <span>⚡</span> Instant Dev Access (Bypass Login)
                     </button>
@@ -417,18 +419,15 @@ export default function AdminGatewayPage() {
         {step === "verify" && (
           <>
             <div className="relative z-10 mb-8 text-center">
-              <p className="mb-1">7th Heaven · Admin</p>
-              <h2 className="mb-2 text-xl">Admin 2FA Verification</h2>
-              <p>
-                We sent a 6-digit code to{" "}
-                <strong className="text-purple-400">
-                  {member?.email || adminEmail}
-                </strong>
-              </p>
+              <SectionHeader
+                title="Admin 2FA Verification"
+                subtitle={`We sent a 6-digit code to ${member?.email || adminEmail}`}
+                icon={Shield}
+              />
             </div>
 
             <div
-              className="no-glow mb-6  px-4 py-7"
+              className="no-glow mb-6 px-4 py-7"
               style={{
                 background: "rgba(18, 10, 34, 0.85)",
                 backdropFilter: "blur(24px)",
@@ -471,14 +470,14 @@ export default function AdminGatewayPage() {
                       onBlur={() => setFocusedIndex(null)}
                       onChange={(e) => handleDigit(i, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(i, e)}
-                      className={`h-full w-full !p-0 text-center text-xl tabular-nums transition-[border-color,background-color,box-shadow,transform] ${focusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"}`}
+                      className={`h-full w-full !p-0 text-center text-xl tabular-nums transition-[border-color,background-color,box-shadow,transform] ${focusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"} `}
                     />
                   );
                 })}
               </div>
 
               {verifyError && (
-                <div className="mb-6  border border-red-500/30 bg-red-500/10 p-3 text-center">
+                <div className="mb-6 border border-red-500/30 bg-red-500/10 p-3 text-center">
                   <p className="text-red-400">{verifyError}</p>
                 </div>
               )}
@@ -500,7 +499,7 @@ export default function AdminGatewayPage() {
                       : "none",
                   transition: "all 0.25s ease",
                 }}
-                className="mb-6 w-full cursor-pointer  py-3.5 disabled:cursor-not-allowed"
+                className="mb-6 w-full cursor-pointer py-3.5 disabled:cursor-not-allowed"
               >
                 {verifyStatus === "checking"
                   ? "Verifying..."

@@ -149,7 +149,7 @@ function VideoCardVisual({
           fill
           loading={index < 6 ? "eager" : "lazy"}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-90"} ${isHovered ? "scale-105" : "scale-100"}`}
+          className={`object-cover transition-opacity ${isLoaded ? "opacity-100" : "opacity-90"}  ${isHovered ? "scale-105" : "scale-100"} `}
           onLoad={() => setIsLoaded(true)}
           onError={handleImageError}
         />
@@ -215,6 +215,10 @@ export default function MediaClient({
     setHoveredVideoId(null);
   }, []);
 
+  // Add Video Modal State
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  useScrollLock(Boolean(playingVideo || isAddModalOpen));
+
   // Escape key handler to close video and add modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -230,10 +234,6 @@ export default function MediaClient({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [playingVideo, isAddModalOpen, handleCloseVideo]);
-
-  // Add Video Modal State
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  useScrollLock(Boolean(playingVideo || isAddModalOpen));
   const [newTitle, setNewTitle] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [newCategory, setNewCategory] = useState("Official Music Videos");
@@ -622,7 +622,7 @@ export default function MediaClient({
                 return (
                   <li key={`${activeFilter}-${video.id}`}>
                     <article
-                      className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] stagger-item flex-col overflow-hidden rounded-[var(--radius-box)] bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-4" : "lg:translate-y-4"}`}
+                      className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] stagger-item flex-col overflow-hidden rounded-[var(--radius-box)] bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-4" : "lg:translate-y-4"} `}
                       style={{ "--i": Math.min(index, 9) } as React.CSSProperties}
                     >
                       <div
@@ -658,15 +658,15 @@ export default function MediaClient({
                         </div>
 
                         {/* Dark Gradient Overlay at Bottom */}
-                        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0" />
+                        <div className="transition-opacity pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0" />
 
                         {/* Centered Glass Play Button Above Dark Overlay */}
-                        <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center group-hover:scale-110 group-hover:opacity-0">
+                        <div className="transition-[transform,opacity] pointer-events-none absolute inset-0 z-20 flex items-center justify-center group-hover:scale-110 group-hover:opacity-0">
                           <GlassPlayButton size="lg" as="div" />
                         </div>
 
                         {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
-                        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end p-4 text-center group-hover:opacity-0 sm:p-8">
+                        <div className="transition-opacity pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end p-4 text-center group-hover:opacity-0 sm:p-8">
                           {/* Category Pill Tag */}
                           <span className="mb-2 inline-flex shrink-0 items-center justify-center !rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-center">
                             {video.category || "7TH HEAVEN"}
@@ -674,7 +674,7 @@ export default function MediaClient({
 
                           {/* Poster Title Container with Responsive Height */}
                           <div className="flex h-10 items-center justify-center sm:h-14">
-                            <span className="block line-clamp-2   drop-shadow-md   sm:text-lg">
+                            <span className="block line-clamp-2 drop-shadow-md sm:text-lg">
                               {video.title}
                             </span>
                           </div>
@@ -723,7 +723,7 @@ export default function MediaClient({
                   setSearchQuery("");
                   setActiveFilter("ALL");
                 }}
-                className="btn-primary mt-4 cursor-pointer  px-6 py-2.5"
+                className="btn-primary mt-4 cursor-pointer px-6 py-2.5"
               >
                 {sanityContent?.clearFiltersText || "Clear Filters & Search"}
               </button>
@@ -746,10 +746,10 @@ export default function MediaClient({
               {/* Modal Header Bar */}
               <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-4 pt-safe sm:px-6">
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1   text-purple-300">
+                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 text-purple-300">
                     {playingVideo.category || "7TH HEAVEN"}
                   </span>
-                  <span className="line-clamp-1   text-white sm:text-lg">
+                  <span className="line-clamp-1 text-white sm:text-lg">
                     {playingVideo.title}
                   </span>
                 </div>
@@ -791,7 +791,7 @@ export default function MediaClient({
             <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-purple-500/40 bg-[#0f0921] p-6 shadow-2xl">
               <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center  border border-purple-500/40 bg-purple-500/20">
+                  <div className="flex h-8 w-8 items-center justify-center border border-purple-500/40 bg-purple-500/20">
                     <VideoIcon className="h-4 w-4" />
                   </div>
                   <div>
@@ -870,7 +870,7 @@ export default function MediaClient({
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <div className="mb-1 flex items-center justify-between">
-                      <label className="block ">
+                      <label className="block">
                         Category <span className="text-pink-400">*</span>
                       </label>
                       <button
@@ -949,14 +949,14 @@ export default function MediaClient({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="cursor-pointer  hover:text-white"
+                    className="transition-colors cursor-pointer hover:text-white"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex cursor-pointer items-center gap-2  bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="transition-colors flex cursor-pointer items-center gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting
                       ? sanityContent?.modalSavingText || "Saving to Sanity..."

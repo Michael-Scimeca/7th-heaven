@@ -830,11 +830,11 @@ export default function VinylHeroPlayer({
           <div className="relative" style={{ width: "777px" }}>
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="pointer-events-none absolute inset-0 z-[-1] flex items-center justify-center">
-              <div className="fancy h-[263px] w-[293px]  shadow-[0_0_40px_rgba(147,51,234,0.25)]">
+              <div className="fancy h-[263px] w-[293px] shadow-[0_0_40px_rgba(147,51,234,0.25)]">
                 <div className="fancy-inner flex items-center justify-center">
                   {!isPlayerReady && (
                     <div className="flex animate-pulse flex-col items-center gap-2 opacity-60">
-                      <div className="h-7 w-7 animate-spin  border-2 border-purple-400/40 border-t-purple-400" />
+                      <div className="h-7 w-7 animate-spin border-2 border-purple-400/40 border-t-purple-400" />
                     </div>
                   )}
                 </div>
@@ -889,7 +889,7 @@ export default function VinylHeroPlayer({
                         return (
                           <button
                             type="button"
-                            className={`relative mx-auto flex cursor-pointer items-center justify-center overflow-hidden rounded-full border-0 p-0 ${isActive && !isDragging ? "z-10 scale-110 opacity-100" : "z-0 scale-90 opacity-90"} ${isActive ? "vinyl-spinning" : ""}`}
+                            className={`relative mx-auto flex cursor-pointer items-center justify-center overflow-hidden rounded-full border-0 p-0 ${isActive && !isDragging ? "z-10 scale-110 opacity-100" : "z-0 scale-90 opacity-90"}  ${isActive ? "vinyl-spinning" : ""} `}
                             style={{
                               width: "165px",
                               height: "165px",
@@ -939,7 +939,7 @@ export default function VinylHeroPlayer({
                                   <span className="text-[var(--font-size-5xs)]">
                                     {album.title}
                                   </span>
-                                  <span className="mt-0.5 h-2 w-2  border border-black/60 bg-white" />
+                                  <span className="mt-0.5 h-2 w-2 border border-black/60 bg-white" />
                                 </div>
                               </div>
                             </div>
@@ -963,13 +963,13 @@ export default function VinylHeroPlayer({
                           e.stopPropagation();
                           setShowTracklist((prev) => !prev);
                         }}
-                        className="min-w-[130px] cursor-pointer  border-0 bg-white px-3 py-1 text-left"
+                        className="min-w-[130px] cursor-pointer border-0 bg-white px-3 py-1 text-left"
                       >
                         <div className="flex items-center gap-1 text-[12px]">
                           <span>{currentAlbum.title}</span>
                           {isBuffering ? (
-                            <span className="flex shrink-0 animate-pulse items-center gap-1  border border-[#d946ef]/30 bg-[#d946ef]/15 px-1.5 py-0.5 text-[12px] text-[#d946ef]">
-                              <span className="h-2 w-2 animate-spin  border border-[#d946ef] border-t-transparent" />
+                            <span className="flex shrink-0 animate-pulse items-center gap-1 border border-[#d946ef]/30 bg-[#d946ef]/15 px-1.5 py-0.5 text-[12px] text-[#d946ef]">
+                              <span className="h-2 w-2 animate-spin border border-[#d946ef] border-t-transparent" />
                               LOADING{" "}
                               {bufferPercent > 0 ? `${bufferPercent}%` : "SONG"}
                             </span>
@@ -987,7 +987,7 @@ export default function VinylHeroPlayer({
                       <Link
                         href={currentAlbum.storeUrl}
                         onClick={(e) => e.stopPropagation()}
-                        className="! z-10 flex shrink-0 items-center gap-1.5  bg-purple-600 px-3.5 py-1.5 text-[10px] font-black shadow-[0_0_14px_rgba(147,51,234,0.8)] hover:bg-purple-500"
+                        className="transition-colors ! z-10 flex shrink-0 items-center gap-1.5 bg-purple-600 px-3.5 py-1.5 text-[10px] font-black shadow-[0_0_14px_rgba(147,51,234,0.8)] hover:bg-purple-500"
                         style={{ color: "#ffffff", fill: "#ffffff" }}
                       >
                         <svg
@@ -1015,10 +1015,10 @@ export default function VinylHeroPlayer({
                   <div className="pointer-events-auto mt-2 px-1">
                     <div className="group relative flex h-4 w-full cursor-pointer items-center">
                       {/* Track Background */}
-                      <div className="h-1.5 w-full overflow-hidden  border border-white/10 bg-white/10 backdrop-blur-2xl group-hover:bg-white/20">
+                      <div className="transition-colors h-1.5 w-full overflow-hidden border border-white/10 bg-white/10 backdrop-blur-2xl group-hover:bg-white/20">
                         {/* Filled Progress Gradient Bar */}
                         <div
-                          className="h-full  bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] shadow-[0_0_10px_rgba(217,70,239,0.8)]"
+                          className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-[#d946ef] shadow-[0_0_10px_rgba(217,70,239,0.8)]"
                           style={{
                             width: `${Math.min(100, Math.max(0, progress))}%`,
                           }}
@@ -1026,7 +1026,7 @@ export default function VinylHeroPlayer({
                       </div>
                       {/* Glowing Thumb Handle */}
                       <div
-                        className="pointer-events-none absolute top-1/2 -ml-2 h-4 w-4 -translate-y-1/2 scale-90  border-2 border-[#d946ef] bg-white shadow-[0_0_12px_#d946ef] group-hover:scale-125"
+                        className="transition-transform pointer-events-none absolute top-1/2 -ml-2 h-4 w-4 -translate-y-1/2 scale-90 border-2 border-[#d946ef] bg-white shadow-[0_0_12px_#d946ef] group-hover:scale-125"
                         style={{
                           left: `${Math.min(100, Math.max(0, progress))}%`,
                         }}
@@ -1053,7 +1053,7 @@ export default function VinylHeroPlayer({
             </div>
             {/* ── TRACKLIST PANEL — aligned flush with the top of the glass sleeve box ── */}
             <div
-              className={`absolute top-0 bottom-0 z-40 flex origin-left flex-col text-left ${showTracklist ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+              className={`absolute top-0 bottom-0 z-40 flex origin-left flex-col text-left ${showTracklist ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"} `}
               style={{
                 left: "calc(50% + 135px)",
                 width: showTracklist ? "220px" : "0px",
@@ -1061,18 +1061,18 @@ export default function VinylHeroPlayer({
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative flex h-full flex-col justify-start overflow-hidden  border border-white/10 bg-[#0a00653b] pt-2 backdrop-blur-2xl">
+              <div className="relative flex h-full flex-col justify-start overflow-hidden border border-white/10 bg-[#0a00653b] pt-2 backdrop-blur-2xl">
                 {/* Always-Visible Glowing Purple Scrollbar Indicator Track */}
-                <div className="pointer-events-none absolute top-[38px] right-1.5 bottom-2 z-50 w-1.5 overflow-hidden  border border-white/10 bg-white/10">
+                <div className="pointer-events-none absolute top-[38px] right-1.5 bottom-2 z-50 w-1.5 overflow-hidden border border-white/10 bg-white/10">
                   <div
-                    className="w-full  bg-gradient-to-b from-white via-white/90 to-white/70 shadow-[0_0_10px_rgba(255,255,255,0.9)]"
+                    className="w-full bg-gradient-to-b from-white via-white/90 to-white/70 shadow-[0_0_10px_rgba(255,255,255,0.9)]"
                     style={{
                       height: "35%",
                       transform: `translateY(${tracklistScrollPct * 1.3}px)`,
                     }}
                   />
                 </div>
-                <div className="mb-1.5 flex items-center justify-between border-b border-white/10 px-4 pb-1 whitespace-nowrap">
+                <div className="flex items-center justify-between border-b border-white/10 px-4 pb-1 whitespace-nowrap">
                   <span className="text-[12px] text-[var(--color-accent)]">
                     {currentAlbum.title} TRACKLIST
                   </span>
@@ -1080,7 +1080,7 @@ export default function VinylHeroPlayer({
                     <button
                       aria-label="Close tracklist"
                       onClick={() => setShowTracklist(false)}
-                      className="cursor-pointer px-1 text-[10px] text-white/50 hover:text-white"
+                      className="transition-colors cursor-pointer px-1 text-[10px] text-white/50 hover:text-white"
                     >
                       ✕
                     </button>
@@ -1107,7 +1107,7 @@ export default function VinylHeroPlayer({
                             e.stopPropagation();
                             playTrack(tIdx);
                           }}
-                          className={`flex w-full items-center gap-2 !rounded-none border-0 px-3 py-[1px] text-left ${isSelected ? "cursor-default bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "cursor-pointer bg-[#00000029] hover:text-white"}`}
+                          className={`flex w-full items-center gap-2 !rounded-none border-0 px-3 py-[1px] text-left ${isSelected ? "cursor-default bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "cursor-pointer bg-[#00000029] hover:text-white"} `}
                         >
                           <span className="w-4 text-right text-[12px] opacity-50">
                             {track.number}.

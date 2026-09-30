@@ -4,7 +4,7 @@
 /* eslint-disable react-doctor/no-async-event-handler-without-reentry-guard */
 
 import { useState, useEffect, useCallback } from "react";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import Toggle from "@/components/Toggle";
 import Dropdown from "@/components/Dropdown";
 
 interface Milestone {
@@ -177,15 +177,18 @@ export default function ReferralProgramPanel() {
         {/*  Program Toggle  */}
         <div className="mb-6 flex items-center justify-between border border-white/[0.05] bg-white/[0.02] p-4">
           <div>
-            <p>Show referral program to fans</p>
+            <p id="referral-enabled-label">Show referral program to fans</p>
             <p className="mt-0.5">
               When disabled, the referral section is hidden from the Fan
               Dashboard
             </p>
           </div>
-          <SquishyToggle
+          <Toggle
             id="referral-enabled"
+            size="sm"
             label="Enable referral program"
+            hideLabel
+            aria-labelledby="referral-enabled-label"
             checked={enabled}
             onChange={(v) => {
               if (!toggling) {
@@ -219,7 +222,7 @@ export default function ReferralProgramPanel() {
             <p>Milestone Rewards</p>
             <button
               onClick={() => setShowAddForm(!showAddForm)}
-              className="cursor-pointer hover:text-purple-200"
+              className="transition-colors cursor-pointer hover:text-purple-200"
             >
               {showAddForm ? "Cancel" : "+ Add Tier"}
             </button>
@@ -242,7 +245,7 @@ export default function ReferralProgramPanel() {
                 </div>
                 <button
                   onClick={() => removeMilestone(i)}
-                  className="cursor-pointer text-white/20 opacity-0 group-hover:opacity-100 hover:text-red-400"
+                  className="transition-[background-color,color,border-color,opacity] cursor-pointer text-white/20 opacity-0 group-hover:opacity-100 hover:text-red-400"
                   title="Remove"
                 ></button>
               </div>
@@ -306,7 +309,7 @@ export default function ReferralProgramPanel() {
                 <button
                   onClick={addMilestone}
                   disabled={!newReward || newThreshold < 1}
-                  className="cursor-pointer self-end bg-purple-600 px-4 py-2 hover:bg-purple-500 disabled:opacity-40"
+                  className="transition-colors cursor-pointer self-end bg-purple-600 px-4 py-2 hover:bg-purple-500 disabled:opacity-40"
                 >
                   Add
                 </button>
@@ -318,7 +321,7 @@ export default function ReferralProgramPanel() {
           <button
             onClick={saveMilestones}
             disabled={saving}
-            className={`mt-3 w-full cursor-pointer  ${saved ? "bg-[var(--color-accent)]" : "bg-purple-600 hover:bg-purple-500 disabled:opacity-40"}`}
+            className={`mt-3 w-full cursor-pointer ${saved ? "bg-[var(--color-accent)]" : "bg-purple-600 hover:bg-purple-500 disabled:opacity-40"} `}
           >
             {saved
               ? " Milestones Saved"
@@ -335,7 +338,7 @@ export default function ReferralProgramPanel() {
             {milestones.map((m) => (
               <div
                 key={m.threshold}
-                className="flex-1  border border-white/10 bg-white/[0.02] p-2 text-center"
+                className="flex-1 border border-white/10 bg-white/[0.02] p-2 text-center"
               >
                 <p>{m.threshold}</p>
                 <p className="mt-0.5">
@@ -532,7 +535,7 @@ export default function ReferralProgramPanel() {
                                       {entry.total}/{nextMilestone.threshold}
                                     </span>
                                   </div>
-                                  <div className="h-1.5 overflow-hidden  bg-[#00000029]">
+                                  <div className="h-1.5 overflow-hidden bg-[#00000029]">
                                     <div
                                       className="h-full bg-purple-600"
                                       style={{
@@ -565,14 +568,16 @@ export default function ReferralProgramPanel() {
                               {/* Admin actions */}
                               {milestonesHit.length > 0 &&
                                 entry.signed_up > 0 && (
-                                  <button
-                                    onClick={() =>
-                                      markRewarded(entry.referrer_code)
-                                    }
-                                    className="cursor-pointer border border-yellow-500/30 bg-yellow-500/10 px-4 py-2 text-yellow-400 hover:bg-yellow-500/20"
-                                  >
-                                    Mark Rewards as Claimed
-                                  </button>
+                                  <div className="pt-3">
+                                    <button
+                                      onClick={() =>
+                                        markRewarded(entry.referrer_code)
+                                      }
+                                      className="transition-colors cursor-pointer border border-yellow-500/30 bg-yellow-500/10 px-4 py-2 text-yellow-400 hover:bg-yellow-500/20"
+                                    >
+                                      Mark Rewards as Claimed
+                                    </button>
+                                  </div>
                                 )}
                             </div>
                           )}

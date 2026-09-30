@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@sanity/client";
+import { requireAdmin } from "@/lib/api-utils";
 
 const sanityWriteClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "1dg5ciuj",
@@ -10,8 +11,10 @@ const sanityWriteClient = createClient({
   useCdn: false,
 });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const authDenied = await requireAdmin(req);
+    if (authDenied) return authDenied;
     const body = await req.json();
     const {
       code,

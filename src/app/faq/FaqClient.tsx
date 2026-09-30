@@ -384,7 +384,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                       id={`faq-answer-${faq.id}`}
                       role="region"
                       aria-label={faq.question}
-                      className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                      className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} `}
                     >
                       <div className="overflow-hidden">
                         <div className="pb-6 pl-3">
@@ -421,7 +421,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
               </p>
             </div>
             <TransitionLink href="/contact">
-              <SeventhButton className=" whitespace-nowrap">
+              <SeventhButton className="whitespace-nowrap">
                 {sanityContent?.supportCtaText || "Contact Us"}
               </SeventhButton>
             </TransitionLink>

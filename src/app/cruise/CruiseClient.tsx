@@ -17,11 +17,9 @@ import CheckMarkIcon from "@/components/CheckMarkIcon";
 import { SectionBadge } from "@/components/SectionBadge";
 import InputField from "@/components/InputField";
 import { GlowInput, GlowTextarea } from "@/components/GlowInput";
-import SquishyToggle from "@/components/SquishyToggle";
 import Dropdown from "@/components/Dropdown";
 import SeventhButton from "@/components/SeventhButton";
 import dynamic from "next/dynamic";
-import LazyMount from "@/components/LazyMount";
 
 import CruiseHeroSection from "./components/CruiseHeroSection";
 import CruiseCabinsPricingSection from "./components/CruiseCabinsPricingSection";
@@ -407,7 +405,7 @@ export default function CruiseClient({
   };
 
   return (
-    <main className="page-container min-h-screen" id="cruise-page">
+    <main className="page-container page-container--hero page-stack min-h-screen" id="cruise-page">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
         heroForegroundRef={heroForegroundRef}
@@ -480,7 +478,7 @@ function CruiseCard1Section({
       <span className="block">Card 1 - Deposit Details</span>
       <div className="booking-grid grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="booking-cell pt-4">
-          <label htmlFor="cruise-card-name-1" className="booking-label mb-1.5 block">
+          <label htmlFor="cruise-card-name-1" className="booking-label block">
             Your Full Name on the Card *
           </label>
           <GlowInput
@@ -490,11 +488,11 @@ function CruiseCard1Section({
             placeholder="Name on Card"
             value={formData.cardName1}
             onChange={(e) => setFormData({ ...formData, cardName1: e.target.value })}
-            className="booking-input focus-ring w-full  "
+            className="booking-input focus-ring w-full"
           />
         </div>
         <div className="booking-cell pt-4">
-          <label htmlFor="cruise-card-number-1" className="booking-label mb-1.5 block">
+          <label htmlFor="cruise-card-number-1" className="booking-label block">
             Credit Card Number *
           </label>
           <GlowInput
@@ -504,13 +502,13 @@ function CruiseCard1Section({
             placeholder="Credit Card Number"
             value={formData.cardNumber1}
             onChange={(e) => setFormData({ ...formData, cardNumber1: e.target.value })}
-            className="booking-input focus-ring w-full  "
+            className="booking-input focus-ring w-full"
           />
         </div>
         <div className="booking-cell pt-4">
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <label htmlFor="cruise-card-exp-1" className="booking-label mb-1.5 block">
+              <label htmlFor="cruise-card-exp-1" className="booking-label block">
                 Exp. Date *
               </label>
               <GlowInput
@@ -524,7 +522,7 @@ function CruiseCard1Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-cvv-1" className="booking-label mb-1.5 block">
+              <label htmlFor="cruise-card-cvv-1" className="booking-label block">
                 3 Digit CVC *
               </label>
               <GlowInput
@@ -538,7 +536,7 @@ function CruiseCard1Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-zip-1" className="booking-label mb-1.5 block">
+              <label htmlFor="cruise-card-zip-1" className="booking-label block">
                 Billing Zip *
               </label>
               <GlowInput
@@ -554,7 +552,7 @@ function CruiseCard1Section({
           </div>
         </div>
         <div className="booking-cell pt-4">
-          <label htmlFor="cruise-card-amount-1" className="booking-label mb-1.5 block">
+          <label htmlFor="cruise-card-amount-1" className="booking-label block">
             Amount to Charge ($ USD)
           </label>
           <GlowInput
@@ -563,7 +561,7 @@ function CruiseCard1Section({
             required
             value={formData.cardAmount1}
             onChange={(e) => setFormData({ ...formData, cardAmount1: e.target.value })}
-            className="booking-input focus-ring w-full  "
+            className="booking-input focus-ring w-full"
           />
         </div>
       </div>
@@ -583,7 +581,7 @@ function CruiseCard2Section({
       <span className="block">Card 2 - Split Details</span>
       <div className="booking-grid grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="booking-cell p-4">
-          <label htmlFor="cruise-card-name-2" className="booking-label mb-1.5 block">
+          <label htmlFor="cruise-card-name-2" className="booking-label block">
             Your Full Name on the Card *
           </label>
           <GlowInput
@@ -593,11 +591,11 @@ function CruiseCard2Section({
             placeholder="Name on Card"
             value={formData.cardName2}
             onChange={(e) => setFormData({ ...formData, cardName2: e.target.value })}
-            className="booking-input focus-ring w-full  "
+            className="booking-input focus-ring w-full"
           />
         </div>
         <div className="booking-cell p-4">
-          <label htmlFor="cruise-card-number-2" className="booking-label mb-1.5 block">
+          <label htmlFor="cruise-card-number-2" className="booking-label block">
             Credit Card Number *
           </label>
           <GlowInput
@@ -607,13 +605,13 @@ function CruiseCard2Section({
             placeholder="Credit Card Number"
             value={formData.cardNumber2}
             onChange={(e) => setFormData({ ...formData, cardNumber2: e.target.value })}
-            className="booking-input focus-ring w-full  "
+            className="booking-input focus-ring w-full"
           />
         </div>
         <div className="booking-cell p-4">
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <label htmlFor="cruise-card-exp-2" className="booking-label mb-1.5 block">
+              <label htmlFor="cruise-card-exp-2" className="booking-label block">
                 Exp. Date *
               </label>
               <GlowInput
@@ -627,7 +625,7 @@ function CruiseCard2Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-cvv-2" className="booking-label mb-1.5 block">
+              <label htmlFor="cruise-card-cvv-2" className="booking-label block">
                 3 Digit CVC *
               </label>
               <GlowInput
@@ -641,7 +639,7 @@ function CruiseCard2Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-zip-2" className="booking-label mb-1.5 block">
+              <label htmlFor="cruise-card-zip-2" className="booking-label block">
                 Billing Zip *
               </label>
               <GlowInput
@@ -657,7 +655,7 @@ function CruiseCard2Section({
           </div>
         </div>
         <div className="booking-cell p-4">
-          <label htmlFor="cruise-card-amount-2" className="booking-label mb-1.5 block">
+          <label htmlFor="cruise-card-amount-2" className="booking-label block">
             Amount to Charge ($ USD)
           </label>
           <GlowInput
@@ -666,7 +664,7 @@ function CruiseCard2Section({
             required
             value={formData.cardAmount2}
             onChange={(e) => setFormData({ ...formData, cardAmount2: e.target.value })}
-            className="booking-input focus-ring w-full  "
+            className="booking-input focus-ring w-full"
           />
         </div>
       </div>
@@ -696,7 +694,7 @@ function CruiseNotesAndSignatureSection({
       <div className="border-0 py-3">
         <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
           <div className="flex flex-col justify-start">
-            <label htmlFor="cruise-how-heard" className="booking-label mb-1.5 block">
+            <label htmlFor="cruise-how-heard" className="booking-label block">
               How Did You Hear About Us? (Which Band?)
             </label>
             <GlowInput
@@ -710,7 +708,7 @@ function CruiseNotesAndSignatureSection({
             />
           </div>
           <div className="flex flex-col justify-start">
-            <label htmlFor="cruise-dining-requests" className="booking-label mb-1.5 block">
+            <label htmlFor="cruise-dining-requests" className="booking-label block">
               Dining Requests, Special Occasion, or Custom Details
             </label>
             <GlowTextarea
@@ -727,7 +725,7 @@ function CruiseNotesAndSignatureSection({
 
       <div className="booking-grid mt-2 grid grid-cols-1 items-start gap-6 border-0 md:grid-cols-2">
         <div className="booking-cell flex flex-col justify-start border-0 px-0">
-          <label htmlFor="cruise-e-signature" className="booking-label mb-1.5 block">
+          <label htmlFor="cruise-e-signature" className="booking-label block">
             Date &amp; E-Signature (Type full name to sign) *
           </label>
           <GlowInput
@@ -740,8 +738,8 @@ function CruiseNotesAndSignatureSection({
             className="signature-font focus-ring w-full"
           />
         </div>
-        <div className="booking-cell flex flex-col justify-start border-0 ">
-          <span className="booking-label mb-1.5 block">Date Signed</span>
+        <div className="booking-cell flex flex-col justify-start border-0">
+          <span className="booking-label block">Date Signed</span>
           <GlowInput
             type="text"
             readOnly
@@ -806,7 +804,7 @@ function PaymentPortalDropdownPanel({
             has been successfully processed under Royal Caribbean Group ID{" "}
             <strong>3325680</strong>.
           </p>
-          <div className="inline-block  border border-purple-500/30 bg-purple-950/40 p-2.5 text-purple-200">
+          <div className="inline-block border border-purple-500/30 bg-purple-950/40 p-2.5 text-purple-200">
             Ref: {submittedRef}
           </div>
           <div className="pt-2">
@@ -816,7 +814,7 @@ function PaymentPortalDropdownPanel({
                 setSubmittedRef(null);
                 onClose();
               }}
-              className="r cursor-pointer  bg-purple-600 px-5 py-2 hover:bg-purple-500"
+              className="transition-colors r cursor-pointer bg-purple-600 px-5 py-2 hover:bg-purple-500"
             >
               Close Panel
             </button>
@@ -943,7 +941,7 @@ function PaymentPortalDropdownPanel({
             <SeventhButton
               type="submit"
               disabled={isSubmitting}
-              className="cursor-pointer  disabled:opacity-50"
+              className="cursor-pointer disabled:opacity-50"
             >
               {isSubmitting ? "PROCESSING PAYMENT..." : "SUBMIT PAYMENT"}
             </SeventhButton>

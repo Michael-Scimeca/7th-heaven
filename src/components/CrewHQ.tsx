@@ -607,11 +607,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           {/* Identity */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="flex h-11 w-11 items-center justify-center  border border-emerald-500/30 bg-emerald-700">
+              <div className="flex h-11 w-11 items-center justify-center border border-emerald-500/30 bg-emerald-700">
                 {member?.avatar || displayName.slice(0, 2).toUpperCase()}
               </div>
               <div
-                className={`absolute -right-0.5 -bottom-0.5 h-3 w-3  border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"}`}
+                className={`absolute -right-0.5 -bottom-0.5 h-3 w-3 border-2 border-[#030303] ${isLive ? "bg-red-500 shadow-[0_0_6px_#ef4444]" : "bg-slate-600"} `}
               />
             </div>
             <div>
@@ -622,7 +622,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </span>
                 {isLive && (
                   <span className="flex items-center gap-1 rounded border border-red-500/30 bg-red-500/15 px-1.5 py-0.5 text-red-400">
-                    <span className="h-1 w-1 animate-pulse  bg-red-500" />
+                    <span className="h-1 w-1 animate-pulse bg-red-500" />
                     LIVE
                   </span>
                 )}
@@ -670,7 +670,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
             <Link
               href={studioPath}
-              className={`flex items-center gap-2 px-5 py-2 ${isLive ? "bg-gradient-to-r from-red-500 to-rose-600 shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]" : "bg-white shadow-[0_0_20px_rgba(255,255,255,0.08)] hover:bg-white/90"}`}
+              className={`flex items-center gap-2 px-5 py-2 ${isLive ? "bg-gradient-to-r from-red-500 to-rose-600 shadow-[0_0_20px_rgba(239,68,68,0.35)] hover:shadow-[0_0_28px_rgba(239,68,68,0.55)]" : "bg-white shadow-[0_0_20px_rgba(255,255,255,0.08)] hover:bg-white/90"} `}
             >
               <span>{isLive ? "🔴" : "🎥"}</span>
               {isLive ? "Manage Stream" : "Create Live Feed"}
@@ -755,7 +755,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             {/* Launch CTA */}
             <Link
               href={studioPath}
-              className={`flex h-24 w-32 shrink-0 flex-col items-center justify-center gap-1 border text-center ${isLive ? "border-red-500/30 bg-red-500/15 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.15)] hover:bg-red-500/25" : "border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:text-white"}`}
+              className={`flex h-24 w-32 shrink-0 flex-col items-center justify-center gap-1 border text-center ${isLive ? "border-red-500/30 bg-red-500/15 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.15)] hover:bg-red-500/25" : "border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:text-white"} `}
             >
               <span className="text-3xl">{isLive ? "📡" : "🎥"}</span>
               <span>{isLive ? "Live\nStudio" : "Create\nLive Feed"}</span>
@@ -780,12 +780,12 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       {msgs.length} msgs
                     </span>
                     <span
-                      className="h-2 w-2 animate-pulse  bg-emerald-500"
+                      className="h-2 w-2 animate-pulse bg-emerald-500"
                       title="Live"
                     />
                     <button
                       onClick={toggleSimulator}
-                      className={`ml-2 cursor-pointer border px-2.5 py-1 ${simActive ? "shadow-[0_0_12px_rgba(147, 234,0.35)] animate-pulse border-purple-500 bg-purple-600" : "border border-white/10 bg-[#00000029] text-white/40"}`}
+                      className={`ml-2 cursor-pointer border px-2.5 py-1 ${simActive ? "shadow-[0_0_12px_rgba(147, 234,0.35)] animate-pulse border-purple-500 bg-purple-600" : "border border-white/10 bg-[#00000029] text-white/40"} `}
                     >
                       {simActive ? "⚡ Sim Active" : "Start Sim"}
                     </button>
@@ -821,7 +821,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <button
                     onClick={() => setRoomFilter("all")}
-                    className={`cursor-pointer  border px-3 py-1 ${roomFilter === "all" ? "border-white bg-white" : "/35 border-white/[0.1]"}`}
+                    className={`cursor-pointer border px-3 py-1 ${roomFilter === "all" ? "border-white bg-white" : "/35 border-white/[0.1]"} `}
                   >
                     All Rooms ({msgs.length})
                   </button>
@@ -831,7 +831,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                       onClick={() =>
                         setRoomFilter(roomFilter === room.id ? "all" : room.id)
                       }
-                      className={`flex cursor-pointer items-center gap-1  border px-3 py-1 ${roomFilter === room.id ? "border-opacity-100" : "border-white/[0.08] text-white/30"}`}
+                      className={`flex cursor-pointer items-center gap-1 border px-3 py-1 ${roomFilter === room.id ? "border-opacity-100" : "border-white/[0.08] text-white/30"} `}
                       style={
                         roomFilter === room.id
                           ? {
@@ -865,11 +865,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     return (
                       <div
                         key={msg.id}
-                        className={`group flex items-start gap-3 border-b border-white/[0.03] px-5 py-3 hover:bg-white/[0.015] ${isFlagged ? "bg-yellow-500/[0.04]" : ""} ${isBanned ? "opacity-30" : ""}`}
+                        className={`transition-colors group flex items-start gap-3 border-b border-white/[0.03] px-5 py-3 hover:bg-white/[0.015] ${isFlagged ? "bg-yellow-500/[0.04]" : ""}  ${isBanned ? "opacity-30" : ""} `}
                       >
                         {/* Avatar */}
                         <div
-                          className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center "
+                          className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center"
                           style={{
                             background: roleColor + "22",
                             color: roleColor,
@@ -921,11 +921,11 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         </div>
 
                         {/* Action buttons — appear on hover */}
-                        <div className="mt-0.5 flex shrink-0 gap-1.5 opacity-0 group-hover:opacity-100">
+                        <div className="transition-opacity mt-0.5 flex shrink-0 gap-1.5 opacity-0 group-hover:opacity-100">
                           <button
                             onClick={() => handleFlag(msg.id)}
                             title="Flag message"
-                            className={`cursor-pointer  border px-2 py-1 ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"}`}
+                            className={`cursor-pointer border px-2 py-1 ${isFlagged ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-400" : "border-yellow-500/25 text-yellow-500/70 hover:bg-yellow-500/10"} `}
                           >
                             🚩
                           </button>
@@ -938,14 +938,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                                 ? "Unwarn user"
                                 : "Warn user"
                             }
-                            className={`cursor-pointer  border px-2 py-1 ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"}`}
+                            className={`cursor-pointer border px-2 py-1 ${warned.has(msg.sender_name) ? "border-[var(--color-border-purple)] bg-[var(--color-purple-glow)] text-[var(--color-purple-light)]" : "border-[var(--color-border-purple)] text-[var(--color-purple-light)] hover:bg-[var(--color-purple-glow)]"} `}
                           >
                             ⚠️
                           </button>
                           <button
                             onClick={() => handleBan(msg.sender_name, msg.room)}
                             title={isBanned ? "Unban user" : "Ban user"}
-                            className={`cursor-pointer  border px-2 py-1 ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"}`}
+                            className={`cursor-pointer border px-2 py-1 ${isBanned ? "border-red-500/50 bg-red-500/15 text-red-400" : "border-red-500/25 text-red-500/70 hover:bg-red-500/10"} `}
                           >
                             🚫
                           </button>
@@ -954,14 +954,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                               handleKick(msg.id, msg.sender_name, msg.room)
                             }
                             title="Remove Fan Completely"
-                            className="cursor-pointer  border border-red-500/25 px-2 py-1 text-red-500/70 hover:bg-red-500/10"
+                            className="transition-colors cursor-pointer border border-red-500/25 px-2 py-1 text-red-500/70 hover:bg-red-500/10"
                           >
                             🚪
                           </button>
                           <button
                             onClick={() => handleDeleteMsg(msg.id)}
                             title="Delete message"
-                            className="cursor-pointer  border border-white/[0.08] bg-[#00000029] px-2 py-1 text-white/30"
+                            className="cursor-pointer border border-white/[0.08] bg-[#00000029] px-2 py-1 text-white/30"
                           >
                             🗑
                           </button>
@@ -1020,7 +1020,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                         />
                         <button
                           type="submit"
-                          className="cursor-pointer bg-[var(--color-accent-pink)] px-5 py-2.5 hover:bg-[var(--color-accent-pink)]"
+                          className="transition-colors cursor-pointer bg-[var(--color-accent-pink)] px-5 py-2.5 hover:bg-[var(--color-accent-pink)]"
                         >
                           Add Keyword
                         </button>
@@ -1044,7 +1044,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="flex h-5 w-5 cursor-pointer items-center justify-center  text-white/40 hover:bg-white/10 hover:text-white"
+                                className="transition-colors flex h-5 w-5 cursor-pointer items-center justify-center text-white/40 hover:bg-white/10 hover:text-white"
                               >
                                 &times;
                               </button>
@@ -1063,14 +1063,14 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
           <div className="flex flex-col gap-5">
             {/* Live Stream Status Card */}
             <div
-              className={`overflow-hidden border ${isLive ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]" : "border-white/[0.07]"}`}
+              className={`overflow-hidden border ${isLive ? "border-red-500/35 bg-gradient-to-b from-red-950/40 to-[#080810] shadow-[0_0_30px_rgba(239,68,68,0.1)]" : "border-white/[0.07]"} `}
             >
               <div className="p-5">
                 <div className="mb-6 flex items-center gap-2">
                   <span>🎥 Broadcast Studio</span>
                   {isLive && (
-                    <span className="flex items-center gap-1  border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-400">
-                      <span className="h-1 w-1 animate-pulse  bg-red-500" />
+                    <span className="flex items-center gap-1 border border-red-500/30 bg-red-500/20 px-2 py-0.5 text-red-400">
+                      <span className="h-1 w-1 animate-pulse bg-red-500" />
                       LIVE
                     </span>
                   )}
@@ -1078,17 +1078,17 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 {isLive ? (
                   <div className="mb-6 space-y-3">
-                    <div className="flex items-center justify-between  bg-white/[0.03] p-2.5">
+                    <div className="flex items-center justify-between bg-white/[0.03] p-2.5">
                       <span className="text-white/40">Viewers</span>
                       <span className="text-red-400">
                         {viewerCount.toLocaleString()}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between  bg-white/[0.03] p-2.5">
+                    <div className="flex items-center justify-between bg-white/[0.03] p-2.5">
                       <span className="text-white/40">Duration</span>
                       <span>{fmt(liveDuration)}</span>
                     </div>
-                    <div className="flex items-center justify-between  bg-white/[0.03] p-2.5">
+                    <div className="flex items-center justify-between bg-white/[0.03] p-2.5">
                       <span className="text-white/40">Chat Rate</span>
                       <span className="text-yellow-400">{chatRate}/min</span>
                     </div>
@@ -1102,7 +1102,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
 
                 <Link
                   href={studioPath}
-                  className={`flex w-full items-center justify-center gap-2 py-3 ${isLive ? "bg-red-500 shadow-[0_0_16px_rgba(239,68,68,0.35)] hover:bg-red-400" : "bg-white hover:bg-white/90"}`}
+                  className={`flex w-full items-center justify-center gap-2 py-3 ${isLive ? "bg-red-500 shadow-[0_0_16px_rgba(239,68,68,0.35)] hover:bg-red-400" : "bg-white hover:bg-white/90"} `}
                 >
                   {isLive ? "🔴 Manage Live Stream" : "🎥 Create Live Feed"}
                 </Link>
@@ -1111,7 +1111,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   <Link
                     href={`/live/${defaultMemberId || slug}`}
                     target="_blank"
-                    className="mt-2 flex w-full items-center justify-center gap-1 border border-white/10 py-2 text-white/40 hover:text-white"
+                    className="transition-colors mt-2 flex w-full items-center justify-center gap-1 border border-white/10 py-2 text-white/40 hover:text-white"
                   >
                     👁 View Fan Feed ↗
                   </Link>
@@ -1167,7 +1167,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 </div>
                 <button
                   onClick={handleSaveNotes}
-                  className={`cursor-pointer  px-4 py-1.5 ${notesSaved ? "border border-emerald-500/25 bg-emerald-500/15" : "border border-white/[0.08] bg-[#00000029] text-white/40 hover:text-white"}`}
+                  className={`cursor-pointer px-4 py-1.5 ${notesSaved ? "border border-emerald-500/25 bg-emerald-500/15" : "border border-white/[0.08] bg-[#00000029] text-white/40 hover:text-white"} `}
                 >
                   {notesSaved ? "✓ Saved" : "Save"}
                 </button>
@@ -1208,10 +1208,10 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                   key={label}
                   href={href}
                   target={external ? "_blank" : undefined}
-                  className="group flex items-center gap-2 border border-white/10 border-white/[0.07] p-3 hover:bg-white/[0.02]"
+                  className="transition-colors group flex items-center gap-2 border border-white/10 border-white/[0.07] p-3 hover:bg-white/[0.02]"
                 >
                   <span>{icon}</span>
-                  <span className="text-white/40 group-hover:text-white">
+                  <span className="transition-colors text-white/40 group-hover:text-white">
                     {label}
                   </span>
                 </Link>

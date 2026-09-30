@@ -47,7 +47,6 @@ export const ARTIST_LOGOS: TickerItem[] = [
     alt: "Jefferson Starship",
   },
   { src: "/images/press-logos/europe.svg", alt: "Europe" },
-  { src: "/images/press-logos/TheFixx.svg", alt: "The Fixx" },
   { src: "/images/press-logos/ratt.svg", alt: "Ratt" },
   { src: "/images/press-logos/wasp.svg", alt: "W.A.S.P." },
 ];
@@ -83,9 +82,9 @@ function Icon({ kind }: { kind: NonNullable<TickerItem["icon"]> }) {
   if (kind === "diamond")
     return <span className="block h-4 w-4 rotate-45 bg-white" />;
   if (kind === "dot")
-    return <span className="block h-3 w-3  bg-white" />;
+    return <span className="block h-3 w-3 bg-white" />;
   return (
-    <span className="flex h-8 w-8 items-center justify-center  border-2 border-white text-[9px]">
+    <span className="flex h-8 w-8 items-center justify-center border-2 border-white text-[9px]">
       ★
     </span>
   );
@@ -111,11 +110,11 @@ export default function LogoTicker({
   return (
     <div className="relative w-full">
       <div
-        className={`hoy-ticker relative w-full overflow-hidden ${bgClassName}`}
+        className={`hoy-ticker relative w-full overflow-hidden ${bgClassName} `}
         style={{ ["--ticker-speed" as string]: `${activeSpeed}s` }}
       >
         <div
-          className={`hoy-ticker-track flex w-max items-stretch ${direction === "right" ? "hoy-ticker-reverse" : ""}`}
+          className={`hoy-ticker-track flex w-max items-stretch ${direction === "right" ? "hoy-ticker-reverse" : ""} `}
         >
           {track.map((item, i) =>
             item.src ? (
@@ -133,7 +132,7 @@ export default function LogoTicker({
                   alt={item.alt ?? ""}
                   width={0}
                   height={0}
-                  className={`w-auto max-w-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""}`}
+                  className={`w-auto max-w-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""} `}
                   style={{
                     height: "clamp(24px, 4vw, 64px)",
                     width: "auto",

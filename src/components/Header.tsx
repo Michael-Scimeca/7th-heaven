@@ -26,7 +26,7 @@ import { useScrollLock } from "@/lib/useScrollLock";
 const emptySubscribe = () => () => { };
 
 const leftNavLinks = [
-  { href: "/payment-test", label: "MERCH" },
+  { href: "/merch", label: "MERCH" },
   { href: "/media", label: "MEDIA" },
   { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
   { href: "/rock-and-roll-kids", label: "ROCK & ROLL KIDS" },
@@ -585,7 +585,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"}`}
+            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"} `}
             title="7th Heaven — Go to Home Page"
           >
             <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] select-none">
@@ -599,7 +599,7 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`nav-header-link relative text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${active ? "active" : ""}`}
+                  className={`nav-header-link relative text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${active ? "active" : ""} `}
                 >
                   {link.label}
                 </TransitionLink>
@@ -608,7 +608,7 @@ export function Header() {
             {showUserAuth && (
               <TransitionLink
                 href={studioHref}
-                className={`relative inline-flex items-center border-b-2 pb-0.5 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${effectivePathname.startsWith("/studio") ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]" : "cursor-pointer border-[#c084fc]/70 text-[var(--color-purple-light)] hover:border-white hover:text-white"}`}
+                className={`relative inline-flex items-center border-b-2 pb-0.5 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${effectivePathname.startsWith("/studio") ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]" : "cursor-pointer border-[#c084fc]/70 text-[var(--color-purple-light)] hover:border-white hover:text-white"} `}
               >
                 STUDIO
               </TransitionLink>
@@ -617,12 +617,12 @@ export function Header() {
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
           <nav
-            className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
+            className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"} `}
           >
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`nav-header-link relative z-50 hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""}`}
+              className={`nav-header-link relative z-50 hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""} `}
             >
               LIVE
             </TransitionLink>
@@ -630,7 +630,7 @@ export function Header() {
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""}`}
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""} `}
             >
               CRUISE
             </TransitionLink>
@@ -638,7 +638,7 @@ export function Header() {
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/book") ? "active" : ""}`}
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/book") ? "active" : ""} `}
             >
               BOOK US
             </TransitionLink>
@@ -646,7 +646,7 @@ export function Header() {
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""}`}
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""} `}
             >
               CONTACT
             </TransitionLink>
@@ -654,7 +654,7 @@ export function Header() {
             {/* Cart Icon — only shown if something is in cart */}
             {cartCount > 0 && (
               <TransitionLink
-                href="/payment-test"
+                href="/merch"
                 className="nav-header-link relative mx-0.5 flex shrink-0 items-center justify-center p-0.5"
                 title={`Cart (${cartCount} item${cartCount === 1 ? "" : "s"})`}
               >
@@ -681,72 +681,72 @@ export function Header() {
             {/* User Profile Avatar with FAN Badge & Sign Out (only when logged in) or SIGN IN button */}
             {/* min-w prevents CLS when auth state switches from sign-in button → avatar */}
             <div className="flex shrink-0 items-center" style={{ '--auth-w': '5.5rem' } as React.CSSProperties}>
-            {showUserAuth ? (
-              <div className="flex items-center gap-1 sm:gap-1.5">
-                <div className="relative flex aspect-square shrink-0 items-center justify-center">
-                  <TransitionLink
-                    href={dashboardHref}
-                    showSpinner={false}
-                    className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
-                    title={displayName}
-                  >
-                    <Avatar
-                      src={avatarSrc}
-                      name={displayName}
-                      initials={initials}
-                      size="md"
-                      border="border border-white/10"
-                    />
-                    {mode !== "idle" &&
-                      (pendingHref === dashboardHref ||
-                        (pendingHref &&
-                          pendingHref.startsWith(dashboardHref))) && (
-                        <div className="absolute inset-0 z-20 flex items-center justify-center rounded-full bg-black/75 backdrop-blur-xs">
-                          <span className="h-5 w-5 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_12px_rgba(217,70,239,0.9)]" />
-                        </div>
-                      )}
-                  </TransitionLink>
+              {showUserAuth ? (
+                <div className="flex items-center gap-1 sm:gap-1.5">
+                  <div className="relative flex aspect-square shrink-0 items-center justify-center">
+                    <TransitionLink
+                      href={dashboardHref}
+                      showSpinner={false}
+                      className="relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full"
+                      title={displayName}
+                    >
+                      <Avatar
+                        src={avatarSrc}
+                        name={displayName}
+                        initials={initials}
+                        size="md"
+                        border="border border-white/10"
+                      />
+                      {mode !== "idle" &&
+                        (pendingHref === dashboardHref ||
+                          (pendingHref &&
+                            pendingHref.startsWith(dashboardHref))) && (
+                          <div className="absolute inset-0 z-20 flex items-center justify-center rounded-full bg-black/75 backdrop-blur-xs">
+                            <span className="h-5 w-5 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_12px_rgba(217,70,239,0.9)]" />
+                          </div>
+                        )}
+                    </TransitionLink>
 
-                  {/* Overlapping Role Badge Circle with Full Role Name */}
-                  <span
-                    className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border-2 border-[#3c0366] px-1 py-0.5 text-[11px] font-bold text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
-                    style={{ borderRadius: "9999px" }}
+                    {/* Overlapping Role Badge Circle with Full Role Name */}
+                    <span
+                      className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border-2 border-[#3c0366] px-1 py-0.5 text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg} `}
+                      style={{ borderRadius: "9999px" }}
+                    >
+                      {badgeText}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      requestTransition("/");
+                    }}
+                    className="ml-1 flex cursor-pointer items-center gap-1.5 text-[12px] text-[#9333ea] sm:ml-2"
+                    title="Sign Out"
                   >
-                    {badgeText}
-                  </span>
+                    <span>SIGN OUT</span>
+                    {mode !== "idle" && pendingHref === "/" && (
+                      <span className="h-4 w-4 shrink-0 animate-spin rounded-full border-[3px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.8)]" />
+                    )}
+                  </button>
                 </div>
-                <button
-                  onClick={() => {
-                    logout();
-                    requestTransition("/");
-                  }}
-                  className="ml-1 flex cursor-pointer items-center gap-1.5 text-[12px] text-[#9333ea] sm:ml-2"
-                  title="Sign Out"
+              ) : (
+                <SeventhButton
+                  icon={false}
+                  onClick={() => openModal("login")}
+                  className="flex shrink-0 items-center"
+                  id="header-sign-in"
                 >
-                  <span>SIGN OUT</span>
-                  {mode !== "idle" && pendingHref === "/" && (
-                    <span className="h-4 w-4 shrink-0 animate-spin rounded-full border-[3px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.8)]" />
+                  <span className="!text-[13px]">SIGN IN</span>
+                  {isModalOpen && (
+                    <span className="ml-0.5 h-4.5 w-4.5 shrink-0 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.9)]" />
                   )}
-                </button>
-              </div>
-            ) : (
-              <SeventhButton
-                icon={false}
-                onClick={() => openModal("login")}
-                className="flex shrink-0 items-center"
-                id="header-sign-in"
-              >
-                <span className="!text-[13px]">SIGN IN</span>
-                {isModalOpen && (
-                  <span className="ml-0.5 h-4.5 w-4.5 shrink-0 animate-spin rounded-full border-[3.5px] border-[#d946ef] border-t-transparent shadow-[0_0_10px_rgba(217,70,239,0.9)]" />
-                )}
-              </SeventhButton>
-            )}
+                </SeventhButton>
+              )}
             </div>{/* end auth min-w wrapper */}
 
             {/* Mobile Menu Toggle Button — Wider & Bolder Hamburger */}
             <button
-              className="relative flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-0 hover:text-[var(--color-accent)] sm:h-9 sm:w-9 md:h-10 md:w-10 lg:hidden"
+              className="transition-colors relative flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-0 hover:text-[var(--color-accent)] sm:h-9 sm:w-9 md:h-10 md:w-10 lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               id="mobile-menu-toggle"
@@ -880,9 +880,8 @@ export function Header() {
                   width rather than getting cramped. */}
                   <div className="flex min-h-0 flex-1 flex-col gap-8 px-6 py-6 sm:flex-row sm:items-center sm:gap-14 sm:px-10 sm:py-8 lg:gap-20">
                     <div
-                      className={`group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:block md:w-[220px] lg:w-[260px] transition-opacity duration-700 ease-out ${
-                        overlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-                      }`}
+                      className={`group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:block md:w-[220px] lg:w-[260px] transition-opacity duration-700 ${overlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+                        } `}
                     >
                       {overlayMounted && (
                         <video
@@ -900,14 +899,14 @@ export function Header() {
                         />
                       )}
                       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                      <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-[12px] font-bold text-white/90">
+                      <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between text-[12px] text-white/90">
                         <span>7H FESTIVAL STAGE</span>
                       </div>
                     </div>
 
                     <nav className="flex w-fit max-w-full flex-col items-start gap-1.5">
                       {[
-                        { href: "/payment-test", label: "MERCH" },
+                        { href: "/merch", label: "MERCH" },
                         { href: "/media", label: "MEDIA" },
                         { href: "/fan-media-wall", label: "FAN MEDIA WALL" },
                         {
@@ -933,11 +932,10 @@ export function Header() {
                             key={link.href}
                             href={link.href}
                             onClick={() => setMobileOpen(false)}
-                            className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors duration-200 text-[clamp(1.05rem,4.2vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl ${
-                              isActive
+                            className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.05rem,4.2vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl ${isActive
                                 ? "active cursor-default !text-[#c084fc]"
                                 : "!text-white hover:!text-[#c084fc] cursor-pointer"
-                            }`}
+                              } `}
                             style={{
                               opacity: overlayVisible ? 1 : 0,
                               transform: overlayVisible
@@ -1015,7 +1013,7 @@ export function Header() {
                             />
                           </TransitionLink>
                           <span
-                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg}`}
+                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg} `}
                           >
                             {badgeText}
                           </span>
@@ -1026,7 +1024,7 @@ export function Header() {
                             logout();
                             requestTransition("/");
                           }}
-                          className="ml-1 cursor-pointer text-[12px] text-purple-400 hover:text-white"
+                          className="transition-colors ml-1 cursor-pointer text-[12px] text-purple-400 hover:text-white"
                         >
                           SIGN OUT
                         </button>
@@ -1038,7 +1036,7 @@ export function Header() {
                           setMobileOpen(false);
                           openModal("login");
                         }}
-                        className="shrink-0 "
+                        className="shrink-0"
                       >
                         SIGN IN
                       </SeventhButton>

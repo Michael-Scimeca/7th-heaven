@@ -15,6 +15,9 @@ const FanUploadForm = dynamic(() => import("./FanUploadForm"), {
 
 import PickAwardsSection from "./PickAwardsSection";
 import PushAlertsCard from "./PushAlertsCard";
+import { Image as ImageIcon, ShoppingBag } from "lucide-react";
+import { SectionHeader } from "./SectionHeader";
+import Avatar from "./Avatar";
 
 // Venue data for proximity check
 const showVenues = [
@@ -448,7 +451,7 @@ export default function MemberDashboard() {
               <div className="flex flex-col gap-4">
                 <button
                   onClick={() => openModal("signup")}
-                  className="w-full cursor-pointer rounded bg-[var(--color-accent)] py-4 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:brightness-110"
+                  className="transition-[filter] w-full cursor-pointer rounded bg-[var(--color-accent)] py-4 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:brightness-110"
                 >
                   Create Fan Account
                 </button>
@@ -465,13 +468,13 @@ export default function MemberDashboard() {
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <button
                     onClick={() => openModal("login")}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-white/[0.02] py-4 hover:border-[var(--color-accent)]"
+                    className="transition-colors flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-white/[0.02] py-4 hover:border-[var(--color-accent)]"
                   >
                     Sign In As Fan
                   </button>
                   <button
                     onClick={() => openModal("login")}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-emerald-500/5 py-4 hover:border-emerald-500 hover:bg-emerald-500/10"
+                    className="transition-colors flex flex-1 cursor-pointer items-center justify-center gap-2 rounded border border-white/10 bg-emerald-500/5 py-4 hover:border-emerald-500 hover:bg-emerald-500/10"
                   >
                     Crew Portal
                   </button>
@@ -506,9 +509,13 @@ export default function MemberDashboard() {
         {/* Header */}
         <div className="mb-10 flex items-center justify-between border-b border-white/10 pb-6">
           <div className="flex items-center gap-5">
-            <div className="relative flex h-12 w-12 items-center justify-center border-2 border-[var(--color-accent)] bg-[var(--color-accent)]/20 text-xl text-[var(--color-accent)]">
-              {member!.avatar}
-            </div>
+            <Avatar
+              src={member!.avatar}
+              name={member!.name}
+              size="lg"
+              role={(member?.role as "admin" | "crew" | "fan") || "fan"}
+              glow
+            />
             <div>
               <div className="flex items-center gap-2">
                 <h1>{member!.name}</h1>
@@ -534,7 +541,7 @@ export default function MemberDashboard() {
                   };
                   return (
                     <span
-                      className={`inline-flex items-center  border px-2 py-0.5 text-[var(--font-size-xs)] ${cfg.cls}`}
+                      className={`inline-flex items-center border px-2 py-0.5 text-[var(--font-size-xs)] ${cfg.cls} `}
                     >
                       {cfg.label}
                     </span>
@@ -548,7 +555,7 @@ export default function MemberDashboard() {
             {(member?.role === "crew" || member?.role === "admin") && (
               <Link
                 href="/crew"
-                className="inline-flex cursor-pointer items-center gap-1.5 border border-white/10 bg-emerald-500/10 px-4 py-2 hover:border-emerald-500/40 hover:text-white"
+                className="transition-colors inline-flex cursor-pointer items-center gap-1.5 border border-white/10 bg-emerald-500/10 px-4 py-2 hover:border-emerald-500/40 hover:text-white"
               >
                 <svg
                   width="12"
@@ -573,7 +580,7 @@ export default function MemberDashboard() {
         {/* Digital Tickets / Inbox moved to top */}
         <div className="group relative mb-10 overflow-hidden border border-white/10 bg-[url('/images/card-glow.jpg')] bg-cover bg-center p-6 shadow-[0_0_40px_rgba(255,10,61,0.15)]">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
-          <div className="group-hover:blur-none absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40">
+          <div className="transition-[background-color,color,border-color,box-shadow,transform] group-hover:blur-none absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40">
             <svg
               width="150"
               height="150"
@@ -588,17 +595,15 @@ export default function MemberDashboard() {
             </svg>
           </div>
 
-          <div className="relative z-10 mb-6 flex items-center justify-between border-b border-white/10 pb-4">
-            <div className="flex items-center gap-3">
-              <Ticket className="h-6 w-6" />
-              <h2>
-                Prize <span className="gradient-text">Wallet</span>
-              </h2>
-            </div>
-            <span className="rounded-lg border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 px-3 py-1 text-[var(--color-accent)]/80">
-              Claim PINs
-            </span>
-          </div>
+          <SectionHeader
+            title="Prize Wallet"
+            icon={Ticket}
+            action={
+              <span className="rounded-lg border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 px-3 py-1 text-small text-[var(--color-accent)]">
+                Claim PINs
+              </span>
+            }
+          />
 
           <div className="relative z-10">
             {(() => {
@@ -622,11 +627,11 @@ export default function MemberDashboard() {
                     return (
                       <div
                         key={msg.id}
-                        className={`flex flex-col items-center justify-between gap-4 border bg-black/40 p-4 backdrop-blur-2xl sm:flex-row ${msg.color === "yellow" ? "border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]" : "border-white/10"}`}
+                        className={`flex flex-col items-center justify-between gap-4 border bg-black/40 p-4 backdrop-blur-2xl sm:flex-row ${msg.color === "yellow" ? "border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]" : "border-white/10"} `}
                       >
                         <div className="flex w-full items-center gap-4">
                           <div
-                            className={`flex h-12 w-12 flex-shrink-0 items-center justify-center  text-xl shadow-inner ${msg.color === "yellow" ? "border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500" : "border border-white/10 bg-[#00000029]"}`}
+                            className={`flex h-12 w-12 flex-shrink-0 items-center justify-center text-xl shadow-inner ${msg.color === "yellow" ? "border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500" : "border border-white/10 bg-[#00000029]"} `}
                           >
                             {msg.icon}
                           </div>
@@ -664,13 +669,13 @@ export default function MemberDashboard() {
                                 </p>
                                 <button
                                   onClick={() => executeClaimFlash(msg.id)}
-                                  className="w-full rounded bg-red-600 py-2 shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:bg-red-500"
+                                  className="transition-colors w-full rounded bg-red-600 py-2 shadow-[0_0_15px_rgba(220,38,38,0.5)] hover:bg-red-500"
                                 >
                                   CLICK TO FLASH & CLAIM
                                 </button>
                                 <button
                                   onClick={() => setClaimConfirmId(null)}
-                                  className="cursor-pointer text-white/40 hover:text-white"
+                                  className="transition-colors cursor-pointer text-white/40 hover:text-white"
                                 >
                                   Cancel
                                 </button>
@@ -678,7 +683,7 @@ export default function MemberDashboard() {
                             ) : (
                               <button
                                 onClick={() => setClaimConfirmId(msg.id)}
-                                className="cursor-pointer border border-yellow-400/50 bg-yellow-400/10 px-6 py-3 text-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-yellow-400/20"
+                                className="transition-colors cursor-pointer border border-yellow-400/50 bg-yellow-400/10 px-6 py-3 text-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-yellow-400/20"
                               >
                                 Redeem Prize
                               </button>
@@ -701,12 +706,11 @@ export default function MemberDashboard() {
 
         {/* My Photo Submissions */}
         <div className="mb-10 border border-white/10 bg-white/[0.02] p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h2>
-              My Photo <span className="gradient-text">Submissions</span>
-            </h2>
-            <span>Fan Wall Activity</span>
-          </div>
+          <SectionHeader
+            title="My Photo Submissions"
+            subtitle="Fan Wall Activity"
+            icon={ImageIcon}
+          />
 
           {myPhotos.length === 0 ? (
             <div className="flex flex-col items-center border border-dashed border-white/10 bg-[#00000029] py-8">
@@ -718,7 +722,7 @@ export default function MemberDashboard() {
               {myPhotos.map((photo: any) => (
                 <div
                   key={photo.id}
-                  className={`group relative overflow-hidden border bg-black/40 backdrop-blur-2xl ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]" : photo.approved ? "border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]" : "border-white/10"}`}
+                  className={`group relative overflow-hidden border bg-black/40 backdrop-blur-2xl ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]" : photo.approved ? "border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]" : "border-white/10"} `}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
                     <Image
@@ -757,7 +761,7 @@ export default function MemberDashboard() {
 
                     {/* Declined Details block */}
                     {photo.rejected && (
-                      <div className="mt-2  border border-red-500/15 bg-red-500/5 p-2.5 text-left">
+                      <div className="mt-2 border border-red-500/15 bg-red-500/5 p-2.5 text-left">
                         <p className="mb-1 text-red-400">Reason for Decline</p>
                         <p className="leading-normal text-red-200/80">
                           {photo.rejection_reason ||
@@ -823,12 +827,11 @@ export default function MemberDashboard() {
 
         {/* My Purchases */}
         <div className="mt-6 border border-white/10 bg-white/[0.02] p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h2>
-              My <span className="gradient-text">Purchases</span>
-            </h2>
-            <span>Order History</span>
-          </div>
+          <SectionHeader
+            title="My Purchases"
+            subtitle="Order History"
+            icon={ShoppingBag}
+          />
 
           {(() => {
             // Demo purchases — in production these come from an API

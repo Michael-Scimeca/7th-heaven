@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ReactDOM from "react-dom";
 import {
   sanityClient,
   queries,
@@ -70,6 +71,17 @@ const FALLBACK_CONTACTS = [
 ];
 
 export default async function ContactPage() {
+  ReactDOM.preload("/images/contact/dickie-contact.webp", {
+    as: "image",
+    fetchPriority: "high",
+    media: "(min-width: 769px)",
+  });
+  ReactDOM.preload("/images/contact/dickie-contact-mobile.webp", {
+    as: "image",
+    fetchPriority: "high",
+    media: "(max-width: 768px)",
+  });
+
   const [settingsData, pageContent] = await Promise.all([
     sanityClient.fetch<SanitySiteSettings | null>(
       queries.siteSettings,

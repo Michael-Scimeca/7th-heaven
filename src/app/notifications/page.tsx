@@ -201,14 +201,14 @@ export default function NotificationsPage() {
                   href="https://ntfy.sh"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary underline hover:text-white"
+                  className="transition-colors text-primary underline hover:text-white"
                 >
                   ntfy
                 </a>
                 , a free, open push network, so there&apos;s no cost to you and none
                 to us. Prefer old-fashioned alerts? Check out our live stream alerts
                 on{" "}
-                <Link href="/live" className="text-primary underline hover:text-white">
+                <Link href="/live" className="transition-colors text-primary underline hover:text-white">
                   the live page
                 </Link>{" "}
                 too.
@@ -242,7 +242,7 @@ export default function NotificationsPage() {
                   aria-label={`Show ${tab.label} alerts`}
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`cursor-pointer rounded-[var(--radius-box)] border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
+                  className={`cursor-pointer rounded-[var(--radius-box)] border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"} `}
                 >
                   {tab.label}
                 </button>
@@ -250,135 +250,135 @@ export default function NotificationsPage() {
             })}
           </div>
 
-      {/* Main Card */}
-      <div className="mx-auto max-w-3xl rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-6 sm:p-10 min-h-[380px]">
-        <p className="mb-8 text-center">{activeMeta.blurb}</p>
+          {/* Main Card */}
+          <div className="mx-auto max-w-3xl rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-6 sm:p-10 min-h-[380px]">
+            <p className="mb-8 text-center">{activeMeta.blurb}</p>
 
-        {!info?.configured ? (
-          <div className="mx-auto max-w-md py-12 text-center">
-            <p className="mb-1">Not set up yet</p>
+            {!info?.configured ? (
+              <div className="mx-auto max-w-md py-12 text-center">
+                <p className="mb-1">Not set up yet</p>
+                <p>
+                  This alert channel hasn&apos;t been configured on the server yet.
+                  Check back soon, or reach out on the{" "}
+                  <Link href="/contact" className="transition-colors hover:text-white">
+                    Contact
+                  </Link>{" "}
+                  page.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center gap-10 md:flex-row">
+                {/* QR Code */}
+                <div className="flex shrink-0 flex-col items-center gap-3">
+                  <div className="rounded-[var(--radius-box)] bg-white p-3">
+                    <QRCode
+                      value={appDeepLink}
+                      size={148}
+                      fgColor="#0c0817"
+                      bgColor="#ffffff"
+                    />
+                  </div>
+                  <p className="max-w-[160px] text-center">
+                    Scan from inside the ntfy app&apos;s &ldquo;+&rdquo; button
+                  </p>
+                </div>
+
+                {/* Steps */}
+                <div className="w-full flex-1 space-y-5">
+                  <div className="flex gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs">
+                      1
+                    </span>
+                    <div>
+                      <p className="mb-2">
+                        Get the free ntfy app (or skip it and use your browser)
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <a
+                          href="https://apps.apple.com/us/app/ntfy/id1625396347"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-secondary inline-flex items-center gap-1.5 rounded-[var(--radius-box)] px-3 py-1.5"
+                        >
+                          <AppleIcon /> App Store
+                        </a>
+                        <a
+                          href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-secondary inline-flex items-center gap-1.5 rounded-[var(--radius-box)] px-3 py-1.5"
+                        >
+                          <AndroidIcon /> Google Play
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs">
+                      2
+                    </span>
+                    <div className="flex-1">
+                      <p className="mb-2">
+                        Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel
+                      </p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <SeventhButton
+                          icon={false}
+                          onClick={() => window.open(appDeepLink, "_self")}
+                          className=""
+                        >
+                          Open in ntfy App
+                        </SeventhButton>
+                        <a
+                          href={browserUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="transition-colors hover:text-white"
+                        >
+                          Or subscribe in your browser instead
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs">
+                      3
+                    </span>
+                    <div>
+                      <p>
+                        Done. You&apos;ll get a push notification the moment we send
+                        one to this channel &mdash; nothing to reply to, nothing
+                        that costs you anything.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="inline-flex cursor-pointer items-center gap-1.5 pt-1"
+                  >
+                    {copied ? <CheckIcon /> : <CopyIcon />}
+                    {copied ? "Copied channel name" : "Copy channel name manually"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* How it works */}
+          <div className="mx-auto max-w-3xl text-center">
             <p>
-              This alert channel hasn&apos;t been configured on the server yet.
-              Check back soon, or reach out on the{" "}
-              <Link href="/contact" className="hover:text-white">
-                Contact
-              </Link>{" "}
-              page.
+              Under the hood this uses ntfy, a free open-source push service &mdash;
+              the site publishes a message to a private channel name and anyone
+              subscribed to that exact name gets it, with no accounts, ads, or
+              per-message cost on either end. Admins send these from the Admin
+              Dashboard&apos;s Emergency Broadcast Center, Crew Alert, and Cruise
+              Blast tools.
             </p>
           </div>
-        ) : (
-          <div className="flex flex-col items-center gap-10 md:flex-row">
-            {/* QR Code */}
-            <div className="flex shrink-0 flex-col items-center gap-3">
-              <div className="rounded-[var(--radius-box)] bg-white p-3">
-                <QRCode
-                  value={appDeepLink}
-                  size={148}
-                  fgColor="#0c0817"
-                  bgColor="#ffffff"
-                />
-              </div>
-              <p className="max-w-[160px] text-center">
-                Scan from inside the ntfy app&apos;s &ldquo;+&rdquo; button
-              </p>
-            </div>
-
-            {/* Steps */}
-            <div className="w-full flex-1 space-y-5">
-              <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs font-bold">
-                  1
-                </span>
-                <div>
-                  <p className="mb-2">
-                    Get the free ntfy app (or skip it and use your browser)
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <a
-                      href="https://apps.apple.com/us/app/ntfy/id1625396347"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-secondary inline-flex items-center gap-1.5 rounded-[var(--radius-box)] px-3 py-1.5"
-                    >
-                      <AppleIcon /> App Store
-                    </a>
-                    <a
-                      href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-secondary inline-flex items-center gap-1.5 rounded-[var(--radius-box)] px-3 py-1.5"
-                    >
-                      <AndroidIcon /> Google Play
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs font-bold">
-                  2
-                </span>
-                <div className="flex-1">
-                  <p className="mb-2">
-                    Subscribe to the &ldquo;{activeMeta.label}&rdquo; channel
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <SeventhButton
-                      icon={false}
-                      onClick={() => window.open(appDeepLink, "_self")}
-                      className=""
-                    >
-                      Open in ntfy App
-                    </SeventhButton>
-                    <a
-                      href={browserUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-white"
-                    >
-                      Or subscribe in your browser instead
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs font-bold">
-                  3
-                </span>
-                <div>
-                  <p>
-                    Done. You&apos;ll get a push notification the moment we send
-                    one to this channel &mdash; nothing to reply to, nothing
-                    that costs you anything.
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="inline-flex cursor-pointer items-center gap-1.5 pt-1"
-              >
-                {copied ? <CheckIcon /> : <CopyIcon />}
-                {copied ? "Copied channel name" : "Copy channel name manually"}
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* How it works */}
-      <div className="mx-auto max-w-3xl text-center">
-        <p>
-          Under the hood this uses ntfy, a free open-source push service &mdash;
-          the site publishes a message to a private channel name and anyone
-          subscribed to that exact name gets it, with no accounts, ads, or
-          per-message cost on either end. Admins send these from the Admin
-          Dashboard&apos;s Emergency Broadcast Center, Crew Alert, and Cruise
-          Blast tools.
-        </p>
-        </div>
         </div>
       </section>
     </main>

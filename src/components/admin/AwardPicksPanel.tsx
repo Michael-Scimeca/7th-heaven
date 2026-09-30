@@ -205,10 +205,10 @@ export default function AwardPicksPanel() {
             <button
               key={pick.id}
               onClick={() => setSelectedPick(pick.id)}
-              className={`cursor-pointer  border p-3 text-center ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"}`}
+              className={`cursor-pointer border p-3 text-center ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"} `}
             >
               <div
-                className="mx-auto mb-1.5 flex h-11 w-11 items-center justify-center "
+                className="mx-auto flex h-11 w-11 items-center justify-center"
                 style={{
                   background: `${pick.color}20`,
                   color: pick.color,
@@ -218,7 +218,7 @@ export default function AwardPicksPanel() {
                 7H
               </div>
               <p>{pick.name}</p>
-              <p className={` ${rarityColors[pick.rarity]}`}>{pick.rarity}</p>
+              <p className={` ${rarityColors[pick.rarity]} `}>{pick.rarity}</p>
             </button>
           ))}
         </div>
@@ -232,7 +232,7 @@ export default function AwardPicksPanel() {
             <button
               key={r.id}
               onClick={() => setSelectedReason(r.id)}
-              className={`cursor-pointer  border px-3 py-2 text-left ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
+              className={`cursor-pointer border px-3 py-2 text-left ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
             >
               <span>{r.label}</span>
             </button>
@@ -242,7 +242,7 @@ export default function AwardPicksPanel() {
 
       {/* Fan Search + Selection */}
       <div>
-        <label htmlFor="search-fan-input" className="mb-2 block">
+        <label htmlFor="search-fan-input" className="block">
           Select Fan{" "}
           {selectedFan && (
             <span className="text-[var(--color-accent)]">
@@ -258,7 +258,7 @@ export default function AwardPicksPanel() {
           containerClassName="max-w-[300px] mb-3"
         />
 
-        <div className="max-h-48 overflow-y-auto  border border-white/10">
+        <div className="max-h-48 overflow-y-auto border border-white/10">
           {filteredFans.length === 0 ? (
             <p className="py-4 text-center">No fans found</p>
           ) : (
@@ -266,7 +266,7 @@ export default function AwardPicksPanel() {
               <button
                 key={fan.id}
                 onClick={() => setSelectedFan(fan)}
-                className={`w-full cursor-pointer border-b border-white/10 px-4 py-2.5 text-left last:border-0 ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10" : "hover:bg-white/[0.03]"}`}
+                className={`w-full cursor-pointer border-b border-white/10 px-4 py-2.5 text-left last:border-0 ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10" : "hover:bg-white/[0.03]"} `}
               >
                 <span>{fan.full_name || "Unnamed"}</span>
                 <span className="ml-2 text-white/30">{fan.email}</span>
@@ -286,7 +286,7 @@ export default function AwardPicksPanel() {
         <button
           onClick={handleAward}
           disabled={!selectedFan || awarding}
-          className="flex-1 cursor-pointer bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-30"
+          className="transition-[filter] flex-1 cursor-pointer bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-30"
         >
           {awarding
             ? "Awarding..."
@@ -295,7 +295,7 @@ export default function AwardPicksPanel() {
         <button
           onClick={handleBulkAward}
           disabled={filteredFans.length === 0 || awarding}
-          className="cursor-pointer border border-[var(--color-border-purple)] px-6 py-3 text-[var(--color-purple-light)] text-[var(--font-size-xs)] hover:bg-[var(--color-purple-glow)] disabled:opacity-30"
+          className="transition-colors cursor-pointer border border-[var(--color-border-purple)] px-6 py-3 text-[var(--color-purple-light)] text-[var(--font-size-xs)] hover:bg-[var(--color-purple-glow)] disabled:opacity-30"
         >
           Bulk ({filteredFans.length})
         </button>
@@ -304,7 +304,7 @@ export default function AwardPicksPanel() {
       {/* Result */}
       {result && (
         <div
-          className={`rounded-lg border p-3 ${result.ok ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
+          className={`rounded-lg border p-3 ${result.ok ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/30 bg-red-500/10 text-red-400"} `}
         >
           {result.msg}
         </div>
@@ -318,10 +318,10 @@ export default function AwardPicksPanel() {
             {recentAwards.map((a) => (
               <div
                 key={a.id || `${a.fan}-${a.time}`}
-                className="flex items-center gap-3  border border-white/10 bg-white/[0.02] px-3 py-2"
+                className="flex items-center gap-3 border border-white/10 bg-white/[0.02] px-3 py-2"
               >
                 <span
-                  className="h-3 w-3 "
+                  className="h-3 w-3"
                   style={{ background: a.color }}
                 />
                 <span>{a.fan}</span>

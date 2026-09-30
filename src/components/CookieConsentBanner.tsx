@@ -71,7 +71,7 @@ export default function CookieConsentBanner() {
   return (
     <dialog
       open
-      className={`fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-[9999] m-0 w-[calc(100%-2rem)] max-w-[640px] -translate-x-1/2 border-none p-0 text-inherit ${closing ? "pointer-events-none translate-y-4 scale-[0.98] opacity-0" : "translate-y-0 scale-100 opacity-100"}`}
+      className={`fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-[9999] m-0 w-[calc(100%-2rem)] max-w-[640px] -translate-x-1/2 border-none p-0 text-inherit ${closing ? "pointer-events-none translate-y-4 scale-[0.98] opacity-0" : "translate-y-0 scale-100 opacity-100"} `}
       aria-label="Cookie consent"
     >
       <div className="relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0e0e1a]/95 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.8)] backdrop-blur-xl">
@@ -182,7 +182,7 @@ export default function CookieConsentBanner() {
             <button
               id="cookie-accept-all"
               onClick={acceptAll}
-              className="min-w-[120px] flex-1 rounded-[var(--radius-box)] bg-[var(--color-accent)] px-5 py-2.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
+              className="transition-[background-color,color,border-color,box-shadow] min-w-[120px] flex-1 rounded-[var(--radius-box)] bg-[var(--color-accent)] px-5 py-2.5 hover:bg-[var(--color-accent)]/90 hover:shadow-[0_4px_20px_-4px_rgba(255,10,61,0.5)]"
             >
               Accept All
             </button>
@@ -191,7 +191,7 @@ export default function CookieConsentBanner() {
                 <button
                   id="cookie-reject-all"
                   onClick={rejectAll}
-                  className="min-w-[100px] flex-1 rounded-[var(--radius-box)] border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
+                  className="transition-colors min-w-[100px] flex-1 rounded-[var(--radius-box)] border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
                 >
                   Reject All
                 </button>
@@ -207,7 +207,7 @@ export default function CookieConsentBanner() {
               <button
                 id="cookie-save-custom"
                 onClick={saveCustom}
-                className="min-w-[120px] flex-1 rounded-[var(--radius-box)] border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
+                className="transition-colors min-w-[120px] flex-1 rounded-[var(--radius-box)] border border-white/[0.06] bg-white/[0.06] px-5 py-2.5 hover:bg-white/[0.1] hover:text-white"
               >
                 Save Preferences
               </button>

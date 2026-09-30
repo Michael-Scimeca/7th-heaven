@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTransition } from "@/context/TransitionContext";
+import { useMember } from "@/context/MemberContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useNorthCart } from "@/context/NorthCartContext";
@@ -49,7 +50,7 @@ function ProductCard({
     !soldOut && selectedStock <= Number(selectedVariant.low_stock_threshold);
 
   return (
-    <div className="flex flex-col overflow-hidden  border border-white/[0.12] bg-white/[0.04]">
+    <div className="flex flex-col overflow-hidden rounded-[var(--radius-box)] border border-white/[0.12] bg-white/[0.04]">
       <div className="relative aspect-square bg-black/40">
         <Image
           src={product.image_url}
@@ -59,16 +60,16 @@ function ProductCard({
           unoptimized
           className="object-cover"
         />
-        <span className="absolute top-3 left-3  border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-2xl">
+        <span className="absolute top-3 left-3 rounded-[var(--radius-sm)] border border-white/10 bg-black/70 px-2.5 py-1 text-[10px] backdrop-blur-2xl">
           {product.category}
         </span>
         {soldOut && (
-          <span className="absolute top-3 right-3  bg-rose-600/90 px-2.5 py-1 text-[10px]">
+          <span className="absolute top-3 right-3 rounded-[var(--radius-sm)] bg-rose-600/90 px-2.5 py-1 text-[10px]">
             Sold Out
           </span>
         )}
         {lowStock && (
-          <span className="absolute bottom-3 left-3  bg-yellow-500/90 px-2.5 py-1 text-[10px]">
+          <span className="absolute bottom-3 left-3 rounded-[var(--radius-sm)] bg-yellow-500/90 px-2.5 py-1 text-[10px]">
             Only {selectedStock} left
           </span>
         )}
@@ -81,7 +82,7 @@ function ProductCard({
         </div>
 
         <div>
-          <span className="mb-1.5 block text-[10px] text-white/40">
+          <span className="block text-[10px] text-white/40">
             {product.variant_kind}
           </span>
           <div className="flex flex-wrap gap-1.5">
@@ -93,7 +94,7 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`rounded-lg px-3 py-1.5 disabled:cursor-not-allowed disabled:line-through disabled:opacity-30 ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+                  className={`rounded-lg px-3 py-1.5 disabled:cursor-not-allowed disabled:line-through disabled:opacity-30 ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)]" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
                 >
                   {variant.label}
                 </button>
@@ -110,7 +111,7 @@ function ProductCard({
             type="button"
             disabled={soldOut || maxedOut}
             onClick={() => onAdd(selectedVariant.id)}
-            className="rounded-lg bg-[var(--color-accent)] px-4 py-2 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
+            className="transition-colors rounded-lg bg-[var(--color-accent)] px-4 py-2 hover:bg-[var(--color-accent)]/80 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {soldOut ? "Sold Out" : maxedOut ? "Max in Cart" : "Add to Cart"}
           </button>
@@ -122,6 +123,10 @@ function ProductCard({
 
 export default function PaymentTestShopPage() {
   const { requestTransition } = useTransition();
+  const { member } = useMember();
+  const isAdmin = Boolean(
+    member?.role === "admin" || (member as any)?.isAdmin === true,
+  );
   const cart = useNorthCart();
   const [products, setProducts] = useState<ApiProduct[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
@@ -134,7 +139,7 @@ export default function PaymentTestShopPage() {
   const [mockMode, setMockMode] = useState(false);
   const [showLimitations, setShowLimitations] = useState(false);
   const [showRoadmap, setShowRoadmap] = useState(false);
-  const [showCreditGuide, setShowCreditGuide] = useState(true);
+  const [showCreditGuide, setShowCreditGuide] = useState(false);
 
   // eslint-disable-next-line react-doctor/nextjs-no-client-fetch-for-server-data, react-doctor/no-fetch-in-effect
   useEffect(() => {
@@ -278,12 +283,12 @@ export default function PaymentTestShopPage() {
   };
 
   return (
-    <div className="page-container min-h-screen pb-24">
+    <div className="page-container min-h-screen">
       {/* Header */}
       <div className="site-container mx-auto max-w-5xl px-6">
         <Link
           href="/"
-          className="mb-6 flex items-center gap-2  "
+          className="mb-6 flex items-center gap-2"
         >
           ← Back to Home
         </Link>
@@ -300,40 +305,42 @@ export default function PaymentTestShopPage() {
             band gear with secure direct checkout and fast shipping.
           </p>
 
-          {mockMode && (
-            <div className="mt-4 max-w-xl  border border-yellow-500/30 bg-yellow-500/10 p-3 text-yellow-300">
+          {isAdmin && mockMode && (
+            <div className="mt-4 max-w-xl border border-yellow-500/30 bg-yellow-500/10 p-3 text-yellow-300">
               🧪 TEST MODE — checkout using simulated TAC for testing payment
               processing.
             </div>
           )}
 
-          <div className="mt-6 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => setShowCreditGuide(!showCreditGuide)}
-              className="flex items-center gap-1.5  border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-emerald-300 hover:bg-emerald-500/20"
-            >
-              💳 Credit System &amp; Processing Guide{" "}
-              {showCreditGuide ? "▲" : "▼"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowLimitations(!showLimitations)}
-              className="flex items-center gap-1.5  border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 hover:bg-purple-500/20"
-            >
-              ✨ Store Features &amp; Architecture
-            </button>
-            <Link
-              href="/admin/shop-inventory"
-              className="flex items-center gap-1.5  border border-purple-500/30 bg-cyan-500/10 px-3 py-1.5 hover:bg-cyan-500/20"
-            >
-              🛠️ Manage Inventory
-            </Link>
-          </div>
+          {isAdmin && (
+            <div className="mt-6 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setShowCreditGuide(!showCreditGuide)}
+                className="transition-colors flex items-center gap-1.5 border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-emerald-300 hover:bg-emerald-500/20"
+              >
+                💳 Credit System &amp; Processing Guide{" "}
+                {showCreditGuide ? "▲" : "▼"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowLimitations(!showLimitations)}
+                className="transition-colors flex items-center gap-1.5 border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 hover:bg-purple-500/20"
+              >
+                ✨ Store Features &amp; Architecture
+              </button>
+              <Link
+                href="/admin/shop-inventory"
+                className="transition-colors flex items-center gap-1.5 border border-purple-500/30 bg-cyan-500/10 px-3 py-1.5 hover:bg-cyan-500/20"
+              >
+                🛠️ Manage Inventory
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* ── Credit System Setup & Architecture Discussion ── */}
-        {showCreditGuide && (
+        {isAdmin && showCreditGuide && (
           <div className="relative mb-8 overflow-hidden rounded-2xl border border-emerald-500/40 bg-[#0a0f1d] p-6 shadow-2xl">
             <div className="mb-6 flex items-center justify-between border-b border-emerald-500/20 pb-4">
               <div className="flex items-center gap-3">
@@ -349,14 +356,14 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCreditGuide(false)}
-                className="ml-4 shrink-0 text-white/40 hover:text-white"
+                className="transition-colors ml-4 shrink-0 text-white/40 hover:text-white"
               >
                 ✕ Close
               </button>
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2 border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     1
@@ -371,14 +378,14 @@ export default function PaymentTestShopPage() {
                   </code>
                   :
                 </p>
-                <div className="space-y-1  border border-white/10 bg-black/80 p-2.5 text-emerald-300">
+                <div className="space-y-1 border border-white/10 bg-black/80 p-2.5 text-emerald-300">
                   <div>NORTH_MERCHANT_ID=your_merchant_id</div>
                   <div>NORTH_TERMINAL_ID=your_terminal_id</div>
                   <div>NORTH_API_SECRET=your_secret_key</div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2 border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     2
@@ -397,7 +404,7 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2 border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     3
@@ -414,7 +421,7 @@ export default function PaymentTestShopPage() {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2  border border-emerald-500/20 bg-black/50 p-4">
+              <div className="flex flex-col gap-2 border border-emerald-500/20 bg-black/50 p-4">
                 <div className="flex items-center gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     4
@@ -432,7 +439,7 @@ export default function PaymentTestShopPage() {
         )}
 
         {/* ── Store Features Breakdown ── */}
-        {showLimitations && (
+        {isAdmin && showLimitations && (
           <div className="relative mb-8 overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0e18] p-6">
             <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
               <div>
@@ -445,7 +452,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowLimitations(false)}
-                className="ml-4 shrink-0 text-white/40 hover:text-white"
+                className="transition-colors ml-4 shrink-0 text-white/40 hover:text-white"
               >
                 ✕ Close
               </button>
@@ -481,7 +488,7 @@ export default function PaymentTestShopPage() {
                 <p>
                   <Link
                     href="/admin/shop-inventory"
-                    className="hover:text-white"
+                    className="transition-colors hover:text-white"
                   >
                     /admin/shop-inventory
                   </Link>{" "}
@@ -537,7 +544,7 @@ export default function PaymentTestShopPage() {
         )}
 
         {/* ── Roadmap: features buildable on North's actual API suite ── */}
-        {showRoadmap && (
+        {isAdmin && showRoadmap && (
           <div className="relative mb-8 overflow-hidden rounded-2xl border border-emerald-500/30 bg-[#0e0e18] p-6">
             <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
               <div>
@@ -557,7 +564,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowRoadmap(false)}
-                className="ml-4 shrink-0 text-white/40 hover:text-white"
+                className="transition-colors ml-4 shrink-0 text-white/40 hover:text-white"
               >
                 ✕ Close
               </button>
@@ -613,7 +620,7 @@ export default function PaymentTestShopPage() {
                   revenue dashboard inside{" "}
                   <Link
                     href="/admin/shop-inventory"
-                    className="hover:text-white"
+                    className="transition-colors hover:text-white"
                   >
                     /admin/shop-inventory
                   </Link>{" "}
@@ -672,7 +679,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`shrink-0  px-4 py-2 ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
+                className={`shrink-0 px-4 py-2 ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
               >
                 {cat}
               </button>
@@ -682,7 +689,7 @@ export default function PaymentTestShopPage() {
           <button
             type="button"
             onClick={() => setShowCart(true)}
-            className="flex items-center gap-2  border border-white/10 bg-[#00000029] px-4 py-2.5 hover:border-[var(--color-accent)]"
+            className="transition-colors flex items-center gap-2 border border-white/10 bg-[#00000029] px-4 py-2.5 hover:border-[var(--color-accent)]"
           >
             🛒 Cart ({cart.getNumberOfCartItems()})
           </button>
@@ -690,16 +697,25 @@ export default function PaymentTestShopPage() {
 
         {/* Product grid */}
         {loadingProducts ? (
-          <p className="py-12 text-center">Loading products…</p>
-        ) : productsError ? (
-          <p className="py-12 text-center text-rose-400">⚠️ {productsError}</p>
+          <p className="py-12 text-center text-white/60">Loading products…</p>
         ) : filteredProducts.length === 0 ? (
-          <p className="py-12 text-center">
-            No products yet.{" "}
-            <Link href="/admin/shop-inventory" className="hover:text-white">
-              Add some in the inventory admin.
-            </Link>
-          </p>
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <span className="mb-3 text-4xl">🛍️</span>
+            <h3 className="text-lg font-semibold text-white">
+              Official Store Updating
+            </h3>
+            <p className="mt-1 max-w-md text-sm text-white/60">
+              Our official online merchandise inventory is currently being updated with new items. Check back soon or visit our merchandise table at an upcoming show!
+            </p>
+            {isAdmin && (
+              <Link
+                href="/admin/shop-inventory"
+                className="transition-colors mt-4 inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/20"
+              >
+                🛠️ Open Shop Inventory Manager
+              </Link>
+            )}
+          </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
             {filteredProducts.map((product) => (
@@ -717,13 +733,13 @@ export default function PaymentTestShopPage() {
       {/* Cart drawer */}
       {showCart && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-          <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto  border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
+          <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2>My Cart</h2>
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="p-1 text-white/40 hover:text-white"
+                className="transition-colors p-1 text-white/40 hover:text-white"
               >
                 ✕
               </button>
@@ -742,7 +758,7 @@ export default function PaymentTestShopPage() {
                   return (
                     <div
                       key={item.id}
-                      className="flex items-center gap-3  border border-white/[0.08] bg-white/[0.03] p-3"
+                      className="flex items-center gap-3 border border-white/[0.08] bg-white/[0.03] p-3"
                     >
                       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-black/40">
                         <Image
@@ -765,7 +781,7 @@ export default function PaymentTestShopPage() {
                         <button
                           type="button"
                           onClick={() => cart.removeOneItemFromCart(item.id)}
-                          className="flex h-7 w-7 items-center justify-center  border border-white/10 bg-[#00000029] hover:text-white"
+                          className="transition-colors flex h-7 w-7 items-center justify-center border border-white/10 bg-[#00000029] hover:text-white"
                         >
                           −
                         </button>
@@ -774,7 +790,7 @@ export default function PaymentTestShopPage() {
                           type="button"
                           disabled={atMax}
                           onClick={() => handleCartIncrement(item.id)}
-                          className="flex h-7 w-7 items-center justify-center  border border-white/10 bg-[#00000029] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                          className="transition-colors flex h-7 w-7 items-center justify-center border border-white/10 bg-[#00000029] hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
                         >
                           +
                         </button>
@@ -782,7 +798,7 @@ export default function PaymentTestShopPage() {
                       <button
                         type="button"
                         onClick={() => cart.deleteItemFromCart(item.id)}
-                        className="px-1 text-white/30 hover:text-rose-400"
+                        className="transition-colors px-1 text-white/30 hover:text-rose-400"
                         aria-label={`Remove ${item.title}`}
                       >
                         ✕
@@ -810,7 +826,7 @@ export default function PaymentTestShopPage() {
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
-                className="flex-1  border border-white/10 bg-[#00000029] py-3 hover:bg-white/10"
+                className="transition-colors flex-1 border border-white/10 bg-[#00000029] py-3 hover:bg-white/10"
               >
                 Continue Shopping
               </button>
@@ -818,7 +834,7 @@ export default function PaymentTestShopPage() {
                 type="button"
                 disabled={cart.items.length === 0 || startingCheckout}
                 onClick={handleCheckout}
-                className="flex-1  bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-40"
+                className="transition-colors flex-1 bg-[var(--color-accent)] py-3 hover:bg-[var(--color-accent)]/80 disabled:opacity-40"
               >
                 {startingCheckout ? "Starting…" : "Checkout with North"}
               </button>

@@ -200,7 +200,6 @@ const siteSettings = {
           type: "object",
           fields: [
             { name: "category", title: "Category", type: "string" },
-            { name: "company", title: "Company", type: "string" },
             { name: "name", title: "Contact Name", type: "string" },
             { name: "email", title: "Email", type: "string" },
             { name: "phone", title: "Phone", type: "string" },

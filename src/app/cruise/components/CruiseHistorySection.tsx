@@ -2,26 +2,19 @@
 
 import React from "react";
 import CruiseHistoryTimeline from "@/components/CruiseHistoryTimeline";
-import LazyMount from "@/components/LazyMount";
-import { useGLTF } from "@react-three/drei";
 import { CRUISE_HISTORY } from "../cruiseData";
 
 export default function CruiseHistorySection() {
-  const handleVisible = React.useCallback(() => {
-    if (typeof window !== "undefined") {
-      useGLTF.preload("/objects/ship.glb");
-    }
-  }, []);
-
   return (
-    <LazyMount
-      as="section"
+    <section
       id="history"
-      minHeight="2800px"
-      rootMargin="600px 0px"
-      onVisible={handleVisible}
+      aria-labelledby="history-heading"
+      className="section site-container"
     >
+      <h2 id="history-heading" className="sr-only">
+        Cruise History &amp; Voyage Milestones
+      </h2>
       <CruiseHistoryTimeline history={CRUISE_HISTORY} />
-    </LazyMount>
+    </section>
   );
 }

@@ -24,7 +24,7 @@ export default async function PastShowsPage() {
   const sanityContent = await fetchPageContent("past-shows");
   return (
     <main
-      className="site-container page-container min-h-screen"
+      className="site-container page-container page-stack min-h-screen"
       id="past-shows-page"
     >
       <PastShowsClient

@@ -81,16 +81,16 @@ export default function HeaderMaskEditor() {
       <button
         aria-label="Toggle Header Mask Controls"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex cursor-pointer items-center gap-2  border border-purple-500/40 bg-black/90 px-4 py-2.5 backdrop-blur-2xl hover:bg-purple-950/90"
+        className="transition-colors flex cursor-pointer items-center gap-2 border border-purple-500/40 bg-black/90 px-4 py-2.5 backdrop-blur-2xl hover:bg-purple-950/90"
       >
         <span className="text-purple-400">🎛️</span>
         <span>Header Mask UI</span>
-        <span className={`text-[10px] ${isOpen ? "rotate-180" : ""}`}>▲</span>
+        <span className={`text-[10px] ${isOpen ? "rotate-180" : ""} `}>▲</span>
       </button>
 
       {/* Control Drawer Panel */}
       {isOpen && (
-        <div className="bg-[#090514]/95 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-3 custom-scrollbar absolute right-0 bottom-14 flex max-h-[85vh] w-80 flex-col gap-4 overflow-y-auto  border border-purple-500/30 p-5 sm:w-96">
+        <div className="bg-[#090514]/95 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-3 custom-scrollbar absolute right-0 bottom-14 flex max-h-[85vh] w-80 flex-col gap-4 overflow-y-auto border border-purple-500/30 p-5 sm:w-96">
           <div className="flex items-center justify-between border-b border-purple-900/40 pb-3">
             <div>
               <h3 className="text-purple-200">Header Mask Gradient Editor</h3>
@@ -101,7 +101,7 @@ export default function HeaderMaskEditor() {
             <button
               aria-label="Close Header Mask Studio"
               onClick={() => setIsOpen(false)}
-              className="cursor-pointer rounded bg-purple-900/30 px-2 py-1 text-purple-400 hover:bg-purple-800/50 hover:text-white"
+              className="transition-colors cursor-pointer rounded bg-purple-900/30 px-2 py-1 text-purple-400 hover:bg-purple-800/50 hover:text-white"
             >
               ✕
             </button>
@@ -116,7 +116,7 @@ export default function HeaderMaskEditor() {
               </span>
             </div>
             <div
-              className="relative h-7 w-full overflow-hidden  border border-purple-500/30 shadow-inner"
+              className="relative h-7 w-full overflow-hidden border border-purple-500/30 shadow-inner"
               style={{
                 background: `linear-gradient(to right, rgba(147, 51, 234, 0.9) 0%, rgba(147, 51, 234, 0.9) ${settings.fadeStart}%, rgba(147, 51, 234, 0) ${settings.fadeEnd}%)`,
               }}
@@ -144,7 +144,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "linear",
                   })
                 }
-                className="cursor-pointer  border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
+                className="transition-colors cursor-pointer border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 ⚡ Standard 228px
               </button>
@@ -159,7 +159,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "ease",
                   })
                 }
-                className="cursor-pointer  border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
+                className="transition-colors cursor-pointer border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 ✨ Ultra Glass
               </button>
@@ -174,7 +174,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "linear",
                   })
                 }
-                className="cursor-pointer  border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
+                className="transition-colors cursor-pointer border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 🌊 Soft Fade
               </button>
@@ -189,7 +189,7 @@ export default function HeaderMaskEditor() {
                     maskMode: "sharp",
                   })
                 }
-                className="cursor-pointer  border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
+                className="transition-colors cursor-pointer border border-purple-500/30 bg-purple-950/60 px-2.5 py-1.5 text-left hover:bg-purple-800/80"
               >
                 ⬛ Solid Dark
               </button>
@@ -299,7 +299,7 @@ export default function HeaderMaskEditor() {
           {/* Reset Button */}
           <button
             onClick={() => setSettings(DEFAULT_SETTINGS)}
-            className="w-full cursor-pointer  border border-white/10 bg-purple-950/40 py-2 hover:bg-purple-900/60 hover:text-white"
+            className="transition-colors w-full cursor-pointer border border-white/10 bg-purple-950/40 py-2 hover:bg-purple-900/60 hover:text-white"
           >
             Reset Defaults
           </button>

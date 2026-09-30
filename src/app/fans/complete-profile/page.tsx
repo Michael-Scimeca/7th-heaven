@@ -130,7 +130,7 @@ export default function CompleteProfilePage() {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-11 w-11 animate-spin  border-4 border-[var(--color-accent)] border-t-transparent" />
+          <div className="h-11 w-11 animate-spin border-4 border-[var(--color-accent)] border-t-transparent" />
           <p>Loading your profile...</p>
         </div>
       </div>
@@ -148,7 +148,7 @@ export default function CompleteProfilePage() {
           <div className="p-8">
             {/* Header */}
             <div className="mb-8 text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20 text-2xl">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20 text-2xl">
                 🎸
               </div>
               <div className="title-group title-group--page items-center text-center">
@@ -172,7 +172,7 @@ export default function CompleteProfilePage() {
                   unoptimized
                   src={profile.avatar_url}
                   alt={profile.full_name}
-                  className="h-20 w-20  border-2 border-[var(--color-accent)]/40 object-cover"
+                  className="h-20 w-20 border-2 border-[var(--color-accent)]/40 object-cover"
                 />
               </div>
             )}
@@ -222,7 +222,7 @@ export default function CompleteProfilePage() {
 
                 {/* Proximity alerts */}
                 <div
-                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"} `}
                 >
                   <Toggle
                     id="complete-profile-notifications"
@@ -252,7 +252,7 @@ export default function CompleteProfilePage() {
 
                 {/* Newsletter */}
                 <div
-                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"} `}
                 >
                   <Toggle
                     id="complete-profile-newsletter"
@@ -283,7 +283,7 @@ export default function CompleteProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-50"
+                className="transition-[filter] w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
@@ -292,12 +292,12 @@ export default function CompleteProfilePage() {
                 By continuing you confirm you are 13+ and agree to our{" "}
                 <Link
                   href="/privacy"
-                  className="text-white/40 hover:text-white"
+                  className="transition-colors text-white/40 hover:text-white"
                 >
                   Privacy
                 </Link>{" "}
                 &amp;{" "}
-                <Link href="/terms" className="text-white/40 hover:text-white">
+                <Link href="/terms" className="transition-colors text-white/40 hover:text-white">
                   Terms
                 </Link>
                 .

@@ -100,7 +100,7 @@
     {
       "file": "src/app/fans/[username]/page.tsx",
       "line": 678,
-      "snippet": "className=\"group relative overflow-hidden rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6 duration-300\""
+      "snippet": "className=\"group relative overflow-hidden rounded-lg border border-[var(--border-color)]   p-6 duration-300\""
     },
     {
       "file": "src/app/fans/[username]/page.tsx",
@@ -766,7 +766,7 @@
       "matches": [
         "hover:bg-white/[0.02"
       ],
-      "snippet": "className=\"flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]\""
+      "snippet": "className=\"flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]\""
     },
     {
       "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
@@ -833,7 +833,7 @@
       "matches": [
         "hover:bg-white/[0.02"
       ],
-      "snippet": "className=\"flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]\""
+      "snippet": "className=\"flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]\""
     },
     {
       "file": "src/app/admin/[username]/components/AdminDashboardMain.tsx",
@@ -5394,7 +5394,7 @@
       "matches": [
         "duration-300"
       ],
-      "snippet": "className=\"group relative overflow-hidden rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-6 duration-300\""
+      "snippet": "className=\"group relative overflow-hidden rounded-lg border border-[var(--border-color)]   p-6 duration-300\""
     },
     {
       "file": "src/app/fans/[username]/page.tsx",
@@ -6698,7 +6698,7 @@
       "matches": [
         "hover:border-purple-500/30"
       ],
-      "snippet": "className=\"group flex items-center gap-4 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-4 hover:border-purple-500/30\""
+      "snippet": "className=\"group flex items-center gap-4 rounded-lg border border-[var(--border-color)]   p-4 hover:border-purple-500/30\""
     },
     {
       "file": "src/app/planner/PlannerClient.tsx",

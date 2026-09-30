@@ -7,7 +7,6 @@ import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
-import { SquishyToggle } from "@/components/SquishyToggle";
 import SeventhButton from "@/components/SeventhButton";
 import InputField from "@/components/InputField";
 import GlowInput, { GlowSelect } from "@/components/GlowInput";
@@ -117,12 +116,12 @@ export function DailyPoll() {
               key={opt.id}
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
-              className={`relative w-full overflow-hidden border text-left ${voted === opt.id ? "border-emerald-500 bg-emerald-500/10" : voted !== null ? "cursor-default border-white/10 bg-[#00000029]" : "cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40"}`}
+              className={`relative w-full overflow-hidden border text-left ${voted === opt.id ? "border-emerald-500 bg-emerald-500/10" : voted !== null ? "cursor-default border-white/10 bg-[#00000029]" : "cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40"} `}
             >
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
                 <div
-                  className={`absolute top-0 bottom-0 left-0 ${isWinner ? "bg-emerald-500/20" : "bg-[#00000029]"}`}
+                  className={`absolute top-0 bottom-0 left-0 ${isWinner ? "bg-emerald-500/20" : "bg-[#00000029]"} `}
                   style={{ width: `${percent}%` }}
                 />
               )}
@@ -170,15 +169,15 @@ export function OriginStats() {
       <div className="space-y-4">
         {ORIGIN_STATS.map((stat, i) => (
           <div key={stat.location}>
-            <div className="mb-1.5 flex justify-between">
+            <div className="flex justify-between">
               <span>{stat.location}</span>
               <span className="text-[var(--color-accent)]">
                 {stat.count} fans
               </span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden  border border-white/10">
+            <div className="h-1.5 w-full overflow-hidden border border-white/10">
               <div
-                className="h-full  bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 opacity-80 group-hover:opacity-100"
+                className="transition-opacity h-full bg-gradient-to-r from-[var(--color-accent)] to-cyan-500 opacity-80 group-hover:opacity-100"
                 style={{ width: `${(stat.count / maxCount) * 100}%` }}
               />
             </div>
@@ -207,7 +206,7 @@ export function PhotoWall() {
           <h2 className="mb-1">Fan Pre-Cruise Photo Wall</h2>
           <p>Share your prep and packing photos!</p>
         </div>
-        <button className="rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:bg-white/10">
+        <button className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 hover:bg-white/10">
           + Upload
         </button>
       </div>
@@ -218,7 +217,7 @@ export function PhotoWall() {
             key={i}
             className="group relative aspect-square cursor-pointer overflow-hidden border border-white/10 bg-[#00000029]"
           >
-            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur group-hover:opacity-100">
+            <div className="transition-opacity absolute inset-0 z-10 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur group-hover:opacity-100">
               <span className="text-2xl">📸</span>
             </div>
             <div
@@ -626,10 +625,10 @@ export function BookingManager({ email }: { email?: string }) {
             type="submit"
             icon={false}
             disabled={registering}
-            className="mt-2 w-full  py-2.5 disabled:opacity-50"
+            className="mt-2 w-full py-2.5 disabled:opacity-50"
           >
             {registering ? (
-              <span className="h-4 w-4 animate-spin  border-2 border-white/10 border-t-white" />
+              <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
             ) : (
               "Complete Cruise Registration"
             )}
@@ -644,17 +643,17 @@ export function BookingManager({ email }: { email?: string }) {
       <div>
         <span className="mb-2 block">Travel Readiness Checklist</span>
         <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-          <div className="flex items-center gap-1.5 py-1 text-emerald-300 font-bold">
+          <div className="flex items-center gap-1.5 py-1 text-emerald-300">
             <CheckMarkIcon className="h-3.5 w-3.5 shrink-0 text-emerald-300" />{" "}
             Passport Verified
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 font-bold">
+          <div className="flex items-center gap-1.5 px-2 py-1">
             Band VIP Pass Included
           </div>
-          <div className="flex items-center gap-1.5 py-1 font-bold">
+          <div className="flex items-center gap-1.5 py-1">
             <span>📅</span> Check-in: 45 Days Prior
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 font-bold">
+          <div className="flex items-center gap-1.5 px-2 py-1">
             <span>🏷️</span> Luggage Tags: Dec 1st
           </div>
         </div>
@@ -688,7 +687,7 @@ export function BookingManager({ email }: { email?: string }) {
             ) > 0 && (
                 <button
                   onClick={() => setIsPayModalOpen(true)}
-                  className="cursor-pointer rounded bg-rose-500 px-2.5 py-1 shadow hover:bg-rose-400"
+                  className="transition-colors cursor-pointer rounded bg-rose-500 px-2.5 py-1 shadow hover:bg-rose-400"
                 >
                   💳 Pay Balance
                 </button>
@@ -731,7 +730,7 @@ export function BookingManager({ email }: { email?: string }) {
               `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || "Cruise Guest"} (${booking.cabin_preference || "Cabin 9122"}):\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
             )}`)
             }
-            className="flex flex-col items-center justify-center gap-0.5 "
+            className="flex flex-col items-center justify-center gap-0.5"
           >
             <div className="flex items-center gap-1.5">
               <span>✉️</span> Cruise Admin
@@ -751,7 +750,7 @@ export function BookingManager({ email }: { email?: string }) {
               `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
             )}`)
             }
-            className="flex flex-col items-center justify-center gap-0.5 "
+            className="flex flex-col items-center justify-center gap-0.5"
           >
             <div className="flex items-center gap-1.5">
               <span>✉️</span> Support Agent (Mary)
@@ -765,7 +764,7 @@ export function BookingManager({ email }: { email?: string }) {
 
       {/* Cruising Power Travel Agent Portal Hook */}
       <div className="relative z-10 mt-4 pt-4 text-left text-[10.5px]">
-        <div className="mb-1.5 flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <span>🚢</span>
           <span>Cruising Power Integration</span>
         </div>
@@ -916,7 +915,7 @@ function PaymentModal({
       <div className="relative w-full max-w-md overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] text-left shadow-[0_0_50px_rgba(6,182,212,0.15)]">
         {success ? (
           <div className="space-y-4 p-8 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center  border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckMarkIcon className="h-8 w-8 text-emerald-400" />
             </div>
             <h3>Payment Successful</h3>
@@ -928,7 +927,7 @@ function PaymentModal({
             <button
               aria-label="Close"
               onClick={onClose}
-              className="w-full cursor-pointer bg-emerald-500 py-2.5 shadow-emerald-500/15 hover:bg-emerald-400"
+              className="transition-colors w-full cursor-pointer bg-emerald-500 py-2.5 shadow-emerald-500/15 hover:bg-emerald-400"
             >
               Close
             </button>
@@ -946,14 +945,14 @@ function PaymentModal({
             </div>
 
             {error && (
-              <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-rose-400">
+              <p className="rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-rose-400">
                 {error}
               </p>
             )}
 
             {processing ? (
               <div className="space-y-4 py-12 text-center">
-                <div className="mx-auto h-11 w-11 animate-spin  border-2 border-purple-400 border-t-transparent" />
+                <div className="mx-auto h-11 w-11 animate-spin rounded-full border-2 border-purple-400 border-t-transparent" />
                 <p className="animate-pulse text-purple-400">
                   Processing Secure Payment...
                 </p>
@@ -967,7 +966,7 @@ function PaymentModal({
                       setTab("saved");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer  py-1.5 ${tab === "saved" ? "border border-white/10" : "border border-transparent text-white/40"}`}
+                    className={`flex-1 cursor-pointer py-1.5 ${tab === "saved" ? "border border-white/10" : "border border-transparent text-white/40"} `}
                   >
                     Use Saved Card
                   </button>
@@ -977,7 +976,7 @@ function PaymentModal({
                       setTab("new");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer  py-1.5 ${tab === "new" ? "border border-white/10" : "border border-transparent text-white/40"}`}
+                    className={`flex-1 cursor-pointer py-1.5 ${tab === "new" ? "border border-white/10" : "border border-transparent text-white/40"} `}
                   >
                     Use New Card
                   </button>
@@ -1058,7 +1057,7 @@ function PaymentModal({
                     aria-label="Close"
                     type="button"
                     onClick={onClose}
-                    className="flex-1 cursor-pointer bg-[#00000029] py-2.5 hover:bg-white/10"
+                    className="transition-colors flex-1 cursor-pointer bg-[#00000029] py-2.5 hover:bg-white/10"
                   >
                     Cancel
                   </button>
@@ -1106,7 +1105,7 @@ export function ImportantLinksWidget() {
   if (links.length === 0) return null;
 
   return (
-    <div className="group relative overflow-hidden  border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-6 md:p-8">
+    <div className="group relative overflow-hidden border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.45))] p-6 md:p-8">
       <div className="absolute top-0 right-0 p-6 opacity-10">
         <span className="text-8xl">🔗</span>
       </div>
@@ -1125,7 +1124,7 @@ export function ImportantLinksWidget() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/item flex w-full items-center justify-between  border border-white/10 bg-[#00000029] p-3.5 text-left hover:border-purple-500/40 hover:bg-white/10"
+            className="transition-colors group/item flex w-full items-center justify-between border border-white/10 bg-[#00000029] p-3.5 text-left hover:border-purple-500/40 hover:bg-white/10"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || "🔗"}</span>
@@ -1163,7 +1162,7 @@ export function SongRequestLeaderboard() {
   return (
     <div className="relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
       <div className="mb-6 flex items-center gap-3">
-        <div className="flex h-8 w-8 items-center justify-center  bg-purple-600/20 text-[var(--color-accent)]">
+        <div className="flex h-8 w-8 items-center justify-center bg-purple-600/20 text-[var(--color-accent)]">
           🎸
         </div>
         <div>
@@ -1176,7 +1175,7 @@ export function SongRequestLeaderboard() {
         {songs.map((song, i) => (
           <div key={song.id} className="group flex items-center gap-4">
             <span
-              className={`w-4 text-center ${i < 3 ? "text-[var(--color-accent)]" : "text-white/20"}`}
+              className={`w-4 text-center ${i < 3 ? "text-[var(--color-accent)]" : "text-white/20"} `}
             >
               {i + 1}
             </span>
@@ -1186,7 +1185,7 @@ export function SongRequestLeaderboard() {
             </div>
             <button
               onClick={() => handleVote(song.id)}
-              className="flex h-8 w-8 items-center justify-center  border border-white/10 bg-[#00000029] text-white/40 hover:border-[var(--color-border-purple)] hover:bg-[var(--color-purple-glow)] hover:text-[var(--color-purple-light)]"
+              className="transition-colors flex h-8 w-8 items-center justify-center border border-white/10 bg-[#00000029] text-white/40 hover:border-[var(--color-border-purple)] hover:bg-[var(--color-purple-glow)] hover:text-[var(--color-purple-light)]"
             >
               ▲
             </button>
@@ -1219,13 +1218,13 @@ export function CaptainsLog() {
   }, [progress, isPlaying]);
 
   return (
-    <div className="relative border border-[var(--border-color)] bg-[var(--card-bg)] p-6">
+    <div className="relative border border-[var(--border-color)] p-6">
       <h2 className="mb-6">Captain's Log</h2>
 
       <div className="flex items-center gap-4 border border-white/10 bg-black/40 p-4">
         <button
           onClick={() => setIsPlaying(!isPlaying)}
-          className="flex h-12 w-12 shrink-0 items-center justify-center  bg-[var(--color-accent)] hover:bg-[#851de7]"
+          className="transition-colors flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--color-accent)] hover:bg-[#851de7]"
         >
           {isPlaying ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -1250,9 +1249,9 @@ export function CaptainsLog() {
             <span>Rehearsal Update!</span>
             <span className="text-[var(--color-accent)]/80">0:42</span>
           </div>
-          <div className="h-1.5 w-full cursor-pointer overflow-hidden  bg-white/10">
+          <div className="h-1.5 w-full cursor-pointer overflow-hidden bg-white/10">
             <div
-              className="h-full  bg-[var(--color-accent)]"
+              className="h-full bg-[var(--color-accent)]"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -1281,7 +1280,7 @@ export function ExcursionTeasers() {
         {EXCURSIONS.map((ex, i) => (
           <div
             key={ex.title}
-            className="flex items-center justify-between border border-purple-500/10 bg-cyan-900/10 p-3 hover:border-purple-500/30"
+            className="transition-colors flex items-center justify-between border border-purple-500/10 bg-cyan-900/10 p-3 hover:border-purple-500/30"
           >
             <div>
               <div>{ex.title}</div>

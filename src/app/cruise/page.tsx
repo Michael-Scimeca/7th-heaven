@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ReactDOM from "react-dom";
 import { fetchPageContent } from "@/lib/sanity";
 import CruiseClient from "./CruiseClient";
 
@@ -12,6 +13,14 @@ export const revalidate = 60;
 
 export default async function CruisePage() {
   const sanityContent = await fetchPageContent("cruise");
+  const posterUrl =
+    sanityContent?.heroPosterUrl || "/images/cruise/hero-video-poster.jpg";
+
+  // Preload LCP hero poster immediately in SSR HTML for zero request discovery delay
+  ReactDOM.preload(posterUrl, {
+    as: "image",
+    fetchPriority: "high",
+  });
 
   return <CruiseClient sanityContent={sanityContent} />;
 }

@@ -170,7 +170,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`relative  border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} shadow-2xl backdrop-blur-xl w-72 cursor-pointer p-4 text-center`}
+      className={`relative border-2 ${scheme.border} bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 ${scheme.glow} shadow-2xl backdrop-blur-xl w-72 cursor-pointer p-4 text-center`}
     >
       <div className="mb-2 flex items-center justify-between gap-1 border-b border-white/10 pb-1.5">
         <span className="rounded-lg bg-black/40 px-2.5 py-0.5 text-[12px]">
@@ -201,7 +201,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative  border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 text-center backdrop-blur-xl select-none`}
+      className={`group relative border-2 ${scheme.border}  ${scheme.bg}  ${scheme.glow} w-64 cursor-pointer p-3.5 text-center backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -209,16 +209,16 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
         className="!h-3 !w-3 !border-2 !border-black !bg-purple-400"
       />
 
-      <div className="mb-1.5 flex items-center justify-between gap-1 border-b border-white/10 pb-1.5">
-        <span className={`rounded px-2 py-0.5 text-[12px] ${scheme.badge}`}>
+      <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1.5">
+        <span className={`rounded px-2 py-0.5 text-[12px] ${scheme.badge} `}>
           HEADER NAV
         </span>
-        <span className={`h-2 w-2  ${scheme.dot}`} />
+        <span className={`h-2 w-2 ${scheme.dot} `} />
       </div>
 
       <div className="my-1 flex items-center justify-center gap-2">
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center  border border-white/10 ${scheme.badge}`}
+          className={`flex h-8 w-8 shrink-0 items-center justify-center border border-white/10 ${scheme.badge} `}
         >
           <IconComp className="h-4 w-4" />
         </div>
@@ -239,7 +239,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 // 3. Decision Branch Node (Gold Pill)
 function DecisionNode({ data }: NodeProps<Node<FlowNodeData>>) {
   return (
-    <div className="group relative w-48 cursor-pointer  border border-amber-400/50 bg-[#2d1c07]/95 px-3 py-2 text-center shadow-[0_0_15px_rgba(245,158,11,0.25)] backdrop-blur-xl select-none">
+    <div className="group relative w-48 cursor-pointer border border-amber-400/50 bg-[#2d1c07]/95 px-3 py-2 text-center shadow-[0_0_15px_rgba(245,158,11,0.25)] backdrop-blur-xl select-none">
       <Handle
         type="target"
         position={Position.Top}
@@ -277,7 +277,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative  border ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
+      className={`group relative border ${scheme.border}  ${scheme.bg}  ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -292,7 +292,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
       <div className="flex items-start gap-3">
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center  border border-white/10 ${scheme.badge}`}
+          className={`flex h-8 w-8 shrink-0 items-center justify-center border border-white/10 ${scheme.badge} `}
         >
           <IconComp className="h-4 w-4" />
         </div>
@@ -300,11 +300,11 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-1">
             <span
-              className={`rounded px-1.5 py-0.5 text-[9px] ${scheme.badge}`}
+              className={`rounded px-1.5 py-0.5 text-[9px] ${scheme.badge} `}
             >
               {data.kind.toUpperCase()}
             </span>
-            <span className={`h-1.5 w-1.5  ${scheme.dot}`} />
+            <span className={`h-1.5 w-1.5 ${scheme.dot} `} />
           </div>
 
           <h4>{data.label}</h4>
@@ -314,7 +314,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
       </div>
 
       {data.imgUrl && (
-        <div className="relative mt-2.5 h-28 overflow-hidden  border border-white/10 bg-black/50 shadow-inner">
+        <div className="relative mt-2.5 h-28 overflow-hidden border border-white/10 bg-black/50 shadow-inner">
           <Image
             src={data.imgUrl}
             alt={data.label}
@@ -347,7 +347,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative  border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
+      className={`group relative border-2 border-dashed ${scheme.border}  ${scheme.bg}  ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -356,7 +356,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
       />
 
       <div className="flex items-start gap-3">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center  border border-amber-400/40 bg-amber-500/20 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center border border-amber-400/40 bg-amber-500/20 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]">
           <IconComp className="h-4 w-4 animate-pulse" />
         </div>
 
@@ -365,7 +365,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             <span className="rounded border border-amber-500/40 bg-amber-500/25 px-1.5 py-0.5 text-[9px] text-amber-300">
               ✉ EMAIL TOUCHPOINT
             </span>
-            <span className="h-1.5 w-1.5  bg-amber-400" />
+            <span className="h-1.5 w-1.5 bg-amber-400" />
           </div>
 
           <h4>{data.label}</h4>
@@ -1536,11 +1536,11 @@ export default function UserFlowMap() {
   );
 
   return (
-    <div className="relative h-[850px] w-full overflow-hidden  border border-purple-500/30 bg-[#050505] backdrop-blur-2xl">
+    <div className="relative h-[850px] w-full overflow-hidden border border-purple-500/30 bg-[#050505] backdrop-blur-2xl">
       {/* Header Info Bar */}
       <div className="pointer-events-none absolute top-0 right-0 left-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/90 px-4 py-2.5 backdrop-blur-2xl select-none">
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 animate-pulse  bg-pink-400" />
+          <span className="h-2 w-2 animate-pulse bg-pink-400" />
           <span>7th Heaven User Flow & Architecture Tree Map</span>
         </div>
 
@@ -1564,7 +1564,7 @@ export default function UserFlowMap() {
         className="pt-10"
       >
         <Background color="#1e1b4b" gap={20} size={1} />
-        <Controls className="! overflow-hidden  border-white/10 !bg-black/80" />
+        <Controls className="! overflow-hidden border-white/10 !bg-black/80" />
         <MiniMap
           style={{ height: 110, width: 160 }}
           nodeColor={(n) => {
@@ -1591,34 +1591,34 @@ export default function UserFlowMap() {
       </ReactFlow>
 
       {/* Bottom Color Legend */}
-      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3  border border-white/10 bg-black/90 px-4 py-2 backdrop-blur-xl">
+      <div className="absolute bottom-4 left-4 z-10 flex flex-wrap items-center gap-3 border border-white/10 bg-black/90 px-4 py-2 backdrop-blur-xl">
         <span className="text-[12px] text-white/40">Legend:</span>
         <span className="flex items-center gap-1.5 text-[10px] text-pink-300">
-          <span className="h-2 w-2  bg-pink-400" /> Home
+          <span className="h-2 w-2 bg-pink-400" /> Home
         </span>
         <span className="flex items-center gap-1.5 text-[10px] text-teal-300">
-          <span className="h-2 w-2  bg-teal-400" /> Merch
+          <span className="h-2 w-2 bg-teal-400" /> Merch
         </span>
         <span className="flex items-center gap-1.5 text-[10px] text-sky-300">
-          <span className="h-2 w-2  bg-sky-400" /> Shows
+          <span className="h-2 w-2 bg-sky-400" /> Shows
         </span>
         <span className="flex items-center gap-1.5 text-[10px] text-amber-300">
-          <span className="h-2 w-2  bg-amber-400" /> Cruise & PINs
+          <span className="h-2 w-2 bg-amber-400" /> Cruise & PINs
         </span>
         <span className="flex items-center gap-1.5 text-[10px]">
-          <span className="h-2 w-2  bg-purple-400" /> Fan Club
+          <span className="h-2 w-2 bg-purple-400" /> Fan Club
         </span>
         <span className="flex items-center gap-1.5 text-[10px] text-orange-300">
-          <span className="h-2 w-2  bg-orange-400" /> Contact
+          <span className="h-2 w-2 bg-orange-400" /> Contact
         </span>
         <span className="flex items-center gap-1.5 text-[10px] text-emerald-300">
-          <span className="h-2 w-2  bg-emerald-400" /> Admin
+          <span className="h-2 w-2 bg-emerald-400" /> Admin
         </span>
       </div>
 
       {/* Slide-out Inspector Detail Drawer */}
       {selectedNode && (
-        <div className="shadow-2xl backdrop-blur-xl animate-in slide-in-from-right-8 absolute top-14 right-4 bottom-4 z-30 flex w-96 flex-col justify-between overflow-y-auto  border border-purple-500/40 bg-black/95 p-6">
+        <div className="shadow-2xl backdrop-blur-xl animate-in slide-in-from-right-8 absolute top-14 right-4 bottom-4 z-30 flex w-96 flex-col justify-between overflow-y-auto border border-purple-500/40 bg-black/95 p-6">
           <div className="space-y-5">
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
@@ -1631,7 +1631,7 @@ export default function UserFlowMap() {
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="flex h-7 w-7 items-center justify-center  bg-white/10 hover:bg-white/20 hover:text-white"
+                className="transition-colors flex h-7 w-7 items-center justify-center bg-white/10 hover:bg-white/20 hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -1666,7 +1666,7 @@ export default function UserFlowMap() {
             {selectedNode.data.sub.startsWith("/") ? (
               <button
                 onClick={() => router.push(selectedNode.data.sub.split("?")[0])}
-                className="flex w-full items-center justify-center gap-2  bg-purple-600 py-2.5 hover:bg-purple-500"
+                className="transition-colors flex w-full items-center justify-center gap-2 bg-purple-600 py-2.5 hover:bg-purple-500"
               >
                 <span>Visit Route ({selectedNode.data.sub.split("?")[0]})</span>
                 <ArrowRight className="h-4 w-4" />
@@ -1674,7 +1674,7 @@ export default function UserFlowMap() {
             ) : (
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-full  bg-white/10 py-2.5 hover:bg-white/20"
+                className="transition-colors w-full bg-white/10 py-2.5 hover:bg-white/20"
               >
                 Close Inspector
               </button>

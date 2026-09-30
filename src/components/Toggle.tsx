@@ -94,7 +94,7 @@ export function Toggle({
     <label
       htmlFor={toggleId}
       onClick={handleClick}
-      className={`toggle toggle--${size} ${labelPosition === "left" ? "toggle--label-left" : ""} ${disabled ? "toggle--disabled" : ""} max-w-full ${className}`}
+      className={`toggle toggle-- ${size}  ${labelPosition === "left" ? "toggle--label-left" : ""}  ${disabled ? "toggle--disabled" : ""} max-w-full ${className} `}
     >
       <input
         id={toggleId}
@@ -120,7 +120,7 @@ export function Toggle({
       </span>
 
       {(label || description) && (
-        <span className={`toggle__label min-w-0 flex-1 ${hideLabel ? "sr-only" : ""}`}>
+        <span className={`toggle__label min-w-0 flex-1 ${hideLabel ? "sr-only" : ""} `}>
           {label && <span className="toggle__title min-w-0 break-words">{label}</span>}
           {description && !hideLabel && (
             <span id={descId} className="toggle__description min-w-0 break-words">

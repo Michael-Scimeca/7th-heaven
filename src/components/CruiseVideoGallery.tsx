@@ -4,6 +4,7 @@ import { Play, X } from "lucide-react";
 import SeventhButton from "./SeventhButton";
 import GlassPlayButton from "./GlassPlayButton";
 import { SectionBadge } from "./SectionBadge";
+import SectionHeader from "./SectionHeader";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
@@ -218,18 +219,21 @@ export default function CruiseVideoGallery() {
     >
       <div className="site-container relative z-20">
         {/* Header */}
-        <div className="mx-auto mb-6 max-w-3xl text-center">
-          <h2 id="ship-videos-heading" className="md:text-6xl">
-            Explore <span className="accent-gradient-text">Ship Videos</span>
-          </h2>
-          <p className="mt-4">
-            Watch official walkthroughs, entertainment previews, deck tours, and
-            venue spotlights uploaded by our cruise team.
-          </p>
+        <div className="mb-6 max-w-3xl text-left">
+          <SectionHeader
+            id="ship-videos-heading"
+            title={
+              <>
+                Explore <span className="accent-gradient-text">Ship Videos</span>
+              </>
+            }
+            subtitle="Watch official walkthroughs, entertainment previews, deck tours, and venue spotlights uploaded by our cruise team."
+            divider={false}
+          />
 
           {/* Category Filters */}
           {categories.length > 1 && (
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <div className="mt-6 flex flex-wrap justify-start gap-3">
               {categories.map((cat) => (
                 <SeventhButton
                   key={cat}
@@ -278,7 +282,7 @@ export default function CruiseVideoGallery() {
                     unoptimized
                     src={vid.poster || "/images/cruise/cruise-hero.png"}
                     alt={vid.title}
-                    className="h-full w-full overflow-hidden object-cover opacity-90 group-hover:opacity-100"
+                    className="transition-opacity h-full w-full overflow-hidden object-cover opacity-90 group-hover:opacity-100"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-[#0a0a14] via-black/30 to-transparent">
                     <GlassPlayButton size="lg" />

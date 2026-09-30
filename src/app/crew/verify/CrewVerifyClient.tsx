@@ -188,10 +188,10 @@ export default function CrewVerifyClient({
 
         <div className="relative z-10 w-full max-w-md">
           <div
-            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+            className="rounded-[var(--radius-box)] p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-amber-500/30 bg-amber-500/10 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
               <ShieldAlert className="h-8 w-8" />
             </div>
 
@@ -212,11 +212,11 @@ export default function CrewVerifyClient({
                 <button
                   type="button"
                   onClick={() => openModal()}
-                  className="w-full cursor-pointer  bg-[var(--color-accent)] py-3.5 shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-500"
+                  className="transition-colors w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3.5 shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:bg-emerald-500"
                 >
                   Sign In to Access
                 </button>
-                <Link href="/" className="text-white/60 hover:text-white">
+                <Link href="/" className="transition-colors text-white/60 hover:text-white">
                   Return to Home
                 </Link>
               </div>
@@ -228,7 +228,7 @@ export default function CrewVerifyClient({
                 </div>
                 <Link
                   href="/"
-                  className="bg-white/10 py-3 text-center hover:bg-white/20"
+                  className="transition-colors bg-white/10 py-3 text-center hover:bg-white/20"
                 >
                   Return to Home
                 </Link>
@@ -250,7 +250,7 @@ export default function CrewVerifyClient({
         <div className="mb-6 flex items-center justify-between px-1">
           <Link
             href="/crew"
-            className="flex items-center gap-1.5 text-white/60 hover:text-white"
+            className="transition-colors flex items-center gap-1.5 text-white/60 hover:text-white"
           >
             ← Crew Dashboard
           </Link>
@@ -262,10 +262,10 @@ export default function CrewVerifyClient({
         {/* INPUT / CHECKING FORM */}
         {result !== "valid" && result !== "invalid" && (
           <div
-            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+            className="rounded-[var(--radius-box)] p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 shadow-[0_0_25px_rgba(16,185,129,0.3)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 shadow-[0_0_25px_rgba(16,185,129,0.3)]">
               <Trophy className="h-8 w-8" />
             </div>
 
@@ -297,7 +297,7 @@ export default function CrewVerifyClient({
                   onKeyDown={(e) => handleKeyDown(idx, e)}
                   onPaste={handlePaste}
                   onFocus={() => setFocusedIndex(idx)}
-                  className={`focus-ring h-14 w-11 border bg-black/60 text-center text-xl tabular-nums ${focusedIndex === idx ? "border-[var(--color-accent)] bg-black/80 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : digit ? "border-white/40 bg-black/70" : "border-white/15"}`}
+                  className={`focus-ring h-14 w-11 rounded-[var(--radius-box)] border bg-black/60 text-center text-xl tabular-nums ${focusedIndex === idx ? "border-[var(--color-accent)] bg-black/80 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : digit ? "border-white/40 bg-black/70" : "border-white/15"} `}
                   aria-label={`PIN digit ${idx + 1}`}
                 />
               ))}
@@ -314,7 +314,7 @@ export default function CrewVerifyClient({
                 type="button"
                 onClick={verifyPin}
                 disabled={fullPin.length !== 6}
-                className={`w-full cursor-pointer  py-3.5 ${fullPin.length === 6 ? "bg-[var(--color-accent)] shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:bg-emerald-500" : "cursor-not-allowed border border-white/10 bg-white/10 text-white/40"}`}
+                className={`w-full cursor-pointer rounded-[var(--radius-box)] py-3.5 ${fullPin.length === 6 ? "bg-[var(--color-accent)] shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:bg-emerald-500" : "cursor-not-allowed border border-white/10 bg-white/10 text-white/40"} `}
               >
                 Verify PIN Code
               </button>
@@ -325,10 +325,10 @@ export default function CrewVerifyClient({
         {/* VALID WINNER RESULT */}
         {result === "valid" && winnerData && (
           <div
-            className="rounded-lg border-emerald-500/50 p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+            className="rounded-[var(--radius-box)] border-emerald-500/50 p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
               <Trophy className="h-9 w-9" />
             </div>
 
@@ -338,7 +338,7 @@ export default function CrewVerifyClient({
 
             <h2 className="mb-1">Official Winner</h2>
 
-            <div className="my-4 space-y-3  border border-white/10 bg-black/40 p-4 text-left">
+            <div className="my-4 space-y-3 rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-4 text-left">
               <div>
                 <p className="mb-1">Fan Name</p>
                 <p>{winnerData.winner}</p>
@@ -354,7 +354,7 @@ export default function CrewVerifyClient({
               {fullPin.split("").map((d, i) => (
                 <div
                   key={`pin-confirm-${i}-${d}`}
-                  className="flex h-11 w-9 items-center justify-center  border border-purple-500/40 bg-black/60"
+                  className="flex h-11 w-9 items-center justify-center rounded-[var(--radius-box)] border border-purple-500/40 bg-black/60"
                 >
                   <span className="tabular-nums">{d}</span>
                 </div>
@@ -367,7 +367,7 @@ export default function CrewVerifyClient({
 
             <Link
               href="/crew"
-              className="mb-3 block w-full cursor-pointer  bg-[var(--color-accent)] py-3.5 text-center shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:bg-emerald-500"
+              className="transition-colors mb-3 block w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3.5 text-center shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:bg-emerald-500"
             >
               Access My Dashboard →
             </Link>
@@ -375,7 +375,7 @@ export default function CrewVerifyClient({
             <button
               type="button"
               onClick={reset}
-              className="w-full cursor-pointer  border border-white/10 bg-white/10 py-3.5 hover:bg-white/20"
+              className="transition-colors w-full cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-white/10 py-3.5 hover:bg-white/20"
             >
               Verify Another PIN
             </button>
@@ -385,10 +385,10 @@ export default function CrewVerifyClient({
         {/* INVALID */}
         {result === "invalid" && (
           <div
-            className="rounded-lg p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+            className="rounded-[var(--radius-box)] p-6 text-center shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             style={MODAL_GLASS_STYLE}
           >
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center  border border-red-500/30 bg-red-500/10 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-red-500/30 bg-red-500/10 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
               <XCircle className="h-8 w-8" />
             </div>
             <h2 className="mb-2">Invalid PIN</h2>
@@ -399,7 +399,7 @@ export default function CrewVerifyClient({
             <button
               type="button"
               onClick={reset}
-              className="w-full cursor-pointer border border-white/10 bg-white/10 py-3.5 hover:bg-white/20"
+              className="transition-colors w-full cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-white/10 py-3.5 hover:bg-white/20"
             >
               Try Again
             </button>
