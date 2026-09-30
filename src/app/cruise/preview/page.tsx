@@ -13,6 +13,9 @@ const COLORS = [
   "#ec4899",
 ];
 
+const STEP_LABELS = ["Your Info", "Guest 2", "Guest 3"];
+const COLLAPSIBLE_LABELS = ["Primary Booker", "Guest 2", "Guest 3"];
+
 type Guest = { name: string; email: string; phone: string };
 const emptyGuest = (): Guest => ({ name: "", email: "", phone: "" });
 
@@ -252,7 +255,7 @@ function VersionD() {
     "   border-0 border-b  border-white/10  rounded-none px-2 py-2     placeholder: /15 focus:border-[var(--color-accent)] focus:outline-none  w-full";
 
   return (
-    <div className="overflow-hidden border border-white/10">
+    <div className="flex flex-col gap-3 overflow-hidden border border-white/10">
       <div className="grid grid-cols-[40px_1fr_1fr_1fr] bg-white/[0.03] px-3 py-2">
         <span className="text-[var(--font-size-2xs)] text-white/20">#</span>
         <span className="text-[var(--font-size-2xs)] text-white/20">Name</span>
@@ -293,12 +296,14 @@ function VersionD() {
           />
         </div>
       ))}
-      <button
-        type="button"
-        className="w-full cursor-pointer py-2.5 text-[var(--color-accent)]/60 hover:bg-white/[0.02]"
-      >
-        + Add Guest
-      </button>
+      <div className="pt-2">
+        <button
+          type="button"
+          className="w-full cursor-pointer py-2.5 text-[var(--color-accent)]/60 hover:bg-white/[0.02]"
+        >
+          + Add Guest
+        </button>
+      </div>
     </div>
   );
 }
@@ -315,7 +320,7 @@ function VersionE() {
     setGuests((prev) => prev.map((g, i) => (i === idx ? { ...g, [f]: v } : g)));
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col gap-3">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="overflow-hidden border border-white/10">
           <button
@@ -372,12 +377,14 @@ function VersionE() {
           )}
         </div>
       ))}
-      <button
-        type="button"
-        className="w-full cursor-pointer border border-dashed border-white/10 py-3 text-white/20"
-      >
-        + Add a Guest
-      </button>
+      <div className="pt-2">
+        <button
+          type="button"
+          className="w-full cursor-pointer border border-dashed border-white/10 py-3 text-white/20"
+        >
+          + Add a Guest
+        </button>
+      </div>
     </div>
   );
 }
@@ -395,7 +402,7 @@ function VersionF() {
     setGuests((prev) => prev.filter((_, i) => i !== idx));
 
   return (
-    <div className="space-y-3">
+    <div className="flex flex-col gap-3">
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div key={i} className="flex items-start gap-2">
           <span
@@ -438,21 +445,20 @@ function VersionF() {
           )}
         </div>
       ))}
-      <button
-        type="button"
-        onClick={() => setGuests((g) => [...g, emptyGuest()])}
-        className="cursor-pointer text-[var(--color-accent)]/60"
-      >
-        + Add another guest
-      </button>
+      <div className="pt-1">
+        <button
+          type="button"
+          onClick={() => setGuests((g) => [...g, emptyGuest()])}
+          className="cursor-pointer text-[var(--color-accent)]/60 hover:text-[var(--color-accent)]"
+        >
+          + Add another guest
+        </button>
+      </div>
     </div>
   );
 }
 
 /* ═══════════ PREVIEW PAGE ═══════════ */
-const STEP_LABELS = ["Your Info", "Guest 2", "Guest 3"];
-const COLLAPSIBLE_LABELS = ["Primary Booker", "Guest 2", "Guest 3"];
-
 const VERSIONS = [
   {
     label: "A",
@@ -494,37 +500,40 @@ const VERSIONS = [
 
 export default function CruisePreviewPage() {
   return (
-    <div className="min-h-screen pt-28 pb-20">
-      <div className="site-container">
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl">
-            Guest Form <span className="accent-gradient-text">Variants</span>
-          </h1>
-          <p className="mt-2">6 different UI approaches — pick your favorite</p>
-        </div>
+    <main id="cruise-preview-page" className="page-container page-stack min-h-screen">
+      <header className="mb-12 text-center site-container">
+        <h1 id="cruise-preview-heading" className="text-4xl">
+          Guest Form <span className="accent-gradient-text">Variants</span>
+        </h1>
+        <p className="mt-2">6 different UI approaches — pick your favorite</p>
+      </header>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          {VERSIONS.map(({ label, title, desc, Component }) => (
-            <div
-              key={label}
-              className="overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/80"
-            >
-              <div className="flex items-center gap-3 border-b border-white/10 px-6 py-4">
-                <span className="flex h-8 w-8 items-center justify-center  bg-[var(--color-accent)]">
-                  {label}
-                </span>
-                <div>
-                  <h2>{title}</h2>
-                  <p>{desc}</p>
+      <section id="cruise-preview-variants" aria-labelledby="cruise-preview-variants-heading" className="section">
+        <h2 id="cruise-preview-variants-heading" className="sr-only">Form Variants</h2>
+        <div className="site-container">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {VERSIONS.map(({ label, title, desc, Component }) => (
+              <div
+                key={label}
+                className="overflow-hidden border border-white/10 bg-[var(--color-bg-surface)]/80"
+              >
+                <div className="flex items-center gap-3 border-b border-white/10 px-6 py-4">
+                  <span className="flex h-8 w-8 items-center justify-center bg-[var(--color-accent)]">
+                    {label}
+                  </span>
+                  <div>
+                    <h2>{title}</h2>
+                    <p>{desc}</p>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <Component />
                 </div>
               </div>
-              <div className="p-6">
-                <Component />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
