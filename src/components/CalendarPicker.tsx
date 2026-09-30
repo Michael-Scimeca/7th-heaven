@@ -237,7 +237,7 @@ export function CalendarPicker({
               aria-label="Previous Month"
               type="button"
               onClick={handlePrevMonth}
-              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
+              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
             >
               <svg
                 width="16"
@@ -304,7 +304,7 @@ export function CalendarPicker({
               aria-label="Next Month"
               type="button"
               onClick={handleNextMonth}
-              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
+              className="flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
             >
               <span className="hidden sm:inline">Next</span>
               <svg
@@ -394,7 +394,7 @@ export function CalendarPicker({
                     }
                   }}
                   title={buttonTitle}
-                  className={`relative flex h-12 w-full items-center justify-center transition-all ${
+                  className={`relative flex h-12 w-full items-center justify-center rounded-[var(--radius-box)] transition-all ${
                     isPastDate
                       ? "cursor-not-allowed opacity-25"
                       : "cursor-pointer"
