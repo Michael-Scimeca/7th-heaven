@@ -7,6 +7,8 @@ import SeventhButton from "@/components/SeventhButton";
 import CosmicTrackCard from "@/components/CosmicTrackCard";
 import AddCmsButton from "@/components/AddCmsButton";
 import SectionBadge from "@/components/SectionBadge";
+import SectionHeader from "@/components/SectionHeader";
+import PageHero from "@/components/PageHero";
 import { getMediaUrl } from "@/lib/sanity";
 
 const ABOUT_DATA = {
@@ -528,19 +530,20 @@ export default function RockNRollKidsClient({
   const para2 = aboutSection?.body || ABOUT_DATA.paragraph2;
 
   return (
-    <main className="site-container page-container min-h-screen w-full overflow-x-hidden">
+    <main className="site-container page-container page-stack min-h-screen w-full overflow-x-hidden">
       {/* Hero Header */}
-      <header className="text-center">
-        <h1 className="mb-3">
-          {sanityContent?.heroHeading || ABOUT_DATA.headline}
-        </h1>
-        <p className="mx-auto max-w-2xl">
-          {sanityContent?.heroSubheading ||
-            "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."}
-        </p>
-
+      <PageHero
+        title={sanityContent?.heroHeading || ABOUT_DATA.headline}
+        titleId="rrk-hero-heading"
+        subtitle={
+          sanityContent?.heroSubheading ||
+          "An animated adventure series communicating messages of fun, positivity, and social consciousness through music and imagination."
+        }
+        align="left"
+        className="mb-6"
+      >
         {/* Full Cast Lineup Image Banner */}
-        <div className="relative mt-6 w-full overflow-hidden ">
+        <div className="relative mt-6 w-full overflow-hidden">
           <Image
             src={getMediaUrl(
               sanityContent?.heroBannerImage,
@@ -549,23 +552,25 @@ export default function RockNRollKidsClient({
             alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
             width={1400}
             height={550}
-            className="h-auto w-full  object-contain"
+            className="h-auto w-full object-contain"
           />
         </div>
-      </header>
+      </PageHero>
 
       {/* ── STORY & CONCEPT SECTION (LAYOUT 1: SPLIT DUAL GLASS) ── */}
       <section
+        id="rrk-story"
         aria-labelledby="rrk-story-heading"
-        className="pb-section-fluid w-full"
+        className="section"
       >
         <div className="grid w-full grid-cols-1 items-start gap-6 text-left sm:gap-6 md:grid-cols-12">
           <div className="md:col-span-5">
-            <h2 id="rrk-story-heading">{titleText}</h2>
-            <p className="mb-6">
-              An original animated series & multi-platform universe bringing
-              positive rock and roll energy to kids worldwide.
-            </p>
+            <SectionHeader
+              id="rrk-story-heading"
+              title={titleText}
+              subtitle="An original animated series & multi-platform universe bringing positive rock and roll energy to kids worldwide."
+              divider={false}
+            />
 
             {/* Quick Spec Pills */}
             <ul className="flex flex-col gap-2 pt-2">
@@ -603,8 +608,9 @@ export default function RockNRollKidsClient({
 
       {/* Character Roster Info Cards Grid */}
       <section
+        id="rrk-cast"
         aria-labelledby="rrk-cast-heading"
-        className="py-section-fluid "
+        className="section"
       >
         <h2 id="rrk-cast-heading" className="sr-only">
           Character Cast Lineup
@@ -641,20 +647,19 @@ export default function RockNRollKidsClient({
 
       {/* ── UNIFIED VIDEO MATRIX SHOWCASE ── */}
       <section
+        id="rrk-videos"
         aria-labelledby="rrk-videos-heading"
-        className="py-section-fluid"
+        className="section"
       >
         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
           {/* LEFT COLUMN: Featured Singles Quick Select Tabs */}
           <div className="lg:col-span-5">
-            <div>
-              <h2 id="rrk-videos-heading" className="mb-1 text-xl sm:text-2xl">
-                Featured Animated Singles
-              </h2>
-              <p className="mb-6">
-                Select a song below to switch the animated music video player.
-              </p>
-            </div>
+            <SectionHeader
+              id="rrk-videos-heading"
+              title="Featured Animated Singles"
+              subtitle="Select a song below to switch the animated music video player."
+              divider={false}
+            />
 
             {/* Animated Singles Quick Select Buttons */}
             <div className="space-y-3">
@@ -708,20 +713,23 @@ export default function RockNRollKidsClient({
 
       {/* ── COMIC BOOKS & EPISODES CATALOG (12 ITEMS GRID) ── */}
       <section
+        id="rrk-comics"
         aria-labelledby="rrk-comics-heading"
-        className="py-section-fluid"
+        className="section"
       >
         <div className="mb-6 pb-4">
-          <div>
-            <h2 id="rrk-comics-heading" className="mb-1 text-2xl sm:text-3xl">
-              {comicsSection?.title ||
-                `Comic Books & Publications (${productsList.length} Items)`}
-            </h2>
-            <p className="max-w-3xl ">
-              {comicsSection?.subtitle ||
-                "Printed Comics & E-Books featuring 7th Heaven & the Rock 'n' Roll Kids adventures, episode storylines, line art coloring books, and concept artwork."}
-            </p>
-          </div>
+          <SectionHeader
+            id="rrk-comics-heading"
+            title={
+              comicsSection?.title ||
+              `Comic Books & Publications (${productsList.length} Items)`
+            }
+            subtitle={
+              comicsSection?.body ||
+              "Explore the official collection of 7th Heaven & The Rock 'n' Roll Kids comic books, digital e-books, coloring books, and exclusive concept art books. Each release follows the band on superhero adventures combining rock music, problem-solving, and positive life lessons for kids and families worldwide. All titles are available now on Amazon in print and digital formats."
+            }
+            divider={false}
+          />
         </div>
 
         {/* 12-Item Book Grid */}
@@ -742,7 +750,7 @@ export default function RockNRollKidsClient({
                   />
                 </div>
                 <span className="mb-1 block text-purple-400">{prod.badge}</span>
-                <h3 className="mb-1.5 line-clamp-1">{prod.title}</h3>
+                <h3 className="  line-clamp-1">{prod.title}</h3>
                 <p className="mb-6 line-clamp-2">{prod.desc}</p>
               </div>
 
@@ -763,17 +771,20 @@ export default function RockNRollKidsClient({
 
       {/* ── SERIES FOUNDERS & CREATORS ── */}
       <section
+        id="rrk-founders"
         aria-labelledby="rrk-founders-heading"
-        className="py-section-fluid"
+        className="section"
       >
         <div className="mb-6 text-left">
-          <h2 id="rrk-founders-heading" className="mb-1 text-2xl sm:text-3xl">
-            {foundersSection?.title || "Series Founders & Contact"}
-          </h2>
-          <p className="max-w-3xl ">
-            {foundersSection?.subtitle ||
-              "Meet the creators and co-founders behind 7th Heaven and the Rock 'n' Roll Kids franchise, bringing animated music adventures, comic books, and live rock performances to life."}
-          </p>
+          <SectionHeader
+            id="rrk-founders-heading"
+            title={foundersSection?.title || "Series Founders & Contact"}
+            subtitle={
+              foundersSection?.subtitle ||
+              "Meet the creators and co-founders behind 7th Heaven and the Rock 'n' Roll Kids franchise, bringing animated music adventures, comic books, and live rock performances to life."
+            }
+            divider={false}
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -807,7 +818,7 @@ export default function RockNRollKidsClient({
                 <div>
                   <SectionBadge label={founder.role} isActive />
                 </div>
-                <p className="mx-auto mb-1 max-w-md">{founder.desc}</p>
+                <p className="mx-auto mb-1 max-w-md text-balance text-pretty">{founder.desc}</p>
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
