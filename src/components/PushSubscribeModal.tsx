@@ -11,7 +11,7 @@ import { useScrollLock } from "@/lib/useScrollLock";
 interface PushSubscribeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  group?: "fans" | "crew" | "cruise";
+  group?: "fans" | "crew" | "band" | "cruise";
   onSuccess?: () => void;
 }
 

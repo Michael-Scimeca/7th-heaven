@@ -25,9 +25,11 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import Toggle from "@/components/Toggle";
 import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
+import { SectionHeader } from "@/components/SectionHeader";
+import { AudienceAlertSetupCard } from "@/components/AudienceAlertSetupCard";
 
 interface BookingData {
   id: string;
@@ -418,11 +420,13 @@ export default function PlannerDashboard() {
                 <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10">
                   <ClipboardList className="h-6 w-6 text-[var(--color-accent)]" />
                 </div>
-                <h1>
-                  Planner{" "}
-                  <span className="text-[var(--color-accent)]">Portal</span>
-                </h1>
-                <p className="mt-2">Event planner accounts only</p>
+                <div className="title-group title-group--page items-center text-center">
+                  <h1>
+                    Planner{" "}
+                    <span className="text-[var(--color-accent)]">Portal</span>
+                  </h1>
+                  <p>Event planner accounts only</p>
+                </div>
               </div>
 
               <form
@@ -484,32 +488,22 @@ export default function PlannerDashboard() {
                 </div>
 
                 {plannerMode === "signup" && (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setPlannerAgeConfirmed(!plannerAgeConfirmed);
-                      }
-                    }}
-                    className="my-1.5 flex cursor-pointer items-center gap-2.5 select-none"
-                    onClick={() => setPlannerAgeConfirmed(!plannerAgeConfirmed)}
-                  >
-                    <SquishyToggle
+                  <div className="my-1.5 select-none">
+                    <Toggle
                       id="planner-age-confirm-toggle"
-                      label="I confirm that I am 18 years of age or older"
                       checked={plannerAgeConfirmed}
                       onChange={setPlannerAgeConfirmed}
+                      label={
+                        <span className="text-[var(--font-size-2xs)]">
+                          I confirm that I am <span>18 years of age or older</span>
+                        </span>
+                      }
                     />
-                    <span className="text-[var(--font-size-2xs)]">
-                      I confirm that I am <span>18 years of age or older</span>
-                    </span>
                   </div>
                 )}
 
                 {plannerLoginError && (
-                  <p className="border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
+                  <p className="rounded-[var(--radius-box)] border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
                     {plannerLoginError}
                   </p>
                 )}
@@ -517,7 +511,7 @@ export default function PlannerDashboard() {
                 <button
                   type="submit"
                   disabled={plannerLoginLoading}
-                  className="w-full cursor-pointer bg-[var(--color-accent)] py-3.5 shadow-[0_0_20px_rgba(217,70,239,0.2)] hover:bg-[var(--color-accent)] disabled:opacity-50"
+                  className="w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3.5 shadow-[0_0_20px_rgba(217,70,239,0.2)] hover:bg-[var(--color-accent)] disabled:opacity-50"
                 >
                   {plannerLoginLoading
                     ? "Authenticating..."
@@ -598,8 +592,8 @@ export default function PlannerDashboard() {
             onClick={() => setShowCancelConfirm(false)}
             className="fixed inset-0 h-full w-full cursor-default border-0 bg-black/70 backdrop-blur-sm"
           />
-          <div className="relative z-10 w-full max-w-md cursor-auto  border border-rose-500/30 bg-[var(--color-bg-surface)] p-8 text-left shadow-[0_0_60px_rgba(244,63,94,0.15)]">
-            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center  bg-rose-500/10">
+          <div className="relative z-10 w-full max-w-md cursor-auto rounded-[var(--radius-box)] border border-rose-500/30 bg-[var(--color-bg-surface)] p-8 text-left shadow-[0_0_60px_rgba(244,63,94,0.15)]">
+            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-[var(--radius-box)] bg-rose-500/10">
               <History className="h-5 w-5 text-rose-500" />
             </div>
             <h3 id="cancel-modal-heading" className="mb-2 text-center">
@@ -614,14 +608,14 @@ export default function PlannerDashboard() {
               <button
                 type="button"
                 onClick={() => setShowCancelConfirm(false)}
-                className="flex-1 bg-[#00000029] py-3 hover:bg-white/10"
+                className="flex-1 rounded-[var(--radius-box)] bg-[#00000029] py-3 hover:bg-white/10"
               >
                 Keep Booking
               </button>
               <button
                 type="button"
                 onClick={handleCancelRequest}
-                className="flex-1 bg-rose-500 py-3 hover:bg-rose-600"
+                className="flex-1 rounded-[var(--radius-box)] bg-rose-500 py-3 hover:bg-rose-600"
               >
                 Yes, Cancel
               </button>
@@ -632,576 +626,613 @@ export default function PlannerDashboard() {
 
       {/* BOOKING CARDS */}
       <section
-        aria-label="Active Event Booking Details"
-        className="grid grid-cols-1 gap-6 mb-6"
+        id="active-booking-details"
+        aria-labelledby="active-booking-heading"
+        className="section"
       >
-        <div
-          className={`border bg-[var(--color-bg-surface)] ${booking.status === "cancelled" ? "border-rose-500/10 opacity-60" : "border-white/10"} group relative flex flex-col gap-8 overflow-hidden  p-6 md:p-8 lg:flex-row`}
-        >
-          <div className={`absolute top-0 left-0 h-full w-1 ${s.bar}`} />
+        <SectionHeader id="active-booking-heading" title="Active Event Booking Details" visuallyHidden />
+        <div className="grid grid-cols-1 gap-6">
+          <div
+            className={`border bg-[var(--color-bg-surface)] ${booking.status === "cancelled" ? "border-rose-500/10 opacity-60" : "border-white/10"} group relative flex flex-col gap-8 overflow-hidden  p-6 md:p-8 lg:flex-row`}
+          >
+            <div className={`absolute top-0 left-0 h-full w-1 ${s.bar}`} />
 
-          <div className="flex-1">
-            <div className="mb-6 flex items-center gap-3">
-              <SectionBadge label={s.label} />
-              <span className="text-white/40">ID: {booking.id}</span>
+            <div className="flex-1">
+              <div className="mb-6 flex items-center gap-3">
+                <SectionBadge label={s.label} />
+                <span className="text-white/40">ID: {booking.id}</span>
+              </div>
+
+              {/* View Mode */}
+              {!isEditing ? (
+                <>
+                  <div className="title-group title-group--section mb-6">
+                    <h2
+                      className={`${booking.status === "cancelled" ? "line-through opacity-50" : ""}`}
+                    >
+                      {booking.eventName}
+                    </h2>
+                    <p>
+                      {eventTypeLabels[booking.eventType] || booking.eventType}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+                    <div className="npm">
+                      <p className="mb-1">Date</p>
+                      <p>{booking.date}</p>
+                    </div>
+                    <div className="npm">
+
+                      <p className="mb-1">Time Window</p>
+                      <p>
+                        {booking.startTime} - {booking.endTime}
+                      </p>
+                    </div>
+                    <div className="npm">
+                      <p className="mb-1">Venue</p>
+                      <p>{booking.venueName}</p>
+                    </div>
+                    <div className="npm">
+                      <p className="mb-1">City</p>
+                      <p>
+                        {booking.venueCity}, {booking.venueState}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Edit Mode */
+                <div className="space-y-4">
+                  <div>
+                    <label
+                      htmlFor="planner-edit-event-name"
+                      className="mb-1 block text-white/30"
+                    >
+                      Event Name
+                    </label>
+                    <input
+                      id="planner-edit-event-name"
+                      value={editDraft.eventName}
+                      onChange={(e) =>
+                        setEditDraft((d) => ({ ...d, eventName: e.target.value }))
+                      }
+                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5   outline-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                    <div>
+                      <label
+                        htmlFor="planner-edit-start-time"
+                        className="mb-1 block text-white/30"
+                      >
+                        Start Time
+                      </label>
+                      <input
+                        id="planner-edit-start-time"
+                        value={editDraft.startTime}
+                        onChange={(e) =>
+                          setEditDraft((d) => ({
+                            ...d,
+                            startTime: e.target.value,
+                          }))
+                        }
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="planner-edit-end-time"
+                        className="mb-1 block text-white/30"
+                      >
+                        End Time
+                      </label>
+                      <input
+                        id="planner-edit-end-time"
+                        value={editDraft.endTime}
+                        onChange={(e) =>
+                          setEditDraft((d) => ({ ...d, endTime: e.target.value }))
+                        }
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="planner-edit-venue"
+                        className="mb-1 block text-white/30"
+                      >
+                        Venue
+                      </label>
+                      <input
+                        id="planner-edit-venue"
+                        value={editDraft.venueName}
+                        onChange={(e) =>
+                          setEditDraft((d) => ({
+                            ...d,
+                            venueName: e.target.value,
+                          }))
+                        }
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="planner-edit-attendance"
+                        className="mb-1 block text-white/30"
+                      >
+                        Attendance
+                      </label>
+                      <input
+                        id="planner-edit-attendance"
+                        value={editDraft.expectedAttendance}
+                        onChange={(e) =>
+                          setEditDraft((d) => ({
+                            ...d,
+                            expectedAttendance: e.target.value,
+                          }))
+                        }
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="planner-edit-city"
+                        className="mb-1 block text-white/30"
+                      >
+                        City
+                      </label>
+                      <input
+                        id="planner-edit-city"
+                        value={editDraft.venueCity}
+                        onChange={(e) =>
+                          setEditDraft((d) => ({
+                            ...d,
+                            venueCity: e.target.value,
+                          }))
+                        }
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="planner-edit-state"
+                        className="mb-1 block text-white/30"
+                      >
+                        State
+                      </label>
+                      <input
+                        id="planner-edit-state"
+                        value={editDraft.venueState}
+                        onChange={(e) =>
+                          setEditDraft((d) => ({
+                            ...d,
+                            venueState: e.target.value,
+                          }))
+                        }
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* View Mode */}
-            {!isEditing ? (
-              <>
-                <h2
-                  className={`mb-2 ${booking.status === "cancelled" ? "line-through opacity-50" : ""}`}
+            {/* Actions — require real sign-in */}
+            <div className="flex flex-col justify-start gap-3 border-white/10 lg:w-64 lg:border-l lg:pl-8">
+              {isSignedInPlanner ? (
+                <>
+                  {isEditing ? (
+                    /* Edit mode actions */
+                    <>
+                      <button
+                        onClick={handleEditSave}
+                        className="w-full border border-emerald-500/30 bg-emerald-500/10 py-3 hover:border-transparent hover:bg-emerald-500 hover:text-white"
+                      >
+                        Save Changes
+                      </button>
+                      <button
+                        onClick={handleEditCancel}
+                        className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                      >
+                        Discard
+                      </button>
+                    </>
+                  ) : booking.status === "cancelled" ? (
+                    /* Cancelled state — rebook or revive */
+                    <>
+                      <a
+                        href={rebookUrl(booking, member)}
+                        className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                      >
+                        Rebook This Event
+                      </a>
+                      {reviveTimeLeft && (
+                        <>
+                          <button
+                            aria-label="Revive booking"
+                            onClick={() =>
+                              setBooking((prev) => ({
+                                ...prev,
+                                status: "pending",
+                                cancelledAt: undefined,
+                              }))
+                            }
+                            className="w-full border border-purple-500/30 bg-purple-500/10 py-3 hover:border-transparent hover:bg-purple-500 hover:text-white"
+                          >
+                            Revive Booking
+                          </button>
+                          <p className="text-center">
+                            ⏱ Revive expires in <span>{reviveTimeLeft}</span>
+                          </p>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    /* Normal actions */
+                    <>
+                      <a
+                        href={rebookUrl(booking, member)}
+                        className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                      >
+                        Rebook This Event
+                      </a>
+                      <button
+                        onClick={handleEditStart}
+                        className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                      >
+                        Edit Logistics
+                      </button>
+                      <button
+                        onClick={() => setShowCancelConfirm(true)}
+                        className="w-full  text-rose-400 hover:bg-rose-500/10"
+                      >
+                        Cancel Request
+                      </button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <Link
+                  href="/planner"
+                  className="flex w-full items-center justify-center gap-2 border border-white/10 bg-white/[0.03] py-3 text-white/50 hover:bg-white/[0.08] hover:text-white"
                 >
-                  {booking.eventName}
-                </h2>
-                <p className="mb-6">
-                  {eventTypeLabels[booking.eventType] || booking.eventType}
-                </p>
-
-                <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                  <div className="npm">
-                    <p className="mb-1">Date</p>
-                    <p>{booking.date}</p>
-                  </div>
-                  <div className="npm">
-
-                    <p className="mb-1">Time Window</p>
-                    <p>
-                      {booking.startTime} - {booking.endTime}
-                    </p>
-                  </div>
-                  <div className="npm">
-                    <p className="mb-1">Venue</p>
-                    <p>{booking.venueName}</p>
-                  </div>
-                  <div className="npm">
-                    <p className="mb-1">City</p>
-                    <p>
-                      {booking.venueCity}, {booking.venueState}
-                    </p>
-                  </div>
-                </div>
-              </>
-            ) : (
-              /* Edit Mode */
-              <div className="space-y-4">
-                <div>
-                  <label
-                    htmlFor="planner-edit-event-name"
-                    className="mb-1 block text-white/30"
-                  >
-                    Event Name
-                  </label>
-                  <input
-                    id="planner-edit-event-name"
-                    value={editDraft.eventName}
-                    onChange={(e) =>
-                      setEditDraft((d) => ({ ...d, eventName: e.target.value }))
-                    }
-                    className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5   outline-none"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                  <div>
-                    <label
-                      htmlFor="planner-edit-start-time"
-                      className="mb-1 block text-white/30"
-                    >
-                      Start Time
-                    </label>
-                    <input
-                      id="planner-edit-start-time"
-                      value={editDraft.startTime}
-                      onChange={(e) =>
-                        setEditDraft((d) => ({
-                          ...d,
-                          startTime: e.target.value,
-                        }))
-                      }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="planner-edit-end-time"
-                      className="mb-1 block text-white/30"
-                    >
-                      End Time
-                    </label>
-                    <input
-                      id="planner-edit-end-time"
-                      value={editDraft.endTime}
-                      onChange={(e) =>
-                        setEditDraft((d) => ({ ...d, endTime: e.target.value }))
-                      }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="planner-edit-venue"
-                      className="mb-1 block text-white/30"
-                    >
-                      Venue
-                    </label>
-                    <input
-                      id="planner-edit-venue"
-                      value={editDraft.venueName}
-                      onChange={(e) =>
-                        setEditDraft((d) => ({
-                          ...d,
-                          venueName: e.target.value,
-                        }))
-                      }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="planner-edit-attendance"
-                      className="mb-1 block text-white/30"
-                    >
-                      Attendance
-                    </label>
-                    <input
-                      id="planner-edit-attendance"
-                      value={editDraft.expectedAttendance}
-                      onChange={(e) =>
-                        setEditDraft((d) => ({
-                          ...d,
-                          expectedAttendance: e.target.value,
-                        }))
-                      }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="planner-edit-city"
-                      className="mb-1 block text-white/30"
-                    >
-                      City
-                    </label>
-                    <input
-                      id="planner-edit-city"
-                      value={editDraft.venueCity}
-                      onChange={(e) =>
-                        setEditDraft((d) => ({
-                          ...d,
-                          venueCity: e.target.value,
-                        }))
-                      }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="planner-edit-state"
-                      className="mb-1 block text-white/30"
-                    >
-                      State
-                    </label>
-                    <input
-                      id="planner-edit-state"
-                      value={editDraft.venueState}
-                      onChange={(e) =>
-                        setEditDraft((d) => ({
-                          ...d,
-                          venueState: e.target.value,
-                        }))
-                      }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5   outline-none"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Actions — require real sign-in */}
-          <div className="flex flex-col justify-start gap-3 border-white/10 lg:w-64 lg:border-l lg:pl-8">
-            {isSignedInPlanner ? (
-              <>
-                {isEditing ? (
-                  /* Edit mode actions */
-                  <>
-                    <button
-                      onClick={handleEditSave}
-                      className="w-full border border-emerald-500/30 bg-emerald-500/10 py-3 hover:border-transparent hover:bg-emerald-500 hover:text-white"
-                    >
-                      Save Changes
-                    </button>
-                    <button
-                      onClick={handleEditCancel}
-                      className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
-                    >
-                      Discard
-                    </button>
-                  </>
-                ) : booking.status === "cancelled" ? (
-                  /* Cancelled state — rebook or revive */
-                  <>
-                    <a
-                      href={rebookUrl(booking, member)}
-                      className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
-                    >
-                      Rebook This Event
-                    </a>
-                    {reviveTimeLeft && (
-                      <>
-                        <button
-                          aria-label="Revive booking"
-                          onClick={() =>
-                            setBooking((prev) => ({
-                              ...prev,
-                              status: "pending",
-                              cancelledAt: undefined,
-                            }))
-                          }
-                          className="w-full border border-purple-500/30 bg-purple-500/10 py-3 hover:border-transparent hover:bg-purple-500 hover:text-white"
-                        >
-                          Revive Booking
-                        </button>
-                        <p className="text-center">
-                          ⏱ Revive expires in <span>{reviveTimeLeft}</span>
-                        </p>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  /* Normal actions */
-                  <>
-                    <a
-                      href={rebookUrl(booking, member)}
-                      className="w-full  border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
-                    >
-                      Rebook This Event
-                    </a>
-                    <button
-                      onClick={handleEditStart}
-                      className="w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
-                    >
-                      Edit Logistics
-                    </button>
-                    <button
-                      onClick={() => setShowCancelConfirm(true)}
-                      className="w-full  text-rose-400 hover:bg-rose-500/10"
-                    >
-                      Cancel Request
-                    </button>
-                  </>
-                )}
-              </>
-            ) : (
-              <Link
-                href="/planner"
-                className="flex w-full items-center justify-center gap-2 border border-white/10 bg-white/[0.03] py-3 text-white/50 hover:bg-white/[0.08] hover:text-white"
-              >
-                <History className="h-4 w-4" />
-                Sign in to manage
-              </Link>
-            )}
+                  <History className="h-4 w-4" />
+                  Sign in to manage
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Band & Event Contacts Panel ── */}
-      <section aria-label="7th Heaven Band and Event Contacts">
-        <div className="mb-6 flex flex-col justify-between gap-4 pb-4 lg:flex-row lg:items-center">
-          <div>
-            <h3>7th Heaven Band & Event Contacts</h3>
-            <p className="mt-0.5">
-              Direct contacts for booking, production, hospitality & press
-            </p>
-          </div>
+      {/* ── Planner Push & Email Alert Preferences ── */}
+      <section
+        id="planner-alert-preferences"
+        aria-labelledby="planner-alert-preferences-heading"
+        className="section"
+      >
+        <div className="max-w-4xl mx-auto">
+          <AudienceAlertSetupCard
+            audience="planner"
+            bookingId={booking?.id}
+            title="Event Planner Booking & Logistics Alerts"
+            subtitle="Get instant push notifications and emails when 7th Heaven confirms dates, updates technical riders, or posts day-of-show logistics."
+          />
         </div>
+      </section>
 
-        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
-          {(activeContactFilter === "all" ||
-            activeContactFilter === "booking") && (
-              <div className="flex w-full flex-col items-center text-center">
-                <div
-                  className="relative flex w-full items-end justify-center overflow-hidden"
-                  style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  }}
-                >
-                  <Image
-                    width={400}
-                    height={400}
-                    unoptimized
-                    src="/images/contact/dickie-contact.png"
-                    alt="Richard Hofherr"
-                    className="h-full w-full origin-bottom object-contain object-bottom"
-                  />
-                </div>
-                <div className="mt-2 flex w-full flex-col items-center text-center">
-                  <div className="mb-2">
-                    <SectionBadge
-                      label="BOOKING & MANAGEMENT"
-                      isActive={activeContactFilter === "booking"}
-                      className="px-5 py-2"
+      {/* ── Band & Event Contacts Panel ── */}
+      <section
+        id="band-event-contacts"
+        aria-labelledby="band-event-contacts-heading"
+        className="section"
+      >
+        <div>
+          <SectionHeader
+            id="band-event-contacts-heading"
+            title="7th Heaven Band & Event Contacts"
+            subtitle="Direct contacts for booking, production, hospitality & press"
+            divider={false}
+          />
+
+          <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
+            {(activeContactFilter === "all" ||
+              activeContactFilter === "booking") && (
+                <div className="flex w-full flex-col items-center text-center">
+                  <div
+                    className="relative flex w-full items-end justify-center overflow-hidden"
+                    style={{
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    }}
+                  >
+                    <Image
+                      width={400}
+                      height={400}
+                      unoptimized
+                      src="/images/contact/dickie-contact.png"
+                      alt="Richard Hofherr"
+                      className="h-full w-full origin-bottom object-contain object-bottom"
                     />
                   </div>
-                  <h3 className="mb-1 text-xl sm:text-2xl">Richard Hofherr</h3>
-                  <p className="mb-2">NTD Management</p>
-                  <a
-                    href="tel:8475515363"
-                    className="mb-1   text-[var(--color-accent)] hover:text-white"
-                  >
-                    (847) 551-5363
-                  </a>
-                  <a
-                    href="mailto:info@NTDManagement.com"
-                    className="max-w-full px-2 hover:text-white"
-                  >
-                    info@NTDManagement.com
-                  </a>
+                  <div className="mt-2 flex w-full flex-col items-center text-center">
+                    <div className="mb-2">
+                      <SectionBadge
+                        label="BOOKING & MANAGEMENT"
+                        isActive={activeContactFilter === "booking"}
+                        className="px-5 py-2"
+                      />
+                    </div>
+                    <div className="title-group title-group--sub items-center text-center mb-2">
+                      <h3 className="text-xl sm:text-2xl">Richard Hofherr</h3>
+                      <p>NTD Management</p>
+                    </div>
+                    <a
+                      href="tel:8475515363"
+                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                    >
+                      (847) 551-5363
+                    </a>
+                    <a
+                      href="mailto:info@NTDManagement.com"
+                      className="max-w-full px-2 hover:text-white"
+                    >
+                      info@NTDManagement.com
+                    </a>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-          {(activeContactFilter === "all" ||
-            activeContactFilter === "tech") && (
-              <div className="flex w-full flex-col items-center text-center">
-                <div
-                  className="relative flex w-full items-end justify-center overflow-hidden"
-                  style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  }}
-                >
-                  <Image
-                    width={400}
-                    height={400}
-                    unoptimized
-                    src="/images/contact/jeff-contact.png"
-                    alt="Jeff Dobbs"
-                    className="h-full w-full origin-bottom object-contain object-bottom"
-                  />
-                </div>
-                <div className="mt-2 flex w-full flex-col items-center text-center">
-                  <div className="mb-2">
-                    <SectionBadge
-                      label="TECHNICAL ADVANCE"
-                      isActive={activeContactFilter === "tech"}
-                      className="px-5 py-2"
+            {(activeContactFilter === "all" ||
+              activeContactFilter === "tech") && (
+                <div className="flex w-full flex-col items-center text-center">
+                  <div
+                    className="relative flex w-full items-end justify-center overflow-hidden"
+                    style={{
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    }}
+                  >
+                    <Image
+                      width={400}
+                      height={400}
+                      unoptimized
+                      src="/images/contact/jeff-contact.png"
+                      alt="Jeff Dobbs"
+                      className="h-full w-full origin-bottom object-contain object-bottom"
                     />
                   </div>
-                  <h3 className="mb-1 text-xl sm:text-2xl">Jeff Dobbs</h3>
-                  <p className="mb-2">Production & Sound</p>
-                  <a
-                    href="tel:8477725333"
-                    className="mb-1   text-[var(--color-accent)] hover:text-white"
-                  >
-                    (847) 772-5333
-                  </a>
-                  <a
-                    href="mailto:jeffdobbs64@yahoo.com"
-                    className="max-w-full px-2 hover:text-white"
-                  >
-                    jeffdobbs64@yahoo.com
-                  </a>
+                  <div className="mt-2 flex w-full flex-col items-center text-center">
+                    <div className="mb-2">
+                      <SectionBadge
+                        label="TECHNICAL ADVANCE"
+                        isActive={activeContactFilter === "tech"}
+                        className="px-5 py-2"
+                      />
+                    </div>
+                    <div className="title-group title-group--sub items-center text-center mb-2">
+                      <h3 className="text-xl sm:text-2xl">Jeff Dobbs</h3>
+                      <p>Production & Sound</p>
+                    </div>
+                    <a
+                      href="tel:8477725333"
+                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                    >
+                      (847) 772-5333
+                    </a>
+                    <a
+                      href="mailto:jeffdobbs64@yahoo.com"
+                      className="max-w-full px-2 hover:text-white"
+                    >
+                      jeffdobbs64@yahoo.com
+                    </a>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-          {(activeContactFilter === "all" ||
-            activeContactFilter === "non-tech") && (
-              <div className="flex w-full flex-col items-center text-center">
-                <div
-                  className="relative flex w-full items-end justify-center overflow-hidden"
-                  style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  }}
-                >
-                  <Image
-                    width={400}
-                    height={400}
-                    unoptimized
-                    src="/images/contact/alan-contact.png"
-                    alt="Alan McRae"
-                    className="h-full w-full origin-bottom object-contain object-bottom"
-                  />
-                </div>
-                <div className="mt-2 flex w-full flex-col items-center text-center">
-                  <div className="mb-2">
-                    <SectionBadge
-                      label="NON-TECH ADVANCE"
-                      isActive={activeContactFilter === "non-tech"}
-                      className="px-5 py-2"
+            {(activeContactFilter === "all" ||
+              activeContactFilter === "non-tech") && (
+                <div className="flex w-full flex-col items-center text-center">
+                  <div
+                    className="relative flex w-full items-end justify-center overflow-hidden"
+                    style={{
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    }}
+                  >
+                    <Image
+                      width={400}
+                      height={400}
+                      unoptimized
+                      src="/images/contact/alan-contact.png"
+                      alt="Alan McRae"
+                      className="h-full w-full origin-bottom object-contain object-bottom"
                     />
                   </div>
-                  <h3 className="mb-1 text-xl sm:text-2xl">Alan McRae</h3>
-                  <p className="mb-2">NTD Management</p>
-                  <a
-                    href="tel:6308429129"
-                    className="mb-1   text-[var(--color-accent)] hover:text-white"
-                  >
-                    (630) 842-9129
-                  </a>
-                  <a
-                    href="mailto:Alan@NTDManagement.com"
-                    className="max-w-full px-2 hover:text-white"
-                  >
-                    Alan@NTDManagement.com
-                  </a>
+                  <div className="mt-2 flex w-full flex-col items-center text-center">
+                    <div className="mb-2">
+                      <SectionBadge
+                        label="NON-TECH ADVANCE"
+                        isActive={activeContactFilter === "non-tech"}
+                        className="px-5 py-2"
+                      />
+                    </div>
+                    <div className="title-group title-group--sub items-center text-center mb-2">
+                      <h3 className="text-xl sm:text-2xl">Alan McRae</h3>
+                      <p>NTD Management</p>
+                    </div>
+                    <a
+                      href="tel:6308429129"
+                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                    >
+                      (630) 842-9129
+                    </a>
+                    <a
+                      href="mailto:Alan@NTDManagement.com"
+                      className="max-w-full px-2 hover:text-white"
+                    >
+                      Alan@NTDManagement.com
+                    </a>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-          {(activeContactFilter === "all" ||
-            activeContactFilter === "press") && (
-              <div className="flex w-full flex-col items-center text-center">
-                <div
-                  className="relative flex w-full items-end justify-center overflow-hidden"
-                  style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                  }}
-                >
-                  <Image
-                    width={400}
-                    height={400}
-                    unoptimized
-                    src="/images/contact/lenny-contact.png"
-                    alt="Lenny Rago"
-                    className="h-full w-full origin-bottom object-contain object-bottom"
-                  />
-                </div>
-                <div className="mt-2 flex w-full flex-col items-center text-center">
-                  <div className="mb-2">
-                    <SectionBadge
-                      label="PRESS & MEDIA"
-                      isActive={activeContactFilter === "press"}
-                      className="px-5 py-2"
+            {(activeContactFilter === "all" ||
+              activeContactFilter === "press") && (
+                <div className="flex w-full flex-col items-center text-center">
+                  <div
+                    className="relative flex w-full items-end justify-center overflow-hidden"
+                    style={{
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
+                    }}
+                  >
+                    <Image
+                      width={400}
+                      height={400}
+                      unoptimized
+                      src="/images/contact/lenny-contact.png"
+                      alt="Lenny Rago"
+                      className="h-full w-full origin-bottom object-contain object-bottom"
                     />
                   </div>
-                  <h3 className="mb-1 text-xl sm:text-2xl">Lenny Rago</h3>
-                  <p className="mb-2">NTD Records</p>
-                  <a
-                    href="tel:8472696200"
-                    className="mb-1   text-[var(--color-accent)] hover:text-white"
-                  >
-                    (847) 269-6200
-                  </a>
-                  <a
-                    href="mailto:LRago@NTDRecords.com"
-                    className="max-w-full px-2 hover:text-white"
-                  >
-                    LRago@NTDRecords.com
-                  </a>
+                  <div className="mt-2 flex w-full flex-col items-center text-center">
+                    <div className="mb-2">
+                      <SectionBadge
+                        label="PRESS & MEDIA"
+                        isActive={activeContactFilter === "press"}
+                        className="px-5 py-2"
+                      />
+                    </div>
+                    <div className="title-group title-group--sub items-center text-center mb-2">
+                      <h3 className="text-xl sm:text-2xl">Lenny Rago</h3>
+                      <p>NTD Records</p>
+                    </div>
+                    <a
+                      href="tel:8472696200"
+                      className="mb-1   text-[var(--color-accent)] hover:text-white"
+                    >
+                      (847) 269-6200
+                    </a>
+                    <a
+                      href="mailto:LRago@NTDRecords.com"
+                      className="max-w-full px-2 hover:text-white"
+                    >
+                      LRago@NTDRecords.com
+                    </a>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+          </div>
         </div>
       </section>
 
       {/* ── Booking History Timeline ── */}
       {allBookings.length > 1 && (
-        <section aria-label="Booking History Timeline" className="py-section-fluid">
-          <div className="mb-6 flex items-center">
-            <div>
-              <h3>Booking History</h3>
-              <p className="mt-0.5">
-                {allBookings.length} total booking
-                {allBookings.length !== 1 ? "s" : ""}
-              </p>
-            </div>
-          </div>
+        <section
+          id="booking-history-timeline"
+          aria-labelledby="booking-history-heading"
+          className="section"
+        >
+          <div className="">
+            <SectionHeader
+              id="booking-history-heading"
+              title="Booking History"
+              subtitle={`${allBookings.length} total booking${allBookings.length !== 1 ? "s" : ""}`}
+              divider={false}
+            />
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute top-0 bottom-0 left-[5px] w-[1px] bg-white/10" />
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute top-0 bottom-0 left-[5px] w-[1px] bg-white/10" />
 
-            <div className="flex flex-col">
-              {allBookings.map((b, i) => {
-                const isActive = b.id === booking.id;
-                const sc =
-                  b.status === "confirmed"
-                    ? {
-                      dot: "bg-[var(--color-accent)]",
-                      border: "border-[var(--color-accent)]/30",
-                      bg: "bg-[var(--color-accent)]/10",
-                      text: "text-[var(--color-accent)]",
-                      label: "Confirmed",
-                    }
-                    : b.status === "cancelled"
+              <div className="flex flex-col">
+                {allBookings.map((b, i) => {
+                  const isActive = b.id === booking.id;
+                  const sc =
+                    b.status === "confirmed"
                       ? {
-                        dot: "bg-rose-500",
-                        border: "border-rose-500/20",
-                        bg: "bg-rose-500/5",
-                        text: "text-rose-400",
-                        label: "Cancelled",
+                        dot: "bg-[var(--color-accent)]",
+                        border: "border-[var(--color-accent)]/30",
+                        bg: "bg-[var(--color-accent)]/10",
+                        text: "text-[var(--color-accent)]",
+                        label: "Confirmed",
                       }
-                      : {
-                        dot: "bg-purple-400",
-                        border: "border-white/20",
-                        bg: "bg-purple-600/10",
-                        text: " ",
-                        label: "Pending",
-                      };
+                      : b.status === "cancelled"
+                        ? {
+                          dot: "bg-rose-500",
+                          border: "border-rose-500/20",
+                          bg: "bg-rose-500/5",
+                          text: "text-rose-400",
+                          label: "Cancelled",
+                        }
+                        : {
+                          dot: "bg-purple-400",
+                          border: "border-white/20",
+                          bg: "bg-purple-600/10",
+                          text: " ",
+                          label: "Pending",
+                        };
 
-                return (
-                  <div key={b.id} className="relative flex gap-4">
-                    {/* Timeline dot */}
-                    <div className="z-10 shrink-0">
-                      <div
-                        className={`h-3 w-3 rounded-full ${sc.dot} ring-4 ring-[#e1e6ff29]`}
-                      />
-                    </div>
-
-                    {/* Card */}
-                    <button
-                      onClick={() => {
-                        setBooking(b);
-                        setEditDraft(b);
-                      }}
-                      className={`flex-1 cursor-pointer !rounded-none border-b border-white/10 px-5 py-4 text-left ${isActive ? `` : ""
-                        }`}
-                    >
-                      <div className="mb-1 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <SectionBadge label={sc.label} />
-                          <span className="text-white/30">{b.id}</span>
-                          {isActive && <SectionBadge label="Active" />}
-                        </div>
+                  return (
+                    <div key={b.id} className="relative flex gap-4">
+                      {/* Timeline dot */}
+                      <div className="z-10 shrink-0">
+                        <div
+                          className={`h-3 w-3 rounded-full ${sc.dot} ring-4 ring-[#e1e6ff29]`}
+                        />
                       </div>
-                      <h4
-                        className={`${b.status === "cancelled" ? "text-white/30 line-through" : " "}`}
+
+                      {/* Card */}
+                      <button
+                        onClick={() => {
+                          setBooking(b);
+                          setEditDraft(b);
+                        }}
+                        className={`flex-1 cursor-pointer !rounded-none border-b border-white/10 px-5 py-4 text-left ${isActive ? `` : ""
+                          }`}
                       >
-                        {b.eventName}
-                      </h4>
-                      <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-4">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3 shrink-0" /> {b.date}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="h-3 w-3 shrink-0" /> {b.venueName},{" "}
-                          {b.venueCity}
-                        </span>
-                        {b.startTime && (
+                        <div className="mb-1 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <SectionBadge label={sc.label} />
+                            <span className="text-white/30">{b.id}</span>
+                            {isActive && <SectionBadge label="Active" />}
+                          </div>
+                        </div>
+                        <h4
+                          className={`${b.status === "cancelled" ? "text-white/30 line-through" : " "}`}
+                        >
+                          {b.eventName}
+                        </h4>
+                        <div className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-4">
                           <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3 shrink-0" /> {b.startTime}
+                            <Calendar className="h-3 w-3 shrink-0" /> {b.date}
                           </span>
-                        )}
-                      </div>
-                    </button>
-                  </div>
-                );
-              })}
+                          <span className="flex items-center gap-1">
+                            <MapPin className="h-3 w-3 shrink-0" /> {b.venueName},{" "}
+                            {b.venueCity}
+                          </span>
+                          {b.startTime && (
+                            <span className="flex items-center gap-1">
+                              <Clock className="h-3 w-3 shrink-0" /> {b.startTime}
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>

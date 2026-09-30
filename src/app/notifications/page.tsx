@@ -5,8 +5,12 @@ import Link from "next/link";
 import QRCode from "react-qr-code";
 import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
+import PageHero from "@/components/PageHero";
 
-type Group = "fans" | "crew" | "cruise";
+import { InstallAppButton } from "@/components/InstallAppButton";
+import { AudienceAlertSetupCard } from "@/components/AudienceAlertSetupCard";
+
+type Group = "fans" | "crew" | "band" | "cruise";
 
 interface TopicResponse {
   ok: boolean;
@@ -27,6 +31,11 @@ const GROUP_TABS: { id: Group; label: string; blurb: string }[] = [
     id: "crew",
     label: "Crew",
     blurb: "Show-day logistics, schedule changes, and crew-only alerts.",
+  },
+  {
+    id: "band",
+    label: "Band",
+    blurb: "Band member notices, soundchecks, setlists, and logistics updates.",
   },
   {
     id: "cruise",
@@ -114,6 +123,7 @@ const getTopicInfo = (group: Group): TopicResponse => {
   const topicMap: Record<Group, string> = {
     fans: process.env.NEXT_PUBLIC_NTFY_TOPIC_FANS || "7thheaven_fans",
     crew: process.env.NEXT_PUBLIC_NTFY_TOPIC_CREW || "7thheaven_crew",
+    band: process.env.NEXT_PUBLIC_NTFY_TOPIC_BAND || "7thheaven_band",
     cruise: process.env.NEXT_PUBLIC_NTFY_TOPIC_CRUISE || "7thheaven_cruise",
   };
   return {
@@ -128,13 +138,9 @@ const getTopicInfo = (group: Group): TopicResponse => {
 export default function NotificationsPage() {
   const { member } = useMember();
 
-  // Picks a sensible starting tab from the logged-in member's role. Only
-  // read once at mount (React ignores a later change to useState's initial
-  // arg) — if role loads in asynchronously after this component mounts, the
-  // visitor can still just tap another tab, which is a fine tradeoff for
-  // avoiding a setState-in-effect just to keep this in sync.
   const [activeTab, setActiveTab] = useState<Group>(() => {
     if (member?.role === "crew") return "crew";
+    if ((member?.role as string) === "band" || (member as any)?.is_band) return "band";
     if ((member?.role as string) === "cruise") return "cruise";
     return "fans";
   });
@@ -164,61 +170,88 @@ export default function NotificationsPage() {
   };
 
   return (
-    <section
-      className="site-container relative min-h-screen overflow-hidden pt-[var(--page-top-offset)] pb-24"
-      id="notifications-page"
-    >
-      {/* Page Header */}
-      <div className="mx-auto mb-12 max-w-2xl text-center">
-        <div className="mb-6 inline-flex items-center gap-2 border border-purple-200 bg-purple-50 px-4 py-1.5 text-purple-700">
-          <BellIcon />
-          Free &middot; No Phone Number &middot; No Signup
-        </div>
-        <h1 className="mb-6 text-4xl sm:text-5xl">
-          Get Notified <span className="text-purple-600">Instantly</span>
-        </h1>
-        <p>
-          7th Heaven can push an alert straight to your phone the moment we post
-          one &mdash; new shows, ticket drops, cruise news, whatever the group
-          needs. It doesn&apos;t use text messages or carrier fees; it rides on{" "}
-          <a
-            href="https://ntfy.sh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white"
-          >
-            ntfy
-          </a>
-          , a free, open push network, so there&apos;s no cost to you and none
-          to us. Prefer old-fashioned alerts? Check out our live stream alerts
-          on{" "}
-          <Link href="/live" className="hover:text-white">
-            the live page
-          </Link>{" "}
-          too.
-        </p>
-      </div>
+    <main id="notifications-page" className="site-container page-container page-stack min-h-screen">
+      <section
+        id="notifications"
+        aria-labelledby="notifications-heading"
+        className="section relative"
+      >
+        <div className="overflow-hidden space-y-8">
+          {/* Page Header */}
+          <PageHero
+            badge={
+              <span className="btn-pill-glass inline-flex items-center gap-2">
+                <BellIcon />
+                Free · No Phone Number · No Signup
+              </span>
+            }
+            title={
+              <>
+                Get Notified{" "}
+                <span className="text-[var(--color-accent)]">Instantly</span>
+              </>
+            }
+            titleId="notifications-heading"
+            subtitle={
+              <>
+                7th Heaven can push an alert straight to your phone the moment we post
+                one &mdash; new shows, ticket drops, cruise news, whatever the group
+                needs. It doesn&apos;t use text messages or carrier fees; it rides on{" "}
+                <a
+                  href="https://ntfy.sh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline hover:text-white"
+                >
+                  ntfy
+                </a>
+                , a free, open push network, so there&apos;s no cost to you and none
+                to us. Prefer old-fashioned alerts? Check out our live stream alerts
+                on{" "}
+                <Link href="/live" className="text-primary underline hover:text-white">
+                  the live page
+                </Link>{" "}
+                too.
+              </>
+            }
+            align="left"
+            className="mb-8 max-w-3xl"
+          />
 
-      {/* Audience Tabs */}
-      <div className="mb-10 flex flex-wrap justify-center gap-2">
-        {GROUP_TABS.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              type="button"
-              aria-label={`Show ${tab.label} alerts`}
-              key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
-              className={`cursor-pointer  border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
+          {/* Install 7th Heaven App Card */}
+          <div className="mx-auto max-w-3xl">
+            <InstallAppButton variant="card" />
+          </div>
+
+          {/* Browser Web Push & Quiet Hours Preferences Card */}
+          <div className="mx-auto max-w-3xl">
+            <AudienceAlertSetupCard
+              audience={activeTab === "band" ? "band" : activeTab === "crew" ? "crew" : "fan"}
+              title={`${activeMeta.label} Instant Push Preferences`}
+              subtitle={`Enable direct browser push notifications and quiet hours for the ${activeMeta.label.toLowerCase()} channel.`}
+            />
+          </div>
+
+          {/* Audience Tabs */}
+          <div className="pt-4 flex flex-wrap justify-center gap-2">
+            {GROUP_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  type="button"
+                  aria-label={`Show ${tab.label} alerts`}
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`cursor-pointer rounded-[var(--radius-box)] border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
 
       {/* Main Card */}
-      <div className="mx-auto max-w-3xl  border border-white/10 bg-[#00000029] p-6 backdrop-blur-xl sm:p-10 min-h-[380px]">
+      <div className="mx-auto max-w-3xl rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-6 sm:p-10 min-h-[380px]">
         <p className="mb-8 text-center">{activeMeta.blurb}</p>
 
         {!info?.configured ? (
@@ -237,7 +270,7 @@ export default function NotificationsPage() {
           <div className="flex flex-col items-center gap-10 md:flex-row">
             {/* QR Code */}
             <div className="flex shrink-0 flex-col items-center gap-3">
-              <div className="rounded-2xl bg-white p-3">
+              <div className="rounded-[var(--radius-box)] bg-white p-3">
                 <QRCode
                   value={appDeepLink}
                   size={148}
@@ -253,7 +286,7 @@ export default function NotificationsPage() {
             {/* Steps */}
             <div className="w-full flex-1 space-y-5">
               <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center  bg-purple-600">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs font-bold">
                   1
                 </span>
                 <div>
@@ -265,7 +298,7 @@ export default function NotificationsPage() {
                       href="https://apps.apple.com/us/app/ntfy/id1625396347"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary inline-flex items-center gap-1.5  px-3 py-1.5"
+                      className="btn-secondary inline-flex items-center gap-1.5 rounded-[var(--radius-box)] px-3 py-1.5"
                     >
                       <AppleIcon /> App Store
                     </a>
@@ -273,7 +306,7 @@ export default function NotificationsPage() {
                       href="https://play.google.com/store/apps/details?id=io.heckel.ntfy"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary inline-flex items-center gap-1.5  px-3 py-1.5"
+                      className="btn-secondary inline-flex items-center gap-1.5 rounded-[var(--radius-box)] px-3 py-1.5"
                     >
                       <AndroidIcon /> Google Play
                     </a>
@@ -282,7 +315,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center  bg-purple-600">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs font-bold">
                   2
                 </span>
                 <div className="flex-1">
@@ -310,7 +343,7 @@ export default function NotificationsPage() {
               </div>
 
               <div className="flex gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center  bg-purple-600">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs font-bold">
                   3
                 </span>
                 <div>
@@ -345,7 +378,9 @@ export default function NotificationsPage() {
           Dashboard&apos;s Emergency Broadcast Center, Crew Alert, and Cruise
           Blast tools.
         </p>
-      </div>
-    </section>
+        </div>
+        </div>
+      </section>
+    </main>
   );
 }

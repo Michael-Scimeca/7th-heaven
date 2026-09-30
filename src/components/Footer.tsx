@@ -14,6 +14,7 @@ import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import SeventhButton from "@/components/SeventhButton";
 import dynamic from "next/dynamic";
 import FooterProximityAlerts from "@/components/FooterProximityAlerts";
+import { InstallAppButton } from "@/components/InstallAppButton";
 
 const FALLBACK_PLATFORM_LINKS = [
   { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
@@ -139,21 +140,19 @@ export function Footer() {
 
   if (pathname?.startsWith("/studio")) return null;
 
-  const isCrewOrAdmin =
+  const isCrewOrAdminRoute =
     pathname?.startsWith("/admin") ||
-    pathname?.startsWith("/crew") ||
-    member?.role === "crew" ||
-    member?.role === "admin";
+    pathname?.startsWith("/crew");
 
   return (
     <footer
-      className={`relative overflow-hidden ${isCovered ? "pointer-events-none hidden opacity-0" : "block opacity-100"}`}
+      className={`relative overflow-hidden  ${isCovered ? "pointer-events-none hidden opacity-0" : "block opacity-100"}`}
       id="footer"
       suppressHydrationWarning
     >
       <div className="site-container relative z-10">
         {/* Proximity Distance & Free Push Alerts Section */}
-        {!isCrewOrAdmin && (
+        {!isCrewOrAdminRoute && (
           <div id="push-alerts-footer">
             <FooterProximityAlerts />
           </div>
@@ -215,6 +214,11 @@ export function Footer() {
                   )}
                 </span>
               ))}
+            </div>
+
+            {/* Install 7th Heaven App Link */}
+            <div className="flex items-center gap-2">
+              <InstallAppButton variant="compact" />
             </div>
           </div>
         </nav>

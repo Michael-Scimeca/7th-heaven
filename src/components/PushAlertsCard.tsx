@@ -5,7 +5,7 @@ import SeventhButton from "@/components/SeventhButton";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import GlassCard from "@/components/ui/GlassCard";
 
-type Group = "fans" | "crew" | "cruise";
+type Group = "fans" | "crew" | "band" | "cruise";
 
 interface PushAlertsCardProps {
   group: Group;
@@ -60,12 +60,14 @@ const ExternalIcon = () => (
 const DEFAULT_TITLES: Record<Group, string> = {
   fans: "Instant Show & Merch Push Alerts",
   crew: "Crew Member Live Stream Push Alerts",
+  band: "Band Member Tour & Live Push Alerts",
   cruise: "Cruise Passenger Push Alerts",
 };
 
 const DEFAULT_SUBTITLES: Record<Group, string> = {
   fans: "Get instant free push alerts on your phone whenever 7th Heaven drops new show dates, tickets, or merch!",
   crew: "Subscribe to get instant free push alerts on your phone or browser whenever a 7th Heaven crew or band member goes live!",
+  band: "Get instant alerts for tour updates, soundcheck changes, and private band notifications!",
   cruise:
     "Stay updated on cruise cabin pricing, setlist voting, and shore excursion announcements.",
 };
@@ -113,16 +115,13 @@ export default function PushAlertsCard({
     <>
       <GlassCard className={`relative overflow-hidden ${className}`}>
         <div className="relative z-10">
-          <div className="mb-2 flex items-center gap-3">
-            <div>
-              <h3>{title || defaultTitle}</h3>
-            </div>
+          <div className="title-group title-group--sub mb-6">
+            <h3>{title || defaultTitle}</h3>
+            <p className="text-gray-300/90">{subtitle || defaultSubtitle}</p>
           </div>
 
-          <p className="mb-6 text-gray-300/90">{subtitle || defaultSubtitle}</p>
-
           {loading ? (
-            <div className="h-12 w-full animate-pulse  border border-white/10 bg-[#00000029]" />
+            <div className="h-12 w-full animate-pulse rounded-[var(--radius-box)] border border-white/10 bg-[#00000029]" />
           ) : (
             <div className="flex flex-col flex-wrap items-center gap-3 sm:flex-row">
               {/* Primary Action: Open Subscription Modal to collect Name & Email */}
@@ -140,7 +139,7 @@ export default function PushAlertsCard({
                   href={webUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2  border border-white/10 bg-[#00000029] px-4 py-3 text-center hover:border-white/30 hover:bg-white/15 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-4 py-3 text-center hover:border-white/30 hover:bg-white/15 sm:w-auto"
                 >
                   Web Alerts <ExternalIcon />
                 </a>

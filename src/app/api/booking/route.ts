@@ -11,6 +11,7 @@ import { bookingStatusUpdate } from "@/lib/email-templates";
 import { protectAction, sanitize as securitySanitize } from "@/lib/security";
 import { isValidEmail } from "@/lib/validation";
 import { requireAdmin, applyRateLimit, isSpam } from "@/lib/api-utils";
+import { sendWebPushToGroup } from "@/lib/push-subscriptions";
 import crypto from "crypto";
 
 import { ADMIN_ALERT_EMAIL } from "@/lib/role-config";
@@ -808,6 +809,16 @@ export async function PATCH(request: Request) {
         }),
       }).catch((err) =>
         console.error("Status notification email failed:", err),
+      );
+
+      // Dispatch Web Push notification to planner
+      sendWebPushToGroup("planner", {
+        title: `Booking Update: ${statusLabels[status] || "Status Update"}`,
+        body: `Your booking for ${data.venue_name || "7th Heaven Event"} has been updated to ${status}.`,
+        url: `/planner`,
+        tag: `booking-${bookingId}`,
+      }).catch((err) =>
+        console.warn("[booking] Web Push to planner failed:", err),
       );
     }
 
