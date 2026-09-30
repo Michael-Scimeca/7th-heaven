@@ -1088,11 +1088,9 @@ export default function TourList({
   }, []);
 
   const loadSubscriptions = useCallback(async () => {
-    if (!member?.email) return;
+    if (!member) return;
     try {
-      const res = await fetch(
-        `/api/shows/notify-me?email=${encodeURIComponent(member.email)}`,
-      );
+      const res = await fetch("/api/shows/notify-me");
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.subscriptions) {
@@ -1103,7 +1101,7 @@ export default function TourList({
     } catch (err) {
       console.error("Error loading notification subscriptions:", err);
     }
-  }, [member?.email]);
+  }, [member]);
 
   useEffect(() => {
     loadSubscriptions();
@@ -1127,15 +1125,13 @@ export default function TourList({
 
   const handleUnsubscribe = async (showId: string) => {
     const email = member?.email || notifyEmail;
-    if (!email) return;
     setSubscribingId(showId);
     try {
-      const res = await fetch(
-        `/api/shows/notify-me?email=${encodeURIComponent(email)}&showId=${encodeURIComponent(showId)}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const res = await fetch("/api/shows/notify-me", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ showId, email }),
+      });
       if (res.ok) {
         setSubscribedShowIds((prev) => prev.filter((id) => id !== showId));
       }

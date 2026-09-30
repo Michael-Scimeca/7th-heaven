@@ -8,6 +8,7 @@ import {
   isShowOver,
 } from "@/lib/tour-helpers";
 import { VENUE_LINKS } from "@/lib/venue-links";
+import { fetchTourDatesCached } from "@/lib/tour-fetcher";
 
 interface Show {
   day?: string;
@@ -136,11 +137,8 @@ export default function HeroUpNextBanner() {
   const [isCalOpen, setIsCalOpen] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-doctor/no-fetch-in-effect
-    fetch("/api/tour")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+    fetchTourDatesCached().then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
           const mapped: Show[] = data.map((s: Record<string, unknown>) => {
             const venue = (s.venue as string) || "";
             const city = (s.city as string) || "";

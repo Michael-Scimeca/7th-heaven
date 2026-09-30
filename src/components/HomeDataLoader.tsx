@@ -1,16 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AnnouncementBanner from "@/components/AnnouncementBanner";
-import { useSettings } from "@/lib/useSettings";
 import dynamic from "next/dynamic";
 import { ensureUpcomingTourDates, isShowOver } from "@/lib/tour-helpers";
 import { VENUE_LINKS } from "@/lib/venue-links";
 
-const TourList = dynamic(() => import("@/components/TourList"));
-const BioParallaxSlider = dynamic(
-  () => import("@/components/BioParallaxSlider"),
-);
+import TourList from "@/components/TourList";
+import BioParallaxSlider from "@/components/BioParallaxSlider";
+import { fetchTourDatesCached } from "@/lib/tour-fetcher";
 
 interface Show {
   day: string;
@@ -588,32 +585,12 @@ export default function HomeDataLoader() {
   const [shows, setShows] = useState<Show[]>(() =>
     ensureUpcomingTourDates(FALLBACK_SHOWS),
   );
-  const [announcement, setAnnouncement] = useState<Announcement | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  // Shared with Footer (and any other consumer) via useSettings -- one
-  // deduplicated /api/settings fetch instead of each component running
-  // its own. See src/lib/useSettings.ts for why this exists.
-  const { settings } = useSettings();
-
   useEffect(() => {
-    const data = settings as { announcement?: Announcement } | null;
-    if (data?.announcement?.isActive && data.announcement.text) {
-      const exp = data.announcement.expiresAt;
-      if (!exp || new Date(exp) > new Date()) {
-        setAnnouncement(data.announcement);
-      }
-    }
-  }, [settings]);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-doctor/no-fetch-in-effect
-    // Intentional: page is fully static, this effect hydrates data client-side after first paint
-    fetch("/api/tour")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        // /api/tour returns a plain array
-        const raw: Record<string, unknown>[] = Array.isArray(data) ? data : [];
+    fetchTourDatesCached().then((data) => {
+      // /api/tour returns a plain array
+      const raw: Record<string, unknown>[] = Array.isArray(data) ? data : [];
         if (raw.length > 0) {
           const mapped: Show[] = raw.map((s) => {
             const venue = s.venue as string;
@@ -667,14 +644,6 @@ export default function HomeDataLoader() {
 
   return (
     <>
-      {announcement && (
-        <AnnouncementBanner
-          text={announcement.text}
-          link={announcement.link}
-          linkText={announcement.linkText}
-          inline={true}
-        />
-      )}
 
       {/* ====== TOUR LIST ====== */}
 

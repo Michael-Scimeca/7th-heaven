@@ -44,11 +44,24 @@ const writeNotifies = (filePath: string, notifies: any[]) => {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get("email");
+    let email = searchParams.get("email");
+
+    if (!email) {
+      try {
+        const { createClient } = await import("@/lib/supabase/server");
+        const supabase = await createClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user?.email) {
+          email = user.email;
+        }
+      } catch {}
+    }
 
     if (!email) {
       return NextResponse.json(
-        { error: "Missing email parameter" },
+        { error: "Missing email parameter and no active session" },
         { status: 400 },
       );
     }
@@ -56,7 +69,7 @@ export async function GET(request: Request) {
     const filePath = getFilePath();
     const notifies = readNotifies(filePath);
     const userNotifies = notifies.filter(
-      (n: any) => n.email.toLowerCase() === email.trim().toLowerCase(),
+      (n: any) => n.email.toLowerCase() === email!.trim().toLowerCase(),
     );
 
     return NextResponse.json({ success: true, subscriptions: userNotifies });
@@ -82,7 +95,20 @@ export async function POST(request: Request) {
       );
     }
 
-    const { showId, email, venueName, showDate, city, state } = body;
+    let { showId, email, venueName, showDate, city, state } = body;
+
+    if (!email) {
+      try {
+        const { createClient } = await import("@/lib/supabase/server");
+        const supabase = await createClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user?.email) {
+          email = user.email;
+        }
+      } catch {}
+    }
 
     if (!showId || !email || !venueName) {
       return NextResponse.json(
@@ -140,8 +166,31 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get("email");
-    const showId = searchParams.get("showId");
+    let email = searchParams.get("email");
+    let showId = searchParams.get("showId");
+
+    // Also check JSON body if not present in query params
+    if (!email || !showId) {
+      try {
+        const body = await request.json();
+        if (body.email) email = body.email;
+        if (body.showId) showId = body.showId;
+      } catch {}
+    }
+
+    // Fall back to server session for email if missing
+    if (!email) {
+      try {
+        const { createClient } = await import("@/lib/supabase/server");
+        const supabase = await createClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user?.email) {
+          email = user.email;
+        }
+      } catch {}
+    }
 
     if (!email || !showId) {
       return NextResponse.json(
@@ -158,7 +207,7 @@ export async function DELETE(request: Request) {
       (n: any) =>
         !(
           n.showId === showId &&
-          n.email.toLowerCase() === email.trim().toLowerCase()
+          n.email.toLowerCase() === email!.trim().toLowerCase()
         ),
     );
 
