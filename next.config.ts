@@ -122,8 +122,8 @@ const nextConfig: NextConfig = {
       "font-src 'self' data: https://fonts.gstatic.com",
       // Images — allow data URIs for generated OG images + Google Maps tiles/icons
       "img-src 'self' data: blob: https://api.qrserver.com https://cdn.sanity.io https://lh3.googleusercontent.com https://7thheavenband.com https://www.7thheavenband.com https://cdn.shopify.com https://img.youtube.com https://i.ytimg.com https://*.basemaps.cartocdn.com https://upload.wikimedia.org https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googleusercontent.com",
-      // Connect — Supabase, LiveKit, Sanity, Upstash, YouTube, Google Maps & WebGL blobs
-      "connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://*.livekit.cloud wss://*.livekit.cloud https://*.sanity.io https://*.upstash.io https://hcaptcha.com https://www.googletagmanager.com https://*.myshopify.com https://www.youtube.com https://*.googlevideo.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://www.google-analytics.com",
+      // Connect — Supabase, LiveKit, Sanity, Upstash, YouTube, Google Maps, WebGL blobs & CloudFront (NeatGradient)
+      "connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://*.livekit.cloud wss://*.livekit.cloud https://*.sanity.io https://*.upstash.io https://hcaptcha.com https://www.googletagmanager.com https://*.myshopify.com https://www.youtube.com https://*.googlevideo.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://www.google-analytics.com https://*.cloudfront.net",
       // Media — LiveKit streams & Google Video
       "media-src 'self' blob: https://*.livekit.cloud https://*.googlevideo.com https://www.youtube.com",
       // Frames — hCaptcha & YouTube embeds

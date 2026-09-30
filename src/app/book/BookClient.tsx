@@ -1120,7 +1120,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
       <form
         id="book-event"
-        className="relative z-10 mx-auto w-full  grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_360px]"
+        className="relative z-10 mx-auto w-full  grid grid-cols-1 items-start  lg:grid-cols-[1fr_360px]"
         onSubmit={handleSubmit}
       >
         <div className="steps flex flex-col page-stack">
@@ -1222,16 +1222,12 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                 {/* Alternate Dates */}
                 <div className="mt-8 border-t border-white/10 pt-4">
-                  <div className="mb-6 flex items-center gap-3">
-                    <CalendarIcon className="h-5 w-5 shrink-0 text-[#c27aff]" />
-                    <div>
-                      <h4>Flexible? Add Backup Dates</h4>
-                      <p>
-                        Increase your chances — we&apos;ll try your preferred date
-                        first
-                      </p>
-                    </div>
-                  </div>
+                  <SectionHeader
+                    as="h3"
+                    title="Flexible? Add Backup Dates"
+                    subtitle="Increase your chances — we'll try your preferred date first"
+                    divider={false}
+                  />
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <MiniDatePicker
                       label={
@@ -1331,17 +1327,19 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               {bookingSlots.length === 0 ? (
                 <div className="rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] p-6 text-center">
                   <span className="mb-6 block text-4xl">📅</span>
-                  <h4 className="mb-2">
-                    {sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "no_dates",
-                    )?.title || "No Dates Selected Yet"}
-                  </h4>
-                  <p className="mx-auto max-w-md">
-                    {sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "no_dates",
-                    )?.subtitle ||
-                      "Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once."}
-                  </p>
+                  <div className="title-group title-group--sub items-center text-center">
+                    <h4>
+                      {sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "no_dates",
+                      )?.title || "No Dates Selected Yet"}
+                    </h4>
+                    <p className="mx-auto max-w-md">
+                      {sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "no_dates",
+                      )?.subtitle ||
+                        "Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once."}
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -1873,6 +1871,12 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                   (s: any) => s.sectionId === "contact",
                 )?.title || "Contact Information"
               }
+              subtitle={
+                sanityContent?.sections?.find(
+                  (s: any) => s.sectionId === "contact",
+                )?.subtitle ||
+                "Enter your contact details so our band manager can coordinate your booking and send confirmation details."
+              }
               icon={User}
             />
             <Stack gap="lg">
@@ -1944,6 +1948,12 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 sanityContent?.sections?.find(
                   (s: any) => s.sectionId === "venue",
                 )?.title || "Venue & Event Logistics"
+              }
+              subtitle={
+                sanityContent?.sections?.find(
+                  (s: any) => s.sectionId === "venue",
+                )?.subtitle ||
+                "Specify event start & end times, band performance sets, and load-in schedules for your booking."
               }
               icon={MapPin}
             />
@@ -2051,6 +2061,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <SectionHeader
                   as="h3"
                   title="Venue Address & Location Setup"
+                  subtitle="Provide the physical street address, city, state, zip code, and parking details for the event location."
                   icon={Building2}
                 />
 
@@ -2224,6 +2235,12 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 sanityContent?.sections?.find(
                   (s: any) => s.sectionId === "logistics",
                 )?.title || "Technical & Logistics"
+              }
+              subtitle={
+                sanityContent?.sections?.find(
+                  (s: any) => s.sectionId === "logistics",
+                )?.subtitle ||
+                "Detail venue stage setup, indoor/outdoor preferences, and sound system requirements."
               }
               icon={Sliders}
             />
@@ -2444,12 +2461,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         {/* Right Column: Sticky Summary Sidebar */}
         <aside
           aria-label="Booking Summary"
-          className="sticky top-32 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
+          className="sticky top-25 md:mt-6 lg:mt-0 mt-6  pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
         >
           <div className="border-0 p-0">
             <SectionHeader
               as="h3"
               title="Booking Summary"
+              subtitle="Review your selected dates, times, and venue details before submitting."
               icon={ClipboardList}
             />
 

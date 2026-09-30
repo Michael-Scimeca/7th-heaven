@@ -4,6 +4,7 @@ import { Guitar, Mic, PartyPopper, Sparkles } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import SeventhButton from "@/components/SeventhButton";
 import GlowInput from "@/components/GlowInput";
+import SectionHeader from "@/components/SectionHeader";
 
 export interface BookingSlot {
   id: string;
@@ -47,6 +48,31 @@ const MONTH_NAMES = [
   "Oct",
   "Nov",
   "Dec",
+];
+
+const DAY_NAMES_FULL = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const MONTH_NAMES_FULL = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 export interface CalendarPickerLabels {
@@ -146,16 +172,20 @@ export function CalendarPicker({
 
   return (
     <div className="w-full border-0 p-0">
-      <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-        <div>
-          <h3>
-            {label} {required && <span className="text-[#c27aff]">*</span>}
-          </h3>
-          <p>
-            {labels?.calendarSubtitle ||
-              "Select one or more dates to secure your slot"}
-          </p>
-        </div>
+      <div className="mb-6">
+        <SectionHeader
+          as="h3"
+          title={
+            <>
+              {label} {required && <span className="text-[#c27aff]">*</span>}
+            </>
+          }
+          subtitle={
+            labels?.calendarSubtitle ||
+            "Select one or more dates to secure your slot"
+          }
+          divider={false}
+        />
       </div>
 
       {/* Legend — Static frame-0 render prevents post-mount injection layout shift */}
@@ -199,6 +229,7 @@ export function CalendarPicker({
               <GooeyMessagesDropdown
                 placeholder="Month"
                 showAllOption={false}
+                selected={String(currentMonth.getMonth())}
                 defaultSelectedId={String(currentMonth.getMonth())}
                 customers={[
                   "January",
@@ -226,6 +257,7 @@ export function CalendarPicker({
               <GooeyMessagesDropdown
                 placeholder="Year"
                 showAllOption={false}
+                selected={String(currentMonth.getFullYear())}
                 defaultSelectedId={String(currentMonth.getFullYear())}
                 customers={[2026, 2027, 2028].map((yr) => ({
                   id: String(yr),
@@ -280,12 +312,25 @@ export function CalendarPicker({
               const isPastDate =
                 todayTimestamp > 0 && date.getTime() < todayTimestamp;
               const isBlocked = blockedSet.has(dateString);
+              const fullDateAriaLabel = !isNaN(date.getTime())
+                ? `${DAY_NAMES_FULL[date.getDay()]}, ${MONTH_NAMES_FULL[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}${
+                    isBlocked
+                      ? " — Booked / Unavailable"
+                      : isPastDate
+                        ? " — Past date / Unavailable"
+                        : isSelected
+                          ? " — Selected"
+                          : " — Available"
+                  }`
+                : `Date ${dateString}`;
 
               return (
                 <button
                   key={dateString}
                   type="button"
                   disabled={isPastDate || isBlocked}
+                  aria-label={fullDateAriaLabel}
+                  aria-pressed={isSelected}
                   onClick={() => {
                     if (isSelected) {
                       // Already selected, deselect (remove all slots for this date)
