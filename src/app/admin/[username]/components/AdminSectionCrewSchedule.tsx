@@ -18,7 +18,7 @@ import GlowInput from "@/components/GlowInput";
 import GooeyDropdown from "@/components/GooeyDropdown";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import SearchInput from "@/components/SearchInput";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 
 const resolveMemberAvatar = (name: string, avatar?: string | null): string => {
   const lower = (name || "").toLowerCase();
@@ -443,7 +443,7 @@ export const AdminSectionCrewSchedule = React.memo(
         }
         const item =
           ROLE_PALETTE_FALLBACKS[
-            Math.abs(hash) % ROLE_PALETTE_FALLBACKS.length
+          Math.abs(hash) % ROLE_PALETTE_FALLBACKS.length
           ];
         return { bg: item.bg, tagBg: item.tagBg, label: role };
       };
@@ -853,13 +853,13 @@ export const AdminSectionCrewSchedule = React.memo(
             title={
               shift.crewId !== "openshifts"
                 ? (() => {
-                    const member = crewMembers.find(
-                      (c) => c.id === shift.crewId,
-                    );
-                    const name =
-                      member?.name || shift.crewName || shift.crewId || "?";
-                    return `${name}\nRole: ${member?.role || shift.role || "Crew Member"}\nPhone: ${member?.phone || "N/A"}\nEmail: ${member?.email || "N/A"}`;
-                  })()
+                  const member = crewMembers.find(
+                    (c) => c.id === shift.crewId,
+                  );
+                  const name =
+                    member?.name || shift.crewName || shift.crewId || "?";
+                  return `${name}\nRole: ${member?.role || shift.role || "Crew Member"}\nPhone: ${member?.phone || "N/A"}\nEmail: ${member?.email || "N/A"}`;
+                })()
                 : "Open Shift"
             }
           >
@@ -986,17 +986,17 @@ export const AdminSectionCrewSchedule = React.memo(
                   <div className="mt-0.5 flex flex-wrap gap-0.5">
                     {shift.role
                       ? shift.role
-                          .split(/[,|/]/)
-                          .map((r: string) => r.trim())
-                          .filter(Boolean)
-                          .map((singleRole: string) => (
-                            <span
-                              key={singleRole}
-                              className="max-w-full rounded border border-purple-500/40 px-1.5 py-0.5 text-[8.5px] select-none"
-                            >
-                              {singleRole}
-                            </span>
-                          ))
+                        .split(/[,|/]/)
+                        .map((r: string) => r.trim())
+                        .filter(Boolean)
+                        .map((singleRole: string) => (
+                          <span
+                            key={singleRole}
+                            className="max-w-full rounded border border-purple-500/40 px-1.5 py-0.5 text-[8.5px] select-none"
+                          >
+                            {singleRole}
+                          </span>
+                        ))
                       : null}
                     {shift.tags &&
                       shift.tags.length > 0 &&
@@ -1324,13 +1324,13 @@ export const AdminSectionCrewSchedule = React.memo(
                         onClick={() => {
                           const nextDate =
                             selectedTourDate === day.dateStr ||
-                            scheduleSortByDate === day.dateStr
+                              scheduleSortByDate === day.dateStr
                               ? null
                               : day.dateStr;
                           setSelectedTourDate(nextDate);
                           setScheduleSortByDate(nextDate);
                         }}
-                        className={`group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ?"shadow-[inset_0_-3px_0_#9333ea]": isNextShow ?"border-x border-purple-500/30 bg-purple-500/10 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]":""}`}
+                        className={`group wiw-sticky-header relative w-36 shrink-0 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? "shadow-[inset_0_-3px_0_#9333ea]" : isNextShow ? "border-x border-purple-500/30 bg-purple-500/10 shadow-[inset_0_1px_0_rgba(147,51,234,0.2)]" : ""}`}
                         title="Click to select date & stack working crew at top"
                       >
                         <div className="flex w-full flex-col gap-1">
@@ -1580,12 +1580,12 @@ export const AdminSectionCrewSchedule = React.memo(
                       scheduleSortByDate || selectedTourDate;
                     const isWorkingOnActiveDate = activeSortDate
                       ? schedules.some(
-                          (s) =>
-                            s.date === activeSortDate &&
-                            s.crewId === member.id &&
-                            !s.isTimeOff &&
-                            s.crewId !== "openshifts",
-                        )
+                        (s) =>
+                          s.date === activeSortDate &&
+                          s.crewId === member.id &&
+                          !s.isTimeOff &&
+                          s.crewId !== "openshifts",
+                      )
                       : false;
 
                     return (
@@ -1653,7 +1653,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                 )}
                               </div>
 
-                              <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)] bg-[var(--card-bg)] p-3 text-left">
+                              <div className="wiw-tooltip w-52 rounded-lg border border-[var(--border-color)]   p-3 text-left">
                                 <div>{member.name}</div>
                                 <div className="mb-2 text-[12px] text-[var(--color-accent)]">
                                   Role: {member.role || "Crew Member"}
@@ -1707,7 +1707,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                   );
                                 }
                               }}
-                              className={`group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : "bg-[var(--card-bg)]"}`}
+                              className={`group relative w-36 shrink-0 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
                               onDragOver={(e) => {
                                 e.preventDefault();
                                 if (e.dataTransfer)
@@ -1776,10 +1776,10 @@ export const AdminSectionCrewSchedule = React.memo(
               const shiftsForDay = schedulesByDate[day.dateStr] || [];
               const dayShifts = scheduleCrewFilter
                 ? shiftsForDay.filter(
-                    (s) =>
-                      s.crewId === scheduleCrewFilter ||
-                      s.crewId === "openshifts",
-                  )
+                  (s) =>
+                    s.crewId === scheduleCrewFilter ||
+                    s.crewId === "openshifts",
+                )
                 : shiftsForDay;
               const sortedShifts = [...dayShifts].sort(
                 (a, b) => a.startHour - b.startHour,
@@ -1899,7 +1899,7 @@ export const AdminSectionCrewSchedule = React.memo(
       const renderTimelineGrid = () => {
         const hoursAxis = [8, 10, 12, 14, 16, 18, 20, 22, 24];
         return (
-          <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)] bg-[var(--card-bg)] p-4 select-none">
+          <div className="flex min-h-0 flex-1 flex-col border border-[var(--border-color)]   p-4 select-none">
             <div className="flex select-none">
               <div className="w-14 shrink-0" />
               <div className="mb-2 grid flex-1 grid-cols-7 gap-2 border-b border-[var(--border-color)] pb-2 text-center">
@@ -1946,7 +1946,7 @@ export const AdminSectionCrewSchedule = React.memo(
                 ))}
               </div>
 
-              <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)] bg-[var(--card-bg)] p-0">
+              <div className="relative grid h-[480px] flex-1 grid-cols-7 gap-2 overflow-hidden border border-[var(--border-color)]   p-0">
                 <div className="pointer-events-none absolute inset-0 flex flex-col justify-between">
                   {Array.from({ length: 17 }).map((_, idx) => (
                     <div
@@ -2216,7 +2216,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         <div className="text-pink-300">
                           Shift: {coEditorConflictAlert.shiftTitle}
                         </div>
-                        <p className="rounded border border-white/5 bg-[#00000029] p-2.5">
+                        <p className="rounded border border-white/10 bg-[#00000029] p-2.5">
                           {coEditorConflictAlert.changeDesc}
                         </p>
                       </div>
@@ -2425,7 +2425,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <button
                         type="button"
                         onClick={handleGoToMonth}
-                        className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange ==="month"?"border-purple-500/30 bg-purple-500/10":"border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
+                        className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       >
                         MONTH
                       </button>
@@ -2600,11 +2600,11 @@ export const AdminSectionCrewSchedule = React.memo(
                           ...crewMembers.flatMap((m) =>
                             m.id !== "openshifts"
                               ? [
-                                  {
-                                    label: m.name,
-                                    value: m.id,
-                                  },
-                                ]
+                                {
+                                  label: m.name,
+                                  value: m.id,
+                                },
+                              ]
                               : [],
                           ),
                         ]}
@@ -2702,15 +2702,15 @@ export const AdminSectionCrewSchedule = React.memo(
                           s.id.startsWith("test_shift_") ||
                           (s.notes && s.notes.includes("[TEST]")),
                       ) && (
-                        <button
-                          type="button"
-                          onClick={handlePurgeTestData}
-                          className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
-                          title="Purge all test schedule data ([TEST] shifts)"
-                        >
-                          Purge Test Data
-                        </button>
-                      )}
+                          <button
+                            type="button"
+                            onClick={handlePurgeTestData}
+                            className="flex animate-pulse cursor-pointer items-center gap-1.5 rounded-lg border border-solid border-purple-500/40 px-3 py-1.5 select-none hover:bg-purple-500/30 hover:text-purple-200"
+                            title="Purge all test schedule data ([TEST] shifts)"
+                          >
+                            Purge Test Data
+                          </button>
+                        )}
 
                       {/* ⏳ Coverage Requests Dropdown */}
                       {(() => {
@@ -2732,9 +2732,9 @@ export const AdminSectionCrewSchedule = React.memo(
                             const dateObj = new Date(shift.date + "T12:00:00");
                             const dateLabel = !isNaN(dateObj.getTime())
                               ? dateObj.toLocaleDateString("en-US", {
-                                  month: "short",
-                                  day: "numeric",
-                                })
+                                month: "short",
+                                day: "numeric",
+                              })
                               : shift.date;
                             return {
                               label: `${name} — ${shift.role} — ${dateLabel}`,
@@ -3190,9 +3190,9 @@ export const AdminSectionCrewSchedule = React.memo(
                                               m.id !== editingShift.crewId &&
                                               (!onlyShowFitRole ||
                                                 (m.role || "").toUpperCase() ===
-                                                  (
-                                                    editingShift.role || ""
-                                                  ).toUpperCase()),
+                                                (
+                                                  editingShift.role || ""
+                                                ).toUpperCase()),
                                           );
 
                                           if (candidates.length === 0) {
@@ -3221,7 +3221,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                               return (
                                                 <div
                                                   key={member.id}
-                                                  className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-black/30 p-1.5 hover:bg-black/40"
+                                                  className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5 hover:bg-black/40"
                                                 >
                                                   <div className="flex items-center gap-2">
                                                     {(() => {
@@ -3335,10 +3335,10 @@ export const AdminSectionCrewSchedule = React.memo(
                                   : null;
                                 const formattedDate = dateObj
                                   ? dateObj.toLocaleDateString("en-US", {
-                                      weekday: "short",
-                                      month: "short",
-                                      day: "numeric",
-                                    })
+                                    weekday: "short",
+                                    month: "short",
+                                    day: "numeric",
+                                  })
                                   : activeDropDay;
                                 const festStart =
                                   activeShow.festStart ||
@@ -3394,363 +3394,365 @@ export const AdminSectionCrewSchedule = React.memo(
                               {!(
                                 editingShift && editingShift.isCoverageRequested
                               ) && (
-                                <div className="flex min-h-0 flex-1 flex-col">
-                                  <span className="mb-2 block shrink-0 text-[0.9rem] text-white/40">
-                                    Select Crew Members Working That Day
-                                  </span>
+                                  <div className="flex min-h-0 flex-1 flex-col">
+                                    <span className="mb-2 block shrink-0 text-[0.9rem] text-white/40">
+                                      Select Crew Members Working That Day
+                                    </span>
 
-                                  {/* Search and Grouping Controls */}
-                                  <div className="admin-crew-search-wrapper w-full shrink-0 pb-3">
-                                    <SearchInput
-                                      ariaLabel="Search crew members"
-                                      value={drawerCrewSearch}
-                                      onChange={setDrawerCrewSearch}
-                                      placeholder="Search crew members..."
-                                      width="100%"
-                                      containerClassName="max-w-none w-full"
-                                    />
-                                  </div>
+                                    {/* Search and Grouping Controls */}
+                                    <div className="admin-crew-search-wrapper w-full shrink-0 pb-3">
+                                      <SearchInput
+                                        ariaLabel="Search crew members"
+                                        value={drawerCrewSearch}
+                                        onChange={setDrawerCrewSearch}
+                                        placeholder="Search crew members..."
+                                        width="100%"
+                                        containerClassName="max-w-none w-full"
+                                      />
+                                    </div>
 
-                                  <CustomScrollbar
-                                    direction="vertical"
-                                    className="min-h-0 flex-1"
-                                  >
-                                    <div className="space-y-2.5 rounded-lg pr-3 pb-4">
-                                      {(() => {
-                                        return uniqueCrewList
-                                          .filter((m: any) =>
-                                            m.name
-                                              .toLowerCase()
-                                              .includes(
-                                                drawerCrewSearch.toLowerCase(),
-                                              ),
-                                          )
-                                          .sort((a: any, b: any) => {
-                                            const aActive =
-                                              !!selectedCrewAssignments[a.id]
-                                                ?.active;
-                                            const bActive =
-                                              !!selectedCrewAssignments[b.id]
-                                                ?.active;
-                                            if (aActive && !bActive) return -1;
-                                            if (!aActive && bActive) return 1;
-                                            return a.name.localeCompare(b.name);
-                                          })
-                                          .map((member: any) => {
-                                            const assignment =
-                                              selectedCrewAssignments[
+                                    <CustomScrollbar
+                                      direction="vertical"
+                                      className="min-h-0 flex-1"
+                                    >
+                                      <div className="space-y-2.5 rounded-lg pr-3 pb-4">
+                                        {(() => {
+                                          return uniqueCrewList
+                                            .filter((m: any) =>
+                                              m.name
+                                                .toLowerCase()
+                                                .includes(
+                                                  drawerCrewSearch.toLowerCase(),
+                                                ),
+                                            )
+                                            .sort((a: any, b: any) => {
+                                              const aActive =
+                                                !!selectedCrewAssignments[a.id]
+                                                  ?.active;
+                                              const bActive =
+                                                !!selectedCrewAssignments[b.id]
+                                                  ?.active;
+                                              if (aActive && !bActive) return -1;
+                                              if (!aActive && bActive) return 1;
+                                              return a.name.localeCompare(b.name);
+                                            })
+                                            .map((member: any) => {
+                                              const assignment =
+                                                selectedCrewAssignments[
                                                 member.id
-                                              ] || {
-                                                active: false,
-                                                customized: false,
-                                                role: dropRole || "STAGE HAND",
-                                                startHour: dropStartHour,
-                                                endHour: dropEndHour,
-                                              };
+                                                ] || {
+                                                  active: false,
+                                                  customized: false,
+                                                  role: dropRole || "STAGE HAND",
+                                                  startHour: dropStartHour,
+                                                  endHour: dropEndHour,
+                                                };
 
-                                            const overlaps =
-                                              getOverlappingShifts(
-                                                member.id,
-                                                activeDropDay || "",
-                                                assignment.startHour,
-                                                assignment.endHour,
-                                                editingShiftId || undefined,
-                                              );
-                                            const isOverlapping =
-                                              overlaps.length > 0;
+                                              const overlaps =
+                                                getOverlappingShifts(
+                                                  member.id,
+                                                  activeDropDay || "",
+                                                  assignment.startHour,
+                                                  assignment.endHour,
+                                                  editingShiftId || undefined,
+                                                );
+                                              const isOverlapping =
+                                                overlaps.length > 0;
 
-                                            return (
-                                              <div
-                                                key={member.id}
-                                                className={`rounded-lg p-3.5 ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
-                                              >
-                                                <div className="flex items-center justify-between">
-                                                  <label className="flex w-full cursor-pointer items-center gap-3 select-none">
-                                                    <SquishyToggle
-                                                      id={`crew-assign-toggle-${member.id}`}
-                                                      label={`Toggle assignment for ${member.name || member.id}`}
-                                                      checked={
-                                                        !!assignment.active
-                                                      }
-                                                      onChange={(checked) => {
-                                                        setSelectedCrewAssignments(
-                                                          (prev: any) => ({
-                                                            ...prev,
-                                                            [member.id]: {
-                                                              active: checked,
-                                                              customized: false,
-                                                              role:
-                                                                assignment.role ||
-                                                                dropRole ||
-                                                                member.role ||
-                                                                "STAGE HAND",
-                                                              startHour:
-                                                                assignment.startHour ||
-                                                                dropStartHour ||
-                                                                12,
-                                                              endHour:
-                                                                assignment.endHour ||
-                                                                dropEndHour ||
-                                                                17,
-                                                              timeFrames:
-                                                                structuredClone(
-                                                                  dropTimeFrames,
-                                                                ),
-                                                            },
-                                                          }),
-                                                        );
-                                                      }}
-                                                    />
-                                                    <div className="flex flex-1 items-center gap-2">
-                                                      {(() => {
-                                                        const avatarSrc =
-                                                          resolveMemberAvatar(
-                                                            member.name,
-                                                            member.avatar,
+                                              return (
+                                                <div
+                                                  key={member.id}
+                                                  className={`rounded-lg p-3.5 ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
+                                                >
+                                                  <div className="flex items-center justify-between">
+                                                    <label className="flex w-full cursor-pointer items-center gap-3 select-none">
+                                                      <Toggle
+                                                        id={`crew-assign-toggle-${member.id}`}
+                                                        size="sm"
+                                                        label={`Toggle assignment for ${member.name || member.id}`}
+                                                        hideLabel
+                                                        checked={
+                                                          !!assignment.active
+                                                        }
+                                                        onChange={(checked) => {
+                                                          setSelectedCrewAssignments(
+                                                            (prev: any) => ({
+                                                              ...prev,
+                                                              [member.id]: {
+                                                                active: checked,
+                                                                customized: false,
+                                                                role:
+                                                                  assignment.role ||
+                                                                  dropRole ||
+                                                                  member.role ||
+                                                                  "STAGE HAND",
+                                                                startHour:
+                                                                  assignment.startHour ||
+                                                                  dropStartHour ||
+                                                                  12,
+                                                                endHour:
+                                                                  assignment.endHour ||
+                                                                  dropEndHour ||
+                                                                  17,
+                                                                timeFrames:
+                                                                  structuredClone(
+                                                                    dropTimeFrames,
+                                                                  ),
+                                                              },
+                                                            }),
                                                           );
-                                                        return avatarSrc ? (
-                                                          <img
-                                                            src={avatarSrc}
-                                                            alt={member.name}
-                                                            className="h-6 w-6 shrink-0 rounded-full border border-[var(--color-accent)]/20 object-cover"
-                                                            onError={(e) => {
-                                                              (
-                                                                e.currentTarget as HTMLElement
-                                                              ).style.display =
-                                                                "none";
-                                                            }}
-                                                          />
-                                                        ) : (
-                                                          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]">
-                                                            {member.initials ||
-                                                              member.name
-                                                                .split(" ")
-                                                                .map(
-                                                                  (n: string) =>
-                                                                    n[0],
-                                                                )
-                                                                .join("")
-                                                                .toUpperCase()
-                                                                .slice(0, 2)}
-                                                          </div>
-                                                        );
-                                                      })()}
-                                                      <div className="min-w-0 flex-1">
-                                                        <div className="flex items-center justify-between gap-2">
-                                                          <span className="block">
-                                                            {member.name}
-                                                          </span>
-                                                          {assignment.active && (
-                                                            <span className="shrink-0 rounded-full bg-purple-500 px-2 py-0.5 text-[12px]">
-                                                              Selected
-                                                            </span>
-                                                          )}
-                                                        </div>
-                                                        <span className="mt-0.5 block">
-                                                          {member.phone ||
-                                                            "No phone"}{" "}
-                                                          |{" "}
-                                                          {member.email ||
-                                                            "No email"}
-                                                        </span>
+                                                        }}
+                                                      />
+                                                      <div className="flex flex-1 items-center gap-2">
                                                         {(() => {
-                                                          const memberShifts = (
-                                                            activeDayShiftsByCrew[
-                                                              member.id
-                                                            ] || []
-                                                          ).filter(
-                                                            (s: any) =>
-                                                              s.id !==
-                                                              editingShiftId,
-                                                          );
-                                                          if (
-                                                            memberShifts.length ===
-                                                            0
-                                                          )
-                                                            return null;
-                                                          return (
-                                                            <div className="flex flex-wrap gap-1">
-                                                              {memberShifts.map(
+                                                          const avatarSrc =
+                                                            resolveMemberAvatar(
+                                                              member.name,
+                                                              member.avatar,
+                                                            );
+                                                          return avatarSrc ? (
+                                                            <img
+                                                              src={avatarSrc}
+                                                              alt={member.name}
+                                                              className="h-6 w-6 shrink-0 rounded-full border border-[var(--color-accent)]/20 object-cover"
+                                                              onError={(e) => {
                                                                 (
-                                                                  s: any,
-                                                                  idx: number,
-                                                                ) => (
-                                                                  <span
-                                                                    key={idx}
-                                                                    className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 select-none"
-                                                                  >
-                                                                    {s.role ||
-                                                                      "SHIFT"}
-                                                                    :{" "}
-                                                                    {s.time ||
-                                                                      formatTimeFrame(
-                                                                        s.startHour,
-                                                                        s.endHour,
-                                                                      )}
-                                                                  </span>
-                                                                ),
-                                                              )}
+                                                                  e.currentTarget as HTMLElement
+                                                                ).style.display =
+                                                                  "none";
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]">
+                                                              {member.initials ||
+                                                                member.name
+                                                                  .split(" ")
+                                                                  .map(
+                                                                    (n: string) =>
+                                                                      n[0],
+                                                                  )
+                                                                  .join("")
+                                                                  .toUpperCase()
+                                                                  .slice(0, 2)}
                                                             </div>
                                                           );
                                                         })()}
-                                                        {isOverlapping && (
-                                                          <span className="mt-0.5 block text-[9px] text-red-400">
-                                                            Overlaps:{" "}
-                                                            {overlaps[0].time}
-                                                          </span>
-                                                        )}
-                                                      </div>
-                                                    </div>
-                                                  </label>
-                                                </div>
-
-                                                {/* Inline Time Frames & Form Fields for Toggled Member */}
-                                                {assignment.active && (
-                                                  <div className="mt-3.5 animate-[fadeIn_0.2s_ease] space-y-4 border-t border-white/10 pt-3">
-                                                    {dropTimeFrames.map(
-                                                      (
-                                                        tf: any,
-                                                        index: number,
-                                                      ) => (
-                                                        <div
-                                                          key={
-                                                            tf.id ||
-                                                            tf._id ||
-                                                            `tf-${tf.role || "role"}-${tf.startHour ?? "start"}-${tf.endHour ?? "end"}`
-                                                          }
-                                                          className="relative animate-[fadeIn_0.2s_ease] space-y-3 rounded-lg border border-white/10 p-3.5"
-                                                        >
-                                                          <div className="flex items-center justify-between">
-                                                            <span
-                                                              style={{
-                                                                fontSize:
-                                                                  "11px",
-                                                              }}
-                                                            >
-                                                              Time Frame{" "}
-                                                              {index + 1}
+                                                        <div className="min-w-0 flex-1">
+                                                          <div className="flex items-center justify-between gap-2">
+                                                            <span className="block">
+                                                              {member.name}
                                                             </span>
-                                                            {dropTimeFrames.length >
-                                                              1 && (
-                                                              <button
-                                                                type="button"
-                                                                onClick={() => {
-                                                                  setDropTimeFrames(
-                                                                    (
-                                                                      prev: any[],
-                                                                    ) =>
-                                                                      prev.filter(
-                                                                        (
-                                                                          _: any,
-                                                                          i: number,
-                                                                        ) =>
-                                                                          i !==
-                                                                          index,
-                                                                      ),
-                                                                  );
-                                                                }}
-                                                                className="cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
-                                                                style={{
-                                                                  fontSize:
-                                                                    "10px",
-                                                                }}
-                                                              >
-                                                                Remove
-                                                              </button>
+                                                            {assignment.active && (
+                                                              <span className="shrink-0 rounded-full bg-purple-500 px-2 py-0.5 text-[12px]">
+                                                                Selected
+                                                              </span>
                                                             )}
                                                           </div>
+                                                          <span className="mt-0.5 block">
+                                                            {member.phone ||
+                                                              "No phone"}{" "}
+                                                            |{" "}
+                                                            {member.email ||
+                                                              "No email"}
+                                                          </span>
+                                                          {(() => {
+                                                            const memberShifts = (
+                                                              activeDayShiftsByCrew[
+                                                              member.id
+                                                              ] || []
+                                                            ).filter(
+                                                              (s: any) =>
+                                                                s.id !==
+                                                                editingShiftId,
+                                                            );
+                                                            if (
+                                                              memberShifts.length ===
+                                                              0
+                                                            )
+                                                              return null;
+                                                            return (
+                                                              <div className="flex flex-wrap gap-1">
+                                                                {memberShifts.map(
+                                                                  (
+                                                                    s: any,
+                                                                    idx: number,
+                                                                  ) => (
+                                                                    <span
+                                                                      key={idx}
+                                                                      className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-1.5 py-0.5 select-none"
+                                                                    >
+                                                                      {s.role ||
+                                                                        "SHIFT"}
+                                                                      :{" "}
+                                                                      {s.time ||
+                                                                        formatTimeFrame(
+                                                                          s.startHour,
+                                                                          s.endHour,
+                                                                        )}
+                                                                    </span>
+                                                                  ),
+                                                                )}
+                                                              </div>
+                                                            );
+                                                          })()}
+                                                          {isOverlapping && (
+                                                            <span className="mt-0.5 block text-[9px] text-red-400">
+                                                              Overlaps:{" "}
+                                                              {overlaps[0].time}
+                                                            </span>
+                                                          )}
+                                                        </div>
+                                                      </div>
+                                                    </label>
+                                                  </div>
 
-                                                          <div className="grid grid-cols-2 gap-3">
-                                                            <div>
-                                                              <label
-                                                                className="mb-1 block text-[10px] text-white/50"
+                                                  {/* Inline Time Frames & Form Fields for Toggled Member */}
+                                                  {assignment.active && (
+                                                    <div className="mt-3.5 animate-[fadeIn_0.2s_ease] space-y-4 border-t border-white/10 pt-3">
+                                                      {dropTimeFrames.map(
+                                                        (
+                                                          tf: any,
+                                                          index: number,
+                                                        ) => (
+                                                          <div
+                                                            key={
+                                                              tf.id ||
+                                                              tf._id ||
+                                                              `tf-${tf.role || "role"}-${tf.startHour ?? "start"}-${tf.endHour ?? "end"}`
+                                                            }
+                                                            className="relative animate-[fadeIn_0.2s_ease] space-y-3 rounded-lg border border-white/10 p-3.5"
+                                                          >
+                                                            <div className="flex items-center justify-between">
+                                                              <span
                                                                 style={{
                                                                   fontSize:
-                                                                    "10px",
+                                                                    "11px",
                                                                 }}
                                                               >
-                                                                Start Time
-                                                              </label>
-                                                              <GooeyMessagesDropdown
-                                                                placeholder="Select Start Time"
-                                                                showAllOption={
-                                                                  false
-                                                                }
-                                                                selected={String(
-                                                                  tf.startHour,
-                                                                )}
-                                                                options={generateTimeOptions().map(
-                                                                  (opt) => ({
-                                                                    label:
-                                                                      opt.label,
-                                                                    value:
-                                                                      String(
-                                                                        opt.value,
-                                                                      ),
-                                                                  }),
-                                                                )}
-                                                                onChange={(
-                                                                  val,
-                                                                ) => {
-                                                                  const num =
-                                                                    parseFloat(
-                                                                      val,
-                                                                    );
-                                                                  if (
-                                                                    isNaN(num)
-                                                                  )
-                                                                    return;
-                                                                  setDropTimeFrames(
-                                                                    (
-                                                                      prev: any[],
-                                                                    ) =>
-                                                                      prev.map(
+                                                                Time Frame{" "}
+                                                                {index + 1}
+                                                              </span>
+                                                              {dropTimeFrames.length >
+                                                                1 && (
+                                                                  <button
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                      setDropTimeFrames(
                                                                         (
-                                                                          item: any,
-                                                                          i: number,
+                                                                          prev: any[],
                                                                         ) =>
-                                                                          i ===
-                                                                          index
-                                                                            ? {
-                                                                                ...item,
-                                                                                startHour:
-                                                                                  num,
-                                                                              }
-                                                                            : item,
-                                                                      ),
-                                                                  );
-                                                                  setSelectedCrewAssignments(
-                                                                    (
-                                                                      prev: any,
-                                                                    ) => {
-                                                                      const current =
-                                                                        prev[
-                                                                          member
-                                                                            .id
-                                                                        ] || {
-                                                                          active: true,
-                                                                        };
-                                                                      const baseTfs =
-                                                                        current.timeFrames ||
-                                                                        dropTimeFrames;
-                                                                      const tfs =
-                                                                        baseTfs.map(
+                                                                          prev.filter(
+                                                                            (
+                                                                              _: any,
+                                                                              i: number,
+                                                                            ) =>
+                                                                              i !==
+                                                                              index,
+                                                                          ),
+                                                                      );
+                                                                    }}
+                                                                    className="cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
+                                                                    style={{
+                                                                      fontSize:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Remove
+                                                                  </button>
+                                                                )}
+                                                            </div>
+
+                                                            <div className="grid grid-cols-2 gap-3">
+                                                              <div>
+                                                                <label
+                                                                  className="mb-1 block text-[10px] text-white/50"
+                                                                  style={{
+                                                                    fontSize:
+                                                                      "10px",
+                                                                  }}
+                                                                >
+                                                                  Start Time
+                                                                </label>
+                                                                <GooeyMessagesDropdown
+                                                                  placeholder="Select Start Time"
+                                                                  showAllOption={
+                                                                    false
+                                                                  }
+                                                                  selected={String(
+                                                                    tf.startHour,
+                                                                  )}
+                                                                  options={generateTimeOptions().map(
+                                                                    (opt) => ({
+                                                                      label:
+                                                                        opt.label,
+                                                                      value:
+                                                                        String(
+                                                                          opt.value,
+                                                                        ),
+                                                                    }),
+                                                                  )}
+                                                                  onChange={(
+                                                                    val,
+                                                                  ) => {
+                                                                    const num =
+                                                                      parseFloat(
+                                                                        val,
+                                                                      );
+                                                                    if (
+                                                                      isNaN(num)
+                                                                    )
+                                                                      return;
+                                                                    setDropTimeFrames(
+                                                                      (
+                                                                        prev: any[],
+                                                                      ) =>
+                                                                        prev.map(
                                                                           (
                                                                             item: any,
                                                                             i: number,
                                                                           ) =>
                                                                             i ===
-                                                                            index
+                                                                              index
                                                                               ? {
+                                                                                ...item,
+                                                                                startHour:
+                                                                                  num,
+                                                                              }
+                                                                              : item,
+                                                                        ),
+                                                                    );
+                                                                    setSelectedCrewAssignments(
+                                                                      (
+                                                                        prev: any,
+                                                                      ) => {
+                                                                        const current =
+                                                                          prev[
+                                                                          member
+                                                                            .id
+                                                                          ] || {
+                                                                            active: true,
+                                                                          };
+                                                                        const baseTfs =
+                                                                          current.timeFrames ||
+                                                                          dropTimeFrames;
+                                                                        const tfs =
+                                                                          baseTfs.map(
+                                                                            (
+                                                                              item: any,
+                                                                              i: number,
+                                                                            ) =>
+                                                                              i ===
+                                                                                index
+                                                                                ? {
                                                                                   ...item,
                                                                                   startHour:
                                                                                     num,
                                                                                 }
-                                                                              : item,
-                                                                        );
-                                                                      return {
-                                                                        ...prev,
-                                                                        [member.id]:
+                                                                                : item,
+                                                                          );
+                                                                        return {
+                                                                          ...prev,
+                                                                          [member.id]:
                                                                           {
                                                                             ...current,
                                                                             startHour:
@@ -3758,53 +3760,134 @@ export const AdminSectionCrewSchedule = React.memo(
                                                                             timeFrames:
                                                                               tfs,
                                                                           },
-                                                                      };
-                                                                    },
-                                                                  );
-                                                                }}
-                                                                fullWidth
-                                                              />
+                                                                        };
+                                                                      },
+                                                                    );
+                                                                  }}
+                                                                  fullWidth
+                                                                />
+                                                              </div>
+
+                                                              <div>
+                                                                <label
+                                                                  className="mb-1 block text-[10px] text-white/50"
+                                                                  style={{
+                                                                    fontSize:
+                                                                      "10px",
+                                                                  }}
+                                                                >
+                                                                  End Time
+                                                                </label>
+                                                                <GooeyMessagesDropdown
+                                                                  placeholder="Select End Time"
+                                                                  showAllOption={
+                                                                    false
+                                                                  }
+                                                                  selected={String(
+                                                                    tf.endHour,
+                                                                  )}
+                                                                  options={generateTimeOptions().map(
+                                                                    (opt) => ({
+                                                                      label:
+                                                                        opt.label,
+                                                                      value:
+                                                                        String(
+                                                                          opt.value,
+                                                                        ),
+                                                                    }),
+                                                                  )}
+                                                                  onChange={(
+                                                                    val,
+                                                                  ) => {
+                                                                    const num =
+                                                                      parseFloat(
+                                                                        val,
+                                                                      );
+                                                                    if (
+                                                                      isNaN(num)
+                                                                    )
+                                                                      return;
+                                                                    setDropTimeFrames(
+                                                                      (
+                                                                        prev: any[],
+                                                                      ) =>
+                                                                        prev.map(
+                                                                          (
+                                                                            item: any,
+                                                                            i: number,
+                                                                          ) =>
+                                                                            i ===
+                                                                              index
+                                                                              ? {
+                                                                                ...item,
+                                                                                endHour:
+                                                                                  num,
+                                                                              }
+                                                                              : item,
+                                                                        ),
+                                                                    );
+                                                                    setSelectedCrewAssignments(
+                                                                      (
+                                                                        prev: any,
+                                                                      ) => {
+                                                                        const current =
+                                                                          prev[
+                                                                          member
+                                                                            .id
+                                                                          ] || {
+                                                                            active: true,
+                                                                          };
+                                                                        const baseTfs =
+                                                                          current.timeFrames ||
+                                                                          dropTimeFrames;
+                                                                        const tfs =
+                                                                          baseTfs.map(
+                                                                            (
+                                                                              item: any,
+                                                                              i: number,
+                                                                            ) =>
+                                                                              i ===
+                                                                                index
+                                                                                ? {
+                                                                                  ...item,
+                                                                                  endHour:
+                                                                                    num,
+                                                                                }
+                                                                                : item,
+                                                                          );
+                                                                        return {
+                                                                          ...prev,
+                                                                          [member.id]:
+                                                                          {
+                                                                            ...current,
+                                                                            endHour:
+                                                                              num,
+                                                                            timeFrames:
+                                                                              tfs,
+                                                                          },
+                                                                        };
+                                                                      },
+                                                                    );
+                                                                  }}
+                                                                  fullWidth
+                                                                />
+                                                              </div>
                                                             </div>
 
-                                                            <div>
-                                                              <label
-                                                                className="mb-1 block text-[10px] text-white/50"
-                                                                style={{
-                                                                  fontSize:
-                                                                    "10px",
-                                                                }}
-                                                              >
-                                                                End Time
-                                                              </label>
-                                                              <GooeyMessagesDropdown
-                                                                placeholder="Select End Time"
-                                                                showAllOption={
-                                                                  false
-                                                                }
-                                                                selected={String(
-                                                                  tf.endHour,
-                                                                )}
-                                                                options={generateTimeOptions().map(
-                                                                  (opt) => ({
-                                                                    label:
-                                                                      opt.label,
-                                                                    value:
-                                                                      String(
-                                                                        opt.value,
-                                                                      ),
-                                                                  }),
-                                                                )}
+                                                            <div className="space-y-1">
+                                                              <GlowInput
+                                                                id={`admin-drawer-role-${index}`}
+                                                                label="Role / Duty"
+                                                                labelClassName="mb-1 block text-[10px] text-white/50"
+                                                                rounded="rounded-lg"
+                                                                type="text"
+                                                                value={tf.role}
                                                                 onChange={(
-                                                                  val,
+                                                                  e,
                                                                 ) => {
-                                                                  const num =
-                                                                    parseFloat(
-                                                                      val,
-                                                                    );
-                                                                  if (
-                                                                    isNaN(num)
-                                                                  )
-                                                                    return;
+                                                                  const val =
+                                                                    e.target
+                                                                      .value;
                                                                   setDropTimeFrames(
                                                                     (
                                                                       prev: any[],
@@ -3815,117 +3898,36 @@ export const AdminSectionCrewSchedule = React.memo(
                                                                           i: number,
                                                                         ) =>
                                                                           i ===
-                                                                          index
-                                                                            ? {
-                                                                                ...item,
-                                                                                endHour:
-                                                                                  num,
-                                                                              }
-                                                                            : item,
-                                                                      ),
-                                                                  );
-                                                                  setSelectedCrewAssignments(
-                                                                    (
-                                                                      prev: any,
-                                                                    ) => {
-                                                                      const current =
-                                                                        prev[
-                                                                          member
-                                                                            .id
-                                                                        ] || {
-                                                                          active: true,
-                                                                        };
-                                                                      const baseTfs =
-                                                                        current.timeFrames ||
-                                                                        dropTimeFrames;
-                                                                      const tfs =
-                                                                        baseTfs.map(
-                                                                          (
-                                                                            item: any,
-                                                                            i: number,
-                                                                          ) =>
-                                                                            i ===
                                                                             index
-                                                                              ? {
-                                                                                  ...item,
-                                                                                  endHour:
-                                                                                    num,
-                                                                                }
-                                                                              : item,
-                                                                        );
-                                                                      return {
-                                                                        ...prev,
-                                                                        [member.id]:
-                                                                          {
-                                                                            ...current,
-                                                                            endHour:
-                                                                              num,
-                                                                            timeFrames:
-                                                                              tfs,
-                                                                          },
-                                                                      };
-                                                                    },
-                                                                  );
-                                                                }}
-                                                                fullWidth
-                                                              />
-                                                            </div>
-                                                          </div>
-
-                                                          <div className="space-y-1">
-                                                            <GlowInput
-                                                              id={`admin-drawer-role-${index}`}
-                                                              label="Role / Duty"
-                                                              labelClassName="mb-1 block text-[10px] text-white/50"
-                                                              rounded="rounded-lg"
-                                                              type="text"
-                                                              value={tf.role}
-                                                              onChange={(
-                                                                e,
-                                                              ) => {
-                                                                const val =
-                                                                  e.target
-                                                                    .value;
-                                                                setDropTimeFrames(
-                                                                  (
-                                                                    prev: any[],
-                                                                  ) =>
-                                                                    prev.map(
-                                                                      (
-                                                                        item: any,
-                                                                        i: number,
-                                                                      ) =>
-                                                                        i ===
-                                                                        index
-                                                                          ? {
+                                                                            ? {
                                                                               ...item,
                                                                               role: val,
                                                                             }
-                                                                          : item,
-                                                                    ),
-                                                                );
-                                                              }}
-                                                              placeholder="e.g. Audio Mix"
-                                                            />
-                                                            <div className="flex flex-wrap gap-1">
-                                                              {[
-                                                                "STAGE HAND",
-                                                                "AUDIO MIX",
-                                                                "LIGHTS",
-                                                                "EQUIPMENT SETUP",
-                                                                "TEAR DOWN",
-                                                                "MERCH",
-                                                                "TOUR MANAGER",
-                                                                "SOUND ENGINEER",
-                                                                "STAGE MANAGER",
-                                                                "PHOTOGRAPHER",
-                                                                "CAMERA",
-                                                                "BAND MEMBER",
-                                                              ].map(
-                                                                (preset) => {
-                                                                  const currentRoles =
-                                                                    tf.role
-                                                                      ? tf.role
+                                                                            : item,
+                                                                      ),
+                                                                  );
+                                                                }}
+                                                                placeholder="e.g. Audio Mix"
+                                                              />
+                                                              <div className="flex flex-wrap gap-1">
+                                                                {[
+                                                                  "STAGE HAND",
+                                                                  "AUDIO MIX",
+                                                                  "LIGHTS",
+                                                                  "EQUIPMENT SETUP",
+                                                                  "TEAR DOWN",
+                                                                  "MERCH",
+                                                                  "TOUR MANAGER",
+                                                                  "SOUND ENGINEER",
+                                                                  "STAGE MANAGER",
+                                                                  "PHOTOGRAPHER",
+                                                                  "CAMERA",
+                                                                  "BAND MEMBER",
+                                                                ].map(
+                                                                  (preset) => {
+                                                                    const currentRoles =
+                                                                      tf.role
+                                                                        ? tf.role
                                                                           .split(
                                                                             /[,|/]/,
                                                                           )
@@ -3940,21 +3942,21 @@ export const AdminSectionCrewSchedule = React.memo(
                                                                           .filter(
                                                                             Boolean,
                                                                           )
-                                                                      : [];
-                                                                  const isSelected =
-                                                                    currentRoles.includes(
-                                                                      preset.toUpperCase(),
-                                                                    );
-                                                                  return (
-                                                                    <button
-                                                                      key={
-                                                                        preset
-                                                                      }
-                                                                      type="button"
-                                                                      onClick={() => {
-                                                                        const rawRoles =
-                                                                          tf.role
-                                                                            ? tf.role
+                                                                        : [];
+                                                                    const isSelected =
+                                                                      currentRoles.includes(
+                                                                        preset.toUpperCase(),
+                                                                      );
+                                                                    return (
+                                                                      <button
+                                                                        key={
+                                                                          preset
+                                                                        }
+                                                                        type="button"
+                                                                        onClick={() => {
+                                                                          const rawRoles =
+                                                                            tf.role
+                                                                              ? tf.role
                                                                                 .split(
                                                                                   /[,|/]/,
                                                                                 )
@@ -3967,246 +3969,246 @@ export const AdminSectionCrewSchedule = React.memo(
                                                                                 .filter(
                                                                                   Boolean,
                                                                                 )
-                                                                            : [];
-                                                                        const upperPreset =
-                                                                          preset.toUpperCase();
-                                                                        const exists =
-                                                                          rawRoles.some(
-                                                                            (
-                                                                              r: string,
-                                                                            ) =>
-                                                                              r.toUpperCase() ===
-                                                                              upperPreset,
-                                                                          );
-                                                                        let newRoles: string[];
-                                                                        if (
-                                                                          exists
-                                                                        ) {
-                                                                          newRoles =
-                                                                            rawRoles.filter(
+                                                                              : [];
+                                                                          const upperPreset =
+                                                                            preset.toUpperCase();
+                                                                          const exists =
+                                                                            rawRoles.some(
                                                                               (
                                                                                 r: string,
                                                                               ) =>
-                                                                                r.toUpperCase() !==
+                                                                                r.toUpperCase() ===
                                                                                 upperPreset,
                                                                             );
-                                                                        } else {
-                                                                          newRoles =
-                                                                            [
-                                                                              ...rawRoles,
-                                                                              preset,
-                                                                            ];
-                                                                        }
-                                                                        const newRoleStr =
-                                                                          newRoles.join(
-                                                                            ", ",
-                                                                          );
-                                                                        setDropTimeFrames(
-                                                                          (
-                                                                            prev: any[],
-                                                                          ) =>
-                                                                            prev.map(
-                                                                              (
-                                                                                item: any,
-                                                                                i: number,
-                                                                              ) =>
-                                                                                i ===
-                                                                                index
-                                                                                  ? {
+                                                                          let newRoles: string[];
+                                                                          if (
+                                                                            exists
+                                                                          ) {
+                                                                            newRoles =
+                                                                              rawRoles.filter(
+                                                                                (
+                                                                                  r: string,
+                                                                                ) =>
+                                                                                  r.toUpperCase() !==
+                                                                                  upperPreset,
+                                                                              );
+                                                                          } else {
+                                                                            newRoles =
+                                                                              [
+                                                                                ...rawRoles,
+                                                                                preset,
+                                                                              ];
+                                                                          }
+                                                                          const newRoleStr =
+                                                                            newRoles.join(
+                                                                              ", ",
+                                                                            );
+                                                                          setDropTimeFrames(
+                                                                            (
+                                                                              prev: any[],
+                                                                            ) =>
+                                                                              prev.map(
+                                                                                (
+                                                                                  item: any,
+                                                                                  i: number,
+                                                                                ) =>
+                                                                                  i ===
+                                                                                    index
+                                                                                    ? {
                                                                                       ...item,
                                                                                       role: newRoleStr,
                                                                                     }
-                                                                                  : item,
+                                                                                    : item,
+                                                                              ),
+                                                                          );
+                                                                        }}
+                                                                        className={`cursor-pointer rounded-full border px-2 py-0.5 text-[10.5px] ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
+                                                                      >
+                                                                        {isSelected
+                                                                          ? ` ${preset}`
+                                                                          : preset}
+                                                                      </button>
+                                                                    );
+                                                                  },
+                                                                )}
+                                                              </div>
+                                                            </div>
+
+                                                            <div className="space-y-1">
+                                                              <label
+                                                                className="mb-1 block text-[10px] text-white/50"
+                                                                style={{
+                                                                  fontSize:
+                                                                    "10px",
+                                                                }}
+                                                              >
+                                                                Tags
+                                                              </label>
+                                                              <GooeyMessagesDropdown
+                                                                placeholder="Select tags..."
+                                                                showAllOption={
+                                                                  false
+                                                                }
+                                                                options={[
+                                                                  "Overtime",
+                                                                  "Double Shift",
+                                                                  "Split Shift",
+                                                                  "Standby",
+                                                                  "Backup",
+                                                                  "Training",
+                                                                ].map((t) => ({
+                                                                  label: t,
+                                                                  value: t,
+                                                                }))}
+                                                                onChange={(
+                                                                  val,
+                                                                ) => {
+                                                                  setDropTimeFrames(
+                                                                    (
+                                                                      prev: any[],
+                                                                    ) =>
+                                                                      prev.map(
+                                                                        (
+                                                                          item: any,
+                                                                          i: number,
+                                                                        ) => {
+                                                                          if (
+                                                                            i !==
+                                                                            index
+                                                                          )
+                                                                            return item;
+                                                                          const tagSet =
+                                                                            new Set(
+                                                                              item.tags ||
+                                                                              [],
+                                                                            );
+                                                                          if (
+                                                                            tagSet.has(
+                                                                              val,
+                                                                            )
+                                                                          ) {
+                                                                            tagSet.delete(
+                                                                              val,
+                                                                            );
+                                                                          } else {
+                                                                            tagSet.add(
+                                                                              val,
+                                                                            );
+                                                                          }
+                                                                          return {
+                                                                            ...item,
+                                                                            tags: Array.from(
+                                                                              tagSet,
                                                                             ),
-                                                                        );
-                                                                      }}
-                                                                      className={`cursor-pointer rounded-full border px-2 py-0.5 text-[10.5px] ${isSelected ? "border-purple-500 bg-purple-600" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
-                                                                    >
-                                                                      {isSelected
-                                                                        ? ` ${preset}`
-                                                                        : preset}
-                                                                    </button>
+                                                                          };
+                                                                        },
+                                                                      ),
                                                                   );
-                                                                },
-                                                              )}
+                                                                }}
+                                                                fullWidth
+                                                              />
+                                                              {tf.tags &&
+                                                                tf.tags.length >
+                                                                0 && (
+                                                                  <div className="flex flex-wrap gap-1">
+                                                                    {tf.tags.map(
+                                                                      (
+                                                                        tag: string,
+                                                                      ) => (
+                                                                        <span
+                                                                          key={
+                                                                            tag
+                                                                          }
+                                                                          className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-2 py-0.5"
+                                                                        >
+                                                                          {tag}
+                                                                          <button
+                                                                            type="button"
+                                                                            aria-label={`Remove ${tag} tag`}
+                                                                            onClick={() => {
+                                                                              setDropTimeFrames(
+                                                                                (
+                                                                                  prev: any[],
+                                                                                ) =>
+                                                                                  prev.map(
+                                                                                    (
+                                                                                      item: any,
+                                                                                      i: number,
+                                                                                    ) => {
+                                                                                      if (
+                                                                                        i ===
+                                                                                        index
+                                                                                      ) {
+                                                                                        return {
+                                                                                          ...item,
+                                                                                          tags: (
+                                                                                            item.tags ||
+                                                                                            []
+                                                                                          ).filter(
+                                                                                            (
+                                                                                              t: string,
+                                                                                            ) =>
+                                                                                              t !==
+                                                                                              tag,
+                                                                                          ),
+                                                                                        };
+                                                                                      }
+                                                                                      return item;
+                                                                                    },
+                                                                                  ),
+                                                                              );
+                                                                            }}
+                                                                            className="text-4xs cursor-pointer border-none p-0 hover:text-white"
+                                                                          >
+                                                                            ✕
+                                                                          </button>
+                                                                        </span>
+                                                                      ),
+                                                                    )}
+                                                                  </div>
+                                                                )}
                                                             </div>
                                                           </div>
+                                                        ),
+                                                      )}
 
-                                                          <div className="space-y-1">
-                                                            <label
-                                                              className="mb-1 block text-[10px] text-white/50"
-                                                              style={{
-                                                                fontSize:
-                                                                  "10px",
-                                                              }}
-                                                            >
-                                                              Tags
-                                                            </label>
-                                                            <GooeyMessagesDropdown
-                                                              placeholder="Select tags..."
-                                                              showAllOption={
-                                                                false
-                                                              }
-                                                              options={[
-                                                                "Overtime",
-                                                                "Double Shift",
-                                                                "Split Shift",
-                                                                "Standby",
-                                                                "Backup",
-                                                                "Training",
-                                                              ].map((t) => ({
-                                                                label: t,
-                                                                value: t,
-                                                              }))}
-                                                              onChange={(
-                                                                val,
-                                                              ) => {
-                                                                setDropTimeFrames(
-                                                                  (
-                                                                    prev: any[],
-                                                                  ) =>
-                                                                    prev.map(
-                                                                      (
-                                                                        item: any,
-                                                                        i: number,
-                                                                      ) => {
-                                                                        if (
-                                                                          i !==
-                                                                          index
-                                                                        )
-                                                                          return item;
-                                                                        const tagSet =
-                                                                          new Set(
-                                                                            item.tags ||
-                                                                              [],
-                                                                          );
-                                                                        if (
-                                                                          tagSet.has(
-                                                                            val,
-                                                                          )
-                                                                        ) {
-                                                                          tagSet.delete(
-                                                                            val,
-                                                                          );
-                                                                        } else {
-                                                                          tagSet.add(
-                                                                            val,
-                                                                          );
-                                                                        }
-                                                                        return {
-                                                                          ...item,
-                                                                          tags: Array.from(
-                                                                            tagSet,
-                                                                          ),
-                                                                        };
-                                                                      },
-                                                                    ),
-                                                                );
-                                                              }}
-                                                              fullWidth
-                                                            />
-                                                            {tf.tags &&
-                                                              tf.tags.length >
-                                                                0 && (
-                                                                <div className="flex flex-wrap gap-1">
-                                                                  {tf.tags.map(
-                                                                    (
-                                                                      tag: string,
-                                                                    ) => (
-                                                                      <span
-                                                                        key={
-                                                                          tag
-                                                                        }
-                                                                        className="text-4xs inline-flex items-center gap-1 rounded border border-white/10 bg-purple-500/10 px-2 py-0.5"
-                                                                      >
-                                                                        {tag}
-                                                                        <button
-                                                                          type="button"
-                                                                          aria-label={`Remove ${tag} tag`}
-                                                                          onClick={() => {
-                                                                            setDropTimeFrames(
-                                                                              (
-                                                                                prev: any[],
-                                                                              ) =>
-                                                                                prev.map(
-                                                                                  (
-                                                                                    item: any,
-                                                                                    i: number,
-                                                                                  ) => {
-                                                                                    if (
-                                                                                      i ===
-                                                                                      index
-                                                                                    ) {
-                                                                                      return {
-                                                                                        ...item,
-                                                                                        tags: (
-                                                                                          item.tags ||
-                                                                                          []
-                                                                                        ).filter(
-                                                                                          (
-                                                                                            t: string,
-                                                                                          ) =>
-                                                                                            t !==
-                                                                                            tag,
-                                                                                        ),
-                                                                                      };
-                                                                                    }
-                                                                                    return item;
-                                                                                  },
-                                                                                ),
-                                                                            );
-                                                                          }}
-                                                                          className="text-4xs cursor-pointer border-none p-0 hover:text-white"
-                                                                        >
-                                                                          ✕
-                                                                        </button>
-                                                                      </span>
-                                                                    ),
-                                                                  )}
-                                                                </div>
-                                                              )}
-                                                          </div>
-                                                        </div>
-                                                      ),
-                                                    )}
-
-                                                    {dropTimeFrames.length <
-                                                      3 && (
-                                                      <button
-                                                        type="button"
-                                                        onClick={() => {
-                                                          setDropTimeFrames(
-                                                            (prev: any[]) => [
-                                                              ...prev,
-                                                              {
-                                                                startHour: 12,
-                                                                endHour: 17,
-                                                                role: "STAGE HAND",
-                                                                tags: [],
-                                                              },
-                                                            ],
-                                                          );
-                                                        }}
-                                                        className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2"
-                                                        style={{
-                                                          fontSize: "11px",
-                                                        }}
-                                                      >
-                                                        Add Time Frame (
-                                                        {dropTimeFrames.length}
-                                                        /3)
-                                                      </button>
-                                                    )}
-                                                  </div>
-                                                )}
-                                              </div>
-                                            );
-                                          });
-                                      })()}
-                                    </div>
-                                  </CustomScrollbar>
-                                </div>
-                              )}
+                                                      {dropTimeFrames.length <
+                                                        3 && (
+                                                          <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                              setDropTimeFrames(
+                                                                (prev: any[]) => [
+                                                                  ...prev,
+                                                                  {
+                                                                    startHour: 12,
+                                                                    endHour: 17,
+                                                                    role: "STAGE HAND",
+                                                                    tags: [],
+                                                                  },
+                                                                ],
+                                                              );
+                                                            }}
+                                                            className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2"
+                                                            style={{
+                                                              fontSize: "11px",
+                                                            }}
+                                                          >
+                                                            Add Time Frame (
+                                                            {dropTimeFrames.length}
+                                                            /3)
+                                                          </button>
+                                                        )}
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              );
+                                            });
+                                        })()}
+                                      </div>
+                                    </CustomScrollbar>
+                                  </div>
+                                )}
                             </div>
 
                             {/* Drawer Footer */}
@@ -4527,9 +4529,11 @@ export const AdminSectionCrewSchedule = React.memo(
                                     <label className="group -mx-1.5 flex cursor-pointer items-center justify-between gap-3 rounded-lg bg-[#00000029] px-1.5 py-1 select-none">
                                       {/* Left checkbox and avatar */}
                                       <div className="flex min-w-0 items-center gap-3">
-                                        <SquishyToggle
+                                        <Toggle
                                           id={`group-member-toggle-${m.id}`}
+                                          size="sm"
                                           label={`Toggle active for ${m.name || m.id}`}
+                                          hideLabel
                                           checked={!!setting.active}
                                           onChange={(act: boolean) => {
                                             setNewGroupMemberSettings(
@@ -4539,18 +4543,18 @@ export const AdminSectionCrewSchedule = React.memo(
                                                   active: act,
                                                   timeFrames:
                                                     prev[m.id]?.timeFrames &&
-                                                    prev[m.id]?.timeFrames!
-                                                      .length > 0
+                                                      prev[m.id]?.timeFrames!
+                                                        .length > 0
                                                       ? prev[m.id]?.timeFrames!
                                                       : [
-                                                          {
-                                                            startHour: 17.0,
-                                                            endHour: 22.0,
-                                                            role:
-                                                              m.role ||
-                                                              "STAGE HAND",
-                                                          },
-                                                        ],
+                                                        {
+                                                          startHour: 17.0,
+                                                          endHour: 22.0,
+                                                          role:
+                                                            m.role ||
+                                                            "STAGE HAND",
+                                                        },
+                                                      ],
                                                 },
                                               }),
                                             );
@@ -4613,32 +4617,32 @@ export const AdminSectionCrewSchedule = React.memo(
                                               </span>
                                               {(setting.timeFrames || [])
                                                 .length > 1 && (
-                                                <button
-                                                  type="button"
-                                                  onClick={() => {
-                                                    const currentTfs =
-                                                      setting.timeFrames || [];
-                                                    const nextTfs =
-                                                      currentTfs.filter(
-                                                        (_: any, i: number) =>
-                                                          i !== tfIdx,
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                      const currentTfs =
+                                                        setting.timeFrames || [];
+                                                      const nextTfs =
+                                                        currentTfs.filter(
+                                                          (_: any, i: number) =>
+                                                            i !== tfIdx,
+                                                        );
+                                                      setNewGroupMemberSettings(
+                                                        (prev: any) => ({
+                                                          ...prev,
+                                                          [m.id]: {
+                                                            ...prev[m.id],
+                                                            timeFrames: nextTfs,
+                                                          },
+                                                        }),
                                                       );
-                                                    setNewGroupMemberSettings(
-                                                      (prev: any) => ({
-                                                        ...prev,
-                                                        [m.id]: {
-                                                          ...prev[m.id],
-                                                          timeFrames: nextTfs,
-                                                        },
-                                                      }),
-                                                    );
-                                                  }}
-                                                  className="cursor-pointer border-none text-red-400 hover:text-red-300"
-                                                  style={{ fontSize: "8px" }}
-                                                >
-                                                  Remove
-                                                </button>
-                                              )}
+                                                    }}
+                                                    className="cursor-pointer border-none text-red-400 hover:text-red-300"
+                                                    style={{ fontSize: "8px" }}
+                                                  >
+                                                    Remove
+                                                  </button>
+                                                )}
                                             </div>
 
                                             {/* Start / End selects */}
@@ -4780,13 +4784,13 @@ export const AdminSectionCrewSchedule = React.memo(
                                                 ].map((preset) => {
                                                   const currentRoles = tf.role
                                                     ? tf.role
-                                                        .split(/[,|/]/)
-                                                        .map((r: string) =>
-                                                          r
-                                                            .trim()
-                                                            .toUpperCase(),
-                                                        )
-                                                        .filter(Boolean)
+                                                      .split(/[,|/]/)
+                                                      .map((r: string) =>
+                                                        r
+                                                          .trim()
+                                                          .toUpperCase(),
+                                                      )
+                                                      .filter(Boolean)
                                                     : [];
                                                   const isSelected =
                                                     currentRoles.includes(
@@ -4799,12 +4803,12 @@ export const AdminSectionCrewSchedule = React.memo(
                                                       onClick={() => {
                                                         const rawRoles = tf.role
                                                           ? tf.role
-                                                              .split(/[,|/]/)
-                                                              .map(
-                                                                (r: string) =>
-                                                                  r.trim(),
-                                                              )
-                                                              .filter(Boolean)
+                                                            .split(/[,|/]/)
+                                                            .map(
+                                                              (r: string) =>
+                                                                r.trim(),
+                                                            )
+                                                            .filter(Boolean)
                                                           : [];
                                                         const upperPreset =
                                                           preset.toUpperCase();
@@ -5052,7 +5056,7 @@ export const AdminSectionCrewSchedule = React.memo(
                             {/* Content */}
                             <div className="flex-1 space-y-4 overflow-y-auto p-5">
                               {/* Show Stats Summary */}
-                              <div className="grid grid-cols-3 gap-2 border border-white/5 bg-black/20 p-3 text-center">
+                              <div className="grid grid-cols-3 gap-2 border border-white/10 bg-black/20 p-3 text-center">
                                 <div>
                                   <span className="block text-white/40">
                                     Total Shift(s)

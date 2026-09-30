@@ -5331,7 +5331,7 @@ export function AdminDashboardMain({
               </div>
 
               {/* Controls row */}
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
                 <SeventhButton
                   type="button"
                   onClick={() => updateGlobalBanner()}
@@ -6034,7 +6034,7 @@ export function AdminDashboardMain({
                     </div>
                   </div>
                   <div className="overflow-hidden border border-white/10 bg-black/20">
-                    <div className="border-b border-white/5 p-4">
+                    <div className="border-b border-white/10 p-4">
                       <h4 className="flex items-center gap-2">
                         {" "}
                         Product Inventory
@@ -6047,7 +6047,7 @@ export function AdminDashboardMain({
                       <table className="w-full text-left">
                         <thead>
                           <tr className="text-[0.55rem]">
-                            <th className="border-b border-white/5 px-4 py-3">
+                            <th className="border-b border-white/10 px-4 py-3">
                               Product
                             </th>
                             <th className="border-b border-white/10 px-4 py-3 text-center">
@@ -6188,7 +6188,7 @@ export function AdminDashboardMain({
                   <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* Top Products */}
                     <div className="overflow-hidden border border-white/10 bg-black/20">
-                      <div className="border-b border-white/5 p-4">
+                      <div className="border-b border-white/10 p-4">
                         <h4 className="flex items-center gap-2">
                           Top Products
                         </h4>
@@ -6202,7 +6202,7 @@ export function AdminDashboardMain({
                           <table className="w-full text-left">
                             <thead>
                               <tr className="text-[0.55rem]">
-                                <th className="border-b border-white/5 px-4 py-3">
+                                <th className="border-b border-white/10 px-4 py-3">
                                   Product
                                 </th>
                                 <th className="border-b border-white/10 px-4 py-3 text-right">
@@ -6249,7 +6249,7 @@ export function AdminDashboardMain({
 
                     {/* Daily Revenue Mini-Chart */}
                     <div className="overflow-hidden border border-white/10 bg-black/20">
-                      <div className="border-b border-white/5 p-4">
+                      <div className="border-b border-white/10 p-4">
                         <h4 className="flex items-center gap-2">
                           Daily Revenue
                         </h4>
@@ -6332,16 +6332,16 @@ export function AdminDashboardMain({
                         <table className="w-full text-left">
                           <thead className="sticky top-0 z-10">
                             <tr className="bg-[var(--color-bg-surface)] text-[0.55rem]">
-                              <th className="border-b border-white/5 px-4 py-3">
+                              <th className="border-b border-white/10 px-4 py-3">
                                 Order
                               </th>
-                              <th className="border-b border-white/5 px-4 py-3">
+                              <th className="border-b border-white/10 px-4 py-3">
                                 Customer
                               </th>
-                              <th className="border-b border-white/5 px-4 py-3">
+                              <th className="border-b border-white/10 px-4 py-3">
                                 Items
                               </th>
-                              <th className="border-b border-white/5 px-4 py-3">
+                              <th className="border-b border-white/10 px-4 py-3">
                                 Status
                               </th>
                               <th className="border-b border-white/10 px-4 py-3 text-right">
@@ -6434,7 +6434,7 @@ export function AdminDashboardMain({
                       <table className="w-full text-left">
                         <thead>
                           <tr className="text-[0.55rem]">
-                            <th className="border-b border-white/5 px-4 py-3">
+                            <th className="border-b border-white/10 px-4 py-3">
                               Product
                             </th>
                             <th className="border-b border-white/10 px-4 py-3 text-center">
@@ -6593,7 +6593,7 @@ export function AdminDashboardMain({
                     ) : (
                       <table className="w-full text-left">
                         <thead>
-                          <tr className="border-b border-white/5 bg-[var(--color-bg-surface)] text-[0.55rem]">
+                          <tr className="border-b border-white/10 bg-[var(--color-bg-surface)] text-[0.55rem]">
                             <th className="px-4 py-3">Order ID</th>
                             <th className="px-4 py-3">Customer</th>
                             <th className="px-4 py-3">Item Details</th>
@@ -7124,7 +7124,7 @@ export function AdminDashboardMain({
                                   <p className="mb-1 text-black/50 text-white/40">
                                     Public Notes (displayed to fans)
                                   </p>
-                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
+                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/10 dark:bg-white/[0.02]">
                                     "{b.details}"
                                   </p>
                                 </div>
@@ -7134,7 +7134,7 @@ export function AdminDashboardMain({
                                   <p className="mb-1 text-black/50 text-white/40">
                                     Planner's Internal Notes
                                   </p>
-                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/5 dark:bg-white/[0.02]">
+                                  <p className="rounded-lg border border-black/10 bg-black/5 p-3 text-black/80 dark:border-white/10 dark:bg-white/[0.02]">
                                     {b.plannerNotes}
                                   </p>
                                 </div>
@@ -7737,9 +7737,9 @@ export function AdminDashboardMain({
                       <th className="w-1/3 border-b border-white/10 p-4">
                         Stream Name
                       </th>
-                      <th className="border-b border-white/5 p-4">Host</th>
-                      <th className="border-b border-white/5 p-4">Viewers</th>
-                      <th className="border-b border-white/5 p-4">
+                      <th className="border-b border-white/10 p-4">Host</th>
+                      <th className="border-b border-white/10 p-4">Viewers</th>
+                      <th className="border-b border-white/10 p-4">
                         Merch Sales
                       </th>
                       <th className="w-1/6 border-b border-white/10 p-4 text-right">
@@ -9745,7 +9745,7 @@ export function AdminDashboardMain({
 
                 {/* 2-Column Live Dispatch Preview (SMS Text Message + Email Template) */}
                 {(sendSmsAlert || sendEmailAlert) && (
-                  <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 border-t border-white/5 pt-4 md:grid-cols-2">
+                  <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 border-t border-white/10 pt-4 md:grid-cols-2">
                     {/* Left Column: SMS Text Message Preview (50% Width) */}
                     <div className="flex flex-col justify-between space-y-4 !rounded-lg border border-[var(--border-color)]   p-5">
                       <div className="space-y-3">
@@ -10868,7 +10868,7 @@ export function AdminDashboardMain({
                       ) as any;
                       return (
                         <div key={user.id} className="">
-                          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10  py-2 pr-2 hover:bg-black/5 dark:border-white/5 dark:hover:bg-white/[0.02]">
+                          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10  py-2 pr-2 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
                             <div className="max-w-[220px]">
                               <div className="flex items-center gap-2.5">
                                 {(() => {
@@ -11877,7 +11877,7 @@ export function AdminDashboardMain({
 
                 {/* Email action bar */}
                 {signups.length > 0 && (
-                  <div className="flex items-center justify-between  border-white/5 bg-black/20 px-4 py-3">
+                  <div className="flex items-center justify-between  border-white/10 bg-black/20 px-4 py-3">
                     <div className="flex items-center gap-3">
                       <button
                         aria-label="Select all passenger emails"
@@ -14528,7 +14528,7 @@ export function AdminDashboardMain({
                       <div className="text-pink-300">
                         Shift: {coEditorConflictAlert.shiftTitle}
                       </div>
-                      <p className="rounded border border-white/5 bg-[#00000029] p-2.5">
+                      <p className="rounded border border-white/10 bg-[#00000029] p-2.5">
                         {coEditorConflictAlert.changeDesc}
                       </p>
                     </div>
@@ -15503,7 +15503,7 @@ export function AdminDashboardMain({
                                           return (
                                             <div
                                               key={member.id}
-                                              className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-black/30 p-1.5 hover:bg-black/40"
+                                              className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/30 p-1.5 hover:bg-black/40"
                                             >
                                               <div className="flex items-center gap-2">
                                                 {(() => {
@@ -17310,7 +17310,7 @@ export function AdminDashboardMain({
                           {/* Content */}
                           <div className="flex-1 space-y-4 overflow-y-auto p-5">
                             {/* Show Stats Summary */}
-                            <div className="grid grid-cols-3 gap-2 border border-white/5 bg-black/20 p-3 text-center">
+                            <div className="grid grid-cols-3 gap-2 border border-white/10 bg-black/20 p-3 text-center">
                               <div>
                                 <span className="block text-white/40">
                                   Total Shift(s)
@@ -17993,7 +17993,7 @@ export function AdminDashboardMain({
                     </div>
                   </div>
 
-                  <div className="flex justify-end border-t border-white/5 pt-2">
+                  <div className="flex justify-end border-t border-white/10 pt-2">
                     <SeventhButton
                       type="button"
                       onClick={async () => {
@@ -18099,7 +18099,7 @@ export function AdminDashboardMain({
                       </div>
 
                       {/* Target checkboxes */}
-                      <div className="flex flex-wrap items-center gap-6 border-t border-white/5 pt-2">
+                      <div className="flex flex-wrap items-center gap-6 pt-2">
                         <Toggle
                           id="post-notice-dashboard-toggle"
                           size="sm"
@@ -18116,7 +18116,7 @@ export function AdminDashboardMain({
                         />
                       </div>
 
-                      <div className="mt-auto flex flex-wrap items-center justify-end gap-2 border-t border-white/5 pt-3">
+                      <div className="mt-auto flex flex-wrap items-center justify-end gap-2 pt-3">
                         <SeventhButton
                           onClick={async () => {
                             if (cruiseUpdatingRef.current) return;
@@ -18484,7 +18484,7 @@ export function AdminDashboardMain({
                       />
                     </div>
 
-                    <div className="flex items-center justify-between border border-white/5 bg-black/20 p-3">
+                    <div className="flex items-center justify-between border border-white/10 bg-black/20 p-3">
                       <div>
                         <p id="qr-price-tag-label">Show Price Tag</p>
                         <p>Include product price at the bottom of the card</p>

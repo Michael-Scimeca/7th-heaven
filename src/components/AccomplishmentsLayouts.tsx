@@ -165,7 +165,7 @@ export default function AccomplishmentsLayouts({
           {stats.map((s) => (
             <div
               key={s.label}
-              className="border-[var(--color-accent)]/20backdrop-blur-xl group  border bg-[var(--color-surface-raised)] p-7 shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 hover:border-[var(--color-accent)]/50"
+              className="border-[var(--color-accent)]/20 backdrop-blur-xl group  border bg-[var(--color-surface-raised)] p-7 shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1.5 hover:border-[var(--color-accent)]/50"
             >
               <div className="mb-6 h-12 w-12 bg-[var(--color-accent)] p-0.5 group-hover:rotate-6">
                 <div className="flex h-full w-full items-center justify-center rounded-[14px]">
