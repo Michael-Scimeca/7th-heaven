@@ -91,6 +91,7 @@ import {
   crewSmsDispatchedAlert,
 } from "@/lib/email-templates";
 import CruiseChat from "@/components/CruiseChat";
+import TrashButton from "@/components/TrashButton";
 
 function OpenShiftsCellHeader() {
   return (
@@ -12132,24 +12133,13 @@ export function AdminDashboardMain({
                           </div>
                           {/* Delete */}
                           <div className="flex justify-center">
-                            <button
+                            <TrashButton
+                              size="sm"
+                              variant="ghost"
                               aria-label={`Delete signup ${s.name || ""}`}
                               onClick={() => deleteSignup(s.id, s.name)}
-                              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-transparent text-white/20 opacity-0 group-hover/row:opacity-100 hover:border-rose-500/30 hover:text-rose-400"
-                            >
-                              <svg
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              >
-                                <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-                              </svg>
-                            </button>
+                              className="opacity-0 group-hover/row:opacity-100"
+                            />
                           </div>
                         </div>
                       ));
@@ -18148,26 +18138,14 @@ export function AdminDashboardMain({
                             ? "Dispatching..."
                             : "Dispatch Notice & Email"}
                         </SeventhButton>
-                        <button
-                          onClick={() => updateCruiseMessage("")}
-                          disabled={cruiseUpdating}
+                        <TrashButton
+                          size="lg"
+                          variant="danger"
                           title="Remove Notice Banner"
-                          className="group/trash flex h-11 w-11 items-center justify-center border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white disabled:opacity-50"
-                        >
-                          <svg
-                            className="group-hover/trash:scale-110"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" />
-                          </svg>
-                        </button>
+                          aria-label="Remove Notice Banner"
+                          disabled={cruiseUpdating}
+                          onClick={() => updateCruiseMessage("")}
+                        />
                       </div>
                     </div>
 
