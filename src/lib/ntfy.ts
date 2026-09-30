@@ -19,7 +19,7 @@
  * alongside SMS/email, never a hard dependency.
  */
 
-export type NtfyGroup = "fans" | "crew" | "admins" | "cruise";
+export type NtfyGroup = "fans" | "crew" | "band" | "admins" | "cruise";
 
 export type NtfyPriority =
   "min" | "low" | "default" | "high" | "urgent" | "max";
@@ -49,6 +49,7 @@ export function getNtfyTopic(group: NtfyGroup): string | null {
   const envMap: Record<NtfyGroup, string | undefined> = {
     fans: process.env.NTFY_TOPIC_FANS,
     crew: process.env.NTFY_TOPIC_CREW,
+    band: process.env.NTFY_TOPIC_BAND,
     admins: process.env.NTFY_TOPIC_ADMINS,
     cruise: process.env.NTFY_TOPIC_CRUISE,
   };
@@ -58,7 +59,7 @@ export function getNtfyTopic(group: NtfyGroup): string | null {
 
 /** True if at least one ntfy group topic is configured. */
 export function isNtfyConfigured(): boolean {
-  const groups: NtfyGroup[] = ["fans", "crew", "admins", "cruise"];
+  const groups: NtfyGroup[] = ["fans", "crew", "band", "admins", "cruise"];
   return groups.some((g) => getNtfyTopic(g));
 }
 
