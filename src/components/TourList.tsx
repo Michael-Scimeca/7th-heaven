@@ -1591,9 +1591,9 @@ export default function TourList({
         <div className="site-container relative w-full">
           <div
             ref={headerParallaxRef}
-            className="pointer-events-none z-30 mx-auto py-5 text-center"
+            className="title-group title-group--section pointer-events-none z-30 mx-auto py-5 items-center text-center"
           >
-            <h2 className="mb-3">Upcoming Tour Dates</h2>
+            <h2>Upcoming Tour Dates</h2>
             <p className="md: ">
               Catch 7th Heaven live on stage! Explore all upcoming show dates,
               venues, directions, and sync concerts directly to your calendar.
@@ -2031,7 +2031,6 @@ export default function TourList({
                               : "Search Venue Info"
                           }
                           className="a-btn inline-flex cursor-pointer items-center justify-center whitespace-nowrap hover:opacity-80"
-                          style={{ fontSize: websiteBtnFontSize }}
                         >
                           Website
                         </a>
