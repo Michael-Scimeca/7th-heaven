@@ -49,6 +49,8 @@ import PageTransition from "@/components/PageTransition";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
 
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+
 const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"));
 const PageNav = dynamic(() =>
   import("@/components/PageNav").then((m) => m.PageNav),
@@ -104,7 +106,11 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "./",
     },
-    manifest: "/manifest.json",
+    appleWebApp: {
+      capable: true,
+      title: "7th Heaven",
+      statusBarStyle: "black-translucent",
+    },
     title,
     description,
     keywords: [
@@ -285,6 +291,7 @@ export default function RootLayout({
                   </Suspense>
                   <PageNav />
                   <ClientOnlyExtras />
+                  <ServiceWorkerRegister />
                 </div>
               </SmoothScroll>
             </Providers>

@@ -13,22 +13,14 @@ export default function ClientOnlyExtras() {
     () => false,
   );
   const [DevGuide, setDevGuide] = useState<ComponentType | null>(null);
+  const [SpacingInspector, setSpacingInspector] = useState<ComponentType | null>(null);
+  const [BlurTuner, setBlurTuner] = useState<ComponentType | null>(null);
   const [Vitals, setVitals] = useState<ComponentType | null>(null);
   const [StickyNotes, setStickyNotes] = useState<ComponentType | null>(null);
   const [MemberDash, setMemberDash] = useState<ComponentType | null>(null);
 
   useEffect(() => {
     let loaded = false;
-
-    if (
-      typeof document !== "undefined" &&
-      !document.querySelector("link[rel='manifest']")
-    ) {
-      const link = document.createElement("link");
-      link.rel = "manifest";
-      link.href = "/manifest.json";
-      document.head.appendChild(link);
-    }
 
     const loadExtras = () => {
       if (loaded) return;
@@ -42,6 +34,12 @@ export default function ClientOnlyExtras() {
       ) {
         import("@/components/DevGuideLine")
           .then((m) => setDevGuide(() => m.default))
+          .catch(() => {});
+        import("@/components/SpacingInspector")
+          .then((m) => setSpacingInspector(() => m.default))
+          .catch(() => {});
+        import("@/components/BlurTuner")
+          .then((m) => setBlurTuner(() => m.default))
           .catch(() => {});
       }
 
@@ -88,6 +86,8 @@ export default function ClientOnlyExtras() {
   return (
     <>
       {DevGuide && <DevGuide />}
+      {SpacingInspector && <SpacingInspector />}
+      {BlurTuner && <BlurTuner />}
       {Vitals && <Vitals />}
       {StickyNotes && <StickyNotes />}
       {MemberDash && <MemberDash />}
