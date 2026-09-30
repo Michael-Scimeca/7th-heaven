@@ -4,9 +4,6 @@ import nextDynamic from "next/dynamic";
 import { fetchPageContent } from "@/lib/sanity";
 import HeroVideoPlayer from "@/components/HeroVideoPlayer";
 
-const HomeShaderGradient = nextDynamic(
-  () => import("@/components/HomeShaderGradient"),
-);
 const HomeVideoShowcase = nextDynamic(
   () => import("@/components/HomeVideoShowcase"),
 );
@@ -56,9 +53,7 @@ export default async function Home() {
   });
 
   return (
-    <>
-      <HomeShaderGradient />
-      <main id="home-page" className="page-container page-container--hero page-stack">
+    <main id="home-page" className="page-container page-container--hero page-stack">
       {/* ====== HERO (Viewport Height) ====== */}
       <section
         id="hero"
@@ -98,6 +93,5 @@ export default async function Home() {
       {/* ====== LATEST BAND NEWS ====== */}
       <HomeNewsSection sanityContent={sanityContent} />
     </main>
-    </>
   );
 }

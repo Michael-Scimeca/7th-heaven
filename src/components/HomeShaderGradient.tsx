@@ -593,7 +593,7 @@ function HomeShaderGradientComponent() {
       {/* Background Shader Canvas Container */}
       <div
         ref={wrapperRef}
-        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       >
         <canvas
           ref={canvasRef}
@@ -601,7 +601,7 @@ function HomeShaderGradientComponent() {
         />
         <div
           ref={positionLayerRef}
-          className="pointer-events-none fixed inset-0 z-0"
+          className="pointer-events-none fixed inset-0 -z-10"
         />
       </div>
     </>

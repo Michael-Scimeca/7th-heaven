@@ -56,6 +56,9 @@ const PageNav = dynamic(() =>
   import("@/components/PageNav").then((m) => m.PageNav),
 );
 const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
+const HomeShaderGradient = dynamic(
+  () => import("@/components/HomeShaderGradient"),
+);
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
@@ -278,6 +281,7 @@ export default function RootLayout({
             <Providers>
               <ScrollToTop />
               <SmoothScroll>
+                <HomeShaderGradient />
                 <ProgressiveBlur position="top" />
                 <div
                   id="page-content-wrapper"
