@@ -5,6 +5,7 @@ import SearchInput from "@/components/SearchInput";
 import SeventhButton from "@/components/SeventhButton";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import { SectionBadge } from "@/components/SectionBadge";
+import Avatar from "@/components/Avatar";
 
 export interface RoleUser {
   id: string;
@@ -438,27 +439,12 @@ export function RoleEmailDirectory({
                     className="grid grid-cols-[1.5fr_2.5fr_1fr_1.5fr_1fr] items-center gap-2 border-b border-white/10  py-3 pr-2 "
                   >
                     <div className="flex items-center gap-2.5">
-                      {(() => {
-                        const avatarSrc = resolveMemberAvatar(
-                          user.name,
-                          user.avatar,
-                        );
-                        return avatarSrc ? (
-                          <img
-                            src={avatarSrc}
-                            alt={user.name}
-                            className="shadow-md h-11 w-11 shrink-0 rounded-full border border-white/10 object-cover"
-                            onError={(e) => {
-                              (e.currentTarget as HTMLElement).style.display =
-                                "none";
-                            }}
-                          />
-                        ) : (
-                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]">
-                            {getInitials(user.name)}
-                          </div>
-                        );
-                      })()}
+                      <Avatar
+                        src={user.avatar}
+                        name={user.name}
+                        size="md"
+                        border="border border-white/10"
+                      />
                       <span>{user.name}</span>
                     </div>
                     <div className="select-all">{user.email}</div>
@@ -486,8 +472,6 @@ export function RoleEmailDirectory({
             </div>
           </CustomScrollbar>
         </div>
-        {/* Bottom smooth gradient mask blur overlay */}
-        <div className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-5 [mask-image:linear-gradient(to_top,black_20%,transparent_100%)] backdrop-blur-md [-webkit-mask-image:linear-gradient(to_top,black_20%,transparent_100%)]" />
       </div>
     </div>
   );
