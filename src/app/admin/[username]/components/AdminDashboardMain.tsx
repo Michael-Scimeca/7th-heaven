@@ -11413,26 +11413,23 @@ export function AdminDashboardMain({
             <div className="py-6 pl-0 space-y-8">
               {/* Sub-Admin Permissions Manager */}
               <div>
-                <div className="mb-6 flex items-center justify-between">
-                  <div>
-                    <h4 className="flex items-center gap-2">
-                      Sub-Admin Role Permissions
-                      {savePermStatus === "saving" && (
-                        <span className="animate-pulse text-[0.65rem]">
-                          Saving changes...
-                        </span>
-                      )}
-                      {savePermStatus === "saved" && (
-                        <span className="text-[0.65rem] text-[var(--color-accent)]">
-                          {" "}
-                          Saved to database
-                        </span>
-                      )}
-                    </h4>
-                    <p className="mt-0.5">
-                      Control feature access for specific sub-admin accounts.
-                    </p>
-                  </div>
+                <div className="title-group title-group--sub mb-6">
+                  <h4 className="flex items-center gap-2">
+                    Sub-Admin Role Permissions
+                    {savePermStatus === "saving" && (
+                      <span className="animate-pulse text-[0.65rem] font-sans normal-case">
+                        Saving changes...
+                      </span>
+                    )}
+                    {savePermStatus === "saved" && (
+                      <span className="text-[0.65rem] text-[var(--color-accent)] font-sans normal-case">
+                        Saved to database
+                      </span>
+                    )}
+                  </h4>
+                  <p>
+                    Control feature access for specific sub-admin accounts.
+                  </p>
                 </div>
 
                 <div className="space-y-4">
@@ -11491,9 +11488,9 @@ export function AdminDashboardMain({
 
               {/* Create Admin Form Section */}
               <div className="border-t border-white/10 pt-6">
-                <div className="mb-4">
-                  <h4 className="text-white font-medium">New Admin Account Registration</h4>
-                  <p className="text-xs text-white/40 mt-0.5">Enter details to generate and invite a new band admin or planner.</p>
+                <div className="title-group title-group--sub mb-6">
+                  <h4>New Admin Account Registration</h4>
+                  <p>Enter details to generate and invite a new band admin or planner.</p>
                 </div>
                 <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-4">
                   <GlowInput
