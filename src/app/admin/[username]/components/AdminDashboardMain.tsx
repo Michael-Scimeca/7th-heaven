@@ -8905,37 +8905,13 @@ export function AdminDashboardMain({
                                       />
 
                                       {/* Avatar */}
-                                      {(() => {
-                                        const avatarSrc = resolveMemberAvatar(
-                                          r.name,
-                                          r.avatar,
-                                        );
-                                        return avatarSrc ? (
-                                          <img
-                                            src={avatarSrc}
-                                            alt={r.name}
-                                            className={`h-11 w-11 shrink-0 rounded-full border-2 border-white object-cover ${!r.phone ? "opacity-40" : ""}`}
-                                            onError={(e) => {
-                                              const fallback =
-                                                resolveMemberAvatar(r.name, "");
-                                              if (
-                                                fallback &&
-                                                !e.currentTarget.src.endsWith(
-                                                  fallback,
-                                                )
-                                              ) {
-                                                e.currentTarget.src = fallback;
-                                              }
-                                            }}
-                                          />
-                                        ) : (
-                                          <div
-                                            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 ${!r.phone ? "opacity-40" : ""}`}
-                                          >
-                                            {getFirstAndLastInitials(r.name)}
-                                          </div>
-                                        );
-                                      })()}
+                                      <Avatar
+                                        src={r.avatar}
+                                        name={r.name}
+                                        size="md"
+                                        role={r.role === "admin" ? "admin" : "crew"}
+                                        className={!r.phone ? "opacity-40" : ""}
+                                      />
 
                                       {/* Name */}
                                       <span
@@ -9278,32 +9254,13 @@ export function AdminDashboardMain({
                                                   handleToggleMember(r)
                                                 }
                                               />
-                                              {(() => {
-                                                const avatarSrc =
-                                                  resolveMemberAvatar(
-                                                    r.name,
-                                                    r.avatar,
-                                                  );
-                                                return avatarSrc ? (
-                                                  <img
-                                                    src={avatarSrc}
-                                                    alt={r.name}
-                                                    className="h-7 w-7 shrink-0 rounded-full border border-purple-400/40 object-cover shadow-sm"
-                                                  />
-                                                ) : (
-                                                  <div
-                                                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-purple-400/40 text-[10px]"
-                                                    style={{
-                                                      backgroundColor:
-                                                        getAvatarColor(r.name),
-                                                    }}
-                                                  >
-                                                    {getFirstAndLastInitials(
-                                                      r.name,
-                                                    )}
-                                                  </div>
-                                                );
-                                              })()}
+                                              <Avatar
+                                                src={r.avatar}
+                                                name={r.name}
+                                                size="sm"
+                                                role={r.role === "admin" ? "admin" : "crew"}
+                                                border="border border-purple-400/40"
+                                              />
                                               <span>{r.name}</span>
                                             </div>
 
@@ -10210,42 +10167,13 @@ export function AdminDashboardMain({
                                     />
 
                                     {/* Avatar */}
-                                    {(() => {
-                                      const avatarSrc = resolveMemberAvatar(
-                                        r.name,
-                                        r.avatar,
-                                      );
-                                      return avatarSrc ? (
-                                        <img
-                                          src={avatarSrc}
-                                          alt={r.name}
-                                          className="h-11 w-11 shrink-0 rounded-full border-2 border-white/10 object-cover"
-                                          onError={(e) => {
-                                            const fallback =
-                                              resolveMemberAvatar(r.name, "");
-                                            if (
-                                              fallback &&
-                                              !e.currentTarget.src.endsWith(
-                                                fallback,
-                                              )
-                                            ) {
-                                              e.currentTarget.src = fallback;
-                                            }
-                                          }}
-                                        />
-                                      ) : (
-                                        <div
-                                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-purple-400/50"
-                                          style={{
-                                            backgroundColor: getAvatarColor(
-                                              r.name,
-                                            ),
-                                          }}
-                                        >
-                                          {getFirstAndLastInitials(r.name)}
-                                        </div>
-                                      );
-                                    })()}
+                                    <Avatar
+                                      src={r.avatar}
+                                      name={r.name}
+                                      size="md"
+                                      role={r.role === "admin" ? "admin" : "crew"}
+                                      border="border-2 border-white/10"
+                                    />
 
                                     {/* Name */}
                                     <span>{r.name}</span>
@@ -10874,43 +10802,22 @@ export function AdminDashboardMain({
                           <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10  py-2 pr-2 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
                             <div className="max-w-[220px]">
                               <div className="flex items-center gap-2.5">
-                                {(() => {
-                                  const avatarSrc = resolveMemberAvatar(
-                                    user.name,
+                                <Avatar
+                                  src={
                                     (user as any).avatar ||
-                                    (user as any).avatar_url,
-                                  );
-                                  return avatarSrc ? (
-                                    <img
-                                      src={avatarSrc}
-                                      alt={user.name}
-                                      className="h-11 w-11 shrink-0 rounded-full border border-purple-400/30 object-cover"
-                                      onError={(e) => {
-                                        (
-                                          e.currentTarget as HTMLElement
-                                        ).style.display = "none";
-                                      }}
-                                    />
-                                  ) : (
-                                    <div
-                                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-[10px]"
-                                      style={{
-                                        backgroundColor: getAvatarColor(
-                                          user.name,
-                                        ),
-                                      }}
-                                    >
-                                      {user.name
-                                        ? user.name
-                                          .split(" ")
-                                          .map((n: string) => n[0])
-                                          .join("")
-                                          .toUpperCase()
-                                          .slice(0, 2)
-                                        : "?"}
-                                    </div>
-                                  );
-                                })()}
+                                    (user as any).avatar_url
+                                  }
+                                  name={user.name}
+                                  size="md"
+                                  role={
+                                    user.role === "admin"
+                                      ? "admin"
+                                      : user.role === "crew"
+                                        ? "crew"
+                                        : "fan"
+                                  }
+                                  border="border border-white/10"
+                                />
                                 <span>{user.name}</span>
                               </div>
                             </div>
