@@ -82,8 +82,6 @@ export async function POST(req: Request) {
     if (notifications_enabled !== undefined)
       updates.notifications_enabled = notifications_enabled;
     if (zip !== undefined) updates.zip = zip;
-    if (profile_completed !== undefined)
-      updates.profile_completed = profile_completed;
     const { error } = await supabase
       .from("profiles")
       .update(updates)

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTransition } from "@/context/TransitionContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { SquishyToggle } from "@/components/SquishyToggle";
+import { Toggle } from "@/components/Toggle";
 import { GlowInput } from "@/components/GlowInput";
 
 function nameToUsername(name: string) {
@@ -108,10 +108,9 @@ export default function CompleteProfilePage() {
         .update({
           username: trimmedUsername,
           notifications_enabled: wantNotifications,
-          newsletter_subscribed: wantNewsletter,
-          zip_code: zipCode || null,
+          zip: zipCode || null,
           notification_radius: wantNotifications ? 50 : 25,
-          profile_completed: true,
+          updated_at: new Date().toISOString(),
         })
         .eq("id", profile.id);
 
@@ -152,14 +151,16 @@ export default function CompleteProfilePage() {
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center  border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/20 text-2xl">
                 🎸
               </div>
-              <h1 className="mb-2">
-                Welcome to the Family
-                {profile?.full_name
-                  ? `, ${profile.full_name.split(" ")[0]}`
-                  : ""}
-                !
-              </h1>
-              <p>Let&apos;s finish setting up your profile</p>
+              <div className="title-group title-group--page items-center text-center">
+                <h1>
+                  Welcome to the Family
+                  {profile?.full_name
+                    ? `, ${profile.full_name.split(" ")[0]}`
+                    : ""}
+                  !
+                </h1>
+                <p>Let&apos;s finish setting up your profile</p>
+              </div>
             </div>
 
             {/* Avatar from OAuth */}
@@ -221,18 +222,15 @@ export default function CompleteProfilePage() {
 
                 {/* Proximity alerts */}
                 <div
-                  onClick={() => setWantNotifications(!wantNotifications)}
-                  className={`flex w-full cursor-pointer items-center gap-3  border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
-                  <SquishyToggle
+                  <Toggle
                     id="complete-profile-notifications"
-                    label="Email me when 7th Heaven books a show near me"
+                    label={<span className="/90 text-left">📍 Email me when 7th Heaven books a show near me</span>}
                     checked={wantNotifications}
                     onChange={(val) => setWantNotifications(val)}
+                    className="w-full"
                   />
-                  <span className="/90 text-left">
-                    📍 Email me when 7th Heaven books a show near me
-                  </span>
                 </div>
 
                 {/* Zip code */}
@@ -254,23 +252,20 @@ export default function CompleteProfilePage() {
 
                 {/* Newsletter */}
                 <div
-                  onClick={() => setWantNewsletter(!wantNewsletter)}
-                  className={`flex w-full cursor-pointer items-center gap-3  border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
+                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
-                  <SquishyToggle
+                  <Toggle
                     id="complete-profile-newsletter"
-                    label="Send me news, show updates & exclusive drops"
+                    label={<span className="/90 text-left">📧 Send me news, show updates &amp; exclusive drops</span>}
                     checked={wantNewsletter}
                     onChange={(val) => setWantNewsletter(val)}
+                    className="w-full"
                   />
-                  <span className="/90 text-left">
-                    📧 Send me news, show updates &amp; exclusive drops
-                  </span>
                 </div>
               </div>
 
               {/* Info callout */}
-              <div className="rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3">
+              <div className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] px-4 py-3">
                 <p>
                   💡 <strong className="text-white/50">Tip:</strong> You can
                   always change these preferences later from your Fan Dashboard
@@ -280,7 +275,7 @@ export default function CompleteProfilePage() {
               </div>
 
               {error && (
-                <p className="border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
+                <p className="rounded-[var(--radius-box)] border border-rose-400/20 bg-rose-400/10 px-3 py-2 text-rose-400">
                   {error}
                 </p>
               )}
@@ -288,7 +283,7 @@ export default function CompleteProfilePage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full cursor-pointer bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-50"
+                className="w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Let's Go 🚀"}
               </button>
