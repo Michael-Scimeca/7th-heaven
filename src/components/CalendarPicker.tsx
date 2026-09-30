@@ -35,6 +35,10 @@ export interface BookingSlot {
 
 const EMPTY_SLOTS: BookingSlot[] = [];
 const EMPTY_BLOCKED_DATES: string[] = [];
+const EMPTY_DATE_DETAILS: Record<
+  string,
+  Array<{ time: string; venue?: string; city?: string }>
+> = {};
 const MONTH_NAMES = [
   "Jan",
   "Feb",
@@ -104,6 +108,7 @@ export function CalendarPicker({
   label,
   required,
   blockedDates = EMPTY_BLOCKED_DATES,
+  dateDetails = EMPTY_DATE_DETAILS,
   labels,
 }: {
   slots: BookingSlot[];
@@ -123,6 +128,10 @@ export function CalendarPicker({
   label: string;
   required?: boolean;
   blockedDates?: string[];
+  dateDetails?: Record<
+    string,
+    Array<{ time: string; venue?: string; city?: string }>
+  >;
   labels?: CalendarPickerLabels;
 }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -170,6 +179,25 @@ export function CalendarPicker({
     );
   };
 
+  // Find all selected dates that already have existing shows
+  const selectedBlockedInfo = useMemo(() => {
+    return slots
+      .filter((s) => blockedSet.has(s.date))
+      .map((s) => {
+        const details = dateDetails[s.date] || [];
+        const timeFrame = details.map((d) => d.time).join(", ") || "Scheduled Show";
+        const venueInfo = details
+          .map((d) => [d.venue, d.city].filter(Boolean).join(" - "))
+          .filter(Boolean)
+          .join("; ");
+        return {
+          date: s.date,
+          time: timeFrame,
+          venue: venueInfo,
+        };
+      });
+  }, [slots, blockedSet, dateDetails]);
+
   return (
     <div className="w-full border-0 p-0">
       <div className="mb-6">
@@ -189,14 +217,14 @@ export function CalendarPicker({
       </div>
 
       {/* Legend — Static frame-0 render prevents post-mount injection layout shift */}
-      <div className="mb-6 flex items-center gap-5">
+      <div className="mb-6 flex flex-wrap items-center gap-5">
         <span className="/90 flex items-center gap-1.5">
           <span className="inline-block h-3 w-3 rounded border border-white/10 bg-white/10" />{" "}
           Available
         </span>
         <span className="flex items-center gap-1.5 text-rose-400">
-          <span className="inline-block h-3 w-3 rounded border border-rose-500/30 bg-rose-500/20" />{" "}
-          Booked
+          <span className="inline-block h-3 w-3 rounded border border-rose-500/40 bg-rose-500/20" />{" "}
+          Show Scheduled (Double-booking allowed)
         </span>
       </div>
 
@@ -312,23 +340,34 @@ export function CalendarPicker({
               const isPastDate =
                 todayTimestamp > 0 && date.getTime() < todayTimestamp;
               const isBlocked = blockedSet.has(dateString);
+              const dayDetailsList = dateDetails[dateString] || [];
+              const dayTimeStr = dayDetailsList.map((d) => d.time).join(", ");
+              const dayVenueStr = dayDetailsList
+                .map((d) => [d.venue, d.city].filter(Boolean).join(" - "))
+                .filter(Boolean)
+                .join("; ");
+
               const fullDateAriaLabel = !isNaN(date.getTime())
                 ? `${DAY_NAMES_FULL[date.getDay()]}, ${MONTH_NAMES_FULL[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}${
-                    isBlocked
-                      ? " — Booked / Unavailable"
-                      : isPastDate
-                        ? " — Past date / Unavailable"
+                    isPastDate
+                      ? " — Past date / Unavailable"
+                      : isBlocked
+                        ? ` — Show scheduled (${dayTimeStr || "Existing event"}), double-booking available${isSelected ? " — Selected" : ""}`
                         : isSelected
                           ? " — Selected"
                           : " — Available"
                   }`
                 : `Date ${dateString}`;
 
+              const buttonTitle = isBlocked
+                ? `Show already scheduled (${dayTimeStr || "Existing event"}${dayVenueStr ? ` at ${dayVenueStr}` : ""}). Click to request another time slot.`
+                : undefined;
+
               return (
                 <button
                   key={dateString}
                   type="button"
-                  disabled={isPastDate || isBlocked}
+                  disabled={isPastDate}
                   aria-label={fullDateAriaLabel}
                   aria-pressed={isSelected}
                   onClick={() => {
@@ -354,15 +393,25 @@ export function CalendarPicker({
                       onChangeSlots([...slots, newSlot]);
                     }
                   }}
-                  title={isBlocked ? "This date is already booked" : undefined}
-                  className={`relative flex h-12 w-full items-center justify-center    ${isPastDate || isBlocked ? "cursor-not-allowed opacity-25" : "cursor-pointer"} ${isBlocked ? "border border-rose-500/30 bg-rose-500/20 text-rose-400 line-through" : isSelected ? "scale-105 border-2 border-purple-400 bg-purple-600 shadow-purple-600/40" : "border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10"}`}
+                  title={buttonTitle}
+                  className={`relative flex h-12 w-full items-center justify-center transition-all ${
+                    isPastDate
+                      ? "cursor-not-allowed opacity-25"
+                      : "cursor-pointer"
+                  } ${
+                    isSelected
+                      ? "scale-105 border-2 border-purple-400 bg-purple-600 text-white shadow-purple-600/40"
+                      : isBlocked
+                        ? "border border-rose-500/40 bg-rose-500/15 text-rose-300 hover:border-rose-400 hover:bg-rose-500/25"
+                        : "border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10"
+                  }`}
                 >
                   {date.getDate()}
                   {isBlocked && (
-                    <span className="absolute -top-1 -right-1 h-2 w-2  bg-rose-500" />
+                    <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-rose-500" />
                   )}
                   {slotsForDay.length > 1 && (
-                    <span className="animate-scale-in absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center  border border-white/10 bg-purple-600">
+                    <span className="animate-scale-in absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center border border-white/10 bg-purple-600 text-xs text-white">
                       {slotsForDay.length}x
                     </span>
                   )}
@@ -370,6 +419,29 @@ export function CalendarPicker({
               );
             })}
           </div>
+
+          {/* Banner notification when user selects dates that have existing shows */}
+          {selectedBlockedInfo.length > 0 && (
+            <div className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-sm text-rose-200">
+              <div className="flex items-start gap-2.5">
+                <span className="text-base leading-none">⚠️</span>
+                <div className="space-y-1">
+                  <p className="font-semibold text-rose-300">
+                    Existing show scheduled on selected date
+                    {selectedBlockedInfo.length > 1 ? "s" : ""}:
+                  </p>
+                  {selectedBlockedInfo.map((item) => (
+                    <p key={item.date} className="text-xs text-rose-200/90">
+                      <strong>{item.date}</strong>: {item.time}
+                      {item.venue ? ` (${item.venue})` : ""} — You can request
+                      an alternate time window (e.g., afternoon, daytime, or
+                      late night set).
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Row 1, Col 2: Booking Window */}

@@ -16,19 +16,42 @@ const supabase = createClient(
 export async function GET() {
   try {
     const blockedSet = new Set<string>();
+    const dateDetails: Record<
+      string,
+      Array<{ time: string; venue?: string; city?: string }>
+    > = {};
+
+    const addDetail = (
+      dStr: string,
+      item: { time: string; venue?: string; city?: string },
+    ) => {
+      blockedSet.add(dStr);
+      if (!dateDetails[dStr]) {
+        dateDetails[dStr] = [];
+      }
+      dateDetails[dStr].push(item);
+    };
 
     // 1. Fetch confirmed bookings from Supabase
     try {
       const { data: bookingsData } = await supabase
         .from("bookings")
-        .select("event_date")
+        .select("event_date, start_time, end_time, venue_name, venue_city")
         .eq("status", "confirmed");
 
       (bookingsData || []).forEach((b) => {
         if (b.event_date) {
           const match = b.event_date.match(/^\d{4}-\d{2}-\d{2}/);
-          if (match) blockedSet.add(match[0]);
-          else blockedSet.add(b.event_date);
+          const dStr = match ? match[0] : b.event_date;
+          const timeStr =
+            b.start_time && b.end_time
+              ? `${b.start_time} – ${b.end_time}`
+              : b.start_time || "Confirmed Event";
+          addDetail(dStr, {
+            time: timeStr,
+            venue: b.venue_name || undefined,
+            city: b.venue_city || undefined,
+          });
         }
       });
     } catch (e) {
@@ -46,17 +69,30 @@ export async function GET() {
       (ensured || []).forEach((s: any) => {
         const dateVal = s.startDate || s.date;
         if (dateVal) {
+          let dStr = "";
           const match = dateVal.match(/^\d{4}-\d{2}-\d{2}/);
           if (match) {
-            blockedSet.add(match[0]);
+            dStr = match[0];
           } else {
             const dt = new Date(dateVal);
             if (!isNaN(dt.getTime())) {
               const yyyy = dt.getFullYear();
               const mm = String(dt.getMonth() + 1).padStart(2, "0");
               const dd = String(dt.getDate()).padStart(2, "0");
-              blockedSet.add(`${yyyy}-${mm}-${dd}`);
+              dStr = `${yyyy}-${mm}-${dd}`;
             }
+          }
+
+          if (dStr) {
+            const timeStr =
+              s.playTime ||
+              s.time ||
+              (s.doorsTime ? `Doors ${s.doorsTime}` : "Evening Show");
+            addDetail(dStr, {
+              time: timeStr,
+              venue: s.venue || undefined,
+              city: s.city ? `${s.city}${s.state ? `, ${s.state}` : ""}` : undefined,
+            });
           }
         }
       });
@@ -68,12 +104,19 @@ export async function GET() {
     try {
       const { data: showsData } = await supabase
         .from("shows")
-        .select("date");
+        .select("date, time, venue, city");
 
       (showsData || []).forEach((s) => {
         if (s.date) {
           const match = s.date.match(/^\d{4}-\d{2}-\d{2}/);
-          if (match) blockedSet.add(match[0]);
+          if (match) {
+            const dStr = match[0];
+            addDetail(dStr, {
+              time: s.time || "Scheduled Show",
+              venue: s.venue || undefined,
+              city: s.city || undefined,
+            });
+          }
         }
       });
     } catch {
@@ -83,12 +126,12 @@ export async function GET() {
     const blockedDates = Array.from(blockedSet).sort();
 
     return NextResponse.json(
-      { blockedDates },
+      { blockedDates, dateDetails },
       { headers: { "Cache-Control": "no-store, max-age=0" } },
     );
   } catch (err: any) {
     console.error("Availability API error:", err);
-    return NextResponse.json({ blockedDates: [] });
+    return NextResponse.json({ blockedDates: [], dateDetails: {} });
   }
 }
 

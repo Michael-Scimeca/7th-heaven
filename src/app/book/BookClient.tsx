@@ -231,6 +231,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
   // Blocked dates from confirmed bookings
   const [blockedDates, setBlockedDates] = useState<string[]>([]);
+  const [dateDetails, setDateDetails] = useState<
+    Record<string, Array<{ time: string; venue?: string; city?: string }>>
+  >({});
 
   // Selected slots for booking (multiple date/time slot support)
   const [bookingSlots, setBookingSlots] = useState<BookingSlot[]>([]);
@@ -391,6 +394,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
       if (r.ok) {
         const d = await r.json();
         setBlockedDates(d.blockedDates || []);
+        setDateDetails(d.dateDetails || {});
       }
     } catch { }
   }, []);
@@ -1217,6 +1221,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     setFormData((p) => ({ ...p, customEventType: d }))
                   }
                   blockedDates={blockedDates}
+                  dateDetails={dateDetails}
                   labels={pickerLabels}
                 />
 
@@ -1395,6 +1400,30 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               </button>
                             </div>
                           </div>
+
+                          {/* Existing Show Double-Booking Notice */}
+                          {dateDetails[slot.date] && dateDetails[slot.date].length > 0 && (
+                            <div className="mb-3 rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-200">
+                              <div className="flex items-start gap-2">
+                                <span className="text-sm">⚠️</span>
+                                <div className="space-y-0.5">
+                                  <p className="font-semibold text-rose-300">
+                                    Existing show scheduled on this date:
+                                  </p>
+                                  {dateDetails[slot.date].map((d, i) => (
+                                    <p key={`${slot.date}-${d.time}-${d.venue || ""}-${i}`} className="text-rose-200/90">
+                                      <strong>{d.time}</strong>
+                                      {d.venue ? ` at ${d.venue}` : ""}
+                                      {d.city ? ` (${d.city})` : ""}
+                                    </p>
+                                  ))}
+                                  <p className="mt-1 text-[11px] text-white/60">
+                                    Double-booking permitted: please configure your preferred alternate time frame below (e.g. afternoon or daytime set).
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
 
                           <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
                             {/* Format */}
