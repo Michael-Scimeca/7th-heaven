@@ -16,6 +16,7 @@
 # env files
 .env*
 !.env.example
+!.env.local.example
 
 # dev fixtures — contain test credentials, must not ship to production
 src/data/fake-logins.json
