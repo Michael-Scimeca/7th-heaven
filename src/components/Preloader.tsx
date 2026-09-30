@@ -299,7 +299,7 @@ export default function Preloader() {
       // onComplete, or the watchdog) is the only thing that should strip
       // the class -- both already go through finish() -> unlockScroll().
     };
-  }, []);
+  }, [isBypass]);
 
   if (pathname?.startsWith("/studio") || phase === "done") return null;
 
