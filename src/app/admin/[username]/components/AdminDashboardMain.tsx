@@ -6961,7 +6961,7 @@ export function AdminDashboardMain({
                             <SectionBadge label={b.status} />
                             {b.status === "pending" && (
                               <div className="ml-1 flex items-center gap-1.5">
-                                <button
+                                <SeventhButton
                                   aria-label="Approve booking"
                                   disabled={updatingBookingId === b.bookingId}
                                   onClick={async () => {
@@ -6999,13 +6999,13 @@ export function AdminDashboardMain({
                                       setUpdatingBookingId(null);
                                     }
                                   }}
-                                  className="cursor-pointer rounded-lg bg-emerald-500 px-2.5 py-1 text-[0.55rem] hover:bg-emerald-400 disabled:opacity-50"
+                                  className="cursor-pointer"
                                 >
                                   {updatingBookingId === b.bookingId
                                     ? "..."
                                     : "Approve"}
-                                </button>
-                                <button
+                                </SeventhButton>
+                                <SeventhButton
                                   aria-label="Reject booking"
                                   disabled={updatingBookingId === b.bookingId}
                                   onClick={async () => {
@@ -7041,12 +7041,13 @@ export function AdminDashboardMain({
                                       setUpdatingBookingId(null);
                                     }
                                   }}
-                                  className="cursor-pointer rounded-lg bg-rose-600 px-2.5 py-1 text-[0.55rem] hover:bg-rose-500 disabled:opacity-50"
+                                  color="#f43f5e"
+                                  className="cursor-pointer"
                                 >
                                   {updatingBookingId === b.bookingId
                                     ? "..."
                                     : "Reject"}
-                                </button>
+                                </SeventhButton>
                               </div>
                             )}
                           </div>
@@ -7641,18 +7642,19 @@ export function AdminDashboardMain({
                       )}
                     </div>
                     <div className="flex shrink-0 gap-2">
-                      <button
+                      <SeventhButton
                         onClick={() => moderateMemory(mem.id, "reject")}
-                        className="cursor-pointer rounded-lg bg-red-600 px-4 py-2 shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:bg-red-500"
+                        color="#f43f5e"
+                        className="cursor-pointer"
                       >
                         Reject
-                      </button>
-                      <button
+                      </SeventhButton>
+                      <SeventhButton
                         onClick={() => moderateMemory(mem.id, "approve")}
-                        className="rounded-lg bg-emerald-400 px-4 py-2 text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300"
+                        className="cursor-pointer"
                       >
                         Approve
-                      </button>
+                      </SeventhButton>
                     </div>
                   </div>
                 ))}
@@ -10932,7 +10934,7 @@ export function AdminDashboardMain({
                             <div className="text-right">
                               {user.role !== "admin" ? (
                                 <div className="flex items-center justify-end gap-2">
-                                  <button
+                                  <SeventhButton
                                     onClick={() =>
                                       setViewingUser(
                                         viewingUser === user.id
@@ -10940,16 +10942,17 @@ export function AdminDashboardMain({
                                           : user.id,
                                       )
                                     }
-                                    className="rounded border border-white/10 bg-[#00000029] px-3 py-2 text-[0.9rem] hover:text-white"
+                                    className="cursor-pointer"
                                   >
                                     {viewingUser === user.id ? "Hide" : "View"}
-                                  </button>
-                                  <button
+                                  </SeventhButton>
+                                  <SeventhButton
                                     onClick={() => banUser(user.id, user.name)}
-                                    className="rounded border border-red-500/30 bg-[#00000029] px-3 py-2 text-[0.9rem] text-red-500 hover:border-red-500 hover:bg-red-500 hover:text-white"
+                                    color="#f43f5e"
+                                    className="cursor-pointer"
                                   >
                                     Remove
-                                  </button>
+                                  </SeventhButton>
                                 </div>
                               ) : (
                                 <span className="inline-block px-4 py-2 text-[0.55rem] text-white/20">

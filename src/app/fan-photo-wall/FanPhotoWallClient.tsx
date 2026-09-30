@@ -542,18 +542,20 @@ export default function FanPhotoWallClient({
                     </div>
 
                     <div className="mt-4 grid grid-cols-2 gap-2.5 border-t border-white/10 pt-3">
-                      <button
+                      <SeventhButton
                         onClick={() => handleRejectPhoto(photo.id)}
                         disabled={moderatingId === photo.id}
-                        className="cursor-pointer !rounded-full border border-red-500/30 bg-red-950/60 text-center text-red-200 hover:bg-red-900/80"
+                        icon={false}
+                        color="#f43f5e"
+                        className="text-center cursor-pointer"
                       >
                         Reject
-                      </button>
+                      </SeventhButton>
                       <SeventhButton
                         onClick={() => handleApprovePhoto(photo.id)}
                         disabled={moderatingId === photo.id}
                         icon={false}
-                        className="text-center"
+                        className="text-center cursor-pointer"
                       >
                         Approve
                       </SeventhButton>
@@ -573,9 +575,9 @@ export default function FanPhotoWallClient({
         className="section"
       >
         <div className="site-container  mx-auto">
-          <div className="mb-6">
+          <div className="title-group title-group--section mb-6">
             <h2 id="featured-media-heading">{sanityContent?.sectionTitle || "FEATURED MEDIA"}</h2>
-            <p className="mt-2 max-w-2xl">
+            <p className="max-w-2xl">
               {sanityContent?.sectionDescription ||
                 "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
             </p>{" "}
