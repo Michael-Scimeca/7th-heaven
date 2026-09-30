@@ -285,31 +285,7 @@ function HomeShaderGradientComponent() {
     let animFrameId: number | null = null;
     const startMs = performance.now();
     let isVisible = true;
-    let isScrolling = false;
-    let scrollTimeout: NodeJS.Timeout;
     let lastFrameTime = 0;
-
-    const onScroll = () => {
-      isScrolling = true;
-      if (neatInstance) {
-        neatInstance.yOffset =
-          (GRADIENT_SETTINGS.yOffset || 50041) + window.scrollY;
-        // Pause WebGL animation while scrolling to free GPU bandwidth for Lenis
-        try { neatInstance.pause?.(); } catch {}
-      }
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-        // Resume WebGL animation once scroll settles
-        if (neatInstance) {
-          try { neatInstance.resume?.(); } catch {}
-        }
-      }, 200);
-    };
-
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", onScroll, { passive: true });
-    }
 
     const startLoop = () => {
       if (!animFrameId && isVisible && !document.hidden) {
@@ -385,7 +361,7 @@ function HomeShaderGradientComponent() {
       }
       const baseCap =
         typeof window !== "undefined" && window.innerWidth < 768 ? 66 : 40;
-      const frameCap = isScrolling ? baseCap * 2 : baseCap;
+      const frameCap = baseCap;
       if (t - lastFrameTime > frameCap) {
         updatePositionLayer(t);
         lastFrameTime = t;
@@ -432,7 +408,6 @@ function HomeShaderGradientComponent() {
           clearTimeout(watermarkTimeout);
         }
         if (typeof window !== "undefined") {
-          window.removeEventListener("scroll", onScroll);
           window.removeEventListener("resize", onResize);
         }
         if (observer) {
@@ -462,9 +437,6 @@ function HomeShaderGradientComponent() {
       cancelled = true;
       if (watermarkTimeout) {
         clearTimeout(watermarkTimeout);
-      }
-      if (typeof window !== "undefined") {
-        window.removeEventListener("scroll", onScroll);
       }
       if (observer) {
         observer.disconnect();
