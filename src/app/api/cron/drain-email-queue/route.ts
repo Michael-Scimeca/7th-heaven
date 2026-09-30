@@ -23,7 +23,15 @@ async function handleDrain(req: NextRequest) {
   try {
     const quotaBefore = await getEmailQuotaStatus();
     const result = await drainEmailQueue();
-    const quotaAfter = await getEmailQuotaStatus();
+    const quotaAfter = {
+      ...quotaBefore,
+      dailySent: quotaBefore.dailySent + result.sent,
+      monthlySent: quotaBefore.monthlySent + result.sent,
+      dailyRemaining: Math.max(0, quotaBefore.dailyRemaining - result.sent),
+      monthlyRemaining: Math.max(0, quotaBefore.monthlyRemaining - result.sent),
+      remaining: result.remainingQuota,
+      pendingInQueue: Math.max(0, quotaBefore.pendingInQueue - result.processed),
+    };
 
     return NextResponse.json({
       success: true,

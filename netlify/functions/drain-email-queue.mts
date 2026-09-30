@@ -13,9 +13,17 @@ export default async (req: Request) => {
       },
     });
 
+    if (!res.ok) {
+      const errorText = await res.text();
+      return new Response(JSON.stringify({ error: `HTTP ${res.status}: ${errorText}` }), {
+        status: res.status,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const data = await res.json();
     return new Response(JSON.stringify(data), {
-      status: res.status,
+      status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (err: unknown) {
