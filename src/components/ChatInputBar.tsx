@@ -47,7 +47,7 @@ export default function ChatInputBar({
 
   return (
     <div className={`flex flex-col ${className}`}>
-      <form onSubmit={onSubmit} className="relative flex w-full items-center border-l border-b border-r border-white/10">
+      <form onSubmit={onSubmit} className="relative flex w-full items-center">
         <InputField
           aria-label="Chat message input"
           type="text"
@@ -56,13 +56,13 @@ export default function ChatInputBar({
           disabled={disabled}
           placeholder={placeholder}
           maxLength={maxLength}
-          glow={true}
+          glow={false}
           autoComplete="off"
           autoCorrect="on"
           autoCapitalize="sentences"
           enterKeyHint="send"
           containerClassName="w-full"
-          inputClassName={`input-focus outline-none placeholder:text-white/40 ${rightPadding}`}
+          inputClassName={`!rounded-none border border-white/10 input-focus outline-none placeholder:text-white/40 ${rightPadding}`}
         />
 
         <div className="absolute right-1 flex items-center gap-1">
@@ -114,7 +114,7 @@ export default function ChatInputBar({
       </form>
 
       {showRulesFooter && (
-        <div className=" flex items-center justify-between ">
+        <div className=" flex items-center justify-between mt-6">
           <span>Keep it Rated PG-13 · No Politics</span>
           {onAdminTag && (
             <button

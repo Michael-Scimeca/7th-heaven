@@ -11354,18 +11354,7 @@ export function AdminDashboardMain({
       >
         <div className="title-group title-group--sub" onClick={(e) => e.stopPropagation()}>
           <h3 className="flex items-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
+
             Create Admin Account
             {renderInfoToggle("admincreation")}
           </h3>
@@ -11384,19 +11373,7 @@ export function AdminDashboardMain({
               (isSectionOpen("admincreation") ? "rotate-0" : "-rotate-90")
             }
           >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
+
           </div>
         </div>
       </div>
@@ -17913,9 +17890,9 @@ export function AdminDashboardMain({
       {adminTab === "cruise" && (
         <>
           {/* === CRUISE BROADCAST CENTER === */}
-          <div id="admin-sec-cruise-command" className="relative mb-6 pt-2">
+          <div id="admin-sec-cruise-command" className="relative">
             {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
-            <div className="mb-6 grid grid-cols-1 items-start gap-6 xl:grid-cols-2">
+            <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-2">
               {/* Column 1: Cruise Information & Guidelines Editor */}
               <div className="relative z-10">
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
@@ -17993,7 +17970,7 @@ export function AdminDashboardMain({
                     </div>
                   </div>
 
-                  <div className="flex justify-end border-t border-white/10 pt-2">
+                  <div className="flex justify-end">
                     <SeventhButton
                       type="button"
                       onClick={async () => {
@@ -18039,7 +18016,7 @@ export function AdminDashboardMain({
             </div>
 
             {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
-            <div className="relative mb-6 grid grid-cols-1 items-start gap-6">
+            <div className="relative  grid grid-cols-1 items-start gap-6">
               <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full " />
 
               <div className="group relative z-10 flex flex-col overflow-hidden">
@@ -18116,7 +18093,7 @@ export function AdminDashboardMain({
                         />
                       </div>
 
-                      <div className="mt-auto flex flex-wrap items-center justify-end gap-2 pt-3">
+                      <div className="mt-auto flex flex-wrap items-center justify-end gap-2">
                         <SeventhButton
                           onClick={async () => {
                             if (cruiseUpdatingRef.current) return;
@@ -18241,7 +18218,7 @@ export function AdminDashboardMain({
           {/* Cruise Roster & Signup Stats */}
           <div
             id="admin-sec-cruise-roster"
-            className="relative mt-6 grid grid-cols-1 items-start gap-6"
+            className="relative grid grid-cols-1 items-start gap-6"
           >
             <div className="group relative z-10 flex flex-col overflow-hidden">
               <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
