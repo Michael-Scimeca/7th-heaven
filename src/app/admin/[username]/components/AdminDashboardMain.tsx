@@ -12182,7 +12182,7 @@ export function AdminDashboardMain({
 
                 {/* Bottom actions */}
                 <div className="mt-4 flex gap-3">
-                  <button
+                  <SeventhButton
                     onClick={async () => {
                       const res = await fetch("/api/admin/cruise-export");
                       if (res.ok) {
@@ -12195,7 +12195,7 @@ export function AdminDashboardMain({
                         URL.revokeObjectURL(url);
                       }
                     }}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 border border-purple-400/30 bg-gradient-to-r from-cyan-600 to-cyan-500 py-3 text-[0.65rem] shadow-[0_4px_15px_rgba(6,182,212,0.25)] hover:from-cyan-500 hover:to-cyan-400"
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-2"
                   >
                     <svg
                       width="14"
@@ -12210,7 +12210,7 @@ export function AdminDashboardMain({
                       <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
                     </svg>
                     Export CSV
-                  </button>
+                  </SeventhButton>
                 </div>
               </div>
             </>
@@ -18308,7 +18308,7 @@ export function AdminDashboardMain({
                 )}
 
                 {/* Download CSV */}
-                <button
+                <SeventhButton
                   onClick={async () => {
                     const res = await fetch("/api/admin/cruise-export");
                     if (res.ok) {
@@ -18321,7 +18321,7 @@ export function AdminDashboardMain({
                       URL.revokeObjectURL(url);
                     }
                   }}
-                  className="mt-auto flex w-full cursor-pointer items-center justify-center gap-2 border border-white/10 bg-gradient-to-r from-emerald-600 to-emerald-500 py-3.5 text-[0.65rem] shadow-[0_4px_15px_rgba(16,185,129,0.25)] hover:from-emerald-500 hover:to-emerald-400"
+                  className="mt-auto flex w-full cursor-pointer items-center justify-center gap-2 whitespace-nowrap"
                 >
                   <svg
                     width="16"
@@ -18336,7 +18336,7 @@ export function AdminDashboardMain({
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
                   </svg>
                   Download Full CSV
-                </button>
+                </SeventhButton>
                 <p className="-mt-2 text-center">
                   Includes names, emails, phone numbers, guest details
                 </p>
