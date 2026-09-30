@@ -23,11 +23,14 @@ export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("home");
+  const metaTitle =
+    content?.seo?.metaTitle ||
+    (content?.title && !content.title.toLowerCase().includes("home")
+      ? `${content.title} — 7th Heaven`
+      : "7th Heaven — Chicago's #1 Rock Band | Official Site");
+
   return {
-    title:
-      content?.seo?.metaTitle ||
-      content?.title ||
-      "7th Heaven — Official Band Website",
+    title: metaTitle,
     description:
       content?.seo?.metaDescription ||
       content?.heroSubheading ||
