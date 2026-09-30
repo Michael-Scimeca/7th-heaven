@@ -210,6 +210,27 @@ export default function MediaClient({
     setActiveFilter(newFilter.toUpperCase());
   }, []);
 
+  const handleCloseVideo = useCallback(() => {
+    setPlayingVideo(null);
+    setHoveredVideoId(null);
+  }, []);
+
+  // Escape key handler to close video and add modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (playingVideo) {
+          handleCloseVideo();
+        }
+        if (isAddModalOpen) {
+          setIsAddModalOpen(false);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [playingVideo, isAddModalOpen, handleCloseVideo]);
+
   // Add Video Modal State
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   useScrollLock(Boolean(playingVideo || isAddModalOpen));
@@ -517,7 +538,7 @@ export default function MediaClient({
             "40 years of music, live performances, official music videos, and press highlights."
           }
           align="left"
-          className=""
+          className="max-w-[800px]"
         />
 
         {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
@@ -535,7 +556,7 @@ export default function MediaClient({
 
           <div role="toolbar" aria-label="Media Filters" className="mb-10 lg:mb-12">
             {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
-            <div className="mb-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mb-6 flex flex-col items-start justify-start gap-3 sm:flex-row sm:items-center">
               <SearchInput
                 value={searchQuery}
                 onChange={setSearchQuery}
@@ -553,10 +574,10 @@ export default function MediaClient({
               />
             </div>
 
-            {/* ── CENTERED CATEGORY FILTER PILLS BAR ── */}
+            {/* ── CATEGORY FILTER PILLS BAR ── */}
             <nav
               aria-label="Media Categories"
-              className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-2.5"
+              className="flex w-full flex-wrap items-center justify-start gap-2.5"
             >
               <SeventhButton
                 type="button"
@@ -594,7 +615,8 @@ export default function MediaClient({
           <div className="min-h-[60vh] [overflow-anchor:auto] pt-2 lg:pt-4">
             <ul key={activeFilter} className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
               {visibleVideos.map((video, index) => {
-                const isHovered = hoveredVideoId === video.id;
+                const isHovered =
+                  !playingVideo && hoveredVideoId === video.id;
                 const isMiddleCol = index % 3 === 1;
 
                 return (
@@ -607,12 +629,18 @@ export default function MediaClient({
                         role="button"
                         tabIndex={0}
                         aria-label={`Play ${video.title}`}
-                        onMouseEnter={() => setHoveredVideoId(video.id)}
+                        onMouseEnter={() => {
+                          if (!playingVideo) setHoveredVideoId(video.id);
+                        }}
                         onMouseLeave={() => setHoveredVideoId(null)}
-                        onClick={() => setPlayingVideo(video)}
+                        onClick={() => {
+                          setHoveredVideoId(null);
+                          setPlayingVideo(video);
+                        }}
                         onKeyDown={(e) => {
                           if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
+                            setHoveredVideoId(null);
                             setPlayingVideo(video);
                           }
                         }}
@@ -646,7 +674,7 @@ export default function MediaClient({
 
                           {/* Poster Title Container with Responsive Height */}
                           <div className="flex h-10 items-center justify-center sm:h-14">
-                            <span className="block line-clamp-2 font-bold drop-shadow-md   sm:text-lg">
+                            <span className="block line-clamp-2   drop-shadow-md   sm:text-lg">
                               {video.title}
                             </span>
                           </div>
@@ -710,7 +738,7 @@ export default function MediaClient({
         createPortal(
           <div
             className="fixed inset-0 z-[999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0"
-            onClick={() => setPlayingVideo(null)}
+            onClick={handleCloseVideo}
           >
             <div
               className="relative flex h-full w-full flex-col overflow-hidden bg-black"
@@ -718,16 +746,16 @@ export default function MediaClient({
               {/* Modal Header Bar */}
               <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-4 pt-safe sm:px-6">
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 font-bold text-purple-300">
+                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1   text-purple-300">
                     {playingVideo.category || "7TH HEAVEN"}
                   </span>
-                  <span className="line-clamp-1 font-bold text-white sm:text-lg">
+                  <span className="line-clamp-1   text-white sm:text-lg">
                     {playingVideo.title}
                   </span>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setPlayingVideo(null)}
+                  onClick={handleCloseVideo}
                   className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
                   aria-label="Close modal"
                 >
@@ -740,7 +768,7 @@ export default function MediaClient({
                 <CustomVideoPlayer
                   videoId={playingVideo.id}
                   title={playingVideo.title}
-                  onClose={() => setPlayingVideo(null)}
+                  onClose={handleCloseVideo}
                 />
               </div>
             </div>
