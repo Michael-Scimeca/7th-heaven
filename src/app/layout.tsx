@@ -75,7 +75,7 @@ import {
 // so the preloader would just be a black screen held for the minimum-visible
 // window. Going straight to the page is strictly better for them.
 const PRELOAD_SCRIPT_CONTENT =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('is-preloading')}}catch(e){}";
+  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches && !location.search.includes('bypass=true')){document.documentElement.classList.add('is-preloading')}}catch(e){}";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchSanity<SanitySiteSettings>(queries.siteSettings);
@@ -99,7 +99,18 @@ export async function generateMetadata(): Promise<Metadata> {
     process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
   let metadataBase: URL;
   try {
-    metadataBase = new URL(rawSiteUrl);
+    const isProd =
+      process.env.NODE_ENV === "production" ||
+      process.env.CONTEXT === "production" ||
+      Boolean(process.env.NETLIFY);
+    if (
+      isProd &&
+      (rawSiteUrl.includes("localhost") || rawSiteUrl.includes("127.0.0.1"))
+    ) {
+      metadataBase = new URL(process.env.URL || "https://7thheavenband.com");
+    } else {
+      metadataBase = new URL(rawSiteUrl);
+    }
   } catch {
     metadataBase = new URL("https://7thheavenband.com");
   }
@@ -269,7 +280,7 @@ export default function RootLayout({
               __html: `
  if (window.location.search.includes('bypass=true')) {
  var style = document.createElement('style');
- style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
+ style.innerHTML = '* { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; animation: none !important; transition: none !important; } #curtain-primary, #curtain-accent, .preloader-overlay { display: none !important; } #page-content-wrapper { opacity: 1 !important; transform: none !important; }';
  document.head.appendChild(style);
  }
  `,

@@ -6,6 +6,8 @@ import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
 import SeventhButton from "@/components/SeventhButton";
 import FaqChevronButton from "@/components/FaqChevronButton";
+import PageHero from "@/components/PageHero";
+import { SectionHeader } from "@/components/SectionHeader";
 
 interface FAQItem {
   id: string;
@@ -288,127 +290,144 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
 
   return (
     <main
-      className="site-container page-container relative min-h-screen"
+      className="site-container page-container page-stack relative min-h-screen"
       id="faq-page"
     >
       {/* Page Header */}
-      <header className="mb-6 text-center">
-        <h1 className="mb-6">
-          {sanityContent?.heroHeading ||
-            sanityContent?.title ||
-            "FREQUENTLY ASKED QUESTIONS"}
-        </h1>
-        <p className="mx-auto max-w-xl">
-          {sanityContent?.heroSubheading ||
-            sanityContent?.subtitle ||
-            "Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise."}
-        </p>
-      </header>
+      <PageHero
+        title={
+          sanityContent?.heroHeading ||
+          sanityContent?.title ||
+          "FREQUENTLY ASKED QUESTIONS"
+        }
+        titleId="faq-heading"
+        subtitle={
+          sanityContent?.heroSubheading ||
+          sanityContent?.subtitle ||
+          "Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise."
+        }
+        className=""
+        align="left"
+      />
 
-      {/* Search Bar */}
-      <div className="mx-auto mb-6 flex max-w-[500px] justify-center">
-        <SearchInput
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Search"
-          containerClassName="w-full"
-        />
-      </div>
-
-      {/* Category Navigation Tabs */}
-      <nav
-        aria-label="FAQ Categories"
-        className="mb-6 flex flex-wrap justify-center gap-2"
+      {/* Main FAQ Content Section */}
+      <section
+        id="faq-list"
+        aria-labelledby="faq-list-heading"
+        className="section"
       >
-        {CATEGORIES.map((cat) => {
-          const Icon = cat.icon;
-          const isActive = activeTab === cat.id;
-          return (
-            <SeventhButton
-              key={cat.id}
-              type="button"
-              onClick={() => setActiveTab(cat.id)}
-              isActive={isActive}
-              className="flex !w-auto items-center gap-2"
-            >
-              <span className={isActive ? " " : cat.color}>
-                <Icon />
-              </span>
-              <span>{cat.label}</span>
-            </SeventhButton>
-          );
-        })}
-      </nav>
+        <SectionHeader id="faq-list-heading" title="Frequently Asked Questions" visuallyHidden />
+        <div className="w-full">
+          {/* Search Bar */}
+          <div className="mx-auto mb-6 flex max-w-[500px] justify-center">
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Search"
+              containerClassName="w-full"
+            />
+          </div>
 
-      {/* FAQ Accordion List */}
-      <section aria-label="Frequently Asked Questions Accordion">
-        {filteredFAQs.length > 0 ? (
-          filteredFAQs.map((faq) => {
-            const isExpanded = !!expandedItems[faq.id];
-            return (
-              <div
-                key={faq.id}
-                className="overflow-hidden border-b border-white/10"
-                style={{
-                  borderBottomColor: isExpanded
-                    ? "rgba(192, 132, 252, 0.6)"
-                    : undefined,
-                }}
-              >
-                <button
+          {/* Category Navigation Tabs */}
+          <nav
+            aria-label="FAQ Categories"
+            className="mb-6 flex flex-wrap justify-center gap-2"
+          >
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeTab === cat.id;
+              return (
+                <SeventhButton
+                  key={cat.id}
                   type="button"
-                  onClick={() => toggleExpand(faq.id)}
-                  aria-expanded={isExpanded}
-                  className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left"
+                  onClick={() => setActiveTab(cat.id)}
+                  isActive={isActive}
+                  className="flex !w-auto items-center gap-2"
                 >
-                  <span className="">{faq.question}</span>
-                  <FaqChevronButton isExpanded={isExpanded} />
-                </button>
+                  <span className={isActive ? " " : cat.color}>
+                    <Icon />
+                  </span>
+                  <span>{cat.label}</span>
+                </SeventhButton>
+              );
+            })}
+          </nav>
 
-                {/* Expanded Answer with smooth grid-rows height transition */}
-                <div
-                  className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="pb-6 pl-3">
-                      <p>{faq.answer}</p>
+          {/* FAQ Accordion List */}
+          <div aria-label="Frequently Asked Questions List" className="w-full">
+            {filteredFAQs.length > 0 ? (
+              filteredFAQs.map((faq) => {
+                const isExpanded = !!expandedItems[faq.id];
+                return (
+                  <div
+                    key={faq.id}
+                    className="overflow-hidden border-b border-white/10"
+                    style={{
+                      borderBottomColor: isExpanded
+                        ? "rgba(192, 132, 252, 0.6)"
+                        : undefined,
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleExpand(faq.id)}
+                      aria-expanded={isExpanded}
+                      aria-controls={`faq-answer-${faq.id}`}
+                      className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left"
+                    >
+                      <span className="">{faq.question}</span>
+                      <FaqChevronButton isExpanded={isExpanded} />
+                    </button>
+
+                    {/* Expanded Answer with smooth grid-rows height transition */}
+                    <div
+                      id={`faq-answer-${faq.id}`}
+                      role="region"
+                      aria-label={faq.question}
+                      className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="pb-6 pl-3">
+                          <p>{faq.answer}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                );
+              })
+            ) : (
+              <div className="rounded-lg bg-[#00000029] p-8 py-16 text-center">
+                <span className="mb-6 inline-block scale-150 text-white/20">
+                  <HelpIcon />
+                </span>
+                <h3 className="mb-1">No matches found</h3>
+                <p className="mx-auto max-w-xs">
+                  We couldn&apos;t find any FAQs matching &quot;{searchQuery}&quot;.
+                  Try using different terms or browse standard categories.
+                </p>
               </div>
-            );
-          })
-        ) : (
-          <div className="rounded-lg bg-[#00000029] p-8 py-16 text-center">
-            <span className="mb-6 inline-block scale-150 text-white/20">
-              <HelpIcon />
-            </span>
-            <h3 className="mb-1">No matches found</h3>
-            <p className="mx-auto max-w-xs">
-              We couldn&apos;t find any FAQs matching &quot;{searchQuery}&quot;.
-              Try using different terms or browse standard categories.
-            </p>
+            )}
           </div>
-        )}
-      </section>
 
-      {/* Live Support Banner */}
-      <aside className="mt-6 flex flex-col items-center justify-between gap-6 text-center sm:flex-row sm:p-8 sm:text-left">
-        <div>
-          <h4 className="mb-1">
-            {sanityContent?.supportTitle || "Still need help?"}
-          </h4>
-          <p>
-            {sanityContent?.supportBody ||
-              "Can't find the answer you are looking for? Reach out to our direct support."}
-          </p>
+          {/* Live Support Banner */}
+          <aside className="flex flex-col items-center justify-between gap-6 text-center sm:flex-row sm:pt-8 sm:text-left">
+            <div>
+              <h4 className="mb-1">
+                {sanityContent?.supportTitle || "Still need help?"}
+              </h4>
+              <p>
+                {sanityContent?.supportBody ||
+                  "Can't find the answer you are looking for? Reach out to our direct support."}
+              </p>
+            </div>
+            <TransitionLink href="/contact">
+              <SeventhButton className=" whitespace-nowrap">
+                {sanityContent?.supportCtaText || "Contact Us"}
+              </SeventhButton>
+            </TransitionLink>
+          </aside>
         </div>
-        <TransitionLink href="/contact">
-          <SeventhButton className=" whitespace-nowrap">
-            {sanityContent?.supportCtaText || "Contact Us"}
-          </SeventhButton>
-        </TransitionLink>
-      </aside>
+      </section>
     </main>
   );
 }

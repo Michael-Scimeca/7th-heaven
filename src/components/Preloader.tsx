@@ -61,10 +61,6 @@ const HARD_CEILING_MS = 3500;
 // navigation after it read as the same curtain, not two different overlays.
 export const CURTAIN_BG = "rgb(13, 14, 19)";
 
-function shouldSkip(): boolean {
-  return false;
-}
-
 // A single rising note particle, matching the standalone prototype: a small
 // dingle.svg-shaped note that fades in, drifts up and sideways, and removes
 // itself. Kept as plain DOM manipulation (not React state) since particles
@@ -78,9 +74,22 @@ const NOTE_SVG_MARKUP =
 
 export default function Preloader() {
   const pathname = usePathname();
-  const [phase, setPhase] = useState<Phase>(() =>
-    shouldSkip() ? "done" : "loading",
+  const [phase, setPhase] = useState<Phase>("loading");
+  const isBypass = useSyncExternalStore(
+    () => () => {},
+    () => {
+      try {
+        return (
+          window.location.search.includes("bypass=true") ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        );
+      } catch {
+        return false;
+      }
+    },
+    () => false,
   );
+
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const loaderWrapRef = useRef<HTMLDivElement>(null);
@@ -111,7 +120,7 @@ export default function Preloader() {
       setPhase("done");
     };
 
-    if (!html.classList.contains("is-preloading") || shouldSkip()) {
+    if (!html.classList.contains("is-preloading") || isBypass) {
       unlockScroll();
       setPhase("done");
       return;
