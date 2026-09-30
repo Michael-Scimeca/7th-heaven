@@ -352,8 +352,8 @@ export default function HeroVideoPlayer({
       ([entry]) => {
         const visible = entry.isIntersecting;
         if (visible) {
-          if (videoRef.current) videoRef.current.play().catch(() => {});
-          if (mobileVideoRef.current) mobileVideoRef.current.play().catch(() => {});
+          if (videoRef.current) videoRef.current.play().catch(() => { });
+          if (mobileVideoRef.current) mobileVideoRef.current.play().catch(() => { });
         } else {
           if (videoRef.current) videoRef.current.pause();
           if (mobileVideoRef.current) mobileVideoRef.current.pause();
@@ -972,9 +972,11 @@ export default function HeroVideoPlayer({
           {/* Two-column layout on Desktop (lg+), stacked on Tablet & Mobile */}
           <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
             {/* Left Column: Hero Title & Subheading Content */}
-            <div className="pointer-events-auto flex max-w-[750px] flex-1 flex-col gap-3 lg:max-w-[50%]">
+            <div className="title-group title-group--page pointer-events-auto max-w-[750px] flex-1 lg:max-w-[50%]">
               {/* Hero Main Headline */}
-              <h1>{sanityContent?.heroHeading || "7TH HEAVEN"}</h1>
+              <h1 id="hero-heading">
+                {sanityContent?.heroHeading || "7TH HEAVEN"}
+              </h1>
 
               {/* Hero Subheading */}
               <p className="/90 md: drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]  lg:text-xl">

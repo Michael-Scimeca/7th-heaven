@@ -61,12 +61,6 @@ export default async function Home() {
         className="section relative"
         data-pick-label="Play Music"
       >
-        <SectionHeader
-          id="hero-heading"
-          as="h1"
-          title="7th Heaven"
-          visuallyHidden
-        />
         <div className="relative h-[100vh] h-[100svh] w-full">
           <div
             id="hero-card"
