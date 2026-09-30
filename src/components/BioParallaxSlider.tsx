@@ -34,7 +34,6 @@ import MemberFactSheetDrawer, {
   BandMemberFactSheet,
 } from "@/components/MemberFactSheetDrawer";
 import { SectionBadge } from "@/components/SectionBadge";
-import PixelFireplaceCanvas from "@/components/PixelFireplaceCanvas";
 
 const emptySubscribe = () => () => { };
 
@@ -603,12 +602,12 @@ export default function BioParallaxSlider({
 
   // Fireplace WebGL Shader Canvas & BioParallax UI Controls State
   const [isCanvasEnabled, setIsCanvasEnabled] = useState<boolean>(true);
-  const [flameSpeed, setFlameSpeed] = useState<number>(0.3);
-  const [flameHeight, setFlameHeight] = useState<number>(0.2);
-  const [sparkDensity, setSparkDensity] = useState<number>(1.1);
-  const [sparkScale, setSparkScale] = useState<number>(0.09);
+  const [flameSpeed, setFlameSpeed] = useState<number>(0.6);
+  const [flameHeight, setFlameHeight] = useState<number>(1.4);
+  const [sparkDensity, setSparkDensity] = useState<number>(2.0);
+  const [sparkScale, setSparkScale] = useState<number>(0.1);
   const [paletteTheme, setPaletteTheme] = useState<number>(1);
-  const [canvasOpacity, setCanvasOpacity] = useState<number>(75);
+  const [canvasOpacity, setCanvasOpacity] = useState<number>(85);
   const [glowOpacity, setGlowOpacity] = useState<number>(75);
   const [useCustomColors, setUseCustomColors] = useState<boolean>(true);
   const [colorBaseHex, setColorBaseHex] = useState<string>("#330000");
@@ -656,7 +655,7 @@ export default function BioParallaxSlider({
         if (cfg.isCanvasEnabled !== undefined)
           setIsCanvasEnabled(cfg.isCanvasEnabled);
         if (cfg.flameSpeed !== undefined) setFlameSpeed(cfg.flameSpeed);
-        if (cfg.flameHeight !== undefined) setFlameHeight(cfg.flameHeight);
+        if (cfg.flameHeight !== undefined) setFlameHeight(Math.max(0.6, cfg.flameHeight));
         if (cfg.sparkDensity !== undefined) setSparkDensity(cfg.sparkDensity);
         if (cfg.sparkScale !== undefined) setSparkScale(cfg.sparkScale);
         if (cfg.paletteTheme !== undefined) setPaletteTheme(cfg.paletteTheme);
@@ -2187,29 +2186,7 @@ lerpSpeed: ${lerpSpeed}`;
                           transform: `translateY(${imageOffsetY}px)`,
                         }}
                       >
-                        {/* WebGL Pixel Fireplace Shader Canvas behind Active Band Member */}
-                        {isCanvasEnabled && Math.abs(activeIndex - i) <= 1 && (
-                          <div
-                            className="bio-fireplace-canvas pointer-events-none absolute inset-x-[-20%] top-[-25%] bottom-[60px] z-[-1] overflow-hidden md:bottom-[80px]"
-                            style={{
-                              opacity: isActive ? canvasOpacity / 100 : 0,
-                            }}
-                          >
-                            <PixelFireplaceCanvas
-                              className="pointer-events-none block h-full w-full object-cover"
-                              flameSpeed={flameSpeed}
-                              flameHeight={flameHeight}
-                              sparkDensity={sparkDensity}
-                              sparkScale={sparkScale}
-                              paletteTheme={paletteTheme}
-                              useCustomColors={useCustomColors}
-                              colorBaseHex={colorBaseHex}
-                              colorMidHex={colorMidHex}
-                              colorCoreHex={colorCoreHex}
-                              colorSparkHex={colorSparkHex}
-                            />
-                          </div>
-                        )}
+
                         {/* Radiant Gradient Glow behind Active Image Cutout */}
                         <div
                           className="pointer-events-none absolute inset-x-[-15%] top-[-25%] bottom-[40px] z-[0] origin-center rounded-full mix-blend-screen blur-2xl md:blur-3xl"
