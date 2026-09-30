@@ -17748,10 +17748,7 @@ export function AdminDashboardMain({
                   {auditLog.map((entry, i) => (
                     <div
                       key={entry.id}
-                      className="relative flex gap-2.5 pb-4 pl-0 last:pb-0"
-                      style={{
-                        animation: i === 0 ? "slideIn 0.4s ease-out" : "none",
-                      }}
+                      className={`relative flex gap-2.5 pb-4 pl-0 last:pb-0 ${i === 0 ? "animate-[slideIn_0.4s_ease-out]" : ""}`}
                     >
                       {i < auditLog.length - 1 && (
                         <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/10" />
@@ -17776,8 +17773,10 @@ export function AdminDashboardMain({
                               className="a-btn inline-flex cursor-pointer items-center gap-1 hover:text-white"
                             >
                               {expandedAuditId === entry.id
-                                ? "Hide Details "
-                                : "View Message Content "}
+                                ? "Hide Details"
+                                : entry.details.type === "signin"
+                                  ? "View Session Details"
+                                  : "View Message Content"}
                             </button>
 
                             {expandedAuditId === entry.id && (
