@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import { Mail, Phone } from "lucide-react";
 import { useMember } from "@/context/MemberContext";
 import AddCmsButton from "@/components/AddCmsButton";
+import PageHero from "@/components/PageHero";
+import { SectionHeader } from "@/components/SectionHeader";
+import SectionBadge from "@/components/SectionBadge";
 
 export interface ContactItem {
   category: string;
@@ -151,16 +154,17 @@ export default function ContactClient({
   return (
     <main
       id="contact-page"
-      className="site-container page-container relative flex h-full lg:min-h-screen flex-col pb-section-fluid"
+      className="site-container page-container page-stack-sm relative flex h-full lg:min-h-screen flex-col"
     >
       {/* Hero Header */}
-      <header className="relative z-10 mb-6 max-w-5xl text-start">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <h1>{title}</h1>
-            <p className="mt-3 max-w-2xl text-white/70">{subtitle}</p>
-          </div>
-          {isAdmin && (
+      <PageHero
+        title={title}
+        titleId="contact-heading"
+        subtitle={subtitle}
+        className="relative z-10 max-w-5xl"
+        align="left"
+        actions={
+          isAdmin ? (
             <AddCmsButton
               label="EDIT IN SANITY"
               onClick={() =>
@@ -168,190 +172,196 @@ export default function ContactClient({
               }
               className="shrink-0 self-start sm:self-auto"
             />
-          )}
-        </div>
-      </header>
+          ) : undefined
+        }
+      />
 
       {/* ── MAIN CONTENT (Mobile/Tablet Stacked, Desktop Split) ── */}
-      {/* Mobile & Tablet Stacked View (< lg) */}
-      <div className="relative z-10 flex flex-col space-y-4 lg:hidden">
-        {contacts.map((contact) => {
-          const photoKey = getPhotoForCategory(contact);
-          const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
-          const cardKey =
-            (contact.email || "") +
-            (contact.category || "") +
-            (contact.name || "");
-
-          return (
-            <article
-              key={cardKey}
-              className="flex flex-col"
-            >
-              {/* Category Pill */}
-              <div>
-                <span className="inline-block rounded-full border border-purple-400/30 bg-purple-500/20 px-3.5 py-1   font-bold text-purple-300 uppercase tracking-wider">
-                  {contact.category}
-                </span>
-              </div>
-
-              {/* Name & Company */}
-              <div className="mb-6">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
-                  {contact.name || photo.name || "7th Heaven Representative"}
-                </h3>
-                {contact.company && (
-                  <p className="text-sm font-semibold text-purple-200/70 mt-1">
-                    {contact.company}
-                  </p>
-                )}
-              </div>
-
-              {contact.note && (
-                <p className="  italic text-white/60">
-                  {contact.note}
-                </p>
-              )}
-
-              {/* Action Buttons: Stacked vertically full width */}
-              <address className="not-italic flex flex-col gap-5  w-full">
-                {contact.email && (
-                  <a
-                    href={`mailto:${contact.email}`}
-                    className="flex w-full items-center justify-center gap-2  border border-purple-500/40 bg-purple-950/60 px-4 py-3   font-semibold text-purple-200 transition-all hover:bg-purple-900/80"
-                  >
-                    <Mail className="h-4 w-4 text-purple-400" />
-                    <span className="truncate">{contact.email}</span>
-                  </a>
-                )}
-                {contact.phone && (
-                  <a
-                    href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                    className="flex w-full items-center justify-center gap-2  border border-white/10 bg-white/5 px-4 py-3   font-semibold text-white/80 transition-all hover:bg-white/10"
-                  >
-                    <Phone className="h-4 w-4 text-emerald-400" />
-                    <span>{contact.phone}</span>
-                  </a>
-                )}
-              </address>
-
-              {/* Representative Full-Width Photo Stacked Underneath */}
-              <div className="contact-rep-stage-mask relative mt-4 overflow-hidden">
-                <img
-                  src={photo.desktop || photo.mobile}
-                  alt={photo.alt}
-                  className="w-full object-contain object-top max-h-[500px]"
-                />
-              </div>
-            </article>
-          );
-        })}
-      </div>
-
-      {/* Desktop Split View (lg:grid) */}
-      <div className="relative z-10 hidden grid-cols-1 items-start gap-6 lg:grid lg:grid-cols-12 h-full">
-        {/* Left Column: Contact Cards Directory */}
-        <section
-          aria-label="Contact Directory"
-          className="flex flex-col text-left lg:col-span-5"
-        >
-          <ul className="flex flex-col space-y-4">
+      <section
+        id="contact-team"
+        aria-labelledby="contact-team-heading"
+        className="section relative"
+      >
+        <SectionHeader id="contact-team-heading" title="Contact Directory" visuallyHidden />
+        <div className="relative z-10 w-full flex-1 flex flex-col justify-end">
+          {/* Mobile & Tablet Stacked View (< lg) */}
+          <div className="flex flex-col space-y-4 lg:hidden">
             {contacts.map((contact) => {
               const photoKey = getPhotoForCategory(contact);
               const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
-              const isCardActive = activePhotoId === photoKey;
               const cardKey =
                 (contact.email || "") +
                 (contact.category || "") +
                 (contact.name || "");
 
               return (
-                <li key={cardKey}>
-                  <button
-                    type="button"
-                    onMouseEnter={() => setActivePhotoId(photoKey)}
-                    onClick={() => setActivePhotoId(photoKey)}
-                    className={`w-full text-left transition-all duration-300 cursor-pointer ${isCardActive
-                      ? ""
-                      : ""
-                      }`}
-                  >
-                    <div className="mb-2">
-                      <span className="inline-block rounded-full border border-purple-400/20 bg-purple-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-purple-300">
-                        {contact.category}
-                      </span>
-                    </div>
+                <article
+                  key={cardKey}
+                  className="flex flex-col"
+                >
+                  {/* Category Pill */}
+                  <div className="mb-2">
+                    <SectionBadge variant="pill" color="purple">
+                      {contact.category}
+                    </SectionBadge>
+                  </div>
 
-                    <h3 className="text-lg font-bold text-white">
+                  {/* Name & Company */}
+                  <div className="title-group title-group--sub mb-6">
+                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
                       {contact.name || photo.name || "7th Heaven Representative"}
                     </h3>
                     {contact.company && (
-                      <p className="mt-0.5 mb-3 font-semibold text-purple-200/70">
+                      <p className="text-sm font-semibold  ">
                         {contact.company}
                       </p>
                     )}
+                  </div>
 
-                    <address className="not-italic flex flex-col gap-1.5">
-                      {contact.email && (
-                        <a
-                          href={`mailto:${contact.email}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-2 text-purple-200/90 hover:text-white hover:underline decoration-purple-400"
-                        >
-                          <Mail className="h-3.5 w-3.5 text-purple-400" />
-                          <span>{contact.email}</span>
-                        </a>
-                      )}
-                      {contact.phone && (
-                        <a
-                          href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-2 text-white/70 hover:text-emerald-400"
-                        >
-                          <Phone className="h-3.5 w-3.5 text-emerald-400" />
-                          <span>{contact.phone}</span>
-                        </a>
-                      )}
-                    </address>
-                  </button>
-                </li>
+                  {contact.note && (
+                    <p className="  italic text-white/60">
+                      {contact.note}
+                    </p>
+                  )}
+
+                  {/* Action Buttons: Stacked vertically full width */}
+                  <address className="not-italic flex flex-col gap-5  w-full">
+                    {contact.email && (
+                      <a
+                        href={`mailto:${contact.email}`}
+                        className="flex w-full items-center justify-center gap-2  border border-purple-500/40 bg-purple-950/60 px-4 py-3   font-semibold text-purple-200 transition-all hover:bg-purple-900/80"
+                      >
+                        <Mail className="h-4 w-4 text-purple-400" />
+                        <span className="truncate">{contact.email}</span>
+                      </a>
+                    )}
+                    {contact.phone && (
+                      <a
+                        href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
+                        className="flex w-full items-center justify-center gap-2  border border-white/10 bg-white/5 px-4 py-3   font-semibold text-white/80 transition-all hover:bg-white/10"
+                      >
+                        <Phone className="h-4 w-4 text-emerald-400" />
+                        <span>{contact.phone}</span>
+                      </a>
+                    )}
+                  </address>
+
+                  {/* Representative Full-Width Photo Stacked Underneath */}
+                  <div className="contact-rep-stage-mask relative mt-4 overflow-hidden">
+                    <img
+                      src={photo.desktop || photo.mobile}
+                      alt={photo.alt}
+                      className="w-full object-contain object-top max-h-[500px]"
+                    />
+                  </div>
+                </article>
               );
             })}
-          </ul>
-        </section>
+          </div>
 
-        {/* Right Column: Preloaded Representative Photo Stage for Desktop */}
-        <aside
-          aria-label="Contact Representative Media Stage"
-          className="contact-rep-stage-mask pointer-events-none sticky top-28 hidden h-[calc(100vh-9rem)] max-h-[560px] items-end justify-end pb-6 lg:flex lg:col-span-7"
-        >
-          {ALL_PHOTOS.map((photo) => {
-            const isActive = activePhotoId === photo.id;
-            return (
-              <div
-                key={photo.id}
-                className={`absolute inset-0 flex items-end justify-end pb-4 transition-opacity duration-300 ease-out ${isActive
-                  ? "pointer-events-auto z-10 opacity-100"
-                  : "pointer-events-none z-0 opacity-0"
-                  }`}
-              >
-                <picture className="pointer-events-none flex h-full w-full items-end justify-end">
-                  <source media="(max-width: 768px)" srcSet={photo.mobile} />
-                  <source media="(min-width: 769px)" srcSet={photo.desktop} />
-                  <img
-                    src={photo.desktop}
-                    alt={photo.alt}
-                    loading="eager"
-                    fetchPriority={isActive ? "high" : "low"}
-                    decoding="sync"
-                    className={`pointer-events-none max-h-[55vh] lg:max-h-[460px] w-auto max-w-full origin-bottom-right object-contain object-bottom ${photo.scaleClass}`}
-                  />
-                </picture>
-              </div>
-            );
-          })}
-        </aside>
-      </div>
+          {/* Desktop Split View (lg:grid) */}
+          <div className="hidden grid-cols-1 items-start gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
+            {/* Left Column: Contact Cards Directory */}
+            <div className="flex flex-col text-left lg:col-span-5">
+              <ul className="flex flex-col space-y-3">
+                {contacts.map((contact) => {
+                  const photoKey = getPhotoForCategory(contact);
+                  const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
+                  const isCardActive = activePhotoId === photoKey;
+                  const cardKey =
+                    (contact.email || "") +
+                    (contact.category || "") +
+                    (contact.name || "");
+
+                  return (
+                    <li key={cardKey}>
+                      <button
+                        type="button"
+                        onMouseEnter={() => setActivePhotoId(photoKey)}
+                        onClick={() => setActivePhotoId(photoKey)}
+                        className={`w-full text-left transition-all duration-300 cursor-pointer ${isCardActive
+                          ? "opacity-100"
+                          : "opacity-75 hover:opacity-100"
+                          }`}
+                      >
+                        <div className="mb-2">
+                          <SectionBadge variant="pill" color="purple">
+                            {contact.category}
+                          </SectionBadge>
+                        </div>
+
+                        <h3 className="text-lg font-bold text-white">
+                          {contact.name || photo.name || "7th Heaven Representative"}
+                        </h3>
+                        {contact.company && (
+                          <p className="mb-3 font-semibold  ">
+                            {contact.company}
+                          </p>
+                        )}
+
+                        <address className="not-italic flex flex-col gap-1.5">
+                          {contact.email && (
+                            <a
+                              href={`mailto:${contact.email}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-2 text-purple-200/90 hover:text-white hover:underline decoration-purple-400"
+                            >
+                              <Mail className="h-3.5 w-3.5 text-purple-400" />
+                              <span>{contact.email}</span>
+                            </a>
+                          )}
+                          {contact.phone && (
+                            <a
+                              href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-2 text-white/70 hover:text-emerald-400"
+                            >
+                              <Phone className="h-3.5 w-3.5 text-emerald-400" />
+                              <span>{contact.phone}</span>
+                            </a>
+                          )}
+                        </address>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* Right Column: Preloaded Representative Photo Stage for Desktop */}
+            <aside
+              aria-label="Contact Representative Media Stage"
+              className="contact-rep-stage lg:col-span-7"
+            >
+              {ALL_PHOTOS.map((photo) => {
+                const isActive = activePhotoId === photo.id;
+                return (
+                  <div
+                    key={photo.id}
+                    className={`absolute inset-0 flex items-end justify-end transition-opacity duration-300 ease-out ${isActive
+                      ? "pointer-events-none z-10 opacity-100"
+                      : "pointer-events-none z-0 opacity-0"
+                      }`}
+                  >
+                    <picture className="pointer-events-none flex h-full w-full items-end justify-end">
+                      <source media="(max-width: 768px)" srcSet={photo.mobile} />
+                      <source media="(min-width: 769px)" srcSet={photo.desktop} />
+                      <img
+                        src={photo.desktop}
+                        alt={photo.alt}
+                        loading="eager"
+                        fetchPriority={isActive ? "high" : "low"}
+                        decoding="sync"
+                        className={`contact-rep-stage-img ${photo.scaleClass}`}
+                      />
+                    </picture>
+                  </div>
+                );
+              })}
+            </aside>
+          </div>
+        </div>
+      </section>
     </main >
   );
 }
