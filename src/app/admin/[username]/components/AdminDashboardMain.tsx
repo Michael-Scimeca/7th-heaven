@@ -6800,7 +6800,7 @@ export function AdminDashboardMain({
               ) : (
                 <div className="flex w-full flex-col gap-0 select-none">
                   {/* Header Row */}
-                  <div className="hidden grid-cols-12 gap-3 border-b border-[#ffffff1f] px-4 py-3 text-left md:grid">
+                  <div className="hidden grid-cols-12 gap-3 border-b border-[#ffffff1f]  py-3 text-left md:grid">
                     <div className="col-span-4">Client</div>
                     <div className="col-span-2">Event Type</div>
                     <div className="col-span-2">Date</div>
@@ -7964,11 +7964,10 @@ export function AdminDashboardMain({
                           key={aud.id}
                           type="button"
                           onClick={() => setAlertTargetAudience(aud.id)}
-                          className={`flex flex-col items-start rounded-xl border p-3.5 text-left transition-all ${
-                            isSelected
-                              ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
-                              : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
-                          }`}
+                          className={`flex flex-col items-start rounded-xl border p-3.5 text-left transition-all ${isSelected
+                            ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                            : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
+                            }`}
                         >
                           <div className="flex items-center justify-between w-full mb-1">
                             <IconComp className={`h-4 w-4 ${isSelected ? "text-purple-400" : "text-white/40"}`} />
@@ -7995,11 +7994,10 @@ export function AdminDashboardMain({
                           key={r.value}
                           type="button"
                           onClick={() => setAlertRadius(r.value)}
-                          className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
-                            alertRadius === r.value
-                              ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]"
-                              : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
-                          }`}
+                          className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${alertRadius === r.value
+                            ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]"
+                            : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                            }`}
                         >
                           {r.label}
                         </button>
@@ -8111,9 +8109,8 @@ export function AdminDashboardMain({
                     </div>
 
                     {/* SMS (Twilio) */}
-                    <div className={`flex items-center justify-between rounded-xl border p-3.5 transition-all ${
-                      channelSms ? "border-amber-500/60 bg-amber-500/10" : "border-white/10 bg-white/[0.02]"
-                    }`}>
+                    <div className={`flex items-center justify-between rounded-xl border p-3.5 transition-all ${channelSms ? "border-amber-500/60 bg-amber-500/10" : "border-white/10 bg-white/[0.02]"
+                      }`}>
                       <div className="flex items-center gap-2.5">
                         <MessageSquare className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"}`} />
                         <div>
@@ -8283,11 +8280,10 @@ export function AdminDashboardMain({
                 {/* Result Feedback Banner */}
                 {smsResult && (
                   <div
-                    className={`rounded-xl border p-4 ${
-                      smsResult.success
-                        ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"
-                        : "border-rose-500/40 bg-rose-500/10 text-rose-300"
-                    }`}
+                    className={`rounded-xl border p-4 ${smsResult.success
+                      ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"
+                      : "border-rose-500/40 bg-rose-500/10 text-rose-300"
+                      }`}
                   >
                     <div className="font-semibold text-sm">
                       {smsResult.success ? "Broadcast Dispatched Successfully!" : "Broadcast Failed"}
@@ -10834,7 +10830,7 @@ export function AdminDashboardMain({
           <>
             <div className="w-full text-left">
               {/* Fixed Header Row */}
-              <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 px-4 py-3 select-none dark:border-white/10">
+              <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-3 select-none dark:border-white/10">
                 <div>User</div>
                 <div>Role</div>
                 <div>Status</div>
@@ -10872,7 +10868,7 @@ export function AdminDashboardMain({
                       ) as any;
                       return (
                         <div key={user.id} className="">
-                          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 px-4 hover:bg-black/5 dark:border-white/5 dark:hover:bg-white/[0.02]">
+                          <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10  py-2 pr-2 hover:bg-black/5 dark:border-white/5 dark:hover:bg-white/[0.02]">
                             <div className="max-w-[220px]">
                               <div className="flex items-center gap-2.5">
                                 {(() => {
@@ -11414,140 +11410,9 @@ export function AdminDashboardMain({
       >
         {isSectionOpen("admincreation") && (
           <>
-            <div className="py-6 pl-0">
-              <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-4">
-                <GlowInput
-                  id="admin-create-admin-name"
-                  label="Full Name"
-                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
-                  type="text"
-                  placeholder="e.g. Michael Scimeca"
-                  value={newAdminName}
-                  onChange={(e) => setNewAdminName(e.target.value)}
-                  rounded="rounded-lg"
-                />
-                <GlowInput
-                  id="admin-create-admin-email"
-                  label="Email Address"
-                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
-                  type="email"
-                  placeholder="admin@7thheaven.com"
-                  value={newAdminEmail}
-                  onChange={(e) => setNewAdminEmail(e.target.value)}
-                  rounded="rounded-lg"
-                />
-                <GlowInput
-                  id="admin-create-admin-username"
-                  label="Username"
-                  labelClassName="mb-2 block text-[0.9rem] text-white/40"
-                  type="text"
-                  placeholder="e.g. mikeys"
-                  value={newAdminUsername}
-                  onChange={(e) => setNewAdminUsername(e.target.value)}
-                  rounded="rounded-lg"
-                />
-                <SeventhButton
-                  onClick={createAdmin}
-                  disabled={
-                    !newAdminName.trim() ||
-                    !newAdminEmail.trim() ||
-                    !newAdminUsername.trim() ||
-                    adminCreateLoading
-                  }
-                  className="flex items-center whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <line x1="19" y1="8" x2="19" y2="14" />
-                    <line x1="22" y1="11" x2="16" y2="11" />
-                  </svg>
-                  {adminCreateLoading ? "Creating…" : "Create Admin"}
-                </SeventhButton>
-              </div>
-
-              <div className="mt-4 flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.02] p-3">
-                <span className="mt-0.5"></span>
-                <p>
-                  A secure temporary password will be auto-generated and emailed
-                  to the new admin. They can log in immediately with those
-                  credentials. Only grant admin access to trusted individuals —
-                  admin accounts have full platform access.
-                </p>
-              </div>
-
-              {/* Success card */}
-              {createdAdmin && (
-                <div className="mt-4 border border-purple-500/30 bg-purple-600/[0.08] p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-white/20"></div>
-                      <div>
-                        <h4>Admin Account Created</h4>
-                        <p className="mt-1">
-                          <strong>{createdAdmin.name}</strong> ·{" "}
-                          {createdAdmin.email}
-                        </p>
-                        <div className="mt-3 flex items-center gap-3 rounded-lg border border-white/10 bg-black/40 p-3">
-                          <span className="shrink-0 text-[0.55rem] text-white/30">
-                            Temp Password
-                          </span>
-                          <code className="select-all">
-                            {createdAdmin.password}
-                          </code>
-                          <button
-                            onClick={() => {
-                              navigator.clipboard.writeText(
-                                createdAdmin.password,
-                              );
-                            }}
-                            className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
-                          >
-                            Copy
-                          </button>
-                        </div>
-                        <p className="mt-2">
-                          {" "}
-                          Welcome email sent to {createdAdmin.email}
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      aria-label="Dismiss created admin notification"
-                      onClick={() => setCreatedAdmin(null)}
-                      className="shrink-0 text-white/20 hover:text-white"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                </div>
-              )}
-              {/* Error */}
-              {adminCreateError && (
-                <div className="mt-4 flex items-center gap-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-3">
-                  <span className="text-rose-400"></span>
-                  <p className="text-rose-400">{adminCreateError}</p>
-                  <button
-                    aria-label="Dismiss admin error"
-                    onClick={() => setAdminCreateError("")}
-                    className="ml-auto text-white/30 hover:text-white"
-                  >
-                    ✕
-                  </button>
-                </div>
-              )}
-
+            <div className="py-6 pl-0 space-y-8">
               {/* Sub-Admin Permissions Manager */}
-              <div className="mt-8 border-t border-white/10 pt-6">
+              <div>
                 <div className="mb-6 flex items-center justify-between">
                   <div>
                     <h4 className="flex items-center gap-2">
@@ -11622,6 +11487,144 @@ export function AdminDashboardMain({
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Create Admin Form Section */}
+              <div className="border-t border-white/10 pt-6">
+                <div className="mb-4">
+                  <h4 className="text-white font-medium">New Admin Account Registration</h4>
+                  <p className="text-xs text-white/40 mt-0.5">Enter details to generate and invite a new band admin or planner.</p>
+                </div>
+                <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-4">
+                  <GlowInput
+                    id="admin-create-admin-name"
+                    label="Full Name"
+                    labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                    type="text"
+                    placeholder="e.g. Michael Scimeca"
+                    value={newAdminName}
+                    onChange={(e) => setNewAdminName(e.target.value)}
+                    rounded="rounded-lg"
+                  />
+                  <GlowInput
+                    id="admin-create-admin-email"
+                    label="Email Address"
+                    labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                    type="email"
+                    placeholder="admin@7thheaven.com"
+                    value={newAdminEmail}
+                    onChange={(e) => setNewAdminEmail(e.target.value)}
+                    rounded="rounded-lg"
+                  />
+                  <GlowInput
+                    id="admin-create-admin-username"
+                    label="Username"
+                    labelClassName="mb-2 block text-[0.9rem] text-white/40"
+                    type="text"
+                    placeholder="e.g. mikeys"
+                    value={newAdminUsername}
+                    onChange={(e) => setNewAdminUsername(e.target.value)}
+                    rounded="rounded-lg"
+                  />
+                  <SeventhButton
+                    onClick={createAdmin}
+                    disabled={
+                      !newAdminName.trim() ||
+                      !newAdminEmail.trim() ||
+                      !newAdminUsername.trim() ||
+                      adminCreateLoading
+                    }
+                    className="flex items-center whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <line x1="19" y1="8" x2="19" y2="14" />
+                      <line x1="22" y1="11" x2="16" y2="11" />
+                    </svg>
+                    {adminCreateLoading ? "Creating…" : "Create Admin"}
+                  </SeventhButton>
+                </div>
+
+                <div className="mt-4 flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.02] p-3">
+                  <span className="mt-0.5"></span>
+                  <p>
+                    A secure temporary password will be auto-generated and emailed
+                    to the new admin. They can log in immediately with those
+                    credentials. Only grant admin access to trusted individuals —
+                    admin accounts have full platform access.
+                  </p>
+                </div>
+
+                {/* Success card */}
+                {createdAdmin && (
+                  <div className="mt-4 border border-purple-500/30 bg-purple-600/[0.08] p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-white/20"></div>
+                        <div>
+                          <h4>Admin Account Created</h4>
+                          <p className="mt-1">
+                            <strong>{createdAdmin.name}</strong> ·{" "}
+                            {createdAdmin.email}
+                          </p>
+                          <div className="mt-3 flex items-center gap-3 rounded-lg border border-white/10 bg-black/40 p-3">
+                            <span className="shrink-0 text-[0.55rem] text-white/30">
+                              Temp Password
+                            </span>
+                            <code className="select-all">
+                              {createdAdmin.password}
+                            </code>
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  createdAdmin.password,
+                                );
+                              }}
+                              className="ml-auto rounded border border-white/10 px-2 py-1 text-[0.55rem] text-white/30 hover:border-white/30 hover:text-white"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                          <p className="mt-2">
+                            {" "}
+                            Welcome email sent to {createdAdmin.email}
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        aria-label="Dismiss created admin notification"
+                        onClick={() => setCreatedAdmin(null)}
+                        className="shrink-0 text-white/20 hover:text-white"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {/* Error */}
+                {adminCreateError && (
+                  <div className="mt-4 flex items-center gap-3 rounded-lg border border-rose-500/20 bg-rose-500/10 p-3">
+                    <span className="text-rose-400"></span>
+                    <p className="text-rose-400">{adminCreateError}</p>
+                    <button
+                      aria-label="Dismiss admin error"
+                      onClick={() => setAdminCreateError("")}
+                      className="ml-auto text-white/30 hover:text-white"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </>
