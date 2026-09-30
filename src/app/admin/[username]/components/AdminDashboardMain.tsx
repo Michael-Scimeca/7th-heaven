@@ -11877,7 +11877,7 @@ export function AdminDashboardMain({
 
                 {/* Email action bar */}
                 {signups.length > 0 && (
-                  <div className="flex items-center justify-between border-t border-r border-l border-white/5 bg-black/20 px-4 py-3">
+                  <div className="flex items-center justify-between  border-white/5 bg-black/20 px-4 py-3">
                     <div className="flex items-center gap-3">
                       <button
                         aria-label="Select all passenger emails"
@@ -11905,20 +11905,20 @@ export function AdminDashboardMain({
                           : "Select passengers"}
                       </span>
                     </div>
-                    <button
+                    <SeventhButton
                       onClick={() => {
                         setCruiseEmailOpen(!cruiseEmailOpen);
                         setCruiseEmailResult(null);
                       }}
                       disabled={cruiseSelectedEmails.length === 0}
-                      className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-600/15 px-4 py-2 text-[0.9rem] hover:bg-purple-600/25 disabled:cursor-not-allowed disabled:opacity-30"
+                      className="flex cursor-pointer items-center gap-2 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                     >
-
+                      <Mail className="h-4 w-4" />
                       Email{" "}
                       {cruiseSelectedEmails.length > 0
                         ? `(${cruiseSelectedEmails.length})`
                         : ""}
-                    </button>
+                    </SeventhButton>
                   </div>
                 )}
 
@@ -11997,14 +11997,14 @@ export function AdminDashboardMain({
                           </p>
                         )}
                       </div>
-                      <button
+                      <SeventhButton
                         disabled={
                           cruiseEmailSending ||
                           !cruiseEmailSubject.trim() ||
                           !cruiseEmailBody.trim()
                         }
                         onClick={sendCruiseEmail}
-                        className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-600 to-cyan-500 px-5 py-2.5 text-[0.65rem] shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:from-cyan-500 hover:to-cyan-400 disabled:cursor-not-allowed disabled:opacity-30"
+                        className="flex cursor-pointer items-center gap-2 whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-30"
                       >
                         {cruiseEmailSending ? (
                           <>
@@ -12012,9 +12012,12 @@ export function AdminDashboardMain({
                             Sending...
                           </>
                         ) : (
-                          <> Send Email</>
+                          <>
+                            <Send className="h-4 w-4" />
+                            Send Email
+                          </>
                         )}
-                      </button>
+                      </SeventhButton>
                     </div>
                   </div>
                 )}
@@ -12044,7 +12047,7 @@ export function AdminDashboardMain({
                       return signups.map((s: any, i: number) => (
                         <div
                           key={s.id || s.email}
-                          className={`group/row mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] items-center gap-3 border-b bg-black/20 px-4 py-3 hover:bg-white/[0.03] ${cruiseSelectedEmailsSet.has(s.email) ? "border-purple-500/40 bg-cyan-500/10" : "border-white/10 hover:border-purple-500/20"}`}
+                          className={`group/row mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] items-center gap-3 border-b bg-black/20 py-3 hover:bg-white/[0.03] ${cruiseSelectedEmailsSet.has(s.email) ? "border-purple-500/40 bg-cyan-500/10" : "border-white/10 hover:border-purple-500/20"}`}
                         >
                           {/* Email checkbox */}
                           <div className="flex justify-center">
@@ -18037,7 +18040,7 @@ export function AdminDashboardMain({
 
             {/* Row 2: Passenger Notice & Cruise Email Broadcast */}
             <div className="relative mb-6 grid grid-cols-1 items-start gap-6">
-              <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-cyan-500/10 to-transparent blur-3xl" />
+              <div className="pointer-events-none absolute top-1/2 left-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full " />
 
               <div className="group relative z-10 flex flex-col overflow-hidden">
                 <div className="relative z-10 flex flex-col gap-6">
