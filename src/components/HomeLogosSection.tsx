@@ -7,6 +7,7 @@ import LogoTicker, {
   TickerItem,
 } from "@/components/LogoTicker";
 import { urlFor } from "@/lib/sanity";
+import { SectionBadge } from "@/components/SectionBadge";
 
 export default function HomeLogosSection({
   sanityContent,
@@ -56,16 +57,21 @@ export default function HomeLogosSection({
   return (
     <section
       id="logos"
-      className="py-section-fluid relative flex w-full flex-col items-center border-b border-white/10 text-center"
+      aria-labelledby="logos-heading"
+      className="section cv-auto relative z-20 flex w-full flex-col items-center text-center"
+      style={{ "--cv-size": "361px", "--cv-size-lg": "334px" } as React.CSSProperties}
     >
+      <h2 id="logos-heading" className="sr-only">
+        Featured &amp; Stage Partners
+      </h2>
       <div className="mb-6">
-        <div className="mb-2.5 inline-flex items-center gap-2  border border-white/10 bg-[#00000029] px-4 py-1.5">
-          <span className="font-black">
+        <div className="mb-2 inline-flex items-center justify-center">
+          <SectionBadge variant="box" className="font-black">
             {sanityContent?.logosBadge ||
               "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
-          </span>
+          </SectionBadge>
         </div>
-        <p className="mt-2 max-w-2xl text-purple-200/80">
+        <p className="max-w-2xl text-purple-200/80">
           {sanityContent?.logosSubtitle ||
             "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
         </p>
