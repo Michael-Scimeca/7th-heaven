@@ -68,12 +68,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.5,
     },
-    {
-      url: `${baseUrl}/features`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
 
     // ── Cruise ──
     {
@@ -82,18 +76,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.9,
     },
-    {
-      url: `${baseUrl}/cruise/dashboard`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/cruise/cancel`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.2,
-    },
 
     // ── Booking ──
     {
@@ -101,12 +83,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/book/cancel`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.2,
     },
     {
       url: `${baseUrl}/planner`,
@@ -134,12 +110,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       priority: 0.5,
     },
-    {
-      url: `${baseUrl}/members`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
 
     // ── Store ──
     {
@@ -147,32 +117,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
-    },
-
-    // ── Admin (internal, low priority) ──
-    {
-      url: `${baseUrl}/admin`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/admin/emails`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.2,
-    },
-    {
-      url: `${baseUrl}/admin/email-map`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.2,
-    },
-    {
-      url: `${baseUrl}/crew`,
-      lastModified: new Date(),
-      changeFrequency: "always",
-      priority: 0.4,
     },
 
     // ── Legal ──

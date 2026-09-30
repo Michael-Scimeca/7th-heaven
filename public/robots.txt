@@ -1,6 +1,29 @@
-# *
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /crew
+Disallow: /crew-*
+Disallow: /planner
+Disallow: /studio
+Disallow: /api/
+Disallow: /payment-test
+Disallow: /test-supabase
+Disallow: /demo
+Disallow: /preloaders
+Disallow: /hambuger
+Disallow: /textcolor
+Disallow: /firecanvas
+Disallow: /slideup
+Disallow: /style-guide
+Disallow: /features
+Disallow: /work/
+Disallow: /7hrrk
+Disallow: /rrk
+Disallow: /sitemap
+Disallow: /members
 
 # Host
 Host: https://7thheavenband.com
+
+# Sitemap
+Sitemap: https://7thheavenband.com/sitemap.xml
