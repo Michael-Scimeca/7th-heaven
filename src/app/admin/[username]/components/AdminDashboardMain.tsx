@@ -7569,10 +7569,10 @@ export function AdminDashboardMain({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-2 rounded-full border border-purple-500/30 bg-white/20 px-3 py-1 text-[0.9rem]">
+          <SectionBadge className="gap-2">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-600" />
             {memoryQueue.length} Pending
-          </span>
+          </SectionBadge>
           <div
             className={
               "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +

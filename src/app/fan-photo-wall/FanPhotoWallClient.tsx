@@ -38,6 +38,7 @@ import InputField from "@/components/InputField";
 import CustomDropdown from "@/components/CustomDropdown";
 import { getMediaUrl } from "@/lib/sanity";
 import { FanPhoto } from "@/lib/fanPhotos";
+import SectionBadge from "@/components/SectionBadge";
 import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
@@ -480,9 +481,9 @@ export default function FanPhotoWallClient({
                 </p>
               </div>
 
-              <span className="border border-white/10 bg-[#00000040] px-3 py-1">
+              <SectionBadge>
                 {pendingPhotos.length} Pending
-              </span>
+              </SectionBadge>
             </div>
 
             {/* ── STACKED CARD GRID LAYOUT ── */}
