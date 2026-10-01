@@ -258,7 +258,7 @@ function CruiseCabinsPricingSectionComponent({
       {/* ── SECTION 2: CABINS & PRICING ── */}
       <section
         id="pricing"
-        className="site-container relative z-20 -mt-85 lg:-mt-[460px]"
+        className="site-container page-stack relative z-20 -mt-85 lg:-mt-[460px]"
       >
         <div className="title-group title-group--section max-w-3xl text-left">
           <h2 className="">
@@ -291,7 +291,7 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Guidelines Grid */}
-        <div className="py-section-fluid grid grid-cols-1 gap-6  text-left md:grid-cols-12">
+        <div className="grid grid-cols-1 gap-6  text-left md:grid-cols-12">
           {/* Column 1: Ship Resources */}
           <div className="relative flex flex-col justify-between rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-4 lg:col-span-3">
             <div>
