@@ -506,9 +506,9 @@ function CruiseCard1Section({
           />
         </div>
         <div className="booking-cell pt-4">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-3">
             <div>
-              <label htmlFor="cruise-card-exp-1" className="booking-label block">
+              <label htmlFor="cruise-card-exp-1" className="booking-label block whitespace-nowrap">
                 Exp. Date *
               </label>
               <GlowInput
@@ -522,8 +522,8 @@ function CruiseCard1Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-cvv-1" className="booking-label block">
-                3 Digit CVC *
+              <label htmlFor="cruise-card-cvv-1" className="booking-label block whitespace-nowrap">
+                CVC *
               </label>
               <GlowInput
                 id="cruise-card-cvv-1"
@@ -536,7 +536,7 @@ function CruiseCard1Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-zip-1" className="booking-label block">
+              <label htmlFor="cruise-card-zip-1" className="booking-label block whitespace-nowrap">
                 Billing Zip *
               </label>
               <GlowInput
@@ -608,10 +608,10 @@ function CruiseCard2Section({
             className="booking-input focus-ring w-full"
           />
         </div>
-        <div className="booking-cell p-4">
-          <div className="grid grid-cols-3 gap-6">
+        <div className="booking-cell pt-4">
+          <div className="grid grid-cols-3 gap-3">
             <div>
-              <label htmlFor="cruise-card-exp-2" className="booking-label block">
+              <label htmlFor="cruise-card-exp-2" className="booking-label block whitespace-nowrap">
                 Exp. Date *
               </label>
               <GlowInput
@@ -625,8 +625,8 @@ function CruiseCard2Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-cvv-2" className="booking-label block">
-                3 Digit CVC *
+              <label htmlFor="cruise-card-cvv-2" className="booking-label block whitespace-nowrap">
+                CVC *
               </label>
               <GlowInput
                 id="cruise-card-cvv-2"
@@ -639,7 +639,7 @@ function CruiseCard2Section({
               />
             </div>
             <div>
-              <label htmlFor="cruise-card-zip-2" className="booking-label block">
+              <label htmlFor="cruise-card-zip-2" className="booking-label block whitespace-nowrap">
                 Billing Zip *
               </label>
               <GlowInput
@@ -723,10 +723,10 @@ function CruiseNotesAndSignatureSection({
         </div>
       </div>
 
-      <div className="booking-grid mt-2 grid grid-cols-1 items-start gap-6 border-0 md:grid-cols-2">
-        <div className="booking-cell flex flex-col justify-start border-0 px-0">
+      <div className="booking-grid mt-2 grid grid-cols-1 items-end gap-6 border-0 md:grid-cols-2">
+        <div className="booking-cell flex h-full flex-col justify-between border-0 px-0">
           <label htmlFor="cruise-e-signature" className="booking-label block">
-            Date &amp; E-Signature (Type full name to sign) *
+            E-Signature (Type full name to sign) *
           </label>
           <GlowInput
             id="cruise-e-signature"
@@ -735,16 +735,16 @@ function CruiseNotesAndSignatureSection({
             placeholder="Type legal name to sign"
             value={signature}
             onChange={(e) => setSignature(e.target.value)}
-            className="signature-font focus-ring w-full"
+            className="signature-font focus-ring mt-auto w-full"
           />
         </div>
-        <div className="booking-cell flex flex-col justify-start border-0">
+        <div className="booking-cell flex h-full flex-col justify-between border-0">
           <span className="booking-label block">Date Signed</span>
           <GlowInput
             type="text"
             readOnly
             value={signatureDate}
-            className="focus-ring w-full cursor-not-allowed"
+            className="focus-ring mt-auto w-full cursor-not-allowed"
           />
         </div>
       </div>

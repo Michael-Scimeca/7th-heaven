@@ -27,6 +27,7 @@ import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
 import Toggle from "@/components/Toggle";
 import SeventhButton from "@/components/SeventhButton";
+import Button from "@/components/Button";
 import { SectionBadge } from "@/components/SectionBadge";
 import { SectionHeader } from "@/components/SectionHeader";
 import { AudienceAlertSetupCard } from "@/components/AudienceAlertSetupCard";
@@ -508,17 +509,19 @@ export default function PlannerDashboard() {
                   </p>
                 )}
 
-                <button
+                <Button
+                  variant="primary"
+                  size="lg"
+                  fullWidth
                   type="submit"
                   disabled={plannerLoginLoading}
-                  className="transition-colors w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3.5 shadow-[0_0_20px_rgba(217,70,239,0.2)] hover:bg-[var(--color-accent)] disabled:opacity-50"
                 >
                   {plannerLoginLoading
                     ? "Authenticating..."
                     : plannerMode === "signup"
                       ? "Create Planner Account"
                       : "Sign In as Planner"}
-                </button>
+                </Button>
 
                 <button
                   type="button"
@@ -526,7 +529,7 @@ export default function PlannerDashboard() {
                     setPlannerMode((m) => (m === "login" ? "signup" : "login"));
                     setPlannerLoginError("");
                   }}
-                  className="cursor-pointer text-[var(--color-accent)]/60"
+                  className="cursor-pointer text-muted hover:text-white text-xs mt-2 text-center w-full transition-colors duration-fast"
                 >
                   {plannerMode === "login"
                     ? "Need an account? Create one"

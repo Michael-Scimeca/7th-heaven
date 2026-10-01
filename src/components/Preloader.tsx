@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
-import { waitForPageReady } from "@/lib/waitForPageReady";
+import { waitForPageReady, waitForCanvasReady } from "@/lib/waitForPageReady";
 
 // Diagonal wipe-reveal preloader, sharing its visual language with the
 // page-to-page curtain (PageTransition.tsx): a dark overlay, the loader
@@ -43,16 +43,16 @@ import { waitForPageReady } from "@/lib/waitForPageReady";
 // unchanged from before.
 type Phase = "loading" | "wiping" | "done";
 
-const WIPE_DURATION = 0.25;
+const WIPE_DURATION = 0.15; // 150ms wipe reveal
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
 
-// Loader fill: cycles through colors in 250ms total for fast mobile LCP
+// Loader fill: cycles through colors in 100ms total for ultra-fast load
 const LOADER_PALETTE = ["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"];
-const LOADER_STEP_MS = 50; // 50ms per color step = 250ms total fill time
-const LOADER_TOTAL_MS = 250; // 250ms total preloader time
+const LOADER_STEP_MS = 20; // 20ms per color step = 100ms total fill time
+const LOADER_TOTAL_MS = 100; // 100ms total preloader time
 
-const HARD_CEILING_MS = 3500;
+const HARD_CEILING_MS = 2000;
 
 // Shared with PageTransition.tsx so the preloader and every in-site
 // navigation after it read as the same curtain, not two different overlays.
@@ -93,6 +93,7 @@ export default function Preloader() {
   const barRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
 
+  /* eslint-disable-next-line react-doctor/effect-needs-cleanup */
   useEffect(() => {
     const html = document.documentElement;
     let finished = false;
@@ -136,6 +137,10 @@ export default function Preloader() {
     const finish = () => {
       if (finished) return;
       finished = true;
+      if (overlayRef.current) {
+        overlayRef.current.style.clipPath = "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)";
+        (overlayRef.current.style as any).webkitClipPath = "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)";
+      }
       unlockScroll();
       setPhase("done");
     };
@@ -161,6 +166,7 @@ export default function Preloader() {
 
     let cancelled = false;
     let wipeTween: gsap.core.Tween | null = null;
+    let safetyTimer: ReturnType<typeof setTimeout> | null = null;
 
     const startWipe = () => {
       if (cancelled) return;
@@ -176,11 +182,21 @@ export default function Preloader() {
         window.dispatchEvent(new CustomEvent("preloader-wiping"));
       }
 
+      safetyTimer = setTimeout(() => {
+        if (!cancelled && !finished) {
+          finish();
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("preloader-complete"));
+            window.dispatchEvent(new CustomEvent("7h-preloader-done"));
+          }
+        }
+      }, WIPE_DURATION * 1000 + 50);
+
       const proxy = { p: 0 };
       wipeTween = gsap.to(proxy, {
         p: 1,
         duration: WIPE_DURATION,
-        ease: EXO_EASE,
+        ease: "power2.out",
         onUpdate: () => {
           if (!overlay) return;
           const clipVal = buildDecayingSlantClipPath(proxy.p, WIPE_SLANT_RATIO);
@@ -188,6 +204,7 @@ export default function Preloader() {
           (overlay.style as any).webkitClipPath = clipVal;
         },
         onComplete: () => {
+          if (safetyTimer) clearTimeout(safetyTimer);
           if (cancelled) return;
           finish();
           if (typeof window !== "undefined") {
@@ -204,7 +221,7 @@ export default function Preloader() {
         gsap.to(contentRef.current, {
           opacity: 0,
           y: -25,
-          duration: 0.2,
+          duration: 0.1, // 100ms content fade
           ease: "power2.in",
           onComplete: startWipe,
         });
@@ -268,25 +285,22 @@ export default function Preloader() {
         );
       }
 
-      particleInterval = setInterval(spawnParticle, 160);
-      for (let i = 0; i < 8; i++) {
-        particleTimeouts.push(setTimeout(spawnParticle, i * 80));
+      particleInterval = setInterval(spawnParticle, 100);
+      for (let i = 0; i < 4; i++) {
+        particleTimeouts.push(setTimeout(spawnParticle, i * 25));
       }
 
       loaderDoneTimeout = setTimeout(async () => {
         if (particleInterval) clearInterval(particleInterval);
         wrap.classList.add("done"); // fades the bar track + trailing dot
-
-        // Ensure page is painted and fonts ready before wiping
-        if (typeof window !== "undefined") {
-          await waitForPageReady();
-        }
-
+        await Promise.all([waitForPageReady(), waitForCanvasReady()]);
         advanceToWipe();
       }, LOADER_TOTAL_MS);
     } else {
       // Refs not ready for some reason -- don't hang the site on a missing element.
-      advanceToWipe();
+      Promise.all([waitForPageReady(), waitForCanvasReady()]).then(() => {
+        advanceToWipe();
+      });
     }
 
     // Watchdog: if the loader-fill -> fade -> wipe chain hasn't finished
@@ -294,6 +308,7 @@ export default function Preloader() {
     // site hidden behind the overlay forever.
     const watchdog = setTimeout(() => {
       if (cancelled || finished) return;
+      if (safetyTimer) clearTimeout(safetyTimer);
       if (particleInterval) clearInterval(particleInterval);
       if (loaderDoneTimeout) clearTimeout(loaderDoneTimeout);
       wipeTween?.kill();
@@ -306,6 +321,7 @@ export default function Preloader() {
     return () => {
       cancelled = true;
       clearTimeout(watchdog);
+      if (safetyTimer) clearTimeout(safetyTimer);
       if (loaderDoneTimeout) clearTimeout(loaderDoneTimeout);
       if (particleInterval) clearInterval(particleInterval);
       colorTimeouts.forEach(clearTimeout);

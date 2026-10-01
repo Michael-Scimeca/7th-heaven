@@ -1,7 +1,7 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   Bell,
@@ -107,6 +107,26 @@ export default function FooterProximityAlerts() {
   const [errorMsg, setErrorMsg] = useState("");
 
   // Hydrate from localStorage on mount
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = videoContainerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVideoVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Set current permission state
@@ -277,16 +297,22 @@ export default function FooterProximityAlerts() {
           >
             <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-[34px] border border-purple-500/30 bg-[#12071f] p-2 shadow-[inset_0_0_20px_rgba(168,85,247,0.15)]">
               {/* Phone Content Screen */}
-              <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[28px] bg-black">
-                <video
-                  src="/movie/notefication.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  aria-label="7th Heaven Concert Live Stream"
-                  className="h-full w-full rounded-[28px] bg-black object-contain"
-                />
+              <div
+                ref={videoContainerRef}
+                className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[28px] bg-black"
+              >
+                {isVideoVisible && (
+                  <video
+                    src="/movie/notefication.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="none"
+                    aria-label="7th Heaven Concert Live Stream"
+                    className="h-full w-full rounded-[28px] bg-black object-contain"
+                  />
+                )}
               </div>
             </div>
           </IphoneClipMask>

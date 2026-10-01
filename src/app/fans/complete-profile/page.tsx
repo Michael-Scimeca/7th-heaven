@@ -7,6 +7,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Toggle } from "@/components/Toggle";
 import { GlowInput } from "@/components/GlowInput";
+import Button from "@/components/Button";
 
 function nameToUsername(name: string) {
   return name
@@ -280,15 +281,17 @@ export default function CompleteProfilePage() {
                 </p>
               )}
 
-              <button
+              <Button
+                variant="primary"
+                size="lg"
+                fullWidth
                 type="submit"
                 disabled={saving}
-                className="transition-[filter] w-full cursor-pointer rounded-[var(--radius-box)] bg-[var(--color-accent)] py-3 shadow-[0_0_20px_rgba(255,10,61,0.3)] hover:brightness-110 disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Let's Go 🚀"}
-              </button>
+              </Button>
 
-              <p className="text-center">
+              <p className="text-center text-muted text-xs">
                 By continuing you confirm you are 13+ and agree to our{" "}
                 <Link
                   href="/privacy"

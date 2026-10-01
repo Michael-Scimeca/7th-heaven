@@ -291,7 +291,7 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Guidelines Grid */}
-        <div className="py-section-fluid grid grid-cols-1 gap-6 border-b border-white/10 text-left md:grid-cols-12">
+        <div className="py-section-fluid grid grid-cols-1 gap-6  text-left md:grid-cols-12">
           {/* Column 1: Ship Resources */}
           <div className="relative flex flex-col justify-between rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-4 lg:col-span-3">
             <div>
@@ -348,7 +348,7 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                     className="!w-full !justify-start"
                   >
-                    <Map className="h-4 w-4 shrink-0 text-emerald-400" />
+                    <Map className="h-4 w-4 shrink-0 text-purple-400" />
                     <span>DECK PLAN</span>
                   </SeventhButton>
                 </li>
@@ -365,7 +365,7 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                     className="!w-full !justify-start"
                   >
-                    <Video className="h-4 w-4 shrink-0 text-rose-400" />
+                    <Video className="h-4 w-4 shrink-0 text-purple-400" />
                     <span>VIDEO OF THE SHIP</span>
                   </SeventhButton>
                 </li>
@@ -382,7 +382,7 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                     className="!w-full !justify-start"
                   >
-                    <FileText className="h-4 w-4 shrink-0 text-amber-400" />
+                    <FileText className="h-4 w-4 shrink-0 text-purple-400" />
                     <span>PAST CRUISE COMPASS</span>
                   </SeventhButton>
                 </li>
@@ -399,7 +399,7 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                     className="!w-full !justify-start"
                   >
-                    <Film className="h-4 w-4 shrink-0 text-indigo-400" />
+                    <Film className="h-4 w-4 shrink-0 text-purple-400" />
                     <span>SHIP TOUR VIDEO</span>
                   </SeventhButton>
                 </li>
@@ -507,7 +507,7 @@ function CruiseCabinsPricingSectionComponent({
                 <strong>Call Us:</strong>{" "}
                 <a
                   href={`tel:${(sanityContent?.cruiseInfo?.bookingPhone || "877-683-9753").replace(/[^0-9]/g, "")}`}
-                  className="hover:underline"
+                  className="no-underline"
                 >
                   {sanityContent?.cruiseInfo?.bookingPhone ||
                     "(877) 683-9753 - opt 5"}
@@ -531,7 +531,7 @@ function CruiseCabinsPricingSectionComponent({
             </div>
 
             {/* Cancellation Policy Card */}
-            <div className="mt-8 border-t border-white/10 pt-8">
+            <div className="mt-6 border-t border-white/10 pt-6">
               <div className="mb-2 flex items-center gap-3">
                 <CalendarIcon className="h-6 w-6 shrink-0 text-purple-400" />
                 <h3 className="uppercase">
@@ -615,7 +615,7 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="py-section-fluid space-y-16">
+        <div className=" space-y-16">
           <div className="relative p-0 text-left">
             <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div>
@@ -794,7 +794,7 @@ function CruiseCabinsPricingSectionComponent({
                   className="group flex h-full w-full cursor-pointer flex-col gap-4 border-0 text-left"
                 >
                   {room.image && (
-                    <div className="relative h-44 w-full overflow-hidden text-center">
+                    <div className="relative h-44 w-full overflow-hidden rounded-[var(--radius-box)] text-center">
                       <Image
                         width={200}
                         height={200}
@@ -858,8 +858,8 @@ function CruiseCabinsPricingSectionComponent({
           <div id="payment-portal" />
 
           <div>
-            <div className="mb-6 text-center">
-              <div className="mb-3 flex flex-wrap items-center justify-center gap-3">
+            <div className="mb-6 text-left">
+              <div className="mb-3 flex flex-wrap items-center justify-start gap-3">
                 <span className="inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
                   Official Booking Form
                 </span>
@@ -1236,7 +1236,7 @@ function CruiseCabinsPricingSectionComponent({
                     signatureDate={signatureDate}
                   />
                   {/* SUBMIT BUTTON */}
-                  <div className="text-center">
+                  <div className="text-left">
                     <SeventhButton
                       type="submit"
                       disabled={signupStatus === "submitting"}

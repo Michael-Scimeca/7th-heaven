@@ -199,20 +199,22 @@ function CircleVideoNode({
     if (!video) return;
 
     if (shouldPlay) {
+      if (!video.getAttribute("src")) {
+        video.src = src;
+      }
       video.play().catch(() => { });
     } else {
       video.pause();
     }
-  }, [shouldPlay]);
+  }, [shouldPlay, src]);
 
   return (
     <video
       ref={videoRef}
-      src={src}
       loop
       muted
       playsInline
-      preload="metadata"
+      preload="none"
       className="pointer-events-none h-full w-full scale-125 object-cover"
     >
       <track kind="captions" />
@@ -409,21 +411,6 @@ export default function CruiseSnakeItinerary({
   const seaAudioRef = useRef<HTMLAudioElement | null>(null);
   const [soundMuted, setSoundMuted] = useState(false);
 
-  // Preload audio elements on mount
-  useEffect(() => {
-    if (typeof window === "undefined") return () => { };
-    if (!portAudioRef.current) {
-      portAudioRef.current = new Audio("/audio/ship-at-port.mp3");
-      portAudioRef.current.loop = true;
-      portAudioRef.current.volume = 0.25;
-    }
-    if (!seaAudioRef.current) {
-      seaAudioRef.current = new Audio("/audio/ship-sea.mp3");
-      seaAudioRef.current.loop = true;
-      seaAudioRef.current.volume = 0.25;
-    }
-  }, []);
-
   // Unlock browser autoplay policy on first user interaction anywhere on page
   useEffect(() => {
     if (soundMuted || typeof window === "undefined") return () => { };
@@ -545,12 +532,12 @@ export default function CruiseSnakeItinerary({
     } catch { }
   };
 
-  // Canvas height & node positions: dynamically computed on mobile based on each day's event count to guarantee ZERO card collision
+  // Canvas height & node positions: dynamically computed on mobile based on each day's event count to guarantee ZERO card collision and clean padding between cards
   const getDayHeight = (day: ItineraryDay | undefined) => {
     if (!isMobile) return 480;
     const eventCount = day?.events?.length || 2;
-    // Mobile card height: base (~220px) + 40px per event + 50px gap between cards
-    return 220 + eventCount * 40 + 50;
+    // Mobile card height: base (~360px for image + 2-line header + location badge + card padding) + 110px per event + 80px gap between cards
+    return 360 + eventCount * 110 + 80;
   };
 
   let accumY = 90;
@@ -578,7 +565,16 @@ export default function CruiseSnakeItinerary({
     };
   });
 
-  const totalH = isMobile ? accumY + 60 : (itinerary.length - 1) * 480 + 90 + 580;
+  const lastNodeY = nodes.length > 0 ? nodes[nodes.length - 1].y : 0;
+  const lastDay = itinerary[itinerary.length - 1];
+  const lastDayEventCount = lastDay?.events?.length || 2;
+  const lastCardHeight = isMobile
+    ? 330 + lastDayEventCount * 105
+    : 480;
+
+  const totalH = isMobile
+    ? lastNodeY + 40 + lastCardHeight
+    : (itinerary.length - 1) * 480 + 90 + 580;
 
   /* ── Animated water-wave serpentine path ── */
   const trackRef = useRef<SVGPathElement>(null);

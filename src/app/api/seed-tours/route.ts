@@ -110,7 +110,7 @@ async function fetchAndParseTourDates() {
   return tourDates;
 }
 
-export async function runSanityTourSeed() {
+async function runSanityTourSeed() {
   const [scrapedDates, existingDocs] = await Promise.all([
     fetchAndParseTourDates(),
     sanityWriteClient.fetch(

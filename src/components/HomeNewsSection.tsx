@@ -198,10 +198,10 @@ export default function HomeNewsSection({
         {/* Section Header */}
         <div className="mb-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div className="title-group title-group--section max-w-2xl text-left">
-            <h2 id="news-heading" className="font-[family-name:var(--font-rockstar)]">
+            <h2 id="news-heading" className="font-[family-name:var(--font-rockstar)] text-white">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
-            <p className="">
+            <p className="text-secondary max-w-[65ch]">
               {sanityContent?.newsSubtitle ||
                 "Stay updated with official announcements, tour updates, new music releases, and exclusive band stories."}
             </p>
@@ -219,19 +219,19 @@ export default function HomeNewsSection({
           {featured && (
             <article className="group relative overflow-hidden border-0 pb-4 md:pb-6 lg:col-span-7">
               <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-                <span className="text-[var(--color-accent)]">
+                <span className="text-muted text-sm font-medium">
                   {featured.date}
                 </span>
               </div>
-              <h3 className="mb-6">
+              <h3 className="mb-6 text-white">
                 <Link
                   href={`/news/${featured.slug || featured.id || toSlug(featured.title)}`}
-                  className="transition-colors hover:text-[var(--color-accent)]"
+                  className="transition-colors hover:text-action"
                 >
                   {featured.title}
                 </Link>
               </h3>
-              <p className="font-normal">{featured.content}</p>
+              <p className="font-normal text-secondary max-w-[65ch]">{featured.content}</p>
             </article>
           )}
 
@@ -246,13 +246,13 @@ export default function HomeNewsSection({
                   className="transition-opacity group block w-full border-0 pb-3 text-left font-normal hover:opacity-90 md:pb-2"
                 >
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-[var(--color-accent)]">
+                    <span className="text-muted text-xs">
                       {item.date}
                     </span>
-                    <span className="a-btn">Read</span>
+                    <span className="a-btn text-xs font-semibold">Read</span>
                   </div>
-                  <h4 className="line-clamp-1">{item.title}</h4>
-                  <p className="line-clamp-2">{item.content}</p>
+                  <h4 className="line-clamp-1 text-white">{item.title}</h4>
+                  <p className="line-clamp-2 text-secondary text-sm">{item.content}</p>
                 </Link>
               );
             })}

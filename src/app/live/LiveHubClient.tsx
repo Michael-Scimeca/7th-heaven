@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import { SectionBadge } from "@/components/SectionBadge";
-import SeventhButton from "@/components/SeventhButton";
+import Button from "@/components/Button";
 import GlassPlayButton from "@/components/GlassPlayButton";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -351,7 +351,7 @@ export default function LiveHubClient({
                 <button
                   key={tab}
                   onClick={() => setAdminTab(tab)}
-                  className="rounded-t-lg px-4 py-2"
+                  className="rounded-lg px-4 py-2"
                   style={{
                     background:
                       adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
@@ -743,25 +743,26 @@ export default function LiveHubClient({
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <h3 className="mb-0.5">{room.title}</h3>
-                    <p className="text-sm text-white/60">
+                    <h3 className="mb-0.5 text-white">{room.title}</h3>
+                    <p className="text-sm text-muted">
                       LiveKit Stream · Started {getElapsed(room.creationTime)}
                     </p>
                   </div>
                 </div>
 
-                <SeventhButton
+                <Button
+                  variant="secondary"
+                  size="sm"
                   aria-label="Copy stream link"
                   onClick={(e) =>
-                    handleCopyLink(e, room.name.replace(/^live_/, ""))
+                    handleCopyLink(e as any, room.name.replace(/^live_/, ""))
                   }
-                  isActive={copiedSlug === room.name.replace(/^live_/, "")}
                   className="z-20 shrink-0 whitespace-nowrap"
                 >
                   {copiedSlug === room.name.replace(/^live_/, "")
                     ? "✓ Copied!"
                     : "Copy Link"}
-                </SeventhButton>
+                </Button>
               </div>
             </article>
           ))}

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
+import Button from "@/components/Button";
 import SeventhButton from "@/components/SeventhButton";
 import { sanityClient } from "@/lib/sanity";
 import { ArrowLeft, ArrowRight, Calendar, Tag, Newspaper } from "lucide-react";
@@ -185,11 +186,11 @@ export default async function NewsArticlePage({
           </div>
 
           {/* Title */}
-          <h1 className="mb-4 max-w-3xl">{article.title}</h1>
+          <h1 className="mb-4 max-w-3xl text-white">{article.title}</h1>
         </header>
 
         {/* Body */}
-        <div className="max-w-2xl space-y-5">
+        <div className="max-w-[65ch] space-y-5 text-secondary text-base leading-relaxed">
           {article.content
             .split("\n")
             .map((paragraph) =>
@@ -201,17 +202,12 @@ export default async function NewsArticlePage({
 
         {/* Footer CTA */}
         <div className="mt-6 flex flex-wrap gap-4 border-t border-white/10 pt-6">
-          <TransitionLink href="/#news">
-            <SeventhButton className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              <span>ALL NEWS</span>
-            </SeventhButton>
-          </TransitionLink>
-          <TransitionLink href="/shows">
-            <SeventhButton className="flex items-center gap-2">
-              <span>VIEW TOUR DATES</span>
-            </SeventhButton>
-          </TransitionLink>
+          <Button variant="secondary" size="md" href="/#news" icon={<ArrowLeft className="h-4 w-4" />}>
+            ALL NEWS
+          </Button>
+          <Button variant="primary" size="md" href="/shows">
+            VIEW TOUR DATES
+          </Button>
         </div>
 
         {/* Other Articles Section */}

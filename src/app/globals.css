@@ -63,12 +63,18 @@
   --text-h6--font-weight: 600;
 
   --color-text-primary: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.78);
-  --color-text-muted: rgba(255, 255, 255, 0.58);
+  --color-text-secondary: rgba(255, 255, 255, 0.72);
+  --color-text-muted: rgba(255, 255, 255, 0.55);
   --color-text-disabled: rgba(255, 255, 255, 0.40);
   --color-accent: #a855f7;
   --color-accent-hover: #c084fc;
   --color-accent-soft: rgba(168, 85, 247, 0.15);
+  /* ── Action accent: the ONLY warm color. Use for clickable contact info + primary CTAs ── */
+  --color-action: #f5b942;
+  /* 11.6:1 on #05030a */
+  --color-action-hover: #ffd27a;
+  --color-action-soft: rgba(245, 185, 66, 0.14);
+  --color-action-ring: rgba(245, 185, 66, 0.45);
   --color-bg-base: #05030a;
   --color-bg-surface: #0f0f13;
   --color-bg-glass: rgba(18, 18, 24, 0.65);
@@ -490,10 +496,31 @@ header button,
       z-index: 1;
       align-self: flex-end;
     }
+
+    /* .contact-rep-stage::before {
+      content: "";
+      position: absolute;
+      inset: 10% -10% 0 10%;
+      background: radial-gradient(ellipse at 60% 70%, rgba(245, 185, 66, 0.28), rgba(245, 185, 66, 0) 60%);
+      filter: blur(40px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #contact-page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(5, 3, 10, 0.55) 0%, rgba(5, 3, 10, 0.25) 35%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    } */
   }
 
   .contact-rep-stage-img {
     pointer-events: none;
+    position: relative;
+    z-index: 1;
     height: 100%;
     max-height: 520px;
     width: auto;
@@ -738,6 +765,12 @@ html.is-page-transitioning body {
 
 body {
   background-color: var(--bg-color, #05030a);
+  background-image:
+    radial-gradient(circle at 20% 25%, rgba(133, 15, 183, 0.4) 0%, transparent 55%),
+    radial-gradient(circle at 75% 65%, rgba(97, 30, 189, 0.35) 0%, transparent 55%),
+    radial-gradient(circle at 50% 35%, rgba(164, 62, 23, 0.25) 0%, transparent 50%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text-color, #ffffff);
   font-family: 'Switzer', var(--font-barlow-condensed), system-ui, sans-serif;
   font-variant-numeric: lining-nums;
@@ -800,10 +833,14 @@ address {
   --color-bg-card: rgba(255, 255, 255, 0.03);
   --color-text-main: #ffffff;
   --color-text-primary: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.78);
-  --color-text-muted: rgba(255, 255, 255, 0.58);
+  --color-text-secondary: rgba(255, 255, 255, 0.72);
+  --color-text-muted: rgba(255, 255, 255, 0.55);
   --color-text-disabled: rgba(255, 255, 255, 0.40);
   --color-text-subtle: rgba(255, 255, 255, 0.40);
+  --color-action: #f5b942;
+  --color-action-hover: #ffd27a;
+  --color-action-soft: rgba(245, 185, 66, 0.14);
+  --color-action-ring: rgba(245, 185, 66, 0.45);
   --color-border-main: rgba(255, 255, 255, 0.1);
   --color-border-purple: rgba(168, 85, 247, 0.3);
   --color-dark-purple: lab(37 69.67 -89.26);
@@ -811,7 +848,7 @@ address {
   --text-color: #ffffff;
   --card-bg: #000000;
   --border-color: rgba(255, 255, 255, 0.1);
-  --muted-text: rgba(255, 255, 255, 0.58);
+  --muted-text: rgba(255, 255, 255, 0.55);
   --placeholder-color: rgba(255, 255, 255, 0.4);
   --accent-color: #a855f7;
   --surface-base: #000000;
@@ -1045,7 +1082,8 @@ a:visited {
 .a-btn {
   letter-spacing: 1px;
   position: relative;
-  color: white;
+  color: var(--color-action);
+  font-weight: 600;
   transition: color 250ms ease,
     background-color 250ms ease,
     border-color 250ms ease,
@@ -1053,17 +1091,45 @@ a:visited {
     text-decoration-color 250ms ease;
 }
 
+.a-btn:hover {
+  color: var(--color-action-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(245, 185, 66, 0.6);
+}
 
-/* Phone number links — always white text & drop shadow */
+/* Phone number links — always white text, never underlined or bordered */
 a[href^="tel:"],
-a[href*="tel:"] {
+a[href*="tel:"],
+a[href^="tel:"]:hover,
+a[href*="tel:"]:hover,
+a[href^="tel:"]:focus-visible,
+a[href*="tel:"]:focus-visible {
   color: #ffffff !important;
+  text-decoration: none !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Kill the animated paragraph-link underline bars on phone links */
+a[href^="tel:"]::before,
+a[href^="tel:"]::after,
+a[href*="tel:"]::before,
+a[href*="tel:"]::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* iOS Safari / auto-detected phone numbers */
+a[x-apple-data-detectors] {
+  color: inherit !important;
+  text-decoration: none !important;
+  border-bottom: 0 !important;
 }
 
 a:hover,
 a:link:hover,
 a:visited:hover,
-.a-btn:hover,
 #nav-inner-card {
   color: #f800ff;
   opacity: 0.9;
@@ -1126,14 +1192,27 @@ p a:not(.seventh--btn):not(.btn):not(.btn-primary):not(.btn-outline):not(.btn-ne
 #nav-inner-card a {
   color: #ffffff;
   transition: color 250ms ease;
+  position: relative;
 }
 
 #nav-inner-card a:hover {
-  color: #f800ff;
+  color: #c084fc;
 }
 
 #nav-inner-card a.active {
-  color: #f800ff;
+  color: #c084fc;
+}
+
+#nav-inner-card a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #c084fc;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px rgba(192, 132, 252, 0.6);
 }
 
 .site-link,
@@ -1261,12 +1340,11 @@ label:not(.sr-only),
   font-weight: 600;
   position: relative;
   z-index: 33;
-  white-space: nowrap;
+  white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
   margin-bottom: 10px;
-  display: flex;
-
+  display: block;
 }
 
 .sr-only {
@@ -1764,9 +1842,9 @@ button,
 
   /* ─── Text ─── */
   --color-text-primary: var(--text-color);
-  --color-text-secondary: rgba(255, 255, 255, 0.5);
-  --color-text-muted: rgba(255, 255, 255, 0.5);
-  --color-text-disabled: #888888;
+  --color-text-secondary: rgba(255, 255, 255, 0.72);
+  --color-text-muted: rgba(255, 255, 255, 0.55);
+  --color-text-disabled: rgba(255, 255, 255, 0.40);
   --color-text-on-accent: #ffffff;
   /* text on accent-colored buttons/badges */
 
@@ -2376,6 +2454,10 @@ button,
 
   .text-accent {
     color: var(--color-accent);
+  }
+
+  .text-action {
+    color: var(--color-action);
   }
 
   a {
@@ -5802,7 +5884,6 @@ body.fake-livestream-active {
 
 /* CruiseSnakeItinerary */
 .snake-itinerary-root {
-  padding-bottom: 60px;
   box-sizing: border-box;
   background: transparent;
   overflow-y: visible;
@@ -6228,7 +6309,7 @@ span {
 .booking-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+
 }
 
 
@@ -6274,17 +6355,38 @@ span {
 }
 
 .prose-legal {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.7;
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  max-width: 65ch;
 }
 
 .prose-legal h1,
 .prose-legal h2,
-.prose-legal h3 {}
+.prose-legal h3,
+.prose-legal dt {
+  color: #ffffff;
+  font-weight: 700;
+}
 
-/* .prose-legal p {
-  margin-bottom: 1em;
-} */
+.prose-legal p,
+.prose-legal ul,
+.prose-legal ol,
+.prose-legal dl,
+.prose-legal dd {
+  color: var(--color-text-secondary);
+}
+
+.prose-legal a {
+  color: var(--color-action);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(245, 185, 66, 0.4);
+}
+
+.prose-legal a:hover {
+  color: var(--color-action-hover);
+  text-decoration-color: var(--color-action-hover);
+}
 
 .su-bleed {
   position: relative;

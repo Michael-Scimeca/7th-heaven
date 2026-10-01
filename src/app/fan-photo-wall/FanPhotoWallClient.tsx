@@ -32,6 +32,7 @@ const useMounted = () =>
   );
 import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
+import Button from "@/components/Button";
 import AddCmsButton from "@/components/AddCmsButton";
 import PageHero from "@/components/PageHero";
 import InputField from "@/components/InputField";
@@ -400,7 +401,9 @@ export default function FanPhotoWallClient({
                       className="w-full justify-center"
                     />
                   )}
-                  <SeventhButton
+                  <Button
+                    variant="primary"
+                    size="md"
                     onClick={() => {
                       if (!isLoggedIn) {
                         openModal("login");
@@ -414,7 +417,7 @@ export default function FanPhotoWallClient({
                     {showUpload
                       ? sanityContent?.uploadButtonHideText || "Hide Upload Form"
                       : sanityContent?.uploadButtonText || "Upload Photo / Video"}
-                  </SeventhButton>
+                  </Button>
                 </div>
               }
             >

@@ -12,24 +12,7 @@ const MAX_WAIT_MS = 300;
 const poll = (fn: () => void, delayMs = 16) => setTimeout(fn, delayMs);
 
 export async function waitForPageReady(): Promise<void> {
-  // 1. Quick web font check with tight timeout
-  if (typeof document !== "undefined" && "fonts" in document) {
-    try {
-      if (document.fonts.status === "loading") {
-        await new Promise<void>((resolve) => {
-          const timer = setTimeout(resolve, 100);
-          const onDone = () => {
-            clearTimeout(timer);
-            document.fonts.removeEventListener("loadingdone", onDone);
-            resolve();
-          };
-          document.fonts.addEventListener("loadingdone", onDone);
-        });
-      }
-    } catch {}
-  }
-
-  // 2. Fast paint readiness check via double requestAnimationFrame (no synchronous .innerText reflow)
+  // Fast paint readiness check via double requestAnimationFrame (no blocking on web fonts)
   return new Promise<void>((resolve) => {
     if (typeof window === "undefined") {
       resolve();
@@ -42,6 +25,40 @@ export async function waitForPageReady(): Promise<void> {
         resolve();
       });
     });
+  });
+}
+
+export async function waitForCanvasReady(timeoutMs = 1800): Promise<void> {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  if ((window as any).__7hCanvasReady) {
+    return;
+  }
+
+  return new Promise<void>((resolve) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        cleanup();
+        resolve();
+      }
+    }, timeoutMs);
+
+    const onReady = () => {
+      if (!settled) {
+        settled = true;
+        cleanup();
+        resolve();
+      }
+    };
+
+    const cleanup = () => {
+      clearTimeout(timer);
+      window.removeEventListener("7h-canvas-ready", onReady);
+    };
+
+    window.addEventListener("7h-canvas-ready", onReady, { once: true });
   });
 }
 

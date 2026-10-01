@@ -5,6 +5,7 @@ import SearchInput from "@/components/SearchInput";
 import Link from "next/link";
 import TransitionLink from "@/components/TransitionLink";
 import SeventhButton from "@/components/SeventhButton";
+import Button from "@/components/Button";
 import FaqChevronButton from "@/components/FaqChevronButton";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -375,7 +376,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                       aria-controls={`faq-answer-${faq.id}`}
                       className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left"
                     >
-                      <span className="">{faq.question}</span>
+                      <span className="text-white font-bold text-base sm:text-lg">{faq.question}</span>
                       <FaqChevronButton isExpanded={isExpanded} />
                     </button>
 
@@ -388,7 +389,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                     >
                       <div className="overflow-hidden">
                         <div className="pb-6 pl-3">
-                          <p>{faq.answer}</p>
+                          <p className="text-secondary max-w-[65ch] text-base leading-relaxed">{faq.answer}</p>
                         </div>
                       </div>
                     </div>
@@ -400,8 +401,8 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                 <span className="mb-6 inline-block scale-150 text-white/20">
                   <HelpIcon />
                 </span>
-                <h3 className="mb-1">No matches found</h3>
-                <p className="mx-auto max-w-xs">
+                <h3 className="mb-1 text-white">No matches found</h3>
+                <p className="mx-auto max-w-xs text-secondary">
                   We couldn&apos;t find any FAQs matching &quot;{searchQuery}&quot;.
                   Try using different terms or browse standard categories.
                 </p>
@@ -412,19 +413,17 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           {/* Live Support Banner */}
           <aside className="flex flex-col items-center justify-between gap-6 text-center sm:flex-row sm:pt-8 sm:text-left">
             <div>
-              <h4 className="mb-1">
+              <h4 className="mb-1 text-white">
                 {sanityContent?.supportTitle || "Still need help?"}
               </h4>
-              <p>
+              <p className="text-secondary max-w-[65ch]">
                 {sanityContent?.supportBody ||
                   "Can't find the answer you are looking for? Reach out to our direct support."}
               </p>
             </div>
-            <TransitionLink href="/contact">
-              <SeventhButton className="whitespace-nowrap">
-                {sanityContent?.supportCtaText || "Contact Us"}
-              </SeventhButton>
-            </TransitionLink>
+            <Button variant="primary" size="md" href="/contact" className="whitespace-nowrap">
+              {sanityContent?.supportCtaText || "Contact Us"}
+            </Button>
           </aside>
         </div>
       </section>

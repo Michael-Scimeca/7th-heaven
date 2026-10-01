@@ -41,7 +41,7 @@ import {
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
 import { Toggle } from "@/components/Toggle";
-import SeventhButton from "@/components/SeventhButton";
+import Button from "@/components/Button";
 import GlowInput, { GlowTextarea } from "@/components/GlowInput";
 import { SectionBadge } from "@/components/SectionBadge";
 import InputField from "@/components/InputField";
@@ -2608,9 +2608,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               )}
 
               <div>
-                <SeventhButton
+                <Button
+                  variant="primary"
+                  size="lg"
+                  fullWidth
                   type="submit"
-                  icon={false}
                   disabled={
                     submitting ||
                     !selectedType ||
@@ -2619,17 +2621,16 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     !formData.endTime ||
                     !formData.email
                   }
-                  className="w-full disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {submitting ? (
                     <>
-                      <span className="h-4 w-4 animate-spin border-2 border-white/10 border-t-white" />
+                      <span className="h-4 w-4 animate-spin border-2 border-black border-t-transparent" />
                       Submitting...
                     </>
                   ) : (
                     "Submit Booking Request"
                   )}
-                </SeventhButton>
+                </Button>
                 <p className="mt-4 text-center">
                   By submitting, you confirm you are 18 years of age or older and
                   agree to our{" "}

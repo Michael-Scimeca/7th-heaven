@@ -86,7 +86,7 @@ export function SectionHeader({
 
         {subtitle && (
           <p
-            className={`max-w-2xl text-pretty ${isH2 ? "text-muted" : "text-small"}  ${isCenter ? "mx-auto" : ""} `}
+            className={`max-w-[65ch] text-pretty ${isH2 ? "text-secondary" : "text-small text-muted"}  ${isCenter ? "mx-auto" : ""} `}
           >
             {subtitle}
           </p>

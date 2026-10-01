@@ -86,8 +86,9 @@ export default function CruiseHeroSection({
     >
       {/* Full-bleed background video & image mask wrapper */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-cover bg-center"
         style={{
+          backgroundImage: `url(${posterUrl})`,
           bottom: "-8px",
           maskImage: maskImageGradient,
           WebkitMaskImage: maskImageGradient,
@@ -165,7 +166,7 @@ export default function CruiseHeroSection({
               const el = document.getElementById("signup");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="btn-pill-glass flex cursor-pointer items-center gap-2 border border-rose-500/40 bg-rose-900/40 text-rose-200 backdrop-blur-2xl transition-[background-color,color,border-color] hover:bg-rose-800/60 hover:text-white"
+            className="btn-pill-glass flex cursor-pointer items-center gap-2 border border-action/40 bg-action-soft text-action font-semibold backdrop-blur-2xl transition-[background-color,color,border-color] hover:bg-action/25 hover:text-action-hover focus-visible:ring-2 focus-visible:ring-action-ring"
           >
             <span>💳 MAKE A PAYMENT - GROUP ID: 3325680</span>
           </button>

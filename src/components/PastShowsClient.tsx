@@ -341,13 +341,13 @@ export default function PastShowsClient({
                             style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
                           >
                             {/* Date & Day */}
-                            <time className="flex w-full shrink-0 items-center gap-2 font-medium sm:w-48">
+                            <time className="flex w-full shrink-0 items-center gap-2 text-muted text-sm font-medium sm:w-48">
                               <span className="transition-colors h-2 w-2 rounded-full bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
                               {show.date || yGroup.year}
                             </time>
 
                             {/* Venue Name */}
-                            <span className="flex-1 font-medium">
+                            <span className="flex-1 font-bold text-white">
                               {show.venue}
                             </span>
 

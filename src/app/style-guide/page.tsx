@@ -54,6 +54,7 @@ const GooeyMessagesDropdown = dynamic(
   },
 );
 
+import Button from "@/components/Button";
 import RoleBadge from "@/components/RoleBadge";
 import Avatar from "@/components/Avatar";
 import CustomScrollbar from "@/components/CustomScrollbar";
@@ -170,6 +171,7 @@ const sparkleHueThemes = [
 ];
 
 const sections = [
+  { id: "hierarchy", label: "0. Visual Hierarchy", icon: Layers },
   { id: "typography", label: "1. Typography", icon: Type },
   { id: "colors", label: "2. Color Palette", icon: Palette },
   { id: "buttons", label: "3. Buttons", icon: MousePointer },
@@ -1893,6 +1895,146 @@ export default function StyleGuidePage() {
             );
           })}
         </div>
+
+        {/* SECTION 0: VISUAL HIERARCHY SYSTEM */}
+        <section
+          id="hierarchy"
+          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+        >
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="flex items-center gap-2">
+              <Layers className="h-6 w-6 text-action" /> 0. Visual Hierarchy System
+            </h2>
+            <p className="text-secondary max-w-[65ch]">
+              Every screen must guide the visitor within 3 seconds: <strong>Where am I?</strong>, <strong>What&apos;s the most important thing?</strong>, and <strong>What should I do next?</strong>
+            </p>
+          </div>
+
+          {/* 5 TEXT LEVELS */}
+          <div className="space-y-4 rounded-xl border border-white/10 bg-black/40 p-6">
+            <div className="border-b border-white/10 pb-2">
+              <h3 className="text-white">The 5 Contrast Levels</h3>
+              <p className="text-sm text-muted">Brightness is the primary contrast lever on a dark stage theme.</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+                <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 1 · Page Title</span>
+                <p className="text-2xl font-black text-white uppercase tracking-wider">7TH HEAVEN LIVE</p>
+                <p className="text-xs text-muted">Full white · Sized by tag · Tag-scale font</p>
+              </div>
+
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+                <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 2 · Section Heading</span>
+                <p className="text-xl font-bold text-white uppercase">UPCOMING TOUR DATES</p>
+                <p className="text-xs text-muted">Full white · SectionHeader component</p>
+              </div>
+
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+                <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 3 · Item Title</span>
+                <p className="text-base font-semibold text-white">VIP BALCONY ACCESS</p>
+                <p className="text-xs text-muted">White · Card or row item identifier</p>
+              </div>
+
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+                <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 4 · Body Copy</span>
+                <p className="text-sm text-secondary leading-relaxed max-w-[65ch]">
+                  Join us for an unforgettable night of high-energy rock classics and original anthems.
+                </p>
+                <p className="text-xs text-muted">--color-text-secondary (~72% white) · max-w-[65ch]</p>
+              </div>
+
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+                <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 5 · Meta & Captions</span>
+                <p className="text-xs text-muted font-medium">SAT, OCT 18 · 8:00 PM CST · CHICAGO, IL</p>
+                <p className="text-xs text-muted">--color-text-muted (~55% white) · Dates, locations, tags</p>
+              </div>
+
+              <div className="rounded-lg border border-action/20 bg-action/[0.03] p-4 space-y-2">
+                <span className="text-xs font-mono text-action uppercase tracking-wider">Action Level · Gold Accent</span>
+                <p className="text-base font-bold text-action">$35.00 ADVANCE · RESERVE NOW &rarr;</p>
+                <p className="text-xs text-muted">--color-action (#f5b942) · Interactive focal points</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 3 BUTTON KINDS */}
+          <div className="space-y-4 rounded-xl border border-white/10 bg-black/40 p-6">
+            <div className="border-b border-white/10 pb-2">
+              <h3 className="text-white">Unified Button Hierarchy</h3>
+              <p className="text-sm text-muted">Exactly three kinds site-wide. At most one Primary button per screen.</p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-3">
+              <div className="space-y-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono text-action font-semibold uppercase">1. Primary</span>
+                  <span className="text-xs text-muted">Max 1 / screen</span>
+                </div>
+                <div className="pt-2 flex flex-col gap-2">
+                  <Button variant="primary" size="md">Get Tickets</Button>
+                  <Button variant="primary" size="sm">Small Primary</Button>
+                </div>
+                <p className="text-xs text-muted">Filled gold background · High contrast text · Clear singular focal action.</p>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono text-white/80 font-semibold uppercase">2. Secondary</span>
+                  <span className="text-xs text-muted">Multiple allowed</span>
+                </div>
+                <div className="pt-2 flex flex-col gap-2">
+                  <Button variant="secondary" size="md">View Itinerary</Button>
+                  <Button variant="secondary" size="sm">Small Outline</Button>
+                </div>
+                <p className="text-xs text-muted">Outline glass button · Subdued border · Supports secondary exploration.</p>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono text-muted font-semibold uppercase">3. Tertiary</span>
+                  <span className="text-xs text-muted">In-line links</span>
+                </div>
+                <div className="pt-2 flex flex-col gap-2 items-start">
+                  <Button variant="tertiary" size="md">Learn more &rarr;</Button>
+                  <Button variant="tertiary" size="sm">View full policy &rarr;</Button>
+                </div>
+                <p className="text-xs text-muted">Underline text link · Minimal footprint · For low-priority navigation.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* GESTALT SPACING EXAMPLE CARD */}
+          <div className="space-y-4 rounded-xl border border-white/10 bg-black/40 p-6">
+            <div className="border-b border-white/10 pb-2">
+              <h3 className="text-white">Gestalt Spacing & Card Architecture</h3>
+              <p className="text-sm text-muted">Space between groups &ge; 2&times; space inside a group. 60/30/10 color ratio.</p>
+            </div>
+            <div className="max-w-md rounded-2xl border border-white/10 bg-[var(--color-bg-glass)] p-6 space-y-6">
+              {/* Group 1: Title & Badge (Tight spacing: gap-2) */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-action">Next Live Show</span>
+                  <span className="rounded-full bg-purple-500/20 px-2.5 py-0.5 text-xs text-purple-300">Featured</span>
+                </div>
+                <h4 className="text-white uppercase">Joe&apos;s Live Rosemont</h4>
+                <p className="text-xs text-muted font-medium">Friday, Dec 12 · Doors 7:00 PM</p>
+              </div>
+
+              {/* Group 2: Description (Separated by gap-6; text-secondary) */}
+              <p className="text-sm text-secondary leading-relaxed max-w-[65ch]">
+                Experience 7th Heaven&apos;s high-octane 30-song medley and classic rock hits in an electric arena atmosphere.
+              </p>
+
+              {/* Group 3: Action & Price (Separated by gap-6; single primary CTA) */}
+              <div className="flex items-center justify-between border-t border-white/10 pt-4">
+                <div>
+                  <span className="text-xs text-muted block">Admission</span>
+                  <span className="text-lg font-extrabold text-action">$25.00</span>
+                </div>
+                <Button variant="primary" size="md">Reserve Tickets</Button>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
         <section

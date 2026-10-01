@@ -1,14 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
-import CruiseSnakeItinerary from "@/components/CruiseSnakeItinerary";
 import {
   ITINERARY_2027,
   ITINERARY_2028,
   mapToSnakeItinerary,
 } from "../cruiseData";
+
+const CruiseSnakeItinerary = dynamic(
+  () => import("@/components/CruiseSnakeItinerary"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex min-h-[400px] w-full items-center justify-center">
+        <span className="text-sm text-white/40">Loading voyage itinerary...</span>
+      </div>
+    ),
+  },
+);
 
 interface CruiseItinerarySectionProps {
   sanityContent?: any;
@@ -30,7 +42,7 @@ export default function CruiseItinerarySection({
     <section
       id="itinerary"
       aria-labelledby="itinerary-heading"
-      className="section relative z-20 border-b"
+      className="section relative z-20"
     >
       <div className="mx-auto w-full">
         <div className="site-container w-full text-left">
@@ -66,7 +78,7 @@ export default function CruiseItinerarySection({
           </div>
         </div>
 
-        <div className="w-full overflow-x-hidden">
+        <div className="w-full ">
           <CruiseSnakeItinerary
             key={`itin-${activeItinYear}`}
             itinerary={mapToSnakeItinerary(

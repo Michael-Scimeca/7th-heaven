@@ -156,7 +156,7 @@ export default function ContactClient({
         <SectionHeader id="contact-team-heading" title="Contact Directory" visuallyHidden />
         <div className="relative z-10 w-full flex-1 flex flex-col justify-end">
           {/* Mobile & Tablet Stacked View (< lg) */}
-          <div className="flex flex-col space-y-4 lg:hidden">
+          <div className="flex flex-col space-y-8 lg:hidden">
             {contacts.map((contact) => {
               const photoKey = getPhotoForCategory(contact);
               const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
@@ -171,14 +171,13 @@ export default function ContactClient({
                   className="flex flex-col"
                 >
                   {/* Category + Company */}
-                  <div className="mb-2 flex flex-wrap items-center gap-2">
-                    <span className="">
-                      {contact.category}
-                    </span>
+                  <div className="mb-2 flex flex-wrap items-center gap-1.5 text-sm uppercase tracking-wide text-[color:var(--color-text-secondary)]">
+                    <span>{contact.category}</span>
                     {contact.company && (
-                      <span className="text-sm font-semibold text-white/80">
-                        {contact.company}
-                      </span>
+                      <>
+                        <span className="opacity-40" aria-hidden="true">•</span>
+                        <span>{contact.company}</span>
+                      </>
                     )}
                   </div>
 
@@ -190,28 +189,28 @@ export default function ContactClient({
                   </div>
 
                   {contact.note && (
-                    <p className="italic text-white/60">
+                    <p className="mb-3 italic text-[color:var(--color-text-muted)] text-sm">
                       {contact.note}
                     </p>
                   )}
 
-                  {/* Action Buttons: Stacked vertically full width */}
-                  <address className="not-italic flex flex-col gap-5 w-full">
+                  {/* Action Buttons: Stacked vertically matching action styling */}
+                  <address className="not-italic flex flex-col gap-3 w-full">
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="flex w-full items-center justify-center gap-2 border border-purple-500/40 bg-purple-950/60 px-4 py-3 font-semibold text-purple-200 transition-colors hover:bg-purple-900/80"
+                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)]"
                       >
-                        <Mail className="h-4 w-4 text-purple-400" />
+                        <Mail className="h-4 w-4 text-action shrink-0" />
                         <span className="truncate">{contact.email}</span>
                       </a>
                     )}
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                        className="flex w-full items-center justify-center gap-2 border border-white/10 bg-white/5 px-4 py-3 font-semibold text-white/80 transition-colors hover:bg-white/10"
+                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)]"
                       >
-                        <Phone className="h-4 w-4 text-emerald-400" />
+                        <Phone className="h-4 w-4 text-action shrink-0" />
                         <span>{contact.phone}</span>
                       </a>
                     )}
@@ -231,10 +230,10 @@ export default function ContactClient({
           </div>
 
           {/* Desktop Split View (lg:grid) */}
-          <div className="hidden grid-cols-1  gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
+          <div className="hidden grid-cols-1 gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
             {/* Left Column: Contact Cards Directory */}
             <div className="flex flex-col text-left lg:col-span-5">
-              <ul className="flex flex-col space-y-3">
+              <ul className="flex flex-col space-y-4">
                 {contacts.map((contact) => {
                   const photoKey = getPhotoForCategory(contact);
                   const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
@@ -246,55 +245,52 @@ export default function ContactClient({
 
                   return (
                     <li key={cardKey}>
-                      <button
-                        type="button"
+                      <article
                         onMouseEnter={() => setActivePhotoId(photoKey)}
-                        onClick={() => setActivePhotoId(photoKey)}
-                        className={`w-full text-left transition-[background-color,color,border-color,box-shadow,transform] cursor-pointer ${isCardActive
-                          ? "opacity-100"
-                          : "opacity-75 hover:opacity-100"
-                          } `}
+                        onFocus={() => setActivePhotoId(photoKey)}
+                        className="w-full text-left transition-[background-color,color,border-color,box-shadow,transform]"
                       >
-                        <h2 className="text-white">
+                        <h2 className={`text-white transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
                           {contact.name || photo.name || "7th Heaven Representative"}
                         </h2>
 
-                        <div className="mb-1 flex flex-wrap items-center gap-2">
-                          <span className="">
-                            {contact.category}
-                          </span>
+                        <div className={`mb-2 flex flex-wrap items-center gap-1.5 text-sm uppercase tracking-wide text-[color:var(--color-text-secondary)] transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
+                          <span>{contact.category}</span>
                           {contact.company && (
-                            <span className="">
-                              {contact.company}
-                            </span>
+                            <>
+                              <span className="opacity-40" aria-hidden="true">•</span>
+                              <span>{contact.company}</span>
+                            </>
                           )}
                         </div>
 
-
+                        {contact.note && (
+                          <p className={`mb-2 italic text-[color:var(--color-text-muted)] text-sm transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
+                            {contact.note}
+                          </p>
+                        )}
 
                         <address className="not-italic flex flex-col gap-1.5">
                           {contact.email && (
                             <a
                               href={`mailto:${contact.email}`}
-                              onClick={(e) => e.stopPropagation()}
-                              className="transition-colors inline-flex items-center gap-2 text-purple-200/90 hover:text-white hover:underline decoration-purple-400"
+                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover hover:underline underline-offset-4 decoration-action/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover focus-visible:underline rounded-[var(--radius-xs)] w-fit"
                             >
-                              <Mail className="h-3.5 w-3.5 text-purple-400" />
+                              <Mail className="h-4 w-4 text-action shrink-0" />
                               <span>{contact.email}</span>
                             </a>
                           )}
                           {contact.phone && (
                             <a
                               href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                              onClick={(e) => e.stopPropagation()}
-                              className="transition-colors inline-flex items-center gap-2 text-white/70 hover:text-emerald-400"
+                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover rounded-[var(--radius-xs)] w-fit"
                             >
-                              <Phone className="h-3.5 w-3.5 text-emerald-400" />
+                              <Phone className="h-4 w-4 text-action shrink-0" />
                               <span>{contact.phone}</span>
                             </a>
                           )}
                         </address>
-                      </button>
+                      </article>
                     </li>
                   );
                 })}
@@ -335,7 +331,7 @@ export default function ContactClient({
           </div>
         </div>
       </section>
-    </main >
+    </main>
   );
 }
 

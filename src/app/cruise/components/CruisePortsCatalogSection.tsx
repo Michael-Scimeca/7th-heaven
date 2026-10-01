@@ -61,7 +61,7 @@ export default function CruisePortsCatalogSection({
               return (
                 <li key={`grid-${port.name}`}>
                   <article className="group flex h-full flex-col justify-between">
-                    <div className="relative h-48 w-full overflow-hidden rounded-t-lg bg-black sm:h-56">
+                    <div className="relative h-48 w-full overflow-hidden rounded-lg bg-black sm:h-56">
                       {currentImg && (
                         <Image
                           key={currentImg}

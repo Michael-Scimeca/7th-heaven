@@ -23,6 +23,7 @@ import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
+import Button from "@/components/Button";
 import PageHero from "@/components/PageHero";
 import GlassPlayButton from "@/components/GlassPlayButton";
 import AddCmsButton from "@/components/AddCmsButton";
@@ -674,13 +675,13 @@ export default function MediaClient({
 
                           {/* Poster Title Container with Responsive Height */}
                           <div className="flex h-10 items-center justify-center sm:h-14">
-                            <span className="block line-clamp-2 drop-shadow-md sm:text-lg">
+                            <span className="block line-clamp-2 drop-shadow-md sm:text-lg font-bold text-white">
                               {video.title}
                             </span>
                           </div>
 
                           {/* Year / Duration Metadata */}
-                          <span className="shrink-0">
+                          <span className="shrink-0 text-muted text-xs font-medium">
                             {video.year || "2026"}{" "}
                             {video.duration ? `• ${video.duration}` : ""}
                           </span>
@@ -695,18 +696,18 @@ export default function MediaClient({
 
           {hasMoreVideos && (
             <div ref={loadMoreRef} className="flex justify-center py-10">
-              <button
-                type="button"
+              <Button
+                variant="secondary"
+                size="md"
                 onClick={() =>
                   setVisibleCount((prev) =>
                     Math.min(prev + CARDS_PER_BATCH, filteredVideos.length),
                   )
                 }
-                className="btn-secondary cursor-pointer rounded-full px-6 py-2.5"
               >
                 {sanityContent?.loadMoreText || "Load more"} (
                 {filteredVideos.length - visibleCount} more)
-              </button>
+              </Button>
             </div>
           )}
 

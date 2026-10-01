@@ -424,10 +424,24 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const navPushedRef = useRef<string | null>(null);
   const savedScrollYRef = useRef<number>(0);
   const isWipingRef = useRef<boolean>(false);
-  const animIdRef = useRef<number>(0);
+  const coverAnimIdRef = useRef<number>(0);
+  const revealAnimIdRef = useRef<number>(0);
+  const revealTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const curtainRef = useRef<HTMLDivElement | null>(null);
 
   const finishTransition = useCallback(() => {
+    if (revealTimeoutRef.current) {
+      clearTimeout(revealTimeoutRef.current);
+      revealTimeoutRef.current = null;
+    }
+    if (coverAnimIdRef.current) {
+      cancelAnimationFrame(coverAnimIdRef.current);
+      coverAnimIdRef.current = 0;
+    }
+    if (revealAnimIdRef.current) {
+      cancelAnimationFrame(revealAnimIdRef.current);
+      revealAnimIdRef.current = 0;
+    }
     if (curtainRef.current) {
       curtainRef.current.remove();
       curtainRef.current = null;
@@ -448,7 +462,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     originPathRef.current = null;
     navPushedRef.current = null;
     isWipingRef.current = false;
-    animIdRef.current = 0;
     clearPendingHref();
     setMode("idle");
   }, [clearPendingHref, setMode]);
@@ -471,6 +484,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     const easeFn = solveEase("power2.out");
     const startTime = performance.now();
 
+    // Absolute fallback: unconditionally dismiss curtain if animation drops frames
+    if (revealTimeoutRef.current) clearTimeout(revealTimeoutRef.current);
+    revealTimeoutRef.current = setTimeout(() => {
+      finishTransition();
+    }, durationMs + 120);
+
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(1, Math.max(0, elapsed / durationMs));
@@ -481,13 +500,13 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       (curtain.style as any).webkitClipPath = revealClip;
 
       if (progress < 1) {
-        animIdRef.current = requestAnimationFrame(tick);
+        revealAnimIdRef.current = requestAnimationFrame(tick);
       } else {
         finishTransition();
       }
     };
 
-    animIdRef.current = requestAnimationFrame(tick);
+    revealAnimIdRef.current = requestAnimationFrame(tick);
   }, [finishTransition]);
 
   useEffect(() => {
@@ -579,7 +598,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       (curtain.style as any).webkitClipPath = coverClip;
 
       if (progress < 1) {
-        animIdRef.current = requestAnimationFrame(coverTick);
+        coverAnimIdRef.current = requestAnimationFrame(coverTick);
       } else {
         // Once covered, check if new route has arrived; if so reveal immediately
         const cleanPending = pathOf(pendingHref).replace(/\/+$/, "") || "/";
@@ -598,11 +617,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       }
     };
 
-    animIdRef.current = requestAnimationFrame(coverTick);
+    coverAnimIdRef.current = requestAnimationFrame(coverTick);
 
     return () => {
-      if (animIdRef.current) {
-        cancelAnimationFrame(animIdRef.current);
+      if (coverAnimIdRef.current) {
+        cancelAnimationFrame(coverAnimIdRef.current);
+        coverAnimIdRef.current = 0;
       }
     };
   }, [mode, pendingHref, router, clearPendingHref, setMode, pathname]);
@@ -632,8 +652,14 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // Global unmount cleanup
   useEffect(() => {
     return () => {
-      if (animIdRef.current) {
-        cancelAnimationFrame(animIdRef.current);
+      if (coverAnimIdRef.current) {
+        cancelAnimationFrame(coverAnimIdRef.current);
+      }
+      if (revealAnimIdRef.current) {
+        cancelAnimationFrame(revealAnimIdRef.current);
+      }
+      if (revealTimeoutRef.current) {
+        clearTimeout(revealTimeoutRef.current);
       }
       if (curtainRef.current) {
         curtainRef.current.remove();
@@ -650,9 +676,13 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     if (mode === "idle") return;
     const watchdogMs = 3500;
     const id = setTimeout(() => {
-      if (animIdRef.current) {
-        cancelAnimationFrame(animIdRef.current);
-        animIdRef.current = 0;
+      if (coverAnimIdRef.current) {
+        cancelAnimationFrame(coverAnimIdRef.current);
+        coverAnimIdRef.current = 0;
+      }
+      if (revealAnimIdRef.current) {
+        cancelAnimationFrame(revealAnimIdRef.current);
+        revealAnimIdRef.current = 0;
       }
       if (curtainRef.current) {
         curtainRef.current.remove();

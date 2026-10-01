@@ -262,6 +262,14 @@ function HomeShaderGradientComponent() {
           (neatInstance as any)._renderWatermark = () => {};
           // Expose instance globally so style guide canvas controls can update it live
           (window as any).__neatInstance = neatInstance;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              (window as any).__7hCanvasReady = true;
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("7h-canvas-ready"));
+              }
+            });
+          });
         }
 
         // Remove any Neat watermark link injected into DOM
@@ -573,7 +581,7 @@ function HomeShaderGradientComponent() {
         />
         <div
           ref={positionLayerRef}
-          className="pointer-events-none fixed inset-0 -z-10"
+          className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_25%,rgba(133,15,183,0.35)_0%,transparent_55%),radial-gradient(circle_at_75%_65%,rgba(97,30,189,0.3)_0%,transparent_55%),radial-gradient(circle_at_50%_35%,rgba(164,62,23,0.2)_0%,transparent_50%)]"
         />
       </div>
     </>

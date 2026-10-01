@@ -46,7 +46,7 @@ function CruiseShipExplorerSectionComponent({
           { label: "Decks Tall", value: "20 Decks" },
         ].map((stat) => (
           <div key={stat.label} className="border-0 p-0 text-left">
-            <dt className="block text-white/50">{stat.label}</dt>
+            <dt className="block text-white/90">{stat.label}</dt>
             <dd className="block text-white/90 md:text-xl">
               {stat.value}
             </dd>
@@ -131,7 +131,7 @@ function CruiseShipExplorerSectionComponent({
             },
           ].map((item) => (
             <li key={item.title}>
-              <article className="group relative h-52 overflow-hidden sm:h-60">
+              <article className="group relative h-52 overflow-hidden rounded-[var(--radius-box)] sm:h-60">
                 <Image
                   width={400}
                   height={300}
@@ -368,7 +368,7 @@ function CruiseShipExplorerSectionComponent({
           ).map((food) => (
             <div
               key={food.name}
-              className="group relative h-48 overflow-hidden border border-black/10 md:h-56"
+              className="group relative h-48 overflow-hidden rounded-[var(--radius-box)] border border-black/10 md:h-56"
             >
               <Image
                 width={200}
@@ -641,7 +641,7 @@ function CruiseShipExplorerSectionComponent({
           ).map((item) => (
             <div
               key={item.name}
-              className="group relative h-48 overflow-hidden border border-black/10 md:h-56"
+              className="group relative h-48 overflow-hidden rounded-[var(--radius-box)] border border-black/10 md:h-56"
             >
               <Image
                 width={200}

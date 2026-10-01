@@ -1801,16 +1801,16 @@ export default function TourList({
                     className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? "" : " "}  ${!show.city ? "opacity-50" : ""}  ${isPast && !isHighlighted ? "opacity-65" : ""} `}
                     id={rowId}
                   >
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">
+                    <span className="text-[clamp(14px,1.3vw,21px)] text-muted whitespace-nowrap">
                       {show.day}
                     </span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">
+                    <span className="text-[clamp(14px,1.3vw,21px)] text-muted whitespace-nowrap">
                       {show.date}
                     </span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap">
+                    <span className="text-[clamp(14px,1.3vw,21px)] font-bold text-white whitespace-nowrap">
                       {show.venue}
                     </span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] whitespace-nowrap text-left">
+                    <span className="text-[clamp(14px,1.3vw,21px)] text-secondary whitespace-nowrap text-left">
                       {show.city
                         ? `${show.city}${show.state ? `, ${show.state}` : ""}`
                         : ""}
@@ -2057,10 +2057,10 @@ export default function TourList({
                   >
                     {/* 1. Venue & City (FIRST) */}
                     <div className="space-y-1">
-                      <h4 className="">{show.venue}</h4>
+                      <h4 className="text-white">{show.venue}</h4>
 
                       {(show.city || show.state) && (
-                        <p className="flex items-center gap-1.5">
+                        <p className="flex items-center gap-1.5 text-secondary text-sm">
                           <MapPin className="h-3.5 w-3.5 shrink-0 text-purple-400" />
                           <span>
                             {show.city
@@ -2072,7 +2072,7 @@ export default function TourList({
                     </div>
 
                     {/* 2. Date & Time Pill Strip (SECOND / BELOW VENUE) */}
-                    <div className="flex flex-wrap items-center gap-2 text-purple-200">
+                    <div className="flex flex-wrap items-center gap-2 text-muted text-sm">
                       <span className="font-black">{show.day}</span>
                       <span className="text-white/40">•</span>
                       <span className="font-black">{show.date}</span>

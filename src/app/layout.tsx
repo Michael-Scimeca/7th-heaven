@@ -56,9 +56,7 @@ const PageNav = dynamic(() =>
   import("@/components/PageNav").then((m) => m.PageNav),
 );
 const ClientOnlyExtras = dynamic(() => import("@/components/ClientOnlyExtras"));
-const HomeShaderGradient = dynamic(
-  () => import("@/components/HomeShaderGradient"),
-);
+import HomeShaderGradient from "@/components/HomeShaderGradient";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import defaultThemeTokens from "@/data/theme.json";
@@ -117,6 +115,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase,
+    // Stop iOS Safari from auto-linking and underlining phone numbers
+    formatDetection: { telephone: false },
     alternates: {
       canonical: "./",
     },
@@ -291,6 +291,10 @@ export default function RootLayout({
           <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
             <Providers>
               <ScrollToTop />
+              <div
+                id="global-ambient-gradient"
+                className="pointer-events-none fixed inset-0 -z-20 bg-[radial-gradient(circle_at_20%_25%,rgba(133,15,183,0.4)_0%,transparent_55%),radial-gradient(circle_at_75%_65%,rgba(97,30,189,0.35)_0%,transparent_55%),radial-gradient(circle_at_50%_35%,rgba(164,62,23,0.25)_0%,transparent_50%)]"
+              />
               <SmoothScroll>
                 <HomeShaderGradient />
                 <ProgressiveBlur position="top" />

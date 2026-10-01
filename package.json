@@ -22,6 +22,7 @@
     "doctor:staged": "npx react-doctor@latest --staged --blocking warning",
     "check-deploy": "node scripts/check-function-size.js",
     "predeploy": "netlify build",
+    "analyze": "ANALYZE=true next build --webpack",
     "lhci": "lhci autorun",
     "test:safari": "playwright test tests/mobile-safari.spec.ts"
   },

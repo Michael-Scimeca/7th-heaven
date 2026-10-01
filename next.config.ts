@@ -215,4 +215,5 @@ const nextConfig: NextConfig = {
 
 export default withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true" || process.env.NEXT_PUBLIC_ANALYZE === "true",
+  openAnalyzer: true,
 })(nextConfig);

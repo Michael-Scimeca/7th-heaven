@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { useMember } from "@/context/MemberContext";
 import { supabase } from "@/lib/supabase-client";
 import PageHero from "@/components/PageHero";
+import Button from "@/components/Button";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface PickupOrder {
@@ -316,15 +317,17 @@ function MerchDashboard() {
         <div className="w-full max-w-sm rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
           <span className="mb-6 block text-5xl">🔐</span>
           <div className="title-group title-group--sub mb-6 items-center text-center">
-            <h2 className="">Merch Login Required</h2>
-            <p>Sign in with your merch team account.</p>
+            <h2 className="text-white">Merch Login Required</h2>
+            <p className="text-secondary">Sign in with your merch team account.</p>
           </div>
-          <button
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
             onClick={() => openModal()}
-            className="transition-colors w-full rounded-[var(--radius-box)] bg-purple-600 py-3 hover:bg-purple-500"
           >
             Sign In
-          </button>
+          </Button>
         </div>
       </div>
     );

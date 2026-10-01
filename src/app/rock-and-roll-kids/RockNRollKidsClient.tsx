@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import SeventhButton from "@/components/SeventhButton";
+import Button from "@/components/Button";
 import CosmicTrackCard from "@/components/CosmicTrackCard";
 import AddCmsButton from "@/components/AddCmsButton";
 import SectionBadge from "@/components/SectionBadge";
@@ -749,21 +750,21 @@ export default function RockNRollKidsClient({
                     className="object-cover"
                   />
                 </div>
-                <span className="mb-1 block text-purple-400">{prod.badge}</span>
-                <h3 className="line-clamp-1">{prod.title}</h3>
-                <p className="mb-6 line-clamp-2">{prod.desc}</p>
+                <span className="mb-1 block text-muted text-xs font-semibold uppercase">{prod.badge}</span>
+                <h3 className="line-clamp-1 text-white">{prod.title}</h3>
+                <p className="mb-6 line-clamp-2 text-secondary text-sm">{prod.desc}</p>
               </div>
 
-              <a
+              <Button
+                variant="secondary"
+                size="sm"
+                fullWidth
                 href={prod.amazonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full"
               >
-                <SeventhButton className="w-full justify-center !text-center">
-                  <span>Amazon Link</span>
-                </SeventhButton>
-              </a>
+                Amazon Link
+              </Button>
             </article>
           ))}
         </div>
