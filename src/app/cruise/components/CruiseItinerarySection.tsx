@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
+import { Compass, Calendar as CalendarIcon, Sparkles } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import {
@@ -16,7 +17,7 @@ const CruiseSnakeItinerary = dynamic(
     ssr: false,
     loading: () => (
       <div className="flex min-h-[400px] w-full items-center justify-center">
-        <span className="text-sm text-white/40">Loading voyage itinerary...</span>
+        <span className="text-fluid-body text-white/40">Loading voyage itinerary...</span>
       </div>
     ),
   },
@@ -47,38 +48,50 @@ export default function CruiseItinerarySection({
       <div className="mx-auto w-full">
         <div className="site-container w-full text-left">
           <div className="title-group title-group--section">
+            <div className="mb-2 flex items-center gap-2">
+              <Compass className="h-4 w-4 text-[var(--color-amber)]" />
+              <span className="text-fluid-caption font-bold tracking-widest text-[var(--color-amber)] uppercase">
+                Voyage Timeline
+              </span>
+            </div>
             <h2 className="" id="itinerary-heading">
               Day-by-Day{" "}
               <span className="accent-gradient-text">Voyage Itinerary</span>
             </h2>
-            <p className="max-w-2xl">
+            <p className="max-w-2xl text-secondary mt-2 text-fluid-body">
               Explore daily port calls, cruising coordinates, sail-away party
-              times, and exclusive fan concerts.
+              times, and exclusive onboard fan concerts.
             </p>
           </div>
 
           {/* Itinerary Year Toggle */}
           <div className="my-6 flex flex-wrap items-center gap-3">
-            <SeventhButton
+            <button
               type="button"
               onClick={() => setActiveItinYear(2027)}
-              isActive={activeItinYear === 2027}
-              className="!w-auto"
+              className={`cursor-pointer rounded-[var(--radius-box)] border px-4 py-2.5 text-fluid-body font-semibold transition-[border-color,background-color] ${
+                activeItinYear === 2027
+                  ? "border-[var(--color-amber)]/60 bg-[var(--color-amber)]/20 text-white shadow-md"
+                  : "border-white/10 bg-white/[0.03] text-white/70 hover:bg-white/[0.08] hover:text-white"
+              }`}
             >
-              2027 Star of the Seas (7-Night)
-            </SeventhButton>
-            <SeventhButton
+              ⭐ 2027 Star of the Seas (7-Night Caribbean)
+            </button>
+            <button
               type="button"
               onClick={() => setActiveItinYear(2028)}
-              isActive={activeItinYear === 2028}
-              className="!w-auto"
+              className={`cursor-pointer rounded-[var(--radius-box)] border px-4 py-2.5 text-fluid-body font-semibold transition-[border-color,background-color] ${
+                activeItinYear === 2028
+                  ? "border-[var(--color-amber)]/60 bg-[var(--color-amber)]/20 text-white shadow-md"
+                  : "border-white/10 bg-white/[0.03] text-white/70 hover:bg-white/[0.08] hover:text-white"
+              }`}
             >
-              2028 Legend of the Seas (8-Night)
-            </SeventhButton>
+              🌊 2028 Legend of the Seas (8-Night Bahamas)
+            </button>
           </div>
         </div>
 
-        <div className="w-full ">
+        <div className="w-full">
           <CruiseSnakeItinerary
             key={`itin-${activeItinYear}`}
             itinerary={mapToSnakeItinerary(

@@ -249,14 +249,20 @@ export default function HeroUpNextBanner() {
 
   return (
     <div className="pointer-events-auto relative z-20 min-h-[178px] w-full max-w-[550px]">
-      <div className="flex min-h-[178px] w-full flex-col justify-between gap-2.5 rounded-2xl border border-white/10 p-4 text-left shadow-[0_15px_50px_rgba(0,0,0,0.85)] backdrop-blur-[24px] select-none">
+      <div className="flex min-h-[178px] w-full flex-col justify-between gap-2.5 rounded-[var(--radius-box)] border border-white/15 bg-black/40 p-4 text-left shadow-[0_15px_50px_rgba(0,0,0,0.85)] backdrop-blur-[24px] select-none">
         {/* Top Header: UP NEXT Badge + Compact Countdown Timer */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-2.5">
           <span
-            className={`st inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-[10px] font-black ${isHappeningNow ? "border-emerald-500/50 bg-emerald-950/80 text-emerald-300" : "border-purple-400/40 bg-purple-950/80"} `}
+            className={`st inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-fluid-caption font-bold ${
+              isHappeningNow
+                ? "border-emerald-500/50 bg-emerald-950/80 text-emerald-300"
+                : "border-amber-500/40 bg-amber-950/80 text-amber-200"
+            }`}
           >
             <span
-              className={`h-2 w-2 rounded-full ${isHappeningNow ? "animate-ping bg-emerald-400" : "animate-pulse bg-purple-400"} `}
+              className={`h-2 w-2 rounded-full ${
+                isHappeningNow ? "animate-ping bg-emerald-400" : "animate-pulse bg-[var(--color-amber)]"
+              }`}
             />
             <span>{isHappeningNow ? "HAPPENING NOW" : "UP NEXT"}</span>
           </span>
@@ -269,10 +275,10 @@ export default function HeroUpNextBanner() {
         </div>
 
         {/* Venue Name */}
-        <h2 className="">{upNext.venue}</h2>
+        <h2 className="text-fluid-h3 text-white">{upNext.venue}</h2>
 
         {/* Date, Location & Time */}
-        <div className="/90 flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 text-fluid-body text-white/90">
           <span>{dateLabel}</span>
           {upNext.city && (
             <>
@@ -286,7 +292,7 @@ export default function HeroUpNextBanner() {
           {(upNext.playTime || upNext.time) && (
             <>
               <span className="text-white/40">·</span>
-              <span className="text-rose-400">
+              <span className="text-[var(--color-amber)]">
                 {upNext.playTime ? `Plays: ${upNext.playTime}` : upNext.time}
               </span>
             </>
@@ -296,18 +302,18 @@ export default function HeroUpNextBanner() {
         {/* Subtitle / Notes */}
         <div className="min-h-[1.5rem]">
           {upNext.info ? (
-            <h3 className="/90">{upNext.info}</h3>
+            <h3 className="text-fluid-caption text-white/70">{upNext.info}</h3>
           ) : null}
         </div>
 
         {/* Action Links (DIRECTIONS | WEBSITE | ADD TO CALENDAR) */}
-        <div className="mt-1 flex flex-wrap items-center gap-4 border-t border-white/10 pt-4 font-black sm:gap-6">
+        <div className="mt-1 flex flex-wrap items-center gap-4 border-t border-white/10 pt-4 text-fluid-caption font-bold sm:gap-6">
           {upNext.mapUrl && (
             <a
               href={upNext.mapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer"
+              className="cursor-pointer text-white/80 transition-colors hover:text-white"
             >
               DIRECTIONS
             </a>
@@ -317,7 +323,7 @@ export default function HeroUpNextBanner() {
               href={upNext.websiteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-pointer"
+              className="cursor-pointer text-white/80 transition-colors hover:text-white"
             >
               WEBSITE
             </a>
@@ -326,19 +332,19 @@ export default function HeroUpNextBanner() {
             <button
               type="button"
               onClick={() => setIsCalOpen(!isCalOpen)}
-              className="a-btn cursor-pointer"
+              className="a-btn cursor-pointer text-[var(--color-amber)] transition-colors hover:text-amber-300"
             >
               ADD TO CALENDAR
             </button>
 
             {isCalOpen && (
-              <div className="absolute bottom-full left-0 z-50 mb-2 min-w-[170px] border border-purple-400/40 bg-[#0c0721]/95 py-2 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+              <div className="absolute bottom-full left-0 z-50 mb-2 min-w-[170px] rounded-[var(--radius-box)] border border-amber-500/30 bg-[#0a0a0c]/95 py-2 whitespace-nowrap shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
                 <a
                   href={getGoogleCalendarUrl(upNext)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsCalOpen(false)}
-                  className="transition-colors flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
+                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-fluid-caption text-white/80 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   Google Calendar
                 </a>
@@ -346,7 +352,7 @@ export default function HeroUpNextBanner() {
                   href={getICSFileUrl(upNext)}
                   download={`${upNext.venue.replace(/\s+/g, "_")}_show.ics`}
                   onClick={() => setIsCalOpen(false)}
-                  className="transition-colors flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
+                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-fluid-caption text-white/80 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   Apple / iCal
                 </a>
@@ -354,7 +360,7 @@ export default function HeroUpNextBanner() {
                   href={getICSFileUrl(upNext)}
                   download={`${upNext.venue.replace(/\s+/g, "_")}_show.ics`}
                   onClick={() => setIsCalOpen(false)}
-                  className="transition-colors flex w-full items-center gap-2.5 px-4 py-2.5 text-left hover:bg-purple-600/30 hover:text-white"
+                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-fluid-caption text-white/80 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   Outlook
                 </a>

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { Ship, Compass, Utensils, Music, Waves } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
 import SeventhButton from "@/components/SeventhButton";
 
@@ -32,24 +33,34 @@ function CruiseShipExplorerSectionComponent({
       className="section cv-auto site-container"
       style={{ "--cv-size": "4200px", "--cv-size-lg": "4051px" } as React.CSSProperties}
     >
-      <div className="title-group title-group--section mb-6 w-full text-left">
+      <div className="title-group title-group--section mb-8 w-full text-left">
+        <div className="mb-2 flex items-center gap-2">
+          <Ship className="h-4 w-4 text-[var(--color-amber)]" />
+          <span className="text-fluid-caption font-bold tracking-widest text-[var(--color-amber)] uppercase">
+            Flagship Vessel Guide
+          </span>
+        </div>
         <h2 className="" id="ship-specs-heading">{sectionTitle}</h2>
-        <p className="max-w-2xl">{sectionSubtitle}</p>
+        <p className="max-w-2xl text-secondary mt-2 text-fluid-body">{sectionSubtitle}</p>
       </div>
 
       {/* Specs & Dimensions */}
-      <dl className="mb-6 grid grid-cols-2 gap-8 text-left md:grid-cols-4">
+      <dl className="mb-10 grid grid-cols-2 gap-4 text-left sm:gap-6 md:grid-cols-4">
         {[
-          { label: "Gross Tonnage", value: "248,663 GT" },
-          { label: "Total Length", value: "1,196.9 Feet" },
-          { label: "Total Width", value: "159.1 Feet" },
-          { label: "Decks Tall", value: "20 Decks" },
+          { label: "Gross Tonnage", value: "248,663 GT", desc: "World-class icon class" },
+          { label: "Total Length", value: "1,196.9 Ft", desc: "Nearly 4 football fields" },
+          { label: "Total Width", value: "159.1 Feet", desc: "Expansive ocean decks" },
+          { label: "Decks Tall", value: "20 Decks", desc: "Multi-tier entertainment" },
         ].map((stat) => (
-          <div key={stat.label} className="border-0 p-0 text-left">
-            <dt className="block text-white/90">{stat.label}</dt>
-            <dd className="block text-white/90 md:text-xl">
+          <div
+            key={stat.label}
+            className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-4 sm:p-5 backdrop-blur-sm transition-[border-color,background-color] hover:border-[var(--color-amber)]/30 hover:bg-white/[0.06]"
+          >
+            <dt className="text-fluid-caption font-medium text-white/60 mb-1">{stat.label}</dt>
+            <dd className="text-fluid-h3 text-white font-bold tracking-tight text-[var(--color-amber)]">
               {stat.value}
             </dd>
+            <p className="text-fluid-caption text-white/40 mt-1">{stat.desc}</p>
           </div>
         ))}
       </dl>
