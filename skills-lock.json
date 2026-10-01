@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "skills": {
+    "epic-design": {
+      "source": "registry:alirezarezvani/epic-design",
+      "commit_sha": "2fb75e1af34f314984a21340edf80f8f402abf55",
+      "digest": "sha256:0ad39ebbf800e681249cdee0d47bbae8c0cf04266ca2a5ec5d60cdbfc0668323",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    }
+  }
+}
