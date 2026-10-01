@@ -141,7 +141,7 @@ export default function StudioDPage() {
         <div className="border-t border-white/10 pt-16 text-center">
           <TransitionLink
             href="/rock-and-roll-kids"
-            className="transition-[background-color,color,border-color,transform] group relative block transform-gpu overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 p-10 hover:scale-[1.01] hover:border-purple-400/50 sm:p-16"
+            className="transition-[background-color,color,border-color,transform] group relative block transform-gpu overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 p-10 hover:scale-[1.01] hover:border-purple-400/50 sm:p-16"
           >
             <span className="mb-3 block">Next Project</span>
             <h3 className="transition-colors flex items-center justify-center gap-4 group-hover:text-purple-200">
