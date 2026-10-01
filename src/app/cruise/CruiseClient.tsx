@@ -785,7 +785,7 @@ function PaymentPortalDropdownPanel({
     <div className="animate-fade-in mt-4 w-full text-left">
       <div className="mb-5 flex items-start justify-between gap-4 border-b border-white/10 pb-3">
         <div>
-          <h3>MAKE A PAYMENT</h3>
+          <h3 className="">MAKE A PAYMENT</h3>
           <p className="mt-0.5 text-white/60">
             Group ID: 3325680 · Official Travel Agency: NTD Vacations
           </p>
@@ -797,7 +797,7 @@ function PaymentPortalDropdownPanel({
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-xl text-emerald-400">
             <CheckMarkIcon className="h-6 w-6 text-emerald-400" />
           </div>
-          <h3 className="text-xl">Payment Authorized!</h3>
+          <h3 className="">Payment Authorized!</h3>
           <p className="mx-auto max-w-xs">
             Your payment of{" "}
             <strong className="text-emerald-400">${payForm.cardAmount}</strong>{" "}

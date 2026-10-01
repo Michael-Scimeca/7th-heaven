@@ -25,6 +25,13 @@ interface BlurSettings {
   // Hover motion
   durationBase: number | null; // ms (null = default 300ms)
   easeOut: string | null; // easing curve
+  // Heading max sizes (rem). null = use default clamp
+  h1Max: number | null;
+  h2Max: number | null;
+  h3Max: number | null;
+  h4Max: number | null;
+  h5Max: number | null;
+  h6Max: number | null;
 }
 
 const DEFAULTS: BlurSettings = {
@@ -37,7 +44,22 @@ const DEFAULTS: BlurSettings = {
   gapSub: null,
   durationBase: null,
   easeOut: null,
+  h1Max: null,
+  h2Max: null,
+  h3Max: null,
+  h4Max: null,
+  h5Max: null,
+  h6Max: null,
 };
+
+const HEADING_DEFAULTS = {
+  h1Max: 4.0,
+  h2Max: 3.0,
+  h3Max: 2.25,
+  h4Max: 1.75,
+  h5Max: 1.35,
+  h6Max: 1.15,
+} as const;
 
 const GAP_VARS = {
   gapPage: "--title-gap-page",
@@ -86,6 +108,9 @@ function apply(s: BlurSettings | null) {
     root.style.removeProperty("--default-transition-duration");
     root.style.removeProperty("--ease-out");
     root.style.removeProperty("--default-transition-timing-function");
+    (["h1Max", "h2Max", "h3Max", "h4Max", "h5Max", "h6Max"] as const).forEach((k) => {
+      root.style.removeProperty(`--font-size-${k.replace("Max", "")}`);
+    });
     return;
   }
   (Object.keys(GAP_VARS) as GapKey[]).forEach((k) => {
@@ -114,6 +139,16 @@ function apply(s: BlurSettings | null) {
     root.style.setProperty("--ease-out", s.easeOut);
     root.style.setProperty("--default-transition-timing-function", s.easeOut);
   }
+
+  (["h1Max", "h2Max", "h3Max", "h4Max", "h5Max", "h6Max"] as const).forEach((k) => {
+    const val = s[k];
+    const token = `--font-size-${k.replace("Max", "")}`;
+    if (val === null) {
+      root.style.removeProperty(token);
+    } else {
+      root.style.setProperty(token, `${val}rem`);
+    }
+  });
 }
 
 function toCss(s: BlurSettings) {
@@ -135,6 +170,15 @@ function toCss(s: BlurSettings) {
     if (s.easeOut !== null) {
       out += `  --ease-out: ${s.easeOut};\n  --default-transition-timing-function: ${s.easeOut};\n`;
     }
+    out += `}`;
+  }
+  const headingOverrides = (["h1Max", "h2Max", "h3Max", "h4Max", "h5Max", "h6Max"] as const).filter((k) => s[k] !== null);
+  if (headingOverrides.length) {
+    out += `\n\n/* globals.css Heading Max Size Tokens */\n@theme {\n`;
+    headingOverrides.forEach((k) => {
+      const level = k.replace("Max", "");
+      out += `  --font-size-${level}: ${s[k]}rem;\n`;
+    });
     out += `}`;
   }
   return out;
@@ -404,6 +448,43 @@ export default function BlurTuner() {
             })}
           </div>
         </div>
+
+        <hr className="border-white/10" />
+        <strong className="text-sm">Heading max sizes</strong>
+
+        {(
+          [
+            ["h1Max", "H1 (Page Title)", 2.5, 6.0, 0.125],
+            ["h2Max", "H2 (Section)", 2.0, 4.5, 0.125],
+            ["h3Max", "H3 (Card Group)", 1.5, 3.5, 0.125],
+            ["h4Max", "H4 (Card / Item)", 1.25, 2.5, 0.05],
+            ["h5Max", "H5 (Compact)", 1.0, 2.0, 0.05],
+            ["h6Max", "H6 (Metric / Small)", 0.875, 1.5, 0.05],
+          ] as const
+        ).map(([k, labelText, minVal, maxVal, stepVal]) => {
+          const val = s[k] ?? HEADING_DEFAULTS[k];
+          const px = Math.round(val * 16);
+          return (
+            <div key={k} className={row}>
+              <label htmlFor={`heading-${k}`} className={label}>
+                <span>{labelText}</span>
+                <span className="font-mono text-purple-300">
+                  {val.toFixed(2)}rem ({px}px)
+                </span>
+              </label>
+              <input
+                id={`heading-${k}`}
+                type="range"
+                min={minVal}
+                max={maxVal}
+                step={stepVal}
+                value={val}
+                onChange={(e) => update({ [k]: Number(e.target.value) } as Partial<BlurSettings>)}
+                className="accent-purple-500 cursor-pointer"
+              />
+            </div>
+          );
+        })}
 
         <div className="grid grid-cols-2 gap-2 pt-1">
           <button

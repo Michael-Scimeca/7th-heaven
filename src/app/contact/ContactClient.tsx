@@ -184,7 +184,7 @@ export default function ContactClient({
 
                   {/* Name */}
                   <div className="title-group title-group--sub mb-4">
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight">
+                    <h3 className="text-white uppercase">
                       {contact.name || photo.name || "7th Heaven Representative"}
                     </h3>
                   </div>
@@ -233,7 +233,7 @@ export default function ContactClient({
           {/* Desktop Split View (lg:grid) */}
           <div className="hidden grid-cols-1  gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
             {/* Left Column: Contact Cards Directory */}
-            <div className="flex flex-col text-left lg:col-span-5 pb-6 lg:pb-8">
+            <div className="flex flex-col text-left lg:col-span-5">
               <ul className="flex flex-col space-y-3">
                 {contacts.map((contact) => {
                   const photoKey = getPhotoForCategory(contact);
@@ -255,7 +255,7 @@ export default function ContactClient({
                           : "opacity-75 hover:opacity-100"
                           } `}
                       >
-                        <h2 className="text-lg text-white font-bold">
+                        <h2 className="text-white">
                           {contact.name || photo.name || "7th Heaven Representative"}
                         </h2>
 

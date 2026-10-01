@@ -346,7 +346,7 @@ export default function StickyNotesOverlay() {
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2 text-amber-400">
                 <StickyNote className="h-5 w-5" />
-                <h3>Client Sticky Notes Log</h3>
+                <h3 className="">Client Sticky Notes Log</h3>
               </div>
               <button
                 type="button"

@@ -57,7 +57,7 @@ function SuccessContent() {
           </div>
 
           <div className="title-group title-group--page mb-6 items-center text-center">
-            <h1 id="booking-success-heading">
+            <h1 className="" id="booking-success-heading">
               {sessionId ? "Booking Confirmed ✓" : "Request Submitted"}
             </h1>
             {bookingId && (

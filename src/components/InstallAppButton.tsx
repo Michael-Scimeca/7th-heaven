@@ -109,7 +109,7 @@ export function InstallAppButton({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h4 className="text-white text-base">Install the 7th Heaven App</h4>
+                  <h4 className="text-white">Install the 7th Heaven App</h4>
                   <span className="rounded bg-purple-500/20 border border-purple-400/30 px-1.5 py-0.5 text-[9px] text-purple-200">
                     PWA
                   </span>
@@ -220,7 +220,7 @@ function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boole
             <Smartphone className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-lg text-white">Install 7th Heaven App</h3>
+            <h3 className="text-white">Install 7th Heaven App</h3>
             <p className="text-xs text-white/50">Add to your Home Screen for instant notifications</p>
           </div>
         </div>

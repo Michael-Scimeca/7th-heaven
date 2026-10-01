@@ -52,6 +52,16 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     if (href.startsWith("/studio") || currentPath.startsWith("/studio")) {
       return;
     }
+    const cleanHref = href.split(/[?#]/)[0];
+    const cleanPath = currentPath.split(/[?#]/)[0];
+    if (cleanHref === cleanPath) {
+      if (typeof window !== "undefined" && (window as any).__lenis) {
+        (window as any).__lenis.scrollTo(0);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      return;
+    }
     setPendingHref(href);
     setMode("covering");
   }, []);

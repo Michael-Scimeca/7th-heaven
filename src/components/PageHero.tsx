@@ -14,6 +14,8 @@ export interface PageHeroProps {
   children?: React.ReactNode;
   className?: string;
   as?: React.ElementType;
+  /** @deprecated Ignored — headings are sized by their tag level. */
+  size?: "display" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   /** Override the title→subtitle gap for this one instance, e.g. "1.5rem". */
   titleGap?: string;
 }
@@ -28,10 +30,13 @@ export function PageHero({
   children,
   className = "",
   as: Component = "header",
+  size = "h1",
   titleGap,
 }: PageHeroProps) {
   const isCenter = align === "center";
   const Comp = Component as any;
+  // Heading size comes from the tag level (h1 styles in globals.css), not a class.
+  void size;
   const gapStyle = titleGap
     ? ({ "--title-gap": titleGap } as React.CSSProperties)
     : undefined;
@@ -56,7 +61,7 @@ export function PageHero({
             >
               <h1
                 id={titleId}
-                className={`text-h1 font-black tracking-tight text-primary w-full ${isCenter ? "text-center" : "text-left"} `}
+                className={`text-primary w-full ${isCenter ? "text-center" : "text-left"}`}
               >
                 {title}
               </h1>
@@ -97,7 +102,7 @@ export function PageHero({
           >
             <h1
               id={titleId}
-              className={`text-h1 font-black tracking-tight text-primary w-full ${isCenter ? "text-center" : "text-left"} `}
+              className={`text-primary w-full ${isCenter ? "text-center" : "text-left"}`}
             >
               {title}
             </h1>

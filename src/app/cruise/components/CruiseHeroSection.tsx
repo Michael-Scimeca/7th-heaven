@@ -135,7 +135,7 @@ export default function CruiseHeroSection({
         {/* Hero Text Content — aligned with site-container */}
         <div ref={heroForegroundRef} className="relative z-10 mb-6 text-left">
         {/* Main Title: Cruise Name */}
-        <h1 id="cruise-hero-heading">
+        <h1 className="" id="cruise-hero-heading">
           {sanityContent?.heroHeading || (
             <>
               7TH HEAVEN{" "}

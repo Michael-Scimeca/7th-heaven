@@ -64,7 +64,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 OPTION 2A — CLASSIC DARK GLASS
               </span>
               <div className="title-group title-group--page mt-4 mb-6">
-                <h1>
+                <h1 className="">
                   7th Heaven <br />
                   <span>Band News</span>
                 </h1>
@@ -83,7 +83,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="text-white/50">{featured.date}</span>
               </div>
               <div className="title-group title-group--section">
-                <h2>{featured.title}</h2>
+                <h2 className="">{featured.title}</h2>
                 <p>{featured.content}</p>
               </div>
             </div>
@@ -98,7 +98,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-5">
               <span>OPTION 2B — PHOTO BOX RIGHT</span>
               <div className="title-group title-group--page mt-3">
-                <h1>
+                <h1 className="">
                   Band Bulletins <span>&</span> Updates
                 </h1>
                 <p>
@@ -123,7 +123,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   <span>{featured.date}</span>
                 </div>
                 <div className="title-group title-group--section mb-6">
-                  <h2>{featured.title}</h2>
+                  <h2 className="">{featured.title}</h2>
                   <p>{featured.content}</p>
                 </div>
                 <button
@@ -151,7 +151,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="text-white/50">{featured.date}</span>
               </div>
               <div className="title-group title-group--section">
-                <h2>{featured.title}</h2>
+                <h2 className="">{featured.title}</h2>
                 <p>{featured.content}</p>
               </div>
             </div>
@@ -160,7 +160,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="lg:col-span-5">
               <span className="text-purple-400">Official Channel</span>
               <div className="title-group title-group--page mt-2">
-                <h1>
+                <h1 className="">
                   7th Heaven <br />
                   <span>News Feed</span>
                 </h1>
@@ -184,7 +184,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 OPTION 2D — NEON LINE DIVIDER
               </span>
               <div className="title-group title-group--page">
-                <h1>
+                <h1 className="">
                   7th Heaven <br />
                   <span>Dispatch</span>
                 </h1>
@@ -203,7 +203,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 </span>
               </div>
               <div className="title-group title-group--section">
-                <h2>{featured.title}</h2>
+                <h2 className="">{featured.title}</h2>
                 <p>{featured.content}</p>
               </div>
             </div>
@@ -221,7 +221,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                   OPTION 2E — STACKED BADGE
                 </span>
                 <div className="title-group title-group--page">
-                  <h1>Band Updates</h1>
+                  <h1 className="">Band Updates</h1>
                   <p>
                     Latest releases, festival schedules, and band announcements.
                   </p>
@@ -232,7 +232,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
             <div className="border border-purple-400/30 bg-gradient-to-r from-[#120a24] to-[#0a0514] p-8 md:p-12 lg:col-span-8">
               <span className="mb-2 block">{featured.date}</span>
               <div className="title-group title-group--section">
-                <h2>{featured.title}</h2>
+                <h2 className="">{featured.title}</h2>
                 <p>{featured.content}</p>
               </div>
             </div>
@@ -248,7 +248,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
               <span className="text-purple-400block mb-2">
                 OPTION 2F — BORDERLESS EDITORIAL
               </span>
-              <h1>
+              <h1 className="">
                 Latest <br />
                 <span>Headlines</span>
               </h1>
@@ -261,7 +261,7 @@ export function NewsHeroLayouts({ newsItems }: { newsItems: NewsItem[] }) {
                 <span className="text-white/50">Band Announcement</span>
               </div>
               <div className="title-group title-group--section">
-                <h2>{featured.title}</h2>
+                <h2 className="">{featured.title}</h2>
                 <p>{featured.content}</p>
               </div>
             </div>

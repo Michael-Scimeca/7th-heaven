@@ -188,7 +188,7 @@ export default function FireCanvasTunerPage() {
       {/* Controls */}
       <div className="mx-auto max-w-3xl space-y-8 px-4 py-8">
         <div className="flex items-center justify-between">
-          <h1>Pixel Fireplace — Live Tuner</h1>
+          <h1 className="">Pixel Fireplace — Live Tuner</h1>
           <div className="flex gap-2">
             <button
               type="button"

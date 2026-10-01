@@ -2196,7 +2196,7 @@ export const AdminSectionCrewSchedule = React.memo(
                       <div className="flex items-center gap-3 border-b border-white/10 pb-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 text-xl"></div>
                         <div>
-                          <h3>Schedule Mix-Up Prevented!</h3>
+                          <h3 className="">Schedule Mix-Up Prevented!</h3>
                           <p className="">
                             Concurrent Edit Detected from Co-Editor
                           </p>
@@ -3043,7 +3043,7 @@ export const AdminSectionCrewSchedule = React.memo(
                             {/* Modal Header */}
                             <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                               <div>
-                                <h3>
+                                <h3 className="">
                                   {editingShiftId
                                     ? "Edit Work Shift"
                                     : "Configure Work Shift"}
@@ -4276,7 +4276,7 @@ export const AdminSectionCrewSchedule = React.memo(
                                 : ""}
                         </div>
                         <div>
-                          <h3>{alertModal.title || "Schedule Notice"}</h3>
+                          <h3 className="">{alertModal.title || "Schedule Notice"}</h3>
                           <p className="mt-2 whitespace-pre-line">
                             {alertModal.message}
                           </p>
@@ -4320,7 +4320,7 @@ export const AdminSectionCrewSchedule = React.memo(
                             {/* Drawer Header */}
                             <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                               <div className="min-w-0 flex-1 pr-2">
-                                <h3>Select Crew Group</h3>
+                                <h3 className="">Select Crew Group</h3>
                                 <p>
                                   Select saved group to apply to shift slots for{" "}
                                   {dateStr}
@@ -4464,7 +4464,7 @@ export const AdminSectionCrewSchedule = React.memo(
                         {/* Modal Header */}
                         <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                           <div>
-                            <h3>Create New Crew Group</h3>
+                            <h3 className="">Create New Crew Group</h3>
                             <p>
                               Select members and customize their shift slots
                             </p>
@@ -5032,7 +5032,7 @@ export const AdminSectionCrewSchedule = React.memo(
                             {/* Header */}
                             <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                               <div>
-                                <h3>Show Crew Roster</h3>
+                                <h3 className="">Show Crew Roster</h3>
                                 <p>
                                   {new Date(
                                     selectedShowCrewDate + "T12:00:00",

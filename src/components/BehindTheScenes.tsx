@@ -93,7 +93,7 @@ export default function BehindTheScenes({
 
               {/* Heading & Subtitle */}
               <div className="title-group title-group--section mb-10">
-                <h2 className="leading-[0.95]">
+                <h2 className="">
                   Explore Behind the <span className="gradient-text">Scenes</span>
                 </h2>
                 <p className="max-w-[500px] text-lg text-white/70">{featured.subtitle}</p>

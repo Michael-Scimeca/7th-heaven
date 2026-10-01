@@ -35,7 +35,7 @@ export default function CruiseItinerarySection({
       <div className="mx-auto w-full">
         <div className="site-container w-full text-left">
           <div className="title-group title-group--section">
-            <h2 id="itinerary-heading">
+            <h2 className="" id="itinerary-heading">
               Day-by-Day{" "}
               <span className="accent-gradient-text">Voyage Itinerary</span>
             </h2>

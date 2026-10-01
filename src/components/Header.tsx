@@ -456,9 +456,9 @@ export function Header() {
       : isDemoPlannerPage
         ? "/book/demo"
         : displayRole === "admin"
-          ? "/admin"
+          ? (member?.username ? `/admin/${member.username}` : "/admin")
           : displayRole === "crew"
-            ? "/crew"
+            ? (member?.username ? `/crew/${member.username}` : "/crew")
             : (displayRole as string) === "event_planner" ||
               (displayRole as string) === "planner"
               ? `/book/${member?.username || "me"}`
@@ -562,7 +562,8 @@ export function Header() {
   if (pathname?.startsWith("/studio")) return null;
 
   return (
-    <header
+    <>
+      <header
       className={`fixed top-0 right-0 left-0 pt-safe ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none font-heading`}
       data-menu-open={mobileOpen}
       suppressHydrationWarning
@@ -605,14 +606,6 @@ export function Header() {
                 </TransitionLink>
               );
             })}
-            {showUserAuth && (
-              <TransitionLink
-                href={studioHref}
-                className={`relative inline-flex items-center border-b-2 pb-0.5 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${effectivePathname.startsWith("/studio") ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]" : "cursor-pointer border-[#c084fc]/70 text-[var(--color-purple-light)] hover:border-white hover:text-white"} `}
-              >
-                STUDIO
-              </TransitionLink>
-            )}
           </nav>
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
@@ -1049,5 +1042,25 @@ export function Header() {
         </div>
       </div>
     </header>
+
+    {/* ── FIXED STUDIO LINK (BOTTOM RIGHT) ── */}
+    {showUserAuth && (
+      <aside
+        aria-label="Studio Quick Access"
+        className="fixed right-4 bottom-4 z-[9990] pointer-events-auto flex items-center"
+      >
+        <TransitionLink
+          href={studioHref}
+          className={`relative inline-flex items-center border-b-2 pb-0.5 font-heading text-[13px] sm:text-[14px] font-bold tracking-wider uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] transition-colors duration-200 ${
+            effectivePathname.startsWith("/studio")
+              ? "active cursor-default border-[#c084fc] text-[var(--color-purple-light)]"
+              : "cursor-pointer border-[#c084fc]/80 text-white hover:border-white hover:text-white"
+          }`}
+        >
+          STUDIO
+        </TransitionLink>
+      </aside>
+    )}
+  </>
   );
 }

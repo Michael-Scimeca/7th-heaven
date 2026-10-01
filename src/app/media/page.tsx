@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "40 years of music, live performances, official music videos, and press highlights.",
 };
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default async function MediaPage() {
   const sanityContent = await fetchPageContent("media");

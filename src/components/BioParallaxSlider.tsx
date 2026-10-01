@@ -2287,8 +2287,7 @@ lerpSpeed: ${lerpSpeed}`;
                         >
                           <h3
                             className="bg-black/40 pt-1 pr-2 pl-2 sm:bg-black/60"
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                            >
                             {m?.name}
                           </h3>
                           <span
@@ -2309,7 +2308,7 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3 style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" >
                             {m?.name}
                           </h3>
                           <span
@@ -2332,8 +2331,7 @@ lerpSpeed: ${lerpSpeed}`;
                         >
                           <h3
                             className=""
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                            >
                             {m?.name}
                           </h3>
                           <span
@@ -2360,7 +2358,7 @@ lerpSpeed: ${lerpSpeed}`;
                               : {}),
                           }}
                         >
-                          <h3 style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" >
                             {m?.name}
                           </h3>
                           <span
@@ -2381,7 +2379,7 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3 style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" >
                             {m?.name}
                           </h3>
                           <span
@@ -2411,8 +2409,7 @@ lerpSpeed: ${lerpSpeed}`;
                         >
                           <h3
                             className=""
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                            >
                             {m?.name}
                           </h3>
                           <span
@@ -2433,7 +2430,7 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3 style={{ fontSize: computedNameFontSize }}>
+                          <h3 className="" >
                             {m?.name}
                           </h3>
                           <span
@@ -2456,8 +2453,7 @@ lerpSpeed: ${lerpSpeed}`;
                         >
                           <h3
                             className=""
-                            style={{ fontSize: computedNameFontSize }}
-                          >
+                            >
                             {m?.name}
                           </h3>
                           <span

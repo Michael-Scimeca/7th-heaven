@@ -76,7 +76,7 @@ export function ModalDialog({
         {/* Header */}
         <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">
           {title ? (
-            <h2 className="tracking-tight text-white">{title}</h2>
+            <h2 className="text-white">{title}</h2>
           ) : (
             <div />
           )}

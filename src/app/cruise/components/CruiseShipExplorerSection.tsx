@@ -33,7 +33,7 @@ function CruiseShipExplorerSectionComponent({
       style={{ "--cv-size": "4200px", "--cv-size-lg": "4051px" } as React.CSSProperties}
     >
       <div className="title-group title-group--section mb-6 w-full text-left">
-        <h2 id="ship-specs-heading">{sectionTitle}</h2>
+        <h2 className="" id="ship-specs-heading">{sectionTitle}</h2>
         <p className="max-w-2xl">{sectionSubtitle}</p>
       </div>
 
@@ -57,7 +57,7 @@ function CruiseShipExplorerSectionComponent({
       {/* ── STAR OF THE SEAS OFFICIAL SHIP PHOTO GALLERY ── */}
       <div>
         <div className="title-group title-group--sub mb-6 text-left">
-          <h3>
+          <h3 className="">
             Star of the Seas{" "}
             <span className="accent-gradient-text">Official Photo Gallery</span>
           </h3>
@@ -158,7 +158,7 @@ function CruiseShipExplorerSectionComponent({
       <div className="pt-6 text-left">
         <div className="mb-6 flex flex-col justify-between gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center">
           <div>
-            <h3>Dining Explorer Guide</h3>
+            <h3 className="">Dining Explorer Guide</h3>
             <p>
               Discover included food spots and premium specialty restaurants.
             </p>
@@ -395,7 +395,7 @@ function CruiseShipExplorerSectionComponent({
       <div className="pt-6">
         <div className="mb-6 flex flex-col gap-4 border-b border-white/10 pb-6 text-left lg:flex-row lg:items-center lg:justify-between">
           <div className="w-full lg:w-auto">
-            <h3>Bars & Entertainment Explorer</h3>
+            <h3 className="">Bars & Entertainment Explorer</h3>
             <p>
               Explore 20 onboard lounges, nightlife venues, and world-class
               attractions.

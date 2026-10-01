@@ -83,12 +83,11 @@ export default function GlobalError({
           }}
         >
           <div style={{ textAlign: "center", maxWidth: "400px" }}>
-            <h1
+            <h1 className=""
               style={{
                 color: "#f43f5e",
                 textTransform: "",
-                letterSpacing: "0.1em",
-              }}
+                }}
             >
               Critical System Error
             </h1>

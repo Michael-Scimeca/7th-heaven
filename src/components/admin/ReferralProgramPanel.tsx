@@ -159,7 +159,7 @@ export default function ReferralProgramPanel() {
         <div className="mb-6 flex items-center justify-between">
           <div>
             <p>Fan Engagement</p>
-            <h3> Referral Program</h3>
+            <h3 className=""> Referral Program</h3>
             <p className="mt-0.5">
               Toggle visibility, configure milestone rewards, and track top
               referrers

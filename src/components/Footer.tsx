@@ -187,7 +187,7 @@ export function Footer() {
                     {link.label}
                   </TransitionLink>
                   {i < footerLinks.length - 1 && (
-                    <span className="mx-2 text-[13px] text-[var(--color-accent)]">
+                    <span className="mx-2 text-[13px] font-semibold text-[#c084fc] select-none">
                       /
                     </span>
                   )}
@@ -208,7 +208,7 @@ export function Footer() {
                     {link.name}
                   </a>
                   {i < socialLinks.length - 1 && (
-                    <span className="mx-2 text-[13px] text-[var(--color-accent)]">
+                    <span className="mx-2 text-[13px] font-semibold text-[#c084fc] select-none">
                       /
                     </span>
                   )}

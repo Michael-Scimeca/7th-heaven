@@ -47,7 +47,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 aria-labelledby={`${secId}-heading`}
               >
                 <div className="title-group title-group--section">
-                  <h2 id={`${secId}-heading`}>
+                  <h2 className="" id={`${secId}-heading`}>
                     {sec.title || `${idx + 1}. Policy Section`}
                   </h2>
                   {sec.subtitle && <p>{sec.subtitle}</p>}

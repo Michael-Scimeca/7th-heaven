@@ -1119,7 +1119,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   return (
     <main id="book-page" className="page-container relative min-h-screen">
       <header className="sr-only">
-        <h1 id="book-page-title">Book 7th Heaven</h1>
+        <h1 className="" id="book-page-title">Book 7th Heaven</h1>
       </header>
 
       <form
@@ -1333,7 +1333,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] p-6 text-center">
                   <span className="mb-6 block text-4xl">📅</span>
                   <div className="title-group title-group--sub items-center text-center">
-                    <h4>
+                    <h4 className="">
                       {sanityContent?.sections?.find(
                         (s: any) => s.sectionId === "no_dates",
                       )?.title || "No Dates Selected Yet"}
@@ -1367,7 +1367,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                               <span className="mb-1 block">Show #{index + 1}</span>
-                              <h5>{formattedDate}</h5>
+                              <h5 className="">{formattedDate}</h5>
                             </div>
 
                             {/* Duplicate and Remove buttons */}
@@ -2810,7 +2810,7 @@ function MapPickerModal({
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="h-5 w-5 text-[#c27aff]" />
-            <h3 id="map-picker-heading">
+            <h3 className="" id="map-picker-heading">
               Google Maps Location & Address Picker
             </h3>
           </div>

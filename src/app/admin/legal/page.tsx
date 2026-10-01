@@ -463,7 +463,7 @@ export default function AdminLegalPage() {
                 Website Inspection & Regulatory Framework
               </span>
             </div>
-            <h1>
+            <h1 className="">
               Legal & Compliance{" "}
               <span className="gradient-text">Inspection Hub</span>
             </h1>
@@ -530,7 +530,7 @@ export default function AdminLegalPage() {
                       {sec.icon}
                     </div>
                     <div>
-                      <h3>{sec.title}</h3>
+                      <h3 className="">{sec.title}</h3>
                       <p className="line-clamp-1">{sec.subtitle}</p>
                     </div>
                   </div>
@@ -570,7 +570,7 @@ export default function AdminLegalPage() {
                   {active.icon}
                 </div>
                 <div>
-                  <h2>{active.title}</h2>
+                  <h2 className="">{active.title}</h2>
                   <p>{active.subtitle}</p>
                 </div>
               </div>
@@ -592,7 +592,7 @@ export default function AdminLegalPage() {
             {/* Requirement Checklist Items */}
             <div className="space-y-4">
               <div className="mb-6 flex items-center justify-between">
-                <h3>Inspections & Technical Verification Items</h3>
+                <h3 className="">Inspections & Technical Verification Items</h3>
                 <span className="text-[10px] text-white/40">
                   Click checkbox to toggle verification
                 </span>
@@ -621,7 +621,7 @@ export default function AdminLegalPage() {
                         <div>
                           <h4
                             id={`legal-title-${req.id}`}
-                            className={` ${isChecked ? " " : "text-rose-200"} `}
+                            className={` ${isChecked ? " " : "text-rose-200"}`}
                           >
                             {req.title}
                           </h4>

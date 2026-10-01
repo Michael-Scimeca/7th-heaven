@@ -214,7 +214,7 @@ function AvailabilityCardForm({
     <div className="flex-1">
       <div className="mb-6 flex items-center gap-3">
         <div>
-          <h3>Your Availability & Blackouts</h3>
+          <h3 className="">Your Availability & Blackouts</h3>
           <p className="mt-0.5">
             Let admins know when you are available or unavailable
           </p>
@@ -335,7 +335,7 @@ function TimeOffCardForm({
     <div className="flex-1">
       <div className="mb-6 flex items-center gap-3">
         <div>
-          <h3>Time-Off Requests</h3>
+          <h3 className="">Time-Off Requests</h3>
           <p className="mt-0.5">
             Submit time-off requests for administrator approval
           </p>
@@ -617,7 +617,7 @@ export function CrewDashboard({
 
       const htmlContent = `
         <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
-          <h2 style="color: #c084fc; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">Crew Member Message</h2>
+          <h2 className="" style="color: #c084fc; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">Crew Member Message</h2>
           <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
             You have received a new message from crew member <strong>${displayName}</strong> (${email}):
           </p>
@@ -900,7 +900,7 @@ export function CrewDashboard({
 
         const requesterHtml = `
         <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
-          <h2 style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">✓ Coverage Request Accepted</h2>
+          <h2 className="" style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">✓ Coverage Request Accepted</h2>
           <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
             Good news! <strong>${displayName}</strong> has accepted coverage for your shift on <strong>${targetShift.date}</strong> at <strong>${targetShift.location}</strong>.
           </p>
@@ -922,7 +922,7 @@ export function CrewDashboard({
 
         const accepterHtml = `
         <div style="font-family: sans-serif; background-color: #0c0d12; color: #ffffff; padding: 24px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #1f2937;">
-          <h2 style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">📅 Coverage Shift Confirmed</h2>
+          <h2 className="" style="color: #10b981; margin-top: 0; font-size: 20px; font-weight: 800; text-transform: ; letter-spacing: 0.05em;">📅 Coverage Shift Confirmed</h2>
           <p style="font-size: 14px; color: #e5e7eb; margin-bottom: 20px;">
             You have successfully accepted the coverage shift for <strong>${previousCrewName}</strong>.
           </p>
@@ -5898,7 +5898,7 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
           <div className="flex-1 text-left">
             {toast.title && (
               <h4
-                className={`mb-1 ${toast.type === "success" ? "text-emerald-400" : toast.type === "error" ? "text-rose-400" : "text-[var(--color-accent)]"} `}
+                className={`mb-1 ${toast.type === "success" ? "text-emerald-400" : toast.type === "error" ? "text-rose-400" : "text-[var(--color-accent)]"}`}
               >
                 {toast.title}
               </h4>

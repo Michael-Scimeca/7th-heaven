@@ -349,7 +349,7 @@ export default function AccomplishmentsLayouts({
               <div className="flex items-center gap-6">
                 <span className="text-4xl md:text-5xl">{s.number}</span>
                 <div>
-                  <h4>{s.label}</h4>
+                  <h4 className="">{s.label}</h4>
                   <p>{s.text}</p>
                 </div>
               </div>
@@ -425,7 +425,7 @@ export default function AccomplishmentsLayouts({
                   {s.number}
                 </span>
                 <div>
-                  <h4>{s.label}</h4>
+                  <h4 className="">{s.label}</h4>
                   <p className="mt-0.5">{s.text}</p>
                 </div>
               </div>

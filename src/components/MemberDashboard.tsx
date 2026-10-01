@@ -518,7 +518,7 @@ export default function MemberDashboard() {
             />
             <div>
               <div className="flex items-center gap-2">
-                <h1>{member!.name}</h1>
+                <h1 className="">{member!.name}</h1>
                 {/* Role label */}
                 {(() => {
                   const role = member?.role ?? "fan";
@@ -637,7 +637,7 @@ export default function MemberDashboard() {
                           </div>
                           <div className="flex-1">
                             <div className="mb-1 flex items-center gap-2">
-                              <h4>{msg.title}</h4>
+                              <h4 className="">{msg.title}</h4>
                               {msg.isNew && (
                                 <span className="rounded-lg bg-yellow-500 px-2 py-0.5 text-[var(--font-size-2xs)] shadow-[0_0_10px_rgba(250,204,21,0.5)]">
                                   New
@@ -971,7 +971,7 @@ export default function MemberDashboard() {
           style={{ animation: "strobe 0.15s ease-in-out infinite" }}
         >
           <div className="scale-125 rotate-3 border-8 border-green-500 p-10 text-center shadow-[0_0_100px_rgba(34,197,94,1)] sm:scale-150">
-            <h1>WINNER</h1>
+            <h1 className="">WINNER</h1>
             <p className="mt-4">CLAIMING PRIZE</p>
           </div>
         </div>

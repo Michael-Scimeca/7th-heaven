@@ -51,7 +51,7 @@ export function EmbarkationCountdown() {
     <div className="relative flex flex-wrap items-center gap-6 overflow-visible border-none">
       <div className="z-10 flex shrink-0 items-center">
         <div>
-          <h2 className="py-0.5 leading-normal">Embarkation</h2>
+          <h2 className="py-0.5">Embarkation</h2>
           <p>Port of Miami</p>
         </div>
       </div>
@@ -918,7 +918,7 @@ function PaymentModal({
             <div className="mx-auto flex h-16 w-16 items-center justify-center border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckMarkIcon className="h-8 w-8 text-emerald-400" />
             </div>
-            <h3>Payment Successful</h3>
+            <h3 className="">Payment Successful</h3>
             <p>
               Your final payment of{" "}
               <strong className="text-emerald-400">{balanceDue}</strong> has
@@ -936,7 +936,7 @@ function PaymentModal({
           <form onSubmit={handlePaymentSubmit} className="space-y-6 p-6 md:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3>Final Payment</h3>
+                <h3 className="">Final Payment</h3>
                 <p className="mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
@@ -1166,7 +1166,7 @@ export function SongRequestLeaderboard() {
           🎸
         </div>
         <div>
-          <h2>Setlist Requests</h2>
+          <h2 className="">Setlist Requests</h2>
           <p className="mt-0.5">Top 3 get played on Lido Deck</p>
         </div>
       </div>

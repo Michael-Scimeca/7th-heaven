@@ -268,7 +268,7 @@ export default function CrewFeed() {
               <span className="text-white/20">·</span>
               <span className="text-white/30">{posts.length} posts</span>
             </div>
-            <h2>
+            <h2 className="">
               {liveStatus.live ? (
                 <>
                   Live from{" "}

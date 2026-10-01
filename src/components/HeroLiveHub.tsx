@@ -264,7 +264,7 @@ export default function HeroLiveHub({ nextShow }: HeroLiveHubProps) {
                     <span className="h-2 w-2 animate-pulse bg-white" />
                     Live Now
                   </div>
-                  <h3 className="mb-6 text-h3">Join the Crew Live</h3>
+                  <h3 className="mb-6">Join the Crew Live</h3>
                   <Link
                     href="/live"
                     className="btn-primary flex items-center justify-center gap-3 px-8 py-4 shadow-[0_0_30px_rgba(255,10,61,0.3)]"

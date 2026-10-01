@@ -289,7 +289,7 @@ export default function HomeMerch({ sanityContent }: { sanityContent?: any }) {
                   )}
                 </div>
                 <div className="flex flex-1 flex-col gap-3 p-4">
-                  <h3 className="color-transition font-semibold">
+                  <h3 className="color-transition">
                     {product.title}
                   </h3>
                   <div className="mt-auto flex items-center justify-between">

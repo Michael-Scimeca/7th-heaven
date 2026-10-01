@@ -96,7 +96,7 @@ export default function CookieConsentBanner() {
               </svg>
             </div>
             <div className="flex-1">
-              <h2>Your Privacy</h2>
+              <h2 className="">Your Privacy</h2>
               <p>
                 We use cookies to improve your experience. By using
                 7thHeavenBand.com you agree to our{" "}

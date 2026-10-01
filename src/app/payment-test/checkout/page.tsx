@@ -101,7 +101,7 @@ export default function NorthCheckoutPage() {
             <span className="mb-1 inline-block text-[10px]">
               North (EPX) Browser Post
             </span>
-            <h1>Card Payment</h1>
+            <h1 className="">Card Payment</h1>
             {mockMode ? (
               <p className="text-yellow-300">
                 🧪 Test mode: no real North credentials are configured, so this

@@ -317,7 +317,7 @@ function FeaturedTrackComponent({ mini = false }: { mini?: boolean }) {
 
               {/* Track info */}
               <div className="min-w-0 flex-1">
-                <h4>{track.title}</h4>
+                <h4 className="">{track.title}</h4>
                 {currentSong && <p className="mt-0.5">{currentSong.title}</p>}
               </div>
 

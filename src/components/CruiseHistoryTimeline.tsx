@@ -1068,8 +1068,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             }}
                           >
                             <h6
-                              className={` ${isReached ? " " : "text-white/40"} `}
-                              style={{ fontSize: isMobile ? "clamp(1.75rem, 5vw, 2.5rem)" : "clamp(1.5rem, 3.2vw, 3rem)" }}
+                              className={` ${isReached ? " " : "text-white/40"}`}
                             >
                               {hist.year}
                             </h6>
@@ -1131,10 +1130,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                             </div>
 
                             <h4
-                              className={` ${isReached ? " " : " "} `}
-                              style={{
-                                fontSize: isMobile ? "0.95rem" : "clamp(0.75rem, 1.1vw, 1rem)",
-                              }}
+                              className={` ${isReached ? " " : " "}`}
                             >
                               {hist.ship}
                             </h4>
@@ -1171,7 +1167,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             >
               <div className="mb-5 flex items-center justify-between border-b border-purple-500/30 pb-3">
                 <div className="flex items-center gap-2">
-                  <h3>History Timeline & 3D Ship Controls</h3>
+                  <h3 className="">History Timeline & 3D Ship Controls</h3>
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}

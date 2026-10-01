@@ -220,7 +220,7 @@ export default function PlannerClient() {
           {/* Hero Header */}
           <header className="relative overflow-hidden p-8 text-center sm:p-12">
             <div className="relative z-10 mx-auto max-w-2xl space-y-4">
-              <h1>
+              <h1 className="">
                 Planner <span className="text-[#c27aff]">Portal</span>
               </h1>
               <p>
@@ -428,7 +428,7 @@ export default function PlannerClient() {
                   </Link>
                 </div>
                 <div className="mb-1 flex items-center gap-3">
-                  <h1>{booking.eventName}</h1>
+                  <h1 className="">{booking.eventName}</h1>
                 </div>
                 <p className="mb-1">
                   {typeLabels[booking.eventType] || booking.eventType}
@@ -468,7 +468,7 @@ export default function PlannerClient() {
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span>📝</span>
-                    <h3>Event Notes</h3>
+                    <h3 className="">Event Notes</h3>
                   </div>
                   {notesSaved && (
                     <span className="rounded-lg border border-[var(--color-accent)]/30 bg-emerald-500/10 px-2 py-0.5 text-[var(--color-accent)]">
@@ -513,7 +513,7 @@ export default function PlannerClient() {
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span>✅</span>
-                    <h3>Readiness</h3>
+                    <h3 className="">Readiness</h3>
                   </div>
                   <span
                     className={`${pct === 100 ? "text-emerald-400" : "text-white/50"}`}
@@ -647,7 +647,7 @@ export default function PlannerClient() {
               <div className="rounded-lg border border-[var(--border-color)] p-6">
                 <div className="mb-6 flex items-center gap-2">
                   <span>⚡</span>
-                  <h3>Quick Actions</h3>
+                  <h3 className="">Quick Actions</h3>
                 </div>
                 <div className="flex flex-col gap-3">
                   <Link
@@ -686,7 +686,7 @@ export default function PlannerClient() {
               <section aria-label="Past Event Bookings" className="mt-8">
                 <div className="mb-6 flex items-center gap-3">
                   <span>📜</span>
-                  <h3>Past Events</h3>
+                  <h3 className="">Past Events</h3>
                   <span className="rounded bg-[#00000029] px-2 py-0.5 text-white/50">
                     {pastBookings.length} events
                   </span>
@@ -723,7 +723,7 @@ export default function PlannerClient() {
                           className={`h-2.5 w-2.5 ${sc.dot} shrink-0`}
                         />
                         <div className="min-w-0 flex-1">
-                          <h4>{pb.eventName}</h4>
+                          <h4 className="">{pb.eventName}</h4>
                           <div className="mt-0.5 flex items-center gap-3 text-white/50">
                             <span>📅 {pb.date}</span>
                             <span>📍 {pb.venueName}</span>

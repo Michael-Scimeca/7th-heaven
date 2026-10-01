@@ -10,7 +10,17 @@
   --font-heading: 'Tanker', var(--font-tanker), sans-serif;
   --font-display: 'Tanker', var(--font-tanker), sans-serif;
 
-  /* Fluid Type Scale Tokens */
+  /* Fluid Type Scale Tokens
+   * Level    | Min (360px) | Max (1440px) | Typical Use
+   * ─────────┼─────────────┼──────────────┼─────────────────────────
+   * display  | 44px        | 88px         | Hero display titles
+   * h1       | 36px        | 64px         | Page titles, primary hero
+   * h2       | 28px        | 48px         | Section headers
+   * h3       | 21.6px      | 36px         | Card groups, sub-sections
+   * h4       | 18.4px      | 28px         | Card / modal / panel headers
+   * h5       | 16px        | 21.6px       | Compact card / item headers
+   * h6       | 15.2px      | 18.4px       | Badges, table / metric headers
+   */
   --font-size-display: clamp(2.75rem, 5vw + 1rem, 5.5rem);
   --font-size-h1: clamp(2.25rem, 4vw + 1rem, 4.0rem);
   --font-size-h2: clamp(1.75rem, 3vw + 0.75rem, 3.0rem);
@@ -22,6 +32,35 @@
   --font-size-body: 1.0rem;
   --font-size-small: 0.875rem;
   --font-size-caption: 0.75rem;
+
+  --text-display: var(--font-size-display);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.04em;
+  --text-display--font-weight: 900;
+  --text-h1: var(--font-size-h1);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h1--font-weight: 900;
+  --text-h2: var(--font-size-h2);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 800;
+  --text-h3: var(--font-size-h3);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h3--font-weight: 700;
+  --text-h4: var(--font-size-h4);
+  --text-h4--line-height: 1.25;
+  --text-h4--letter-spacing: 0em;
+  --text-h4--font-weight: 700;
+  --text-h5: var(--font-size-h5);
+  --text-h5--line-height: 1.3;
+  --text-h5--letter-spacing: 0em;
+  --text-h5--font-weight: 600;
+  --text-h6: var(--font-size-h6);
+  --text-h6--line-height: 1.3;
+  --text-h6--letter-spacing: 0em;
+  --text-h6--font-weight: 600;
 
   --color-text-primary: #ffffff;
   --color-text-secondary: rgba(255, 255, 255, 0.78);
@@ -739,20 +778,6 @@ address {
   font-style: normal;
 }
 
-p,
-label,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-li,
-span,
-a[href^="tel:"],
-a[href*="tel:"] {
-  /* text-shadow: 3px 5px 6px rgba(0, 0, 0, 0.5); */
-}
 
 
 
@@ -977,14 +1002,6 @@ input[type="radio"]:checked {
   box-shadow: 0 0 10px rgba(147, 51, 234, 0.5) !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--color-text-primary);
-}
 
 p {
   color: var(--text-p-color);
@@ -1138,11 +1155,12 @@ a.btn-action-del {
 .footer-nav-link {
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
+  color: #ffffff !important;
+  transition: color 0.15s ease;
 }
 
 .footer-nav-link:hover {
-  color: #ffffff;
+  color: var(--color-purple-light, #c084fc);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -1866,7 +1884,6 @@ button,
   --text-3xs: var(--font-size-3xs);
   --text-2xs: var(--font-size-2xs);
   --text-md: var(--font-size-md);
-  --text-display: var(--font-size-display);
 
   /* Tailwind utility overrides: text-xs through text-9xl (Pure Linear Fluid Clamp) */
   --text-xs: clamp(var(--tw-text-xs-min, 0.7rem), 0.6833rem + 0.0833vw, var(--tw-text-xs-max, 0.75rem));
@@ -2252,7 +2269,11 @@ button,
     display: none;
   }
 
-  /* ── Unified Heading Hierarchy — Tanker with Fluid Clamp & Tracking ── */
+  /* ── Heading Hierarchy — the TAG sets the size ──────────────────────
+   * Headings are sized by their level only: no size classes on <h1>–<h6>.
+   * To resize a level everywhere, change --font-size-hN (top of this file)
+   * or the --text-hN--* values in @theme.
+   * ─────────────────────────────────────────────────────────────────── */
   h1,
   h2,
   h3,
@@ -2262,107 +2283,52 @@ button,
     font-family: var(--font-heading);
     color: var(--color-text-primary);
     margin: 0;
-    z-index: 9;
+    text-wrap: balance;
   }
 
   h1 {
     font-size: var(--font-size-h1);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
+    font-weight: var(--text-h1--font-weight, 900);
+    line-height: var(--text-h1--line-height, 1.05);
+    letter-spacing: var(--text-h1--letter-spacing, -0.03em);
   }
 
   h2 {
     font-size: var(--font-size-h2);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    font-weight: var(--text-h2--font-weight, 800);
+    line-height: var(--text-h2--line-height, 1.15);
+    letter-spacing: var(--text-h2--letter-spacing, -0.02em);
   }
 
   h3 {
     font-size: var(--font-size-h3);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+    font-weight: var(--text-h3--font-weight, 700);
+    line-height: var(--text-h3--line-height, 1.2);
+    letter-spacing: var(--text-h3--letter-spacing, -0.01em);
   }
 
   h4 {
     font-size: var(--font-size-h4);
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: 0em;
+    font-weight: var(--text-h4--font-weight, 700);
+    line-height: var(--text-h4--line-height, 1.25);
+    letter-spacing: var(--text-h4--letter-spacing, 0em);
   }
 
   h5 {
     font-size: var(--font-size-h5);
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: 0em;
+    font-weight: var(--text-h5--font-weight, 600);
+    line-height: var(--text-h5--line-height, 1.3);
+    letter-spacing: var(--text-h5--letter-spacing, 0em);
   }
 
   h6 {
     font-size: var(--font-size-h6);
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: 0em;
+    font-weight: var(--text-h6--font-weight, 600);
+    line-height: var(--text-h6--line-height, 1.3);
+    letter-spacing: var(--text-h6--letter-spacing, 0em);
   }
 
   /* ── Typography Utility Classes ── */
-  .text-display {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-display);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-  }
-
-  .text-h1 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h1);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-  }
-
-  .text-h2 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h2);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-  }
-
-  .text-h3 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h3);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-
-  .text-h4 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h4);
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: 0em;
-  }
-
-  .text-h5 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h5);
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: 0em;
-  }
-
-  .text-h6 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h6);
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: 0em;
-  }
 
   .text-body-lg {
     font-family: var(--font-body);
@@ -5319,7 +5285,6 @@ body.fake-livestream-active {
   main,
   #__next,
   div:not(.print-tag-container):not(.print-tag-card):not(.print-tag-card *) {
-    background: white !important;
     color: black !important;
     visibility: hidden !important;
     height: auto !important;
@@ -6497,7 +6462,10 @@ span {
 
 /* ── Reduced Motion Universal Transition Support ── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
   }

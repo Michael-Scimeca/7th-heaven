@@ -130,7 +130,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
               🚢
             </div>
 
-            <h1 id="cruise-verify-heading" className="mb-1 text-2xl text-white">
+            <h1 id="cruise-verify-heading" className="mb-1 text-white">
               {sanityContent?.heroHeading ||
                 sanityContent?.title ||
                 "Verify Cruise Access"}

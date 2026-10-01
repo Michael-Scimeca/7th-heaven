@@ -161,7 +161,7 @@ export default function AdminFeedPost() {
               Collaborative Live Feed
             </StatusBadge>
           </div>
-          <h1>Post to Feed</h1>
+          <h1 className="">Post to Feed</h1>
           <p>Updates are synchronized across all crew devices</p>
         </div>
 

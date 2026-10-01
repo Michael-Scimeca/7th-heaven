@@ -375,7 +375,7 @@ export default function SlideupSection({
       </h2>
       {showIntro && (
         <section className="su-intro">
-          <h1>Slideup</h1>
+          <h1 className="">Slideup</h1>
           <p>
             A sticky window holds each panel in place while the next one climbs
             up from below and covers it completely — scroll to watch the stack
@@ -401,7 +401,7 @@ export default function SlideupSection({
           >
             <div className="su-card-inner relative z-[2] flex w-full flex-col items-start text-left">
               <div className="title-group title-group--section mb-6 items-start text-left">
-                <h2 className="su-headline flex w-full max-w-[800px] flex-wrap items-start justify-start gap-4 text-left text-[clamp(1.75rem,4.2vw,3.8rem)] tracking-[-0.02em]">
+                <h2 className="su-headline flex w-full max-w-[800px] flex-wrap items-start justify-start gap-4 text-left">
                   {slide.title}
                 </h2>
                 <p className="su-desc m-0 max-w-2xl text-left">{slide.desc}</p>
@@ -439,7 +439,7 @@ export default function SlideupSection({
                             {t.badge}
                           </span>
                         )}
-                        <h3 className="su-thumb-title m-0 text-[clamp(1.2rem,1.9vw,2.0rem)] leading-[1.1] font-black tracking-[-0.02em] [filter:drop-shadow(0_4px_16px_rgba(0,0,0,0.98))]">
+                        <h3 className="su-thumb-title m-0 [filter:drop-shadow(0_4px_16px_rgba(0,0,0,0.98))]">
                           {t.label}
                         </h3>
                       </div>

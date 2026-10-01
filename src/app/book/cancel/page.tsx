@@ -48,7 +48,7 @@ function CancelContent() {
             <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10">
               <span className="text-2xl">⚠️</span>
             </div>
-            <h1 id="booking-cancel-invalid-heading" className="mb-2 text-xl">Invalid Link</h1>
+            <h1 id="booking-cancel-invalid-heading" className="mb-2">Invalid Link</h1>
             <p className="mb-8">
               This cancellation link is missing required information. Please use
               the link from your confirmation email.
@@ -75,7 +75,7 @@ function CancelContent() {
                 <span className="text-2xl">🗓️</span>
               </div>
               <div className="title-group title-group--page mb-8 items-center text-center">
-                <h1 id="booking-cancel-heading" className="text-2xl">Cancel Booking?</h1>
+                <h1 id="booking-cancel-heading" className="">Cancel Booking?</h1>
                 <p>
                   You&apos;re about to cancel booking{" "}
                   <span className="text-[var(--color-accent)]">{bookingId}</span>.
@@ -106,7 +106,7 @@ function CancelContent() {
               <div className="mx-auto mb-6 flex h-16 w-16 animate-pulse items-center justify-center rounded-[var(--radius-box)] border border-white/10 bg-[#00000029]">
                 <span className="text-2xl">⏳</span>
               </div>
-              <h2 id="booking-cancel-heading" className="mb-2 text-xl">Cancelling your booking...</h2>
+              <h2 id="booking-cancel-heading" className="mb-2">Cancelling your booking...</h2>
             </>
           )}
 
@@ -127,7 +127,7 @@ function CancelContent() {
                 </svg>
               </div>
               <div className="title-group title-group--section mb-8 items-center text-center">
-                <h2 id="booking-cancel-heading" className="text-2xl">Booking Cancelled</h2>
+                <h2 id="booking-cancel-heading" className="">Booking Cancelled</h2>
                 <p>
                   Booking{" "}
                   <span className="text-[var(--color-accent)]">{bookingId}</span>{" "}
@@ -160,7 +160,7 @@ function CancelContent() {
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10">
                 <span className="text-2xl">❌</span>
               </div>
-              <h2 id="booking-cancel-heading" className="mb-3 text-2xl">Cancellation Failed</h2>
+              <h2 id="booking-cancel-heading" className="mb-3">Cancellation Failed</h2>
               <p className="mb-8 text-rose-400/70">{errorMsg}</p>
               <div className="flex flex-col gap-3">
                 <button

@@ -104,7 +104,7 @@ export default function LiveStreamInlineSubscribe({
             <Mail className="h-6 w-6" />
           </div>
           <div>
-            <h4>Verification Email Sent to {email}! ✉️</h4>
+            <h4 className="">Verification Email Sent to {email}! ✉️</h4>
             <p className="mt-0.5 text-gray-300">
               To prevent unauthorized signups, we sent a verification link to{" "}
               <strong>{email}</strong>. Click the link in your email to activate

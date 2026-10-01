@@ -8,18 +8,14 @@ import {
 import { ensureUpcomingTourDates } from "@/lib/tour-helpers";
 import { VENUE_LINKS } from "@/lib/venue-links";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export async function GET() {
   try {
-    const clientToUse = process.env.SANITY_API_TOKEN
-      ? sanityWriteClient
-      : sanityClient;
-    const showsData = await clientToUse.fetch<SanityTourDate[]>(
+    const showsData = await sanityClient.fetch<SanityTourDate[]>(
       queries.allTourDates,
       {},
-      { cache: "no-store", next: { revalidate: 0 } },
+      { next: { revalidate: 60, tags: ["sanity", "tour"] } },
     );
     const shows = (showsData as SanityTourDate[]).map((s) => {
       const fallbackMap =
@@ -70,7 +66,9 @@ export async function GET() {
     const ensured = ensureUpcomingTourDates(deduplicated);
 
     return NextResponse.json(ensured, {
-      headers: { "Cache-Control": "no-store, max-age=0" },
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
     });
   } catch (error) {
     return NextResponse.json([], { status: 500 });

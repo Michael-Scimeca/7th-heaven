@@ -425,7 +425,7 @@ a:hover {
                   <Sliders className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3>Style Customization Studio</h3>
+                  <h3 className="">Style Customization Studio</h3>
                   <p>Form inputs, checkboxes, headings, p tags & links</p>
                 </div>
               </div>
@@ -1180,8 +1180,8 @@ a:hover {
                     {/* Live Typography Preview */}
                     <div className="space-y-2 border-t border-white/10 pt-3">
                       <p className="mb-1">Live Typography Preview</p>
-                      <h1>Sample H1 Main Title Header</h1>
-                      <h3>Sample H3 Section Subtitle</h3>
+                      <h1 className="">Sample H1 Main Title Header</h1>
+                      <h3 className="">Sample H3 Section Subtitle</h3>
                       <p>
                         This is a live preview paragraph demonstrating paragraph
                         text styling with an{" "}
@@ -1197,7 +1197,7 @@ a:hover {
 
               {activeTab === "preview" && (
                 <div className="space-y-4 border border-white/10 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black p-6">
-                  <h4>Live Input Testing Sandbox</h4>
+                  <h4 className="">Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
                       <label className="mb-1 block">Full Name</label>

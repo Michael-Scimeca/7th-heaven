@@ -224,7 +224,7 @@ export default async function NewsArticlePage({
             <div className="mt-6 border-t border-white/10">
               <div className="mb-8 flex items-center justify-between">
                 <div className="title-group title-group--section">
-                  <h2 id="other-articles-heading" className="flex items-center gap-2 text-2xl">
+                  <h2 id="other-articles-heading" className="flex items-center gap-2">
                     <Newspaper className="h-5 w-5 text-[var(--color-accent)]" />
                     Other Articles
                   </h2>

@@ -45,7 +45,7 @@ export default function CruisePortsCatalogSection({
     >
       <div>
         <div className="title-group title-group--section mb-6 max-w-3xl text-center md:text-left">
-          <h2 id="ports-heading">{sectionTitle}</h2>
+          <h2 className="" id="ports-heading">{sectionTitle}</h2>
           <p className="">
             Discover tropical paradises, pristine beaches, and breathtaking
             Caribbean destinations featured on our upcoming concert cruise
@@ -284,7 +284,7 @@ export default function CruisePortsCatalogSection({
                   </div>
                   <div className="min-w-0 flex-1">
                     <h4
-                      className={` ${activeSpotlightPort === idx ? " " : " "} `}
+                      className={` ${activeSpotlightPort === idx ? " " : " "}`}
                     >
                       {port.name}
                     </h4>
@@ -445,7 +445,7 @@ export default function CruisePortsCatalogSection({
                 </div>
                 <div className="flex-1">
                   <div className="mb-1 flex items-center gap-3">
-                    <h4>{port.name}</h4>
+                    <h4 className="">{port.name}</h4>
                   </div>
                   <p>{port.desc}</p>
 

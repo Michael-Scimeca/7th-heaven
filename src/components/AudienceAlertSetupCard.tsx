@@ -199,7 +199,7 @@ export function AudienceAlertSetupCard({
             <Bell className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-base text-white">{defaultTitle}</h3>
+            <h3 className="text-white">{defaultTitle}</h3>
             <p className="text-xs text-white/60 mt-0.5">{defaultSubtitle}</p>
           </div>
         </div>

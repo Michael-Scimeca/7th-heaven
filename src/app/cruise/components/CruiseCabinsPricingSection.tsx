@@ -261,7 +261,7 @@ function CruiseCabinsPricingSectionComponent({
         className="site-container relative z-20 -mt-85 lg:-mt-[460px]"
       >
         <div className="title-group title-group--section max-w-3xl text-left">
-          <h2>
+          <h2 className="">
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
               ?.title || "Staterooms & Cruise Rates"}
           </h2>
@@ -297,7 +297,7 @@ function CruiseCabinsPricingSectionComponent({
             <div>
               <div className="mb-6 flex items-center gap-3">
                 <Ship className="h-6 w-6 shrink-0 text-purple-400" />
-                <h3>Ship Resources</h3>
+                <h3 className="">Ship Resources</h3>
               </div>
 
               <ul className="space-y-2">
@@ -544,7 +544,7 @@ function CruiseCabinsPricingSectionComponent({
                   "Refund terms before booking"}
               </p>
               <div>
-                <h4 className="pb-3 text-sm font-semibold uppercase tracking-wide text-white">
+                <h4 className="pb-3 uppercase text-white">
                   Group Rate Rooms:
                 </h4>
                 {activePriceYear === 2027 ? (
@@ -619,7 +619,7 @@ function CruiseCabinsPricingSectionComponent({
           <div className="relative p-0 text-left">
             <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div>
-                <h3>Limited Group Rate Cabins ({activePriceYear})</h3>
+                <h3 className="">Limited Group Rate Cabins ({activePriceYear})</h3>
               </div>
               {isAdmin && (
                 <AddCmsButton
@@ -896,7 +896,7 @@ function CruiseCabinsPricingSectionComponent({
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-2xl text-emerald-400">
                   <CheckCircle2 className="h-8 w-8 text-emerald-400" />
                 </div>
-                <h3 className="text-2xl">Reservation Submitted!</h3>
+                <h3 className="">Reservation Submitted!</h3>
                 <p className="mx-auto max-w-md">
                   Thank you,{" "}
                   <strong className="text-emerald-400">{formData.name}</strong>!
@@ -946,7 +946,7 @@ function CruiseCabinsPricingSectionComponent({
                 {/* GUEST 1 DETAILS & PAYMENT */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between border-b border-white/10 pb-6">
-                    <h3>GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
+                    <h3 className="">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
                     <span className="text-purple-400">Primary Guest</span>
                   </div>
 
@@ -1349,7 +1349,7 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                   />
                 </div>
-                <h4>{nameStr}</h4>
+                <h4 className="">{nameStr}</h4>
                 <div className="mt-2 flex w-full flex-col items-center gap-1">
                   <SectionBadge label={roleStr} isActive />
                   {descStr && <p className="mt-0.5">{descStr}</p>}
@@ -1428,7 +1428,7 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
               )}
               <div className="relative z-10 flex flex-col pt-3 pb-2 text-left">
-                <h3>{band.name}</h3>
+                <h3 className="">{band.name}</h3>
                 {band.role && (
                   <div className="mt-2">
                     <SectionBadge label={band.role} />
@@ -1461,7 +1461,7 @@ function CruiseCabinsPricingSectionComponent({
                   <Ship className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl">Add Stateroom to Sanity CMS</h3>
+                  <h3 className="">Add Stateroom to Sanity CMS</h3>
                   <p className="">
                     Create and publish a stateroom rate card directly to Sanity
                     CMS.

@@ -314,7 +314,7 @@ export default function HomeNewsSection({
                   <Newspaper className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl">Add Band News to Sanity</h3>
+                  <h3 className="">Add Band News to Sanity</h3>
                   <p className="/70">
                     Publish a new band announcement or update to Sanity CMS.
                   </p>

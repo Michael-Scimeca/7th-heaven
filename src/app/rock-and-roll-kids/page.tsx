@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "7th Heaven & the Rock 'n' Roll Kids animated series, comic books, media and original music.",
 };
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default async function RockNRollKidsPage() {
   const sanityContent = await fetchPageContent("rock-and-roll-kids");

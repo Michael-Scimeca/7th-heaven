@@ -177,7 +177,7 @@ export default function CruiseDashboardGate() {
           <span className="mb-6 block animate-[bounce_2s_infinite] text-5xl">
             🚢
           </span>
-          <h1>Cruise Hub</h1>
+          <h1 className="">Cruise Hub</h1>
           <p className="text-purple-400">Exclusive Passenger Community</p>
         </div>
 

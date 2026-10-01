@@ -281,10 +281,11 @@ import { cache } from "react";
 export const fetchSanity = cache(async function fetchSanity<T>(
   query: string,
   params?: Record<string, unknown>,
+  tags: string[] = ["sanity"],
 ): Promise<T | null> {
   try {
     const fetchPromise = sanityClient.fetch<T>(query, params || {}, {
-      next: { revalidate: 60 },
+      next: { revalidate: 60, tags },
     });
     const timeoutPromise = new Promise<null>((resolve) =>
       setTimeout(() => resolve(null), 3000),
@@ -300,16 +301,19 @@ export const fetchSanity = cache(async function fetchSanity<T>(
  */
 export const fetchPageContent = cache(async function fetchPageContent(
   pageKey: string,
+  isDraft = false,
 ): Promise<SanityPageContent | null> {
   const { query, params } = queries.pageContentByKey(pageKey);
   try {
-    const clientToUse = process.env.SANITY_API_TOKEN
-      ? sanityWriteClient
-      : sanityClient;
+    const clientToUse = isDraft ? sanityWriteClient : sanityClient;
+    const fetchOptions = isDraft
+      ? { cache: "no-store" as const }
+      : { next: { revalidate: 60, tags: ["sanity", `page:${pageKey}`] } };
+
     const fetchPromise = clientToUse.fetch<SanityPageContent | null>(
       query,
       params,
-      { cache: "no-store", next: { revalidate: 0 } },
+      fetchOptions,
     );
     const timeoutPromise = new Promise<null>((resolve) =>
       setTimeout(() => resolve(null), 3000),
@@ -322,10 +326,13 @@ export const fetchPageContent = cache(async function fetchPageContent(
       const altKey =
         pageKey === "fan-media-wall" ? "fan-photo-wall" : "fan-media-wall";
       const altQueryObj = queries.pageContentByKey(altKey);
+      const altFetchOptions = isDraft
+        ? { cache: "no-store" as const }
+        : { next: { revalidate: 60, tags: ["sanity", `page:${altKey}`] } };
       return await clientToUse.fetch<SanityPageContent | null>(
         altQueryObj.query,
         altQueryObj.params,
-        { cache: "no-store", next: { revalidate: 0 } },
+        altFetchOptions,
       );
     }
     return result;
@@ -342,7 +349,9 @@ export async function fetchMemberBySlug(
   slug: string,
 ): Promise<SanityBandMember | null> {
   const { query, params } = queries.memberBySlug(slug);
-  return sanityClient.fetch<SanityBandMember | null>(query, params);
+  return sanityClient.fetch<SanityBandMember | null>(query, params, {
+    next: { revalidate: 60, tags: ["sanity", `member:${slug}`, "members"] },
+  });
 }
 
 /**
@@ -353,7 +362,9 @@ export async function fetchVideosByCategory(
   category: string,
 ): Promise<SanityVideo[]> {
   const { query, params } = queries.videosByCategory(category);
-  return sanityClient.fetch<SanityVideo[]>(query, params);
+  return sanityClient.fetch<SanityVideo[]>(query, params, {
+    next: { revalidate: 60, tags: ["sanity", `videos:${category}`, "videos"] },
+  });
 }
 
 /**

@@ -712,7 +712,7 @@ export default function CruiseChat({
           </div>
 
           <div className="max-w-xs space-y-2">
-            <h3>Join the Live Chat</h3>
+            <h3 className="">Join the Live Chat</h3>
             <p>
               Sign in or register as a 7th Heaven fan, crew member, or admin to
               participate in live stream chat and setlist voting!
@@ -754,7 +754,7 @@ export default function CruiseChat({
             <div className="relative z-10 flex shrink-0 animate-[slideDown_0.3s_ease-out] items-start gap-2.5 border-b border-purple-500/30 bg-purple-600/15 px-3 py-2">
               <span className="shrink-0">⚠️</span>
               <div className="flex-1">
-                <h4>Warning Alert</h4>
+                <h4 className="">Warning Alert</h4>
                 <p className="text-amber-100/90">
                   You have been warned by a moderator for inappropriate
                   behavior. Please follow the PG-13 guidelines.

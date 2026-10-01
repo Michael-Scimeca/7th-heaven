@@ -11,7 +11,10 @@ import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import Logo from "@/components/Logo";
-import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
+import {
+  buildDecayingSlantClipPath,
+  buildDecayingSlantCoverClipPath,
+} from "@/lib/curtainClipPath";
 import { waitForPageReady } from "@/lib/waitForPageReady";
 import { useTransition } from "@/context/TransitionContext";
 import { useMember } from "@/context/MemberContext";
@@ -89,7 +92,7 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   revealSlantRatio: 0.04,
   revealFlipSlant: true,
   revealDurationOffset: 0.1,
-  exitSpeed: 0.65,
+  exitSpeed: 0.35,
   exitX: 0,
   exitY: 0,
   exitScale: 1.0,
@@ -139,79 +142,9 @@ function shouldSkip(): boolean {
 }
 
 async function waitForNewPageContent(
-  container: HTMLElement | null,
+  _container: HTMLElement | null,
 ): Promise<void> {
-  if (!container) return;
-
-  // 0. Poll for DOM content population (text / elements mounted inside new route, max 500ms)
-  const pollStart = performance.now();
-  while (performance.now() - pollStart < 500) {
-    const textLen = (container.textContent || "").trim().length;
-    const childCount = container.children.length;
-    if (
-      textLen > 10 ||
-      childCount > 1 ||
-      container.querySelector("h1, h2, img, video, svg")
-    ) {
-      break;
-    }
-    await new Promise((r) => setTimeout(r, 20));
-  }
-
-  // 1. Wait for double RAF (React paint commit)
-  await new Promise<void>((resolve) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => resolve());
-    });
-  });
-
-  // 2. Wait for hero/above-the-fold images in the new page container to complete loading (max 350ms)
-  const images = Array.from(
-    container.querySelectorAll<HTMLImageElement>("img"),
-  );
-  if (images.length > 0) {
-    const uncompleted = images.filter((img) => !img.complete && img.src);
-    if (uncompleted.length > 0) {
-      await Promise.race([
-        Promise.all(
-          uncompleted.map(
-            (img) =>
-              new Promise<void>((resolve) => {
-                img.onload = () => resolve();
-                img.onerror = () => resolve();
-              }),
-          ),
-        ),
-        new Promise<void>((resolve) => setTimeout(resolve, 350)),
-      ]);
-    }
-  }
-
-  // 3. Wait for hero videos in the container to reach readyState >= 2 (max 300ms)
-  const videos = Array.from(
-    container.querySelectorAll<HTMLVideoElement>("video"),
-  );
-  if (videos.length > 0) {
-    const unready = videos.filter((v) => v.readyState < 2);
-    if (unready.length > 0) {
-      await Promise.race([
-        Promise.all(
-          unready.map(
-            (v) =>
-              new Promise<void>((resolve) => {
-                const onReady = () => resolve();
-                v.addEventListener("loadeddata", onReady, { once: true });
-                v.addEventListener("canplay", onReady, { once: true });
-                v.addEventListener("error", onReady, { once: true });
-              }),
-          ),
-        ),
-        new Promise<void>((resolve) => setTimeout(resolve, 300)),
-      ]);
-    }
-  }
-
-  // 4. Final double RAF to guarantee hardware compositing stability
+  // Fast paint readiness check via double requestAnimationFrame
   await new Promise<void>((resolve) => {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => resolve());
@@ -486,20 +419,94 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     }, 20);
   };
 
+  const originPathRef = useRef<string | null>(null);
+  const originSearchRef = useRef<string | null>(null);
   const navPushedRef = useRef<string | null>(null);
   const savedScrollYRef = useRef<number>(0);
+  const isWipingRef = useRef<boolean>(false);
+  const animIdRef = useRef<number>(0);
+  const curtainRef = useRef<HTMLDivElement | null>(null);
 
-  // 1. When mode === "covering", snapshot old page and trigger router.push
+  const finishTransition = useCallback(() => {
+    if (curtainRef.current) {
+      curtainRef.current.remove();
+      curtainRef.current = null;
+    }
+    document
+      .querySelectorAll(".exoape-snapshot-outer, .exoape-curtain-overlay")
+      .forEach((node) => node.remove());
+
+    document.documentElement.classList.remove("is-page-transitioning");
+
+    if (typeof window !== "undefined" && (window as any).__lenis) {
+      try {
+        (window as any).__lenis.start();
+        (window as any).__lenis.resize();
+      } catch { }
+    }
+
+    originPathRef.current = null;
+    navPushedRef.current = null;
+    isWipingRef.current = false;
+    animIdRef.current = 0;
+    clearPendingHref();
+    setMode("idle");
+  }, [clearPendingHref, setMode]);
+
+  const startRevealWipeRef = useRef<() => void>(() => {});
+
+  const startRevealWipe = useCallback(() => {
+    if (isWipingRef.current) return;
+    isWipingRef.current = true;
+
+    const curtain =
+      curtainRef.current ||
+      document.querySelector<HTMLDivElement>(".exoape-curtain-overlay");
+    if (!curtain) {
+      finishTransition();
+      return;
+    }
+
+    const durationMs = 200;
+    const easeFn = solveEase("power2.out");
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, Math.max(0, elapsed / durationMs));
+      const p = easeFn(progress);
+
+      const revealClip = buildDecayingSlantClipPath(p, 0.08);
+      curtain.style.clipPath = revealClip;
+      (curtain.style as any).webkitClipPath = revealClip;
+
+      if (progress < 1) {
+        animIdRef.current = requestAnimationFrame(tick);
+      } else {
+        finishTransition();
+      }
+    };
+
+    animIdRef.current = requestAnimationFrame(tick);
+  }, [finishTransition]);
+
+  useEffect(() => {
+    startRevealWipeRef.current = startRevealWipe;
+  }, [startRevealWipe]);
+
+  // 1. When mode === "covering", animate curtain cover and trigger router.push
   useEffect(() => {
     if (mode !== "covering" || !pendingHref) return;
 
+    if (originPathRef.current === null) {
+      originPathRef.current = pathname;
+    }
+
     if (navPushedRef.current === pendingHref) return;
     navPushedRef.current = pendingHref;
+    isWipingRef.current = false;
 
     document.documentElement.classList.add("is-page-transitioning");
-
-    const currentScrollY = typeof window !== "undefined" ? window.scrollY : 0;
-    savedScrollYRef.current = currentScrollY;
 
     if (typeof window !== "undefined" && (window as any).__lenis) {
       try {
@@ -517,91 +524,35 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       }
       // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
       router.push(pendingHref);
+      originPathRef.current = null;
+      navPushedRef.current = null;
+      isWipingRef.current = false;
       clearPendingHref();
       setMode("idle");
       return;
     }
 
     document
-      .querySelectorAll(".exoape-snapshot-outer")
+      .querySelectorAll(".exoape-curtain-overlay, .exoape-snapshot-outer")
       .forEach((node) => node.remove());
 
-    const s = settingsRef.current;
-
-    const snapshotOuter = document.createElement("div");
-    snapshotOuter.className = "exoape-snapshot-outer";
-    snapshotOuter.style.cssText = `
+    // Create lightweight, high-performance GPU curtain overlay
+    const curtain = document.createElement("div");
+    curtain.className = "exoape-curtain-overlay";
+    curtain.style.cssText = `
       position: fixed;
       inset: 0;
       width: 100vw;
-      z-index: 1;
+      height: 100vh;
+      z-index: 99999;
       pointer-events: none;
-      overflow: hidden;
-      background-color: ${CURTAIN_BG};
+      background-color: rgb(13, 14, 19);
+      will-change: clip-path;
     `;
+    document.body.appendChild(curtain);
+    curtainRef.current = curtain;
 
-    const snapshotInner = document.createElement("div");
-    snapshotInner.className = "exoape-snapshot-inner";
-    snapshotInner.style.cssText = `
-      width: 100%;
-      transform-origin: ${s.exitOrigin || "center center"};
-      transform: translate3d(0px, ${-currentScrollY}px, 0px);
-    `;
-
-    const snapshotOverlay = document.createElement("div");
-    snapshotOverlay.className = "exoape-snapshot-overlay";
-    snapshotOverlay.style.cssText = `
-      position: absolute;
-      inset: 0;
-      z-index: 10;
-      background-color: rgba(13, 14, 19, 0.45);
-      pointer-events: none;
-      opacity: 0;
-    `;
-
-    if (contentRef.current) {
-      const clone = contentRef.current.cloneNode(true) as HTMLElement;
-      clone.style.transform = "none";
-      clone.querySelectorAll("iframe").forEach((iframe) => iframe.remove());
-      const origVideos = Array.from(
-        contentRef.current.querySelectorAll("video"),
-      );
-      clone.querySelectorAll("video").forEach((v, idx) => {
-        const orig = origVideos[idx];
-        if (orig) {
-          try {
-            v.currentTime = orig.currentTime;
-            v.muted = true;
-            v.autoplay = true;
-            v.playsInline = true;
-            v.setAttribute("autoplay", "");
-            v.setAttribute("muted", "");
-            v.setAttribute("playsinline", "");
-            v.play().catch(() => { });
-          } catch { }
-        }
-      });
-      snapshotInner.appendChild(clone);
-    }
-    snapshotOuter.appendChild(snapshotInner);
-    snapshotOuter.appendChild(snapshotOverlay);
-    document.body.appendChild(snapshotOuter);
-
-    // Pre-apply clip-path synchronously BEFORE router.push
-    snapshotOuter.style.clipPath = "none";
-    (snapshotOuter.style as any).webkitClipPath = "none";
-
-    if (outerRef.current) {
-      outerRef.current.style.willChange = "clip-path";
-      outerRef.current.style.position = "relative";
-      outerRef.current.style.zIndex = "900";
-      const initialRevealClip = s.clipRevealPath
-        ? buildRevealClipPath(0, s.revealSlantRatio, s.revealFlipSlant)
-        : "none";
-      outerRef.current.style.clipPath = initialRevealClip;
-      (outerRef.current.style as any).webkitClipPath = initialRevealClip;
-    }
-
+    // Trigger router navigation in parallel
     // eslint-disable-next-line react-doctor/nextjs-no-client-side-redirect
     router.push(pendingHref);
     if (typeof window !== "undefined") {
@@ -612,149 +563,101 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         } catch { }
       }
     }
-  }, [mode, pendingHref, router, clearPendingHref, setMode]);
 
-  // 2. Start the synchronized wipe animation ONLY when the new page is ready (or after short fallback)
-  useEffect(() => {
-    if (mode !== "covering" || !pendingHref) return;
+    // Animate curtain covering upward smoothly (140ms)
+    const coverDurationMs = 140;
+    const coverEase = solveEase("power2.out");
+    const coverStart = performance.now();
 
-    const targetPath = pathOf(pendingHref);
-    const isNewPageLoaded =
-      pathname === targetPath || pathOf(pathname) === targetPath;
+    const coverTick = (now: number) => {
+      const elapsed = now - coverStart;
+      const progress = Math.min(1, Math.max(0, elapsed / coverDurationMs));
+      const p = coverEase(progress);
 
-    let animStarted = false;
-    let animId = 0;
-    let fallbackTimer: ReturnType<typeof setTimeout>;
+      const coverClip = buildDecayingSlantCoverClipPath(p, 0.08);
+      curtain.style.clipPath = coverClip;
+      (curtain.style as any).webkitClipPath = coverClip;
 
-    const startAnimation = () => {
-      if (animStarted) return;
-      animStarted = true;
-
-      const snapshotOuter = document.querySelector(
-        ".exoape-snapshot-outer",
-      ) as HTMLElement | null;
-      const snapshotInner = snapshotOuter?.querySelector(
-        ".exoape-snapshot-inner",
-      ) as HTMLElement | null;
-      const snapshotOverlay = snapshotOuter?.querySelector(
-        ".exoape-snapshot-overlay",
-      ) as HTMLElement | null;
-
-      const s = settingsRef.current;
-      const durationMs = s.exitSpeed * s.speedMult * 1000;
-      const easeFn = solveEase(s.exitEase);
-      const initialScrollY = savedScrollYRef.current;
-      const startTime = performance.now();
-
-      const tick = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(1, Math.max(0, elapsed / durationMs));
-        const p = easeFn(progress);
-
-        if (snapshotOuter) {
-          const exitClip = s.clipExitPath
-            ? buildExitClipPath(p, s.exitSlantRatio, s.exitFlipSlant)
-            : "none";
-          snapshotOuter.style.clipPath = exitClip;
-          (snapshotOuter.style as any).webkitClipPath = exitClip;
-        }
-
-        if (snapshotInner) {
-          const curX = (s.exitX || 0) * p;
-          const curY = -initialScrollY + (s.exitY || 0) * p;
-          const curScale = 1 + ((s.exitScale || 1.1) - 1) * p;
-          const curRot = (s.exitRotation || 0) * p;
-          const curOpacity = 1 - p;
-
-          snapshotInner.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
-          snapshotInner.style.opacity = curOpacity.toFixed(3);
-        }
-
-        if (snapshotOverlay) {
-          snapshotOverlay.style.opacity = (0.3 * p).toFixed(3);
-        }
-
-        if (outerRef.current) {
-          const revealClip = s.clipRevealPath
-            ? buildRevealClipPath(p, s.revealSlantRatio, s.revealFlipSlant)
-            : "none";
-          outerRef.current.style.clipPath = revealClip;
-          (outerRef.current.style as any).webkitClipPath = revealClip;
-        }
-
-        if (contentRef.current) {
-          const remP = 1 - p;
-          const curY = (s.revealY ?? 100) * remP;
-          const curRot = (s.revealRotation ?? 4) * remP;
-          const curX = (s.revealX || 0) * remP;
-          const curScale = 1 + ((s.revealScale || 1.0) - 1) * remP;
-
-          contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0px) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
-          contentRef.current.style.opacity = "1";
-        }
-
-        if (progress < 1) {
-          animId = requestAnimationFrame(tick);
+      if (progress < 1) {
+        animIdRef.current = requestAnimationFrame(coverTick);
+      } else {
+        // Once covered, check if new route has arrived; if so reveal immediately
+        const cleanPending = pathOf(pendingHref).replace(/\/+$/, "") || "/";
+        const cleanCurrent = (pathname || "").replace(/\/+$/, "") || "/";
+        const cleanOrigin = (originPathRef.current || "").replace(/\/+$/, "") || "/";
+        if (cleanCurrent !== cleanOrigin || cleanCurrent === cleanPending) {
+          startRevealWipeRef.current();
         } else {
-          if (snapshotOuter && snapshotOuter.parentNode) {
-            snapshotOuter.parentNode.removeChild(snapshotOuter);
-          }
-          document.documentElement.classList.remove("is-page-transitioning");
-
-          requestAnimationFrame(() => {
-            if (outerRef.current) {
-              outerRef.current.style.clipPath = "";
-              (outerRef.current.style as any).webkitClipPath = "";
-              outerRef.current.style.willChange = "";
-              outerRef.current.style.zIndex = "";
+          // Safety watchdog fallback after max 1500ms in case route never loads
+          setTimeout(() => {
+            if (mode === "covering" && !isWipingRef.current) {
+              startRevealWipeRef.current();
             }
-            if (contentRef.current) {
-              contentRef.current.style.transform = "";
-              contentRef.current.style.opacity = "";
-              contentRef.current.style.willChange = "";
-              contentRef.current.style.transformOrigin = "";
-            }
-          });
-
-          if (typeof window !== "undefined" && (window as any).__lenis) {
-            try {
-              (window as any).__lenis.start();
-              (window as any).__lenis.resize();
-            } catch { }
-          }
-
-          navPushedRef.current = null;
-          revealStartedForRef.current = null;
-          clearPendingHref();
-          setMode("idle");
+          }, 1500);
         }
-      };
-
-      animId = requestAnimationFrame(tick);
+      }
     };
 
-    if (isNewPageLoaded) {
-      waitForNewPageContent(contentRef.current).then(startAnimation);
-    } else {
-      fallbackTimer = setTimeout(() => {
-        waitForNewPageContent(contentRef.current).then(startAnimation);
-      }, 2500);
-    }
+    animIdRef.current = requestAnimationFrame(coverTick);
 
     return () => {
-      clearTimeout(fallbackTimer);
-      cancelAnimationFrame(animId);
+      if (animIdRef.current) {
+        cancelAnimationFrame(animIdRef.current);
+      }
     };
-  }, [mode, pendingHref, pathname, clearPendingHref, setMode]);
+  }, [mode, pendingHref, router, clearPendingHref, setMode, pathname]);
+
+  // 2. When new route mounts, trigger reveal wipe
+  useEffect(() => {
+    if (mode !== "covering" || !pendingHref) return;
+    if (isWipingRef.current) return;
+
+    const cleanPending = pathOf(pendingHref).replace(/\/+$/, "") || "/";
+    const cleanCurrent = (pathname || "").replace(/\/+$/, "") || "/";
+    const cleanOrigin = (originPathRef.current || "").replace(/\/+$/, "") || "/";
+
+    const isRouteChanged =
+      originPathRef.current !== null && cleanCurrent !== cleanOrigin;
+    const isTargetReached = cleanCurrent === cleanPending;
+
+    if (isRouteChanged || isTargetReached) {
+      waitForNewPageContent(contentRef.current).then(() => {
+        if (mode === "covering" && !isWipingRef.current) {
+          startRevealWipeRef.current();
+        }
+      });
+    }
+  }, [mode, pendingHref, pathname]);
+
+  // Global unmount cleanup
+  useEffect(() => {
+    return () => {
+      if (animIdRef.current) {
+        cancelAnimationFrame(animIdRef.current);
+      }
+      if (curtainRef.current) {
+        curtainRef.current.remove();
+        curtainRef.current = null;
+      }
+      document
+        .querySelectorAll(".exoape-snapshot-outer, .exoape-curtain-overlay")
+        .forEach((node) => node.remove());
+      document.documentElement.classList.remove("is-page-transitioning");
+    };
+  }, []);
 
   useEffect(() => {
     if (mode === "idle") return;
-    const s = settingsRef.current;
-    const watchdogMs = Math.max(
-      FAILSAFE_MS,
-      (s.exitSpeed + (s.exitSpeed + 0.25)) * s.speedMult * 1000 + 5000,
-    );
+    const watchdogMs = 3500;
     const id = setTimeout(() => {
+      if (animIdRef.current) {
+        cancelAnimationFrame(animIdRef.current);
+        animIdRef.current = 0;
+      }
+      if (curtainRef.current) {
+        curtainRef.current.remove();
+        curtainRef.current = null;
+      }
       tweenRef.current?.kill();
       contentTweenRef.current?.kill();
       outgoingTweensRef.current.forEach((t) => t.kill());
@@ -765,7 +668,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           gsap.killTweensOf(el);
         });
       document
-        .querySelectorAll(".exoape-snapshot-outer")
+        .querySelectorAll(".exoape-snapshot-outer, .exoape-curtain-overlay")
         .forEach((node) => node.remove());
       document.documentElement.classList.remove("is-page-transitioning");
       if (outerRef.current) {
@@ -787,12 +690,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         } catch { }
       }
       revealStartedForRef.current = null;
+      isWipingRef.current = false;
       clearPendingHref();
       setMode("idle");
     }, watchdogMs);
     return () => clearTimeout(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [mode, clearPendingHref, setMode]);
 
   // Safari WebKit Resize Fix: Ensure container styles reset cleanly on resize
   useEffect(() => {
@@ -849,7 +752,17 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         typeof window !== "undefined" ? window.location.pathname : "";
       if (currentPath.startsWith("/studio") || href.startsWith("/studio"))
         return;
-      if (href === currentPath) return;
+
+      const cleanHref = href.split(/[?#]/)[0].replace(/\/+$/, "") || "/";
+      const cleanCurrent = currentPath.split(/[?#]/)[0].replace(/\/+$/, "") || "/";
+      if (cleanHref === cleanCurrent) {
+        if (typeof window !== "undefined" && (window as any).__lenis) {
+          (window as any).__lenis.scrollTo(0);
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        return;
+      }
 
       try {
         router.prefetch(href);

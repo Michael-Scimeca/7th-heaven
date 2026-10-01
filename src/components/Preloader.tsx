@@ -4,10 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
-import {
-  waitForPageReady,
-  waitForHeroVideoReady,
-} from "@/lib/waitForPageReady";
+import { waitForPageReady } from "@/lib/waitForPageReady";
 
 // Diagonal wipe-reveal preloader, sharing its visual language with the
 // page-to-page curtain (PageTransition.tsx): a dark overlay, the loader
@@ -280,10 +277,9 @@ export default function Preloader() {
         if (particleInterval) clearInterval(particleInterval);
         wrap.classList.add("done"); // fades the bar track + trailing dot
 
-        // Ensure page is painted, fonts ready, and hero video loaded & playing before wiping
+        // Ensure page is painted and fonts ready before wiping
         if (typeof window !== "undefined") {
           await waitForPageReady();
-          await waitForHeroVideoReady();
         }
 
         advanceToWipe();

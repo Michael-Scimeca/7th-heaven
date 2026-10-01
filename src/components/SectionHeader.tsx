@@ -9,6 +9,8 @@ export interface SectionHeaderProps {
   badge?: string | React.ReactNode;
   icon?: LucideIcon;
   as?: "h1" | "h2" | "h3";
+  /** @deprecated Ignored — headings are sized by their tag level. */
+  size?: "display" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   action?: React.ReactNode;
   divider?: boolean;
   align?: "left" | "center";
@@ -26,6 +28,7 @@ export function SectionHeader({
   badge,
   icon: Icon,
   as = "h2",
+  size,
   action,
   divider = true,
   align = "left",
@@ -38,6 +41,8 @@ export function SectionHeader({
   const isH2 = as === "h2";
   const isSrOnly = srOnly || visuallyHidden;
   const isCenter = align === "center";
+  // Heading size comes from the tag level (h1–h6 styles in globals.css), not a class.
+  void size;
 
   if (isSrOnly) {
     return (
@@ -64,7 +69,7 @@ export function SectionHeader({
           <div className={`flex items-center gap-4 w-full ${isCenter ? "justify-center" : "justify-between"} `}>
             <Component
               id={id}
-              className={` ${isH2 ? "text-h2" : as === "h1" ? "text-h1" : "text-h3"} text-primary tracking-tight`}
+              className="text-primary"
             >
               {title}
             </Component>
@@ -73,7 +78,7 @@ export function SectionHeader({
         ) : (
           <Component
             id={id}
-            className={` ${isH2 ? "text-h2" : as === "h1" ? "text-h1" : "text-h3"} text-primary tracking-tight w-full`}
+            className="text-primary w-full"
           >
             {title}
           </Component>

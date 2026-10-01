@@ -135,7 +135,7 @@ export default function EmailPreviewPage() {
           {/* Toolbar */}
           <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-[#08080c] px-6">
             <div className="flex items-center gap-3">
-              <h2>{active.name}</h2>
+              <h2 className="">{active.name}</h2>
               <span
                 className={`rounded-lg px-2 py-0.5 ${active.status === "live" ? "bg-emerald-500/10 text-[var(--color-accent)]" : "bg-purple-600/10"} `}
               >

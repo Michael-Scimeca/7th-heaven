@@ -222,7 +222,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
         >
           <IconComp className="h-4 w-4" />
         </div>
-        <h3>{data.label}</h3>
+        <h3 className="">{data.label}</h3>
       </div>
 
       <code className="/90 block text-[10px]">{data.sub}</code>
@@ -307,7 +307,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             <span className={`h-1.5 w-1.5 ${scheme.dot} `} />
           </div>
 
-          <h4>{data.label}</h4>
+          <h4 className="">{data.label}</h4>
 
           <code className="mt-0.5 block text-[10px]">{data.sub}</code>
         </div>
@@ -368,7 +368,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             <span className="h-1.5 w-1.5 bg-amber-400" />
           </div>
 
-          <h4>{data.label}</h4>
+          <h4 className="">{data.label}</h4>
 
           {data.details?.emailSubject && (
             <p className="mt-0.5 text-amber-200/90">
@@ -1626,7 +1626,7 @@ export default function UserFlowMap() {
                 <span className="bg- purple-white/20 r rounded px-2 py-0.5 text-[12px]">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3>{selectedNode.data.label}</h3>
+                <h3 className="">{selectedNode.data.label}</h3>
                 <code className="mt-0.5 block">{selectedNode.data.sub}</code>
               </div>
               <button

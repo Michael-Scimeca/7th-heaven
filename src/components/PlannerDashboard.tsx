@@ -421,7 +421,7 @@ export default function PlannerDashboard() {
                   <ClipboardList className="h-6 w-6 text-[var(--color-accent)]" />
                 </div>
                 <div className="title-group title-group--page items-center text-center">
-                  <h1>
+                  <h1 className="">
                     Planner{" "}
                     <span className="text-[var(--color-accent)]">Portal</span>
                   </h1>
@@ -648,7 +648,7 @@ export default function PlannerDashboard() {
                 <>
                   <div className="title-group title-group--section mb-6">
                     <h2
-                      className={`${booking.status === "cancelled" ? "line-through opacity-50" : ""}`}
+                      className={` ${booking.status === "cancelled" ? "line-through opacity-50" : ""}`}
                     >
                       {booking.eventName}
                     </h2>
@@ -968,7 +968,7 @@ export default function PlannerDashboard() {
                       />
                     </div>
                     <div className="title-group title-group--sub items-center text-center mb-2">
-                      <h3 className="text-xl sm:text-2xl">Richard Hofherr</h3>
+                      <h3 className="">Richard Hofherr</h3>
                       <p>NTD Management</p>
                     </div>
                     <a
@@ -1017,7 +1017,7 @@ export default function PlannerDashboard() {
                       />
                     </div>
                     <div className="title-group title-group--sub items-center text-center mb-2">
-                      <h3 className="text-xl sm:text-2xl">Jeff Dobbs</h3>
+                      <h3 className="">Jeff Dobbs</h3>
                       <p>Production & Sound</p>
                     </div>
                     <a
@@ -1066,7 +1066,7 @@ export default function PlannerDashboard() {
                       />
                     </div>
                     <div className="title-group title-group--sub items-center text-center mb-2">
-                      <h3 className="text-xl sm:text-2xl">Alan McRae</h3>
+                      <h3 className="">Alan McRae</h3>
                       <p>NTD Management</p>
                     </div>
                     <a
@@ -1115,7 +1115,7 @@ export default function PlannerDashboard() {
                       />
                     </div>
                     <div className="title-group title-group--sub items-center text-center mb-2">
-                      <h3 className="text-xl sm:text-2xl">Lenny Rago</h3>
+                      <h3 className="">Lenny Rago</h3>
                       <p>NTD Records</p>
                     </div>
                     <a
@@ -1210,7 +1210,7 @@ export default function PlannerDashboard() {
                           </div>
                         </div>
                         <h4
-                          className={`${b.status === "cancelled" ? "text-white/30 line-through" : " "}`}
+                          className={` ${b.status === "cancelled" ? "text-white/30 line-through" : " "}`}
                         >
                           {b.eventName}
                         </h4>

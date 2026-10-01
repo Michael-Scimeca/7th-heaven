@@ -814,7 +814,7 @@ export default function RockNRollKidsClient({
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 sm:h-32" />
               </div>
               <div className="flex w-full flex-col items-center space-y-2.5 text-center">
-                <h3 className="mb-2 text-2xl sm:text-3xl">{founder.name}</h3>
+                <h3 className="mb-2">{founder.name}</h3>
                 <div>
                   <SectionBadge label={founder.role} isActive />
                 </div>

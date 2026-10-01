@@ -118,7 +118,7 @@ export default function StudioDPage() {
         <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12">
           <div className="space-y-4 md:col-span-4">
             <span className="text-purple-400">Project Overview</span>
-            <h2 className="text-3xl sm:text-4xl">
+            <h2 className="">
               Landscape Architecture & Design Universe
             </h2>
           </div>
@@ -144,7 +144,7 @@ export default function StudioDPage() {
             className="transition-[background-color,color,border-color,transform] group relative block transform-gpu overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 p-10 hover:scale-[1.01] hover:border-purple-400/50 sm:p-16"
           >
             <span className="mb-3 block">Next Project</span>
-            <h3 className="transition-colors flex items-center justify-center gap-4 text-4xl font-black group-hover:text-purple-200 sm:text-6xl">
+            <h3 className="transition-colors flex items-center justify-center gap-4 group-hover:text-purple-200">
               Rock &apos;N&apos; Roll Kids{" "}
               <span className="transition-transform text-purple-400 group-hover:translate-x-3">
                 →

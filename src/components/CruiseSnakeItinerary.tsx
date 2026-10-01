@@ -922,7 +922,7 @@ export default function CruiseSnakeItinerary({
                 <div className="flex items-center gap-2">
                   <span className="text-xl">⚙️</span>
                   <div>
-                    <h3>SVG Path, Speed & Boat Controls</h3>
+                    <h3 className="">SVG Path, Speed & Boat Controls</h3>
                     <p>All real-time physics tuning parameters</p>
                   </div>
                 </div>
@@ -1188,7 +1188,7 @@ export default function CruiseSnakeItinerary({
                 <div className="col-span-1 mt-2 space-y-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
                   <div className="flex items-center gap-2 border-b border-white/10 pb-2">
                     <span>📍</span>
-                    <h3>Port Circle & Corner Arrival Controls</h3>
+                    <h3 className="">Port Circle & Corner Arrival Controls</h3>
                   </div>
 
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -1506,7 +1506,7 @@ export default function CruiseSnakeItinerary({
                 {/* Card content header & events list with responsive inner padding */}
                 <div className="rounded-r-2xl rounded-b-2xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur-xl md:p-6">
                   <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
-                    <h3 className="text-xl font-black md:text-2xl">
+                    <h3 className="">
                       {day.theme}
                     </h3>
                     {day.location && (

@@ -2277,7 +2277,7 @@ export default function VisualSitemapClient() {
             7H
           </div>
           <div className="title-group title-group--page">
-            <h1>
+            <h1 className="">
               {activeTab === "ARCH"
                 ? "7th Heaven Site Architecture & Header Navigation Flow"
                 : activeTab === "BOOKING"

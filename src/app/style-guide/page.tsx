@@ -1222,7 +1222,7 @@ function ButtonMasterGalleryAndStudio() {
         <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
-              <h4>Secondary Glass (.btn-secondary / .site-link)</h4>
+              <h4 className="">Secondary Glass (.btn-secondary / .site-link)</h4>
               <p className="text-white/50">Glassmorphism translucent button</p>
             </div>
             <button
@@ -1848,7 +1848,7 @@ export default function StyleGuidePage() {
                 7th Heaven Design System
               </span>
             </div>
-            <h1 className="bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400 bg-clip-text text-4xl text-transparent sm:text-5xl">
+            <h1 className="bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
               Master Style Guide
             </h1>
             <p className="mt-2 max-w-2xl">
@@ -2964,7 +2964,7 @@ ${deskRules.join("\n")}
                       <div className="flex items-center justify-between border-b border-white/10 pb-3">
                         <div className="flex items-center gap-3">
                           <span className="h-3 w-3 animate-ping bg-emerald-400" />
-                          <h3>Global CSS Saved to Clipboard</h3>
+                          <h3 className="">Global CSS Saved to Clipboard</h3>
                         </div>
                         <button
                           onClick={() => setShowCssModal(false)}
@@ -3012,6 +3012,143 @@ ${deskRules.join("\n")}
               </div>
             );
           })()}
+
+          {/* ═══════════════════════════════════════════════════════════════════
+             UNIFIED FLUID HEADING HIERARCHY SCALE
+             ═══════════════════════════════════════════════════════════════════ */}
+          <div className="space-y-6 border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+            <div className="border-b border-white/10 pb-4">
+              <h3 className="flex items-center gap-2">
+                <Type className="h-5 w-5 text-purple-400" />
+                Unified Fluid Heading Hierarchy Scale
+              </h3>
+              <p className="text-muted mt-1">
+                <strong>The tag says what it is; the class says how big it looks.</strong> Every heading on the site uses exactly one standard fluid size class with built-in font-weight, line-height, and letter-spacing.
+              </p>
+            </div>
+
+            {/* Specimen Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-sm">
+                <thead>
+                  <tr className="border-b border-white/10 text-white/50">
+                    <th className="py-2.5 pr-4 font-semibold">Level / Token</th>
+                    <th className="py-2.5 pr-4 font-semibold">Class</th>
+                    <th className="py-2.5 pr-4 font-semibold">Size Range (360px → 1440px)</th>
+                    <th className="py-2.5 pr-4 font-semibold">Weight</th>
+                    <th className="py-2.5 pr-4 font-semibold">Leading</th>
+                    <th className="py-2.5 pr-4 font-semibold">Tracking</th>
+                    <th className="py-2.5 font-semibold">Typical Use</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5 font-mono text-xs">
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-purple-400">display</td>
+                    <td className="py-3 pr-4 text-emerald-300">.text-display</td>
+                    <td className="py-3 pr-4 text-white">44px → 88px (2.75rem → 5.5rem)</td>
+                    <td className="py-3 pr-4 text-white/70">900</td>
+                    <td className="py-3 pr-4 text-white/70">0.95</td>
+                    <td className="py-3 pr-4 text-white/70">-0.04em</td>
+                    <td className="py-3 font-sans text-xs text-white/70">Hero display titles, landing banners</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-purple-400">h1</td>
+                    <td className="py-3 pr-4 text-emerald-300">.text-h1</td>
+                    <td className="py-3 pr-4 text-white">36px → 64px (2.25rem → 4.0rem)</td>
+                    <td className="py-3 pr-4 text-white/70">900</td>
+                    <td className="py-3 pr-4 text-white/70">1.05</td>
+                    <td className="py-3 pr-4 text-white/70">-0.03em</td>
+                    <td className="py-3 font-sans text-xs text-white/70">Page titles, primary hero headers</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-purple-400">h2</td>
+                    <td className="py-3 pr-4 text-emerald-300">.text-h2</td>
+                    <td className="py-3 pr-4 text-white">28px → 48px (1.75rem → 3.0rem)</td>
+                    <td className="py-3 pr-4 text-white/70">800</td>
+                    <td className="py-3 pr-4 text-white/70">1.15</td>
+                    <td className="py-3 pr-4 text-white/70">-0.02em</td>
+                    <td className="py-3 font-sans text-xs text-white/70">Section headers, major card headers</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-purple-400">h3</td>
+                    <td className="py-3 pr-4 text-emerald-300">.text-h3</td>
+                    <td className="py-3 pr-4 text-white">21.6px → 36px (1.35rem → 2.25rem)</td>
+                    <td className="py-3 pr-4 text-white/70">700</td>
+                    <td className="py-3 pr-4 text-white/70">1.20</td>
+                    <td className="py-3 pr-4 text-white/70">-0.01em</td>
+                    <td className="py-3 font-sans text-xs text-white/70">Sub-sections, card groups, drawers</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-purple-400">h4</td>
+                    <td className="py-3 pr-4 text-emerald-300">.text-h4</td>
+                    <td className="py-3 pr-4 text-white">18.4px → 28px (1.15rem → 1.75rem)</td>
+                    <td className="py-3 pr-4 text-white/70">700</td>
+                    <td className="py-3 pr-4 text-white/70">1.25</td>
+                    <td className="py-3 pr-4 text-white/70">0.00em</td>
+                    <td className="py-3 font-sans text-xs text-white/70">Card titles, modal titles, panel titles</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-purple-400">h5</td>
+                    <td className="py-3 pr-4 text-emerald-300">.text-h5</td>
+                    <td className="py-3 pr-4 text-white">16px → 21.6px (1.00rem → 1.35rem)</td>
+                    <td className="py-3 pr-4 text-white/70">600</td>
+                    <td className="py-3 pr-4 text-white/70">1.30</td>
+                    <td className="py-3 pr-4 text-white/70">0.00em</td>
+                    <td className="py-3 font-sans text-xs text-white/70">Compact card headers, item subtitles</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 pr-4 font-bold text-purple-400">h6</td>
+                    <td className="py-3 pr-4 text-emerald-300">.text-h6</td>
+                    <td className="py-3 pr-4 text-white">15.2px → 18.4px (0.95rem → 1.15rem)</td>
+                    <td className="py-3 pr-4 text-white/70">600</td>
+                    <td className="py-3 pr-4 text-white/70">1.30</td>
+                    <td className="py-3 pr-4 text-white/70">0.00em</td>
+                    <td className="py-3 font-sans text-xs text-white/70">Dashboard badges, table/metric labels</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Live Visual Specimen Cards */}
+            <div className="space-y-4 pt-4">
+              <h4 className="text-white/60">Live Heading Specimens:</h4>
+
+              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+                <div className="text-xs text-purple-400 font-mono">.text-display (44px → 88px)</div>
+                <h1 className="">7TH HEAVEN LIVE</h1>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+                <div className="text-xs text-purple-400 font-mono">.text-h1 (36px → 64px)</div>
+                <h1 className="">Official Tour & Concert Schedule</h1>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+                <div className="text-xs text-purple-400 font-mono">.text-h2 (28px → 48px)</div>
+                <h2 className="">Upcoming Tour Schedule & Festival Appearances</h2>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+                <div className="text-xs text-purple-400 font-mono">.text-h3 (21.6px → 36px)</div>
+                <h3 className="">Royal Caribbean Staterooms & VIP Inclusions</h3>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+                <div className="text-xs text-purple-400 font-mono">.text-h4 (18.4px → 28px)</div>
+                <h4 className="">Crown Loft Suite & Premium Balcony View</h4>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+                <div className="text-xs text-purple-400 font-mono">.text-h5 (16px → 21.6px)</div>
+                <h5 className="">Standard Balcony Stateroom #8204</h5>
+              </div>
+
+              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+                <div className="text-xs text-purple-400 font-mono">.text-h6 (15.2px → 18.4px)</div>
+                <h6 className="">STATEROOM BOOKING SUMMARY • TIER 1 CONFIRMED</h6>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* SECTION 2: COLORS */}
@@ -3037,7 +3174,7 @@ ${deskRules.join("\n")}
               <span className="mb-1 block text-purple-400">
                 Standardized White Palette Rules
               </span>
-              <h3>The Two White Palette: Solid White & 0.5 White</h3>
+              <h3 className="">The Two White Palette: Solid White & 0.5 White</h3>
               <p>
                 Our site design strictly uses only two shades of white:{" "}
                 <strong>Solid White (#ffffff / 100%)</strong> for primary text
@@ -3193,7 +3330,7 @@ ${deskRules.join("\n")}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Text Inputs */}
             <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
-              <h3>Text Inputs</h3>
+              <h3 className="">Text Inputs</h3>
 
               {/* Default */}
               <div>
@@ -3250,7 +3387,7 @@ ${deskRules.join("\n")}
 
             {/* Search & Textarea */}
             <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
-              <h3>Search & Textarea Controls</h3>
+              <h3 className="">Search & Textarea Controls</h3>
 
               {/* Search input with icon */}
               <div>
@@ -3281,7 +3418,7 @@ ${deskRules.join("\n")}
 
             {/* PIN / OTP Digit Input */}
             <div className="space-y-5 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
-              <h3>PIN / OTP Digit Input</h3>
+              <h3 className="">PIN / OTP Digit Input</h3>
 
               {/* Default State */}
               <div>
@@ -3436,7 +3573,7 @@ ${deskRules.join("\n")}
 
             {/* Verify Module Cards */}
             <div className="space-y-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
-              <h3>Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
+              <h3 className="">Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
               <p>
                 Full glassmorphism verify card modules as used on{" "}
                 <code>/crew/verify</code>, <code>/planner/verify</code>,{" "}
@@ -3862,7 +3999,7 @@ ${deskRules.join("\n")}
 
             {/* Auth Modal Modules */}
             <div className="space-y-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
-              <h3>Auth Modal Modules (Sign In · Sign Up)</h3>
+              <h3 className="">Auth Modal Modules (Sign In · Sign Up)</h3>
               <p>
                 Full glassmorphism authentication modal cards as used in{" "}
                 <code>LoginModal.tsx</code> for fan and member login/signup.
@@ -4460,7 +4597,7 @@ ${deskRules.join("\n")}
             {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
             <div className="space-y-4 border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between">
-                <h3>Default Site Pill Dropdown (`CITY ▼`)</h3>
+                <h3 className="">Default Site Pill Dropdown (`CITY ▼`)</h3>
                 <span className="rounded border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
                   Site-Wide Standard
                 </span>
@@ -4913,7 +5050,7 @@ ${deskRules.join("\n")}
 
           {/* Role Badges */}
           <div className="space-y-3">
-            <h3>Role & Section Badges</h3>
+            <h3 className="">Role & Section Badges</h3>
             <div className="flex flex-wrap items-center gap-3">
               <RoleBadge role="admin" />
               <RoleBadge role="crew" />
@@ -4925,7 +5062,7 @@ ${deskRules.join("\n")}
 
           {/* Unified Avatar Component Showcase */}
           <div className="space-y-4 border-t border-white/10 pt-4">
-            <h3>Unified Avatar Component</h3>
+            <h3 className="">Unified Avatar Component</h3>
             <p className="text-white/60 text-sm">
               Supports photos/images, automatic initials fallback, role &amp; bottom badges, custom sizes, and neon glow.
             </p>
@@ -4985,7 +5122,7 @@ ${deskRules.join("\n")}
             {/* Glass Card Container */}
             <div className="transition-colors space-y-3 border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl hover:border-purple-500/40">
               <span className="text-purple-400">Glassmorphism Card</span>
-              <h4>House of Blues Chicago</h4>
+              <h4 className="">House of Blues Chicago</h4>
               <p>
                 Standard container card with 1px border{" "}
                 <code>rgba(255,255,255,0.08)</code>.
@@ -5010,7 +5147,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col justify-between space-y-3 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6">
               <div>
                 <span className="text-emerald-400">Interactive Modal</span>
-                <h4>Login & Authentication Modal</h4>
+                <h4 className="">Login & Authentication Modal</h4>
                 <p>Trigger the site-wide login/signup modal dialog.</p>
               </div>
               <button
@@ -5043,7 +5180,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span>Glass Shell</span>
-                <h4>Glassmorphism Modal</h4>
+                <h4 className="">Glassmorphism Modal</h4>
                 <p>
                   The frosted-glass card used for verify screens, PIN entry, and
                   success states.
@@ -5061,7 +5198,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-amber-400">Confirm / Alert</span>
-                <h4>Confirmation Dialog</h4>
+                <h4 className="">Confirmation Dialog</h4>
                 <p>
                   Destructive action confirmation with cancel/confirm buttons.
                 </p>
@@ -5091,7 +5228,7 @@ ${deskRules.join("\n")}
             <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-emerald-400">Auth Modal</span>
-                <h4>Login & Signup Modal</h4>
+                <h4 className="">Login & Signup Modal</h4>
                 <p>
                   Site-wide auth modal with login/signup toggle, form
                   validation, and role selection.
@@ -5108,7 +5245,7 @@ ${deskRules.join("\n")}
 
           {/* Alert / Success Toast Demo (inline) */}
           <div className="space-y-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
-            <h3>Alert / Success Toast Patterns</h3>
+            <h3 className="">Alert / Success Toast Patterns</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {/* Success */}
               <div className="flex items-start gap-3 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/10 p-4">
@@ -5958,7 +6095,7 @@ ${deskRules.join("\n")}
 
           {/* Live Preview Strip */}
           <div className="space-y-3">
-            <h3>Live Preview</h3>
+            <h3 className="">Live Preview</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div
                 className="space-y-2 p-5"
@@ -6110,7 +6247,7 @@ ${deskRules.join("\n")}
                 <div className="mb-6 flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
                   <div>
                     <span className="">VIP Experiences</span>
-                    <h3>Suite Class Perks</h3>
+                    <h3 className="">Suite Class Perks</h3>
                   </div>
                   <div className="flex gap-1.5 border border-white/10 bg-[#00000029] p-1.5">
                     {(["sea", "sky", "star"] as const).map((perk) => (
@@ -6274,7 +6411,7 @@ ${deskRules.join("\n")}
                 <span className="text-purple-400">
                   Prevailing Market Pricing Cards
                 </span>
-                <h3>Stateroom & Cabin Rate Cards</h3>
+                <h3 className="">Stateroom & Cabin Rate Cards</h3>
               </div>
             </div>
 
@@ -6372,14 +6509,14 @@ ${deskRules.join("\n")}
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <span className="">Reservation Form Component</span>
-                <h3>Cruise Guest Booking Registration Card</h3>
+                <h3 className="">Cruise Guest Booking Registration Card</h3>
               </div>
             </div>
 
             <div className="booking-form-card overflow-hidden border-0 p-0 text-left">
               {/* Header Banner */}
               <div className="booking-header-banner border-0 px-0 py-2 text-left">
-                <h2>
+                <h2 className="">
                   7 NIGHT EASTERN CARIBBEAN CRUISE — ORLANDO, FL • COCOCAY • ST.
                   THOMAS • ST. MAARTEN
                 </h2>
@@ -6565,7 +6702,7 @@ ${deskRules.join("\n")}
                 <span className="text-purple-400">
                   Policies & Terms Component
                 </span>
-                <h3>Cruise Booking, Passport & Cancellation Guidelines</h3>
+                <h3 className="">Cruise Booking, Passport & Cancellation Guidelines</h3>
               </div>
             </div>
 
@@ -6574,7 +6711,7 @@ ${deskRules.join("\n")}
               <div className="relative border-0 p-0 text-left">
                 <div className="mb-6 flex items-center gap-3">
                   <AlertTriangle className="h-6 w-6 shrink-0 text-amber-400" />
-                  <h3>Booking Policy & Best Rate Guarantee</h3>
+                  <h3 className="">Booking Policy & Best Rate Guarantee</h3>
                 </div>
                 <p className="mb-6 text-amber-400">
                   Book through us to participate & lock in best rates
@@ -6656,7 +6793,7 @@ ${deskRules.join("\n")}
               <div className="relative border-0 p-0 text-left">
                 <div className="mb-6 flex items-center gap-3">
                   <Compass className="text-purple-400 shrink-0 h-6 w-6" />
-                  <h3>Passport Requirements</h3>
+                  <h3 className="">Passport Requirements</h3>
                 </div>
                 <p className="mb-6">Essential travel document guidelines</p>
                 <div className="space-y-4">
@@ -6690,7 +6827,7 @@ ${deskRules.join("\n")}
               <div className="relative border-0 p-0 text-left">
                 <div className="mb-6 flex items-center gap-3">
                   <Calendar className="h-6 w-6 shrink-0 text-purple-400" />
-                  <h3>Cancellation Policy</h3>
+                  <h3 className="">Cancellation Policy</h3>
                 </div>
                 <p className="mb-6">Refund terms before booking</p>
                 <div className="space-y-4">
@@ -6753,7 +6890,7 @@ ${deskRules.join("\n")}
               <div>
                 <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-3">
                   <div>
-                    <h3>OpenShifts Cell & Group Popover</h3>
+                    <h3 className="">OpenShifts Cell & Group Popover</h3>
                     <p>
                       Grid cell action buttons & frosted glass group selection
                       popover
@@ -6845,7 +6982,7 @@ ${deskRules.join("\n")}
             <div className="space-y-6 border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
-                  <h3>Create New Crew Group Glass Modal</h3>
+                  <h3 className="">Create New Crew Group Glass Modal</h3>
                   <p>
                     Modal container, input spacing, toggle checklist & role
                     preset pills
@@ -6861,7 +6998,7 @@ ${deskRules.join("\n")}
                 {/* Header */}
                 <div className="flex shrink-0 items-center justify-between border-b border-white/10 p-4">
                   <div>
-                    <h3>Create New Crew Group</h3>
+                    <h3 className="">Create New Crew Group</h3>
                     <p className="mt-0.5">
                       Select members and customize their shift slots
                     </p>

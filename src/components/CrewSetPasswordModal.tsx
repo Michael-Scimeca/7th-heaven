@@ -132,15 +132,12 @@ export function CrewSetPasswordModal({
         </div>
 
         {/* Title */}
-        <h2
+        <h2 className=""
           style={{
             color: "var(--color-text-main)",
-            fontWeight: 900,
-            fontSize: "var(--font-size-lg)",
             textAlign: "center",
             margin: "0 0 6px",
-            letterSpacing: "-0.02em",
-          }}
+            }}
         >
           Set Your Password
         </h2>

@@ -152,7 +152,7 @@ export default function CompleteProfilePage() {
                 🎸
               </div>
               <div className="title-group title-group--page items-center text-center">
-                <h1>
+                <h1 className="">
                   Welcome to the Family
                   {profile?.full_name
                     ? `, ${profile.full_name.split(" ")[0]}`

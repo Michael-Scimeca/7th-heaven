@@ -221,7 +221,7 @@ export default function FeaturesPage() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-3 flex items-center gap-3">
               <span className="text-[var(--color-accent)]">✦</span>
-              <h2 id="flagship-features-heading">Flagship Features</h2>
+              <h2 className="" id="flagship-features-heading">Flagship Features</h2>
             </div>
           <p className="mb-12 max-w-2xl">
             The ten defining features of the platform — each explained in full
@@ -248,7 +248,7 @@ export default function FeaturesPage() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-3 flex items-center gap-3">
               <span className="text-white/30">◈</span>
-              <h2 id="all-features-heading">All {FEATURES.length} Features</h2>
+              <h2 className="" id="all-features-heading">All {FEATURES.length} Features</h2>
             </div>
           <p className="mb-10">
             Filter by category. Every feature card includes a full description,
@@ -300,7 +300,7 @@ export default function FeaturesPage() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-3 flex items-center gap-3">
               <span className="text-white/30">◈</span>
-              <h2 id="tech-stack-heading">Built With</h2>
+              <h2 className="" id="tech-stack-heading">Built With</h2>
             </div>
           <p className="mb-10">
             Best-in-class services and frameworks — each chosen for reliability,
@@ -346,7 +346,7 @@ export default function FeaturesPage() {
             />
           </div>
           <div className="relative mx-auto max-w-4xl text-center">
-            <h2 id="features-cta-heading" className="mb-6 text-6xl md:text-8xl">
+            <h2 id="features-cta-heading" className="mb-6">
             Ready to
             <br />
             <span className="text-[#851DEF]">Experience It?</span>

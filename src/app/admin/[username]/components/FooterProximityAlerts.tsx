@@ -300,7 +300,7 @@ export default function FooterProximityAlerts() {
         <div className="relative z-10 mb-5 flex flex-col items-start justify-between gap-4 border-b border-white/10 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <div>
-              <h4>Proximity & Show Alert Filters</h4>
+              <h4 className="">Proximity & Show Alert Filters</h4>
               <p>
                 Get notified only for shows within your distance & preferences
               </p>

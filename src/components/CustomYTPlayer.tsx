@@ -365,7 +365,7 @@ export default function CustomYTPlayer({
             <div className="flex min-w-0 items-center gap-3">
               <div className="h-6 w-1 shrink-0 bg-[var(--color-accent)]" />
               <div className="min-w-0">
-                <h3>{title}</h3>
+                <h3 className="">{title}</h3>
                 <p>7th Heaven • {year}</p>
               </div>
             </div>

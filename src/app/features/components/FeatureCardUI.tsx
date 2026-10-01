@@ -79,7 +79,7 @@ export function DemoPreview({
             </button>
             {/* Title */}
             <div className="mb-6">
-              <h3 style={{ fontStyle: " " }}>
+              <h3 className="" style={{ fontStyle: " " }}>
                 {title} <span style={{ color: "#851DEF" }}>Demo</span>
               </h3>
             </div>

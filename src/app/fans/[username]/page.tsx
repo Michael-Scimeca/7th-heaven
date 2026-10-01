@@ -729,7 +729,7 @@ export default function FanAccountPage({
       <main className="site-container flex min-h-screen items-center justify-center py-48">
         <div className="text-center">
           <div className="title-group title-group--page mb-8 items-center text-center">
-            <h1>
+            <h1 className="">
               Fan <span className="gradient-text">Account</span>
             </h1>
             <p className="max-w-sm">
@@ -812,7 +812,7 @@ export default function FanAccountPage({
             <div>
               <div className="mb-6 flex items-center gap-4">
                 <div>
-                  <h2 className="text-2xl">Cruise Hub</h2>
+                  <h2 className="">Cruise Hub</h2>
                   <p>Passenger Area</p>
                 </div>
               </div>
@@ -1186,7 +1186,7 @@ export default function FanAccountPage({
                           className={`mt-2 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center ${isHappeningNow ? "-mx-1 rounded-[var(--radius-box)] border border-white/10 bg-emerald-500/[0.03] p-4" : ""} `}
                         >
                           <div>
-                            <h3 className="mb-1 text-xl sm:text-2xl md:text-3xl">
+                            <h3 className="mb-1">
                               {nextShow.venue}
                             </h3>
                             <p className="text-white/70">
@@ -1461,7 +1461,7 @@ export default function FanAccountPage({
                             </div>
 
                             <div className="min-w-0 flex-1">
-                              <h3 className="text-base text-white group-hover:text-[var(--color-accent)] transition-colors line-clamp-1">
+                              <h3 className="text-white group-hover:text-[var(--color-accent)] transition-colors line-clamp-1">
                                 {show.venue}
                               </h3>
                               {(show.city || show.state) && (

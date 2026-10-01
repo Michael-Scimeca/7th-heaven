@@ -325,7 +325,7 @@ export default function MerchQRClient({
             Show Night QR Express Store
           </div>
 
-          <h1>
+          <h1 className="">
             7th Heaven <span>Merch Express</span>
           </h1>
 
@@ -382,7 +382,7 @@ export default function MerchQRClient({
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🛍️</span>
                 <div>
-                  <h3>Shopify Storefront Integration Blueprint</h3>
+                  <h3 className="">Shopify Storefront Integration Blueprint</h3>
                   <p>
                     How this page connects live to your Shopify Storefront API
                   </p>
@@ -786,7 +786,7 @@ export default function MerchQRClient({
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🏃</span>
                 <div>
-                  <h3>Left the Show? Switch to Shipping</h3>
+                  <h3 className="">Left the Show? Switch to Shipping</h3>
                   <p>Enter your delivery address below</p>
                 </div>
               </div>

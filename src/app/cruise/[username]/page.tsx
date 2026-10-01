@@ -796,7 +796,7 @@ export default function CruiseDashboard() {
 
         <div className="relative z-10 w-full max-w-md animate-[fadeIn_0.3s_ease-out]">
           <div className="title-group title-group--page items-center text-center mb-8">
-            <h1>Cruise Hub</h1>
+            <h1 className="">Cruise Hub</h1>
             <p>Exclusive Passenger Community</p>
           </div>
 
@@ -808,7 +808,7 @@ export default function CruiseDashboard() {
                     🔑
                   </span>
                   <div className="title-group title-group--sub items-center text-center">
-                    <h3>Verify Your Email</h3>
+                    <h3 className="">Verify Your Email</h3>
                     <p className="text-black/60">
                       We've sent a 6-digit verification PIN to{" "}
                       <strong>{email}</strong>. Enter it below to activate your
@@ -871,7 +871,7 @@ export default function CruiseDashboard() {
               <div className="animate-[fadeIn_0.3s_ease-out] p-8 text-center">
                 <span className="mb-6 block text-4xl">📧</span>
                 <div className="title-group title-group--sub items-center text-center mb-6">
-                  <h3>Check Your Email</h3>
+                  <h3 className="">Check Your Email</h3>
                   <p className="text-black/60">
                     We've sent a verification link to{" "}
                     <strong className="text-black">{email}</strong>. Please check

@@ -106,7 +106,7 @@ function BioScrollRevealComponent({
                 </div>
 
                 <h3
-                  className={`md:text-7xl ${isActive ? "translate-x-2 scale-[1.02] drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : "text-white/30 group-hover:text-white"} `}
+                  className={` ${isActive ? "translate-x-2 scale-[1.02] drop-shadow-[0_0_30px_rgba(192,132,252,0.6)]" : "text-white/30 group-hover:text-white"}`}
                 >
                   {member.name}
                 </h3>

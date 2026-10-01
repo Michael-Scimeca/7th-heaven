@@ -419,10 +419,7 @@ export default function AudioPlayerSection() {
 
   const renderAlbumList = (categoryAlbums: typeof albums, title: string) => (
     <div className="mb-6">
-      <h3
-        className="text-white/40"
-        style={{ fontSize: "clamp(1.2rem, 1.9vw, 2.0rem)" }}
-      >
+      <h3 className="text-white/40">
         {title}
       </h3>
       <ul className="flex flex-col gap-0.5">
@@ -606,7 +603,7 @@ export default function AudioPlayerSection() {
               <span className="block text-purple-400">
                 7th Heaven Music Vault
               </span>
-              <h3 className="text-xl sm:text-2xl">
+              <h3 className="">
                 Official MP3 Discography & Audio Player (700+ Songs)
               </h3>
             </div>
@@ -1359,7 +1356,7 @@ export default function AudioPlayerSection() {
                 {/* Modal Header */}
                 <div className="flex shrink-0 items-center justify-between bg-[var(--color-bg-surface)] px-8 py-5">
                   <div className="min-w-0">
-                    <h3>{trackTitle}</h3>
+                    <h3 className="">{trackTitle}</h3>
                     <p>
                       {activeAlbum?.title
                         ?.replace(/&apos;/gi, "'")

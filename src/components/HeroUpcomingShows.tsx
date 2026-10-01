@@ -352,7 +352,7 @@ export default function HeroUpcomingShows({
         {remainingShows.map((show) => (
           <Link
             key={show.id || `${show.venue}-${show.date}`}
-            href="/tour"
+            href="/#tour"
             className="transition-colors flex items-center gap-2 rounded border border-white/10 bg-white/[0.02] px-2 py-1.5 hover:bg-white/[0.04]"
           >
             <div className="flex h-7 w-7 shrink-0 flex-col items-center justify-center rounded border border-white/10 bg-white/[0.03] text-white/40">

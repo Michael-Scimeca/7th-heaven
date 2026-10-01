@@ -296,7 +296,7 @@ export default function AdminGatewayPage() {
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
-                <h1>
+                <h1 className="">
                   Admin{" "}
                   <span className="text-[var(--color-accent)]">Access</span>
                 </h1>

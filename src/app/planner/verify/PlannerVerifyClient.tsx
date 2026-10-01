@@ -217,7 +217,7 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
           </div>
 
           {/* Title & Subtitle */}
-          <h1 id="planner-verify-heading" className="text-[26px] font-black tracking-[-0.02em] mb-2 text-white">
+          <h1 id="planner-verify-heading" className="mb-2 text-white">
             {sanityContent?.heroHeading ||
               sanityContent?.title ||
               (step === "email"

@@ -269,7 +269,7 @@ export default function HeroUpNextBanner() {
         </div>
 
         {/* Venue Name */}
-        <h2>{upNext.venue}</h2>
+        <h2 className="">{upNext.venue}</h2>
 
         {/* Date, Location & Time */}
         <div className="/90 flex flex-wrap items-center gap-2">
@@ -296,7 +296,7 @@ export default function HeroUpNextBanner() {
         {/* Subtitle / Notes */}
         <div className="min-h-[1.5rem]">
           {upNext.info ? (
-            <h3 className="/90 font-normal">{upNext.info}</h3>
+            <h3 className="/90">{upNext.info}</h3>
           ) : null}
         </div>
 

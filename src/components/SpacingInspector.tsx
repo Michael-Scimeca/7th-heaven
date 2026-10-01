@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 type Mode = "HOVER" | "PIN" | "OUTLINE" | "ALL_MARGIN" | "ALL_PADDING" | "MEASURE" | "NONE";
@@ -212,7 +212,11 @@ const IGNORED_TAGS = new Set([
 ]);
 
 export default function SpacingInspector() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const [isActive, setIsActive] = useState<boolean>(false);
   const [mode, setMode] = useState<Mode>("HOVER");
   const [flagOffScale, setFlagOffScale] = useState<boolean>(false);
@@ -244,7 +248,6 @@ export default function SpacingInspector() {
   }, [pillPos]);
 
   useEffect(() => {
-    setMounted(true);
     try {
       if (localStorage.getItem("spacing_inspector_active") === "true") {
         setIsActive(true);
@@ -296,8 +299,6 @@ export default function SpacingInspector() {
       localStorage.setItem("spacing_inspector_mode", mode);
     } catch { }
   }, [mode, mounted]);
-    } catch { }
-  }, [mode]);
 
   useEffect(() => {
     try {
@@ -836,8 +837,8 @@ export default function SpacingInspector() {
 
       {/* ── ALL PADDING AND ALL MARGIN HIGHLIGHT OVERLAYS ── */}
       {showOverlays && mode !== "NONE" && (highlightPadding || highlightMargin) &&
-        allSpacingItems.map((item, idx) => (
-          <React.Fragment key={`${item.tagName}-${item.rect.top}-${item.rect.left}-${idx}`}>
+        allSpacingItems.map((item) => (
+          <React.Fragment key={`spacing-${item.tagName}-${item.rect.top}-${item.rect.left}-${item.rect.width}-${item.rect.height}`}>
             {/* All Padding Highlights */}
             {highlightPadding && (
               <>
@@ -959,9 +960,9 @@ export default function SpacingInspector() {
       {/* ── 2. OUTLINE ALL SECTIONS MODE ── */}
       {mode === "OUTLINE" && (
         <>
-          {outlineSections.map(({ rect, pt, pb }, idx) => (
+          {outlineSections.map(({ rect, pt, pb }) => (
             <div
-              key={`outline-${rect.top}-${rect.left}-${idx}`}
+              key={`outline-${rect.top}-${rect.left}-${rect.width}-${rect.height}`}
               className="fixed border-2 border-cyan-400/80 bg-cyan-500/10 pointer-events-none"
               style={{
                 top: rect.top,
@@ -981,9 +982,9 @@ export default function SpacingInspector() {
       {/* ── 3. FLAG OFF-SCALE RED OUTLINES ── */}
       {flagOffScale && (
         <>
-          {offScaleItems.map((item, idx) => (
+          {offScaleItems.map((item) => (
             <div
-              key={`offscale-${item.rect.top}-${item.rect.left}-${idx}`}
+              key={`offscale-${item.tagName}-${item.rect.top}-${item.rect.left}-${item.rect.width}-${item.rect.height}`}
               className="fixed border-2 border-red-500 bg-red-500/10 pointer-events-none shadow-[0_0_8px_rgba(239,68,68,0.5)]"
               style={{
                 top: item.rect.top,

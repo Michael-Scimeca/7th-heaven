@@ -457,7 +457,7 @@ export default function ShowPageClient({
               </div>
 
               <div className="title-group title-group--page">
-                <h1>{show.venue_name}</h1>
+                <h1 className="">{show.venue_name}</h1>
                 <p>
                   {show.city}
                   {show.state ? `, ${show.state}` : ""}

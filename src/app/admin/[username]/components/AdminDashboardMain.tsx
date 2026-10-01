@@ -8394,7 +8394,7 @@ export function AdminDashboardMain({
                 {/* 6. Broadcast History Logs */}
                 <div className="space-y-3 border-t border-white/10 pt-6">
                   <div className="flex items-center justify-between">
-                    <h4 className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <h4 className="flex items-center gap-2 text-white">
                       <Clock className="h-4 w-4 text-purple-400" />
                       Broadcast History & Audit Logs
                     </h4>
@@ -11131,7 +11131,7 @@ export function AdminDashboardMain({
                     <div className="flex items-start gap-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/20"></div>
                       <div>
-                        <h4>Crew Account Created</h4>
+                        <h4 className="">Crew Account Created</h4>
                         <p className="mt-1">
                           <strong>{createdCrew.name}</strong> ·{" "}
                           {createdCrew.email}
@@ -11377,7 +11377,7 @@ export function AdminDashboardMain({
               {/* Create Admin Form Section */}
               <div className="border-t border-white/10 pt-6">
                 <div className="title-group title-group--sub mb-6">
-                  <h4>New Admin Account Registration</h4>
+                  <h4 className="">New Admin Account Registration</h4>
                   <p>Enter details to generate and invite a new band admin or planner.</p>
                 </div>
                 <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-4">
@@ -11457,7 +11457,7 @@ export function AdminDashboardMain({
                       <div className="flex items-start gap-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-white/20"></div>
                         <div>
-                          <h4>Admin Account Created</h4>
+                          <h4 className="">Admin Account Created</h4>
                           <p className="mt-1">
                             <strong>{createdAdmin.name}</strong> ·{" "}
                             {createdAdmin.email}
@@ -14385,7 +14385,7 @@ export function AdminDashboardMain({
                     <div className="flex items-center gap-3 border-b border-white/10 pb-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 bg-white/20 text-xl"></div>
                       <div>
-                        <h3>Schedule Mix-Up Prevented!</h3>
+                        <h3 className="">Schedule Mix-Up Prevented!</h3>
                         <p className="">
                           Concurrent Edit Detected from Co-Editor
                         </p>
@@ -15209,7 +15209,7 @@ export function AdminDashboardMain({
                           {/* Modal Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div>
-                              <h3>
+                              <h3 className="">
                                 {editingShiftId
                                   ? "Edit Work Shift"
                                   : "Configure Work Shift"}
@@ -16402,7 +16402,7 @@ export function AdminDashboardMain({
                               : ""}
                       </div>
                       <div>
-                        <h3>{alertModal.title || "Schedule Notice"}</h3>
+                        <h3 className="">{alertModal.title || "Schedule Notice"}</h3>
                         <p className="mt-2 whitespace-pre-line">
                           {alertModal.message}
                         </p>
@@ -16447,7 +16447,7 @@ export function AdminDashboardMain({
                           {/* Drawer Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div className="min-w-0 flex-1 pr-2">
-                              <h3>Select Crew Group</h3>
+                              <h3 className="">Select Crew Group</h3>
                               <p className="mt-1">
                                 Select saved group to apply to shift slots for{" "}
                                 {dateStr}
@@ -16592,7 +16592,7 @@ export function AdminDashboardMain({
                         {/* Modal Header */}
                         <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                           <div>
-                            <h3>Create New Crew Group</h3>
+                            <h3 className="">Create New Crew Group</h3>
                             <p className="mt-1">
                               Select members and customize their shift slots
                             </p>
@@ -17163,7 +17163,7 @@ export function AdminDashboardMain({
                           {/* Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div>
-                              <h3>Show Crew Roster</h3>
+                              <h3 className="">Show Crew Roster</h3>
                               <p className="mt-1">
                                 {new Date(
                                   selectedShowCrewDate + "T12:00:00",
@@ -17413,7 +17413,7 @@ export function AdminDashboardMain({
           </div>
           <div>
             <div className="mb-1 flex flex-wrap items-center gap-2.5">
-              <h1>
+              <h1 className="">
                 {effectiveAdmin.name
                   ? effectiveAdmin.name
                     .toLowerCase()
@@ -17796,7 +17796,7 @@ export function AdminDashboardMain({
               <div className="relative z-10">
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
                   <div className="title-group title-group--sub">
-                    <h3>Cruise Information & Guidelines</h3>
+                    <h3 className="">Cruise Information & Guidelines</h3>
                     <p>
                       Welcome Pack content rendered on passenger hub
                     </p>
@@ -17922,7 +17922,7 @@ export function AdminDashboardMain({
                 <div className="relative z-10 flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
                     <div className="title-group title-group--sub">
-                      <h3>Passenger Notice & Email Broadcast</h3>
+                      <h3 className="">Passenger Notice & Email Broadcast</h3>
                       <p>
                         Post an update to the Cruise Dashboard & email
                         passengers
@@ -18063,7 +18063,7 @@ export function AdminDashboardMain({
                       <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span></span>
-                          <h4>Live Dispatch Preview</h4>
+                          <h4 className="">Live Dispatch Preview</h4>
                         </div>
                         {/* Live Preview Tab Switcher */}
                         <div className="flex items-center gap-2 select-none">
@@ -18111,7 +18111,7 @@ export function AdminDashboardMain({
               <div className="transition-colors pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="title-group title-group--sub border-b border-white/10 pb-4">
-                  <h3>Cruise Roster</h3>
+                  <h3 className="">Cruise Roster</h3>
                   <p>Signups & Passenger Manifest</p>
                 </div>
 

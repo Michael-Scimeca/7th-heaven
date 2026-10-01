@@ -1589,7 +1589,7 @@ export default function TourList({
             ref={headerParallaxRef}
             className="title-group title-group--section pointer-events-none z-30 mx-auto py-5 items-center text-center"
           >
-            <h2>Upcoming Tour Dates</h2>
+            <h2 className="">Upcoming Tour Dates</h2>
             <p className="md:">
               Catch 7th Heaven live on stage! Explore all upcoming show dates,
               venues, directions, and sync concerts directly to your calendar.
@@ -2057,7 +2057,7 @@ export default function TourList({
                   >
                     {/* 1. Venue & City (FIRST) */}
                     <div className="space-y-1">
-                      <h4 className="font-black">{show.venue}</h4>
+                      <h4 className="">{show.venue}</h4>
 
                       {(show.city || show.state) && (
                         <p className="flex items-center gap-1.5">
@@ -2687,7 +2687,7 @@ export default function TourList({
                       </svg>
                     </div>
                     <div>
-                      <h3>Set Up Alerts</h3>
+                      <h3 className="">Set Up Alerts</h3>
                       <p className="r">{notifyPopupShow.venue}</p>
                     </div>
                   </div>

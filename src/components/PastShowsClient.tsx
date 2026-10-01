@@ -301,7 +301,7 @@ export default function PastShowsClient({
                     aria-controls={accordionContentId}
                     className="accordion-trigger flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/15 py-2.5 pr-6 text-left"
                   >
-                    <h2 className="flex items-center gap-3 font-medium">
+                    <h2 className="flex items-center gap-3">
                       <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1">
                         {yGroup.year}
                       </span>

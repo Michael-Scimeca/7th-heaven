@@ -597,7 +597,7 @@ export function FakeLiveStream({
         body: JSON.stringify({
           to: targetEmail,
           subject: "🏆 You Won the 7th Heaven Raffle!",
-          html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Barlow',Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ""}<a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`,
+          html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:'Barlow',Helvetica,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 0;"><tr><td align="center"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;"><tr><td style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:22px 40px;text-align:center;border-radius:12px 12px 0 0;"><p style="margin:0;color:#fff;font-size:22px;font-weight:900;letter-spacing:4px;text-transform:;">7TH HEAVEN</p></td></tr><tr><td style="background:#111118;padding:48px 40px;text-align:center;border-left:1px solid #1f1f2e;border-right:1px solid #1f1f2e;"><p style="font-size:52px;margin:0 0 16px;">🏆</p><h1 className="" style="margin:0 0 12px;color:#fff;font-size:32px;font-weight:900;letter-spacing:1px;text-transform:;">YOU WON THE RAFFLE</h1><p style="margin:0 0 36px;color:#888;font-size:16px;">Congratulations — your name was drawn live in front of everyone.</p><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;"><tr><td style="background:#0a0a0e;border:2px solid #c084fc;border-radius:12px;padding:24px;text-align:center;"><p style="margin:0 0 8px;color:#92600a;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:;">Your Prize</p><p style="margin:0;color:#fff;font-size:24px;font-weight:900;">${prizeName}</p></td></tr></table>${pin ? `<p style="margin:0 0 12px;color:#555;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:;">Your Claim PIN</p><table cellpadding="0" cellspacing="0" style="margin:0 auto 8px;"><tr>${pinDigits}</tr></table><p style="margin:0 0 32px;color:#444;font-size:11px;">Show this PIN to the 7th Heaven crew at the merch table</p>` : ""}<a href="${claimUrl}" style="display:inline-block;background:#c084fc;color:#000;font-weight:900;font-size:14px;letter-spacing:2px;text-transform:;text-decoration:none;padding:16px 40px;border-radius:10px;margin-bottom:24px;">Open My Claim Page</a><p style="margin:0;color:#555;font-size:13px;">Or show this page to the crew at the merch table to collect your prize.</p></td></tr><tr><td style="background:#0d0d14;padding:24px 40px;text-align:center;border:1px solid #1f1f2e;border-top:none;border-radius:0 0 12px 12px;"><p style="margin:0 0 8px;color:#444;font-size:12px;">This email was sent because you entered the 7th Heaven live stream raffle.</p><p style="margin:0;color:#7c3aed;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:;">7TH HEAVEN</p></td></tr></table></td></tr></table></body></html>`,
         }),
       }).catch(console.error);
     },
@@ -2054,7 +2054,7 @@ export function FakeLiveStream({
                                         "fan@7thheavenband.com",
                                       subject:
                                         "🎟️ You are entered into the 7th Heaven Raffle!",
-                                      html: `<div style="font-family:'Barlow',sans-serif;background:#000;color:#fff;padding:40px 20px;text-align:center;"><h1 style="color:#c084fc;">RAFFLE ENTRY CONFIRMED</h1><p>You entered the raffle for <strong>${raffleState?.prizes[0]?.name || "the live drop"}</strong>.</p></div>`,
+                                      html: `<div style="font-family:'Barlow',sans-serif;background:#000;color:#fff;padding:40px 20px;text-align:center;"><h1 className="" style="color:#c084fc;">RAFFLE ENTRY CONFIRMED</h1><p>You entered the raffle for <strong>${raffleState?.prizes[0]?.name || "the live drop"}</strong>.</p></div>`,
                                     }),
                                   }).catch(console.error);
                                   try {
@@ -3883,7 +3883,7 @@ export function FakeLiveStream({
                   </div>
 
                   <div className="max-w-xs space-y-2">
-                    <h3>Join the Live Chat</h3>
+                    <h3 className="">Join the Live Chat</h3>
                     <p>
                       Sign in or register as a 7th Heaven fan, crew member, or
                       admin to participate in live stream chat and setlist
@@ -4250,7 +4250,7 @@ export function FakeLiveStream({
                   const emailHtml =
                     checkoutDeliveryMethod === "merch_table"
                       ? `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
-                      <h2 style="color: #10b981; margin-top: 0; text-transform: ;">Merch Ready for Pickup</h2>
+                      <h2 className="" style="color: #10b981; margin-top: 0; text-transform: ;">Merch Ready for Pickup</h2>
                       <p>Hello <strong>${shippingDetails.name || "Fan"}</strong>,</p>
                       <p>Thank you for purchasing live! Your order has been registered for <strong>Merch Table Pickup</strong> at the venue.</p>
                       
@@ -4275,7 +4275,7 @@ export function FakeLiveStream({
                       </p>
                     </div>`
                       : `<div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 12px; background: #ffffff; color: #1a1a1a;">
-                      <h2 style="color: #3b82f6; margin-top: 0; text-transform: ;">Order Confirmed</h2>
+                      <h2 className="" style="color: #3b82f6; margin-top: 0; text-transform: ;">Order Confirmed</h2>
                       <p>Hello <strong>${shippingDetails.name || "Fan"}</strong>,</p>
                       <p>Your order has been successfully confirmed. It will be shipped to you shortly.</p>
                       
@@ -4291,7 +4291,7 @@ export function FakeLiveStream({
                       </div>
 
                       <div style="background: #f4f4f5; padding: 16px; border-radius: 8px; margin: 20px 0;">
-                        <h4 style="margin: 0 0 8px 0; font-size: 12px; text-transform: ; color: #666;">Shipping Address</h4>
+                        <h4 className="" style="margin: 0 0 8px 0; font-size: 12px; text-transform: ; color: #666;">Shipping Address</h4>
                         <p style="margin: 0; font-weight: bold;">${shippingDetails.name}</p>
                         <p style="margin: 4px 0 0 0;">${shippingDetails.address}, ${shippingDetails.city}, ${shippingDetails.zip}</p>
                       </div>

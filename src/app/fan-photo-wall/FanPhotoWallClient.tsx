@@ -472,7 +472,7 @@ export default function FanPhotoWallClient({
           <div className="site-container mx-auto">
             <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h3 id="pending-queue-heading">
+                <h3 className="" id="pending-queue-heading">
                   {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
                 </h3>
                 <p>
@@ -577,7 +577,7 @@ export default function FanPhotoWallClient({
       >
         <div className="site-container mx-auto">
           <div className="title-group title-group--section mb-6">
-            <h2 id="featured-media-heading">{sanityContent?.sectionTitle || "FEATURED MEDIA"}</h2>
+            <h2 className="" id="featured-media-heading">{sanityContent?.sectionTitle || "FEATURED MEDIA"}</h2>
             <p className="max-w-2xl">
               {sanityContent?.sectionDescription ||
                 "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
@@ -852,7 +852,7 @@ export default function FanPhotoWallClient({
                   <Camera className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl">Add Photo / Video to Sanity CMS</h3>
+                  <h3 className="">Add Photo / Video to Sanity CMS</h3>
                   <p className="">
                     Create and publish a fan wall moment directly to Sanity CMS.
                   </p>

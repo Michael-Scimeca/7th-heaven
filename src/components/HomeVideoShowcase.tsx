@@ -898,7 +898,7 @@ export default function HomeVideoShowcase({
                       {/* Bottom Image Overlay: Small Category Tag Above + Large Title Over Image */}
                       <div className="transition-opacity pointer-events-none absolute right-0 bottom-0 left-0 z-20 flex flex-col items-center justify-end p-5 text-center group-hover:opacity-0 sm:p-6 md:p-8">
                         {showBadges && (
-                          <div className="mb-2.5 flex flex-wrap items-center justify-center gap-2">
+                          <div className="mb-2.5 hidden flex-wrap items-center justify-center gap-2 sm:flex">
                             {video.badges.map((badge, bIdx) => (
                               <SectionBadge
                                 key={badge + bIdx}
@@ -909,7 +909,7 @@ export default function HomeVideoShowcase({
                           </div>
                         )}
 
-                        <h3 className="sm: line-clamp-2 font-black md:text-xl">
+                        <h3 className="sm: line-clamp-2">
                           {video.title}
                         </h3>
                       </div>
@@ -961,7 +961,7 @@ export default function HomeVideoShowcase({
                   <VideoIcon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl">Add Video to Sanity</h3>
+                  <h3 className="">Add Video to Sanity</h3>
                   <p className="/70">
                     Publish a new YouTube video directly to the Sanity database.
                   </p>

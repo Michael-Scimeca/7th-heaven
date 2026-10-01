@@ -342,7 +342,7 @@ export default function CruiseVideoGallery() {
                   <span className="mb-1 block text-purple-400">
                     {activeVideo.category}
                   </span>
-                  <h3>{activeVideo.title}</h3>
+                  <h3 className="">{activeVideo.title}</h3>
                 </div>
               </div>
 

@@ -138,7 +138,7 @@ export default function ShopInventoryAdminPage() {
     return (
       <div className="flex min-h-screen items-center justify-center px-6 pt-32 pb-24">
         <div className="w-full max-w-md border border-white/[0.12] bg-white/[0.04] p-8 text-center">
-          <h2 className="mb-2 text-xl">Admin Access Required</h2>
+          <h2 className="mb-2">Admin Access Required</h2>
           <p className="mb-6">
             This page manages real inventory and pricing. Sign in with an admin,
             crew, or merch account to continue.
@@ -171,7 +171,7 @@ export default function ShopInventoryAdminPage() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <span className="mb-1 inline-block text-[10px]">Shop Backend</span>
-            <h1 id="shop-inventory-heading">Inventory Management</h1>
+            <h1 className="" id="shop-inventory-heading">Inventory Management</h1>
             {lowStockCount > 0 && (
               <p className="text-yellow-300">
                 ⚠️ {lowStockCount} variant{lowStockCount === 1 ? "" : "s"} at or
@@ -338,7 +338,7 @@ function ProductRow({
           )}
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3>{product.title}</h3>
+              <h3 className="">{product.title}</h3>
               <span className="rounded bg-[#00000029] px-2 py-0.5 text-[10px] text-white/40">
                 {product.category}
               </span>
@@ -742,7 +742,7 @@ function AddProductModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
       <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
-          <h2>Add Product</h2>
+          <h2 className="">Add Product</h2>
           <button
             type="button"
             onClick={onClose}

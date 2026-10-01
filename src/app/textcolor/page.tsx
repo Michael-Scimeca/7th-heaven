@@ -46,7 +46,7 @@ export default function TextColorTestPage() {
       <div className="mx-auto flex max-w-4xl flex-col gap-16">
         <header className="flex flex-col gap-2">
           <p>/textcolor test page</p>
-          <h1 className="text-2xl">Aurora Text playground</h1>
+          <h1 className="">Aurora Text playground</h1>
           <p className="max-w-xl">
             Testing MagicUI&apos;s{" "}
             <a
@@ -64,7 +64,7 @@ export default function TextColorTestPage() {
 
         {/* Hero replica */}
         <section className="flex flex-col items-start gap-4">
-          <h2 className="sm:text-6xl">
+          <h2 className="">
             Ship <AuroraText colors={PRESETS[0].colors}>beautiful</AuroraText>
           </h2>
           <h2 className="/90">

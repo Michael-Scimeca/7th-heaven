@@ -974,7 +974,7 @@ export default function HeroVideoPlayer({
             {/* Left Column: Hero Title & Subheading Content */}
             <div className="title-group title-group--page pointer-events-auto max-w-[750px] flex-1 lg:max-w-[50%]">
               {/* Hero Main Headline */}
-              <h1 id="hero-heading">
+              <h1 className="" id="hero-heading">
                 {sanityContent?.heroHeading || "7TH HEAVEN"}
               </h1>
 

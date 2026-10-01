@@ -992,7 +992,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                     🛡️
                   </div>
                   <div>
-                    <h3>Chat Moderation & Policies</h3>
+                    <h3 className="">Chat Moderation & Policies</h3>
                     <p>Custom Flagged Keywords & Filters</p>
                   </div>
                 </div>
@@ -1000,7 +1000,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
                 <div className="space-y-4 p-4">
                   <div className="flex flex-col items-start gap-6 lg:flex-row">
                     <div className="w-full min-w-0 flex-1 space-y-2">
-                      <h4>🔍 Custom Flagged Keywords</h4>
+                      <h4 className="">🔍 Custom Flagged Keywords</h4>
                       <p>
                         Add specific keywords, slurs, or phrases. Any message
                         containing these (case-insensitive substring match) will
@@ -1162,7 +1162,7 @@ export function CrewHQ({ defaultMemberId }: { defaultMemberId?: string }) {
             <div className="flex-1 border border-white/[0.07] p-5">
               <div className="mb-3 flex items-center justify-between">
                 <div>
-                  <h3>📝 Notes for Admin</h3>
+                  <h3 className="">📝 Notes for Admin</h3>
                   <p className="mt-0.5">Saved to Supabase</p>
                 </div>
                 <button

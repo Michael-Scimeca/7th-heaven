@@ -667,8 +667,8 @@ export default function MediaClient({
 
                         {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
                         <div className="transition-opacity pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end p-4 text-center group-hover:opacity-0 sm:p-8">
-                          {/* Category Pill Tag */}
-                          <span className="mb-2 inline-flex shrink-0 items-center justify-center !rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-center">
+                          {/* Category Pill Tag (Hidden on mobile to avoid overlapping play button) */}
+                          <span className="mb-2 hidden shrink-0 items-center justify-center !rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-center sm:inline-flex">
                             {video.category || "7TH HEAVEN"}
                           </span>
 
@@ -795,7 +795,7 @@ export default function MediaClient({
                     <VideoIcon className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3>
+                    <h3 className="">
                       {sanityContent?.modalTitle || "Add Video to Media Vault"}
                     </h3>
                     <p className="/70">

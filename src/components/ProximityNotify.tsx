@@ -300,7 +300,7 @@ export default function ProximityNotify({
           <div className="flex w-full flex-col items-start justify-center space-y-6 md:col-span-7 md:mx-0 md:pl-0">
             {/* Header Title */}
             <div className="title-group title-group--section">
-              <h2 className="lg:text-6xl">Never Miss a Show</h2>
+              <h2 className="">Never Miss a Show</h2>
               <p className="max-w-xl">
                 Get exclusives. Stay connected to the 7th Heaven community. Join
                 1,000s of fans getting proximity alerts &amp; show updates.

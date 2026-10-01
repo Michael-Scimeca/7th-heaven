@@ -258,7 +258,7 @@ export default function FanUploadForm() {
     <div>
       <div className="mb-6 flex items-center gap-3">
         <div className="title-group title-group--section">
-          <h2>Submit to Fan Wall</h2>
+          <h2 className="">Submit to Fan Wall</h2>
           <p>Share your concert moments</p>
         </div>
       </div>
@@ -280,7 +280,7 @@ export default function FanUploadForm() {
             </svg>
           </div>
           <div className="title-group title-group--sub mb-6 items-center text-center">
-            <h3>Moments Submitted!</h3>
+            <h3 className="">Moments Submitted!</h3>
             <p>
               They are now live on your account and will appear on the global wall
               after admin review.

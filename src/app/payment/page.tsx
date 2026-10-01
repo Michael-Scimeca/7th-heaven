@@ -85,7 +85,7 @@ function PaymentTestContent() {
         <div className="bg-white/[0.04] backdrop-blur-xl rounded-[var(--radius-box)] border border-white/[0.12] p-8 text-left shadow-[0_8px_64px_rgba(0,0,0,0.4)]">
           <div className="mb-6">
             <span className="mb-1 inline-block">Stripe Test Mode</span>
-            <h1>Payment Test Page</h1>
+            <h1 className="">Payment Test Page</h1>
             <p>
               Runs a real Stripe Checkout session in test mode. Card details are
               entered on Stripe&apos;s hosted page and never touch this server.

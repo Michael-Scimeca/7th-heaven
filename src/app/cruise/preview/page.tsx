@@ -502,7 +502,7 @@ export default function CruisePreviewPage() {
   return (
     <main id="cruise-preview-page" className="page-container page-stack min-h-screen">
       <header className="mb-12 text-center site-container">
-        <h1 id="cruise-preview-heading" className="text-4xl">
+        <h1 id="cruise-preview-heading" className="">
           Guest Form <span className="accent-gradient-text">Variants</span>
         </h1>
         <p className="mt-2">6 different UI approaches — pick your favorite</p>
@@ -522,7 +522,7 @@ export default function CruisePreviewPage() {
                     {label}
                   </span>
                   <div>
-                    <h2>{title}</h2>
+                    <h2 className="">{title}</h2>
                     <p>{desc}</p>
                   </div>
                 </div>

@@ -172,7 +172,7 @@ export default function VideoSection() {
       {/* Title */}
       <div className="mb-16 px-8">
         <div>
-          <h2>
+          <h2 className="">
             Featured <span className="gradient-text">Videos</span>
           </h2>
         </div>

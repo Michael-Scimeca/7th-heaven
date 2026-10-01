@@ -58,23 +58,25 @@ export default function HomeLogosSection({
     <section
       id="logos"
       aria-labelledby="logos-heading"
-      className="section cv-auto relative z-20 flex w-full flex-col items-center text-center"
+      className="section cv-auto relative z-20 flex w-full flex-col items-start text-left"
       style={{ "--cv-size": "361px", "--cv-size-lg": "334px" } as React.CSSProperties}
     >
-      <h2 id="logos-heading" className="sr-only">
-        Featured &amp; Stage Partners
-      </h2>
-      <div className="mb-6">
-        <div className="mb-2 inline-flex items-center justify-center">
-          <SectionBadge variant="box" className="font-black">
-            {sanityContent?.logosBadge ||
-              "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
-          </SectionBadge>
+      <div className="site-container w-full">
+        <h2 id="logos-heading" className="sr-only">
+          Featured &amp; Stage Partners
+        </h2>
+        <div className="mb-6 flex flex-col items-start text-left">
+          <div className="mb-2 inline-flex items-center justify-start">
+            <SectionBadge variant="box" className="font-black">
+              {sanityContent?.logosBadge ||
+                "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
+            </SectionBadge>
+          </div>
+          <p className="max-w-2xl text-purple-200/80 text-left">
+            {sanityContent?.logosSubtitle ||
+              "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
+          </p>
         </div>
-        <p className="max-w-2xl text-purple-200/80">
-          {sanityContent?.logosSubtitle ||
-            "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
-        </p>
       </div>
       <div className="w-full space-y-4">
         <LogoTicker items={artistItems} direction="left" />

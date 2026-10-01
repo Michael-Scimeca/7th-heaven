@@ -79,7 +79,7 @@ function NorthResultContent() {
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border-2 border-rose-500/30 bg-rose-500/10">
                 <span className="text-2xl">⚠️</span>
               </div>
-              <h2 className="mb-2 text-xl">Couldn&apos;t Load Result</h2>
+              <h2 className="mb-2">Couldn&apos;t Load Result</h2>
               <p>
                 {fetchError ||
                   "We couldn't find a record of this transaction. If a charge went through, check your bank statement and contact us."}

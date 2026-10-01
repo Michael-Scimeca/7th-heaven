@@ -195,7 +195,7 @@ export default function CrewVerifyClient({
               <ShieldAlert className="h-8 w-8" />
             </div>
 
-            <h2 className="mb-2 text-xl">
+            <h2 className="mb-2">
               {sanityContent?.heroHeading ||
                 sanityContent?.title ||
                 "Crew Portal Restricted"}
@@ -269,7 +269,7 @@ export default function CrewVerifyClient({
               <Trophy className="h-8 w-8" />
             </div>
 
-            <h1 className="mb-2 text-xl">
+            <h1 className="mb-2">
               {sanityContent?.heroHeading ||
                 sanityContent?.title ||
                 "Verify Winner PIN"}

@@ -27,7 +27,7 @@ function DemoFrame({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h2>{label}</h2>
+        <h2 className="">{label}</h2>
         <button
           onClick={onPlay}
           disabled={playing}
@@ -527,7 +527,7 @@ export default function PreloadersTestPage() {
     <main className="min-h-screen bg-[#05030a] px-6 py-16 md:px-12">
       <div className="mx-auto max-w-6xl">
         <p className="text-white/40">Internal test page</p>
-        <h1 className="mt-2 text-4xl">Preloader / transition test bench</h1>
+        <h1 className="mt-2">Preloader / transition test bench</h1>
         <p className="mt-4 max-w-2xl text-white/60">
           Three self-contained transition demos, isolated from real routing so
           you can play each one back to back and compare. The curtain wipe is
