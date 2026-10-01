@@ -41,8 +41,7 @@ export default function CruisePortsCatalogSection({
     <section
       id="ports"
       aria-labelledby="ports-heading"
-      className="section cv-auto site-container"
-      style={{ "--cv-size": "2800px", "--cv-size-lg": "1814px" } as React.CSSProperties}
+      className="section site-container"
     >
       <div>
         <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">

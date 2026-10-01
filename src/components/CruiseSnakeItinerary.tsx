@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { StatsGl, useGLTF } from "@react-three/drei";
-import Lenis from "lenis";
 import type * as THREE from "three";
 
 import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
@@ -677,9 +676,20 @@ export default function CruiseSnakeItinerary({
           return cachedPathPoints[idx] || { x: 0, y: 0 };
         };
 
-        // Live canvas relative position matching actual viewport rendering
-        const rectTop = canvas.getBoundingClientRect().top;
-        const viewH = window.innerHeight;
+        // Live canvas relative position without forcing layout reflow on every rAF frame
+        if (cachedCanvasTop < 0) {
+          cachedCanvasTop =
+            canvas.getBoundingClientRect().top +
+            (typeof window !== "undefined" ? window.scrollY : 0);
+        }
+        if (cachedViewH < 0) {
+          cachedViewH =
+            typeof window !== "undefined" ? window.innerHeight : 800;
+        }
+        const currentScrollY =
+          typeof window !== "undefined" ? window.scrollY : 0;
+        const rectTop = cachedCanvasTop - currentScrollY;
+        const viewH = cachedViewH;
 
         // Lock boat 1:1 with viewport scroll position matching first node to last node
         const startY = nodes[0]?.y ?? 50;

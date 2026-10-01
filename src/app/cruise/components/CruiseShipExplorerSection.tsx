@@ -30,8 +30,7 @@ function CruiseShipExplorerSectionComponent({
     <section
       id="ship-specs"
       aria-labelledby="ship-specs-heading"
-      className="section cv-auto site-container"
-      style={{ "--cv-size": "4200px", "--cv-size-lg": "4051px" } as React.CSSProperties}
+      className="section site-container"
     >
       <div className="title-group title-group--section mb-8 w-full text-left">
         <div className="mb-2 flex items-center gap-2">
