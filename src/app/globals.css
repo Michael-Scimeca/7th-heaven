@@ -5004,6 +5004,9 @@ html.is-preloading .preloader {
 
 /* --- Hoy Logo Ticker --- */
 .hoy-ticker-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
   animation: hoy-ticker-scroll var(--ticker-speed, 40s) linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);

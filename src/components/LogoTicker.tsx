@@ -103,8 +103,8 @@ export default function LogoTicker({
 }) {
   const config = DEFAULT_TICKER_CONFIG;
 
-  // render the list 4x back-to-back for 100% seamless CSS scroll loop on all viewport sizes
-  const track = [...items, ...items, ...items, ...items];
+  // Render 2 identical sets back-to-back for a perfectly seamless 50% CSS keyframe loop
+  const track = [...items, ...items];
   const activeSpeed = speedSec ?? config.speedSec;
 
   return (
@@ -114,38 +114,29 @@ export default function LogoTicker({
         style={{ ["--ticker-speed" as string]: `${activeSpeed}s` }}
       >
         <div
-          className={`hoy-ticker-track flex w-max items-stretch ${direction === "right" ? "hoy-ticker-reverse" : ""} `}
+          className={`hoy-ticker-track flex w-max flex-nowrap items-stretch ${direction === "right" ? "hoy-ticker-reverse" : ""} `}
         >
           {track.map((item, i) =>
             item.src ? (
               <div
                 key={item.src + "-" + i}
-                className="flex shrink-0 transform-gpu items-center justify-center"
-                style={{
-                  height: "clamp(44px, 6vw, 96px)",
-                  paddingLeft: "clamp(12px, 2.5vw, 44px)",
-                  paddingRight: "clamp(12px, 2.5vw, 44px)",
-                }}
+                className="flex h-[clamp(44px,6vw,96px)] shrink-0 transform-gpu items-center justify-center px-[clamp(12px,2.5vw,44px)]"
               >
                 <Image
                   src={item.src}
                   alt={item.alt ?? ""}
-                  width={0}
-                  height={0}
-                  className={`w-auto max-w-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""} `}
-                  style={{
-                    height: "clamp(24px, 4vw, 64px)",
-                    width: "auto",
-                    maxHeight: "100%",
-                  }}
+                  width={160}
+                  height={64}
+                  priority
+                  loading="eager"
+                  className={`pointer-events-none h-[clamp(24px,4vw,64px)] w-auto max-w-none select-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""} `}
                   unoptimized
                 />
               </div>
             ) : (
               <div
                 key={(item.label || "item") + "-" + i}
-                className="flex shrink-0 transform-gpu items-center gap-4 border-r border-white/10 px-4 sm:px-8"
-                style={{ height: "clamp(44px, 6vw, 96px)" }}
+                className="flex h-[clamp(44px,6vw,96px)] shrink-0 transform-gpu items-center gap-4 border-r border-white/10 px-4 sm:px-8"
               >
                 {item.icon && <Icon kind={item.icon} />}
                 <div className="flex flex-col">
