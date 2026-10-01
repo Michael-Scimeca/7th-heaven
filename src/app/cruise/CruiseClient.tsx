@@ -26,6 +26,8 @@ import CruiseCabinsPricingSection from "./components/CruiseCabinsPricingSection"
 import CruisePortsCatalogSection from "./components/CruisePortsCatalogSection";
 import CruiseItinerarySection from "./components/CruiseItinerarySection";
 import CruiseShipExplorerSection from "./components/CruiseShipExplorerSection";
+import CruiseVideoVaultSection from "./components/CruiseVideoVaultSection";
+import CruiseFaqSection from "./components/CruiseFaqSection";
 
 export default function CruiseClient({
   sanityContent,
@@ -448,6 +450,12 @@ export default function CruiseClient({
 
           {/* SECTION 5: SHIP EXPLORER */}
           <CruiseShipExplorerSection sanityContent={sanityContent} />
+
+          {/* SECTION 6: VIDEO VAULT & PROMOS */}
+          <CruiseVideoVaultSection />
+
+          {/* SECTION 7: FAQS */}
+          <CruiseFaqSection sanityContent={sanityContent} />
         </>
       )}
     </main>
