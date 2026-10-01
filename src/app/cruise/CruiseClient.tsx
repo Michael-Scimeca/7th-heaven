@@ -28,6 +28,7 @@ import CruiseItinerarySection from "./components/CruiseItinerarySection";
 import CruiseShipExplorerSection from "./components/CruiseShipExplorerSection";
 import CruiseVideoVaultSection from "./components/CruiseVideoVaultSection";
 import CruiseFaqSection from "./components/CruiseFaqSection";
+import CruiseHistorySection from "./components/CruiseHistorySection";
 
 export default function CruiseClient({
   sanityContent,
@@ -456,6 +457,9 @@ export default function CruiseClient({
 
           {/* SECTION 7: FAQS */}
           <CruiseFaqSection sanityContent={sanityContent} />
+
+          {/* 25-YEAR CRUISE HISTORY TIMELINE */}
+          <CruiseHistorySection />
         </>
       )}
     </main>
