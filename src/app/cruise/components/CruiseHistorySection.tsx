@@ -2,6 +2,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import LazyHeavy from "@/components/LazyHeavy";
 import { CRUISE_HISTORY } from "../cruiseData";
 
 const CruiseHistoryTimeline = dynamic(
@@ -9,7 +10,7 @@ const CruiseHistoryTimeline = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex min-h-[300px] w-full items-center justify-center">
+      <div className="flex min-h-[400px] w-full items-center justify-center rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02]">
         <span className="text-sm text-white/40">Loading history timeline...</span>
       </div>
     ),
@@ -26,7 +27,17 @@ export default function CruiseHistorySection() {
       <h2 id="history-heading" className="sr-only">
         Cruise History &amp; Voyage Milestones
       </h2>
-      <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+      <LazyHeavy
+        minHeight="600px"
+        rootMargin="400px 0px"
+        fallback={
+          <div className="flex min-h-[400px] w-full items-center justify-center rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02]">
+            <span className="text-sm text-white/40">Loading history timeline...</span>
+          </div>
+        }
+      >
+        <CruiseHistoryTimeline history={CRUISE_HISTORY} />
+      </LazyHeavy>
     </section>
   );
 }
