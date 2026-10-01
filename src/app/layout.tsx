@@ -312,7 +312,6 @@ export default function RootLayout({
             </Providers>
           </ThemeProvider>
         </TransitionProvider>
-        {/* <Script id="font-inspector-snippet" src="/js/snippet.js" strategy="afterInteractive" /> */}
       </body>
     </html>
   );
