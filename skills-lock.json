@@ -1,6 +1,19 @@
 {
   "version": 1,
   "skills": {
+    "design-system": {
+      "source": "registry:affaan-m/design-system",
+      "commit_sha": "4130457d674d2180c5af2c5f634f3cae4cbc6c4f",
+      "digest": "sha256:1475f2749731dd150f69190e47211c0b66030f288bd0c34d312f4a57490bbc21",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
     "epic-design": {
       "source": "registry:alirezarezvani/epic-design",
       "commit_sha": "2fb75e1af34f314984a21340edf80f8f402abf55",

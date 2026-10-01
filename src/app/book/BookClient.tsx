@@ -1226,7 +1226,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 />
 
                 {/* Alternate Dates */}
-                <div className="mt-8 border-t border-white/10 pt-4">
+                <div className="mt-8 ">
                   <SectionHeader
                     as="h3"
                     title="Flexible? Add Backup Dates"
@@ -2130,7 +2130,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                   {/* Row 2 Right: Toggle for custom parking directions */}
                   <div className="flex flex-wrap items-end gap-2.5 pb-0.5 md:flex-nowrap">
-                    <div className="flex items-center gap-3 px-3.5 py-2 text-[#c27aff] select-none">
+                    <div className="flex items-center gap-3 px-3.5 py-1.5 text-[#c27aff] select-none">
                       <Toggle
                         id="toggle-parking-notes"
                         checked={hasParkingNotes}
