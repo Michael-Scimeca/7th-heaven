@@ -71,11 +71,10 @@ export function MiniDatePicker({
         type="button"
         onClick={() => setShowCal(!showCal)}
 
-        className={`transition-colors group focus-ring flex w-full cursor-pointer items-center justify-between border border-white/10 px-2.5 py-2.5 text-left ring-0 outline-none focus-visible:ring-0 focus-visible:outline-none ${value ? " " : " "} `}
-        style={{ background: "transparent", border: "1px solid #ffffff1a" }}
+        className={`transition-colors group focus-ring flex w-full cursor-pointer items-center justify-between rounded-[var(--radius-box)] border border-white/10 bg-transparent px-2.5 py-2.5 text-left ring-0 outline-none focus-visible:ring-0 focus-visible:outline-none`}
       >
         <span
-          className={`transition-[color,opacity] ${value ? " " : "/45 group-hover:text-white group-hover:opacity-100"} `}
+          className={`transition-[color,opacity] ${value ? "" : "text-white/45 group-hover:text-white group-hover:opacity-100"}`}
         >
           {value
             ? new Date(value + "T12:00:00Z").toLocaleDateString("en-US", {
@@ -104,7 +103,7 @@ export function MiniDatePicker({
         </svg>
       </button>
       {showCal && (
-        <div className="absolute top-full left-0 z-50 mt-2 w-72 animate-[fade-in-up_0.15s_ease-out_both] border-0 bg-[#0c0817] p-4">
+        <div className="absolute top-full left-0 z-50 mt-2 w-72 animate-[fade-in-up_0.15s_ease-out_both] rounded-[var(--radius-box)] border border-white/10 bg-[#0c0817] p-4 shadow-xl backdrop-blur-md">
           <div className="mb-3 flex items-center justify-between">
             <button
               aria-label="Previous Month"
@@ -184,7 +183,7 @@ export function MiniDatePicker({
                         setCalMonth(new Date(year, i, 1));
                         setShowMonthGrid(false);
                       }}
-                      className={`rounded-lg py-2 ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer hover:bg-white/10"} `}
+                      className={`rounded-[var(--radius-box)] py-2 ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer hover:bg-white/10"} `}
                     >
                       {m}
                     </button>
