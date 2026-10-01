@@ -24,6 +24,8 @@ import dynamic from "next/dynamic";
 import CruiseHeroSection from "./components/CruiseHeroSection";
 import CruiseCabinsPricingSection from "./components/CruiseCabinsPricingSection";
 import CruisePortsCatalogSection from "./components/CruisePortsCatalogSection";
+import CruiseItinerarySection from "./components/CruiseItinerarySection";
+import CruiseShipExplorerSection from "./components/CruiseShipExplorerSection";
 
 export default function CruiseClient({
   sanityContent,
@@ -440,6 +442,12 @@ export default function CruiseClient({
 
           {/* SECTION 3: PORTS OF CALL CATALOG */}
           <CruisePortsCatalogSection sanityContent={sanityContent} />
+
+          {/* SECTION 4: VOYAGE ITINERARY MAP */}
+          <CruiseItinerarySection sanityContent={sanityContent} />
+
+          {/* SECTION 5: SHIP EXPLORER */}
+          <CruiseShipExplorerSection sanityContent={sanityContent} />
         </>
       )}
     </main>
