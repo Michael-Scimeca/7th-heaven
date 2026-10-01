@@ -2642,14 +2642,20 @@ button,
   padding-bottom: calc(var(--page-bottom) + env(safe-area-inset-bottom, 0px));
 }
 
+@utility page-container--hero {
+  padding-top: 0 !important;
+}
+
 .page-container {
   padding-top: calc(var(--header-height) + var(--page-top) + env(safe-area-inset-top, 0px));
   padding-bottom: calc(var(--page-bottom) + env(safe-area-inset-bottom, 0px));
 }
 
 .page-container--hero,
-.page-container.page-container--hero {
-  padding-top: 0;
+.page-container.page-container--hero,
+main.page-container--hero,
+div.page-container--hero {
+  padding-top: 0 !important;
 }
 
 @media (max-width: 767px) {

@@ -56,7 +56,7 @@ export default async function Home() {
   });
 
   return (
-    <main id="home-page" className="page-container page-container--hero page-stack">
+    <main id="home-page" className="page-container page-container--hero page-stack !pt-0">
       {/* ====== HERO (Viewport Height) ====== */}
       <section
         id="hero"
