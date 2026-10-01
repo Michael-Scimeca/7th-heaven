@@ -1,10 +1,45 @@
 {
   "version": 1,
   "skills": {
+    "banner-design": {
+      "source": "github:nextlevelbuilder/ui-ux-pro-max-skill",
+      "digest": "sha256:9f7bed7047ee342b975722baa413058bb6ce0b34416b4c90befa6c4361f265d2",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
+    "brand": {
+      "source": "github:nextlevelbuilder/ui-ux-pro-max-skill",
+      "digest": "sha256:262aa185a65cebbe18e8ea56ab0202fb8a0b9953b44242510dda386a46c98175",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
+    "design": {
+      "source": "github:nextlevelbuilder/ui-ux-pro-max-skill",
+      "digest": "sha256:b80ead5bf6a7c4b24eb52b2cb7ba438c92ff68493808bda5184dc56a49affc78",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
     "design-system": {
-      "source": "registry:affaan-m/design-system",
-      "commit_sha": "4130457d674d2180c5af2c5f634f3cae4cbc6c4f",
-      "digest": "sha256:1475f2749731dd150f69190e47211c0b66030f288bd0c34d312f4a57490bbc21",
+      "source": "github:nextlevelbuilder/ui-ux-pro-max-skill",
+      "digest": "sha256:06fbb5ecf8b47e70806ea3be127b5a73e2c511a3b3a41f45ad64ca657cbe9c04",
       "agents": [
         "claude-code",
         "github-copilot"
@@ -18,6 +53,42 @@
       "source": "registry:alirezarezvani/epic-design",
       "commit_sha": "2fb75e1af34f314984a21340edf80f8f402abf55",
       "digest": "sha256:0ad39ebbf800e681249cdee0d47bbae8c0cf04266ca2a5ec5d60cdbfc0668323",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
+    "slides": {
+      "source": "github:nextlevelbuilder/ui-ux-pro-max-skill",
+      "digest": "sha256:3af85b71e83372ffa48d4adc7faf5d7d9a273b9df9bea668814cf5156371b9bd",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
+    "ui-styling": {
+      "source": "github:nextlevelbuilder/ui-ux-pro-max-skill",
+      "digest": "sha256:679f879a04363cd8e0a288f4c2d4c7e620d53ba68910fb53041527bf49bb0228",
+      "agents": [
+        "claude-code",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
+    "ui-ux-pro-max": {
+      "source": "github:nextlevelbuilder/ui-ux-pro-max-skill",
+      "digest": "sha256:55cfa21f73e0d1e460f9c49dd1dc98f24154011e44815a88dfa5da2046d521d6",
       "agents": [
         "claude-code",
         "github-copilot"
