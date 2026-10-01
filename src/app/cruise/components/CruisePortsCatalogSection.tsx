@@ -58,7 +58,7 @@ export default function CruisePortsCatalogSection({
             const currentImg = activePortImages[port.name] || port.image;
             return (
               <li key={`grid-${port.name}`}>
-                <article className="group flex h-full flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm transition-[border-color,transform] hover:border-[var(--color-amber)]/40 hover:-translate-y-1 hover:shadow-xl">
+                <article className="flex h-full flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-white/25">
                   <div className="relative h-48 w-full overflow-hidden rounded-[var(--radius-box)] bg-black sm:h-56">
                     {currentImg && (
                       <Image
@@ -69,7 +69,7 @@ export default function CruisePortsCatalogSection({
                         unoptimized
                         src={currentImg}
                         alt={port.name}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover"
                       />
                     )}
                     <div className="absolute top-3 left-3 z-20">
@@ -120,10 +120,10 @@ export default function CruisePortsCatalogSection({
                                   [port.name]: gImg,
                                 }))
                               }
-                              className={`h-16 w-24 sm:h-18 sm:w-28 shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-[border-color,transform,box-shadow] ${
+                              className={`h-16 w-24 sm:h-18 sm:w-28 shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-[border-color,box-shadow] ${
                                 isActive
-                                  ? "z-10 scale-105 border-[var(--color-amber)] ring-2 shadow-amber-500/30 ring-[var(--color-amber)]/60"
-                                  : "border-white/20 hover:border-white/60 hover:scale-102"
+                                  ? "z-10 border-[var(--color-amber)] ring-2 shadow-amber-500/30 ring-[var(--color-amber)]/60"
+                                  : "border-white/20 hover:border-white/60"
                               } `}
                               title={`View photo ${gIdx + 1}`}
                             >
