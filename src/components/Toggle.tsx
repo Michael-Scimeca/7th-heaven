@@ -94,7 +94,7 @@ export function Toggle({
     <label
       htmlFor={toggleId}
       onClick={handleClick}
-      className={`toggle toggle-- ${size}  ${labelPosition === "left" ? "toggle--label-left" : ""}  ${disabled ? "toggle--disabled" : ""} max-w-full ${className} `}
+      className={`toggle toggle--${size} ${labelPosition === "left" ? "toggle--label-left" : ""} ${disabled ? "toggle--disabled" : ""} max-w-full ${className} `}
     >
       <input
         id={toggleId}

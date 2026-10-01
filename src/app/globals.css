@@ -1332,11 +1332,11 @@ a.btn-action-del {
   outline: none;
 }
 
-label {
+label:not(.toggle) {
   margin-bottom: 16px;
 }
 
-label:not(.sr-only),
+label:not(.sr-only):not(.toggle),
 .booking-label {
   font-weight: 600;
   position: relative;
