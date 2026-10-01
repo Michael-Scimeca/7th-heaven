@@ -324,14 +324,12 @@ export default function LiveHubClient({
                   {totalViewers.toLocaleString()} watching
                 </span>
                 <span
-                  className="flex items-center gap-1"
-                  style={{ color: bannedUsers.size > 0 ? "#f87171" : undefined }}
+                  className={`flex items-center gap-1 ${bannedUsers.size > 0 ? "text-red-400" : ""}`}
                 >
                   <Ban className="h-3.5 w-3.5" /> {bannedUsers.size} banned
                 </span>
                 <span
-                  className="flex items-center gap-1"
-                  style={{ color: mutedUsers.size > 0 ? "#c084fc" : undefined }}
+                  className={`flex items-center gap-1 ${mutedUsers.size > 0 ? "text-purple-400" : ""}`}
                 >
                   <VolumeX className="h-3.5 w-3.5" /> {mutedUsers.size} muted
                 </span>
@@ -351,17 +349,11 @@ export default function LiveHubClient({
                 <button
                   key={tab}
                   onClick={() => setAdminTab(tab)}
-                  className="rounded-lg px-4 py-2"
-                  style={{
-                    background:
-                      adminTab === tab ? "rgba(255,10,61,0.15)" : "transparent",
-                    color:
-                      adminTab === tab ? "#c084fc" : "rgba(255,255,255,0.35)",
-                    borderBottom:
-                      adminTab === tab
-                        ? "2px solid #a855f7"
-                        : "2px solid transparent",
-                  }}
+                  className={`rounded-[var(--radius-box)] px-4 py-2 border-b-2 transition-colors ${
+                    adminTab === tab
+                      ? "bg-red-500/15 text-purple-400 border-purple-500"
+                      : "bg-transparent text-white/35 border-transparent hover:text-white/60"
+                  }`}
                 >
                   {tab === "streams" && (
                     <span className="flex items-center gap-1.5">
@@ -462,16 +454,11 @@ export default function LiveHubClient({
                     return (
                       <div
                         key={fan.id}
-                        className="flex items-center justify-between gap-3 p-4"
-                        style={{
-                          background: isBanned
-                            ? "rgba(239,68,68,0.06)"
-                            : "rgba(255,255,255,0.03)",
-                          border: isBanned
-                            ? "1px solid rgba(239,68,68,0.2)"
-                            : "1px solid rgba(255,255,255,0.07)",
-                          opacity: isBanned ? 0.65 : 1,
-                        }}
+                        className={`flex items-center justify-between gap-3 p-4 rounded-[var(--radius-box)] border ${
+                          isBanned
+                            ? "bg-red-500/[0.06] border-red-500/20 opacity-65"
+                            : "bg-white/[0.03] border-white/[0.07] opacity-100"
+                        }`}
                       >
                         <div className="flex min-w-0 items-center gap-3">
                           <div
@@ -632,10 +619,7 @@ export default function LiveHubClient({
                         <p>
                           {icon} {rule}
                         </p>
-                        <p
-                          className="mt-0.5"
-                          style={{ color: "rgba(255,255,255,0.35)" }}
-                        >
+                        <p className="mt-0.5 text-white/35">
                           {desc}
                         </p>
                       </div>
@@ -697,32 +681,14 @@ export default function LiveHubClient({
 
                   {/* Viewer + time pills */}
                   <div className="absolute right-4 bottom-4 z-10 flex items-center gap-2">
-                    <div
-                      className="flex items-center gap-1.5 px-2.5 py-1"
-                      style={{
-                        background: "rgba(0,0,0,0.75)",
-                        backdropFilter: "blur(8px)",
-                        WebkitBackdropFilter: "blur(8px)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: "#d1fae5",
-                      }}
-                    >
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-[var(--radius-box)] border border-white/10 bg-black/75 backdrop-blur-md text-emerald-200">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                       {(
                         viewers[room.name] ?? room.numParticipants
                       ).toLocaleString()}{" "}
                       viewers
                     </div>
-                    <div
-                      className="px-2.5 py-1"
-                      style={{
-                        background: "rgba(0,0,0,0.75)",
-                        backdropFilter: "blur(8px)",
-                        WebkitBackdropFilter: "blur(8px)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: "rgba(255,255,255,0.6)",
-                      }}
-                    >
+                    <div className="px-2.5 py-1 rounded-[var(--radius-box)] border border-white/10 bg-black/75 backdrop-blur-md text-white/60">
                       {getElapsed(room.creationTime)}
                     </div>
                   </div>

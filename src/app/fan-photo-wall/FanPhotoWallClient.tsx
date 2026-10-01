@@ -591,16 +591,16 @@ export default function FanPhotoWallClient({
           {/* overflow-anchor:auto enables CSS scroll anchoring so new rows appended below the viewport don't shift the user's current position */}
           {photosLoading ? (
             /* Skeleton grid: same aspect-ratio as real cards, prevents height jump when photos load */
-            <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ overflowAnchor: 'auto' }}>
+            <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 [overflow-anchor:auto]">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
+                <div key={i} className="overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02]">
                   <div className="h-10 w-full animate-pulse bg-white/[0.04]" />
                   <div className="aspect-[16/10] w-full animate-pulse bg-white/[0.03]" />
                 </div>
               ))}
             </div>
           ) : approvedPhotos.length > 0 ? (
-            <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" style={{ overflowAnchor: 'auto' }}>
+            <div className="mx-auto grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 [overflow-anchor:auto]">
               {approvedPhotos.map((photo, index) => {
                 const mediaDetails = getMediaDetails(photo);
                 return (

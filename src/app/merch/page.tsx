@@ -312,7 +312,6 @@ function MerchDashboard() {
     return (
       <div
         className="flex min-h-screen items-center justify-center p-6"
-        style={{ fontFamily: "'Inter', sans-serif" }}
       >
         <div className="w-full max-w-sm rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
           <span className="mb-6 block text-5xl">🔐</span>
@@ -336,7 +335,6 @@ function MerchDashboard() {
     return (
       <div
         className="flex min-h-screen items-center justify-center p-6"
-        style={{ fontFamily: "'Inter', sans-serif" }}
       >
         <div className="w-full max-w-sm rounded-[var(--radius-box)] border border-red-500/20 bg-[var(--color-bg-surface)] p-8 text-center">
           <span className="mb-6 block text-5xl">🚫</span>
