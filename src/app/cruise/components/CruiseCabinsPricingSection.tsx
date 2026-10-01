@@ -1427,7 +1427,7 @@ function CruiseCabinsPricingSectionComponent({
                   />
                 </div>
               )}
-              <div className="relative z-10 flex flex-col pt-3 pb-2 text-left">
+              <div className="relative z-10 flex flex-col  text-left">
                 <h3 className="">{band.name}</h3>
                 {band.role && (
                   <div className="mt-2">

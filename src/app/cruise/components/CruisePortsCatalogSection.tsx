@@ -141,7 +141,7 @@ export default function CruisePortsCatalogSection({
 
                       {/* Gallery Thumbnail Strip */}
                       {port.gallery && port.gallery.length > 1 && (
-                        <div className="mt-5 flex flex-wrap gap-2 border-t border-white/10 pt-4">
+                        <div className="mt-5 flex flex-wrap gap-2.5 border-t border-white/10 pt-4">
                           {port.gallery.map((gImg: string, gIdx: number) => {
                             const isActive = currentImg === gImg;
                             return (
@@ -160,16 +160,16 @@ export default function CruisePortsCatalogSection({
                                     [port.name]: gImg,
                                   }))
                                 }
-                                className={`h-11 w-14 shrink-0 cursor-pointer overflow-hidden rounded-[calc(var(--radius-box)-2px)] border transition-[border-color,transform,box-shadow] ${
+                                className={`h-16 w-24 sm:h-18 sm:w-28 shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-[border-color,transform,box-shadow] ${
                                   isActive
-                                    ? "z-10 scale-105 border-[var(--color-amber)] ring-2 shadow-amber-500/20 ring-[var(--color-amber)]/60"
-                                    : "border-white/20 hover:border-white/50"
+                                    ? "z-10 scale-105 border-[var(--color-amber)] ring-2 shadow-amber-500/30 ring-[var(--color-amber)]/60"
+                                    : "border-white/20 hover:border-white/60 hover:scale-102"
                                 } `}
                                 title={`View photo ${gIdx + 1}`}
                               >
                                 <Image
-                                  width={56}
-                                  height={44}
+                                  width={120}
+                                  height={80}
                                   unoptimized
                                   src={gImg}
                                   alt={`${port.name} thumb ${gIdx}`}
@@ -246,7 +246,7 @@ export default function CruisePortsCatalogSection({
                     <span className="mb-2 block text-fluid-caption font-semibold tracking-wider text-white/60 uppercase">
                       Destination Photo Gallery
                     </span>
-                    <div className="flex flex-wrap gap-2.5 pt-1 pb-2">
+                    <div className="flex flex-wrap gap-3 pt-1 pb-2">
                       {PORTS_DATA[activeSpotlightPort].gallery.map(
                         (gImg, gIdx) => {
                           const currentSpotlightImg =
@@ -261,16 +261,16 @@ export default function CruisePortsCatalogSection({
                                 setSpotlightHoveredImage(gImg)
                               }
                               onClick={() => setSpotlightHoveredImage(gImg)}
-                              className={`h-16 w-24 shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-[border-color,transform,box-shadow] ${
+                              className={`h-20 w-32 sm:h-24 sm:w-36 shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-[border-color,transform,box-shadow] ${
                                 isActive
                                   ? "z-10 scale-105 border-[var(--color-amber)] ring-2 shadow-amber-500/30 ring-[var(--color-amber)]/60"
-                                  : "border-white/10 hover:border-white/40"
+                                  : "border-white/15 hover:border-white/50 hover:scale-102"
                               } `}
                               title={`View gallery image ${gIdx + 1}`}
                             >
                               <Image
-                                width={96}
-                                height={64}
+                                width={150}
+                                height={100}
                                 unoptimized
                                 src={gImg}
                                 alt="Gallery Still"
@@ -432,7 +432,7 @@ export default function CruisePortsCatalogSection({
 
                       {/* Gallery Thumbnails */}
                       {port.gallery && port.gallery.length > 1 && (
-                        <div className="mt-4 flex flex-wrap gap-2 border-t border-white/10 pt-3">
+                        <div className="mt-4 flex flex-wrap gap-2.5 border-t border-white/10 pt-3">
                           {port.gallery.map((gImg, gIdx) => {
                             const isActive = currentImg === gImg;
                             return (
@@ -451,15 +451,15 @@ export default function CruisePortsCatalogSection({
                                     [port.name]: gImg,
                                   }))
                                 }
-                                className={`h-10 w-12 shrink-0 cursor-pointer overflow-hidden rounded-[calc(var(--radius-box)-2px)] border transition-[border-color,transform,box-shadow] ${
+                                className={`h-14 w-20 shrink-0 cursor-pointer overflow-hidden rounded-[var(--radius-box)] border transition-[border-color,transform,box-shadow] ${
                                   isActive
                                     ? "z-10 scale-105 border-[var(--color-amber)] ring-2 shadow-amber-500/20 ring-[var(--color-amber)]/60"
-                                    : "border-white/20 hover:border-white/50"
+                                    : "border-white/20 hover:border-white/50 hover:scale-102"
                                 } `}
                               >
                                 <Image
-                                  width={48}
-                                  height={40}
+                                  width={80}
+                                  height={56}
                                   unoptimized
                                   src={gImg}
                                   alt={`${port.name} thumb ${gIdx}`}
