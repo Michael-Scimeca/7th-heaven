@@ -281,10 +281,15 @@ export default function SlideupSection({
           const scale = Math.round((1 - coveredProgress * 0.05) * 1000) / 1000;
           const translateY = Math.round(-coveredProgress * 20 * 10) / 10;
 
-          const overlapPx = Math.max(0, innerRect.bottom - nextRect.top + 20);
+          const PADDING_BUFFER = 72;
+          const overlapPx = Math.max(
+            0,
+            innerRect.bottom - nextRect.top - PADDING_BUFFER,
+          );
+          const usableHeight = Math.max(1, innerRect.height - PADDING_BUFFER);
           const overlapPercent =
             Math.round(
-              Math.min(100, (overlapPx / innerRect.height) * 100) * 4,
+              Math.min(100, (overlapPx / usableHeight) * 100) * 4,
             ) / 4;
 
           if (scale !== prev.scale || translateY !== prev.translateY) {
@@ -297,7 +302,7 @@ export default function SlideupSection({
           if (overlapPercent !== prev.overlap) {
             if (overlapPercent > 0) {
               const maskTopPercent = Math.max(0, 100 - overlapPercent);
-              const fadeEdge = Math.max(0, maskTopPercent - 6);
+              const fadeEdge = Math.max(0, maskTopPercent - 4);
               const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
               card.style.setProperty("--card-mask", maskVal);
               prev.masked = true;
@@ -310,16 +315,21 @@ export default function SlideupSection({
         } else if (stackRect) {
           // Last card in the slideup stack: mask out smoothly as the section scrolls into the next section
           const innerRect = rects[i]!.innerRect;
-          const overlapPx = Math.max(0, innerRect.bottom - stackRect.bottom + 40);
+          const PADDING_BUFFER = 72;
+          const overlapPx = Math.max(
+            0,
+            innerRect.bottom - stackRect.bottom - PADDING_BUFFER,
+          );
+          const usableHeight = Math.max(1, innerRect.height - PADDING_BUFFER);
           const overlapPercent =
             Math.round(
-              Math.min(100, (overlapPx / innerRect.height) * 100) * 4,
+              Math.min(100, (overlapPx / usableHeight) * 100) * 4,
             ) / 4;
 
           if (overlapPercent !== prev.overlap) {
             if (overlapPercent > 0) {
               const maskTopPercent = Math.max(0, 100 - overlapPercent);
-              const fadeEdge = Math.max(0, maskTopPercent - 6);
+              const fadeEdge = Math.max(0, maskTopPercent - 4);
               const maskVal = `linear-gradient(to bottom, black 0%, black ${fadeEdge.toFixed(1)}%, transparent ${maskTopPercent.toFixed(1)}%, transparent 100%)`;
               card.style.setProperty("--card-mask", maskVal);
               prev.masked = true;
@@ -389,7 +399,7 @@ export default function SlideupSection({
         {activeSlides.map((slide, i) => (
           <article
             key={slide.title}
-            className="su-card slideup-card sticky top-[80px] flex h-auto min-h-0 w-full transform-gpu items-start justify-center overflow-visible rounded-t-[28px] bg-transparent"
+            className="su-card slideup-card sticky top-[80px] flex h-auto min-h-[82vh] w-full transform-gpu items-start justify-center overflow-visible rounded-t-[28px] bg-transparent pb-28 sm:pb-36"
             style={{
               transform: "scale(var(--card-scale, 1)) translateY(var(--card-ty, 0px))",
               maskImage: "var(--card-mask)",
@@ -399,7 +409,7 @@ export default function SlideupSection({
               cardRefs.current[i] = el;
             }}
           >
-            <div className="su-card-inner relative z-[2] flex w-full flex-col items-start text-left">
+            <div className="su-card-inner relative z-[2] flex w-full flex-col items-start text-left pb-16 sm:pb-20">
               <div className="title-group title-group--section mb-6 items-start text-left">
                 <h2 className="su-headline flex w-full max-w-[800px] flex-wrap items-start justify-start gap-4 text-left">
                   {slide.title}
@@ -420,7 +430,7 @@ export default function SlideupSection({
                   return (
                     <div
                       key={`${t.label}-${ti}`}
-                      className={`su-thumb group relative aspect-[16/10] h-[clamp(230px,42vh,600px)] max-h-[600px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-[28px] ${visibilityClass} `}
+                      className={`su-thumb group relative aspect-[16/10] h-[clamp(220px,38vh,520px)] max-h-[520px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-8 sm:pb-10 ${visibilityClass} `}
                     >
                       {t.video && <AutoPlayVideo src={t.video} />}
                       {t.youtube && (
@@ -433,7 +443,7 @@ export default function SlideupSection({
                           loading="lazy"
                         />
                       )}
-                      <div className="su-thumb-content pointer-events-none relative z-[3] flex w-full flex-col items-center justify-end pb-[6px] text-center">
+                      <div className="su-thumb-content pointer-events-none relative z-[3] flex w-full flex-col items-center justify-end pb-3 sm:pb-4 text-center">
                         {t.badge && (
                           <span className="su-thumb-badge mb-2 inline-block rounded-[6px] border border-white/30 bg-white/20 px-3 py-[5px] text-[0.75rem] tracking-[0.08em] backdrop-blur-[12px]">
                             {t.badge}

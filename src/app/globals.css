@@ -6348,13 +6348,14 @@ span {
   position: sticky;
   top: 72px;
   height: auto;
-  min-height: 0;
-  padding-top: 32px;
+  min-height: 82vh;
+  padding-top: 24px;
+  padding-bottom: 120px;
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
   border-radius: var(--radius-box) var(--radius-box) 0 0;
   will-change: transform;
   background: transparent;
@@ -6370,6 +6371,7 @@ span {
   align-items: flex-start;
   text-align: left;
   gap: 16px;
+  padding-bottom: 48px;
 }
 
 .su-headline {
@@ -6401,16 +6403,16 @@ span {
 
 .su-thumb {
   flex: 1;
-  height: clamp(260px, 52vh, 580px);
-  max-height: 52vh;
+  height: clamp(220px, 38vh, 520px);
+  max-height: 520px;
   aspect-ratio: 16/10;
   border-radius: var(--radius-box);
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
-  padding: 15px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  padding: 16px 16px 28px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .su-thumb-yt {
