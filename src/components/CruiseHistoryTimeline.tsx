@@ -935,7 +935,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
-              style={{ fill: "none", fillOpacity: 0 }}
             />
 
             {/* Dim/Unfilled Track Line Extension from 2026 -> 2027 -> 2028 */}
@@ -948,7 +947,6 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                style={{ fill: "none", fillOpacity: 0 }}
               />
             )}
 
@@ -1114,16 +1112,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           style={{ width: isMobile ? "calc(100% - 32px)" : "clamp(200px, 24vw, 380px)", maxWidth: isMobile ? "280px" : undefined }}
                         >
                           <div
-                            className={`${isReached ? "opacity-100" : "opacity-70"}`}
-                            style={{ padding: "0.5rem 0" }}
+                            className={`py-2 ${isReached ? "opacity-100" : "opacity-70"}`}
                           >
                             <div className={`mb-2 flex items-center gap-2 ${isEvenRow ? "justify-start" : isMobile ? "justify-end" : "justify-between"} `}>
                               <span
-                                className={`rounded-lg ${isReached ? "border border-white/10 bg-cyan-500/20" : "border border-white/10 bg-[#00000029] text-white/40"} `}
-                                style={{
-                                  fontSize: "clamp(0.55rem, 0.75vw, 0.65rem)",
-                                  padding: "0.125rem 0.5rem",
-                                }}
+                                className={`rounded-lg px-2 py-0.5 text-[clamp(0.55rem,0.75vw,0.65rem)] ${isReached ? "border border-white/10 bg-cyan-500/20" : "border border-white/10 bg-[#00000029] text-white/40"} `}
                               >
                                 VOYAGE #{voyageNum}
                               </span>

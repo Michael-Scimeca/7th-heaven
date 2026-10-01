@@ -315,7 +315,6 @@ export default function MerchQRClient({
   return (
     <div
       className="min-h-screen bg-[#06060b] pt-[72px]"
-      style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {/* ── Top QR Banner Header ── */}
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] px-4 py-8">

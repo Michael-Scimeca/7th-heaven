@@ -53,12 +53,9 @@ function Counter({
   }, [end]);
   return (
     <div ref={ref} className="px-6 py-8 text-center">
-      <div
-        className="text-6xl tabular-nums md:text-7xl"
-        style={{ fontStyle: " " }}
-      >
+      <div className="text-6xl tabular-nums md:text-7xl">
         {count}
-        <span style={{ color: "#851DEF" }}>+</span>
+        <span className="text-[var(--color-accent)]">+</span>
       </div>
       <div className="mt-2">{label}</div>
       {sublabel && (
@@ -91,14 +88,7 @@ export default function FeaturesPage() {
         <div className="relative overflow-hidden px-6 md:px-12 lg:px-20">
           <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 h-[600px] w-[1100px] -translate-x-1/2 bg-[var(--color-accent)] opacity-[0.10] blur-3xl" />
-          <div
-            className="absolute inset-0 opacity-[0.025]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,10,61,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.6) 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
-            }}
-          />
+          <div className="absolute inset-0 opacity-[0.025] bg-[linear-gradient(rgba(255,10,61,0.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,10,61,0.6)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
 
         <div className="relative mx-auto max-w-5xl">
@@ -337,19 +327,14 @@ export default function FeaturesPage() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#851DEF]/8 to-transparent" />
             <div className="absolute top-1/2 left-1/2 h-[400px] w-[1000px] -translate-x-1/2 -translate-y-1/2 bg-[var(--color-accent)] opacity-[0.07] blur-3xl" />
             <div
-              className="absolute inset-0 opacity-[0.02]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(255,10,61,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,10,61,0.5) 1px, transparent 1px)",
-                backgroundSize: "60px 60px",
-              }}
+              className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(255,10,61,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(255,10,61,0.5)_1px,transparent_1px)] bg-[size:60px_60px]"
             />
           </div>
           <div className="relative mx-auto max-w-4xl text-center">
             <h2 id="features-cta-heading" className="mb-6">
             Ready to
             <br />
-            <span className="text-[#851DEF]">Experience It?</span>
+            <span className="text-[var(--color-accent)]">Experience It?</span>
           </h2>
           <p className="mx-auto mb-3 max-w-2xl">
             Every feature on this page is live and ready. No demos, no mockups —

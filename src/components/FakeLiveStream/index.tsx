@@ -1751,8 +1751,7 @@ export function FakeLiveStream({
               <span className="hidden sm:inline">{activeFeedCrew.name}</span>
               {flaggedMsgs.length > 0 && (
                 <span
-                  className="flex h-4 w-4 items-center justify-center rounded-lg text-black"
-                  style={{ background: "#ef4444", fontSize: 9 }}
+                  className="flex h-4 w-4 items-center justify-center rounded-lg bg-red-500 text-[9px] font-bold text-white"
                 >
                   {flaggedMsgs.length}
                 </span>
@@ -2604,10 +2603,7 @@ export function FakeLiveStream({
                               }}
                             >
                               {msg.isSystem ? (
-                                <p
-                                  className="w-full py-0.5 text-center"
-                                  style={{ color: "rgba(255,255,255,0.25)" }}
-                                >
+                                <p className="w-full py-0.5 text-center text-white/25">
                                   {msg.text}
                                 </p>
                               ) : (
@@ -2884,10 +2880,7 @@ export function FakeLiveStream({
                 {/* ── USERS TAB ── */}
                 {adminTab === "users" && (
                   <div className="space-y-1.5 p-3">
-                    <p
-                      className="mb-2"
-                      style={{ color: "rgba(255,255,255,0.2)" }}
-                    >
+                    <p className="mb-2 text-white/20">
                       Active in chat — click to moderate
                     </p>
                     {FAN_ACCOUNTS.map((acc) => {
@@ -3138,19 +3131,12 @@ export function FakeLiveStream({
                       ].map(({ icon, rule, desc }) => (
                         <div
                           key={rule}
-                          className="mb-2 p-3"
-                          style={{
-                            background: "rgba(239,68,68,0.07)",
-                            border: "1px solid rgba(239,68,68,0.18)",
-                          }}
+                          className="mb-2 rounded-[var(--radius-box)] border border-red-500/20 bg-red-500/10 p-3"
                         >
                           <p className="text-black/80">
                             {icon} {rule}
                           </p>
-                          <p
-                            className="mt-0.5"
-                            style={{ color: "rgba(255,255,255,0.35)" }}
-                          >
+                          <p className="mt-0.5 text-white/35">
                             {desc}
                           </p>
                         </div>
@@ -3184,31 +3170,18 @@ export function FakeLiveStream({
                       ].map(({ icon, rule, desc }) => (
                         <div
                           key={rule}
-                          className="mb-2 p-3"
-                          style={{
-                            background: "rgba(192, 132, 252,0.06)",
-                            border: "1px solid rgba(192, 132, 252,0.15)",
-                          }}
+                          className="mb-2 rounded-[var(--radius-box)] border border-purple-400/20 bg-purple-500/10 p-3"
                         >
                           <p className="text-black/80">
                             {icon} {rule}
                           </p>
-                          <p
-                            className="mt-0.5"
-                            style={{ color: "rgba(255,255,255,0.35)" }}
-                          >
+                          <p className="mt-0.5 text-white/35">
                             {desc}
                           </p>
                         </div>
                       ))}
                     </div>
-                    <div
-                      className="p-3"
-                      style={{
-                        background: "rgba(255,10,61,0.08)",
-                        border: "1px solid rgba(255,10,61,0.2)",
-                      }}
-                    >
+                    <div className="rounded-[var(--radius-box)] border border-red-500/20 bg-red-500/10 p-3">
                       <p className="mb-1 text-black/60">✅ Keep It Positive</p>
                       <p className="text-white/35">
                         This is a fan space for music lovers. Keep the energy
@@ -3341,32 +3314,16 @@ export function FakeLiveStream({
                             </span>
                           </div>
                           <div className="mb-2 grid grid-cols-2 gap-2">
-                            <div
-                              className="rounded-lg p-2"
-                              style={{ background: "rgba(255,255,255,0.04)" }}
-                            >
-                              <p
-                                style={{
-                                  color: "rgba(255,255,255,0.25)",
-                                  fontSize: 9,
-                                }}
-                              >
+                            <div className="rounded-[var(--radius-box)] bg-white/[0.04] p-2">
+                              <p className="text-[9px] text-white/25">
                                 Peak
                               </p>
                               <p style={{ color: s.color }}>
                                 {s.peakViewers.toLocaleString()}
                               </p>
                             </div>
-                            <div
-                              className="rounded-lg p-2"
-                              style={{ background: "rgba(255,255,255,0.04)" }}
-                            >
-                              <p
-                                style={{
-                                  color: "rgba(255,255,255,0.25)",
-                                  fontSize: 9,
-                                }}
-                              >
+                            <div className="rounded-[var(--radius-box)] bg-white/[0.04] p-2">
+                              <p className="text-[9px] text-white/25">
                                 Avg
                               </p>
                               <p className="text-black/70">
@@ -3374,12 +3331,9 @@ export function FakeLiveStream({
                               </p>
                             </div>
                           </div>
-                          <div
-                            className="h-1 overflow-hidden rounded-lg"
-                            style={{ background: "rgba(255,255,255,0.07)" }}
-                          >
+                          <div className="h-1 overflow-hidden rounded-full bg-white/[0.07]">
                             <div
-                              className="h-full rounded-lg"
+                              className="h-full rounded-full"
                               style={{
                                 width: `${barW}%`,
                                 background: s.color,
@@ -3390,17 +3344,8 @@ export function FakeLiveStream({
                         </div>
                       );
                     })}
-                    <div
-                      className="p-3"
-                      style={{
-                        background: "rgba(255,255,255,0.03)",
-                        border: "1px solid rgba(255,255,255,0.07)",
-                      }}
-                    >
-                      <p
-                        className="mb-2"
-                        style={{ color: "rgba(255,255,255,0.3)" }}
-                      >
+                    <div className="rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-3">
+                      <p className="mb-2 text-white/30">
                         Session Summary
                       </p>
                       <div className="grid grid-cols-3 gap-2">
@@ -3424,17 +3369,10 @@ export function FakeLiveStream({
                         ].map(({ label, val }) => (
                           <div
                             key={label}
-                            className="rounded-lg p-2 text-center"
-                            style={{ background: "rgba(255,255,255,0.04)" }}
+                            className="rounded-[var(--radius-box)] bg-white/[0.04] p-2 text-center"
                           >
                             <p className="text-black/80">{val}</p>
-                            <p
-                              style={{
-                                color: "rgba(255,255,255,0.25)",
-                                fontSize: 9,
-                              }}
-                              className="mt-0.5"
-                            >
+                            <p className="mt-0.5 text-[9px] text-white/25">
                               {label}
                             </p>
                           </div>
@@ -3635,10 +3573,7 @@ export function FakeLiveStream({
 
                     {/* Duration picker */}
                     <div>
-                      <p
-                        className="mb-2"
-                        style={{ color: "rgba(255,255,255,0.3)" }}
-                      >
+                      <p className="mb-2 text-white/30">
                         Drop Duration
                       </p>
                       <div className="flex flex-wrap gap-1.5">
@@ -3646,21 +3581,11 @@ export function FakeLiveStream({
                           <button
                             key={d.seconds}
                             onClick={() => setMerchSelectedDuration(d.seconds)}
-                            className="rounded-lg px-3 py-1.5"
-                            style={{
-                              background:
-                                merchSelectedDuration === d.seconds
-                                  ? "rgba(192, 132, 252,0.18)"
-                                  : "rgba(255,255,255,0.04)",
-                              border:
-                                merchSelectedDuration === d.seconds
-                                  ? "1px solid rgba(192, 132, 252,0.45)"
-                                  : "1px solid rgba(255,255,255,0.08)",
-                              color:
-                                merchSelectedDuration === d.seconds
-                                  ? "#c084fc"
-                                  : "rgba(255,255,255,0.4)",
-                            }}
+                            className={`rounded-lg px-3 py-1.5 transition-colors ${
+                              merchSelectedDuration === d.seconds
+                                ? "border border-purple-400/50 bg-purple-400/20 text-purple-300"
+                                : "border border-white/10 bg-white/5 text-white/40 hover:text-white/70"
+                            }`}
                           >
                             {d.label}
                           </button>
@@ -3678,26 +3603,14 @@ export function FakeLiveStream({
                           )
                         }
                         disabled={merchTimerActive}
-                        className="transition-transform w-full py-3 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(192, 132, 252,0.25), rgba(249,115,22,0.2))",
-                          border: "1px solid rgba(192, 132, 252,0.5)",
-                          color: "#c084fc",
-                          boxShadow: "0 0 20px rgba(192, 132, 252,0.15)",
-                        }}
+                        className="transition-transform w-full rounded-[var(--radius-box)] border border-purple-400/50 bg-gradient-to-r from-purple-500/30 to-purple-700/30 py-3 text-purple-300 shadow-[0_0_20px_rgba(192,132,252,0.15)] hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         🛍 Start Drop with Timer
                       </button>
                       <button
                         onClick={() => handleMerchDrop(merchSelectedProduct, 0)}
                         disabled={merchTimerActive}
-                        className="transition-transform w-full py-2.5 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
-                        style={{
-                          background: "rgba(255,10,61,0.12)",
-                          border: "1px solid rgba(255,10,61,0.3)",
-                          color: "#c084fc",
-                        }}
+                        className="transition-transform w-full rounded-[var(--radius-box)] border border-red-500/30 bg-red-500/15 py-2.5 text-purple-300 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         ⚡ Drop Now (No Timer)
                       </button>
@@ -3707,10 +3620,7 @@ export function FakeLiveStream({
                     {modLog.filter((e) => e.action === "🛍 Merch Drop").length >
                       0 && (
                         <div>
-                          <p
-                            className="mb-2"
-                            style={{ color: "rgba(255,255,255,0.2)" }}
-                          >
+                          <p className="mb-2 text-white/20">
                             Drop History
                           </p>
                           <div className="space-y-1">
@@ -3719,29 +3629,18 @@ export function FakeLiveStream({
                                 ? [
                                   <div
                                     key={e.id}
-                                    className="flex items-center justify-between rounded-lg px-2 py-1.5"
-                                    style={{
-                                      background: "rgba(255,255,255,0.03)",
-                                    }}
+                                    className="flex items-center justify-between rounded-lg bg-white/[0.03] px-2 py-1.5"
                                   >
                                     <span className="text-black/60">
                                       {e.user}
                                     </span>
                                     <div className="flex items-center gap-2">
                                       {e.reason && (
-                                        <span
-                                          style={{
-                                            color: "rgba(255,255,255,0.3)",
-                                          }}
-                                        >
+                                        <span className="text-white/30">
                                           {e.reason}
                                         </span>
                                       )}
-                                      <span
-                                        style={{
-                                          color: "rgba(255,255,255,0.2)",
-                                        }}
-                                      >
+                                      <span className="text-white/20">
                                         {new Date(e.time).toLocaleTimeString(
                                           "en-US",
                                           { timeZone: "America/Chicago" },

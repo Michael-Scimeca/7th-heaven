@@ -702,8 +702,7 @@ export function Header() {
 
                     {/* Overlapping Role Badge Circle with Full Role Name */}
                     <span
-                      className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center border-2 border-[#3c0366] px-1 py-0.5 text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg} `}
-                      style={{ borderRadius: "9999px" }}
+                      className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full border-2 border-[#3c0366] px-1 py-0.5 text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg} `}
                     >
                       {badgeText}
                     </span>

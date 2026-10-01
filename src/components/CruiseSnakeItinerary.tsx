@@ -908,7 +908,7 @@ export default function CruiseSnakeItinerary({
       className="section relative site-container"
       ref={sectionRef}
     >
-      <div className="snake-itinerary-root relative overflow-hidden">
+      <div className="snake-itinerary-root relative ">
         {/* ── Header (Inside Blue Container Box) ── */}
 
         <h2 id="cruise-itinerary-heading" className="sr-only">

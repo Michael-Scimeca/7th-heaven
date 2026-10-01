@@ -57,250 +57,86 @@ export function CrewSetPasswordModal({
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 9999,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "'Inter', sans-serif",
-        padding: "16px",
-      }}
-    >
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* Blurred Hero Background Overlay */}
       <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundImage: "url('/images/hero/hero-band-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.35) blur(10px)",
-          transform: "scale(1.08)",
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
+        className="pointer-events-none fixed inset-0 z-0 scale-[1.08] bg-[url('/images/hero/hero-band-bg.png')] bg-cover bg-center brightness-35 blur-[10px]"
       />
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(0, 0, 0, 0.55)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
-      />
+      <div className="pointer-events-none fixed inset-0 z-0 bg-black/55 backdrop-blur-md" />
 
       {/* Glass Card */}
-      <div
-        style={{
-          background: "var(--color-bg-glass)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid var(--color-border-main)",
-          borderRadius: "var(--radius-box)",
-          padding: "36px 32px",
-          width: "100%",
-          maxWidth: "420px",
-          boxShadow: "0 30px 90px rgba(0, 0, 0, 0.6)",
-          position: "relative",
-          zIndex: 10,
-          overflow: "hidden",
-        }}
-      >
+      <div className="relative z-10 w-full max-w-[420px] overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-black/60 p-8 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl">
         {/* Icon */}
-        <div
-          style={{
-            width: 56,
-            height: 56,
-            borderRadius: "50%",
-            background:
-              "linear-gradient(135deg, var(--color-purple-primary), var(--color-purple-hover))",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "0 auto 20px",
-            fontSize: 26,
-            boxShadow: "0 0 24px var(--color-purple-glow)",
-          }}
-        >
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-purple-800 text-2xl shadow-[0_0_24px_rgba(168,85,247,0.5)]">
           🔐
         </div>
 
         {/* Title */}
-        <h2 className=""
-          style={{
-            color: "var(--color-text-main)",
-            textAlign: "center",
-            margin: "0 0 6px",
-            }}
-        >
+        <h2 className="mb-1.5 text-center text-white">
           Set Your Password
         </h2>
-        <p
-          style={{
-            color: "var(--color-text-subtle)",
-            fontSize: "var(--font-size-md)",
-            textAlign: "center",
-            margin: "0 0 8px",
-            lineHeight: 1.5,
-          }}
-        >
+        <p className="mb-2 text-center text-sm leading-relaxed text-white/60">
           Welcome to the crew! Your account has been created at:
         </p>
-        <p
-          style={{
-            color: "var(--color-purple-light)",
-            fontSize: "var(--font-size-md)",
-            fontWeight: 700,
-            textAlign: "center",
-            margin: "0 0 24px",
-            background: "rgba(147, 51, 234, 0.12)",
-            border: "1px solid var(--color-border-purple)",
-            borderRadius: "var(--radius-box)",
-            padding: "6px 12px",
-          }}
-        >
+        <p className="mb-6 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 text-center text-sm font-bold text-purple-400">
           {email}
         </p>
-        <p
-          style={{
-            color: "var(--color-text-subtle)",
-            fontSize: "var(--font-size-sm)",
-            textAlign: "center",
-            margin: "-12px 0 24px",
-            lineHeight: 1.5,
-          }}
-        >
+        <p className="-mt-3 mb-6 text-center text-xs leading-relaxed text-white/40">
           Create your own password to continue.
         </p>
 
         {success ? (
-          <div
-            style={{
-              textAlign: "center",
-              padding: "20px 0",
-            }}
-          >
-            <div style={{ fontSize: 40, marginBottom: 12 }}>✅</div>
-            <p
-              style={{
-                color: "var(--color-success-light)",
-                fontWeight: 700,
-                fontSize: "var(--font-size-base)",
-              }}
-            >
+          <div className="py-5 text-center">
+            <div className="mb-3 text-4xl">✅</div>
+            <p className="text-base font-bold text-emerald-400">
               Password set! Loading your dashboard…
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* New Password */}
-            <label
-              htmlFor="crew-set-new-password"
-              style={{
-                display: "block",
-                color: "var(--color-text-subtle)",
-                fontSize: "var(--font-size-xs)",
-                fontWeight: 800,
-                textTransform: "",
-                letterSpacing: 1,
-                marginBottom: 6,
-              }}
-            >
-              New Password
-            </label>
-            <input
-              id="crew-set-new-password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Min. 8 characters"
-              autoComplete="new-password"
-              required
-              style={{
-                width: "100%",
-                boxSizing: "border-box",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid var(--color-border-main)",
-                borderRadius: "var(--radius-box)",
-                padding: "12px 14px",
-                color: "var(--color-text-main)",
-                fontSize: "var(--font-size-md)",
-                outline: "none",
-                marginBottom: 16,
-                transition: "border-color 0.2s",
-              }}
-              onFocus={(e) =>
-                (e.target.style.borderColor = "var(--color-purple-primary)")
-              }
-              onBlur={(e) =>
-                (e.target.style.borderColor = "var(--color-border-main)")
-              }
-            />
+            <div>
+              <label
+                htmlFor="crew-set-new-password"
+                className="mb-1.5 block text-xs font-extrabold uppercase tracking-wider text-white/60"
+              >
+                New Password
+              </label>
+              <input
+                id="crew-set-new-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Min. 8 characters"
+                autoComplete="new-password"
+                required
+                className="w-full rounded-[var(--radius-box)] border border-white/15 bg-white/5 px-3.5 py-3 text-sm text-white placeholder-white/20 outline-none transition-[border-color] focus:border-purple-500"
+              />
+            </div>
 
             {/* Confirm Password */}
-            <label
-              htmlFor="crew-set-confirm-password"
-              style={{
-                display: "block",
-                color: "var(--color-text-subtle)",
-                fontSize: "var(--font-size-xs)",
-                fontWeight: 800,
-                textTransform: "",
-                letterSpacing: 1,
-                marginBottom: 6,
-              }}
-            >
-              Confirm Password
-            </label>
-            <input
-              id="crew-set-confirm-password"
-              type="password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              placeholder="Re-enter password"
-              autoComplete="new-password"
-              required
-              style={{
-                width: "100%",
-                boxSizing: "border-box",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid var(--color-border-main)",
-                borderRadius: "var(--radius-box)",
-                padding: "12px 14px",
-                color: "var(--color-text-main)",
-                fontSize: "var(--font-size-md)",
-                outline: "none",
-                marginBottom: 20,
-                transition: "border-color 0.2s",
-              }}
-              onFocus={(e) =>
-                (e.target.style.borderColor = "var(--color-purple-primary)")
-              }
-              onBlur={(e) =>
-                (e.target.style.borderColor = "var(--color-border-main)")
-              }
-            />
+            <div>
+              <label
+                htmlFor="crew-set-confirm-password"
+                className="mb-1.5 block text-xs font-extrabold uppercase tracking-wider text-white/60"
+              >
+                Confirm Password
+              </label>
+              <input
+                id="crew-set-confirm-password"
+                type="password"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                placeholder="Re-enter password"
+                autoComplete="new-password"
+                required
+                className="w-full rounded-[var(--radius-box)] border border-white/15 bg-white/5 px-3.5 py-3 text-sm text-white placeholder-white/20 outline-none transition-[border-color] focus:border-purple-500"
+              />
+            </div>
 
             {/* Error */}
             {error && (
-              <div
-                style={{
-                  background: "rgba(239,68,68,0.1)",
-                  border: "1px solid rgba(239,68,68,0.3)",
-                  borderRadius: "var(--radius-box)",
-                  padding: "10px 14px",
-                  color: "var(--color-error-light)",
-                  fontSize: "var(--font-size-md)",
-                  marginBottom: 16,
-                  textAlign: "center",
-                }}
-              >
+              <div className="rounded-[var(--radius-box)] border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-center text-sm text-red-400">
                 {error}
               </div>
             )}
@@ -309,25 +145,11 @@ export function CrewSetPasswordModal({
             <button
               type="submit"
               disabled={loading}
-              style={{
-                width: "100%",
-                background: loading
-                  ? "rgba(147, 51, 234, 0.3)"
-                  : "linear-gradient(135deg, var(--color-purple-primary), var(--color-purple-hover))",
-                border: "none",
-                borderRadius: "var(--radius-box)",
-                padding: "14px",
-                color: "var(--color-text-main)",
-                fontWeight: 800,
-                fontSize: "var(--font-size-md)",
-                textTransform: "",
-                cursor: loading ? "not-allowed" : "pointer",
-                transition: "background 0.2s, box-shadow 0.2s",
-                boxShadow: loading
-                  ? "none"
-                  : "0 0 20px var(--color-purple-glow)",
-                letterSpacing: 1,
-              }}
+              className={`w-full cursor-pointer rounded-[var(--radius-box)] py-3.5 text-sm font-extrabold uppercase tracking-wider text-white transition-[background-color,box-shadow] ${
+                loading
+                  ? "cursor-not-allowed bg-purple-500/30 shadow-none"
+                  : "bg-gradient-to-r from-purple-600 to-purple-700 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:from-purple-500 hover:to-purple-600"
+              }`}
             >
               {loading ? "Setting Password…" : "Set My Password →"}
             </button>
@@ -335,14 +157,7 @@ export function CrewSetPasswordModal({
         )}
 
         {/* Bottom note */}
-        <p
-          style={{
-            color: "rgba(255,255,255,0.25)",
-            fontSize: 11,
-            textAlign: "center",
-            marginTop: 20,
-          }}
-        >
+        <p className="mt-5 text-center text-[11px] text-white/25">
           🔒 This step is required before accessing your crew dashboard
         </p>
       </div>

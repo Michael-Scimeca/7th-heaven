@@ -417,7 +417,7 @@ export default function PlannerDashboard() {
             <div className="h-px bg-[var(--color-accent)]/40" />
 
             <div className="p-10">
-              <div className="mb-10 text-center">
+              <div className="mb-8 text-center">
                 <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10">
                   <ClipboardList className="h-6 w-6 text-[var(--color-accent)]" />
                 </div>

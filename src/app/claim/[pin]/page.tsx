@@ -234,7 +234,6 @@ export default function ClaimPage() {
     <main
       id="claim-page"
       className={`page-container flex min-h-screen flex-col items-center justify-center px-6 ${status === "valid" ? "flash-bg" : " "} `}
-      style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}
     >
       {/* Header */}
       <header className="mb-8 w-full max-w-sm text-center">

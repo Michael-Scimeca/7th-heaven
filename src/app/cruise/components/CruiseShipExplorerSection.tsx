@@ -44,7 +44,7 @@ function CruiseShipExplorerSectionComponent({
       </div>
 
       {/* Specs & Dimensions */}
-      <dl className="mb-10 grid grid-cols-2 gap-4 text-left sm:gap-6 md:grid-cols-4">
+      <dl className="mb-8 grid grid-cols-2 gap-4 text-left sm:gap-6 md:grid-cols-4">
         {[
           { label: "Gross Tonnage", value: "248,663 GT", desc: "World-class icon class" },
           { label: "Total Length", value: "1,196.9 Ft", desc: "Nearly 4 football fields" },

@@ -29,7 +29,7 @@ export default function NotFound() {
           Page Not <span className="text-[var(--color-accent)]">Found</span>
         </h2>
 
-        <p className="mx-auto mb-10 max-w-sm">
+        <p className="mx-auto mb-8 max-w-sm">
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
           Let&apos;s get you back on track.
         </p>

@@ -100,10 +100,7 @@ export default function RoleBadge({
     <span
       className={`inline-flex items-center ${config.bg}  ${config.border} border ${config.glow}  ${size === "sm" ? "px-2 py-[1px]" : "px-2.5 py-[3px]"}  ${className} `}
     >
-      <span
-        className={` ${config.color} text-[12px]`}
-        style={{ fontSize: "12px" }}
-      >
+      <span className={`${config.color} text-xs font-semibold uppercase tracking-wider`}>
         {config.label}
       </span>
     </span>

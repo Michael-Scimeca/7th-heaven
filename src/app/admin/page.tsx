@@ -254,21 +254,10 @@ export default function AdminGatewayPage() {
     <main
       id="admin-gateway-page"
       className="lock-scroll-fullscreen fixed inset-0 flex h-screen w-screen items-center justify-center overflow-hidden px-6"
-      style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {/* Blurred Hero Background Overlay */}
       <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          backgroundImage: "url('/images/hero/hero-band-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.55) blur(3px)",
-          transform: "scale(1.08)",
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
+        className="pointer-events-none fixed inset-0 z-0 scale-[1.08] bg-[url('/images/hero/hero-band-bg.png')] bg-cover bg-center brightness-55 blur-[3px]"
       />
       <div className="pointer-events-none fixed inset-0 z-0 bg-black/55 backdrop-blur-2xl" />
 
@@ -465,7 +454,6 @@ export default function AdminGatewayPage() {
                       inputMode="numeric"
                       maxLength={1}
                       value={digit}
-                      style={{ padding: 0 }}
                       onFocus={() => setFocusedIndex(i)}
                       onBlur={() => setFocusedIndex(null)}
                       onChange={(e) => handleDigit(i, e.target.value)}

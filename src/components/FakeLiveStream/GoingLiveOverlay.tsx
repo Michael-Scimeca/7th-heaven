@@ -36,108 +36,48 @@ export function GoingLiveOverlay({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
-      style={{
-        transition: "opacity 0.8s ease",
-        opacity: faded ? 0 : 1,
-        pointerEvents: faded ? "none" : "all",
-      }}
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-800 ${
+        faded ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100"
+      }`}
     >
       {/* Scan line */}
       <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          height: "2px",
-          background:
-            "linear-gradient(90deg, transparent, #a855f7, transparent)",
-          animation: "scan-line 2s linear infinite",
-        }}
+        className="absolute inset-x-0 h-[2px] animate-[scan-line_2s_linear_infinite] bg-gradient-to-r from-transparent via-purple-500 to-transparent"
       />
 
       {/* Center */}
-      <div style={{ textAlign: "center", position: "relative", zIndex: 1 }}>
+      <div className="relative z-10 text-center">
         {/* Pulsing rings */}
-        <div
-          style={{
-            position: "relative",
-            width: 96,
-            height: 96,
-            margin: "0 auto 24px",
-          }}
-        >
+        <div className="relative mx-auto mb-6 h-24 w-24">
           {[0, 0.4, 0.8].map((delay, i) => (
             <div
               key={i}
-              style={{
-                position: "absolute",
-                inset: 0,
-                border: "2px solid rgba(255,10,61,0.4)",
-                borderRadius: "50%",
-                animation: `ring-expand 2s ${delay}s ease-out infinite`,
-              }}
+              className="absolute inset-0 rounded-full border-2 border-red-500/40 animate-[ring-expand_2s_ease-out_infinite]"
+              style={{ animationDelay: `${delay}s` }}
             />
           ))}
           <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(circle, rgba(255,10,61,0.3) 0%, transparent 70%)",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="absolute inset-0 flex items-center justify-center rounded-full bg-[radial-gradient(circle,rgba(255,10,61,0.3)_0%,transparent_70%)]"
           >
-            <span style={{ fontSize: 36 }}>{crew.badge}</span>
+            <span className="text-4xl">{crew.badge}</span>
           </div>
         </div>
 
-        <div
-          style={{
-            fontSize: 11,
-            letterSpacing: "0.3em",
-            textTransform: "",
-            color: "rgba(255,255,255,0.3)",
-            marginBottom: 12,
-          }}
-        >
+        <div className="mb-3 text-[11px] uppercase tracking-[0.3em] text-white/30">
           7th Heaven
         </div>
 
         {phase === "connecting" && (
           <div>
-            <div
-              style={{
-                color: "white",
-                fontWeight: 900,
-                fontSize: 22,
-                letterSpacing: "0.05em",
-                marginBottom: 8,
-              }}
-            >
+            <div className="mb-2 text-2xl font-black tracking-wider text-white">
               Connecting...
             </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 4,
-              }}
-            >
+            <div className="flex items-center justify-center gap-1">
               {[0, 0.2, 0.4].map((d, i) => (
                 <div
                   key={i}
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: "#a855f7",
-                    animation: `blink-dot 1s ${d}s ease-in-out infinite`,
-                  }}
+                  className="h-1.5 w-1.5 rounded-full bg-purple-500 animate-[blink-dot_1s_ease-in-out_infinite]"
+                  style={{ animationDelay: `${d}s` }}
                 />
               ))}
             </div>
@@ -145,61 +85,19 @@ export function GoingLiveOverlay({
         )}
         {phase === "initializing" && (
           <div>
-            <div
-              style={{
-                color: "#a855f7",
-                fontWeight: 900,
-                fontSize: 22,
-                letterSpacing: "0.05em",
-                marginBottom: 8,
-              }}
-            >
+            <div className="mb-2 text-2xl font-black tracking-wider text-purple-500">
               Crew member is going live
             </div>
-            <div
-              style={{
-                padding: "6px 16px",
-                background: "rgba(255,10,61,0.15)",
-                border: "1px solid rgba(255,10,61,0.4)",
-                borderRadius: 8,
-                color: "rgba(255,255,255,0.5)",
-                fontSize: 11,
-                letterSpacing: "0.2em",
-                textTransform: "",
-              }}
-            >
+            <div className="rounded-[var(--radius-box)] border border-red-500/40 bg-red-500/15 px-4 py-1.5 text-[11px] tracking-[0.2em] text-white/50">
               {crew.name} · {crew.instrument}
             </div>
           </div>
         )}
         {phase === "live" && (
           <div>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                background: "#dc2626",
-                padding: "8px 24px",
-                borderRadius: 999,
-                color: "white",
-                fontWeight: 900,
-                fontSize: 18,
-                letterSpacing: "0.1em",
-                textTransform: "",
-                boxShadow: "0 0 30px rgba(220,38,38,0.5)",
-              }}
-            >
-              <span
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: "white",
-                  animation: "blink-dot 0.8s ease-in-out infinite",
-                }}
-              />
-              YOU'RE LIVE
+            <div className="inline-flex items-center gap-2 rounded-full bg-red-600 px-6 py-2 text-lg font-black tracking-widest text-white shadow-[0_0_30px_rgba(220,38,38,0.5)]">
+              <span className="h-2 w-2 rounded-full bg-white animate-[blink-dot_0.8s_ease-in-out_infinite]" />
+              YOU&apos;RE LIVE
             </div>
           </div>
         )}
@@ -208,35 +106,14 @@ export function GoingLiveOverlay({
       {/* Skip button */}
       <button
         onClick={onComplete}
-        style={{
-          position: "absolute",
-          bottom: 32,
-          right: 32,
-          padding: "8px 20px",
-          background: "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.12)",
-          borderRadius: 8,
-          color: "rgba(255,255,255,0.4)",
-          fontSize: 12,
-          fontWeight: 700,
-          letterSpacing: "0.15em",
-          textTransform: "",
-          cursor: "pointer",
-        }}
+        className="transition-colors absolute right-8 bottom-8 cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-white/5 px-5 py-2 text-xs font-bold tracking-widest text-white/40 hover:bg-white/10 hover:text-white"
       >
         Skip →
       </button>
 
       {/* Noise texture overlay */}
       <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: 0.03,
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
-          pointerEvents: "none",
-        }}
+        className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"
       />
     </div>
   );

@@ -555,7 +555,7 @@ export default function MediaClient({
         <section id="media-gallery" aria-labelledby="media-gallery-heading" className="section">
           <SectionHeader id="media-gallery-heading" title="Media Gallery" visuallyHidden />
 
-          <div role="toolbar" aria-label="Media Filters" className="mb-10 lg:mb-12">
+          <div role="toolbar" aria-label="Media Filters" className="mb-8 lg:mb-12">
             {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
             <div className="mb-6 flex flex-col items-start justify-start gap-3 sm:flex-row sm:items-center">
               <SearchInput
