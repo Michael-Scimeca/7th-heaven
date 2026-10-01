@@ -713,6 +713,7 @@ html {
   max-width: 100%;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
 }
 
 /* Custom Smooth Webkit & Firefox Scrollbars */
@@ -2489,6 +2490,7 @@ button,
     scrollbar-width: thin;
     scrollbar-color: var(--color-accent) var(--color-bg-primary);
     overflow-y: scroll;
+    scrollbar-gutter: stable;
   }
 
   html::-webkit-scrollbar {
@@ -4089,6 +4091,10 @@ html.tour-sort-stuck #tour-sort-bar {
 }
 
 /* Prevent page scrolling while preloader is active */
+html.is-preloading {
+  background-color: #030006;
+}
+
 html.is-preloading,
 html.is-preloading body {
   overflow: hidden !important;
@@ -4982,12 +4988,6 @@ a[href^="mailto:"] {
    ========================================================================== */
 
 /* --- Inline Preloader Critical Fallback --- */
-html.is-preloading,
-html.is-preloading body {
-  overflow: hidden !important;
-  background-color: #030006 !important;
-}
-
 html.is-preloading .preloader {
   display: grid !important;
   z-index: 100005 !important;
