@@ -133,7 +133,7 @@ export function LiveKitStream({
   if (error) {
     return (
       <div
-        className={`flex items-center justify-center bg-black/40 p-8 ${className} `}
+        className={`flex items-center justify-center bg-black/40 p-8 ${className}`}
       >
         <div className="text-center">
           <p className="mb-2 flex items-center justify-center gap-1.5 text-red-400">
@@ -148,7 +148,7 @@ export function LiveKitStream({
   if (!token || !url || !lk) {
     return (
       <div
-        className={`flex items-center justify-center bg-black/40 ${className} `}
+        className={`flex items-center justify-center bg-black/40 ${className}`}
       >
         <div className="text-center">
           <div className="mx-auto mb-3 h-8 w-8 animate-spin border-2 border-[var(--color-accent)] border-t-transparent" />
@@ -170,9 +170,8 @@ export function LiveKitStream({
       audio={isPublisher}
       onConnected={onConnected}
       onDisconnected={onDisconnected}
-      className={className}
+      className={`h-full ${className || ""}`}
       data-lk-theme="default"
-      style={{ height: "100%" }}
     >
       <RoomAudioRenderer />
       <LiveKitErrorBoundary>
@@ -230,10 +229,10 @@ function PublisherView({ lk }: { lk: any }) {
     <div className="flex h-full flex-col">
       <div className="relative flex-1">
         {localCameraTrack.length > 0 ? (
-          <div style={{ height: "100%", position: "relative" }}>
+          <div className="relative h-full">
             <ParticipantTile
               trackRef={localCameraTrack[0]}
-              style={{ height: "100%", width: "100%" }}
+              className="h-full w-full"
             />
           </div>
         ) : (
@@ -299,7 +298,7 @@ function ViewerView({ lk, room }: { lk: any; room: string }) {
 
   return (
     <div className="relative h-full">
-      <GridLayout tracks={remoteCameraTracks} style={{ height: "100%" }}>
+      <GridLayout tracks={remoteCameraTracks} className="h-full">
         <ParticipantTile />
       </GridLayout>
     </div>

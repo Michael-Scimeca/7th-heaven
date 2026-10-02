@@ -146,7 +146,7 @@ export function Footer() {
 
   return (
     <footer
-      className={`relative overflow-hidden ${isCovered ? "pointer-events-none hidden opacity-0" : "block opacity-100"} `}
+      className={`relative overflow-hidden ${isCovered ? "pointer-events-none hidden opacity-0" : "block opacity-100"}`}
       id="footer"
       suppressHydrationWarning
     >
@@ -229,7 +229,7 @@ export function Footer() {
             href="https://michaelscimeca.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors ! hover:text-white"
+            className="transition-colors hover:text-white"
           >
             Hey Mom Look I Built This Thing
           </a>

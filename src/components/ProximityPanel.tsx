@@ -315,7 +315,7 @@ export default function ProximityPanel() {
                         e.stopPropagation();
                         toggleGoing(show);
                       }}
-                      className={`rounded-[var(--radius-box)] border px-4 py-2 ${myStatus && selectedShow?.id === show.id ? "border-blue-600 bg-blue-600" : "hover: border-white/10 bg-white/10 hover:border-blue-500 hover:bg-blue-500"} `}
+                      className={`rounded-[var(--radius-box)] border px-4 py-2 ${myStatus && selectedShow?.id === show.id ? "border-blue-600 bg-blue-600" : "hover: border-white/10 bg-white/10 hover:border-blue-500 hover:bg-blue-500"}`}
                     >
                       {myStatus && selectedShow?.id === show.id
                         ? "Going"
@@ -371,7 +371,7 @@ export default function ProximityPanel() {
                               {a.profiles?.tier &&
                                 a.profiles.tier !== "Bronze" && (
                                   <span
-                                    className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]} `}
+                                    className={`text-[var(--font-size-2xs)] ${tierColors[a.profiles.tier]}`}
                                   >
                                     {a.profiles.tier}
                                   </span>

@@ -239,7 +239,6 @@ export default function CruiseVideoGallery() {
                   key={cat}
                   isActive={selectedCategory === cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className=""
                 >
                   {cat}
                 </SeventhButton>
@@ -299,7 +298,7 @@ export default function CruiseVideoGallery() {
                 {/* Title & Info */}
                 <div className="flex flex-1 flex-col space-y-3 pt-6">
                   <div>
-                    <h3 className="">{vid.title}</h3>
+                    <h3>{vid.title}</h3>
                     {vid.description && (
                       <p className="mt-2 line-clamp-2">{vid.description}</p>
                     )}
@@ -317,11 +316,7 @@ export default function CruiseVideoGallery() {
         createPortal(
           <div
             onClick={() => setActiveVideo(null)}
-            style={{
-              backdropFilter: "blur(45px)",
-              WebkitBackdropFilter: "blur(45px)",
-            }}
-            className="animate-in fade-in fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-2xl md:p-8"
+            className="animate-in fade-in fixed inset-0 z-[999999] flex items-center justify-center bg-black/60 p-4 backdrop-blur-3xl md:p-8"
           >
             {/* Floating Top-Right Close Button for immediate screen dismiss */}
             <button
@@ -342,7 +337,7 @@ export default function CruiseVideoGallery() {
                   <span className="mb-1 block text-purple-400">
                     {activeVideo.category}
                   </span>
-                  <h3 className="">{activeVideo.title}</h3>
+                  <h3>{activeVideo.title}</h3>
                 </div>
               </div>
 

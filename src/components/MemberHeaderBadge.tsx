@@ -47,7 +47,7 @@ export function MemberHeaderBadge({
     (isMichael ? "/images/crew/michaelscimeca.png" : avatar);
 
   return (
-    <div className={`flex items-start gap-4 sm:gap-6 ${className} `}>
+    <div className={`flex items-start gap-4 sm:gap-6 ${className}`}>
       {/* Member Avatar with attached bottom pill badge */}
       <Avatar
         src={effectiveAvatar}
@@ -65,7 +65,7 @@ export function MemberHeaderBadge({
           <HeadingTag className={nameClassName}>{name}</HeadingTag>
           {statusBadge && (
             <span
-              className={`r inline-flex items-center gap-1.5 rounded-full border px-3 py-1 ${statusColorClass} `}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 ${statusColorClass}`}
             >
               <span className="h-2 w-2 animate-pulse rounded-full bg-rose-500" />
               {statusBadge}

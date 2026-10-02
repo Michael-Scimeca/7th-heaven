@@ -731,9 +731,16 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       isVisible = true;
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    // Use Lenis scroll event when available (prevents double-firing that causes
+    // jitter). Lenis is the authoritative scroll source on this page — subscribing
+    // to BOTH lenis.on('scroll') AND window 'scroll' fires onScroll twice per
+    // Lenis RAF tick. Fall back to native scroll only if Lenis is absent.
     const lenis = (window as any).__lenis;
-    if (lenis) lenis.on("scroll", onScroll);
+    if (lenis) {
+      lenis.on("scroll", onScroll);
+    } else {
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
 
     onScroll();
 
@@ -741,9 +748,12 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       isRunning = false;
       cancelAnimationFrame(rafId);
       if (observer) observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
       const l = (window as any).__lenis;
-      if (l) l.off("scroll", onScroll);
+      if (l) {
+        l.off("scroll", onScroll);
+      } else {
+        window.removeEventListener("scroll", onScroll);
+      }
     };
   }, [desktopPathLength, mobilePathLength, pathLengthTo2026, tuning]);
   const [maskSettings, setMaskSettings] = useState({
@@ -854,7 +864,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 position: [0, 350, 0],
                 up: [0, 0, -1],
               }}
-              style={{ width: "100%", height: "100%", overflow: "visible" }}
+              className="h-full w-full overflow-visible"
             >
               {process.env.NODE_ENV === "development" && (
                 <StatsGl className="r3f-gpu-stats" />
@@ -1014,7 +1024,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* YEAR HEADERS ROW */}
                 <div
                   data-year-header-row
-                  className={`relative z-30 flex h-12 items-center justify-between ${isEvenRow ? "flex-row" : "flex-row-reverse"} `}
+                  className={`relative z-30 flex h-12 items-center justify-between ${isEvenRow ? "flex-row" : "flex-row-reverse"}`}
                 >
                   {(() => {
                     const paddedItems =
@@ -1054,19 +1064,19 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       return (
                         <div
                           key={itemIndex}
-                          className={`group z-30 shrink-0 ${flexAlignClass} `}
+                          className={`group z-30 shrink-0 ${flexAlignClass}`}
                           style={{ width: isMobile ? "calc(100% - 32px)" : "clamp(200px, 24vw, 380px)", maxWidth: isMobile ? "280px" : undefined }}
                         >
                           <div
                             data-year-badge
-                            className={`z-40 inline-block ${isReached ? "scale-105 border-2 border-purple-400 bg-[#240852] shadow-[0_0_25px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#240852]"} `}
+                            className={`z-40 inline-block ${isReached ? "scale-105 border-2 border-purple-400 bg-[#240852] shadow-[0_0_25px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#240852]"}`}
                             style={{
                               padding:
                                 "clamp(0.25rem, 0.6vw, 0.5rem) clamp(0.75rem, 1.5vw, 1.5rem)",
                             }}
                           >
                             <h6
-                              className={` ${isReached ? " " : "text-white/40"}`}
+                              className={`${isReached ? " " : "text-white/40"}`}
                             >
                               {hist.year}
                             </h6>
@@ -1079,7 +1089,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* CARDS ROW */}
                 <div
-                  className={`mt-4 flex items-start justify-between px-2 md:px-4 lg:px-6 ${isEvenRow ? "flex-row" : "flex-row-reverse"} `}
+                  className={`mt-4 flex items-start justify-between px-2 md:px-4 lg:px-6 ${isEvenRow ? "flex-row" : "flex-row-reverse"}`}
                 >
                   {(() => {
                     const paddedItems =
@@ -1108,22 +1118,22 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       return (
                         <div
                           key={itemIndex}
-                          className={`group shrink-0 ${isEvenRow ? "text-left" : isMobile ? "text-right" : "text-left"} `}
+                          className={`group shrink-0 ${isEvenRow ? "text-left" : isMobile ? "text-right" : "text-left"}`}
                           style={{ width: isMobile ? "calc(100% - 32px)" : "clamp(200px, 24vw, 380px)", maxWidth: isMobile ? "280px" : undefined }}
                         >
                           <div
                             className={`py-2 ${isReached ? "opacity-100" : "opacity-70"}`}
                           >
-                            <div className={`mb-2 flex items-center gap-2 ${isEvenRow ? "justify-start" : isMobile ? "justify-end" : "justify-between"} `}>
+                            <div className={`mb-2 flex items-center gap-2 ${isEvenRow ? "justify-start" : isMobile ? "justify-end" : "justify-between"}`}>
                               <span
-                                className={`rounded-lg px-2 py-0.5 text-[clamp(0.55rem,0.75vw,0.65rem)] ${isReached ? "border border-white/10 bg-cyan-500/20" : "border border-white/10 bg-[#00000029] text-white/40"} `}
+                                className={`rounded-lg px-2 py-0.5 text-[clamp(0.55rem,0.75vw,0.65rem)] ${isReached ? "border border-white/10 bg-cyan-500/20" : "border border-white/10 bg-[#00000029] text-white/40"}`}
                               >
                                 VOYAGE #{voyageNum}
                               </span>
                             </div>
 
                             <h4
-                              className={` ${isReached ? " " : " "}`}
+                              className={`${isReached ? " " : " "}`}
                             >
                               {hist.ship}
                             </h4>
@@ -1160,7 +1170,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
             >
               <div className="mb-5 flex items-center justify-between border-b border-purple-500/30 pb-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="">History Timeline & 3D Ship Controls</h3>
+                  <h3>History Timeline & 3D Ship Controls</h3>
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}
@@ -1174,7 +1184,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* 1. Start Ship Scale */}
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="/90">⚓ 1998 Start Ship Size (Scale)</span>
+                    <span>⚓ 1998 Start Ship Size (Scale)</span>
                     <span>{(tuning.startScale ?? 0.7).toFixed(2)}x</span>
                   </div>
                   <input
@@ -1197,7 +1207,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* 2. End Ship Scale */}
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="/90">🚀 2028 End Ship Size (Scale)</span>
+                    <span>🚀 2028 End Ship Size (Scale)</span>
                     <span>{(tuning.endScale ?? 3.2).toFixed(2)}x</span>
                   </div>
                   <input
@@ -1228,7 +1238,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                           onClick={() =>
                             setTuning({ ...tuning, scalingCurve: mode })
                           }
-                          className={`cursor-pointer border px-2 py-1.5 ${(tuning.scalingCurve || "linear") === mode ? "border-purple-300 bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.5)]" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"} `}
+                          className={`cursor-pointer border px-2 py-1.5 ${(tuning.scalingCurve || "linear") === mode ? "border-purple-300 bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.5)]" : "border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
                         >
                           {mode === "linear"
                             ? "Linear"
@@ -1252,7 +1262,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {tuning.scalingCurve === "exponential" && (
                   <div>
                     <div className="flex items-center justify-between">
-                      <span className="/90">
+                      <span>
                         ⚡ Year Acceleration Curve (Exponent)
                       </span>
                       <span>{(tuning.growthCurveExp ?? 1.5).toFixed(1)}</span>
@@ -1430,7 +1440,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                 {/* 6. Line Width */}
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="/90">🖊️ Line Thickness</span>
+                    <span>🖊️ Line Thickness</span>
                     <span>{tuning.lineWidth}px</span>
                   </div>
                   <input
@@ -1451,7 +1461,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
                 {/* 7. Line Color */}
                 <div>
-                  <span className="/90 mb-2 block">🎨 Line Glow Color</span>
+                  <span className="mb-2 block">🎨 Line Glow Color</span>
                   <div className="flex items-center gap-2">
                     {[
                       "#06b6d4",
@@ -1464,7 +1474,7 @@ export default function CruiseHistoryTimeline({ history }: Props) {
                       <button
                         key={col}
                         onClick={() => setTuning({ ...tuning, lineColor: col })}
-                        className={`h-7 w-7 cursor-pointer border-2 ${tuning.lineColor === col ? "scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" : "border-transparent opacity-70 hover:opacity-100"} `}
+                        className={`h-7 w-7 cursor-pointer border-2 ${tuning.lineColor === col ? "scale-125 border-white shadow-[0_0_12px_rgba(255,255,255,0.8)]" : "border-transparent opacity-70 hover:opacity-100"}`}
                         style={{ backgroundColor: col }}
                       />
                     ))}

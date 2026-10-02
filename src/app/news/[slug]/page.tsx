@@ -157,7 +157,7 @@ export default async function NewsArticlePage({
     <main id="news-article-page" className="page-container page-stack min-h-screen">
       {/* Article */}
       <article className="site-container">
-        <header className="">
+        <header>
           {/* Top nav back link */}
           <div className="py-3 mb-4">
             <Link
@@ -224,7 +224,7 @@ export default async function NewsArticlePage({
                     <Newspaper className="h-5 w-5 text-[var(--color-accent)]" />
                     Other Articles
                   </h2>
-                  <p className="">
+                  <p>
                     Explore more updates, tour announcements, and news from 7th
                     heaven
                   </p>
@@ -262,7 +262,7 @@ export default async function NewsArticlePage({
                             </span>
                           )}
                         </div>
-                        <h3 className="group-hover: mb-2 line-clamp-2">
+                        <h3 className="mb-2 line-clamp-2">
                           {other.title}
                         </h3>
                         <p className="mb-6 line-clamp-3">{other.content}</p>

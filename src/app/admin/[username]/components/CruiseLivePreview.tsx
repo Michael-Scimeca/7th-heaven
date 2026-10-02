@@ -39,7 +39,7 @@ export function CruiseLivePreview({
           </div>
         </div>
         <div
-          className="prose prose-invert /90 max-w-none"
+          className="prose prose-invert max-w-none"
           dangerouslySetInnerHTML={{
             __html: sanitizeHtml(
               cleanedContent ||
@@ -62,7 +62,7 @@ export function CruiseLivePreview({
         {cruiseBlastSubject || "7th Heaven Cruise Update"}
       </div>
       <div
-        className="prose prose-invert /90 max-w-none bg-[#090412] p-6"
+        className="prose prose-invert max-w-none bg-[#090412] p-6"
         dangerouslySetInnerHTML={{
           __html: sanitizeHtml(
             cruiseCommunityBlast({

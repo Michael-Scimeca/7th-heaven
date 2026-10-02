@@ -908,7 +908,7 @@ export default function CruiseSnakeItinerary({
       className="section relative site-container"
       ref={sectionRef}
     >
-      <div className="snake-itinerary-root relative ">
+      <div className="snake-itinerary-root relative">
         {/* ── Header (Inside Blue Container Box) ── */}
 
         <h2 id="cruise-itinerary-heading" className="sr-only">
@@ -928,7 +928,7 @@ export default function CruiseSnakeItinerary({
                 <div className="flex items-center gap-2">
                   <span className="text-xl">⚙️</span>
                   <div>
-                    <h3 className="">SVG Path, Speed & Boat Controls</h3>
+                    <h3>SVG Path, Speed & Boat Controls</h3>
                     <p>All real-time physics tuning parameters</p>
                   </div>
                 </div>
@@ -971,7 +971,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Ship Bow Path Advance Offset */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>🚢 Ship Bow Path Advance Offset</span>
                     <span>{tuning.shipAdvancePx ?? 80}px</span>
                   </div>
@@ -993,7 +993,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Blue Line Lead / Lag Offset */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>🌊 Blue Line Lead/Lag Offset</span>
                     <span>{tuning.lineFillLeadPx ?? 0}px</span>
                   </div>
@@ -1015,7 +1015,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Start Trigger Location */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>📍 Start Trigger Location</span>
                     <span>
                       {((tuning.scrollStartMul ?? 0.48) * 100).toFixed(0)}% Screen
@@ -1039,7 +1039,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* End Trigger Location */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>📍 End Trigger Location</span>
                     <span>
                       {((tuning.scrollEndMul ?? 0.5) * 100).toFixed(0)}% Screen
@@ -1063,7 +1063,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Start Node Padding */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>🛑 Start Path Padding</span>
                     <span>{tuning.minShipDist ?? 0}px</span>
                   </div>
@@ -1085,7 +1085,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* End Node Padding */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>🏁 End Path Finish Padding</span>
                     <span>{tuning.maxShipDistPad ?? 0}px</span>
                   </div>
@@ -1107,7 +1107,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Anchor X Offset */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>⚓ Anchor X Offset</span>
                     <span>{tuning.anchorOffsetX ?? 0}px</span>
                   </div>
@@ -1129,7 +1129,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Anchor Y Offset */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>⚓ Anchor Y Offset</span>
                     <span>{tuning.anchorOffsetY ?? 0}px</span>
                   </div>
@@ -1151,7 +1151,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* 3D Ship Model Scale */}
                 <div className="space-y-1.5 border border-white/10 bg-black/30 p-3 backdrop-blur-sm">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>🔎 3D Ship Scale</span>
                     <span>{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
                   </div>
@@ -1170,7 +1170,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* 3D Hull Y Offset */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>⚓ Hull Y Path Offset</span>
                     <span>{(tuning.shipOffsetY ?? 0.0).toFixed(1)}</span>
                   </div>
@@ -1194,13 +1194,13 @@ export default function CruiseSnakeItinerary({
                 <div className="col-span-1 mt-2 space-y-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
                   <div className="flex items-center gap-2 border-b border-white/10 pb-2">
                     <span>📍</span>
-                    <h3 className="">Port Circle & Corner Arrival Controls</h3>
+                    <h3>Port Circle & Corner Arrival Controls</h3>
                   </div>
 
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     {/* Action Mode Toggle */}
                     <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                      <span className="/90 block">Port Circle Action</span>
+                      <span className="block">Port Circle Action</span>
                       <div className="flex gap-1.5 pt-1">
                         {[
                           { id: "hide", label: "🙈 Hide & Flip" },
@@ -1212,7 +1212,7 @@ export default function CruiseSnakeItinerary({
                             onClick={() =>
                               setTuning({ ...tuning, nodeAction: act.id })
                             }
-                            className={`flex-1 px-2 py-1.5 ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"} `}
+                            className={`flex-1 px-2 py-1.5 ${(tuning.nodeAction ?? "hide") === act.id ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-[#00000029] hover:bg-white/10"}`}
                           >
                             {act.label}
                           </button>
@@ -1222,7 +1222,7 @@ export default function CruiseSnakeItinerary({
 
                     {/* Min Scale Over Circle */}
                     <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                      <div className="/90 flex items-center justify-between">
+                      <div className="flex items-center justify-between">
                         <span>🔎 Min Scale Over Circle</span>
                         <span>{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
                       </div>
@@ -1244,7 +1244,7 @@ export default function CruiseSnakeItinerary({
 
                     {/* Scale Down Distance */}
                     <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                      <div className="/90 flex items-center justify-between">
+                      <div className="flex items-center justify-between">
                         <span>📏 Scale Down Trigger Radius</span>
                         <span>{tuning.nodeDipRadius ?? 65}px</span>
                       </div>
@@ -1266,7 +1266,7 @@ export default function CruiseSnakeItinerary({
 
                     {/* Re-appear Pop Distance */}
                     <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                      <div className="/90 flex items-center justify-between">
+                      <div className="flex items-center justify-between">
                         <span>🚀 Re-appear Pop Distance</span>
                         <span>{tuning.nodePopDist ?? 60}px</span>
                       </div>
@@ -1290,7 +1290,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Boat Smoothness Lerp */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>🚢 Tracking Smoothness Lerp</span>
                     <span>{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
                   </div>
@@ -1309,7 +1309,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Wave Ripple Height */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>🌊 Wave Ripple Height</span>
                     <span>{tuning.rippleAmp ?? 7}px</span>
                   </div>
@@ -1328,7 +1328,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* Wave Animation Speed */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>⏱️ Wave Motion Speed</span>
                     <span>
                       {((tuning.waveSpeed ?? 0.0011) * 10000).toFixed(1)}
@@ -1349,7 +1349,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* SVG Line Thickness */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>📏 SVG Line Thickness</span>
                     <span>{tuning.lineWidth ?? 6}px</span>
                   </div>
@@ -1368,7 +1368,7 @@ export default function CruiseSnakeItinerary({
 
                 {/* SVG Glow Radius */}
                 <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
-                  <div className="/90 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span>✨ Neon Glow Blur</span>
                     <span>{tuning.glowBlur ?? 6}px</span>
                   </div>
@@ -1396,7 +1396,7 @@ export default function CruiseSnakeItinerary({
                 </button>
 
                 <div className="flex items-center gap-3">
-                  {saveToast && <span className="">✓ Settings Saved!</span>}
+                  {saveToast && <span>✓ Settings Saved!</span>}
                   <button
                     onClick={handleSaveTuning}
                     className="transition-colors cursor-pointer bg-cyan-500 px-6 py-2.5 shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:bg-cyan-400"
@@ -1422,17 +1422,10 @@ export default function CruiseSnakeItinerary({
         >
           {/* SVG — path + nodes */}
           <svg
-            className="snake-itinerary-svg"
+            className="snake-itinerary-svg pointer-events-none absolute inset-0 h-full w-full"
             viewBox={`0 0 ${SVG_W} ${totalH}`}
             preserveAspectRatio="none"
             aria-hidden="true"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              pointerEvents: "none",
-            }}
           >
             {/* FULL ROUTE GUIDE TRACK — Translucent route track line */}
             <path
@@ -1442,7 +1435,6 @@ export default function CruiseSnakeItinerary({
               stroke="rgba(110, 54, 188, 0.39)"
               strokeWidth={tuning.lineWidth ?? 6}
               strokeLinecap="round"
-              style={{ fill: "none" }}
             />
 
             {/* BRIGHT FILL — scroll-driven, fills as you travel */}
@@ -1453,7 +1445,6 @@ export default function CruiseSnakeItinerary({
               stroke="#742599d3"
               strokeWidth={tuning.lineWidth ?? 6}
               strokeLinecap="round"
-              style={{ fill: "none" }}
             />
 
             {/* Flowing current dashes on the fill */}
@@ -1466,7 +1457,6 @@ export default function CruiseSnakeItinerary({
               strokeLinecap="round"
               strokeDasharray="12 24 6 18"
               className="snake-itinerary-waterCurrent"
-              style={{ fill: "none" }}
             />
 
             {/* Bright flowing highlights */}
@@ -1479,7 +1469,6 @@ export default function CruiseSnakeItinerary({
               strokeLinecap="round"
               strokeDasharray="4 40 2 50"
               className="snake-itinerary-waterHighlight"
-              style={{ fill: "none" }}
             />
           </svg>
 
@@ -1512,7 +1501,7 @@ export default function CruiseSnakeItinerary({
                 {/* Card content header & events list with responsive inner padding */}
                 <div className="rounded-r-2xl rounded-b-2xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur-xl md:p-6">
                   <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
-                    <h3 className="">
+                    <h3>
                       {day.theme}
                     </h3>
                     {day.location && (
@@ -1643,7 +1632,7 @@ export default function CruiseSnakeItinerary({
                 ref={(el) => {
                   cardRefs.current[i] = el;
                 }}
-                className={`snake-itinerary-card overflow-hidden rounded-[28px] ${!isMobile && !node.isLeft ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"} `}
+                className={`snake-itinerary-card overflow-hidden rounded-[28px] ${!isMobile && !node.isLeft ? "snake-itinerary-cardRight" : "snake-itinerary-cardLeft"}`}
                 style={cardStyle}
               >
                 {cardContent}
@@ -1680,7 +1669,7 @@ export default function CruiseSnakeItinerary({
                   zoom: isMobile ? 42 : 55,
                   position: [0, 0, 100],
                 }}
-                style={{ width: "100%", height: "100%", overflow: "visible" }}
+                className="h-full w-full overflow-visible"
               >
                 {process.env.NODE_ENV === "development" && (
                   <StatsGl className="r3f-gpu-stats" />
@@ -1759,7 +1748,7 @@ export default function CruiseSnakeItinerary({
                     pointerEvents: "none",
                     backgroundColor: "#060614",
                   }}
-                  className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-3.5 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"} `}
+                  className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-3.5 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"}`}
                 >
                   {isSea ? (
                     <Waves className="inline-block h-3.5 w-3.5 shrink-0 text-cyan-400" />

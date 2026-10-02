@@ -75,7 +75,7 @@ function CancelContent() {
                 <span className="text-2xl">🗓️</span>
               </div>
               <div className="title-group title-group--page mb-8 items-center text-center">
-                <h1 id="booking-cancel-heading" className="">Cancel Booking?</h1>
+                <h1 id="booking-cancel-heading">Cancel Booking?</h1>
                 <p>
                   You&apos;re about to cancel booking{" "}
                   <span className="text-[var(--color-accent)]">{bookingId}</span>.
@@ -127,7 +127,7 @@ function CancelContent() {
                 </svg>
               </div>
               <div className="title-group title-group--section mb-8 items-center text-center">
-                <h2 id="booking-cancel-heading" className="">Booking Cancelled</h2>
+                <h2 id="booking-cancel-heading">Booking Cancelled</h2>
                 <p>
                   Booking{" "}
                   <span className="text-[var(--color-accent)]">{bookingId}</span>{" "}

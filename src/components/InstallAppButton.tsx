@@ -90,7 +90,7 @@ export function InstallAppButton({
 
   if (isStandalone || installed) {
     return (
-      <div className={`inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300 font-medium ${className} `}>
+      <div className={`inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300 font-medium ${className}`}>
         <Check className="h-3.5 w-3.5 shrink-0" />
         <span>7th Heaven App Installed</span>
       </div>
@@ -101,7 +101,7 @@ export function InstallAppButton({
   if (variant === "card") {
     return (
       <>
-        <div className={`relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-950/40 via-purple-900/20 to-black/80 p-5 backdrop-blur-xl ${className} `}>
+        <div className={`relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-950/40 via-purple-900/20 to-black/80 p-5 backdrop-blur-xl ${className}`}>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-600/30 border border-purple-500/40 text-purple-300">
@@ -142,7 +142,7 @@ export function InstallAppButton({
   if (variant === "banner") {
     return (
       <>
-        <div className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/60 p-3 backdrop-blur-md ${className} `}>
+        <div className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/60 p-3 backdrop-blur-md ${className}`}>
           <div className="flex items-center gap-2.5">
             <Sparkles className="h-4 w-4 text-purple-400 shrink-0" />
             <span className="text-xs text-white/80">
@@ -171,7 +171,7 @@ export function InstallAppButton({
         <button
           type="button"
           onClick={handleInstallClick}
-          className={`flex items-center gap-1.5 text-xs text-purple-300 hover:text-purple-200 font-medium transition-colors ${className} `}
+          className={`flex items-center gap-1.5 text-xs text-purple-300 hover:text-purple-200 font-medium transition-colors ${className}`}
         >
           <Download className="h-3.5 w-3.5 shrink-0" />
           <span>Install 7th Heaven App</span>
@@ -189,7 +189,7 @@ export function InstallAppButton({
         type="button"
         onClick={handleInstallClick}
         icon={false}
-        className={`cursor-pointer ${className} `}
+        className={`cursor-pointer ${className}`}
       >
         <span className="flex items-center gap-2">
           <Download className="h-4 w-4" />

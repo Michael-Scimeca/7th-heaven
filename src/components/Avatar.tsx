@@ -170,11 +170,11 @@ export function Avatar({
 
   const content = (
     <div
-      className={`relative inline-flex shrink-0 ${hasImage || effectiveBadge ? "pb-1" : ""}  ${className} `}
+      className={`relative inline-flex shrink-0 ${hasImage || effectiveBadge ? "pb-1" : ""} ${className}`}
       onClick={onClick}
     >
       <div
-        className={`relative flex aspect-square shrink-0 items-center justify-center overflow-hidden ${roundedClass}  ${sizeConfig.container}  ${borderClass}  ${glowClass} `}
+        className={`relative flex aspect-square shrink-0 items-center justify-center overflow-hidden ${roundedClass} ${sizeConfig.container} ${borderClass} ${glowClass}`}
       >
         {hasImage ? (
           <Image
@@ -184,11 +184,11 @@ export function Avatar({
             height={sizeConfig.pxSize * 2}
             unoptimized={unoptimized}
             onError={() => setImgError(true)}
-            className={`h-full w-full object-cover ${roundedClass}  ${imageClassName} `}
+            className={`h-full w-full object-cover ${roundedClass} ${imageClassName}`}
           />
         ) : (
           <div
-            className={`flex h-full w-full items-center justify-center bg-gradient-to-br from-purple-600/40 to-indigo-900/60 text-white select-none ${roundedClass}  ${sizeConfig.text} `}
+            className={`flex h-full w-full items-center justify-center bg-gradient-to-br from-purple-600/40 to-indigo-900/60 text-white select-none ${roundedClass} ${sizeConfig.text}`}
           >
             {displayInitials}
           </div>
@@ -197,7 +197,7 @@ export function Avatar({
 
       {effectiveBadge && (
         <span
-          className={`pointer-events-none absolute -bottom-1 left-1/2 z-10 -translate-x-1/2 rounded-full border tracking-wider whitespace-nowrap shadow-md ${sizeConfig.badge}  ${effectiveBadgeClass} `}
+          className={`pointer-events-none absolute -bottom-1 left-1/2 z-10 -translate-x-1/2 rounded-full border tracking-wider whitespace-nowrap shadow-md ${sizeConfig.badge} ${effectiveBadgeClass}`}
         >
           {effectiveBadge}
         </span>

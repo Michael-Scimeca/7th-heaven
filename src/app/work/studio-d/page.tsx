@@ -96,7 +96,7 @@ export default function StudioDPage() {
             >
               Studio D
             </ExoTextReveal>
-            <p className="sm:">Urban and Landscape Design</p>
+            <p>Urban and Landscape Design</p>
           </div>
 
           <div className="pt-4 md:pt-0">
@@ -104,7 +104,7 @@ export default function StudioDPage() {
               href="https://7thheavenband.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors group hover: inline-flex items-center gap-2 border-b border-white/60 pb-0.5 hover:border-purple-300"
+              className="transition-colors group inline-flex items-center gap-2 border-b border-white/60 pb-0.5 hover:border-purple-300"
             >
               <span>Visit website</span>
               <ExternalLink className="transition-transform h-4 w-4 group-hover:translate-x-1" />
@@ -118,7 +118,7 @@ export default function StudioDPage() {
         <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12">
           <div className="space-y-4 md:col-span-4">
             <span className="text-purple-400">Project Overview</span>
-            <h2 className="">
+            <h2>
               Landscape Architecture & Design Universe
             </h2>
           </div>

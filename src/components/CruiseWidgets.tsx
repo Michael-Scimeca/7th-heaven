@@ -116,12 +116,12 @@ export function DailyPoll() {
               key={opt.id}
               onClick={() => !voted && setVoted(opt.id)}
               disabled={voted !== null}
-              className={`relative w-full overflow-hidden border text-left ${voted === opt.id ? "border-emerald-500 bg-emerald-500/10" : voted !== null ? "cursor-default border-white/10 bg-[#00000029]" : "cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40"} `}
+              className={`relative w-full overflow-hidden border text-left ${voted === opt.id ? "border-emerald-500 bg-emerald-500/10" : voted !== null ? "cursor-default border-white/10 bg-[#00000029]" : "cursor-pointer border-white/10 bg-[#00000029] bg-black/40 hover:border-emerald-500/40"}`}
             >
               {/* Progress bar background (only shows after voting) */}
               {voted !== null && (
                 <div
-                  className={`absolute top-0 bottom-0 left-0 ${isWinner ? "bg-emerald-500/20" : "bg-[#00000029]"} `}
+                  className={`absolute top-0 bottom-0 left-0 ${isWinner ? "bg-emerald-500/20" : "bg-[#00000029]"}`}
                   style={{ width: `${percent}%` }}
                 />
               )}
@@ -200,7 +200,7 @@ const MOCK_PHOTOS = [
 
 export function PhotoWall() {
   return (
-    <div className="">
+    <div>
       <div className="mb-8 flex items-end justify-between">
         <div>
           <h2 className="mb-1">Fan Pre-Cruise Photo Wall</h2>
@@ -537,7 +537,7 @@ export function BookingManager({ email }: { email?: string }) {
   if (loading)
     return (
       <div className="flex h-32 animate-pulse items-center justify-center border border-[var(--color-accent)]/20 bg-[var(--color-bg-surface)] p-8">
-        <span className="text-white/30">Loading Priority Status...</span>
+        <span className="text-white/60 font-medium">Loading Priority Status...</span>
       </div>
     );
 
@@ -662,7 +662,7 @@ export function BookingManager({ email }: { email?: string }) {
       {/* Payment Breakdown: Total Fare, Paid & Owed */}
       <div className="my-3 space-y-2.5">
         <div className="flex items-center justify-between">
-          <span className="">Total Cruise Fare</span>
+          <span>Total Cruise Fare</span>
           <span>{booking.total_fare || "$1,550.00"}</span>
         </div>
         <div className="flex items-center justify-between border-t border-white/10 pt-2">
@@ -918,7 +918,7 @@ function PaymentModal({
             <div className="mx-auto flex h-16 w-16 items-center justify-center border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckMarkIcon className="h-8 w-8 text-emerald-400" />
             </div>
-            <h3 className="">Payment Successful</h3>
+            <h3>Payment Successful</h3>
             <p>
               Your final payment of{" "}
               <strong className="text-emerald-400">{balanceDue}</strong> has
@@ -936,7 +936,7 @@ function PaymentModal({
           <form onSubmit={handlePaymentSubmit} className="space-y-6 p-6 md:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3 className="">Final Payment</h3>
+                <h3>Final Payment</h3>
                 <p className="mt-0.5">Pay remaining balance due</p>
               </div>
               <div className="text-right">
@@ -966,7 +966,7 @@ function PaymentModal({
                       setTab("saved");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer py-1.5 ${tab === "saved" ? "border border-white/10" : "border border-transparent text-white/40"} `}
+                    className={`flex-1 cursor-pointer py-1.5 ${tab === "saved" ? "border border-white/10" : "border border-transparent text-white/40"}`}
                   >
                     Use Saved Card
                   </button>
@@ -976,7 +976,7 @@ function PaymentModal({
                       setTab("new");
                       setError("");
                     }}
-                    className={`flex-1 cursor-pointer py-1.5 ${tab === "new" ? "border border-white/10" : "border border-transparent text-white/40"} `}
+                    className={`flex-1 cursor-pointer py-1.5 ${tab === "new" ? "border border-white/10" : "border border-transparent text-white/40"}`}
                   >
                     Use New Card
                   </button>
@@ -1128,7 +1128,7 @@ export function ImportantLinksWidget() {
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">{link.icon || "🔗"}</span>
-              <span className="">{link.title}</span>
+              <span>{link.title}</span>
             </div>
             <span className="-translate-x-2 text-[var(--color-accent)] opacity-0 group-hover/item:translate-x-0 group-hover/item:opacity-100">
               →
@@ -1166,7 +1166,7 @@ export function SongRequestLeaderboard() {
           🎸
         </div>
         <div>
-          <h2 className="">Setlist Requests</h2>
+          <h2>Setlist Requests</h2>
           <p className="mt-0.5">Top 3 get played on Lido Deck</p>
         </div>
       </div>
@@ -1175,13 +1175,13 @@ export function SongRequestLeaderboard() {
         {songs.map((song, i) => (
           <div key={song.id} className="group flex items-center gap-4">
             <span
-              className={`w-4 text-center ${i < 3 ? "text-[var(--color-accent)]" : "text-white/20"} `}
+              className={`w-4 text-center ${i < 3 ? "text-purple-400 font-semibold" : "text-white/50"}`}
             >
               {i + 1}
             </span>
             <div className="flex-1">
-              <div className="">{song.title}</div>
-              <div className="text-white/30">{song.votes} votes</div>
+              <div>{song.title}</div>
+              <div className="text-xs text-white/60">{song.votes} votes</div>
             </div>
             <button
               onClick={() => handleVote(song.id)}
@@ -1284,7 +1284,7 @@ export function ExcursionTeasers() {
           >
             <div>
               <div>{ex.title}</div>
-              <div className="">Join {ex.bandMember}</div>
+              <div>Join {ex.bandMember}</div>
             </div>
             <div className="text-right">
               <div>{ex.spots}</div>

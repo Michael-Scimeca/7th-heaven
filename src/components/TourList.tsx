@@ -61,7 +61,7 @@ import { VENUE_LINKS } from "@/lib/venue-links";
 function WavyRowDivider({ active }: { seed?: number; active?: boolean }) {
   return (
     <div
-      className={`h-[1px] w-full ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent" : "bg-white/10"} `}
+      className={`h-[1px] w-full ${active ? "bg-gradient-to-r from-transparent via-purple-500 to-transparent" : "bg-white/10"}`}
       aria-hidden="true"
     />
   );
@@ -1589,8 +1589,8 @@ export default function TourList({
             ref={headerParallaxRef}
             className="title-group title-group--section pointer-events-none z-30 mx-auto py-5 items-center text-center"
           >
-            <h2 className="">Upcoming Tour Dates</h2>
-            <p className="md:">
+            <h2>Upcoming Tour Dates</h2>
+            <p>
               Catch 7th Heaven live on stage! Explore all upcoming show dates,
               venues, directions, and sync concerts directly to your calendar.
             </p>
@@ -1794,11 +1794,11 @@ export default function TourList({
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
                 <div
                   key={`tour_row_${i}_${show.id || rowId}`}
-                  className="group overflow-visible"
+                  className="group overflow-visible mb-6"
                 >
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? "" : " "}  ${!show.city ? "opacity-50" : ""}  ${isPast && !isHighlighted ? "opacity-65" : ""} `}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
                     <span className="text-[clamp(14px,1.3vw,21px)] text-muted whitespace-nowrap">
@@ -1854,7 +1854,7 @@ export default function TourList({
                       {isShowToday(show) && (
                         <span
                           suppressHydrationWarning
-                          className="ml-1.5 animate-pulse whitespace-nowrap text-rose-600"
+                          className="ml-1.5 animate-pulse whitespace-nowrap text-rose-400 font-semibold"
                         >
                           {getCountdownString(show)}
                         </span>
@@ -1872,7 +1872,7 @@ export default function TourList({
                                   ? "Mute notifications for this show"
                                   : "Notify me about this show"
                               }
-                              className={`icon-btn flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-1 ${subscribedShowIdsSet.has(show._id) ? "text-[var(--color-accent)]" : "text-white/70"} `}
+                              className={`icon-btn flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center p-1 ${subscribedShowIdsSet.has(show._id) ? "text-[var(--color-accent)]" : "text-white/70"}`}
                             >
                               {subscribingId === show._id ? (
                                 <span className="h-5 w-5 animate-spin border-2 border-current border-t-transparent" />
@@ -2052,7 +2052,7 @@ export default function TourList({
 
                   {/* Mobile/Tablet Card Layout — Stacked Venue-First */}
                   <div
-                    className={`tour-row-item relative sm:mb-6 mb-6 flex flex-col gap-1 lg:hidden ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""}  ${!show.city ? "opacity-50" : ""}  ${isPast && !isHighlighted ? "opacity-65" : ""} `}
+                    className={`tour-row-item relative flex flex-col gap-1 lg:hidden mb-6 ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
                     {/* 1. Venue & City (FIRST) */}
@@ -2363,7 +2363,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-venue"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Venue Name *
                       </label>
@@ -2374,13 +2374,13 @@ export default function TourList({
                         value={formVenue}
                         onChange={(e) => setFormVenue(e.target.value)}
                         placeholder="e.g. Station 34"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="tour-form-date"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Event Date *
                       </label>
@@ -2390,7 +2390,7 @@ export default function TourList({
                         required
                         value={formDate}
                         onChange={(e) => setFormDate(e.target.value)}
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                   </div>
@@ -2399,7 +2399,7 @@ export default function TourList({
                     <div className="sm:col-span-2">
                       <label
                         htmlFor="tour-form-city"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         City *
                       </label>
@@ -2410,13 +2410,13 @@ export default function TourList({
                         value={formCity}
                         onChange={(e) => setFormCity(e.target.value)}
                         placeholder="e.g. Mt. Prospect"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="tour-form-state"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         State *
                       </label>
@@ -2427,7 +2427,7 @@ export default function TourList({
                         value={formState}
                         onChange={(e) => setFormState(e.target.value)}
                         placeholder="e.g. IL"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                   </div>
@@ -2436,7 +2436,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-time"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Show Time
                       </label>
@@ -2446,13 +2446,13 @@ export default function TourList({
                         value={formTime}
                         onChange={(e) => setFormTime(e.target.value)}
                         placeholder="e.g. 8:00pm"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="tour-form-doors-time"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Doors Open
                       </label>
@@ -2462,13 +2462,13 @@ export default function TourList({
                         value={formDoorsTime}
                         onChange={(e) => setFormDoorsTime(e.target.value)}
                         placeholder="e.g. 7:00pm"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="tour-form-play-time"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Band Plays
                       </label>
@@ -2478,13 +2478,13 @@ export default function TourList({
                         value={formPlayTime}
                         onChange={(e) => setFormPlayTime(e.target.value)}
                         placeholder="e.g. 8:30pm"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="tour-form-cover"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Cover / Admission
                       </label>
@@ -2494,7 +2494,7 @@ export default function TourList({
                         value={formCover}
                         onChange={(e) => setFormCover(e.target.value)}
                         placeholder="e.g. Free, $10"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                   </div>
@@ -2503,7 +2503,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-ticket-link"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Ticket Link (URL)
                       </label>
@@ -2513,13 +2513,13 @@ export default function TourList({
                         value={formTicketLink}
                         onChange={(e) => setFormTicketLink(e.target.value)}
                         placeholder="https://..."
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="tour-form-directions-link"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Directions / Google Maps (URL)
                       </label>
@@ -2532,7 +2532,7 @@ export default function TourList({
                           setFormMapUrl(e.target.value);
                         }}
                         placeholder="https://maps.google.com/..."
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                   </div>
@@ -2541,7 +2541,7 @@ export default function TourList({
                     <div>
                       <label
                         htmlFor="tour-form-parking-url"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Parking Directions Link (URL)
                       </label>
@@ -2551,13 +2551,13 @@ export default function TourList({
                         value={formParkingUrl}
                         onChange={(e) => setFormParkingUrl(e.target.value)}
                         placeholder="https://maps.google.com/..."
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="tour-form-parking-info"
-                        className="block text-white/30"
+                        className="block text-white/70 font-medium text-sm"
                       >
                         Parking Info / Notes
                       </label>
@@ -2567,7 +2567,7 @@ export default function TourList({
                         value={formParkingInfo}
                         onChange={(e) => setFormParkingInfo(e.target.value)}
                         placeholder="e.g. Free lot behind building"
-                        className="placeholder: focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                   </div>
@@ -2575,7 +2575,7 @@ export default function TourList({
                   <div>
                     <label
                       htmlFor="tour-form-notes"
-                      className="block text-white/30"
+                      className="block text-white/70 font-medium text-sm"
                     >
                       Notes / Description
                     </label>
@@ -2586,7 +2586,7 @@ export default function TourList({
                       value={formNotes}
                       onChange={(e) => setFormNotes(e.target.value)}
                       placeholder="e.g. Unplugged Acoustic Show"
-                      className="placeholder: focus-ring w-full resize-none border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white/20 outline-none"
+                      className="focus-ring w-full resize-none border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                     />
                   </div>
 
@@ -2687,8 +2687,8 @@ export default function TourList({
                       </svg>
                     </div>
                     <div>
-                      <h3 className="">Set Up Alerts</h3>
-                      <p className="r">{notifyPopupShow.venue}</p>
+                      <h3>Set Up Alerts</h3>
+                      <p>{notifyPopupShow.venue}</p>
                     </div>
                   </div>
                   <button
@@ -2732,13 +2732,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, thisShow: !p.thisShow }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.thisShow ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"} `}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.thisShow ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"} `}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.thisShow ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2757,13 +2757,13 @@ export default function TourList({
                     onClick={() =>
                       setNotifyPrefs((p) => ({ ...p, proximity: !p.proximity }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.proximity ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"} `}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.proximity ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"} `}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.proximity ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2785,13 +2785,13 @@ export default function TourList({
                         newsletter: !p.newsletter,
                       }))
                     }
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
+                    className={`flex w-full cursor-pointer items-center gap-3 rounded-[var(--radius-box)] border px-3 py-2.5 ${notifyPrefs.newsletter ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
                   >
                     <span
-                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"} `}
+                      className={`relative h-4 w-8 flex-shrink-0 rounded-full ${notifyPrefs.newsletter ? "bg-[var(--color-accent)]" : "bg-white/10"}`}
                     >
                       <span
-                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"} `}
+                        className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${notifyPrefs.newsletter ? "left-[14px]" : "left-0.5"}`}
                       />
                     </span>
                     <div className="text-left">
@@ -2857,12 +2857,11 @@ export default function TourList({
       {isFontCustomizerOpen && (
         <div className="pointer-events-none fixed right-6 bottom-6 z-50 p-0">
           <div
-            className="pointer-events-auto relative flex w-full max-w-sm animate-[fadeIn_0.2s_ease] flex-col overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)]/95 p-6 select-none md:p-8"
-            style={{ animation: "scaleIn 0.2s ease" }}
+            className="pointer-events-auto relative flex w-full max-w-sm animate-[scaleIn_0.2s_ease] flex-col overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)]/95 p-6 select-none md:p-8"
           >
             {/* Header */}
             <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="r">Font Tester</h3>
+              <h3>Font Tester</h3>
               <button
                 onClick={() => setIsFontCustomizerOpen(false)}
                 className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-[#00000029] text-white/40 hover:bg-white/10 hover:text-white"
@@ -2932,7 +2931,7 @@ export default function TourList({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-font-size-slider"
-                  className="r text-white/50"
+                  className="text-white/50"
                 >
                   Font Size
                 </label>
@@ -2961,7 +2960,7 @@ export default function TourList({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-website-btn-size-slider"
-                  className="r text-white/50"
+                  className="text-white/50"
                 >
                   Website Button Size
                 </label>
@@ -2994,7 +2993,7 @@ export default function TourList({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-row-padding-slider"
-                  className="r text-white/50"
+                  className="text-white/50"
                 >
                   Row Padding
                 </label>
@@ -3023,7 +3022,7 @@ export default function TourList({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-row-spacing-slider"
-                  className="r text-white/50"
+                  className="text-white/50"
                 >
                   Row Spacing (Margin)
                 </label>
@@ -3050,7 +3049,7 @@ export default function TourList({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="tour-row-height-slider"
-                  className="r text-white/50"
+                  className="text-white/50"
                 >
                   Row Height
                 </label>
@@ -3137,7 +3136,7 @@ export default function TourList({
                     <div className="mb-1 flex items-center justify-between">
                       <label
                         htmlFor="map-mask-bottom-slider"
-                        className="r text-white/50"
+                        className="text-white/50"
                       >
                         Bottom Fade Clip
                       </label>
@@ -3173,7 +3172,7 @@ export default function TourList({
                     <div className="mb-1 flex items-center justify-between">
                       <label
                         htmlFor="map-mask-left-slider"
-                        className="r text-white/50"
+                        className="text-white/50"
                       >
                         Left Fade Clip
                       </label>
@@ -3209,7 +3208,7 @@ export default function TourList({
                     <div className="mb-1 flex items-center justify-between">
                       <label
                         htmlFor="map-mask-right-slider"
-                        className="r text-white/50"
+                        className="text-white/50"
                       >
                         Right Fade Clip
                       </label>

@@ -600,18 +600,18 @@ const SidebarDateButton = React.memo(
       <button
         type="button"
         onClick={() => show.date && onClick(show.date)}
-        className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "} `}
+        className={`group flex w-full cursor-pointer items-center gap-2 !rounded-none border-b border-white/10 px-2 py-1.5 text-left ${isSelected ? "!rounded-none bg-[#00000029]" : isActiveWeek ? "bg-[#00000029]" : " "}`}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
           <span className="text-[9px] text-white/40">{dayLabel}</span>
           <span
-            className={` ${isSelected ? " " : isActiveWeek ? " " : "text-white/50"} `}
+            className={`${isSelected ? " " : isActiveWeek ? " " : "text-white/50"}`}
           >
             {dateLabel}
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "} `}>
+          <p className={`${isSelected ? " " : isActiveWeek ? "/90" : " "}`}>
             {show.venue || show.venue_name}
           </p>
           {show.city && (
@@ -784,7 +784,7 @@ function DutyRoleEditorPopover({
                   }
                   setEditingDutyValue(updated.join(", "));
                 }}
-                className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[10px] transition-[background-color,border-color,color,transform] select-none ${isSelected ? "scale-[1.02] border-purple-400 bg-purple-600" : "/90 border-white/10 bg-white/10 hover:border-purple-400/40 hover:bg-white/20 hover:text-white"} `}
+                className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[10px] transition-[background-color,border-color,color,transform] select-none ${isSelected ? "scale-[1.02] border-purple-400 bg-purple-600" : "/90 border-white/10 bg-white/10 hover:border-purple-400/40 hover:bg-white/20 hover:text-white"}`}
               >
                 {isSelected ? `✓ ${chip}` : `+ ${chip}`}
               </button>
@@ -5173,7 +5173,7 @@ export function AdminDashboardMain({
                 size="sm"
                 label={
                   <span
-                    className={`text-[0.8rem] ${bannerActive ? "text-purple-300" : "text-white/40"} `}
+                    className={`text-[0.8rem] ${bannerActive ? "text-purple-300" : "text-white/40"}`}
                   >
                     {bannerActive ? "LIVE ON SITE" : "OFF"}
                   </span>
@@ -5226,7 +5226,7 @@ export function AdminDashboardMain({
               {/* Save status toast */}
               {bannerSaveStatus && (
                 <div
-                  className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 rounded-[var(--radius-box)] px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"} `}
+                  className={`flex animate-[slideIn_0.3s_ease-out] items-center gap-2 rounded-[var(--radius-box)] px-4 py-2.5 text-[0.9rem] backdrop-blur-2xl ${bannerSaveStatus === "saved" ? "border border-white/10 bg-emerald-500/10 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.1)]"}`}
                 >
                   {bannerSaveStatus === "saved"
                     ? "✓ Announcement updated and published successfully"
@@ -5244,7 +5244,7 @@ export function AdminDashboardMain({
                     className={`rounded-full px-2 py-0.5 text-[0.7rem] ${bannerActive
                       ? "border border-purple-500/40 bg-purple-500/20 text-purple-300"
                       : "border border-white/10 bg-white/5 text-white/40"
-                      } `}
+                      }`}
                   >
                     {bannerActive
                       ? "Visible on Homepage"
@@ -5494,7 +5494,7 @@ export function AdminDashboardMain({
           <>
             {/* 1. Executive Top Metrics Grid */}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              <div className="">
+              <div>
                 <span className="mb-1 block text-[0.55rem]">Active Users</span>
                 <span className="block text-2xl text-[#c27aff]">
                   {gaData.activeUsers}
@@ -5505,7 +5505,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className="">
+              <div>
                 <span className="mb-1 block text-[0.55rem]">
                   Total Sessions
                 </span>
@@ -5515,7 +5515,7 @@ export function AdminDashboardMain({
                 <span className="mt-1 block text-[0.55rem]">Last 30 Days</span>
               </div>
 
-              <div className="">
+              <div>
                 <span className="mb-1 block text-[0.55rem]">Page Views</span>
                 <span className="block text-2xl">
                   {gaData.pageViews.toLocaleString()}
@@ -5525,7 +5525,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className="">
+              <div>
                 <span className="mb-1 block text-[0.55rem]">
                   Conversion Rate
                 </span>
@@ -5535,7 +5535,7 @@ export function AdminDashboardMain({
                 </span>
               </div>
 
-              <div className="">
+              <div>
                 <span className="mb-1 block text-[0.55rem]">Rev / Session</span>
                 <span className="block text-2xl">
                   {gaData.revenuePerSession}
@@ -5543,7 +5543,7 @@ export function AdminDashboardMain({
                 <span className="mt-1 block text-[0.55rem]">Avg Fan Value</span>
               </div>
 
-              <div className="">
+              <div>
                 <span className="mb-1 block text-[0.55rem]">Bounce Rate</span>
                 <span className="block text-2xl">{gaData.bounceRate}</span>
                 <span className="mt-1 block text-[0.55rem]">
@@ -5568,10 +5568,7 @@ export function AdminDashboardMain({
                       <span>42.5% (3,580)</span>
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                      <div
-                        className="h-full rounded-full bg-blue-500"
-                        style={{ width: "42.5%" }}
-                      />
+                      <div className="h-full rounded-full bg-blue-500 w-[42.5%]" />
                     </div>
                   </div>
 
@@ -5581,10 +5578,7 @@ export function AdminDashboardMain({
                       <span>28.1% (2,368)</span>
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                      <div
-                        className="h-full rounded-full bg-purple-500"
-                        style={{ width: "28.1%" }}
-                      />
+                      <div className="h-full rounded-full bg-purple-500 w-[28.1%]" />
                     </div>
                   </div>
 
@@ -5594,10 +5588,7 @@ export function AdminDashboardMain({
                       <span>19.4% (1,635)</span>
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                      <div
-                        className="h-full rounded-full bg-rose-500"
-                        style={{ width: "19.4%" }}
-                      />
+                      <div className="h-full rounded-full bg-rose-500 w-[19.4%]" />
                     </div>
                   </div>
 
@@ -5607,10 +5598,7 @@ export function AdminDashboardMain({
                       <span>7.2% (607)</span>
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                      <div
-                        className="h-full rounded-full bg-purple-600"
-                        style={{ width: "7.2%" }}
-                      />
+                      <div className="h-full rounded-full bg-purple-600 w-[7.2%]" />
                     </div>
                   </div>
 
@@ -5620,10 +5608,7 @@ export function AdminDashboardMain({
                       <span>2.8% (240)</span>
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                      <div
-                        className="h-full rounded-full bg-emerald-500"
-                        style={{ width: "2.8%" }}
-                      />
+                      <div className="h-full rounded-full bg-emerald-500 w-[2.8%]" />
                     </div>
                   </div>
                 </div>
@@ -5680,7 +5665,7 @@ export function AdminDashboardMain({
             </div>
 
             {/* 3. Top Performing Sitewide Pages Table */}
-            <div className="">
+            <div>
               <h4 className="mb-6 flex items-center justify-between">
                 <span> Top Performing Site Pages (Screen Views)</span>
                 <span>GA4 Event Metrics</span>
@@ -5805,7 +5790,7 @@ export function AdminDashboardMain({
                       locations={gaData.locations}
                     />
                   </div>
-                  <p className="">
+                  <p>
                     Real-time geographic fan heatmaps for tour routing
                     optimization.
                   </p>
@@ -6224,7 +6209,7 @@ export function AdminDashboardMain({
                                     <td className="px-4 py-3">
                                       <div className="flex items-center gap-3">
                                         <span
-                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20 text-purple-300" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"} `}
+                                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-[0.55rem] ${i === 0 ? "border border-purple-500/30 bg-white/20 text-purple-300" : i === 1 ? "border border-gray-400/30 bg-gray-400/20 text-gray-300" : i === 2 ? "border border-orange-700/30 bg-orange-700/20 text-orange-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
                                         >
                                           {i + 1}
                                         </span>
@@ -6390,7 +6375,7 @@ export function AdminDashboardMain({
                                 <td className="px-4 py-3">
                                   <div className="flex flex-col gap-1">
                                     <span
-                                      className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === "PAID" ? "border border-emerald-500/30 bg-emerald-500/15" : order.financialStatus === "REFUNDED" || order.financialStatus === "PARTIALLY_REFUNDED" ? "border border-rose-500/30 bg-rose-500/15 text-rose-400" : "border border-purple-500/30 bg-purple-500/15"} `}
+                                      className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.financialStatus === "PAID" ? "border border-emerald-500/30 bg-emerald-500/15" : order.financialStatus === "REFUNDED" || order.financialStatus === "PARTIALLY_REFUNDED" ? "border border-rose-500/30 bg-rose-500/15 text-rose-400" : "border border-purple-500/30 bg-purple-500/15"}`}
                                     >
                                       {order.financialStatus
                                         ?.toLowerCase()
@@ -6398,7 +6383,7 @@ export function AdminDashboardMain({
                                     </span>
                                     {order.fulfillmentStatus && (
                                       <span
-                                        className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.fulfillmentStatus === "FULFILLED" ? "border border-blue-500/30 bg-blue-500/15 text-blue-400" : "border border-white/10 bg-[#00000029] text-white/30"} `}
+                                        className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.fulfillmentStatus === "FULFILLED" ? "border border-blue-500/30 bg-blue-500/15 text-blue-400" : "border border-white/10 bg-[#00000029] text-white/30"}`}
                                       >
                                         {order.fulfillmentStatus?.toLowerCase()}
                                       </span>
@@ -6627,7 +6612,7 @@ export function AdminDashboardMain({
                                 </div>
                               </td>
                               <td className="px-4 py-3">
-                                <div className="">{order.customer}</div>
+                                <div>{order.customer}</div>
                                 <div className="text-[0.9rem] text-white/40">
                                   {order.email || "No email provided"}
                                 </div>
@@ -6665,7 +6650,7 @@ export function AdminDashboardMain({
                               </td>
                               <td className="px-4 py-3">
                                 <span
-                                  className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === "Flash Drop" ? "border border-pink-500/30 bg-pink-500/15 text-pink-400" : order.source === "Raffle" ? "border border-purple-500/30 bg-purple-500/15" : "border border-blue-500/30 bg-blue-500/15 text-blue-400"} `}
+                                  className={`inline-block rounded px-2 py-0.5 text-[0.5rem] ${order.source === "Flash Drop" ? "border border-pink-500/30 bg-pink-500/15 text-pink-400" : order.source === "Raffle" ? "border border-purple-500/30 bg-purple-500/15" : "border border-blue-500/30 bg-blue-500/15 text-blue-400"}`}
                                 >
                                   {order.source}
                                 </span>
@@ -6673,7 +6658,7 @@ export function AdminDashboardMain({
                               <td className="px-4 py-3">
                                 <div className="flex flex-col gap-1">
                                   <span
-                                    className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === "Shipped" || order.status === "Claimed" ? "border border-emerald-500/30 bg-emerald-500/15" : order.status === "Ready for Pickup" ? "border border-purple-500/30 bg-purple-500/15" : "border border-white/10 bg-[#00000029] text-white/40"} `}
+                                    className={`inline-block w-fit rounded px-2 py-0.5 text-[0.5rem] ${order.status === "Shipped" || order.status === "Claimed" ? "border border-emerald-500/30 bg-emerald-500/15" : order.status === "Ready for Pickup" ? "border border-purple-500/30 bg-purple-500/15" : "border border-white/10 bg-[#00000029] text-white/40"}`}
                                   >
                                     {order.status}
                                   </span>
@@ -6842,7 +6827,7 @@ export function AdminDashboardMain({
                               {b.name?.substring(0, 2).toUpperCase() || "EP"}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <div className="">{b.name}</div>
+                              <div>{b.name}</div>
                               <div>{b.email}</div>
 
                               {editingInlineLoadInId === b.bookingId ? (
@@ -6921,7 +6906,7 @@ export function AdminDashboardMain({
                                     setEditingInlineLoadInId(b.bookingId);
                                   }}
                                   title="Click to set official load-in/out time and email planner"
-                                  className={`mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime ? "animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30" : "border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25"} `}
+                                  className={`mt-1.5 inline-flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-1 text-[0.55rem] transition-[background-color,border-color,color,transform] active:scale-95 ${b.loadInTime?.includes("Unsure") || b.load_in_time?.includes("Unsure") || !b.loadInTime ? "animate-pulse border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30" : "border border-purple-500/30 bg-cyan-500/15 hover:bg-cyan-500/25"}`}
                                 >
                                   {b.loadInTime?.includes("Unsure") ||
                                     b.load_in_time?.includes("Unsure") ||
@@ -7067,7 +7052,7 @@ export function AdminDashboardMain({
                                 <p className="mb-1 text-black/50 text-white/40">
                                   Age Limit
                                 </p>
-                                <p className="">
+                                <p>
                                   {b.ageRestriction === "21_plus"
                                     ? " 21 & Over"
                                     : b.ageRestriction === "18_plus"
@@ -7079,7 +7064,7 @@ export function AdminDashboardMain({
                                 <p className="mb-1 text-black/50 text-white/40">
                                   Doors Time
                                 </p>
-                                <p className="">
+                                <p>
                                   {b.doorsTime || b.startTime || "TBD"}
                                 </p>
                               </div>
@@ -7087,7 +7072,7 @@ export function AdminDashboardMain({
                                 <p className="mb-1 text-black/50 text-white/40">
                                   Cover / Price
                                 </p>
-                                <p className="">
+                                <p>
                                   {b.cover || "Free / No Cover"}
                                 </p>
                               </div>
@@ -7667,7 +7652,7 @@ export function AdminDashboardMain({
   );
 
   const renderLiveAlerts = () => (
-    <div className="">
+    <div>
       <div
         role="button"
         tabIndex={0}
@@ -7843,7 +7828,7 @@ export function AdminDashboardMain({
     const estSmsCost = (estSegments * estSmsRecipients * smsCostPerSegment).toFixed(2);
 
     return (
-      <div className="">
+      <div>
         <div
           role="button"
           tabIndex={0}
@@ -7970,10 +7955,10 @@ export function AdminDashboardMain({
                           className={`flex flex-col items-start rounded-xl border p-3.5 text-left transition-[background-color,color,border-color,box-shadow,transform] ${isSelected
                             ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                             : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
-                            } `}
+                            }`}
                         >
                           <div className="flex items-center justify-between w-full mb-1">
-                            <IconComp className={`h-4 w-4 ${isSelected ? "text-purple-400" : "text-white/40"} `} />
+                            <IconComp className={`h-4 w-4 ${isSelected ? "text-purple-400" : "text-white/40"}`} />
                             {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />}
                           </div>
                           <div className="font-semibold text-sm text-white">{aud.label}</div>
@@ -8000,7 +7985,7 @@ export function AdminDashboardMain({
                           className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-[background-color,color,border-color,box-shadow,transform] ${alertRadius === r.value
                             ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]"
                             : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
-                            } `}
+                            }`}
                         >
                           {r.label}
                         </button>
@@ -8113,9 +8098,9 @@ export function AdminDashboardMain({
 
                     {/* SMS (Twilio) */}
                     <div className={`flex items-center justify-between rounded-xl border p-3.5 transition-[background-color,color,border-color,box-shadow,transform] ${channelSms ? "border-amber-500/60 bg-amber-500/10" : "border-white/10 bg-white/[0.02]"
-                      } `}>
+                      }`}>
                       <div className="flex items-center gap-2.5">
-                        <MessageSquare className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"} `} />
+                        <MessageSquare className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"}`} />
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-sm font-medium text-white">Twilio SMS</span>
@@ -8286,7 +8271,7 @@ export function AdminDashboardMain({
                     className={`rounded-xl border p-4 ${smsResult.success
                       ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"
                       : "border-rose-500/40 bg-rose-500/10 text-rose-300"
-                      } `}
+                      }`}
                   >
                     <div className="font-semibold text-sm">
                       {smsResult.success ? "Broadcast Dispatched Successfully!" : "Broadcast Failed"}
@@ -8877,7 +8862,7 @@ export function AdminDashboardMain({
                                   className="!mb-0 list-none border-b border-white/10 last:border-b-0"
                                 >
                                   <div
-                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5 py-2 ${isChecked ? " " : ""} `}
+                                    className={`relative flex min-h-[38px] items-center justify-between gap-2.5 py-2 ${isChecked ? " " : ""}`}
                                     title={` ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                   >
                                     <div
@@ -8915,7 +8900,7 @@ export function AdminDashboardMain({
 
                                       {/* Name */}
                                       <span
-                                        className={` ${!r.phone ? "dark: text-black/40 text-white/40" : "dark:"} `}
+                                        className={`${!r.phone ? "dark: text-black/40 text-white/40" : "dark:"}`}
                                       >
                                         {r.name}
                                       </span>
@@ -9031,7 +9016,7 @@ export function AdminDashboardMain({
                   </div>
 
                   {/* Right Column: Group Setup & Message Sending */}
-                  <div className="">
+                  <div>
                     {/* Group dropdown & save selection */}
                     <div className="space-y-4 pr-0">
                       <div>
@@ -9505,7 +9490,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       onClick={() => setSendSmsAlert((prev) => !prev)}
-                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
+                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                     >
                       <div className="flex items-center gap-2">
                         <Toggle
@@ -9531,7 +9516,7 @@ export function AdminDashboardMain({
                         }
                       }}
                       onClick={() => setSendEmailAlert((prev) => !prev)}
-                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
+                      className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                     >
                       <div className="flex items-center gap-2">
                         <Toggle
@@ -9558,7 +9543,7 @@ export function AdminDashboardMain({
                           }
                         }}
                         onClick={() => setCrewSendAsGroup((prev) => !prev)}
-                        className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${crewSendAsGroup ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
+                        className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${crewSendAsGroup ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                       >
                         <div className="flex items-center gap-2">
                           <Toggle
@@ -9825,7 +9810,7 @@ export function AdminDashboardMain({
                                 key={role}
                                 className="transition-colors flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 hover:bg-white/[0.04]"
                               >
-                                <span className="">{role}</span>
+                                <span>{role}</span>
                                 <button
                                   type="button"
                                   onClick={() => handleDeletePresetRole(role)}
@@ -10153,7 +10138,7 @@ export function AdminDashboardMain({
                                     }
                                   }}
                                   onClick={toggleSelection}
-                                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2 select-none ${isChecked ? " " : "hover:bg-white/[0.04]"} `}
+                                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-2.5 !rounded-none border-b border-white/10 !bg-[#00000029] !px-2 select-none ${isChecked ? " " : "hover:bg-white/[0.04]"}`}
                                   title={`Click to toggle selection for ${r.name}\n ${r.phone || "No phone"} \n ${r.email || "No email"}`}
                                 >
                                   <div className="flex min-w-0 flex-1 items-center gap-3">
@@ -10255,7 +10240,7 @@ export function AdminDashboardMain({
                             }
                           }}
                           onClick={() => setSendBandSmsAlert((prev) => !prev)}
-                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
+                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandSmsAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                         >
                           <div className="flex items-center gap-2">
                             <Toggle
@@ -10281,7 +10266,7 @@ export function AdminDashboardMain({
                             }
                           }}
                           onClick={() => setSendBandEmailAlert((prev) => !prev)}
-                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"} `}
+                          className={`flex cursor-pointer flex-col gap-2 rounded-lg border-none p-3 select-none md:p-3 ${sendBandEmailAlert ? "bg-purple-600/10 shadow-[0_0_15px_rgba(147,51,234,0.1)]" : "bg-white/[0.01] text-white/40"}`}
                         >
                           <div className="flex items-center gap-2">
                             <Toggle
@@ -10333,7 +10318,7 @@ export function AdminDashboardMain({
                       {/* Feedback Logs */}
                       {bandAlertResult && (
                         <div
-                          className={`flex flex-col gap-1 border p-3 ${bandAlertResult.success ? "border-white/10 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/20 bg-red-500/10 text-red-400"} `}
+                          className={`flex flex-col gap-1 border p-3 ${bandAlertResult.success ? "border-white/10 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/20 bg-red-500/10 text-red-400"}`}
                         >
                           <span className="flex items-center gap-1">
                             {bandAlertResult.success
@@ -10528,7 +10513,7 @@ export function AdminDashboardMain({
   };
 
   const renderNewsletter = () => (
-    <div className="">
+    <div>
       <div
         role="button"
         tabIndex={0}
@@ -10689,7 +10674,7 @@ export function AdminDashboardMain({
   );
 
   const renderRegistry = () => (
-    <div className="">
+    <div>
       <div
         role="button"
         tabIndex={0}
@@ -10798,7 +10783,7 @@ export function AdminDashboardMain({
                             a.name.toLowerCase() === user.name.toLowerCase()),
                       ) as any;
                       return (
-                        <div key={user.id} className="">
+                        <div key={user.id}>
                           <div className="transition-colors grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-2 pr-2 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
                             <div className="max-w-[220px]">
                               <div className="flex items-center gap-2.5">
@@ -10823,7 +10808,7 @@ export function AdminDashboardMain({
                             </div>
                             <div>
                               <span
-                                className={`rounded py-0.5 text-[0.9rem] ${user.role === "crew" || user.role === "admin" ? " " : " "} `}
+                                className={`rounded py-0.5 text-[0.9rem] ${user.role === "crew" || user.role === "admin" ? " " : " "}`}
                               >
                                 {user.role}
                               </span>
@@ -10831,7 +10816,7 @@ export function AdminDashboardMain({
                             <div>
                               <div className="flex items-center gap-1.5">
                                 <span
-                                  className={`h-2 w-2 rounded-full ${user.status === "streaming" ? "animate-pulse bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" : user.status === "watching" ? "bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]" : "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"} `}
+                                  className={`h-2 w-2 rounded-full ${user.status === "streaming" ? "animate-pulse bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" : user.status === "watching" ? "bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]" : "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"}`}
                                 />
                                 <span className="text-[0.9rem] text-white/50">
                                   {user.status}
@@ -10959,7 +10944,7 @@ export function AdminDashboardMain({
   );
 
   const renderCrewCreation = () => (
-    <div className="">
+    <div>
       <div
         role="button"
         tabIndex={0}
@@ -11131,7 +11116,7 @@ export function AdminDashboardMain({
                     <div className="flex items-start gap-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/20"></div>
                       <div>
-                        <h4 className="">Crew Account Created</h4>
+                        <h4>Crew Account Created</h4>
                         <p className="mt-1">
                           <strong>{createdCrew.name}</strong> ·{" "}
                           {createdCrew.email}
@@ -11357,11 +11342,11 @@ export function AdminDashboardMain({
                                 };
                                 savePermissionsToBackend(updated);
                               }}
-                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-2.5 text-left ${enabled ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-black/40 text-white/40 hover:border-white/20"} `}
+                              className={`flex cursor-pointer items-center justify-between rounded-lg border p-2.5 text-left ${enabled ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-black/40 text-white/40 hover:border-white/20"}`}
                             >
                               <span>{label}</span>
                               <span
-                                className={`flex h-4 w-4 items-center justify-center rounded-full ${enabled ? "bg-purple-500" : "bg-white/10 text-white/30"} `}
+                                className={`flex h-4 w-4 items-center justify-center rounded-full ${enabled ? "bg-purple-500" : "bg-white/10 text-white/30"}`}
                               >
                                 {enabled ? "" : ""}
                               </span>
@@ -11377,7 +11362,7 @@ export function AdminDashboardMain({
               {/* Create Admin Form Section */}
               <div className="border-t border-white/10 pt-6">
                 <div className="title-group title-group--sub mb-6">
-                  <h4 className="">New Admin Account Registration</h4>
+                  <h4>New Admin Account Registration</h4>
                   <p>Enter details to generate and invite a new band admin or planner.</p>
                 </div>
                 <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-4">
@@ -11457,7 +11442,7 @@ export function AdminDashboardMain({
                       <div className="flex items-start gap-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-white/20"></div>
                         <div>
-                          <h4 className="">Admin Account Created</h4>
+                          <h4>Admin Account Created</h4>
                           <p className="mt-1">
                             <strong>{createdAdmin.name}</strong> ·{" "}
                             {createdAdmin.email}
@@ -11770,7 +11755,7 @@ export function AdminDashboardMain({
                       <button
                         aria-label="Select all passenger emails"
                         onClick={toggleAllEmails}
-                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded border ${allSelected ? "border-purple-500/40 bg-cyan-500/20" : "border-white/10 bg-black/20 text-white/10 hover:border-white/25"} `}
+                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded border ${allSelected ? "border-purple-500/40 bg-cyan-500/20" : "border-white/10 bg-black/20 text-white/10 hover:border-white/25"}`}
                       >
                         {allSelected && (
                           <svg
@@ -11935,7 +11920,7 @@ export function AdminDashboardMain({
                       return signups.map((s: any, i: number) => (
                         <div
                           key={s.id || s.email}
-                          className={`transition-colors group/row mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] items-center gap-3 border-b bg-black/20 py-3 hover:bg-white/[0.03] ${cruiseSelectedEmailsSet.has(s.email) ? "border-purple-500/40 bg-cyan-500/10" : "border-white/10 hover:border-purple-500/20"} `}
+                          className={`transition-colors group/row mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] items-center gap-3 border-b bg-black/20 py-3 hover:bg-white/[0.03] ${cruiseSelectedEmailsSet.has(s.email) ? "border-purple-500/40 bg-cyan-500/10" : "border-white/10 hover:border-purple-500/20"}`}
                         >
                           {/* Email checkbox */}
                           <div className="flex justify-center">
@@ -11959,7 +11944,7 @@ export function AdminDashboardMain({
                           <p>{s.phone || "—"}</p>
                           {/* Party size + date */}
                           <div>
-                            <p className="">
+                            <p>
                               {s.partySize > 1
                                 ? `${s.partySize} guests`
                                 : "1 guest"}
@@ -11973,7 +11958,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "checked_off", !s.checkedOff)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.checkedOff ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"} `}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.checkedOff ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
                             >
                               {s.checkedOff && (
                                 <svg
@@ -11998,7 +11983,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "deposit_paid", !s.depositPaid)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.depositPaid ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"} `}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.depositPaid ? "border-emerald-500/40 bg-emerald-500/20 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
                             >
                               {s.depositPaid && (
                                 <svg
@@ -12023,7 +12008,7 @@ export function AdminDashboardMain({
                               onClick={() =>
                                 toggleFlag(s.id, "full_paid", !s.fullPaid)
                               }
-                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.fullPaid ? "border-purple-500/40 bg-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"} `}
+                              className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border transition-[background-color,border-color,color,transform] active:scale-90 ${s.fullPaid ? "border-purple-500/40 bg-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.3)]" : "border-white/10 bg-black/30 text-white/20 hover:border-white/30"}`}
                             >
                               {s.fullPaid && (
                                 <svg
@@ -13138,7 +13123,7 @@ export function AdminDashboardMain({
             backgroundColor: roleStyle.bg,
             opacity: isBeingDragged ? 0.3 : 1,
           }}
-          className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? "min-h-[100px]" : "min-h-[48px]"}  ${shift.isDraft ? "wiw-striped" : ""}  ${activeLockingEditor ? "animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80" : ""} `}
+          className={`wiw-card group relative flex flex-col justify-between rounded-lg p-1.5 select-none ${showCrewName ? "min-h-[100px]" : "min-h-[48px]"} ${shift.isDraft ? "wiw-striped" : ""} ${activeLockingEditor ? "animate-pulse shadow-[0_0_12px_rgba(236,72,153,0.5)] ring-2 ring-pink-500/80" : ""}`}
           title={
             shift.crewId !== "openshifts"
               ? (() => {
@@ -13266,7 +13251,7 @@ export function AdminDashboardMain({
             ) : (
               /* Expanded style for Timeline / List / Detail views */
               <div
-                className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""} `}
+                className={`flex w-full flex-col gap-1 ${showOverlapAvatar ? "pl-3" : ""}`}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-[var(--font-size-2xs)]">
@@ -13287,7 +13272,7 @@ export function AdminDashboardMain({
 
             {/* Bottom metadata row */}
             <div className="mt-1 flex items-center justify-between border-t border-white/10 pt-1">
-              <span className="">{timeLabel}</span>
+              <span>{timeLabel}</span>
               <div className="flex items-center gap-1">
                 {showOverlapAvatar &&
                   shift.crewId &&
@@ -13444,7 +13429,7 @@ export function AdminDashboardMain({
                     );
                   })()}
 
-                  <span className="">
+                  <span>
                     {shift.crewName ||
                       (() => {
                         const member = crewMembers.find(
@@ -13536,7 +13521,7 @@ export function AdminDashboardMain({
                         setSelectedTourDate(nextDate);
                         setScheduleSortByDate(nextDate);
                       }}
-                      className={`group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? " " : isNextShow ? "border-x border-white/10" : " "} `}
+                      className={`group wiw-sticky-header relative min-w-[130px] flex-1 cursor-pointer border-r border-b border-[var(--border-color)] p-2 ${selectedTourDate === day.dateStr || scheduleSortByDate === day.dateStr ? " " : isNextShow ? "border-x border-white/10" : " "}`}
                       title="Click to select date & stack working crew at top"
                     >
                       <div className="flex w-full flex-col gap-1">
@@ -13582,7 +13567,7 @@ export function AdminDashboardMain({
                                   prev === day.dateStr ? null : day.dateStr,
                                 );
                               }}
-                              className={`cursor-pointer rounded border-none p-0.5 ${scheduleSortByDate === day.dateStr ? "bg-white/20" : " "} `}
+                              className={`cursor-pointer rounded border-none p-0.5 ${scheduleSortByDate === day.dateStr ? "bg-white/20" : " "}`}
                               title={
                                 scheduleSortByDate === day.dateStr
                                   ? "Reset crew sorting"
@@ -13635,7 +13620,7 @@ export function AdminDashboardMain({
                     return (
                       <div
                         key={day.dateStr}
-                        className={`min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "} `}
+                        className={`min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
                         onDragOver={(e) => {
                           e.preventDefault();
                           if (e.dataTransfer)
@@ -13793,10 +13778,10 @@ export function AdminDashboardMain({
                   return (
                     <div
                       key={member.id}
-                      className={`flex w-full border-b border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"} `}
+                      className={`flex w-full border-b border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10" : "hover:bg-white/[0.02]"}`}
                     >
                       <div
-                        className={`wiw-sticky-col relative w-60 shrink-0 border-r border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]" : " "} `}
+                        className={`wiw-sticky-col relative w-60 shrink-0 border-r border-[var(--border-color)] ${isWorkingOnActiveDate ? "bg-emerald-500/10! shadow-[inset_3px_0_0_#10b981]" : " "}`}
                       >
                         <div className="flex items-center gap-2.5">
                           {hasExclamation && (
@@ -13896,7 +13881,7 @@ export function AdminDashboardMain({
                                 );
                               }
                             }}
-                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "} `}
+                            className={`group relative min-w-[130px] flex-1 cursor-pointer border-r border-[var(--border-color)] p-1 ${isSelectedDay ? "border-x border-purple-500/30 bg-purple-500/10" : isNextShow ? "border-x border-white/20 bg-purple-500/10" : " "}`}
                             onDragOver={(e) => {
                               e.preventDefault();
                               if (e.dataTransfer)
@@ -13977,7 +13962,7 @@ export function AdminDashboardMain({
             return (
               <div
                 key={day.dateStr}
-                className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"} `}
+                className={`flex min-h-[350px] flex-col border bg-black/40 p-2.5 ${isHovered ? "border-purple-500/30 bg-purple-500/10" : "border-white/5"}`}
                 onDragOver={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer) {
@@ -14094,7 +14079,7 @@ export function AdminDashboardMain({
                     key={day.dateStr}
                     className="flex min-w-0 flex-col items-center justify-start"
                   >
-                    <p className="">{day.dayName}</p>
+                    <p>{day.dayName}</p>
                     <p className="mt-0.5">
                       {day.monthName} {day.dayOfMonth}
                     </p>
@@ -14228,7 +14213,7 @@ export function AdminDashboardMain({
                             left: "4px",
                             right: "4px",
                           }}
-                          className={`wiw-card cursor-pointer overflow-hidden rounded-lg p-1 ${shift.isDraft ? "wiw-striped" : ""} `}
+                          className={`wiw-card cursor-pointer overflow-hidden rounded-lg p-1 ${shift.isDraft ? "wiw-striped" : ""}`}
                         >
                           <div>{shift.crewName}</div>
                           <div className="text-[var(--font-size-5xs)]">
@@ -14341,7 +14326,7 @@ export function AdminDashboardMain({
                     {coEditors.map((ed) => (
                       <span
                         key={ed.id}
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"} `}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px] ${ed.isEditing ? "border-pink-500/40 bg-pink-500/15 text-pink-300 shadow-[0_0_8px_rgba(236,72,153,0.3)]" : "border-blue-500/30 bg-blue-500/15 text-blue-300"}`}
                       >
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
                         {ed.name}{" "}
@@ -14385,8 +14370,8 @@ export function AdminDashboardMain({
                     <div className="flex items-center gap-3 border-b border-white/10 pb-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 bg-white/20 text-xl"></div>
                       <div>
-                        <h3 className="">Schedule Mix-Up Prevented!</h3>
-                        <p className="">
+                        <h3>Schedule Mix-Up Prevented!</h3>
+                        <p>
                           Concurrent Edit Detected from Co-Editor
                         </p>
                       </div>
@@ -14469,7 +14454,7 @@ export function AdminDashboardMain({
                             </div>
                           </div>
                           <span
-                            className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? "border border-pink-500/40 bg-pink-500/20 text-pink-400" : "border border-emerald-500/40 bg-emerald-500/20"} `}
+                            className={`rounded px-2 py-0.5 text-[12px] ${ed.isEditing ? "border border-pink-500/40 bg-pink-500/20 text-pink-400" : "border border-emerald-500/40 bg-emerald-500/20"}`}
                           >
                             {ed.isEditing ? " Shift Locked" : "🟢 Viewing"}
                           </span>
@@ -14612,7 +14597,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={handleGoToMonth}
-                      className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10 hover:bg-white/20" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
+                      className={`cursor-pointer rounded-lg border border-solid px-3 py-1.5 ${calendarRange === "month" ? "border-purple-500/30 bg-purple-500/10 hover:bg-white/20" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                     >
                       MONTH
                     </button>
@@ -14685,7 +14670,7 @@ export function AdminDashboardMain({
                       <button
                         type="button"
                         onClick={() => setShowTourDropdown((prev) => !prev)}
-                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
+                        className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       >
                         SHOWS
                         <svg
@@ -14767,7 +14752,7 @@ export function AdminDashboardMain({
                     <button
                       type="button"
                       onClick={() => setShowTourDatesOnly((prev) => !prev)}
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDatesOnly ? "border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       title="Show only days with tour shows"
                     >
                       {showTourDatesOnly ? " SHOWS ONLY" : "ALL DAYS"}
@@ -14800,7 +14785,7 @@ export function AdminDashboardMain({
                       onClick={() =>
                         setIsFiltersPanelExpanded(!isFiltersPanelExpanded)
                       }
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"} `}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 select-none ${isFiltersPanelExpanded || activeFiltersCount > 0 ? "shadow-[0_0_8px_rgba(147, 234,0.1)] border-purple-500/40 bg-purple-500/15" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       title="Search & advanced filters by person, venue, date range, and event type"
                     >
                       <span></span>{" "}
@@ -15043,7 +15028,7 @@ export function AdminDashboardMain({
                             onClick={(e) => e.currentTarget.showPicker?.()}
                             className="cursor-pointer [color-scheme:dark]"
                           />
-                          <span className="">TO</span>
+                          <span>TO</span>
                           <GlowInput
                             rounded="rounded-lg"
                             type="date"
@@ -15086,7 +15071,7 @@ export function AdminDashboardMain({
                       </div>
                       {activeFiltersCount > 0 && (
                         <div className="flex items-center gap-2">
-                          <span className="">Filters active</span>
+                          <span>Filters active</span>
                           <button
                             type="button"
                             onClick={() => {
@@ -15124,7 +15109,7 @@ export function AdminDashboardMain({
                     <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-white/[0.02]">
                       <div className="relative z-20 flex shrink-0 items-center justify-between border-b border-white/10 bg-[#0a00653b] px-3 py-2.5">
                         <div className="flex items-center gap-1.5">
-                          <span className="">Tour Dates</span>
+                          <span>Tour Dates</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="rounded-lg border border-white/10 bg-[#00000029] px-1.5 py-0.5">
@@ -15209,7 +15194,7 @@ export function AdminDashboardMain({
                           {/* Modal Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div>
-                              <h3 className="">
+                              <h3>
                                 {editingShiftId
                                   ? "Edit Work Shift"
                                   : "Configure Work Shift"}
@@ -15283,7 +15268,7 @@ export function AdminDashboardMain({
                                     <div className="flex items-center gap-2">
                                       <span></span>
                                       <div>
-                                        <p className="">Coverage Requested</p>
+                                        <p>Coverage Requested</p>
                                         <p className="mt-0.5">
                                           <strong>
                                             {editingShift.crewName}
@@ -15326,7 +15311,7 @@ export function AdminDashboardMain({
                                           onClick={() =>
                                             setOnlyShowFitRole(true)
                                           }
-                                          className={`cursor-pointer rounded px-2 py-0.5 ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"} `}
+                                          className={`cursor-pointer rounded px-2 py-0.5 ${onlyShowFitRole ? "bg-purple-600" : "hover:text-white"}`}
                                         >
                                           Fit Role ({editingShift.role})
                                         </button>
@@ -15335,7 +15320,7 @@ export function AdminDashboardMain({
                                           onClick={() =>
                                             setOnlyShowFitRole(false)
                                           }
-                                          className={`cursor-pointer rounded px-2 py-0.5 ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"} `}
+                                          className={`cursor-pointer rounded px-2 py-0.5 ${!onlyShowFitRole ? "border border-red-500/30 bg-red-500/20 text-red-300" : "hover:text-white"}`}
                                         >
                                           Override (All)
                                         </button>
@@ -15466,7 +15451,7 @@ export function AdminDashboardMain({
                                                   setDraggedCrewMemberId(null);
                                                   setEditingShiftId(null);
                                                 }}
-                                                className={`rounded border-none px-2 py-1 ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"} `}
+                                                className={`rounded border-none px-2 py-1 ${isOverlapping ? "cursor-not-allowed bg-[#00000029] text-white/20" : "cursor-pointer bg-purple-600 hover:bg-purple-500"}`}
                                               >
                                                 Assign
                                               </button>
@@ -15618,7 +15603,7 @@ export function AdminDashboardMain({
                                             return (
                                               <div
                                                 key={member.id}
-                                                className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"} `}
+                                                className={`rounded-lg p-3.5 transition-[background-color,border-color,box-shadow] ${assignment.active ? "border border-purple-500/40 shadow-purple-900/20" : "border border-transparent"}`}
                                               >
                                                 <div className="flex items-center justify-between">
                                                   <label className="flex w-full cursor-pointer items-center gap-3 select-none">
@@ -15772,11 +15757,7 @@ export function AdminDashboardMain({
                                                           className="relative animate-[fadeIn_0.2s_ease] space-y-3 rounded-lg border border-white/10 p-3.5"
                                                         >
                                                           <div className="flex items-center justify-between">
-                                                            <span
-                                                              style={{
-                                                                fontSize: "11px",
-                                                              }}
-                                                            >
+                                                            <span className="text-[11px]">
                                                               Time Frame{" "}
                                                               {index + 1}
                                                             </span>
@@ -15795,10 +15776,7 @@ export function AdminDashboardMain({
                                                                     );
                                                                   }}
                                                                   className="transition-colors cursor-pointer border-none text-[10px] text-white/40 hover:text-red-400"
-                                                                  style={{
-                                                                    fontSize:
-                                                                      "10px",
-                                                                  }}
+
                                                                 >
                                                                   Remove
                                                                 </button>
@@ -15809,10 +15787,6 @@ export function AdminDashboardMain({
                                                             <div>
                                                               <label
                                                                 className="mb-1 block text-[10px] text-white/50"
-                                                                style={{
-                                                                  fontSize:
-                                                                    "10px",
-                                                                }}
                                                               >
                                                                 Start Time
                                                               </label>
@@ -15912,10 +15886,6 @@ export function AdminDashboardMain({
                                                             <div>
                                                               <label
                                                                 className="mb-1 block text-[10px] text-white/50"
-                                                                style={{
-                                                                  fontSize:
-                                                                    "10px",
-                                                                }}
                                                               >
                                                                 End Time
                                                               </label>
@@ -16017,9 +15987,6 @@ export function AdminDashboardMain({
                                                             <label
                                                               htmlFor={`admin-drawer-role-${index}`}
                                                               className="mb-1 block text-[10px] text-white/50"
-                                                              style={{
-                                                                fontSize: "10px",
-                                                              }}
                                                             >
                                                               Role / Duty
                                                             </label>
@@ -16172,9 +16139,6 @@ export function AdminDashboardMain({
                                                           <div className="space-y-1">
                                                             <label
                                                               className="mb-1 block text-[10px] text-white/50"
-                                                              style={{
-                                                                fontSize: "10px",
-                                                              }}
                                                             >
                                                               Tags
                                                             </label>
@@ -16315,10 +16279,7 @@ export function AdminDashboardMain({
                                                               ],
                                                             );
                                                           }}
-                                                          className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 hover:bg-white/20"
-                                                          style={{
-                                                            fontSize: "11px",
-                                                          }}
+                                                          className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-purple-500/30 bg-purple-500/10 py-2 text-[11px] hover:bg-white/20"
                                                         >
                                                           Add Time Frame (
                                                           {dropTimeFrames.length}/3)
@@ -16402,7 +16363,7 @@ export function AdminDashboardMain({
                               : ""}
                       </div>
                       <div>
-                        <h3 className="">{alertModal.title || "Schedule Notice"}</h3>
+                        <h3>{alertModal.title || "Schedule Notice"}</h3>
                         <p className="mt-2 whitespace-pre-line">
                           {alertModal.message}
                         </p>
@@ -16447,7 +16408,7 @@ export function AdminDashboardMain({
                           {/* Drawer Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div className="min-w-0 flex-1 pr-2">
-                              <h3 className="">Select Crew Group</h3>
+                              <h3>Select Crew Group</h3>
                               <p className="mt-1">
                                 Select saved group to apply to shift slots for{" "}
                                 {dateStr}
@@ -16592,7 +16553,7 @@ export function AdminDashboardMain({
                         {/* Modal Header */}
                         <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                           <div>
-                            <h3 className="">Create New Crew Group</h3>
+                            <h3>Create New Crew Group</h3>
                             <p className="mt-1">
                               Select members and customize their shift slots
                             </p>
@@ -16738,9 +16699,7 @@ export function AdminDashboardMain({
                                             className="relative space-y-2 border border-white/10 p-2.5"
                                           >
                                             <div className="flex items-center justify-between">
-                                              <span
-                                                style={{ fontSize: "9.5px" }}
-                                              >
+                                              <span className="text-[9.5px]">
                                                 Time Frame {tfIdx + 1}
                                               </span>
                                               {(setting.timeFrames || [])
@@ -16764,8 +16723,7 @@ export function AdminDashboardMain({
                                                         }),
                                                       );
                                                     }}
-                                                    className="transition-colors cursor-pointer border-none text-red-400 hover:text-red-300"
-                                                    style={{ fontSize: "8px" }}
+                                                    className="transition-colors cursor-pointer border-none text-[8px] text-red-400 hover:text-red-300"
                                                   >
                                                     Remove
                                                   </button>
@@ -16775,10 +16733,7 @@ export function AdminDashboardMain({
                                             {/* Start / End selects */}
                                             <div className="grid grid-cols-2 gap-2">
                                               <div>
-                                                <label
-                                                  className="block text-white/50"
-                                                  style={{ fontSize: "7.5px" }}
-                                                >
+                                                <label className="block text-[7.5px] text-white/50">
                                                   Start Time
                                                 </label>
                                                 <GooeyMessagesDropdown
@@ -16838,10 +16793,7 @@ export function AdminDashboardMain({
                                               </div>
 
                                               <div>
-                                                <label
-                                                  className="block text-white/50"
-                                                  style={{ fontSize: "7.5px" }}
-                                                >
+                                                <label className="block text-[7.5px] text-white/50">
                                                   End Time
                                                 </label>
                                                 <GooeyMessagesDropdown
@@ -17045,8 +16997,7 @@ export function AdminDashboardMain({
                                               }),
                                             );
                                           }}
-                                          className="transition-colors w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center hover:bg-white/20"
-                                          style={{ fontSize: "8.5px" }}
+                                          className="transition-colors w-full cursor-pointer rounded-lg border border-purple-500/30 bg-purple-500/10 py-1.5 text-center text-[8.5px] hover:bg-white/20"
                                         >
                                           + Add Time Frame
                                         </button>
@@ -17163,7 +17114,7 @@ export function AdminDashboardMain({
                           {/* Header */}
                           <div className="flex shrink-0 items-start justify-between border-b border-white/10 p-5">
                             <div>
-                              <h3 className="">Show Crew Roster</h3>
+                              <h3>Show Crew Roster</h3>
                               <p className="mt-1">
                                 {new Date(
                                   selectedShowCrewDate + "T12:00:00",
@@ -17413,7 +17364,7 @@ export function AdminDashboardMain({
           </div>
           <div>
             <div className="mb-1 flex flex-wrap items-center gap-2.5">
-              <h1 className="">
+              <h1>
                 {effectiveAdmin.name
                   ? effectiveAdmin.name
                     .toLowerCase()
@@ -17542,13 +17493,13 @@ export function AdminDashboardMain({
                       }, 50);
                     }
                   }}
-                  className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""} `}
+                  className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
                 >
                   <p className="mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
                     <span className="text-3xl">{metric.value}</span>
                     <span
-                      className={`rounded px-2 py-0.5 text-[0.9rem] ${metric.color} `}
+                      className={`rounded px-2 py-0.5 text-[0.9rem] ${metric.color}`}
                     >
                       {metric.trend}
                     </span>
@@ -17658,14 +17609,14 @@ export function AdminDashboardMain({
                   {auditLog.map((entry, i) => (
                     <div
                       key={entry.id}
-                      className={`relative flex gap-2.5 pb-4 pl-0 last:pb-0 ${i === 0 ? "animate-[slideIn_0.4s_ease-out]" : ""} `}
+                      className={`relative flex gap-2.5 pb-4 pl-0 last:pb-0 ${i === 0 ? "animate-[slideIn_0.4s_ease-out]" : ""}`}
                     >
                       {i < auditLog.length - 1 && (
                         <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/10" />
                       )}
                       <div className="mt-1 shrink-0">
                         <div
-                          className={`h-3.5 w-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color} `}
+                          className={`h-3.5 w-3.5 rounded-full border-2 border-[#0f0f13] ${entry.color}`}
                         />
                       </div>
                       <div className="min-w-0 flex-1">
@@ -17729,7 +17680,7 @@ export function AdminDashboardMain({
                                         {" "}
                                         Email Template
                                       </span>
-                                      <span className="">
+                                      <span>
                                         Subject: {entry.details.emailSubject}
                                       </span>
                                     </div>
@@ -17796,7 +17747,7 @@ export function AdminDashboardMain({
               <div className="relative z-10">
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
                   <div className="title-group title-group--sub">
-                    <h3 className="">Cruise Information & Guidelines</h3>
+                    <h3>Cruise Information & Guidelines</h3>
                     <p>
                       Welcome Pack content rendered on passenger hub
                     </p>
@@ -17848,7 +17799,7 @@ export function AdminDashboardMain({
                           className="absolute top-1/2 right-2.5 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-lg border border-purple-400/30 bg-gradient-to-r from-purple-500/40 to-pink-500/40 transition-[filter,background-color,border-color] hover:brightness-125"
                           title="Badge options"
                         >
-                          <span className="">•••</span>
+                          <span>•••</span>
                         </button>
                       </div>
                     </div>
@@ -17922,7 +17873,7 @@ export function AdminDashboardMain({
                 <div className="relative z-10 flex flex-col gap-6">
                   <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
                     <div className="title-group title-group--sub">
-                      <h3 className="">Passenger Notice & Email Broadcast</h3>
+                      <h3>Passenger Notice & Email Broadcast</h3>
                       <p>
                         Post an update to the Cruise Dashboard & email
                         passengers
@@ -18063,7 +18014,7 @@ export function AdminDashboardMain({
                       <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span></span>
-                          <h4 className="">Live Dispatch Preview</h4>
+                          <h4>Live Dispatch Preview</h4>
                         </div>
                         {/* Live Preview Tab Switcher */}
                         <div className="flex items-center gap-2 select-none">
@@ -18111,7 +18062,7 @@ export function AdminDashboardMain({
               <div className="transition-colors pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="title-group title-group--sub border-b border-white/10 pb-4">
-                  <h3 className="">Cruise Roster</h3>
+                  <h3>Cruise Roster</h3>
                   <p>Signups & Passenger Manifest</p>
                 </div>
 
@@ -18266,7 +18217,7 @@ export function AdminDashboardMain({
                         <button
                           type="button"
                           onClick={() => setQrLinkType("product")}
-                          className={`cursor-pointer rounded-lg border px-3 py-2 ${qrLinkType === "product" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"} `}
+                          className={`cursor-pointer rounded-lg border px-3 py-2 ${qrLinkType === "product" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
                         >
                           Product Detail Page
                         </button>
@@ -18277,7 +18228,7 @@ export function AdminDashboardMain({
                             !selectedQrProduct.variants ||
                             selectedQrProduct.variants.length === 0
                           }
-                          className={`cursor-pointer rounded-lg border px-3 py-2 disabled:pointer-events-none disabled:opacity-30 ${qrLinkType === "checkout" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"} `}
+                          className={`cursor-pointer rounded-lg border px-3 py-2 disabled:pointer-events-none disabled:opacity-30 ${qrLinkType === "checkout" ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-black/20 text-white/40 hover:border-white/20"}`}
                         >
                           Direct Add to Cart
                         </button>
@@ -18410,11 +18361,7 @@ export function AdminDashboardMain({
                             : `https://${shopifyData?.domain || process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "demo-7thheaven.myshopify.com"}/products/${selectedQrProduct.handle}`
                         }
                         size={150}
-                        style={{
-                          height: "auto",
-                          maxWidth: "100%",
-                          width: "100%",
-                        }}
+                        className="h-auto max-w-full w-full"
                         viewBox="0 0 150 150"
                       />
                     </div>

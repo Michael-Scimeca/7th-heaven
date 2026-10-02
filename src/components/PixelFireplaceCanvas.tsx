@@ -569,7 +569,7 @@ export default function PixelFireplaceCanvas({
   return (
     <canvas
       ref={canvasRef}
-      className={`pointer-events-none block h-full w-full ${className} `}
+      className={`pointer-events-none block h-full w-full ${className}`}
       style={{
         display: "block",
         width: "100%",

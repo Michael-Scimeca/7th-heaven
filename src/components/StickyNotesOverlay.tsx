@@ -307,7 +307,7 @@ export default function StickyNotesOverlay() {
             type="button"
             onClick={handleToggleGlobalVisibility}
             title={visible ? "Hide All Sticky Notes" : "Show All Sticky Notes"}
-            className={`cursor-pointer border p-2 ${visible ? "border-white/10 bg-white/10 hover:bg-white/20" : "border-red-500/40 bg-red-500/20 text-red-300"} `}
+            className={`cursor-pointer border p-2 ${visible ? "border-white/10 bg-white/10 hover:bg-white/20" : "border-red-500/40 bg-red-500/20 text-red-300"}`}
           >
             {visible ? (
               <Eye className="h-4 w-4 text-emerald-400" />
@@ -346,7 +346,7 @@ export default function StickyNotesOverlay() {
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2 text-amber-400">
                 <StickyNote className="h-5 w-5" />
-                <h3 className="">Client Sticky Notes Log</h3>
+                <h3>Client Sticky Notes Log</h3>
               </div>
               <button
                 type="button"
@@ -364,7 +364,7 @@ export default function StickyNotesOverlay() {
                   key={f}
                   type="button"
                   onClick={() => setActiveFilter(f)}
-                  className={`flex-1 cursor-pointer py-1.5 ${activeFilter === f ? "bg-amber-400" : "hover:text-white"} `}
+                  className={`flex-1 cursor-pointer py-1.5 ${activeFilter === f ? "bg-amber-400" : "hover:text-white"}`}
                 >
                   {f}
                 </button>
@@ -615,7 +615,7 @@ function SingleStickyCard({
   return (
     <div
       onPointerDown={handlePointerDown}
-      className={`sticky-note-card bg-[#0c0915]/95 backdrop-blur-xl fixed z-[99990] w-72 cursor-grab rounded-2xl border p-4 transition-shadow active:cursor-grabbing ${isHighlighted ? "scale-105 border-amber-300 shadow-[0_0_40px_rgba(245,158,11,0.8)] ring-4 ring-amber-400/50" : note.status === "submitted" ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]" : "border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.25)]"} `}
+      className={`sticky-note-card bg-[#0c0915]/95 backdrop-blur-xl fixed z-[99990] w-72 cursor-grab rounded-2xl border p-4 transition-shadow active:cursor-grabbing ${isHighlighted ? "scale-105 border-amber-300 shadow-[0_0_40px_rgba(245,158,11,0.8)] ring-4 ring-amber-400/50" : note.status === "submitted" ? "border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)]" : "border-amber-400/40 shadow-[0_0_25px_rgba(245,158,11,0.25)]"}`}
       style={{
         left: `${pos.left}px`,
         top: `${pos.top}px`,
@@ -632,7 +632,7 @@ function SingleStickyCard({
 
         <div className="flex shrink-0 items-center gap-1.5">
           <span
-            className={`shrink-0 px-2 py-0.5 text-[12px] whitespace-nowrap ${note.status === "submitted" ? "border border-emerald-500/40 bg-emerald-500/20 text-emerald-300" : "border border-amber-500/40 bg-amber-500/20 text-amber-300"} `}
+            className={`shrink-0 px-2 py-0.5 text-[12px] whitespace-nowrap ${note.status === "submitted" ? "border border-emerald-500/40 bg-emerald-500/20 text-emerald-300" : "border border-amber-500/40 bg-amber-500/20 text-amber-300"}`}
           >
             {note.status === "submitted" ? "✓ Submitted" : "Draft"}
           </span>

@@ -49,7 +49,7 @@ export function CustomDropdown<T extends string | number>({
   const activeSelected = String(value);
 
   return (
-    <div className={`relative ${wrapperClassName} `}>
+    <div className={`relative ${wrapperClassName}`}>
       <GooeyMessagesDropdown
         id={id}
         label={label}

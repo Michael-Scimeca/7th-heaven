@@ -594,7 +594,7 @@ export default function RockNRollKidsClient({
 
             <div className="relative z-10 space-y-5">
               <div className="flex items-center gap-2">
-                <span className="r text-purple-400">[ CONCEPT OVERVIEW ]</span>
+                <span className="text-purple-400">[ CONCEPT OVERVIEW ]</span>
               </div>
               <p className="drop-shadow-md sm:text-xl">&ldquo;{para1}&rdquo;</p>
               {para2 && (
@@ -823,7 +823,7 @@ export default function RockNRollKidsClient({
                 {founder.phone ? (
                   <a
                     href={`tel:${founder.phone.replace(/[^0-9]/g, "")}`}
-                    className="! mb-0 block"
+                    className="mb-0 block"
                   >
                     {founder.phone}
                   </a>

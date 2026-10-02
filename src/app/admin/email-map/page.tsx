@@ -39,10 +39,10 @@ function Node({
 }) {
   return (
     <div
-      className={`flex w-full flex-col items-center justify-center border text-center ${COLORS[color]}  ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"} `}
+      className={`flex w-full flex-col items-center justify-center border text-center ${COLORS[color]} ${wide ? "px-8 py-4" : small ? "px-2 py-2" : "px-4 py-3"}`}
     >
       <div className="flex items-center gap-1.5">
-        <span className={`h-1.5 w-1.5 shrink-0 ${DOTS[color]} `} />
+        <span className={`h-1.5 w-1.5 shrink-0 ${DOTS[color]}`} />
         <span>
           {icon && <span className="mr-1">{icon}</span>}
           {label}

@@ -110,11 +110,11 @@ export default function LogoTicker({
   return (
     <div className="relative w-full">
       <div
-        className={`hoy-ticker relative w-full overflow-hidden ${bgClassName} `}
+        className={`hoy-ticker relative w-full overflow-hidden ${bgClassName}`}
         style={{ ["--ticker-speed" as string]: `${activeSpeed}s` }}
       >
         <div
-          className={`hoy-ticker-track flex w-max flex-nowrap items-stretch ${direction === "right" ? "hoy-ticker-reverse" : ""} `}
+          className={`hoy-ticker-track flex w-max flex-nowrap items-stretch ${direction === "right" ? "hoy-ticker-reverse" : ""}`}
         >
           {track.map((item, i) =>
             item.src ? (
@@ -129,7 +129,7 @@ export default function LogoTicker({
                   height={64}
                   priority
                   loading="eager"
-                  className={`pointer-events-none h-[clamp(24px,4vw,64px)] w-auto max-w-none select-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""} `}
+                  className={`pointer-events-none h-[clamp(24px,4vw,64px)] w-auto max-w-none select-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""}`}
                   unoptimized
                 />
               </div>

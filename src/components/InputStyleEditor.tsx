@@ -425,7 +425,7 @@ a:hover {
                   <Sliders className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="">Style Customization Studio</h3>
+                  <h3>Style Customization Studio</h3>
                   <p>Form inputs, checkboxes, headings, p tags & links</p>
                 </div>
               </div>
@@ -472,37 +472,37 @@ a:hover {
             <div className="flex border-b border-white/10">
               <button
                 onClick={() => setActiveTab("controls")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "controls" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"} `}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "controls" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Sliders className="h-3.5 w-3.5" /> Inputs
               </button>
               <button
                 onClick={() => setActiveTab("search")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "search" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"} `}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "search" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Search className="h-3.5 w-3.5" /> Search Bar
               </button>
               <button
                 onClick={() => setActiveTab("checkboxes")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "checkboxes" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"} `}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "checkboxes" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <CheckSquare className="h-3.5 w-3.5" /> Checkboxes
               </button>
               <button
                 onClick={() => setActiveTab("typography")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "typography" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"} `}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "typography" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Type className="h-3.5 w-3.5" /> Typography & Tags
               </button>
               <button
                 onClick={() => setActiveTab("preview")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "preview" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"} `}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "preview" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Eye className="h-3.5 w-3.5" /> Sandbox
               </button>
               <button
                 onClick={() => setActiveTab("css")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "css" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"} `}
+                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "css" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
               >
                 <Layers className="h-3.5 w-3.5" /> CSS
               </button>
@@ -1180,8 +1180,8 @@ a:hover {
                     {/* Live Typography Preview */}
                     <div className="space-y-2 border-t border-white/10 pt-3">
                       <p className="mb-1">Live Typography Preview</p>
-                      <h1 className="">Sample H1 Main Title Header</h1>
-                      <h3 className="">Sample H3 Section Subtitle</h3>
+                      <h1>Sample H1 Main Title Header</h1>
+                      <h3>Sample H3 Section Subtitle</h3>
                       <p>
                         This is a live preview paragraph demonstrating paragraph
                         text styling with an{" "}
@@ -1197,7 +1197,7 @@ a:hover {
 
               {activeTab === "preview" && (
                 <div className="space-y-4 border border-white/10 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black p-6">
-                  <h4 className="">Live Input Testing Sandbox</h4>
+                  <h4>Live Input Testing Sandbox</h4>
                   <div className="space-y-3">
                     <div>
                       <label className="mb-1 block">Full Name</label>
@@ -1259,7 +1259,7 @@ a:hover {
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
                   </div>
-                  <pre className="/90 max-h-[300px] overflow-x-auto border border-white/10 bg-black/80 p-4">
+                  <pre className="max-h-[300px] overflow-x-auto border border-white/10 bg-black/80 p-4">
                     {generatedCSS}
                   </pre>
                 </div>

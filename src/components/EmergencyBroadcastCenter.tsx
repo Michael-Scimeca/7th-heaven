@@ -277,7 +277,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("cancellation")}
-            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "cancellation" ? "border-rose-400/50 bg-rose-600 shadow-rose-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"} `}
+            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "cancellation" ? "border-rose-400/50 bg-rose-600 shadow-rose-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -301,7 +301,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("time_change")}
-            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "time_change" ? "border-purple-400/50 bg-purple-700 shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"} `}
+            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "time_change" ? "border-purple-400/50 bg-purple-700 shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -324,7 +324,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("venue_change")}
-            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "venue_change" ? "border-purple-400/50 bg-[var(--color-accent)] shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"} `}
+            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "venue_change" ? "border-purple-400/50 bg-[var(--color-accent)] shadow-purple-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -347,7 +347,7 @@ export function EmergencyBroadcastCenter({
           <button
             type="button"
             onClick={() => handleApplyPreset("announcement")}
-            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "announcement" ? "border-purple-400/50 bg-cyan-600 shadow-cyan-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"} `}
+            className={`cursor-pointer rounded-[var(--radius-box)] border px-3.5 py-2.5 text-left ${alertType === "announcement" ? "border-purple-400/50 bg-cyan-600 shadow-cyan-900/30" : "border-white/10 bg-white/[0.03] hover:bg-white/10"}`}
           >
             <span className="flex items-center gap-1.5">
               <svg
@@ -552,7 +552,7 @@ export function EmergencyBroadcastCenter({
               value={customBody !== "" ? customBody : activeBody}
               onChange={(e) => setCustomBody(e.target.value)}
               placeholder="Write your emergency broadcast message text..."
-              className="! focus-ring w-full resize-none rounded-[var(--radius-box)] border border-[var(--border-color)] p-2.5 outline-none"
+              className="focus-ring w-full resize-none rounded-[var(--radius-box)] border border-[var(--border-color)] p-2.5 outline-none"
             />
           </div>
         </div>
@@ -653,7 +653,7 @@ export function EmergencyBroadcastCenter({
       {/* Dispatch Result Feedback */}
       {dispatchResult && (
         <div
-          className={`flex animate-[fadeIn_0.2s_ease-out] items-center justify-between rounded-[var(--radius-box)] border p-3 ${dispatchResult.success ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-300" : "border-rose-500/30 bg-rose-500/15 text-rose-300"} `}
+          className={`flex animate-[fadeIn_0.2s_ease-out] items-center justify-between rounded-[var(--radius-box)] border p-3 ${dispatchResult.success ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-300" : "border-rose-500/30 bg-rose-500/15 text-rose-300"}`}
         >
           <div>
             <span className="block">

@@ -70,52 +70,18 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body>
-        <div
-          style={{
-            minHeight: "100vh",
-            backgroundColor: "#050508",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "sans-serif",
-            padding: "20px",
-          }}
-        >
-          <div style={{ textAlign: "center", maxWidth: "400px" }}>
-            <h1 className=""
-              style={{
-                color: "#f43f5e",
-                textTransform: "",
-                }}
-            >
+        <div className="flex min-h-screen items-center justify-center bg-[#050508] p-5 font-sans text-white">
+          <div className="max-w-[400px] text-center">
+            <h1 className="text-rose-500">
               Critical System Error
             </h1>
-            <p
-              style={{
-                color: "#a1a1aa",
-                fontSize: "14px",
-                lineHeight: "1.6",
-                marginBottom: "30px",
-              }}
-            >
+            <p className="mb-7.5 text-sm leading-relaxed text-zinc-400">
               A critical error occurred in the application root. Our development
               team (Mikey) has been notified automatically.
             </p>
             <button
               onClick={() => reset()}
-              style={{
-                padding: "12px 24px",
-                backgroundColor: "transparent",
-                color: "white",
-                border: "1px solid #3f3f46",
-                borderRadius: "8px",
-                cursor: "pointer",
-                textTransform: "",
-                letterSpacing: "0.1em",
-                fontSize: "12px",
-                fontWeight: "bold",
-              }}
+              className="cursor-pointer rounded-lg border border-zinc-700 bg-transparent px-6 py-3 text-xs font-bold tracking-widest text-white"
             >
               Reload Application
             </button>

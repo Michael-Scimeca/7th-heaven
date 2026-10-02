@@ -310,7 +310,7 @@ export default function ContactClient({
                     className={`absolute inset-0 flex items-end justify-end transition-opacity ${isActive
                       ? "pointer-events-none z-10 opacity-100"
                       : "pointer-events-none z-0 opacity-0"
-                      } `}
+                      }`}
                   >
                     <picture className="pointer-events-none flex h-full w-full items-end justify-end">
                       <source media="(max-width: 768px)" srcSet={photo.mobile} />
@@ -321,7 +321,7 @@ export default function ContactClient({
                         loading="eager"
                         fetchPriority={isActive ? "high" : "low"}
                         decoding="sync"
-                        className={`contact-rep-stage-img ${photo.scaleClass} `}
+                        className={`contact-rep-stage-img ${photo.scaleClass}`}
                       />
                     </picture>
                   </div>

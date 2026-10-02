@@ -441,7 +441,7 @@ function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
   return (
     <canvas
       ref={canvasRef}
-      style={{ width: "24px", height: "24px", display: "block" }}
+      className="block h-6 w-6"
     />
   );
 }
@@ -820,14 +820,9 @@ export default function VinylHeroPlayer({
 
         {/* ── SWIPER VINYL DISC SLIDER ── */}
         <div
-          className="vinyl-slider-wrap"
-          style={{
-            width: "777px",
-            height: "263px",
-            position: "relative",
-          }}
+          className="vinyl-slider-wrap relative h-[263px] w-[777px]"
         >
-          <div className="relative" style={{ width: "777px" }}>
+          <div className="relative w-[777px]">
             {/* LAYER 1: Sleeve card background — sits BEHIND the disc — LOADS IMMEDIATELY ON PAGE LOAD */}
             <div className="pointer-events-none absolute inset-0 z-[-1] flex items-center justify-center">
               <div className="fancy h-[263px] w-[293px] shadow-[0_0_40px_rgba(147,51,234,0.25)]">
@@ -847,12 +842,7 @@ export default function VinylHeroPlayer({
             >
               {/* LAYER 2: Swiper disc track — wrapped in fade mask so side discs dissolve */}
               <div
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)",
-                  maskImage:
-                    "linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, black 10%, black 100%)",
-                }}
+                className="[mask-image:linear-gradient(to_right,rgba(0,0,0,0.3)_0%,black_10%,black_100%)] [-webkit-mask-image:linear-gradient(to_right,rgba(0,0,0,0.3)_0%,black_10%,black_100%)]"
               >
                 <Swiper
                   slidesPerView="auto"
@@ -867,29 +857,19 @@ export default function VinylHeroPlayer({
                   onSlideChange={handleSlideChange}
                   onSliderFirstMove={() => setIsDragging(true)}
                   onTouchEnd={() => setIsDragging(false)}
-                  style={{
-                    overflow: "visible",
-                    position: "relative",
-                    zIndex: 20,
-                  }}
-                  className="vinyl-swiper"
+                  className="vinyl-swiper relative z-20 overflow-visible"
                 >
                   {ALBUMS.map((album, idx) => (
                     <SwiperSlide
                       key={album.id}
-                      style={{
-                        width: "165px",
-                        height: "250px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
+                      className="flex h-[250px] w-[165px] items-center"
                     >
                       {({ isActive }) => {
                         const vinylSrc = `/vin${(idx % 3) + 1}.png`;
                         return (
                           <button
                             type="button"
-                            className={`relative mx-auto flex cursor-pointer items-center justify-center overflow-hidden rounded-full border-0 p-0 ${isActive && !isDragging ? "z-10 scale-110 opacity-100" : "z-0 scale-90 opacity-90"}  ${isActive ? "vinyl-spinning" : ""} `}
+                            className={`relative mx-auto flex cursor-pointer items-center justify-center overflow-hidden rounded-full border-0 p-0 ${isActive && !isDragging ? "z-10 scale-110 opacity-100" : "z-0 scale-90 opacity-90"} ${isActive ? "vinyl-spinning" : ""}`}
                             style={{
                               width: "165px",
                               height: "165px",
@@ -1047,7 +1027,7 @@ export default function VinylHeroPlayer({
             </div>
             {/* ── TRACKLIST PANEL — aligned flush with the top of the glass sleeve box ── */}
             <div
-              className={`absolute top-0 bottom-0 z-40 flex origin-left flex-col text-left ${showTracklist ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"} `}
+              className={`absolute top-0 bottom-0 z-40 flex origin-left flex-col text-left ${showTracklist ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
               style={{
                 left: "calc(50% + 135px)",
                 width: showTracklist ? "220px" : "0px",
@@ -1081,13 +1061,7 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="pointer-events-auto max-h-[200px] scrollbar-none space-y-1 overflow-y-scroll pt-2 pr-3.5 pb-2 text-[12px] whitespace-nowrap [&::-webkit-scrollbar]:hidden"
-                  style={{
-                    scrollBehavior: "smooth",
-                    overscrollBehavior: "contain",
-                    scrollbarWidth: "none",
-                    msOverflowStyle: "none",
-                  }}
+                  className="pointer-events-auto max-h-[200px] scrollbar-none space-y-1 overflow-y-scroll pt-2 pr-3.5 pb-2 text-[12px] whitespace-nowrap scroll-smooth overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                   onScroll={handleTracklistScroll}
                   onWheel={(e) => e.stopPropagation()}
                 >
@@ -1101,7 +1075,7 @@ export default function VinylHeroPlayer({
                             e.stopPropagation();
                             playTrack(tIdx);
                           }}
-                          className={`flex w-full items-center gap-2 !rounded-none border-0 px-3 py-[1px] text-left ${isSelected ? "cursor-default bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "cursor-pointer bg-[#00000029] hover:text-white"} `}
+                          className={`flex w-full items-center gap-2 !rounded-none border-0 px-3 py-[1px] text-left ${isSelected ? "cursor-default bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "cursor-pointer bg-[#00000029] hover:text-white"}`}
                         >
                           <span className="w-4 text-right text-[12px] opacity-50">
                             {track.number}.

@@ -218,7 +218,7 @@ export function CalendarPicker({
 
       {/* Legend — Static frame-0 render prevents post-mount injection layout shift */}
       <div className="mb-6 flex flex-wrap items-center gap-5">
-        <span className="/90 flex items-center gap-1.5">
+        <span className="flex items-center gap-1.5">
           <span className="inline-block h-3 w-3 rounded border border-white/10 bg-white/10" />{" "}
           Available
         </span>
@@ -398,13 +398,13 @@ export function CalendarPicker({
                     isPastDate
                       ? "cursor-not-allowed opacity-25"
                       : "cursor-pointer"
-                  }  ${
+                  } ${
                     isSelected
                       ? "scale-105 border-2 border-purple-400 bg-purple-600 text-white shadow-purple-600/40"
                       : isBlocked
                         ? "border border-rose-500/40 bg-rose-500/15 text-rose-300 hover:border-rose-400 hover:bg-rose-500/25"
                         : "border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10"
-                  } `}
+                  }`}
                 >
                   {date.getDate()}
                   {isBlocked && (
@@ -613,17 +613,17 @@ export function CalendarPicker({
                     className="group flex !h-auto w-full cursor-pointer !justify-start gap-3 !rounded-[2.5rem] text-left sm:gap-4 [&>span]:w-full [&>span]:max-w-full [&>span]:min-w-0 [&>span]:whitespace-normal"
                   >
                     <div
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full sm:h-11 sm:w-11 ${isSelected ? "bg-purple-600/30" : "bg-white/10 text-white/50"} `}
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full sm:h-11 sm:w-11 ${isSelected ? "bg-purple-600/30" : "bg-white/10 text-white/50"}`}
                     >
                       <TypeIcon className="h-5 w-5 shrink-0" />
                     </div>
                     <div className="flex min-w-0 flex-1 items-center gap-2 text-left">
                       <span
-                        className={`block ${isSelected ? " " : " "} `}
+                        className={`block ${isSelected ? " " : " "}`}
                       >
                         {displayLabel}
                       </span>
-                      <span className="sm: line-clamp-1 block sm:line-clamp-2">
+                      <span className="line-clamp-1 block sm:line-clamp-2">
                         {displayDesc}
                       </span>
                     </div>

@@ -370,7 +370,7 @@ export default function ShowPageClient({
           <div className="mt-0.5 flex items-center gap-2">
             {!isAnon && tier !== "Bronze" && (
               <span
-                className={`text-[var(--font-size-2xs)] ${tierColors[tier]?.split(" ")[1] || "text-white/30"} `}
+                className={`text-[var(--font-size-2xs)] ${tierColors[tier]?.split(" ")[1] || "text-white/30"}`}
               >
                 {tier}
               </span>
@@ -457,7 +457,7 @@ export default function ShowPageClient({
               </div>
 
               <div className="title-group title-group--page">
-                <h1 className="">{show.venue_name}</h1>
+                <h1>{show.venue_name}</h1>
                 <p>
                   {show.city}
                   {show.state ? `, ${show.state}` : ""}
@@ -479,7 +479,7 @@ export default function ShowPageClient({
                 )}
                 {show.all_ages !== null && (
                   <span
-                    className={`flex items-center gap-1.5 border px-3 py-1.5 ${show.all_ages ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-purple-500/30 bg-purple-600/10"} `}
+                    className={`flex items-center gap-1.5 border px-3 py-1.5 ${show.all_ages ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-purple-500/30 bg-purple-600/10"}`}
                   >
                     {show.all_ages ? "✅ All Ages" : "🔞 21+"}
                   </span>
@@ -590,7 +590,7 @@ export default function ShowPageClient({
                           onChange={(e) => setNotifyEmail(e.target.value)}
                           containerClassName="flex-1"
                           glow={true}
-                          inputClassName="bg-black/40 border  border-white/10  px-4 py-3   placeholder: text-white/20 outline-none  rounded-xl"
+                          inputClassName="bg-black/40 border border-white/10 px-4 py-3 placeholder:text-white/40 text-white outline-none rounded-xl"
                         />
                         <SeventhButton
                           type="submit"
@@ -665,7 +665,7 @@ export default function ShowPageClient({
                 </span>
               )}
               <span
-                className={`text-xl text-white/40 ${attendeeListOpen ? "rotate-180" : ""} `}
+                className={`text-xl text-white/40 ${attendeeListOpen ? "rotate-180" : ""}`}
               >
                 ↓
               </span>
@@ -682,7 +682,7 @@ export default function ShowPageClient({
                     <button
                       key={f}
                       onClick={() => setGoingFilter(f)}
-                      className={`cursor-pointer px-4 py-1.5 ${goingFilter === f ? "bg-white/10" : "text-white/30"} `}
+                      className={`cursor-pointer px-4 py-1.5 ${goingFilter === f ? "bg-white/10" : "text-white/30"}`}
                     >
                       {f === "all"
                         ? `All (${totalCount})`

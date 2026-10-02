@@ -49,7 +49,7 @@ export function SearchInput({
 
   return (
     <div
-      className={`relative inline-flex w-full max-w-[300px] min-w-[220px] items-center ${containerClassName} `}
+      className={`relative inline-flex w-full max-w-[300px] min-w-[220px] items-center ${containerClassName}`}
       style={widthStyle}
     >
       <InputField
@@ -62,7 +62,7 @@ export function SearchInput({
         placeholder={placeholder}
         autoFocus={autoFocus}
         glow={true}
-        inputClassName={`form-input no-bg-icon w-full   border-none outline-none py-2.5 !pl-11 !pr-8   placeholder: text-white/40   ${className}`}
+        inputClassName={`form-input no-bg-icon w-full border-none outline-none py-2.5 !pl-11 !pr-8 placeholder:text-white/40 text-white ${className}`}
       />
       <div className="pointer-events-none !absolute top-1/2 left-3 z-20 flex -translate-y-1/2 items-center justify-center text-white/50">
         <Search className="h-4 w-4" />

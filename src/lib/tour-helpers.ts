@@ -6,13 +6,14 @@ export const typeConfig: Record<
   string,
   { color: string; label: string; initial: string }
 > = {
-  full: { color: "#a855f7", label: "Full Band", initial: "F" },
-  unplugged: { color: "#c084fc", label: "Unplugged", initial: "U" },
-  outdoor: { color: "#22c55e", label: "Outdoor", initial: "O" },
-  casino: { color: "#eab308", label: "Casino", initial: "C" },
-  tv: { color: "#06b6d4", label: "TV", initial: "T" },
-  fundraiser: { color: "#f43f5e", label: "Fundraiser", initial: "G" },
-  special: { color: "#ec4899", label: "Special", initial: "S" },
+  // Calibrated OKLCH L=74% C=0.16 perceptual harmony scale
+  full: { color: "#bc7efc", label: "Full Band", initial: "F" }, // oklch(74% 0.165 303.9) — Signature Purple
+  unplugged: { color: "#d2a6fd", label: "Unplugged", initial: "U" }, // oklch(80% 0.115 303.9) — Acoustic Lavender
+  outdoor: { color: "#34d375", label: "Outdoor", initial: "O" }, // oklch(74% 0.165 145.0) — Fresh Emerald
+  casino: { color: "#e5a828", label: "Casino", initial: "C" }, // oklch(74% 0.160 75.0) — Warm Gold
+  tv: { color: "#2dd4ea", label: "TV", initial: "T" }, // oklch(74% 0.150 215.0) — Broadcast Cyan
+  fundraiser: { color: "#fa6b82", label: "Fundraiser", initial: "G" }, // oklch(74% 0.170 20.0) — Coral Rose
+  special: { color: "#f26cb2", label: "Special", initial: "S" }, // oklch(74% 0.170 345.0) — Magenta Pink
 };
 
 export function getShowType(showOrInfo: any): string {

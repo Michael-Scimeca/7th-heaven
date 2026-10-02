@@ -58,7 +58,7 @@ export function RaffleClaimModal({
         <button
           aria-label="Close"
           onClick={handleClose}
-          className="transition-colors hover: absolute top-3 right-3 bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
+          className="transition-colors absolute top-3 right-3 bg-gray-50 p-1 text-black/50 hover:bg-gray-100"
         >
           <svg
             width="16"
@@ -77,7 +77,7 @@ export function RaffleClaimModal({
           <>
             <div className="mb-5 flex flex-col items-center text-center">
               <Trophy className="mb-2 h-11 w-11 text-yellow-500" />
-              <h3 className="r">You Won!</h3>
+              <h3>You Won!</h3>
               {raffleState.prizes?.[winnerIdx]?.name && (
                 <p>{raffleState.prizes[winnerIdx].name}</p>
               )}
@@ -137,7 +137,7 @@ export function RaffleClaimModal({
                   </svg>
                 </div>
                 <div>
-                  <p className="r">Ship it to me</p>
+                  <p>Ship it to me</p>
                   <p className="mt-0.5 text-black/30">
                     100% off Shopify checkout link
                   </p>
@@ -160,7 +160,7 @@ export function RaffleClaimModal({
                   </svg>
                 </div>
                 <div>
-                  <p className="r">Pick up at Merch Table</p>
+                  <p>Pick up at Merch Table</p>
                   <p className="mt-0.5 text-black/30">
                     Show PIN or open claim page
                   </p>

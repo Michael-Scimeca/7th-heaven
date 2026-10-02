@@ -170,7 +170,7 @@ export default function MemberFactSheetDrawer({
         {/* Top Control Bar */}
         <div className="sticky top-0 z-30 flex items-center justify-between bg-[#0c0a14] px-6 py-2">
           <div className="flex items-center gap-2">
-            <span className="/90">BACKSTAGE FACT SHEET</span>
+            <span>BACKSTAGE FACT SHEET</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -220,7 +220,7 @@ export default function MemberFactSheetDrawer({
               <h2 className="font-serif">
                 {fullName}
               </h2>
-              <p className="sm:">{member.role}</p>
+              <p>{member.role}</p>
             </div>
 
             {/* 4-Column Quick Metadata Grid */}
@@ -247,7 +247,7 @@ export default function MemberFactSheetDrawer({
           {/* ── SECTION 01: THE CONTRADICTION ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="">THE CONTRADICTION</h3>
+              <h3>THE CONTRADICTION</h3>
             </div>
 
             <div className="space-y-3.5">
@@ -279,7 +279,7 @@ export default function MemberFactSheetDrawer({
           {/* ── SECTION 02: THE SETLIST ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="">THE SETLIST</h3>
+              <h3>THE SETLIST</h3>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -414,7 +414,7 @@ export default function MemberFactSheetDrawer({
           {/* ── SECTION 04: OFF STAGE ── */}
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
-              <h3 className="">OFF STAGE</h3>
+              <h3>OFF STAGE</h3>
             </div>
 
             <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">

@@ -6,7 +6,7 @@ import "./studio.css";
 
 export default function StudioPage() {
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div className="min-h-screen">
       <NextStudio config={config} />
     </div>
   );

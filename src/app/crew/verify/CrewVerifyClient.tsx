@@ -37,17 +37,7 @@ function findRaffleByPin(pin: string) {
 const renderBackground = () => (
   <div className="lock-scroll-fullscreen">
     <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundImage: "url('/images/hero/hero-band-bg.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        filter: "brightness(0.55) blur(3px)",
-        transform: "scale(1.08)",
-        zIndex: 0,
-        pointerEvents: "none",
-      }}
+      className="pointer-events-none fixed inset-0 z-0 scale-108 bg-[url('/images/hero/hero-band-bg.png')] bg-cover bg-center brightness-[0.55] blur-[3px]"
     />
     <div className="pointer-events-none fixed inset-0 z-0 bg-black/55 backdrop-blur-2xl" />
   </div>
@@ -297,7 +287,7 @@ export default function CrewVerifyClient({
                   onKeyDown={(e) => handleKeyDown(idx, e)}
                   onPaste={handlePaste}
                   onFocus={() => setFocusedIndex(idx)}
-                  className={`focus-ring h-14 w-11 rounded-[var(--radius-box)] border bg-black/60 text-center text-xl tabular-nums ${focusedIndex === idx ? "border-[var(--color-accent)] bg-black/80 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : digit ? "border-white/40 bg-black/70" : "border-white/15"} `}
+                  className={`focus-ring h-14 w-11 rounded-[var(--radius-box)] border bg-black/60 text-center text-xl tabular-nums ${focusedIndex === idx ? "border-[var(--color-accent)] bg-black/80 shadow-[0_0_15px_rgba(16,185,129,0.5)]" : digit ? "border-white/40 bg-black/70" : "border-white/15"}`}
                   aria-label={`PIN digit ${idx + 1}`}
                 />
               ))}
@@ -314,7 +304,7 @@ export default function CrewVerifyClient({
                 type="button"
                 onClick={verifyPin}
                 disabled={fullPin.length !== 6}
-                className={`w-full cursor-pointer rounded-[var(--radius-box)] py-3.5 ${fullPin.length === 6 ? "bg-[var(--color-accent)] shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:bg-emerald-500" : "cursor-not-allowed border border-white/10 bg-white/10 text-white/40"} `}
+                className={`w-full cursor-pointer rounded-[var(--radius-box)] py-3.5 ${fullPin.length === 6 ? "bg-[var(--color-accent)] shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:bg-emerald-500" : "cursor-not-allowed border border-white/10 bg-white/10 text-white/40"}`}
               >
                 Verify PIN Code
               </button>

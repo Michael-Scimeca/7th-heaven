@@ -1465,14 +1465,14 @@ lerpSpeed: ${lerpSpeed}`;
                   <button
                     type="button"
                     onClick={() => setActiveCustomizerTab("canvas")}
-                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "canvas" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"} `}
+                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "canvas" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"}`}
                   >
                     🔥 Shader Canvas
                   </button>
                   <button
                     type="button"
                     onClick={() => setActiveCustomizerTab("stage")}
-                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "stage" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"} `}
+                    className={`flex-1 cursor-pointer py-1.5 ${activeCustomizerTab === "stage" ? "bg-amber-500 shadow-md" : "hover:bg-white/5 hover:text-white"}`}
                   >
                     📐 Bio Stage
                   </button>
@@ -1482,11 +1482,11 @@ lerpSpeed: ${lerpSpeed}`;
                   <div className="space-y-4">
                     {/* Enable Shader Canvas Toggle */}
                     <div className="flex items-center justify-between border border-white/10 bg-white/5 p-2.5">
-                      <span className="">Enable Fireplace Shader</span>
+                      <span>Enable Fireplace Shader</span>
                       <button
                         type="button"
                         onClick={() => setIsCanvasEnabled((prev) => !prev)}
-                        className={`cursor-pointer rounded-full px-3 py-1 ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20"} `}
+                        className={`cursor-pointer rounded-full px-3 py-1 ${isCanvasEnabled ? "bg-emerald-500 text-black" : "bg-white/20"}`}
                       >
                         {isCanvasEnabled ? "ON" : "OFF"}
                       </button>
@@ -1512,7 +1512,7 @@ lerpSpeed: ${lerpSpeed}`;
                               setPaletteTheme(theme.id);
                               setUseCustomColors(false);
                             }}
-                            className={`cursor-pointer border p-2 text-left ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 hover:bg-white/10"} `}
+                            className={`cursor-pointer border p-2 text-left ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-500 shadow-sm" : "border-white/10 bg-white/5 hover:bg-white/10"}`}
                           >
                             {theme.label}
                           </button>
@@ -1529,7 +1529,7 @@ lerpSpeed: ${lerpSpeed}`;
                         <button
                           type="button"
                           onClick={() => setUseCustomColors((prev) => !prev)}
-                          className={`cursor-pointer rounded-full px-2.5 py-0.5 text-[10px] ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20"} `}
+                          className={`cursor-pointer rounded-full px-2.5 py-0.5 text-[10px] ${useCustomColors ? "bg-amber-500 text-black" : "bg-white/20"}`}
                         >
                           {useCustomColors ? "CUSTOM" : "PRESET"}
                         </button>
@@ -2032,7 +2032,7 @@ lerpSpeed: ${lerpSpeed}`;
                     e.stopPropagation();
                     goToSlide(idx);
                   }}
-                  className={`group relative flex cursor-pointer items-center gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""} `}
+                  className={`group relative flex cursor-pointer items-center gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
                 >
                   {/* Member Card Thumbnail */}
                   <div
@@ -2047,15 +2047,15 @@ lerpSpeed: ${lerpSpeed}`;
                       alt={m?.name || "Band Member"}
                       fill
                       sizes="100px"
-                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"} `}
+                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
                     />
                   </div>
 
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div
-                    className={`block text-left whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"} `}
+                    className={`block text-left whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
                   >
-                    <p className="">{m?.name || "Band Member"}</p>
+                    <p>{m?.name || "Band Member"}</p>
                     <p className="mt-0.5">{m?.role || "Musician"}</p>
                   </div>
                 </button>
@@ -2083,13 +2083,13 @@ lerpSpeed: ${lerpSpeed}`;
                     setSelectedMemberForSheet(m as BandMemberFactSheet);
                     setIsFactSheetOpen(true);
                   }}
-                  className={`group relative flex cursor-pointer items-center justify-end gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""} `}
+                  className={`group relative flex cursor-pointer items-center justify-end gap-2 sm:gap-3.5 ${isActive ? "z-20" : ""}`}
                 >
                   {/* Member Name & Role Display (Responsive text sizing) */}
                   <div
-                    className={`block text-right whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"} `}
+                    className={`block text-right whitespace-nowrap ${isActive ? "translate-x-0 opacity-100" : "translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"}`}
                   >
-                    <p className="">{m?.name || "Band Member"}</p>
+                    <p>{m?.name || "Band Member"}</p>
                     <p className="mt-0.5">{m?.role || "Musician"}</p>
                   </div>
 
@@ -2106,7 +2106,7 @@ lerpSpeed: ${lerpSpeed}`;
                       alt={m?.name || "Band Member"}
                       fill
                       sizes="100px"
-                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"} `}
+                      className={`object-cover ${isActive ? "scale-105 brightness-110" : "opacity-70 brightness-75 group-hover:opacity-100 group-hover:brightness-100"}`}
                     />
                   </div>
                 </button>
@@ -2215,7 +2215,7 @@ lerpSpeed: ${lerpSpeed}`;
                           {/* Glare Masked strictly to Non-Transparent Pixels of the Member Photo Cutout */}
                           <div
                             key={`glare-${i}-${isActive ? "active" : "inactive"}`}
-                            className={`glarer-mask glarer pointer-events-none absolute inset-0 z-20 overflow-hidden ${isActive ? "active-glare" : ""} `}
+                            className={`glarer-mask glarer pointer-events-none absolute inset-0 z-20 overflow-hidden ${isActive ? "active-glare" : ""}`}
                             style={{
                               maskImage: `url(${imageSrc})`,
                               WebkitMaskImage: `url(${imageSrc})`,
@@ -2308,7 +2308,7 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3 className="" >
+                          <h3 >
                             {m?.name}
                           </h3>
                           <span
@@ -2330,7 +2330,6 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            className=""
                             >
                             {m?.name}
                           </h3>
@@ -2358,7 +2357,7 @@ lerpSpeed: ${lerpSpeed}`;
                               : {}),
                           }}
                         >
-                          <h3 className="" >
+                          <h3 >
                             {m?.name}
                           </h3>
                           <span
@@ -2379,7 +2378,7 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3 className="" >
+                          <h3 >
                             {m?.name}
                           </h3>
                           <span
@@ -2408,7 +2407,6 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            className=""
                             >
                             {m?.name}
                           </h3>
@@ -2430,7 +2428,7 @@ lerpSpeed: ${lerpSpeed}`;
                               activeIndex === i ? 1 : inactiveNameOpacity,
                           }}
                         >
-                          <h3 className="" >
+                          <h3 >
                             {m?.name}
                           </h3>
                           <span
@@ -2452,7 +2450,6 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            className=""
                             >
                             {m?.name}
                           </h3>

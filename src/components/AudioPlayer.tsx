@@ -91,9 +91,9 @@ function SoundWaveCanvas({ isPlaying }: { isPlaying: boolean }) {
       }
 
       const gradient = ctx.createLinearGradient(0, 0, W, 0);
-      gradient.addColorStop(0, "rgba(133, 29, 239, 0.1)");
-      gradient.addColorStop(0.5, "#851DEF");
-      gradient.addColorStop(1, "rgba(133, 29, 239, 0.1)");
+      gradient.addColorStop(0, "rgba(168, 85, 247, 0.15)");
+      gradient.addColorStop(0.5, "#a855f7");
+      gradient.addColorStop(1, "rgba(168, 85, 247, 0.15)");
 
       ctx.strokeStyle = gradient;
       ctx.lineWidth = 2;
@@ -442,7 +442,7 @@ export default function AudioPlayerSection() {
                     );
                   }
                 }}
-                className={`group flex w-full items-center justify-between gap-2.5 overflow-hidden !rounded-none py-1 text-left ${originalIdx === activeAlbumIndex ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer hover:bg-white/10"} `}
+                className={`group flex w-full items-center justify-between gap-2.5 overflow-hidden !rounded-none py-1 text-left ${originalIdx === activeAlbumIndex ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer hover:bg-white/10"}`}
               >
                 <div className="flex min-w-0 flex-1 items-center gap-2.5 pr-1">
                   {album.image && (
@@ -452,12 +452,12 @@ export default function AudioPlayerSection() {
                         alt={album.title}
                         fill
                         sizes="28px"
-                        style={{ objectFit: "cover" }}
+                        className="object-cover"
                       />
                     </div>
                   )}
                   <span
-                    className={` ${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "group-hover:text-white"} `}
+                    className={`${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "group-hover:text-white"}`}
                   >
                     {album.title
                       .replace(/&apos;/gi, "'")
@@ -466,7 +466,7 @@ export default function AudioPlayerSection() {
                 </div>
                 {album.year && (
                   <span
-                    className={`shrink-0 text-[0.9rem] ${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "text-white/40 group-hover:text-white"} `}
+                    className={`shrink-0 text-[0.9rem] ${originalIdx === activeAlbumIndex ? "text-[var(--color-accent)]" : "text-white/40 group-hover:text-white"}`}
                   >
                     {album.year}
                   </span>
@@ -593,7 +593,7 @@ export default function AudioPlayerSection() {
 
   if (!isExpanded) {
     return (
-      <div id="music-player-collapsed" className="">
+      <div id="music-player-collapsed">
         <div className="relative flex w-full max-w-[800px] flex-col items-start justify-between gap-6 rounded-[var(--radius-box)] border border-white/10 p-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-5">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/40 bg-purple-500/20">
@@ -603,7 +603,7 @@ export default function AudioPlayerSection() {
               <span className="block text-purple-400">
                 7th Heaven Music Vault
               </span>
-              <h3 className="">
+              <h3>
                 Official MP3 Discography & Audio Player (700+ Songs)
               </h3>
             </div>
@@ -688,8 +688,7 @@ export default function AudioPlayerSection() {
             <div
               ref={sidebarScrollRef}
               onScroll={handleSidebarScroll}
-              className="no-scrollbar min-h-0 flex-1 overflow-y-auto pr-3 pb-8"
-              style={{ overscrollBehavior: "auto" }}
+              className="no-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-auto pr-3 pb-8"
             >
               {renderAlbumList(originalCds, "Original CD's")}
               {renderAlbumList(medleyCds, "Medley CD's")}
@@ -700,7 +699,7 @@ export default function AudioPlayerSection() {
             {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
             <div
               onClick={handleSidebarTrackClick}
-              className={`transition-colors relative mb-6 ml-1 w-2.5 shrink-0 cursor-pointer overflow-hidden border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${sidebarThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"} `}
+              className={`transition-colors relative mb-6 ml-1 w-2.5 shrink-0 cursor-pointer overflow-hidden border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${sidebarThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"}`}
             >
               <div
                 onMouseDown={handleSidebarThumbMouseDown}
@@ -730,14 +729,14 @@ export default function AudioPlayerSection() {
                         alt={activeAlbum.title}
                         fill
                         sizes="44px"
-                        style={{ objectFit: "cover" }}
+                        className="object-cover"
                       />
                     ) : (
                       <div className="h-full w-full bg-purple-900/50" />
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="r">
+                    <p>
                       {activeAlbum?.title
                         ?.replace(/&apos;/gi, "'")
                         .replace(/&amp;/gi, "&") || "7th Heaven"}
@@ -755,7 +754,7 @@ export default function AudioPlayerSection() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="placeholder: w-full border border-white/10 bg-black/40 px-2.5 py-1.5 text-white/40 outline-none"
+                    className="focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/40 px-2.5 py-1.5 text-xs text-white placeholder:text-white/40 outline-none"
                   />
                 </div>
               </div>
@@ -765,10 +764,7 @@ export default function AudioPlayerSection() {
                 <div
                   ref={tracklistScrollRef}
                   onScroll={handleTracklistScroll}
-                  className="no-scrollbar h-full min-h-0 flex-1 overflow-y-auto px-0 pt-3 pb-4"
-                  style={{
-                    overscrollBehavior: "auto",
-                  }}
+                  className="no-scrollbar h-full min-h-0 flex-1 overflow-y-auto overscroll-auto px-0 pt-3 pb-4"
                 >
                   {searchQuery.trim() ? (
                     searchResults.length > 0 ? (
@@ -782,7 +778,7 @@ export default function AudioPlayerSection() {
                             <button
                               type="button"
                               key={`${albumIdx}-${trackIdx}`}
-                              className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"} `}
+                              className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"}`}
                               onClick={() => {
                                 setActiveAlbumIndex(albumIdx);
                                 setActiveTrackIndex(trackIdx);
@@ -794,7 +790,7 @@ export default function AudioPlayerSection() {
                                   {album.title.split(" ")[0]}
                                 </span>
                                 <span
-                                  className={` ${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"} `}
+                                  className={`${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"}`}
                                 >
                                   {cleanName}
                                 </span>
@@ -825,7 +821,7 @@ export default function AudioPlayerSection() {
                         <button
                           type="button"
                           key={track.title}
-                          className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"} `}
+                          className={`group flex w-full items-center justify-between !rounded-none border-0 px-6 py-2.5 text-left select-none ${isActive ? "cursor-default border-0 bg-[var(--color-accent)]/15" : "cursor-pointer border-0"}`}
                           onClick={() => {
                             if (isActive) togglePlay();
                             else {
@@ -836,19 +832,19 @@ export default function AudioPlayerSection() {
                         >
                           <div className="flex items-center gap-5">
                             <span
-                              className={`w-6 text-left ${isActive ? "text-[var(--color-accent)]" : "text-white/40"} `}
+                              className={`w-6 text-left ${isActive ? "text-[var(--color-accent)]" : "text-white/40"}`}
                             >
                               {trackNumber}
                             </span>
                             <span
-                              className={`max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"} `}
+                              className={`max-w-[200px] sm:max-w-[300px] md:max-w-[400px] ${isActive ? "text-[var(--color-accent)]" : "group-hover:text-white"}`}
                             >
                               {cleanName}
                             </span>
                           </div>
 
                           <span
-                            className={`mr-2 ${isActive ? "text-[var(--color-accent)]" : "text-white/40"} `}
+                            className={`mr-2 ${isActive ? "text-[var(--color-accent)]" : "text-white/40"}`}
                           >
                             {isActive && duration
                               ? formatTime(duration)
@@ -863,7 +859,7 @@ export default function AudioPlayerSection() {
                 {/* Permanent Custom Interactive Purple Scrollbar Track & Thumb */}
                 <div
                   onClick={handleTracklistTrackClick}
-                  className={`transition-colors relative z-20 my-8 mr-2 w-2.5 shrink-0 cursor-pointer overflow-hidden border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${tracklistThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"} `}
+                  className={`transition-colors relative z-20 my-8 mr-2 w-2.5 shrink-0 cursor-pointer overflow-hidden border border-purple-500/30 bg-purple-950/50 shadow-[0_0_8px_rgba(147,51,234,0.2)] hover:bg-purple-900/60 ${tracklistThumbHeight >= 99 ? "pointer-events-none hidden opacity-0" : "opacity-100"}`}
                 >
                   <div
                     onMouseDown={handleTracklistThumbMouseDown}
@@ -884,7 +880,6 @@ export default function AudioPlayerSection() {
               data-lenis-prevent-touch="true"
               onWheel={(e) => e.stopPropagation()}
               className="custom-scrollbar relative z-10 hidden h-full w-full shrink-0 items-center self-stretch overflow-y-auto overscroll-contain border-l border-white/10 pt-5 pr-4 pb-8 pl-4 backdrop-blur-xl md:flex md:w-[clamp(220px,22vw,350px)] md:flex-col lg:pr-8 lg:pl-6"
-              style={{ overscrollBehavior: "contain" }}
             >
               {/* Fading Vertical Divider on Left */}
               <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-10 w-px bg-gradient-to-b from-transparent via-black/20 to-transparent dark:via-white/20" />
@@ -892,11 +887,7 @@ export default function AudioPlayerSection() {
               {/* Animated gradient orb */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                 <div
-                  className="h-[300px] w-[300px] animate-[orbPulse_8s_ease-in-out_infinite] opacity-10 blur-3xl"
-                  style={{
-                    background:
-                      "radial-gradient(circle, var(--color-accent), #3b82f6, transparent)",
-                  }}
+                  className="h-[300px] w-[300px] animate-[orbPulse_8s_ease-in-out_infinite] opacity-10 blur-3xl bg-[radial-gradient(circle,var(--color-accent),#3b82f6,transparent)]"
                 />
               </div>
 
@@ -913,7 +904,7 @@ export default function AudioPlayerSection() {
                     alt={activeAlbum.title}
                     fill
                     sizes="100px"
-                    style={{ objectFit: "cover" }}
+                    className="object-cover"
                   />
                 ) : (
                   <svg
@@ -953,7 +944,7 @@ export default function AudioPlayerSection() {
                   <div className="relative z-[2] mt-4 w-full border-t border-white/10 pt-4 text-left">
                     {activeAlbum?.lineup?.length > 0 && (
                       <div className="mb-6">
-                        <h3 className="/90">Line-Up</h3>
+                        <h3>Line-Up</h3>
                         <ul className="flex flex-col gap-1 text-[12px]">
                           {activeAlbum.lineup.map((line) => (
                             <li key={line}>{line}</li>
@@ -964,7 +955,7 @@ export default function AudioPlayerSection() {
 
                     {activeAlbum?.credits?.length > 0 && (
                       <div className="mb-6">
-                        <h3 className="/90">Credits</h3>
+                        <h3>Credits</h3>
                         <ul className="flex flex-col gap-1 text-[12px]">
                           {activeAlbum.credits.map((line) => (
                             <li key={line}>{line}</li>
@@ -1012,7 +1003,7 @@ export default function AudioPlayerSection() {
                               if (url)
                                 window.open(url, "_blank", "noopener,noreferrer");
                             }}
-                            className="! w-full px-4 py-2.5"
+                            className="w-full px-4 py-2.5"
                           >
                             Buy CD
                           </SeventhButton>
@@ -1023,7 +1014,7 @@ export default function AudioPlayerSection() {
                             href={activeAlbum.spotifyUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="transition-colors ! flex w-full flex-1 items-center justify-center gap-1.5 border border-[#1DB954] bg-[#1DB954] px-3 py-2 hover:bg-[#179a45]"
+                            className="transition-colors flex w-full flex-1 items-center justify-center gap-1.5 border border-[#1DB954] bg-[#1DB954] px-3 py-2 hover:bg-[#179a45]"
                           >
                             <svg
                               width="10"
@@ -1041,7 +1032,7 @@ export default function AudioPlayerSection() {
                             href={activeAlbum.appleMusicUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="! flex w-full flex-1 items-center justify-center gap-1.5 !bg-black px-3 py-2 hover:!bg-zinc-900"
+                            className="flex w-full flex-1 items-center justify-center gap-1.5 !bg-black px-3 py-2 hover:!bg-zinc-900"
                           >
                             <svg
                               width="10"
@@ -1085,7 +1076,7 @@ export default function AudioPlayerSection() {
                   alt="Cover"
                   fill
                   sizes="46px"
-                  style={{ objectFit: "cover" }}
+                  className="object-cover"
                 />
               ) : (
                 <div className="h-full w-full bg-[var(--color-bg-card)]" />
@@ -1356,7 +1347,7 @@ export default function AudioPlayerSection() {
                 {/* Modal Header */}
                 <div className="flex shrink-0 items-center justify-between bg-[var(--color-bg-surface)] px-8 py-5">
                   <div className="min-w-0">
-                    <h3 className="">{trackTitle}</h3>
+                    <h3>{trackTitle}</h3>
                     <p>
                       {activeAlbum?.title
                         ?.replace(/&apos;/gi, "'")
@@ -1389,7 +1380,6 @@ export default function AudioPlayerSection() {
                   data-lenis-prevent-touch="true"
                   onWheel={(e) => e.stopPropagation()}
                   className="custom-scrollbar flex-1 overflow-y-auto overscroll-contain px-8 py-6"
-                  style={{ overscrollBehavior: "contain" }}
                 >
                   {songLyrics?.lyrics &&
                     Object.keys(songLyrics.lyrics).length > 0

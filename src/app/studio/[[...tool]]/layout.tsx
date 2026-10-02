@@ -9,16 +9,7 @@ export default function StudioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        zIndex: 9999,
-      }}
-    >
+    <div className="fixed inset-0 z-[9999] h-screen w-screen">
       {children}
     </div>
   );

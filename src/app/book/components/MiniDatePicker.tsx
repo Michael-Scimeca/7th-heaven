@@ -110,7 +110,7 @@ export function MiniDatePicker({
               type="button"
               disabled={isPrevDisabled}
               onClick={() => setCalMonth(new Date(year, month - 1, 1))}
-              className={`p-1 ${isPrevDisabled ? "cursor-not-allowed text-white/20" : "cursor-pointer hover:text-white"} `}
+              className={`p-1 ${isPrevDisabled ? "cursor-not-allowed text-white/20" : "cursor-pointer hover:text-white"}`}
             >
               <svg
                 width="14"
@@ -183,7 +183,7 @@ export function MiniDatePicker({
                         setCalMonth(new Date(year, i, 1));
                         setShowMonthGrid(false);
                       }}
-                      className={`rounded-[var(--radius-box)] py-2 ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer hover:bg-white/10"} `}
+                      className={`rounded-[var(--radius-box)] py-2 ${isPast ? "cursor-not-allowed text-white/20" : isCur ? "bg-[#a855f7] shadow-purple-600/30" : "cursor-pointer hover:bg-white/10"}`}
                     >
                       {m}
                     </button>
@@ -224,7 +224,7 @@ export function MiniDatePicker({
                         onChange(ds);
                         setShowCal(false);
                       }}
-                      className={`flex h-10 w-full items-center justify-center ${isPast ? "cursor-not-allowed text-white/20" : isSel ? "bg-[#a855f7] shadow-purple-600/40" : "cursor-pointer bg-[#00000029] hover:bg-white/15"} `}
+                      className={`flex h-10 w-full items-center justify-center ${isPast ? "cursor-not-allowed text-white/20" : isSel ? "bg-[#a855f7] shadow-purple-600/40" : "cursor-pointer bg-[#00000029] hover:bg-white/15"}`}
                     >
                       {i + 1}
                     </button>

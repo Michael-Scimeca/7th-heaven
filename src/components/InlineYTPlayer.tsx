@@ -281,7 +281,7 @@ export default function InlineYTPlayer({
       {onClose && (
         <button
           onClick={handleClose}
-          className={`transition-colors absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center bg-black/50 hover:bg-black/80 ${showControls ? "opacity-100" : "opacity-0"} `}
+          className={`transition-colors absolute top-3 right-3 z-30 flex h-8 w-8 cursor-pointer items-center justify-center bg-black/50 hover:bg-black/80 ${showControls ? "opacity-100" : "opacity-0"}`}
           aria-label="Close"
         >
           <svg
@@ -300,7 +300,7 @@ export default function InlineYTPlayer({
 
       {/* Controls overlay */}
       <div
-        className={`absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 ${showControls ? "opacity-100" : "opacity-0"} `}
+        className={`absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 to-transparent px-4 pt-8 pb-3 ${showControls ? "opacity-100" : "opacity-0"}`}
         aria-label="Player controls container"
         onClick={(e) => e.stopPropagation()}
       >

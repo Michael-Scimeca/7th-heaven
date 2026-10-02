@@ -13,7 +13,7 @@ export default function Logo({
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 514.28 93.04"
       fill="currentColor"
-      className={`logo-svg ${className} `}
+      className={`logo-svg ${className}`}
       style={{
         pointerEvents: "auto",
         transition: "color 250ms ease-in-out, fill 250ms ease-in-out",

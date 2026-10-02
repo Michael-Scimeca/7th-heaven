@@ -52,9 +52,9 @@ export function SectionBadge({
             }
           : undefined
       }
-      className={`btn-pill-glass ${radiusClass}  ${colorClass}  ${
+      className={`btn-pill-glass ${radiusClass} ${colorClass} ${
         isInteractive ? "cursor-pointer select-none active:scale-95" : ""
-      }  ${isActive ? "active" : ""}  ${className} `}
+      } ${isActive ? "active" : ""} ${className}`}
       {...props}
     >
       {children || label}

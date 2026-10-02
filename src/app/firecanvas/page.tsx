@@ -188,7 +188,7 @@ export default function FireCanvasTunerPage() {
       {/* Controls */}
       <div className="mx-auto max-w-3xl space-y-8 px-4 py-8">
         <div className="flex items-center justify-between">
-          <h1 className="">Pixel Fireplace — Live Tuner</h1>
+          <h1>Pixel Fireplace — Live Tuner</h1>
           <div className="flex gap-2">
             <button
               type="button"
@@ -272,7 +272,7 @@ export default function FireCanvasTunerPage() {
                   setPaletteTheme(theme.id);
                   setUseCustomColors(false);
                 }}
-                className={`rounded-full border px-3 py-1.5 ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"} `}
+                className={`rounded-full border px-3 py-1.5 ${!useCustomColors && paletteTheme === theme.id ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
               >
                 {theme.label}
               </button>
@@ -280,7 +280,7 @@ export default function FireCanvasTunerPage() {
             <button
               type="button"
               onClick={() => setUseCustomColors(true)}
-              className={`rounded-full border px-3 py-1.5 ${useCustomColors ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"} `}
+              className={`rounded-full border px-3 py-1.5 ${useCustomColors ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/15 text-white/60 hover:bg-white/5"}`}
             >
               Custom Colors
             </button>

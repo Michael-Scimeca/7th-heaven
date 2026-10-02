@@ -57,9 +57,9 @@ const MAX_SNAPSHOTS = 2;
 const TINT_PRESETS = [
   { name: "Deep Charcoal", color: "#0d0914" },
   { name: "Electric Crimson", color: "#FF0A3D" },
-  { name: "Electric Purple", color: "#851def" },
+  { name: "Electric Purple", color: "#a855f7" },
   { name: "Vibrant Blue", color: "#3b82f6" },
-  { name: "Neon Amber", color: "#9333ea" },
+  { name: "Neon Amber", color: "#f59e0b" },
   { name: "Emerald Green", color: "#10b981" },
 ];
 
@@ -644,7 +644,7 @@ export default function HeroVideoPlayer({
                   window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
                 }
               }}
-              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"} `}
+              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
@@ -691,7 +691,7 @@ export default function HeroVideoPlayer({
               muted
               loop
               playsInline
-              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"} `}
+              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
@@ -786,7 +786,7 @@ export default function HeroVideoPlayer({
 
                 {/* Presets */}
                 <div className="space-y-1.5">
-                  <span className="/45 block">Presets</span>
+                  <span className="block">Presets</span>
                   <div className="flex flex-wrap gap-2">
                     {TINT_PRESETS.map((preset) => (
                       <button
@@ -834,7 +834,7 @@ export default function HeroVideoPlayer({
 
                 {/* Opacity Slider */}
                 <div className="space-y-1.5">
-                  <div className="/45 r flex justify-between">
+                  <div className="flex justify-between">
                     <span>Opacity</span>
                     <span className="text-[var(--color-accent)]">
                       {Math.round(tintOpacity * 100)}%
@@ -853,7 +853,7 @@ export default function HeroVideoPlayer({
 
                 {/* Blend Modes */}
                 <div className="space-y-1.5">
-                  <span className="/45 block">Mix Blend Mode</span>
+                  <span className="block">Mix Blend Mode</span>
                   <div className="grid grid-cols-3 gap-1">
                     {(
                       [
@@ -868,7 +868,7 @@ export default function HeroVideoPlayer({
                       <button
                         key={mode}
                         onClick={() => updateBlend(mode)}
-                        className={`cursor-pointer rounded border px-1 py-1 ${mixBlendMode === mode ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"} `}
+                        className={`cursor-pointer rounded border px-1 py-1 ${mixBlendMode === mode ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
                       >
                         {mode}
                       </button>
@@ -974,12 +974,12 @@ export default function HeroVideoPlayer({
             {/* Left Column: Hero Title & Subheading Content */}
             <div className="title-group title-group--page pointer-events-auto max-w-[750px] flex-1 lg:max-w-[50%]">
               {/* Hero Main Headline */}
-              <h1 className="" id="hero-heading">
+              <h1 id="hero-heading">
                 {sanityContent?.heroHeading || "7TH HEAVEN"}
               </h1>
 
               {/* Hero Subheading */}
-              <p className="/90 md: drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] lg:text-xl">
+              <p className="drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] lg:text-xl">
                 {sanityContent?.heroSubheading ||
                   "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
               </p>

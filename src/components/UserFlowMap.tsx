@@ -176,7 +176,7 @@ function RootNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <span className="rounded-lg bg-black/40 px-2.5 py-0.5 text-[12px]">
           ROOT 0.0
         </span>
-        <span className="r rounded bg-white/20 px-2 py-0.5 text-[12px]">
+        <span className="rounded bg-white/20 px-2 py-0.5 text-[12px]">
           PUBLIC HUB
         </span>
       </div>
@@ -201,7 +201,7 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative border-2 ${scheme.border}  ${scheme.bg}  ${scheme.glow} w-64 cursor-pointer p-3.5 text-center backdrop-blur-xl select-none`}
+      className={`group relative border-2 ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 text-center backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -210,22 +210,22 @@ function NavSectionNode({ data }: NodeProps<Node<FlowNodeData>>) {
       />
 
       <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1.5">
-        <span className={`rounded px-2 py-0.5 text-[12px] ${scheme.badge} `}>
+        <span className={`rounded px-2 py-0.5 text-[12px] ${scheme.badge}`}>
           HEADER NAV
         </span>
-        <span className={`h-2 w-2 ${scheme.dot} `} />
+        <span className={`h-2 w-2 ${scheme.dot}`} />
       </div>
 
       <div className="my-1 flex items-center justify-center gap-2">
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center border border-white/10 ${scheme.badge} `}
+          className={`flex h-8 w-8 shrink-0 items-center justify-center border border-white/10 ${scheme.badge}`}
         >
           <IconComp className="h-4 w-4" />
         </div>
-        <h3 className="">{data.label}</h3>
+        <h3>{data.label}</h3>
       </div>
 
-      <code className="/90 block text-[10px]">{data.sub}</code>
+      <code className="block text-[10px]">{data.sub}</code>
 
       <Handle
         type="source"
@@ -277,7 +277,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative border ${scheme.border}  ${scheme.bg}  ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
+      className={`group relative border ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -292,7 +292,7 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
       <div className="flex items-start gap-3">
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center border border-white/10 ${scheme.badge} `}
+          className={`flex h-8 w-8 shrink-0 items-center justify-center border border-white/10 ${scheme.badge}`}
         >
           <IconComp className="h-4 w-4" />
         </div>
@@ -300,14 +300,14 @@ function PageFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-1">
             <span
-              className={`rounded px-1.5 py-0.5 text-[9px] ${scheme.badge} `}
+              className={`rounded px-1.5 py-0.5 text-[9px] ${scheme.badge}`}
             >
               {data.kind.toUpperCase()}
             </span>
-            <span className={`h-1.5 w-1.5 ${scheme.dot} `} />
+            <span className={`h-1.5 w-1.5 ${scheme.dot}`} />
           </div>
 
-          <h4 className="">{data.label}</h4>
+          <h4>{data.label}</h4>
 
           <code className="mt-0.5 block text-[10px]">{data.sub}</code>
         </div>
@@ -347,7 +347,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
 
   return (
     <div
-      className={`group relative border-2 border-dashed ${scheme.border}  ${scheme.bg}  ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
+      className={`group relative border-2 border-dashed ${scheme.border} ${scheme.bg} ${scheme.glow} w-64 cursor-pointer p-3.5 backdrop-blur-xl select-none`}
     >
       <Handle
         type="target"
@@ -368,7 +368,7 @@ function EmailFlowNode({ data }: NodeProps<Node<FlowNodeData>>) {
             <span className="h-1.5 w-1.5 bg-amber-400" />
           </div>
 
-          <h4 className="">{data.label}</h4>
+          <h4>{data.label}</h4>
 
           {data.details?.emailSubject && (
             <p className="mt-0.5 text-amber-200/90">
@@ -1564,9 +1564,8 @@ export default function UserFlowMap() {
         className="pt-10"
       >
         <Background color="#1e1b4b" gap={20} size={1} />
-        <Controls className="! overflow-hidden border-white/10 !bg-black/80" />
+        <Controls className="overflow-hidden border-white/10 !bg-black/80" />
         <MiniMap
-          style={{ height: 110, width: 160 }}
           nodeColor={(n) => {
             const d = n.data as FlowNodeData;
             return d.system === "pink"
@@ -1586,7 +1585,7 @@ export default function UserFlowMap() {
                           : "#10b981";
           }}
           maskColor="rgba(0, 0, 0, 0.7)"
-          className="! ! border-white/10 !bg-black/90"
+          className="!h-[110px] !w-[160px] !overflow-hidden !border-white/10 !bg-black/90"
         />
       </ReactFlow>
 
@@ -1623,10 +1622,10 @@ export default function UserFlowMap() {
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
               <div>
-                <span className="bg- purple-white/20 r rounded px-2 py-0.5 text-[12px]">
+                <span className="bg- purple-white/20 rounded px-2 py-0.5 text-[12px]">
                   {selectedNode.data.kind.toUpperCase()} NODE INSPECTOR
                 </span>
-                <h3 className="">{selectedNode.data.label}</h3>
+                <h3>{selectedNode.data.label}</h3>
                 <code className="mt-0.5 block">{selectedNode.data.sub}</code>
               </div>
               <button

@@ -339,7 +339,7 @@ function MerchDashboard() {
         <div className="w-full max-w-sm rounded-[var(--radius-box)] border border-red-500/20 bg-[var(--color-bg-surface)] p-8 text-center">
           <span className="mb-6 block text-5xl">🚫</span>
           <div className="title-group title-group--sub items-center text-center">
-            <h2 className="">Merch Team Only</h2>
+            <h2>Merch Team Only</h2>
             <p>This page is only accessible to 7th Heaven merch staff.</p>
           </div>
         </div>
@@ -386,7 +386,7 @@ function MerchDashboard() {
             ✨
           </div>
           <div className="title-group title-group--section items-center text-center">
-            <h2 className="" id="merch-coming-soon-heading">Coming Soon</h2>
+            <h2 id="merch-coming-soon-heading">Coming Soon</h2>
             <p className="max-w-sm">
               The 7th Heaven Merch Table portal is currently under maintenance and
               will be live soon.

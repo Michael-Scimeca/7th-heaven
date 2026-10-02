@@ -106,14 +106,14 @@ export default function HeroParallaxCustomizer({
 
           {/* Presets */}
           <div className="space-y-1.5">
-            <span className="/45 block">Presets</span>
+            <span className="block">Presets</span>
             <div className="flex flex-wrap gap-1.5">
               {PARALLAX_PRESETS.map((preset) => (
                 <button
                   key={preset.name}
                   aria-label={`Apply ${preset.name} preset`}
                   onClick={() => updatePxRange(preset.range)}
-                  className={`cursor-pointer rounded border px-2 py-1 ${pxRange === preset.range ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"} `}
+                  className={`cursor-pointer rounded border px-2 py-1 ${pxRange === preset.range ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)] text-[var(--color-text-main)] shadow-[0_0_8px_var(--color-purple-glow)]" : "border-white/10 bg-[#00000029] hover:border-white/10 hover:bg-white/10"}`}
                 >
                   {preset.name}
                 </button>
@@ -123,7 +123,7 @@ export default function HeroParallaxCustomizer({
 
           {/* Depth (range) Slider */}
           <div className="space-y-1.5">
-            <div className="/45 r flex justify-between">
+            <div className="flex justify-between">
               <span>Depth</span>
               <span className="text-[var(--color-accent)]">±{pxRange}%</span>
             </div>
@@ -141,7 +141,7 @@ export default function HeroParallaxCustomizer({
 
           {/* Scrub (smoothing) Slider */}
           <div className="space-y-1.5">
-            <div className="/45 r flex justify-between">
+            <div className="flex justify-between">
               <span>Smoothing</span>
               <span className="text-[var(--color-accent)]">
                 {pxScrub.toFixed(1)}s
@@ -161,9 +161,9 @@ export default function HeroParallaxCustomizer({
 
           {/* Foreground Counter-Drift Toggle */}
           <div
-            className={`flex w-full items-center justify-between rounded border px-3 py-2 ${pxForeground ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)]/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"} `}
+            className={`flex w-full items-center justify-between rounded border px-3 py-2 ${pxForeground ? "border-[var(--color-border-purple)] bg-[var(--color-purple-primary)]/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
           >
-            <span id="fg-counter-drift-label" className="r">Foreground Counter-Drift</span>
+            <span id="fg-counter-drift-label">Foreground Counter-Drift</span>
             <Toggle
               id="fg-counter-drift-toggle"
               size="sm"

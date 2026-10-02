@@ -307,7 +307,6 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           sanityContent?.subtitle ||
           "Everything you need to know about 7th Heaven shows, booking, merchandise, fan perks, and the annual Caribbean Cruise."
         }
-        className=""
         align="left"
       />
 
@@ -385,7 +384,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                       id={`faq-answer-${faq.id}`}
                       role="region"
                       aria-label={faq.question}
-                      className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} `}
+                      className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                     >
                       <div className="overflow-hidden">
                         <div className="pb-6 pl-3">

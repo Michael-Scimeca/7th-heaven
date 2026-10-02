@@ -212,7 +212,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                     ? setSelectedPick(selectedPick === pick.id ? null : pick.id)
                     : null
                 }
-                className={`relative border p-3 text-center ${pick.owned > 0 ? (selectedPick === pick.id ? "scale-105 border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "cursor-pointer border-black/10 bg-gray-50 hover:border-black/25") : "cursor-default border-black/10 bg-gray-100/50 opacity-40 grayscale"} `}
+                className={`relative border p-3 text-center ${pick.owned > 0 ? (selectedPick === pick.id ? "scale-105 border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "cursor-pointer border-black/10 bg-gray-50 hover:border-black/25") : "cursor-default border-black/10 bg-gray-100/50 opacity-40 grayscale"}`}
               >
                 <div className="relative mx-auto mb-2 h-16 w-16">
                   <Image
@@ -230,7 +230,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                   )}
                 </div>
                 <p className="text-black/80">{pick.name}</p>
-                <p className={` ${RARITY_COLORS[pick.rarity]} `}>
+                <p className={`${RARITY_COLORS[pick.rarity]}`}>
                   {pick.rarity}
                 </p>
                 {pick.owned === 0 && (
@@ -263,14 +263,14 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       />
                       <div className="title-group title-group--sub">
                         <h3 className="text-black">{pick.name}</h3>
-                        <p className={` ${RARITY_COLORS[pick.rarity]} `}>
+                        <p className={`${RARITY_COLORS[pick.rarity]}`}>
                           {pick.rarity} · ×{pick.owned}
                         </p>
                       </div>
                     </div>
                     <button
                       onClick={() => setSelectedPick(null)}
-                      className="hover: cursor-pointer text-black/40"
+                      className="cursor-pointer text-black/40"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -344,7 +344,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                 {lotteries.map((lottery: any) => (
                   <div
                     key={lottery.id}
-                    className={`rounded-lg border p-4 ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5" : lottery.isEligible ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50" : "border-black/10 bg-gray-50"} `}
+                    className={`rounded-lg border p-4 ${lottery.isEntered ? "border-emerald-500/30 bg-emerald-500/5" : lottery.isEligible ? "border-purple-500/30 bg-purple-500/5 hover:border-yellow-500/50" : "border-black/10 bg-gray-50"}`}
                   >
                     <div className="mb-2 flex items-center justify-between">
                       <div>
@@ -387,7 +387,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                         </div>
                         <div className="h-1.5 w-full overflow-hidden bg-black/10">
                           <div
-                            className={`h-full ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"} `}
+                            className={`h-full ${lottery.isEligible ? "bg-yellow-500" : "bg-black/20"}`}
                             style={{
                               width: `${Math.min(100, lottery.progress)}%`,
                             }}
@@ -409,7 +409,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               {/* Lottery result message */}
               {lotteryMsg && (
                 <div
-                  className={`mt-3 border p-3 ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"} `}
+                  className={`mt-3 border p-3 ${lotteryMsg.ok ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600" : "border-red-500/30 bg-red-500/10 text-red-600"}`}
                 >
                   {lotteryMsg.msg}
                 </div>

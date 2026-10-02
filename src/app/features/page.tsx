@@ -175,7 +175,7 @@ export default function FeaturesPage() {
         <h2 id="platform-stats-heading" className="sr-only">
           Platform Statistics
         </h2>
-        <div className="border-y border-white/[0.06] bg-gradient-to-r from-[#851DEF]/5 via-transparent to-[#851DEF]/5">
+        <div className="border-y border-white/[0.06] bg-gradient-to-r from-[var(--color-accent)]/5 via-transparent to-[var(--color-accent)]/5">
           <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-white/[0.06] md:grid-cols-4 md:divide-y-0">
           <Counter
             end={30}
@@ -211,7 +211,7 @@ export default function FeaturesPage() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-3 flex items-center gap-3">
               <span className="text-[var(--color-accent)]">✦</span>
-              <h2 className="" id="flagship-features-heading">Flagship Features</h2>
+              <h2 id="flagship-features-heading">Flagship Features</h2>
             </div>
           <p className="mb-12 max-w-2xl">
             The ten defining features of the platform — each explained in full
@@ -237,8 +237,8 @@ export default function FeaturesPage() {
         <div className="bg-white/[0.01] px-6 py-24 md:px-12 lg:px-20">
           <div className="mx-auto max-w-7xl">
             <div className="mb-3 flex items-center gap-3">
-              <span className="text-white/30">◈</span>
-              <h2 className="" id="all-features-heading">All {FEATURES.length} Features</h2>
+              <span className="text-white/60">◈</span>
+              <h2 id="all-features-heading">All {FEATURES.length} Features</h2>
             </div>
           <p className="mb-10">
             Filter by category. Every feature card includes a full description,
@@ -258,11 +258,11 @@ export default function FeaturesPage() {
                 <button
                   key={cat.key}
                   onClick={() => setActiveCategory(cat.key as Category | "all")}
-                  className={`flex cursor-pointer items-center gap-1.5 border px-4 py-2 ${activeCategory === cat.key ? "border-[#851DEF] bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.35)]" : "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/30 hover:text-white"} `}
+                  className={`flex cursor-pointer items-center gap-1.5 border px-4 py-2 ${activeCategory === cat.key ? "border-[var(--color-accent-bold)] bg-[var(--color-accent)] shadow-[0_0_20px_rgba(168,85,247,0.35)] text-white" : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/30 hover:text-white"}`}
                 >
                   {cat.icon} {cat.label}
                   <span
-                    className={`ml-1 px-1.5 py-0.5 ${activeCategory === cat.key ? "bg-white/20" : "bg-[#00000029] text-white/30"} `}
+                    className={`ml-1 px-1.5 py-0.5 ${activeCategory === cat.key ? "bg-white/20 text-white" : "bg-[#00000029] text-white/60"}`}
                   >
                     {count}
                   </span>
@@ -290,7 +290,7 @@ export default function FeaturesPage() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-3 flex items-center gap-3">
               <span className="text-white/30">◈</span>
-              <h2 className="" id="tech-stack-heading">Built With</h2>
+              <h2 id="tech-stack-heading">Built With</h2>
             </div>
           <p className="mb-10">
             Best-in-class services and frameworks — each chosen for reliability,
@@ -324,7 +324,7 @@ export default function FeaturesPage() {
       >
         <div className="relative overflow-hidden px-6 py-32">
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#851DEF]/8 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--color-accent)]/8 to-transparent" />
             <div className="absolute top-1/2 left-1/2 h-[400px] w-[1000px] -translate-x-1/2 -translate-y-1/2 bg-[var(--color-accent)] opacity-[0.07] blur-3xl" />
             <div
               className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(255,10,61,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(255,10,61,0.5)_1px,transparent_1px)] bg-[size:60px_60px]"

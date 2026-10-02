@@ -333,7 +333,7 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
                 className={`w-full py-3.5 px-5 rounded-[var(--radius-box)] font-extrabold text-sm border-0 mb-5 transition-[background-color,color,border-color,box-shadow,transform] ${pin.length === 6
                     ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white cursor-pointer shadow-[0_4px_20px_rgba(168,85,247,0.4)]"
                     : "bg-white/10 text-white/30 cursor-not-allowed shadow-none"
-                  } `}
+                  }`}
               >
                 {sanityContent?.submitButtonText ||
                   (status === "submitting"
@@ -355,7 +355,7 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
                   </button>
                 )}
 
-                <button type="button" onClick={() => { setStep("email"); setErrorMsg(""); }} className="bg-transparent border-none text-white/40 cursor-pointer text-xs mt-1">
+                <button type="button" onClick={() => { setStep("email"); setErrorMsg(""); }} className="transition-colors bg-transparent border-none text-white/60 hover:text-white cursor-pointer text-xs mt-1">
                   Change Email Address
                 </button>
               </div>
@@ -364,7 +364,7 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
 
           {/* Back Link */}
           <div className="mt-7 pt-4 border-t border-white/[0.08]">
-            <Link href="/book" className="text-xs text-white/40 no-underline font-semibold">
+            <Link href="/book" className="transition-colors text-xs text-[var(--color-accent-hover)] hover:text-white hover:underline font-semibold">
               ← Back to Booking Request Form
             </Link>
           </div>

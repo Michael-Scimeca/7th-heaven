@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-const SECRET =
+const SECRET: string =
   process.env.CREW_CALENDAR_SECRET ||
   process.env.SUPABASE_SERVICE_ROLE_KEY ||
   "7th-heaven-crew-cal-secret-salt-2026";

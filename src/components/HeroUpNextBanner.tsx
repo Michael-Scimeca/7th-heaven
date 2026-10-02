@@ -139,42 +139,42 @@ export default function HeroUpNextBanner() {
   useEffect(() => {
     fetchTourDatesCached().then((data) => {
       if (Array.isArray(data) && data.length > 0) {
-          const mapped: Show[] = data.map((s: Record<string, unknown>) => {
-            const venue = (s.venue as string) || "";
-            const city = (s.city as string) || "";
-            const state = (s.state as string) || "";
-            const isPrivate = (s.isPrivate as boolean) || false;
-            const explicitMap =
-              (s.directionsLink as string) || (s.mapUrl as string) || "";
-            const fallbackMap =
-              VENUE_LINKS[venue]?.mapUrl ||
-              (venue && city && !isPrivate
-                ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue} ${city} ${state}`)}`
-                : "");
-            const mapUrl = explicitMap || fallbackMap;
+        const mapped: Show[] = data.map((s: Record<string, unknown>) => {
+          const venue = (s.venue as string) || "";
+          const city = (s.city as string) || "";
+          const state = (s.state as string) || "";
+          const isPrivate = (s.isPrivate as boolean) || false;
+          const explicitMap =
+            (s.directionsLink as string) || (s.mapUrl as string) || "";
+          const fallbackMap =
+            VENUE_LINKS[venue]?.mapUrl ||
+            (venue && city && !isPrivate
+              ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${venue} ${city} ${state}`)}`
+              : "");
+          const mapUrl = explicitMap || fallbackMap;
 
-            return {
-              day: (s.day as string) || "TBD",
-              date: s.date as string,
-              venue,
-              city,
-              state,
-              time: (s.time as string) || "",
-              playTime: (s.playTime as string) || "",
-              info: (s.notes as string) || (s.info as string) || "",
-              mapUrl,
-              websiteUrl:
-                (s.ticketLink as string) || (s.websiteUrl as string) || "",
-              startDate: (s.startDate as string) || (s.date as string),
-              allAges: s.allAges as boolean | undefined,
-              isPrivate,
-            };
-          });
-          const ensured = ensureUpcomingTourDates(mapped);
-          const upcoming = ensured.filter((s) => !isShowOver(s));
-          if (upcoming.length > 0) setShows(upcoming);
-        }
-      })
+          return {
+            day: (s.day as string) || "TBD",
+            date: s.date as string,
+            venue,
+            city,
+            state,
+            time: (s.time as string) || "",
+            playTime: (s.playTime as string) || "",
+            info: (s.notes as string) || (s.info as string) || "",
+            mapUrl,
+            websiteUrl:
+              (s.ticketLink as string) || (s.websiteUrl as string) || "",
+            startDate: (s.startDate as string) || (s.date as string),
+            allAges: s.allAges as boolean | undefined,
+            isPrivate,
+          };
+        });
+        const ensured = ensureUpcomingTourDates(mapped);
+        const upcoming = ensured.filter((s) => !isShowOver(s));
+        if (upcoming.length > 0) setShows(upcoming);
+      }
+    })
       .catch(() => { });
   }, []);
 
@@ -253,17 +253,11 @@ export default function HeroUpNextBanner() {
         {/* Top Header: UP NEXT Badge + Compact Countdown Timer */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-2.5">
           <span
-            className={`st inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-fluid-caption font-bold ${
-              isHappeningNow
-                ? "border-emerald-500/50 bg-emerald-950/80 text-emerald-300"
-                : "border-amber-500/40 bg-amber-950/80 text-amber-200"
-            }`}
-          >
-            <span
-              className={`h-2 w-2 rounded-full ${
-                isHappeningNow ? "animate-ping bg-emerald-400" : "animate-pulse bg-[var(--color-amber)]"
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-fluid-caption font-bold ${isHappeningNow
+              ? "border-emerald-500/50 bg-emerald-950/80 text-emerald-300"
+              : "border-amber-500/40 bg-amber-950/80 text-amber-200"
               }`}
-            />
+          >
             <span>{isHappeningNow ? "HAPPENING NOW" : "UP NEXT"}</span>
           </span>
 

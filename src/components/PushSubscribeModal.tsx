@@ -123,7 +123,7 @@ export default function PushSubscribeModal({
           <div>
             <div className="mb-6 flex items-center gap-3">
               <div>
-                <h3 className="">Live Stream Push Alerts</h3>
+                <h3>Live Stream Push Alerts</h3>
                 <span className="text-purple-400">
                   7th Heaven Official Notifications
                 </span>

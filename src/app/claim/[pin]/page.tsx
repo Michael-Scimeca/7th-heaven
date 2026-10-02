@@ -233,7 +233,7 @@ export default function ClaimPage() {
   return (
     <main
       id="claim-page"
-      className={`page-container flex min-h-screen flex-col items-center justify-center px-6 ${status === "valid" ? "flash-bg" : " "} `}
+      className={`page-container flex min-h-screen flex-col items-center justify-center px-6 ${status === "valid" ? "flash-bg" : " "}`}
     >
       {/* Header */}
       <header className="mb-8 w-full max-w-sm text-center">
@@ -259,7 +259,7 @@ export default function ClaimPage() {
             <div className="rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
               <span className="mb-6 block text-5xl">🔐</span>
               <div className="title-group title-group--sub items-center text-center mb-6">
-                <h2 className="">Sign In Required</h2>
+                <h2>Sign In Required</h2>
                 <p>
                   You must be signed in to your 7th Heaven account to verify your
                   raffle win.
@@ -280,7 +280,7 @@ export default function ClaimPage() {
             <div className="rounded-[var(--radius-box)] border border-red-500/30 bg-[var(--color-bg-surface)] p-8 text-center">
               <span className="mb-6 block text-5xl">🚫</span>
               <div className="title-group title-group--sub items-center text-center mb-6">
-                <h2 className="">Not Your Claim</h2>
+                <h2>Not Your Claim</h2>
                 <p>
                   This PIN belongs to a different account. You must be signed in as
                   the winning account to verify.
@@ -304,7 +304,7 @@ export default function ClaimPage() {
               <div className="p-8 text-center">
                 <span className="mb-5 block text-6xl">🏆</span>
                 <div className="title-group title-group--sub items-center text-center mb-8">
-                  <h2 className="">Raffle Winner</h2>
+                  <h2>Raffle Winner</h2>
                   <p>
                     Show this screen to the 7th Heaven crew at the merch table.
                   </p>
@@ -409,7 +409,7 @@ export default function ClaimPage() {
             <div className="rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] p-8 text-center">
               <span className="mb-6 block text-5xl">❌</span>
               <div className="title-group title-group--sub items-center text-center mb-6">
-                <h2 className="">PIN Not Found</h2>
+                <h2>PIN Not Found</h2>
                 <p>
                   This PIN doesn't match an active raffle winner, or the raffle has
                   ended.

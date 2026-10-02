@@ -258,7 +258,7 @@ export default function FanUploadForm() {
     <div>
       <div className="mb-6 flex items-center gap-3">
         <div className="title-group title-group--section">
-          <h2 className="">Submit to Fan Wall</h2>
+          <h2>Submit to Fan Wall</h2>
           <p>Share your concert moments</p>
         </div>
       </div>
@@ -280,7 +280,7 @@ export default function FanUploadForm() {
             </svg>
           </div>
           <div className="title-group title-group--sub mb-6 items-center text-center">
-            <h3 className="">Moments Submitted!</h3>
+            <h3>Moments Submitted!</h3>
             <p>
               They are now live on your account and will appear on the global wall
               after admin review.
@@ -329,7 +329,7 @@ export default function FanUploadForm() {
                   setDragOver(false);
                   handleFilesChange(e.dataTransfer.files);
                 }}
-                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"} `}
+                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
               >
                 {previews.length > 0 ? (
                   <div className="absolute inset-0 z-20 grid grid-cols-3 gap-3 overflow-y-auto bg-black/90 p-4 sm:grid-cols-4 md:grid-cols-5">

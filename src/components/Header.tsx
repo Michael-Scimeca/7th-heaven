@@ -586,7 +586,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"} `}
+            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"}`}
             title="7th Heaven — Go to Home Page"
           >
             <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] select-none">
@@ -600,7 +600,7 @@ export function Header() {
                 <TransitionLink
                   key={link.href}
                   href={link.href}
-                  className={`nav-header-link relative text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${active ? "active" : ""} `}
+                  className={`nav-header-link relative text-[clamp(12px,0.95vw,17px)] whitespace-nowrap ${active ? "active" : ""}`}
                 >
                   {link.label}
                 </TransitionLink>
@@ -610,12 +610,12 @@ export function Header() {
 
           {/* ── RIGHT NAV & ACTIONS GROUP ── */}
           <nav
-            className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"} `}
+            className={`relative ml-auto flex shrink-0 items-center justify-end gap-2 sm:gap-3 md:flex-1 lg:gap-4 ${mobileOpen ? "z-[10001]" : "z-50"}`}
           >
             {/* Live Stream link */}
             <TransitionLink
               href="/live"
-              className={`nav-header-link relative z-50 hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""} `}
+              className={`nav-header-link relative z-50 hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/live") ? "active" : ""}`}
             >
               LIVE
             </TransitionLink>
@@ -623,7 +623,7 @@ export function Header() {
             {/* Cruise link */}
             <TransitionLink
               href="/cruise"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""} `}
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/cruise") ? "active" : ""}`}
             >
               CRUISE
             </TransitionLink>
@@ -631,7 +631,7 @@ export function Header() {
             {/* Book Us link */}
             <TransitionLink
               href="/book"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/book") ? "active" : ""} `}
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/book") ? "active" : ""}`}
             >
               BOOK US
             </TransitionLink>
@@ -639,7 +639,7 @@ export function Header() {
             {/* Contact link */}
             <TransitionLink
               href="/contact"
-              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""} `}
+              className={`nav-header-link relative hidden flex-col items-center justify-center py-1 text-[clamp(12px,0.95vw,17px)] whitespace-nowrap lg:inline-flex ${isNavActive("/contact") ? "active" : ""}`}
             >
               CONTACT
             </TransitionLink>
@@ -702,7 +702,7 @@ export function Header() {
 
                     {/* Overlapping Role Badge Circle with Full Role Name */}
                     <span
-                      className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full border-2 border-[#3c0366] px-1 py-0.5 text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg} `}
+                      className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full border-2 border-[#3c0366] px-1 py-0.5 text-[11px] text-white sm:-right-3 sm:h-5 sm:px-1.5 ${badgeBg}`}
                     >
                       {badgeText}
                     </span>
@@ -873,7 +873,7 @@ export function Header() {
                   <div className="flex min-h-0 flex-1 flex-col gap-8 px-6 py-6 sm:flex-row sm:items-center sm:gap-14 sm:px-10 sm:py-8 lg:gap-20">
                     <div
                       className={`group relative hidden aspect-[4/5] w-[180px] shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:block md:w-[220px] lg:w-[260px] transition-opacity duration-700 ${overlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-                        } `}
+                        }`}
                     >
                       {overlayMounted && (
                         <video
@@ -927,7 +927,7 @@ export function Header() {
                             className={`inline-flex w-fit max-w-full items-start self-start font-black tracking-tight leading-none whitespace-nowrap transition-colors text-[clamp(1.05rem,4.2vw,2.25rem)] sm:text-4xl md:text-5xl lg:text-6xl ${isActive
                                 ? "active cursor-default !text-[#c084fc]"
                                 : "!text-white hover:!text-[#c084fc] cursor-pointer"
-                              } `}
+                              }`}
                             style={{
                               opacity: overlayVisible ? 1 : 0,
                               transform: overlayVisible
@@ -957,7 +957,7 @@ export function Header() {
                         href="https://www.instagram.com/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! hover:!text-[#c084fc]"
+                        className="hover:!text-[#c084fc]"
                       >
                         Instagram
                       </a>
@@ -965,7 +965,7 @@ export function Header() {
                         href="https://www.facebook.com/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! hover:!text-[#c084fc]"
+                        className="hover:!text-[#c084fc]"
                       >
                         Facebook
                       </a>
@@ -973,7 +973,7 @@ export function Header() {
                         href="https://twitter.com/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! hover:!text-[#c084fc]"
+                        className="hover:!text-[#c084fc]"
                       >
                         Twitter
                       </a>
@@ -981,7 +981,7 @@ export function Header() {
                         href="https://www.youtube.com/user/7thheavenband"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="! hidden hover:!text-[#c084fc] sm:inline"
+                        className="hidden hover:!text-[#c084fc] sm:inline"
                       >
                         YouTube
                       </a>
@@ -1005,7 +1005,7 @@ export function Header() {
                             />
                           </TransitionLink>
                           <span
-                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg} `}
+                            className={`absolute -right-2 -bottom-0.5 flex h-4 items-center justify-center rounded-full px-1.5 py-0.5 text-[9px] ${badgeBg}`}
                           >
                             {badgeText}
                           </span>

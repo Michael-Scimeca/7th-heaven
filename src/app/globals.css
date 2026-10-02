@@ -67,8 +67,21 @@
   --color-text-muted: rgba(255, 255, 255, 0.55);
   --color-text-disabled: rgba(255, 255, 255, 0.40);
   --color-accent: #a855f7;
+  --color-accent-bold: #9333ea;
   --color-accent-hover: #c084fc;
   --color-accent-soft: rgba(168, 85, 247, 0.15);
+  /* ── Calibrated In-Gamut OKLCH Purple Scale (Hue 303.9°) via Color Expert ── */
+  --color-purple-50: oklch(97% 0.015 303.9);
+  --color-purple-100: oklch(93% 0.035 303.9);
+  --color-purple-200: oklch(88% 0.065 303.9);
+  --color-purple-300: oklch(80% 0.115 303.9);
+  --color-purple-400: oklch(72% 0.165 303.9);
+  --color-purple-500: oklch(64% 0.215 303.9);
+  --color-purple-600: oklch(55% 0.250 303.9);
+  --color-purple-700: oklch(45% 0.200 303.9);
+  --color-purple-800: oklch(35% 0.150 303.9);
+  --color-purple-900: oklch(25% 0.100 303.9);
+  --color-purple-950: oklch(16% 0.060 303.9);
   /* ── Action accent: the ONLY warm color. Use for clickable contact info + primary CTAs ── */
   --color-action: #f5b942;
   /* 11.6:1 on #05030a */
@@ -78,6 +91,7 @@
   --color-bg-base: #05030a;
   --color-bg-surface: #0f0f13;
   --color-bg-glass: rgba(18, 18, 24, 0.65);
+  --color-bg-inset: rgba(0, 0, 0, 0.16);
   --color-dark-purple: lab(37 69.67 -89.26);
   --color-indigo-300: #a5b4fc;
   --color-indigo-400: #818cf8;
@@ -99,9 +113,9 @@
   --radius-3xl: var(--radius-box);
   --radius-4xl: var(--radius-box);
   --radius-full: 9999px;
-  --color-accent-gradient-from: #6917BF;
-  --color-accent-gradient-via: #8c0eaf;
-  --color-accent-gradient-to: #6F008E;
+  --color-accent-gradient-from: #7e22ce;
+  --color-accent-gradient-via: #9333ea;
+  --color-accent-gradient-to: #c084fc;
   --animate-slide-in-right: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-backdrop-fade-in: backdropFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -529,7 +543,6 @@ header button,
     object-fit: contain;
     object-position: bottom right;
     display: block;
-    vertical-align: bottom;
     mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 85%, transparent 100%);
   }
@@ -823,7 +836,8 @@ address {
    ============================================= */
 :root {
   /* --- Brand Accent & Core Surface Theme --- */
-  --color-accent: #9333ea;
+  --color-accent: #a855f7;
+  --color-accent-bold: #9333ea;
   --color-accent-hover: #c084fc;
   --color-accent-soft: rgba(168, 85, 247, 0.15);
   --color-accent-glow: rgba(168, 85, 247, 0.4);
@@ -1571,7 +1585,6 @@ textarea:focus-visible,
 .input-glow-border:has(textarea)>textarea,
 div:has(> textarea)>textarea {
   display: block !important;
-  vertical-align: bottom !important;
 }
 
 /* Universal auto-glow for textarea elements */
@@ -1753,7 +1766,7 @@ button,
   border-radius: var(--radius-box);
   overflow: hidden;
   cursor: pointer;
-  background: linear-gradient(to right, #6917BF, #8c0eaf, #6F008E);
+  background: linear-gradient(to right, var(--color-purple-700, #7e22ce), var(--color-purple-600, #9333ea), var(--color-purple-400, #c084fc));
   padding: 1rem 2rem;
   font-size: 0.75rem;
   font-weight: 900;
@@ -1850,29 +1863,34 @@ button,
   /* text on accent-colored buttons/badges */
 
   /* ─── Brand Accent ─── */
-  --color-accent: #9333ea;
-  --color-accent-hover: #ab86f6;
-  --color-accent-soft: rgba(147, 51, 234, 0.15);
+  --color-accent: #a855f7;
+  --color-accent-bold: #9333ea;
+  --color-accent-hover: #c084fc;
+  --color-accent-soft: rgba(168, 85, 247, 0.15);
   /* tinted background for accent areas */
-  --color-accent-glow: rgba(147, 51, 234, 0.4);
+  --color-accent-glow: rgba(168, 85, 247, 0.4);
   /* subtle glow */
 
   /* ─── Semantic Status Colors ─── */
   --color-live: #ef4444;
   /* live stream / urgent indicators */
-  --color-success: #9333ea;
-  --color-warning: #9333ea;
+  --color-success: #22c55e;
+  /* ✅ green — completed, valid, positive */
+  --color-warning: #f59e0b;
+  /* ⚠️ amber — caution, degraded, approaching limits */
   --color-error: #ef4444;
-  --color-info: #9333ea;
+  /* ❌ red — errors, failures, destructive actions */
+  --color-info: #3b82f6;
+  /* ℹ️ blue — neutral info, tips, help */
 
   /* ─── UI Accent Colors — purposeful, not decorative ─── */
   --color-interactive: #3b82f6;
   /* links, secondary buttons */
   --color-accent-pink: #9333ea;
-  /* fan/social elements */
+  /* brand accent (purple) used for fan/social elements */
   --color-accent-green: #10b981;
   /* success / checked-in states */
-  --color-accent-amber: #9333ea;
+  --color-accent-amber: #f59e0b;
   /* warnings / next-show highlights */
 
   /* Legacy color aliases — retained for backward compat */
@@ -3114,7 +3132,6 @@ html.tour-sort-stuck #tour-sort-bar {
   -webkit-filter: none !important;
   box-shadow: none !important;
   text-shadow: none !important;
-  drop-shadow: none !important;
 }
 
 #header-logo {
@@ -4388,8 +4405,15 @@ button.active,
 
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #ffffff00, 0 0 0 4px #4e46e500;
-  /* custom focus ring */
+  /* 2-layer ring: dark inner gap → accent outer ring (WCAG 2.2 SC 2.4.11) */
+  box-shadow: 0 0 0 2px var(--color-bg-base, #05030a), 0 0 0 4px var(--color-focus-ring, rgba(192, 132, 252, 0.8));
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid Highlight !important;
+    outline-offset: 2px !important;
+  }
 }
 
 /* =============================================
@@ -6459,7 +6483,7 @@ span {
   position: sticky;
   top: 72px;
   height: auto;
-  min-height: 82vh;
+  min-height: 0;
   padding-top: 24px;
   width: 100%;
   display: flex;
@@ -6469,6 +6493,11 @@ span {
   border-radius: var(--radius-box) var(--radius-box) 0 0;
   will-change: transform;
   background: transparent;
+}
+
+.su-card:last-child {
+  min-height: 0;
+  padding-bottom: 0;
 }
 
 .su-card-inner {
@@ -6481,7 +6510,11 @@ span {
   align-items: flex-start;
   text-align: left;
   gap: 16px;
-  padding-bottom: 48px;
+  padding-bottom: 0;
+}
+
+.su-card:last-child .su-card-inner {
+  padding-bottom: 0;
 }
 
 .su-headline {

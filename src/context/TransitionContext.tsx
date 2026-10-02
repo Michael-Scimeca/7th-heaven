@@ -15,7 +15,7 @@ interface TransitionContextValue {
   mode: TransitionMode;
   setMode: (m: TransitionMode) => void;
   pendingHref: string | null;
-  requestTransition: (href: string) => void;
+  requestTransition: (href: string, force?: boolean) => void;
   clearPendingHref: () => void;
   isTransitioning: boolean;
   isCovered: boolean;
@@ -46,7 +46,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<TransitionMode>("idle");
   const [pendingHref, setPendingHref] = useState<string | null>(null);
 
-  const requestTransition = useCallback((href: string) => {
+  const requestTransition = useCallback((href: string, force = false) => {
     const currentPath =
       typeof window !== "undefined" ? window.location.pathname : "";
     if (href.startsWith("/studio") || currentPath.startsWith("/studio")) {
@@ -54,7 +54,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     }
     const cleanHref = href.split(/[?#]/)[0];
     const cleanPath = currentPath.split(/[?#]/)[0];
-    if (cleanHref === cleanPath) {
+    if (!force && cleanHref === cleanPath) {
       if (typeof window !== "undefined" && (window as any).__lenis) {
         (window as any).__lenis.scrollTo(0);
       } else {

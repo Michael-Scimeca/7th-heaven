@@ -17,7 +17,7 @@ export default function ProgressiveBlur({
   return (
     <>
       {(position === "top" || position === "both") && (
-        <div className={`progressive-blur is-top ${className} `} aria-hidden="true">
+        <div className={`progressive-blur is-top ${className}`} aria-hidden="true">
           {LAYERS.map((n) => (
             <div key={n} className={`progressive-blur__layer is--${n}`} />
           ))}
@@ -26,7 +26,7 @@ export default function ProgressiveBlur({
 
       {(position === "bottom" || position === "both") && (
         <div
-          className={`pointer-events-none fixed right-0 bottom-0 left-0 isolate z-40 h-[110px] w-full overflow-hidden bg-gradient-to-t from-[#05030a]/90 via-[#05030a]/50 to-transparent backdrop-blur-md ${className} `}
+          className={`pointer-events-none fixed right-0 bottom-0 left-0 isolate z-40 h-[110px] w-full overflow-hidden bg-gradient-to-t from-[#05030a]/90 via-[#05030a]/50 to-transparent backdrop-blur-md ${className}`}
           aria-hidden="true"
         />
       )}

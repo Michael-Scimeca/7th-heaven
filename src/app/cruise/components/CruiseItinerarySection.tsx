@@ -54,7 +54,7 @@ export default function CruiseItinerarySection({
                 Voyage Timeline
               </span>
             </div>
-            <h2 className="" id="itinerary-heading">
+            <h2 id="itinerary-heading">
               Day-by-Day{" "}
               <span className="accent-gradient-text">Voyage Itinerary</span>
             </h2>

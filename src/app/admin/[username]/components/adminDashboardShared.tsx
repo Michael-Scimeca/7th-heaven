@@ -140,7 +140,7 @@ export const SidebarDateButton = React.memo(
       <button
         type="button"
         onClick={() => show.date && onClick(show.date)}
-        className={`group flex w-full cursor-pointer items-center gap-2 px-2 py-1.5 text-left ${isSelected ? "" : isActiveWeek ? "" : " "} `}
+        className={`group flex w-full cursor-pointer items-center gap-2 px-2 py-1.5 text-left ${isSelected ? "" : isActiveWeek ? "" : " "}`}
       >
         <div className="flex min-w-[32px] shrink-0 flex-col items-center">
           <span className="text-[9px] text-white/40">{dayLabel}</span>
@@ -151,7 +151,7 @@ export const SidebarDateButton = React.memo(
           </span>
         </div>
         <div className="min-w-0 flex-1 nmp" >
-          <p className={` ${isSelected ? " " : isActiveWeek ? "/90" : " "} `}>
+          <p className={`${isSelected ? " " : isActiveWeek ? "/90" : " "}`}>
             {show.venue || show.venue_name}
           </p>
           {show.city && (

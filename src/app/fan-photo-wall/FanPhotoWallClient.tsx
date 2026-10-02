@@ -475,7 +475,7 @@ export default function FanPhotoWallClient({
           <div className="site-container mx-auto">
             <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h3 className="" id="pending-queue-heading">
+                <h3 id="pending-queue-heading">
                   {sanityContent?.pendingQueueTitle || "Pending Review Queue"}
                 </h3>
                 <p>
@@ -580,7 +580,7 @@ export default function FanPhotoWallClient({
       >
         <div className="site-container mx-auto">
           <div className="title-group title-group--section mb-6">
-            <h2 className="" id="featured-media-heading">{sanityContent?.sectionTitle || "FEATURED MEDIA"}</h2>
+            <h2 id="featured-media-heading">{sanityContent?.sectionTitle || "FEATURED MEDIA"}</h2>
             <p className="max-w-2xl">
               {sanityContent?.sectionDescription ||
                 "Featured media highlights, live concert captures, fan photos, and video moments from 7th Heaven shows across the country."}
@@ -676,7 +676,7 @@ export default function FanPhotoWallClient({
                             loading={index < 3 ? undefined : "lazy"}
                           />
                         )}
-                        <div className="transition-colors absolute inset-0 z-10 flex items-center justify-center bg-black/40 group-hover:bg-black/60 group-focus-visible:bg-black/60 motion-reduce:">
+                        <div className="transition-colors absolute inset-0 z-10 flex items-center justify-center bg-black/40 group-hover:bg-black/60 group-focus-visible:bg-black/60">
                           <SeventhButton className="pointer-events-none" tabIndex={-1}>
                             {mediaDetails.isVideo ? "Play Video" : "Expand Photo"}
                           </SeventhButton>
@@ -705,7 +705,6 @@ export default function FanPhotoWallClient({
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className=""
                 >
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                   <circle cx="8.5" cy="8.5" r="1.5" />
@@ -855,8 +854,8 @@ export default function FanPhotoWallClient({
                   <Camera className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="">Add Photo / Video to Sanity CMS</h3>
-                  <p className="">
+                  <h3>Add Photo / Video to Sanity CMS</h3>
+                  <p>
                     Create and publish a fan wall moment directly to Sanity CMS.
                   </p>
                 </div>
@@ -944,7 +943,7 @@ export default function FanPhotoWallClient({
                         }))
                       }
                       chevronColor="#c084fc"
-                      className="! !border-white/15 !bg-black/50 !px-5 !py-2.5 !font-normal"
+                      className="!border-white/15 !bg-black/50 !px-5 !py-2.5 !font-normal"
                     />
                   </div>
 

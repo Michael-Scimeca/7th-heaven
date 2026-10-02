@@ -72,7 +72,7 @@ export default function CruiseFaqSection({
                   className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-5 text-left sm:py-6"
                 >
                   <span
-                    className={`font-semibold ${isExpanded ? "text-purple-300" : "text-white"} `}
+                    className={`font-semibold ${isExpanded ? "text-purple-300" : "text-white"}`}
                   >
                     {faq.q}
                   </span>
@@ -84,7 +84,7 @@ export default function CruiseFaqSection({
                   id={`faq-answer-${i}`}
                   role="region"
                   aria-label={faq.q}
-                  className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"} `}
+                  className={`grid transition-[grid-template-rows,opacity] ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
                 >
                   <div className="overflow-hidden">
                     <div className="pl-3 pb-6 text-left">

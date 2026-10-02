@@ -268,7 +268,7 @@ export default function ProfilePhotoUploader({
                 onChange={(e) => setUrlInput(e.target.value)}
                 placeholder="https://example.com/my-photo.jpg"
                 required
-                className="focus-ring flex-1 border border-black/15 bg-white px-3 py-2 outline-none placeholder:text-black/40"
+                className="focus-ring flex-1 border border-black/15 bg-white px-3 py-2 outline-none placeholder:text-black/60"
               />
               <button
                 type="submit"
@@ -288,12 +288,12 @@ export default function ProfilePhotoUploader({
 
       {message && (
         <div
-          className={`mt-3 flex items-center justify-between rounded-[var(--radius-box)] px-4 py-2 ${message.type === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-800" : "border border-rose-200 bg-rose-50 text-rose-800"} `}
+          className={`mt-3 flex items-center justify-between rounded-[var(--radius-box)] px-4 py-2 ${message.type === "success" ? "border border-emerald-200 bg-emerald-50 text-emerald-800" : "border border-rose-200 bg-rose-50 text-rose-800"}`}
         >
           <span>{message.text}</span>
           <button
             onClick={() => setMessage(null)}
-            className="hover: ml-2 cursor-pointer text-black/50"
+            className="ml-2 cursor-pointer text-black/50"
           >
             ×
           </button>

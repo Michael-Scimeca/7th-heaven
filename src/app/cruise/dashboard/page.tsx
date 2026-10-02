@@ -177,7 +177,7 @@ export default function CruiseDashboardGate() {
           <span className="mb-6 block animate-[bounce_2s_infinite] text-5xl">
             🚢
           </span>
-          <h1 className="">Cruise Hub</h1>
+          <h1>Cruise Hub</h1>
           <p className="text-purple-400">Exclusive Passenger Community</p>
         </div>
 
@@ -272,7 +272,7 @@ export default function CruiseDashboardGate() {
                     setAuthTab("login");
                     setAuthError("");
                   }}
-                  className={`flex-1 cursor-pointer py-4 ${authTab === "login" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 hover:text-white"} `}
+                  className={`flex-1 cursor-pointer py-4 ${authTab === "login" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 hover:text-white"}`}
                 >
                   Log In
                 </button>
@@ -281,7 +281,7 @@ export default function CruiseDashboardGate() {
                     setAuthTab("register");
                     setAuthError("");
                   }}
-                  className={`flex-1 cursor-pointer py-4 ${authTab === "register" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 hover:text-white"} `}
+                  className={`flex-1 cursor-pointer py-4 ${authTab === "register" ? "border-b-2 border-purple-400 bg-white/[0.02]" : "text-white/40 hover:text-white"}`}
                 >
                   Register
                 </button>
@@ -339,7 +339,7 @@ export default function CruiseDashboardGate() {
                       <button
                         type="button"
                         onClick={() => router.replace("/cruise/demo")}
-                        className="transition-[filter] r flex w-full cursor-pointer items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 py-3 hover:brightness-110"
+                        className="transition-[filter] flex w-full cursor-pointer items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 py-3 hover:brightness-110"
                       >
                         ⚡ Instant Demo Access
                       </button>
@@ -422,7 +422,7 @@ export default function CruiseDashboardGate() {
                       <button
                         type="button"
                         onClick={() => router.replace("/cruise/demo")}
-                        className="transition-[filter] r flex w-full cursor-pointer items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 py-3 hover:brightness-110"
+                        className="transition-[filter] flex w-full cursor-pointer items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 py-3 hover:brightness-110"
                       >
                         ⚡ Instant Demo Access →
                       </button>

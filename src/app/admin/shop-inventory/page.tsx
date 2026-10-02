@@ -171,7 +171,7 @@ export default function ShopInventoryAdminPage() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <span className="mb-1 inline-block text-[10px]">Shop Backend</span>
-            <h1 className="" id="shop-inventory-heading">Inventory Management</h1>
+            <h1 id="shop-inventory-heading">Inventory Management</h1>
             {lowStockCount > 0 && (
               <p className="text-yellow-300">
                 ⚠️ {lowStockCount} variant{lowStockCount === 1 ? "" : "s"} at or
@@ -193,14 +193,14 @@ export default function ShopInventoryAdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("products")}
-            className={`rounded-lg px-4 py-2 ${activeTab === "products" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
+            className={`rounded-lg px-4 py-2 ${activeTab === "products" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
           >
             Products
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("orders")}
-            className={`rounded-lg px-4 py-2 ${activeTab === "orders" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
+            className={`rounded-lg px-4 py-2 ${activeTab === "orders" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
           >
             Orders ({orders.length})
           </button>
@@ -318,7 +318,7 @@ function ProductRow({
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border bg-white/[0.04] ${product.active ? "border-white/[0.12]" : "border-white/[0.06] opacity-50"} `}
+      className={`overflow-hidden rounded-2xl border bg-white/[0.04] ${product.active ? "border-white/[0.12]" : "border-white/[0.06] opacity-50"}`}
     >
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] p-4">
         <div className="flex min-w-0 items-center gap-3">
@@ -338,7 +338,7 @@ function ProductRow({
           )}
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="">{product.title}</h3>
+              <h3>{product.title}</h3>
               <span className="rounded bg-[#00000029] px-2 py-0.5 text-[10px] text-white/40">
                 {product.category}
               </span>
@@ -352,7 +352,7 @@ function ProductRow({
             type="button"
             disabled={busy}
             onClick={toggleActive}
-            className={`rounded-lg px-3 py-1.5 ${product.active ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-300" : "border border-white/10 bg-[#00000029] text-white/40"} `}
+            className={`rounded-lg px-3 py-1.5 ${product.active ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-300" : "border border-white/10 bg-[#00000029] text-white/40"}`}
           >
             {product.active ? "Active" : "Inactive"}
           </button>
@@ -552,7 +552,7 @@ function VariantRow({
           type="button"
           disabled={busy}
           onClick={toggleActive}
-          className={`rounded-lg px-2 py-1.5 text-[10px] ${variant.active ? "bg-emerald-500/15 text-emerald-300" : "bg-[#00000029] text-white/40"} `}
+          className={`rounded-lg px-2 py-1.5 text-[10px] ${variant.active ? "bg-emerald-500/15 text-emerald-300" : "bg-[#00000029] text-white/40"}`}
         >
           {variant.active ? "On" : "Off"}
         </button>
@@ -742,7 +742,7 @@ function AddProductModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
       <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
-          <h2 className="">Add Product</h2>
+          <h2>Add Product</h2>
           <button
             type="button"
             onClick={onClose}
@@ -932,7 +932,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
             <div className="flex items-center gap-2">
               <span>{order.tran_nbr}</span>
               <span
-                className={`rounded-lg border px-2 py-0.5 text-[10px] ${statusStyles[order.status]} `}
+                className={`rounded-lg border px-2 py-0.5 text-[10px] ${statusStyles[order.status]}`}
               >
                 {order.status}
               </span>

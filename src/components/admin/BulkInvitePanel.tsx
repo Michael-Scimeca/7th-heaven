@@ -247,7 +247,7 @@ export default function BulkInvitePanel() {
                 fileInputRef.current?.click();
               }
             }}
-            className={`flex w-full cursor-pointer flex-col items-center justify-center !border-2 !border-dashed border-white/10 p-8 text-center transition-transform ${isDragging ? "scale-[0.99] border-purple-500/50" : "border-white/10"} `}
+            className={`flex w-full cursor-pointer flex-col items-center justify-center !border-2 !border-dashed border-white/10 p-8 text-center transition-transform ${isDragging ? "scale-[0.99] border-purple-500/50" : "border-white/10"}`}
           >
             <input
               type="file"
@@ -317,7 +317,7 @@ export default function BulkInvitePanel() {
                 type="button"
                 onClick={clearList}
                 disabled={sending}
-                className="transition-colors hover: cursor-pointer border border-black/15 bg-black/5 px-4 py-2 text-black/70 hover:bg-black/10 disabled:opacity-30"
+                className="transition-colors cursor-pointer border border-black/15 bg-black/5 px-4 py-2 text-black/70 hover:bg-black/10 disabled:opacity-30"
               >
                 Clear List
               </button>
@@ -337,7 +337,7 @@ export default function BulkInvitePanel() {
           {/* Results Toast */}
           {results && (
             <div
-              className={`flex items-center gap-3 rounded-[var(--radius-box)] border p-4 ${results.failed > 0 ? "border-rose-200 bg-rose-50 text-rose-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"} `}
+              className={`flex items-center gap-3 rounded-[var(--radius-box)] border p-4 ${results.failed > 0 ? "border-rose-200 bg-rose-50 text-rose-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}
             >
               <span>{results.failed > 0 ? "" : ""}</span>
               <p>

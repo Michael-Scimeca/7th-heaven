@@ -1119,7 +1119,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   return (
     <main id="book-page" className="page-container relative min-h-screen">
       <header className="sr-only">
-        <h1 className="" id="book-page-title">Book 7th Heaven</h1>
+        <h1 id="book-page-title">Book 7th Heaven</h1>
       </header>
 
       <form
@@ -1226,7 +1226,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 />
 
                 {/* Alternate Dates */}
-                <div className="mt-8 ">
+                <div className="mt-8">
                   <SectionHeader
                     as="h3"
                     title="Flexible? Add Backup Dates"
@@ -1333,7 +1333,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] p-6 text-center">
                   <span className="mb-6 block text-4xl">📅</span>
                   <div className="title-group title-group--sub items-center text-center">
-                    <h4 className="">
+                    <h4>
                       {sanityContent?.sections?.find(
                         (s: any) => s.sectionId === "no_dates",
                       )?.title || "No Dates Selected Yet"}
@@ -1367,7 +1367,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                               <span className="mb-1 block">Show #{index + 1}</span>
-                              <h5 className="">{formattedDate}</h5>
+                              <h5>{formattedDate}</h5>
                             </div>
 
                             {/* Duplicate and Remove buttons */}
@@ -1575,7 +1575,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className={`cursor-pointer py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "} `}
+                                  className={`cursor-pointer py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
                                 >
                                   Share Main Info
                                 </button>
@@ -1614,7 +1614,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className={`cursor-pointer py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "} `}
+                                  className={`cursor-pointer py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
                                 >
                                   Use Separate Info
                                 </button>
@@ -1629,7 +1629,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   </span>
                                   <span className="text-right break-all">
                                     {formData.name || (
-                                      <span className="text-white/20">(empty)</span>
+                                      <span className="text-white/50 italic">(empty)</span>
                                     )}
                                     {formData.email && (
                                       <span className="mt-0.5 block text-white/40">
@@ -1644,7 +1644,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   </span>
                                   <span className="text-right break-all">
                                     {formData.venueName || (
-                                      <span className="text-white/20">(empty)</span>
+                                      <span className="text-white/50 italic">(empty)</span>
                                     )}
                                     {(formData.venueCity ||
                                       formData.venueState) && (
@@ -2404,7 +2404,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 : [...prev, option.id],
                             )
                           }
-                          className={`group flex w-full cursor-pointer items-start gap-3 border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"} `}
+                          className={`group flex w-full cursor-pointer items-start gap-3 border p-4 text-left ${isActive ? "border-purple-400 bg-cyan-500/20" : "border-white/10 bg-[#00000029] hover:bg-white/10"}`}
                         >
                           <span className="mt-0.5 text-xl">{option.icon}</span>
                           <div className="min-w-0 flex-1">
@@ -2539,7 +2539,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     {selectedType ? (
                       eventTypes.find((t) => t.id === selectedType)?.label
                     ) : (
-                      <span className="">—</span>
+                      <span>—</span>
                     )}
                   </span>
                 </div>
@@ -2811,7 +2811,7 @@ function MapPickerModal({
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="h-5 w-5 text-[#c27aff]" />
-            <h3 className="" id="map-picker-heading">
+            <h3 id="map-picker-heading">
               Google Maps Location & Address Picker
             </h3>
           </div>

@@ -284,7 +284,7 @@ export default function CustomVideoPlayer({
 
       {/* Top Header Overlay with Title & Close Button */}
       <div
-        className={`absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/80 via-black/40 to-transparent p-4 ${showControls ? "opacity-100" : "opacity-0"} `}
+        className={`absolute inset-x-0 top-0 z-30 flex items-center justify-between bg-gradient-to-b from-black/80 via-black/40 to-transparent p-4 ${showControls ? "opacity-100" : "opacity-0"}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex max-w-[80%] items-center gap-2">
@@ -299,7 +299,7 @@ export default function CustomVideoPlayer({
 
       {/* Bottom Custom Control Bar */}
       <div
-        className={`absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-4 pt-10 pb-4 ${showControls ? "opacity-100" : "opacity-0"} `}
+        className={`absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-4 pt-10 pb-4 ${showControls ? "opacity-100" : "opacity-0"}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Custom Progress Bar */}

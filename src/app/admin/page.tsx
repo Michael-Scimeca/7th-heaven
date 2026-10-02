@@ -285,7 +285,7 @@ export default function AdminGatewayPage() {
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
-                <h1 className="">
+                <h1>
                   Admin{" "}
                   <span className="text-[var(--color-accent)]">Access</span>
                 </h1>
@@ -303,7 +303,7 @@ export default function AdminGatewayPage() {
                     </p>
                   </div>
                   <div className="flex flex-col gap-3">
-                    <Link href="/fans" className="hover: text-[0.65rem]">
+                    <Link href="/fans" className="text-[0.65rem]">
                       ← Back to Fan Dashboard
                     </Link>
                     <button
@@ -324,7 +324,7 @@ export default function AdminGatewayPage() {
                   <div>
                     <label
                       htmlFor="root-admin-login-email"
-                      className="block text-[0.65rem] text-white/50"
+                      className="block text-xs text-white/70 font-medium mb-1"
                     >
                       Email
                     </label>
@@ -336,14 +336,14 @@ export default function AdminGatewayPage() {
                       placeholder="admin@7thheaven.com"
                       autoComplete="off"
                       data-lpignore="true"
-                      className="placeholder: focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
+                      className="focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/50 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
                       required
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="root-admin-login-password"
-                      className="block text-[0.65rem] text-white/50"
+                      className="block text-xs text-white/70 font-medium mb-1"
                     >
                       Password
                     </label>
@@ -355,7 +355,7 @@ export default function AdminGatewayPage() {
                       placeholder="••••••••"
                       autoComplete="new-password"
                       data-lpignore="true"
-                      className="placeholder: focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/50 px-4 py-3 text-white/30 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
+                      className="focus-ring w-full rounded-[var(--radius-box)] border border-white/10 bg-black/50 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:shadow-[0_0_12px_rgba(147,51,234,0.3)]"
                       required
                     />
                   </div>
@@ -458,7 +458,7 @@ export default function AdminGatewayPage() {
                       onBlur={() => setFocusedIndex(null)}
                       onChange={(e) => handleDigit(i, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(i, e)}
-                      className={`h-full w-full !p-0 text-center text-xl tabular-nums transition-[border-color,background-color,box-shadow,transform] ${focusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"} `}
+                      className={`h-full w-full !p-0 text-center text-xl tabular-nums transition-[border-color,background-color,box-shadow,transform] ${focusedIndex === i ? "relative z-10 scale-[1.08] border-purple-400 bg-purple-950/80 shadow-[0_0_25px_rgba(168,85,247,0.95)]" : digit ? "border-purple-500/80 shadow-[0_0_14px_rgba(147,51,234,0.4)]" : "border-white/10 text-white/40 hover:border-white/40"}`}
                     />
                   );
                 })}
@@ -496,28 +496,16 @@ export default function AdminGatewayPage() {
 
               {/* Resend section */}
               <div className="mt-4 text-center">
-                <p
-                  style={{
-                    fontSize: 12,
-                    color: "rgba(255,255,255,0.35)",
-                    marginBottom: 4,
-                  }}
-                >
+                <p className="mb-1 text-xs text-white/35">
                   Didn&apos;t receive the code?
                 </p>
                 <button
                   type="button"
                   onClick={handleResend}
                   disabled={verifyStatus === "resending"}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: verifyStatus === "resent" ? "#34d399" : "#a855f7",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                  }}
+                  className={`text-xs font-bold underline cursor-pointer border-none bg-transparent ${
+                    verifyStatus === "resent" ? "text-emerald-400" : "text-purple-400"
+                  }`}
                 >
                   {verifyStatus === "resending"
                     ? "Sending…"
@@ -527,13 +515,7 @@ export default function AdminGatewayPage() {
                 </button>
               </div>
 
-              <div
-                style={{
-                  height: 1,
-                  background: "rgba(255,255,255,0.08)",
-                  margin: "18px 0",
-                }}
-              />
+              <div className="my-4.5 h-px bg-white/[0.08]" />
 
               {/* Back to login */}
               <button
@@ -545,55 +527,18 @@ export default function AdminGatewayPage() {
                   setVerifyStatus("idle");
                   logout();
                 }}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "center",
-                  background: "none",
-                  border: "none",
-                  color: "rgba(255,255,255,0.4)",
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
+                className="block w-full cursor-pointer border-none bg-transparent text-center text-xs text-white/40"
               >
                 ← Back to Login
               </button>
 
               {/* Brand footer */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 8,
-                  marginTop: 16,
-                }}
-              >
-                <div
-                  style={{
-                    flex: 1,
-                    height: 1,
-                    background: "rgba(255,255,255,0.08)",
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: "0.1em",
-                    textTransform: "",
-                    color: "rgba(255,255,255,0.25)",
-                  }}
-                >
+              <div className="mt-4 flex items-center justify-center gap-2">
+                <div className="h-px flex-1 bg-white/[0.08]" />
+                <span className="text-[10px] font-bold tracking-widest text-white/25">
                   7TH HEAVEN · ADMIN ACCESS
                 </span>
-                <div
-                  style={{
-                    flex: 1,
-                    height: 1,
-                    background: "rgba(255,255,255,0.08)",
-                  }}
-                />
+                <div className="h-px flex-1 bg-white/[0.08]" />
               </div>
             </div>
           </>

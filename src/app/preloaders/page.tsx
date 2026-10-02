@@ -27,7 +27,7 @@ function DemoFrame({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h2 className="">{label}</h2>
+        <h2>{label}</h2>
         <button
           onClick={onPlay}
           disabled={playing}
@@ -37,8 +37,7 @@ function DemoFrame({
         </button>
       </div>
       <div
-        className="relative w-full overflow-hidden border border-white/10 bg-black"
-        style={{ aspectRatio: "16 / 11" }}
+        className="relative w-full overflow-hidden border border-white/10 bg-black aspect-[16/11]"
       >
         {/* fixed chrome -- never touched by any transition */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-4 py-2">
@@ -287,8 +286,8 @@ function CurtainWipeDemo() {
       <div className="flex flex-col gap-3 border border-white/10 bg-white/[0.03] p-3">
         <p>New page reveal</p>
         <div className="flex items-center justify-between gap-3">
-          <label className="">
-            Reveal speed <span className="">(exit + 0.25s, linked)</span>
+          <label>
+            Reveal speed <span>(exit + 0.25s, linked)</span>
           </label>
           <span>{revealDuration.toFixed(2)}s</span>
         </div>
@@ -304,7 +303,7 @@ function CurtainWipeDemo() {
         />
 
         <div className="flex items-center justify-between gap-3">
-          <label htmlFor="reveal-scale" className="">
+          <label htmlFor="reveal-scale">
             Reveal scale
           </label>
           <span>{revealScale.toFixed(2)}x</span>

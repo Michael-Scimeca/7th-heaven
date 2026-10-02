@@ -153,7 +153,7 @@ export default function CompleteProfilePage() {
                 🎸
               </div>
               <div className="title-group title-group--page items-center text-center">
-                <h1 className="">
+                <h1>
                   Welcome to the Family
                   {profile?.full_name
                     ? `, ${profile.full_name.split(" ")[0]}`
@@ -223,11 +223,11 @@ export default function CompleteProfilePage() {
 
                 {/* Proximity alerts */}
                 <div
-                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"} `}
+                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNotifications ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
                   <Toggle
                     id="complete-profile-notifications"
-                    label={<span className="/90 text-left">📍 Email me when 7th Heaven books a show near me</span>}
+                    label={<span className="text-left">📍 Email me when 7th Heaven books a show near me</span>}
                     checked={wantNotifications}
                     onChange={(val) => setWantNotifications(val)}
                     className="w-full"
@@ -253,11 +253,11 @@ export default function CompleteProfilePage() {
 
                 {/* Newsletter */}
                 <div
-                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"} `}
+                  className={`flex w-full items-center gap-3 border px-4 py-3 ${wantNewsletter ? "border-purple-500/40 bg-purple-600/10" : "border-white/10 bg-white/[0.02]"}`}
                 >
                   <Toggle
                     id="complete-profile-newsletter"
-                    label={<span className="/90 text-left">📧 Send me news, show updates &amp; exclusive drops</span>}
+                    label={<span className="text-left">📧 Send me news, show updates &amp; exclusive drops</span>}
                     checked={wantNewsletter}
                     onChange={(val) => setWantNewsletter(val)}
                     className="w-full"

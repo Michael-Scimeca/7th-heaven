@@ -150,7 +150,7 @@ function VideoCardVisual({
           fill
           loading={index < 6 ? "eager" : "lazy"}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover transition-opacity ${isLoaded ? "opacity-100" : "opacity-90"}  ${isHovered ? "scale-105" : "scale-100"} `}
+          className={`object-cover transition-opacity ${isLoaded ? "opacity-100" : "opacity-90"} ${isHovered ? "scale-105" : "scale-100"}`}
           onLoad={() => setIsLoaded(true)}
           onError={handleImageError}
         />
@@ -623,7 +623,7 @@ export default function MediaClient({
                 return (
                   <li key={`${activeFilter}-${video.id}`}>
                     <article
-                      className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] stagger-item flex-col overflow-hidden rounded-[var(--radius-box)] bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-4" : "lg:translate-y-4"} `}
+                      className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] stagger-item flex-col overflow-hidden rounded-[var(--radius-box)] bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-4" : "lg:translate-y-4"}`}
                       style={{ "--i": Math.min(index, 9) } as React.CSSProperties}
                     >
                       <div
@@ -796,10 +796,10 @@ export default function MediaClient({
                     <VideoIcon className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="">
+                    <h3>
                       {sanityContent?.modalTitle || "Add Video to Media Vault"}
                     </h3>
-                    <p className="/70">
+                    <p>
                       {sanityContent?.modalSubtitle ||
                         "Syncs to Sanity CMS & Media Hub"}
                     </p>
@@ -882,7 +882,7 @@ export default function MediaClient({
                             setCustomCategoryInput("");
                           }
                         }}
-                        className="hover: cursor-pointer text-[10px] text-purple-400"
+                        className="cursor-pointer text-[10px] text-purple-400"
                       >
                         {isCustomCategory ? "← Select List" : "+ New Category"}
                       </button>

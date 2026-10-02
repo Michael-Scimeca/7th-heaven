@@ -131,12 +131,7 @@ export default function AdminMap({
           key={mapKey}
           center={[39.8283, -98.5795]}
           zoom={3}
-          style={{
-            height: "100%",
-            width: "100%",
-            minHeight: "180px",
-            background: "#f8fafc",
-          }}
+          className="h-full w-full min-h-[180px] bg-slate-50"
           zoomControl={false}
           scrollWheelZoom={false}
           dragging={true}

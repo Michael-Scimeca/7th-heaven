@@ -261,7 +261,7 @@ function CruiseCabinsPricingSectionComponent({
         className="site-container page-stack relative z-20 -mt-85 lg:-mt-[460px]"
       >
         <div className="title-group title-group--section max-w-3xl text-left">
-          <h2 className="">
+          <h2>
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
               ?.title || "Staterooms & Cruise Rates"}
           </h2>
@@ -291,13 +291,13 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Guidelines Grid */}
-        <div className="grid grid-cols-1 gap-6  text-left md:grid-cols-12">
+        <div className="grid grid-cols-1 gap-6 text-left md:grid-cols-12">
           {/* Column 1: Ship Resources */}
           <div className="relative flex flex-col justify-between rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-4 lg:col-span-3">
             <div>
               <div className="mb-6 flex items-center gap-3">
                 <Ship className="h-6 w-6 shrink-0 text-purple-400" />
-                <h3 className="">Ship Resources</h3>
+                <h3>Ship Resources</h3>
               </div>
 
               <ul className="space-y-2">
@@ -615,11 +615,11 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className=" space-y-16">
+        <div className="space-y-16">
           <div className="relative p-0 text-left">
             <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div>
-                <h3 className="">Limited Group Rate Cabins ({activePriceYear})</h3>
+                <h3>Limited Group Rate Cabins ({activePriceYear})</h3>
               </div>
               {isAdmin && (
                 <AddCmsButton
@@ -896,7 +896,7 @@ function CruiseCabinsPricingSectionComponent({
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-2xl text-emerald-400">
                   <CheckCircle2 className="h-8 w-8 text-emerald-400" />
                 </div>
-                <h3 className="">Reservation Submitted!</h3>
+                <h3>Reservation Submitted!</h3>
                 <p className="mx-auto max-w-md">
                   Thank you,{" "}
                   <strong className="text-emerald-400">{formData.name}</strong>!
@@ -946,7 +946,7 @@ function CruiseCabinsPricingSectionComponent({
                 {/* GUEST 1 DETAILS & PAYMENT */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between border-b border-white/10 pb-6">
-                    <h3 className="">GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
+                    <h3>GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
                     <span className="text-purple-400">Primary Guest</span>
                   </div>
 
@@ -1036,7 +1036,6 @@ function CruiseCabinsPricingSectionComponent({
                           { value: "3XL", label: "3X-Large (3XL)" },
                         ]}
                         chevronColor="#f43f5e"
-                        className=""
                       />
                     </div>
                   </div>
@@ -1060,7 +1059,7 @@ function CruiseCabinsPricingSectionComponent({
                       <button
                         type="button"
                         onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                        className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm font-semibold transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600 text-white" : "border-white/20 bg-white/10 text-white/80 hover:text-white"} `}
+                        className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm font-semibold transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600 text-white" : "border-white/20 bg-white/10 text-white/80 hover:text-white"}`}
                       >
                         {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
                       </button>
@@ -1071,7 +1070,7 @@ function CruiseCabinsPricingSectionComponent({
                     <div className="animate-fade-in space-y-4">
                       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
-                          <label className="">Guest 2 Full Legal Name</label>
+                          <label>Guest 2 Full Legal Name</label>
                           <GlowInput
                             type="text"
                             value={guests[0].name}
@@ -1094,7 +1093,7 @@ function CruiseCabinsPricingSectionComponent({
 
                       <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                         <div>
-                          <label className="">Guest 2 Phone</label>
+                          <label>Guest 2 Phone</label>
                           <GlowInput
                             type="tel"
                             value={guests[0].phone}
@@ -1106,7 +1105,7 @@ function CruiseCabinsPricingSectionComponent({
                           />
                         </div>
                         <div>
-                          <label className="">
+                          <label>
                             Guest 2 Crown &amp; Anchor #
                           </label>
                           <GlowInput
@@ -1120,7 +1119,7 @@ function CruiseCabinsPricingSectionComponent({
                           />
                         </div>
                         <div>
-                          <label className="">Guest 2 T-Shirt Size</label>
+                          <label>Guest 2 T-Shirt Size</label>
                           <CustomDropdown
                             value={guests[0]?.tshirtSize || "L"}
                             onChange={(val) => updateGuest(0, "tshirtSize", val)}
@@ -1349,7 +1348,7 @@ function CruiseCabinsPricingSectionComponent({
                     }}
                   />
                 </div>
-                <h4 className="">{nameStr}</h4>
+                <h4>{nameStr}</h4>
                 <div className="mt-2 flex w-full flex-col items-center gap-1">
                   <SectionBadge label={roleStr} isActive />
                   {descStr && <p className="mt-0.5">{descStr}</p>}
@@ -1427,8 +1426,8 @@ function CruiseCabinsPricingSectionComponent({
                   />
                 </div>
               )}
-              <div className="relative z-10 flex flex-col  text-left">
-                <h3 className="">{band.name}</h3>
+              <div className="relative z-10 flex flex-col text-left">
+                <h3>{band.name}</h3>
                 {band.role && (
                   <div className="mt-2">
                     <SectionBadge label={band.role} />
@@ -1461,8 +1460,8 @@ function CruiseCabinsPricingSectionComponent({
                   <Ship className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="">Add Stateroom to Sanity CMS</h3>
-                  <p className="">
+                  <h3>Add Stateroom to Sanity CMS</h3>
+                  <p>
                     Create and publish a stateroom rate card directly to Sanity
                     CMS.
                   </p>

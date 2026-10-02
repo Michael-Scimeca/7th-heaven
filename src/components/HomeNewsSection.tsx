@@ -314,8 +314,8 @@ export default function HomeNewsSection({
                   <Newspaper className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="">Add Band News to Sanity</h3>
-                  <p className="/70">
+                  <h3>Add Band News to Sanity</h3>
+                  <p>
                     Publish a new band announcement or update to Sanity CMS.
                   </p>
                 </div>
@@ -358,7 +358,7 @@ export default function HomeNewsSection({
                   </div>
 
                   <div>
-                    <label className="block t">
+                    <label className="block">
                       Category
                     </label>
                     <GlowSelect

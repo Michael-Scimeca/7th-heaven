@@ -115,7 +115,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
   return (
     <main
       id="cruise-verify-page"
-      className={` ${outfit.className} page-container relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020818] px-4`}
+      className={`${outfit.className} page-container relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020818] px-4`}
     >
       {/* Background Glow */}
       <div className="pointer-events-none absolute top-1/3 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-3xl" />
@@ -125,7 +125,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
       <section id="cruise-verify" aria-labelledby="cruise-verify-heading" className="section relative">
         <div className="w-full max-w-md rounded-[var(--radius-box)] border border-white/10 bg-white/[0.04] p-8 text-center backdrop-blur-xl">
           {/* Header Icon & Title */}
-          <header className="">
+          <header>
             <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/30 bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 text-3xl shadow-inner">
               🚢
             </div>
@@ -254,22 +254,8 @@ export default function CruiseVerifyClient({
   return (
     <Suspense
       fallback={
-        <div
-          style={{
-            minHeight: "100vh",
-            background: "#020818",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              color: "rgba(255,255,255,0.3)",
-              fontSize: 14,
-              fontFamily: "Outfit, sans-serif",
-            }}
-          >
+        <div className="flex min-h-screen items-center justify-center bg-[#020818]">
+          <div className="font-outfit text-sm text-white/30">
             Loading…
           </div>
         </div>

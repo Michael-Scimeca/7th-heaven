@@ -58,7 +58,7 @@ export const TrashButton = React.forwardRef<
         title={title}
         aria-label={ariaLabel || title}
         disabled={disabled}
-        className={`group/trash flex cursor-pointer items-center justify-center transition-[background-color,border-color,color,transform] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${SIZE_CLASSES[size]}  ${VARIANT_CLASSES[variant]}  ${className} `}
+        className={`group/trash flex cursor-pointer items-center justify-center transition-[background-color,border-color,color,transform] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${SIZE_CLASSES[size]} ${VARIANT_CLASSES[variant]} ${className}`}
         {...props}
       >
         <svg

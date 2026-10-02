@@ -77,7 +77,7 @@ function ProductCard({
 
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div>
-          <h3 className="">{product.title}</h3>
+          <h3>{product.title}</h3>
           <p>{product.description}</p>
         </div>
 
@@ -94,7 +94,7 @@ function ProductCard({
                   type="button"
                   disabled={variantSoldOut}
                   onClick={() => setUserSelectedVariantId(variant.id)}
-                  className={`rounded-lg px-3 py-1.5 disabled:cursor-not-allowed disabled:line-through disabled:opacity-30 ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)]" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
+                  className={`rounded-lg px-3 py-1.5 disabled:cursor-not-allowed disabled:line-through disabled:opacity-30 ${selectedVariant.id === variant.id ? "bg-[var(--color-accent)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
                 >
                   {variant.label}
                 </button>
@@ -297,7 +297,7 @@ export default function PaymentTestShopPage() {
           <span className="mb-1 inline-block text-[10px]">
             Official Band Store &amp; Apparel
           </span>
-          <h1 className="">
+          <h1>
             7th Heaven Official Merch Store
           </h1>
           <p className="mt-2 max-w-xl">
@@ -346,7 +346,7 @@ export default function PaymentTestShopPage() {
               <div className="flex items-center gap-3">
                 <span className="text-2xl">💳</span>
                 <div>
-                  <h2 className="">Credit Processing &amp; Merchant System Setup</h2>
+                  <h2>Credit Processing &amp; Merchant System Setup</h2>
                   <p className="mt-0.5 text-emerald-400/90">
                     Step-by-step technical breakdown for configuring North
                     Merchant Processing &amp; Fan Store Credits
@@ -368,7 +368,7 @@ export default function PaymentTestShopPage() {
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     1
                   </span>
-                  <h4 className="">Merchant Environment Setup</h4>
+                  <h4>Merchant Environment Setup</h4>
                 </div>
                 <p>
                   To accept live credit card transactions, configure server
@@ -390,7 +390,7 @@ export default function PaymentTestShopPage() {
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     2
                   </span>
-                  <h4 className="">TAC Tokenization Flow</h4>
+                  <h4>TAC Tokenization Flow</h4>
                 </div>
                 <p>
                   Cart checkout triggers{" "}
@@ -409,7 +409,7 @@ export default function PaymentTestShopPage() {
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     3
                   </span>
-                  <h4 className="">Verification &amp; Inventory Sync</h4>
+                  <h4>Verification &amp; Inventory Sync</h4>
                 </div>
                 <p>
                   Upon gateway approval, North redirects to{" "}
@@ -426,7 +426,7 @@ export default function PaymentTestShopPage() {
                   <span className="flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400 bg-emerald-500/20 text-emerald-300">
                     4
                   </span>
-                  <h4 className="">Fan Loyalty &amp; Store Credit</h4>
+                  <h4>Fan Loyalty &amp; Store Credit</h4>
                 </div>
                 <p>
                   Fans earn 5% back in store credits on every purchase. Credits
@@ -443,7 +443,7 @@ export default function PaymentTestShopPage() {
           <div className="relative mb-8 overflow-hidden rounded-2xl border border-purple-500/30 bg-[#0e0e18] p-6">
             <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3 className="">7th Heaven Direct Store Features &amp; Architecture</h3>
+                <h3>7th Heaven Direct Store Features &amp; Architecture</h3>
                 <p>
                   Custom high-speed merchandise storefront with direct merchant
                   payment routing and real-time inventory synchronization.
@@ -548,7 +548,7 @@ export default function PaymentTestShopPage() {
           <div className="relative mb-8 overflow-hidden rounded-2xl border border-emerald-500/30 bg-[#0e0e18] p-6">
             <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3 className="">
+                <h3>
                   Roadmap: Closing the Gap With North&apos;s Real API Suite
                 </h3>
                 <p className="max-w-2xl">
@@ -679,7 +679,7 @@ export default function PaymentTestShopPage() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
-                className={`shrink-0 px-4 py-2 ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
+                className={`shrink-0 px-4 py-2 ${activeCategory === cat ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
               >
                 {cat}
               </button>
@@ -735,7 +735,7 @@ export default function PaymentTestShopPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <h2 className="">My Cart</h2>
+              <h2>My Cart</h2>
               <button
                 type="button"
                 onClick={() => setShowCart(false)}
@@ -816,7 +816,7 @@ export default function PaymentTestShopPage() {
             )}
 
             <div className="flex items-center justify-between border-t border-white/10 pt-4">
-              <span className="r text-white/50">Total</span>
+              <span className="text-white/50">Total</span>
               <span className="text-2xl text-[var(--color-accent)]">
                 ${cart.getTotalCost().toFixed(2)}
               </span>

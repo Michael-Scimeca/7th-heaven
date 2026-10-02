@@ -242,7 +242,7 @@ export default function NotificationsPage() {
                   aria-label={`Show ${tab.label} alerts`}
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`cursor-pointer rounded-[var(--radius-box)] border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"} `}
+                  className={`cursor-pointer rounded-[var(--radius-box)] border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
                 >
                   {tab.label}
                 </button>
@@ -326,7 +326,6 @@ export default function NotificationsPage() {
                         <SeventhButton
                           icon={false}
                           onClick={() => window.open(appDeepLink, "_self")}
-                          className=""
                         >
                           Open in ntfy App
                         </SeventhButton>

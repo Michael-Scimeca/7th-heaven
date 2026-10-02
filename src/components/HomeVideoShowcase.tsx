@@ -748,7 +748,7 @@ export default function HomeVideoShowcase({
       <div className="site-container relative z-10">
         <div className="mb-6 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <div className="title-group title-group--section max-w-2xl">
-            <h2 id="video-slider-heading" className="">
+            <h2 id="video-slider-heading">
               {sanityContent?.videoShowcaseTitle || "Video & Live Media"}
             </h2>
             <p>
@@ -793,7 +793,7 @@ export default function HomeVideoShowcase({
           ref={trackRef}
           data-slider="true"
           data-vertical={smooothyVertical}
-          className={`w-full cursor-grab overflow-hidden select-none active:cursor-grabbing ${smooothyVertical ? "flex h-[750px] flex-col" : "flex flex-nowrap"} `}
+          className={`w-full cursor-grab overflow-hidden select-none active:cursor-grabbing ${smooothyVertical ? "flex h-[750px] flex-col" : "flex flex-nowrap"}`}
           style={{
             touchAction: "pan-y",
             ...(smooothyVertical
@@ -854,7 +854,7 @@ export default function HomeVideoShowcase({
                       setPlayingVideoId(video.id);
                     }
                   }}
-                  className={`relative h-[300px] w-full sm:h-[400px] md:h-[500px] ${borderRadius || "rounded-[var(--radius-box)]"} cursor-pointer overflow-hidden bg-black/60 ${playingVideoId === video.id ? "shadow-[0_0_35px_rgba(217,70,239,0.6)] ring-2 ring-purple-400" : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"} `}
+                  className={`relative h-[300px] w-full sm:h-[400px] md:h-[500px] ${borderRadius || "rounded-[var(--radius-box)]"} cursor-pointer overflow-hidden bg-black/60 ${playingVideoId === video.id ? "shadow-[0_0_35px_rgba(217,70,239,0.6)] ring-2 ring-purple-400" : "group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.6)]"}`}
                 >
                   {playingVideoId === video.id ? (
                     <div className="relative z-30 h-full w-full bg-black">
@@ -884,7 +884,7 @@ export default function HomeVideoShowcase({
                       {/* Interactive Play Button Overlay (Centered in Middle of Video Card) */}
                       {playButtonVisibility !== "hidden" && (
                         <div
-                          className={`transition-opacity media-hover-overlay z-20 group-hover:opacity-0 ${playButtonVisibility === "always" ? "is-always-visible" : ""} `}
+                          className={`transition-opacity media-hover-overlay z-20 group-hover:opacity-0 ${playButtonVisibility === "always" ? "is-always-visible" : ""}`}
                         >
                           <GlassPlayButton
                             size="lg"
@@ -909,7 +909,7 @@ export default function HomeVideoShowcase({
                           </div>
                         )}
 
-                        <h3 className="sm: line-clamp-2">
+                        <h3 className="line-clamp-2">
                           {video.title}
                         </h3>
                       </div>
@@ -961,8 +961,8 @@ export default function HomeVideoShowcase({
                   <VideoIcon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="">Add Video to Sanity</h3>
-                  <p className="/70">
+                  <h3>Add Video to Sanity</h3>
+                  <p>
                     Publish a new YouTube video directly to the Sanity database.
                   </p>
                 </div>
@@ -1028,7 +1028,7 @@ export default function HomeVideoShowcase({
                             setCustomCategoryInput("");
                           }
                         }}
-                        className="hover: cursor-pointer text-purple-400"
+                        className="cursor-pointer text-purple-400"
                       >
                         {isCustomCategory ? "← Select List" : "+ New Category"}
                       </button>

@@ -177,7 +177,6 @@ export default function PastShowsClient({
           "A comprehensive history of 7th Heaven performances, festivals, club dates, and concert events played since 1985."
         }
         align="left"
-        className=""
       />
 
       {/* ── STATS BAR ── */}
@@ -232,7 +231,7 @@ export default function PastShowsClient({
             className={`cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium transition-[background-color,color,border-color,box-shadow,transform] ${selectedYear === "ALL" || selectedYear === "All"
               ? "bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(147,51,234,0.4)] hover:bg-purple-500 hover:scale-105"
               : "bg-white/10 text-white/80 border border-transparent hover:bg-purple-600/50 hover:text-white hover:border-purple-400/40 hover:scale-105"
-              } `}
+              }`}
           >
             {sanityContent?.allYearsLabel || "All Years"}
           </button>
@@ -244,7 +243,7 @@ export default function PastShowsClient({
               className={`cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium transition-[background-color,color,border-color,box-shadow,transform] ${selectedYear === y.year
                 ? "bg-[var(--color-accent)] text-white shadow-[0_0_12px_rgba(147,51,234,0.4)] hover:bg-purple-500 hover:scale-105"
                 : "bg-white/10 text-white/80 border border-transparent hover:bg-purple-600/50 hover:text-white hover:border-purple-400/40 hover:scale-105"
-                } `}
+                }`}
             >
               {y.year}
             </button>

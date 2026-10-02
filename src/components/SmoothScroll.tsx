@@ -4,6 +4,8 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function SmoothScroll({
   children,
@@ -26,8 +28,11 @@ export default function SmoothScroll({
         (navigator && navigator.maxTouchPoints > 0));
     if (typeof window === "undefined" || isDashboard || isTouchDevice) return;
 
+    // Register ScrollTrigger once globally so Lenis can drive it
+    gsap.registerPlugin(ScrollTrigger);
+
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.5,
@@ -35,6 +40,11 @@ export default function SmoothScroll({
     });
 
     (window as any).__lenis = lenis;
+
+    // Keep GSAP ScrollTrigger in sync with Lenis virtual scroll position.
+    // Without this, ScrollTrigger reads native window.scrollY while Lenis
+    // controls a virtual position — they diverge and cause scrub jitter.
+    lenis.on("scroll", ScrollTrigger.update);
 
     if (document.documentElement.classList.contains("is-preloading")) {
       lenis.stop();
@@ -67,6 +77,7 @@ export default function SmoothScroll({
     return () => {
       if (resizeRaf) cancelAnimationFrame(resizeRaf);
       cancelAnimationFrame(rafId);
+      lenis.off("scroll", ScrollTrigger.update);
       ro.disconnect();
       lenis.destroy();
       delete (window as any).__lenis;

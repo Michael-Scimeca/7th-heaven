@@ -226,8 +226,7 @@ export default function BlurTuner() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-4 left-4 z-[1000000] rounded-full border border-white/20 bg-black/80 px-4 py-2 text-sm font-semibold text-white shadow-lg"
-        style={{ marginBottom: "env(safe-area-inset-bottom)" }}
+        className="fixed bottom-4 left-4 z-[1000000] mb-[env(safe-area-inset-bottom)] rounded-full border border-white/20 bg-black/80 px-4 py-2 text-sm font-semibold text-white shadow-lg"
       >
         Tune
       </button>
@@ -240,8 +239,7 @@ export default function BlurTuner() {
   return (
     <aside
       aria-label="Design tuner"
-      className="fixed bottom-4 left-4 z-[1000000] max-h-[85dvh] w-[280px] overflow-y-auto overscroll-contain rounded-2xl border border-white/15 bg-[#0b0812]/95 p-4 text-white shadow-2xl"
-      style={{ marginBottom: "env(safe-area-inset-bottom)" }}
+      className="fixed bottom-4 left-4 z-[1000000] mb-[env(safe-area-inset-bottom)] max-h-[85dvh] w-[280px] overflow-y-auto overscroll-contain rounded-2xl border border-white/15 bg-[#0b0812]/95 p-4 text-white shadow-2xl"
     >
       <div className="mb-3 flex items-center justify-between">
         <strong className="text-sm">Top blur</strong>
@@ -317,7 +315,7 @@ export default function BlurTuner() {
                 onClick={() => update({ layers: l })}
                 aria-pressed={s.layers === l}
                 className={`rounded-lg py-1.5 text-xs font-semibold ${s.layers === l ? "bg-white text-black" : "bg-white/10 text-white"
-                  } `}
+                  }`}
               >
                 {l}
               </button>
@@ -370,7 +368,7 @@ export default function BlurTuner() {
                     className={`flex-1 rounded py-0.5 text-[10px] font-mono transition-colors ${Math.abs(val - p.r) < 0.01
                         ? "bg-purple-600 text-white  "
                         : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
-                      } `}
+                      }`}
                   >
                     {p.label}
                   </button>

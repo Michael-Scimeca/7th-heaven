@@ -191,7 +191,7 @@ export function AudienceAlertSetupCard({
   };
 
   return (
-    <div className={`rounded-2xl border border-white/10 bg-gradient-to-br from-purple-950/30 via-black/60 to-black/90 p-6 backdrop-blur-xl ${className} `}>
+    <div className={`rounded-2xl border border-white/10 bg-gradient-to-br from-purple-950/30 via-black/60 to-black/90 p-6 backdrop-blur-xl ${className}`}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div className="flex items-center gap-3">

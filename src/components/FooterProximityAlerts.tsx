@@ -323,7 +323,7 @@ export default function FooterProximityAlerts() {
       <div className="w-full min-w-0 flex-1">
         <div className="relative z-10 mb-6 flex flex-col items-start justify-between gap-4 border-b border-white/10 sm:flex-row sm:items-center">
           <div className="title-group title-group--sub mb-6">
-            <h3 className="">
+            <h3>
               Proximity & Show Alert Filters
             </h3>
             <p>

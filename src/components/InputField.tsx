@@ -55,11 +55,11 @@ export const InputField = forwardRef<
 
     return (
       <div
-        className={`flex w-full flex-col justify-start ${containerClassName}  ${className} `}
+        className={`flex w-full flex-col justify-start ${containerClassName} ${className}`}
       >
         {label && (
           <div className="flex items-center justify-between min-h-[24px] gap-2 mb-2">
-            <label htmlFor={inputId} className={`!mb-0 flex items-center ${labelClassName} `}>
+            <label htmlFor={inputId} className={`!mb-0 flex items-center ${labelClassName}`}>
               {label}
               {required && " *"}
             </label>
@@ -70,7 +70,7 @@ export const InputField = forwardRef<
             )}
           </div>
         )}
-        <div className={` ${glow ? "input-glow-border" : ""} w-full`}>
+        <div className={`${glow ? "input-glow-border" : ""} w-full`}>
           {multiline ? (
             <textarea
               ref={ref as React.Ref<HTMLTextAreaElement>}
@@ -82,7 +82,7 @@ export const InputField = forwardRef<
               aria-label={
                 props["aria-label"] || (label ? label : "Input field")
               }
-              className={`form-input ${inputClassName} `}
+              className={`form-input ${inputClassName}`}
               {...(props as any)}
             />
           ) : (
@@ -95,7 +95,7 @@ export const InputField = forwardRef<
               aria-label={
                 props["aria-label"] || (label ? label : "Input field")
               }
-              className={`form-input ${inputClassName} `}
+              className={`form-input ${inputClassName}`}
               {...(props as any)}
             />
           )}

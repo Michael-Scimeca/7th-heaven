@@ -244,12 +244,12 @@ export default function ShowCrewPanel({
             <button
               key={tab.id}
               onClick={() => setActiveSection(tab.id)}
-              className={`flex flex-1 cursor-pointer items-center justify-center gap-1.5 px-4 py-2.5 ${activeSection === tab.id ? "border-b-2 border-[var(--color-accent)] bg-[var(--color-accent)]/5" : "text-white/50 hover:bg-white/[0.02] hover:text-white"} `}
+              className={`flex flex-1 cursor-pointer items-center justify-center gap-1.5 px-4 py-2.5 ${activeSection === tab.id ? "border-b-2 border-[var(--color-accent)] bg-[var(--color-accent)]/5" : "text-white/50 hover:bg-white/[0.02] hover:text-white"}`}
             >
               <TabIcon className="h-3.5 w-3.5" />
               {tab.label}
               <span
-                className={`ml-1 rounded px-1.5 py-0.5 text-[var(--font-size-2xs)] ${activeSection === tab.id ? "bg-[var(--color-accent)]/20 text-[var(--color-accent)]" : "bg-[#00000029] text-white/30"} `}
+                className={`ml-1 rounded px-1.5 py-0.5 text-[var(--font-size-2xs)] ${activeSection === tab.id ? "bg-[var(--color-accent)]/20 text-[var(--color-accent)]" : "bg-[#00000029] text-white/30"}`}
               >
                 {tab.count}
               </span>
@@ -280,7 +280,7 @@ export default function ShowCrewPanel({
                     ({ c, i }) => (
                       <div
                         key={c.name || i}
-                        className={`flex items-center gap-3 border px-3 py-2 ${c.confirmed ? "border-emerald-500/15 bg-emerald-500/5" : "border-white/10 bg-white/[0.01]"} `}
+                        className={`flex items-center gap-3 border px-3 py-2 ${c.confirmed ? "border-emerald-500/15 bg-emerald-500/5" : "border-white/10 bg-white/[0.01]"}`}
                       >
                         <button
                           onClick={() => toggleConfirm(i)}
@@ -290,7 +290,7 @@ export default function ShowCrewPanel({
                           {c.confirmed ? (
                             <Check className="h-4 w-4 text-emerald-400" />
                           ) : (
-                            <Square className="/15 h-4 w-4" />
+                            <Square className="h-4 w-4" />
                           )}
                         </button>
                         <div className="min-w-0 flex-1">
@@ -301,7 +301,7 @@ export default function ShowCrewPanel({
                           </span>
                         </div>
                         <span
-                          className={`shrink-0 rounded px-2 py-0.5 text-[var(--font-size-2xs)] ${c.confirmed ? "border border-[var(--color-accent)]/30 bg-emerald-500/15" : "border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60"} `}
+                          className={`shrink-0 rounded px-2 py-0.5 text-[var(--font-size-2xs)] ${c.confirmed ? "border border-[var(--color-accent)]/30 bg-emerald-500/15" : "border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 text-[var(--color-accent)]/60"}`}
                         >
                           {c.role}
                         </span>
@@ -332,13 +332,13 @@ export default function ShowCrewPanel({
                         onKeyDown={(e) => e.key === "Enter" && addCrew()}
                         autoFocus
                         placeholder="Crew member name"
-                        className="placeholder: /15 focus-ring w-full border border-white/10 px-3 py-2 outline-none"
+                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="show-crew-new-role"
-                        className="mb-1 block text-[var(--font-size-2xs)] text-white/30"
+                        className="mb-1 block text-xs text-white/70 font-medium"
                       >
                         Role
                       </label>
@@ -392,7 +392,7 @@ export default function ShowCrewPanel({
                 >
                   <div className="relative flex shrink-0 flex-col items-center">
                     <div
-                      className={`h-3 w-3 border-2 ${event.time ? "border-[var(--color-accent)] bg-[var(--color-accent)]" : "border-white/10"} `}
+                      className={`h-3 w-3 border-2 ${event.time ? "border-[var(--color-accent)] bg-[var(--color-accent)]" : "border-white/10"}`}
                     />
                     {i < data.timeline.length - 1 && (
                       <div className="absolute top-3.5 h-6 w-px bg-[#00000029]" />
@@ -406,7 +406,7 @@ export default function ShowCrewPanel({
                     value={event.time}
                     onChange={(e) => updateTimeline(i, e.target.value)}
                     placeholder="e.g. 3:00 PM"
-                    className="placeholder: focus-ring flex-1 border-b border-white/10 px-1 py-1 text-white/10 outline-none"
+                    className="focus-ring flex-1 border-b border-white/10 bg-transparent px-1 py-1 text-white placeholder:text-white/40 outline-none"
                   />
                 </div>
               ),
@@ -421,7 +421,7 @@ export default function ShowCrewPanel({
             <div className="mb-3 flex items-center gap-3">
               <div className="h-1.5 flex-1 overflow-hidden bg-[#00000029]">
                 <div
-                  className={`h-full ${gearPct === 100 ? "bg-emerald-500" : gearPct >= 50 ? "bg-purple-600" : "bg-rose-500"} `}
+                  className={`h-full ${gearPct === 100 ? "bg-emerald-500" : gearPct >= 50 ? "bg-purple-600" : "bg-rose-500"}`}
                   style={{ width: `${gearPct}%` }}
                 />
               </div>
@@ -436,7 +436,7 @@ export default function ShowCrewPanel({
                 ({ item, i }) => (
                   <div
                     key={item.name}
-                    className={`flex items-center gap-2 border px-2.5 py-1.5 ${item.loaded ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/10 bg-white/[0.01]"} `}
+                    className={`flex items-center gap-2 border px-2.5 py-1.5 ${item.loaded ? "border-emerald-500/10 bg-emerald-500/5" : "border-white/10 bg-white/[0.01]"}`}
                   >
                     <button
                       onClick={() => toggleGear(i)}
@@ -445,11 +445,11 @@ export default function ShowCrewPanel({
                       {item.loaded ? (
                         <Check className="h-3.5 w-3.5 text-emerald-400" />
                       ) : (
-                        <Square className="/15 h-3.5 w-3.5" />
+                        <Square className="h-3.5 w-3.5" />
                       )}
                     </button>
                     <span
-                      className={`flex-1 ${item.loaded ? "text-white/50 line-through" : " "} `}
+                      className={`flex-1 ${item.loaded ? "text-white/50 line-through" : " "}`}
                     >
                       {item.name}
                     </span>
@@ -472,7 +472,7 @@ export default function ShowCrewPanel({
                     onKeyDown={(e) => e.key === "Enter" && addGearItem()}
                     autoFocus
                     placeholder="Gear item name"
-                    className="placeholder: /15 focus-ring flex-1 border border-white/10 px-3 py-1.5 outline-none"
+                    className="focus-ring flex-1 border border-white/10 bg-white/[0.03] px-3 py-1.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
                   />
                   <button
                     onClick={addGearItem}
@@ -508,7 +508,7 @@ export default function ShowCrewPanel({
                 onChange={(e) => setNewNote(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addNote()}
                 placeholder="Add a note... (parking info, power drops, venue contact, etc.)"
-                className="placeholder: /15 focus-ring flex-1 border border-white/10 px-3 py-2 outline-none"
+                className="focus-ring flex-1 border border-white/10 bg-white/[0.03] px-3 py-2 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
               />
               <button
                 onClick={addNote}
@@ -519,7 +519,7 @@ export default function ShowCrewPanel({
               </button>
             </div>
             {data.notes.length === 0 ? (
-              <div className="/15 py-6 text-center">
+              <div className="py-6 text-center">
                 No notes yet — add logistics info for the crew
               </div>
             ) : (
@@ -534,7 +534,7 @@ export default function ShowCrewPanel({
                       <span className="text-[var(--color-accent)]/50 text-[var(--font-size-2xs)]">
                         {note.author}
                       </span>
-                      <span className="/15 text-[var(--font-size-2xs)]">·</span>
+                      <span className="text-[var(--font-size-2xs)]">·</span>
                       <span className="text-[var(--font-size-2xs)] text-white/20">
                         {note.time}
                       </span>

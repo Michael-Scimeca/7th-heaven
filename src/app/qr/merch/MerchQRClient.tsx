@@ -324,7 +324,7 @@ export default function MerchQRClient({
             Show Night QR Express Store
           </div>
 
-          <h1 className="">
+          <h1>
             7th Heaven <span>Merch Express</span>
           </h1>
 
@@ -381,7 +381,7 @@ export default function MerchQRClient({
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🛍️</span>
                 <div>
-                  <h3 className="">Shopify Storefront Integration Blueprint</h3>
+                  <h3>Shopify Storefront Integration Blueprint</h3>
                   <p>
                     How this page connects live to your Shopify Storefront API
                   </p>
@@ -532,7 +532,7 @@ export default function MerchQRClient({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`shrink-0 cursor-pointer px-5 py-2.5 ${activeCategory === cat ? "scale-105 bg-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"} `}
+              className={`shrink-0 cursor-pointer px-5 py-2.5 ${activeCategory === cat ? "scale-105 bg-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:bg-white/10 hover:text-white"}`}
             >
               {cat === "All" && "🛒 All Merch"}
               {cat === "Apparel" && "👕 Apparel"}
@@ -641,7 +641,7 @@ export default function MerchQRClient({
                         key={size}
                         type="button"
                         onClick={() => setSelectedSize(size)}
-                        className={`h-10 w-12 cursor-pointer ${selectedSize === size ? "border border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:text-white"} `}
+                        className={`h-10 w-12 cursor-pointer ${selectedSize === size ? "border border-purple-400 bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.4)]" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
                       >
                         {size}
                       </button>
@@ -658,7 +658,7 @@ export default function MerchQRClient({
                   <button
                     type="button"
                     onClick={() => setFulfillmentMethod("pickup")}
-                    className={`cursor-pointer border p-4 text-left ${fulfillmentMethod === "pickup" ? "border-purple-500 bg-cyan-500/15 shadow-[0_0_20px_rgba(6,182,212,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"} `}
+                    className={`cursor-pointer border p-4 text-left ${fulfillmentMethod === "pickup" ? "border-purple-500 bg-cyan-500/15 shadow-[0_0_20px_rgba(6,182,212,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"}`}
                   >
                     <span className="mb-1 block text-xl">🎪</span>
                     <span className="block">Merch Table Pickup</span>
@@ -671,7 +671,7 @@ export default function MerchQRClient({
                   <button
                     type="button"
                     onClick={() => setFulfillmentMethod("shipping")}
-                    className={`cursor-pointer border p-4 text-left ${fulfillmentMethod === "shipping" ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(255,10,61,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"} `}
+                    className={`cursor-pointer border p-4 text-left ${fulfillmentMethod === "shipping" ? "border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(255,10,61,0.2)]" : "border-white/10 bg-[#00000029] text-white/50 hover:bg-white/10"}`}
                   >
                     <span className="mb-1 block text-xl">📦</span>
                     <span className="block">Ship to My Address</span>
@@ -722,7 +722,7 @@ export default function MerchQRClient({
               {/* Shipping Address Inputs if Shipping selected */}
               {fulfillmentMethod === "shipping" && (
                 <div className="animate-in fade-in space-y-3 border-t border-white/10 pt-2">
-                  <p className="">Shipping Address</p>
+                  <p>Shipping Address</p>
                   <div>
                     <input
                       type="text"
@@ -785,7 +785,7 @@ export default function MerchQRClient({
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🏃</span>
                 <div>
-                  <h3 className="">Left the Show? Switch to Shipping</h3>
+                  <h3>Left the Show? Switch to Shipping</h3>
                   <p>Enter your delivery address below</p>
                 </div>
               </div>

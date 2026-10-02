@@ -460,7 +460,7 @@ export default function MemberDashboard() {
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-white/10"></div>
                   </div>
-                  <span className="relative bg-[var(--color-bg-surface)] px-4 text-white/30">
+                  <span className="relative bg-[var(--color-bg-surface)] px-4 text-white/60">
                     Already a fan?
                   </span>
                 </div>
@@ -481,7 +481,7 @@ export default function MemberDashboard() {
                 </div>
               </div>
 
-              <div className="mt-8 border-t border-white/10 pt-8 text-center text-white/30">
+              <div className="mt-8 border-t border-white/10 pt-8 text-center text-white/60">
                 <p>
                   By creating an account, you agree to receive SMS proximity
                   notifications. You can turn these off at any time using the
@@ -518,7 +518,7 @@ export default function MemberDashboard() {
             />
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="">{member!.name}</h1>
+                <h1>{member!.name}</h1>
                 {/* Role label */}
                 {(() => {
                   const role = member?.role ?? "fan";
@@ -541,7 +541,7 @@ export default function MemberDashboard() {
                   };
                   return (
                     <span
-                      className={`inline-flex items-center border px-2 py-0.5 text-[var(--font-size-xs)] ${cfg.cls} `}
+                      className={`inline-flex items-center border px-2 py-0.5 text-[var(--font-size-xs)] ${cfg.cls}`}
                     >
                       {cfg.label}
                     </span>
@@ -627,17 +627,17 @@ export default function MemberDashboard() {
                     return (
                       <div
                         key={msg.id}
-                        className={`flex flex-col items-center justify-between gap-4 border bg-black/40 p-4 backdrop-blur-2xl sm:flex-row ${msg.color === "yellow" ? "border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]" : "border-white/10"} `}
+                        className={`flex flex-col items-center justify-between gap-4 border bg-black/40 p-4 backdrop-blur-2xl sm:flex-row ${msg.color === "yellow" ? "border-yellow-400/40 shadow-[0_0_20px_rgba(250,204,21,0.1)]" : "border-white/10"}`}
                       >
                         <div className="flex w-full items-center gap-4">
                           <div
-                            className={`flex h-12 w-12 flex-shrink-0 items-center justify-center text-xl shadow-inner ${msg.color === "yellow" ? "border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500" : "border border-white/10 bg-[#00000029]"} `}
+                            className={`flex h-12 w-12 flex-shrink-0 items-center justify-center text-xl shadow-inner ${msg.color === "yellow" ? "border border-yellow-400/30 bg-gradient-to-br from-yellow-400/20 to-amber-500/10 text-yellow-500" : "border border-white/10 bg-[#00000029]"}`}
                           >
                             {msg.icon}
                           </div>
                           <div className="flex-1">
                             <div className="mb-1 flex items-center gap-2">
-                              <h4 className="">{msg.title}</h4>
+                              <h4>{msg.title}</h4>
                               {msg.isNew && (
                                 <span className="rounded-lg bg-yellow-500 px-2 py-0.5 text-[var(--font-size-2xs)] shadow-[0_0_10px_rgba(250,204,21,0.5)]">
                                   New
@@ -722,7 +722,7 @@ export default function MemberDashboard() {
               {myPhotos.map((photo: any) => (
                 <div
                   key={photo.id}
-                  className={`group relative overflow-hidden border bg-black/40 backdrop-blur-2xl ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]" : photo.approved ? "border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]" : "border-white/10"} `}
+                  className={`group relative overflow-hidden border bg-black/40 backdrop-blur-2xl ${photo.rejected ? "border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.05)]" : photo.approved ? "border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.05)]" : "border-white/10"}`}
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
                     <Image
@@ -770,7 +770,7 @@ export default function MemberDashboard() {
                       </div>
                     )}
 
-                    <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-2 text-[0.65rem] text-white/30">
+                    <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-2 text-[0.7rem] text-white/60">
                       {photo.venue && (
                         <span className="flex items-center gap-1">
                           <MapPin className="text-purple-400 shrink-0 h-3 w-3" />{" "}
@@ -924,8 +924,8 @@ export default function MemberDashboard() {
                     {/* Order header */}
                     <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.02] px-4 py-2.5">
                       <div className="flex items-center gap-4">
-                        <span className="text-white/30">{order.id}</span>
-                        <span className="text-white/20">{order.date}</span>
+                        <span className="text-white/70 font-mono">{order.id}</span>
+                        <span className="text-white/50">{order.date}</span>
                       </div>
                       <span className={`${order.statusColor}`}>
                         {order.status}
@@ -967,11 +967,10 @@ export default function MemberDashboard() {
       {/* Full Screen Flash Overlay */}
       {isFlashing && (
         <div
-          className="pointer-events-none fixed inset-0 z-[9999] flex items-center justify-center"
-          style={{ animation: "strobe 0.15s ease-in-out infinite" }}
+          className="pointer-events-none fixed inset-0 z-[9999] flex items-center justify-center animate-[strobe_0.15s_ease-in-out_infinite]"
         >
           <div className="scale-125 rotate-3 border-8 border-green-500 p-10 text-center shadow-[0_0_100px_rgba(34,197,94,1)] sm:scale-150">
-            <h1 className="">WINNER</h1>
+            <h1>WINNER</h1>
             <p className="mt-4">CLAIMING PRIZE</p>
           </div>
         </div>

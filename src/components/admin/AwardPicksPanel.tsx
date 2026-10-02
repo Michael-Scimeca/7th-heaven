@@ -205,7 +205,7 @@ export default function AwardPicksPanel() {
             <button
               key={pick.id}
               onClick={() => setSelectedPick(pick.id)}
-              className={`cursor-pointer border p-3 text-center ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"} `}
+              className={`cursor-pointer border p-3 text-center ${selectedPick === pick.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 shadow-[0_0_15px_rgba(255,10,61,0.2)]" : "border-white/10 bg-white/[0.02]"}`}
             >
               <div
                 className="mx-auto flex h-11 w-11 items-center justify-center"
@@ -218,7 +218,7 @@ export default function AwardPicksPanel() {
                 7H
               </div>
               <p>{pick.name}</p>
-              <p className={` ${rarityColors[pick.rarity]} `}>{pick.rarity}</p>
+              <p className={`${rarityColors[pick.rarity]}`}>{pick.rarity}</p>
             </button>
           ))}
         </div>
@@ -232,7 +232,7 @@ export default function AwardPicksPanel() {
             <button
               key={r.id}
               onClick={() => setSelectedReason(r.id)}
-              className={`cursor-pointer border px-3 py-2 text-left ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"} `}
+              className={`cursor-pointer border px-3 py-2 text-left ${selectedReason === r.id ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10" : "border-white/10 bg-white/[0.02]"}`}
             >
               <span>{r.label}</span>
             </button>
@@ -266,7 +266,7 @@ export default function AwardPicksPanel() {
               <button
                 key={fan.id}
                 onClick={() => setSelectedFan(fan)}
-                className={`w-full cursor-pointer border-b border-white/10 px-4 py-2.5 text-left last:border-0 ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10" : "hover:bg-white/[0.03]"} `}
+                className={`w-full cursor-pointer border-b border-white/10 px-4 py-2.5 text-left last:border-0 ${selectedFan?.id === fan.id ? "bg-[var(--color-accent)]/10" : "hover:bg-white/[0.03]"}`}
               >
                 <span>{fan.full_name || "Unnamed"}</span>
                 <span className="ml-2 text-white/30">{fan.email}</span>
@@ -304,7 +304,7 @@ export default function AwardPicksPanel() {
       {/* Result */}
       {result && (
         <div
-          className={`rounded-lg border p-3 ${result.ok ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/30 bg-red-500/10 text-red-400"} `}
+          className={`rounded-lg border p-3 ${result.ok ? "border-emerald-500/30 bg-emerald-500/10 text-[var(--color-accent)]" : "border-red-500/30 bg-red-500/10 text-red-400"}`}
         >
           {result.msg}
         </div>

@@ -43,7 +43,7 @@ export default function CruisePortsCatalogSection({
                 {sectionTagline}
               </span>
             </div>
-            <h2 className="" id="ports-heading">{sectionTitle}</h2>
+            <h2 id="ports-heading">{sectionTitle}</h2>
             <p className="text-secondary mt-2 text-fluid-body">
               Discover tropical paradises, pristine beaches, and breathtaking
               Caribbean destinations featured on our upcoming concert cruise
@@ -124,7 +124,7 @@ export default function CruisePortsCatalogSection({
                                 isActive
                                   ? "z-10 border-[var(--color-amber)] ring-2 shadow-amber-500/30 ring-[var(--color-amber)]/60"
                                   : "border-white/20 hover:border-white/60"
-                              } `}
+                              }`}
                               title={`View photo ${gIdx + 1}`}
                             >
                               <Image

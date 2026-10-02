@@ -56,7 +56,7 @@ export function PageHero({
               </div>
             )}
             <div
-              className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"} `}
+              className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"}`}
               style={gapStyle}
             >
               <h1
@@ -67,7 +67,7 @@ export function PageHero({
               </h1>
               {subtitle && (
                 <p
-                  className={`text-body text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"} `}
+                  className={`text-body text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
                 >
                   {subtitle}
                 </p>
@@ -97,7 +97,7 @@ export function PageHero({
             </div>
           )}
           <div
-            className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"} `}
+            className={`title-group title-group--page w-full ${isCenter ? "items-center text-center" : "items-start text-left"}`}
             style={gapStyle}
           >
             <h1
@@ -108,7 +108,7 @@ export function PageHero({
             </h1>
             {subtitle && (
               <p
-                className={`text-body text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"} `}
+                className={`text-body text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
               >
                 {subtitle}
               </p>

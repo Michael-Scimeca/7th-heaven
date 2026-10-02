@@ -453,14 +453,12 @@ export function RoleEmailDirectory({
                     <div className="text-right flex items-center justify-end gap-1.5">
                       <SeventhButton
                         href={`mailto:${user.email}`}
-                        className=""
                       >
                         Email
                       </SeventhButton>
                       {user.phone && (
                         <SeventhButton
                           href={`sms:${user.phone.replace(/[^0-9]/g, "")}`}
-                          className=""
                         >
                           Text
                         </SeventhButton>

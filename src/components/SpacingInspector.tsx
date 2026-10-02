@@ -1188,7 +1188,7 @@ export default function SpacingInspector() {
               className={`rounded border px-2 py-1 text-[11px] font-mono transition shadow ${showOverlays && (showPadding || showMargin)
                   ? "border-red-500/60 bg-red-950/90 text-red-200 hover:bg-red-900 hover:text-white"
                   : "border-emerald-500/60 bg-emerald-950/90 text-emerald-200 hover:bg-emerald-900 hover:text-white"
-                } `}
+                }`}
             >
               {showOverlays && (showPadding || showMargin)
                 ? "🚫 HIDE PADDING & MARGIN"
@@ -1239,7 +1239,7 @@ export default function SpacingInspector() {
                         ? "bg-red-600 text-white shadow"
                         : "bg-purple-600 text-white shadow"
                   : "text-zinc-400 hover:text-white hover:bg-white/5"
-                } `}
+                }`}
             >
               {label}
             </button>

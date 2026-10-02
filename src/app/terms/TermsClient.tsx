@@ -48,7 +48,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 aria-labelledby={`${secId}-heading`}
               >
                 <div className="title-group title-group--section">
-                  <h2 className="" id={`${secId}-heading`}>
+                  <h2 id={`${secId}-heading`}>
                     {sec.title || `${idx + 1}. Policy Section`}
                   </h2>
                   {sec.subtitle && <p>{sec.subtitle}</p>}

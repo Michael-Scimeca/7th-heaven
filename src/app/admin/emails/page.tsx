@@ -94,7 +94,7 @@ export default function EmailPreviewPage() {
               <button
                 key={c}
                 onClick={() => setActiveCategory(c)}
-                className={`cursor-pointer px-3 py-1 ${activeCategory === c ? "bg-[var(--color-accent)]" : "bg-white/[0.03] text-white/30"} `}
+                className={`cursor-pointer px-3 py-1 ${activeCategory === c ? "bg-[var(--color-accent)]" : "bg-white/[0.03] text-white/30"}`}
               >
                 {c}
               </button>
@@ -107,7 +107,7 @@ export default function EmailPreviewPage() {
               <button
                 key={t.id}
                 onClick={() => setActiveId(t.id)}
-                className={`group w-full cursor-pointer p-4 text-left ${activeId === t.id ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10" : "border border-transparent"} `}
+                className={`group w-full cursor-pointer p-4 text-left ${activeId === t.id ? "border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10" : "border border-transparent"}`}
               >
                 <div className="flex items-center justify-between">
                   <span
@@ -116,7 +116,7 @@ export default function EmailPreviewPage() {
                     {t.name}
                   </span>
                   <span
-                    className={`rounded-lg px-2 py-0.5 ${t.status === "live" ? "border border-[var(--color-accent)]/30 bg-emerald-500/10" : "border border-white/20 bg-purple-600/10"} `}
+                    className={`rounded-lg px-2 py-0.5 ${t.status === "live" ? "border border-[var(--color-accent)]/30 bg-emerald-500/10" : "border border-white/20 bg-purple-600/10"}`}
                   >
                     {t.status}
                   </span>
@@ -135,9 +135,9 @@ export default function EmailPreviewPage() {
           {/* Toolbar */}
           <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-[#08080c] px-6">
             <div className="flex items-center gap-3">
-              <h2 className="">{active.name}</h2>
+              <h2>{active.name}</h2>
               <span
-                className={`rounded-lg px-2 py-0.5 ${active.status === "live" ? "bg-emerald-500/10 text-[var(--color-accent)]" : "bg-purple-600/10"} `}
+                className={`rounded-lg px-2 py-0.5 ${active.status === "live" ? "bg-emerald-500/10 text-[var(--color-accent)]" : "bg-purple-600/10"}`}
               >
                 {active.status}
               </span>
@@ -151,7 +151,7 @@ export default function EmailPreviewPage() {
                   placeholder="test@example.com"
                   value={testEmail}
                   onChange={(e) => setTestEmail(e.target.value)}
-                  className="placeholder: w-[180px] text-white/20 outline-none"
+                  className="w-[180px] bg-transparent text-white placeholder:text-white/40 outline-none"
                 />
                 <button
                   onClick={handleSendTest}
@@ -168,13 +168,13 @@ export default function EmailPreviewPage() {
                 <button
                   aria-label="Previous"
                   onClick={() => setViewMode("preview")}
-                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"} `}
+                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
                 >
                   Preview
                 </button>
                 <button
                   onClick={() => setViewMode("code")}
-                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"} `}
+                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
                 >
                   HTML
                 </button>
@@ -185,7 +185,7 @@ export default function EmailPreviewPage() {
           {/* Feedback Toast */}
           {sendResult && (
             <div
-              className={`animate-[fade-in_0.3s_ease-out] px-6 py-2 text-center ${sendResult.success ? "border-b border-[var(--color-accent)]/30 bg-emerald-500/10" : "border-b border-red-500/20 bg-red-500/10 text-red-400"} `}
+              className={`animate-[fade-in_0.3s_ease-out] px-6 py-2 text-center ${sendResult.success ? "border-b border-[var(--color-accent)]/30 bg-emerald-500/10" : "border-b border-red-500/20 bg-red-500/10 text-red-400"}`}
             >
               {sendResult.message}
             </div>
@@ -198,8 +198,7 @@ export default function EmailPreviewPage() {
                 <div className="overflow-hidden border border-white/10">
                   <iframe
                     srcDoc={html}
-                    className="w-full border-0"
-                    style={{ height: 900 }}
+                    className="h-[900px] w-full border-0"
                     sandbox="allow-same-origin"
                     title={`Preview: ${active.name}`}
                   />

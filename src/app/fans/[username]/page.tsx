@@ -729,7 +729,7 @@ export default function FanAccountPage({
       <main className="site-container flex min-h-screen items-center justify-center py-48">
         <div className="text-center">
           <div className="title-group title-group--page mb-8 items-center text-center">
-            <h1 className="">
+            <h1>
               Fan <span className="gradient-text">Account</span>
             </h1>
             <p className="max-w-sm">
@@ -791,13 +791,13 @@ export default function FanAccountPage({
           <div className="inline-flex items-center rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-1 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
             <button
               onClick={() => setDashboardView("fan")}
-              className={`cursor-pointer px-6 py-2 ${dashboardView === "fan" ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : "text-white/40 hover:text-white"} `}
+              className={`cursor-pointer px-6 py-2 ${dashboardView === "fan" ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : "text-white/40 hover:text-white"}`}
             >
               Fan Dashboard
             </button>
             <button
               onClick={() => setDashboardView("cruise")}
-              className={`cursor-pointer px-6 py-2 ${dashboardView === "cruise" ? "bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-white/40"} `}
+              className={`cursor-pointer px-6 py-2 ${dashboardView === "cruise" ? "bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-white/40"}`}
             >
               Cruise Hub
             </button>
@@ -812,7 +812,7 @@ export default function FanAccountPage({
             <div>
               <div className="mb-6 flex items-center gap-4">
                 <div>
-                  <h2 className="">Cruise Hub</h2>
+                  <h2>Cruise Hub</h2>
                   <p>Passenger Area</p>
                 </div>
               </div>
@@ -990,7 +990,7 @@ export default function FanAccountPage({
             className="section"
           >
             <SectionHeader id="backstage-feed-heading" title="Backstage Live Feed" visuallyHidden />
-            <div className="">
+            <div>
               {isLive && liveFeeds.length > 0 ? (
                 <div className="space-y-3">
                   {liveFeeds.map((feed) => (
@@ -1116,7 +1116,7 @@ export default function FanAccountPage({
                                       return (
                                         <div
                                           key={j}
-                                          className={`h-5 w-5 ${seed > 48 ? "bg-white" : " "} `}
+                                          className={`h-5 w-5 ${seed > 48 ? "bg-white" : " "}`}
                                         />
                                       );
                                     })}
@@ -1125,7 +1125,7 @@ export default function FanAccountPage({
                                 <div className="text-center">
                                   <p className="mb-1">Claim PIN</p>
                                   <p
-                                    className={` ${isClaimed ? "text-emerald-400 line-through" : "text-yellow-500"} `}
+                                    className={`${isClaimed ? "text-emerald-400 line-through" : "text-yellow-500"}`}
                                   >
                                     {pin}
                                   </p>
@@ -1140,7 +1140,7 @@ export default function FanAccountPage({
                                 : "Show this at the merch table"}
                             </p>
                             <button
-                              className={` ${isClaimed ? "text-emerald-400" : "text-yellow-500"} transition-colors hover:text-white`}
+                              className={`${isClaimed ? "text-emerald-400" : "text-yellow-500"} transition-colors hover:text-white`}
                             >
                               {isClaimed ? "Completed ✓" : "Full Details "}
                             </button>
@@ -1183,7 +1183,7 @@ export default function FanAccountPage({
                           )}
                         </div>
                         <div
-                          className={`mt-2 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center ${isHappeningNow ? "-mx-1 rounded-[var(--radius-box)] border border-white/10 bg-emerald-500/[0.03] p-4" : ""} `}
+                          className={`mt-2 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center ${isHappeningNow ? "-mx-1 rounded-[var(--radius-box)] border border-white/10 bg-emerald-500/[0.03] p-4" : ""}`}
                         >
                           <div>
                             <h3 className="mb-1">
@@ -1241,7 +1241,7 @@ export default function FanAccountPage({
                       </>
                     ) : (
                       <div>
-                        <p className="">
+                        <p>
                           Check back soon — new dates drop regularly
                         </p>
                         <Link
@@ -1365,7 +1365,7 @@ export default function FanAccountPage({
                     className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs transition-[background-color,color,border-color,box-shadow,transform] ${sortByDistance
                       ? "bg-[var(--color-accent)] text-white shadow-sm font-semibold"
                       : "text-white/60 hover:text-white"
-                      } `}
+                      }`}
                   >
                     <MapPin className="h-3 w-3" />
                     <span>Closest to You</span>
@@ -1376,7 +1376,7 @@ export default function FanAccountPage({
                     className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs transition-[background-color,color,border-color,box-shadow,transform] ${!sortByDistance
                       ? "bg-[var(--color-accent)] text-white shadow-sm font-semibold"
                       : "text-white/60 hover:text-white"
-                      } `}
+                      }`}
                   >
                     <Calendar className="h-3 w-3" />
                     <span>By Date</span>
@@ -1412,7 +1412,7 @@ export default function FanAccountPage({
                         className={`group relative flex flex-col justify-between rounded-2xl border p-5 transition-colors hover:border-white/25 hover:bg-white/[0.04] ${isClosest
                           ? "border-[var(--color-accent)]/50 bg-[var(--color-accent)]/[0.05] shadow-[0_0_25px_rgba(255,10,61,0.1)]"
                           : "border-white/10 bg-white/[0.02]"
-                          } `}
+                          }`}
                       >
                         <div>
                           {/* Top row: Distance badge + Tag / notes */}
@@ -1425,7 +1425,7 @@ export default function FanAccountPage({
                                   : isNearby
                                     ? "border border-amber-500/30 bg-amber-500/10 text-amber-300"
                                     : "border border-white/15 bg-white/5 text-white/70"
-                                  } `}
+                                  }`}
                               >
                                 <MapPin className="h-3 w-3 shrink-0" />
                                 <span>
@@ -1788,7 +1788,7 @@ export default function FanAccountPage({
                         return (
                           <div
                             key={photo.id}
-                            className={`group relative aspect-square overflow-hidden border ${photo.rejected ? "border-red-500/40" : "border-black/10"} `}
+                            className={`group relative aspect-square overflow-hidden border ${photo.rejected ? "border-red-500/40" : "border-black/10"}`}
                           >
                             {isVideo ? (
                               <video
@@ -1850,7 +1850,7 @@ export default function FanAccountPage({
                               <div className="transition-opacity absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/20 to-transparent p-3 opacity-0 group-hover:opacity-100">
                                 <p>{photo.venue || "Live Event"}</p>
                                 <p
-                                  className={`mt-0.5 ${photo.approved ? "text-emerald-400" : " "} `}
+                                  className={`mt-0.5 ${photo.approved ? "text-emerald-400" : " "}`}
                                 >
                                   {photo.approved
                                     ? "Live on wall"
@@ -1903,7 +1903,7 @@ export default function FanAccountPage({
                   {inboxMessages.map((msg) => (
                     <div
                       key={msg.id || msg.title}
-                      className={`group -mx-3 cursor-pointer border border-transparent border-white/10 bg-[#00000029] p-3 ${msg.isNew ? "bg-white/[0.02]" : "opacity-60"} `}
+                      className={`group -mx-3 cursor-pointer border border-transparent border-white/10 bg-[#00000029] p-3 ${msg.isNew ? "bg-white/[0.02]" : "opacity-60"}`}
                     >
                       <div className="flex items-start gap-3">
                         <div
@@ -1913,13 +1913,13 @@ export default function FanAccountPage({
                         </div>
                         <div>
                           <p
-                            className={` ${msg.color === "yellow" ? "group-hover:text-yellow-400" : "group-hover:text-blue-400"} `}
+                            className={`${msg.color === "yellow" ? "group-hover:text-yellow-400" : "group-hover:text-blue-400"}`}
                           >
                             {msg.title}
                           </p>
                           <p>{msg.desc}</p>
                           <p
-                            className={`mt-2 ${msg.isNew ? "text-[var(--color-accent)]" : "text-white/40"} `}
+                            className={`mt-2 ${msg.isNew ? "text-[var(--color-accent)]" : "text-white/40"}`}
                           >
                             {msg.time}
                           </p>

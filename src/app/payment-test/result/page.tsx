@@ -90,7 +90,7 @@ function NorthResultContent() {
           {!loading && result && (
             <>
               <div
-                className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center border-2 ${succeeded ? "border-emerald-500/30 bg-emerald-500/10" : "border-rose-500/30 bg-rose-500/10"} `}
+                className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center border-2 ${succeeded ? "border-emerald-500/30 bg-emerald-500/10" : "border-rose-500/30 bg-rose-500/10"}`}
               >
                 <span className="text-2xl">{succeeded ? "✅" : "❌"}</span>
               </div>

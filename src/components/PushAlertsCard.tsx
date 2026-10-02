@@ -113,10 +113,10 @@ export default function PushAlertsCard({
 
   return (
     <>
-      <GlassCard className={`relative overflow-hidden ${className} `}>
+      <GlassCard className={`relative overflow-hidden ${className}`}>
         <div className="relative z-10">
           <div className="title-group title-group--sub mb-6">
-            <h3 className="">{title || defaultTitle}</h3>
+            <h3>{title || defaultTitle}</h3>
             <p className="text-gray-300/90">{subtitle || defaultSubtitle}</p>
           </div>
 
