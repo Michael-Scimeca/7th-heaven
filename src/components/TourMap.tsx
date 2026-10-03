@@ -1364,8 +1364,8 @@ export default function TourMap({
               <span className="absolute top-1/2 left-0 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-[#34A853] shadow-[0_0_10px_#34A853]" />
             </div>
 
-            {/* Center Bouncing Google Maps Pin Icon */}
-            <div className="relative z-10 flex h-12 w-12 animate-bounce items-center justify-center rounded-2xl border border-purple-400/50 bg-gradient-to-br from-purple-600 to-indigo-900 shadow-[0_0_30px_rgba(168,85,247,0.6)]">
+            {/* Center Glowing Google Maps Pin Icon */}
+            <div className="relative z-10 flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl border border-purple-400/50 bg-gradient-to-br from-purple-600 to-indigo-900 shadow-[0_0_30px_rgba(168,85,247,0.6)]">
               <svg
                 width="24"
                 height="24"

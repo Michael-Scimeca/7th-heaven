@@ -1794,11 +1794,11 @@ export default function TourList({
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
                 <div
                   key={`tour_row_${i}_${show.id || rowId}`}
-                  className="group overflow-visible mb-6"
+                  className="group overflow-visible sm:mb-6 md:mb-0"
                 >
                   {/* Desktop Row Layout */}
                   <div
-                    className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5 text-[22px] ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
+                    className={`tour-row-item relative hidden lg:grid ${gridClass} items-center gap-8 py-3.5  ${isHighlighted ? "" : " "} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={rowId}
                   >
                     <span className="text-[clamp(14px,1.3vw,21px)] text-muted whitespace-nowrap">

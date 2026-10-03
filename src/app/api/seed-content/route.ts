@@ -769,7 +769,7 @@ const SEED_PAGE_CONTENTS = [
         title: "Time of Our Lives",
         subtitle: "Animated Concert Finale",
         tag: "Concert Anthem",
-        desc: "The grand finale song showcasing the Rock 'N' Roll Kids on stage performing live for cheering crowds.",
+        desc: "The concert finale featuring the Rock 'N' Roll Kids on stage performing live for cheering crowds.",
         youtubeId: "W3dkLd9UkZU",
         youtubeUrl: "https://www.youtube.com/watch?v=W3dkLd9UkZU",
       },

@@ -186,7 +186,7 @@ const FEATURED_MUSIC_SINGLES = [
     title: "Time of Our Lives",
     subtitle: "Animated Concert Finale",
     tag: "Concert Anthem",
-    desc: "The grand finale song showcasing the Rock 'N' Roll Kids on stage performing live for cheering crowds.",
+    desc: "The concert finale featuring the Rock 'N' Roll Kids on stage performing live for cheering crowds.",
     youtubeUrl: "https://www.youtube.com/watch?v=W3dkLd9UkZU",
   },
 ];

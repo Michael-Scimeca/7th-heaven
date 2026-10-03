@@ -36,12 +36,68 @@ const EASE_OPTIONS: { label: string; value: string }[] = [
   { label: "linear", value: "linear" },
 ];
 
-const ORIGIN_OPTIONS: { label: string; value: string }[] = [
-  { label: "center center (Default Middle Pivot)", value: "center center" },
-  { label: "top left (0% 0% - Top Left Pivot)", value: "top left" },
-  { label: "top right (100% 0% - Top Right Pivot)", value: "top right" },
-  { label: "bottom left (0% 100%)", value: "bottom left" },
-  { label: "bottom right (100% 100%)", value: "bottom right" },
+export interface OriginOption {
+  label: string;
+  value: string;
+  short: string;
+  desc: string;
+}
+
+export const ORIGIN_OPTIONS: OriginOption[] = [
+  {
+    label: "center bottom (Rising Card Tilt - Exo Signature)",
+    value: "center bottom",
+    short: "Bottom (Exo)",
+    desc: "⭐ Exo Ape Signature: Anchors the bottom edge so the incoming page tilts and rises like a physical card sliding into frame.",
+  },
+  {
+    label: "left bottom (Bottom-Left Corner Hinge)",
+    value: "left bottom",
+    short: "Bot-Left",
+    desc: "Corner Hinge: Anchored at the bottom-left corner with an expansive diagonal sweep.",
+  },
+  {
+    label: "right bottom (Bottom-Right Corner Hinge)",
+    value: "right bottom",
+    short: "Bot-Right",
+    desc: "Corner Hinge: Anchored at the bottom-right corner.",
+  },
+  {
+    label: "center center (Default Middle)",
+    value: "center center",
+    short: "Center",
+    desc: "True Center: Classic symmetric rotation around the middle of the viewport.",
+  },
+  {
+    label: "left center (Left Edge Pivot / Door)",
+    value: "left center",
+    short: "Left Edge",
+    desc: "Edge Pivot: Swings in from the left margin like an opening door or book spine.",
+  },
+  {
+    label: "right center (Right Edge Pivot)",
+    value: "right center",
+    short: "Right Edge",
+    desc: "Edge Pivot: Swings in from the right margin.",
+  },
+  {
+    label: "center top (Hanging Pendulum)",
+    value: "center top",
+    short: "Top-Center",
+    desc: "Pendulum Swing: Top edge is fixed while the page swings down into position.",
+  },
+  {
+    label: "left top (Top-Left Hinge)",
+    value: "left top",
+    short: "Top-Left",
+    desc: "Corner Hinge: Tilts and rotates around the top-left corner.",
+  },
+  {
+    label: "right top (Top-Right Hinge)",
+    value: "right top",
+    short: "Top-Right",
+    desc: "Corner Hinge: Tilts and rotates around the top-right corner.",
+  },
 ];
 
 export const CURTAIN_COLORS = [
@@ -78,6 +134,8 @@ export interface TransitionSettings {
   curtainColor: string;
 }
 
+export const SETTINGS_STORAGE_KEY = "7h_transition_settings_v2";
+
 export const DEFAULT_SETTINGS: TransitionSettings = {
   enabled: true,
   speedMult: 1,
@@ -85,14 +143,14 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipExitPath: true,
   clipRevealPath: true,
   revealX: 0,
-  revealY: 15,
+  revealY: 0,
   revealScale: 1.0,
   revealRotation: 0,
   revealOrigin: "center center",
   revealEase: "power3.out",
-  revealSlantRatio: 0.04,
-  revealFlipSlant: true,
-  revealDurationOffset: 0.05,
+  revealSlantRatio: 0,
+  revealFlipSlant: false,
+  revealDurationOffset: 0,
   exitSpeed: 0.22,
   exitX: 0,
   exitY: 0,
@@ -100,8 +158,8 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   exitRotation: 0,
   exitOrigin: "center center",
   exitEase: "power3.out",
-  exitSlantRatio: 0.04,
-  exitFlipSlant: true,
+  exitSlantRatio: 0,
+  exitFlipSlant: false,
   curtainColor: "#0d0e13",
 };
 
@@ -128,8 +186,10 @@ export const TRANSITION_PRESETS: TransitionPreset[] = [
       revealEase: "power3.out",
       revealSlantRatio: 0.04,
       revealFlipSlant: true,
+      exitY: -15,
       revealY: 15,
-      revealScale: 1.0,
+      exitScale: 0.99,
+      revealScale: 0.99,
       syncPaths: true,
     },
   },
@@ -147,7 +207,9 @@ export const TRANSITION_PRESETS: TransitionPreset[] = [
       revealEase: "exo",
       revealSlantRatio: 0.08,
       revealFlipSlant: true,
-      revealY: 30,
+      exitY: -35,
+      revealY: 35,
+      exitScale: 0.96,
       revealScale: 0.98,
       syncPaths: true,
     },
@@ -166,8 +228,12 @@ export const TRANSITION_PRESETS: TransitionPreset[] = [
       revealEase: "circ.out",
       revealSlantRatio: 0.12,
       revealFlipSlant: true,
-      revealY: 20,
+      exitY: -25,
+      revealY: 25,
+      exitScale: 0.98,
       revealScale: 1.0,
+      exitRotation: -1.5,
+      revealRotation: 1.5,
       syncPaths: true,
     },
   },
@@ -185,7 +251,9 @@ export const TRANSITION_PRESETS: TransitionPreset[] = [
       revealEase: "power2.out",
       revealSlantRatio: 0,
       revealFlipSlant: false,
+      exitY: 0,
       revealY: 0,
+      exitScale: 1.0,
       revealScale: 1.0,
       syncPaths: true,
     },
@@ -327,7 +395,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // Load saved settings & open state once on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("7h_transition_settings_v1");
+      localStorage.removeItem("7h_transition_settings_v1");
+      const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
@@ -407,13 +476,43 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         next.exitSlantRatio = val as number;
       } else if (key === "revealFlipSlant") {
         next.exitFlipSlant = val as boolean;
+      } else if (key === "exitY") {
+        next.revealY = -(val as number);
+      } else if (key === "revealY") {
+        next.exitY = -(val as number);
+      } else if (key === "exitX") {
+        next.revealX = -(val as number);
+      } else if (key === "revealX") {
+        next.exitX = -(val as number);
+      } else if (key === "exitScale") {
+        next.revealScale = val as number;
+      } else if (key === "revealScale") {
+        next.exitScale = val as number;
+      } else if (key === "exitRotation") {
+        next.revealRotation = -(val as number);
+      } else if (key === "revealRotation") {
+        next.exitRotation = -(val as number);
+      } else if (key === "exitOrigin") {
+        next.revealOrigin = val as string;
+      } else if (key === "revealOrigin") {
+        next.exitOrigin = val as string;
       }
+    }
+    if (key === "syncPaths" && val === true) {
+      next.revealEase = next.exitEase;
+      next.revealSlantRatio = next.exitSlantRatio;
+      next.revealFlipSlant = next.exitFlipSlant;
+      next.revealY = -next.exitY;
+      next.revealX = -next.exitX;
+      next.revealScale = next.exitScale;
+      next.revealRotation = -next.exitRotation;
+      next.revealOrigin = next.exitOrigin;
     }
     setSettings(next);
     settingsRef.current = next;
     try {
       localStorage.setItem(
-        "7h_transition_settings_v1",
+        SETTINGS_STORAGE_KEY,
         JSON.stringify(next),
       );
     } catch {}
@@ -425,7 +524,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     settingsRef.current = next;
     try {
       localStorage.setItem(
-        "7h_transition_settings_v1",
+        SETTINGS_STORAGE_KEY,
         JSON.stringify(next),
       );
     } catch {}
@@ -436,8 +535,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     setSettings(DEFAULT_SETTINGS);
     settingsRef.current = DEFAULT_SETTINGS;
     try {
+      localStorage.removeItem("7h_transition_settings_v1");
       localStorage.setItem(
-        "7h_transition_settings_v1",
+        SETTINGS_STORAGE_KEY,
         JSON.stringify(DEFAULT_SETTINGS),
       );
     } catch {}
@@ -451,6 +551,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       .querySelectorAll(".exoape-snapshot-outer, .exoape-curtain-overlay")
       .forEach((node) => node.remove());
     document.documentElement.classList.remove("is-page-transitioning");
+
+    if (contentRef.current) {
+      contentRef.current.style.transform = "";
+      contentRef.current.style.transformOrigin = "";
+    }
 
     clearPendingHref();
     setMode("idle");
@@ -466,7 +571,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     settingsRef.current = next;
     try {
       localStorage.setItem(
-        "7h_transition_settings_v1",
+        SETTINGS_STORAGE_KEY,
         JSON.stringify(next),
       );
     } catch {}
@@ -501,6 +606,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
     if (contentRef.current) {
       contentRef.current.style.transform = "";
+      contentRef.current.style.transformOrigin = "";
     }
 
     if (typeof window !== "undefined" && (window as any).__lenis) {
@@ -537,6 +643,20 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       return;
     }
 
+    // Set initial position of incoming page before curtain reveals it
+    if (
+      contentRef.current &&
+      ((s.revealY && s.revealY !== 0) ||
+        (s.revealX && s.revealX !== 0) ||
+        (s.revealScale && s.revealScale !== 1.0) ||
+        (s.revealRotation && s.revealRotation !== 0))
+    ) {
+      if (s.revealOrigin) {
+        contentRef.current.style.transformOrigin = s.revealOrigin;
+      }
+      contentRef.current.style.transform = `translate3d(${(s.revealX || 0).toFixed(1)}px, ${(s.revealY || 0).toFixed(1)}px, 0) scale(${(s.revealScale || 1.0).toFixed(3)}) rotate(${(s.revealRotation || 0).toFixed(2)}deg)`;
+    }
+
     const baseDuration = Math.max(
       0.05,
       s.exitSpeed + (s.revealDurationOffset ?? 0.05),
@@ -566,12 +686,20 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       curtain.style.clipPath = revealClip;
       (curtain.style as any).webkitClipPath = revealClip;
 
-      // Smooth content easing
-      if (contentRef.current && (s.revealY > 0 || s.revealScale !== 1.0)) {
+      // Smooth content easing as curtain reveals page
+      if (
+        contentRef.current &&
+        ((s.revealY && s.revealY !== 0) ||
+          (s.revealX && s.revealX !== 0) ||
+          (s.revealScale && s.revealScale !== 1.0) ||
+          (s.revealRotation && s.revealRotation !== 0))
+      ) {
         const remP = 1 - p;
+        const curX = (s.revealX || 0) * remP;
         const curY = (s.revealY || 0) * remP;
         const curScale = 1 - (1 - (s.revealScale || 1.0)) * remP;
-        contentRef.current.style.transform = `translate3d(0, ${curY.toFixed(1)}px, 0) scale(${curScale.toFixed(3)})`;
+        const curRot = (s.revealRotation || 0) * remP;
+        contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
       }
 
       if (progress < 1) {
@@ -677,6 +805,24 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         : "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
       curtain.style.clipPath = coverClip;
       (curtain.style as any).webkitClipPath = coverClip;
+
+      // Smooth content exit motion (page moves as curtain covers it)
+      if (
+        contentRef.current &&
+        ((s.exitY && s.exitY !== 0) ||
+          (s.exitX && s.exitX !== 0) ||
+          (s.exitScale && s.exitScale !== 1.0) ||
+          (s.exitRotation && s.exitRotation !== 0))
+      ) {
+        if (s.exitOrigin) {
+          contentRef.current.style.transformOrigin = s.exitOrigin;
+        }
+        const curX = (s.exitX || 0) * p;
+        const curY = (s.exitY || 0) * p;
+        const curScale = 1 - (1 - (s.exitScale || 1.0)) * p;
+        const curRot = (s.exitRotation || 0) * p;
+        contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+      }
 
       if (progress < 1) {
         coverAnimIdRef.current = requestAnimationFrame(coverTick);
@@ -983,6 +1129,58 @@ function TransitionTunerPanel({
   onClose,
 }: TransitionTunerPanelProps) {
   const [copied, setCopied] = useState(false);
+  const [panelPos, setPanelPos] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+  const isDraggingRef = useRef(false);
+  const dragStartRef = useRef<{
+    startX: number;
+    startY: number;
+    panelX: number;
+    panelY: number;
+  }>({
+    startX: 0,
+    startY: 0,
+    panelX: 0,
+    panelY: 0,
+  });
+
+  const onHeaderPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLElement).closest("button")) return;
+    const aside = (e.currentTarget as HTMLElement).closest("aside");
+    if (!aside) return;
+    const rect = aside.getBoundingClientRect();
+    isDraggingRef.current = true;
+    dragStartRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      panelX: rect.left,
+      panelY: rect.top,
+    };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const onHeaderPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+    const dx = e.clientX - dragStartRef.current.startX;
+    const dy = e.clientY - dragStartRef.current.startY;
+    const newX = Math.max(
+      8,
+      Math.min(window.innerWidth - 360, dragStartRef.current.panelX + dx),
+    );
+    const newY = Math.max(
+      8,
+      Math.min(window.innerHeight - 150, dragStartRef.current.panelY + dy),
+    );
+    setPanelPos({ x: newX, y: newY });
+  };
+
+  const onHeaderPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    isDraggingRef.current = false;
+    try {
+      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {}
+  };
 
   const copyJson = async () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -1000,10 +1198,30 @@ function TransitionTunerPanel({
       data-lenis-prevent
       onWheel={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
+      style={
+        panelPos
+          ? ({
+              "--panel-x": `${panelPos.x}px`,
+              "--panel-y": `${panelPos.y}px`,
+              left: "var(--panel-x)",
+              top: "var(--panel-y)",
+              right: "auto",
+              bottom: "auto",
+            } as React.CSSProperties)
+          : undefined
+      }
       className="custom-scrollbar pointer-events-auto fixed right-4 bottom-6 z-[99999] flex max-h-[82vh] w-[350px] max-w-[calc(100vw-32px)] flex-col gap-3 overflow-y-auto overscroll-contain rounded-2xl border border-purple-500/25 bg-black/95 p-4 shadow-[0_12px_48px_rgba(0,0,0,0.8)] backdrop-blur-2xl text-white select-none"
     >
       {/* ── PANEL HEADER ── */}
-      <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-3">
+      <div
+        onPointerDown={onHeaderPointerDown}
+        onPointerMove={onHeaderPointerMove}
+        onPointerUp={onHeaderPointerUp}
+        onPointerCancel={onHeaderPointerUp}
+        onDoubleClick={() => setPanelPos(null)}
+        title="Drag header to move panel • Double-click to reset position"
+        className="flex cursor-grab active:cursor-grabbing items-center justify-between gap-2 border-b border-white/10 pb-3"
+      >
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
             <span
@@ -1091,45 +1309,60 @@ function TransitionTunerPanel({
         </div>
       </div>
 
-      {/* ── REPLAY BUTTON (INSTANT TEST) ── */}
-      <button
-        type="button"
-        onClick={triggerReplay}
-        className="transition-all flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2.5 font-semibold text-xs shadow-lg shadow-purple-900/30 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
-      >
-        <span>🎬 Test Transition (Replay)</span>
-      </button>
+      {/* ── ACTION BUTTONS (REPLAY & RESET) ── */}
+      <div className="grid grid-cols-[1fr_auto] gap-2">
+        <button
+          type="button"
+          onClick={triggerReplay}
+          className="transition-all flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2.5 px-3 font-semibold text-xs text-white shadow-lg shadow-purple-900/30 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
+        >
+          <span>🎬 Test Transition (Replay)</span>
+        </button>
+        <button
+          type="button"
+          onClick={resetDefaults}
+          title="Reset all transition settings to default values"
+          className="transition-all flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 font-semibold text-xs text-white/90 shadow-md hover:border-white/40 hover:bg-white/20 hover:text-white active:scale-[0.98]"
+        >
+          <span>↺ Reset</span>
+        </button>
+      </div>
 
       {/* ── SLOW-MO SPEED PRESETS ── */}
       <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-white/5 p-2.5">
         <div className="flex items-center justify-between text-[11px]">
           <span className="font-semibold text-purple-300">Playback Speed</span>
           <span className="font-mono text-purple-200 font-bold">
-            {settings.speedMult}x
+            {settings.speedMult}x {settings.speedMult === 1 ? "(Normal)" : `(${settings.speedMult}x Slow)`}
           </span>
         </div>
         <div className="grid grid-cols-4 gap-1">
-          {[1, 2, 5, 10].map((m) => (
+          {[
+            { mult: 1, label: "1x Normal" },
+            { mult: 2, label: "2x" },
+            { mult: 5, label: "5x" },
+            { mult: 10, label: "10x" },
+          ].map(({ mult, label }) => (
             <button
               type="button"
-              key={m}
-              onClick={() => handleSpeedPreset(m)}
+              key={mult}
+              onClick={() => handleSpeedPreset(mult)}
               className={`rounded py-1 text-[10px] font-semibold transition-all ${
-                settings.speedMult === m
+                settings.speedMult === mult
                   ? "bg-purple-600 text-white shadow"
                   : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
               }`}
             >
-              {m}x
+              {label}
             </button>
           ))}
         </div>
         <input
           type="range"
-          min={0.5}
+          min={1}
           max={10}
           step={0.5}
-          value={settings.speedMult}
+          value={Math.max(1, settings.speedMult)}
           onChange={(e) =>
             updateSetting("speedMult", parseFloat(e.target.value))
           }
@@ -1192,6 +1425,168 @@ function TransitionTunerPanel({
         <RevealTabSection settings={settings} updateSetting={updateSetting} />
       )}
     </aside>
+  );
+}
+
+interface OriginControlProps {
+  id: string;
+  value: string;
+  onChange: (val: string) => void;
+  accent: "purple" | "fuchsia" | "cyan";
+  label?: string;
+}
+
+function OriginControl({
+  id,
+  value,
+  onChange,
+  accent,
+  label = "Rotation Pivot Origin",
+}: OriginControlProps) {
+  const current = value || "center center";
+  const activeOption =
+    ORIGIN_OPTIONS.find((o) => o.value === current) || ORIGIN_OPTIONS[3];
+
+  const accentStyles = {
+    purple: {
+      text: "text-purple-300",
+      activeBg:
+        "border-purple-400 bg-purple-600 text-white shadow-sm shadow-purple-900/50",
+    },
+    fuchsia: {
+      text: "text-fuchsia-300",
+      activeBg:
+        "border-fuchsia-400 bg-fuchsia-600 text-white shadow-sm shadow-fuchsia-900/50",
+    },
+    cyan: {
+      text: "text-cyan-300",
+      activeBg:
+        "border-cyan-400 bg-cyan-600 text-white shadow-sm shadow-cyan-900/50",
+    },
+  }[accent];
+
+  const gridPoints = [
+    { value: "left top", label: "↖", tip: "Top-Left (Corner Hinge)" },
+    { value: "center top", label: "↑", tip: "Top-Center (Pendulum Swing)" },
+    { value: "right top", label: "↗", tip: "Top-Right (Corner Hinge)" },
+    { value: "left center", label: "←", tip: "Left Edge (Door Spine)" },
+    { value: "center center", label: "•", tip: "Center (Middle Pivot)" },
+    { value: "right center", label: "→", tip: "Right Edge (Door Spine)" },
+    { value: "left bottom", label: "↙", tip: "Bottom-Left (Corner Hinge)" },
+    {
+      value: "center bottom",
+      label: "★",
+      tip: "Bottom-Center (Exo Ape Signature)",
+      isExo: true,
+    },
+    { value: "right bottom", label: "↘", tip: "Bottom-Right (Corner Hinge)" },
+  ];
+
+  return (
+    <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-black/40 p-2.5">
+      <div className="flex items-center justify-between">
+        <label htmlFor={id} className="font-medium text-white/80">
+          {label}
+        </label>
+        <span
+          className={`font-mono text-[10px] font-bold ${accentStyles.text}`}
+        >
+          {current}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-2">
+        {/* 3x3 Visual Compass Anchor Grid */}
+        <div
+          className="grid grid-cols-3 gap-1 rounded-md border border-white/15 bg-black/60 p-1 shrink-0"
+          title="Click anchor point to set rotation pivot"
+        >
+          {gridPoints.map((pt) => {
+            const isSelected = current === pt.value;
+            return (
+              <button
+                type="button"
+                key={pt.value}
+                onClick={() => onChange(pt.value)}
+                title={pt.tip}
+                aria-label={`Pivot origin ${pt.tip}`}
+                className={`flex h-6 w-6 items-center justify-center rounded border text-xs font-bold transition-all ${
+                  isSelected
+                    ? accentStyles.activeBg
+                    : pt.isExo
+                      ? "border-amber-400/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/25"
+                      : "border-white/10 bg-white/5 text-white/60 hover:border-white/25 hover:bg-white/15 hover:text-white"
+                }`}
+              >
+                {pt.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Quick Recommended Chips */}
+        <div className="flex flex-1 flex-col gap-1">
+          <button
+            type="button"
+            onClick={() => onChange("center bottom")}
+            className={`flex items-center justify-between rounded border px-2 py-1 text-left text-[10px] font-semibold transition-all ${
+              current === "center bottom"
+                ? accentStyles.activeBg
+                : "border-amber-400/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
+            }`}
+          >
+            <span>⬆️ Bottom (Exo Ape)</span>
+            <span className="rounded bg-amber-400/20 px-1 py-0.2 text-[8px] uppercase tracking-wider text-amber-200">
+              Best
+            </span>
+          </button>
+
+          <div className="grid grid-cols-3 gap-1">
+            {[
+              { label: "Center", value: "center center", icon: "🎯" },
+              { label: "Bot-Left", value: "left bottom", icon: "↙️" },
+              { label: "Top-Mid", value: "center top", icon: "⬇️" },
+            ].map((p) => {
+              const active = current === p.value;
+              return (
+                <button
+                  type="button"
+                  key={p.value}
+                  onClick={() => onChange(p.value)}
+                  className={`flex items-center justify-center gap-0.5 rounded border py-0.5 px-1 text-[9px] font-semibold transition-all ${
+                    active
+                      ? accentStyles.activeBg
+                      : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:bg-white/15 hover:text-white"
+                  }`}
+                >
+                  <span>{p.icon}</span>
+                  <span className="truncate">{p.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Full 9-Option Dropdown */}
+      <select
+        id={id}
+        value={current}
+        onChange={(e) => onChange(e.target.value)}
+        className="focus-ring w-full rounded border border-white/20 bg-black/80 px-2 py-1.5 text-xs text-white"
+      >
+        {ORIGIN_OPTIONS.map((o) => (
+          <option key={o.value} value={o.value} className="bg-black">
+            {o.label}
+          </option>
+        ))}
+      </select>
+
+      {/* Explanatory Description Note */}
+      <p className="text-[10px] leading-tight text-white/60 italic">
+        {activeOption.desc}
+      </p>
+    </div>
   );
 }
 
@@ -1297,6 +1692,135 @@ function MasterTabSection({
         />
       </div>
 
+      {/* ── Page Content Motion (Exit & Reveal) ── */}
+      <div className="flex flex-col gap-2 border-t border-purple-500/20 pt-2">
+        <div className="flex items-center justify-between">
+          <span className="font-semibold text-purple-300">
+            Page Content Motion
+          </span>
+          <span className="text-[10px] text-white/50">
+            {settings.syncPaths ? "Exit & Reveal Synced" : "Independent"}
+          </span>
+        </div>
+
+        {/* Page Shift Y */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Page Shift Y</span>
+            <span className="font-mono text-purple-300 font-bold">
+              {Math.abs(settings.revealY || 0)}px
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={80}
+            step={5}
+            value={Math.abs(settings.revealY || 0)}
+            onChange={(e) => {
+              const val = parseFloat(e.target.value);
+              updateSetting("revealY", val);
+              if (settings.syncPaths) {
+                updateSetting("exitY", -val);
+              }
+            }}
+            aria-label="Master page shift Y"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
+          />
+        </div>
+
+        {/* Page Shift X */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Page Shift X</span>
+            <span className="font-mono text-purple-300 font-bold">
+              {settings.revealX || 0}px
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-60}
+            max={60}
+            step={5}
+            value={settings.revealX || 0}
+            onChange={(e) => {
+              const val = parseFloat(e.target.value);
+              updateSetting("revealX", val);
+              if (settings.syncPaths) {
+                updateSetting("exitX", -val);
+              }
+            }}
+            aria-label="Master page shift X"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
+          />
+        </div>
+
+        {/* Page Scale Depth */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Page Scale Depth</span>
+            <span className="font-mono text-purple-300 font-bold">
+              {(settings.revealScale || 1.0).toFixed(2)}x
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0.92}
+            max={1.05}
+            step={0.01}
+            value={settings.revealScale || 1.0}
+            onChange={(e) => {
+              const val = parseFloat(e.target.value);
+              updateSetting("revealScale", val);
+              if (settings.syncPaths) {
+                updateSetting("exitScale", val);
+              }
+            }}
+            aria-label="Master page scale depth"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
+          />
+        </div>
+
+        {/* Page Rotation Tilt (Exo Ape Style) */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Page Rotation Tilt</span>
+            <span className="font-mono text-purple-300 font-bold">
+              {(settings.revealRotation || 0).toFixed(1)}°
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-5}
+            max={5}
+            step={0.25}
+            value={settings.revealRotation || 0}
+            onChange={(e) => {
+              const val = parseFloat(e.target.value);
+              updateSetting("revealRotation", val);
+              if (settings.syncPaths) {
+                updateSetting("exitRotation", -val);
+              }
+            }}
+            aria-label="Master page rotation tilt"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
+          />
+        </div>
+
+        {/* Rotation Pivot Origin */}
+        <OriginControl
+          id="master-origin-select"
+          value={settings.revealOrigin || "center center"}
+          onChange={(val) => {
+            updateSetting("revealOrigin", val);
+            if (settings.syncPaths) {
+              updateSetting("exitOrigin", val);
+            }
+          }}
+          accent="purple"
+        />
+      </div>
+
       {/* Curtain Theme Color */}
       <div className="flex flex-col gap-1.5 border-t border-purple-500/20 pt-2">
         <span className="text-white/70">Curtain Background</span>
@@ -1388,6 +1912,105 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           label={settings.exitFlipSlant ? "Left Leads" : "Right Leads"}
         />
       </div>
+
+      {/* Page Exit Motion */}
+      <div className="flex flex-col gap-2 border-t border-fuchsia-500/20 pt-2">
+        <span className="font-semibold text-fuchsia-300">
+          Page Exit Motion
+        </span>
+
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Translate Y Offset</span>
+            <span className="font-mono text-fuchsia-300 font-bold">
+              {settings.exitY || 0}px
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-80}
+            max={80}
+            step={5}
+            value={settings.exitY || 0}
+            onChange={(e) =>
+              updateSetting("exitY", parseFloat(e.target.value))
+            }
+            aria-label="Exit Y offset"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Translate X Offset</span>
+            <span className="font-mono text-fuchsia-300 font-bold">
+              {settings.exitX || 0}px
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-80}
+            max={80}
+            step={5}
+            value={settings.exitX || 0}
+            onChange={(e) =>
+              updateSetting("exitX", parseFloat(e.target.value))
+            }
+            aria-label="Exit X offset"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Scale Out</span>
+            <span className="font-mono text-fuchsia-300 font-bold">
+              {(settings.exitScale || 1.0).toFixed(2)}x
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0.92}
+            max={1.05}
+            step={0.01}
+            value={settings.exitScale || 1.0}
+            onChange={(e) =>
+              updateSetting("exitScale", parseFloat(e.target.value))
+            }
+            aria-label="Exit scale"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Rotation Tilt</span>
+            <span className="font-mono text-fuchsia-300 font-bold">
+              {(settings.exitRotation || 0).toFixed(1)}°
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-5}
+            max={5}
+            step={0.25}
+            value={settings.exitRotation || 0}
+            onChange={(e) =>
+              updateSetting("exitRotation", parseFloat(e.target.value))
+            }
+            aria-label="Exit rotation tilt"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
+          />
+        </div>
+
+        {/* Exit Rotation Pivot Origin */}
+        <OriginControl
+          id="exit-origin-select"
+          value={settings.exitOrigin || "center center"}
+          onChange={(val) => updateSetting("exitOrigin", val)}
+          accent="fuchsia"
+        />
+      </div>
     </div>
   );
 }
@@ -1456,10 +2079,10 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         />
       </div>
 
-      {/* Content Motion */}
+      {/* Page Reveal Motion */}
       <div className="flex flex-col gap-2 border-t border-cyan-500/20 pt-2">
         <span className="font-semibold text-cyan-300">
-          Content Reveal Motion
+          Page Reveal Motion
         </span>
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between">
@@ -1470,7 +2093,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={0}
+            min={-80}
             max={80}
             step={5}
             value={settings.revealY || 0}
@@ -1478,6 +2101,27 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
               updateSetting("revealY", parseFloat(e.target.value))
             }
             aria-label="Reveal Y offset"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Translate X Offset</span>
+            <span className="font-mono text-cyan-300 font-bold">
+              {settings.revealX || 0}px
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-80}
+            max={80}
+            step={5}
+            value={settings.revealX || 0}
+            onChange={(e) =>
+              updateSetting("revealX", parseFloat(e.target.value))
+            }
+            aria-label="Reveal X offset"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
           />
         </div>
@@ -1502,6 +2146,35 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
           />
         </div>
+
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Rotation Tilt</span>
+            <span className="font-mono text-cyan-300 font-bold">
+              {(settings.revealRotation || 0).toFixed(1)}°
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-5}
+            max={5}
+            step={0.25}
+            value={settings.revealRotation || 0}
+            onChange={(e) =>
+              updateSetting("revealRotation", parseFloat(e.target.value))
+            }
+            aria-label="Reveal rotation tilt"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
+          />
+        </div>
+
+        {/* Reveal Rotation Pivot Origin */}
+        <OriginControl
+          id="reveal-origin-select"
+          value={settings.revealOrigin || "center center"}
+          onChange={(val) => updateSetting("revealOrigin", val)}
+          accent="cyan"
+        />
       </div>
     </div>
   );

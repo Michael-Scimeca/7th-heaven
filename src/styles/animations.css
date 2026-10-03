@@ -39,12 +39,12 @@
   }
 }
 
-/* Map Marker Bounce Animation */
+/* Map Marker Smooth Float Animation */
 @keyframes markerBounce {
-  0%, 100% {
+  0% {
     transform: translateY(0);
   }
-  50% {
+  100% {
     transform: translateY(-6px);
   }
 }

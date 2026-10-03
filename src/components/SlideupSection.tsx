@@ -432,19 +432,10 @@ export default function SlideupSection({
               </div>
               <div className="su-thumbs flex w-full max-w-full gap-6">
                 {slide.thumbs.map((t, ti) => {
-                  const visibilityClass =
-                    ti === 3
-                      ? "hidden min-[1201px]:flex"
-                      : ti === 2
-                        ? "hidden lg:flex"
-                        : ti === 1
-                          ? "hidden sm:flex"
-                          : "flex";
-
                   return (
                     <div
                       key={`${t.label}-${ti}`}
-                      className={`su-thumb group relative aspect-[16/10] h-[clamp(220px,38vh,520px)] max-h-[520px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-8 sm:pb-10 ${visibilityClass}`}
+                      className="su-thumb group relative aspect-[16/10] h-[clamp(220px,38vh,520px)] max-h-[520px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-8 sm:pb-10"
                     >
                       {t.video && <AutoPlayVideo src={t.video} />}
                       {t.youtube && (

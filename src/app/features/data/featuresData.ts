@@ -234,7 +234,7 @@ export const FEATURES: FeatureCard[] = [
     tagline:
       "Every music video, live performance, and backstage clip — organized.",
     description:
-      "The video gallery is a full-featured, categorized video library. It's not just an embedded YouTube playlist — it's a custom-built video browsing experience with 10+ content categories, thumbnail grids that match the site's aesthetic, and an inline player that keeps fans on the page rather than sending them to YouTube.",
+      "The video gallery is a custom-built, categorized video library with 10+ content categories, matching thumbnail grids, and an inline player that keeps fans engaged on the page rather than sending them off-site.",
     whyItMatters:
       "Every click off-site to YouTube is a potential fan lost. Keeping video playback native means fans stay engaged longer, see more of the site, and are more likely to convert on a show RSVP or merch purchase.",
     bullets: [
@@ -632,7 +632,7 @@ export const FEATURES: FeatureCard[] = [
     description:
       "Crew members can start a live broadcast directly from their /crew dashboard with a single click. No streaming software, no external equipment beyond a webcam. The studio dashboard gives them full control: viewer count, chat moderation, reaction controls, and the ability to launch raffles and flash drops — all from the same screen.",
     whyItMatters:
-      "Lowering the barrier to going live means crew members broadcast more frequently. More broadcasts mean more fan touchpoints, more merch sales opportunities, and a more active fanbase. Zero technical setup means anyone on the crew can go live — not just the tech-savvy ones.",
+      "Lowering the barrier to going live encourages frequent broadcasts, driving fan touchpoints, merch sales, and community engagement. Because setup requires no external software, any crew member can start a stream immediately.",
     bullets: [
       "One-click LiveKit room creation — stream starts in under 5 seconds",
       "Live viewer count displayed and updating every 5 seconds",
@@ -1307,7 +1307,7 @@ export const FEATURES: FeatureCard[] = [
     description:
       "The platform has four distinct user roles: Fan, Crew, Planner, and Admin. Each role has access to a different set of pages and API routes, enforced at both the frontend routing level and the database level via Supabase Row-Level Security. There is no way for a fan to access crew tools, or a planner to see another planner's booking — the data access rules are enforced in the database itself.",
     whyItMatters:
-      "A platform with multiple user types needs airtight access control. Loose permissions create security vulnerabilities and data leaks. Role-Based Security enforced at the database level — not just in the UI — means even if someone bypasses the frontend, the database still rejects unauthorized reads and writes.",
+      "A platform with multiple user types requires strict access control. Enforcing security policies at the database layer via Supabase Row-Level Security guarantees that unauthorized reads and writes are rejected even if client-side routing is bypassed.",
     bullets: [
       "Fan role: fan dashboard, live viewing, RSVP, chat, referrals, photo wall, cruise (if passenger)",
       "Crew role: broadcast studio, raffle engine, flash drops, chat moderation, fan management",

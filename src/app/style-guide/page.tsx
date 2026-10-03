@@ -602,7 +602,7 @@ function ButtonMasterGalleryAndStudio() {
         return <Sparkles className="h-4 w-4 shrink-0 animate-pulse" />;
       case "zap":
         return (
-          <Zap className="h-4 w-4 shrink-0 animate-bounce text-amber-300" />
+          <Zap className="h-4 w-4 shrink-0 animate-pulse text-amber-300" />
         );
       case "plus":
         return <Plus className="h-4 w-4 shrink-0 text-emerald-300" />;

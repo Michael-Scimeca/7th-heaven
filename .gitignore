@@ -77,3 +77,9 @@ _unused-images/
 audit-screenshots/
 test-results/
 
+# Agent skills subproject package configs (prevent react-doctor index diff errors)
+.agents/skills/**/package.json
+.agents/skills/**/tsconfig*.json
+.agents/skills/**/vite.config.*
+
+
