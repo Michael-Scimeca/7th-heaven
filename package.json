@@ -64,7 +64,7 @@
     "livekit-server-sdk": "^2.15.1",
     "lottie-web": "^5.13.0",
     "lucide-react": "^1.30.0",
-    "next": "^16.3.0",
+    "next": "^16.3.8",
     "next-sanity": "^13.3.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",

@@ -54,11 +54,7 @@ export function useSettings(): { settings: SiteSettings; loaded: boolean } {
   const [loaded, setLoaded] = useState(hasFetched);
 
   useEffect(() => {
-    if (hasFetched) {
-      setSettings(cachedData);
-      setLoaded(true);
-      return;
-    }
+    if (hasFetched) return;
     let cancelled = false;
     fetchSettingsOnce().then((data) => {
       if (cancelled) return;

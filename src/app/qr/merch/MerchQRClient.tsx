@@ -86,7 +86,7 @@ const FALLBACK_PRODUCTS: MerchProduct[] = [
     description:
       "Heavyweight 180g translucent cyan vinyl pressing of the hit album 'Color in Motion'.",
     price: "30.00",
-    imageUrl: "/images/merch/merch-color-in-motion.png",
+    imageUrl: "/images/merch/vinyl.png",
     category: "Music",
     inStock: true,
     stockCount: 8,
@@ -98,7 +98,7 @@ const FALLBACK_PRODUCTS: MerchProduct[] = [
     description:
       "Full 4K concert film + 24-track audio CD recorded live at the Riviera Theatre.",
     price: "25.00",
-    imageUrl: "/images/merch/merch-live-bluray.png",
+    imageUrl: "/images/merch/merch-be-here.png",
     category: "Music",
     inStock: true,
     stockCount: 19,

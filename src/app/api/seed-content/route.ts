@@ -664,7 +664,7 @@ const SEED_PAGE_CONTENTS = [
         badge: "Episode 1",
         desc: "The Rock 'N' Roll Kids embark on their first epic adventure, bringing positivity and music to resolve chaos in the city.",
         amazonUrl: "https://www.amazon.com/gp/product/B096TJNDWR",
-        coverImg: "/images/comics/71j5h9au3is.-sl1500-.jpg",
+        coverImg: "/images/7hrrk/book1.jpg",
       },
       {
         id: "ep2",
@@ -672,7 +672,7 @@ const SEED_PAGE_CONTENTS = [
         badge: "Episode 2",
         desc: "Identity, friendship, and staying true to yourself when XEC Records try to change the band's authentic rock sound.",
         amazonUrl: "https://www.amazon.com/gp/product/B08FNMPFTR",
-        coverImg: "/images/comics/dunlop-guitar-picks-pack.jpg",
+        coverImg: "/images/7hrrk/book2.jpg",
       },
       {
         id: "ep3",
@@ -680,7 +680,7 @@ const SEED_PAGE_CONTENTS = [
         badge: "Episode 3",
         desc: "A powerful tale of kindness and social consciousness as the kids use music to help community schools stay open.",
         amazonUrl: "https://www.amazon.com/gp/product/B08GLP426D",
-        coverImg: "/images/comics/71ooj1jhgxl.-sl1360-.jpg",
+        coverImg: "/images/7hrrk/book3.jpg",
       },
       {
         id: "ep4",
@@ -688,7 +688,7 @@ const SEED_PAGE_CONTENTS = [
         badge: "Episode 4",
         desc: "High-octane concert energy, flying drones, and an unbelievable battle of the bands showdown against ancient rock rivals.",
         amazonUrl: "https://www.amazon.com/gp/product/B08R68B2QF",
-        coverImg: "/images/comics/719l5f4iuyl.-sl1500-.jpg",
+        coverImg: "/images/7hrrk/book4.jpg",
       },
       {
         id: "ep5",
@@ -697,7 +697,7 @@ const SEED_PAGE_CONTENTS = [
         desc: "The kids face their biggest challenge yet in an epic concert arena battle of music, heart, and teamwork.",
         amazonUrl:
           "https://www.amazon.com/gp/product/B08VYFJWYF?ref_=dbs_m_mng_rwt_calw_tpbk_4&storeType=ebooks",
-        coverImg: "/images/comics/719cbfcsqyl.-sl1500-.jpg",
+        coverImg: "/images/7hrrk/book5.jpg",
       },
       {
         id: "ep6",
@@ -706,7 +706,7 @@ const SEED_PAGE_CONTENTS = [
         desc: "Special illustrated black & white edition uncovering the mystery of XEC Records headquarters.",
         amazonUrl:
           "https://www.amazon.com/gp/product/B09HG6KW8M?ref_=dbs_m_mng_rwt_calw_tpbk_5&storeType=ebooks",
-        coverImg: "/images/comics/81ywx2chmjl.-sl1500-.jpg",
+        coverImg: "/images/7hrrk/book6.jpg",
       },
       {
         id: "ep7",
@@ -715,7 +715,7 @@ const SEED_PAGE_CONTENTS = [
         desc: "Trapped inside a virtual reality video game grid, the Rock 'N' Roll Kids use music chords to beat the game boss.",
         amazonUrl:
           "https://www.amazon.com/gp/product/B0B1K859QC?ref_=dbs_m_mng_rwt_calw_tpbk_6&storeType=ebooks",
-        coverImg: "/images/comics/61y6zqf1hcl.-sl1500-.jpg",
+        coverImg: "/images/7hrrk/book7.jpg",
       },
       {
         id: "ep8",
@@ -724,7 +724,7 @@ const SEED_PAGE_CONTENTS = [
         desc: "A silent spell falls over the city until the band powers up their amplifiers to restore music and speech.",
         amazonUrl:
           "https://www.amazon.com/gp/product/B0BTRTCQ5W?ref_=dbs_m_mng_rwt_calw_tpbk_7&storeType=ebooks&qid=1681962352&sr=8-1",
-        coverImg: "/images/comics/71mgiiwhigl.-sl1500-.jpg",
+        coverImg: "/images/7hrrk/book8.jpg",
       },
       {
         id: "ep9",
@@ -733,7 +733,7 @@ const SEED_PAGE_CONTENTS = [
         desc: "Wild west desert showdown where the band brings rhythm, harmony, and friendship to outlaws.",
         amazonUrl:
           "https://www.amazon.com/7th-heaven-RocknRoll-Kids-Company/dp/B0CGZ1P2ZJ/ref=sr_1_3?crid=NHCNKT022TUP&keywords=7th+heaven+rock+kids&qid=1705630559&s=digital-text&sprefix=7th+heaven+rock+kids%2Cdigital-text%2C83&sr=1-3-catcorr",
-        coverImg: "/images/comics/71njns9ht2l.-sl1500-.jpg",
+        coverImg: "/images/7hrrk/book9.jpg",
       },
       {
         id: "cb",
@@ -751,7 +751,7 @@ const SEED_PAGE_CONTENTS = [
         desc: "Exclusive concept sketches, character designs, storyboards, and development artwork from RNR Studios.",
         amazonUrl:
           "https://www.amazon.com/7th-Heaven-RocknRoll-Kids-Introduction/dp/1718876688/ref=sr_1_2?s=books&ie=UTF8&qid=1526169915&sr=1-2",
-        coverImg: "/images/comics/71d2wbdebhl.-sl1360-.jpg",
+        coverImg: "/images/7hrrk/artbook.jpg",
       },
       {
         id: "vol1",
@@ -759,7 +759,7 @@ const SEED_PAGE_CONTENTS = [
         badge: "Comic Book Vol. 1",
         desc: "The complete volume 1 anthology combining multiple episode issues, full-color pages, and bonus poster art.",
         amazonUrl: "https://www.amazon.com/dp/B096TJNDWR",
-        coverImg: "/images/comics/71d2wbdebhl.-sl1360-.jpg",
+        coverImg: "/images/7hrrk/artbook.jpg",
       },
     ],
     characters: [
@@ -814,20 +814,20 @@ const SEED_PAGE_CONTENTS = [
         youtubeUrl: "https://www.youtube.com/watch?v=3ZhqLJDRxQ8",
       },
       {
-        title: "Who Are You",
+        title: "Ain't That Just Beautiful",
         subtitle: "Season 1 Featured Track",
         tag: "Featured Single",
         desc: "A high-energy rock anthem empowering kids to stay authentic, embrace their unique talents, and overcome peer pressure.",
-        youtubeId: "97tX0sM3vE8",
-        youtubeUrl: "https://www.youtube.com/watch?v=97tX0sM3vE8",
+        youtubeId: "BzHUNTZ66zY",
+        youtubeUrl: "https://www.youtube.com/watch?v=BzHUNTZ66zY",
       },
       {
-        title: "What You Give",
+        title: "Sing",
         subtitle: "Social Consciousness Single",
         tag: "Inspirational Anthem",
         desc: "An uplifting message about kindness, giving back to your community, and spreading light through hard work and rock 'n' roll.",
-        youtubeId: "J3_lX9S5k4o",
-        youtubeUrl: "https://www.youtube.com/watch?v=J3_lX9S5k4o",
+        youtubeId: "wDEXG3kHjqk",
+        youtubeUrl: "https://www.youtube.com/watch?v=wDEXG3kHjqk",
       },
       {
         title: "Time of Our Lives",

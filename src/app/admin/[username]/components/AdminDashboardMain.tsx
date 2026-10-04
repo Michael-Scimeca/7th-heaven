@@ -904,7 +904,7 @@ const parseTimeString = (timeStr: string) => {
         .trim()
         .split(":");
       let hour = parseInt(numbers[0], 10);
-      let minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
+      const minute = numbers.length > 1 ? parseInt(numbers[1], 10) : 0;
 
       if (isPM && hour !== 12) hour += 12;
       if (isAM && hour === 12) hour = 0;
@@ -1024,32 +1024,32 @@ export function AdminDashboardMain({
         avatar: m?.avatar,
       });
 
-  const [localAvatar, setLocalAvatar] = useState<string | null>(null);
+  const localAvatar = useSyncExternalStore(
+    emptySubscribe,
+    () =>
+      typeof window !== "undefined"
+        ? localStorage.getItem("7h_profile_avatar_v1") ||
+          localStorage.getItem("7h_profile_avatar")
+        : null,
+    () => null,
+  );
   const [updatingBookingId, setUpdatingBookingId] = useState<string | null>(
     null,
   );
-  const [thisMondayTime, setThisMondayTime] = useState<number | null>(null);
-
-  useEffect(() => {
-    setLocalAvatar(
-      localStorage.getItem("7h_profile_avatar_v1") ||
-      localStorage.getItem("7h_profile_avatar"),
-    );
+  const [thisMondayTime] = useState<number | null>(() => {
     const today = new Date();
     const day = today.getDay();
     const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    setThisMondayTime(
-      new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        diff,
-        0,
-        0,
-        0,
-        0,
-      ).getTime(),
-    );
-  }, []);
+    return new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      diff,
+      0,
+      0,
+      0,
+      0,
+    ).getTime();
+  });
 
   const activeAdminAvatar =
     adminAvatarOverride ||

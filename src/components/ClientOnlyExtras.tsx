@@ -38,6 +38,13 @@ export default function ClientOnlyExtras() {
         import("@/components/SpacingInspector")
           .then((m) => setSpacingInspector(() => m.default))
           .catch(() => {});
+      }
+
+      if (
+        typeof window !== "undefined" &&
+        (window.location.search.includes("tuner=true") ||
+          window.location.search.includes("tune=true"))
+      ) {
         import("@/components/BlurTuner")
           .then((m) => setBlurTuner(() => m.default))
           .catch(() => {});

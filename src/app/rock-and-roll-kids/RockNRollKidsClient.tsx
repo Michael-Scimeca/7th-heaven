@@ -165,20 +165,20 @@ const FEATURED_MUSIC_SINGLES = [
     youtubeUrl: "https://www.youtube.com/watch?v=3ZhqLJDRxQ8",
   },
   {
-    id: "97tX0sM3vE8",
-    title: "Who Are You",
+    id: "BzHUNTZ66zY",
+    title: "Ain't That Just Beautiful",
     subtitle: "Season 1 Featured Track",
     tag: "Featured Single",
     desc: "A high-energy rock anthem empowering kids to stay authentic, embrace their unique talents, and overcome peer pressure.",
-    youtubeUrl: "https://www.youtube.com/watch?v=97tX0sM3vE8",
+    youtubeUrl: "https://www.youtube.com/watch?v=BzHUNTZ66zY",
   },
   {
-    id: "J3_lX9S5k4o",
-    title: "What You Give",
+    id: "wDEXG3kHjqk",
+    title: "Sing",
     subtitle: "Social Consciousness Single",
     tag: "Inspirational Anthem",
     desc: "An uplifting message about kindness, giving back to your community, and spreading light through hard work and rock 'n' roll.",
-    youtubeUrl: "https://www.youtube.com/watch?v=J3_lX9S5k4o",
+    youtubeUrl: "https://www.youtube.com/watch?v=wDEXG3kHjqk",
   },
   {
     id: "W3dkLd9UkZU",
@@ -547,7 +547,7 @@ export default function RockNRollKidsClient({
           <Image
             src={getMediaUrl(
               sanityContent?.heroBannerImage,
-              "/images/merch/all-c.png",
+              "/images/7hrrk/kids1.png",
             )}
             alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
             width={1400}
@@ -568,10 +568,7 @@ export default function RockNRollKidsClient({
           {/* Section Header */}
           <div className="mb-8 border-b border-white/10 pb-6">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-2 font-mono text-xs font-bold tracking-widest text-purple-400 uppercase">
-                <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
-                {badgeText.toUpperCase()}
-              </div>
+
               <span className="font-mono text-xs tracking-widest text-purple-300/80 uppercase">
                 Animated Series &amp; Universe
               </span>
@@ -738,9 +735,10 @@ export default function RockNRollKidsClient({
               <iframe
                 src={`https://www.youtube.com/embed/${selectedVideo}`}
                 title="Rock and Roll Kids Player"
-                className="h-full w-full"
+                className="h-full w-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                sandbox="allow-scripts allow-same-origin allow-presentation"
+                sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-forms"
               />
             </div>
 

@@ -253,7 +253,7 @@ export default function HeroUpNextBanner() {
         {/* Top Header: UP NEXT Badge + Compact Countdown Timer */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-2.5">
           <span
-            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-fluid-caption font-bold ${isHappeningNow
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-3xs font-bold ${isHappeningNow
               ? "border-emerald-500/50 bg-emerald-950/80 text-emerald-300"
               : "border-amber-500/40 bg-amber-950/80 text-amber-200"
               }`}

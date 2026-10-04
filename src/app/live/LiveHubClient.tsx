@@ -650,9 +650,10 @@ export default function LiveHubClient({
         <SectionHeader id="live-streams-heading" title="Live Streams" visuallyHidden />
         <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 md:gap-4">
           {rooms.map((room, i) => (
-            <article
+            <Link
               key={room.name}
-              className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-purple-900/30 transition-colors hover:bg-[#0b041a]/90"
+              href={`/live/${room.name.replace(/^live_/, "")}`}
+              className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-purple-900/30 cursor-pointer transition-[colors,border-color,transform] hover:bg-[#0b041a]/90 hover:border-purple-500/40 select-none"
               style={{ "--room-color": room.color } as React.CSSProperties}
             >
               {/* Card Header Bar */}
@@ -677,7 +678,7 @@ export default function LiveHubClient({
               </div>
 
               {/* Middle Video Thumbnail */}
-              <Link href={`/live/${room.name.replace(/^live_/, "")}`} className="relative block aspect-video w-full overflow-hidden bg-black/60">
+              <div className="relative block aspect-video w-full overflow-hidden bg-black/60">
                 <Image
                   src={
                     room.image ||
@@ -709,7 +710,7 @@ export default function LiveHubClient({
                 <div className="overlay-center-hover z-10">
                   <GlassPlayButton size="lg" as="div" />
                 </div>
-              </Link>
+              </div>
 
               {/* Card Footer Bar */}
               <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-black/[0.02] p-3 sm:p-3.5">
@@ -728,14 +729,14 @@ export default function LiveHubClient({
                   onClick={(e) =>
                     handleCopyLink(e as any, room.name.replace(/^live_/, ""))
                   }
-                  className="shrink-0 whitespace-nowrap"
+                  className="shrink-0 whitespace-nowrap relative z-20"
                 >
                   {copiedSlug === room.name.replace(/^live_/, "")
                     ? "✓ Copied!"
                     : "Copy Link"}
                 </Button>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

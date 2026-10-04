@@ -609,12 +609,12 @@ function CruiseShipExplorerSectionComponent({
               },
               {
                 name: "Ultimate Family Townhouse",
-                img: "/images/cruise/ship/ahendel-ultimatefamilytownhouse-e43a2011-rt-crop-u36238.jpg",
+                img: "/images/cruise/ship/family-townhouse.jpg",
                 tag: "3-Story Suite",
               },
               {
                 name: "Splashaway Bay & Cat 6",
-                img: "/images/cruise/ship/nmorley-cat6waterpark-hurricanehunter-gopr0154-rt-crop-u35622.jpg",
+                img: "/images/cruise/ship/cat6-waterpark.jpg",
                 tag: "Water Park",
               },
               {

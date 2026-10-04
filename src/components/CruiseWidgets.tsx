@@ -190,12 +190,12 @@ export function OriginStats() {
 
 // --- PHOTO WALL ---
 const MOCK_PHOTOS = [
-  "/images/galleries/live_show_1.jpg",
-  "/images/galleries/live_show_2.jpg",
-  "/images/galleries/live_show_3.jpg",
-  "/images/galleries/live_show_4.jpg",
-  "/images/galleries/live_show_5.jpg",
-  "/images/galleries/live_show_6.jpg",
+  "/images/hero/band-performance.png",
+  "/images/cruise/cococay-beach-party.png",
+  "/images/cruise/cruise-hero.png",
+  "/images/cruise/port-canaveral-docked.png",
+  "/images/cruise/miami.png",
+  "/images/cruise/st-thomas-island.png",
 ];
 
 export function PhotoWall() {

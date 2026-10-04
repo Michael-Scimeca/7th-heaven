@@ -6052,19 +6052,23 @@ body.fake-livestream-active {
   line-height: 1;
 }
 
+button>span,
+.seventh--btn {
+  font-size: 13px;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+}
+
 /* seventh--btn — cursor-tracking glow buttons */
 .seventh--btn {
   border-radius: var(--radius-full);
   position: relative;
-  line-height: 24px;
   z-index: 1;
-  font-size: 13px;
   box-shadow: 0 24px 60px #0000008c;
   background: linear-gradient(to left, #581ed0, #8b5cf6);
   background-size: 200% 100%;
   font-weight: 600 !important;
   color: white !important;
-  ;
   /* 3. Position it on the right side initially */
   background-position: right center;
 

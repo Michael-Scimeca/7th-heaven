@@ -3,6 +3,7 @@
 /* eslint-disable react-doctor/prefer-useReducer */
 import Image from "next/image";
 import { GlowInput } from "@/components/GlowInput";
+import { Avatar } from "@/components/Avatar";
 
 import React, {
   useState,
@@ -1667,14 +1668,13 @@ export function FakeLiveStream({
 
             {/* Stream identity — updates with active cam */}
             <div className="flex min-w-0 items-center gap-2">
-              <div className="relative shrink-0">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-white/20 bg-gradient-to-br from-purple-500/30 to-purple-800/20">
-                  {activeFeedCrew.avatar}
-                </div>
-                <span className="absolute -right-1 -bottom-1 rounded-full border border-purple-500/50 bg-purple-600/50 px-1.5 py-0.5 text-[9px]">
-                  Crew
-                </span>
-              </div>
+              <Avatar
+                name={activeFeedCrew.name}
+                initials={activeFeedCrew.avatar}
+                role="crew"
+                size="md"
+                badge="Crew"
+              />
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <span>
@@ -1728,28 +1728,6 @@ export function FakeLiveStream({
                   </span>
                 </SeventhButton>
               )}
-
-            <Link
-              href={`/live/${activeFeedId === "mike" ? "michael" : activeFeedId}`}
-              className="transition-colors flex items-center gap-2 no-underline hover:text-white"
-            >
-              <div className="relative shrink-0">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-gradient-to-br from-purple-500/30 to-purple-800/20">
-                  {activeFeedCrew.avatar}
-                </div>
-                <span className="absolute -right-1 -bottom-1 rounded-full border border-purple-400/50 bg-purple-600/70 px-1.5 py-0.5 text-[8px] text-[var(--color-accent)] text-purple-200 backdrop-blur-sm">
-                  CREW
-                </span>
-              </div>
-              <span className="hidden sm:inline">{activeFeedCrew.name}</span>
-              {flaggedMsgs.length > 0 && (
-                <span
-                  className="flex h-4 w-4 items-center justify-center rounded-lg bg-red-500 text-[9px] font-bold text-white"
-                >
-                  {flaggedMsgs.length}
-                </span>
-              )}
-            </Link>
 
             {/* Crew side button — goes to this crew member's own admin dashboard */}
             <Link
@@ -3627,7 +3605,7 @@ export function FakeLiveStream({
                           }),
                         );
                       }}
-                      className="transition-[background-color,color,border-color,box-shadow,transform] flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/25 bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] py-3 shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:scale-[1.02] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] active:scale-[0.98]"
+                      className="transition-[background-color,color,border-color,box-shadow,transform] flex w-full cursor-pointer items-center justify-center gap-2 !rounded-full bg-gradient-to-r from-[#9333ea] via-[#d946ef] to-[#ec4899] shadow-[0_0_25px_rgba(217,70,239,0.5)] hover:scale-[1.02] hover:from-[#a855f7] hover:via-[#e879f9] hover:to-[#f43f5e] hover:shadow-[0_0_35px_rgba(217,70,239,0.75)] active:scale-[0.98]"
                     >
                       Sign Up as a Fan
                     </SeventhButton>
@@ -3641,9 +3619,9 @@ export function FakeLiveStream({
                           }),
                         );
                       }}
-                      className="transition-colors w-full cursor-pointer rounded-lg border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10 hover:text-white"
+                      className="flex w-full min-h-[40px] items-center justify-center transition-colors cursor-pointer !rounded-full border border-white/10 bg-[#00000029] py-2.5 hover:bg-white/10 hover:text-white"
                     >
-                      Sign In to Account
+                      <span>Sign In to Account</span>
                     </button>
                   </div>
                 </div>

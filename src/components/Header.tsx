@@ -586,7 +586,7 @@ export function Header() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-[#9333ea]" : "cursor-pointer"}`}
+            className={`group pointer-events-auto relative z-50 flex min-w-0 shrink-0 items-center justify-center pt-2 duration-[250ms] select-none ${effectivePathname === "/" ? "active cursor-default !text-white" : "cursor-pointer"}`}
             title="7th Heaven — Go to Home Page"
           >
             <div className="pointer-events-auto flex h-[clamp(24px,2.5vw,46px)] w-[clamp(130px,13.5vw,250px)] items-center justify-center transition-[width,height] select-none">

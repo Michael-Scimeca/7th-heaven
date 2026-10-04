@@ -578,7 +578,7 @@ export default function MemberDashboard() {
         <PushAlertsCard group="fans" className="mb-10" />
 
         {/* Digital Tickets / Inbox moved to top */}
-        <div className="group relative mb-10 overflow-hidden border border-white/10 bg-[url('/images/card-glow.jpg')] bg-cover bg-center p-6 shadow-[0_0_40px_rgba(255,10,61,0.15)]">
+        <div className="group relative mb-10 overflow-hidden border border-white/10 bg-gradient-to-r from-red-950/40 via-purple-950/40 to-black bg-cover bg-center p-6 shadow-[0_0_40px_rgba(255,10,61,0.15)]">
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-[#0a0a14]/90 to-black/80" />
           <div className="transition-[background-color,color,border-color,box-shadow,transform] group-hover:blur-none absolute top-0 right-0 translate-x-4 -translate-y-4 p-4 opacity-30 blur-[2px] group-hover:opacity-40">
             <svg

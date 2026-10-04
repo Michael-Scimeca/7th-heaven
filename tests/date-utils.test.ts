@@ -63,4 +63,9 @@ describe("Safari & Cross-Browser Safe Date Parsing", () => {
     expect(parseDateSafe("").getTime()).toBe(0);
     expect(parseDateSafe(undefined).getTime()).toBe(0);
   });
+
+  it("checks whether a show is over", () => {
+    const pastShow = { date: "2020-01-01", time: "8:00 PM" };
+    expect(isShowOver(pastShow)).toBe(true);
+  });
 });

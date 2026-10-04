@@ -70,7 +70,7 @@ export default function StudioDPage() {
           className="absolute inset-0 h-full w-full transform-gpu"
         >
           <Image
-            src="/images/hero-banner.png"
+            src="/images/hero/hero-banner.png"
             alt="Studio D - Urban and Landscape Design"
             fill
             priority

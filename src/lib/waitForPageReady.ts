@@ -9,8 +9,6 @@
 // definition of "ready" from drifting apart between the two call sites.
 const MAX_WAIT_MS = 300;
 
-const poll = (fn: () => void, delayMs = 16) => setTimeout(fn, delayMs);
-
 export async function waitForPageReady(): Promise<void> {
   // Fast paint readiness check via double requestAnimationFrame (no blocking on web fonts)
   return new Promise<void>((resolve) => {

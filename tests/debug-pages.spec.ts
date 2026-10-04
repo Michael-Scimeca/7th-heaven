@@ -14,11 +14,12 @@ test('debug page loading', async ({ page }) => {
     console.log(`NAVIGATING TO: ${route}`);
     const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
     console.log(`HTTP Status: ${response?.status()}`);
+    expect(response?.status()).toBeLessThan(400);
     
     await page.waitForTimeout(1500);
     
     const bodyText = await page.evaluate(() => document.body.innerText.trim());
-    const isBlank = bodyText.length === 0;
+    expect(bodyText.length).toBeGreaterThan(0);
     
     const mainStyles = await page.evaluate(() => {
       const el = document.querySelector('main') || document.querySelector('.content-area') || document.body;

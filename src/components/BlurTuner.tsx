@@ -9,7 +9,7 @@
  * browser only; use "Copy CSS" to make them permanent in ProgressiveBlur.css.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 type Layers = "auto" | "3" | "4" | "5";
 
@@ -221,7 +221,17 @@ export default function BlurTuner() {
     }
   };
 
+  const showTunerButton = useSyncExternalStore(
+    () => () => {},
+    () =>
+      typeof window !== "undefined" &&
+      (window.location.search.includes("tuner=true") ||
+        window.location.search.includes("tune=true")),
+    () => false,
+  );
+
   if (!open) {
+    if (!showTunerButton) return null;
     return (
       <button
         type="button"
