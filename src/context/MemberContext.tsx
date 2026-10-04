@@ -691,7 +691,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
 
   return (
     <MemberContext.Provider value={contextValue}>
-      {children}
+      <>{children}</>
     </MemberContext.Provider>
   );
 }

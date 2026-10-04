@@ -32,8 +32,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <MemberProvider>
-        {children}
-        <LoginModal />
+        <>
+          {children}
+          <LoginModal />
+        </>
       </MemberProvider>
     </AuthProvider>
   );
