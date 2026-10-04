@@ -559,50 +559,108 @@ export default function RockNRollKidsClient({
         </div>
       </PageHero>
 
-      {/* ── STORY & CONCEPT SECTION (LAYOUT 1: SPLIT DUAL GLASS) ── */}
+      {/* ── STORY & CONCEPT SECTION (MERGED & PRONOUNCED HERO CARD) ── */}
       <section
         id="rrk-story"
         aria-labelledby="rrk-story-heading"
         className="section"
       >
-        <div className="grid w-full grid-cols-1 items-start gap-6 text-left sm:gap-6 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <SectionHeader
-              id="rrk-story-heading"
-              title={titleText}
-              subtitle="An original animated series & multi-platform universe bringing positive rock and roll energy to kids worldwide."
-              divider={false}
-            />
+        <div className="relative w-full overflow-hidden rounded-[var(--radius-box)] border border-purple-500/30 bg-gradient-to-b from-purple-950/40 via-black/80 to-black/90 p-6 shadow-2xl backdrop-blur-xl sm:p-8 md:p-10">
+          {/* Ambient Glow Background Accents */}
+          <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl" />
 
-            {/* Quick Spec Pills */}
-            <ul className="flex flex-col gap-2 pt-2">
-              <li className="flex items-center gap-3 border border-white/10 bg-purple-950/40 p-3 text-purple-200">
-                <span className="h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
-                <span>Animated TV Series & Comic Books</span>
-              </li>
-              <li className="flex items-center gap-3 border border-white/10 bg-purple-950/40 p-3 text-purple-200">
-                <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
-                <span>Original Songs, Mobile Apps & Games</span>
-              </li>
-              <li className="flex items-center gap-3 border border-white/10 bg-purple-950/40 p-3 text-purple-200">
-                <span className="h-2 w-2 shrink-0 rounded-full bg-purple-400" />
-                <span>Positive Influence & Creative Inspiration</span>
-              </li>
-            </ul>
+          {/* Section Header Header */}
+          <div className="relative z-10 mb-8 border-b border-white/10 pb-6">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <SectionBadge className="gap-2">
+                <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
+                {badgeText.toUpperCase()}
+              </SectionBadge>
+              <span className="font-mono text-xs tracking-widest text-purple-300/80 uppercase">
+                Animated Series &amp; Universe
+              </span>
+            </div>
+            <h2
+              id="rrk-story-heading"
+              className="mb-3 text-3xl font-black tracking-tight leading-tight text-white sm:text-4xl md:text-5xl"
+            >
+              {titleText}
+            </h2>
+            <p className="max-w-4xl text-base font-medium leading-relaxed text-white/70 sm:text-lg md:text-xl">
+              An original animated series &amp; multi-platform universe bringing positive rock and roll energy to kids worldwide.
+            </p>
           </div>
 
-          <div className="relative space-y-6 overflow-hidden md:col-span-7">
-
-            <div className="relative z-10 space-y-5">
-              <div className="flex items-center gap-2">
-                <span className="text-purple-400">[ CONCEPT OVERVIEW ]</span>
-              </div>
-              <p className="drop-shadow-md sm:text-xl">&ldquo;{para1}&rdquo;</p>
-              {para2 && (
-                <p className="border-t border-white/10 pt-5 font-normal">
-                  {para2}
+          {/* Merged Content Grid */}
+          <div className="relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
+            {/* Left Side: Highlighted Quote & Story Narrative */}
+            <div className="space-y-6 lg:col-span-7">
+              <blockquote className="relative rounded-[var(--radius-box)] border border-purple-500/25 bg-black/50 p-5 shadow-inner sm:p-6">
+                <div className="mb-2 text-xs font-bold tracking-widest text-purple-300 uppercase">
+                  Mission Statement
+                </div>
+                <p className="text-lg font-semibold leading-relaxed text-white italic sm:text-xl">
+                  &ldquo;{para1}&rdquo;
                 </p>
+              </blockquote>
+
+              {para2 && (
+                <div className="space-y-4 text-base font-normal leading-relaxed text-white/90">
+                  <p>{para2}</p>
+                </div>
               )}
+            </div>
+
+            {/* Right Side: Pronounced Feature Cards */}
+            <div className="flex flex-col justify-center gap-3.5 lg:col-span-5">
+              <div className="rounded-[var(--radius-box)] border border-cyan-500/30 bg-cyan-950/20 p-4 transition-colors hover:border-cyan-400/50 hover:bg-cyan-950/30">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-500/20 text-cyan-300">
+                    📺
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+                      Animated TV Series &amp; Comic Books
+                    </h3>
+                    <p className="text-xs text-white/70">
+                      Multi-episode animated adventures &amp; published comic books.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-950/20 p-4 transition-colors hover:border-emerald-400/50 hover:bg-emerald-950/30">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-400/40 bg-emerald-500/20 text-emerald-300">
+                    🎸
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+                      Original Songs, Mobile Apps &amp; Games
+                    </h3>
+                    <p className="text-xs text-white/70">
+                      Soundtracks, mobile games, interactive apps, and coloring books.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/20 p-4 transition-colors hover:border-purple-400/50 hover:bg-purple-950/30">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-purple-400/40 bg-purple-500/20 text-purple-300">
+                    ✨
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+                      Positive Influence &amp; Inspiration
+                    </h3>
+                    <p className="text-xs text-white/70">
+                      Problem solving, kindness, and social consciousness through rock.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -635,10 +693,10 @@ export default function RockNRollKidsClient({
                     />
                   </div>
                 )}
-                <SectionBadge className="mb-6 gap-1.5">
+                <div className="mb-2 flex items-center gap-1.5 text-xs font-bold tracking-wider text-purple-400 uppercase font-mono">
                   {char.icon ? <char.icon className="h-3.5 w-3.5" /> : null}
-                  {char.role}
-                </SectionBadge>
+                  <span>{char.role}</span>
+                </div>
                 <h3 className="mb-1">{char.name}</h3>
                 <p>{char.desc}</p>
               </div>
