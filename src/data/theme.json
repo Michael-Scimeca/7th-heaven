@@ -32,9 +32,9 @@
     "--color-nav-font": "#9333ea"
   },
   "typography": {
-    "--font-family-sans": "'Switzer', sans-serif",
-    "--font-family-heading": "'Tanker', 'Switzer', sans-serif",
-    "--font-family-display": "'Tanker', 'Switzer', sans-serif",
+    "--font-family-sans": "'Inter', sans-serif",
+    "--font-family-heading": "'Tanker', 'Inter', sans-serif",
+    "--font-family-display": "'Tanker', 'Inter', sans-serif",
     "--font-size-base": "1rem",
     "--font-size-2xs": "0.7rem",
     "--font-size-xs": "0.75rem",

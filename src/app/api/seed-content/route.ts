@@ -526,6 +526,70 @@ const SEED_PAGE_CONTENTS = [
     heroHeading: "BOOK 7TH HEAVEN FOR YOUR EVENT",
     heroSubheading:
       "Bring 40 years of chart-topping rock, #1 Billboard hits, and high-energy live performance to your festival, venue, corporate event, or private party.",
+    sections: [
+      {
+        sectionId: "schedule",
+        title: "Event Schedule & Format",
+        subtitle: "Select one or more dates on the calendar to reserve 7th Heaven.",
+      },
+      {
+        sectionId: "backup_dates",
+        title: "Flexible? Add Backup Dates",
+        subtitle: "Increase your chances — we'll try your preferred date first",
+      },
+      {
+        sectionId: "scheduled-shows",
+        title: "Your Scheduled Shows",
+        subtitle: "Configure individual times and formats for each show below",
+      },
+      {
+        sectionId: "contact",
+        title: "Contact Information",
+        subtitle:
+          "Enter your contact details so our band manager can coordinate your booking and send confirmation details.",
+      },
+      {
+        sectionId: "venue",
+        title: "Venue & Event Logistics",
+        subtitle:
+          "Specify event start & end times, band performance sets, and load-in schedules for your booking.",
+      },
+      {
+        sectionId: "venue_address",
+        title: "Venue Address & Location Setup",
+        subtitle:
+          "Provide the physical street address, city, state, zip code, and parking details for the event location.",
+      },
+      {
+        sectionId: "logistics",
+        title: "Technical & Logistics",
+        subtitle:
+          "Detail venue stage setup, indoor/outdoor preferences, and sound system requirements.",
+      },
+      {
+        sectionId: "extras",
+        title: "Production & Extras",
+        subtitle:
+          "Select any features you'd like the band to bring to your event. Pricing discussed with your band manager.",
+      },
+      {
+        sectionId: "notes",
+        title: "Notes & Questions",
+        subtitle:
+          "Anything else you'd like to mention? Special requests, questions, or details for our band manager.",
+      },
+      {
+        sectionId: "summary",
+        title: "Booking Summary",
+        subtitle: "Review your booking details and submit your request.",
+      },
+      {
+        sectionId: "success",
+        title: "Request Received",
+        subtitle:
+          "Thank you for submitting your booking request. Our band manager will review your dates and reach out shortly.",
+      },
+    ],
   },
   {
     _type: "pageContent",
@@ -781,8 +845,8 @@ const SEED_PAGE_CONTENTS = [
         desc: "Co-creator of 7th Heaven & The Rock 'n' Roll Kids animated series, comics, and video games.",
         phone: "(847) 551-5363",
         email: "Rich777@aol.com",
-        mobileImg: "/images/contact/dickie-contact-mobile.png",
-        desktopImg: "/images/members/desktop-richy.png",
+        mobileImg: "/images/contact/dickie-contact-mobile.webp",
+        desktopImg: "/images/members/desktop-richy.webp",
       },
       {
         name: "Roy Adorjan",

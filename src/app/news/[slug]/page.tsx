@@ -131,10 +131,41 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const article = await getArticle(slug);
-  if (!article) return { title: "News Article | 7th Heaven" };
+  if (!article) return { title: "News Article | 7th Heaven Band" };
+
+  const title = `${article.title} | 7th Heaven News`;
+  const description =
+    article.content.slice(0, 155).replace(/\n/g, " ").trim() + "...";
+  const canonicalUrl = `https://7thheavenband.com/news/${slug}`;
+
   return {
-    title: `${article.title} | 7th Heaven News`,
-    description: article.content.slice(0, 160),
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "7th Heaven",
+      type: "article",
+      images: [
+        {
+          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@7thheavenband",
+      title,
+      description,
+      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+    },
   };
 }
 
@@ -153,8 +184,41 @@ export default async function NewsArticlePage({
   const categoryLabel =
     CATEGORY_LABELS[article.category ?? ""] ?? article.category ?? "";
 
+  const newsArticleLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: article.title,
+    description: article.content.slice(0, 160).replace(/\n/g, " "),
+    datePublished: article.publishedAt || "2026-01-01T00:00:00Z",
+    dateModified: article.publishedAt || "2026-01-01T00:00:00Z",
+    author: {
+      "@type": "Organization",
+      name: "7th Heaven",
+      url: "https://7thheavenband.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "7th Heaven",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+      },
+    },
+    url: `https://7thheavenband.com/news/${slug}`,
+  };
+
   return (
     <main id="news-article-page" className="page-container page-stack min-h-screen">
+      <script
+        id={`news-article-jsonld-${slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(newsArticleLd)
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026"),
+        }}
+      />
       {/* Article */}
       <article className="site-container">
         <header>
@@ -190,7 +254,7 @@ export default async function NewsArticlePage({
         </header>
 
         {/* Body */}
-        <div className="max-w-[65ch] space-y-5 text-secondary text-base leading-relaxed">
+        <div className="max-w-[65ch] space-y-5 text-secondary text-base">
           {article.content
             .split("\n")
             .map((paragraph) =>

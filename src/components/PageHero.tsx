@@ -67,7 +67,7 @@ export function PageHero({
               </h1>
               {subtitle && (
                 <p
-                  className={`text-body text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
+                  className={`text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
                 >
                   {subtitle}
                 </p>
@@ -108,7 +108,7 @@ export function PageHero({
             </h1>
             {subtitle && (
               <p
-                className={`text-body text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
+                className={`text-secondary max-w-[65ch] w-full ${isCenter ? "mx-auto text-center" : "text-left"}`}
               >
                 {subtitle}
               </p>

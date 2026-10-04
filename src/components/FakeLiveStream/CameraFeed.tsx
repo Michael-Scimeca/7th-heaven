@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 export function CameraFeed({ crewColor = "#a855f7" }: { crewColor?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

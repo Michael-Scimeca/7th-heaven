@@ -2,8 +2,6 @@
 
 import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
-import Link from "next/link";
-import TransitionLink from "@/components/TransitionLink";
 import SeventhButton from "@/components/SeventhButton";
 import Button from "@/components/Button";
 import FaqChevronButton from "@/components/FaqChevronButton";
@@ -388,7 +386,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                     >
                       <div className="overflow-hidden">
                         <div className="pb-6 pl-3">
-                          <p className="text-secondary max-w-[65ch] text-base leading-relaxed">{faq.answer}</p>
+                          <p className="text-secondary max-w-[65ch] text-base">{faq.answer}</p>
                         </div>
                       </div>
                     </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import dynamic from "next/dynamic";
 import LazyHeavy from "@/components/LazyHeavy";
 import { CRUISE_HISTORY } from "../cruiseData";

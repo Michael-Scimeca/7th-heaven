@@ -198,7 +198,7 @@ export default function HomeNewsSection({
         {/* Section Header */}
         <div className="mb-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div className="title-group title-group--section max-w-2xl text-left">
-            <h2 id="news-heading" className="font-[family-name:var(--font-rockstar)] text-white">
+            <h2 id="news-heading" className="text-amber-50">
               {sanityContent?.newsTitle || "Latest Band News"}
             </h2>
             <p className="text-secondary max-w-[65ch]">
@@ -218,20 +218,20 @@ export default function HomeNewsSection({
           {/* Featured Article Card (Left / Top - 7 Cols) */}
           {featured && (
             <article className="group relative overflow-hidden border-0 pb-4 md:pb-6 lg:col-span-7">
-              <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+              <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                 <span className="text-muted text-sm font-medium">
                   {featured.date}
                 </span>
               </div>
-              <h3 className="mb-6 text-white">
+              <h3 className="mb-2">
                 <Link
                   href={`/news/${featured.slug || featured.id || toSlug(featured.title)}`}
-                  className="transition-colors hover:text-action"
+                  className="text-amber-50 transition-colors hover:text-action group-hover:text-action"
                 >
                   {featured.title}
                 </Link>
               </h3>
-              <p className="font-normal text-secondary max-w-[65ch]">{featured.content}</p>
+              <p className="text-secondary max-w-[65ch]">{featured.content}</p>
             </article>
           )}
 
@@ -251,8 +251,8 @@ export default function HomeNewsSection({
                     </span>
                     <span className="a-btn text-xs font-semibold">Read</span>
                   </div>
-                  <h4 className="line-clamp-1 text-white">{item.title}</h4>
-                  <p className="line-clamp-2 text-secondary text-sm">{item.content}</p>
+                  <h4 className="line-clamp-1 mb-1.5 text-amber-50 transition-colors group-hover:text-action">{item.title}</h4>
+                  <p className="line-clamp-2 text-secondary max-w-[65ch]">{item.content}</p>
                 </Link>
               );
             })}

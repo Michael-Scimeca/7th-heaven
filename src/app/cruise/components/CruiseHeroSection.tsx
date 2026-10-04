@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { SectionBadge } from "@/components/SectionBadge";
 import HeroParallaxCustomizer from "@/components/HeroParallaxCustomizer";
 import type { HeroParallaxController } from "@/lib/useHeroParallax";
 import type { RefObject } from "react";
@@ -49,12 +48,9 @@ export default function CruiseHeroSection({
   }, []);
 
   const desktopVideoUrl = "/movie/cruise-desktop.mp4";
-  const mobileVideoUrl = "/movie/cruise-desktop.mp4";
   const posterUrl =
     sanityContent?.heroPosterUrl || "/images/cruise/hero-video-poster.jpg";
 
-  const bottomFadeStart = heroMaskSettings?.bottomFadeStart ?? 80;
-  const bottomFadeEnd = heroMaskSettings?.bottomFadeEnd ?? 98;
   const videoBrightness = heroMaskSettings?.videoBrightness;
   const dimOpacity =
     videoBrightness !== undefined && videoBrightness < 100
@@ -71,9 +67,6 @@ export default function CruiseHeroSection({
   const ship1Year = ship1?.subtitle || "2027";
   const ship2Title = ship2?.title || "Legend of the seas";
   const ship2Year = ship2?.subtitle || "2028";
-  const subheading =
-    sanityContent?.heroSubheading ||
-    "CHICAGO MUSIC CRUISE · OVER 25 YEARS (1998 – 2028)";
 
   const maskImageGradient =
     "linear-gradient(to bottom, black 0%, black 65%, transparent 95%)";

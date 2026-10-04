@@ -75,13 +75,13 @@ export function CrewSetPasswordModal({
         <h2 className="mb-1.5 text-center text-white">
           Set Your Password
         </h2>
-        <p className="mb-2 text-center text-sm leading-relaxed text-white/60">
+        <p className="mb-2 text-center text-sm text-white/60">
           Welcome to the crew! Your account has been created at:
         </p>
         <p className="mb-6 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 text-center text-sm font-bold text-purple-400">
           {email}
         </p>
-        <p className="-mt-3 mb-6 text-center text-xs leading-relaxed text-white/40">
+        <p className="-mt-3 mb-6 text-center text-xs text-white/40">
           Create your own password to continue.
         </p>
 

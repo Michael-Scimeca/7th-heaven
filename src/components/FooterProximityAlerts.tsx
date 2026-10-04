@@ -346,9 +346,9 @@ export default function FooterProximityAlerts() {
         )}
 
         {/* Top Row: Form Inputs */}
-        <div className="relative z-10 mb-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <div>
-            <label className="block flex items-center gap-1.5">
+        <div className="relative z-10 mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="flex flex-col justify-end">
+            <label className="mb-2 flex h-6 items-center gap-1.5 whitespace-nowrap">
               Full Name
             </label>
             <GlowInput
@@ -360,21 +360,21 @@ export default function FooterProximityAlerts() {
             />
           </div>
 
-          <div>
-            <label className="block flex items-center gap-1.5">
-              Your Zip Code / City
+          <div className="flex flex-col justify-end">
+            <label className="mb-2 flex h-6 items-center gap-1.5 whitespace-nowrap">
+              Zip Code / City
             </label>
             <GlowInput
               type="text"
               value={zip}
               onChange={(e) => setZip(e.target.value)}
-              placeholder="e.g. 60056 or Chicago"
+              placeholder="e.g. 60056 or City"
               wrapperClassName="w-full"
             />
           </div>
 
-          <div>
-            <label className="block flex items-center gap-1.5">
+          <div className="flex flex-col justify-end">
+            <label className="mb-2 flex h-6 items-center gap-1.5 whitespace-nowrap">
               Email
             </label>
             <GlowInput
@@ -535,7 +535,7 @@ export default function FooterProximityAlerts() {
             </SeventhButton>
           )}
 
-          <p>
+          <p className="text-xs text-muted">
             {permission === "granted"
               ? "Your notifications are enabled. Update filters above and save anytime."
               : "Click to enable instant browser & proximity alerts for nearby shows."}

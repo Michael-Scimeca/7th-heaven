@@ -95,20 +95,73 @@ export default function LogoTicker({
   speedSec,
   bgClassName = "  ",
   direction = "left",
+  ariaLabel,
 }: {
   items?: TickerItem[];
   speedSec?: number;
   bgClassName?: string;
   direction?: "left" | "right";
+  ariaLabel?: string;
 }) {
   const config = DEFAULT_TICKER_CONFIG;
-
-  // Render 2 identical sets back-to-back for a perfectly seamless 50% CSS keyframe loop
-  const track = [...items, ...items];
   const activeSpeed = speedSec ?? config.speedSec;
+  const defaultLabel =
+    direction === "left"
+      ? "Featured artists and bands ticker"
+      : "Press and media features ticker";
+
+  const renderItem = (item: TickerItem, key: string, isDuplicate = false) => {
+    if (item.src) {
+      const altText = item.alt ? `${item.alt} logo` : "Partner logo";
+      return (
+        <div
+          key={key}
+          aria-hidden={isDuplicate ? true : undefined}
+          className="flex h-[clamp(44px,6vw,96px)] shrink-0 transform-gpu items-center justify-center px-[clamp(12px,2.5vw,44px)]"
+        >
+          <Image
+            src={item.src}
+            alt={isDuplicate ? "" : altText}
+            width={160}
+            height={64}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            className={`pointer-events-none h-[clamp(24px,4vw,64px)] w-auto max-w-none select-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""}`}
+            unoptimized
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div
+        key={key}
+        aria-hidden={isDuplicate ? true : undefined}
+        className="flex h-[clamp(44px,6vw,96px)] shrink-0 transform-gpu items-center gap-4 border-r border-white/10 px-4 sm:px-8"
+      >
+        {item.icon && <Icon kind={item.icon} />}
+        <div className="flex flex-col">
+          <span className="text-[clamp(1rem,2vw,1.6rem)] font-black whitespace-nowrap">
+            {item.label}
+          </span>
+          {item.sub && (
+            <span className="text-[clamp(9px,1vw,11px)] whitespace-nowrap">
+              {item.sub}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div className="relative w-full">
+    <div
+      role="region"
+      aria-label={ariaLabel || defaultLabel}
+      tabIndex={0}
+      className="relative w-full focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-amber-400/50"
+    >
       <div
         className={`hoy-ticker relative w-full overflow-hidden ${bgClassName}`}
         style={{ ["--ticker-speed" as string]: `${activeSpeed}s` }}
@@ -116,41 +169,13 @@ export default function LogoTicker({
         <div
           className={`hoy-ticker-track flex w-max flex-nowrap items-stretch ${direction === "right" ? "hoy-ticker-reverse" : ""}`}
         >
-          {track.map((item, i) =>
-            item.src ? (
-              <div
-                key={item.src + "-" + i}
-                className="flex h-[clamp(44px,6vw,96px)] shrink-0 transform-gpu items-center justify-center px-[clamp(12px,2.5vw,44px)]"
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt ?? ""}
-                  width={160}
-                  height={64}
-                  priority
-                  loading="eager"
-                  className={`pointer-events-none h-[clamp(24px,4vw,64px)] w-auto max-w-none select-none object-contain transition-[filter] ${config.invert ? "hoy-ticker-logo" : ""}`}
-                  unoptimized
-                />
-              </div>
-            ) : (
-              <div
-                key={(item.label || "item") + "-" + i}
-                className="flex h-[clamp(44px,6vw,96px)] shrink-0 transform-gpu items-center gap-4 border-r border-white/10 px-4 sm:px-8"
-              >
-                {item.icon && <Icon kind={item.icon} />}
-                <div className="flex flex-col">
-                  <span className="text-[clamp(1rem,2vw,1.6rem)] font-black whitespace-nowrap">
-                    {item.label}
-                  </span>
-                  {item.sub && (
-                    <span className="text-[clamp(9px,1vw,11px)] whitespace-nowrap">
-                      {item.sub}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ),
+          {/* Primary semantic track for screen readers and visual render */}
+          {items.map((item, i) =>
+            renderItem(item, `primary-${item.src || item.label || i}-${i}`, false),
+          )}
+          {/* Secondary loop track: purely visual duplicate hidden from screen readers */}
+          {items.map((item, i) =>
+            renderItem(item, `duplicate-${item.src || item.label || i}-${i}`, true),
           )}
         </div>
       </div>

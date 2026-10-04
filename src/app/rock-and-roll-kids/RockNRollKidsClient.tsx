@@ -397,8 +397,8 @@ const DEFAULT_FOUNDERS = [
     desc: "Co-creator of 7th Heaven & The Rock 'n' Roll Kids animated series, comics, and video games.",
     phone: "(847) 551-5363",
     email: "Rich777@aol.com",
-    mobileImg: "/images/contact/dickie-contact-mobile.png",
-    desktopImg: "/images/members/desktop-richy.png",
+    mobileImg: "/images/contact/dickie-contact-mobile.webp",
+    desktopImg: "/images/members/desktop-richy.webp",
   },
   {
     name: "Roy Adorjan",
@@ -553,6 +553,7 @@ export default function RockNRollKidsClient({
             alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
             width={1400}
             height={550}
+            priority
             className="h-auto w-full object-contain"
           />
         </div>
@@ -686,7 +687,7 @@ export default function RockNRollKidsClient({
 
           {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
           <div className="space-y-4 lg:col-span-7">
-            <div className="aspect-video w-full overflow-hidden">
+            <div className="aspect-video w-full overflow-hidden rounded-[var(--radius-box)]">
               <iframe
                 src={`https://www.youtube.com/embed/${selectedVideo}`}
                 title="Rock and Roll Kids Player"
@@ -744,8 +745,10 @@ export default function RockNRollKidsClient({
                 <div className="relative mb-3 aspect-[3/4] w-full overflow-hidden bg-black/40">
                   <Image
                     src={prod.coverImg}
-                    alt={prod.title}
+                    alt={`${prod.title} book cover`}
                     fill
+                    loading="lazy"
+                    decoding="async"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover"
                   />
@@ -762,6 +765,7 @@ export default function RockNRollKidsClient({
                 href={prod.amazonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Buy ${prod.title} on Amazon (opens in new tab)`}
               >
                 Amazon Link
               </Button>

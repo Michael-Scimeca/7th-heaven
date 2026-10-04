@@ -23,18 +23,45 @@ export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("home");
-  const metaTitle =
+  const title =
     content?.seo?.metaTitle ||
     (content?.title && !content.title.toLowerCase().includes("home")
       ? `${content.title} — 7th Heaven`
-      : "7th Heaven — Chicago's #1 Rock Band | Official Site");
+      : "7th Heaven Band | Official Chicago Rock Band & Live Concerts");
+
+  const description =
+    content?.seo?.metaDescription ||
+    content?.heroSubheading ||
+    "Official website of 7th Heaven, Chicago's premier rock band with #1 Billboard chart hits, 30 Songs in 30 Minutes medley, and 40 years of live concert tours.";
 
   return {
-    title: metaTitle,
-    description:
-      content?.seo?.metaDescription ||
-      content?.heroSubheading ||
-      "7th Heaven is a chart-topping rock experience from Chicago with #1 Billboard hits and 40 years of unforgettable live performances.",
+    title,
+    description,
+    alternates: {
+      canonical: "https://7thheavenband.com",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "https://7thheavenband.com",
+      siteName: "7th Heaven",
+      type: "website",
+      images: [
+        {
+          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          width: 1200,
+          height: 630,
+          alt: "7th Heaven Band Logo",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@7thheavenband",
+      title,
+      description,
+      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+    },
   };
 }
 

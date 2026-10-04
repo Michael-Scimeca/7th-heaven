@@ -23,15 +23,15 @@ const variantStyles: Record<ButtonVariant, string> = {
   primary:
     "bg-action text-black font-bold hover:bg-action-hover active:scale-[0.98] shadow-[0_0_20px_var(--color-action-ring)] border border-transparent",
   secondary:
-    "border border-white/15 bg-white/5 text-white font-semibold hover:bg-white/10 hover:border-white/25 active:scale-[0.98]",
+    "seventh--btn !border-none !p-0 font-semibold active:scale-[0.98]",
   tertiary:
     "text-action hover:text-action-hover underline-offset-4 hover:underline font-semibold bg-transparent border-transparent px-0 py-1 min-h-0",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "text-xs px-3 py-1.5 min-h-[36px] rounded-[var(--radius-box)]",
-  md: "text-sm px-5 py-2.5 min-h-[44px] rounded-[var(--radius-box)]",
-  lg: "text-base px-7 py-3.5 min-h-[48px] rounded-[var(--radius-box)]",
+  sm: "text-xs px-3 py-1.5 min-h-[36px] rounded-full",
+  md: "text-sm px-5 py-2.5 min-h-[44px] rounded-full",
+  lg: "text-base px-7 py-3.5 min-h-[48px] rounded-full",
 };
 
 export const Button = React.forwardRef<
@@ -59,7 +59,7 @@ export const Button = React.forwardRef<
     const baseClasses =
       "inline-flex items-center justify-center gap-2 text-center transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring select-none";
     const variantClass = variantStyles[variant];
-    const sizeClass = variant === "tertiary" ? "" : sizeStyles[size];
+    const sizeClass = variant === "tertiary" || variant === "secondary" ? "" : sizeStyles[size];
     const widthClass = fullWidth ? "w-full" : "w-fit";
     const disabledClass = disabled
       ? "opacity-50 cursor-not-allowed pointer-events-none"
@@ -76,7 +76,7 @@ export const Button = React.forwardRef<
       .filter(Boolean)
       .join(" ");
 
-    const content = (
+    const innerContent = (
       <>
         {icon && iconPosition === "left" && (
           <span className="shrink-0">{icon}</span>
@@ -87,6 +87,8 @@ export const Button = React.forwardRef<
         )}
       </>
     );
+
+    const content = variant === "secondary" ? <span>{innerContent}</span> : innerContent;
 
     if (href) {
       const isExternal =

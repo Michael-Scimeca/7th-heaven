@@ -18,24 +18,12 @@ import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 let googleMapsOptionsSet = false;
 
 import {
-  VENUE_COORDS,
   getVenueCoords,
   typeConfig,
   getShowType,
   getShowDateTime,
-  isShowOver,
 } from "@/lib/tour-helpers";
 import SeventhButton from "@/components/SeventhButton";
-
-function formatDateLabel(timestamp: number) {
-  if (!timestamp) return "";
-  const d = new Date(timestamp);
-  return d.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 function formatDateShort(timestamp: number) {
   if (!timestamp) return "";
@@ -158,23 +146,7 @@ export const SNAZZY_MAPS_227862_STYLE: google.maps.MapTypeStyle[] = [
   },
 ];
 
-// Haversine distance in miles
-function distanceMiles(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number,
-): number {
-  const R = 3959;
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-    Math.cos((lat2 * Math.PI) / 180) *
-    Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
+
 
 export type { ShowData };
 interface ShowData {
@@ -195,20 +167,7 @@ interface ShowData {
   parkingUrl?: string;
 }
 
-function hexToRgba(hex: string, alpha: number): string {
-  let c = hex.replace("#", "");
-  if (c.length === 3)
-    c = c
-      .split("")
-      .map((x) => x + x)
-      .join("");
-  const num = parseInt(c, 16);
-  if (isNaN(num)) return `rgba(0, 0, 0, ${alpha})`;
-  const r = (num >> 16) & 255;
-  const g = (num >> 8) & 255;
-  const b = num & 255;
-  return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
-}
+
 
 interface MarkerHandle {
   overlay: google.maps.OverlayView;
@@ -277,8 +236,7 @@ export default function TourMap({
   const markersRef = useRef<MarkerHandle[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [markerCount, setMarkerCount] = useState(0);
-  const [legendOpen, setLegendOpen] = useState(false);
+  const markerCount = shows?.length ?? 0;
   const [googleReady, setGoogleReady] = useState(false);
   const [mapLoadError, setMapLoadError] = useState<string | null>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -365,151 +323,15 @@ export default function TourMap({
     (dateRange[0] > minShowTime || dateRange[1] < maxShowTime);
 
   // ── Directional Map Gradient Customizer states ──
-  const [mapGradTop, setMapGradTop] = useState(true);
-  const [mapGradBottom, setMapGradBottom] = useState(true);
-  const [mapGradLeft, setMapGradLeft] = useState(false);
-  const [mapGradRight, setMapGradRight] = useState(false);
+  const [mapGradTop] = useState(true);
+  const [mapGradBottom] = useState(true);
+  const [mapGradLeft] = useState(false);
+  const [mapGradRight] = useState(false);
 
-  const [mapGradSize, setMapGradSize] = useState(23); // %
-  const [mapGradOpacity, setMapGradOpacity] = useState(0.691); // 0..1 → *0.75 = 0.518
-  const [mapGradMidstop, setMapGradMidstop] = useState(35); // %
-  const [mapGradColor, setMapGradColor] = useState("#000000");
-  const [isMapGradUiOpen, setIsMapGradUiOpen] = useState(false);
-  const [mapGradCopied, setMapGradCopied] = useState(false);
-
-  useEffect(() => {
-    const savedTop = localStorage.getItem("7h_map_grad_top");
-    const savedBottom = localStorage.getItem("7h_map_grad_bottom");
-    const savedLeft = localStorage.getItem("7h_map_grad_left");
-    const savedRight = localStorage.getItem("7h_map_grad_right");
-    const savedSize = localStorage.getItem("7h_map_grad_size");
-    const savedOpacity = localStorage.getItem("7h_map_grad_opacity");
-    const savedMidstop = localStorage.getItem("7h_map_grad_midstop");
-    const savedColor = localStorage.getItem("7h_map_grad_color");
-
-    if (savedTop !== null) setMapGradTop(savedTop === "true");
-    if (savedBottom !== null) setMapGradBottom(savedBottom === "true");
-    if (savedLeft !== null) setMapGradLeft(savedLeft === "true");
-    if (savedRight !== null) setMapGradRight(savedRight === "true");
-    if (savedSize) setMapGradSize(parseFloat(savedSize));
-    if (savedOpacity) setMapGradOpacity(parseFloat(savedOpacity));
-    if (savedMidstop) setMapGradMidstop(parseFloat(savedMidstop));
-    if (savedColor) setMapGradColor(savedColor);
-  }, []);
-
-  const toggleTop = (v: boolean) => {
-    setMapGradTop(v);
-    localStorage.setItem("7h_map_grad_top", v.toString());
-  };
-  const toggleBottom = (v: boolean) => {
-    setMapGradBottom(v);
-    localStorage.setItem("7h_map_grad_bottom", v.toString());
-  };
-  const toggleLeft = (v: boolean) => {
-    setMapGradLeft(v);
-    localStorage.setItem("7h_map_grad_left", v.toString());
-  };
-  const toggleRight = (v: boolean) => {
-    setMapGradRight(v);
-    localStorage.setItem("7h_map_grad_right", v.toString());
-  };
-
-  const updateSize = (s: number) => {
-    setMapGradSize(s);
-    localStorage.setItem("7h_map_grad_size", s.toString());
-  };
-  const updateOpacity = (o: number) => {
-    setMapGradOpacity(o);
-    localStorage.setItem("7h_map_grad_opacity", o.toString());
-  };
-  const updateMidstop = (m: number) => {
-    setMapGradMidstop(m);
-    localStorage.setItem("7h_map_grad_midstop", m.toString());
-  };
-  const updateColor = (c: string) => {
-    setMapGradColor(c);
-    localStorage.setItem("7h_map_grad_color", c);
-  };
-
-  const selectPresetMode = (
-    mode: "all" | "tb" | "lr" | "top" | "bottom" | "left" | "right" | "none",
-  ) => {
-    switch (mode) {
-      case "all":
-        toggleTop(true);
-        toggleBottom(true);
-        toggleLeft(true);
-        toggleRight(true);
-        break;
-      case "tb":
-        toggleTop(true);
-        toggleBottom(true);
-        toggleLeft(false);
-        toggleRight(false);
-        break;
-      case "lr":
-        toggleTop(false);
-        toggleBottom(false);
-        toggleLeft(true);
-        toggleRight(true);
-        break;
-      case "top":
-        toggleTop(true);
-        toggleBottom(false);
-        toggleLeft(false);
-        toggleRight(false);
-        break;
-      case "bottom":
-        toggleTop(false);
-        toggleBottom(true);
-        toggleLeft(false);
-        toggleRight(false);
-        break;
-      case "left":
-        toggleTop(false);
-        toggleBottom(false);
-        toggleLeft(true);
-        toggleRight(false);
-        break;
-      case "right":
-        toggleTop(false);
-        toggleBottom(false);
-        toggleLeft(false);
-        toggleRight(true);
-        break;
-      case "none":
-        toggleTop(false);
-        toggleBottom(false);
-        toggleLeft(false);
-        toggleRight(false);
-        break;
-    }
-  };
-
-  const copyMapGradCSS = () => {
-    let cssLines = [];
-    if (mapGradTop)
-      cssLines.push(
-        `/* Top */ background: linear-gradient(to bottom, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); height: ${mapGradSize}%;`,
-      );
-    if (mapGradBottom)
-      cssLines.push(
-        `/* Bottom */ background: linear-gradient(to top, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); height: ${mapGradSize}%;`,
-      );
-    if (mapGradLeft)
-      cssLines.push(
-        `/* Left */ background: linear-gradient(to right, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); width: ${mapGradSize}%;`,
-      );
-    if (mapGradRight)
-      cssLines.push(
-        `/* Right */ background: linear-gradient(to left, ${mapGradColor} 0%, rgba(0,0,0,${mapGradOpacity * 0.7}) ${mapGradMidstop}%, transparent 100%); width: ${mapGradSize}%;`,
-      );
-
-    navigator.clipboard.writeText(cssLines.join("\n"));
-    setMapGradCopied(true);
-    setTimeout(() => setMapGradCopied(false), 2000);
-  };
-
+  const [mapGradSize] = useState(23); // %
+  const [mapGradOpacity] = useState(0.691); // 0..1 → *0.75 = 0.518
+  const [mapGradMidstop] = useState(35); // %
+  const mapGradColor = "rgba(10,10,12,1)";
   // Load the Google Maps API once the browser is idle (or after a short fallback delay)
   // rather than the instant this component mounts. TourMap already mounts lazily via
   // <LazySection>, but that trigger fires as soon as the section is within 100px of the
@@ -1025,12 +847,6 @@ export default function TourMap({
           ? `<span style="font-size:12px; font-weight:800; color:${cfg.color};">${firstShow.date} + ${v.shows.length - 1} more show${v.shows.length > 2 ? "s" : ""}</span>`
           : `<span style="font-size:12px; font-weight:800; color:${cfg.color};">${firstShow.date} ${firstShow.time || ""}</span>`;
 
-      const isLightColor =
-        cfg.color === "#9333ea" ||
-        cfg.color === "#eab308" ||
-        cfg.color === "#22c55e" ||
-        cfg.color === "#06b6d4";
-      const textColor = isLightColor ? "#000000" : "#ffffff";
       const showLetter = cfg.initial || "F";
 
       const pinHtml = `<div class="custom-venue-marker-inner ${isBouncing ? "is-bouncing-marker" : ""}">
@@ -1228,45 +1044,7 @@ export default function TourMap({
     zoomConfig,
   ]);
 
-  // Near Me handler
-  const handleNearMe = useCallback(() => {
-    if (!navigator.geolocation) return;
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const userLat = pos.coords.latitude;
-        const userLng = pos.coords.longitude;
-
-        // Find closest venue from current markers
-        let closest: MarkerHandle | null = null;
-        let minDist = Infinity;
-
-        markersRef.current.forEach((m) => {
-          const d = distanceMiles(userLat, userLng, m.lat, m.lng);
-          if (d < minDist) {
-            minDist = d;
-            closest = m;
-          }
-        });
-
-        if (closest && mapInstanceRef.current) {
-          const c = closest as MarkerHandle;
-          mapInstanceRef.current.panTo({ lat: c.lat, lng: c.lng });
-          mapInstanceRef.current.setZoom(12);
-          setTimeout(() => {
-            markersRef.current.forEach((m) => {
-              if (m !== c) m.infoWindow.close();
-            });
-            c.infoWindow.setPosition({ lat: c.lat, lng: c.lng });
-            c.infoWindow.open({ map: mapInstanceRef.current! });
-            onPinClick?.(c.venue, c.date);
-          }, 1300);
-        }
-      },
-      () => { },
-      { enableHighAccuracy: false, timeout: 8000 },
-    );
-  }, [onPinClick]);
 
   // Zoom handlers
   const handleZoomIn = useCallback(() => {

@@ -135,8 +135,8 @@ function VideoCardVisual({
       {/* 1. Base Stylized Poster Layer */}
       <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
         <div
-          className="pointer-events-none absolute top-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full opacity-40 blur-3xl"
-          style={{ background: palette.glow }}
+          className="pointer-events-none absolute top-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full opacity-40 blur-3xl bg-[var(--glow-color)]"
+          style={{ "--glow-color": palette.glow } as React.CSSProperties}
         />
         <span className="line-clamp-2 px-2 text-white/90 font-semibold drop-shadow-md">{title}</span>
       </div>

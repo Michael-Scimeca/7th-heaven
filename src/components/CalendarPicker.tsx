@@ -200,7 +200,7 @@ export function CalendarPicker({
 
   return (
     <div className="w-full border-0 p-0">
-      <div className="mb-6">
+      <div className="">
         <SectionHeader
           as="h3"
           title={
@@ -228,20 +228,20 @@ export function CalendarPicker({
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-6 min-[1500px]:grid-cols-[1.8fr_1.05fr_1.35fr] md:grid-cols-2">
+      <div className="booking-calendar-grid">
         {/* Row 1, Col 1: Calendar */}
-        <div className="col-span-1 min-[1500px]:col-span-1">
+        <div className="col-span-1 min-w-0">
           {/* Month & Year Selection Bar */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-2 border-0 p-0">
+          <div className="mb-6 flex items-center justify-between gap-2 border-0 p-0">
             <button
               aria-label="Previous Month"
               type="button"
               onClick={handlePrevMonth}
-              className="transition-colors flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
+              className="transition-colors flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-box)] border border-white/10 bg-white/10 hover:bg-white/20"
             >
               <svg
-                width="16"
-                height="16"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -249,10 +249,9 @@ export function CalendarPicker({
               >
                 <polyline points="15 18 9 12 15 6" />
               </svg>
-              <span className="hidden sm:inline">Prev</span>
             </button>
 
-            <div className="flex flex-1 items-center justify-center gap-2 min-w-0">
+            <div className="flex shrink-0 items-center justify-center gap-2">
               {/* Month Select Dropdown */}
               <GooeyMessagesDropdown
                 placeholder="Month"
@@ -304,12 +303,11 @@ export function CalendarPicker({
               aria-label="Next Month"
               type="button"
               onClick={handleNextMonth}
-              className="transition-colors flex min-h-[44px] min-w-[44px] cursor-pointer items-center justify-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-2.5 py-1.5 hover:bg-white/20"
+              className="transition-colors flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-[var(--radius-box)] border border-white/10 bg-white/10 hover:bg-white/20"
             >
-              <span className="hidden sm:inline">Next</span>
               <svg
-                width="16"
-                height="16"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -348,15 +346,14 @@ export function CalendarPicker({
                 .join("; ");
 
               const fullDateAriaLabel = !isNaN(date.getTime())
-                ? `${DAY_NAMES_FULL[date.getDay()]}, ${MONTH_NAMES_FULL[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}${
-                    isPastDate
-                      ? " — Past date / Unavailable"
-                      : isBlocked
-                        ? ` — Show scheduled (${dayTimeStr || "Existing event"}), double-booking available${isSelected ? " — Selected" : ""}`
-                        : isSelected
-                          ? " — Selected"
-                          : " — Available"
-                  }`
+                ? `${DAY_NAMES_FULL[date.getDay()]}, ${MONTH_NAMES_FULL[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}${isPastDate
+                  ? " — Past date / Unavailable"
+                  : isBlocked
+                    ? ` — Show scheduled (${dayTimeStr || "Existing event"}), double-booking available${isSelected ? " — Selected" : ""}`
+                    : isSelected
+                      ? " — Selected"
+                      : " — Available"
+                }`
                 : `Date ${dateString}`;
 
               const buttonTitle = isBlocked
@@ -394,17 +391,15 @@ export function CalendarPicker({
                     }
                   }}
                   title={buttonTitle}
-                  className={`relative flex h-12 w-full items-center justify-center rounded-[var(--radius-box)] transition-[background-color,color,border-color,box-shadow,transform] ${
-                    isPastDate
-                      ? "cursor-not-allowed opacity-25"
-                      : "cursor-pointer"
-                  } ${
-                    isSelected
+                  className={`relative flex h-12 w-full items-center justify-center rounded-[var(--radius-box)] transition-[background-color,color,border-color,box-shadow,transform] ${isPastDate
+                    ? "cursor-not-allowed opacity-25"
+                    : "cursor-pointer"
+                    } ${isSelected
                       ? "scale-105 border-2 border-purple-400 bg-purple-600 text-white shadow-purple-600/40"
                       : isBlocked
                         ? "border border-rose-500/40 bg-rose-500/15 text-rose-300 hover:border-rose-400 hover:bg-rose-500/25"
                         : "border border-white/10 bg-[#00000029] hover:border-purple-400/60 hover:bg-white/10"
-                  }`}
+                    }`}
                 >
                   {date.getDate()}
                   {isBlocked && (
@@ -445,19 +440,21 @@ export function CalendarPicker({
         </div>
 
         {/* Row 1, Col 2: Booking Window */}
-        <div className="col-span-1 border-t border-white/10 pt-6 min-[1500px]:col-span-1 md:border-t-0 md:pt-0">
-          <h4 className="mb-6 text-white/50">
+        <div className="col-span-1 min-w-0 border-t border-white/10 pt-6 lg:border-t-0 lg:pt-0">
+          <h4 className="mb-6">
             {labels?.bookingWindowHeading || "Booking Window"}
           </h4>
           <div className="flex flex-col gap-3">
             {/* Show Start Time */}
             <div>
-              <label htmlFor="cal-show-start-time" className="block">
+              <label htmlFor="cal-show-start-time" className="mb-1 block">
                 {labels?.showStartLabel || "When does the show start?"}
               </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
-                placeholder="Select Show Start Time"
+                showAllOption={false}
+                placeholder="Time"
+                selected={startTime || undefined}
                 defaultSelectedId={startTime}
                 customers={[
                   "12:00 PM",
@@ -481,12 +478,14 @@ export function CalendarPicker({
 
             {/* Show Finish Time */}
             <div>
-              <label htmlFor="cal-show-finish-time" className="block">
+              <label htmlFor="cal-show-finish-time" className="mb-1 block">
                 {labels?.showFinishLabel || "When does the show finish?"}
               </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
-                placeholder="Select Show Finish Time"
+                showAllOption={false}
+                placeholder="Time"
+                selected={endTime || undefined}
                 defaultSelectedId={endTime}
                 customers={[
                   "4:00 PM",
@@ -514,7 +513,9 @@ export function CalendarPicker({
               </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
-                placeholder="Select Band Start Time"
+                showAllOption={false}
+                placeholder="Time"
+                selected={startTime || undefined}
                 defaultSelectedId={startTime}
                 customers={[
                   "12:00 PM",
@@ -543,7 +544,9 @@ export function CalendarPicker({
               </label>
               <GooeyMessagesDropdown
                 fullWidth={true}
-                placeholder="Select Band Finish Time"
+                showAllOption={false}
+                placeholder="Time"
+                selected={endTime || undefined}
                 defaultSelectedId={endTime}
                 customers={[
                   "4:00 PM",
@@ -566,9 +569,9 @@ export function CalendarPicker({
           </div>
         </div>
 
-        {/* Row 2: Event Format (spans full width on Row 2 below 1500px, moves to Col 3 at 1500px+) */}
-        <div className="col-span-1 min-[1500px]:col-span-1 min-[1500px]:pt-0 md:col-span-2">
-          <h4 className="mb-6 text-white/50">
+        {/* Row 2: Event Format (spans full width on mobile/tablet, spans both columns at lg+) */}
+        <div className="col-span-1 lg:col-span-2">
+          <h4 className="mb-6">
             {labels?.eventFormatHeading || "Event Format"}
           </h4>
           <div className="grid grid-cols-1 gap-6 min-[1500px]:grid-cols-1 sm:grid-cols-2">

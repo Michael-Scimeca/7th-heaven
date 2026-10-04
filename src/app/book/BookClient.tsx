@@ -257,16 +257,16 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
     useState<string>("");
 
   const pickerLabels = useMemo(() => {
-    if (!sanityContent?.sections) return undefined;
-    const formatSection = sanityContent.sections.find(
+    const formatSection = sanityContent?.sections?.find(
       (s: any) => s.sectionId === "formats",
     );
-    const windowSection = sanityContent.sections.find(
+    const windowSection = sanityContent?.sections?.find(
       (s: any) => s.sectionId === "window",
     );
-    const scheduleSection = sanityContent.sections.find(
+    const scheduleSection = sanityContent?.sections?.find(
       (s: any) => s.sectionId === "schedule",
     );
+    if (!formatSection && !windowSection && !scheduleSection) return undefined;
     return {
       bookingWindowHeading: windowSection?.title,
       showStartLabel:
@@ -895,7 +895,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           <SectionHeader
             as="h2"
             id="book-success-heading"
-            title="Request Received"
+            title={
+              sanityContent?.sections?.find(
+                (s: any) => s.sectionId === "success" || s.sectionId === "book-success",
+              )?.title || "Request Received"
+            }
             srOnly
           />
           <Stack gap="lg" className="items-center w-full">
@@ -1008,7 +1012,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               )}
                             </button>
                           </div>
-                          <p className="mt-2">
+                          <p className="mt-2 text-xs text-muted">
                             We will send a 6-digit verification code to your email.
                           </p>
                         </div>
@@ -1119,7 +1123,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   return (
     <main id="book-page" className="page-container relative min-h-screen">
       <header className="sr-only">
-        <h1 id="book-page-title">Book 7th Heaven</h1>
+        <h1 id="book-page-title">
+          {sanityContent?.heroHeading || sanityContent?.title || "Book 7th Heaven"}
+        </h1>
       </header>
 
       <form
@@ -1164,8 +1170,8 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <div className="flex items-center gap-3">
                 <ClipboardList className="h-6 w-6 shrink-0" />
                 <div>
-                  <p>Re-fill with details from your last booking?</p>
-                  <p className="mt-0.5">
+                  <p className="font-semibold text-sm">Re-fill with details from your last booking?</p>
+                  <p className="mt-0.5 text-xs text-muted">
                     We found a booking request you recently filled out. You can
                     automatically fill in your contact and venue details.
                   </p>
@@ -1190,13 +1196,22 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             <SectionHeader
               as="h2"
               id="step-1-heading"
-              title="Event Schedule & Format"
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "schedule" ||
+                    s.sectionId === "step-1" ||
+                    s.sectionId === "formats",
+                )?.title || "Event Schedule & Format"
+              }
               subtitle={
-                <>
-                  Select dates on the calendar to reserve 7th Heaven. You can select{" "}
-                  <strong>multiple dates</strong> for multi-day runs, and configure
-                  unique times, formats, and venue details for each date below.
-                </>
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "schedule" ||
+                    s.sectionId === "step-1" ||
+                    s.sectionId === "formats",
+                )?.subtitle ||
+                "Select one or more dates on the calendar to reserve 7th Heaven."
               }
             />
             <Stack gap="lg">
@@ -1229,8 +1244,21 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 <div className="mt-8">
                   <SectionHeader
                     as="h3"
-                    title="Flexible? Add Backup Dates"
-                    subtitle="Increase your chances — we'll try your preferred date first"
+                    title={
+                      sanityContent?.sections?.find(
+                        (s: any) =>
+                          s.sectionId === "backup_dates" ||
+                          s.sectionId === "backup",
+                      )?.title || "Flexible? Add Backup Dates"
+                    }
+                    subtitle={
+                      sanityContent?.sections?.find(
+                        (s: any) =>
+                          s.sectionId === "backup_dates" ||
+                          s.sectionId === "backup",
+                      )?.subtitle ||
+                      "Increase your chances — we'll try your preferred date first"
+                    }
                     divider={false}
                   />
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -1318,8 +1346,21 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             <SectionHeader
               as="h2"
               id="scheduled-shows-heading"
-              title="Your Scheduled Shows"
-              subtitle="Configure individual times and formats for each show below"
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "scheduled-shows" ||
+                    s.sectionId === "schedule",
+                )?.title || "Your Scheduled Shows"
+              }
+              subtitle={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "scheduled-shows" ||
+                    s.sectionId === "schedule",
+                )?.subtitle ||
+                "Configure individual times and formats for each show below"
+              }
               action={
                 bookingSlots.length > 0 ? (
                   <span className="rounded-lg border border-purple-400/30 bg-cyan-500/20 px-3 py-1 text-small font-semibold">
@@ -1332,13 +1373,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               {bookingSlots.length === 0 ? (
                 <div className="rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] p-6 text-center">
                   <span className="mb-6 block text-4xl">📅</span>
-                  <div className="title-group title-group--sub items-center text-center">
-                    <h4>
+                  <div className="title-group title-group--sub title-group--center items-center text-center">
+                    <h4 className="text-center">
                       {sanityContent?.sections?.find(
                         (s: any) => s.sectionId === "no_dates",
                       )?.title || "No Dates Selected Yet"}
                     </h4>
-                    <p className="mx-auto max-w-md">
+                    <p className="mx-auto max-w-md text-center">
                       {sanityContent?.sections?.find(
                         (s: any) => s.sectionId === "no_dates",
                       )?.subtitle ||
@@ -1348,7 +1389,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-1 xl:grid-cols-2">
                     {bookingSlots.map((slot, index) => {
                       const formattedDate = new Date(
                         slot.date + "T12:00:00Z",
@@ -1364,14 +1405,18 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           key={slot.id}
                           className="transition-colors group relative border border-white/10 bg-[#00000029] p-4 sm:p-6 hover:border-purple-400/40"
                         >
-                          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <div>
-                              <span className="mb-1 block">Show #{index + 1}</span>
-                              <h5>{formattedDate}</h5>
+                          <div className="mb-4 flex w-full items-start justify-between gap-3 border-b border-white/10 pb-3">
+                            <div className="min-w-0 flex-1">
+                              <span className="mb-0.5 block text-xs font-semibold text-white/50 uppercase tracking-wider">
+                                Show #{index + 1}
+                              </span>
+                              <h5 className="font-bold text-white text-base leading-tight">
+                                {formattedDate}
+                              </h5>
                             </div>
 
                             {/* Duplicate and Remove buttons */}
-                            <div className="flex flex-wrap items-center gap-1.5">
+                            <div className="flex shrink-0 flex-col items-end gap-1.5 sm:flex-row sm:items-center">
                               <button
                                 type="button"
                                 onClick={() => {
@@ -1381,10 +1426,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   };
                                   setBookingSlots([...bookingSlots, newSlot]);
                                 }}
-                                className="transition-colors flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-purple-400/30 hover:bg-cyan-500/20"
+                                className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/10 px-2.5 py-1 text-xs text-white/80 hover:border-purple-400/30 hover:bg-cyan-500/20 hover:text-white"
                                 title="Add another show on this date"
                               >
-                                <Plus className="h-3 w-3" /> Add Another
+                                <Plus className="h-3 w-3 shrink-0" /> Add Another
                               </button>
                               <button
                                 type="button"
@@ -1393,10 +1438,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     bookingSlots.filter((s) => s.id !== slot.id),
                                   )
                                 }
-                                className="transition-colors flex cursor-pointer items-center gap-1 border border-white/10 bg-white/10 px-2.5 py-1 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
+                                className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/10 px-2.5 py-1 text-xs text-white/80 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
                                 title="Remove this show"
                               >
-                                <X className="h-3 w-3" /> Remove
+                                <X className="h-3 w-3 shrink-0" /> Remove
                               </button>
                             </div>
                           </div>
@@ -1430,7 +1475,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <div>
                               <label
                                 htmlFor={`slot-format-${slot.id}`}
-                                className="block text-white/50"
+                                className="mb-1 block text-xs text-white/50"
                               >
                                 Show Format
                               </label>
@@ -1465,17 +1510,17 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className="focus-ring w-full border border-purple-400/40 bg-[#00000029] px-3 py-2 text-white/30 shadow-inner outline-none"
+                                  className="focus-ring mt-2 w-full border border-purple-400/40 bg-[#00000029] px-3 py-2 text-xs text-white/80 shadow-inner outline-none"
                                 />
                               )}
                             </div>
 
                             {/* Times */}
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-2 gap-2.5">
                               <div>
                                 <label
                                   htmlFor={`slot-start-${slot.id}`}
-                                  className="block text-white/50"
+                                  className="mb-1 block text-xs text-white/50"
                                 >
                                   Start Time
                                 </label>
@@ -1512,7 +1557,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               <div>
                                 <label
                                   htmlFor={`slot-end-${slot.id}`}
-                                  className="block text-white/50"
+                                  className="mb-1 block text-xs text-white/50"
                                 >
                                   End Time
                                 </label>
@@ -1552,10 +1597,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           {/* Separate Contact/Venue details toggle buttons & form fields */}
                           <div className="mt-4 border-t border-white/10 pt-4">
                             <div className="mb-3">
-                              <span className="mb-2 block text-white/50">
+                              <span className="mb-1.5 block text-xs text-white/50">
                                 Contact & Venue Details
                               </span>
-                              <div className="grid grid-cols-2 gap-1.5 border border-white/10 bg-black/50 p-1">
+                              <div className="grid grid-cols-2 gap-1 rounded-md border border-white/10 bg-black/50 p-1">
                                 <button
                                   type="button"
                                   onClick={() => {
@@ -1575,7 +1620,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className={`cursor-pointer py-2 text-center ${!slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
+                                  className={`cursor-pointer rounded py-1.5 px-1.5 text-center text-xs transition-colors ${!slot.useSeparateInfo ? "bg-purple-600 font-semibold text-white shadow-sm shadow-purple-600/40" : "text-white/60 hover:text-white"}`}
                                 >
                                   Share Main Info
                                 </button>
@@ -1614,7 +1659,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                     );
                                     setBookingSlots(updated);
                                   }}
-                                  className={`cursor-pointer py-2 text-center ${slot.useSeparateInfo ? "bg-cyan-600" : " "}`}
+                                  className={`cursor-pointer rounded py-1.5 px-1.5 text-center text-xs transition-colors ${slot.useSeparateInfo ? "bg-purple-600 font-semibold text-white shadow-sm shadow-purple-600/40" : "text-white/60 hover:text-white"}`}
                                 >
                                   Use Separate Info
                                 </button>
@@ -1852,18 +1897,20 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                   [slot.id]: !prev[slot.id],
                                 }))
                               }
-                              className="transition-colors flex w-full items-center justify-between text-left hover:text-purple-400"
+                              className="group transition-colors flex w-full flex-col items-start gap-0.5 text-left hover:text-purple-400"
                             >
-                              <span className="flex items-center gap-1.5">
-                                <Megaphone className="h-3.5 w-3.5" /> Tour Page
-                                Details{" "}
-                                {expandedMetadata[slot.id] ? (
-                                  <ChevronDown className="inline h-3.5 w-3.5" />
-                                ) : (
-                                  <ChevronRight className="inline h-3.5 w-3.5" />
-                                )}
-                              </span>
-                              <span className="font-normal text-white/40 lowercase">
+                              <div className="flex w-full items-center justify-between">
+                                <span className="flex items-center gap-1.5 font-semibold text-xs text-white/90 group-hover:text-purple-300">
+                                  <Megaphone className="h-3.5 w-3.5 shrink-0 text-purple-400" />
+                                  <span>Tour Page Details</span>
+                                  {expandedMetadata[slot.id] ? (
+                                    <ChevronDown className="h-3.5 w-3.5 shrink-0" />
+                                  ) : (
+                                    <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                                  )}
+                                </span>
+                              </div>
+                              <span className="font-normal text-[11px] text-white/40">
                                 (optional: age limit, tickets, notes)
                               </span>
                             </button>
@@ -1988,48 +2035,84 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             />
             <Stack gap="lg">
               {/* Show Event Start & End Times + Band Schedule */}
-              <div className="space-y-6">
+              <div className="space-y-3">
 
                 {/* Row 1: Overall Event Start & End */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <InputField
-                    label="Event Start Time"
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "event_start_time",
+                      )?.title || "Event Start Time"
+                    }
                     name="eventStartTime"
                     value={formData.eventStartTime}
                     onChange={handleChange}
-                    placeholder="e.g. 5:00 PM (Doors / Event Starts)"
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "event_start_time",
+                      )?.subtitle || "e.g. 5:00 PM (Doors / Event Starts)"
+                    }
                   />
                   <InputField
-                    label="Event End Time"
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "event_end_time",
+                      )?.title || "Event End Time"
+                    }
                     name="eventEndTime"
                     value={formData.eventEndTime}
                     onChange={handleChange}
-                    placeholder="e.g. 11:30 PM (Event Ends)"
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "event_end_time",
+                      )?.subtitle || "e.g. 11:30 PM (Event Ends)"
+                    }
                   />
                 </div>
 
                 {/* Row 2: Band Load-In & Band Performance Start / End */}
                 <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
                   <InputField
-                    label="Band Start Time"
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "band_start_time",
+                      )?.title || "Band Start Time"
+                    }
                     name="startTime"
                     value={formData.startTime}
                     onChange={handleChange}
                     required
-                    placeholder="e.g. 7:00 PM (Band Plays)"
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "band_start_time",
+                      )?.subtitle || "e.g. 7:00 PM (Band Plays)"
+                    }
                   />
                   <InputField
-                    label="Band End Time"
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "band_end_time",
+                      )?.title || "Band End Time"
+                    }
                     name="endTime"
                     value={formData.endTime}
                     onChange={handleChange}
                     required
-                    placeholder="e.g. 10:30 PM (Band Finish)"
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "band_end_time",
+                      )?.subtitle || "e.g. 10:30 PM (Band Finish)"
+                    }
                   />
 
                   <div>
                     <InputField
-                      label="Load-in / Setup Time"
+                      label={
+                        sanityContent?.sections?.find(
+                          (s: any) => s.sectionId === "load_in_time",
+                        )?.title || "Load-in / Setup Time"
+                      }
                       name="loadInTime"
                       value={
                         isLoadInUnsure
@@ -2038,7 +2121,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       }
                       onChange={handleChange}
                       disabled={isLoadInUnsure}
-                      placeholder="e.g. 5:00 PM (2 hrs before)"
+                      placeholder={
+                        sanityContent?.sections?.find(
+                          (s: any) => s.sectionId === "load_in_time",
+                        )?.subtitle || "e.g. 5:00 PM (2 hrs before)"
+                      }
                       labelRight={
                         <Toggle
                           id="toggle-loadin-unsure"
@@ -2063,7 +2150,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         />
                       }
                     />
-                    <p className="mt-1.5">
+                    <p className="mt-1.5 text-xs text-muted">
                       Band load-in is usually ~2 hours before band start time.
                     </p>
                   </div>
@@ -2089,8 +2176,21 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               <div className="space-y-6">
                 <SectionHeader
                   as="h3"
-                  title="Venue Address & Location Setup"
-                  subtitle="Provide the physical street address, city, state, zip code, and parking details for the event location."
+                  title={
+                    sanityContent?.sections?.find(
+                      (s: any) =>
+                        s.sectionId === "venue_address" ||
+                        s.sectionId === "address",
+                    )?.title || "Venue Address & Location Setup"
+                  }
+                  subtitle={
+                    sanityContent?.sections?.find(
+                      (s: any) =>
+                        s.sectionId === "venue_address" ||
+                        s.sectionId === "address",
+                    )?.subtitle ||
+                    "Provide the physical street address, city, state, zip code, and parking details for the event location."
+                  }
                   icon={Building2}
                 />
 
@@ -2103,29 +2203,53 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <InputField
-                    label="Venue Name"
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "venue_name",
+                      )?.title || "Venue Name"
+                    }
                     name="venueName"
                     value={formData.venueName}
                     onChange={handleChange}
                     required
-                    placeholder="Venue name (e.g. Bridges Scoreboard)"
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "venue_name",
+                      )?.subtitle || "Venue name (e.g. Bridges Scoreboard)"
+                    }
                   />
                   <InputField
-                    label="City"
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "venue_city",
+                      )?.title || "City"
+                    }
                     name="venueCity"
                     value={formData.venueCity}
                     onChange={handleChange}
                     required
-                    placeholder="Chicago"
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "venue_city",
+                      )?.subtitle || "Chicago"
+                    }
                   />
 
                   <InputField
-                    label="State"
+                    label={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "venue_state",
+                      )?.title || "State"
+                    }
                     name="venueState"
                     value={formData.venueState}
                     onChange={handleChange}
                     required
-                    placeholder="IL"
+                    placeholder={
+                      sanityContent?.sections?.find(
+                        (s: any) => s.sectionId === "venue_state",
+                      )?.subtitle || "IL"
+                    }
                   />
 
                   {/* Row 2 Right: Toggle for custom parking directions */}
@@ -2179,7 +2303,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <label htmlFor="parkingAddress" className="block">
-                            Google Maps Parking Location or Link
+                            {sanityContent?.sections?.find(
+                              (s: any) => s.sectionId === "parking_address",
+                            )?.title || "Google Maps Parking Location or Link"}
                           </label>
                           <div className="flex flex-wrap items-center gap-2">
                             <button
@@ -2225,14 +2351,21 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           type="text"
                           value={formData.parkingAddress}
                           onChange={handleChange}
-                          placeholder="Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
+                          placeholder={
+                            sanityContent?.sections?.find(
+                              (s: any) => s.sectionId === "parking_address",
+                            )?.subtitle ||
+                            "Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
+                          }
                           className="focus-ring w-full border-0 bg-[#00000029] px-4 py-3 text-white/30"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <label htmlFor="parkingNotes" className="block">
-                          Directions for Parking
+                          {sanityContent?.sections?.find(
+                            (s: any) => s.sectionId === "parking_notes",
+                          )?.title || "Directions for Parking"}
                         </label>
                         <GlowTextarea
                           id="parkingNotes"
@@ -2240,7 +2373,12 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                           value={formData.parkingNotes}
                           onChange={handleChange}
                           rows={3}
-                          placeholder="Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
+                          placeholder={
+                            sanityContent?.sections?.find(
+                              (s: any) => s.sectionId === "parking_notes",
+                            )?.subtitle ||
+                            "Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
+                          }
                           className="focus-ring min-h-[90px] w-full resize-y border-0 bg-[#00000029] px-4 py-3 text-white/30"
                         />
                       </div>
@@ -2273,7 +2411,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               }
               icon={Sliders}
             />
-            <Stack gap="lg">
+            <Stack gap="4">
               <RadioPillField
                 label={
                   sanityContent?.sections?.find(
@@ -2433,12 +2571,18 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               id="hold-confirm-heading"
               title={
                 sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "notes",
+                  (s: any) =>
+                    s.sectionId === "notes" ||
+                    s.sectionId === "notes-section" ||
+                    s.sectionId === "hold-confirm",
                 )?.title || "Notes & Questions"
               }
               subtitle={
                 sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "notes",
+                  (s: any) =>
+                    s.sectionId === "notes" ||
+                    s.sectionId === "notes-section" ||
+                    s.sectionId === "hold-confirm",
                 )?.subtitle ||
                 "Anything else you'd like to mention? Special requests, questions, or details for our band manager."
               }
@@ -2446,18 +2590,33 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             />
             <Stack gap="md">
               <label htmlFor="details" className="sr-only text-white/90">
-                Notes and Questions for Band Manager
+                {sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "notes" ||
+                    s.sectionId === "notes-section" ||
+                    s.sectionId === "hold-confirm",
+                )?.ctaText || "Notes and Questions for Band Manager"}
               </label>
               <GlowTextarea
                 id="details"
                 name="details"
-                aria-label="Notes and Questions for Band Manager"
+                aria-label={
+                  sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "notes" ||
+                      s.sectionId === "notes-section" ||
+                      s.sectionId === "hold-confirm",
+                  )?.ctaText || "Notes and Questions for Band Manager"
+                }
                 value={formData.details}
                 onChange={handleChange}
                 rows={5}
                 placeholder={
                   sanityContent?.sections?.find(
-                    (s: any) => s.sectionId === "notes",
+                    (s: any) =>
+                      s.sectionId === "notes" ||
+                      s.sectionId === "notes-section" ||
+                      s.sectionId === "hold-confirm",
                   )?.body ||
                   "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
                 }
@@ -2495,8 +2654,22 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           <div className="border-0 p-0">
             <SectionHeader
               as="h3"
-              title="Booking Summary"
-              subtitle="Review your selected dates, times, and venue details before submitting."
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "summary" ||
+                    s.sectionId === "booking-summary",
+                )?.title || "Booking Summary"
+              }
+              subtitle={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "summary" ||
+                    s.sectionId === "booking-summary",
+                )?.subtitle ||
+                "Review your selected dates, times, and venue details before submitting."
+              }
+              subtitleClassName="text-xs"
               icon={ClipboardList}
             />
 
@@ -2631,7 +2804,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     "Submit Booking Request"
                   )}
                 </Button>
-                <p className="mt-4 text-center">
+                <p className="mt-4 text-center text-xs text-muted">
                   By submitting, you confirm you are 18 years of age or older and
                   agree to our{" "}
                   <Link href="/privacy" className="transition-colors hover:text-white">

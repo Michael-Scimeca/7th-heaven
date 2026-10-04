@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
-import { Compass, Calendar as CalendarIcon, Sparkles } from "lucide-react";
-import SeventhButton from "@/components/SeventhButton";
-import { SectionBadge } from "@/components/SectionBadge";
+import { Compass } from "lucide-react";
 import {
   ITINERARY_2027,
   ITINERARY_2028,
   mapToSnakeItinerary,
 } from "../cruiseData";
+
+import SeventhButton from "@/components/SeventhButton";
 
 const CruiseSnakeItinerary = dynamic(
   () => import("@/components/CruiseSnakeItinerary"),
@@ -66,28 +66,20 @@ export default function CruiseItinerarySection({
 
           {/* Itinerary Year Toggle */}
           <div className="my-6 flex flex-wrap items-center gap-3">
-            <button
+            <SeventhButton
               type="button"
               onClick={() => setActiveItinYear(2027)}
-              className={`cursor-pointer rounded-[var(--radius-box)] border px-4 py-2.5 text-fluid-body font-semibold transition-[border-color,background-color] ${
-                activeItinYear === 2027
-                  ? "border-[var(--color-amber)]/60 bg-[var(--color-amber)]/20 text-white shadow-md"
-                  : "border-white/10 bg-white/[0.03] text-white/70 hover:bg-white/[0.08] hover:text-white"
-              }`}
+              isActive={activeItinYear === 2027}
             >
               ⭐ 2027 Star of the Seas (7-Night Caribbean)
-            </button>
-            <button
+            </SeventhButton>
+            <SeventhButton
               type="button"
               onClick={() => setActiveItinYear(2028)}
-              className={`cursor-pointer rounded-[var(--radius-box)] border px-4 py-2.5 text-fluid-body font-semibold transition-[border-color,background-color] ${
-                activeItinYear === 2028
-                  ? "border-[var(--color-amber)]/60 bg-[var(--color-amber)]/20 text-white shadow-md"
-                  : "border-white/10 bg-white/[0.03] text-white/70 hover:bg-white/[0.08] hover:text-white"
-              }`}
+              isActive={activeItinYear === 2028}
             >
               🌊 2028 Legend of the Seas (8-Night Bahamas)
-            </button>
+            </SeventhButton>
           </div>
         </div>
 

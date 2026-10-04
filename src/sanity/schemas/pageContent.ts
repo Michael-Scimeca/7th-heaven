@@ -449,6 +449,11 @@ const pageContent = {
           rows: 2,
         },
         {
+          name: "bookingPolicyTitle",
+          title: "Booking Policy Section Title",
+          type: "string",
+        },
+        {
           name: "bookingPolicyHeading",
           title: "Booking Policy Subheading",
           type: "string",
@@ -458,6 +463,13 @@ const pageContent = {
           title: "Booking Policy Description",
           type: "text",
           rows: 3,
+        },
+        {
+          name: "bookingHighlights",
+          title: "Booking Highlights & Inclusion Bullets",
+          type: "array",
+          description: "List of key booking benefits & inclusion statements",
+          of: [{ type: "string" }],
         },
         { name: "bookingEmail", title: "Booking Email", type: "string" },
         { name: "bookingPhone", title: "Booking Phone", type: "string" },
@@ -509,6 +521,39 @@ const pageContent = {
           title: "2028 Cancellation Terms",
           type: "text",
           rows: 4,
+        },
+        {
+          name: "cancellationItems",
+          title: "Cancellation Terms List",
+          type: "array",
+          description: "Structured list of date ranges and penalty fees per sailing year",
+          of: [
+            {
+              type: "object",
+              name: "cancellationItem",
+              title: "Cancellation Term Item",
+              fields: [
+                {
+                  name: "year",
+                  title: "Sailing Year ('2027' or '2028')",
+                  type: "string",
+                },
+                {
+                  name: "period",
+                  title: "Date Range / Rule (e.g. 'Cancel before May 12, 2026:')",
+                  type: "string",
+                },
+                {
+                  name: "fee",
+                  title: "Penalty / Fee (e.g. 'No penalty', '$50 pp fee')",
+                  type: "string",
+                },
+              ],
+              preview: {
+                select: { title: "period", subtitle: "fee" },
+              },
+            },
+          ],
         },
         {
           name: "cabins",

@@ -1,5 +1,3 @@
-import React from "react";
-
 interface CruiseLivePreviewProps {
   livePreviewTab: string;
   cruiseBlastSubject: string;

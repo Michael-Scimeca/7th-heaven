@@ -1,7 +1,21 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import localFont from "next/font/local";
+import { Anton, Inter } from "next/font/google";
 import "./globals.css";
+
+const anton = Anton({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-anton",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const tanker = localFont({
   src: "../../public/fonts/Tanker-Regular.woff2",
@@ -172,14 +186,20 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// MusicGroup Structured Data for Google
+// MusicGroup Structured Data for Google Rich Results
 const BAND_LD = {
   "@context": "https://schema.org",
   "@type": "MusicGroup",
   name: "7th Heaven",
+  alternateName: ["7th Heaven Band", "7thHeaven"],
   description:
-    "Chart-topping rock band from Chicago, icons of the Midwest music scene for over 40 years.",
-  genre: "Rock",
+    "Chart-topping rock band from Chicago, icons of the Midwest music scene for over 40 years with 3 #1 Billboard hits and 7 major radio singles.",
+  genre: ["Rock", "Pop Rock", "Hard Rock"],
+  foundingDate: "1985",
+  foundingLocation: {
+    "@type": "Place",
+    name: "Chicago, Illinois, USA",
+  },
   url: "https://7thheavenband.com",
   logo: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
   image: "https://7thheavenband.com/images/hero/hero-banner.png",
@@ -219,6 +239,19 @@ const BAND_LD = {
   ],
 };
 
+// WebSite Structured Data for Google Sitelinks Search
+const WEBSITE_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "7th Heaven",
+  url: "https://7thheavenband.com",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://7thheavenband.com/faq?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -227,7 +260,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${tanker.variable} ${switzer.variable}`}
+      className={`dark ${tanker.variable} ${inter.variable} ${switzer.variable} ${anton.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -260,6 +293,16 @@ export default function RootLayout({
             // Escape <,> and & so that </script> sequences in data values
             // cannot break out of the script tag (OWASP JSON-LD injection defense).
             __html: JSON.stringify(BAND_LD)
+              .replace(/</g, "\\u003c")
+              .replace(/>/g, "\\u003e")
+              .replace(/&/g, "\\u0026"),
+          }}
+        />
+        <script
+          id="website-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(WEBSITE_LD)
               .replace(/</g, "\\u003c")
               .replace(/>/g, "\\u003e")
               .replace(/&/g, "\\u0026"),

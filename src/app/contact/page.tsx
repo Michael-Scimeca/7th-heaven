@@ -10,16 +10,45 @@ import ContactClient from "./ContactClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("contact");
+  const title =
+    content?.seo?.metaTitle ||
+    (content?.title
+      ? `${content.title} — 7th Heaven`
+      : "Contact 7th Heaven | Band Management, Booking & Media Contacts");
+  const description =
+    content?.seo?.metaDescription ||
+    content?.heroSubheading ||
+    "Get in touch with 7th Heaven management for show booking, press inquiries, technical production advance, and cruise details.";
+  const canonicalUrl = "https://7thheavenband.com/contact";
+
   return {
-    title:
-      content?.seo?.metaTitle ||
-      (content?.title
-        ? `${content.title} — 7th Heaven`
-        : "Contact — 7th Heaven"),
-    description:
-      content?.seo?.metaDescription ||
-      content?.heroSubheading ||
-      "Contact 7th Heaven for booking, press inquiries, technical & production advance.",
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "7th Heaven",
+      type: "website",
+      images: [
+        {
+          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Contact 7th Heaven Band Management",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@7thheavenband",
+      title,
+      description,
+      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+    },
   };
 }
 
@@ -112,7 +141,34 @@ export default async function ContactPage() {
     pageContent?.heroSubheading ||
     "Get in touch with the 7th Heaven team. Hover or select a contact department below to view representative details.";
 
+  const contactPageLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact 7th Heaven Band Management",
+    description: "Official contact directory for 7th Heaven booking, press, technical advance, and cruise management.",
+    url: "https://7thheavenband.com/contact",
+    mainEntity: {
+      "@type": "Organization",
+      name: "7th Heaven Band & NTD Management",
+      telephone: "847-551-5363",
+      email: "info@NTDManagement.com",
+      url: "https://7thheavenband.com",
+    },
+  };
+
   return (
-    <ContactClient contacts={contacts} title={title} subtitle={subtitle} />
+    <>
+      <script
+        id="contact-page-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(contactPageLd)
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026"),
+        }}
+      />
+      <ContactClient contacts={contacts} title={title} subtitle={subtitle} />
+    </>
   );
 }

@@ -56,10 +56,6 @@ const RARITY_COLORS: Record<string, string> = {
 };
 
 import {
-  Guitar,
-  ShoppingBag,
-  Smartphone,
-  Link as LinkIcon,
   Gift,
   Dices,
   Check,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SeventhButton from "@/components/SeventhButton";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import GlassCard from "@/components/ui/GlassCard";

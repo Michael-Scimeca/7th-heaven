@@ -6,7 +6,6 @@
 /* eslint-disable react-doctor/nextjs-no-client-side-redirect */
 
 import React from "react";
-import NextImage from "next/image";
 
 import {
   useState,
@@ -25,7 +24,6 @@ import { createClient } from "@/lib/supabase/client";
 import { useMember } from "@/context/MemberContext";
 import Dropdown from "@/components/Dropdown";
 import { Toggle } from "@/components/Toggle";
-import GooeyDropdown from "@/components/GooeyDropdown";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import GlowInput, { GlowTextarea, GlowSelect } from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
@@ -41,7 +39,6 @@ import {
   adminCreateAdmin,
 } from "../../actions";
 import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
-import ShowCrewPanel from "@/components/ShowCrewPanel";
 import dynamic from "next/dynamic";
 import QRCode from "react-qr-code";
 
@@ -80,7 +77,6 @@ import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
 import { Clock, CheckCircle2, Plus, Bell, Radio, Send, Users, Mail, MessageSquare, Sparkles, AlertTriangle, ShieldCheck, Calendar } from "lucide-react";
 import { CruiseLivePreview } from "./CruiseLivePreview";
 import { AdminAuthGate } from "./AdminAuthGate";
-import AwardPicksPanel from "@/components/admin/AwardPicksPanel";
 import CustomScrollbar from "@/components/CustomScrollbar";
 import { EmergencyBroadcastCenter } from "@/components/EmergencyBroadcastCenter";
 import { SectionBadge } from "@/components/SectionBadge";

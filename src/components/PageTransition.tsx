@@ -5,14 +5,17 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { waitForPageReady } from "@/lib/waitForPageReady";
 import { useTransition } from "@/context/TransitionContext";
 import { Toggle } from "@/components/Toggle";
+import { computeViewportOrigin } from "@/lib/curtainClipPath";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(CustomEase);
@@ -20,6 +23,8 @@ if (typeof window !== "undefined") {
     CustomEase.create("exo", "0.496, 0.004, 0, 1");
   } catch {}
 }
+
+const emptySubscribe = () => () => {};
 
 const EASE_OPTIONS: { label: string; value: string }[] = [
   { label: "power3.out (Smooth & Recommended)", value: "power3.out" },
@@ -33,8 +38,25 @@ const EASE_OPTIONS: { label: string; value: string }[] = [
   { label: "back.out(1.2)", value: "back.out(1.2)" },
   { label: "power1.inOut", value: "power1.inOut" },
   { label: "power2.inOut", value: "power2.inOut" },
-  { label: "linear", value: "linear" },
 ];
+
+export const SLANT_ANGLE_PRESETS: { label: string; val: number }[] = [
+  { label: "0.000 (Flat 0°)", val: 0.0 },
+  { label: "0.045 (~2.5°)", val: 0.045 },
+  { label: "0.095 (Exo ~5.4°)", val: 0.095 },
+  { label: "0.180 (~10°)", val: 0.18 },
+  { label: "0.250 (~14°)", val: 0.25 },
+  { label: "0.350 (~19°)", val: 0.35 },
+  { label: "0.500 (~27°)", val: 0.5 },
+  { label: "0.650 (Blade ~33°)", val: 0.65 },
+  { label: "0.850 (Steep ~40°)", val: 0.85 },
+];
+
+export function formatSlantAngle(ratio: number): string {
+  if (Math.abs(ratio) < 0.001) return "0.0°";
+  const deg = Math.atan(ratio) * (180 / Math.PI);
+  return `~${deg.toFixed(1)}°`;
+}
 
 export interface OriginOption {
   label: string;
@@ -132,6 +154,19 @@ export interface TransitionSettings {
   exitSlantRatio: number;
   exitFlipSlant: boolean;
   curtainColor: string;
+  preloaderEnabled: boolean;
+  preloaderShowParticles: boolean;
+  preloaderDuration: number;
+  preloaderSlantRatio: number;
+  preloaderFlipSlant: boolean;
+  preloaderFillMs: number;
+  preloaderEase: string;
+  preloaderPageMotion: boolean;
+  preloaderPageY: number;
+  preloaderPageX: number;
+  preloaderPageScale: number;
+  preloaderPageRotation: number;
+  preloaderPageOrigin: string;
 }
 
 export const SETTINGS_STORAGE_KEY = "7h_transition_settings_v2";
@@ -143,24 +178,37 @@ export const DEFAULT_SETTINGS: TransitionSettings = {
   clipExitPath: true,
   clipRevealPath: true,
   revealX: 0,
-  revealY: 0,
-  revealScale: 1.0,
-  revealRotation: 0,
-  revealOrigin: "center center",
+  revealY: 1200,
+  revealScale: 0.91,
+  revealRotation: -20,
+  revealOrigin: "center bottom",
   revealEase: "power3.out",
-  revealSlantRatio: 0,
-  revealFlipSlant: false,
+  revealSlantRatio: 0.035,
+  revealFlipSlant: true,
   revealDurationOffset: 0,
-  exitSpeed: 0.22,
+  exitSpeed: 0.75,
   exitX: 0,
-  exitY: 0,
-  exitScale: 1.0,
-  exitRotation: 0,
-  exitOrigin: "center center",
+  exitY: -1200,
+  exitScale: 0.91,
+  exitRotation: 20,
+  exitOrigin: "center bottom",
   exitEase: "power3.out",
-  exitSlantRatio: 0,
-  exitFlipSlant: false,
+  exitSlantRatio: 0.035,
+  exitFlipSlant: true,
   curtainColor: "#0d0e13",
+  preloaderEnabled: true,
+  preloaderShowParticles: true,
+  preloaderDuration: 0.63,
+  preloaderSlantRatio: 0.185,
+  preloaderFlipSlant: true,
+  preloaderFillMs: 450,
+  preloaderEase: "power2.out",
+  preloaderPageMotion: true,
+  preloaderPageY: 1200,
+  preloaderPageX: 5,
+  preloaderPageScale: 1.24,
+  preloaderPageRotation: 10,
+  preloaderPageOrigin: "center bottom",
 };
 
 export interface TransitionPreset {
@@ -234,6 +282,37 @@ export const TRANSITION_PRESETS: TransitionPreset[] = [
       revealScale: 1.0,
       exitRotation: -1.5,
       revealRotation: 1.5,
+      syncPaths: true,
+    },
+  },
+  {
+    id: "exo_preload",
+    label: "Exo Preload",
+    icon: "⏳",
+    desc: "0.15s wipe & 0.095 signature ratio",
+    settings: {
+      exitSpeed: 0.15,
+      exitEase: "power2.out",
+      exitSlantRatio: 0.095,
+      exitFlipSlant: false,
+      revealDurationOffset: 0.05,
+      revealEase: "power2.out",
+      revealSlantRatio: 0.095,
+      revealFlipSlant: false,
+      exitY: 0,
+      revealY: 0,
+      exitScale: 1.0,
+      revealScale: 1.0,
+      preloaderDuration: 0.15,
+      preloaderSlantRatio: 0.095,
+      preloaderFillMs: 100,
+      preloaderEase: "power2.out",
+      preloaderPageMotion: true,
+      preloaderPageY: 35,
+      preloaderPageX: 0,
+      preloaderPageScale: 0.96,
+      preloaderPageRotation: 1.2,
+      preloaderPageOrigin: "center bottom",
       syncPaths: true,
     },
   },
@@ -382,15 +461,24 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // Live tuning settings & persistence
   const [settings, setSettings] =
     useState<TransitionSettings>(DEFAULT_SETTINGS);
-  const [activeTab, setActiveTab] = useState<"master" | "exit" | "reveal">(
-    "master",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "master" | "exit" | "reveal" | "preloader"
+  >("exit");
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
   const settingsRef = useRef<TransitionSettings>(DEFAULT_SETTINGS);
+  const [scrubProgress, setScrubProgress] = useState<number | null>(null);
+  const scrubProgressRef = useRef<number | null>(null);
+  const [scrubTarget, setScrubTarget] = useState<"transition" | "preloader">("transition");
+  const scrubTargetRef = useRef<"transition" | "preloader">("transition");
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   useEffect(() => {
     settingsRef.current = settings;
   }, [settings]);
+
+  useEffect(() => {
+    scrubTargetRef.current = scrubTarget;
+  }, [scrubTarget]);
 
   // Load saved settings & open state once on mount
   useEffect(() => {
@@ -462,7 +550,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     key: K,
     val: TransitionSettings[K],
   ) => {
-    const next = { ...settings, [key]: val };
+    const prev = settingsRef.current;
+    const next = { ...prev, [key]: val };
     if (next.syncPaths) {
       if (key === "exitEase") {
         next.revealEase = val as string;
@@ -516,7 +605,212 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         JSON.stringify(next),
       );
     } catch {}
+
+    if (typeof window !== "undefined" && (String(key).startsWith("preloader") || key === "speedMult")) {
+      window.dispatchEvent(new CustomEvent("7h-update-preloader-settings"));
+    }
+
+    if (scrubProgressRef.current !== null) {
+      if (scrubTargetRef.current === "preloader") {
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("7h-scrub-preloader", {
+              detail: { progress: scrubProgressRef.current },
+            }),
+          );
+          window.dispatchEvent(new CustomEvent("7h-update-preloader-settings"));
+        }
+      } else {
+        renderScrubFrame(scrubProgressRef.current, next);
+      }
+    }
   };
+
+  const clearScrub = useCallback(() => {
+    setScrubProgress(null);
+    scrubProgressRef.current = null;
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("7h-clear-scrub-preloader"));
+    }
+    if (coverAnimIdRef.current) {
+      cancelAnimationFrame(coverAnimIdRef.current);
+      coverAnimIdRef.current = 0;
+    }
+    if (revealAnimIdRef.current) {
+      cancelAnimationFrame(revealAnimIdRef.current);
+      revealAnimIdRef.current = 0;
+    }
+    if (revealTimeoutRef.current) {
+      clearTimeout(revealTimeoutRef.current);
+      revealTimeoutRef.current = null;
+    }
+    if (curtainRef.current) {
+      curtainRef.current.remove();
+      curtainRef.current = null;
+    }
+    document
+      .querySelectorAll(".exoape-snapshot-outer, .exoape-curtain-overlay")
+      .forEach((node) => node.remove());
+    document.documentElement.classList.remove("is-page-transitioning");
+    if (contentRef.current) {
+      contentRef.current.style.transform = "";
+      contentRef.current.style.transformOrigin = "";
+    }
+  }, []);
+
+  const renderScrubFrame = useCallback(
+    (progress: number, s: TransitionSettings) => {
+      if (typeof window === "undefined" || !contentRef.current) return;
+
+      if (coverAnimIdRef.current) {
+        cancelAnimationFrame(coverAnimIdRef.current);
+        coverAnimIdRef.current = 0;
+      }
+      if (revealAnimIdRef.current) {
+        cancelAnimationFrame(revealAnimIdRef.current);
+        revealAnimIdRef.current = 0;
+      }
+      if (revealTimeoutRef.current) {
+        clearTimeout(revealTimeoutRef.current);
+        revealTimeoutRef.current = null;
+      }
+
+      if (progress <= 0) {
+        if (curtainRef.current) {
+          curtainRef.current.remove();
+          curtainRef.current = null;
+        }
+        document
+          .querySelectorAll(".exoape-snapshot-outer, .exoape-curtain-overlay")
+          .forEach((node) => node.remove());
+        contentRef.current.style.transform = "";
+        contentRef.current.style.transformOrigin = "";
+        document.documentElement.classList.remove("is-page-transitioning");
+        return;
+      }
+
+      document.documentElement.classList.add("is-page-transitioning");
+
+      let curtain =
+        curtainRef.current ||
+        document.querySelector<HTMLDivElement>(".exoape-curtain-overlay");
+      if (!curtain) {
+        curtain = document.createElement("div");
+        curtain.className = "exoape-curtain-overlay";
+        curtain.style.cssText = `
+          position: fixed;
+          inset: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: 99990;
+          pointer-events: none;
+          background-color: ${s.curtainColor || "#0d0e13"};
+          will-change: clip-path;
+        `;
+        document.body.appendChild(curtain);
+        curtainRef.current = curtain;
+      } else {
+        curtain.style.backgroundColor = s.curtainColor || "#0d0e13";
+      }
+
+      if (progress < 0.5) {
+        // Exit Cover Phase: local 0 -> 1
+        const localP = progress / 0.5;
+        const easeFn = solveEase(s.exitEase || "power3.out");
+        const p = easeFn(localP);
+
+        const coverClip = s.clipExitPath
+          ? buildRevealClipPath(p, s.exitSlantRatio, s.exitFlipSlant)
+          : "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
+        curtain.style.clipPath = coverClip;
+        (curtain.style as any).webkitClipPath = coverClip;
+
+        if (s.exitOrigin) {
+          contentRef.current.style.transformOrigin = computeViewportOrigin(s.exitOrigin);
+        }
+        const curX = (s.exitX || 0) * p;
+        const curY = (s.exitY || 0) * p;
+        const curScale = 1 - (1 - (s.exitScale || 1.0)) * p;
+        const curRot = (s.exitRotation || 0) * p;
+        contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+      } else {
+        // Reveal Wipe Phase: local 0 -> 1
+        const localP = (progress - 0.5) / 0.5;
+        const easeFn = solveEase(s.revealEase || "power3.out");
+        const p = easeFn(localP);
+
+        const revealClip = s.clipRevealPath
+          ? buildExitClipPath(p, s.revealSlantRatio, s.revealFlipSlant)
+          : "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)";
+        curtain.style.clipPath = revealClip;
+        (curtain.style as any).webkitClipPath = revealClip;
+
+        if (s.revealOrigin) {
+          contentRef.current.style.transformOrigin = computeViewportOrigin(s.revealOrigin);
+        }
+        const remP = 1 - p;
+        const curX = (s.revealX || 0) * remP;
+        const curY = (s.revealY || 0) * remP;
+        const curScale = 1 - (1 - (s.revealScale || 1.0)) * remP;
+        const curRot = (s.revealRotation || 0) * remP;
+        contentRef.current.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+      }
+    },
+    [],
+  );
+
+  const handleScrubChange = useCallback(
+    (val: number) => {
+      setScrubProgress(val);
+      scrubProgressRef.current = val;
+      if (scrubTargetRef.current === "preloader") {
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("7h-scrub-preloader", { detail: { progress: val } }),
+          );
+        }
+      } else {
+        renderScrubFrame(val, settingsRef.current);
+      }
+    },
+    [renderScrubFrame],
+  );
+
+  const handleSelectScrubTarget = useCallback(
+    (target: "transition" | "preloader") => {
+      setScrubTarget(target);
+      scrubTargetRef.current = target;
+      if (scrubProgressRef.current !== null) {
+        if (target === "preloader") {
+          if (curtainRef.current) {
+            curtainRef.current.remove();
+            curtainRef.current = null;
+          }
+          document
+            .querySelectorAll(".exoape-snapshot-outer, .exoape-curtain-overlay")
+            .forEach((node) => node.remove());
+          document.documentElement.classList.remove("is-page-transitioning");
+          if (contentRef.current) {
+            contentRef.current.style.transform = "";
+            contentRef.current.style.transformOrigin = "";
+          }
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("7h-scrub-preloader", {
+                detail: { progress: scrubProgressRef.current },
+              }),
+            );
+          }
+        } else {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("7h-clear-scrub-preloader"));
+          }
+          renderScrubFrame(scrubProgressRef.current, settingsRef.current);
+        }
+      }
+    },
+    [renderScrubFrame],
+  );
 
   const applyPreset = (preset: TransitionPreset) => {
     const next = { ...settings, ...preset.settings };
@@ -528,7 +822,11 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         JSON.stringify(next),
       );
     } catch {}
-    triggerReplay();
+    if (scrubProgressRef.current !== null) {
+      renderScrubFrame(scrubProgressRef.current, next);
+    } else {
+      triggerReplay();
+    }
   };
 
   const resetDefaults = () => {
@@ -541,10 +839,15 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         JSON.stringify(DEFAULT_SETTINGS),
       );
     } catch {}
-    triggerReplay();
+    if (scrubProgressRef.current !== null) {
+      renderScrubFrame(scrubProgressRef.current, DEFAULT_SETTINGS);
+    } else {
+      triggerReplay();
+    }
   };
 
   const triggerReplay = useCallback(() => {
+    clearScrub();
     const currentPath =
       typeof window !== "undefined" ? window.location.pathname : "/";
     document
@@ -643,7 +946,6 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Set initial position of incoming page before curtain reveals it
     if (
       contentRef.current &&
       ((s.revealY && s.revealY !== 0) ||
@@ -652,7 +954,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         (s.revealRotation && s.revealRotation !== 0))
     ) {
       if (s.revealOrigin) {
-        contentRef.current.style.transformOrigin = s.revealOrigin;
+        contentRef.current.style.transformOrigin = computeViewportOrigin(s.revealOrigin);
       }
       contentRef.current.style.transform = `translate3d(${(s.revealX || 0).toFixed(1)}px, ${(s.revealY || 0).toFixed(1)}px, 0) scale(${(s.revealScale || 1.0).toFixed(3)}) rotate(${(s.revealRotation || 0).toFixed(2)}deg)`;
     }
@@ -694,6 +996,9 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           (s.revealScale && s.revealScale !== 1.0) ||
           (s.revealRotation && s.revealRotation !== 0))
       ) {
+        if (s.revealOrigin) {
+          contentRef.current.style.transformOrigin = computeViewportOrigin(s.revealOrigin);
+        }
         const remP = 1 - p;
         const curX = (s.revealX || 0) * remP;
         const curY = (s.revealY || 0) * remP;
@@ -768,7 +1073,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       inset: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 99999;
+      z-index: 99990;
       pointer-events: none;
       background-color: ${s.curtainColor || "#0d0e13"};
       will-change: clip-path;
@@ -815,7 +1120,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
           (s.exitRotation && s.exitRotation !== 0))
       ) {
         if (s.exitOrigin) {
-          contentRef.current.style.transformOrigin = s.exitOrigin;
+          contentRef.current.style.transformOrigin = computeViewportOrigin(s.exitOrigin);
         }
         const curX = (s.exitX || 0) * p;
         const curY = (s.exitY || 0) * p;
@@ -1053,49 +1358,60 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      {/* Floating launcher trigger button */}
-      {!isPanelOpen && (
-        <button
-          type="button"
-          onClick={() => togglePanelOpen(true)}
-          className="pointer-events-auto fixed right-4 bottom-6 z-[99998] flex items-center gap-2 rounded-full border border-purple-500/40 bg-black/85 px-3.5 py-2 text-xs font-semibold text-purple-300 shadow-[0_4px_24px_rgba(147,51,234,0.35)] backdrop-blur-xl transition-all hover:scale-105 hover:border-purple-400 hover:text-white active:scale-95 select-none"
-          title="Open Page Transition Controls (Shift+T)"
-          aria-label="Open Page Transition Controls"
-        >
-          <span className="relative flex h-2 w-2">
-            <span
-              className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                settings.enabled ? "bg-purple-400 animate-ping" : "bg-zinc-500"
-              }`}
-            />
-            <span
-              className={`relative inline-flex h-2 w-2 rounded-full ${
-                settings.enabled ? "bg-purple-400" : "bg-zinc-500"
-              }`}
-            />
-          </span>
-          <span className="tracking-wide">Transitions</span>
-          <span className="rounded bg-purple-500/20 px-1.5 py-0.5 font-mono text-[10px] text-purple-300">
-            {settings.enabled ? `${settings.speedMult}x` : "OFF"}
-          </span>
-        </button>
-      )}
+      {/* Floating launcher trigger button & Tuner module portaled to document.body outside of PageTransition */}
+      {mounted &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <>
+            {!isPanelOpen && (
+              <button
+                type="button"
+                onClick={() => togglePanelOpen(true)}
+                className="pointer-events-auto fixed right-4 bottom-6 z-[100000] flex items-center gap-2 rounded-full border border-purple-500/40 bg-black/85 px-3.5 py-2 text-xs font-semibold text-purple-300 shadow-[0_4px_24px_rgba(147,51,234,0.35)] backdrop-blur-xl transition-[color,border-color,transform] hover:scale-105 hover:border-purple-400 hover:text-white active:scale-95 select-none"
+                title="Open Page Transition Controls (Shift+T)"
+                aria-label="Open Page Transition Controls"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span
+                    className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                      settings.enabled ? "bg-purple-400 animate-ping" : "bg-zinc-500"
+                    }`}
+                  />
+                  <span
+                    className={`relative inline-flex h-2 w-2 rounded-full ${
+                      settings.enabled ? "bg-purple-400" : "bg-zinc-500"
+                    }`}
+                  />
+                </span>
+                <span className="tracking-wide">Transitions</span>
+                <span className="rounded bg-purple-500/20 px-1.5 py-0.5 font-mono text-[10px] text-purple-300">
+                  {settings.enabled ? `${settings.speedMult}x` : "OFF"}
+                </span>
+              </button>
+            )}
 
-      {/* Transition Tuner UI Panel */}
-      {isPanelOpen && (
-        <TransitionTunerPanel
-          settings={settings}
-          exitDuration={exitDuration}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          updateSetting={updateSetting}
-          applyPreset={applyPreset}
-          resetDefaults={resetDefaults}
-          handleSpeedPreset={handleSpeedPreset}
-          triggerReplay={triggerReplay}
-          onClose={() => togglePanelOpen(false)}
-        />
-      )}
+            {isPanelOpen && (
+              <TransitionTunerPanel
+                settings={settings}
+                exitDuration={exitDuration}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                updateSetting={updateSetting}
+                applyPreset={applyPreset}
+                resetDefaults={resetDefaults}
+                handleSpeedPreset={handleSpeedPreset}
+                triggerReplay={triggerReplay}
+                onClose={() => togglePanelOpen(false)}
+                scrubProgress={scrubProgress}
+                onScrubChange={handleScrubChange}
+                onClearScrub={clearScrub}
+                scrubTarget={scrubTarget}
+                onSelectScrubTarget={handleSelectScrubTarget}
+              />
+            )}
+          </>,
+          document.body,
+        )}
     </>
   );
 }
@@ -1103,8 +1419,8 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 interface TransitionTunerPanelProps {
   settings: TransitionSettings;
   exitDuration: number;
-  activeTab: "master" | "exit" | "reveal";
-  setActiveTab: (val: "master" | "exit" | "reveal") => void;
+  activeTab: "master" | "exit" | "reveal" | "preloader";
+  setActiveTab: (val: "master" | "exit" | "reveal" | "preloader") => void;
   updateSetting: <K extends keyof TransitionSettings>(
     key: K,
     val: TransitionSettings[K],
@@ -1114,6 +1430,11 @@ interface TransitionTunerPanelProps {
   handleSpeedPreset: (m: number) => void;
   triggerReplay: () => void;
   onClose: () => void;
+  scrubProgress: number | null;
+  onScrubChange: (val: number) => void;
+  onClearScrub: () => void;
+  scrubTarget: "transition" | "preloader";
+  onSelectScrubTarget: (target: "transition" | "preloader") => void;
 }
 
 function TransitionTunerPanel({
@@ -1127,6 +1448,11 @@ function TransitionTunerPanel({
   handleSpeedPreset,
   triggerReplay,
   onClose,
+  scrubProgress,
+  onScrubChange,
+  onClearScrub,
+  scrubTarget,
+  onSelectScrubTarget,
 }: TransitionTunerPanelProps) {
   const [copied, setCopied] = useState(false);
   const [panelPos, setPanelPos] = useState<{ x: number; y: number } | null>(
@@ -1210,7 +1536,7 @@ function TransitionTunerPanel({
             } as React.CSSProperties)
           : undefined
       }
-      className="custom-scrollbar pointer-events-auto fixed right-4 bottom-6 z-[99999] flex max-h-[82vh] w-[350px] max-w-[calc(100vw-32px)] flex-col gap-3 overflow-y-auto overscroll-contain rounded-2xl border border-purple-500/25 bg-black/95 p-4 shadow-[0_12px_48px_rgba(0,0,0,0.8)] backdrop-blur-2xl text-white select-none"
+      className="custom-scrollbar pointer-events-auto fixed right-4 bottom-6 z-[100000] flex max-h-[82vh] w-[350px] max-w-[calc(100vw-32px)] flex-col gap-3 overflow-y-auto overscroll-contain rounded-2xl border border-purple-500/25 bg-black/95 p-4 shadow-[0_12px_48px_rgba(0,0,0,0.8)] backdrop-blur-2xl text-white select-none"
     >
       {/* ── PANEL HEADER ── */}
       <div
@@ -1267,21 +1593,38 @@ function TransitionTunerPanel({
         </div>
       </div>
 
-      {/* ── MASTER ON/OFF SWITCH ── */}
-      <div className="flex items-center justify-between rounded-xl border border-purple-500/20 bg-purple-950/20 p-2.5">
-        <div>
-          <p className="text-xs font-semibold text-white">Transition Effect</p>
-          <p className="text-[10px] text-white/50">
-            {settings.enabled ? "Active on route changes" : "Instant navigation"}
-          </p>
+      {/* ── MASTER ON/OFF SWITCHES (TRANSITIONS & PRELOADER) ── */}
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex items-center justify-between rounded-xl border border-purple-500/20 bg-purple-950/20 p-2.5">
+          <div>
+            <p className="text-xs font-semibold text-white">Transitions</p>
+            <p className="text-[10px] text-white/50">
+              {settings.enabled ? "Active on nav" : "Instant"}
+            </p>
+          </div>
+          <Toggle
+            size="sm"
+            checked={settings.enabled}
+            onChange={(val) => updateSetting("enabled", val)}
+            label="Enable Transitions"
+            hideLabel
+          />
         </div>
-        <Toggle
-          size="sm"
-          checked={settings.enabled}
-          onChange={(val) => updateSetting("enabled", val)}
-          label="Enable Transitions"
-          hideLabel
-        />
+        <div className="flex items-center justify-between rounded-xl border border-amber-500/20 bg-amber-950/20 p-2.5">
+          <div>
+            <p className="text-xs font-semibold text-white">Preloader</p>
+            <p className="text-[10px] text-white/50">
+              {settings.preloaderEnabled ?? true ? "Active on load" : "Bypassed"}
+            </p>
+          </div>
+          <Toggle
+            size="sm"
+            checked={settings.preloaderEnabled ?? true}
+            onChange={(val) => updateSetting("preloaderEnabled", val)}
+            label="Enable Preloader"
+            hideLabel
+          />
+        </div>
       </div>
 
       {/* ── PRESETS BAR ── */}
@@ -1295,7 +1638,7 @@ function TransitionTunerPanel({
               type="button"
               key={p.id}
               onClick={() => applyPreset(p)}
-              className="transition-all flex flex-col items-start rounded-lg border border-white/10 bg-white/5 p-2 text-left hover:border-purple-500/50 hover:bg-purple-950/30 active:scale-[0.98]"
+              className="transition-[color,background-color,border-color,transform] flex flex-col items-start rounded-lg border border-white/10 bg-white/5 p-2 text-left hover:border-purple-500/50 hover:bg-purple-950/30 active:scale-[0.98]"
             >
               <div className="flex items-center gap-1.5 font-semibold text-xs text-purple-200">
                 <span>{p.icon}</span>
@@ -1309,23 +1652,189 @@ function TransitionTunerPanel({
         </div>
       </div>
 
-      {/* ── ACTION BUTTONS (REPLAY & RESET) ── */}
-      <div className="grid grid-cols-[1fr_auto] gap-2">
-        <button
-          type="button"
-          onClick={triggerReplay}
-          className="transition-all flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2.5 px-3 font-semibold text-xs text-white shadow-lg shadow-purple-900/30 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
-        >
-          <span>🎬 Test Transition (Replay)</span>
-        </button>
-        <button
-          type="button"
-          onClick={resetDefaults}
-          title="Reset all transition settings to default values"
-          className="transition-all flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 font-semibold text-xs text-white/90 shadow-md hover:border-white/40 hover:bg-white/20 hover:text-white active:scale-[0.98]"
-        >
-          <span>↺ Reset</span>
-        </button>
+      {/* ── ACTION BUTTONS (REPLAY TRANSITION, TEST PRELOADER & RESET) ── */}
+      <div className="flex flex-col gap-1.5">
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={triggerReplay}
+            className="transition-[transform,filter] flex cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 py-2.5 px-2 font-semibold text-xs text-white shadow-lg shadow-purple-900/30 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98]"
+          >
+            <span>🎬 Test Transition</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("preloader");
+              onSelectScrubTarget("preloader");
+              if (scrubProgress !== null) {
+                onClearScrub();
+              }
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("7h-replay-preloader"));
+              }
+            }}
+            className="transition-[transform,filter] flex cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 py-2.5 px-2 font-semibold text-xs text-white shadow-lg shadow-amber-900/30 hover:from-amber-500 hover:to-yellow-500 active:scale-[0.98]"
+          >
+            <span>⏳ Test Preloader</span>
+          </button>
+        </div>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={resetDefaults}
+            title="Reset all transition settings to default values"
+            className="transition-[color,background-color,border-color,transform] w-full flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-white/15 bg-white/5 py-1.5 px-3 font-medium text-[11px] text-white/70 shadow-sm hover:border-white/30 hover:bg-white/10 hover:text-white active:scale-[0.98]"
+          >
+            <span>↺ Reset Defaults</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ── TIMELINE SCRUBBER (START TO FINISH) ── */}
+      <div
+        className={`flex flex-col gap-2 rounded-xl border p-2.5 shadow-inner transition-colors ${
+          scrubTarget === "preloader"
+            ? "border-amber-500/40 bg-amber-950/30"
+            : "border-purple-500/30 bg-purple-950/30"
+        }`}
+      >
+        <div className="flex items-center justify-between text-[11px]">
+          <div className="flex items-center gap-1.5 font-semibold">
+            <span>{scrubTarget === "preloader" ? "⏳" : "⏱️"}</span>
+            <span
+              className={
+                scrubTarget === "preloader"
+                  ? "text-amber-200"
+                  : "text-purple-200"
+              }
+            >
+              Scrub: {scrubTarget === "preloader" ? "Preloader Sequence" : "Page Transition"}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span
+              className={`font-mono text-xs font-bold ${
+                scrubTarget === "preloader"
+                  ? "text-amber-300"
+                  : "text-purple-300"
+              }`}
+            >
+              {scrubProgress !== null ? `${Math.round(scrubProgress * 100)}%` : "0% (Live)"}
+            </span>
+            {scrubProgress !== null && (
+              <button
+                type="button"
+                onClick={onClearScrub}
+                className="transition-colors rounded bg-white/10 px-1.5 py-0.5 text-[9px] text-white/70 hover:bg-white/20 hover:text-white"
+                title="Exit preview and restore normal page state"
+              >
+                Reset
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Scrub Target Selector */}
+        <div className="grid grid-cols-2 gap-1 rounded-lg bg-black/40 p-1 text-[10px]">
+          <button
+            type="button"
+            onClick={() => onSelectScrubTarget("transition")}
+            className={`rounded py-1 font-semibold transition-colors ${
+              scrubTarget === "transition"
+                ? "bg-purple-600 text-white shadow-sm"
+                : "text-white/60 hover:text-white"
+            }`}
+          >
+            🎬 Scrub Transition
+          </button>
+          <button
+            type="button"
+            onClick={() => onSelectScrubTarget("preloader")}
+            className={`rounded py-1 font-semibold transition-colors ${
+              scrubTarget === "preloader"
+                ? "bg-amber-600 text-white shadow-sm"
+                : "text-white/60 hover:text-white"
+            }`}
+          >
+            ⏳ Scrub Preloader
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.005}
+            value={scrubProgress ?? 0}
+            onChange={(e) => onScrubChange(parseFloat(e.target.value))}
+            className={`h-2 w-full cursor-pointer bg-white/20 ${
+              scrubTarget === "preloader"
+                ? "accent-amber-400"
+                : "accent-purple-400"
+            }`}
+            aria-label="Drag animation progress from start to finish"
+          />
+          <div className="flex items-center justify-between text-[10px] text-white/50">
+            <span>0% Start</span>
+            <span
+              className={`font-medium ${
+                scrubTarget === "preloader"
+                  ? "text-amber-300"
+                  : "text-purple-300"
+              }`}
+            >
+              {scrubProgress === null
+                ? "Drag slider to inspect & edit frame"
+                : scrubTarget === "preloader"
+                ? scrubProgress <= 0.45
+                  ? `Brand Fill: ${Math.round((scrubProgress / 0.45) * 100)}% (Note Bobbing)`
+                  : scrubProgress <= 0.60
+                  ? `Lift & Fade: ${Math.round(((scrubProgress - 0.45) / 0.15) * 100)}%`
+                  : `Curtain Wipe: ${Math.round(((scrubProgress - 0.60) / 0.40) * 100)}%`
+                : scrubProgress < 0.5
+                ? `Exit Cover: ${(scrubProgress * 200).toFixed(0)}%`
+                : `Reveal Wipe: ${((scrubProgress - 0.5) * 200).toFixed(0)}%`}
+            </span>
+            <span>100% Finish</span>
+          </div>
+        </div>
+
+        {/* Quick Position Jump Markers */}
+        <div className="grid grid-cols-5 gap-1 text-[9px]">
+          {(scrubTarget === "preloader"
+            ? [
+                { label: "0% Start", val: 0.0 },
+                { label: "25% Fill", val: 0.25 },
+                { label: "50% Fade", val: 0.5 },
+                { label: "75% Wipe", val: 0.75 },
+                { label: "100% End", val: 1.0 },
+              ]
+            : [
+                { label: "0% Start", val: 0.0 },
+                { label: "25% Exit", val: 0.25 },
+                { label: "50% Peak", val: 0.5 },
+                { label: "75% In", val: 0.75 },
+                { label: "100% End", val: 1.0 },
+              ]
+          ).map(({ label, val }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => onScrubChange(val)}
+              className={`rounded py-1 text-center transition-colors ${
+                scrubProgress !== null && Math.abs(scrubProgress - val) < 0.04
+                  ? scrubTarget === "preloader"
+                    ? "bg-amber-600 font-semibold text-white shadow-sm"
+                    : "bg-purple-600 font-semibold text-white shadow-sm"
+                  : "bg-white/5 text-white/70 hover:bg-white/15"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* ── SLOW-MO SPEED PRESETS ── */}
@@ -1336,18 +1845,19 @@ function TransitionTunerPanel({
             {settings.speedMult}x {settings.speedMult === 1 ? "(Normal)" : `(${settings.speedMult}x Slow)`}
           </span>
         </div>
-        <div className="grid grid-cols-4 gap-1">
+        <div className="grid grid-cols-5 gap-1">
           {[
-            { mult: 1, label: "1x Normal" },
+            { mult: 1, label: "1x" },
             { mult: 2, label: "2x" },
             { mult: 5, label: "5x" },
             { mult: 10, label: "10x" },
+            { mult: 20, label: "20x Slow" },
           ].map(({ mult, label }) => (
             <button
               type="button"
               key={mult}
               onClick={() => handleSpeedPreset(mult)}
-              className={`rounded py-1 text-[10px] font-semibold transition-all ${
+              className={`rounded py-1 text-[10px] font-semibold transition-colors ${
                 settings.speedMult === mult
                   ? "bg-purple-600 text-white shadow"
                   : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
@@ -1360,7 +1870,7 @@ function TransitionTunerPanel({
         <input
           type="range"
           min={1}
-          max={10}
+          max={25}
           step={0.5}
           value={Math.max(1, settings.speedMult)}
           onChange={(e) =>
@@ -1372,11 +1882,11 @@ function TransitionTunerPanel({
       </div>
 
       {/* ── TAB BAR SWITCHER ── */}
-      <div className="grid grid-cols-3 gap-1 rounded-lg border border-white/10 bg-white/5 p-1">
+      <div className="grid grid-cols-4 gap-1 rounded-lg border border-white/10 bg-white/5 p-1">
         <button
           type="button"
           onClick={() => setActiveTab("master")}
-          className={`rounded py-1.5 text-[10px] font-semibold transition-all ${
+          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
             activeTab === "master"
               ? "bg-purple-600 text-white shadow"
               : "text-white/60 hover:bg-white/5 hover:text-white"
@@ -1387,24 +1897,35 @@ function TransitionTunerPanel({
         <button
           type="button"
           onClick={() => setActiveTab("exit")}
-          className={`rounded py-1.5 text-[10px] font-semibold transition-all ${
+          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
             activeTab === "exit"
               ? "bg-fuchsia-600 text-white shadow"
               : "text-white/60 hover:bg-white/5 hover:text-white"
           }`}
         >
-          📤 Exit
+          🚪 Exit
         </button>
         <button
           type="button"
           onClick={() => setActiveTab("reveal")}
-          className={`rounded py-1.5 text-[10px] font-semibold transition-all ${
+          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
             activeTab === "reveal"
               ? "bg-cyan-600 text-white shadow"
               : "text-white/60 hover:bg-white/5 hover:text-white"
           }`}
         >
           📥 Reveal
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("preloader")}
+          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
+            activeTab === "preloader"
+              ? "bg-amber-600 text-white shadow"
+              : "text-white/60 hover:bg-white/5 hover:text-white"
+          }`}
+        >
+          ⏳ Preload
         </button>
       </div>
 
@@ -1418,11 +1939,25 @@ function TransitionTunerPanel({
       )}
 
       {activeTab === "exit" && (
-        <ExitTabSection settings={settings} updateSetting={updateSetting} />
+        <ExitTabSection
+          settings={settings}
+          updateSetting={updateSetting}
+          onScrubChange={onScrubChange}
+          triggerReplay={triggerReplay}
+        />
       )}
 
       {activeTab === "reveal" && (
         <RevealTabSection settings={settings} updateSetting={updateSetting} />
+      )}
+
+      {activeTab === "preloader" && (
+        <PreloaderTabSection
+          settings={settings}
+          updateSetting={updateSetting}
+          onScrubChange={onScrubChange}
+          onSelectScrubTarget={onSelectScrubTarget}
+        />
       )}
     </aside>
   );
@@ -1432,7 +1967,7 @@ interface OriginControlProps {
   id: string;
   value: string;
   onChange: (val: string) => void;
-  accent: "purple" | "fuchsia" | "cyan";
+  accent: "purple" | "fuchsia" | "cyan" | "amber";
   label?: string;
 }
 
@@ -1462,6 +1997,11 @@ function OriginControl({
       text: "text-cyan-300",
       activeBg:
         "border-cyan-400 bg-cyan-600 text-white shadow-sm shadow-cyan-900/50",
+    },
+    amber: {
+      text: "text-amber-300",
+      activeBg:
+        "border-amber-400 bg-amber-600 text-white shadow-sm shadow-amber-900/50",
     },
   }[accent];
 
@@ -1510,7 +2050,7 @@ function OriginControl({
                 onClick={() => onChange(pt.value)}
                 title={pt.tip}
                 aria-label={`Pivot origin ${pt.tip}`}
-                className={`flex h-6 w-6 items-center justify-center rounded border text-xs font-bold transition-all ${
+                className={`flex h-6 w-6 items-center justify-center rounded border text-xs font-bold transition-colors ${
                   isSelected
                     ? accentStyles.activeBg
                     : pt.isExo
@@ -1529,7 +2069,7 @@ function OriginControl({
           <button
             type="button"
             onClick={() => onChange("center bottom")}
-            className={`flex items-center justify-between rounded border px-2 py-1 text-left text-[10px] font-semibold transition-all ${
+            className={`flex items-center justify-between rounded border px-2 py-1 text-left text-[10px] font-semibold transition-colors ${
               current === "center bottom"
                 ? accentStyles.activeBg
                 : "border-amber-400/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
@@ -1553,7 +2093,7 @@ function OriginControl({
                   type="button"
                   key={p.value}
                   onClick={() => onChange(p.value)}
-                  className={`flex items-center justify-center gap-0.5 rounded border py-0.5 px-1 text-[9px] font-semibold transition-all ${
+                  className={`flex items-center justify-center gap-0.5 rounded border py-0.5 px-1 text-[9px] font-semibold transition-colors ${
                     active
                       ? accentStyles.activeBg
                       : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:bg-white/15 hover:text-white"
@@ -1629,8 +2169,8 @@ function MasterTabSection({
         <input
           type="range"
           min={0.1}
-          max={1.5}
-          step={0.02}
+          max={5.0}
+          step={0.05}
           value={settings.exitSpeed}
           onChange={(e) =>
             updateSetting("exitSpeed", parseFloat(e.target.value))
@@ -1662,23 +2202,48 @@ function MasterTabSection({
       {/* Slant Ratio */}
       <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-white/70">Slant Ratio</span>
+          <span className="text-white/70">Slant Angle</span>
           <span className="font-mono text-purple-300 font-bold">
-            {settings.exitSlantRatio.toFixed(3)}
+            {settings.exitSlantRatio.toFixed(3)} ({formatSlantAngle(settings.exitSlantRatio)})
           </span>
         </div>
         <input
           type="range"
           min={0}
-          max={0.25}
+          max={0.65}
           step={0.005}
           value={settings.exitSlantRatio}
-          onChange={(e) =>
-            updateSetting("exitSlantRatio", parseFloat(e.target.value))
-          }
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            updateSetting("exitSlantRatio", val);
+            if (settings.syncPaths) {
+              updateSetting("revealSlantRatio", val);
+            }
+          }}
           aria-label="Slant ratio"
           className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
         />
+        <div className="flex flex-wrap gap-1 mt-0.5">
+          {SLANT_ANGLE_PRESETS.map(({ label, val }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => {
+                updateSetting("exitSlantRatio", val);
+                if (settings.syncPaths) {
+                  updateSetting("revealSlantRatio", val);
+                }
+              }}
+              className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                Math.abs(settings.exitSlantRatio - val) < 0.006
+                  ? "bg-purple-600 font-semibold text-white shadow-sm"
+                  : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Slant Direction Toggle */}
@@ -1714,8 +2279,8 @@ function MasterTabSection({
           <input
             type="range"
             min={0}
-            max={80}
-            step={5}
+            max={1200}
+            step={10}
             value={Math.abs(settings.revealY || 0)}
             onChange={(e) => {
               const val = parseFloat(e.target.value);
@@ -1727,6 +2292,21 @@ function MasterTabSection({
             aria-label="Master page shift Y"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
           />
+          <div className="flex flex-wrap items-center justify-between gap-1 text-[9px] text-white/40">
+            {[0, 100, 250, 520, 750, 1000, 1200].map((y) => (
+              <button
+                key={y}
+                type="button"
+                onClick={() => {
+                  updateSetting("revealY", y);
+                  if (settings.syncPaths) updateSetting("exitY", -y);
+                }}
+                className="hover:text-purple-300 transition-colors"
+              >
+                {y === 520 ? "520px (~50vh)" : `${y}px`}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Page Shift X */}
@@ -1739,8 +2319,8 @@ function MasterTabSection({
           </div>
           <input
             type="range"
-            min={-60}
-            max={60}
+            min={-300}
+            max={300}
             step={5}
             value={settings.revealX || 0}
             onChange={(e) => {
@@ -1753,6 +2333,21 @@ function MasterTabSection({
             aria-label="Master page shift X"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
           />
+          <div className="flex items-center justify-between gap-1 text-[9px] text-white/40">
+            {[-120, -60, 0, 60, 120].map((x) => (
+              <button
+                key={x}
+                type="button"
+                onClick={() => {
+                  updateSetting("revealX", x);
+                  if (settings.syncPaths) updateSetting("exitX", -x);
+                }}
+                className="hover:text-purple-300 transition-colors"
+              >
+                {x > 0 ? `+${x}` : x}px
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Page Scale Depth */}
@@ -1765,20 +2360,61 @@ function MasterTabSection({
           </div>
           <input
             type="range"
-            min={0.92}
-            max={1.05}
+            min={0.50}
+            max={2.00}
             step={0.01}
             value={settings.revealScale || 1.0}
             onChange={(e) => {
               const val = parseFloat(e.target.value);
               updateSetting("revealScale", val);
-              if (settings.syncPaths) {
-                updateSetting("exitScale", val);
-              }
             }}
             aria-label="Master page scale depth"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
           />
+          <div className="flex flex-wrap items-center justify-between gap-1 text-[9px] text-white/40">
+            <button
+              type="button"
+              onClick={() => updateSetting("revealScale", 0.80)}
+              className="hover:text-purple-300 transition-colors"
+            >
+              0.80x (Out)
+            </button>
+            <button
+              type="button"
+              onClick={() => updateSetting("revealScale", 1.0)}
+              className="hover:text-purple-300 transition-colors"
+            >
+              1.00x (Flat)
+            </button>
+            <button
+              type="button"
+              onClick={() => updateSetting("revealScale", 1.15)}
+              className="hover:text-purple-300 transition-colors"
+            >
+              1.15x
+            </button>
+            <button
+              type="button"
+              onClick={() => updateSetting("revealScale", 1.30)}
+              className="hover:text-purple-300 transition-colors"
+            >
+              1.30x
+            </button>
+            <button
+              type="button"
+              onClick={() => updateSetting("revealScale", 1.50)}
+              className="hover:text-purple-300 transition-colors"
+            >
+              1.50x
+            </button>
+            <button
+              type="button"
+              onClick={() => updateSetting("revealScale", 1.75)}
+              className="hover:text-purple-300 transition-colors"
+            >
+              1.75x (Deep)
+            </button>
+          </div>
         </div>
 
         {/* Page Rotation Tilt (Exo Ape Style) */}
@@ -1791,8 +2427,8 @@ function MasterTabSection({
           </div>
           <input
             type="range"
-            min={-5}
-            max={5}
+            min={-20}
+            max={20}
             step={0.25}
             value={settings.revealRotation || 0}
             onChange={(e) => {
@@ -1805,6 +2441,21 @@ function MasterTabSection({
             aria-label="Master page rotation tilt"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-purple-400"
           />
+          <div className="flex items-center justify-between gap-1 text-[9px] text-white/40">
+            {[-12, -7, -3, 0, 3, 7, 12].map((deg) => (
+              <button
+                key={deg}
+                type="button"
+                onClick={() => {
+                  updateSetting("revealRotation", deg);
+                  if (settings.syncPaths) updateSetting("exitRotation", -deg);
+                }}
+                className="hover:text-purple-300 transition-colors"
+              >
+                {deg > 0 ? `+${deg}` : deg}°
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Rotation Pivot Origin */}
@@ -1830,28 +2481,96 @@ function MasterTabSection({
               type="button"
               key={c.value}
               onClick={() => updateSetting("curtainColor", c.value)}
-              className={`flex items-center gap-2 rounded-lg border p-1.5 text-left text-[11px] transition-all ${
+              className={`flex items-center gap-2 rounded-lg border p-1.5 text-left text-[11px] transition-colors ${
                 settings.curtainColor === c.value
                   ? "border-purple-400 bg-purple-900/40 text-white shadow"
                   : "border-white/10 bg-white/5 text-white/70 hover:border-white/25"
               }`}
             >
               <span
-                className="h-3 w-3 rounded-full border border-white/20 shrink-0"
-                style={{ backgroundColor: c.value }}
+                className="h-3 w-3 rounded-full border border-white/20 shrink-0 bg-[var(--c-val)]"
+                style={{ "--c-val": c.value } as React.CSSProperties}
               />
               <span className="truncate">{c.label}</span>
             </button>
           ))}
         </div>
       </div>
+
+      {/* Preloader Setup Summary & Controls */}
+      <div className="flex flex-col gap-2 rounded-xl border border-amber-500/25 bg-amber-950/20 p-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 font-semibold text-amber-300">
+            <span>⏳</span>
+            <span>Preloader Setup</span>
+          </div>
+          <span className="rounded bg-amber-500/20 px-1.5 py-0.5 font-mono text-[9px] text-amber-200">
+            Initial Load
+          </span>
+        </div>
+        <div className="flex items-center justify-between text-[11px] text-white/70">
+          <span>Enable Preloader</span>
+          <Toggle
+            size="sm"
+            checked={settings.preloaderEnabled ?? true}
+            onChange={(val) => updateSetting("preloaderEnabled", val)}
+            label="Enable Preloader"
+          />
+        </div>
+        <div className="flex items-center justify-between text-[11px] text-white/70">
+          <span>Floating Note Particles</span>
+          <Toggle
+            size="sm"
+            checked={settings.preloaderShowParticles ?? true}
+            onChange={(val) => updateSetting("preloaderShowParticles", val)}
+            label="Show Notes"
+          />
+        </div>
+        <div className="flex items-center justify-between pt-1 border-t border-amber-500/20 text-[10px] text-white/60">
+          <span>Fill: {settings.preloaderFillMs || 100}ms</span>
+          <span>•</span>
+          <span>Wipe: {(settings.preloaderDuration || 0.15).toFixed(2)}s</span>
+          <span>•</span>
+          <span>
+            Slant: {(settings.preloaderSlantRatio ?? 0.095).toFixed(3)} ({formatSlantAngle(settings.preloaderSlantRatio ?? 0.095)}) {settings.preloaderFlipSlant ? "⬉" : "⬈"}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
 
-function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
+interface ExitTabSectionProps extends TabSectionProps {
+  onScrubChange?: (val: number) => void;
+  triggerReplay?: () => void;
+}
+
+function ExitTabSection({
+  settings,
+  updateSetting,
+  onScrubChange,
+  triggerReplay,
+}: ExitTabSectionProps) {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-fuchsia-500/30 bg-fuchsia-950/25 p-3 text-xs">
+      {/* Quick Test / Scrub Actions */}
+      <div className="grid grid-cols-2 gap-1.5 pb-1 border-b border-fuchsia-500/20">
+        <button
+          type="button"
+          onClick={() => onScrubChange?.(0.25)}
+          className="transition-colors flex items-center justify-center gap-1 rounded bg-fuchsia-600/30 border border-fuchsia-400/40 py-1.5 px-2 text-[10px] font-semibold text-fuchsia-200 hover:bg-fuchsia-600/50 hover:text-white"
+        >
+          <span>🔍 Inspect Exit (25%)</span>
+        </button>
+        <button
+          type="button"
+          onClick={triggerReplay}
+          className="transition-colors flex items-center justify-center gap-1 rounded bg-white/10 border border-white/20 py-1.5 px-2 text-[10px] font-semibold text-white/90 hover:bg-white/20 hover:text-white"
+        >
+          <span>🎬 Replay Transition</span>
+        </button>
+      </div>
+
       <div className="flex items-center justify-between border-b border-fuchsia-500/20 pb-2">
         <span className="font-semibold text-fuchsia-300">
           Old Page Exit Wipe
@@ -1884,15 +2603,15 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
 
       <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-white/70">Exit Slant Ratio</span>
+          <span className="text-white/70">Exit Slant Angle</span>
           <span className="font-mono text-fuchsia-300 font-bold">
-            {settings.exitSlantRatio.toFixed(3)}
+            {settings.exitSlantRatio.toFixed(3)} ({formatSlantAngle(settings.exitSlantRatio)})
           </span>
         </div>
         <input
           type="range"
           min={0}
-          max={0.25}
+          max={0.65}
           step={0.005}
           value={settings.exitSlantRatio}
           onChange={(e) =>
@@ -1901,6 +2620,22 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           aria-label="Exit slant ratio"
           className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
         />
+        <div className="flex flex-wrap gap-1 mt-0.5">
+          {SLANT_ANGLE_PRESETS.map(({ label, val }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => updateSetting("exitSlantRatio", val)}
+              className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                Math.abs(settings.exitSlantRatio - val) < 0.006
+                  ? "bg-fuchsia-600 font-semibold text-white shadow-sm"
+                  : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex items-center justify-between">
@@ -1928,9 +2663,9 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={-80}
-            max={80}
-            step={5}
+            min={-1200}
+            max={1200}
+            step={10}
             value={settings.exitY || 0}
             onChange={(e) =>
               updateSetting("exitY", parseFloat(e.target.value))
@@ -1938,6 +2673,27 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
             aria-label="Exit Y offset"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
           />
+          <div className="flex flex-wrap gap-1 mt-0.5">
+            {[
+              { label: "-1200px (Exo)", val: -1200 },
+              { label: "-600px", val: -600 },
+              { label: "0px", val: 0 },
+              { label: "+600px", val: 600 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("exitY", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  (settings.exitY || 0) === val
+                    ? "bg-fuchsia-600 font-semibold text-white"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -1949,8 +2705,8 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={-80}
-            max={80}
+            min={-300}
+            max={300}
             step={5}
             value={settings.exitX || 0}
             onChange={(e) =>
@@ -1959,6 +2715,26 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
             aria-label="Exit X offset"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
           />
+          <div className="flex flex-wrap gap-1 mt-0.5">
+            {[
+              { label: "-150px", val: -150 },
+              { label: "0px", val: 0 },
+              { label: "+150px", val: 150 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("exitX", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  (settings.exitX || 0) === val
+                    ? "bg-fuchsia-600 font-semibold text-white"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -1970,8 +2746,8 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={0.92}
-            max={1.05}
+            min={0.50}
+            max={2.00}
             step={0.01}
             value={settings.exitScale || 1.0}
             onChange={(e) =>
@@ -1980,6 +2756,27 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
             aria-label="Exit scale"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
           />
+          <div className="flex flex-wrap gap-1 mt-0.5">
+            {[
+              { label: "1.00x", val: 1.0 },
+              { label: "1.15x", val: 1.15 },
+              { label: "1.27x (Exo)", val: 1.27 },
+              { label: "1.50x", val: 1.5 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("exitScale", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  Math.abs((settings.exitScale || 1.0) - val) < 0.02
+                    ? "bg-fuchsia-600 font-semibold text-white"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -1991,8 +2788,8 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={-5}
-            max={5}
+            min={-20}
+            max={20}
             step={0.25}
             value={settings.exitRotation || 0}
             onChange={(e) =>
@@ -2001,6 +2798,27 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
             aria-label="Exit rotation tilt"
             className="h-1.5 w-full cursor-pointer bg-white/20 accent-fuchsia-400"
           />
+          <div className="flex flex-wrap gap-1 mt-0.5">
+            {[
+              { label: "-12.0°", val: -12.0 },
+              { label: "-7.0° (Exo)", val: -7.0 },
+              { label: "0.0°", val: 0.0 },
+              { label: "+7.0°", val: 7.0 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("exitRotation", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  Math.abs((settings.exitRotation || 0) - val) < 0.3
+                    ? "bg-fuchsia-600 font-semibold text-white"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Exit Rotation Pivot Origin */}
@@ -2010,6 +2828,25 @@ function ExitTabSection({ settings, updateSetting }: TabSectionProps) {
           onChange={(val) => updateSetting("exitOrigin", val)}
           accent="fuchsia"
         />
+
+        {/* Match Preloader Setup Action */}
+        <div className="flex items-center justify-between rounded-lg border border-amber-500/20 bg-amber-950/20 p-2 text-[11px] mt-1">
+          <div className="flex items-center gap-1.5 text-amber-200">
+            <span>⏳</span>
+            <span>Match Preloader Curve</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              updateSetting("exitSpeed", settings.preloaderDuration || 0.15);
+              updateSetting("exitSlantRatio", settings.preloaderSlantRatio ?? 0.095);
+              updateSetting("exitEase", settings.preloaderEase || "power2.out");
+            }}
+            className="transition-colors rounded bg-amber-600/30 border border-amber-400/40 px-2 py-1 text-[10px] font-semibold text-amber-200 hover:bg-amber-600/50 hover:text-white"
+          >
+            Sync With Preloader
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -2050,15 +2887,15 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
 
       <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-white/70">Reveal Slant Ratio</span>
+          <span className="text-white/70">Reveal Slant Angle</span>
           <span className="font-mono text-cyan-300 font-bold">
-            {settings.revealSlantRatio.toFixed(3)}
+            {settings.revealSlantRatio.toFixed(3)} ({formatSlantAngle(settings.revealSlantRatio)})
           </span>
         </div>
         <input
           type="range"
           min={0}
-          max={0.25}
+          max={0.65}
           step={0.005}
           value={settings.revealSlantRatio}
           onChange={(e) =>
@@ -2067,6 +2904,22 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           aria-label="Reveal slant ratio"
           className="h-1.5 w-full cursor-pointer bg-white/20 accent-cyan-400"
         />
+        <div className="flex flex-wrap gap-1 mt-0.5">
+          {SLANT_ANGLE_PRESETS.map(({ label, val }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => updateSetting("revealSlantRatio", val)}
+              className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                Math.abs(settings.revealSlantRatio - val) < 0.006
+                  ? "bg-cyan-600 font-semibold text-white shadow-sm"
+                  : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex items-center justify-between">
@@ -2084,6 +2937,7 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
         <span className="font-semibold text-cyan-300">
           Page Reveal Motion
         </span>
+
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between">
             <span className="text-white/70">Translate Y Offset</span>
@@ -2093,9 +2947,9 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={-80}
-            max={80}
-            step={5}
+            min={-1200}
+            max={1200}
+            step={10}
             value={settings.revealY || 0}
             onChange={(e) =>
               updateSetting("revealY", parseFloat(e.target.value))
@@ -2114,8 +2968,8 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={-80}
-            max={80}
+            min={-300}
+            max={300}
             step={5}
             value={settings.revealX || 0}
             onChange={(e) =>
@@ -2135,8 +2989,8 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={0.92}
-            max={1.05}
+            min={0.50}
+            max={2.00}
             step={0.01}
             value={settings.revealScale || 1.0}
             onChange={(e) =>
@@ -2156,8 +3010,8 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           </div>
           <input
             type="range"
-            min={-5}
-            max={5}
+            min={-20}
+            max={20}
             step={0.25}
             value={settings.revealRotation || 0}
             onChange={(e) =>
@@ -2175,6 +3029,677 @@ function RevealTabSection({ settings, updateSetting }: TabSectionProps) {
           onChange={(val) => updateSetting("revealOrigin", val)}
           accent="cyan"
         />
+      </div>
+    </div>
+  );
+}
+
+interface PreloaderTabSectionProps {
+  settings: TransitionSettings;
+  updateSetting: <K extends keyof TransitionSettings>(
+    key: K,
+    val: TransitionSettings[K],
+  ) => void;
+  onScrubChange?: (val: number) => void;
+  onSelectScrubTarget?: (target: "transition" | "preloader") => void;
+}
+
+function PreloaderTabSection({
+  settings,
+  updateSetting,
+  onScrubChange,
+  onSelectScrubTarget,
+}: PreloaderTabSectionProps) {
+  const [replaying, setReplaying] = useState(false);
+
+  const handleReplayPreloader = () => {
+    setReplaying(true);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("7h-replay-preloader"));
+    }
+    const replayDurationMs = Math.max(
+      1200,
+      ((settings.preloaderFillMs || 100) + (settings.preloaderDuration || 0.15) * 1000 + 400) *
+        settings.speedMult,
+    );
+    setTimeout(() => setReplaying(false), Math.min(6000, replayDurationMs));
+  };
+
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border border-amber-500/30 bg-amber-950/25 p-3 text-xs">
+      {/* Header & Replay Action */}
+      <div className="flex flex-col gap-2 border-b border-amber-500/20 pb-2.5">
+        <div className="flex items-center justify-between">
+          <span className="font-semibold text-amber-300">
+            ⏳ Preloader & Brand Intro
+          </span>
+          <span className="rounded bg-amber-500/20 px-1.5 py-0.5 font-mono text-[9px] text-amber-200">
+            Initial Load • {settings.speedMult}x Speed
+          </span>
+        </div>
+        <p className="text-[11px] text-white/60">
+          The music-note loader and diagonal curtain wipe on first visit.
+        </p>
+        <button
+          type="button"
+          onClick={handleReplayPreloader}
+          className="transition-[transform,filter] flex cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 py-2 px-3 font-semibold text-xs text-white shadow-md shadow-amber-900/30 hover:from-amber-500 hover:to-yellow-500 active:scale-[0.98]"
+        >
+          <span>{replaying ? "⏳ Playing Preloader..." : `🎬 Test Preloader (${settings.speedMult}x Speed)`}</span>
+        </button>
+      </div>
+
+      {/* Live Phase Scrub Jump Bar */}
+      <div className="flex flex-col gap-1.5 rounded-lg border border-amber-500/20 bg-black/40 p-2">
+        <div className="flex items-center justify-between text-[11px]">
+          <span className="font-semibold text-amber-200">🔍 Live Frame Scrub</span>
+          <span className="text-[10px] text-white/50">Jump to Phase</span>
+        </div>
+        <div className="grid grid-cols-5 gap-1 text-[9px]">
+          {[
+            { label: "0% Start", val: 0.0, desc: "Ready" },
+            { label: "25% Fill", val: 0.25, desc: "Palette" },
+            { label: "50% Lift", val: 0.50, desc: "Fade" },
+            { label: "75% Wipe", val: 0.75, desc: "Curtain" },
+            { label: "100% Done", val: 1.0, desc: "Clear" },
+          ].map(({ label, val, desc }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => {
+                onSelectScrubTarget?.("preloader");
+                onScrubChange?.(val);
+              }}
+              className="flex flex-col items-center rounded bg-white/10 py-1 px-0.5 text-center font-medium text-white/70 hover:bg-amber-600 hover:text-white transition-colors"
+              title={desc}
+            >
+              <span>{label}</span>
+              <span className="text-[8px] text-white/40">{desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Preloader Master Toggles */}
+      <div className="flex flex-col gap-2 border-b border-amber-500/20 pb-2.5">
+        <div className="flex items-center justify-between">
+          <span className="text-white/70">Enable Initial Preloader</span>
+          <Toggle
+            size="sm"
+            checked={settings.preloaderEnabled ?? true}
+            onChange={(val) => updateSetting("preloaderEnabled", val)}
+            label="Enable Preloader"
+          />
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-white/70">Rising Note Particles</span>
+          <Toggle
+            size="sm"
+            checked={settings.preloaderShowParticles ?? true}
+            onChange={(val) => updateSetting("preloaderShowParticles", val)}
+            label="Show Rising Notes"
+          />
+        </div>
+      </div>
+
+      {/* Bar Fill Duration */}
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center justify-between">
+          <span className="text-white/70">Loader Fill Speed</span>
+          <span className="font-mono text-amber-300 font-bold">
+            {settings.preloaderFillMs || 100}ms
+          </span>
+        </div>
+        <input
+          type="range"
+          min={50}
+          max={2000}
+          step={25}
+          value={settings.preloaderFillMs || 100}
+          onChange={(e) =>
+            updateSetting("preloaderFillMs", parseFloat(e.target.value))
+          }
+          aria-label="Preloader fill duration"
+          className="h-1.5 w-full cursor-pointer bg-white/20 accent-amber-400"
+        />
+        <div className="flex flex-wrap gap-1">
+          {[
+            { label: "100ms (Fast)", val: 100 },
+            { label: "300ms", val: 300 },
+            { label: "800ms", val: 800 },
+            { label: "1500ms (Slow)", val: 1500 },
+          ].map(({ label, val }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => updateSetting("preloaderFillMs", val)}
+              className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                (settings.preloaderFillMs || 100) === val
+                  ? "bg-amber-600 font-semibold text-white"
+                  : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Wipe Reveal Duration */}
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center justify-between">
+          <span className="text-white/70">Wipe Reveal Duration</span>
+          <span className="font-mono text-amber-300 font-bold">
+            {(settings.preloaderDuration || 0.15).toFixed(2)}s
+          </span>
+        </div>
+        <input
+          type="range"
+          min={0.05}
+          max={1.50}
+          step={0.02}
+          value={settings.preloaderDuration || 0.15}
+          onChange={(e) =>
+            updateSetting("preloaderDuration", parseFloat(e.target.value))
+          }
+          aria-label="Preloader wipe duration"
+          className="h-1.5 w-full cursor-pointer bg-white/20 accent-amber-400"
+        />
+        <div className="flex flex-wrap gap-1">
+          {[
+            { label: "0.15s (Snappy)", val: 0.15 },
+            { label: "0.35s", val: 0.35 },
+            { label: "0.60s (Cinematic)", val: 0.6 },
+            { label: "1.00s", val: 1.0 },
+          ].map(({ label, val }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => updateSetting("preloaderDuration", val)}
+              className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                Math.abs((settings.preloaderDuration || 0.15) - val) < 0.03
+                  ? "bg-amber-600 font-semibold text-white"
+                  : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Wipe Slant Ratio & Direction */}
+      <div className="flex flex-col gap-2 rounded-lg border border-amber-500/20 bg-black/40 p-2.5">
+        <div className="flex items-center justify-between">
+          <span className="font-medium text-white/80">Wipe Slant Angle</span>
+          <span className="font-mono text-amber-300 font-bold text-[13px]">
+            {(settings.preloaderSlantRatio ?? 0.095).toFixed(3)} ({formatSlantAngle(settings.preloaderSlantRatio ?? 0.095)})
+          </span>
+        </div>
+
+        {/* Slant Ratio Slider */}
+        <input
+          type="range"
+          min={0}
+          max={0.85}
+          step={0.005}
+          value={settings.preloaderSlantRatio ?? 0.095}
+          onChange={(e) =>
+            updateSetting("preloaderSlantRatio", parseFloat(e.target.value))
+          }
+          aria-label="Preloader wipe slant ratio"
+          className="h-1.5 w-full cursor-pointer bg-white/20 accent-amber-400"
+        />
+        <div className="flex items-center justify-between text-[9px] text-white/40">
+          <span>0.000 (Flat 0°)</span>
+          <span>0.095 (Exo ~5.4°)</span>
+          <span>0.850 (Steep ~40°)</span>
+        </div>
+
+        {/* Direction Flip Toggle */}
+        <div className="flex items-center justify-between pt-1.5 border-t border-white/10">
+          <div className="flex flex-col">
+            <span className="text-[11px] text-white/70">Slant Direction</span>
+            <span className="text-[9px] text-white/40">
+              {settings.preloaderFlipSlant ? "Left edge rises first" : "Right edge rises first"}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] text-amber-300 font-semibold">
+              {settings.preloaderFlipSlant ? "Left Leads ⬉" : "Right Leads ⬈"}
+            </span>
+            <Toggle
+              size="sm"
+              checked={settings.preloaderFlipSlant ?? false}
+              onChange={(val) => updateSetting("preloaderFlipSlant", val)}
+              label={settings.preloaderFlipSlant ? "Left Leads" : "Right Leads"}
+            />
+          </div>
+        </div>
+
+        {/* Angle Presets */}
+        <div className="flex flex-col gap-1 pt-1.5 border-t border-white/10">
+          <span className="text-[10px] text-white/50">Quick Slant Angle Presets:</span>
+          <div className="flex flex-wrap gap-1">
+            {SLANT_ANGLE_PRESETS.map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("preloaderSlantRatio", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  Math.abs((settings.preloaderSlantRatio ?? 0.095) - val) < 0.006
+                    ? "bg-amber-600 font-semibold text-white shadow-sm"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Live Mid-Wipe Slant Inspector Button */}
+        <button
+          type="button"
+          onClick={() => {
+            onSelectScrubTarget?.("preloader");
+            onScrubChange?.(0.80);
+          }}
+          className="flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-amber-500/40 bg-amber-950/40 py-1.5 px-2 text-[10px] font-semibold text-amber-200 hover:bg-amber-900/60 hover:text-white transition-[color,background-color,border-color,transform] active:scale-[0.98]"
+        >
+          <span>👁️ Inspect Slant Live (80% Wipe Frame)</span>
+        </button>
+
+        {/* Sync Controls */}
+        <div className="flex gap-1.5 pt-1 border-t border-white/10">
+          <button
+            type="button"
+            onClick={() => {
+              updateSetting("preloaderSlantRatio", settings.exitSlantRatio);
+              updateSetting("preloaderFlipSlant", settings.exitFlipSlant);
+            }}
+            className="flex-1 rounded border border-amber-500/30 bg-amber-950/40 py-1 px-1.5 text-[9px] text-amber-200 hover:bg-amber-900/50 hover:text-white transition-colors"
+          >
+            Match Exit Slant ({settings.exitSlantRatio.toFixed(3)})
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const slant = settings.preloaderSlantRatio ?? 0.095;
+              const flip = settings.preloaderFlipSlant ?? false;
+              updateSetting("exitSlantRatio", slant);
+              updateSetting("revealSlantRatio", slant);
+              updateSetting("exitFlipSlant", flip);
+              updateSetting("revealFlipSlant", flip);
+            }}
+            className="flex-1 rounded border border-amber-500/30 bg-amber-950/40 py-1 px-1.5 text-[9px] text-amber-200 hover:bg-amber-900/50 hover:text-white transition-colors"
+          >
+            Push to Transitions
+          </button>
+        </div>
+      </div>
+
+      {/* Wipe Easing Curve */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="preloader-ease-select" className="text-amber-200">
+          Wipe Easing Curve
+        </label>
+        <select
+          id="preloader-ease-select"
+          value={settings.preloaderEase || "power2.out"}
+          onChange={(e) => updateSetting("preloaderEase", e.target.value)}
+          className="focus-ring w-full rounded border border-white/20 bg-black/60 px-2 py-1.5 text-xs text-white"
+        >
+          {EASE_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value} className="bg-black">
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Page Transition In (Entrance Motion) */}
+      <div className="flex flex-col gap-2.5 rounded-lg border border-amber-500/20 bg-black/40 p-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="font-medium text-white/80">Page Transition In</span>
+            <span className="text-[10px] text-white/50">
+              Motion on the underlying page as curtain wipes away
+            </span>
+          </div>
+          <Toggle
+            size="sm"
+            checked={settings.preloaderPageMotion ?? true}
+            onChange={(val) => updateSetting("preloaderPageMotion", val)}
+            label="Enable Entrance Motion"
+          />
+        </div>
+
+        {/* Quick Entrance Presets */}
+        <div className="flex flex-col gap-1 pt-1.5 border-t border-white/10">
+          <span className="text-[10px] text-white/50">Quick Motion Presets:</span>
+          <div className="grid grid-cols-2 gap-1.5">
+            {[
+              {
+                label: "⭐ Exo Ape Tilt",
+                desc: "+35px • 0.96x • 1.2°",
+                apply: () => {
+                  updateSetting("preloaderPageMotion", true);
+                  updateSetting("preloaderPageY", 35);
+                  updateSetting("preloaderPageX", 0);
+                  updateSetting("preloaderPageScale", 0.96);
+                  updateSetting("preloaderPageRotation", 1.2);
+                  updateSetting("preloaderPageOrigin", "center bottom");
+                },
+                active:
+                  (settings.preloaderPageMotion ?? true) &&
+                  (settings.preloaderPageY ?? 0) === 35 &&
+                  (settings.preloaderPageScale ?? 1.0) === 0.96 &&
+                  (settings.preloaderPageRotation ?? 0) === 1.2,
+              },
+              {
+                label: "🎴 Card Rise",
+                desc: "+60px • 0.98x • 0°",
+                apply: () => {
+                  updateSetting("preloaderPageMotion", true);
+                  updateSetting("preloaderPageY", 60);
+                  updateSetting("preloaderPageX", 0);
+                  updateSetting("preloaderPageScale", 0.98);
+                  updateSetting("preloaderPageRotation", 0);
+                  updateSetting("preloaderPageOrigin", "center bottom");
+                },
+                active:
+                  (settings.preloaderPageMotion ?? true) &&
+                  (settings.preloaderPageY ?? 0) === 60 &&
+                  (settings.preloaderPageScale ?? 1.0) === 0.98 &&
+                  (settings.preloaderPageRotation ?? 0) === 0,
+              },
+              {
+                label: "🔍 Zoom In",
+                desc: "0px • 0.92x • 0°",
+                apply: () => {
+                  updateSetting("preloaderPageMotion", true);
+                  updateSetting("preloaderPageY", 0);
+                  updateSetting("preloaderPageX", 0);
+                  updateSetting("preloaderPageScale", 0.92);
+                  updateSetting("preloaderPageRotation", 0);
+                  updateSetting("preloaderPageOrigin", "center center");
+                },
+                active:
+                  (settings.preloaderPageMotion ?? true) &&
+                  (settings.preloaderPageY ?? 0) === 0 &&
+                  (settings.preloaderPageScale ?? 1.0) === 0.92 &&
+                  (settings.preloaderPageRotation ?? 0) === 0,
+              },
+              {
+                label: "✨ Flat Reveal",
+                desc: "None (0px • 1.00x • 0°)",
+                apply: () => {
+                  updateSetting("preloaderPageMotion", true);
+                  updateSetting("preloaderPageY", 0);
+                  updateSetting("preloaderPageX", 0);
+                  updateSetting("preloaderPageScale", 1.0);
+                  updateSetting("preloaderPageRotation", 0);
+                  updateSetting("preloaderPageOrigin", "center center");
+                },
+                active:
+                  (settings.preloaderPageY ?? 0) === 0 &&
+                  (settings.preloaderPageX ?? 0) === 0 &&
+                  (settings.preloaderPageScale ?? 1.0) === 1.0 &&
+                  (settings.preloaderPageRotation ?? 0) === 0,
+              },
+            ].map(({ label, desc, apply, active }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={apply}
+                className={`flex flex-col items-start rounded border px-2 py-1 text-left transition-colors ${
+                  active
+                    ? "border-amber-400 bg-amber-600/30 text-amber-200 shadow-sm"
+                    : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <span className="font-semibold text-[10px]">{label}</span>
+                <span className="text-[8px] text-white/40">{desc}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Translate Y Offset */}
+        <div className="flex flex-col gap-1 pt-1.5 border-t border-white/10">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Translate Y Offset</span>
+            <span className="font-mono text-amber-300 font-bold">
+              {settings.preloaderPageY || 0}px
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-300}
+            max={300}
+            step={5}
+            value={settings.preloaderPageY || 0}
+            onChange={(e) =>
+              updateSetting("preloaderPageY", parseFloat(e.target.value))
+            }
+            aria-label="Preloader page Y offset"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-amber-400"
+          />
+          <div className="flex flex-wrap gap-1">
+            {[
+              { label: "-50px", val: -50 },
+              { label: "-25px", val: -25 },
+              { label: "0px Flat", val: 0 },
+              { label: "+25px Subtle", val: 25 },
+              { label: "+35px Exo", val: 35 },
+              { label: "+75px Rise", val: 75 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("preloaderPageY", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  (settings.preloaderPageY || 0) === val
+                    ? "bg-amber-600 font-semibold text-white shadow-sm"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Translate X Offset */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Translate X Offset</span>
+            <span className="font-mono text-amber-300 font-bold">
+              {settings.preloaderPageX || 0}px
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-200}
+            max={200}
+            step={5}
+            value={settings.preloaderPageX || 0}
+            onChange={(e) =>
+              updateSetting("preloaderPageX", parseFloat(e.target.value))
+            }
+            aria-label="Preloader page X offset"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-amber-400"
+          />
+          <div className="flex flex-wrap gap-1">
+            {[
+              { label: "-30px Left", val: -30 },
+              { label: "0px Center", val: 0 },
+              { label: "+30px Right", val: 30 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("preloaderPageX", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  (settings.preloaderPageX || 0) === val
+                    ? "bg-amber-600 font-semibold text-white shadow-sm"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Scale In */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Scale In</span>
+            <span className="font-mono text-amber-300 font-bold">
+              {(settings.preloaderPageScale ?? 1.0).toFixed(2)}x
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0.70}
+            max={1.30}
+            step={0.01}
+            value={settings.preloaderPageScale ?? 1.0}
+            onChange={(e) =>
+              updateSetting("preloaderPageScale", parseFloat(e.target.value))
+            }
+            aria-label="Preloader page scale in"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-amber-400"
+          />
+          <div className="flex flex-wrap gap-1">
+            {[
+              { label: "0.90x Zoom", val: 0.90 },
+              { label: "0.95x Exo", val: 0.95 },
+              { label: "0.98x Subtle", val: 0.98 },
+              { label: "1.00x None", val: 1.00 },
+              { label: "1.05x Out", val: 1.05 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("preloaderPageScale", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  Math.abs((settings.preloaderPageScale ?? 1.0) - val) < 0.005
+                    ? "bg-amber-600 font-semibold text-white shadow-sm"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Rotation Tilt */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Rotation Tilt</span>
+            <span className="font-mono text-amber-300 font-bold">
+              {(settings.preloaderPageRotation || 0).toFixed(1)}°
+            </span>
+          </div>
+          <input
+            type="range"
+            min={-10}
+            max={10}
+            step={0.1}
+            value={settings.preloaderPageRotation || 0}
+            onChange={(e) =>
+              updateSetting("preloaderPageRotation", parseFloat(e.target.value))
+            }
+            aria-label="Preloader page rotation tilt"
+            className="h-1.5 w-full cursor-pointer bg-white/20 accent-amber-400"
+          />
+          <div className="flex flex-wrap gap-1">
+            {[
+              { label: "-2.0°", val: -2.0 },
+              { label: "-1.2°", val: -1.2 },
+              { label: "0.0° None", val: 0.0 },
+              { label: "+1.2° Exo", val: 1.2 },
+              { label: "+2.0°", val: 2.0 },
+            ].map(({ label, val }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => updateSetting("preloaderPageRotation", val)}
+                className={`rounded px-1.5 py-0.5 text-[9px] transition-colors ${
+                  Math.abs((settings.preloaderPageRotation || 0) - val) < 0.08
+                    ? "bg-amber-600 font-semibold text-white shadow-sm"
+                    : "bg-white/10 text-white/60 hover:bg-white/20 hover:text-white"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Transform Origin Compass Grid */}
+        <OriginControl
+          id="preloader-page-origin-select"
+          value={settings.preloaderPageOrigin || "center bottom"}
+          onChange={(val) => updateSetting("preloaderPageOrigin", val)}
+          accent="amber"
+          label="Page Pivot Origin"
+        />
+
+        {/* Sync Buttons */}
+        <div className="flex gap-1.5 pt-1 border-t border-white/10">
+          <button
+            type="button"
+            onClick={() => {
+              updateSetting("preloaderPageMotion", true);
+              updateSetting("preloaderPageY", settings.revealY);
+              updateSetting("preloaderPageX", settings.revealX);
+              updateSetting("preloaderPageScale", settings.revealScale);
+              updateSetting("preloaderPageRotation", settings.revealRotation);
+              updateSetting("preloaderPageOrigin", settings.revealOrigin);
+            }}
+            className="flex-1 rounded border border-amber-500/30 bg-amber-950/40 py-1 px-1.5 text-[9px] text-amber-200 hover:bg-amber-900/50 hover:text-white transition-colors"
+          >
+            Copy From Reveal Tab
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              updateSetting("revealY", settings.preloaderPageY || 0);
+              updateSetting("revealX", settings.preloaderPageX || 0);
+              updateSetting("revealScale", settings.preloaderPageScale ?? 1.0);
+              updateSetting("revealRotation", settings.preloaderPageRotation || 0);
+              updateSetting("revealOrigin", settings.preloaderPageOrigin || "center bottom");
+            }}
+            className="flex-1 rounded border border-amber-500/30 bg-amber-950/40 py-1 px-1.5 text-[9px] text-amber-200 hover:bg-amber-900/50 hover:text-white transition-colors"
+          >
+            Push To Reveal Tab
+          </button>
+        </div>
+      </div>
+
+      {/* Brand Color Cycle Swatches */}
+      <div className="flex flex-col gap-1.5 rounded-lg border border-amber-500/20 bg-black/40 p-2">
+        <span className="text-[10px] text-white/60">Brand Color Fill Cycle:</span>
+        <div className="flex items-center gap-1.5">
+          {["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"].map((color, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-1"
+            >
+              <div
+                className="h-3.5 w-5 rounded border border-white/20 bg-[var(--swatch-color)]"
+                style={{ "--swatch-color": color } as React.CSSProperties}
+                title={`Step ${idx + 1}: ${color}`}
+              />
+              {idx < 4 && <span className="text-[9px] text-white/30">→</span>}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

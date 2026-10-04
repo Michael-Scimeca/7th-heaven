@@ -620,7 +620,7 @@ export default function ShowPageClient({
                   </span>
                   <h3 className="mb-3">Live Show Clips</h3>
                 </div>
-                <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
+                <div className="aspect-video w-full overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-black">
                   <iframe
                     src="https://www.youtube.com/embed/Dnic7xeXrQo?autoplay=0&rel=0&modestbranding=1"
                     title="7th Heaven Live Performance Video"
@@ -744,16 +744,15 @@ export default function ShowPageClient({
                 <SeventhButton
                   onClick={copyLink}
                   icon={false}
-                  className="rounded-lg"
                 >
                   {copied ? "✓ Link Copied!" : "🔗 Copy Link"}
                 </SeventhButton>
-                <a
+                <SeventhButton
                   href={`sms:?body=${encodeURIComponent(`7th Heaven is playing at ${show.venue_name} in ${show.city}! I'm going — see who else is: ${shareUrl}`)}`}
-                  className="transition-colors border border-white/10 px-6 py-3 text-white/50 hover:border-white/30 hover:text-white"
+                  icon={false}
                 >
                   💬 Text a Friend
-                </a>
+                </SeventhButton>
               </div>
             </div>
           )}

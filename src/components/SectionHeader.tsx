@@ -19,6 +19,7 @@ export interface SectionHeaderProps {
   visuallyHidden?: boolean;
   /** Override the title→subtitle gap for this one instance, e.g. "1rem". */
   titleGap?: string;
+  subtitleClassName?: string;
 }
 
 export function SectionHeader({
@@ -36,6 +37,7 @@ export function SectionHeader({
   srOnly = false,
   visuallyHidden = false,
   titleGap,
+  subtitleClassName = "",
 }: SectionHeaderProps) {
   const Component = as;
   const isH2 = as === "h2";
@@ -86,7 +88,7 @@ export function SectionHeader({
 
         {subtitle && (
           <p
-            className={`max-w-[65ch] text-pretty ${isH2 ? "text-secondary" : "text-small text-muted"} ${isCenter ? "mx-auto" : ""}`}
+            className={`max-w-[65ch] text-pretty text-secondary ${subtitleClassName} ${isCenter ? "mx-auto" : ""}`.trim()}
           >
             {subtitle}
           </p>

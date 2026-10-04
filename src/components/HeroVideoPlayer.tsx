@@ -117,7 +117,9 @@ export default function HeroVideoPlayer({
   children?: ReactNode;
   sanityContent?: any;
 }) {
-  const [videoSrc, setVideoSrc] = useState(DEFAULT_VIDEO);
+  const [videoSrc, setVideoSrc] = useState(
+    sanityContent?.heroVideoUrl || DEFAULT_VIDEO,
+  );
   const [isVideoFading, setIsVideoFading] = useState(false);
   const [videoReady, setVideoReady] = useState(true);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -630,8 +632,11 @@ export default function HeroVideoPlayer({
           >
             <video
               ref={mobileVideoRef}
-              src="/movie/hero-mobile.mp4"
-              poster="/images/hero/hero-mobile-poster.webp"
+              src={sanityContent?.heroVideoMobileUrl || "/movie/hero-mobile.mp4"}
+              poster={
+                sanityContent?.heroPosterUrl ||
+                "/images/hero/hero-mobile-poster.webp"
+              }
               autoPlay
               muted
               loop
@@ -675,7 +680,10 @@ export default function HeroVideoPlayer({
             <video
               key={videoSrc}
               ref={videoRef}
-              poster="/images/hero/hero-desktop-poster.webp"
+              poster={
+                sanityContent?.heroPosterUrl ||
+                "/images/hero/hero-desktop-poster.webp"
+              }
               onCanPlay={handleCanPlay}
               onLoadedMetadata={handleLoadedMetadata}
               onTimeUpdate={handleTimeUpdate}
@@ -974,12 +982,12 @@ export default function HeroVideoPlayer({
             {/* Left Column: Hero Title & Subheading Content */}
             <div className="title-group title-group--page pointer-events-auto max-w-[750px] flex-1 lg:max-w-[50%]">
               {/* Hero Main Headline */}
-              <h1 id="hero-heading">
+              <h1 id="hero-heading" className="text-amber-50">
                 {sanityContent?.heroHeading || "7TH HEAVEN"}
               </h1>
 
               {/* Hero Subheading */}
-              <p className="drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] lg:text-xl">
+              <p className="text-zinc-300 drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] lg:text-xl">
                 {sanityContent?.heroSubheading ||
                   "Billboard #1 Chart-Topping Hits, High-Energy Festival Anthems & 40 Years of Unforgettable Live Performance."}
               </p>

@@ -176,10 +176,10 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Inline Links Row — MOVED TO BOTTOM */}
+        {/* Inline Links Row */}
         <nav aria-label="Footer Navigation" className="pb-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            {/* Nav Links */}
+            {/* Left side: Site Navigation Links */}
             <div className="flex flex-wrap items-center gap-1">
               {footerLinks.map((link, i) => (
                 <span key={link.href} className="flex items-center">
@@ -195,30 +195,32 @@ export function Footer() {
               ))}
             </div>
 
-            {/* Social Links */}
-            <div className="flex flex-wrap items-center gap-1">
-              {socialLinks.map((link, i) => (
-                <span key={link.name} className="flex items-center">
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="footer-nav-link"
-                  >
-                    {link.name}
-                  </a>
-                  {i < socialLinks.length - 1 && (
-                    <span className="mx-2 text-[13px] font-semibold text-[#c084fc] select-none">
-                      /
-                    </span>
-                  )}
-                </span>
-              ))}
-            </div>
+            {/* Right side: Social Links & App Install Button */}
+            <div className="flex flex-wrap items-center justify-end gap-4 ml-auto">
+              <div className="flex flex-wrap items-center gap-1">
+                {socialLinks.map((link, i) => (
+                  <span key={link.name} className="flex items-center">
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-nav-link"
+                    >
+                      {link.name}
+                    </a>
+                    {i < socialLinks.length - 1 && (
+                      <span className="mx-2 text-[13px] font-semibold text-[#c084fc] select-none">
+                        /
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </div>
 
-            {/* Install 7th Heaven App Link */}
-            <div className="flex items-center gap-2">
-              <InstallAppButton variant="compact" />
+              {/* Install 7th Heaven App Link */}
+              <div className="flex items-center gap-2">
+                <InstallAppButton variant="compact" />
+              </div>
             </div>
           </div>
         </nav>

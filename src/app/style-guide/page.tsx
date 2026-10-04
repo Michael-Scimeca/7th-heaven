@@ -1937,7 +1937,7 @@ export default function StyleGuidePage() {
 
               <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
                 <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 4 · Body Copy</span>
-                <p className="text-sm text-secondary leading-relaxed max-w-[65ch]">
+                <p className="text-sm text-secondary max-w-[65ch]">
                   Join us for an unforgettable night of high-energy rock classics and original anthems.
                 </p>
                 <p className="text-xs text-muted">--color-text-secondary (~72% white) · max-w-[65ch]</p>
@@ -2020,7 +2020,7 @@ export default function StyleGuidePage() {
               </div>
 
               {/* Group 2: Description (Separated by gap-6; text-secondary) */}
-              <p className="text-sm text-secondary leading-relaxed max-w-[65ch]">
+              <p className="text-sm text-secondary max-w-[65ch]">
                 Experience 7th Heaven&apos;s high-octane 30-song medley and classic rock hits in an electric arena atmosphere.
               </p>
 

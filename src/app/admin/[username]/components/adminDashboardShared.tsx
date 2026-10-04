@@ -51,17 +51,17 @@ export const resolveMemberAvatar = (
     return avatar;
   const lower = (name || "").toLowerCase();
 
-  if (lower.includes("adam")) return "/images/members/adam.png";
-  if (lower.includes("nick")) return "/images/members/nick.png";
-  if (lower.includes("mark")) return "/images/members/mark.png";
+  if (lower.includes("adam")) return "/images/members/adam.webp";
+  if (lower.includes("nick")) return "/images/members/nick.webp";
+  if (lower.includes("mark")) return "/images/members/mark.webp";
   if (lower.includes("frankie") || lower.includes("harchut"))
-    return "/images/members/frankie.png";
+    return "/images/members/frankie.webp";
   if (
     lower.includes("richard") ||
     lower.includes("hofherr") ||
     lower.includes("dicky")
   )
-    return "/images/members/dicky.png";
+    return "/images/members/dicky.webp";
 
   if (lower.includes("abbie")) return "/images/crew/abbie.png";
   if (lower.includes("al") && lower.includes("hollie"))

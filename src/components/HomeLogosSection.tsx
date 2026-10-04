@@ -7,12 +7,26 @@ import LogoTicker, {
   TickerItem,
 } from "@/components/LogoTicker";
 import { urlFor } from "@/lib/sanity";
-import { SectionBadge } from "@/components/SectionBadge";
+
+interface SanityLogoItem {
+  name?: string;
+  alt?: string;
+  src?: string;
+  image?: unknown;
+}
+
+interface SanityHomeLogosContent {
+  logosTitle?: string;
+  logosBadge?: string;
+  logosSubtitle?: string;
+  artistLogos?: SanityLogoItem[];
+  pressLogos?: SanityLogoItem[];
+}
 
 export default function HomeLogosSection({
   sanityContent,
 }: {
-  sanityContent?: any;
+  sanityContent?: SanityHomeLogosContent | null;
 }) {
   const artistItems: TickerItem[] = useMemo(() => {
     if (
@@ -25,7 +39,7 @@ export default function HomeLogosSection({
         if (item) {
           mapped.push({
             alt: item.alt || item.name || "Artist Logo",
-            src: item.image ? urlFor(item.image).url() : item.src,
+            src: item.image ? urlFor(item.image as Parameters<typeof urlFor>[0]).url() : item.src,
           });
         }
       }
@@ -45,7 +59,7 @@ export default function HomeLogosSection({
         if (item) {
           mapped.push({
             alt: item.alt || item.name || "Press Logo",
-            src: item.image ? urlFor(item.image).url() : item.src,
+            src: item.image ? urlFor(item.image as Parameters<typeof urlFor>[0]).url() : item.src,
           });
         }
       }
@@ -62,25 +76,31 @@ export default function HomeLogosSection({
       style={{ "--cv-size": "361px", "--cv-size-lg": "334px" } as React.CSSProperties}
     >
       <div className="site-container w-full">
-        <h2 id="logos-heading" className="sr-only">
-          Featured &amp; Stage Partners
-        </h2>
         <div className="mb-6 flex flex-col items-start text-left">
-          <div className="mb-2 inline-flex items-center justify-start">
-            <SectionBadge variant="box" className="font-black">
-              {sanityContent?.logosBadge ||
-                "WHO WE'VE PLAYED WITH & WHERE WE'VE BEEN FEATURED"}
-            </SectionBadge>
+          <div className="title-group title-group--section max-w-3xl text-left">
+            <h2 id="logos-heading" className="text-amber-50">
+              {sanityContent?.logosTitle ||
+                sanityContent?.logosBadge ||
+                "Who We've Played With & Where We've Been Featured"}
+            </h2>
+            <p className="text-secondary max-w-[65ch]">
+              {sanityContent?.logosSubtitle ||
+                "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
+            </p>
           </div>
-          <p className="max-w-2xl text-purple-200/80 text-left">
-            {sanityContent?.logosSubtitle ||
-              "Over the years, 7th Heaven has shared the stage with legendary artists and has been featured across top national TV networks, radio stations, and major press publications."}
-          </p>
         </div>
       </div>
       <div className="w-full space-y-4">
-        <LogoTicker items={artistItems} direction="left" />
-        <LogoTicker items={pressItems} direction="right" />
+        <LogoTicker
+          items={artistItems}
+          direction="left"
+          ariaLabel="Artists 7th Heaven has shared the stage with"
+        />
+        <LogoTicker
+          items={pressItems}
+          direction="right"
+          ariaLabel="Press publications, networks, and sports teams featuring 7th Heaven"
+        />
       </div>
     </section>
   );

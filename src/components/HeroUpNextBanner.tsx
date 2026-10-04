@@ -269,10 +269,10 @@ export default function HeroUpNextBanner() {
         </div>
 
         {/* Venue Name */}
-        <h2 className="text-fluid-h3 text-white">{upNext.venue}</h2>
+        <h2 className="text-fluid-h3 text-amber-50">{upNext.venue}</h2>
 
         {/* Date, Location & Time */}
-        <div className="flex flex-wrap items-center gap-2 text-fluid-body text-white/90">
+        <div className="flex flex-wrap items-center gap-2 text-fluid-body text-zinc-200">
           <span>{dateLabel}</span>
           {upNext.city && (
             <>
@@ -296,7 +296,7 @@ export default function HeroUpNextBanner() {
         {/* Subtitle / Notes */}
         <div className="min-h-[1.5rem]">
           {upNext.info ? (
-            <h3 className="text-fluid-caption text-white/70">{upNext.info}</h3>
+            <h3 className="text-fluid-caption text-zinc-300">{upNext.info}</h3>
           ) : null}
         </div>
 

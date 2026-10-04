@@ -2,7 +2,7 @@
 /* eslint-disable react-doctor/duplicate-jsx-subtree */
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import {
@@ -14,13 +14,11 @@ import {
   Film,
   Flame,
   AlertTriangle,
-  Check,
   HelpCircle,
   CreditCard,
   Calendar as CalendarIcon,
   Compass,
   X,
-  Plus,
   Loader2,
   CheckCircle2,
 } from "lucide-react";
@@ -183,10 +181,53 @@ function CruiseCabinsPricingSectionComponent({
       (member as any)?.isAdmin === true),
   );
   const [activePriceYear, setActivePriceYear] = useState<2027 | 2028>(2027);
-  const [stateroomTab, setStateroomTab] = useState<
-    "suites" | "balcony" | "ocean" | "interior"
-  >("suites");
-  const [suiteTab, setSuiteTab] = useState<"sea" | "sky" | "star">("sea");
+
+  const cancellationItems = React.useMemo<{ period: string; fee: string }[]>(() => {
+    const customItems = sanityContent?.cruiseInfo?.cancellationItems?.filter(
+      (item: any) => !item.year || item.year === String(activePriceYear),
+    );
+    if (customItems && customItems.length > 0) {
+      return customItems.map((item: any) => ({
+        period: item.period || item.label || "",
+        fee: item.fee || item.value || "",
+      }));
+    }
+
+    const termsText =
+      activePriceYear === 2027
+        ? sanityContent?.cruiseInfo?.cancellationTerms2027
+        : sanityContent?.cruiseInfo?.cancellationTerms2028;
+
+    if (termsText && typeof termsText === "string") {
+      return termsText
+        .split("\n")
+        .filter(Boolean)
+        .map((line: string) => {
+          const parts = line.split(":");
+          if (parts.length > 1) {
+            return {
+              period: parts[0] + ":",
+              fee: parts.slice(1).join(":").trim(),
+            };
+          }
+          return { period: line, fee: "" };
+        });
+    }
+
+    return activePriceYear === 2027
+      ? [
+        { period: "Cancel before May 12, 2026:", fee: "No penalty" },
+        { period: "May 12, 2026 – July 12, 2026:", fee: "$50 pp fee" },
+        { period: "July 13, 2026 – Sept 10, 2026:", fee: "$100 pp fee" },
+        { period: "Sept 11, 2026 – Nov 10, 2026:", fee: "$200 pp fee" },
+        { period: "After Nov 10, 2026:", fee: "50% room cost" },
+        { period: "After Dec 10, 2026:", fee: "No refund" },
+      ]
+      : [
+        { period: "Cancel before May 13, 2027:", fee: "No penalty" },
+        { period: "May 13, 2027 – July 13, 2027:", fee: "$50 pp fee" },
+      ];
+  }, [sanityContent?.cruiseInfo, activePriceYear]);
 
   const mounted = React.useSyncExternalStore(
     () => () => { },
@@ -293,7 +334,7 @@ function CruiseCabinsPricingSectionComponent({
         {/* Guidelines Grid */}
         <div className="grid grid-cols-1 gap-6 text-left md:grid-cols-12">
           {/* Column 1: Ship Resources */}
-          <div className="relative flex flex-col justify-between rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-4 lg:col-span-3">
+          <div className="relative flex flex-col justify-start rounded-2xl text-left md:col-span-4 min-[1400px]:col-span-3">
             <div>
               <div className="mb-6 flex items-center gap-3">
                 <Ship className="h-6 w-6 shrink-0 text-purple-400" />
@@ -447,7 +488,7 @@ function CruiseCabinsPricingSectionComponent({
           </div>
 
           {/* Column 2: Booking Policy */}
-          <div className="relative rounded-2xl text-left min-[1600px]:col-span-3 md:col-span-8 lg:col-span-5">
+          <div className="relative rounded-2xl text-left border-t border-white/10 pt-6 md:border-t-0 md:pt-0 md:col-span-4 min-[1400px]:col-span-3">
             <div className="mb-2 flex items-center gap-3">
               <AlertTriangle className="h-6 w-6 shrink-0 text-yellow-400" />
               <h3 className="uppercase">
@@ -470,27 +511,44 @@ function CruiseCabinsPricingSectionComponent({
               )}
             </p>
             <ul className="mb-6 pb-6 space-y-3 border-b border-white/10">
-              <li className="flex items-start gap-2">
-                <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
-                <span>
-                  Multiple booking options: Group Rate, Prevailing Rate, Sales
-                  &amp; Promotions.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
-                <span>
-                  We match rates &amp; re-roll your room if prices drop before
-                  final payment!
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <HelpCircle className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
-                <span>
-                  <strong>ALL-INCLUSIVE:</strong> Prices include Cabin,
-                  Gratuities, Taxes, and Port Fees (Double Occupancy).
-                </span>
-              </li>
+              {sanityContent?.cruiseInfo?.bookingHighlights &&
+                sanityContent.cruiseInfo.bookingHighlights.length > 0 ? (
+                sanityContent.cruiseInfo.bookingHighlights.map(
+                  (highlight: string) => (
+                    <li
+                      key={highlight}
+                      className="flex items-start gap-2"
+                    >
+                      <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+                      <span>{highlight}</span>
+                    </li>
+                  ),
+                )
+              ) : (
+                <>
+                  <li className="flex items-start gap-2">
+                    <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+                    <span>
+                      Multiple booking options: Group Rate, Prevailing Rate, Sales
+                      &amp; Promotions.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+                    <span>
+                      We match rates &amp; re-roll your room if prices drop before
+                      final payment!
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <HelpCircle className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
+                    <span>
+                      <strong>ALL-INCLUSIVE:</strong> Prices include Cabin,
+                      Gratuities, Taxes, and Port Fees (Double Occupancy).
+                    </span>
+                  </li>
+                </>
+              )}
             </ul>
             <div className="space-y-1.5">
               <p>
@@ -529,9 +587,12 @@ function CruiseCabinsPricingSectionComponent({
                 .
               </p>
             </div>
+          </div>
 
-            {/* Cancellation Policy Card */}
-            <div className="mt-6 border-t border-white/10 pt-6">
+          {/* Column 3: Cancellation Policy & Passport Guidelines */}
+          <div className="relative flex flex-col justify-start rounded-2xl border-t border-white/10 pt-6 text-left md:border-t-0 md:pt-0 md:col-span-4">
+            {/* Cancellation Policy */}
+            <div>
               <div className="mb-2 flex items-center gap-3">
                 <CalendarIcon className="h-6 w-6 shrink-0 text-purple-400" />
                 <h3 className="uppercase">
@@ -547,75 +608,54 @@ function CruiseCabinsPricingSectionComponent({
                 <h4 className="pb-3 uppercase text-white">
                   Group Rate Rooms:
                 </h4>
-                {activePriceYear === 2027 ? (
-                  <ul className="list-disc space-y-1.5 pl-4 text-purple-100/90">
-                    <li>
-                      Cancel before May 12, 2026:{" "}
-                      <strong className="text-white">No penalty</strong>
+                <ul className="list-disc space-y-1.5 pl-4 text-purple-100/90">
+                  {cancellationItems.map((item) => (
+                    <li key={`${item.period}-${item.fee}`}>
+                      {item.period}{" "}
+                      {item.fee && (
+                        <strong className="text-white">{item.fee}</strong>
+                      )}
                     </li>
-                    <li>
-                      May 12, 2026 – July 12, 2026:{" "}
-                      <strong className="text-white">$50 pp fee</strong>
-                    </li>
-                    <li>
-                      July 13, 2026 – Sept 10, 2026:{" "}
-                      <strong className="text-white">$100 pp fee</strong>
-                    </li>
-                    <li>
-                      Sept 11, 2026 – Nov 10, 2026:{" "}
-                      <strong className="text-white">$200 pp fee</strong>
-                    </li>
-                  </ul>
-                ) : (
-                  <ul className="list-disc space-y-1.5 pl-4 text-purple-100/90">
-                    <li>
-                      Cancel before May 13, 2027:{" "}
-                      <strong className="text-white">No penalty</strong>
-                    </li>
-                    <li>
-                      May 13, 2027 – July 13, 2027:{" "}
-                      <strong className="text-white">$50 pp fee</strong>
-                    </li>
-                  </ul>
-                )}
+                  ))}
+                </ul>
               </div>
             </div>
-          </div>
 
-          {/* Column 3: Passport Guidelines */}
-          <div className="relative rounded-2xl text-left min-[1600px]:col-span-4 md:col-span-6 lg:col-span-4">
-            <div className="mb-2 flex items-center gap-3">
-              <Compass className="h-6 w-6 shrink-0 text-purple-400" />
-              <h3 className="uppercase">
-                {sanityContent?.cruiseInfo?.passportTitle ||
-                  "Passport Guidelines"}
-              </h3>
-            </div>
-            <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
-              {sanityContent?.cruiseInfo?.passportSubheading ||
-                "Essential travel document guidelines"}
-            </p>
-            <div className="space-y-4">
-              {sanityContent?.cruiseInfo?.passportBody ? (
-                <p>{sanityContent.cruiseInfo.passportBody}</p>
-              ) : (
-                <>
-                  <p>
-                    A physical passport book valid for 6 months post-cruise is highly recommended for all travelers.
-                  </p>
-                  <p>
-                    For closed-loop U.S. sailings, a certified state birth
-                    certificate accompanied by a government-issued photo ID is
-                    legally acceptable.
-                  </p>
-                </>
-              )}
+            {/* Passport Guidelines */}
+            <div className="mt-4 border-t border-white/10 pt-4">
+              <div className="mb-2 flex items-center gap-3">
+                <Compass className="h-6 w-6 shrink-0 text-purple-400" />
+                <h3 className="uppercase">
+                  {sanityContent?.cruiseInfo?.passportTitle ||
+                    "Passport Guidelines"}
+                </h3>
+              </div>
+              <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
+                {sanityContent?.cruiseInfo?.passportSubheading ||
+                  "Essential travel document guidelines"}
+              </p>
+              <div className="space-y-4">
+                {sanityContent?.cruiseInfo?.passportBody ? (
+                  <p>{sanityContent.cruiseInfo.passportBody}</p>
+                ) : (
+                  <>
+                    <p>
+                      A physical passport book valid for 6 months post-cruise is highly recommended for all travelers.
+                    </p>
+                    <p>
+                      For closed-loop U.S. sailings, a certified state birth
+                      certificate accompanied by a government-issued photo ID is
+                      legally acceptable.
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="space-y-16">
+        <div className=" space-y-16">
           <div className="relative p-0 text-left">
             <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div>
@@ -844,6 +884,8 @@ function CruiseCabinsPricingSectionComponent({
             </div>
           </div>
         </div>
+
+
       </section>
 
       {/* ── CRUISE RESERVATION & SIGNUP FORM SECTION ── */}
@@ -860,19 +902,16 @@ function CruiseCabinsPricingSectionComponent({
           <div>
             <div className="mb-6 text-left">
               <div className="mb-3 flex flex-wrap items-center justify-start gap-3">
-                <span className="inline-block rounded-full border border-purple-500/30 bg-purple-900/50 px-3.5 py-1">
-                  Official Booking Form
-                </span>
-                <button
+                <SeventhButton
                   type="button"
                   onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
-                  className="transition-colors inline-flex cursor-pointer items-center gap-2 rounded-full border border-rose-500/40 bg-rose-600/30 px-4 py-1.5 text-rose-200 hover:bg-rose-600/50"
+                  isActive={isPaymentDropdownOpen}
+                  icon={<CreditCard className="h-4 w-4 shrink-0" />}
                 >
-                  💳{" "}
                   {isPaymentDropdownOpen
                     ? "Hide Payment Form"
                     : "Make A Payment On Existing Booking"}
-                </button>
+                </SeventhButton>
               </div>
               <SectionHeader
                 id="signup-heading"

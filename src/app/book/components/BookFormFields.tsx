@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import { SectionBadge } from "@/components/SectionBadge";
 import { GlowTextarea } from "@/components/GlowInput";
@@ -88,7 +87,7 @@ export const RadioPillField = ({
   required?: boolean;
 }) => (
   <fieldset className="m-0 border-0 p-0">
-    <legend className="block text-white/90">
+    <legend className="block text-white/90 mb-2">
       {label}
       {required && " *"}
     </legend>

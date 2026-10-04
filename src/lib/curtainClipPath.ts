@@ -170,18 +170,23 @@ export function buildDecayingSlantClipPath(
   progress: number,
   ratio: number = 0.095,
   rampFraction: number = 0.05,
+  flipSlant: boolean = false,
 ): string {
   const p = clamp01(progress);
-  const leftY = 100 * (1 - p);
-  const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
-  const rightY = leftY / (1 + rampedRatio);
+  const isFlipped = flipSlant || ratio < 0;
+  const absRatio = Math.abs(ratio);
+  const mainY = 100 * (1 - p);
+  const rampedRatio = absRatio * Math.min(1, p / (rampFraction || 1));
+  const leadY = mainY / (1 + rampedRatio);
+  const leftY = isFlipped ? leadY : mainY;
+  const rightY = isFlipped ? mainY : leadY;
   return toPolygon(leftY, rightY);
 }
 
 /**
  * Covering curtain wipe (outgoing page exit): curtain sweeps UPWARD from the bottom
  * of the viewport (y=100%, 0% covered) up to the top (y=0%, 100% covered).
- * Right edge leads moving upward (smaller Y / higher on screen).
+ * Right edge leads moving upward by default, or left edge if flipSlant is true.
  *
  * @param progress 0 (0% covered at bottom) to 1 (100% covered in black).
  */
@@ -189,12 +194,36 @@ export function buildDecayingSlantCoverClipPath(
   progress: number,
   ratio: number = 0.095,
   rampFraction: number = 0.05,
+  flipSlant: boolean = false,
 ): string {
   const p = clamp01(progress);
-  const leftY = 100 * (1 - p);
-  const rampedRatio = ratio * Math.min(1, p / (rampFraction || 1));
-  const rightY = leftY / (1 + rampedRatio);
+  const isFlipped = flipSlant || ratio < 0;
+  const absRatio = Math.abs(ratio);
+  const mainY = 100 * (1 - p);
+  const rampedRatio = absRatio * Math.min(1, p / (rampFraction || 1));
+  const leadY = mainY / (1 + rampedRatio);
+  const leftY = isFlipped ? leadY : mainY;
+  const rightY = isFlipped ? mainY : leadY;
   return `polygon(0% ${leftY.toFixed(2)}%, 100% ${rightY.toFixed(2)}%, 100% 100%, 0% 100%)`;
 }
 
 export const CURTAIN_MAX_SLANT_FRAC = MAX_SLANT_FRAC;
+
+export function computeViewportOrigin(origin: string): string {
+  if (typeof window === "undefined") return origin;
+  const vh = window.innerHeight;
+  const parts = origin.trim().split(/\s+/);
+  const x = parts[0] || "center";
+  const y = parts[1] || "center";
+
+  let yVal = y;
+  if (y === "bottom") {
+    yVal = `${vh}px`;
+  } else if (y === "top") {
+    yVal = "0px";
+  } else if (y === "center") {
+    yVal = `${Math.round(vh / 2)}px`;
+  }
+  return `${x} ${yVal}`;
+}
+

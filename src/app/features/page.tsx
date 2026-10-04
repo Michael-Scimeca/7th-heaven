@@ -136,31 +136,19 @@ export default function FeaturesPage() {
             >
               Interactive Sitemap →
             </Link>
-            <Link
-              href="/live"
-              className="transition-colors inline-flex items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-3.5 hover:border-white/30 hover:bg-white/10"
-            >
-              <span className="h-2 w-2 animate-pulse bg-white" />
+            <SeventhButton href="/live">
+              <span className="h-2 w-2 animate-pulse bg-white rounded-full" />
               Watch Live
-            </Link>
-            <Link
-              href="/book"
-              className="transition-colors inline-flex items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-3.5 hover:border-white/30 hover:bg-white/10"
-            >
+            </SeventhButton>
+            <SeventhButton href="/book">
               Book The Band →
-            </Link>
-            <Link
-              href="/fans"
-              className="transition-colors inline-flex items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-3.5 hover:border-white/30 hover:bg-white/10"
-            >
+            </SeventhButton>
+            <SeventhButton href="/fans">
               Fan Dashboard →
-            </Link>
-            <a
-              href="#all-features"
-              className="transition-colors inline-flex items-center gap-2 border border-emerald-500/30 bg-emerald-500/10 px-8 py-3.5 hover:border-emerald-500/60 hover:bg-emerald-500/20"
-            >
+            </SeventhButton>
+            <SeventhButton href="#all-features">
               View All Features ↓
-            </a>
+            </SeventhButton>
           </div>
         </div>
         </div>
@@ -342,36 +330,21 @@ export default function FeaturesPage() {
           </p>
           <p className="mb-12">Questions? Reach out via the contact page.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <SeventhButton
-              icon={false}
-              onClick={() => (window.location.href = "/fans")}
-            >
+            <SeventhButton href="/fans">
               Join as a Fan →
             </SeventhButton>
-            <Link
-              href="/live"
-              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
-            >
+            <SeventhButton href="/live">
               Watch Live
-            </Link>
-            <Link
-              href="/#tour"
-              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
-            >
+            </SeventhButton>
+            <SeventhButton href="/#tour">
               See Tour Dates
-            </Link>
-            <Link
-              href="/book"
-              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
-            >
+            </SeventhButton>
+            <SeventhButton href="/book">
               Book the Band
-            </Link>
-            <TransitionLink
-              href="/contact"
-              className="transition-colors inline-flex cursor-pointer items-center gap-2 border border-white/10 bg-[#00000029] px-8 py-4 hover:border-white/30 hover:bg-white/10"
-            >
+            </SeventhButton>
+            <SeventhButton href="/contact">
               Contact Us
-            </TransitionLink>
+            </SeventhButton>
           </div>
         </div>
         </div>

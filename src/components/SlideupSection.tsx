@@ -230,7 +230,8 @@ export default function SlideupSection({
   >([]);
 
   const activeSlides = SLIDES.map((slide, idx) => {
-    const sanitySlide = sanityContent?.slideupSlides?.[idx];
+    const sanitySlide =
+      sanityContent?.slideupSlides?.[idx] || sanityContent?.sections?.[idx];
     return {
       ...slide,
       title: sanitySlide?.title || slide.title,

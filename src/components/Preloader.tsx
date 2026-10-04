@@ -3,8 +3,20 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
-import { buildDecayingSlantClipPath } from "@/lib/curtainClipPath";
+import {
+  buildDecayingSlantClipPath,
+  computeViewportOrigin,
+} from "@/lib/curtainClipPath";
 import { waitForPageReady, waitForCanvasReady } from "@/lib/waitForPageReady";
+
+function getPageElement(): HTMLElement | null {
+  if (typeof document === "undefined") return null;
+  return (
+    document.querySelector(".exoape-page-inner") ||
+    document.querySelector("main") ||
+    document.getElementById("main-content")
+  ) as HTMLElement | null;
+}
 
 // Diagonal wipe-reveal preloader, sharing its visual language with the
 // page-to-page curtain (PageTransition.tsx): a dark overlay, the loader
@@ -72,6 +84,166 @@ const NOTE_SVG_MARKUP =
 export default function Preloader() {
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("loading");
+  const [replayKey, setReplayKey] = useState<number>(0);
+  const [scrubProgress, setScrubProgress] = useState<number | null>(null);
+  const [scrubNonce, setScrubNonce] = useState<number>(0);
+
+  useEffect(() => {
+    const handleReplay = () => {
+      setScrubProgress(null);
+      document.documentElement.classList.add("is-preloading");
+      setPhase("loading");
+      setReplayKey((k) => k + 1);
+    };
+
+    const handleScrub = (e: Event) => {
+      const customEvent = e as CustomEvent<{ progress: number }>;
+      const p = customEvent.detail?.progress ?? 0;
+      document.documentElement.classList.add("is-preloading");
+      setScrubProgress(p);
+      setScrubNonce((n) => n + 1);
+    };
+
+    const handleClearScrub = () => {
+      setScrubProgress(null);
+      document.documentElement.classList.remove("is-preloading");
+      setPhase("done");
+      const pageEl = getPageElement();
+      if (pageEl) {
+        pageEl.style.transform = "";
+        pageEl.style.transformOrigin = "";
+      }
+    };
+
+    const handleSettingsUpdate = () => {
+      setScrubNonce((n) => n + 1);
+    };
+
+    window.addEventListener("7h-replay-preloader", handleReplay);
+    window.addEventListener("7h-scrub-preloader", handleScrub);
+    window.addEventListener("7h-clear-scrub-preloader", handleClearScrub);
+    window.addEventListener("7h-update-preloader-settings", handleSettingsUpdate);
+
+    return () => {
+      window.removeEventListener("7h-replay-preloader", handleReplay);
+      window.removeEventListener("7h-scrub-preloader", handleScrub);
+      window.removeEventListener("7h-clear-scrub-preloader", handleClearScrub);
+      window.removeEventListener("7h-update-preloader-settings", handleSettingsUpdate);
+      const pageEl = getPageElement();
+      if (pageEl) {
+        pageEl.style.transform = "";
+        pageEl.style.transformOrigin = "";
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const pageEl = getPageElement();
+    if (scrubProgress === null) {
+      if (pageEl) {
+        pageEl.style.transform = "";
+        pageEl.style.transformOrigin = "";
+      }
+      return;
+    }
+    const p = scrubProgress;
+    let slant = WIPE_SLANT_RATIO;
+    let flipSlant = false;
+    let pageMotion = true;
+    let pageY = 0;
+    let pageX = 0;
+    let pageScale = 1.0;
+    let pageRot = 0;
+    let pageOrigin = "center bottom";
+    try {
+      const saved = localStorage.getItem("7h_transition_settings_v2");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.preloaderSlantRatio === "number") slant = parsed.preloaderSlantRatio;
+        if (typeof parsed.preloaderFlipSlant === "boolean") flipSlant = parsed.preloaderFlipSlant;
+        if (typeof parsed.preloaderPageMotion === "boolean") pageMotion = parsed.preloaderPageMotion;
+        if (typeof parsed.preloaderPageY === "number") pageY = parsed.preloaderPageY;
+        if (typeof parsed.preloaderPageX === "number") pageX = parsed.preloaderPageX;
+        if (typeof parsed.preloaderPageScale === "number") pageScale = parsed.preloaderPageScale;
+        if (typeof parsed.preloaderPageRotation === "number") pageRot = parsed.preloaderPageRotation;
+        if (typeof parsed.preloaderPageOrigin === "string") pageOrigin = parsed.preloaderPageOrigin;
+      }
+    } catch {}
+
+    if (pageEl) {
+      if (!pageMotion || (pageY === 0 && pageX === 0 && pageScale === 1.0 && pageRot === 0)) {
+        pageEl.style.transform = "";
+        pageEl.style.transformOrigin = "";
+      } else {
+        const wipeP = p <= 0.60 ? 0 : Math.min(1, Math.max(0, (p - 0.60) / 0.40));
+        const remP = 1 - wipeP;
+        const curX = pageX * remP;
+        const curY = pageY * remP;
+        const curScale = 1 - (1 - pageScale) * remP;
+        const curRot = pageRot * remP;
+        pageEl.style.transformOrigin = computeViewportOrigin(pageOrigin);
+        pageEl.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+      }
+    }
+
+    const overlay = overlayRef.current;
+    const content = contentRef.current;
+    const bar = barRef.current;
+    const wrap = loaderWrapRef.current;
+
+    if (!overlay) return;
+
+    if (p <= 0.45) {
+      const fillP = p / 0.45;
+      const clipVal = buildDecayingSlantClipPath(0, slant, 0.05, flipSlant);
+      overlay.style.clipPath = clipVal;
+      (overlay.style as any).webkitClipPath = clipVal;
+      if (content) {
+        content.style.opacity = "1";
+        content.style.transform = "none";
+      }
+      if (bar) {
+        bar.classList.remove("filling");
+        bar.style.width = `${Math.min(100, fillP * 100)}%`;
+      }
+      if (wrap) {
+        wrap.classList.remove("done");
+        const colorIdx = Math.min(
+          LOADER_PALETTE.length - 1,
+          Math.floor(fillP * LOADER_PALETTE.length),
+        );
+        wrap.style.setProperty("--pc", LOADER_PALETTE[colorIdx]);
+      }
+    } else if (p <= 0.60) {
+      const fadeP = (p - 0.45) / 0.15;
+      const clipVal = buildDecayingSlantClipPath(0, slant, 0.05, flipSlant);
+      overlay.style.clipPath = clipVal;
+      (overlay.style as any).webkitClipPath = clipVal;
+      if (content) {
+        content.style.opacity = `${1 - fadeP}`;
+        content.style.transform = `translateY(${-fadeP * 25}px)`;
+      }
+      if (bar) {
+        bar.style.width = "100%";
+      }
+      if (wrap) {
+        wrap.classList.add("done");
+        wrap.style.setProperty(
+          "--pc",
+          LOADER_PALETTE[LOADER_PALETTE.length - 1],
+        );
+      }
+    } else {
+      const wipeP = (p - 0.60) / 0.40;
+      if (content) {
+        content.style.opacity = "0";
+      }
+      const clipVal = buildDecayingSlantClipPath(wipeP, slant, 0.05, flipSlant);
+      overlay.style.clipPath = clipVal;
+      (overlay.style as any).webkitClipPath = clipVal;
+    }
+  }, [scrubProgress, scrubNonce]);
+
   const isBypass = useSyncExternalStore(
     () => () => {},
     () => {
@@ -143,11 +315,21 @@ export default function Preloader() {
       }
       unlockScroll();
       setPhase("done");
+      const pageEl = getPageElement();
+      if (pageEl) {
+        pageEl.style.transform = "";
+        pageEl.style.transformOrigin = "";
+      }
     };
 
     if (!html.classList.contains("is-preloading") || isBypass) {
       unlockScroll();
       setPhase("done");
+      const pageEl = getPageElement();
+      if (pageEl) {
+        pageEl.style.transform = "";
+        pageEl.style.transformOrigin = "";
+      }
       return;
     }
 
@@ -164,9 +346,96 @@ export default function Preloader() {
       } catch {}
     }
 
+    // Dynamic settings from Transition Tuner Panel if configured
+    let activeWipeDuration = WIPE_DURATION;
+    let activeWipeSlantRatio = WIPE_SLANT_RATIO;
+    let activeWipeFlipSlant = false;
+    let activeLoaderTotalMs = LOADER_TOTAL_MS;
+    let activeWipeEase = "power2.out";
+    let activeEnabled = true;
+    let activeShowParticles = true;
+    let activeSpeedMult = 1;
+    let activePageMotion = true;
+    let activePageY = 0;
+    let activePageX = 0;
+    let activePageScale = 1.0;
+    let activePageRot = 0;
+    let activePageOrigin = "center bottom";
+
+    try {
+      const saved = localStorage.getItem("7h_transition_settings_v2");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.preloaderEnabled === "boolean") {
+          activeEnabled = parsed.preloaderEnabled;
+        }
+        if (typeof parsed.preloaderShowParticles === "boolean") {
+          activeShowParticles = parsed.preloaderShowParticles;
+        }
+        if (typeof parsed.preloaderDuration === "number" && parsed.preloaderDuration > 0) {
+          activeWipeDuration = parsed.preloaderDuration;
+        }
+        if (typeof parsed.preloaderSlantRatio === "number" && parsed.preloaderSlantRatio >= 0) {
+          activeWipeSlantRatio = parsed.preloaderSlantRatio;
+        }
+        if (typeof parsed.preloaderFlipSlant === "boolean") {
+          activeWipeFlipSlant = parsed.preloaderFlipSlant;
+        }
+        if (typeof parsed.preloaderFillMs === "number" && parsed.preloaderFillMs > 0) {
+          activeLoaderTotalMs = parsed.preloaderFillMs;
+        }
+        if (typeof parsed.preloaderEase === "string" && parsed.preloaderEase.trim()) {
+          activeWipeEase = parsed.preloaderEase;
+        }
+        if (typeof parsed.speedMult === "number" && parsed.speedMult > 0) {
+          activeSpeedMult = parsed.speedMult;
+        }
+        if (typeof parsed.preloaderPageMotion === "boolean") {
+          activePageMotion = parsed.preloaderPageMotion;
+        }
+        if (typeof parsed.preloaderPageY === "number") {
+          activePageY = parsed.preloaderPageY;
+        }
+        if (typeof parsed.preloaderPageX === "number") {
+          activePageX = parsed.preloaderPageX;
+        }
+        if (typeof parsed.preloaderPageScale === "number") {
+          activePageScale = parsed.preloaderPageScale;
+        }
+        if (typeof parsed.preloaderPageRotation === "number") {
+          activePageRot = parsed.preloaderPageRotation;
+        }
+        if (typeof parsed.preloaderPageOrigin === "string") {
+          activePageOrigin = parsed.preloaderPageOrigin;
+        }
+      }
+    } catch {}
+
+    if (!activeEnabled) {
+      finish();
+      return;
+    }
+
+    activeWipeDuration = activeWipeDuration * activeSpeedMult;
+    activeLoaderTotalMs = activeLoaderTotalMs * activeSpeedMult;
+    const activeStepMs = activeLoaderTotalMs / LOADER_PALETTE.length;
+
     let cancelled = false;
     let wipeTween: gsap.core.Tween | null = null;
     let safetyTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const pageEl = getPageElement();
+    const hasPageMotion =
+      activePageMotion &&
+      (activePageY !== 0 ||
+        activePageX !== 0 ||
+        activePageScale !== 1.0 ||
+        activePageRot !== 0);
+
+    if (pageEl && hasPageMotion) {
+      pageEl.style.transformOrigin = computeViewportOrigin(activePageOrigin);
+      pageEl.style.transform = `translate3d(${activePageX.toFixed(1)}px, ${activePageY.toFixed(1)}px, 0) scale(${activePageScale.toFixed(3)}) rotate(${activePageRot.toFixed(2)}deg)`;
+    }
 
     const startWipe = () => {
       if (cancelled) return;
@@ -190,22 +459,40 @@ export default function Preloader() {
             window.dispatchEvent(new CustomEvent("7h-preloader-done"));
           }
         }
-      }, WIPE_DURATION * 1000 + 50);
+      }, (activeWipeDuration + 0.15) * 1000 + 100);
 
       const proxy = { p: 0 };
       wipeTween = gsap.to(proxy, {
         p: 1,
-        duration: WIPE_DURATION,
-        ease: "power2.out",
+        duration: activeWipeDuration,
+        ease: activeWipeEase,
         onUpdate: () => {
           if (!overlay) return;
-          const clipVal = buildDecayingSlantClipPath(proxy.p, WIPE_SLANT_RATIO);
+          const clipVal = buildDecayingSlantClipPath(
+            proxy.p,
+            activeWipeSlantRatio,
+            0.05,
+            activeWipeFlipSlant,
+          );
           overlay.style.clipPath = clipVal;
           (overlay.style as any).webkitClipPath = clipVal;
+
+          if (pageEl && hasPageMotion) {
+            const remP = 1 - proxy.p;
+            const curX = activePageX * remP;
+            const curY = activePageY * remP;
+            const curScale = 1 - (1 - activePageScale) * remP;
+            const curRot = activePageRot * remP;
+            pageEl.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) scale(${curScale.toFixed(3)}) rotate(${curRot.toFixed(2)}deg)`;
+          }
         },
         onComplete: () => {
           if (safetyTimer) clearTimeout(safetyTimer);
           if (cancelled) return;
+          if (pageEl) {
+            pageEl.style.transform = "";
+            pageEl.style.transformOrigin = "";
+          }
           finish();
           if (typeof window !== "undefined") {
             window.dispatchEvent(new CustomEvent("preloader-complete"));
@@ -221,7 +508,7 @@ export default function Preloader() {
         gsap.to(contentRef.current, {
           opacity: 0,
           y: -25,
-          duration: 0.1, // 100ms content fade
+          duration: 0.1 * activeSpeedMult, // content fade scales with speedMult
           ease: "power2.in",
           onComplete: startWipe,
         });
@@ -272,7 +559,7 @@ export default function Preloader() {
     if (wrap && bar) {
       wrap.style.setProperty("--pc", LOADER_PALETTE[0]);
 
-      bar.style.animationDuration = LOADER_TOTAL_MS + "ms";
+      bar.style.animationDuration = activeLoaderTotalMs + "ms";
       bar.classList.remove("filling");
       void bar.offsetWidth; // force reflow so the fill starts from 0%
       bar.classList.add("filling");
@@ -281,13 +568,19 @@ export default function Preloader() {
         colorTimeouts.push(
           setTimeout(() => {
             if (!finished) wrap.style.setProperty("--pc", LOADER_PALETTE[i]);
-          }, i * LOADER_STEP_MS),
+          }, i * activeStepMs),
         );
       }
 
-      particleInterval = setInterval(spawnParticle, 100);
-      for (let i = 0; i < 4; i++) {
-        particleTimeouts.push(setTimeout(spawnParticle, i * 25));
+      if (particlesRef.current) {
+        particlesRef.current.style.display = activeShowParticles ? "" : "none";
+      }
+
+      if (activeShowParticles) {
+        particleInterval = setInterval(spawnParticle, 100);
+        for (let i = 0; i < 4; i++) {
+          particleTimeouts.push(setTimeout(spawnParticle, i * 25));
+        }
       }
 
       loaderDoneTimeout = setTimeout(async () => {
@@ -295,7 +588,7 @@ export default function Preloader() {
         wrap.classList.add("done"); // fades the bar track + trailing dot
         await Promise.all([waitForPageReady(), waitForCanvasReady()]);
         advanceToWipe();
-      }, LOADER_TOTAL_MS);
+      }, activeLoaderTotalMs);
     } else {
       // Refs not ready for some reason -- don't hang the site on a missing element.
       Promise.all([waitForPageReady(), waitForCanvasReady()]).then(() => {
@@ -306,6 +599,10 @@ export default function Preloader() {
     // Watchdog: if the loader-fill -> fade -> wipe chain hasn't finished
     // within a generous bound, force it through instead of leaving the whole
     // site hidden behind the overlay forever.
+    const activeCeilingMs = Math.max(
+      HARD_CEILING_MS,
+      (activeLoaderTotalMs + activeWipeDuration * 1000 + 1500) * 1.5,
+    );
     const watchdog = setTimeout(() => {
       if (cancelled || finished) return;
       if (safetyTimer) clearTimeout(safetyTimer);
@@ -316,7 +613,7 @@ export default function Preloader() {
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("preloader-complete"));
       }
-    }, HARD_CEILING_MS);
+    }, activeCeilingMs);
 
     return () => {
       cancelled = true;
@@ -330,6 +627,11 @@ export default function Preloader() {
       window.removeEventListener("wheel", preventScroll);
       window.removeEventListener("touchmove", preventScroll);
       window.removeEventListener("keydown", preventScrollKeys);
+      const pageEl = getPageElement();
+      if (pageEl) {
+        pageEl.style.transform = "";
+        pageEl.style.transformOrigin = "";
+      }
       // Deliberately NOT calling unlockScroll() here. This component lives
       // once at the root layout and never unmounts during normal app
       // life, so the only time this cleanup fires is React StrictMode's
@@ -342,27 +644,19 @@ export default function Preloader() {
       // onComplete, or the watchdog) is the only thing that should strip
       // the class -- both already go through finish() -> unlockScroll().
     };
-  }, [isBypass]);
+  }, [isBypass, replayKey]);
 
-  if (pathname?.startsWith("/studio") || phase === "done") return null;
+  if (pathname?.startsWith("/studio") || (phase === "done" && scrubProgress === null)) return null;
 
   return (
     <div
       ref={overlayRef}
       aria-hidden="true"
-      className="preloader-overlay"
+      className="preloader-overlay fixed inset-0 flex flex-col items-center justify-center pointer-events-auto bg-[var(--curtain-bg)] [clip-path:var(--curtain-clip)]"
       style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: "var(--z-preloader)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: CURTAIN_BG,
-        clipPath: buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
-        pointerEvents: "auto",
-      }}
+        "--curtain-bg": CURTAIN_BG,
+        "--curtain-clip": buildDecayingSlantClipPath(0, WIPE_SLANT_RATIO),
+      } as React.CSSProperties}
     >
       <div
         ref={contentRef}

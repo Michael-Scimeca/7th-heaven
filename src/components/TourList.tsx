@@ -1584,13 +1584,13 @@ export default function TourList({
         }
       >
         {/* Section Headline & Paragraph */}
-        <div className="site-container relative w-full">
+        <div className="site-container relative w-full  pb-8  sm:pb-12">
           <div
             ref={headerParallaxRef}
-            className="title-group title-group--section pointer-events-none z-30 mx-auto py-5 items-center text-center"
+            className="title-group title-group--section pointer-events-none z-30 mx-auto items-center text-center gap-3 sm:gap-4"
           >
-            <h2>Upcoming Tour Dates</h2>
-            <p>
+            <h2 className="text-amber-50">Upcoming Tour Dates</h2>
+            <p className="text-zinc-300">
               Catch 7th Heaven live on stage! Explore all upcoming show dates,
               venues, directions, and sync concerts directly to your calendar.
             </p>
@@ -1641,7 +1641,8 @@ export default function TourList({
               {hasActiveFilters && (
                 <button
                   onClick={clearAll}
-                  className="transition-colors whitespace-nowrap cursor-pointer border border-[var(--color-accent)re] px-2.5 py-1 text-[0.9rem] hover:border-[rgba(255,10,61,0.6)] hover:text-white"
+                  aria-label="Clear all active show filters"
+                  className="transition-colors whitespace-nowrap cursor-pointer border border-white/20 px-3 py-1.5 text-sm hover:border-action/60 hover:text-white rounded-[var(--radius-box)] min-h-[36px]"
                 >
                   Clear
                 </button>
@@ -2888,7 +2889,7 @@ export default function TourList({
                   value="var(--font-body)"
                   className="bg-[var(--color-bg-surface)]"
                 >
-                  Switzer (Default)
+                  Inter (Default)
                 </option>
                 <option
                   value="var(--font-heading)"

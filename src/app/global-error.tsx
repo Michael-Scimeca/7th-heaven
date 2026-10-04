@@ -75,7 +75,7 @@ export default function GlobalError({
             <h1 className="text-rose-500">
               Critical System Error
             </h1>
-            <p className="mb-7.5 text-sm leading-relaxed text-zinc-400">
+            <p className="mb-7.5 text-sm text-zinc-400">
               A critical error occurred in the application root. Our development
               team (Mikey) has been notified automatically.
             </p>

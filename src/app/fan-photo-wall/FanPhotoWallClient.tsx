@@ -37,7 +37,6 @@ import AddCmsButton from "@/components/AddCmsButton";
 import PageHero from "@/components/PageHero";
 import InputField from "@/components/InputField";
 import CustomDropdown from "@/components/CustomDropdown";
-import { getMediaUrl } from "@/lib/sanity";
 import { FanPhoto } from "@/lib/fanPhotos";
 import SectionBadge from "@/components/SectionBadge";
 import dynamic from "next/dynamic";
@@ -209,12 +208,6 @@ export default function FanPhotoWallClient({
     (member?.role === "admin" ||
       member?.role === "crew" ||
       (member as unknown as Record<string, unknown>)?.isCrew === true ||
-      (member as unknown as Record<string, unknown>)?.isAdmin === true),
-  );
-
-  const isAdmin = Boolean(
-    isLoggedIn &&
-    (member?.role === "admin" ||
       (member as unknown as Record<string, unknown>)?.isAdmin === true),
   );
 
@@ -618,10 +611,10 @@ export default function FanPhotoWallClient({
                     }}
                     className="group transition-colors flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-purple-900/30 hover:bg-[#0b041a]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
                   >
-                    <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-black/[0.02] p-4">
-                      <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+                    <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-black/[0.02] p-3 sm:p-3.5">
+                      <div className="flex min-w-0 items-center gap-2.5">
                         <div
-                          className="flex aspect-square h-11 w-11 min-w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 font-semibold text-white"
+                          className="flex aspect-square h-9 w-9 min-w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-xs font-semibold text-white"
                         >
                           {photo.name
                             ? photo.name
@@ -634,9 +627,9 @@ export default function FanPhotoWallClient({
                             : "FP"}
                         </div>
                         <div className="npm min-w-0">
-                          <p className="font-semibold text-white">{photo.name}</p>
+                          <p className="text-sm font-semibold text-white leading-tight truncate">{photo.name}</p>
                           {(photo.venue || photo.city) && (
-                            <p className="mt-0.5 text-white/60">
+                            <p className="mt-0.5 text-xs text-white/60 leading-tight truncate">
                               {photo.venue}
                               {photo.venue && photo.city && " • "}
                               {photo.city}
@@ -644,7 +637,7 @@ export default function FanPhotoWallClient({
                           )}
                         </div>
                       </div>
-                      <div className="flex shrink-0 flex-col items-end gap-0.5 text-white/60">
+                      <div className="flex shrink-0 flex-col items-end text-xs text-white/60 leading-tight">
                         <span>{mediaDetails.isVideo ? "Video" : "Photo"}</span>
                         {photo.date && <span>{photo.date}</span>}
                       </div>
@@ -684,7 +677,7 @@ export default function FanPhotoWallClient({
                       </div>
                     </div>
                     {photo.caption && (
-                      <div className="flex flex-1 items-center border-t border-white/10 bg-black/[0.02] p-4 text-sm text-white/80">
+                      <div className="flex flex-1 items-center border-t border-white/10 bg-black/[0.02] p-3 sm:p-3.5 text-xs leading-relaxed text-white/70">
                         <p>&ldquo;{photo.caption}&rdquo;</p>
                       </div>
                     )}
@@ -754,6 +747,7 @@ export default function FanPhotoWallClient({
                         <div className="flex items-center gap-3">
                           <button
                             type="button"
+                            aria-label="Report photo"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleFlagPhoto(selectedPhoto.id);

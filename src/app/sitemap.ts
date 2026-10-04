@@ -35,23 +35,53 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   } catch {}
 
-  // Static pages
+  // Fetch news articles from Sanity for /news/[slug] pages
+  let newsPages: MetadataRoute.Sitemap = [];
+  try {
+    const { data: articles } = await sanityFetch({
+      query: `*[_type == "newsPost"] { "slug": slug.current, publishedAt, _updatedAt }`,
+    });
+    if (Array.isArray(articles) && articles.length) {
+      newsPages = articles
+        .filter((a: any) => a.slug)
+        .map((a: any) => ({
+          url: `${baseUrl}/news/${a.slug}`,
+          lastModified: new Date(a._updatedAt || a.publishedAt || new Date()),
+          changeFrequency: "monthly" as const,
+          priority: 0.7,
+        }));
+    }
+  } catch {}
+
+  // Static public pages
   const staticPages: MetadataRoute.Sitemap = [
     // ── Core Pages ──
     {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/band`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 1.0,
     },
     {
       url: `${baseUrl}/shows/past`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/cruise`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/book`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/merch`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -63,40 +93,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-
-    // ── Cruise ──
-    {
-      url: `${baseUrl}/cruise`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-
-    // ── Booking ──
-    {
-      url: `${baseUrl}/book`,
+      url: `${baseUrl}/video`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/planner`,
+      url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/faq`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/rock-and-roll-kids`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
 
-    // ── Live & Community ──
+    // ── Community & Fan Media ──
     {
-      url: `${baseUrl}/live`,
+      url: `${baseUrl}/fans`,
       lastModified: new Date(),
-      changeFrequency: "always",
-      priority: 0.7,
+      changeFrequency: "daily",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/fan-photo-wall`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/fan-media-wall`,
@@ -104,33 +136,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.6,
     },
-    {
-      url: `${baseUrl}/fans`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.5,
-    },
 
-    // ── Store ──
-    {
-      url: `${baseUrl}/merch`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-
-    // ── Legal ──
+    // ── Legal & Policies ──
     {
       url: `${baseUrl}/privacy`,
       lastModified: new Date(),
       changeFrequency: "yearly",
-      priority: 0.1,
+      priority: 0.2,
     },
     {
       url: `${baseUrl}/terms`,
       lastModified: new Date(),
       changeFrequency: "yearly",
-      priority: 0.1,
+      priority: 0.2,
+    },
+    {
+      url: `${baseUrl}/returns`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.2,
     },
   ];
 
@@ -138,9 +162,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const tourDatePages: MetadataRoute.Sitemap = tourDates.map((date: any) => ({
     url: `${baseUrl}/tour/${date.slug?.current || date._id}`,
     lastModified: new Date(date._updatedAt || new Date()),
-    changeFrequency: "monthly",
+    changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  return [...staticPages, ...tourDatePages, ...showPages];
+  return [...staticPages, ...tourDatePages, ...showPages, ...newsPages];
 }
+

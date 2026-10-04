@@ -157,13 +157,14 @@ export default function ContactClient({
         <div className="relative z-10 w-full flex-1 flex flex-col justify-end">
           {/* Mobile & Tablet Stacked View (< lg) */}
           <div className="flex flex-col space-y-8 lg:hidden">
-            {contacts.map((contact) => {
+            {contacts.map((contact, idx) => {
               const photoKey = getPhotoForCategory(contact);
               const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
               const cardKey =
                 (contact.email || "") +
                 (contact.category || "") +
                 (contact.name || "");
+              const repName = contact.name || photo.name || "7th Heaven Representative";
 
               return (
                 <article
@@ -184,7 +185,7 @@ export default function ContactClient({
                   {/* Name */}
                   <div className="title-group title-group--sub mb-4">
                     <h3 className="text-white uppercase">
-                      {contact.name || photo.name || "7th Heaven Representative"}
+                      {repName}
                     </h3>
                   </div>
 
@@ -199,7 +200,8 @@ export default function ContactClient({
                     {contact.email && (
                       <a
                         href={`mailto:${contact.email}`}
-                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)]"
+                        aria-label={`Send email to ${repName} (${contact.category}): ${contact.email}`}
+                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)] min-h-[44px]"
                       >
                         <Mail className="h-4 w-4 text-action shrink-0" />
                         <span className="truncate">{contact.email}</span>
@@ -208,7 +210,8 @@ export default function ContactClient({
                     {contact.phone && (
                       <a
                         href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)]"
+                        aria-label={`Call ${repName} (${contact.category}): ${contact.phone}`}
+                        className="flex w-full items-center justify-center gap-2 border border-action/40 bg-action-soft px-4 py-3 font-semibold text-action transition-colors hover:bg-action/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring rounded-[var(--radius-box)] min-h-[44px]"
                       >
                         <Phone className="h-4 w-4 text-action shrink-0" />
                         <span>{contact.phone}</span>
@@ -221,6 +224,8 @@ export default function ContactClient({
                     <img
                       src={photo.desktop || photo.mobile}
                       alt={photo.alt}
+                      loading={idx === 0 ? "eager" : "lazy"}
+                      decoding="async"
                       className="w-full object-contain object-top max-h-[500px]"
                     />
                   </div>
@@ -242,6 +247,7 @@ export default function ContactClient({
                     (contact.email || "") +
                     (contact.category || "") +
                     (contact.name || "");
+                  const repName = contact.name || photo.name || "7th Heaven Representative";
 
                   return (
                     <li key={cardKey}>
@@ -250,9 +256,9 @@ export default function ContactClient({
                         onFocus={() => setActivePhotoId(photoKey)}
                         className="w-full text-left transition-[background-color,color,border-color,box-shadow,transform]"
                       >
-                        <h2 className={`text-white transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
-                          {contact.name || photo.name || "7th Heaven Representative"}
-                        </h2>
+                        <h3 className={`text-white transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
+                          {repName}
+                        </h3>
 
                         <div className={`mb-2 flex flex-wrap items-center gap-1.5 text-sm uppercase tracking-wide text-[color:var(--color-text-secondary)] transition-opacity ${isCardActive ? "opacity-100" : "opacity-75"}`}>
                           <span>{contact.category}</span>
@@ -274,7 +280,8 @@ export default function ContactClient({
                           {contact.email && (
                             <a
                               href={`mailto:${contact.email}`}
-                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover hover:underline underline-offset-4 decoration-action/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover focus-visible:underline rounded-[var(--radius-xs)] w-fit"
+                              aria-label={`Send email to ${repName} (${contact.category}): ${contact.email}`}
+                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover hover:underline underline-offset-4 decoration-action/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover focus-visible:underline rounded-[var(--radius-xs)] w-fit min-h-[36px]"
                             >
                               <Mail className="h-4 w-4 text-action shrink-0" />
                               <span>{contact.email}</span>
@@ -283,7 +290,8 @@ export default function ContactClient({
                           {contact.phone && (
                             <a
                               href={`tel:${contact.phone.replace(/[^0-9]/g, "")}`}
-                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover rounded-[var(--radius-xs)] w-fit"
+                              aria-label={`Call ${repName} (${contact.category}): ${contact.phone}`}
+                              className="transition-colors inline-flex items-center gap-2 text-action hover:text-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-ring focus-visible:text-action-hover rounded-[var(--radius-xs)] w-fit min-h-[36px]"
                             >
                               <Phone className="h-4 w-4 text-action shrink-0" />
                               <span>{contact.phone}</span>
@@ -307,7 +315,7 @@ export default function ContactClient({
                 return (
                   <div
                     key={photo.id}
-                    className={`absolute inset-0 flex items-end justify-end transition-opacity ${isActive
+                    className={`absolute inset-0 flex items-end justify-end transition-opacity duration-300 ${isActive
                       ? "pointer-events-none z-10 opacity-100"
                       : "pointer-events-none z-0 opacity-0"
                       }`}
@@ -318,9 +326,9 @@ export default function ContactClient({
                       <img
                         src={photo.desktop}
                         alt={photo.alt}
-                        loading="eager"
+                        loading={photo.id === DEFAULT_PHOTO_ID ? "eager" : "lazy"}
                         fetchPriority={isActive ? "high" : "low"}
-                        decoding="sync"
+                        decoding={photo.id === DEFAULT_PHOTO_ID ? "sync" : "async"}
                         className={`contact-rep-stage-img ${photo.scaleClass}`}
                       />
                     </picture>

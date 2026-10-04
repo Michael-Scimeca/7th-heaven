@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Ship, Compass, Utensils, Music, Waves } from "lucide-react";
+import { Ship } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
 import SeventhButton from "@/components/SeventhButton";
 
