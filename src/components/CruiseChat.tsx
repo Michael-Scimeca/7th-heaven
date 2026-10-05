@@ -16,6 +16,7 @@ import {
 import ChatInputBar from "@/components/ChatInputBar";
 import { useAuth } from "@/context/AuthContext";
 import SeventhButton from "@/components/SeventhButton";
+import Avatar from "@/components/Avatar";
 
 type ChatMessage = {
   id: string;
@@ -712,13 +713,13 @@ export default function CruiseChat({
           {onlineUsers.length > 0 && (
             <div className="flex items-center -space-x-1.5">
               {onlineUsers.slice(0, 4).map((u, i) => (
-                <span
+                <Avatar
                   key={`${u.name}-${i}`}
-                  title={u.name}
-                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-purple-400/30 bg-purple-950/80 text-[10px] font-semibold text-purple-200 backdrop-blur-md shadow-sm"
-                >
-                  {u.avatar || u.name.slice(0, 2).toUpperCase()}
-                </span>
+                  name={u.name}
+                  src={u.avatar}
+                  size="sm"
+                  border="border border-purple-400/30"
+                />
               ))}
               {onlineUsers.length > 4 && (
                 <span
