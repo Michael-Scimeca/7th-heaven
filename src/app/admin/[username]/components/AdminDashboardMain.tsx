@@ -10698,12 +10698,12 @@ export function AdminDashboardMain({
         "Community Registry",
         "Search and manage all user accounts registered in the database, view roles, and configure site settings.",
       )}
-      <div className="overflow-hidden" style={{ display: isSectionOpen("registry") ? undefined : "none" }}>
+      <div style={{ display: isSectionOpen("registry") ? undefined : "none" }}>
         {isSectionOpen("registry") && (
           <>
             <div className="w-full text-left">
               {/* Fixed Header Row */}
-              <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-3 select-none dark:border-white/10">
+              <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-3 pr-3 select-none dark:border-white/10">
                 <div>User</div>
                 <div>Role</div>
                 <div>Status</div>
@@ -10741,7 +10741,7 @@ export function AdminDashboardMain({
                       ) as any;
                       return (
                         <div key={user.id}>
-                          <div className="transition-colors grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-2 pr-2 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
+                          <div className="transition-colors grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-2 pr-3 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
                             <div className="max-w-[220px]">
                               <div className="flex items-center gap-2.5">
                                 <Avatar
