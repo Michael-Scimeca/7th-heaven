@@ -5814,7 +5814,7 @@ export function AdminDashboardMain({
             toggleSection("shopify");
           }
         }}
-        className="transition-colors flex cursor-pointer items-center justify-between border-b border-white/10 py-6 pl-0 select-none hover:bg-white/[0.02]"
+        className="transition-colors flex cursor-pointer items-center justify-between border-b border-white/10 pb-6 pl-0 select-none"
       >
         <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2 text-left">
@@ -11049,7 +11049,7 @@ export function AdminDashboardMain({
               </div>
               <div className="mt-4 flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.02] p-3">
                 <span className="mt-0.5"></span>
-                <p>
+                <p className="text-xs text-white/50">
                   A crew account will be created with the credentials above.
                   Share the login details securely with the crew member. Only
                   admins can create crew accounts.
@@ -11386,7 +11386,7 @@ export function AdminDashboardMain({
 
                 <div className="mt-4 flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.02] p-3">
                   <span className="mt-0.5"></span>
-                  <p>
+                  <p className="text-xs text-white/50">
                     A secure temporary password will be auto-generated and emailed
                     to the new admin. They can log in immediately with those
                     credentials. Only grant admin access to trusted individuals —
@@ -11463,7 +11463,7 @@ export function AdminDashboardMain({
   );
 
   const renderBulkInvites = () => (
-    <div className="overflow-hidden">
+    <div className="">
       <div
         role="button"
         tabIndex={0}
