@@ -29,6 +29,7 @@ import GlowInput, { GlowTextarea, GlowSelect } from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
 import SeventhButton from "@/components/SeventhButton";
 import Avatar from "@/components/Avatar";
+import { NavLinkButton } from "@/components/ui";
 
 import {
   adminKillStream,
@@ -17424,12 +17425,15 @@ export function AdminDashboardMain({
           </div>
 
           {/* Exit Link */}
-          <Link
+          <NavLinkButton
             href="/"
-            className="flex cursor-pointer items-center gap-1.5 px-1 py-2 text-black/70"
+            variant="ghost"
+            color="muted"
+            size="sm"
+            fontWeight="semibold"
           >
             Exit to Site
-          </Link>
+          </NavLinkButton>
         </div>
       </header>
 
@@ -17437,7 +17441,7 @@ export function AdminDashboardMain({
       {adminTab === "band" && (
         <>
           {/* Category Navigation Tabs */}
-          <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-white/10 pb-4 select-none">
+          <div className="flex flex-wrap items-center gap-2 border-b border-white/10 pb-4 select-none">
             {[
               { id: "overview", label: "Overview & Analytics", icon: "📊" },
               { id: "messages", label: "Send Messages & SMS", icon: "💬" },
@@ -17470,7 +17474,7 @@ export function AdminDashboardMain({
           </div>
 
           {activeCategoryTab === "overview" && (
-            <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
               {METRICS.map((metric) => (
                 <div
                   key={metric.label}
@@ -17498,13 +17502,13 @@ export function AdminDashboardMain({
                       }, 50);
                     }
                   }}
-                  className={`rounded-lg p-4 ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
+                  className={` ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
                 >
                   <p className="mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
                     <span className="text-3xl">{metric.value}</span>
                     <span
-                      className={`rounded px-2 py-0.5 text-[0.9rem] ${metric.color}`}
+                      className={` text-[0.9rem] ${metric.color}`}
                     >
                       {metric.trend}
                     </span>
