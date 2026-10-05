@@ -3060,8 +3060,10 @@ html.tour-sort-stuck #tour-sort-bar {
 
 .custom-scrollbar,
 .fact-sheet-scrollbar {
+  overflow-y: scroll !important;
   scrollbar-width: thin !important;
-  scrollbar-color: #c084fc rgba(15, 7, 32, 0.5) !important;
+  scrollbar-gutter: stable !important;
+  scrollbar-color: #c084fc rgba(15, 7, 32, 0.6) !important;
 }
 
 /* Custom Always-Visible Purple Scrollbar */

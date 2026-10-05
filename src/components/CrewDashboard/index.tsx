@@ -4663,7 +4663,7 @@ export function CrewDashboard({
               {/* Song rows */}
               <div
                 data-lenis-prevent
-                className="custom-scrollbar max-h-[300px] space-y-1 overflow-y-auto"
+                className="custom-scrollbar max-h-[300px] space-y-1 overflow-y-scroll pr-3 [scrollbar-gutter:stable]"
               >
                 {setlist.map((song, idx) => (
                   <div
