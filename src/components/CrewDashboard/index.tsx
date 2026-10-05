@@ -14,6 +14,7 @@ import { getProducts } from "@/lib/shopify";
 import { shiftCoverageRequest } from "@/lib/email-templates";
 import { createClient } from "@/lib/supabase/client";
 import { GlowInput } from "@/components/GlowInput";
+import DestructiveButton from "@/components/DestructiveButton";
 import {
   AlertTriangle,
   Ban,
@@ -188,14 +189,14 @@ function AvailabilityItemRow({
           )}
         </div>
       </div>
-      <button
-        type="button"
+      <DestructiveButton
+        size="xs"
         onClick={() => onRemove(item.id)}
-        className="transition-colors flex h-6 w-6 cursor-pointer items-center justify-center rounded border-none bg-white/10 text-white/40 hover:bg-red-500 hover:text-white"
         title="Remove Block"
+        aria-label="Remove Block"
       >
         ✕
-      </button>
+      </DestructiveButton>
     </div>
   );
 }
@@ -4004,13 +4005,13 @@ export function CrewDashboard({
 
                         {/* Actions */}
                         <div className="pt-2">
-                          <button
-                            type="button"
+                          <DestructiveButton
+                            fullWidth
+                            size="md"
                             onClick={cancelFlashDrop}
-                            className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius-box)] border border-red-500/30 bg-red-500/10 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                           >
                             Cancel Flash Drop
-                          </button>
+                          </DestructiveButton>
                         </div>
                       </div>
                     ) : (
@@ -4193,8 +4194,10 @@ export function CrewDashboard({
                           Launch Flash Drop
                         </SeventhButton>
 
-                        <button
-                          type="button"
+                        <DestructiveButton
+                          fullWidth
+                          size="sm"
+                          className="mt-2"
                           onClick={() => {
                             const testPayload = {
                               name: "7TH HEAVEN HOODIE 2026",
@@ -4218,10 +4221,9 @@ export function CrewDashboard({
                               });
                             } catch { }
                           }}
-                          className="transition-colors mt-2 w-full rounded-[var(--radius-box)] border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20"
                         >
                           [TESTING] Simulate Sold Out Merch Drop
-                        </button>
+                        </DestructiveButton>
                       </>
                     )}
                   </div>
@@ -4251,15 +4253,14 @@ export function CrewDashboard({
                     icon={Gift}
                     action={
                       raffleStatus !== "idle" ? (
-                        <button
-                          type="button"
+                        <DestructiveButton
+                          size="xs"
                           onClick={cancelRaffle}
-                          className="transition-colors rounded-[var(--radius-box)] border border-red-500/20 bg-red-500/10 px-4 py-1.5 text-xs text-red-400 hover:bg-red-500/20"
                         >
                           {raffleStatus === "complete"
                             ? "Clear Results"
                             : "Cancel Raffle"}
-                        </button>
+                        </DestructiveButton>
                       ) : null
                     }
                   />
@@ -4684,13 +4685,14 @@ export function CrewDashboard({
                     </div>
 
                     <div className="flex shrink-0 items-center gap-1.5">
-                      <button
+                      <DestructiveButton
+                        size="xs"
                         onClick={() => deleteSongFromSetlist(song.id)}
-                        className="transition-colors flex h-6 w-6 items-center justify-center border border-red-500/20 text-red-400 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300 rounded-[var(--radius-box)]"
                         title="Delete Song"
+                        aria-label="Delete Song"
                       >
                         <X className="h-3.5 w-3.5" />
-                      </button>
+                      </DestructiveButton>
                     </div>
                   </div>
                 ))}
