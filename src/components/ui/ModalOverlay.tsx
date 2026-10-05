@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export interface ModalOverlayProps
@@ -30,16 +30,21 @@ export const ModalOverlay = forwardRef<HTMLDivElement, ModalOverlayProps>(
     },
     ref,
   ) => {
+    const onCloseRef = useRef(onClose);
+    useEffect(() => {
+      onCloseRef.current = onClose;
+    });
+
     useEffect(() => {
       if (!isOpen) return;
       const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape" && onClose) {
-          onClose();
+        if (e.key === "Escape" && onCloseRef.current) {
+          onCloseRef.current();
         }
       };
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen, onClose]);
+    }, [isOpen]);
 
     if (!isOpen) return null;
 
