@@ -1713,7 +1713,7 @@ export function FakeLiveStream({
             <div className="flex min-w-0 items-center gap-2">
               <Avatar
                 name={activeFeedCrew.name}
-                initials={activeFeedCrew.avatar}
+                src={activeFeedCrew.avatar}
                 role="crew"
                 size="sm"
                 badge="Crew"
@@ -3618,7 +3618,7 @@ export function FakeLiveStream({
                       <Avatar
                         key={c.id}
                         name={c.displayName}
-                        initials={c.avatar}
+                        src={c.avatar}
                         role="crew"
                         size="sm"
                         border="border border-purple-900/60"

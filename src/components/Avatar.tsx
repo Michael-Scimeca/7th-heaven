@@ -132,10 +132,19 @@ export function Avatar({
     !src.includes("http") &&
     !src.includes("data:");
 
-  const resolvedSrc = isSrcInitials ? "" : resolveAvatarUrl(name, src);
+  const isInitialsPath =
+    typeof explicitInitials === "string" &&
+    (explicitInitials.includes("/") ||
+      explicitInitials.includes("http") ||
+      explicitInitials.includes("data:"));
+
+  const effectiveSrc = isInitialsPath ? explicitInitials : src;
+  const validExplicitInitials = isInitialsPath ? undefined : explicitInitials;
+
+  const resolvedSrc = isSrcInitials ? "" : resolveAvatarUrl(name, effectiveSrc);
 
   const displayInitials =
-    explicitInitials ||
+    validExplicitInitials ||
     (isSrcInitials ? (src as string).toUpperCase() : "") ||
     (name
       ? name
