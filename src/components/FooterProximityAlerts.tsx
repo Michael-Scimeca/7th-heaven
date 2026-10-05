@@ -481,8 +481,8 @@ export default function FooterProximityAlerts() {
         <div className="relative z-10 flex flex-col items-start justify-start gap-3">
           {permission === "granted" ? (
             <div className="flex shrink-0 flex-wrap items-center gap-3">
-              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-500/40 bg-emerald-500/20 px-4 py-2.5 whitespace-nowrap text-emerald-300">
-                <Check className="h-4 w-4 shrink-0 text-emerald-400" /> Push
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-500/40 bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-emerald-300">
+                <Check className="h-3.5 w-3.5 shrink-0 text-emerald-400" /> Push
                 Enabled
               </span>
               <SeventhButton

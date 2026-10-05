@@ -248,8 +248,9 @@ export default function BlurTuner() {
 
   return (
     <aside
+      data-lenis-prevent
       aria-label="Design tuner"
-      className="fixed bottom-4 left-4 z-[1000000] mb-[env(safe-area-inset-bottom)] max-h-[85dvh] w-[280px] overflow-y-auto overscroll-contain rounded-2xl border border-white/15 bg-[#0b0812]/95 p-4 text-white shadow-2xl"
+      className="custom-scrollbar fixed bottom-4 left-4 z-[1000000] mb-[env(safe-area-inset-bottom)] max-h-[85dvh] w-[280px] overflow-y-auto overscroll-contain rounded-2xl border border-white/15 bg-[#0b0812]/95 p-4 text-white shadow-2xl"
     >
       <div className="mb-3 flex items-center justify-between">
         <strong className="text-sm">Top blur</strong>

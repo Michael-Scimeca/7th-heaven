@@ -1438,7 +1438,10 @@ lerpSpeed: ${lerpSpeed}`;
         typeof document !== "undefined" &&
         createPortal(
           <>
-            <div className="fixed inset-y-0 right-0 z-[9999] flex h-full h-dvh max-h-dvh w-[360px] max-w-[92vw] flex-col justify-between overflow-y-auto border-l border-white/15 bg-black/95 p-5 pb-safe shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+            <div
+              data-lenis-prevent
+              className="custom-scrollbar fixed inset-y-0 right-0 z-[9999] flex h-full h-dvh max-h-dvh w-[360px] max-w-[92vw] flex-col justify-between overflow-y-auto border-l border-white/15 bg-black/95 p-5 pb-safe shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl"
+            >
               <div>
                 {/* Header */}
                 <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-3">

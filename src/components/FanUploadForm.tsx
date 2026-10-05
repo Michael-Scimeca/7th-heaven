@@ -329,10 +329,13 @@ export default function FanUploadForm() {
                   setDragOver(false);
                   handleFilesChange(e.dataTransfer.files);
                 }}
-                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
+                className={`group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-[var(--radius-box)] ${dragOver ? "scale-[1.01] border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-white/40 bg-[#00000029] bg-black/30 hover:border-[var(--color-accent)]"}`}
               >
                 {previews.length > 0 ? (
-                  <div className="absolute inset-0 z-20 grid grid-cols-3 gap-3 overflow-y-auto bg-black/90 p-4 sm:grid-cols-4 md:grid-cols-5">
+                  <div
+                    data-lenis-prevent
+                    className="custom-scrollbar absolute inset-0 z-20 grid grid-cols-3 gap-3 overflow-y-auto bg-black/90 p-4 sm:grid-cols-4 md:grid-cols-5"
+                  >
                     {Array.from(previews, (src, i) => ({ src, i })).map(
                       ({ src, i }) => {
                         const file = selectedFiles[i];
@@ -344,7 +347,7 @@ export default function FanUploadForm() {
                         return (
                           <div
                             key={src}
-                            className="group relative aspect-square overflow-hidden border border-white/10"
+                            className="group relative aspect-square overflow-hidden rounded-[var(--radius-box)] border border-white/10"
                           >
                             {isVideo ? (
                               <video
@@ -377,16 +380,16 @@ export default function FanUploadForm() {
                         }
                         fileRef.current?.click();
                       }}
-                      className="transition-colors plus-button flex aspect-square cursor-pointer flex-col items-center justify-center border-2 border-dashed border-white/10 text-white/50 hover:bg-white/10 hover:text-white"
+                      className="transition-colors plus-button flex aspect-square cursor-pointer flex-col items-center justify-center rounded-[var(--radius-box)] border-2 border-dashed border-white/10 text-white/50 hover:bg-white/10 hover:text-white"
                     >
                       <span className="text-2xl font-light">+</span>
                     </button>
                   </div>
                 ) : (
                   <>
-                    <div className="transition-colors pointer-events-none absolute inset-2.5 border-2 border-dashed border-white/10 group-hover:border-[var(--color-accent)]/50" />
+                    <div className="transition-colors pointer-events-none absolute inset-2.5 rounded-[var(--radius-box)] border-2 border-dashed border-white/10 group-hover:border-[var(--color-accent)]/50" />
                     <div className="relative z-10 flex flex-col items-center p-6 text-center">
-                      <div className="mb-3 flex h-12 w-12 items-center justify-center border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
+                      <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-[var(--radius-box)] border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]">
                         <svg
                           width="20"
                           height="20"
@@ -410,7 +413,7 @@ export default function FanUploadForm() {
                   </>
                 )}
                 {isScanning && (
-                  <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm">
+                  <div className="absolute inset-0 z-30 flex flex-col items-center justify-center rounded-[var(--radius-box)] bg-black/90 backdrop-blur-sm">
                     <div className="mb-3 h-11 w-11 animate-spin border-2 border-white/10 border-t-emerald-500" />
                     <p>Safety Scan</p>
                     <p className="text-emerald-400">{scanStatus}</p>
@@ -428,8 +431,8 @@ export default function FanUploadForm() {
               </div>
             </div>
 
-            <div className="flex flex-col flex-wrap items-end gap-3 p-0 lg:flex-row">
-              <div className="grid w-full flex-1 grid-cols-1 gap-3 md:grid-cols-2">
+            <div className="flex flex-col gap-4">
+              <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
                 <div>
                   <label
                     htmlFor="fan-upload-venue"
@@ -480,19 +483,21 @@ export default function FanUploadForm() {
                 </div>
               </div>
 
-              <SeventhButton
-                type={isLoggedIn ? "submit" : "button"}
-                onClick={() => !isLoggedIn && openModal("login")}
-                disabled={uploading || isScanning}
-                icon={false}
-                className="mt-2 flex w-full shrink-0 cursor-pointer items-center justify-center disabled:pointer-events-none disabled:opacity-50 lg:mt-0 lg:w-32"
-              >
-                {uploading
-                  ? "Uploading…"
-                  : isScanning
-                    ? "Scanning…"
-                    : "Publish"}
-              </SeventhButton>
+              <div className="mt-2 flex justify-start">
+                <SeventhButton
+                  type={isLoggedIn ? "submit" : "button"}
+                  onClick={() => !isLoggedIn && openModal("login")}
+                  disabled={uploading || isScanning}
+                  icon={false}
+                  className="cursor-pointer disabled:pointer-events-none disabled:opacity-50"
+                >
+                  {uploading
+                    ? "Uploading…"
+                    : isScanning
+                      ? "Scanning…"
+                      : "Publish"}
+                </SeventhButton>
+              </div>
             </div>
           </div>
         </form>

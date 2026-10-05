@@ -5,6 +5,7 @@ import Link from "next/link";
 import QRCode from "react-qr-code";
 import { useMember } from "@/context/MemberContext";
 import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import PageHero from "@/components/PageHero";
 
 import { InstallAppButton } from "@/components/InstallAppButton";
@@ -233,21 +234,13 @@ export default function NotificationsPage() {
           </div>
 
           {/* Audience Tabs */}
-          <div className="pt-4 flex flex-wrap justify-center gap-2">
-            {GROUP_TABS.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  type="button"
-                  aria-label={`Show ${tab.label} alerts`}
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  className={`cursor-pointer rounded-[var(--radius-box)] border px-5 py-2.5 ${isActive ? "border-purple-600 bg-purple-600" : "border-white/10 bg-[#00000029] hover:border-white/30 hover:text-white"}`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
+          <div className="pt-4 max-w-xl mx-auto">
+            <SegmentedTabs<Group>
+              activeTab={activeTab}
+              onChange={handleTabChange}
+              ariaLabel="Notification channel selector"
+              tabs={GROUP_TABS.map((t) => ({ id: t.id, label: t.label }))}
+            />
           </div>
 
           {/* Main Card */}

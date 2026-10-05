@@ -319,6 +319,49 @@ export function FakeLiveStream({
   );
   const activeFeedCrew = CREW_CONFIG[activeFeedId] ?? crew;
 
+  // ── Authorized Crew Check: Admin or the specific crew member currently streaming ──
+  const isCrewAuthorized = useMemo(() => {
+    if (!contextMember) return false;
+    if (contextMember.role === "admin") return true;
+    if (contextMember.role === "crew") {
+      const userLower = (
+        contextMember.username ||
+        contextMember.name ||
+        contextMember.email ||
+        contextMember.id ||
+        ""
+      ).toLowerCase();
+      const activeIdLower = (activeFeedId || memberId || "").toLowerCase();
+
+      if (
+        activeIdLower === "ryan" &&
+        (userLower.includes("ryan") || userLower.includes("rk"))
+      )
+        return true;
+      if (
+        (activeIdLower === "mike" || activeIdLower === "michael") &&
+        (userLower.includes("mike") ||
+          userLower.includes("michael") ||
+          userLower.includes("ms"))
+      )
+        return true;
+      if (
+        (activeIdLower === "sammy" || activeIdLower === "sam") &&
+        (userLower.includes("sam") || userLower.includes("sd"))
+      )
+        return true;
+      if (
+        activeIdLower === "tony" &&
+        (userLower.includes("tony") || userLower.includes("tm"))
+      )
+        return true;
+
+      if (userLower.includes(activeIdLower) || activeIdLower.includes(userLower))
+        return true;
+    }
+    return false;
+  }, [contextMember, activeFeedId, memberId]);
+
   // ── Fan spotlight lower-third ──
   const [spotlight, setSpotlight] = useState<{
     account: FakeAccount;
@@ -1643,18 +1686,18 @@ export function FakeLiveStream({
       {/* ── Main layout ── */}
       <main
         id="live-stream-room"
-        className="fixed inset-0 top-[95px] z-[99999] flex flex-col gap-6 overflow-hidden"
+        className="fixed inset-0 top-[95px] z-[99999] flex flex-col gap-1 overflow-hidden"
       >
         {/* ── TOP BAR ── */}
         <header
-          className="site-container flex shrink-0 items-center justify-between gap-2 border-b border-white/[0.08] pb-6"
+          className="site-container flex shrink-0 items-center justify-between gap-2 border-b border-white/[0.08] pb-4"
         >
           {/* Left */}
-          <div className="flex min-w-0 items-center gap-3">
-            <Link href="/live" className="transition-colors flex items-center gap-1.5 text-white/85 hover:text-white">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <Link href="/live" className="transition-colors flex items-center gap-1.5 text-xs text-white/85 hover:text-white">
               <svg
-                width="12"
-                height="12"
+                width="11"
+                height="11"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1672,16 +1715,16 @@ export function FakeLiveStream({
                 name={activeFeedCrew.name}
                 initials={activeFeedCrew.avatar}
                 role="crew"
-                size="md"
+                size="sm"
                 badge="Crew"
               />
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span>
+                  <span className="text-xs font-semibold text-white leading-tight">
                     {activeFeedCrew.name} — {activeFeedCrew.cameraLabel}
                   </span>
                 </div>
-                <p className="hidden sm:block">
+                <p className="hidden text-3xs text-white/60 leading-tight sm:block">
                   7th Heaven · House of Blues, Chicago · {formatTime(elapsed)}
                 </p>
               </div>
@@ -1690,62 +1733,63 @@ export function FakeLiveStream({
 
           {/* Right — crew member link + notify me push button + crew side button + demo badge */}
           <div className="flex shrink-0 items-center gap-2">
-            {/* Live Stream Push Alert Button — Restricted to Admin & Crew */}
-            {(contextMember?.role === "crew" ||
-              contextMember?.role === "admin") && (
-                <SeventhButton
-                  disabled={notifyingFans}
-                  onClick={async () => {
-                    if (notifyingFans) return;
-                    setNotifyingFans(true);
-                    try {
-                      await fetch("/api/notifications/trigger", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          crewName: activeFeedCrew.name,
-                          title: `🔴 ${activeFeedCrew.name} is LIVE on 7th Heaven!`,
-                          message: `${activeFeedCrew.name} (${activeFeedCrew.cameraLabel}) just started streaming! Join live stream now.`,
-                          url: window.location.href,
-                        }),
-                      });
-                      setNotifySuccess(true);
-                      setTimeout(() => setNotifySuccess(false), 4500);
-                    } catch (err) {
-                      console.error("Failed to notify fans:", err);
-                    } finally {
-                      setNotifyingFans(false);
-                    }
-                  }}
-                  title="Broadcast push alert to all subscribed fans"
-                >
-                  <span className="flex items-center gap-1.5">
-                    {notifySuccess
-                      ? "✓ Push Sent to Fans! 🔔"
-                      : notifyingFans
-                        ? "Connecting..."
-                        : "BROADCASTING PUSH ALERT 🔔"}
-                  </span>
-                </SeventhButton>
-              )}
+            {/* Live Stream Push Alert Button — Restricted to Admin & Authorized Crew */}
+            {isCrewAuthorized && (
+              <SeventhButton
+                disabled={notifyingFans}
+                onClick={async () => {
+                  if (notifyingFans) return;
+                  setNotifyingFans(true);
+                  try {
+                    await fetch("/api/notifications/trigger", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        crewName: activeFeedCrew.name,
+                        title: `🔴 ${activeFeedCrew.name} is LIVE on 7th Heaven!`,
+                        message: `${activeFeedCrew.name} (${activeFeedCrew.cameraLabel}) just started streaming! Join live stream now.`,
+                        url: window.location.href,
+                      }),
+                    });
+                    setNotifySuccess(true);
+                    setTimeout(() => setNotifySuccess(false), 4500);
+                  } catch (err) {
+                    console.error("Failed to notify fans:", err);
+                  } finally {
+                    setNotifyingFans(false);
+                  }
+                }}
+                title="Broadcast push alert to all subscribed fans"
+              >
+                <span className="flex items-center gap-1.5">
+                  {notifySuccess
+                    ? "✓ Push Sent to Fans! 🔔"
+                    : notifyingFans
+                      ? "Connecting..."
+                      : "BROADCASTING PUSH ALERT 🔔"}
+                </span>
+              </SeventhButton>
+            )}
 
             {/* Crew side button — goes to this crew member's own admin dashboard */}
-            <Link
-              href={
-                activeFeedId === "mike" || activeFeedId === "michael"
-                  ? "/crew-michael"
-                  : activeFeedId === "sammy"
-                    ? "/crew-sam"
-                    : activeFeedId === "ryan"
-                      ? "/crew-ryan"
-                      : activeFeedId === "tony"
-                        ? "/crew-tony"
-                        : "/crew"
-              }
-              className="flex items-center gap-1.5 text-purple-400 no-underline"
-            >
-              <span className="hidden sm:inline">Crew Side</span>
-            </Link>
+            {isCrewAuthorized && (
+              <Link
+                href={
+                  activeFeedId === "mike" || activeFeedId === "michael"
+                    ? "/crew-michael"
+                    : activeFeedId === "sammy"
+                      ? "/crew-sam"
+                      : activeFeedId === "ryan"
+                        ? "/crew-ryan"
+                        : activeFeedId === "tony"
+                          ? "/crew-tony"
+                          : "/crew"
+                }
+                className="flex items-center gap-1.5 text-purple-400 no-underline"
+              >
+                <span className="hidden sm:inline">Crew Side</span>
+              </Link>
+            )}
 
             <div className="flex shrink-0 items-center gap-2"></div>
           </div>
@@ -1788,18 +1832,18 @@ export function FakeLiveStream({
               <h1 className="sr-only">
                 7th Heaven Live Stream - {activeFeedCrew?.name || "Band"}
               </h1>
-              <div className="absolute top-2 left-2 z-30 flex items-center gap-2 sm:top-3 sm:left-3">
+              <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-30 flex items-center gap-2">
                 {crewIsLive ? (
                   <>
                     <span
-                      className="animate-in fade-in flex items-center gap-1.5 rounded-lg bg-red-600 px-2.5 py-1 shadow-[0_0_12px_rgba(220,38,38,0.5)]"
+                      className="animate-in fade-in flex items-center gap-1.5 rounded-lg bg-red-600 px-2.5 py-1 text-3xs font-bold text-white shadow-[0_0_12px_rgba(220,38,38,0.5)]"
                     >
                       <span className="h-1.5 w-1.5 animate-pulse rounded-lg bg-white" />
                       LIVE
                     </span>
 
                     <div
-                      className="animate-in fade-in flex items-center gap-1.5 rounded-lg bg-black/60 px-2.5 py-1 text-white/85 backdrop-blur-sm"
+                      className="animate-in fade-in flex items-center gap-1.5 rounded-lg bg-black/60 px-2.5 py-1 text-3xs font-medium text-white/85 backdrop-blur-sm"
                     >
                       <svg
                         width="11"
@@ -1817,15 +1861,16 @@ export function FakeLiveStream({
                   </>
                 ) : (
                   <span
-                    className="flex items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1"
+                    className="flex items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1 text-3xs font-semibold text-white/80"
                   >
                     Offline
                   </span>
                 )}
 
                 <button
+                  type="button"
                   onClick={() => setReactionsVisible((v) => !v)}
-                  className={`hidden items-center rounded-lg bg-black/60 px-2.5 py-1 backdrop-blur-sm sm:flex ${reactionsVisible
+                  className={`hidden items-center rounded-lg bg-black/60 px-2.5 py-1 text-3xs font-medium backdrop-blur-sm sm:flex ${reactionsVisible
                     ? "text-white/70"
                     : "text-white/30"
                     }`}
@@ -1835,9 +1880,9 @@ export function FakeLiveStream({
               </div>
 
               {/* ── Elapsed time ── */}
-              <div className="absolute top-2 right-2 z-30 sm:top-3 sm:right-3">
+              <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-30">
                 <div
-                  className="rounded-lg bg-black/60 px-2.5 py-1 text-white/80 backdrop-blur-sm"
+                  className="rounded-lg bg-black/60 px-2.5 py-1 text-3xs font-medium text-white/80 backdrop-blur-sm"
                 >
                   ⏱ {formatTime(elapsed)}
                 </div>
@@ -2507,7 +2552,7 @@ export function FakeLiveStream({
               {/* Tab content */}
               <div
                 data-lenis-prevent
-                className="min-h-0 flex-1 overflow-y-scroll"
+                className="custom-scrollbar min-h-0 flex-1 overflow-y-scroll"
               >
                 {/* ── LIVE FEED TAB ── */}
                 {adminTab === "live" && (
@@ -3077,7 +3122,10 @@ export function FakeLiveStream({
                           No custom keywords added yet.
                         </p>
                       ) : (
-                        <div className="flex max-h-28 flex-wrap gap-1.5 overflow-y-auto pr-1">
+                        <div
+                          data-lenis-prevent
+                          className="custom-scrollbar flex max-h-28 flex-wrap gap-1.5 overflow-y-auto pr-1"
+                        >
                           {customWords.map((word) => (
                             <span
                               key={word}
@@ -3546,7 +3594,7 @@ export function FakeLiveStream({
             /* ─────────────── NORMAL CHAT PANEL ─────────────── */
             <div className="flex min-h-0 w-full flex-1 flex-col overflow-hidden lg:w-[360px] lg:flex-none xl:w-[400px]">
               {/* Chat header with Tab toggling */}
-              <div className="flex shrink-0 flex-col pt-3 pb-2 border-b border-white/[0.08]">
+              <div className="flex shrink-0 flex-col pt-1 sm:pt-1.5 pb-2 border-b border-white/[0.08]">
                 <div className="flex items-center justify-between">
                   <div className="flex gap-4">
                     <button
@@ -3564,39 +3612,47 @@ export function FakeLiveStream({
                     </button>
                   </div>
 
-                  {/* Mini crew list */}
-                  <div className="flex items-center gap-1">
-                    {CREW_ACCOUNTS.map((c) => (
-                      <div
+                  {/* Mini crew / online user avatar stack (caps cleanly for 100+ online users) */}
+                  <div className="flex items-center -space-x-1.5">
+                    {CREW_ACCOUNTS.slice(0, 4).map((c) => (
+                      <Avatar
                         key={c.id}
-                        title={`${c.displayName} is live`}
-                        className="flex h-6 w-6 items-center justify-center rounded-full ring-2 ring-white/20"
-                        style={{ background: c.color, fontSize: 9 }}
-                      >
-                        {c.avatar}
-                      </div>
+                        name={c.displayName}
+                        initials={c.avatar}
+                        role="crew"
+                        size="sm"
+                        border="border border-purple-900/60"
+                      />
                     ))}
+                    {CREW_ACCOUNTS.length > 4 && (
+                      <span
+                        title={`${CREW_ACCOUNTS.length - 4} more cruisers online`}
+                        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-purple-400/30 bg-purple-950/80 text-[10px] font-semibold text-purple-200 backdrop-blur-md shadow-sm z-10"
+                      >
+                        +{CREW_ACCOUNTS.length - 4}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
 
               {!isSignedInUser ? (
                 /* ─────────────── GUEST LOCKED CHAT PANEL ─────────────── */
-                <div className="flex flex-1 flex-col items-center justify-center space-y-6 bg-[#07040d]/50 p-6 pb-1 text-center backdrop-blur-xl">
+                <div className="flex flex-1 flex-col items-center justify-center space-y-3 bg-[#07040d]/50 p-6 pb-1 text-center backdrop-blur-xl">
                   <div className="flex h-16 w-16 animate-pulse items-center justify-center rounded-full border border-purple-500/40 bg-gradient-to-tr from-purple-600/30 to-pink-600/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
                     <MessageSquare className="h-8 w-8" />
                   </div>
 
                   <div className="max-w-xs space-y-2">
-                    <h3>Join the Live Chat</h3>
-                    <p>
+                    <h3 className="text-sm font-semibold text-white">Join the Live Chat</h3>
+                    <p className="text-xs leading-relaxed text-white/70">
                       Sign in or register as a 7th Heaven fan, crew member, or
                       admin to participate in live stream chat and setlist
                       voting!
                     </p>
                   </div>
 
-                  <div className="flex w-full max-w-xs flex-col gap-2.5 pt-2">
+                  <div className="flex w-full max-w-xs flex-col gap-2.5 ">
                     <SeventhButton
                       onClick={() => {
                         window.dispatchEvent(
@@ -3651,7 +3707,7 @@ export function FakeLiveStream({
                   {/* List of songs */}
                   <div
                     data-lenis-prevent
-                    className="flex-1 space-y-2 overflow-y-auto p-3"
+                    className="custom-scrollbar flex-1 space-y-2 overflow-y-auto p-3"
                   >
                     {(() => {
                       const sorted = [...setlist].sort((a, b) => {
@@ -4022,7 +4078,8 @@ export function FakeLiveStream({
             return (
               <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
                 <div
-                  className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border bg-white/98 p-6 text-left backdrop-blur-xl"
+                  data-lenis-prevent
+                  className="custom-scrollbar relative max-h-[90vh] w-full max-w-sm overflow-y-auto border bg-white/98 p-6 text-left backdrop-blur-xl"
                   style={{
                     borderColor: `${activeMerchDrop.product.color}55`,
                     boxShadow: `0 0 40px ${activeMerchDrop.product.color}15`,

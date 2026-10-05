@@ -1617,7 +1617,10 @@ export default function UserFlowMap() {
 
       {/* Slide-out Inspector Detail Drawer */}
       {selectedNode && (
-        <div className="shadow-2xl backdrop-blur-xl animate-in slide-in-from-right-8 absolute top-14 right-4 bottom-4 z-30 flex w-96 flex-col justify-between overflow-y-auto border border-purple-500/40 bg-black/95 p-6">
+        <div
+          data-lenis-prevent
+          className="custom-scrollbar shadow-2xl backdrop-blur-xl animate-in slide-in-from-right-8 absolute top-14 right-4 bottom-4 z-30 flex w-96 flex-col justify-between overflow-y-auto border border-purple-500/40 bg-black/95 p-6"
+        >
           <div className="space-y-5">
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">

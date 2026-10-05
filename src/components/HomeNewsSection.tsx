@@ -301,7 +301,10 @@ export default function HomeNewsSection({
         typeof window !== "undefined" &&
         createPortal(
           <div className="animate-fade-in fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md">
-            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-neutral-900 p-6 shadow-2xl sm:p-8">
+            <div
+              data-lenis-prevent
+              className="custom-scrollbar relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-neutral-900 p-6 shadow-2xl sm:p-8"
+            >
               <button
                 onClick={() => setIsAddModalOpen(false)}
                 className="transition-colors absolute top-4 right-4 cursor-pointer rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white"

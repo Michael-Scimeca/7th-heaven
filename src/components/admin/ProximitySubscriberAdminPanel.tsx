@@ -222,7 +222,7 @@ export default function ProximitySubscriberAdminPanel() {
       </div>
 
       {/* Subscribers Grid */}
-      <div className="overflow-x-auto">
+      <div className="custom-scrollbar overflow-x-auto">
         <div className="min-w-[700px]">
           {/* Grid Header */}
           <div className="grid grid-cols-12 gap-3 border-b border-white/10 bg-[#00000029] px-4 py-3.5 text-xs font-semibold text-white/60">
@@ -255,11 +255,11 @@ export default function ProximitySubscriberAdminPanel() {
                     {/* Fan / Device */}
                     <div className="col-span-3 min-w-0">
                       {isEditing ? (
-                        <input
+                        <GlowInput
                           type="text"
                           value={editName}
                           onChange={(e) => setEditName(e.target.value)}
-                          className="w-full rounded-lg border border-purple-500/50 bg-black/60 px-2.5 py-1"
+                          wrapperClassName="w-full"
                         />
                       ) : (
                         <div>
@@ -277,11 +277,11 @@ export default function ProximitySubscriberAdminPanel() {
                     {/* Zip Code */}
                     <div className="col-span-2 text-purple-200">
                       {isEditing ? (
-                        <input
+                        <GlowInput
                           type="text"
                           value={editZip}
                           onChange={(e) => setEditZip(e.target.value)}
-                          className="w-24 rounded-lg border border-purple-500/50 bg-black/60 px-2.5 py-1"
+                          wrapperClassName="w-24"
                         />
                       ) : (
                         <span className="flex items-center gap-1">

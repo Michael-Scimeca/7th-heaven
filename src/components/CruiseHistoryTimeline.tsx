@@ -553,13 +553,14 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
   // Update geometry & ship position on mount, window resize, and container ResizeObserver with debouncing
   useEffect(() => {
-    let resizeTimer: NodeJS.Timeout | null = null;
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    let rafId: number | null = null;
 
     const debouncedResize = () => {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         updatePathGeometry();
-        requestAnimationFrame(() => {
+        rafId = requestAnimationFrame(() => {
           updateShipPositionRef.current(latestProgressRef.current);
         });
       }, 150);
@@ -567,23 +568,30 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
     // Immediate initial update
     updatePathGeometry();
-    requestAnimationFrame(() => {
+    rafId = requestAnimationFrame(() => {
       updateShipPositionRef.current(latestProgressRef.current);
     });
 
+    const el = desktopContainerRef.current;
     let resizeObserver: ResizeObserver | null = null;
-    if (desktopContainerRef.current && typeof ResizeObserver !== "undefined") {
+    if (el && typeof ResizeObserver !== "undefined") {
       resizeObserver = new ResizeObserver(() => {
         debouncedResize();
       });
-      resizeObserver.observe(desktopContainerRef.current);
+      resizeObserver.observe(el);
     }
 
-    window.addEventListener("resize", debouncedResize, { passive: true });
+    const handleWindowResize = () => debouncedResize();
+    window.addEventListener("resize", handleWindowResize, { passive: true });
+
     return () => {
       if (resizeTimer) clearTimeout(resizeTimer);
-      if (resizeObserver) resizeObserver.disconnect();
-      window.removeEventListener("resize", debouncedResize);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (resizeObserver) {
+        if (el) resizeObserver.unobserve(el);
+        resizeObserver.disconnect();
+      }
+      window.removeEventListener("resize", handleWindowResize);
     };
   }, [rows.length, updatePathGeometry]);
 
@@ -1166,7 +1174,8 @@ export default function CruiseHistoryTimeline({ history }: Props) {
           <div className="pointer-events-none fixed inset-0 z-[999999] flex items-center justify-center p-4">
             <div
               data-settings-panel
-              className="pointer-events-auto fixed bottom-16 left-6 max-h-[85vh] w-[450px] max-w-[94vw] overflow-y-auto rounded-3xl border border-purple-400/40 bg-[#04040e]/30 p-6 text-left shadow-[0_0_60px_rgba(6,182,212,0.25)]"
+              data-lenis-prevent
+              className="custom-scrollbar pointer-events-auto fixed bottom-16 left-6 max-h-[85vh] w-[450px] max-w-[94vw] overflow-y-auto rounded-3xl border border-purple-400/40 bg-[#04040e]/30 p-6 text-left shadow-[0_0_60px_rgba(6,182,212,0.25)]"
             >
               <div className="mb-5 flex items-center justify-between border-b border-purple-500/30 pb-3">
                 <div className="flex items-center gap-2">

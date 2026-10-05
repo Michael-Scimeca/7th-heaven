@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import SegmentedTabs from "@/components/SegmentedTabs";
 
 import {
   ReactFlow,
@@ -2299,38 +2300,34 @@ export default function VisualSitemapClient() {
         </div>
 
         {/* VIEW SELECTOR TABS */}
-        <div className="flex items-center gap-2 border border-white/10 bg-black/60 p-1.5">
-          <button
-            onClick={() => setActiveTab("ARCH")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "ARCH" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
-          >
-            <Layers className="h-3.5 w-3.5" />
-            <span>Full Architecture</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("BOOKING")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "BOOKING" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
-          >
-            <Calendar className="h-3.5 w-3.5" />
-            <span>Booking Flow</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("CRUISE")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "CRUISE" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
-          >
-            <Ship className="h-3.5 w-3.5 text-amber-300" />
-            <span>Cruise Flow</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("FAN_SIGNUP")}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 ${activeTab === "FAN_SIGNUP" ? "border border-purple-400/50 bg-purple-600" : "bg-[#00000029] hover:text-white"}`}
-          >
-            <UserPlus className="h-3.5 w-3.5 text-pink-300" />
-            <span>Fan Signup Flow</span>
-          </button>
+        <div className="flex items-center gap-2">
+          <SegmentedTabs<"ARCH" | "BOOKING" | "CRUISE" | "FAN_SIGNUP">
+            activeTab={activeTab}
+            onChange={setActiveTab}
+            ariaLabel="Sitemap view mode selector"
+            tabs={[
+              {
+                id: "ARCH",
+                label: "Full Architecture",
+                icon: <Layers className="h-3.5 w-3.5" />,
+              },
+              {
+                id: "BOOKING",
+                label: "Booking Flow",
+                icon: <Calendar className="h-3.5 w-3.5" />,
+              },
+              {
+                id: "CRUISE",
+                label: "Cruise Flow",
+                icon: <Ship className="h-3.5 w-3.5 text-amber-300" />,
+              },
+              {
+                id: "FAN_SIGNUP",
+                label: "Fan Signup Flow",
+                icon: <UserPlus className="h-3.5 w-3.5 text-pink-300" />,
+              },
+            ]}
+          />
 
           <a
             href="/sitemap.xml"

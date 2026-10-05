@@ -372,7 +372,10 @@ export default function StickyNotesOverlay() {
             </div>
 
             {/* Notes List */}
-            <div className="flex-1 space-y-3 overflow-y-auto pr-1">
+            <div
+              data-lenis-prevent
+              className="custom-scrollbar flex-1 space-y-3 overflow-y-auto pr-1"
+            >
               {notes.reduce<React.ReactNode[]>((acc, n) => {
                 if (activeFilter === "open" && n.status === "resolved")
                   return acc;

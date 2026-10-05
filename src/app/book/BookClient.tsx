@@ -2980,7 +2980,10 @@ function MapPickerModal({
         onClick={onClose}
         className="fixed inset-0 h-full w-full cursor-default border-0 bg-black/80 backdrop-blur-2xl"
       />
-      <div className="relative z-10 max-h-[90vh] w-full max-w-2xl space-y-5 overflow-hidden overflow-y-auto border border-purple-500/40 bg-[#0f0921] p-6">
+      <div
+        data-lenis-prevent
+        className="custom-scrollbar relative z-10 max-h-[90vh] w-full max-w-2xl space-y-5 overflow-hidden overflow-y-auto border border-purple-500/40 bg-[#0f0921] p-6"
+      >
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
             <MapPin className="h-5 w-5 text-[#c27aff]" />

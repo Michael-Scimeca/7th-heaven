@@ -1703,8 +1703,9 @@ export function shiftCoverageRequest(b: {
   shiftId: string;
   recipientSlug: string;
 }) {
-  const acceptUrl = `http://localhost:3000/crew-${b.recipientSlug}?action=accept-coverage&shiftId=${b.shiftId}`;
-  const declineUrl = `http://localhost:3000/crew-${b.recipientSlug}?action=decline-coverage&shiftId=${b.shiftId}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
+  const acceptUrl = `${siteUrl}/crew-${b.recipientSlug}?action=accept-coverage&shiftId=${b.shiftId}`;
+  const declineUrl = `${siteUrl}/crew-${b.recipientSlug}?action=decline-coverage&shiftId=${b.shiftId}`;
   const td1 =
     "padding:8px 0;color:rgba(255,255,255,0.4);font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;width:120px;vertical-align:top;";
   const td2 = "padding:8px 0;color:#fff;font-size:14px;font-weight:600;";

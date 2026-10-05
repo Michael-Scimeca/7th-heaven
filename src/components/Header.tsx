@@ -839,7 +839,8 @@ export function Header() {
                 // comment above): it makes the wipe edge read as a slight
                 // diagonal that self-levels as it finishes, rather than a
                 // flat curtain.
-                className="pointer-events-auto fixed inset-0 z-[9999] flex h-full h-dvh max-h-dvh flex-col overflow-y-auto bg-black/30 backdrop-blur-xl pt-safe pb-safe pl-safe pr-safe"
+                data-lenis-prevent
+                className="custom-scrollbar pointer-events-auto fixed inset-0 z-[9999] flex h-full h-dvh max-h-dvh flex-col overflow-y-auto bg-black/30 backdrop-blur-xl pt-safe pb-safe pl-safe pr-safe"
                 style={{
                   backdropFilter: "blur(21px)",
                   WebkitBackdropFilter: "blur(21px)",

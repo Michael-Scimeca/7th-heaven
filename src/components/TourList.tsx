@@ -2327,7 +2327,10 @@ export default function TourList({
       {isModalOpen &&
         typeof window !== "undefined" &&
         createPortal(
-          <div className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
+          <div
+            data-lenis-prevent
+            className="custom-scrollbar fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-md"
+          >
             <div className="relative my-8 w-full max-w-2xl animate-[fade-in-up_0.2s_ease-out] overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)]">
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
               <div className="p-6 text-left md:p-8">

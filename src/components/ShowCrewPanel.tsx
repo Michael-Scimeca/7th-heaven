@@ -523,7 +523,10 @@ export default function ShowCrewPanel({
                 No notes yet — add logistics info for the crew
               </div>
             ) : (
-              <div className="max-h-48 space-y-2 overflow-y-auto">
+              <div
+                data-lenis-prevent
+                className="custom-scrollbar max-h-48 space-y-2 overflow-y-auto"
+              >
                 {data.notes.map((note) => (
                   <div
                     key={note.text}

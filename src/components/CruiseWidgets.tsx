@@ -51,8 +51,8 @@ export function EmbarkationCountdown() {
     <div className="relative flex flex-wrap items-center gap-6 overflow-visible border-none">
       <div className="z-10 flex shrink-0 items-center">
         <div>
-          <h2 className="py-0.5">Embarkation</h2>
-          <p>Port of Miami</p>
+          <h2 className="py-0.5 text-xl font-bold md:text-2xl">Embarkation</h2>
+          <p className="text-xs text-secondary sm:text-sm">Port of Miami</p>
         </div>
       </div>
 

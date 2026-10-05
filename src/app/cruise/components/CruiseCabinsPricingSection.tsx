@@ -1484,7 +1484,10 @@ function CruiseCabinsPricingSectionComponent({
         isAddRoomModalOpen &&
         createPortal(
           <div className="fixed inset-0 z-[9999] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 p-4 backdrop-blur-md">
-            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-[#12071f] p-6 text-left sm:p-8">
+            <div
+              data-lenis-prevent
+              className="custom-scrollbar relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-purple-500/30 bg-[#12071f] p-6 text-left sm:p-8"
+            >
               <button
                 type="button"
                 onClick={() => setIsAddRoomModalOpen(false)}

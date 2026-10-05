@@ -567,13 +567,13 @@ export default function CruiseSnakeItinerary({
   const lastNodeY = nodes.length > 0 ? nodes[nodes.length - 1].y : 0;
   const lastDay = itinerary[itinerary.length - 1];
   const lastDayEventCount = lastDay?.events?.length || 2;
-  const lastCardHeight = isMobile
-    ? 330 + lastDayEventCount * 105
-    : 480;
+  const lastCardEstimatedHeight = isMobile
+    ? 360 + lastDayEventCount * 110
+    : 440 + lastDayEventCount * 45;
 
   const totalH = isMobile
-    ? lastNodeY + 40 + lastCardHeight
-    : (itinerary.length - 1) * 480 + 90 + 580;
+    ? lastNodeY + 40 + lastCardEstimatedHeight + 140
+    : lastNodeY + Math.max(lastCardEstimatedHeight, 540) + 200;
 
   /* ── Animated water-wave serpentine path ── */
   const trackRef = useRef<SVGPathElement>(null);
@@ -922,7 +922,8 @@ export default function CruiseSnakeItinerary({
           createPortal(
             <div
               data-settings-panel
-              className="pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)]"
+              data-lenis-prevent
+              className="custom-scrollbar pointer-events-auto fixed top-16 right-4 z-[999999] max-h-[90vh] w-[820px] max-w-[94vw] overflow-y-auto border-2 border-purple-400/50 p-5 text-left text-white/40 opacity-100 shadow-[0_0_70px_rgba(6,182,212,0.35)]"
             >
               <div className="sticky top-0 z-10 mb-6 flex items-center justify-between border-b border-white/10 pt-1 pb-3 text-white/60">
                 <div className="flex items-center gap-2">

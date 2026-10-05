@@ -192,7 +192,10 @@ export default function EmailPreviewPage() {
           )}
 
           {/* Content */}
-          <div className="flex flex-1 justify-center overflow-y-auto bg-[var(--color-bg-card)] p-8">
+          <div
+            data-lenis-prevent
+            className="custom-scrollbar flex flex-1 justify-center overflow-y-auto bg-[var(--color-bg-card)] p-8"
+          >
             {viewMode === "preview" ? (
               <div className="w-full max-w-[620px]">
                 <div className="overflow-hidden border border-white/10">
@@ -205,7 +208,10 @@ export default function EmailPreviewPage() {
                 </div>
               </div>
             ) : (
-              <pre className="w-full max-w-[900px] overflow-x-auto border border-white/10 bg-[var(--color-bg-surface)] p-6 whitespace-pre-wrap text-white/50">
+              <pre
+                data-lenis-prevent
+                className="custom-scrollbar w-full max-w-[900px] overflow-x-auto border border-white/10 bg-[var(--color-bg-surface)] p-6 whitespace-pre-wrap text-white/50"
+              >
                 {html}
               </pre>
             )}

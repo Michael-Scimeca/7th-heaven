@@ -92,37 +92,49 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               <h2 id="privacy-sec-2-heading" className="mb-3">
                 2. Information We Collect
               </h2>
-              <p className="mb-3">
+              <p className="mb-4">
                 We may collect the following types of information:
               </p>
-              <dl className="flex flex-col gap-3">
-                <div>
-                  <dt className="mb-1">Account Information</dt>
-                  <dd>
+              <dl className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm transition-colors hover:border-purple-500/30">
+                  <dt className="mb-1.5 flex items-center gap-2 text-base font-bold text-white">
+                    <span className="h-2 w-2 rounded-full bg-purple-400"></span>
+                    Account Information
+                  </dt>
+                  <dd className="text-secondary text-sm leading-relaxed">
                     Name, email address, and password when you create a member
                     account.
                   </dd>
                 </div>
-                <div>
-                  <dt className="mb-1">SMS Alert Information</dt>
-                  <dd>
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm transition-colors hover:border-purple-500/30">
+                  <dt className="mb-1.5 flex items-center gap-2 text-base font-bold text-white">
+                    <span className="h-2 w-2 rounded-full bg-purple-400"></span>
+                    SMS Alert Information
+                  </dt>
+                  <dd className="text-secondary text-sm leading-relaxed">
                     Name, zip code, and phone number when you subscribe to show
                     alerts. We also record your consent timestamp and IP address
                     as required by law.
                   </dd>
                 </div>
-                <div>
-                  <dt className="mb-1">Location Data</dt>
-                  <dd>
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm transition-colors hover:border-purple-500/30">
+                  <dt className="mb-1.5 flex items-center gap-2 text-base font-bold text-white">
+                    <span className="h-2 w-2 rounded-full bg-purple-400"></span>
+                    Location Data
+                  </dt>
+                  <dd className="text-secondary text-sm leading-relaxed">
                     Approximate geolocation (latitude/longitude) only when you
                     explicitly enable the &quot;Nearby Shows&quot; feature. This
                     data is stored locally in your browser and is not
                     transmitted to our servers.
                   </dd>
                 </div>
-                <div>
-                  <dt className="mb-1">Usage Data</dt>
-                  <dd>
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm transition-colors hover:border-purple-500/30">
+                  <dt className="mb-1.5 flex items-center gap-2 text-base font-bold text-white">
+                    <span className="h-2 w-2 rounded-full bg-purple-400"></span>
+                    Usage Data
+                  </dt>
+                  <dd className="text-secondary text-sm leading-relaxed">
                     Browser type, pages visited, and interaction patterns
                     collected automatically through standard web analytics.
                   </dd>

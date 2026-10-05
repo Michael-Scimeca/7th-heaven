@@ -636,9 +636,9 @@ export default function PlannerDashboard() {
         <SectionHeader id="active-booking-heading" title="Active Event Booking Details" visuallyHidden />
         <div className="grid grid-cols-1 gap-6">
           <div
-            className={`border bg-[var(--color-bg-surface)] ${booking.status === "cancelled" ? "border-rose-500/10 opacity-60" : "border-white/10"} group relative flex flex-col gap-8 overflow-hidden p-6 md:p-8 lg:flex-row`}
+            className={`${booking.status === "cancelled" ? "" : ""} group relative flex flex-col gap-8 overflow-hidden lg:flex-row`}
           >
-            <div className={`absolute top-0 left-0 h-full w-1 ${s.bar}`} />
+
 
             <div className="flex-1">
               <div className="mb-6 flex items-center gap-3">
@@ -829,31 +829,40 @@ export default function PlannerDashboard() {
                   {isEditing ? (
                     /* Edit mode actions */
                     <>
-                      <button
+                      <SeventhButton
+                        type="button"
                         onClick={handleEditSave}
-                        className="transition-colors w-full border border-emerald-500/30 bg-emerald-500/10 py-3 hover:border-transparent hover:bg-emerald-500 hover:text-white"
+                        icon={false}
+                        background="linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(4, 120, 87, 0.4))"
+                        glowStart="rgba(16, 185, 129, 0.5)"
+                        glowEnd="rgba(5, 150, 105, 0.4)"
+                        className="w-full justify-center text-center cursor-pointer text-emerald-200"
                       >
                         Save Changes
-                      </button>
-                      <button
+                      </SeventhButton>
+                      <SeventhButton
+                        type="button"
                         onClick={handleEditCancel}
-                        className="transition-colors w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                        icon={false}
+                        className="w-full justify-center text-center cursor-pointer"
                       >
                         Discard
-                      </button>
+                      </SeventhButton>
                     </>
                   ) : booking.status === "cancelled" ? (
                     /* Cancelled state — rebook or revive */
                     <>
-                      <a
+                      <SeventhButton
                         href={rebookUrl(booking, member)}
-                        className="transition-colors w-full border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                        icon={false}
+                        className="w-full justify-center text-center cursor-pointer"
                       >
                         Rebook This Event
-                      </a>
+                      </SeventhButton>
                       {reviveTimeLeft && (
                         <>
-                          <button
+                          <SeventhButton
+                            type="button"
                             aria-label="Revive booking"
                             onClick={() =>
                               setBooking((prev) => ({
@@ -862,10 +871,11 @@ export default function PlannerDashboard() {
                                 cancelledAt: undefined,
                               }))
                             }
-                            className="transition-colors w-full border border-purple-500/30 bg-purple-500/10 py-3 hover:border-transparent hover:bg-purple-500 hover:text-white"
+                            icon={false}
+                            className="w-full justify-center text-center cursor-pointer"
                           >
                             Revive Booking
-                          </button>
+                          </SeventhButton>
                           <p className="text-center">
                             ⏱ Revive expires in <span>{reviveTimeLeft}</span>
                           </p>
@@ -875,24 +885,32 @@ export default function PlannerDashboard() {
                   ) : (
                     /* Normal actions */
                     <>
-                      <a
+                      <SeventhButton
                         href={rebookUrl(booking, member)}
-                        className="transition-colors w-full border border-white/10 bg-[var(--color-accent)]/10 py-3 text-center hover:border-transparent hover:bg-[var(--color-accent)] hover:text-white"
+                        icon={false}
+                        className="w-full justify-center text-center cursor-pointer"
                       >
                         Rebook This Event
-                      </a>
-                      <button
+                      </SeventhButton>
+                      <SeventhButton
+                        type="button"
                         onClick={handleEditStart}
-                        className="transition-colors w-full border border-white/10 bg-white/[0.03] py-3 hover:bg-white/[0.08]"
+                        icon={false}
+                        className="w-full justify-center text-center cursor-pointer"
                       >
                         Edit Logistics
-                      </button>
-                      <button
+                      </SeventhButton>
+                      <SeventhButton
+                        type="button"
                         onClick={() => setShowCancelConfirm(true)}
-                        className="transition-colors w-full text-rose-400 hover:bg-rose-500/10"
+                        icon={false}
+                        background="linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(159, 18, 57, 0.4))"
+                        glowStart="rgba(244, 63, 94, 0.5)"
+                        glowEnd="rgba(225, 29, 72, 0.4)"
+                        className="w-full justify-center text-center cursor-pointer text-rose-200"
                       >
                         Cancel Request
-                      </button>
+                      </SeventhButton>
                     </>
                   )}
                 </>
@@ -916,7 +934,7 @@ export default function PlannerDashboard() {
         aria-labelledby="planner-alert-preferences-heading"
         className="section"
       >
-        <div className="max-w-4xl mx-auto">
+        <div className="w-full max-w-4xl">
           <AudienceAlertSetupCard
             audience="planner"
             bookingId={booking?.id}
@@ -944,15 +962,7 @@ export default function PlannerDashboard() {
             {(activeContactFilter === "all" ||
               activeContactFilter === "booking") && (
                 <div className="flex w-full flex-col items-center text-center">
-                  <div
-                    className="relative flex w-full items-end justify-center overflow-hidden"
-                    style={{
-                      WebkitMaskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                      maskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    }}
-                  >
+                  <div className="relative flex w-full items-end justify-center overflow-hidden fade-bottom">
                     <Image
                       width={400}
                       height={400}
@@ -993,15 +1003,7 @@ export default function PlannerDashboard() {
             {(activeContactFilter === "all" ||
               activeContactFilter === "tech") && (
                 <div className="flex w-full flex-col items-center text-center">
-                  <div
-                    className="relative flex w-full items-end justify-center overflow-hidden"
-                    style={{
-                      WebkitMaskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                      maskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    }}
-                  >
+                  <div className="relative flex w-full items-end justify-center overflow-hidden fade-bottom">
                     <Image
                       width={400}
                       height={400}
@@ -1042,15 +1044,7 @@ export default function PlannerDashboard() {
             {(activeContactFilter === "all" ||
               activeContactFilter === "non-tech") && (
                 <div className="flex w-full flex-col items-center text-center">
-                  <div
-                    className="relative flex w-full items-end justify-center overflow-hidden"
-                    style={{
-                      WebkitMaskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                      maskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    }}
-                  >
+                  <div className="relative flex w-full items-end justify-center overflow-hidden fade-bottom">
                     <Image
                       width={400}
                       height={400}
@@ -1091,15 +1085,7 @@ export default function PlannerDashboard() {
             {(activeContactFilter === "all" ||
               activeContactFilter === "press") && (
                 <div className="flex w-full flex-col items-center text-center">
-                  <div
-                    className="relative flex w-full items-end justify-center overflow-hidden"
-                    style={{
-                      WebkitMaskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                      maskImage:
-                        "linear-gradient(to bottom, black 0%, black 75%, transparent 100%)",
-                    }}
-                  >
+                  <div className="relative flex w-full items-end justify-center overflow-hidden fade-bottom">
                     <Image
                       width={400}
                       height={400}

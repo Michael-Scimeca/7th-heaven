@@ -188,7 +188,7 @@ export function Avatar({
           />
         ) : (
           <div
-            className={`flex h-full w-full items-center justify-center bg-gradient-to-br from-purple-600/40 to-indigo-900/60 text-white select-none ${roundedClass} ${sizeConfig.text}`}
+            className={`flex h-full w-full items-center justify-center bg-gradient-to-tr from-purple-600/30 to-pink-600/30 text-white select-none ${roundedClass} ${sizeConfig.text}`}
           >
             {displayInitials}
           </div>

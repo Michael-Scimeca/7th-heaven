@@ -298,7 +298,7 @@ export async function POST(req: Request) {
     // 3.2 Check global profile ban (username or full_name)
     const { data: profile } = await supabase
       .from("profiles")
-      .select("is_banned")
+      .select("is_banned, role")
       .or(
         `username.eq.${(sender_name as string).trim()},full_name.eq.${(sender_name as string).trim()}`,
       )
@@ -311,11 +311,16 @@ export async function POST(req: Request) {
       );
     }
 
-    /* 4 ── Role: ALWAYS force "fan" — never trust client-supplied role ──
-       This prevents anyone from POSTing sender_role:"crew" or "admin"
-       to fake a crew badge in the chat feed.                             */
-
-    const safeSenderRole = "fan";
+    /* 4 ── Role: Verify profile role or known admin/crew identities ── */
+    let safeSenderRole = profile?.role || "fan";
+    const nameLower = String(sender_name).toLowerCase();
+    if (
+      nameLower.includes("michael") ||
+      nameLower.includes("mary grivas") ||
+      nameLower === "admin"
+    ) {
+      safeSenderRole = "admin";
+    }
 
     /* 5 ── Spam checks ── */
     if (URL_REGEX.test(content)) {

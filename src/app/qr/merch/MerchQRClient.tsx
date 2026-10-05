@@ -410,7 +410,10 @@ export default function MerchQRClient({
                   <p>
                     Add these 2 variables to your <code>.env.local</code> file:
                   </p>
-                  <pre className="mt-2 overflow-x-auto rounded p-2">
+                  <pre
+                    data-lenis-prevent
+                    className="custom-scrollbar mt-2 overflow-x-auto rounded p-2"
+                  >
                     NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN="7th-heaven-store.myshopify.com"
                     {"\n"}
                     {"NEXT_PUBLIC_SHOPIFY_STOREFRONT_" + "ACCESS_TOKEN"}
@@ -605,7 +608,10 @@ export default function MerchQRClient({
       {/* ── CHECKOUT MODAL (Pick Up vs Ship Selection) ── */}
       {showCheckout && selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-          <div className="max-h-[90vh] w-full max-w-lg space-y-6 overflow-y-auto border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] sm:p-8">
+          <div
+            data-lenis-prevent
+            className="custom-scrollbar max-h-[90vh] w-full max-w-lg space-y-6 overflow-y-auto border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] sm:p-8"
+          >
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
@@ -854,7 +860,10 @@ export default function MerchQRClient({
 
       {/* ── PRINTABLE QR VENUE SIGN MODAL ── */}
       {showQRSignModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/90 p-4 backdrop-blur-2xl">
+        <div
+          data-lenis-prevent
+          className="custom-scrollbar fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/90 p-4 backdrop-blur-2xl"
+        >
           <div className="w-full max-w-md space-y-6 border border-purple-500/50 bg-[var(--color-bg-surface)] p-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span>Venue Printable QR Sign</span>

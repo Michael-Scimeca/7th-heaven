@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase-client";
+import { GlowInput } from "@/components/GlowInput";
 
 interface CrewSetPasswordModalProps {
   email: string;
@@ -102,7 +103,7 @@ export function CrewSetPasswordModal({
               >
                 New Password
               </label>
-              <input
+              <GlowInput
                 id="crew-set-new-password"
                 type="password"
                 value={password}
@@ -110,7 +111,7 @@ export function CrewSetPasswordModal({
                 placeholder="Min. 8 characters"
                 autoComplete="new-password"
                 required
-                className="w-full rounded-[var(--radius-box)] border border-white/15 bg-white/5 px-3.5 py-3 text-sm text-white placeholder-white/20 outline-none transition-[border-color] focus:border-purple-500"
+                wrapperClassName="w-full"
               />
             </div>
 
@@ -122,7 +123,7 @@ export function CrewSetPasswordModal({
               >
                 Confirm Password
               </label>
-              <input
+              <GlowInput
                 id="crew-set-confirm-password"
                 type="password"
                 value={confirm}
@@ -130,7 +131,7 @@ export function CrewSetPasswordModal({
                 placeholder="Re-enter password"
                 autoComplete="new-password"
                 required
-                className="w-full rounded-[var(--radius-box)] border border-white/15 bg-white/5 px-3.5 py-3 text-sm text-white placeholder-white/20 outline-none transition-[border-color] focus:border-purple-500"
+                wrapperClassName="w-full"
               />
             </div>
 

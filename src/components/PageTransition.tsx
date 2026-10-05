@@ -1351,6 +1351,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         className="exoape-page-outer relative w-full [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
       >
         <div
+          key={pathname}
           ref={contentRef}
           className="exoape-page-inner transform-gpu w-full [transform-origin:center_center] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
         >

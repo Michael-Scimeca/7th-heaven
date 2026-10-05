@@ -128,7 +128,7 @@ export default function PlannerDashboardPage() {
       className="site-container page-container page-stack min-h-screen selection:bg-[var(--color-accent)]"
     >
       {/* Planner Profile Header */}
-      <header className="flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-6 md:flex-row md:items-center">
+      <header className="flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-2 md:flex-row md:items-center">
         <MemberHeaderBadge
           name={displayName}
           email={effectiveMember?.email || ""}

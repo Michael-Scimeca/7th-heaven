@@ -8,6 +8,7 @@ import React, { useState, useMemo } from "react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Toggle from "@/components/Toggle";
 import SeventhButton from "@/components/SeventhButton";
+import { GlowInput } from "@/components/GlowInput";
 
 interface TourShow {
   date: string;
@@ -525,13 +526,13 @@ export function EmergencyBroadcastCenter({
             <label htmlFor="emg-msg-title" className="mb-1 block">
               Message Title / Header
             </label>
-            <input
+            <GlowInput
               id="emg-msg-title"
               type="text"
               value={customTitle !== "" ? customTitle : activeTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. SHOW CANCELLED: Broken Oar"
-              className="w-full"
+              wrapperClassName="w-full"
             />
           </div>
 

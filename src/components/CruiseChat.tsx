@@ -74,18 +74,17 @@ function isQuestionForAdmin(content: string) {
 }
 
 const getNameColor = (role?: string, name?: string) => {
-  if (role === "admin") return "!   ";
-  if (role === "crew") return "!text-emerald-400  ";
-  if (role === "planner") return "!text-pink-400  ";
-  if (role === "cruise") return "!    ";
+  if (role === "admin") return "text-purple-300 font-semibold";
+  if (role === "crew") return "text-emerald-300 font-semibold";
+  if (role === "planner") return "text-pink-300 font-semibold";
+  if (role === "cruise") return "text-cyan-300 font-semibold";
   const colors = [
-    "!     ",
-    "!text-purple-400   ",
-    "!text-pink-400   ",
-    "!text-emerald-400   ",
-    "!text-amber-400   ",
-    "!text-sky-400   ",
-    "!text-rose-400   ",
+    "text-purple-300 font-semibold",
+    "text-pink-300 font-semibold",
+    "text-emerald-300 font-semibold",
+    "text-amber-300 font-semibold",
+    "text-sky-300 font-semibold",
+    "text-fuchsia-300 font-semibold",
   ];
   let hash = 0;
   const str = name || "user";
@@ -94,24 +93,35 @@ const getNameColor = (role?: string, name?: string) => {
   return colors[Math.abs(hash) % colors.length];
 };
 
+const getEffectiveRole = (role?: string, name?: string) => {
+  if (role === "admin" || role === "crew" || role === "planner") return role;
+  const lower = (name || "").toLowerCase();
+  if (
+    lower.includes("michael") ||
+    lower.includes("mary grivas") ||
+    lower === "admin"
+  ) {
+    return "admin";
+  }
+  return role || "fan";
+};
+
 const getRoleColor = (role: string) => {
-  if (role === "admin") return "  bg-purple-600/20 border-purple-500/40  ";
-  if (role === "crew") return "  bg-purple-600/30 border-purple-500/40  ";
+  if (role === "admin") return "bg-purple-500/20 border-purple-400/40 text-purple-300";
+  if (role === "crew") return "bg-emerald-500/20 border-emerald-400/40 text-emerald-300";
   if (role === "planner")
-    return "  bg-[var(--color-accent)]/20 border-[var(--color-accent)]/40  ";
+    return "bg-pink-500/20 border-pink-400/40 text-pink-300";
   if (role === "cruise")
-    return "text-cyan-800 bg-cyan-500/20 border-purple-500/40  ";
-  return "  bg-[var(--color-accent)]/20 border-[var(--color-accent)]/35  ";
+    return "bg-cyan-500/15 border-cyan-400/30 text-cyan-200";
+  return "bg-white/10 border-white/15 text-white/80";
 };
 
 const getAvatarGradient = (name: string) => {
   const gradients = [
-    "bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700     ",
-    "bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600     ",
-    "bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600     ",
-    "bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500          ",
-    "bg-gradient-to-br from-fuchsia-500 via-pink-500 to-rose-500     ",
-    "bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700     ",
+    "bg-gradient-to-br from-purple-900/80 via-indigo-900/60 to-purple-950/90 text-purple-200 border-purple-400/30",
+    "bg-gradient-to-br from-indigo-900/80 via-purple-900/60 to-slate-950/90 text-indigo-200 border-indigo-400/30",
+    "bg-gradient-to-br from-teal-900/80 via-emerald-900/60 to-slate-950/90 text-teal-200 border-teal-400/30",
+    "bg-gradient-to-br from-rose-900/80 via-purple-900/60 to-slate-950/90 text-rose-200 border-rose-400/30",
   ];
   let hash = 0;
   const str = name || "user";
@@ -121,16 +131,14 @@ const getAvatarGradient = (name: string) => {
   return gradients[Math.abs(hash) % gradients.length];
 };
 
-function getUserBubbleBg(senderName: string, opacity: number = 0.8) {
+function getUserBubbleBg(senderName: string, opacity: number = 0.12) {
   const palette = [
-    `rgba(8, 145, 178, ${opacity})`, // Deep Cyan
-    `rgba(147, 51, 234, ${opacity})`, // Vibrant Purple
-    `rgba(219, 39, 119, ${opacity})`, // Hot Pink / Rose
-    `rgba(5, 150, 105, ${opacity})`, // Emerald Green
-    `rgba(217, 119, 6, ${opacity})`, // Amber Gold
-    `rgba(79, 70, 229, ${opacity})`, // Indigo
-    `rgba(225, 29, 72, ${opacity})`, // Crimson Red
-    `rgba(2, 132, 199, ${opacity})`, // Sky Blue
+    `rgba(168, 85, 247, ${opacity})`, // Translucent Violet
+    `rgba(14, 165, 233, ${opacity})`, // Translucent Sky
+    `rgba(236, 72, 153, ${opacity})`, // Translucent Pink
+    `rgba(16, 185, 129, ${opacity})`, // Translucent Emerald
+    `rgba(245, 158, 11, ${opacity})`, // Translucent Amber
+    `rgba(99, 102, 241, ${opacity})`, // Translucent Indigo
   ];
   let hash = 0;
   const str = senderName || "user";
@@ -687,7 +695,7 @@ export default function CruiseChat({
       className={`flex h-[750px] min-h-[600px] flex-col ${className}`}
     >
       {showHeader && (
-        <div className="relative z-10 flex shrink-0 items-center justify-between mb-6">
+        <div className="relative z-10 flex shrink-0 items-center justify-between mb-2">
           <div className="flex items-center gap-2.5">
             <div>
               <h3 className="flex items-center gap-1.5">Passenger Lounge</h3>
@@ -701,12 +709,34 @@ export default function CruiseChat({
               </div>
             </div>
           </div>
+          {onlineUsers.length > 0 && (
+            <div className="flex items-center -space-x-1.5">
+              {onlineUsers.slice(0, 4).map((u, i) => (
+                <span
+                  key={`${u.name}-${i}`}
+                  title={u.name}
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-purple-400/30 bg-purple-950/80 text-[10px] font-semibold text-purple-200 backdrop-blur-md shadow-sm"
+                >
+                  {u.avatar || u.name.slice(0, 2).toUpperCase()}
+                </span>
+              ))}
+              {onlineUsers.length > 4 && (
+                <span
+                  title={`${onlineUsers.length - 4} more online`}
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-purple-400/30 bg-purple-950/80 font-semibold text-purple-200 backdrop-blur-md shadow-sm z-10 ${onlineUsers.length - 4 > 99 ? "text-[7.5px] tracking-tighter" : "text-[9px]"
+                    }`}
+                >
+                  +{onlineUsers.length - 4}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       )}
 
       {!isSignedIn ? (
         /* ── GUEST LOCKED CHAT PANEL ── */
-        <div className="flex flex-1 flex-col items-center justify-center space-y-6 bg-[#07040d]/90 p-6 text-center">
+        <div className="flex flex-1 flex-col items-center justify-center space-y-3 bg-[#07040d]/90 p-6 text-center">
           <div className="flex h-16 w-16 animate-pulse items-center justify-center rounded-full border border-purple-500/40 bg-gradient-to-tr from-purple-600/30 to-pink-600/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
             <MessageSquare className="h-8 w-8" />
           </div>
@@ -719,7 +749,7 @@ export default function CruiseChat({
             </p>
           </div>
 
-          <div className="flex w-full max-w-xs flex-col gap-2.5 pt-2">
+          <div className="flex w-full max-w-xs flex-col gap-2.5">
             <SeventhButton
               onClick={() => {
                 window.dispatchEvent(
@@ -777,7 +807,7 @@ export default function CruiseChat({
           )}
 
           {/* Scrollable Message List Container with Fixed Pure Glass Blur Clipping Mask */}
-          <div className="relative flex min-h-0 flex-1 flex-col border-t border-r border-l border-white/10">
+          <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden  border border-white/10 bg-black/20 !rounded-t-lg">
             {/* Fixed Top Pure Glass Blur with Transparent Clipping Mask (No Dark Tint) */}
 
             <div
@@ -830,43 +860,38 @@ export default function CruiseChat({
                   const isSelf =
                     member?.name && msg.sender_name === member.name;
                   const hasAdminTag = isQuestionForAdmin(msg.content);
+                  const effectiveRole = getEffectiveRole(msg.sender_role, msg.sender_name);
 
                   return (
                     <div
                       key={msg.id}
                       className="group relative flex animate-[slideIn_0.3s_ease-out] items-start gap-2.5 py-0.5"
                     >
-                      <div className="relative shrink-0">
-                        <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-gradient-to-br from-purple-500/30 to-purple-800/20">
-                          {(msg.sender_avatar || msg.sender_name || "FN")
-                            .substring(0, 2)
-                            .toUpperCase()}
-                        </div>
-                        {(msg.sender_role === "crew" ||
-                          msg.sender_role === "admin") && (
-                            <span className="absolute -right-1 -bottom-1 rounded-full border border-purple-400/50 bg-purple-600/70 px-1.5 py-0.5 text-[7px] text-purple-200 backdrop-blur-sm">
-                              {msg.sender_role === "admin" ? "ADMIN" : "CREW"}
-                            </span>
-                          )}
-                      </div>
+
                       <div className="flex min-w-0 flex-1 flex-col items-start">
-                        <div className="mb-1 flex w-full flex-wrap items-center gap-2">
+                        <div className="mb-2 flex w-full flex-wrap items-center gap-1.5 text-xs">
                           <span
-                            className={`${getNameColor(msg.sender_role, msg.sender_name)}`}
+                            className={`font-semibold ${getNameColor(effectiveRole, msg.sender_name)}`}
                           >
                             {msg.sender_name}
                           </span>
-                          <span className="rounded-full border border-white/10 px-2 py-1 text-[12px]">
-                            {msg.sender_role === "fan"
-                              ? "Cruise Member"
-                              : msg.sender_role}
+                          <span
+                            className={`text-[12px] font-medium`}
+                          >
+                            {effectiveRole === "admin"
+                              ? "Admin"
+                              : effectiveRole === "crew"
+                                ? "Crew"
+                                : effectiveRole === "planner"
+                                  ? "Planner"
+                                  : "Cruise Member"}
                           </span>
                           {hasAdminTag && (
-                            <span className="flex animate-pulse items-center gap-1 border border-white/10 px-2 py-1 text-[12px]">
+                            <span className="flex animate-pulse items-center gap-1 border border-white/10 px-1.5 py-0.5 text-[10px]">
                               👑 Question for Admin
                             </span>
                           )}
-                          <span className="ml-auto">
+                          <span className="ml-auto text-[10px] text-white/50">
                             {new Date(msg.created_at).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -875,26 +900,33 @@ export default function CruiseChat({
                         </div>
                         <div
                           style={{
-                            borderRadius: "var(--chat-bubble-radius, 16px)",
-                            borderWidth: "var(--chat-bubble-border-width, 0px)",
+                            borderRadius: "var(--chat-bubble-radius, 14px)",
+                            borderWidth: "var(--chat-bubble-border-width, 1px)",
                             borderStyle: "solid",
-                            paddingTop: "var(--chat-bubble-padding-y, 5px)",
-                            paddingBottom: "var(--chat-bubble-padding-y, 5px)",
-                            paddingLeft: "var(--chat-bubble-padding-x, 13px)",
-                            paddingRight: "var(--chat-bubble-padding-x, 13px)",
+                            paddingTop: "var(--chat-bubble-padding-y, 6px)",
+                            paddingBottom: "var(--chat-bubble-padding-y, 6px)",
+                            paddingLeft: "var(--chat-bubble-padding-x, 12px)",
+                            paddingRight: "var(--chat-bubble-padding-x, 12px)",
                             borderColor: isSelf
-                              ? "var(--chat-bubble-self-border, transparent)"
+                              ? "var(--chat-bubble-self-border, rgba(192, 132, 252, 0.35))"
                               : hasAdminTag
-                                ? "var(--chat-bubble-admin-border, transparent)"
-                                : "var(--chat-bubble-member-border, transparent)",
+                                ? "var(--chat-bubble-admin-border, rgba(251, 191, 36, 0.4))"
+                                : "var(--chat-bubble-member-border, rgba(255, 255, 255, 0.12))",
                             backgroundColor: isSelf
-                              ? "var(--chat-bubble-self-bg, rgba(126, 34, 206, 0.85))"
+                              ? "var(--chat-bubble-self-bg, rgba(147, 51, 234, 0.22))"
                               : hasAdminTag
-                                ? "var(--chat-bubble-admin-bg, rgba(46, 16, 101, 0.9))"
-                                : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.8)})`,
-                            fontSize: "var(--chat-bubble-font-size, 12px)",
+                                ? "var(--chat-bubble-admin-bg, rgba(245, 158, 11, 0.18))"
+                                : `var(--chat-bubble-override-bg, ${getUserBubbleBg(msg.sender_name, 0.12)})`,
+                            color: isSelf
+                              ? "rgba(243, 232, 255, 0.98)"
+                              : hasAdminTag
+                                ? "rgba(254, 243, 199, 0.98)"
+                                : "rgba(255, 255, 255, 0.95)",
+                            fontSize: "var(--chat-bubble-font-size, 11px)",
+                            backdropFilter: "blur(8px)",
+                            WebkitBackdropFilter: "blur(8px)",
                           }}
-                          className="w-fit max-w-[85%] break-words"
+                          className="w-fit max-w-[85%] break-words shadow-[0_2px_10px_rgba(0,0,0,0.25)]"
                         >
                           {formatMessageContent(msg.content)}
                         </div>

@@ -317,7 +317,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
         <SectionHeader id="faq-list-heading" title="Frequently Asked Questions" visuallyHidden />
         <div className="w-full">
           {/* Search Bar */}
-          <div className="mx-auto mb-6 flex max-w-[500px] justify-center">
+          <div className="mb-6 flex max-w-[500px] justify-start">
             <SearchInput
               value={searchQuery}
               onChange={setSearchQuery}
@@ -329,7 +329,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           {/* Category Navigation Tabs */}
           <nav
             aria-label="FAQ Categories"
-            className="mb-6 flex flex-wrap justify-center gap-2"
+            className="mb-6 flex flex-wrap justify-start gap-2"
           >
             {CATEGORIES.map((cat) => {
               const Icon = cat.icon;
@@ -373,7 +373,7 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
                       aria-controls={`faq-answer-${faq.id}`}
                       className="accordion-trigger focus-ring flex w-full cursor-pointer items-center justify-between gap-4 py-4 text-left"
                     >
-                      <span className="text-white font-bold text-base sm:text-lg">{faq.question}</span>
+                      <span className="text-white font-bold text-base">{faq.question}</span>
                       <FaqChevronButton isExpanded={isExpanded} />
                     </button>
 

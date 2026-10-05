@@ -309,18 +309,18 @@ function PassengersWidget() {
   const passengers = DEFAULT_PASSENGERS;
   const totalCount = 412;
 
-  const topAvatars = passengers.slice(0, 8);
+  const topAvatars = passengers.slice(0, 12);
   const extraAvatarsCount = Math.max(0, totalCount - topAvatars.length);
 
   return (
-    <div className="group relative overflow-hidden p-2">
+    <div className="group relative overflow-hidden">
       <SectionHeader
         id="community-heading"
         title="Community"
         subtitle={
           <span className="flex items-center gap-2">
-            <span className="text-2xl">{totalCount}</span>
-            <span className="text-[var(--color-accent)]">
+            <span className="text-xl font-bold text-white">{totalCount}</span>
+            <span className="text-xs text-purple-300 font-medium">
               Cruise Members Onboard
             </span>
           </span>
@@ -329,32 +329,37 @@ function PassengersWidget() {
       />
 
       {/* Avatar Circle Row */}
-      <div className="relative z-10 mb-6 flex flex-wrap items-center gap-2">
+      <div className="relative z-10 mb-4 flex flex-wrap items-center -space-x-2">
         {topAvatars.map((p) => (
           <div
             key={`avatar-${p.id}`}
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60 sm:h-10 sm:w-10"
+            title={`${p.name}${p.extra > 0 ? ` +${p.extra}` : ""}`}
+            className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-purple-400/40 bg-gradient-to-br from-purple-800/60 via-indigo-900/80 to-purple-950/90 text-xs font-semibold text-purple-200 shadow-md backdrop-blur-sm transition-transform hover:z-20 hover:scale-110"
           >
             {p.initial}
           </div>
         ))}
         {extraAvatarsCount > 0 && (
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-purple-400/30 bg-gradient-to-br from-purple-600/40 to-indigo-900/60 sm:h-10 sm:w-10">
+          <div
+            title={`${extraAvatarsCount} more cruisers onboard`}
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-purple-400/40 bg-purple-950/90 font-bold text-purple-200 shadow-md backdrop-blur-sm z-10 ${extraAvatarsCount > 99 ? "text-[8px] tracking-tighter" : "text-[10px]"
+              }`}
+          >
             +{extraAvatarsCount}
           </div>
         )}
       </div>
 
       {/* Member Names Dot-Separated List */}
-      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1">
+      <div className="relative z-10 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px] sm:text-xs text-white/60">
         {passengers.map((p, idx) => (
           <div key={`passenger-${p.id}`} className="inline-flex items-center">
             <span>
               {p.name}
-              {p.extra > 0 && <span className="ml-1">+{p.extra}</span>}
+              {p.extra > 0 && <span className="ml-0.5 text-purple-300 font-medium">+{p.extra}</span>}
             </span>
             {idx < passengers.length - 1 && (
-              <span className="mr-0.5 ml-1.5 text-white/30">·</span>
+              <span className="mr-0.5 ml-1.5 text-white/20">·</span>
             )}
           </div>
         ))}
@@ -1202,7 +1207,7 @@ export default function CruiseDashboard() {
       <section
         id="itinerary"
         aria-labelledby="itinerary-heading"
-        className="section relative"
+        className="section relative pb-20"
       >
         <div
           className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] overflow-x-clip"

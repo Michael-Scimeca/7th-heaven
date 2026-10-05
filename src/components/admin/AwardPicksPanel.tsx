@@ -258,7 +258,10 @@ export default function AwardPicksPanel() {
           containerClassName="max-w-[300px] mb-3"
         />
 
-        <div className="max-h-48 overflow-y-auto border border-white/10">
+        <div
+          data-lenis-prevent
+          className="custom-scrollbar max-h-48 overflow-y-auto border border-white/10"
+        >
           {filteredFans.length === 0 ? (
             <p className="py-4 text-center">No fans found</p>
           ) : (

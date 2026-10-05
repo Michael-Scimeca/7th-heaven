@@ -451,7 +451,10 @@ a:hover {
             </div>
 
             {/* Presets Bar */}
-            <div className="flex items-center gap-2 overflow-x-auto border-b border-white/10 bg-black/40 px-5 py-3">
+            <div
+              data-lenis-prevent
+              className="custom-scrollbar flex items-center gap-2 overflow-x-auto border-b border-white/10 bg-black/40 px-5 py-3"
+            >
               <span className="mr-1 flex shrink-0 items-center gap-1 text-[10px] text-white/40">
                 <Sparkles className="h-3 w-3 text-yellow-400" /> Presets:
               </span>
@@ -509,7 +512,10 @@ a:hover {
             </div>
 
             {/* Modal Body */}
-            <div className="max-h-[60vh] flex-1 space-y-6 overflow-y-auto p-6">
+            <div
+              data-lenis-prevent
+              className="custom-scrollbar max-h-[60vh] flex-1 space-y-6 overflow-y-auto p-6"
+            >
               {activeTab === "controls" && (
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* Background & Blur */}
@@ -1259,7 +1265,10 @@ a:hover {
                       {copied ? "Copied to Clipboard!" : "Copy CSS"}
                     </button>
                   </div>
-                  <pre className="max-h-[300px] overflow-x-auto border border-white/10 bg-black/80 p-4">
+                  <pre
+                    data-lenis-prevent
+                    className="custom-scrollbar max-h-[300px] overflow-x-auto border border-white/10 bg-black/80 p-4"
+                  >
                     {generatedCSS}
                   </pre>
                 </div>

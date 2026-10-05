@@ -673,7 +673,10 @@ export default function PaymentTestShopPage() {
 
         {/* Category tabs + cart button */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2 overflow-x-auto">
+          <div
+            data-lenis-prevent
+            className="custom-scrollbar flex items-center gap-2 overflow-x-auto"
+          >
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
@@ -733,7 +736,10 @@ export default function PaymentTestShopPage() {
       {/* Cart drawer */}
       {showCart && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-          <div className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8">
+          <div
+            data-lenis-prevent
+            className="custom-scrollbar max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8"
+          >
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2>My Cart</h2>
               <button

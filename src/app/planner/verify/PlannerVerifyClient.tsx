@@ -6,6 +6,7 @@
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useRef, useEffect, useCallback, Suspense } from "react";
+import { GlowInput } from "@/components/GlowInput";
 
 // ─── Digit-by-digit PIN input (same UX as cruise verify) ───────────────────
 const renderBg = () => (
@@ -254,7 +255,7 @@ function PlannerVerifyContent({ sanityContent }: PlannerVerifyClientProps) {
                 <label htmlFor="email-input-planner" className="block">
                   Booking Email Address
                 </label>
-                <input id="email-input-planner" ref={emailInputRef} type="email" required placeholder="planner@company.com" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3.5 rounded-[var(--radius-box)] bg-white/[0.06] border border-white/20 text-white text-base outline-none box-border" />
+                <GlowInput id="email-input-planner" ref={emailInputRef} type="email" required placeholder="planner@company.com" value={email} onChange={(e) => setEmail(e.target.value)} wrapperClassName="w-full" />
               </div>
 
               {errorMsg && (

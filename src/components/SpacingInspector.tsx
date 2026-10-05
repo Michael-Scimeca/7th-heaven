@@ -1135,7 +1135,10 @@ export default function SpacingInspector() {
 
             {/* Class Name */}
             {metrics.className && (
-              <div className="bg-zinc-900/80 p-2 rounded max-h-[80px] overflow-y-auto break-all text-[10px] text-zinc-400">
+              <div
+                data-lenis-prevent
+                className="custom-scrollbar bg-zinc-900/80 p-2 rounded max-h-[80px] overflow-y-auto break-all text-[10px] text-zinc-400"
+              >
                 class: {metrics.className}
               </div>
             )}

@@ -1384,7 +1384,8 @@ export default function TourMap({
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5"
+              data-lenis-prevent
+              className="custom-scrollbar flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -1521,7 +1522,8 @@ export default function TourMap({
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5"
+              data-lenis-prevent
+              className="custom-scrollbar flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -1690,7 +1692,8 @@ export default function TourMap({
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5"
+              data-lenis-prevent
+              className="custom-scrollbar flex max-h-[85vh] w-[360px] max-w-[90vw] flex-col gap-4 overflow-y-auto rounded-2xl border border-purple-500/40 bg-[#0c0621]/95 p-4.5 text-left shadow-[0_20px_60px_rgba(0,0,0,0.9)] backdrop-blur-xl select-none sm:p-5"
             >
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2.5">

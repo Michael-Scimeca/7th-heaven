@@ -37,11 +37,12 @@ import {
   Radio,
   Calendar,
 } from "lucide-react";
-import { getShowDateTime } from "@/lib/date-utils";
+import { getShowDateTime, parseDateSafe } from "@/lib/date-utils";
 import ChatInputBar from "@/components/ChatInputBar";
 import Toggle from "@/components/Toggle";
 import PushAlertsCard from "@/components/PushAlertsCard";
 import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import { useTransition } from "@/context/TransitionContext";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 import SectionBadge from "@/components/SectionBadge";
@@ -86,7 +87,7 @@ function TimeOffItemRow({
   req: any;
   onRemove: (id: string) => void;
 }) {
-  const reqDate = new Date(req.date + "T12:00:00");
+  const reqDate = parseDateSafe(req.date);
   return (
     <div
       key={req.id}
@@ -152,7 +153,7 @@ function AvailabilityItemRow({
   item: any;
   onRemove: (id: string) => void;
 }) {
-  const itemDate = new Date(item.date + "T12:00:00");
+  const itemDate = parseDateSafe(item.date);
   return (
     <div
       key={item.id}
@@ -211,54 +212,53 @@ function AvailabilityCardForm({
   onRemove,
 }: any) {
   return (
-    <div className="flex-1">
-      <div className="mb-6 flex items-center gap-3">
-        <div>
-          <h3>Your Availability & Blackouts</h3>
-          <p className="mt-0.5">
-            Let admins know when you are available or unavailable
+    <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-5 sm:p-6 backdrop-blur-md">
+      <div>
+        <div className="mb-5">
+          <h3 className="text-base font-semibold text-white">Your Availability & Blackouts</h3>
+          <p className="mt-1 text-xs text-white/60">
+            Let admins know when you are available or unavailable for upcoming gigs.
           </p>
         </div>
-      </div>
-      <div>
-        <form
-          onSubmit={onSubmit}
-          className="mb-6 grid grid-cols-1 items-end gap-6 sm:grid-cols-2"
-        >
-          <div>
-            <label htmlFor="avail-date-input" className="block">
-              Date
-            </label>
-            <input
-              id="avail-date-input"
-              type="date"
-              required
-              value={availDate}
-              onChange={(e) => setAvailDate(e.target.value)}
-              className="focus-ring w-full border border-white/10 px-3 py-2 outline-none"
-            />
+
+        <form onSubmit={onSubmit} className="mb-6 space-y-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="avail-date-input" className="mb-1.5 block text-xs font-medium text-white/70">
+                Date
+              </label>
+              <input
+                id="avail-date-input"
+                type="date"
+                required
+                value={availDate}
+                onChange={(e) => setAvailDate(e.target.value)}
+                className="w-full rounded-[var(--radius-box)] border border-white/10 bg-black/40 px-3 py-2 text-xs text-white outline-none focus:border-purple-400/60"
+              />
+            </div>
+            <div>
+              <label htmlFor="avail-type-select" className="mb-1.5 block text-xs font-medium text-white/70">
+                Status
+              </label>
+              <CustomDropdown
+                id="avail-type-select"
+                ariaLabel="Availability status"
+                value={availType}
+                options={[
+                  { value: "unavailable", label: "Unavailable / Blackout" },
+                  { value: "available", label: "Available" },
+                ]}
+                onChange={(val) => setAvailType(val as any)}
+                wrapperClassName="w-full"
+                className="border-white/10 !px-3 !py-2 !text-xs"
+                chevronColor="#c084fc"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="avail-type-select" className="block">
-              Status
-            </label>
-            <CustomDropdown
-              id="avail-type-select"
-              ariaLabel="Availability status"
-              value={availType}
-              options={[
-                { value: "unavailable", label: "Unavailable / Blackout" },
-                { value: "available", label: "Available" },
-              ]}
-              onChange={(val) => setAvailType(val as any)}
-              wrapperClassName="w-full"
-              className="border-white/10 !px-3 !py-2"
-              chevronColor="#c084fc"
-            />
-          </div>
-          <div className="flex items-end gap-3 sm:col-span-2">
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
             <div className="flex-1">
-              <label htmlFor="avail-note-select" className="block">
+              <label htmlFor="avail-note-select" className="mb-1.5 block text-xs font-medium text-white/70">
                 Comment / Note (Optional)
               </label>
               <CustomDropdown
@@ -269,43 +269,36 @@ function AvailabilityCardForm({
                 options={[
                   { value: "Out of town", label: "Out of town" },
                   { value: "Family event", label: "Family event" },
-                  {
-                    value: "Vacation / Time off",
-                    label: "Vacation / Time off",
-                  },
-                  {
-                    value: "Medical appointment",
-                    label: "Medical appointment",
-                  },
+                  { value: "Vacation / Time off", label: "Vacation / Time off" },
+                  { value: "Medical appointment", label: "Medical appointment" },
                   { value: "Personal day", label: "Personal day" },
-                  {
-                    value: "Work / Business conflict",
-                    label: "Work / Business conflict",
-                  },
+                  { value: "Work / Business conflict", label: "Work / Business conflict" },
                   { value: "Other", label: "Other" },
                 ]}
                 onChange={(val) => setAvailNote(val)}
                 wrapperClassName="w-full"
-                className="border-white/10 !px-3 !py-2"
+                className="border-white/10 !px-3 !py-2 !text-xs"
                 chevronColor="#c084fc"
               />
             </div>
             <SeventhButton
               type="submit"
               icon={false}
-              className="flex h-[36px] shrink-0 cursor-pointer items-center justify-center"
+              className="flex h-[38px] shrink-0 cursor-pointer items-center justify-center px-5"
             >
-              Save
+              Save Block
             </SeventhButton>
           </div>
         </form>
+      </div>
 
+      <div>
         {myAvailabilities.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-white/10 bg-white/[0.01] py-6 text-center">
-            <p>No availability blocks configured yet.</p>
+          <div className="rounded-[var(--radius-box)] border border-dashed border-white/10 bg-white/[0.01] py-5 text-center text-xs text-white/40">
+            No availability blocks configured yet.
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {[...myAvailabilities]
               .sort((a: any, b: any) => a.date.localeCompare(b.date))
               .map((item: any) => (
@@ -332,22 +325,18 @@ function TimeOffCardForm({
   onRemove,
 }: any) {
   return (
-    <div className="flex-1">
-      <div className="mb-6 flex items-center gap-3">
-        <div>
-          <h3>Time-Off Requests</h3>
-          <p className="mt-0.5">
-            Submit time-off requests for administrator approval
+    <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-5 sm:p-6 backdrop-blur-md">
+      <div>
+        <div className="mb-5">
+          <h3 className="text-base font-semibold text-white">Time-Off Requests</h3>
+          <p className="mt-1 text-xs text-white/60">
+            Submit formal time-off requests for administrator approval.
           </p>
         </div>
-      </div>
-      <div>
-        <form
-          onSubmit={onSubmit}
-          className="mb-6 grid grid-cols-1 items-end gap-6 sm:grid-cols-2"
-        >
+
+        <form onSubmit={onSubmit} className="mb-6 space-y-4">
           <div>
-            <label htmlFor="time-off-date-input" className="block">
+            <label htmlFor="time-off-date-input" className="mb-1.5 block text-xs font-medium text-white/70">
               Request Date
             </label>
             <input
@@ -356,12 +345,13 @@ function TimeOffCardForm({
               required
               value={timeOffDate}
               onChange={(e) => setTimeOffDate(e.target.value)}
-              className="focus-ring w-full border border-white/10 px-3 py-2 outline-none"
+              className="w-full rounded-[var(--radius-box)] border border-white/10 bg-black/40 px-3 py-2 text-xs text-white outline-none focus:border-purple-400/60"
             />
           </div>
-          <div className="flex items-end gap-3 sm:col-span-2">
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
             <div className="flex-1">
-              <label htmlFor="time-off-reason-select" className="block">
+              <label htmlFor="time-off-reason-select" className="mb-1.5 block text-xs font-medium text-white/70">
                 Reason for Time-off
               </label>
               <CustomDropdown
@@ -371,46 +361,36 @@ function TimeOffCardForm({
                 placeholder="Select reason for time-off..."
                 options={[
                   { value: "Family vacation", label: "Family vacation" },
-                  {
-                    value: "Medical appointment",
-                    label: "Medical appointment",
-                  },
-                  {
-                    value: "Personal / Family event",
-                    label: "Personal / Family event",
-                  },
-                  {
-                    value: "Work / Business conflict",
-                    label: "Work / Business conflict",
-                  },
-                  {
-                    value: "Emergency / Family matter",
-                    label: "Emergency / Family matter",
-                  },
+                  { value: "Medical appointment", label: "Medical appointment" },
+                  { value: "Personal / Family event", label: "Personal / Family event" },
+                  { value: "Work / Business conflict", label: "Work / Business conflict" },
+                  { value: "Emergency / Family matter", label: "Emergency / Family matter" },
                   { value: "Other", label: "Other" },
                 ]}
                 onChange={(val) => setTimeOffReason(val)}
                 wrapperClassName="w-full"
-                className="border-white/10 !px-3 !py-2"
+                className="border-white/10 !px-3 !py-2 !text-xs"
                 chevronColor="#c084fc"
               />
             </div>
             <SeventhButton
               type="submit"
               icon={false}
-              className="flex h-[36px] shrink-0 cursor-pointer items-center justify-center"
+              className="flex h-[38px] shrink-0 cursor-pointer items-center justify-center px-5"
             >
               Submit Request
             </SeventhButton>
           </div>
         </form>
+      </div>
 
+      <div>
         {myTimeOffRequests.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-white/10 bg-white/[0.01] py-6 text-center">
-            <p>No time-off requests submitted yet.</p>
+          <div className="rounded-[var(--radius-box)] border border-dashed border-white/10 bg-white/[0.01] py-5 text-center text-xs text-white/40">
+            No time-off requests submitted yet.
           </div>
         ) : (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2.5">
             {[...myTimeOffRequests]
               .sort((a: any, b: any) => b.date.localeCompare(a.date))
               .map((req: any) => (
@@ -3335,7 +3315,7 @@ export function CrewDashboard({
       {/* ─── EXACT HEADER LAYOUT ─── */}
       <header className="border-b border-white/10">
         <h1 className="sr-only">7th Heaven Crew Portal & Dashboard</h1>
-        <div className="flex items-center justify-between py-5">
+        <div className="flex items-center justify-between">
           <MemberHeaderBadge
             name={
               displayName
@@ -3367,7 +3347,7 @@ export function CrewDashboard({
           action={
             <div className="flex items-center gap-3">
               <div
-                className={`flex items-center gap-1.5 border px-3 py-1 font-mono text-xs tracking-wider ${isLive ? "animate-pulse border-red-500/30 bg-red-900/30 text-red-500" : "border-white/10 bg-[#00000029] text-white/50"}`}
+                className={`flex items-center gap-1.5 rounded-[var(--radius-box)] border px-3 py-1 font-mono text-xs tracking-wider ${isLive ? "animate-pulse border-red-500/30 bg-red-900/30 text-red-500" : "border-white/10 bg-[#00000029] text-white/50"}`}
               >
                 <span
                   className={`h-1.5 w-1.5 ${isLive ? "animate-pulse bg-red-500" : "bg-white/20"}`}
@@ -3381,7 +3361,7 @@ export function CrewDashboard({
                 onClick={() =>
                   setIsBroadcastPanelCollapsed(!isBroadcastPanelCollapsed)
                 }
-                className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                className="transition-colors flex items-center gap-2 cursor-pointer rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
                 aria-expanded={!isBroadcastPanelCollapsed}
               >
                 <span className="hidden whitespace-nowrap sm:inline">
@@ -3401,7 +3381,7 @@ export function CrewDashboard({
         {!isBroadcastPanelCollapsed && (
           <div className="space-y-4">
             {/* Switch Feed and Fan page links moved from header */}
-            <div className="flex flex-col justify-between gap-3 pt-2 sm:flex-row sm:items-center">
+            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
               <div className="no-glow flex items-center gap-3">
                 <span>Switch Dashboard Feed:</span>
                 <CustomDropdown
@@ -3423,19 +3403,9 @@ export function CrewDashboard({
               <Link
                 href={`/live/${defaultMemberId || memberSlug}`}
                 target="_blank"
-                className="transition-colors flex items-center justify-center gap-2 self-start border border-white/10 bg-[#00000029] px-3.5 py-1.5 backdrop-blur-xl hover:text-white sm:self-auto"
+                className="transition-colors flex items-center justify-center gap-2 self-start text-xs text-purple-300 hover:text-white sm:self-auto"
               >
-                <span>See Fan Feed Page</span>
-                <svg
-                  width="11"
-                  height="11"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                >
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
-                </svg>
+                <span className="text-xs">See Fan Feed Page</span>
               </Link>
             </div>
 
@@ -3463,7 +3433,7 @@ export function CrewDashboard({
                     Fan Watch Link — Share with your audience
                   </p>
                   <p className="relative z-10 block break-all text-emerald-300/90 select-all">
-                    {`http://localhost:3000/live/${defaultMemberId || memberSlug}`}
+                    {`${typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com")}/live/${defaultMemberId || memberSlug}`}
                   </p>
                 </div>
                 <div className="flex w-full items-center gap-2 sm:w-auto">
@@ -3477,7 +3447,7 @@ export function CrewDashboard({
                   <button
                     onClick={() =>
                       navigator.clipboard.writeText(
-                        `http://localhost:3000/live/${defaultMemberId || memberSlug}`,
+                        `${typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com")}/live/${defaultMemberId || memberSlug}`
                       )
                     }
                     className="transition-[background-color,color,border-color,box-shadow] flex-1 cursor-pointer rounded bg-emerald-500 px-4 py-2 text-[#05110d] shadow-[0_0_10px_rgba(16,185,129,0.4)] hover:bg-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)] sm:flex-none sm:py-1.5"
@@ -3832,11 +3802,11 @@ export function CrewDashboard({
                       placeholder="Pin a message to all fans..."
                       className="w-full !rounded-none !border-0 bg-emerald-500/[0.08] px-4 py-3.5 pr-24 outline-none placeholder:text-emerald-400/50"
                     />
-                    <div className="absolute top-1.5 right-1.5 bottom-1.5 z-10 flex items-center">
+                    <div className="absolute top-0 right-0 bottom-0 z-10 flex items-center">
                       <button
                         onClick={handleGlobalPinBox}
                         disabled={!globalPinText.trim()}
-                        className="transition-colors h-full bg-emerald-500 px-3 hover:bg-emerald-400 disabled:bg-white/10 disabled:opacity-50"
+                        className="transition-colors h-full bg-emerald-500 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-950 hover:bg-emerald-400 disabled:bg-white/10 disabled:text-white/50 disabled:opacity-50"
                       >
                         PIN
                       </button>
@@ -3863,7 +3833,7 @@ export function CrewDashboard({
               aria-labelledby="live-analytics-heading"
               className="section"
             >
-              <div className="border border-white/10 bg-[#00000029] p-6">
+              <div className="rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-6">
                 <SectionHeader
                   as="h3"
                   id="live-analytics-heading"
@@ -3871,7 +3841,7 @@ export function CrewDashboard({
                   subtitle="Real-time Sales and Engagement Metrics"
                   action={
                     isLive ? (
-                      <span className="flex animate-pulse items-center gap-1.5 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-400">
+                      <span className="flex animate-pulse items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-400">
                         ● Live Tracking
                       </span>
                     ) : null
@@ -3881,7 +3851,7 @@ export function CrewDashboard({
                 <div>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {/* store sales card */}
-                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
+                    <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-4">
                       <p>Store Sales Revenue</p>
                       <p className="mt-2 text-2xl">
                         $
@@ -3902,7 +3872,7 @@ export function CrewDashboard({
                     </div>
 
                     {/* flash drop sales card */}
-                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
+                    <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-4">
                       <p>Flash Drop Sales</p>
                       <p className="mt-2 text-2xl">
                         $
@@ -3923,7 +3893,7 @@ export function CrewDashboard({
                     </div>
 
                     {/* raffle claims card */}
-                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
+                    <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-4">
                       <p>Raffle Claims</p>
                       <p className="mt-2 text-2xl">
                         {orders.filter((o) => o.source === "Raffle").length}
@@ -3932,7 +3902,7 @@ export function CrewDashboard({
                     </div>
 
                     {/* viewers card */}
-                    <div className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-4">
+                    <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-4">
                       <p className="flex items-center gap-1.5">
                         <Users className="inline h-3.5 w-3.5" /> Live Viewers
                       </p>
@@ -3954,7 +3924,7 @@ export function CrewDashboard({
                 aria-labelledby="flash-merch-drop-heading"
                 className="section"
               >
-                <div className="flex-1 border border-white/10 bg-[#00000029] p-6">
+                <div className="flex-1 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-6">
                   <SectionHeader
                     as="h3"
                     id="flash-merch-drop-heading"
@@ -3966,7 +3936,7 @@ export function CrewDashboard({
                     {activeDrop ? (
                       <div className="space-y-4">
                         {/* Submitted Status Header */}
-                        <div className="flex items-center justify-between border border-emerald-500/30 bg-emerald-500/10 p-3">
+                        <div className="flex items-center justify-between rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/10 p-3">
                           <div className="flex items-center gap-2">
                             <span className="h-2.5 w-2.5 animate-pulse bg-emerald-500" />
                             <span className="text-[var(--color-accent)]">
@@ -3979,13 +3949,13 @@ export function CrewDashboard({
                         </div>
 
                         {/* Countdown timer */}
-                        <div className="border border-white/10 bg-black/40 p-4 text-center">
+                        <div className="rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-4 text-center">
                           <p className="mb-1">Time Remaining</p>
                           <p className="animate-pulse">
                             {Math.floor(activeDrop.timeLeft / 60)}m{" "}
                             {activeDrop.timeLeft % 60}s
                           </p>
-                          <div className="mt-3 h-1.5 w-full overflow-hidden bg-[#00000029]">
+                          <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-[#00000029]">
                             <div
                               className="h-full bg-gradient-to-r from-purple-600 to-violet-600"
                               style={{
@@ -3996,12 +3966,15 @@ export function CrewDashboard({
                         </div>
 
                         {/* Product List */}
-                        <div className="max-h-60 space-y-2.5 overflow-y-auto pr-1">
+                        <div
+                          data-lenis-prevent
+                          className="custom-scrollbar max-h-60 space-y-2.5 overflow-y-auto pr-1"
+                        >
                           <p>Active Products</p>
                           {activeDrop.products.map((p) => (
                             <div
                               key={p.id}
-                              className="flex items-center justify-between gap-3 border border-white/10 bg-[#00000029] p-2.5"
+                              className="flex items-center justify-between gap-3 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-2.5"
                             >
                               <Image
                                 width={200}
@@ -4034,7 +4007,7 @@ export function CrewDashboard({
                           <button
                             type="button"
                             onClick={cancelFlashDrop}
-                            className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 border border-red-500/30 bg-red-500/10 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+                            className="transition-colors flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius-box)] border border-red-500/30 bg-red-500/10 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                           >
                             Cancel Flash Drop
                           </button>
@@ -4051,7 +4024,7 @@ export function CrewDashboard({
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "7th-heaven-7012.myshopify.com").replace(/"/g, "").split(".")[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-1 rounded border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-xl"
+                              className="flex items-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-xl"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
@@ -4059,7 +4032,7 @@ export function CrewDashboard({
                           </div>
                           <button
                             onClick={() => window.location.reload()}
-                            className="transition-colors flex items-center gap-1 border border-white/10 p-2 text-white/40 hover:text-white"
+                            className="transition-colors flex items-center gap-1 rounded-[var(--radius-box)] border border-white/10 p-2 text-white/40 hover:text-white"
                           >
                             ↻ Refresh
                           </button>
@@ -4090,19 +4063,22 @@ export function CrewDashboard({
                           />
                         </div>
 
-                        <div className="mb-6 max-h-60 space-y-3 overflow-y-auto pr-1">
+                        <div
+                          data-lenis-prevent
+                          className="custom-scrollbar mb-6 max-h-60 space-y-3 overflow-y-auto pr-1"
+                        >
                           <p className="mb-2">
                             Selected Products & Flash Sale Prices
                           </p>
                           {selectedProducts.length === 0 ? (
-                            <div className="rounded-lg border border-white/10 py-6 text-center">
+                            <div className="rounded-[var(--radius-box)] border border-white/10 py-6 text-center">
                               No products selected yet. Select a product above.
                             </div>
                           ) : (
                             selectedProducts.map((p) => (
                               <div
                                 key={p.id}
-                                className="flex items-center justify-between gap-4 border border-white/10 bg-[#00000029] p-3"
+                                className="flex items-center justify-between gap-4 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-3"
                               >
                                 <Image
                                   width={200}
@@ -4126,7 +4102,7 @@ export function CrewDashboard({
                                   </p>
                                 </div>
                                 <div className="flex shrink-0 items-center gap-2">
-                                  <div className="flex max-w-[90px] items-center border border-white/10 bg-black/60 px-2 py-1">
+                                  <div className="flex max-w-[90px] items-center rounded-[var(--radius-box)] border border-white/10 bg-black/60 px-2 py-1">
                                     <span className="mr-1 text-white/40">
                                       $
                                     </span>
@@ -4146,7 +4122,7 @@ export function CrewDashboard({
                                   </div>
                                   <button
                                     onClick={() => removeProductFromDrop(p.id)}
-                                    className="transition-colors flex h-7 w-7 cursor-pointer items-center justify-center border-none bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                                    className="transition-colors flex h-7 w-7 cursor-pointer items-center justify-center rounded-[var(--radius-box)] border-none bg-red-500/10 text-red-400 hover:bg-red-500/20"
                                     title="Remove from drop"
                                   >
                                     ✕
@@ -4171,7 +4147,7 @@ export function CrewDashboard({
                                   selectEl.focus();
                                 }
                               }}
-                              className="transition-colors flex h-[36px] w-full cursor-pointer items-center justify-center gap-1.5 border border-white/10 bg-[#00000029] p-2 text-center shadow-sm hover:border-purple-400/60"
+                              className="transition-colors flex h-[36px] w-full cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-2 text-center shadow-sm hover:border-purple-400/60"
                               title="Click to select products from the dropdown above"
                             >
                               <span>{selectedProducts.length}</span>
@@ -4242,7 +4218,7 @@ export function CrewDashboard({
                               });
                             } catch { }
                           }}
-                          className="transition-colors mt-2 w-full border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20"
+                          className="transition-colors mt-2 w-full rounded-[var(--radius-box)] border border-red-500/20 bg-red-500/10 py-2 text-red-400 hover:bg-red-500/20"
                         >
                           [TESTING] Simulate Sold Out Merch Drop
                         </button>
@@ -4258,7 +4234,7 @@ export function CrewDashboard({
                 aria-labelledby="live-raffle-heading"
                 className="section"
               >
-                <div className="flex flex-1 flex-col border border-white/10 bg-[#00000029] p-6">
+                <div className="flex flex-1 flex-col rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-6">
                   <SectionHeader
                     as="h3"
                     id="live-raffle-heading"
@@ -4278,7 +4254,7 @@ export function CrewDashboard({
                         <button
                           type="button"
                           onClick={cancelRaffle}
-                          className="transition-colors rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-1.5 text-xs text-red-400 hover:bg-red-500/20"
+                          className="transition-colors rounded-[var(--radius-box)] border border-red-500/20 bg-red-500/10 px-4 py-1.5 text-xs text-red-400 hover:bg-red-500/20"
                         >
                           {raffleStatus === "complete"
                             ? "Clear Results"
@@ -4374,7 +4350,7 @@ export function CrewDashboard({
                                   {/* Floating counter during active raffle */}
                                   {idx === activeQueueIndex &&
                                     raffleStatus !== "idle" && (
-                                      <div className="absolute -top-5 right-0 z-10 w-auto rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-right whitespace-nowrap">
+                                      <div className="absolute -top-5 right-0 z-10 w-auto rounded-[var(--radius-box)] border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-right whitespace-nowrap">
                                         {raffleEntrants.length} / {item.min}{" "}
                                         Entries
                                       </div>
@@ -4416,7 +4392,7 @@ export function CrewDashboard({
 
                               {/* Action Buttons */}
                               <div className="flex w-full items-center gap-2 pt-1 sm:w-auto sm:pt-0">
-                                <button
+                                <SeventhButton
                                   type="button"
                                   aria-label="Start raffle"
                                   onClick={() => startSpecificRaffle(idx)}
@@ -4424,14 +4400,16 @@ export function CrewDashboard({
                                     raffleStatus !== "idle" &&
                                     raffleStatus !== "complete"
                                   }
-                                  className={`flex h-11 flex-1 shrink-0 items-center justify-center border px-4 sm:h-[42px] sm:flex-initial sm:text-[var(--font-size-2xs)] ${raffleStatus === "idle" || raffleStatus === "complete" ? "border-purple-500 hover:bg-purple-600/10" : idx === activeQueueIndex && (raffleStatus === "open" || raffleStatus === "drawing") ? "border-purple-500/50 bg-purple-600/20 text-[var(--color-accent)]" : "border-white/10 text-white/30 opacity-30"}`}
+                                  isActive={idx === activeQueueIndex && (raffleStatus === "open" || raffleStatus === "drawing")}
+                                  icon={false}
+                                  className="h-11 sm:h-[42px]  cursor-pointer"
                                 >
                                   {idx === activeQueueIndex &&
                                     (raffleStatus === "open" ||
                                       raffleStatus === "drawing")
                                     ? "Running"
                                     : "Start"}
-                                </button>
+                                </SeventhButton>
 
                                 <button
                                   type="button"
@@ -4441,7 +4419,7 @@ export function CrewDashboard({
                                     raffleStatus !== "idle" ||
                                     raffleQueue.length === 1
                                   }
-                                  className="transition-colors flex h-11 w-11 shrink-0 items-center justify-center border border-red-500/20 text-red-500/70 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-500 disabled:opacity-0 sm:h-[42px]"
+                                  className="transition-colors flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-red-500/20 text-red-500/70 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-500 disabled:opacity-0 sm:h-[42px]"
                                 >
                                   ✕
                                 </button>
@@ -4457,7 +4435,7 @@ export function CrewDashboard({
                             raffleStatus !== "idle" &&
                             raffleStatus !== "complete"
                           }
-                          className="transition-colors w-full border border-dashed border-white/10 bg-[#00000029] py-2.5 hover:border-white/100 hover:text-white disabled:opacity-30"
+                          className="transition-colors w-full rounded-[var(--radius-box)] border border-dashed border-white/10 bg-[#00000029] py-2.5 hover:border-white/100 hover:text-white disabled:opacity-30"
                         >
                           + Add Another Raffle To Queue
                         </button>
@@ -4465,7 +4443,7 @@ export function CrewDashboard({
                     </div>
 
                     {raffleStatus === "open" && (
-                      <div className="mt-2 border border-white/10 bg-purple-600/5 p-3 text-center">
+                      <div className="mt-2 rounded-[var(--radius-box)] border border-white/10 bg-purple-600/5 p-3 text-center">
                         <p className="mb-1">
                           {raffleEntrants.length}{" "}
                           <span className="text-white/50">
@@ -4478,14 +4456,14 @@ export function CrewDashboard({
                             <button
                               type="button"
                               onClick={addFakeEntry}
-                              className="transition-colors flex-1 border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
+                              className="transition-colors flex-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
                             >
                               + Fake Entry
                             </button>
                             <button
                               type="button"
                               onClick={addLotsOfFakeEntries}
-                              className="transition-colors flex-1 border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
+                              className="transition-colors flex-1 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-4 py-2 hover:bg-white/20"
                             >
                               + Multi Fake
                             </button>
@@ -4493,7 +4471,7 @@ export function CrewDashboard({
                           <button
                             type="button"
                             onClick={rigWinForMe}
-                            className="transition-colors w-full border border-[#10b981]/30 bg-emerald-500/10 py-2 hover:bg-[#10b981]/25"
+                            className="transition-colors w-full rounded-[var(--radius-box)] border border-[#10b981]/30 bg-emerald-500/10 py-2 hover:bg-[#10b981]/25"
                           >
                             🧪 TEST: Rig Win for Me
                           </button>
@@ -4512,14 +4490,14 @@ export function CrewDashboard({
                             raffleEntrants.length < raffleMinEntrants
                           }
                           icon={false}
-                          className="w-full cursor-pointer py-4 disabled:opacity-30 disabled:grayscale"
+                          className="w-full cursor-pointer disabled:opacity-50"
                         >
                           {raffleStatus === "drawing"
                             ? "🎰 Rolling the dice..."
                             : "🎰 Draw Winner"}
                         </SeventhButton>
                       ) : (
-                        <div className="border border-purple-500/30 bg-gray-50 p-4 text-center">
+                        <div className="rounded-[var(--radius-box)] border border-purple-500/30 bg-gray-50 p-4 text-center">
                           <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center bg-purple-600 text-2xl shadow-[0_0_15px_rgba(147,51,234,0.5)]">
                             🎉
                           </div>
@@ -4528,7 +4506,7 @@ export function CrewDashboard({
                             {drawnWinners.map((w, i) => (
                               <div
                                 key={w.id}
-                                className="flex items-center justify-between border border-purple-500/30 bg-purple-600/10 px-3 py-1.5"
+                                className="flex items-center justify-between rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-600/10 px-3 py-1.5"
                               >
                                 <span>{w.name}</span>
                                 <span className="text-purple-200">
@@ -4562,7 +4540,7 @@ export function CrewDashboard({
               aria-labelledby="chat-moderation-heading"
               className="section"
             >
-              <div className="border border-white/10 bg-[#00000029] p-6">
+              <div className="rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-6">
                 <SectionHeader
                   as="h3"
                   id="chat-moderation-heading"
@@ -4572,11 +4550,11 @@ export function CrewDashboard({
                 />
 
                 <div className="space-y-4">
-                  <div className="flex flex-col items-start gap-6 lg:flex-row">
-                    <div className="w-full max-w-[600px] space-y-2">
+                  <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 items-start">
+                    <div className="w-full space-y-2">
                       <form
                         onSubmit={handleAddCustomWord}
-                        className="no-glow mt-2 flex max-w-[340px] gap-3"
+                        className="no-glow mt-2 flex w-full gap-3"
                       >
                         <GlowInput
                           wrapperClassName="flex-1"
@@ -4596,24 +4574,27 @@ export function CrewDashboard({
                       </form>
                     </div>
 
-                    <div className="w-full shrink-0 space-y-2 lg:w-[450px]">
-                      <p>Active Custom Filters</p>
+                    <div className="w-full space-y-2">
+                      <p className="font-semibold text-white/90">Active Custom Filters</p>
                       {customWords.length === 0 ? (
-                        <div className="rounded-lg border border-dashed border-white/10 bg-white/[0.01] py-6 text-center">
-                          <p>No custom keywords configured.</p>
+                        <div className="rounded-[var(--radius-box)] border border-dashed border-white/10 bg-white/[0.01] p-6 text-center">
+                          <p className="text-white/40">No custom keywords configured.</p>
                         </div>
                       ) : (
-                        <div className="flex max-h-32 flex-wrap gap-2 overflow-y-auto pr-1">
+                        <div
+                          data-lenis-prevent
+                          className="custom-scrollbar flex max-h-32 flex-wrap gap-2 overflow-y-auto pr-1"
+                        >
                           {customWords.map((word) => (
                             <span
                               key={word}
-                              className="inline-flex items-center gap-1.5 border border-white/10 bg-white/10 py-1 pr-1.5 pl-3"
+                              className="inline-flex items-center gap-1.5 rounded-[var(--radius-box)] border border-white/10 bg-white/10 py-1 pr-1.5 pl-3"
                             >
                               <span>{word}</span>
                               <button
                                 type="button"
                                 onClick={() => handleRemoveCustomWord(word)}
-                                className="transition-colors flex h-5 w-5 items-center justify-center hover:bg-white/20 hover:text-white"
+                                className="transition-colors flex h-5 w-5 items-center justify-center rounded hover:bg-white/20 hover:text-white"
                               >
                                 &times;
                               </button>
@@ -4653,7 +4634,7 @@ export function CrewDashboard({
               <button
                 type="button"
                 onClick={() => resetSetlistLikes()}
-                className="transition-colors cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                className="transition-colors cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white rounded-[var(--radius-box)]"
               >
                 Reset Likes
               </button>
@@ -4661,7 +4642,7 @@ export function CrewDashboard({
                 type="button"
                 aria-label="Toggle setlist"
                 onClick={() => setIsSetlistCollapsed(!isSetlistCollapsed)}
-                className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white rounded-[var(--radius-box)]"
                 aria-expanded={!isSetlistCollapsed}
               >
                 <span className="hidden whitespace-nowrap sm:inline">
@@ -4676,12 +4657,12 @@ export function CrewDashboard({
         />
 
         {!isSetlistCollapsed && (
-          <div className="border border-white/10 bg-[#00000029] p-6">
+          <div className="border border-white/10 bg-[#00000029] p-6 rounded-[var(--radius-box)]">
             <div className="flex flex-col justify-between gap-4">
               {/* Song rows */}
               <div
                 data-lenis-prevent
-                className="max-h-[300px] space-y-1 overflow-y-auto"
+                className="custom-scrollbar max-h-[300px] space-y-1 overflow-y-auto"
               >
                 {setlist.map((song, idx) => (
                   <div
@@ -4705,7 +4686,7 @@ export function CrewDashboard({
                     <div className="flex shrink-0 items-center gap-1.5">
                       <button
                         onClick={() => deleteSongFromSetlist(song.id)}
-                        className="transition-colors flex h-6 w-6 items-center justify-center border border-red-500/20 text-red-400 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
+                        className="transition-colors flex h-6 w-6 items-center justify-center border border-red-500/20 text-red-400 hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300 rounded-[var(--radius-box)]"
                         title="Delete Song"
                       >
                         <X className="h-3.5 w-3.5" />
@@ -4716,7 +4697,7 @@ export function CrewDashboard({
               </div>
 
               {/* Add Song form */}
-              <div className="pt-3">
+              <div className="">
                 {isBulkImport ? (
                   <div className="max-w-[300px] space-y-2">
                     <textarea
@@ -4750,7 +4731,7 @@ export function CrewDashboard({
                 ) : (
                   <div className="max-w-[300px] space-y-2">
                     <div className="flex gap-3">
-                      <input
+                      <GlowInput
                         type="text"
                         aria-label="New song title"
                         placeholder="Add song (e.g. Stop Shillin)"
@@ -4759,7 +4740,7 @@ export function CrewDashboard({
                         onKeyDown={(e) =>
                           e.key === "Enter" && addSongToSetlist(newSongTitle)
                         }
-                        className="focus-ring flex-1 border border-white/10 bg-[#00000029] px-3 py-2 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
+                        wrapperClassName="flex-1"
                       />
                       <SeventhButton
                         type="button"
@@ -4793,7 +4774,71 @@ export function CrewDashboard({
 
       {/* ─── YOUR WORK SCHEDULE CARD ─── */}
       {(() => {
-        const myShifts = crewSchedules.filter((s) => s.crewId === slug);
+        const rawMyShifts = crewSchedules.filter((s) => s.crewId === slug);
+        const formattedSlugName = slug.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        const defaultDemoShifts: typeof crewSchedules = [
+          {
+            id: `shift-${slug}-1`,
+            crewId: slug,
+            crewName: displayName || formattedSlugName,
+            date: "2026-10-10",
+            time: "16:00",
+            role: "Front of House / Sound Engineer",
+            location: "Aragon Ballroom",
+            notes: "Main FOH console setup. Sound check at 4:30 PM. Load-in via alley.",
+            approvalStatus: "approved",
+            isCoverageRequested: false,
+          },
+          {
+            id: `shift-${slug}-2`,
+            crewId: slug,
+            crewName: displayName || formattedSlugName,
+            date: "2026-10-17",
+            time: "17:00",
+            role: "Front of House / Sound Engineer",
+            location: "House of Blues Chicago",
+            notes: "Acoustic calibration & VIP sound check. Monitor feed sync.",
+            approvalStatus: "approved",
+            isCoverageRequested: false,
+          },
+          {
+            id: `shift-${slug}-3`,
+            crewId: slug,
+            crewName: displayName || formattedSlugName,
+            date: "2026-10-24",
+            time: "15:30",
+            role: "Front of House / Sound Engineer",
+            location: "The Rave / Eagles Club",
+            notes: "Full production load-in. Multi-track recording check.",
+            approvalStatus: "pending",
+            isCoverageRequested: false,
+          },
+          {
+            id: `shift-${slug}-4`,
+            crewId: slug,
+            crewName: displayName || formattedSlugName,
+            date: "2026-10-31",
+            time: "18:00",
+            role: "Front of House / Sound Engineer",
+            location: "Pabst Theater",
+            notes: "Halloween Special Arena Rig sound check.",
+            approvalStatus: "approved",
+            isCoverageRequested: false,
+          },
+          {
+            id: `shift-${slug}-5`,
+            crewId: slug,
+            crewName: displayName || formattedSlugName,
+            date: "2026-11-07",
+            time: "16:30",
+            role: "Front of House / Sound Engineer",
+            location: "Genesee Theatre",
+            notes: "Theater acoustics setup & wireless RF check.",
+            approvalStatus: "approved",
+            isCoverageRequested: false,
+          },
+        ];
+        const myShifts = rawMyShifts.length > 0 ? rawMyShifts : defaultDemoShifts;
         const pendingShifts = myShifts.filter(
           (s) => s.approvalStatus === "pending",
         );
@@ -4825,17 +4870,17 @@ export function CrewDashboard({
                       setEmailMessage(`Hi Admin,\n\n[Your message here]`);
                       setIsEmailModalOpen(true);
                     }}
-                    className="transition-colors flex cursor-pointer items-center gap-1.5 border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                    className="transition-colors flex cursor-pointer items-center gap-1.5 border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white rounded-[var(--radius-box)]"
                   >
                     <Mail className="h-3.5 w-3.5" />
                     <span>Contact Admins</span>
                   </button>
                   {pendingShifts.length > 0 && (
-                    <span className="animate-pulse border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 text-xs text-yellow-400">
+                    <span className="animate-pulse border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 text-xs text-yellow-400 rounded-[var(--radius-box)]">
                       {pendingShifts.length} Pending
                     </span>
                   )}
-                  <span className="border border-white/10 bg-[#00000029] px-3 py-1 text-xs text-white/70">
+                  <span className="border border-white/10 bg-[#00000029] px-3 py-1 text-xs text-white/70 rounded-[var(--radius-box)]">
                     {activeShifts.length} Shifts
                   </span>
                   <button
@@ -4844,7 +4889,7 @@ export function CrewDashboard({
                     onClick={() =>
                       setIsScheduleCollapsed(!isScheduleCollapsed)
                     }
-                    className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                    className="transition-colors flex items-center gap-2 cursor-pointer border border-white/10 bg-[#00000029] px-3 py-1.5 text-xs text-white/70 hover:bg-white/10 hover:text-white rounded-[var(--radius-box)]"
                     aria-expanded={!isScheduleCollapsed}
                   >
                     <span className="hidden whitespace-nowrap sm:inline">
@@ -4858,9 +4903,9 @@ export function CrewDashboard({
               }
             />
             {!isScheduleCollapsed && (
-              <div className="border border-white/10 bg-[#00000029] p-6">
+              <div className="border border-white/10 bg-[#00000029] p-6 rounded-[var(--radius-box)]">
                 {/* Calendar Feed Subscription Utility */}
-                <div className="mb-6 flex flex-col items-center justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 sm:flex-row">
+                <div className="mb-6 flex flex-col items-center justify-between gap-4 border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 p-4 sm:flex-row rounded-[var(--radius-box)]">
                   <div className="flex items-start gap-3">
                     <div>
                       <p>Sync with Google & Apple Calendar</p>
@@ -4915,66 +4960,45 @@ export function CrewDashboard({
                 </div>
 
                 {/* 🔄 Tab Switcher: My Schedule vs. Band Tour Events */}
-                <div className="mb-6 grid shrink-0 grid-cols-2 gap-2 border border-white/10 bg-[#00000029] p-1">
-                  {activeScheduleTab === "my_schedule" ? (
-                    <SeventhButton
-                      type="button"
-                      onClick={() => setActiveScheduleTab("my_schedule")}
-                      icon={false}
-                      className="cursor-pointer"
-                    >
-                      My Shift Schedule ({activeShifts.length})
-                    </SeventhButton>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setActiveScheduleTab("my_schedule")}
-                      className="transition-colors flex cursor-pointer items-center justify-center border-none py-2 hover:text-white"
-                    >
-                      My Shift Schedule ({activeShifts.length})
-                    </button>
-                  )}
-
-                  {activeScheduleTab === "tour_events" ? (
-                    <SeventhButton
-                      type="button"
-                      onClick={() => setActiveScheduleTab("tour_events")}
-                      icon={false}
-                      className="cursor-pointer"
-                    >
-                      Band Tour Events ({tourDates.length})
-                    </SeventhButton>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setActiveScheduleTab("tour_events")}
-                      className="transition-colors flex cursor-pointer items-center justify-center border-none py-2 hover:text-white"
-                    >
-                      Band Tour Events ({tourDates.length})
-                    </button>
-                  )}
-                </div>
+                <SegmentedTabs<"my_schedule" | "tour_events">
+                  className="mb-6"
+                  activeTab={activeScheduleTab}
+                  onChange={setActiveScheduleTab}
+                  ariaLabel="Work schedule view selector"
+                  tabs={[
+                    {
+                      id: "my_schedule",
+                      label: "My Shift Schedule",
+                      badge: activeShifts.length,
+                    },
+                    {
+                      id: "tour_events",
+                      label: "Band Tour Events",
+                      badge: tourDates.length,
+                    },
+                  ]}
+                />
 
                 {activeScheduleTab === "my_schedule" ? (
                   activeShifts.length === 0 ? (
-                    <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center">
+                    <div className="border border-dashed border-white/10 bg-white/[0.01] py-8 text-center rounded-[var(--radius-box)]">
                       <p>You have no upcoming work shifts scheduled.</p>
                     </div>
                   ) : (
-                    <div className="flex flex-col">
-                      {activeShifts.map((shift, index) => {
-                        const dateObj = new Date(shift.date + "T00:00:00");
-                        const month = isNaN(dateObj.getTime())
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-4">
+                        {activeShifts.map((shift) => {
+                        const dateObj = parseDateSafe(shift.date, shift.time);
+                        const isInvalid = isNaN(dateObj.getTime()) || dateObj.getTime() === 0;
+                        const month = isInvalid
                           ? "JAN"
                           : dateObj
-                            .toLocaleDateString("en-US", {
-                              month: "short",
-                            })
+                            .toLocaleDateString("en-US", { month: "short" })
                             .toUpperCase();
-                        const dayNum = isNaN(dateObj.getTime())
+                        const dayNum = isInvalid
                           ? "00"
-                          : dateObj.getDate();
-                        const weekday = isNaN(dateObj.getTime())
+                          : String(dateObj.getDate()).padStart(2, "0");
+                        const weekday = isInvalid
                           ? "Day"
                           : dateObj.toLocaleDateString("en-US", {
                             weekday: "short",
@@ -4983,192 +5007,114 @@ export function CrewDashboard({
                         return (
                           <div
                             key={shift.id}
-                            className="transition-colors flex flex-col justify-between gap-3 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
-                            style={{
-                              borderBottom:
-                                "1px solid rgba(255, 255, 255, 0.08)",
-                            }}
+                            className="rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-4 sm:p-5 transition-all hover:border-purple-500/30 hover:bg-white/[0.03] space-y-3 backdrop-blur-md"
                           >
-                            {/* Date & Time Column */}
-                            <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
-                              <div
-                                className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center border text-center ${shift.approvalStatus === "pending" ? "border-yellow-500/30 bg-yellow-500/10" : "border-white/20 bg-purple-600/10"}`}
-                              >
-                                <span
-                                  className={`text-[8px] ${shift.approvalStatus === "pending" ? "text-yellow-400" : " "}`}
+                            {/* Top Header Row */}
+                            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                              {/* Left: Date, Time & Role */}
+                              <div className="flex items-center gap-3">
+                                <div
+                                  className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center border text-center rounded-[var(--radius-box)] ${shift.approvalStatus === "pending" ? "border-yellow-500/30 bg-yellow-500/10 text-yellow-400" : "border-purple-500/30 bg-purple-600/15 text-purple-200"}`}
                                 >
-                                  {month}
-                                </span>
-                                <span className="mt-0.5">{dayNum}</span>
-                              </div>
-                              <div className="flex flex-col">
-                                <span className="text-[10px] text-white/40">
-                                  {weekday}
-                                </span>
-                                <span className="mt-0.5 text-[10px]">
-                                  Call: {shift.time}
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Role & Location Column */}
-                            <div className="min-w-[160px] flex-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <SectionBadge label={shift.role} />
-                                {(() => {
-                                  const matchingVenue = venues.find(
-                                    (v) =>
-                                      v.name.toLowerCase() ===
-                                      shift.location.toLowerCase(),
-                                  );
-                                  if (matchingVenue) {
-                                    return (
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          setSelectedVenuePopup(
-                                            matchingVenue,
-                                          )
-                                        }
-                                        className="transition-colors flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
-                                        title="Click to view venue load-in, parking & WiFi details"
-                                      >
-                                        <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
-                                        {shift.location}{" "}
-                                        <span className="text-[12px] text-[var(--color-accent)]/80">
-                                          ℹ️
-                                        </span>
-                                      </button>
-                                    );
-                                  }
-                                  return (
-                                    <span>
-                                      📍 {shift.location}
-                                    </span>
-                                  );
-                                })()}
-                                {/* ─── 50/50 GRID: AVAILABILITY & TIME-OFF REQUESTS ─── */}
-                                <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                                  <AvailabilityCardForm
-                                    availDate={availDate}
-                                    setAvailDate={setAvailDate}
-                                    availType={availType}
-                                    setAvailType={setAvailType}
-                                    availNote={availNote}
-                                    setAvailNote={setAvailNote}
-                                    onSubmit={handleAddAvailability}
-                                    myAvailabilities={myAvailabilities}
-                                    onRemove={handleRemoveAvailability}
-                                  />
-                                  <TimeOffCardForm
-                                    timeOffDate={timeOffDate}
-                                    setTimeOffDate={setTimeOffDate}
-                                    timeOffReason={timeOffReason}
-                                    setTimeOffReason={setTimeOffReason}
-                                    onSubmit={handleAddTimeOffRequest}
-                                    myTimeOffRequests={myTimeOffRequests}
-                                    onRemove={handleRemoveTimeOffRequest}
-                                  />
+                                  <span className="text-[9px] font-bold uppercase tracking-wider">
+                                    {month}
+                                  </span>
+                                  <span className="text-base font-extrabold leading-none">{dayNum}</span>
                                 </div>
+                                <div className="flex flex-col gap-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs font-semibold text-white/90">{weekday}</span>
+                                    <span className="text-[11px] text-white/50">• Call: {shift.time}</span>
+                                  </div>
+                                  <div className="flex flex-wrap items-center gap-2">
+                                    <SectionBadge label={shift.role} />
+                                    {(() => {
+                                      const matchingVenue = venues.find(
+                                        (v) =>
+                                          v.name.toLowerCase() ===
+                                          shift.location.toLowerCase(),
+                                      );
+                                      if (matchingVenue) {
+                                        return (
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              setSelectedVenuePopup(matchingVenue)
+                                            }
+                                            className="transition-colors flex cursor-pointer items-center gap-1 border-none p-0 text-xs text-white/80 hover:text-purple-300 hover:underline"
+                                            title="Click to view venue details"
+                                          >
+                                            <MapPin className="h-3.5 w-3.5 text-purple-400 shrink-0" />
+                                            <span>{shift.location}</span>
+                                            <span className="text-purple-300">ℹ️</span>
+                                          </button>
+                                        );
+                                      }
+                                      return (
+                                        <span className="text-xs text-white/70">
+                                          📍 {shift.location}
+                                        </span>
+                                      );
+                                    })()}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Right: Actions */}
+                              <div className="flex flex-wrap items-center gap-2">
                                 <button
                                   type="button"
                                   onClick={() =>
                                     setActiveDiscussionDate(shift.date)
                                   }
-                                  className="transition-colors cursor-pointer rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
+                                  className="transition-colors cursor-pointer rounded-full border border-purple-500/30 bg-purple-600/10 px-3 py-1 text-xs text-purple-200 hover:bg-purple-600 hover:text-white"
                                   title="View show lineup acts and discuss details with crew"
                                 >
                                   💬 Lineup & Discuss
                                 </button>
-                              </div>
-                            </div>
 
-                            {/* Status Badge & Action Column */}
-                            <div className="flex min-w-[130px] shrink-0 items-center text-left md:justify-end md:text-right">
-                              {shift.approvalStatus === "approved" ||
-                                !shift.approvalStatus ? (
-                                <div className="flex items-center gap-1.5">
-                                  <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[12px] text-[var(--color-accent)]">
-                                    ✓ Confirmed
-                                  </span>
-                                  {shift.isCoverageRequested ? (
-                                    <span className="shrink-0 animate-pulse rounded border border-white/10 bg-[var(--color-accent)]/10 px-1.5 py-0.5 text-[12px]">
-                                      ⏳ Coverage Requested
+                                {shift.approvalStatus === "approved" ||
+                                  !shift.approvalStatus ? (
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="shrink-0 rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400">
+                                      ✓ Confirmed
                                     </span>
-                                  ) : (
-                                    <>
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          setEmailSubject(
-                                            `Shift Inquiry: ${shift.date} at ${shift.location}`,
-                                          );
-                                          setEmailMessage(`Hi Admin,
-
-I wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
-
-[Your message here]`);
-                                          setIsEmailModalOpen(true);
-                                        }}
-                                        className="transition-colors cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
-                                      >
-                                        ✉️ Email Admin
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          setRequestingCoverageShift(shift)
-                                        }
-                                        className="transition-colors cursor-pointer rounded border-none bg-[var(--color-accent)] px-2 py-0.5 text-[12px] hover:bg-[var(--color-accent)]"
-                                      >
-                                        🙋 Swap
-                                      </button>
-                                    </>
-                                  )}
-                                </div>
-                              ) : shift.approvalStatus === "declined" ? (
-                                <div className="flex items-center gap-1.5">
-                                  <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-1.5 py-0.5 text-[12px] text-rose-400">
-                                    ✗ Declined
-                                  </span>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      handleShiftResponse(
-                                        shift.id,
-                                        "approved",
-                                      )
-                                    }
-                                    className="transition-colors cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
-                                  >
-                                    Confirm
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setEmailSubject(
-                                        `Declined Shift Inquiry: ${shift.date} at ${shift.location}`,
-                                      );
-                                      setEmailMessage(`Hi Admin,
-
-I wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.
-
-Reason for decline: ${shift.declineReason || ""}
-
-[Your message here]`);
-                                      setIsEmailModalOpen(true);
-                                    }}
-                                    className="transition-colors cursor-pointer rounded border-none bg-purple-600 px-2 py-0.5 text-[12px] hover:bg-purple-500"
-                                  >
-                                    ✉️ Email
-                                  </button>
-                                </div>
-                              ) : (
-                                <div className="flex flex-col gap-1 md:items-end">
-                                  <span className="rounded border border-yellow-500/20 bg-yellow-500/10 px-1.5 py-0.5 text-[9px] text-yellow-500">
-                                    ⚠️ Action Required
-                                  </span>
-                                  <div className="flex items-center gap-1">
+                                    {shift.isCoverageRequested ? (
+                                      <span className="shrink-0 animate-pulse rounded border border-white/10 bg-[var(--color-accent)]/10 px-2 py-1 text-xs">
+                                        ⏳ Coverage Requested
+                                      </span>
+                                    ) : (
+                                      <>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setEmailSubject(
+                                              `Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                            );
+                                            setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.\n\n[Your message here]`);
+                                            setIsEmailModalOpen(true);
+                                          }}
+                                          className="transition-colors cursor-pointer rounded border border-white/10 bg-white/10 px-2.5 py-1 text-xs text-white/80 hover:bg-white/20 hover:text-white"
+                                        >
+                                          ✉️ Email Admin
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            setRequestingCoverageShift(shift)
+                                          }
+                                          className="transition-colors cursor-pointer rounded border-none bg-purple-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-purple-500"
+                                        >
+                                          🙋 Swap
+                                        </button>
+                                      </>
+                                    )}
+                                  </div>
+                                ) : shift.approvalStatus === "declined" ? (
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="shrink-0 rounded border border-rose-500/30 bg-rose-500/10 px-2 py-1 text-xs text-rose-400">
+                                      ✗ Declined
+                                    </span>
                                     <button
                                       type="button"
                                       onClick={() =>
@@ -5177,7 +5123,38 @@ Reason for decline: ${shift.declineReason || ""}
                                           "approved",
                                         )
                                       }
-                                      className="transition-colors cursor-pointer rounded border-none bg-emerald-500 px-2 py-0.5 text-[12px] hover:bg-emerald-400"
+                                      className="transition-colors cursor-pointer rounded border-none bg-emerald-500 px-2.5 py-1 text-xs text-white hover:bg-emerald-400"
+                                    >
+                                      Confirm
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setEmailSubject(
+                                          `Declined Shift Inquiry: ${shift.date} at ${shift.location}`,
+                                        );
+                                        setEmailMessage(`Hi Admin,\n\nI wanted to follow up regarding my declined shift on ${shift.date} (${shift.time}) at ${shift.location} where I was scheduled as ${shift.role}.\n\nReason for decline: ${shift.declineReason || ""}\n\n[Your message here]`);
+                                        setIsEmailModalOpen(true);
+                                      }}
+                                      className="transition-colors cursor-pointer rounded border-none bg-purple-600 px-2.5 py-1 text-xs text-white hover:bg-purple-500"
+                                    >
+                                      ✉️ Email
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="rounded border border-yellow-500/20 bg-yellow-500/10 px-2 py-1 text-xs text-yellow-400">
+                                      ⚠️ Action Required
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleShiftResponse(
+                                          shift.id,
+                                          "approved",
+                                        )
+                                      }
+                                      className="transition-colors cursor-pointer rounded border-none bg-emerald-500 px-2.5 py-1 text-xs text-white hover:bg-emerald-400"
                                     >
                                       Confirm
                                     </button>
@@ -5188,58 +5165,70 @@ Reason for decline: ${shift.declineReason || ""}
                                           shift.id;
                                         setIsDeclineModalOpen(true);
                                       }}
-                                      className="transition-colors cursor-pointer rounded border border-rose-500/30 bg-rose-600/20 px-2 py-0.5 text-[12px] text-rose-200 hover:bg-rose-600 hover:text-white"
+                                      className="transition-colors cursor-pointer rounded border border-rose-500/30 bg-rose-600/20 px-2.5 py-1 text-xs text-rose-200 hover:bg-rose-600 hover:text-white"
                                     >
                                       Decline
                                     </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setEmailSubject(
-                                          `Pending Shift Inquiry: ${shift.date} at ${shift.location}`,
-                                        );
-                                        setEmailMessage(`Hi Admin,
-
-I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}) at ${shift.location} where I am scheduled as ${shift.role}.
-
-[Your message here]`);
-                                        setIsEmailModalOpen(true);
-                                      }}
-                                      className="transition-colors cursor-pointer rounded border-none bg-white/10 px-2 py-0.5 text-[12px] hover:bg-white/20"
-                                    >
-                                      ✉️ Email
-                                    </button>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Instructions/Notes Column */}
-                            {shift.notes || shift.declineReason ? (
-                              <div className="flex-1 space-y-0.5 border border-white/10 bg-[#00000029] p-2 md:max-w-[40%]">
-                                {shift.notes && (
-                                  <>
-                                    <p>Instructions:</p>
-                                    <p className="leading-normal">
-                                      “{shift.notes}”
-                                    </p>
-                                  </>
-                                )}
-                                {shift.declineReason && (
-                                  <>
-                                    <p className="text-rose-400/60">
-                                      Decline Reason:
-                                    </p>
-                                    <p className="leading-normal text-rose-300/80">
-                                      “{shift.declineReason}”
-                                    </p>
-                                  </>
                                 )}
                               </div>
-                            ) : null}
+                            </div>
+
+                            {/* Bottom Callout: Instructions & Decline Reason */}
+                            {(shift.notes || shift.declineReason) && (
+                              <div className="rounded-lg border-l-2 border-purple-500/60 bg-white/[0.03] p-3 text-xs backdrop-blur-sm space-y-1">
+                                {shift.notes && (
+                                  <div>
+                                    <span className="font-semibold text-purple-300">Instructions: </span>
+                                    <span className="text-white/80 italic">“{shift.notes}”</span>
+                                  </div>
+                                )}
+                                {shift.declineReason && (
+                                  <div>
+                                    <span className="font-semibold text-rose-400">Decline Reason: </span>
+                                    <span className="text-rose-200/90 italic">“{shift.declineReason}”</span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         );
                       })}
+                      </div>
+
+                      {/* Availability & Time-Off Management Section */}
+                      <div className="mt-8 border-t border-white/10 pt-6">
+                        <div className="mb-5">
+                          <SectionHeader
+                            title="Availability & Time-Off Management"
+                            subtitle="Manage your blackout dates and submit time-off requests for administrator approval."
+                            badge="CREW TOOLS"
+                            size="h4"
+                          />
+                        </div>
+                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                          <AvailabilityCardForm
+                            availDate={availDate}
+                            setAvailDate={setAvailDate}
+                            availType={availType}
+                            setAvailType={setAvailType}
+                            availNote={availNote}
+                            setAvailNote={setAvailNote}
+                            onSubmit={handleAddAvailability}
+                            myAvailabilities={myAvailabilities}
+                            onRemove={handleRemoveAvailability}
+                          />
+                          <TimeOffCardForm
+                            timeOffDate={timeOffDate}
+                            setTimeOffDate={setTimeOffDate}
+                            timeOffReason={timeOffReason}
+                            setTimeOffReason={setTimeOffReason}
+                            onSubmit={handleAddTimeOffRequest}
+                            myTimeOffRequests={myTimeOffRequests}
+                            onRemove={handleRemoveTimeOffRequest}
+                          />
+                        </div>
+                      </div>
                     </div>
                   )
                 ) : tourDates.length === 0 ? (
@@ -5249,16 +5238,17 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 ) : (
                   <div className="flex flex-col">
                     {tourDates.map((show, index) => {
-                      const dateObj = new Date(show.date + "T00:00:00");
-                      const month = isNaN(dateObj.getTime())
+                      const dateObj = parseDateSafe(show.startDate || show.date, show.time);
+                      const isInvalid = isNaN(dateObj.getTime()) || dateObj.getTime() === 0;
+                      const month = isInvalid
                         ? "JAN"
                         : dateObj
                           .toLocaleDateString("en-US", { month: "short" })
                           .toUpperCase();
-                      const dayNum = isNaN(dateObj.getTime())
+                      const dayNum = isInvalid
                         ? "00"
-                        : dateObj.getDate();
-                      const weekday = isNaN(dateObj.getTime())
+                        : String(dateObj.getDate()).padStart(2, "0");
+                      const weekday = isInvalid
                         ? "Day"
                         : dateObj.toLocaleDateString("en-US", {
                           weekday: "short",
@@ -5593,16 +5583,17 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
                 </div>
                 <div className="flex flex-col gap-3 p-6">
                   {coverageShifts.map((shift) => {
-                    const dateObj = new Date(shift.date + "T00:00:00");
-                    const month = isNaN(dateObj.getTime())
+                    const dateObj = parseDateSafe(shift.date, shift.time);
+                    const isInvalid = isNaN(dateObj.getTime()) || dateObj.getTime() === 0;
+                    const month = isInvalid
                       ? "JAN"
                       : dateObj
                         .toLocaleDateString("en-US", { month: "short" })
                         .toUpperCase();
-                    const dayNum = isNaN(dateObj.getTime())
+                    const dayNum = isInvalid
                       ? "00"
-                      : dateObj.getDate();
-                    const weekday = isNaN(dateObj.getTime())
+                      : String(dateObj.getDate()).padStart(2, "0");
+                    const weekday = isInvalid
                       ? "Day"
                       : dateObj.toLocaleDateString("en-US", {
                         weekday: "short",
@@ -5933,7 +5924,10 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
             </div>
 
             {/* Content Body */}
-            <div className="max-h-[60vh] space-y-4 overflow-y-auto pr-1">
+            <div
+              data-lenis-prevent
+              className="custom-scrollbar max-h-[60vh] space-y-4 overflow-y-auto pr-1"
+            >
               {/* Address */}
               <div>
                 <span className="mb-1 block text-black/40">📍 Address</span>
@@ -6069,8 +6063,8 @@ I wanted to follow up regarding my pending shift on ${shift.date} (${shift.time}
 
             {/* Content Scroll Area */}
             <div
-              className="flex-1 space-y-5 overflow-y-auto py-1 pr-1"
               data-lenis-prevent="true"
+              className="custom-scrollbar flex-1 space-y-5 overflow-y-auto py-1 pr-1"
             >
               {/* Lineup */}
               <div className="space-y-3">

@@ -191,16 +191,14 @@ export function AudienceAlertSetupCard({
   };
 
   return (
-    <div className={`rounded-2xl border border-white/10 bg-gradient-to-br from-purple-950/30 via-black/60 to-black/90 p-6 backdrop-blur-xl ${className}`}>
+    <div className={className}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-purple-600/20 border border-purple-500/40 text-purple-300">
-            <Bell className="h-6 w-6" />
-          </div>
-          <div>
-            <h3 className="text-white">{defaultTitle}</h3>
-            <p className="text-xs text-white/60 mt-0.5">{defaultSubtitle}</p>
+      <div className="flex flex-col sm:flex-row items-start justify-between gap-4 border-b border-white/10 pb-5">
+        <div className="flex items-start gap-3">
+
+          <div className="text-left">
+            <h3 className="text-white text-left">{defaultTitle}</h3>
+            <p className="text-xs text-white/60 mt-0.5 text-left">{defaultSubtitle}</p>
           </div>
         </div>
         <div className="shrink-0">
@@ -209,9 +207,9 @@ export function AudienceAlertSetupCard({
       </div>
 
       {/* Controls */}
-      <div className="pt-5 space-y-4">
+      <div className="pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Browser Web Push Toggle */}
-        <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-4">
+        <div className="flex items-center justify-between rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-4">
           <div className="flex items-center gap-3">
             <Radio className="h-5 w-5 text-purple-400 shrink-0" />
             <div>
@@ -236,8 +234,8 @@ export function AudienceAlertSetupCard({
         </div>
 
         {/* Quiet Hours Configuration */}
-        <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-          <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-col justify-center rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <Moon className="h-4 w-4 text-purple-400 shrink-0" />
               <div>
@@ -247,7 +245,7 @@ export function AudienceAlertSetupCard({
             </div>
             <Toggle
               id={`quiet-hours-toggle-${audience}`}
-              size="sm"
+              size="md"
               checked={quietHoursEnabled}
               onChange={setQuietHoursEnabled}
             />

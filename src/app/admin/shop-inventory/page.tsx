@@ -740,7 +740,10 @@ function AddProductModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-      <div className="max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8">
+      <div
+        data-lenis-prevent
+        className="custom-scrollbar max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8"
+      >
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <h2>Add Product</h2>
           <button

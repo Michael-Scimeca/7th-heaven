@@ -54,7 +54,10 @@ export function RaffleClaimModal({
 
   return (
     <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-      <div className="relative max-h-[90vh] w-full max-w-sm overflow-y-auto border border-purple-500/40 bg-gray-50/98 p-6 text-black backdrop-blur-xl">
+      <div
+        data-lenis-prevent
+        className="custom-scrollbar relative max-h-[90vh] w-full max-w-sm overflow-y-auto border border-purple-500/40 bg-gray-50/98 p-6 text-black backdrop-blur-xl"
+      >
         <button
           aria-label="Close"
           onClick={handleClose}

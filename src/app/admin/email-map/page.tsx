@@ -130,7 +130,7 @@ export default function EmailMapPage() {
           </span>
         </div>
 
-        <div className="overflow-x-auto pb-8">
+        <div className="custom-scrollbar overflow-x-auto pb-8">
           <div className="min-w-[1000px]">
             {/* Entry Point */}
             <div className="flex justify-center">

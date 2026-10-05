@@ -348,7 +348,10 @@ export default function BulkInvitePanel() {
           )}
 
           {/* Invite table */}
-          <div className="max-h-[300px] overflow-y-auto border border-black/10 bg-white">
+          <div
+            data-lenis-prevent
+            className="custom-scrollbar max-h-[300px] overflow-y-auto border border-black/10 bg-white"
+          >
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-black/10 bg-black/5 text-[0.65rem] text-black/70">

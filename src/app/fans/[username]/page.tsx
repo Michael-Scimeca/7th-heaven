@@ -312,7 +312,17 @@ export default function FanAccountPage({
   }, [shows, userCoords]);
 
   const displayShows = useMemo(() => {
-    const list = [...showsWithDistance];
+    // Always hide private events on fan page
+    const publicShows = showsWithDistance.filter((s: any) => {
+      if (s.isPrivate) return false;
+      const venueLower = (s.venue || "").toLowerCase();
+      const titleLower = (s.title || "").toLowerCase();
+      if (venueLower.includes("private") || titleLower.includes("private"))
+        return false;
+      return true;
+    });
+
+    const list = [...publicShows];
     if (sortByDistance && userCoords) {
       list.sort((a, b) => {
         const distA = a.distanceMiles ?? 99999;
@@ -983,15 +993,15 @@ export default function FanAccountPage({
         </div>
       ) : (
         <>
-          {/* Backstage Feed — always visible */}
-          <section
-            id="backstage-feed"
-            aria-labelledby="backstage-feed-heading"
-            className="section"
-          >
-            <SectionHeader id="backstage-feed-heading" title="Backstage Live Feed" visuallyHidden />
-            <div>
-              {isLive && liveFeeds.length > 0 ? (
+          {/* Backstage Feed — visible only when a stream is live */}
+          {isLive && liveFeeds.length > 0 && (
+            <section
+              id="backstage-feed"
+              aria-labelledby="backstage-feed-heading"
+              className="section"
+            >
+              <SectionHeader id="backstage-feed-heading" title="Backstage Live Feed" visuallyHidden />
+              <div>
                 <div className="space-y-3">
                   {liveFeeds.map((feed) => (
                     <Link
@@ -1025,29 +1035,9 @@ export default function FanAccountPage({
                     </Link>
                   ))}
                 </div>
-              ) : (
-                <Link href="/live" className="group block">
-                  <div className="transition-colors flex flex-col items-start justify-between gap-4 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-4 py-4 hover:border-white/20 sm:flex-row sm:items-center">
-                    <div className="flex items-center gap-4">
-                      <span className="relative flex h-4 w-4 shrink-0">
-                        <span className="relative inline-flex h-4 w-4 rounded-full bg-white/30" />
-                      </span>
-                      <div>
-                        <p>Backstage is Quiet</p>
-                        <p className="mt-0.5">
-                          No crew feeds are live right now — check back during
-                          the next show
-                        </p>
-                      </div>
-                    </div>
-                    <span className="transition-colors w-full shrink-0 rounded-[var(--radius-box)] border border-white/10 bg-white/10 px-4 py-2 text-center whitespace-nowrap group-hover:bg-white/20 group-hover:text-white sm:w-auto">
-                      Live Hub
-                    </span>
-                  </div>
-                </Link>
-              )}
-            </div>
-          </section>
+              </div>
+            </section>
+          )}
 
           {/* Rewards & Raffle Wins */}
           {inboxMessages.some(
@@ -1167,7 +1157,7 @@ export default function FanAccountPage({
                 className="section relative"
               >
                 <SectionHeader id="next-show-countdown-heading" title="Next Show Countdown" visuallyHidden />
-                <div className="relative mb-6">
+                <div className="relative">
                   <div className="relative z-10">
                     {nextShow ? (
                       <>
@@ -1183,7 +1173,7 @@ export default function FanAccountPage({
                           )}
                         </div>
                         <div
-                          className={`mt-2 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center ${isHappeningNow ? "-mx-1 rounded-[var(--radius-box)] border border-white/10 bg-emerald-500/[0.03] p-4" : ""}`}
+                          className={`flex flex-col items-start justify-between gap-6 md:flex-row md:items-center ${isHappeningNow ? "-mx-1 rounded-[var(--radius-box)] border border-white/10 bg-emerald-500/[0.03] p-4" : ""}`}
                         >
                           <div>
                             <h3 className="mb-1">
@@ -1216,7 +1206,7 @@ export default function FanAccountPage({
                               </span>
                             </div>
                           ) : (
-                            <div className="flex w-full items-center justify-between gap-6 sm:gap-10 md:gap-14 lg:w-auto lg:gap-16">
+                            <div className="flex w-full items-center justify-between gap-4 sm:gap-6 md:gap-8 lg:w-auto">
                               {[
                                 { v: countdown.days, l: "Days" },
                                 { v: countdown.hours, l: "Hrs" },
@@ -1227,10 +1217,10 @@ export default function FanAccountPage({
                                   key={u.l}
                                   className="flex flex-1 flex-col items-center lg:flex-initial"
                                 >
-                                  <span className="flex min-w-[1.4em] items-center justify-center text-center text-4xl tracking-tight tabular-nums sm:text-5xl md:text-6xl lg:text-7xl">
+                                  <span className="flex min-w-[1.2em] items-center justify-center text-center text-2xl font-bold tracking-tight tabular-nums sm:text-3xl md:text-4xl">
                                     {String(u.v).padStart(2, "0")}
                                   </span>
-                                  <span className="mt-2 text-white/60 md:text-xl">
+                                  <span className="mt-1 text-xs font-medium text-white/60 sm:text-sm">
                                     {u.l}
                                   </span>
                                 </div>
@@ -1276,12 +1266,9 @@ export default function FanAccountPage({
               }
 
               action={
-                <Link
-                  href="/#tour"
-                  className="text-xs sm:text-sm font-semibold text-white/60 hover:text-[var(--color-accent)] transition-colors"
-                >
+                <SeventhButton href="/#tour" icon={false}>
                   Full Tour Schedule →
-                </Link>
+                </SeventhButton>
               }
             />
 
@@ -1564,11 +1551,11 @@ export default function FanAccountPage({
                 </div>
 
                 {displayShows.length > visibleShowCount && (
-                  <div className="mt-8 flex justify-center">
+                  <div className="mt-8 flex justify-start">
                     <button
                       type="button"
                       onClick={() => setVisibleShowCount((prev) => prev + 6)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+                      className="inline-flex items-center gap-2 rounded-[var(--radius-box)] border border-white/15 bg-white/[0.04] px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
                     >
                       <span>
                         Show More Nearby Dates ({displayShows.length - visibleShowCount} more)
@@ -1645,7 +1632,7 @@ export default function FanAccountPage({
                     ))}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center border border-dashed border-white/10 bg-[#00000029] py-8">
+                  <div className="flex flex-col items-center rounded-[var(--radius-box)] border border-dashed border-white/10 bg-[#00000029] py-8">
                     <p>You aren&apos;t tracking any specific shows yet.</p>
                     <p>
                       Click the bell icon on the tour page to get date alerts.

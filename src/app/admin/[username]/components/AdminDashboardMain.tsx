@@ -1029,7 +1029,7 @@ export function AdminDashboardMain({
     () =>
       typeof window !== "undefined"
         ? localStorage.getItem("7h_profile_avatar_v1") ||
-          localStorage.getItem("7h_profile_avatar")
+        localStorage.getItem("7h_profile_avatar")
         : null,
     () => null,
   );
@@ -5667,7 +5667,7 @@ export function AdminDashboardMain({
                 <span>GA4 Event Metrics</span>
               </h4>
 
-              <div className="overflow-x-auto">
+              <div className="custom-scrollbar overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
                     <tr className="border-b border-[var(--border-color)]">
@@ -7957,7 +7957,7 @@ export function AdminDashboardMain({
                             <IconComp className={`h-4 w-4 ${isSelected ? "text-purple-400" : "text-white/40"}`} />
                             {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />}
                           </div>
-                          <div className="font-semibold text-sm text-white">{aud.label}</div>
+                          <div className=" text-sm text-white">{aud.label}</div>
                           <div className="text-[11px] text-white/40 mt-0.5">{aud.desc}</div>
                         </button>
                       );
@@ -8382,7 +8382,7 @@ export function AdminDashboardMain({
                     <span className="text-xs text-white/40">Real-time log across all channels</span>
                   </div>
 
-                  <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/30">
+                  <div className="custom-scrollbar overflow-x-auto rounded-xl border border-white/10 bg-black/30">
                     <div className="min-w-[600px] w-full text-left">
                       <div className="grid grid-cols-12 border-b border-white/10 p-3 text-[11px] font-medium text-white/50">
                         <div className="col-span-3">Timestamp / Title</div>
@@ -11896,7 +11896,10 @@ export function AdminDashboardMain({
                     <p>No cruise signups yet.</p>
                   </div>
                 ) : (
-                  <div className="custom-admin-scrollbar max-h-[750px] min-h-[450px] space-y-2 overflow-y-auto">
+                  <div
+                    data-lenis-prevent
+                    className="custom-scrollbar custom-admin-scrollbar max-h-[750px] min-h-[450px] space-y-2 overflow-y-auto"
+                  >
                     {/* Table header */}
                     <div className="sticky top-0 z-20 mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 border-b border-white/10 px-4 py-3 text-[0.65rem]">
                       <span></span>
@@ -15324,7 +15327,10 @@ export function AdminDashboardMain({
                                     </div>
 
                                     {/* List of candidates */}
-                                    <div className="max-h-48 space-y-1.5 overflow-y-auto pr-1">
+                                    <div
+                                      data-lenis-prevent
+                                      className="custom-scrollbar max-h-48 space-y-1.5 overflow-y-auto pr-1"
+                                    >
                                       {(() => {
                                         const candidates = crewMembers.filter(
                                           (m) =>
@@ -17132,7 +17138,10 @@ export function AdminDashboardMain({
                           </div>
 
                           {/* Content */}
-                          <div className="flex-1 space-y-4 overflow-y-auto p-5">
+                          <div
+                            data-lenis-prevent
+                            className="custom-scrollbar flex-1 space-y-4 overflow-y-auto p-5"
+                          >
                             {/* Show Stats Summary */}
                             <div className="grid grid-cols-3 gap-2 border border-white/10 bg-black/20 p-3 text-center">
                               <div>
@@ -17601,7 +17610,10 @@ export function AdminDashboardMain({
                     {auditLog.length} Events
                   </span>
                 </div>
-                <div className="flex max-h-[500px] flex-1 flex-col gap-5 overflow-y-auto py-6 pl-0">
+                <div
+                  data-lenis-prevent
+                  className="custom-scrollbar flex max-h-[500px] flex-1 flex-col gap-5 overflow-y-auto py-6 pl-0"
+                >
                   {auditLog.map((entry, i) => (
                     <div
                       key={entry.id}
@@ -18086,7 +18098,10 @@ export function AdminDashboardMain({
                 {(cruiseStats.recentSignups?.length ?? 0) > 0 && (
                   <div>
                     <p className="mb-2">Recent Signups</p>
-                    <div className="custom-admin-scrollbar max-h-[550px] min-h-[320px] space-y-1.5 overflow-y-auto pr-1">
+                    <div
+                      data-lenis-prevent
+                      className="custom-scrollbar custom-admin-scrollbar max-h-[550px] min-h-[320px] space-y-1.5 overflow-y-auto pr-1"
+                    >
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div
                           key={s.email || s.name}

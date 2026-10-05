@@ -405,7 +405,7 @@ export default function CruiseClient({
   };
 
   return (
-    <main className="page-container page-container--hero page-stack min-h-screen !pt-0" id="cruise-page">
+    <main className="page-container page-container--hero page-stack min-h-screen !pt-0 max-w-full overflow-x-hidden" id="cruise-page">
       {/* SECTION 1: HERO */}
       <CruiseHeroSection
         heroForegroundRef={heroForegroundRef}

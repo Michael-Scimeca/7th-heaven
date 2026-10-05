@@ -164,7 +164,7 @@ export default function PastShowsClient({
     <>
       {/* ── BREADCRUMB & HEADER SECTION ── */}
       <PageHero
-        badge={sanityContent?.badge || "ARCHIVE"}
+
         title={
           sanityContent?.heroHeading ||
           sanityContent?.title ||

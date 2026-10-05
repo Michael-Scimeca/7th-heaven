@@ -65,7 +65,9 @@ export function parseDateSafe(
     return new Date(0);
   }
 
-  const trimmed = dateStr.trim();
+  let trimmed = dateStr.trim();
+  // Strip leading weekday (e.g. "Friday, ", "Fri ", "Saturday, ")
+  trimmed = trimmed.replace(/^(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*[,\s]+/i, "");
   const currentYear = referenceYear || new Date().getFullYear();
 
   // 1. ISO format: "2026-10-12" or "2026-10-12T19:00:00" or "2026-10-12 19:00:00"

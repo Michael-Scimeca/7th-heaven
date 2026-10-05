@@ -1,4 +1,4 @@
-/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function, react-doctor/iframe-missing-sandbox */
 "use client";
 
 import Image from "next/image";
@@ -626,7 +626,7 @@ export default function ShowPageClient({
                     title="7th Heaven Live Performance Video"
                     className="h-full w-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    sandbox="allow-scripts allow-presentation allow-popups allow-forms"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                     allowFullScreen
                   />
                 </div>

@@ -729,30 +729,34 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Custom Smooth Webkit & Firefox Scrollbars */
+/* Custom Smooth Webkit & Firefox Scrollbars — ALWAYS VISIBLE */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(147, 51, 234, 0.6) rgba(15, 15, 19, 0.5);
+  scrollbar-width: thin !important;
+  scrollbar-color: #c084fc rgba(15, 7, 32, 0.6) !important;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px !important;
+  height: 8px !important;
+  display: block !important;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 15, 19, 0.4);
-  border-radius: var(--radius-box);
+  background: rgba(15, 7, 32, 0.5) !important;
+  border-radius: 9999px !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(147, 51, 234, 0.6);
-  border-radius: var(--radius-box);
-  transition: background-color 0.15s ease;
+  background: linear-gradient(180deg, #e9d5ff 0%, #a855f7 50%, #7e22ce 100%) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  min-height: 36px !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(168, 85, 247, 0.9);
+  background: linear-gradient(180deg, #ffffff 0%, #c084fc 50%, #9333ea 100%) !important;
+  box-shadow: 0 0 14px rgba(192, 132, 252, 0.9) !important;
 }
 
 /* Eliminate 300ms tap delay & gray tap flash on touch devices */
@@ -827,6 +831,11 @@ textarea:focus-visible {
 
 address {
   font-style: normal;
+}
+
+address p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 
@@ -2556,53 +2565,61 @@ button,
   }
 
   html {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-accent) var(--color-bg-primary);
-    overflow-y: scroll;
-    scrollbar-gutter: stable;
+    scrollbar-width: thin !important;
+    scrollbar-color: #c084fc rgba(15, 7, 32, 0.6) !important;
+    overflow-y: scroll !important;
+    scrollbar-gutter: stable !important;
   }
 
   html::-webkit-scrollbar {
-    width: 8px;
+    width: 8px !important;
+    height: 8px !important;
+    display: block !important;
   }
 
   html::-webkit-scrollbar-track {
-    background: var(--color-bg-primary);
+    background: rgba(15, 7, 32, 0.5) !important;
   }
 
   html::-webkit-scrollbar-thumb {
-    background: var(--color-accent);
-    border-radius: 9999px;
+    background: linear-gradient(180deg, #e9d5ff 0%, #a855f7 50%, #7e22ce 100%) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 0 10px rgba(192, 132, 252, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
   }
 
   html::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent-hover);
+    background: linear-gradient(180deg, #ffffff 0%, #c084fc 50%, #9333ea 100%) !important;
   }
 
   /* Inner scrollable containers */
   * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(128, 128, 128, 0.2) transparent;
+    scrollbar-width: thin !important;
+    scrollbar-color: #c084fc rgba(15, 7, 32, 0.6) !important;
   }
 
   *::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px !important;
+    height: 8px !important;
+    display: block !important;
   }
 
   *::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 9999px;
+    background: rgba(15, 7, 32, 0.5) !important;
+    border-radius: 9999px !important;
   }
 
   *::-webkit-scrollbar-thumb {
-    background: rgba(128, 128, 128, 0.2);
-    border-radius: 9999px;
-    min-height: 40px;
+    background: linear-gradient(180deg, #e9d5ff 0%, #a855f7 50%, #7e22ce 100%) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 0 10px rgba(192, 132, 252, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    min-height: 36px !important;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(128, 128, 128, 0.35);
+    background: linear-gradient(180deg, #ffffff 0%, #c084fc 50%, #9333ea 100%) !important;
+    box-shadow: 0 0 14px rgba(192, 132, 252, 0.9) !important;
   }
 }
 
@@ -2684,6 +2701,12 @@ button,
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--color-border);
+}
+
+/* ── Fade bottom mask utility ── */
+@utility fade-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
 }
 
 /* ── Scrollbar hide ── */
@@ -6105,7 +6128,7 @@ button>span,
   justify-content: center;
   gap: 6px;
   text-align: center;
-  padding: 10px 28px;
+  padding: 15px 28px;
   box-sizing: border-box;
   /* min-width: 124px; */
   width: 100%;
@@ -6485,42 +6508,9 @@ span {
   font-family: cursive, sans-serif;
 }
 
-.prose-legal {
-  color: var(--color-text-secondary);
-  line-height: 1.75;
-  max-width: 65ch;
-}
-
-.prose-legal h1,
-.prose-legal h2,
-.prose-legal h3,
-.prose-legal dt {
-  color: #ffffff;
-  font-weight: 700;
-}
-
-.prose-legal p,
-.prose-legal ul,
-.prose-legal ol,
-.prose-legal dl,
-.prose-legal dd {
-  color: var(--color-text-secondary);
-}
-
-.prose-legal a {
-  color: var(--color-action);
-  text-decoration: none;
-}
-
-.prose-legal a:hover {
-  color: var(--color-action-hover);
-  text-decoration: none;
-}
-
 .su-bleed {
   position: relative;
   background: transparent;
-  color: #f2f1e6;
   font-family: inherit;
 }
 
@@ -6720,6 +6710,22 @@ span {
 .exo-text-line-inner {
   display: inline-block;
   will-change: transform;
+}
+
+/* ── White Calendar Picker Indicator for Date Inputs ── */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 /* ── Reduced Motion Universal Transition Support ── */
