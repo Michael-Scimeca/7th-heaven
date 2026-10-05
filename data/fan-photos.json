@@ -2,7 +2,7 @@
   {
     "id": "pending_video_001",
     "filename": "fan_solo_video.mp4",
-    "src": "/images/events/festival.png",
+    "src": "/images/tour/fan-concert-photo.jpg",
     "type": "video",
     "youtubeId": "Rv6u0SMTUA4",
     "name": "RockFan_Chris",
@@ -17,7 +17,7 @@
   {
     "id": "pending_photo_001",
     "filename": "fan_front_row_stage.jpg",
-    "src": "/images/events/wedding.png",
+    "src": "/images/tour/fan-concert-photo.jpg",
     "type": "image",
     "name": "Sarah_Rockz",
     "venue": "Station 34",

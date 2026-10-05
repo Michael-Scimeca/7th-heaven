@@ -7439,29 +7439,39 @@ export function AdminDashboardMain({
                   {moderationQueue.map((photo) => (
                     <div
                       key={photo.id}
-                      className="transition-colors group relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] hover:border-[var(--color-accent)]/50"
+                      className="transition-colors group relative flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] hover:border-[var(--color-accent)]/50"
                     >
-                      <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
-                        <img
-                          src={photo.src}
-                          alt="Fan Upload"
-                          className="h-full w-full object-cover"
-                        />
-                        <div className="absolute top-0 right-0 m-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[0.9rem] backdrop-blur-2xl">
-                          {new Date(photo.submittedAt).toLocaleDateString()}
+                      <div>
+                        <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
+                          <img
+                            src={
+                              photo.youtubeId
+                                ? `https://img.youtube.com/vi/${photo.youtubeId}/hqdefault.jpg`
+                                : photo.src || "/images/tour/fan-concert-photo.jpg"
+                            }
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src =
+                                "/images/tour/fan-concert-photo.jpg";
+                            }}
+                            alt="Fan Upload"
+                            className="h-full w-full object-cover"
+                          />
+                          <div className="absolute top-0 right-0 m-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[0.9rem] backdrop-blur-2xl">
+                            {new Date(photo.submittedAt).toLocaleDateString()}
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex flex-col gap-1.5 p-4">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[var(--color-accent)]">@</span>
-                          {photo.name}
+                        <div className="flex flex-col gap-1.5 p-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[var(--color-accent)]">@</span>
+                            {photo.name}
+                          </div>
+                          {photo.venue && <p> {photo.venue}</p>}
+                          {photo.caption && (
+                            <p className="mt-2 border-l-2 border-white/10 pl-3">
+                              "{photo.caption}"
+                            </p>
+                          )}
                         </div>
-                        {photo.venue && <p> {photo.venue}</p>}
-                        {photo.caption && (
-                          <p className="mt-2 border-l-2 border-white/10 pl-3">
-                            "{photo.caption}"
-                          </p>
-                        )}
                       </div>
                       <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
                         <button
@@ -10688,7 +10698,7 @@ export function AdminDashboardMain({
         "Community Registry",
         "Search and manage all user accounts registered in the database, view roles, and configure site settings.",
       )}
-      <div style={{ display: isSectionOpen("registry") ? undefined : "none" }}>
+      <div className="overflow-hidden" style={{ display: isSectionOpen("registry") ? undefined : "none" }}>
         {isSectionOpen("registry") && (
           <>
             <div className="w-full text-left">
