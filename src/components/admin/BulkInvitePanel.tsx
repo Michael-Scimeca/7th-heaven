@@ -275,7 +275,7 @@ export default function BulkInvitePanel() {
           </div>
 
           {/* Direct Copy-Paste Text Area */}
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-4">
             <GlowTextarea
               id="bulk-invite-text-input"
               label="Copy-Paste Contact List"
