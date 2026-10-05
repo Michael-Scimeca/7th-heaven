@@ -569,11 +569,11 @@ export default function CruiseSnakeItinerary({
   const lastDayEventCount = lastDay?.events?.length || 2;
   const lastCardEstimatedHeight = isMobile
     ? 360 + lastDayEventCount * 110
-    : 440 + lastDayEventCount * 45;
+    : 340 + lastDayEventCount * 40;
 
   const totalH = isMobile
     ? lastNodeY + 40 + lastCardEstimatedHeight + 140
-    : lastNodeY + Math.max(lastCardEstimatedHeight, 540) + 200;
+    : lastNodeY + Math.max(lastCardEstimatedHeight, 420) + 105;
 
   /* ── Animated water-wave serpentine path ── */
   const trackRef = useRef<SVGPathElement>(null);
