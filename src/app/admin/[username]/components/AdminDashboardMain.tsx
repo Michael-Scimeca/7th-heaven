@@ -6694,7 +6694,7 @@ export function AdminDashboardMain({
   );
 
   const renderBookings = () => (
-    <div className="overflow-hidden">
+    <div className="">
       <div
         role="button"
         tabIndex={0}
@@ -7318,7 +7318,7 @@ export function AdminDashboardMain({
                       </div>
 
                       <div className="col-span-12 flex shrink-0 items-center gap-2 md:col-span-2 md:justify-end">
-                        <a
+                        <SeventhButton
                           href={`mailto:${planner.email}`}
                           onClick={() =>
                             setAuditLog((prev) => [
@@ -7331,12 +7331,12 @@ export function AdminDashboardMain({
                               ...prev,
                             ])
                           }
-                          className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-white"
+                          icon={false}
                         >
                           Email
-                        </a>
+                        </SeventhButton>
                         {planner.phone ? (
-                          <a
+                          <SeventhButton
                             href={`sms:${planner.phone.replace(/[^0-9]/g, "")}`}
                             onClick={() =>
                               setAuditLog((prev) => [
@@ -7349,17 +7349,17 @@ export function AdminDashboardMain({
                                 ...prev,
                               ])
                             }
-                            className="transition-colors rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] backdrop-blur-xl hover:text-[var(--color-accent)]"
+                            icon={false}
                           >
                             Text
-                          </a>
+                          </SeventhButton>
                         ) : (
-                          <button
+                          <SeventhButton
                             disabled
-                            className="cursor-not-allowed rounded-lg border border-white/10 bg-[#00000029] px-4 py-2 text-center text-[0.9rem] text-white/20"
+                            icon={false}
                           >
-                            No Phone
-                          </button>
+                            Text
+                          </SeventhButton>
                         )}
                       </div>
                     </div>
