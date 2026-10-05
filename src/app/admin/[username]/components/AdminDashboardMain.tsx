@@ -4985,23 +4985,11 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("emergencybroadcast")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-              </svg>
+
               Emergency Show & Fan Alert Dispatcher
             </h3>
             <p>
@@ -5064,25 +5052,11 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("emaildirectory")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 1-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
+
               Role-Based Email Lists & Subscriber Directory
             </h3>
             <p>
@@ -5136,7 +5110,7 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("announcements")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
@@ -5428,7 +5402,7 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("analytics")}
-        className="mb-5 flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
+        className="mb-5 flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
       >
         <div className="title-group title-group--sub">
           <h3 className="flex items-center gap-2">
@@ -7411,22 +7385,11 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("photomod")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
+        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
       >
         <div className="title-group title-group--sub">
           <h3 className="flex items-center gap-2">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
+
             Fan Photo Moderation Queue
           </h3>
           <p>
@@ -7660,7 +7623,7 @@ export function AdminDashboardMain({
           }
         }}
         onClick={() => toggleSection("livealerts")}
-        className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+        className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 "
       >
         <div className="title-group title-group--sub">
           <h3 className="flex cursor-pointer items-center gap-2">
@@ -7836,11 +7799,10 @@ export function AdminDashboardMain({
               toggleSection("smsblast");
             }
           }}
-          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
-              <Bell className="h-5 w-5 text-purple-400" />
               Send Alert
               {renderInfoToggle("smsblast")}
             </h3>
@@ -9860,23 +9822,11 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("pushsubscribers")}
-          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 hover:bg-white/[0.02]"
+          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#ec4899"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-              </svg>
+
               Fan Proximity Alerts
               {renderInfoToggle("pushsubscribers")}
             </h3>
@@ -11266,7 +11216,19 @@ export function AdminDashboardMain({
               (isSectionOpen("admincreation") ? "rotate-0" : "-rotate-90")
             }
           >
-
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-white/40"
+            >
+              <path d="M2 4l4 4 4-4" />
+            </svg>
           </div>
         </div>
       </div>
@@ -14250,7 +14212,7 @@ export function AdminDashboardMain({
             }
           }}
           onClick={() => toggleSection("calendar")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 py-5 select-none"
+          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
         >
           <div className="title-group title-group--sub">
             <h3 className="flex items-center gap-2">
@@ -17603,9 +17565,9 @@ export function AdminDashboardMain({
             })}
 
           <section id="admin-audit-log" aria-labelledby="admin-audit-log-heading" className="section">
-            <div className="mt-4 flex w-full flex-col gap-4">
+            <div className="flex w-full flex-col gap-4">
               <div className="flex h-full flex-col overflow-hidden">
-                <div className="admin-section-header flex shrink-0 items-center justify-between py-6 pr-6 pl-0">
+                <div className="admin-section-header flex shrink-0 items-center justify-between ">
                   <h3 id="admin-audit-log-heading" className="flex items-center gap-2">
                     Audit Log
                     <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
@@ -17621,7 +17583,7 @@ export function AdminDashboardMain({
                   {auditLog.map((entry, i) => (
                     <div
                       key={entry.id}
-                      className={`relative flex gap-2.5 pb-4 pl-0 last:pb-0 ${i === 0 ? "animate-[slideIn_0.4s_ease-out]" : ""}`}
+                      className={`relative flex gap-2.5 pb-2 pl-0 last:pb-0 ${i === 0 ? "animate-[slideIn_0.4s_ease-out]" : ""}`}
                     >
                       {i < auditLog.length - 1 && (
                         <div className="absolute top-6 bottom-[-20px] left-[5px] w-[2px] bg-white/10" />
