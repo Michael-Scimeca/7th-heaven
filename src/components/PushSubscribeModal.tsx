@@ -7,6 +7,7 @@ import Toggle from "@/components/Toggle";
 import { useMember } from "@/context/MemberContext";
 import { GlowInput } from "@/components/GlowInput";
 import { useScrollLock } from "@/lib/useScrollLock";
+import { ModalOverlay } from "@/components/ui";
 
 interface PushSubscribeModalProps {
   isOpen: boolean;
@@ -108,7 +109,7 @@ export default function PushSubscribeModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
+    <ModalOverlay isOpen={isOpen} onClose={onClose} blur="lg">
       <div className="relative w-full max-w-lg overflow-hidden rounded-[var(--radius-box)] border border-purple-500/30 bg-[#0e0a1a] p-6 shadow-2xl sm:p-8">
         {/* Close Button */}
         <button
@@ -260,6 +261,6 @@ export default function PushSubscribeModal({
           </div>
         )}
       </div>
-    </div>
+    </ModalOverlay>
   );
 }
