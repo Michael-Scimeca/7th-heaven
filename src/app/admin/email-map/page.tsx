@@ -154,7 +154,7 @@ export default function EmailMapPage() {
                   color="purple"
                 />
                 <VertLine />
-                <div className="w-full space-y-1">
+                <div className="w-full flex flex-col gap-1">
                   <Node
                     label="WELCOME FAN"
                     sub="welcomeFan"
@@ -197,7 +197,7 @@ export default function EmailMapPage() {
               <div className="flex flex-col items-center">
                 <Node label="CRUISE HUB" sub="/api/cruise/*" color="cyan" />
                 <VertLine />
-                <div className="w-full space-y-1">
+                <div className="w-full flex flex-col gap-1">
                   <Node
                     label="CRUISE CONFIRM"
                     sub="cruiseConfirmation"
@@ -237,7 +237,7 @@ export default function EmailMapPage() {
                   color="emerald"
                 />
                 <VertLine />
-                <div className="w-full space-y-1">
+                <div className="w-full flex flex-col gap-1">
                   <Node
                     label="REQUEST RECEIVED"
                     sub="bookingConfirmation"
@@ -277,7 +277,7 @@ export default function EmailMapPage() {
                   color="red"
                 />
                 <VertLine />
-                <div className="w-full space-y-1">
+                <div className="w-full flex flex-col gap-1">
                   <Node
                     label="WELCOME CREW"
                     sub="welcomeCrew + Temp Pass"

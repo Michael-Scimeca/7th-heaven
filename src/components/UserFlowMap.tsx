@@ -32,7 +32,6 @@ import {
   Calendar,
   CreditCard,
   X,
-  ArrowRight,
   ShoppingBag,
   Film,
   UserPlus,
@@ -45,6 +44,7 @@ import {
   Bell,
   Send,
 } from "lucide-react";
+import { DotChevronRight } from "@/components/ui/DotArrow";
 
 // --- Color System Matching Reference Diagram ---
 const COLOR_SCHEMES = {
@@ -1621,7 +1621,7 @@ export default function UserFlowMap() {
           data-lenis-prevent
           className="custom-scrollbar shadow-2xl backdrop-blur-xl animate-in slide-in-from-right-8 absolute top-14 right-4 bottom-4 z-30 flex w-96 flex-col justify-between overflow-y-auto border border-purple-500/40 bg-black/95 p-6"
         >
-          <div className="space-y-5">
+          <div className="flex flex-col gap-4">
             {/* Header */}
             <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-4">
               <div>
@@ -1640,7 +1640,7 @@ export default function UserFlowMap() {
             </div>
 
             {/* Summary */}
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <span className="block text-[10px] text-white/40">
                 Technical Summary
               </span>
@@ -1652,7 +1652,7 @@ export default function UserFlowMap() {
 
             {/* Email Subject Info */}
             {selectedNode.data.details?.emailSubject && (
-              <div className="space-y-1.5">
+              <div className="flex flex-col gap-1.5">
                 <span className="block text-[10px] text-amber-300">
                   ✉ Transactional Email Subject Line
                 </span>
@@ -1671,7 +1671,7 @@ export default function UserFlowMap() {
                 className="transition-colors flex w-full items-center justify-center gap-2 bg-purple-600 py-2.5 hover:bg-purple-500"
               >
                 <span>Visit Route ({selectedNode.data.sub.split("?")[0]})</span>
-                <ArrowRight className="h-4 w-4" />
+                <DotChevronRight className="h-4 w-4" />
               </button>
             ) : (
               <button

@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { Compass } from "lucide-react";
 import {
   ITINERARY_2027,
   ITINERARY_2028,
   mapToSnakeItinerary,
 } from "../cruiseData";
 
-import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 
 const CruiseSnakeItinerary = dynamic(
   () => import("@/components/CruiseSnakeItinerary"),
@@ -48,12 +47,6 @@ export default function CruiseItinerarySection({
       <div className="mx-auto w-full">
         <div className="site-container w-full text-left">
           <div className="title-group title-group--section">
-            <div className="mb-2 flex items-center gap-2">
-              <Compass className="h-4 w-4 text-[var(--color-amber)]" />
-              <span className="text-fluid-caption font-bold tracking-widest text-[var(--color-amber)] uppercase">
-                Voyage Timeline
-              </span>
-            </div>
             <h2 id="itinerary-heading">
               Day-by-Day{" "}
               <span className="accent-gradient-text">Voyage Itinerary</span>
@@ -65,21 +58,20 @@ export default function CruiseItinerarySection({
           </div>
 
           {/* Itinerary Year Toggle */}
-          <div className="my-6 flex flex-wrap items-center gap-3">
-            <SeventhButton
-              type="button"
-              onClick={() => setActiveItinYear(2027)}
-              isActive={activeItinYear === 2027}
-            >
-              ⭐ 2027 Star of the Seas (7-Night Caribbean)
-            </SeventhButton>
-            <SeventhButton
-              type="button"
-              onClick={() => setActiveItinYear(2028)}
-              isActive={activeItinYear === 2028}
-            >
-              🌊 2028 Legend of the Seas (8-Night Bahamas)
-            </SeventhButton>
+          <div className="my-6 max-w-full overflow-x-auto hide-scrollbar py-1">
+            <SegmentedTabs<2027 | 2028>
+              tabs={[
+                { id: 2027, label: "⭐ 2027 Star of the Seas (7-Night Caribbean)" },
+                { id: 2028, label: "🌊 2028 Legend of the Seas (8-Night Bahamas)" },
+              ]}
+              activeTab={activeItinYear}
+              onChange={(year) => setActiveItinYear(year)}
+              layout="flex"
+              shape="full"
+              size="md"
+              className="flex-nowrap inline-flex w-max shrink-0"
+              ariaLabel="Itinerary year selector"
+            />
           </div>
         </div>
 

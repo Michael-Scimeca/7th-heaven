@@ -1058,7 +1058,7 @@ function LoginModalBodyContent(props: any) {
 
         {/* Role selector toggle setup */}
         {modalMode !== "forgot" && (
-          <div className="my-3 space-y-1.5">
+          <div className="my-3 flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <span className="block text-[10px]">ACCOUNT TYPE:</span>
             </div>
@@ -1657,7 +1657,7 @@ function QuickLoginDemoButtons({
   setLoginRole: (v: "fan" | "crew" | "planner" | "cruise") => void;
 }) {
   return (
-    <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
+    <div className="mt-4 flex flex-col gap-2 border-t border-white/10 pt-4">
       <p className="text-center text-purple-400">
         1-Click Quick Demo Login (Instant Live Access)
       </p>

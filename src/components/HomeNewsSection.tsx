@@ -236,7 +236,7 @@ export default function HomeNewsSection({
           )}
 
           {/* Remaining Articles List (Right - 5 Cols) */}
-          <div className="space-y-4 lg:col-span-5">
+          <div className="flex flex-col gap-4 lg:col-span-5">
             {news.slice(1).map((item) => {
               const href = `/news/${item.slug || item.id || toSlug(item.title)}`;
               return (
@@ -330,7 +330,7 @@ export default function HomeNewsSection({
                 </div>
               )}
 
-              <form onSubmit={handleAddNewsSubmit} className="space-y-4">
+              <form onSubmit={handleAddNewsSubmit} className="flex flex-col gap-4">
                 <div>
                   <label className="block">
                     Article Title *

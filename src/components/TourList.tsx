@@ -35,6 +35,7 @@ import LocationPinIcon from "./LocationPinIcon";
 import { SanityTourDate } from "@/lib/sanity";
 import Script from "next/script";
 import dynamic from "next/dynamic";
+import type { DropdownLayout } from "./GooeyDropdown";
 const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
 import {
   isShowOver,
@@ -782,6 +783,7 @@ export default function TourList({
   const [activeType, setActiveType] = useState("All");
   const [activeCity, setActiveCity] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [dropdownLayout, setDropdownLayout] = useState<DropdownLayout>("unified");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
 
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(
@@ -1566,7 +1568,12 @@ export default function TourList({
         <Script
           id="tour-event-schema"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(eventSchema)
+              .replace(/</g, "\\u003c")
+              .replace(/>/g, "\\u003e")
+              .replace(/&/g, "\\u0026"),
+          }}
         />
       )}
       {/* Table */}
@@ -1662,45 +1669,76 @@ export default function TourList({
             }}
             className="relative sticky z-[40] flex w-full flex-col sm:gap-0 md:gap-2 lg:gap-2 border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-6"
           >
-            <div className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-1 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity backdrop-blur-[24px]" />
-            <div className="relative my-3 w-full max-w-[300px] shrink-0">
-              <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
-              <GlowInput
-                aria-label="Search"
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="no-bg-icon pl-9 pr-5 text-white/50"
-                id="tour-search"
-                rounded="rounded-lg"
-              />
-              {searchQuery && (
-                <button
-                  aria-label="Clear search"
-                  onClick={() => setSearchQuery("")}
-                  className="transition-colors absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer text-[1.08rem] hover:text-white"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              )}
+            <div className="my-3 flex flex-wrap items-center justify-between gap-3">
+              <div className="relative w-full max-w-[280px] shrink-0">
+                <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
+                <GlowInput
+                  aria-label="Search"
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="no-bg-icon pl-9 pr-5 text-white/50"
+                  id="tour-search"
+                  rounded="rounded-lg"
+                />
+                {searchQuery && (
+                  <button
+                    aria-label="Clear search"
+                    onClick={() => setSearchQuery("")}
+                    className="transition-colors absolute top-1/2 right-2.5 z-10 -translate-y-1/2 cursor-pointer text-[1.08rem] hover:text-white"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
+
+              {/* Interactive Dropdown Layout Switcher */}
+              <div className="flex flex-wrap items-center gap-1 rounded-full border border-white/10 bg-black/40 p-1 backdrop-blur-md">
+                <span className="hidden px-2 text-[10px] font-extrabold uppercase tracking-widest text-purple-300/70 sm:inline">
+                  Dropdown Style:
+                </span>
+                {(
+                  [
+                    { id: "unified", label: "Pill Unroll" },
+                    { id: "spotlight", label: "Glass Spotlight" },
+                    { id: "bento", label: "Bento Grid" },
+                    { id: "minimal", label: "Minimal HUD" },
+                  ] as const
+                ).map((l) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => setDropdownLayout(l.id)}
+                    className={`cursor-pointer rounded-full px-2.5 py-1 text-2xs font-bold uppercase tracking-wider transition-all duration-150 ${
+                      dropdownLayout === l.id
+                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm shadow-purple-600/50 ring-1 ring-white/30"
+                        : "text-white/60 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
             <div
-              className={`flex flex-wrap lg:grid ${gridClass} w-full items-center gap-3 sm:gap-4 lg:gap-8`}
+              className={`flex flex-wrap lg:grid ${gridClass} w-full items-center gap-3 sm:gap-4 lg:gap-8 font-bold text-white`}
             >
               {/* Column 1: DAY */}
-              <span className="hidden text-[clamp(16px,1.4vw,21px)] lg:inline-block">
+              <span className="hidden text-[clamp(16px,1.4vw,21px)] font-bold lg:inline-block">
                 Day
               </span>
 
-              {/* Column 2: MONTH Filter */}
+              {/* Column 2: DATES Filter */}
               <div className="relative flex w-full shrink-0 items-center">
                 <GooeyMessagesDropdown
                   fullWidth
                   showAllOption
-                  placeholder="MONTH"
+                  layout={dropdownLayout}
+                  allOptionLabel="DATES"
+                  placeholder="DATES"
                   selected={activeMonth}
                   defaultSelectedId={activeMonth}
                   customers={months.map((m) => ({ id: m, name: m }))}
@@ -1709,38 +1747,40 @@ export default function TourList({
               </div>
 
               {/* Column 3: PLACE / VENUE */}
-              <span className="hidden text-[clamp(16px,1.4vw,21px)] lg:inline-block">
+              <span className="hidden text-[clamp(16px,1.4vw,21px)] font-bold lg:inline-block">
                 Place
               </span>
 
-              {/* Column 4: CITY Filter */}
+              {/* Column 4: LOCATION Filter */}
               <div className="relative flex w-full shrink-0 items-center">
                 <GooeyMessagesDropdown
                   fullWidth
                   showAllOption
-                  placeholder="CITY"
+                  layout={dropdownLayout}
+                  allOptionLabel="LOCATION"
+                  placeholder="LOCATION"
                   selected={activeCity}
                   defaultSelectedId={activeCity}
                   customers={locationOptions.map(({ city, count }) => ({
                     id: city,
-                    name: city === "ALL" ? "ALL" : `${city} (${count})`,
+                    name: `${city} (${count})`,
                   }))}
                   onSelect={(opt) => setActiveCity(opt.id)}
                 />
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden text-[clamp(16px,1.4vw,22px)] lg:inline-block">
+              <span className="hidden text-[clamp(16px,1.4vw,22px)] font-bold lg:inline-block">
                 Time
               </span>
 
               {/* Column 6: MAP/CAL */}
-              <span className="hidden text-left text-[clamp(16px,1.4vw,22px)] lg:inline-block">
+              <span className="hidden text-left text-[clamp(16px,1.4vw,22px)] font-bold lg:inline-block">
                 Map/Parking
               </span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden text-right text-[clamp(16px,1.4vw,22px)] lg:inline-block">
+              <span className="hidden text-right text-[clamp(16px,1.4vw,22px)] font-bold lg:inline-block">
                 Website
               </span>
             </div>
@@ -2057,7 +2097,7 @@ export default function TourList({
                     id={`${rowId}-mobile`}
                   >
                     {/* 1. Venue & City (FIRST) */}
-                    <div className="space-y-1">
+                    <div className="flex flex-col gap-1">
                       <h4 className="text-white">{show.venue}</h4>
 
                       {(show.city || show.state) && (
@@ -2362,7 +2402,7 @@ export default function TourList({
                   </div>
                 )}
 
-                <form onSubmit={handleSaveShow} className="space-y-4">
+                <form onSubmit={handleSaveShow} className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label

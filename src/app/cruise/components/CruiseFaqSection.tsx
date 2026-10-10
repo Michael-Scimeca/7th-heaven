@@ -38,14 +38,18 @@ export default function CruiseFaqSection({
     <section
       id="faqs"
       aria-labelledby="faqs-heading"
-      className="section cv-auto site-container"
-      style={{ "--cv-size": "600px" } as React.CSSProperties}
+      className="section site-container"
     >
       <div className="mx-auto">
         {/* Header Box */}
         <SectionHeader
           id="faqs-heading"
-          title={sectionTitle}
+          title={
+            <>
+              Frequently Asked{" "}
+              <span className="accent-gradient-text">Questions</span>
+            </>
+          }
           subtitle={sectionSubtitle}
           icon={HelpCircle}
         />

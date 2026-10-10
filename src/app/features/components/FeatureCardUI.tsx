@@ -157,10 +157,10 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
         {/* Bullets */}
         <div>
           <p className="mb-3">What it does</p>
-          <ul className="space-y-2">
+          <ul className="flex flex-col gap-2">
             {f.bullets.map((b) => (
               <li
-                key={`bullet-${b.slice(0, 20)}`}
+                key={`bullet-${b}`}
                 className="flex items-start gap-2.5"
               >
                 <span
@@ -182,7 +182,7 @@ export function FeatureCardUI({ f }: { f: FeatureCard }) {
             How It Works
           </button>
           {expanded && (
-            <div className="mt-3 space-y-2.5">
+            <div className="mt-3 flex flex-col gap-2">
               {Array.from(f.howItWorks, (h, i) => ({ h, i })).map(
                 ({ h, i }) => (
                   <div

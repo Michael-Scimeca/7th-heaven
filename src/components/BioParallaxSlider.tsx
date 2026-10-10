@@ -24,8 +24,6 @@ import {
   Paintbrush,
   Scissors,
   Save,
-  ChevronLeft,
-  ChevronRight,
   Ticket,
   Plus,
 } from "lucide-react";
@@ -1482,7 +1480,7 @@ lerpSpeed: ${lerpSpeed}`;
                 </div>
 
                 {activeCustomizerTab === "canvas" && (
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     {/* Enable Shader Canvas Toggle */}
                     <div className="flex items-center justify-between border border-white/10 bg-white/5 p-2.5">
                       <span>Enable Fireplace Shader</span>
@@ -1524,7 +1522,7 @@ lerpSpeed: ${lerpSpeed}`;
                     </div>
 
                     {/* Custom Color Swatches & Toggle */}
-                    <div className="space-y-3 border border-white/10 bg-white/5 p-3">
+                    <div className="flex flex-col gap-3 border border-white/10 bg-white/5 p-3">
                       <div className="flex items-center justify-between">
                         <span className="flex items-center gap-1.5">
                           <span>🎨</span> Custom Palette Swatches
@@ -1849,7 +1847,7 @@ lerpSpeed: ${lerpSpeed}`;
                 )}
 
                 {activeCustomizerTab === "stage" && (
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     {/* Card Width */}
                     <div>
                       <div className="mb-1 flex justify-between">
@@ -2290,7 +2288,7 @@ lerpSpeed: ${lerpSpeed}`;
                         >
                           <h3
                             className="bg-black/40 pt-1 pr-2 pl-2 sm:bg-black/60"
-                            >
+                          >
                             {m?.name}
                           </h3>
                           <span
@@ -2333,7 +2331,7 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            >
+                          >
                             {m?.name}
                           </h3>
                           <span
@@ -2410,7 +2408,7 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            >
+                          >
                             {m?.name}
                           </h3>
                           <span
@@ -2453,7 +2451,7 @@ lerpSpeed: ${lerpSpeed}`;
                           }}
                         >
                           <h3
-                            >
+                          >
                             {m?.name}
                           </h3>
                           <span

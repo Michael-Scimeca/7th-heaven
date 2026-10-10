@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import { getShowDateTime } from "@/lib/tour-helpers";
 
 interface CountdownTimerProps {
@@ -133,20 +133,20 @@ export default function CountdownTimer({
         </div>
       )}
       <div
-        className={`no-scrollbar flex max-w-full shrink-0 items-start overflow-x-auto ${className ? className : compact ? "gap-0.5 sm:gap-1" : "gap-1 sm:gap-3 md:gap-4"}`}
+        className={`no-scrollbar flex max-w-full shrink-0 items-start overflow-x-auto ${className ? className : compact ? "gap-1 sm:gap-1.5" : "gap-1 sm:gap-3 md:gap-4"}`}
       >
         {units.map((u, i) => (
           <div
             key={u.label}
-            className={`flex items-start ${compact ? "gap-0.5 sm:gap-1" : "gap-1 sm:gap-2.5 md:gap-3.5"}`}
+            className={`flex items-start ${compact ? "gap-1 sm:gap-1.5" : "gap-1 sm:gap-2.5 md:gap-3.5"}`}
           >
             <div
-              className={`flex flex-col items-center justify-center ${compact ? "min-w-[28px] px-1 py-0.5 sm:min-w-[34px]" : "min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]"}`}
+              className={`flex flex-col items-center justify-center ${compact ? "min-w-[34px] px-1 py-0.5 sm:min-w-[42px]" : "min-w-0 px-1 sm:min-w-[52px] sm:px-0 md:min-w-[64px]"}`}
             >
               <span
                 suppressHydrationWarning
-                className={`leading-none font-black tabular-nums ${compact ? "sm:" : "text-[clamp(18px,4.5vw,3.5rem)]"}`}
-                style={{ color: numberColor }}
+                className={`leading-none tabular-nums text-[var(--timer-color)] ${compact ? "text-xl font-bold sm:text-2xl md:text-3xl" : "text-3xl font-bold sm:text-4xl md:text-5xl"}`}
+                style={{ "--timer-color": numberColor } as CSSProperties}
               >
                 {String(isNaN(u.value) || u.value < 0 ? 0 : u.value).padStart(
                   2,
@@ -154,14 +154,14 @@ export default function CountdownTimer({
                 )}
               </span>
               <span
-                className={`${compact ?"mt-0.5 text-[9px] text-white/60 sm:text-[10px]":"mt-1.5"}`}
+                className={`${compact ? "mt-1 text-2xs font-medium text-white/70 sm:text-xs" : "mt-1.5 text-xs font-medium text-white/70 sm:text-sm"}`}
               >
                 {u.label}
               </span>
             </div>
             {i < 3 && (
               <span
-                className={`flex items-center justify-center self-start leading-none text-white/40 select-none ${compact ? "sm: mt-0.5 h-3.5" : "h-[clamp(18px,4.5vw,3.5rem)] sm:text-2xl md:text-4xl"}`}
+                className={`flex items-center justify-center self-start leading-none text-white/40 select-none ${compact ? "mt-0.5 text-base font-bold sm:text-xl md:text-2xl" : "mt-1 text-2xl font-bold sm:text-3xl md:text-4xl"}`}
               >
                 :
               </span>

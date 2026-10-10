@@ -105,7 +105,7 @@ export default function HeroParallaxCustomizer({
           </div>
 
           {/* Presets */}
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <span className="block">Presets</span>
             <div className="flex flex-wrap gap-1.5">
               {PARALLAX_PRESETS.map((preset) => (
@@ -122,7 +122,7 @@ export default function HeroParallaxCustomizer({
           </div>
 
           {/* Depth (range) Slider */}
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <div className="flex justify-between">
               <span>Depth</span>
               <span className="text-[var(--color-accent)]">±{pxRange}%</span>
@@ -140,7 +140,7 @@ export default function HeroParallaxCustomizer({
           </div>
 
           {/* Scrub (smoothing) Slider */}
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <div className="flex justify-between">
               <span>Smoothing</span>
               <span className="text-[var(--color-accent)]">
@@ -176,7 +176,7 @@ export default function HeroParallaxCustomizer({
           </div>
 
           {/* Active Values HUD */}
-          <div className="space-y-0.5 border border-white/10 bg-white/[0.02] p-2 text-white/40">
+          <div className="flex flex-col gap-0.5 border border-white/10 bg-white/[0.02] p-2 text-white/40">
             <div>
               Depth: <span>±{pxRange}%</span>
             </div>

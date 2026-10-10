@@ -28,8 +28,11 @@ import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import GlowInput, { GlowTextarea, GlowSelect } from "@/components/GlowInput";
 import SearchInput from "@/components/SearchInput";
 import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import Avatar from "@/components/Avatar";
 import { NavLinkButton } from "@/components/ui";
+import { DotChevronDown, DotChevronLeft, DotChevronRight, DotArrow } from "@/components/ui/DotArrow";
+import Stack from "@/components/Stack";
 
 import {
   adminKillStream,
@@ -75,6 +78,8 @@ const STANDARD_ROLE_TAGS_SET = new Set([
 ]);
 
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
+import { AdminSectionHeader } from "@/components/admin/AdminSectionHeader";
+import { ChannelToggleCard } from "@/components/ChannelToggleCard";
 import { Clock, CheckCircle2, Plus, Bell, Radio, Send, Users, Mail, MessageSquare, Sparkles, AlertTriangle, ShieldCheck, Calendar } from "lucide-react";
 import { CruiseLivePreview } from "./CruiseLivePreview";
 import { AdminAuthGate } from "./AdminAuthGate";
@@ -129,7 +134,7 @@ function CrewShiftTooltip({
     <div className="wiw-tooltip w-52 rounded-lg border border-slate-700/50 bg-[#1c1d22] p-3 text-left">
       <div className="text-slate-200">{displayName}</div>
       <div className="mb-2">Role: {role || "Crew Member"}</div>
-      <div className="space-y-1 border-t border-slate-700/50 pt-1.5 text-slate-400">
+      <div className="flex flex-col gap-1 border-t border-slate-700/50 pt-1.5 text-slate-400">
         <div className="flex items-center gap-1.5">
           <span>{email || "N/A"}</span>
         </div>
@@ -698,7 +703,7 @@ function DutyRoleEditorPopover({
 
   return (
     <div
-      className={`absolute right-0 ${positionClasses} custom-scrollbar z-50 max-h-[85vh] w-[340px] animate-[scaleIn_0.15s_ease-out] space-y-3.5 overflow-y-auto rounded-lg border border-white/10 bg-[#0f0720]/95 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl sm:w-[380px] sm:p-5`}
+      className={`absolute right-0 ${positionClasses} custom-scrollbar z-50 max-h-[85vh] w-[340px] animate-[scaleIn_0.15s_ease-out] flex flex-col gap-3 overflow-y-auto rounded-lg border border-white/10 bg-[#0f0720]/95 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl sm:w-[380px] sm:p-5`}
       onClick={(e) => e.stopPropagation()}
     >
       {/* Header */}
@@ -791,7 +796,7 @@ function DutyRoleEditorPopover({
       </div>
 
       {/* Custom role input */}
-      <div className="space-y-1.5 border-t border-white/10 pt-2">
+      <div className="flex flex-col gap-1.5 border-t border-white/10 pt-2">
         <div className="flex items-center justify-between">
           <span className="text-[10px]">Custom / Edit Text:</span>
           {editingDutyValue && (
@@ -1900,6 +1905,34 @@ export function AdminDashboardMain({
   };
 
   const isSectionOpen = (key: string) => !collapsedSections[key];
+
+  const SectionHeaderChevron = ({ isOpen }: { isOpen: boolean }) => (
+    <div className="flex items-center gap-2">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="text-white/30 transition-colors group-hover:text-purple-400"
+      >
+        <path
+          d="M19.5 8.52155C19.5 8.7998 19.256 9.04377 18.9769 9.04377C18.6979 9.04377 18.4532 8.7998 18.4532 8.52155C18.4532 8.2433 18.6979 8 18.9769 8C19.256 8 19.5 8.2433 19.5 8.52155ZM5.54683 8.52155C5.54683 8.7998 5.30281 9.04377 5.02375 9.04377C4.74469 9.04377 4.5 8.7998 4.5 8.52155C4.5 8.2433 4.74469 8 5.02375 8C5.30281 8 5.54683 8.2433 5.54683 8.52155ZM16.0117 12.0003C16.0117 12.2786 15.7677 12.5219 15.4886 12.5219C15.2096 12.5219 14.9656 12.2786 14.9656 12.0003C14.9656 11.7221 15.2096 11.4781 15.4886 11.4781C15.7677 11.4781 16.0117 11.7221 16.0117 12.0003ZM9.03512 12.0003C9.03512 12.2786 8.79111 12.5219 8.51204 12.5219C8.23298 12.5219 7.98897 12.2786 7.98897 12.0003C7.98897 11.7221 8.23298 11.4781 8.51204 11.4781C8.79111 11.4781 9.03512 11.7221 9.03512 12.0003ZM12.5234 15.4778C12.5234 15.756 12.2794 16 12.0003 16C11.7213 16 11.4766 15.756 11.4766 15.4778C11.4766 15.1995 11.7213 14.9562 12.0003 14.9562C12.2794 14.9562 12.5234 15.1995 12.5234 15.4778Z"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+      </svg>
+      <div
+        className={
+          "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
+          (isOpen ? "rotate-0" : "-rotate-90")
+        }
+      >
+        <DotChevronDown className="h-3.5 w-3.5 text-white/40" />
+      </div>
+    </div>
+  );
 
   const handleGenerateTestData = () => {
     const dates: string[] = [];
@@ -4972,56 +5005,15 @@ export function AdminDashboardMain({
     );
   };
   const renderAnnouncements = () => (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       {/*  Emergency Show Broadcast & Fan Alert Dispatcher */}
       <div id="admin-sec-emergencybroadcast" className="overflow-visible">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("emergencybroadcast");
-            }
-          }}
-          onClick={() => toggleSection("emergencybroadcast")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex items-center gap-2">
-
-              Emergency Show & Fan Alert Dispatcher
-            </h3>
-            <p>
-              Dispatch urgent show cancellations, time changes, or venue updates
-              sitewide
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("emergencybroadcast")
-                  ? "rotate-0"
-                  : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Emergency Show & Fan Alert Dispatcher"
+          subtitle="Dispatch urgent show cancellations, time changes, or venue updates sitewide"
+          isOpen={isSectionOpen("emergencybroadcast")}
+          onToggle={() => toggleSection("emergencybroadcast")}
+        />
         {renderInfoBanner(
           "emergencybroadcast",
           "Emergency Show & Fan Alert Dispatcher",
@@ -5042,51 +5034,12 @@ export function AdminDashboardMain({
 
       {/*  Role-Based Email Lists & Subscriber Directory */}
       <div id="admin-sec-emaildirectory" className="overflow-hidden">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("emaildirectory");
-            }
-          }}
-          onClick={() => toggleSection("emaildirectory")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex items-center gap-2">
-
-              Role-Based Email Lists & Subscriber Directory
-            </h3>
-            <p>
-              Browse categorized email lists for Crew, Fans, Cruise Guests,
-              Event Planners, and Admins
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("emaildirectory") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Role-Based Email Lists & Subscriber Directory"
+          subtitle="Browse categorized email lists for Crew, Fans, Cruise Guests, Event Planners, and Admins"
+          isOpen={isSectionOpen("emaildirectory")}
+          onToggle={() => toggleSection("emaildirectory")}
+        />
         {renderInfoBanner(
           "emaildirectory",
           "Role-Based Email Lists & Subscriber Directory",
@@ -5100,40 +5053,27 @@ export function AdminDashboardMain({
       </div>
 
       <div id="admin-sec-announcements" className="overflow-visible">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("announcements");
-            }
-          }}
-          onClick={() => toggleSection("announcements")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex items-center gap-2">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m3 11 18-5v12L3 13v-2z"></path>
-                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
-              </svg>
-              Band Announcements
-            </h3>
-            <p>
-              Post band updates, news, and urgent alerts across the public site
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
+        <AdminSectionHeader
+          badge={
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#a855f7"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m3 11 18-5v12L3 13v-2z"></path>
+              <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
+            </svg>
+          }
+          title="Band Announcements"
+          subtitle="Post band updates, news, and urgent alerts across the public site"
+          isOpen={isSectionOpen("announcements")}
+          onToggle={() => toggleSection("announcements")}
+          actions={
             <div
               className="flex items-center gap-2"
               onClick={(e) => e.stopPropagation()}
@@ -5158,29 +5098,8 @@ export function AdminDashboardMain({
                 }}
               />
             </div>
-
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("announcements") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+          }
+        />
         {renderInfoBanner(
           "announcements",
           "Band Announcements",
@@ -5392,69 +5311,12 @@ export function AdminDashboardMain({
 
   const renderAnalytics = () => (
     <div id="admin-sec-analytics" className="overflow-hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("analytics");
-          }
-        }}
-        onClick={() => toggleSection("analytics")}
-        className="mb-5 flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex items-center gap-2">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#a855f7"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="20" x2="18" y2="10"></line>
-              <line x1="12" y1="20" x2="12" y2="4"></line>
-              <line x1="6" y1="20" x2="6" y2="14"></line>
-            </svg>
-            Google Analytics GA4 Suite
-          </h3>
-          <p>
-            Monitor sitewide visitor traffic, engagement, and conversion metrics
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <span
-            className="flex shrink-0 animate-pulse items-center gap-1.5 rounded-full border border-emerald-400/40 bg-emerald-500/20 px-3 py-1 text-[0.9rem] text-emerald-300 select-none"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            GA4 Live Signal
-          </span>
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/10 transition-transform duration-300 " +
-              (isSectionOpen("analytics") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Live Site & Fan Analytics"
+        subtitle="Real-time traffic, geolocation data, and page view metrics"
+        isOpen={isSectionOpen("analytics")}
+        onToggle={() => toggleSection("analytics")}
+      />
       {renderInfoBanner(
         "analytics",
         "Google Analytics",
@@ -5524,7 +5386,7 @@ export function AdminDashboardMain({
             </div>
 
             {/* 2. Traffic Acquisition Channels & Device Ratio */}
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {/* Acquisition Channels */}
               <div className="py-6">
                 <h4 className="mb-6 flex items-center justify-between">
@@ -5532,7 +5394,7 @@ export function AdminDashboardMain({
                   <span>GA4 Attribution</span>
                 </h4>
 
-                <div className="space-y-3.5">
+                <div className="flex flex-col gap-3">
                   <div>
                     <div className="mb-1 flex items-center justify-between">
                       <span> Organic Search (Google/Bing)</span>
@@ -5613,7 +5475,7 @@ export function AdminDashboardMain({
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <span> Mobile Safari (iPhone)</span>
                       <span>52.4%</span>
@@ -5732,7 +5594,7 @@ export function AdminDashboardMain({
               </h4>
 
               <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-2">
-                <div className="space-y-3">
+                <div className="flex flex-col gap-3">
                   {gaData.locations &&
                     gaData.locations.map((loc: any) => (
                       <div
@@ -5754,7 +5616,7 @@ export function AdminDashboardMain({
                 </div>
 
                 {/* Map Preview Box */}
-                <div className="space-y-2 border border-[var(--border-color)] bg-black/30 p-4 text-center">
+                <div className="flex flex-col gap-2 border border-[var(--border-color)] bg-black/30 p-4 text-center">
                   <div className="relative flex h-48 w-full items-center justify-center overflow-hidden rounded-lg border border-[var(--border-color)] bg-black/40">
                     <AdminMap
                       key={`admin-map-${sectionOrder.join(",")}`}
@@ -5804,118 +5666,12 @@ export function AdminDashboardMain({
 
   const renderShopify = () => (
     <div className="overflow-hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => toggleSection("shopify")}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("shopify");
-          }
-        }}
-        className="transition-colors flex cursor-pointer items-center justify-between border-b border-white/10 pb-6 pl-0 select-none"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2 text-left">
-            Shopify
-            {renderInfoToggle("shopify")}
-          </h3>
-          <p>
-            Track real-time Shopify store order statistics, sales charts, and
-            recent drop activity
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Shopify vs Simulated Toggle */}
-          <div
-            className="flex items-center gap-2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <SeventhButton
-              isActive={shopifyTab === "shopify"}
-              onClick={() => setShopifyTab("shopify")}
-              className="cursor-pointer whitespace-nowrap"
-            >
-              Shopify API
-            </SeventhButton>
-            <SeventhButton
-              isActive={shopifyTab === "simulated"}
-              onClick={() => setShopifyTab("simulated")}
-              className="cursor-pointer whitespace-nowrap"
-            >
-              Simulated Checkouts
-            </SeventhButton>
-          </div>
-          {shopifyTab === "shopify" && (
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5">
-                {[7, 30, 90].map((d) => (
-                  <SeventhButton
-                    key={d}
-                    isActive={shopifyPeriod === d}
-                    onClick={async () => {
-                      setShopifyPeriod(d);
-                      setShopifyLoading(true);
-                      try {
-                        const res = await fetch(
-                          `/api/shopify/orders?days=${d}`,
-                        );
-                        if (res.ok) {
-                          setShopifyData(await res.json());
-                          setShopifyError("");
-                        }
-                      } catch { }
-                      setShopifyLoading(false);
-                    }}
-                    className="cursor-pointer whitespace-nowrap"
-                  >
-                    {d}D
-                  </SeventhButton>
-                ))}
-              </div>
-              <button
-                onClick={async () => {
-                  setShopifyLoading(true);
-                  try {
-                    const res = await fetch(
-                      `/api/shopify/orders?days=${shopifyPeriod}`,
-                    );
-                    if (res.ok) {
-                      setShopifyData(await res.json());
-                      setShopifyError("");
-                    }
-                  } catch { }
-                  setShopifyLoading(false);
-                }}
-                className="transition-colors rounded border border-white/10 bg-[#00000029] px-3 py-1.5 text-[0.9rem] text-white/40 hover:bg-white/10 hover:text-white whitespace-nowrap"
-              >
-                ↻ Refresh
-              </button>
-            </div>
-          )}
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("shopify") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Shopify Store & Merch Inventory"
+        subtitle="Manage products, track orders, and sync store inventory"
+        isOpen={isSectionOpen("shopify")}
+        onToggle={() => toggleSection("shopify")}
+      />
       {renderInfoBanner(
         "shopify",
         "Shopify Sales",
@@ -6217,7 +5973,7 @@ export function AdminDashboardMain({
                             No data in this period
                           </div>
                         ) : (
-                          <div className="space-y-2">
+                          <div className="flex flex-col gap-2">
                             {Object.entries(shopifyData.dailyRevenue)
                               .sort(([a], [b]) => a.localeCompare(b))
                               .slice(-14)
@@ -6695,52 +6451,13 @@ export function AdminDashboardMain({
 
   const renderBookings = () => (
     <div className="">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("bookings");
-          }
-        }}
-        onClick={() => toggleSection("bookings")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-
-            Booking Requests
-            {renderInfoToggle("bookings")}
-          </h3>
-          <p>
-            Review and manage incoming client event booking requests, set
-            official load-in/out schedules, and approve or decline reservations.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("bookings") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Booking Requests"
+        subtitle="Review and manage incoming client event booking requests, set official load-in/out schedules, and approve or decline reservations."
+        isOpen={isSectionOpen("bookings")}
+        onToggle={() => toggleSection("bookings")}
+        infoToggle={renderInfoToggle("bookings")}
+      />
       {renderInfoBanner(
         "bookings",
         "Booking Requests",
@@ -6803,7 +6520,7 @@ export function AdminDashboardMain({
 
                               {editingInlineLoadInId === b.bookingId ? (
                                 <div
-                                  className="inline-loadin-popover z-30 mt-2 min-w-[250px] animate-[scaleIn_0.15s_ease-out] space-y-2 border-none p-2"
+                                  className="inline-loadin-popover z-30 mt-2 min-w-[250px] animate-[scaleIn_0.15s_ease-out] flex flex-col gap-2 border-none p-2"
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   <p>Set Official Load-In / Out Time:</p>
@@ -7099,7 +6816,7 @@ export function AdminDashboardMain({
                               )}
 
                               {/* Official Load-In Setup Manager Widget */}
-                              <div className="col-span-2 mt-3 space-y-3 rounded-lg border border-purple-500/30 bg-purple-950/30 p-4 sm:col-span-4">
+                              <div className="col-span-2 mt-3 flex flex-col gap-3 rounded-lg border border-purple-500/30 bg-purple-950/30 p-4 sm:col-span-4">
                                 <div className="flex flex-wrap items-center justify-between gap-2">
                                   <p className="flex items-center gap-2">
                                     <Clock className="h-4 w-4" /> Official
@@ -7185,63 +6902,12 @@ export function AdminDashboardMain({
 
   const renderPlanners = () => (
     <div className="overflow-hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("planners");
-          }
-        }}
-        onClick={() => toggleSection("planners")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-            Event Planners Directory
-            {renderInfoToggle("planners")}
-          </h3>
-          <p>
-            Browse the directory of event planners, view contact information,
-            and review past and current booking requests
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-[#00000029] px-3 py-1 text-[0.9rem] text-white/40 whitespace-nowrap">
-            {
-              Array.from(
-                new Map(
-                  bookings.flatMap((b) =>
-                    b.email ? [[b.email, b] as const] : [],
-                  ),
-                ).values(),
-              ).length
-            }{" "}
-            Planners
-          </span>
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("planners") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Event Planners Directory"
+        subtitle="Manage corporate, festival, and private event contacts"
+        isOpen={isSectionOpen("planners")}
+        onToggle={() => toggleSection("planners")}
+      />
       {
         renderInfoBanner(
           "planners",
@@ -7375,51 +7041,12 @@ export function AdminDashboardMain({
 
   const renderPhotoMod = () => (
     <div className="overflow-hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("photomod");
-          }
-        }}
-        onClick={() => toggleSection("photomod")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex items-center gap-2">
-
-            Fan Photo Moderation Queue
-          </h3>
-          <p>
-            Review fan-submitted concert and show photos, check compliance, and
-            approve for public photo wall
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("photomod") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Fan Photo Wall Moderation"
+        subtitle="Review, approve, or reject user-submitted concert photos"
+        isOpen={isSectionOpen("photomod")}
+        onToggle={() => toggleSection("photomod")}
+      />
       {renderInfoBanner(
         "photomod",
         "Fan Photo Moderation Queue",
@@ -7428,70 +7055,70 @@ export function AdminDashboardMain({
       <div style={{ display: isSectionOpen("photomod") ? undefined : "none" }}>
         {isSectionOpen("photomod") && (
           <>
-            <div className="p-0">
-              {moderationQueue.length === 0 ? (
-                <div className="p-16 text-center text-white/30">
-                  <span className="mb-6 block text-4xl opacity-20"></span>
-                  Queue is entirely empty. All fan content is categorized.
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 gap-6 py-6 pl-0 md:grid-cols-2 lg:grid-cols-3">
-                  {moderationQueue.map((photo) => (
-                    <div
-                      key={photo.id}
-                      className="transition-colors group relative flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] hover:border-[var(--color-accent)]/50"
-                    >
-                      <div>
-                        <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
-                          <img
-                            src={
-                              photo.youtubeId
-                                ? `https://img.youtube.com/vi/${photo.youtubeId}/hqdefault.jpg`
-                                : photo.src || "/images/tour/fan-concert-photo.jpg"
-                            }
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src =
-                                "/images/tour/fan-concert-photo.jpg";
-                            }}
-                            alt="Fan Upload"
-                            className="h-full w-full object-cover"
-                          />
-                          <div className="absolute top-0 right-0 m-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[0.9rem] backdrop-blur-2xl">
-                            {new Date(photo.submittedAt).toLocaleDateString()}
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-1.5 p-4">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[var(--color-accent)]">@</span>
-                            {photo.name}
-                          </div>
-                          {photo.venue && <p> {photo.venue}</p>}
-                          {photo.caption && (
-                            <p className="mt-2 border-l-2 border-white/10 pl-3">
-                              "{photo.caption}"
-                            </p>
-                          )}
+
+            {moderationQueue.length === 0 ? (
+              <div className="p-16 text-center text-white/30">
+                <span className="mb-6 block text-4xl opacity-20"></span>
+                Queue is entirely empty. All fan content is categorized.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-6 pt-6 pl-0 md:grid-cols-2 lg:grid-cols-3">
+                {moderationQueue.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="transition-colors group relative flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)] hover:border-[var(--color-accent)]/50"
+                  >
+                    <div>
+                      <div className="relative aspect-[4/3] overflow-hidden bg-[#00000029]">
+                        <img
+                          src={
+                            photo.youtubeId
+                              ? `https://img.youtube.com/vi/${photo.youtubeId}/hqdefault.jpg`
+                              : photo.src || "/images/tour/fan-concert-photo.jpg"
+                          }
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src =
+                              "/images/tour/fan-concert-photo.jpg";
+                          }}
+                          alt="Fan Upload"
+                          className="h-full w-full object-cover"
+                        />
+                        <div className="absolute top-0 right-0 m-3 rounded-lg border border-white/10 bg-black/70 px-2.5 py-1 text-[0.9rem] backdrop-blur-2xl">
+                          {new Date(photo.submittedAt).toLocaleDateString()}
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
-                        <button
-                          onClick={() => moderatePhoto(photo.id, "reject")}
-                          className="transition-colors cursor-pointer bg-red-600 py-3 text-[0.9rem] shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:bg-red-500"
-                        >
-                          Reject & Delete
-                        </button>
-                        <button
-                          onClick={() => moderatePhoto(photo.id, "approve")}
-                          className="transition-colors bg-emerald-400 py-3 text-[0.9rem] text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300"
-                        >
-                          Safe & Approve
-                        </button>
+                      <div className="flex flex-col gap-1.5 p-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[var(--color-accent)]">@</span>
+                          {photo.name}
+                        </div>
+                        {photo.venue && <p> {photo.venue}</p>}
+                        {photo.caption && (
+                          <p className="mt-2 border-l-2 border-white/10 pl-3">
+                            "{photo.caption}"
+                          </p>
+                        )}
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                    <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
+                      <button
+                        onClick={() => moderatePhoto(photo.id, "reject")}
+                        className="transition-colors cursor-pointer bg-red-600 py-3 text-[0.9rem] shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:bg-red-500"
+                      >
+                        Reject & Delete
+                      </button>
+                      <button
+                        onClick={() => moderatePhoto(photo.id, "approve")}
+                        className="transition-colors bg-emerald-400 py-3 text-[0.9rem] text-[#050505] shadow-[0_0_15px_rgba(52,211,153,0.3)] hover:bg-emerald-300"
+                      >
+                        Safe & Approve
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
           </>
         )}
       </div>
@@ -7500,56 +7127,12 @@ export function AdminDashboardMain({
 
   const renderMemoryMod = () => (
     <div className="overflow-hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("memorymod");
-          }
-        }}
-        onClick={() => toggleSection("memorymod")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-
-            Memory Moderation Queue
-            {renderInfoToggle("memorymod")}
-          </h3>
-          <p>
-            Review fan memories, stories, and concert anecdotes before they are
-            published to the public website timeline
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <SectionBadge className="gap-2">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-600" />
-            {memoryQueue.length} Pending
-          </SectionBadge>
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("memorymod") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Fan Memory Board Moderation"
+        subtitle="Approve or decline fan story submissions and guestbook notes"
+        isOpen={isSectionOpen("memorymod")}
+        onToggle={() => toggleSection("memorymod")}
+      />
       {renderInfoBanner(
         "memorymod",
         "Memory Moderation Queue",
@@ -7567,7 +7150,7 @@ export function AdminDashboardMain({
                 Queue is entirely empty. All fan content is categorized.
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 {memoryQueue.map((mem) => (
                   <div
                     key={mem.id}
@@ -7623,52 +7206,12 @@ export function AdminDashboardMain({
 
   const renderLiveAlerts = () => (
     <div>
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("livealerts");
-          }
-        }}
-        onClick={() => toggleSection("livealerts")}
-        className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6 "
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-
-            Active Live Streams
-            {renderInfoToggle("livealerts")}
-          </h3>
-          <p>
-            Monitor active video feeds and broadcast room channels in real time,
-            view subscriber notifications, and manage stream controls
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("livealerts") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Live Show Alerts & Notifications"
+        subtitle="Send instant notifications to active fans"
+        isOpen={isSectionOpen("livealerts")}
+        onToggle={() => toggleSection("livealerts")}
+      />
       {renderInfoBanner(
         "livealerts",
         "Active Live Streams",
@@ -7799,79 +7342,12 @@ export function AdminDashboardMain({
 
     return (
       <div>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={() => toggleSection("smsblast")}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("smsblast");
-            }
-          }}
-          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex items-center gap-2">
-              Send Alert
-              {renderInfoToggle("smsblast")}
-            </h3>
-            <p>
-              Broadcast zero-cost notifications across App Push, Web Push, and Email with optional paid SMS fallback
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-4">
-              {/* Auto-blast toggle */}
-              <div
-                className="flex items-center gap-2"
-                onClick={(e) => e.stopPropagation()}
-                onKeyDown={(e) => e.stopPropagation()}
-              >
-                <Toggle
-                  id="sms-auto-blast-toggle"
-                  size="sm"
-                  label={<span className="text-white/30 whitespace-nowrap">Auto-Blast</span>}
-                  labelPosition="left"
-                  checked={smsAutoBlast}
-                  onChange={async (newVal) => {
-                    setSmsAutoBlast(newVal);
-                    try {
-                      await fetch("/api/admin/settings", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          key: "sms_auto_blast",
-                          value: newVal ? "on" : "off",
-                        }),
-                      });
-                    } catch { }
-                  }}
-                />
-              </div>
-            </div>
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("smsblast") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Twilio Fan SMS Broadcast Center"
+          subtitle="Send direct SMS messages to registered fan phone numbers"
+          isOpen={isSectionOpen("smsblast")}
+          onToggle={() => toggleSection("smsblast")}
+        />
         {renderInfoBanner(
           "smsblast",
           "Send Alert & Multi-Channel Broadcast",
@@ -7900,7 +7376,7 @@ export function AdminDashboardMain({
                 )}
               </div>
 
-              <div className="pt-6 pl-0 space-y-6">
+              <div className="pt-6 pl-0 flex flex-col gap-6">
                 {/* 1. Target Audience Selector */}
                 <div>
                   <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
@@ -7964,7 +7440,7 @@ export function AdminDashboardMain({
 
                   {/* Planner Audience Booking Selector */}
                   {alertTargetAudience === "planners" && (
-                    <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 space-y-2">
+                    <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 flex flex-col gap-2">
                       <label className="text-xs font-semibold text-white/60 block">Target Specific Booking / Event Planner:</label>
                       <Dropdown
                         id="sms-selected-planner-booking-select"
@@ -8006,85 +7482,53 @@ export function AdminDashboardMain({
                   </label>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                     {/* App Push (ntfy) */}
-                    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3.5">
-                      <div className="flex items-center gap-2.5">
-                        <Bell className="h-4 w-4 text-purple-400" />
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-sm font-medium text-white">App Push</span>
-                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-300">FREE</span>
-                          </div>
-                          <div className="text-[10px] text-white/40">Lock-screen via ntfy</div>
-                        </div>
-                      </div>
-                      <Toggle
-                        id="channel-push-toggle"
-                        size="sm"
-                        checked={channelPush}
-                        onChange={setChannelPush}
-                      />
-                    </div>
+                    <ChannelToggleCard
+                      id="channel-push-toggle"
+                      icon={<Bell className="h-4 w-4 text-purple-400" />}
+                      title="App Push"
+                      badge={{ text: "FREE", variant: "emerald" }}
+                      description="Lock-screen via ntfy"
+                      checked={channelPush}
+                      onChange={setChannelPush}
+                    />
 
                     {/* Web Push */}
-                    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3.5">
-                      <div className="flex items-center gap-2.5">
-                        <Radio className="h-4 w-4 text-purple-400" />
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-sm font-medium text-white">Web Push</span>
-                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-300">FREE</span>
-                          </div>
-                          <div className="text-[10px] text-white/40">Browser Service Worker</div>
-                        </div>
-                      </div>
-                      <Toggle
-                        id="channel-webpush-toggle"
-                        size="sm"
-                        checked={channelWebPush}
-                        onChange={setChannelWebPush}
-                      />
-                    </div>
+                    <ChannelToggleCard
+                      id="channel-webpush-toggle"
+                      icon={<Radio className="h-4 w-4 text-purple-400" />}
+                      title="Web Push"
+                      badge={{ text: "FREE", variant: "emerald" }}
+                      description="Browser Service Worker"
+                      checked={channelWebPush}
+                      onChange={setChannelWebPush}
+                    />
 
                     {/* Email */}
-                    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3.5">
-                      <div className="flex items-center gap-2.5">
-                        <Mail className="h-4 w-4 text-purple-400" />
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-sm font-medium text-white">Email</span>
-                            <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] text-emerald-300">FREE</span>
-                          </div>
-                          <div className="text-[10px] text-white/40">Daily quota + auto queue</div>
-                        </div>
-                      </div>
-                      <Toggle
-                        id="channel-email-toggle"
-                        size="sm"
-                        checked={channelEmail}
-                        onChange={setChannelEmail}
-                      />
-                    </div>
+                    <ChannelToggleCard
+                      id="channel-email-toggle"
+                      icon={<Mail className="h-4 w-4 text-purple-400" />}
+                      title="Email"
+                      badge={{ text: "FREE", variant: "emerald" }}
+                      description="Daily quota + auto queue"
+                      checked={channelEmail}
+                      onChange={setChannelEmail}
+                    />
 
                     {/* SMS (Twilio) */}
-                    <div className={`flex items-center justify-between rounded-xl border p-3.5 transition-[background-color,color,border-color,box-shadow,transform] ${channelSms ? "border-amber-500/60 bg-amber-500/10" : "border-white/10 bg-white/[0.02]"
-                      }`}>
-                      <div className="flex items-center gap-2.5">
-                        <MessageSquare className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"}`} />
-                        <div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-sm font-medium text-white">Twilio SMS</span>
-                            <span className="rounded bg-amber-500/20 px-1.5 py-0.2 text-[9px] text-amber-300">PAID</span>
-                          </div>
-                          <div className="text-[10px] text-white/40">$0.0079/segment</div>
-                        </div>
-                      </div>
-                      <Toggle
-                        id="channel-sms-toggle"
-                        size="sm"
-                        checked={channelSms}
-                        onChange={setChannelSms}
-                      />
-                    </div>
+                    <ChannelToggleCard
+                      id="channel-sms-toggle"
+                      icon={
+                        <MessageSquare
+                          className={`h-4 w-4 ${channelSms ? "text-amber-400" : "text-white/40"}`}
+                        />
+                      }
+                      title="Twilio SMS"
+                      badge={{ text: "PAID", variant: "amber" }}
+                      description="$0.0079/segment"
+                      checked={channelSms}
+                      onChange={setChannelSms}
+                      activeColor="amber"
+                    />
                   </div>
                 </div>
 
@@ -8204,7 +7648,7 @@ export function AdminDashboardMain({
                 </div>
 
                 {/* 4. Subject & Message Body */}
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   <div>
                     <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-white/50">
                       Alert Title / Email Subject
@@ -8252,7 +7696,7 @@ export function AdminDashboardMain({
                 )}
 
                 {/* 5. Dispatch Action Button */}
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center justify-between">
                   <div className="text-xs text-white/40">
                     {!channelPush && !channelWebPush && !channelEmail && !channelSms && (
                       <span className="text-amber-400">Select at least one channel to dispatch</span>
@@ -8346,7 +7790,7 @@ export function AdminDashboardMain({
                 </div>
 
                 {/* 6. Broadcast History Logs */}
-                <div className="space-y-3 border-t border-white/10 pt-6">
+                <div className="flex flex-col gap-3 border-t border-white/10 pt-6">
                   <div className="flex items-center justify-between">
                     <h4 className="flex items-center gap-2 text-white">
                       <Clock className="h-4 w-4 text-purple-400" />
@@ -8705,50 +8149,12 @@ export function AdminDashboardMain({
 
     return (
       <div id="section-crewsms" className="overflow-visible">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("crewsms");
-            }
-          }}
-          onClick={() => toggleSection("crewsms")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex cursor-pointer items-center gap-2">
-              Crew & Band Groups
-              {renderInfoToggle("crewsms")}
-            </h3>
-            <p>
-              Manage crew and band rosters, duties, phone numbers, and direct group notifications
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("crewsms") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Twilio Crew SMS Communications"
+          subtitle="Send direct SMS messages and call sheet reminders to crew members"
+          isOpen={isSectionOpen("crewsms")}
+          onToggle={() => toggleSection("crewsms")}
+        />
         {renderInfoBanner(
           "crewsms",
           "Crew & Band Groups",
@@ -8760,7 +8166,7 @@ export function AdminDashboardMain({
               <div className="pt-6">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                   {/* Left Column: Member List (Choose Recipients) */}
-                  <div className="space-y-4 lg:col-span-2">
+                  <div className="flex flex-col gap-4 lg:col-span-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span className="block text-black/60 text-white/40">
@@ -8987,7 +8393,7 @@ export function AdminDashboardMain({
                   {/* Right Column: Group Setup & Message Sending */}
                   <div>
                     {/* Group dropdown & save selection */}
-                    <div className="space-y-4 pr-0">
+                    <div className="flex flex-col gap-4 pr-0">
                       <div>
                         <div className="mb-6 flex items-center justify-between">
                           <SeventhButton
@@ -9098,7 +8504,7 @@ export function AdminDashboardMain({
                           return match?.name || mId;
                         });
                         return (
-                          <div className="animate-[fadeIn_0.2s_ease-out] space-y-2 border border-white/10 bg-black/20 p-3">
+                          <div className="animate-[fadeIn_0.2s_ease-out] flex flex-col gap-2 border border-white/10 bg-black/20 p-3">
                             <div className="flex items-center justify-between">
                               <span className="text-[0.65rem] text-white/40">
                                 Group Members ({names.length})
@@ -9165,7 +8571,7 @@ export function AdminDashboardMain({
                                 direction="vertical"
                                 height={450}
                               >
-                                <div className="space-y-1.5 rounded-lg border border-white/10 bg-black/40 p-2.5 pr-3">
+                                <div className="flex flex-col gap-1.5 rounded-lg border border-white/10 bg-black/40 p-2.5 pr-3">
                                   {(() => {
                                     const selectedCrewPhonesSet = new Set(
                                       selectedCrewPhones,
@@ -9446,7 +8852,7 @@ export function AdminDashboardMain({
                 </div>
 
                 {/* FULL BLEED / FULL WIDTH MESSAGE COMPOSE & PREVIEW SECTION */}
-                <div className="mt-6 space-y-5">
+                <div className="mt-6 flex flex-col gap-4">
                   {/* SMS & Email Option Cards */}
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                     <div
@@ -9532,7 +8938,7 @@ export function AdminDashboardMain({
                   </div>
 
                   {/* Confirm / Send Button */}
-                  <div className="space-y-3 pt-2">
+                  <div className="flex flex-col gap-3 pt-2">
                     {crewAlertResult && (
                       <p
                         className={`${crewAlertResult.success ? "text-emerald-400" : "text-rose-400"}`}
@@ -9661,8 +9067,8 @@ export function AdminDashboardMain({
                 {(sendSmsAlert || sendEmailAlert) && (
                   <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 border-t border-white/10 pt-4 md:grid-cols-2">
                     {/* Left Column: SMS Text Message Preview (50% Width) */}
-                    <div className="flex flex-col justify-between space-y-4 !rounded-lg border border-[var(--border-color)] p-5">
-                      <div className="space-y-3">
+                    <div className="flex flex-col justify-between gap-4 !rounded-lg border border-[var(--border-color)] p-5">
+                      <div className="flex flex-col gap-3">
                         <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                           <span>SMS TEXT MESSAGE PREVIEW</span>
                           <span>Plain SMS Text</span>
@@ -9685,7 +9091,7 @@ export function AdminDashboardMain({
                     </div>
 
                     {/* Right Column: Email Template Preview (50% Width) */}
-                    <div className="space-y-4 !rounded-lg border border-white/10 p-5">
+                    <div className="flex flex-col gap-4 !rounded-lg border border-white/10 p-5">
                       <div className="flex items-center justify-between border-b border-white/10 pb-3">
                         <div className="flex items-center gap-2">
                           <span> EMAIL DISPATCH PREVIEW</span>
@@ -9712,7 +9118,7 @@ export function AdminDashboardMain({
                 {isManageRolesModalOpen && (
                   <div className="fixed inset-0 z-[9999] flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/75 p-4">
                     <div
-                      className="relative w-full max-w-md animate-[scaleIn_0.2s_ease-out] space-y-4 border border-white/10 bg-[#0c0c0e]/85 p-6 shadow-2xl backdrop-blur-xl"
+                      className="relative w-full max-w-md animate-[scaleIn_0.2s_ease-out] flex flex-col gap-4 border border-white/10 bg-[#0c0c0e]/85 p-6 shadow-2xl backdrop-blur-xl"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -9764,11 +9170,11 @@ export function AdminDashboardMain({
                       </div>
 
                       {/* Preset Roles List */}
-                      <div className="space-y-1.5">
+                      <div className="flex flex-col gap-1.5">
                         <span className="block text-[0.9rem] text-white/40">
                           Current Preset Roles ({presetRoles.length})
                         </span>
-                        <div className="custom-scrollbar max-h-[220px] space-y-1.5 overflow-y-auto border border-white/10 bg-black/40 p-2">
+                        <div className="custom-scrollbar max-h-[220px] flex flex-col gap-1.5 overflow-y-auto border border-white/10 bg-black/40 p-2">
                           {presetRoles.length === 0 ? (
                             <div className="py-4 text-center text-white/30">
                               No preset roles defined.
@@ -9822,51 +9228,12 @@ export function AdminDashboardMain({
   const renderPushSubscribers = () => {
     return (
       <div id="admin-sec-pushsubscribers" className="overflow-visible">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("pushsubscribers");
-            }
-          }}
-          onClick={() => toggleSection("pushsubscribers")}
-          className="transition-colors flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex items-center gap-2">
-
-              Fan Proximity Alerts
-              {renderInfoToggle("pushsubscribers")}
-            </h3>
-            <p>
-              Manage fan notification preferences, distance radii & targeted broadcasts
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("pushsubscribers") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Web Push Notification Subscribers"
+          subtitle="View and manage subscribed browser push devices"
+          isOpen={isSectionOpen("pushsubscribers")}
+          onToggle={() => toggleSection("pushsubscribers")}
+        />
         {renderInfoBanner(
           "pushsubscribers",
           "Fan Proximity Alerts",
@@ -9933,52 +9300,12 @@ export function AdminDashboardMain({
 
     return (
       <div id="section-bandsms" className="overflow-visible">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("bandsms");
-            }
-          }}
-          onClick={() => toggleSection("bandsms")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex cursor-pointer items-center gap-2">
-
-              Band Member SMS Text
-              {renderInfoToggle("bandsms")}
-            </h3>
-            <p>
-              Broadcast instant SMS alerts or show notices directly to the band
-              members
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("bandsms") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Band Member Direct SMS"
+          subtitle="Send direct SMS communications to band members"
+          isOpen={isSectionOpen("bandsms")}
+          onToggle={() => toggleSection("bandsms")}
+        />
 
         {renderInfoBanner(
           "bandsms",
@@ -9992,7 +9319,7 @@ export function AdminDashboardMain({
               <div className="pt-6">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                   {/* Left Column: Band List (Choose Recipients) */}
-                  <div className="space-y-4 lg:col-span-2">
+                  <div className="flex flex-col gap-4 lg:col-span-2">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="block text-[0.65rem] text-white/40">
                         Choose Recipients
@@ -10136,8 +9463,8 @@ export function AdminDashboardMain({
                   </div>
 
                   {/* Right Column: Alert Broadcast Form */}
-                  <div className="space-y-5">
-                    <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4">
                       <div>
                         <label
                           htmlFor="admin-band-sms-show-select"
@@ -10258,7 +9585,7 @@ export function AdminDashboardMain({
                       )}
 
                       {/* Message Form */}
-                      <div className="space-y-2">
+                      <div className="flex flex-col gap-2">
                         <GlowTextarea
                           id="admin-band-broadcast-msg"
                           label="BROADCAST MESSAGE"
@@ -10324,7 +9651,7 @@ export function AdminDashboardMain({
                       );
                       if (checkedRecipients.length === 0) return null;
                       return (
-                        <div className="space-y-2">
+                        <div className="flex flex-col gap-2">
                           <span className="block text-[0.65rem] text-white/40">
                             Recipients ({checkedRecipients.length})
                           </span>
@@ -10414,8 +9741,8 @@ export function AdminDashboardMain({
                 {/* FULL WIDTH 50/50 LIVE DISPATCH PREVIEW SECTION */}
                 <div className="grid animate-[fadeIn_0.2s_ease-out] grid-cols-1 gap-6 pt-2 md:grid-cols-2">
                   {/* Left Column: SMS Text Message Preview (50% Width) */}
-                  <div className="flex flex-col justify-between space-y-4 rounded-lg border border-[var(--border-color)] p-5">
-                    <div className="space-y-3">
+                  <div className="flex flex-col justify-between gap-4 rounded-lg border border-[var(--border-color)] p-5">
+                    <div className="flex flex-col gap-3">
                       <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                         <span>SMS TEXT MESSAGE PREVIEW</span>
                         <span>Plain SMS Text</span>
@@ -10438,7 +9765,7 @@ export function AdminDashboardMain({
                   </div>
 
                   {/* Right Column: Email Template Preview (50% Width) */}
-                  <div className="space-y-4 rounded-lg border border-white/10 p-5">
+                  <div className="flex flex-col gap-4 rounded-lg border border-white/10 p-5">
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
                       <div className="flex items-center gap-2">
                         <span> EMAIL DISPATCH PREVIEW</span>
@@ -10471,52 +9798,12 @@ export function AdminDashboardMain({
 
   const renderNewsletter = () => (
     <div>
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("newsletter");
-          }
-        }}
-        onClick={() => toggleSection("newsletter")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-
-            Newsletter Blast
-            {renderInfoToggle("newsletter")}
-          </h3>
-          <p>
-            Compose and broadcast marketing campaigns, newsletter updates, and
-            band announcements to all email subscribers
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("newsletter") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Email Newsletter Subscribers"
+        subtitle="View and export newsletter subscriber lists"
+        isOpen={isSectionOpen("newsletter")}
+        onToggle={() => toggleSection("newsletter")}
+      />
       {renderInfoBanner(
         "newsletter",
         "Newsletter Blast",
@@ -10528,7 +9815,7 @@ export function AdminDashboardMain({
         {isSectionOpen("newsletter") && (
           <>
             <div className="py-6 pl-0">
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 <div>
                   <GlowInput
                     id="admin-newsletter-blast-subject"
@@ -10632,67 +9919,12 @@ export function AdminDashboardMain({
 
   const renderRegistry = () => (
     <div>
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("registry");
-          }
-        }}
-        onClick={() => toggleSection("registry")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-
-            Community Registry
-            {renderInfoToggle("registry")}
-          </h3>
-          <p>
-            Search and manage all user accounts registered in the database, view
-            roles, and configure site settings
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div
-            className="flex w-full shrink-0 items-center gap-1.5 sm:w-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {["All", "fan", "crew", "admin"].map((role) => (
-              <SeventhButton
-                key={role}
-                isActive={filterRole === role}
-                onClick={() => setFilterRole(role as any)}
-                className="cursor-pointer whitespace-nowrap"
-              >
-                {role}
-              </SeventhButton>
-            ))}
-          </div>
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("registry") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Admin Action Registry & Audit Log"
+        subtitle="Track system changes, admin actions, and security audit logs"
+        isOpen={isSectionOpen("registry")}
+        onToggle={() => toggleSection("registry")}
+      />
       {renderInfoBanner(
         "registry",
         "Community Registry",
@@ -10703,7 +9935,7 @@ export function AdminDashboardMain({
           <>
             <div className="w-full text-left">
               {/* Fixed Header Row */}
-              <div className="grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-3 pr-3 select-none dark:border-white/10">
+              <div className="sorts grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-3 px-3 select-none dark:border-white/10">
                 <div>User</div>
                 <div>Role</div>
                 <div>Status</div>
@@ -10741,7 +9973,7 @@ export function AdminDashboardMain({
                       ) as any;
                       return (
                         <div key={user.id}>
-                          <div className="transition-colors grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-2 pr-3 hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/[0.02]">
+                          <div className="transition-colors grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-2 px-3">
                             <div className="max-w-[220px]">
                               <div className="flex items-center gap-2.5">
                                 <Avatar
@@ -10902,52 +10134,12 @@ export function AdminDashboardMain({
 
   const renderCrewCreation = () => (
     <div>
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("crewcreation");
-          }
-        }}
-        onClick={() => toggleSection("crewcreation")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-
-            Create Crew Account
-            {renderInfoToggle("crewcreation")}
-          </h3>
-          <p>
-            Create and register new crew members in the system, set contact
-            information, and provision login credentials
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("crewcreation") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Crew Member Account Creation"
+        subtitle="Create new crew accounts with assigned permissions and roles"
+        isOpen={isSectionOpen("crewcreation")}
+        onToggle={() => toggleSection("crewcreation")}
+      />
       {renderInfoBanner(
         "crewcreation",
         "Create Crew Account",
@@ -11193,55 +10385,12 @@ export function AdminDashboardMain({
 
   const renderAdminCreation = () => (
     <div className="overflow-hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("admincreation");
-          }
-        }}
-        onClick={() => toggleSection("admincreation")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub" onClick={(e) => e.stopPropagation()}>
-          <h3 className="flex items-center gap-2">
-
-            Create Admin Account
-            {renderInfoToggle("admincreation")}
-          </h3>
-          <p>
-            Register new band administrator or planner accounts with full
-            database access and management permissions
-          </p>
-        </div>
-        <div
-          className="flex items-center gap-3"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("admincreation") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="System Admin User Management"
+        subtitle="Manage administrator access privileges and accounts"
+        isOpen={isSectionOpen("admincreation")}
+        onToggle={() => toggleSection("admincreation")}
+      />
       {renderInfoBanner(
         "admincreation",
         "Create Admin Account",
@@ -11252,7 +10401,7 @@ export function AdminDashboardMain({
       >
         {isSectionOpen("admincreation") && (
           <>
-            <div className="py-6 pl-0 space-y-8">
+            <div className="py-6 pl-0 flex flex-col gap-8">
               {/* Sub-Admin Permissions Manager */}
               <div>
                 <div className="title-group title-group--sub mb-6">
@@ -11274,7 +10423,7 @@ export function AdminDashboardMain({
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   {Object.entries(adminPermissions).map(([email, perms]) => (
                     <div
                       key={email}
@@ -11474,52 +10623,12 @@ export function AdminDashboardMain({
 
   const renderBulkInvites = () => (
     <div className="">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleSection("bulkinvites");
-          }
-        }}
-        onClick={() => toggleSection("bulkinvites")}
-        className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-      >
-        <div className="title-group title-group--sub">
-          <h3 className="flex cursor-pointer items-center gap-2">
-
-            Bulk Invites
-            {renderInfoToggle("bulkinvites")}
-          </h3>
-          <p>
-            Upload CSV lists of emails or phone numbers to bulk-invite members
-            to the crew directory
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div
-            className={
-              "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-              (isSectionOpen("bulkinvites") ? "rotate-0" : "-rotate-90")
-            }
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/40"
-            >
-              <path d="M2 4l4 4 4-4" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      <AdminSectionHeader
+        title="Bulk Crew & VIP Invitations"
+        subtitle="Generate and send batch invitations with custom roles"
+        isOpen={isSectionOpen("bulkinvites")}
+        onToggle={() => toggleSection("bulkinvites")}
+      />
       {renderInfoBanner(
         "bulkinvites",
         "Bulk Invites",
@@ -11639,51 +10748,12 @@ export function AdminDashboardMain({
 
     return (
       <div className="overflow-hidden">
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("cruisesignups");
-            }
-          }}
-          onClick={() => toggleSection("cruisesignups")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 pl-0 select-none pb-6"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex cursor-pointer items-center gap-2">
-              Cruise Signups
-              {renderInfoToggle("cruisesignups")}
-            </h3>
-            <p>
-              View and manage passenger reservations, cabins, guest manifests, and payment statuses
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>{signups.length} registered</span>
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("cruisesignups") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Cruise Signups & Reservation Log"
+          subtitle="View fan cruise signups and cabin reservations"
+          isOpen={isSectionOpen("cruisesignups")}
+          onToggle={() => toggleSection("cruisesignups")}
+        />
         {renderInfoBanner(
           "cruisesignups",
           "Cruise Signups",
@@ -11766,7 +10836,7 @@ export function AdminDashboardMain({
 
                 {/* Email compose panel */}
                 {cruiseEmailOpen && cruiseSelectedEmails.length > 0 && (
-                  <div className="mb-5 animate-[slideIn_0.3s_ease-out] space-y-4 border border-purple-500/20 bg-cyan-500/5 p-5">
+                  <div className="mb-5 animate-[slideIn_0.3s_ease-out] flex flex-col gap-4 border border-purple-500/20 bg-cyan-500/5 p-5">
                     <div className="flex items-center justify-between">
                       <p className="text-white/60">Compose Cruise Email</p>
                       <button
@@ -11871,7 +10941,7 @@ export function AdminDashboardMain({
                 ) : (
                   <div
                     data-lenis-prevent
-                    className="custom-scrollbar custom-admin-scrollbar max-h-[750px] min-h-[450px] space-y-2 overflow-y-auto"
+                    className="custom-scrollbar custom-admin-scrollbar max-h-[750px] min-h-[450px] flex flex-col gap-2 overflow-y-auto"
                   >
                     {/* Table header */}
                     <div className="sticky top-0 z-20 mb-0 grid grid-cols-[44px_32px_1.2fr_1fr_100px_80px_80px_60px_32px] gap-3 border-b border-white/10 px-4 py-3 text-[0.65rem]">
@@ -13546,17 +12616,7 @@ export function AdminDashboardMain({
                                   : "Sort working crew to the top"
                               }
                             >
-                              <svg
-                                width="10"
-                                height="10"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2.5"
-                              >
-                                <path d="M12 19V5" />
-                                <polyline points="5 12 12 5 19 12" />
-                              </svg>
+                              <DotArrow direction="up" className="w-2.5 h-2.5" />
                             </button>
                           </div>
                         </div>
@@ -13797,7 +12857,7 @@ export function AdminDashboardMain({
                               {renderRoleBadges(member.role)}
                             </div>
 
-                            <div className="mt-1 space-y-0.5">
+                            <div className="mt-1 flex flex-col gap-0.5">
                               {member.phone && (
                                 <div title={member.phone}> {member.phone}</div>
                               )}
@@ -13811,7 +12871,7 @@ export function AdminDashboardMain({
                               <div className="mb-2 text-[12px] text-[var(--color-accent)]">
                                 Role: {member.role || "Crew Member"}
                               </div>
-                              <div className="space-y-1 border-t border-[var(--border-color)] pt-1.5 text-[12px]">
+                              <div className="flex flex-col gap-1 border-t border-[var(--border-color)] pt-1.5 text-[12px]">
                                 <p>Email: {member.email || "N/A"}</p>
                                 <p>Phone: {member.phone || "N/A"}</p>
                               </div>
@@ -14212,65 +13272,12 @@ export function AdminDashboardMain({
     return (
       <div className="overflow-hidden">
         {/* Section Header */}
-        <div
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              toggleSection("calendar");
-            }
-          }}
-          onClick={() => toggleSection("calendar")}
-          className="flex cursor-pointer items-center justify-between !rounded-none border-b border-white/10 px-0 pb-5 select-none"
-        >
-          <div className="title-group title-group--sub">
-            <h3 className="flex items-center gap-2">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#a855f7"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              Crew Work Schedule Calendar
-            </h3>
-            <p>
-              Schedule band/crew work shifts, manage open roles, publish shifts,
-              and prevent overlaps
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className={
-                "flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-[#00000029] transition-transform duration-300 " +
-                (isSectionOpen("calendar") ? "rotate-0" : "-rotate-90")
-              }
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white/40"
-              >
-                <path d="M2 4l4 4 4-4" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <AdminSectionHeader
+          title="Show Schedule & Calendar Management"
+          subtitle="Manage tour dates, set times, and venue details"
+          isOpen={isSectionOpen("calendar")}
+          onToggle={() => toggleSection("calendar")}
+        />
         {renderInfoBanner(
           "calendar",
           "Crew Work Schedule Calendar",
@@ -14338,7 +13345,7 @@ export function AdminDashboardMain({
               {/*  Schedule Mix-Up Conflict Resolution Modal */}
               {coEditorConflictAlert?.isOpen && (
                 <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-                  <div className="shadow-[0_0_50px_rgba(147, 234,0.3)] w-full max-w-lg space-y-4 border-2 border-purple-500/50 bg-[#1e1e26] p-6">
+                  <div className="shadow-[0_0_50px_rgba(147, 234,0.3)] w-full max-w-lg flex flex-col gap-4 border-2 border-purple-500/50 bg-[#1e1e26] p-6">
                     <div className="flex items-center gap-3 border-b border-white/10 pb-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-purple-500/40 bg-white/20 text-xl"></div>
                       <div>
@@ -14349,7 +13356,7 @@ export function AdminDashboardMain({
                       </div>
                     </div>
 
-                    <div className="space-y-2 border border-white/10 bg-black/50 p-4">
+                    <div className="flex flex-col gap-2 border border-white/10 bg-black/50 p-4">
                       <div className="flex items-center justify-between text-white/50">
                         <span>
                           Editor:{" "}
@@ -14389,7 +13396,7 @@ export function AdminDashboardMain({
               {/*  Co-Editors Settings & Live Active List Modal */}
               {showCoEditorModal && (
                 <div className="animate-fadeIn fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-                  <div className="w-full max-w-md space-y-5 border border-white/10 bg-[#181820] p-6">
+                  <div className="w-full max-w-md flex flex-col gap-4 border border-white/10 bg-[#181820] p-6">
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
                       <h3 className="flex items-center gap-2">
                         <span></span> Active Co-Editors & Lock Status
@@ -14403,7 +13410,7 @@ export function AdminDashboardMain({
                       </button>
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="flex flex-col gap-3">
                       {coEditors.map((ed) => (
                         <div
                           key={ed.id}
@@ -14434,7 +13441,7 @@ export function AdminDashboardMain({
                       ))}
                     </div>
 
-                    <div className="space-y-1 border border-white/10 bg-emerald-500/10 p-3 text-emerald-300">
+                    <div className="flex flex-col gap-1 border border-white/10 bg-emerald-500/10 p-3 text-emerald-300">
                       <div className="flex items-center gap-1.5">
                         <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
                         Conflict Prevention Active
@@ -14478,18 +13485,7 @@ export function AdminDashboardMain({
                         className="transition-colors cursor-pointer border-r border-none border-white/10 bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Previous Week"
                       >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="15 18 9 12 15 6" />
-                        </svg>
+                        <DotChevronLeft className="h-3.5 w-3.5" />
                       </button>
                       <button
                         type="button"
@@ -14543,18 +13539,7 @@ export function AdminDashboardMain({
                         className="transition-colors cursor-pointer border-none bg-[#00000029] p-2 text-white/40 hover:text-white"
                         title="Next Week"
                       >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="9 18 15 12 9 6" />
-                        </svg>
+                        <DotChevronRight className="h-3.5 w-3.5" />
                       </button>
                     </div>
 
@@ -14645,17 +13630,11 @@ export function AdminDashboardMain({
                         className={`flex cursor-pointer items-center gap-1.5 rounded-lg border border-solid px-3 py-1.5 ${showTourDropdown ? "border-purple-500/40 bg-purple-500/10" : "border-white/10 bg-[#00000029] bg-black/40 hover:text-white"}`}
                       >
                         SHOWS
-                        <svg
-                          width="10"
-                          height="10"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          className={`${showTourDropdown ? "rotate-180" : ""}`}
-                        >
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
+                        <DotChevronDown
+                          size={12}
+                          strokeWidth={2.5}
+                          className={`transition-transform duration-200 ${showTourDropdown ? "rotate-180" : ""}`}
+                        />
                       </button>
                       {showTourDropdown && (
                         <div className="custom-scrollbar absolute top-full left-0 z-50 mt-1 max-h-[850px] min-w-[320px] overflow-y-auto border border-white/10 bg-[#1a1a22] py-1.5 shadow-2xl">
@@ -15198,7 +14177,7 @@ export function AdminDashboardMain({
                           </div>
 
                           {/* Modal Form */}
-                          <div className="flex min-h-0 flex-1 flex-col space-y-4 overflow-hidden pt-5 pr-5 pb-0 pl-5">
+                          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden pt-5 pr-5 pb-0 pl-5">
                             {/* Coverage Request Alert / Control */}
                             {(() => {
                               const editingShift = schedules.find(
@@ -15235,7 +14214,7 @@ export function AdminDashboardMain({
 
                               // If coverage is requested:
                               return (
-                                <div className="shrink-0 space-y-3 border border-red-500/30 bg-red-500/10 p-4">
+                                <div className="shrink-0 flex flex-col gap-3 border border-red-500/30 bg-red-500/10 p-4">
                                   <div className="flex items-center justify-between gap-3 text-red-400">
                                     <div className="flex items-center gap-2">
                                       <span></span>
@@ -15270,7 +14249,7 @@ export function AdminDashboardMain({
                                     </button>
                                   </div>
 
-                                  <div className="space-y-2.5 border-t border-white/10 pt-3">
+                                  <div className="flex flex-col gap-2 border-t border-white/10 pt-3">
                                     <div className="flex items-center justify-between">
                                       <span className="text-white/50">
                                         Assign Coverage:
@@ -15302,7 +14281,7 @@ export function AdminDashboardMain({
                                     {/* List of candidates */}
                                     <div
                                       data-lenis-prevent
-                                      className="custom-scrollbar max-h-48 space-y-1.5 overflow-y-auto pr-1"
+                                      className="custom-scrollbar max-h-48 flex flex-col gap-1.5 overflow-y-auto pr-1"
                                     >
                                       {(() => {
                                         const candidates = crewMembers.filter(
@@ -15468,7 +14447,7 @@ export function AdminDashboardMain({
                                 "8:00 PM";
 
                               return (
-                                <div className="shrink-0 space-y-1.5 rounded-lg border border-white/10 bg-purple-500/10 px-3 py-2">
+                                <div className="shrink-0 flex flex-col gap-1.5 rounded-lg border border-white/10 bg-purple-500/10 px-3 py-2">
                                   <div className="flex min-w-0 items-center justify-between gap-2">
                                     <div className="flex min-w-0 items-center gap-1.5">
                                       <span className="text-[14px]">
@@ -15532,7 +14511,7 @@ export function AdminDashboardMain({
                                     direction="vertical"
                                     className="min-h-0 flex-1"
                                   >
-                                    <div className="space-y-2.5 rounded-lg pr-3 pb-4">
+                                    <div className="flex flex-col gap-2 rounded-lg pr-3 pb-4">
                                       {(() => {
                                         return uniqueCrewList
                                           .filter((m) =>
@@ -15721,7 +14700,7 @@ export function AdminDashboardMain({
 
                                                 {/* Inline Time Frames & Form Fields for Toggled Member */}
                                                 {assignment.active && (
-                                                  <div className="mt-3.5 animate-[fadeIn_0.2s_ease] space-y-4 border-t border-white/10 pt-3">
+                                                  <div className="mt-3.5 animate-[fadeIn_0.2s_ease] flex flex-col gap-4 border-t border-white/10 pt-3">
                                                     {dropTimeFrames.map(
                                                       (tf, index) => (
                                                         <div
@@ -15729,7 +14708,7 @@ export function AdminDashboardMain({
                                                             tf.id ||
                                                             `tf-${tf.role || "role"}-${tf.startHour ?? "start"}-${tf.endHour ?? "end"}`
                                                           }
-                                                          className="relative animate-[fadeIn_0.2s_ease] space-y-3 rounded-lg border border-white/10 p-3.5"
+                                                          className="relative animate-[fadeIn_0.2s_ease] flex flex-col gap-3 rounded-lg border border-white/10 p-3.5"
                                                         >
                                                           <div className="flex items-center justify-between">
                                                             <span className="text-[11px]">
@@ -15958,7 +14937,7 @@ export function AdminDashboardMain({
                                                             </div>
                                                           </div>
 
-                                                          <div className="space-y-1">
+                                                          <div className="flex flex-col gap-1">
                                                             <label
                                                               htmlFor={`admin-drawer-role-${index}`}
                                                               className="mb-1 block text-[10px] text-white/50"
@@ -16111,7 +15090,7 @@ export function AdminDashboardMain({
                                                             </div>
                                                           </div>
 
-                                                          <div className="space-y-1">
+                                                          <div className="flex flex-col gap-1">
                                                             <label
                                                               className="mb-1 block text-[10px] text-white/50"
                                                             >
@@ -16273,7 +15252,7 @@ export function AdminDashboardMain({
                           </div>
 
                           {/* Drawer Footer */}
-                          <div className="shrink-0 space-y-1.5 border-t border-white/10 p-3.5">
+                          <div className="shrink-0 flex flex-col gap-1.5 border-t border-white/10 p-3.5">
                             <button
                               type="button"
                               onClick={addScheduleItem}
@@ -16325,7 +15304,7 @@ export function AdminDashboardMain({
                       className="absolute inset-0 h-full w-full cursor-pointer border-none"
                     />
                     <div
-                      className="relative z-10 flex w-full max-w-md animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] flex-col items-center space-y-4 border border-purple-500/30 bg-[#181920]/85 p-6 text-center shadow-2xl backdrop-blur-xl select-none"
+                      className="relative z-10 flex w-full max-w-md animate-[scaleIn_0.2s_cubic-bezier(0.16,1,0.3,1)] flex-col items-center gap-4 border border-purple-500/30 bg-[#181920]/85 p-6 text-center shadow-2xl backdrop-blur-xl select-none"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-purple-500/30 bg-purple-500/10 text-2xl shadow-inner">
@@ -16404,9 +15383,9 @@ export function AdminDashboardMain({
                           </div>
 
                           {/* Drawer Content Body */}
-                          <CustomScrollbar className="space-y-3.5 px-5 pt-6 pb-3">
+                          <CustomScrollbar className="flex flex-col gap-3 px-5 pt-6 pb-3">
                             {crewGroups.length === 0 ? (
-                              <div className="space-y-4 py-12 text-center">
+                              <div className="flex flex-col gap-4 py-12 text-center">
                                 <span className="block text-white/50">
                                   No saved crew groups yet
                                 </span>
@@ -16435,7 +15414,7 @@ export function AdminDashboardMain({
                                 </button>
                               </div>
                             ) : (
-                              <div className="space-y-2.5">
+                              <div className="flex flex-col gap-2">
                                 <span className="block text-white/50">
                                   Saved Groups
                                 </span>
@@ -16546,9 +15525,9 @@ export function AdminDashboardMain({
                         </div>
 
                         {/* Modal Form Content */}
-                        <CustomScrollbar className="space-y-3.5 px-5 pt-6 pb-3">
+                        <CustomScrollbar className="flex flex-col gap-3 px-5 pt-6 pb-3">
                           {/* Group Name input */}
-                          <div className="mt-2 space-y-1.5">
+                          <div className="mt-2 flex flex-col gap-1.5">
                             <label
                               htmlFor="admin-new-group-name"
                               className="text-white/50"
@@ -16568,7 +15547,7 @@ export function AdminDashboardMain({
                           </div>
 
                           {/* Member Pick list */}
-                          <div className="space-y-2">
+                          <div className="flex flex-col gap-2">
                             <span className="mb-0 block text-white/50">
                               Select Crew Members
                             </span>
@@ -16657,7 +15636,7 @@ export function AdminDashboardMain({
 
                                     {/* Multiple time frames and role pill selector when active */}
                                     {setting.active && (
-                                      <div className="mt-2.5 w-full animate-[fadeIn_0.15s_ease] space-y-3 border-t border-white/10 pt-2.5">
+                                      <div className="mt-2.5 w-full animate-[fadeIn_0.15s_ease] flex flex-col gap-3 border-t border-white/10 pt-2.5">
                                         {(
                                           setting.timeFrames || [
                                             {
@@ -16671,7 +15650,7 @@ export function AdminDashboardMain({
                                         ).map((tf, tfIdx) => (
                                           <div
                                             key={tfIdx}
-                                            className="relative space-y-2 border border-white/10 p-2.5"
+                                            className="relative flex flex-col gap-2 border border-white/10 p-2.5"
                                           >
                                             <div className="flex items-center justify-between">
                                               <span className="text-[9.5px]">
@@ -17113,7 +16092,7 @@ export function AdminDashboardMain({
                           {/* Content */}
                           <div
                             data-lenis-prevent
-                            className="custom-scrollbar flex-1 space-y-4 overflow-y-auto p-5"
+                            className="custom-scrollbar flex-1 flex flex-col gap-4 overflow-y-auto p-5"
                           >
                             {/* Show Stats Summary */}
                             <div className="grid grid-cols-3 gap-2 border border-white/10 bg-black/20 p-3 text-center">
@@ -17149,7 +16128,7 @@ export function AdminDashboardMain({
                                   No crew members scheduled yet
                                 </div>
                               ) : (
-                                <div className="space-y-2">
+                                <div className="flex flex-col gap-2">
                                   {filledShifts.map((shift) => {
                                     const member = crewMembers.find(
                                       (c) => c.id === shift.crewId,
@@ -17228,7 +16207,7 @@ export function AdminDashboardMain({
                                   No open positions
                                 </div>
                               ) : (
-                                <div className="space-y-2">
+                                <div className="flex flex-col gap-2">
                                   {openShifts.map((shift) => (
                                     <div
                                       key={shift.id}
@@ -17277,7 +16256,7 @@ export function AdminDashboardMain({
       {/* === EXECUTIVE ADMIN HERO HEADER === */}
       <header className="flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-center">
         {/* Admin Identity & Badges */}
-        <div className="flex gap-5">
+        <div className="flex gap-6">
           <input
             type="file"
             ref={adminPhotoInputRef}
@@ -17366,43 +16345,32 @@ export function AdminDashboardMain({
         {/* Right Action Cluster & Tab Switcher */}
         <div className="flex shrink-0 flex-col items-center gap-3 sm:flex-row">
           {/* Mode Switcher Pills */}
-          <div className="flex items-center gap-2 select-none">
-            <SeventhButton
-              isActive={adminTab === "band"}
-              onClick={() => {
-                setAdminTab("band");
-                adminTabRef.current = "band";
-              }}
-              className="cursor-pointer whitespace-nowrap"
-            >
-              Band &amp; Site
-            </SeventhButton>
-
-            <SeventhButton
-              isActive={adminTab === "cruise"}
-              onClick={() => {
-                setAdminTab("cruise");
-                adminTabRef.current = "cruise";
+          <SegmentedTabs<"band" | "cruise">
+            activeTab={adminTab}
+            onChange={(tab) => {
+              setAdminTab(tab);
+              adminTabRef.current = tab;
+              if (tab === "cruise") {
                 setUnreadCruiseChat(0);
-              }}
-              className="flex cursor-pointer items-center justify-center whitespace-nowrap"
-            >
-              <span>Cruise</span>
-              {unreadCruiseChat > 0 && adminTab !== "cruise" && (
-                <span className="ml-0.5 flex h-[18px] min-w-[18px] shrink-0 items-center justify-center rounded-full border border-white bg-rose-600 px-1 text-[0.55rem]">
-                  {unreadCruiseChat > 99 ? "99+" : unreadCruiseChat}
-                </span>
-              )}
-            </SeventhButton>
-          </div>
+              }
+            }}
+            ariaLabel="Admin mode switcher"
+            layout="flex"
+            size="sm"
+            tabs={[
+              { id: "band", label: "Band & Site" },
+              { id: "cruise", label: "Cruise" },
+            ]}
+          />
 
           {/* Exit Link */}
           <NavLinkButton
             href="/"
             variant="ghost"
             color="muted"
-            size="sm"
+            size="none"
             fontWeight="semibold"
+            className="!bg-transparent hover:!bg-transparent hover:text-white transition-colors duration-150"
           >
             Exit to Site
           </NavLinkButton>
@@ -17411,38 +16379,32 @@ export function AdminDashboardMain({
 
       {/* BAND & SITE TAB */}
       {adminTab === "band" && (
-        <>
+        <Stack gap="lg">
           {/* Category Navigation Tabs */}
-          <div className="flex flex-wrap items-center gap-2 border-b border-white/10 pb-4 select-none">
-            {[
-              { id: "overview", label: "Overview & Analytics", icon: "📊" },
-              { id: "messages", label: "Send Messages & SMS", icon: "💬" },
-              { id: "broadcasts", label: "Broadcast & Banners", icon: "📣" },
-              { id: "schedule", label: "Crew & Schedule", icon: "📅" },
-              { id: "directory", label: "Directory & Users", icon: "👥" },
-              { id: "bookings_mod", label: "Bookings & Media", icon: "📝" },
-              { id: "store", label: "Merch & Store", icon: "🛒" },
-            ].map((tab) => {
-              const isActive = activeCategoryTab === tab.id;
-              return (
-                <SeventhButton
-                  key={tab.id}
-                  type="button"
-                  isActive={isActive}
-                  icon={false}
-                  onClick={() => {
-                    setActiveCategoryTab(tab.id);
-                    try {
-                      localStorage.setItem("7h_admin_category_tab", tab.id);
-                    } catch { }
-                  }}
-                  className="cursor-pointer whitespace-nowrap"
-                >
-                  <span className="mr-1.5">{tab.icon}</span>
-                  {tab.label}
-                </SeventhButton>
-              );
-            })}
+          <div className="hide-scrollbar max-w-full overflow-x-auto select-none">
+            <SegmentedTabs
+              layout="flex"
+              shape="full"
+              size="md"
+              ariaLabel="Admin categories"
+              className="inline-flex w-max shrink-0 flex-nowrap"
+              tabs={[
+                { id: "overview", label: "Overview & Analytics", icon: "📊" },
+                { id: "messages", label: "Send Messages & SMS", icon: "💬" },
+                { id: "broadcasts", label: "Broadcast & Banners", icon: "📣" },
+                { id: "schedule", label: "Crew & Schedule", icon: "📅" },
+                { id: "directory", label: "Directory & Users", icon: "👥" },
+                { id: "bookings_mod", label: "Bookings & Media", icon: "📝" },
+                { id: "store", label: "Merch & Store", icon: "🛒" },
+              ]}
+              activeTab={activeCategoryTab}
+              onChange={(id) => {
+                setActiveCategoryTab(id);
+                try {
+                  localStorage.setItem("7h_admin_category_tab", id);
+                } catch { }
+              }}
+            />
           </div>
 
           {activeCategoryTab === "overview" && (
@@ -17461,6 +16423,20 @@ export function AdminDashboardMain({
                             .getElementById("admin-sec-bookings")
                             ?.scrollIntoView({ behavior: "smooth" });
                         }, 50);
+                      } else if (metric.label === "Active Live Streams") {
+                        setActiveCategoryTab("overview");
+                        setTimeout(() => {
+                          document
+                            .getElementById("admin-sec-livealerts")
+                            ?.scrollIntoView({ behavior: "smooth" });
+                        }, 50);
+                      } else if (metric.label === "Total Registered Users") {
+                        setActiveCategoryTab("overview");
+                        setTimeout(() => {
+                          document
+                            .getElementById("admin-sec-analytics")
+                            ?.scrollIntoView({ behavior: "smooth" });
+                        }, 50);
                       }
                     }
                   }}
@@ -17472,9 +16448,23 @@ export function AdminDashboardMain({
                           .getElementById("admin-sec-bookings")
                           ?.scrollIntoView({ behavior: "smooth" });
                       }, 50);
+                    } else if (metric.label === "Active Live Streams") {
+                      setActiveCategoryTab("overview");
+                      setTimeout(() => {
+                        document
+                          .getElementById("admin-sec-livealerts")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      }, 50);
+                    } else if (metric.label === "Total Registered Users") {
+                      setActiveCategoryTab("overview");
+                      setTimeout(() => {
+                        document
+                          .getElementById("admin-sec-analytics")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      }, 50);
                     }
                   }}
-                  className={` ${metric.label === "Booking Requests" ? "cursor-pointer" : ""}`}
+                  className="cursor-pointer"
                 >
                   <p className="mb-2">{metric.label}</p>
                   <div className="flex items-end justify-between">
@@ -17493,7 +16483,7 @@ export function AdminDashboardMain({
           {sectionOrder
             .filter((key) => {
               const CATEGORY_MAP: Record<string, string[]> = {
-                overview: ["analytics"],
+                overview: ["analytics", "livealerts"],
                 messages: ["smsblast", "crewsms", "pushsubscribers", "newsletter"],
                 broadcasts: ["announcements", "livealerts"],
                 schedule: ["calendar"],
@@ -17588,7 +16578,7 @@ export function AdminDashboardMain({
                 </div>
                 <div
                   data-lenis-prevent
-                  className="custom-scrollbar flex max-h-[500px] flex-1 flex-col gap-5 overflow-y-auto py-6 pl-0"
+                  className="custom-scrollbar flex max-h-[500px] flex-1 flex-col gap-6 overflow-y-auto py-6 pl-0"
                 >
                   {auditLog.map((entry, i) => (
                     <div
@@ -17625,9 +16615,9 @@ export function AdminDashboardMain({
                             </button>
 
                             {expandedAuditId === entry.id && (
-                              <div className="mt-2 max-w-full animate-[slideDown_0.2s_ease-out] space-y-3 overflow-hidden border border-white/10 p-3 md:max-w-[650px]">
+                              <div className="mt-2 max-w-full animate-[slideDown_0.2s_ease-out] flex flex-col gap-3 overflow-hidden border border-white/10 p-3 md:max-w-[650px]">
                                 {entry.details.type === "signin" && (
-                                  <div className="space-y-1.5">
+                                  <div className="flex flex-col gap-1.5">
                                     <div className="flex justify-between border-b border-white/10 pb-1">
                                       <span className="text-white/40">
                                         User
@@ -17646,7 +16636,7 @@ export function AdminDashboardMain({
                                 )}
 
                                 {entry.details.smsText && (
-                                  <div className="space-y-1.5">
+                                  <div className="flex flex-col gap-1.5">
                                     <span className="block text-white/40">
                                       {" "}
                                       SMS Message Body
@@ -17658,7 +16648,7 @@ export function AdminDashboardMain({
                                 )}
 
                                 {entry.details.emailHtml && (
-                                  <div className="space-y-2">
+                                  <div className="flex flex-col gap-2">
                                     <div className="border-b border-white/10 pb-1">
                                       <span className="mb-1 block text-white/40">
                                         {" "}
@@ -17669,7 +16659,7 @@ export function AdminDashboardMain({
                                       </span>
                                     </div>
 
-                                    <div className="space-y-1.5">
+                                    <div className="flex flex-col gap-1.5">
                                       <span className="block text-white/40">
                                         Visual Template Render
                                       </span>
@@ -17718,11 +16708,11 @@ export function AdminDashboardMain({
               </div>
             </div>
           </section>
-        </>
+        </Stack>
       )}
 
       {adminTab === "cruise" && (
-        <>
+        <Stack gap="lg">
           {/* === CRUISE BROADCAST CENTER === */}
           <div id="admin-sec-cruise-command" className="relative">
             {/* Row 1: 2 Columns — Column 1: Cruise Information & Guidelines (Welcome Pack) | Column 2: Passenger Lounge Live Chat */}
@@ -17748,7 +16738,7 @@ export function AdminDashboardMain({
                   )}
                 </div>
 
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
                       <GlowInput
@@ -18001,22 +16991,17 @@ export function AdminDashboardMain({
                           <h4>Live Dispatch Preview</h4>
                         </div>
                         {/* Live Preview Tab Switcher */}
-                        <div className="flex items-center gap-2 select-none">
-                          <SeventhButton
-                            isActive={livePreviewTab === "dashboard"}
-                            onClick={() => setLivePreviewTab("dashboard")}
-                            className="cursor-pointer whitespace-nowrap"
-                          >
-                            CRUISE DASHBOARD BANNER
-                          </SeventhButton>
-                          <SeventhButton
-                            isActive={livePreviewTab === "email"}
-                            onClick={() => setLivePreviewTab("email")}
-                            className="cursor-pointer whitespace-nowrap"
-                          >
-                            EMAIL BROADCAST
-                          </SeventhButton>
-                        </div>
+                        <SegmentedTabs<"dashboard" | "email">
+                          activeTab={livePreviewTab}
+                          onChange={setLivePreviewTab}
+                          ariaLabel="Live preview display switcher"
+                          layout="flex"
+                          size="sm"
+                          tabs={[
+                            { id: "dashboard", label: "CRUISE DASHBOARD BANNER" },
+                            { id: "email", label: "EMAIL BROADCAST" },
+                          ]}
+                        />
                       </div>
 
                       <CruiseLivePreview
@@ -18044,7 +17029,7 @@ export function AdminDashboardMain({
           >
             <div className="group relative z-10 flex flex-col overflow-hidden">
               <div className="transition-colors pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/3 -translate-y-1/2 rounded-full bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10" />
-              <div className="relative z-10 flex flex-col gap-5">
+              <div className="relative z-10 flex flex-col gap-6">
                 <div className="title-group title-group--sub border-b border-white/10 pb-4">
                   <h3>Cruise Roster</h3>
                   <p>Signups & Passenger Manifest</p>
@@ -18076,7 +17061,7 @@ export function AdminDashboardMain({
                     <p className="mb-2">Recent Signups</p>
                     <div
                       data-lenis-prevent
-                      className="custom-scrollbar custom-admin-scrollbar max-h-[550px] min-h-[320px] space-y-1.5 overflow-y-auto pr-1"
+                      className="custom-scrollbar custom-admin-scrollbar max-h-[550px] min-h-[320px] flex flex-col gap-1.5 overflow-y-auto pr-1"
                     >
                       {(cruiseStats.recentSignups || []).map((s) => (
                         <div
@@ -18145,7 +17130,7 @@ export function AdminDashboardMain({
               </div>
             </div>
           </div>
-        </>
+        </Stack>
       )}
 
       {showSetPassword && (
@@ -18192,10 +17177,10 @@ export function AdminDashboardMain({
             </div>
 
             <div className="custom-scrollbar grid flex-1 grid-cols-1 gap-8 overflow-y-auto p-6 md:grid-cols-2 md:p-8">
-              <div className="space-y-6">
+              <div className="flex flex-col gap-6">
                 <div>
                   <h4 className="mb-6">1. Select Target Destination</h4>
-                  <div className="space-y-3">
+                  <div className="flex flex-col gap-3">
                     <div>
                       <span className="block text-[0.65rem]">
                         Link Destination Type
@@ -18272,7 +17257,7 @@ export function AdminDashboardMain({
 
                 <div>
                   <h4 className="mb-6">2. Customize Tag Label</h4>
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     <div>
                       <GlowInput
                         id="admin-qr-subtitle-input"

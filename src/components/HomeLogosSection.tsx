@@ -90,7 +90,7 @@ export default function HomeLogosSection({
           </div>
         </div>
       </div>
-      <div className="w-full space-y-4">
+      <div className="w-full flex flex-col gap-4">
         <LogoTicker
           items={artistItems}
           direction="left"

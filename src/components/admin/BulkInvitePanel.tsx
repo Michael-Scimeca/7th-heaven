@@ -275,7 +275,7 @@ export default function BulkInvitePanel() {
           </div>
 
           {/* Direct Copy-Paste Text Area */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             <GlowTextarea
               id="bulk-invite-text-input"
               label="Copy-Paste Contact List"
@@ -299,7 +299,7 @@ export default function BulkInvitePanel() {
         </div>
       ) : (
         /* Verification Preview / Progress Stage */
-        <div className="space-y-6">
+        <div className="flex flex-col gap-6">
           {/* Status overview */}
           <div className="flex flex-wrap items-center justify-between gap-4 border border-black/10 bg-black/[0.02] p-4">
             <div className="flex items-center gap-3">

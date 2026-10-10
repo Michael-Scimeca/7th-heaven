@@ -243,8 +243,9 @@ export default function CustomScrollbar({
       {/* Scrollable content with hidden native scrollbar */}
       <div
         ref={containerRef}
-        className={`flex-1 min-h-0 min-w-0 [scrollbar-width:none] [-ms-overflow-style:none] [webkit-overflow-scrolling:touch] ${showVertical ? "overflow-y-scroll" : "overflow-y-hidden"
-          } ${showHorizontal ? "o" : ""} ${className}`}
+        className={`flex-1 min-h-0 min-w-0 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [webkit-overflow-scrolling:touch] ${
+          showVertical ? "overflow-y-scroll" : "overflow-y-hidden"
+        } ${showHorizontal ? "overflow-x-scroll" : "overflow-x-hidden"} ${className}`}
         data-lenis-prevent
       >
         {children}

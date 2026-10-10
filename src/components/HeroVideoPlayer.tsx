@@ -793,7 +793,7 @@ export default function HeroVideoPlayer({
                 </div>
 
                 {/* Presets */}
-                <div className="space-y-1.5">
+                <div className="flex flex-col gap-1.5">
                   <span className="block">Presets</span>
                   <div className="flex flex-wrap gap-2">
                     {TINT_PRESETS.map((preset) => (
@@ -841,7 +841,7 @@ export default function HeroVideoPlayer({
                 </div>
 
                 {/* Opacity Slider */}
-                <div className="space-y-1.5">
+                <div className="flex flex-col gap-1.5">
                   <div className="flex justify-between">
                     <span>Opacity</span>
                     <span className="text-[var(--color-accent)]">
@@ -860,7 +860,7 @@ export default function HeroVideoPlayer({
                 </div>
 
                 {/* Blend Modes */}
-                <div className="space-y-1.5">
+                <div className="flex flex-col gap-1.5">
                   <span className="block">Mix Blend Mode</span>
                   <div className="grid grid-cols-3 gap-1">
                     {(
@@ -885,7 +885,7 @@ export default function HeroVideoPlayer({
                 </div>
 
                 {/* Active Values HUD */}
-                <div className="space-y-0.5 border border-white/10 bg-white/[0.02] p-2 text-white/40">
+                <div className="flex flex-col gap-0.5 border border-white/10 bg-white/[0.02] p-2 text-white/40">
                   <div>
                     Color: <span>{tintColor}</span>
                   </div>

@@ -4,7 +4,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Play, Music, X, ChevronUp } from "lucide-react";
+import { Play, Music, X } from "lucide-react";
 import SeventhButton from "@/components/SeventhButton";
 import GlowInput from "@/components/GlowInput";
 import data from "../../public/data/albums.json";

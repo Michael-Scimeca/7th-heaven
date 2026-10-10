@@ -196,7 +196,7 @@ export default function AwardPicksPanel() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       {/* Pick Type Selection */}
       <div>
         <span className="mb-2 block">Select Pick Type</span>
@@ -317,7 +317,7 @@ export default function AwardPicksPanel() {
       {recentAwards.length > 0 && (
         <div>
           <span className="mb-2 block">Recent Awards</span>
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             {recentAwards.map((a) => (
               <div
                 key={a.id || `${a.fan}-${a.time}`}

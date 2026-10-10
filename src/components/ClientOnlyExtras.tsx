@@ -22,6 +22,19 @@ export default function ClientOnlyExtras() {
   useEffect(() => {
     let loaded = false;
 
+    // Clean up any previously injected fluid tuner styles or frames
+    if (typeof document !== "undefined") {
+      const dynamicTag = document.getElementById("fluid-gap-dynamic-styles");
+      if (dynamicTag) dynamicTag.remove();
+      const wrapper = document.querySelector("#page-content-wrapper") as HTMLElement | null;
+      if (wrapper) {
+        wrapper.style.maxWidth = "";
+        wrapper.style.marginLeft = "";
+        wrapper.style.marginRight = "";
+        wrapper.style.boxShadow = "";
+      }
+    }
+
     const loadExtras = () => {
       if (loaded) return;
       loaded = true;

@@ -286,7 +286,7 @@ export default function PastShowsClient({
           className="section"
         >
           <SectionHeader id="past-shows-archive-heading" title="Past Shows Archive" visuallyHidden />
-          <div className="min-h-[60vh] space-y-0">
+          <div className="min-h-[60vh] flex flex-col gap-0">
             {filteredYears.map((yGroup) => {
               const isOpen = !!openYears[yGroup.year];
               const accordionContentId = `year-shows-${yGroup.year}`;

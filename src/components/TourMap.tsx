@@ -1410,8 +1410,8 @@ export default function TourMap({
               </div>
 
               {/* Dual Date Sliders */}
-              <div className="space-y-4">
-                <div className="space-y-1.5">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1.5">
                   <div className="flex justify-between">
                     <span>START DATE (FROM)</span>
                     <span>{formatDateShort(activeStart)}</span>
@@ -1430,7 +1430,7 @@ export default function TourMap({
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="flex flex-col gap-1.5">
                   <div className="flex justify-between">
                     <span>END DATE (TO)</span>
                     <span>{formatDateShort(activeEnd)}</span>
@@ -1454,7 +1454,7 @@ export default function TourMap({
               </div>
 
               {/* Quick Preset Buttons */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <span className="block text-white/50">QUICK PRESETS</span>
                 <div className="grid grid-cols-3 gap-2">
                   <button
@@ -1549,7 +1549,7 @@ export default function TourMap({
               </div>
 
               {/* Settings Grid for Mobile, Tablet, Desktop */}
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 {(["mobile", "tablet", "desktop"] as const).map((device) => {
                   const activeClasses =
                     device === "mobile"
@@ -1596,7 +1596,7 @@ export default function TourMap({
 
                       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                         {/* Initial Map Zoom Slider */}
-                        <div className="space-y-1">
+                        <div className="flex flex-col gap-1">
                           <div className="flex items-center justify-between">
                             <span>Initial:</span>
                             <span>{cfg.initial}</span>
@@ -1622,7 +1622,7 @@ export default function TourMap({
                         </div>
 
                         {/* Venue Focus Zoom Slider */}
-                        <div className="space-y-1">
+                        <div className="flex flex-col gap-1">
                           <div className="flex items-center justify-between">
                             <span>Focus:</span>
                             <span>{cfg.active}</span>

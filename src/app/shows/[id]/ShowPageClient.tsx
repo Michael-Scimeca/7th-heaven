@@ -580,7 +580,7 @@ export default function ShowPageClient({
                       <p>We will alert you when new dates are announced.</p>
                     </div>
                   ) : (
-                    <form onSubmit={handleNotifyMe} className="space-y-3">
+                    <form onSubmit={handleNotifyMe} className="flex flex-col gap-3">
                       <div className="flex flex-col gap-3 sm:flex-row">
                         <InputField
                           type="email"

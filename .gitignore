@@ -83,3 +83,6 @@ test-results/
 .agents/skills/**/vite.config.*
 
 
+
+# Discord exports (contain other people's messages)
+/data/discord-export/

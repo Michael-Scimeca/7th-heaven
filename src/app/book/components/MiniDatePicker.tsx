@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { DotChevronLeft, DotChevronRight } from "@/components/ui/DotArrow";
 
 const M_NAMES = [
   "Jan",
@@ -68,10 +69,11 @@ export function MiniDatePicker({
       <button
         id={inputId}
         aria-label={label || "Pick a date"}
+        aria-expanded={showCal}
+        aria-haspopup="dialog"
         type="button"
         onClick={() => setShowCal(!showCal)}
-
-        className={`transition-colors group focus-ring flex w-full cursor-pointer items-center justify-between rounded-[var(--radius-box)] border border-white/10 bg-transparent px-2.5 py-2.5 text-left ring-0 outline-none focus-visible:ring-0 focus-visible:outline-none`}
+        className="transition-colors group flex w-full cursor-pointer items-center justify-between rounded-[var(--radius-box)] border border-white/10 bg-transparent px-3 py-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
       >
         <span
           className={`transition-[color,opacity] ${value ? "" : "text-white/45 group-hover:text-white group-hover:opacity-100"}`}
@@ -87,6 +89,7 @@ export function MiniDatePicker({
             : "Pick a date…"}
         </span>
         <svg
+          aria-hidden="true"
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -112,16 +115,7 @@ export function MiniDatePicker({
               onClick={() => setCalMonth(new Date(year, month - 1, 1))}
               className={`p-1 ${isPrevDisabled ? "cursor-not-allowed text-white/20" : "cursor-pointer hover:text-white"}`}
             >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
+              <DotChevronLeft className="h-3.5 w-3.5" />
             </button>
             <button
               type="button"
@@ -139,16 +133,7 @@ export function MiniDatePicker({
               onClick={() => setCalMonth(new Date(year, month + 1, 1))}
               className="transition-colors cursor-pointer p-1 hover:text-white"
             >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
+              <DotChevronRight className="h-3.5 w-3.5" />
             </button>
           </div>
           {showMonthGrid ? (

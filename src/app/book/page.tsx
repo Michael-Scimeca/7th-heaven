@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { fetchPageContent } from "@/lib/sanity";
+import { getBookingAvailability } from "@/lib/booking-availability";
 import BookClient from "./BookClient";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -46,40 +47,16 @@ export async function generateMetadata(): Promise<Metadata> {
 export const revalidate = 60;
 
 export default async function BookPage() {
-  const sanityContent = await fetchPageContent("book");
-
-  const bookingServiceLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "7th Heaven Live Band Booking",
-    serviceType: "Musical Performance / Live Entertainment",
-    provider: {
-      "@type": "MusicGroup",
-      name: "7th Heaven",
-      url: "https://7thheavenband.com",
-    },
-    areaServed: {
-      "@type": "Country",
-      name: "United States",
-    },
-    description:
-      "Hire 7th Heaven for festivals, concert venues, corporate celebrations, private events, and weddings.",
-    url: "https://7thheavenband.com/book",
-  };
+  const [sanityContent, availability] = await Promise.all([
+    fetchPageContent("book"),
+    getBookingAvailability(),
+  ]);
 
   return (
-    <>
-      <script
-        id="booking-service-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(bookingServiceLd)
-            .replace(/</g, "\\u003c")
-            .replace(/>/g, "\\u003e")
-            .replace(/&/g, "\\u0026"),
-        }}
-      />
-      <BookClient sanityContent={sanityContent} />
-    </>
+    <BookClient
+      sanityContent={sanityContent}
+      initialBlockedDates={availability.blockedDates}
+      initialDateDetails={availability.dateDetails}
+    />
   );
 }

@@ -686,12 +686,8 @@ function CruiseNotesAndSignatureSection({
   signatureDate: string;
 }) {
   return (
-    <div className="booking-section-container mt-4 border-0 p-0">
-      <div className="booking-section-header border-0 px-0 py-2">
-        <span>ADDITIONAL NOTES &amp; DIGITAL SIGNATURE</span>
-      </div>
-
-      <div className="border-0 py-3">
+    <div className="booking-section-container  border-0 p-0">
+      <div className="border-0">
         <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
           <div className="flex flex-col justify-start">
             <label htmlFor="cruise-how-heard" className="booking-label block">
@@ -793,7 +789,7 @@ function PaymentPortalDropdownPanel({
       </div>
 
       {submittedRef ? (
-        <div className="space-y-3 py-6 text-center">
+        <div className="flex flex-col gap-3 py-6 text-center">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-xl text-emerald-400">
             <CheckMarkIcon className="h-6 w-6 text-emerald-400" />
           </div>
@@ -821,7 +817,7 @@ function PaymentPortalDropdownPanel({
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-3.5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="grid grid-cols-1 gap-3.5">
             <InputField
               id="pay-booking-number"

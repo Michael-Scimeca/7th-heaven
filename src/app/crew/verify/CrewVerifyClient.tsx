@@ -328,7 +328,7 @@ export default function CrewVerifyClient({
 
             <h2 className="mb-1">Official Winner</h2>
 
-            <div className="my-4 space-y-3 rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-4 text-left">
+            <div className="my-4 flex flex-col gap-3 rounded-[var(--radius-box)] border border-white/10 bg-black/40 p-4 text-left">
               <div>
                 <p className="mb-1">Fan Name</p>
                 <p>{winnerData.winner}</p>

@@ -627,9 +627,19 @@ export default function SpacingInspector() {
     return (
       <div
         data-spacing-inspector
-        className="fixed z-[9999999] transition-opacity"
+        className="fixed z-[9999999] transition-opacity flex items-center gap-1.5"
         style={{ left: pillPos.x, top: pillPos.y }}
       >
+        <button
+          onClick={() => {
+            window.dispatchEvent(new KeyboardEvent("keydown", { altKey: true, key: "g" }));
+          }}
+          title="Open Fluid Gap Controller (Alt+G)"
+          className="transition-colors flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-zinc-950/90 px-3 py-2 font-mono text-xs text-cyan-300 shadow-2xl backdrop-blur-xl hover:bg-cyan-950/80 hover:text-white"
+        >
+          <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+          <span>🌊 Fluid Gap</span>
+        </button>
         <button
           onClick={() => setIsActive(true)}
           title="Enable Spacing Inspector (Alt+S)"
@@ -1179,6 +1189,15 @@ export default function SpacingInspector() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                window.dispatchEvent(new KeyboardEvent("keydown", { altKey: true, key: "g" }));
+              }}
+              title="Open Fluid Gap Controller (Alt+G)"
+              className="rounded border border-cyan-500/60 bg-cyan-950/90 px-2 py-1 text-[11px] font-mono text-cyan-200 transition shadow hover:bg-cyan-900 hover:text-white"
+            >
+              🌊 FLUID GAP
+            </button>
             <button
               onClick={() => {
                 const next = !showOverlays || (!showPadding && !showMargin);

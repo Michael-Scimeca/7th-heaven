@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
-import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import Button from "@/components/Button";
 import FaqChevronButton from "@/components/FaqChevronButton";
 import PageHero from "@/components/PageHero";
@@ -241,6 +241,11 @@ const CATEGORIES = [
   },
 ];
 
+const FAQ_TABS = CATEGORIES.map((cat) => {
+  const Icon = cat.icon;
+  return { id: cat.id, label: cat.label, icon: <Icon /> };
+});
+
 export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -329,26 +334,18 @@ export default function FaqClient({ sanityContent }: { sanityContent?: any }) {
           {/* Category Navigation Tabs */}
           <nav
             aria-label="FAQ Categories"
-            className="mb-6 flex flex-wrap justify-start gap-2"
+            className="hide-scrollbar mb-6 w-full max-w-full overflow-x-auto"
           >
-            {CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              const isActive = activeTab === cat.id;
-              return (
-                <SeventhButton
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setActiveTab(cat.id)}
-                  isActive={isActive}
-                  className="flex !w-auto items-center gap-2"
-                >
-                  <span className={isActive ? " " : cat.color}>
-                    <Icon />
-                  </span>
-                  <span>{cat.label}</span>
-                </SeventhButton>
-              );
-            })}
+            <SegmentedTabs
+              layout="flex"
+              shape="full"
+              size="md"
+              ariaLabel="FAQ Categories"
+              className="inline-flex w-max shrink-0 flex-nowrap"
+              tabs={FAQ_TABS}
+              activeTab={activeTab}
+              onChange={setActiveTab}
+            />
           </nav>
 
           {/* FAQ Accordion List */}

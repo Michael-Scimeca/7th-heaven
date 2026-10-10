@@ -148,7 +148,7 @@ export default function PushSubscribeModal({
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div>
                 <label className="block text-gray-300">
                   Your Full Name

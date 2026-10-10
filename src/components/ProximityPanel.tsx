@@ -42,8 +42,12 @@ const tierColors: Record<string, string> = {
   Platinum: " text-[var(--color-accent)]",
 };
 
+const IS_UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default function ProximityPanel() {
   const { member } = useMember();
+  const memberId = member?.id;
   const supabase = createClient();
 
   const [zip, setZip] = useState("");
@@ -64,11 +68,11 @@ export default function ProximityPanel() {
 
   // Load current profile settings from Supabase
   useEffect(() => {
-    if (!member?.id) return;
+    if (!memberId || !IS_UUID_REGEX.test(memberId)) return;
     supabase
       .from("profiles")
       .select("zip, notification_radius, notifications_enabled")
-      .eq("id", member.id)
+      .eq("id", memberId)
       .single()
       .then(({ data }: any) => {
         if (data) {
@@ -77,21 +81,21 @@ export default function ProximityPanel() {
           setNotificationsEnabled(data.notifications_enabled || false);
         }
       });
-  }, [member?.id, supabase]);
+  }, [memberId, supabase]);
 
   // Fetch nearby shows
   const fetchNearbyShows = useCallback(async () => {
-    if (!member?.id || !notificationsEnabled) return;
+    if (!memberId || !IS_UUID_REGEX.test(memberId) || !notificationsEnabled) return;
     setLoadingShows(true);
     try {
-      const res = await fetch(`/api/proximity/shows?userId=${member.id}`);
+      const res = await fetch(`/api/proximity/shows?userId=${memberId}`);
       if (res.ok) {
         const data = await res.json();
         setNearbyShows(data.shows || []);
       }
     } catch { }
     setLoadingShows(false);
-  }, [member?.id, notificationsEnabled]);
+  }, [memberId, notificationsEnabled]);
 
   useEffect(() => {
     fetchNearbyShows();
@@ -170,7 +174,7 @@ export default function ProximityPanel() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       {/* Settings Container — No outer card box/border */}
       <div className="relative">
         <SectionHeader

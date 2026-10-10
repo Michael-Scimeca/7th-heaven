@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import SearchInput from "@/components/SearchInput";
 import SeventhButton from "@/components/SeventhButton";
 import CustomScrollbar from "@/components/CustomScrollbar";
-import { SectionBadge } from "@/components/SectionBadge";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import Avatar from "@/components/Avatar";
 
 export interface RoleUser {
@@ -298,6 +298,21 @@ export function RoleEmailDirectory({
     };
   }, [combinedUsers]);
 
+  const roleTabs = useMemo(
+    () =>
+      (
+        [
+          ["all", "ALL"],
+          ["crew", "CREW"],
+          ["fan", "FANS"],
+          ["cruise", "CRUISE"],
+          ["planner", "PLANNERS"],
+          ["admin", "ADMINS"],
+        ] as const
+      ).map(([id, label]) => ({ id, label, badge: counts[id] })),
+    [counts],
+  );
+
   // Filtered users by tab & search query
   const filteredUsers = useMemo(() => {
     return combinedUsers.filter((u) => {
@@ -352,32 +367,17 @@ export function RoleEmailDirectory({
       {/* Header Controls */}
       <div className="mb-3 flex flex-col justify-between gap-4 md:flex-row md:items-center">
         {/* Role Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5">
-          {(["all", "crew", "fan", "cruise", "planner", "admin"] as const).map(
-            (tab) => {
-              const labelText =
-                tab === "all"
-                  ? "ALL"
-                  : tab === "crew"
-                    ? "CREW"
-                    : tab === "fan"
-                      ? "FANS"
-                      : tab === "cruise"
-                        ? "CRUISE"
-                        : tab === "planner"
-                          ? "PLANNERS"
-                          : "ADMINS";
-              return (
-                <SectionBadge
-                  key={tab}
-                  isActive={activeTab === tab}
-                  onClick={() => setActiveTab(tab)}
-                  label={`${counts[tab]} ${labelText}`}
-                  className="cursor-pointer"
-                />
-              );
-            },
-          )}
+        <div className="hide-scrollbar max-w-full overflow-x-auto">
+          <SegmentedTabs
+            layout="flex"
+            shape="full"
+            size="sm"
+            ariaLabel="Filter by role"
+            className="inline-flex w-max shrink-0 flex-nowrap"
+            tabs={roleTabs}
+            activeTab={activeTab}
+            onChange={setActiveTab}
+          />
         </div>
 
         {/* Action Buttons */}

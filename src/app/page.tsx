@@ -4,10 +4,10 @@ import nextDynamic from "next/dynamic";
 import { fetchPageContent } from "@/lib/sanity";
 import HeroVideoPlayer from "@/components/HeroVideoPlayer";
 
-const HomeVideoShowcase = nextDynamic(
-  () => import("@/components/HomeVideoShowcase"),
-);
-const SlideupSection = nextDynamic(() => import("@/components/SlideupSection"));
+// const HomeVideoShowcase = nextDynamic(
+//   () => import("@/components/HomeVideoShowcase"),
+// );
+// const SlideupSection = nextDynamic(() => import("@/components/SlideupSection"));
 const HomeNewsSection = nextDynamic(
   () => import("@/components/HomeNewsSection"),
 );
@@ -105,11 +105,11 @@ export default async function Home() {
       {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint. */}
       <HomeDataLoader />
 
-      {/* ====== FEATURED VIDEO SHOWCASE ====== */}
-      <HomeVideoShowcase sanityContent={sanityContent} />
+{/* ====== FEATURED VIDEO SHOWCASE (Temporarily disabled) ====== */}
+      {/* <HomeVideoShowcase sanityContent={sanityContent} /> */}
 
-      {/* ====== SLIDEUP STACK SECTION ====== */}
-      <SlideupSection sanityContent={sanityContent} />
+      {/* ====== SLIDEUP STACK SECTION (Temporarily disabled) ====== */}
+      {/* <SlideupSection sanityContent={sanityContent} /> */}
 
       {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
       <HomeLogosSection sanityContent={sanityContent} />

@@ -9,6 +9,7 @@ import CosmicTrackCard from "@/components/CosmicTrackCard";
 import AddCmsButton from "@/components/AddCmsButton";
 import SectionHeader from "@/components/SectionHeader";
 import PageHero from "@/components/PageHero";
+import BandVideoLoop from "@/components/BandVideoLoop";
 import { getMediaUrl } from "@/lib/sanity";
 
 const ABOUT_DATA = {
@@ -542,19 +543,9 @@ export default function RockNRollKidsClient({
         align="left"
         className="mb-6"
       >
-        {/* Full Cast Lineup Image Banner */}
-        <div className="relative mt-6 w-full overflow-hidden">
-          <Image
-            src={getMediaUrl(
-              sanityContent?.heroBannerImage,
-              "/images/7hrrk/kids1.png",
-            )}
-            alt="7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
-            width={1400}
-            height={550}
-            priority
-            className="h-auto w-full object-contain"
-          />
+        {/* Animated band loop */}
+        <div className="relative mt-6 w-full">
+          <BandVideoLoop className="mx-auto max-w-5xl" />
         </div>
       </PageHero>
 
@@ -573,9 +564,10 @@ export default function RockNRollKidsClient({
                 Animated Series &amp; Universe
               </span>
             </div>
+            {/* heading-size-ok: series banner title */}
             <h2
               id="rrk-story-heading"
-              className="mb-3 text-3xl font-black tracking-tight leading-tight text-white sm:text-4xl md:text-5xl"
+              className="mb-3 text-3xl racking-tight leading-tight text-white sm:text-4xl md:text-5xl"
             >
               {titleText}
             </h2>
@@ -587,7 +579,7 @@ export default function RockNRollKidsClient({
           {/* Merged Content Grid */}
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
             {/* Left Side: Highlighted Quote & Story Narrative */}
-            <div className="space-y-6 lg:col-span-7">
+            <div className="flex flex-col gap-6 lg:col-span-7">
               <blockquote className="relative border-l-2 border-purple-400/80 py-1 pl-4">
                 <div className="mb-1 text-xs font-bold tracking-widest text-purple-300 uppercase">
                   Mission Statement
@@ -598,7 +590,7 @@ export default function RockNRollKidsClient({
               </blockquote>
 
               {para2 && (
-                <div className="space-y-4 text-base font-normal leading-relaxed text-white/90">
+                <div className="flex flex-col gap-4 text-base font-normal leading-relaxed text-white/90">
                   <p>{para2}</p>
                 </div>
               )}
@@ -611,7 +603,7 @@ export default function RockNRollKidsClient({
                   📺
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+                  <h3 className="text-white uppercase">
                     Animated TV Series &amp; Comic Books
                   </h3>
                   <p className="text-xs text-white/70">
@@ -625,7 +617,7 @@ export default function RockNRollKidsClient({
                   🎸
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+                  <h3 className="text-white uppercase">
                     Original Songs, Mobile Apps &amp; Games
                   </h3>
                   <p className="text-xs text-white/70">
@@ -639,7 +631,7 @@ export default function RockNRollKidsClient({
                   ✨
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+                  <h3 className="text-white uppercase">
                     Positive Influence &amp; Inspiration
                   </h3>
                   <p className="text-xs text-white/70">
@@ -708,7 +700,7 @@ export default function RockNRollKidsClient({
             />
 
             {/* Animated Singles Quick Select Buttons */}
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               <AddCmsButton
                 label="ADD KIDS SONG / VIDEO IN SANITY CMS"
                 onClick={() => window.open("/studio", "_blank")}
@@ -730,7 +722,7 @@ export default function RockNRollKidsClient({
           </div>
 
           {/* RIGHT COLUMN: Video Matrix Player & Video Grid Selector */}
-          <div className="space-y-4 lg:col-span-7">
+          <div className="flex flex-col gap-4 lg:col-span-7">
             <div className="aspect-video w-full overflow-hidden rounded-[var(--radius-box)]">
               <iframe
                 src={`https://www.youtube.com/embed/${selectedVideo}`}
@@ -841,7 +833,7 @@ export default function RockNRollKidsClient({
           {foundersList.map((founder: any) => (
             <article
               key={founder.name}
-              className="group flex flex-col space-y-4"
+              className="group flex flex-col gap-4"
             >
               <div className="relative flex aspect-[4/3] max-h-[460px] w-full items-end justify-center overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] sm:aspect-[1.2/1]">
                 {/* Mobile Image */}
@@ -863,7 +855,7 @@ export default function RockNRollKidsClient({
                 {/* Bottom Gradient Mask Overlay */}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 sm:h-32" />
               </div>
-              <div className="flex w-full flex-col items-center space-y-2.5 text-center">
+              <div className="flex w-full flex-col items-center gap-2 text-center">
                 <h3 className="mb-2">{founder.name}</h3>
                 <div>
                   <span className="font-mono text-xs font-bold tracking-wider text-purple-400 uppercase">

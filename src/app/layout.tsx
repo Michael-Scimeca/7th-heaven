@@ -62,6 +62,7 @@ import Preloader from "@/components/Preloader";
 import PageTransition from "@/components/PageTransition";
 import dynamic from "next/dynamic";
 import { TransitionProvider } from "@/context/TransitionContext";
+import { WebGLTransitionProvider } from "@/components/WebGLNoiseTransition";
 
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
@@ -330,35 +331,37 @@ export default function RootLayout({
             }}
           />
         )}
-        <TransitionProvider>
-          <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
-            <Providers>
-              <ScrollToTop />
-              <div
-                id="global-ambient-gradient"
-                className="pointer-events-none fixed inset-0 -z-20 bg-[radial-gradient(circle_at_20%_25%,rgba(133,15,183,0.4)_0%,transparent_55%),radial-gradient(circle_at_75%_65%,rgba(97,30,189,0.35)_0%,transparent_55%),radial-gradient(circle_at_50%_35%,rgba(164,62,23,0.25)_0%,transparent_50%)]"
-              />
-              <SmoothScroll>
-                <HomeShaderGradient />
-                <ProgressiveBlur position="top" />
+        <WebGLTransitionProvider>
+          <TransitionProvider>
+            <ThemeProvider initialTokens={defaultThemeTokens as ThemeTokens}>
+              <Providers>
+                <ScrollToTop />
                 <div
-                  id="page-content-wrapper"
-                  className="relative flex min-h-screen flex-col"
-                >
-                  <Header />
-                  <PageTransition>{children}</PageTransition>
-                  <Footer />
-                  <Suspense fallback={null}>
-                    <DraftModeExtras />
-                  </Suspense>
-                  <PageNav />
-                  <ClientOnlyExtras />
-                  <ServiceWorkerRegister />
-                </div>
-              </SmoothScroll>
-            </Providers>
-          </ThemeProvider>
-        </TransitionProvider>
+                  id="global-ambient-gradient"
+                  className="pointer-events-none fixed inset-0 -z-20 bg-[radial-gradient(circle_at_20%_25%,rgba(133,15,183,0.4)_0%,transparent_55%),radial-gradient(circle_at_75%_65%,rgba(97,30,189,0.35)_0%,transparent_55%),radial-gradient(circle_at_50%_35%,rgba(164,62,23,0.25)_0%,transparent_50%)]"
+                />
+                <SmoothScroll>
+                  <HomeShaderGradient />
+                  <ProgressiveBlur position="top" />
+                  <div
+                    id="page-content-wrapper"
+                    className="relative flex min-h-screen flex-col"
+                  >
+                    <Header />
+                    <PageTransition>{children}</PageTransition>
+                    <Footer />
+                    <Suspense fallback={null}>
+                      <DraftModeExtras />
+                    </Suspense>
+                    <PageNav />
+                    <ClientOnlyExtras />
+                    <ServiceWorkerRegister />
+                  </div>
+                </SmoothScroll>
+              </Providers>
+            </ThemeProvider>
+          </TransitionProvider>
+        </WebGLTransitionProvider>
       </body>
     </html>
   );

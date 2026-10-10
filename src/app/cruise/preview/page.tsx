@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import SegmentedTabs from "@/components/SegmentedTabs";
+import { DotChevronRight } from "@/components/ui/DotArrow";
 
 const INPUT =
   "w-full bg-white/[0.03] border border-white/10 px-3 py-2.5 placeholder:text-white/40 text-white focus:border-[var(--color-accent)] focus:outline-none transition-colors";
@@ -34,32 +36,18 @@ function VersionA() {
     );
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2">
-        {Array.from(guests, (guest, i) => ({ guest, i })).map(
-          ({ guest, i }) => (
-            <button
-              key={`guest-tab-${i}-${guest.name}`}
-              type="button"
-              onClick={() => setActiveTab(i)}
-              className={`flex cursor-pointer items-center gap-2 px-4 py-2 ${activeTab === i ? "bg-[var(--color-accent)] shadow-[0_0_20px_rgba(255,10,61,0.4)]" : "border border-white/10 bg-white/[0.04] text-white/40"}`}
-            >
-              <span
-                className="flex h-5 w-5 items-center justify-center text-[var(--font-size-2xs)]"
-                style={{ backgroundColor: COLORS[i] + "40", color: COLORS[i] }}
-              >
-                {i === 0
-                  ? "Y"
-                  : guest.name
-                    ? guest.name[0].toUpperCase()
-                    : i + 1}
-              </span>
-              {i === 0 ? "You" : guest.name || `Guest ${i + 1}`}
-            </button>
-          ),
-        )}
-      </div>
-      <div className="animate-[fade-in_0.2s_ease] space-y-3 border border-white/10 bg-white/[0.02] p-4">
+    <div className="flex flex-col gap-4">
+      <SegmentedTabs<number>
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        ariaLabel="Guest form tab selector"
+        size="sm"
+        tabs={guests.map((guest, i) => ({
+          id: i,
+          label: i === 0 ? "You" : guest.name || `Guest ${i + 1}`,
+        }))}
+      />
+      <div className="animate-[fade-in_0.2s_ease] flex flex-col gap-3 border border-white/10 bg-white/[0.02] p-4">
         <input
           type="text"
           placeholder={
@@ -103,7 +91,7 @@ function VersionB() {
     );
 
   return (
-    <div className="space-y-5">
+    <div className="flex flex-col gap-4">
       {/* Progress */}
       <div className="flex items-center justify-between">
         {Array.from(STEP_LABELS, (label, i) => ({ label, i })).map(
@@ -135,7 +123,7 @@ function VersionB() {
         )}
       </div>
       {/* Fields */}
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         <input
           type="text"
           placeholder="Full Name"
@@ -195,7 +183,7 @@ function VersionC() {
       {Array.from(guests, (g, i) => ({ g, i })).map(({ g, i }) => (
         <div
           key={i}
-          className="space-y-2.5 border p-4 border-white/10 bg-white/[0.02] first:border-[var(--color-accent)]/30 first:bg-[var(--color-accent)]/5"
+          className="flex flex-col gap-2 border p-4 border-white/10 bg-white/[0.02] first:border-[var(--color-accent)]/30 first:bg-[var(--color-accent)]/5"
         >
           <div className="mb-1 flex items-center gap-2">
             <span
@@ -338,20 +326,12 @@ function VersionE() {
               <p>{COLLAPSIBLE_LABELS[i]}</p>
               <p>{g.name || "—"}</p>
             </div>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className={`text-white/30 ${open === i ? "rotate-90 text-purple-400" : ""}`}
-            >
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
+            <DotChevronRight
+              className={`h-3.5 w-3.5 transition-transform ${open === i ? "rotate-90 text-purple-400" : "text-white/30"}`}
+            />
           </button>
           {open === i && (
-            <div className="space-y-2.5 bg-white/[0.01] px-4 pt-2 pb-4">
+            <div className="flex flex-col gap-2 bg-white/[0.01] px-4 pt-2 pb-4">
               <input
                 type="text"
                 placeholder="Full Name"

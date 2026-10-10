@@ -319,7 +319,7 @@ export default function ClaimPage() {
                 </div>
 
                 {/* Prizes List */}
-                <div className="mb-8 space-y-3">
+                <div className="mb-8 flex flex-col gap-3">
                   <p className="mb-1 text-center">
                     Prizes Won ({prizesList.length})
                   </p>

@@ -2,9 +2,214 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Ship } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
-import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
+
+const BARS_VENUES = [
+  {
+    name: "Lime & Coconut Bar",
+    img: "/images/cruise/ship/limecoconut.jpg",
+    tag: "Poolside",
+  },
+  {
+    name: "Rye & Beam",
+    img: "/images/cruise/ship/ryebeam.jpg",
+    tag: "Bourbon",
+  },
+  {
+    name: "Lemon Post Bar",
+    img: "/images/cruise/ship/lemonpost.jpg",
+    tag: "Outdoor",
+  },
+  {
+    name: "Swim & Tonic Pool Bar",
+    img: "/images/cruise/ship/swimtonic.jpg",
+    tag: "Swim-Up",
+  },
+  {
+    name: "The Hideaway Lounge",
+    img: "/images/cruise/ship/thehideaway.jpg",
+    tag: "Adults Only",
+  },
+  {
+    name: "Vue Bar",
+    img: "/images/cruise/ship/vuebar.jpg",
+    tag: "Ocean View",
+  },
+  {
+    name: "Overlook Bar & Pods",
+    img: "/images/cruise/ship/overlookbar.jpg",
+    tag: "AquaDome",
+  },
+  {
+    name: "Basecamp Bar",
+    img: "/images/cruise/ship/basecampbar.jpg",
+    tag: "Thrill Zone",
+  },
+  {
+    name: "Trellis Bar",
+    img: "/images/cruise/ship/trellisbar.jpg",
+    tag: "Central Park",
+  },
+  {
+    name: "Boleros Latin Bar",
+    img: "/images/cruise/ship/bolerosbar.jpg",
+    tag: "Latin Dance",
+  },
+  {
+    name: "Cantina Fresca",
+    img: "/images/cruise/ship/cantinafrescabar.jpg",
+    tag: "Mexican",
+  },
+  {
+    name: "Bubbles Champagne Bar",
+    img: "/images/cruise/ship/bubblesbar.jpg",
+    tag: "Champagne",
+  },
+  {
+    name: "Point & Feather Pub",
+    img: "/images/cruise/ship/pointfeather.jpg",
+    tag: "English Pub",
+  },
+  {
+    name: "Schooner Bar",
+    img: "/images/cruise/ship/schoonerbar.jpg",
+    tag: "Piano Lounge",
+  },
+  {
+    name: "1400 Lobby Bar",
+    img: "/images/cruise/ship/1400bar.jpg",
+    tag: "Atrium",
+  },
+  {
+    name: "Dueling Pianos Lounge",
+    img: "/images/cruise/ship/duelingpianosbar.jpg",
+    tag: "Live Music",
+  },
+  {
+    name: "Lou's Jazz & Blues",
+    img: "/images/cruise/ship/lousbar.jpg",
+    tag: "Jazz Club",
+  },
+  {
+    name: "Music Hall Lounge",
+    img: "/images/cruise/ship/musichallbar.jpg",
+    tag: "Rock Venue",
+  },
+  {
+    name: "Playmakers Lounge",
+    img: "/images/cruise/ship/playmakersbar.jpg",
+    tag: "Sports & Arcade",
+  },
+  {
+    name: "Casino Royale Bar",
+    img: "/images/cruise/ship/casinoroyalbar.jpg",
+    tag: "Casino Lounge",
+  },
+];
+
+const ENTERTAINMENT_VENUES = [
+  {
+    name: "Back to the Future Musical",
+    img: "/images/cruise/ship/backtothefurure.jpg",
+    tag: "Broadway Show",
+  },
+  {
+    name: "Flowrider Surf Simulator",
+    img: "/images/cruise/ship/nmorley-flowrider-2361-rt-crop-u35615.jpg",
+    tag: "Surf Simulator",
+  },
+  {
+    name: "Absolute Zero Ice Rink",
+    img: "/images/cruise/ship/superclub.jpg",
+    tag: "Ice Arena",
+  },
+  {
+    name: "Torque Racing Arena",
+    img: "/images/cruise/ship/torgue.jpg",
+    tag: "E-Karting",
+  },
+  {
+    name: "SOL Pool Zone",
+    img: "/images/cruise/ship/sol.jpg",
+    tag: "Top Deck Pool",
+  },
+  {
+    name: "Create! Art Studio",
+    img: "/images/cruise/ship/create.jpg",
+    tag: "Craft Studio",
+  },
+  {
+    name: "The Price is Right Game",
+    img: "/images/cruise/ship/thepriceisright.jpg",
+    tag: "Game Show",
+  },
+  {
+    name: "The Quest Adult Game",
+    img: "/images/cruise/ship/quest.jpg",
+    tag: "Adult Show",
+  },
+  {
+    name: "Comedy Live Theater",
+    img: "/images/cruise/ship/comedy.jpg",
+    tag: "Standup Comedy",
+  },
+  {
+    name: "Headliner Concert Stage",
+    img: "/images/cruise/ship/headliner.jpg",
+    tag: "Live Concerts",
+  },
+  {
+    name: "Spotlight Karaoke Box",
+    img: "/images/cruise/ship/karoke.jpg",
+    tag: "Karaoke",
+  },
+  {
+    name: "Music Hall Nightclub",
+    img: "/images/cruise/ship/lous.jpg",
+    tag: "Nightclub",
+  },
+  {
+    name: "Ultimate Family Townhouse",
+    img: "/images/cruise/ship/family-townhouse.jpg",
+    tag: "3-Story Suite",
+  },
+  {
+    name: "Splashaway Bay & Cat 6",
+    img: "/images/cruise/ship/cat6-waterpark.jpg",
+    tag: "Water Park",
+  },
+  {
+    name: "Adrenaline Peak Climb",
+    img: "/images/cruise/ship/nmorley-adrenalinepeak-6050-rt-crop-u35524.jpg",
+    tag: "Rock Climbing",
+  },
+  {
+    name: "Adventure Ocean Kids Club",
+    img: "/images/cruise/ship/nmorley-adventureocean-1407-rt-crop-u36294.jpg",
+    tag: "Youth Program",
+  },
+  {
+    name: "Central Park Gardens",
+    img: "/images/cruise/ship/central%20park2-crop-u36273.jpg",
+    tag: "Nature Park",
+  },
+  {
+    name: "Lost Dunes Mini Golf",
+    img: "/images/cruise/ship/nmorley-lostdunes-6868-rt-crop-u35608.jpg",
+    tag: "Mini Golf",
+  },
+  {
+    name: "Surfside Carousel",
+    img: "/images/cruise/ship/nmorley-surfsidecarousel-1851-rt-crop-u37671.jpg",
+    tag: "Carousel",
+  },
+  {
+    name: "Royal AquaDome Theater",
+    img: "/images/cruise/ship/aquadome.jpg",
+    tag: "Main Theater",
+  },
+];
 
 interface CruiseShipExplorerSectionProps {
   sanityContent?: any;
@@ -17,6 +222,8 @@ function CruiseShipExplorerSectionComponent({
     "included",
   );
   const [barTab, setBarTab] = useState<"bars" | "entertainment">("bars");
+
+  const currentVenues = barTab === "bars" ? BARS_VENUES : ENTERTAINMENT_VENUES;
 
   const sectionTitle =
     sanityContent?.sections?.find((s: any) => s.sectionId === "ship")?.title ||
@@ -33,13 +240,10 @@ function CruiseShipExplorerSectionComponent({
       className="section site-container"
     >
       <div className="title-group title-group--section mb-8 w-full text-left">
-        <div className="mb-2 flex items-center gap-2">
-          <Ship className="h-4 w-4 text-[var(--color-amber)]" />
-          <span className="text-fluid-caption font-bold tracking-widest text-[var(--color-amber)] uppercase">
-            Flagship Vessel Guide
-          </span>
-        </div>
-        <h2 id="ship-specs-heading">{sectionTitle}</h2>
+        <h2 id="ship-specs-heading">
+          Star of the Seas{" "}
+          <span className="accent-gradient-text">Specifications</span>
+        </h2>
         <p className="max-w-2xl text-secondary mt-2 text-fluid-body">{sectionSubtitle}</p>
       </div>
 
@@ -77,7 +281,7 @@ function CruiseShipExplorerSectionComponent({
           </p>
         </div>
 
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
               title: "Star of the Seas Sunset Aerial",
@@ -168,32 +372,32 @@ function CruiseShipExplorerSectionComponent({
       <div className="pt-6 text-left">
         <div className="mb-6 flex flex-col justify-between gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center">
           <div>
-            <h3>Dining Explorer Guide</h3>
+            <h3>
+              Dining{" "}
+              <span className="accent-gradient-text">Explorer Guide</span>
+            </h3>
             <p>
               Discover included food spots and premium specialty restaurants.
             </p>
           </div>
-          {/* Dining Filter Tabs */}
+          {/* Dining Filter Sliding Segmented Switch */}
           <div className="flex items-center gap-3">
-            <SeventhButton
-              onClick={() => setFoodTypeTab("included")}
-              isActive={foodTypeTab === "included"}
-            >
-              Included (Free)
-            </SeventhButton>
-            <SeventhButton
-              onClick={() => setFoodTypeTab("paid")}
-              isActive={foodTypeTab === "paid"}
-            >
-              Specialty (With Fee)
-            </SeventhButton>
+            <SegmentedTabs<"included" | "paid">
+              tabs={[
+                { id: "included", label: "Included (Free)", badge: 20 },
+                { id: "paid", label: "Specialty (With Fee)", badge: 15 },
+              ]}
+              activeTab={foodTypeTab}
+              onChange={(tab) => setFoodTypeTab(tab)}
+              ariaLabel="Dining Categories"
+            />
           </div>
         </div>
 
         {/* Bento Box Food Grid */}
         <div
           key={foodTypeTab}
-          className="grid animate-[fade-in_0.35s_ease-out_both] grid-cols-2 gap-6 md:grid-cols-4"
+          className="grid animate-[fade-in_0.35s_ease-out_both] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {(foodTypeTab === "included"
             ? [
@@ -378,11 +582,11 @@ function CruiseShipExplorerSectionComponent({
           ).map((food) => (
             <div
               key={food.name}
-              className="group relative h-48 overflow-hidden rounded-[var(--radius-box)] border border-black/10 md:h-56"
+              className="group relative h-72 overflow-hidden rounded-[var(--radius-box)] border border-black/10 md:h-80"
             >
               <Image
-                width={200}
-                height={200}
+                width={400}
+                height={300}
                 loading="lazy"
                 unoptimized
                 src={food.img}
@@ -403,264 +607,49 @@ function CruiseShipExplorerSectionComponent({
 
       {/* ── BARS & ENTERTAINMENT SEGMENTED TABS SECTION ── */}
       <div className="pt-6">
-        <div className="mb-6 flex flex-col gap-4 border-b border-white/10 pb-6 text-left lg:flex-row lg:items-center lg:justify-between">
-          <div className="w-full lg:w-auto">
-            <h3>Bars & Entertainment Explorer</h3>
+        <div className="mb-6 flex flex-col gap-4 border-b border-white/10 pb-6 text-left sm:flex-row sm:items-center sm:justify-between">
+          <div className="w-full sm:w-auto">
+            <h3>
+              Bars & Entertainment{" "}
+              <span className="accent-gradient-text">Explorer</span>
+            </h3>
             <p>
               Explore 20 onboard lounges, nightlife venues, and world-class
               attractions.
             </p>
           </div>
-          <div className="flex max-w-full flex-wrap gap-2 sm:gap-3 self-start lg:self-center">
-            <SeventhButton
-              onClick={() => setBarTab("bars")}
-              isActive={barTab === "bars"}
-              className="flex items-center gap-2"
-            >
-              <span>Bars & Clubs</span>
-              <span
-                className="rounded-full bg-white/10 px-2 py-0.5 text-small text-secondary"
-              >
-                20
-              </span>
-            </SeventhButton>
-            <SeventhButton
-              onClick={() => setBarTab("entertainment")}
-              isActive={barTab === "entertainment"}
-              className="flex items-center gap-2"
-            >
-              <span>Entertainment</span>
-              <span
-                className="rounded-full bg-white/10 px-2 py-0.5 text-small text-secondary"
-              >
-                20
-              </span>
-            </SeventhButton>
+          <div className="flex items-center gap-3 self-start sm:self-center">
+            {/* ── Sliding Pill Segmented Switch ── */}
+            <SegmentedTabs<"bars" | "entertainment">
+              tabs={[
+                { id: "bars", label: "Bars & Clubs", badge: 20 },
+                { id: "entertainment", label: "Entertainment", badge: 20 },
+              ]}
+              activeTab={barTab}
+              onChange={(tab) => setBarTab(tab)}
+              ariaLabel="Bars and Entertainment Categories"
+            />
           </div>
         </div>
 
+        {/* Bento Box Grid */}
         <div
           key={barTab}
-          className="grid animate-[fade-in_0.35s_ease-out_both] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid animate-[fade-in_0.35s_ease-out_both] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {(barTab === "bars"
-            ? [
-              {
-                name: "Lime & Coconut Bar",
-                img: "/images/cruise/ship/limecoconut.jpg",
-                tag: "Poolside",
-              },
-              {
-                name: "Rye & Beam",
-                img: "/images/cruise/ship/ryebeam.jpg",
-                tag: "Bourbon",
-              },
-              {
-                name: "Lemon Post Bar",
-                img: "/images/cruise/ship/lemonpost.jpg",
-                tag: "Outdoor",
-              },
-              {
-                name: "Swim & Tonic Pool Bar",
-                img: "/images/cruise/ship/swimtonic.jpg",
-                tag: "Swim-Up",
-              },
-              {
-                name: "The Hideaway Lounge",
-                img: "/images/cruise/ship/thehideaway.jpg",
-                tag: "Adults Only",
-              },
-              {
-                name: "Vue Bar",
-                img: "/images/cruise/ship/vuebar.jpg",
-                tag: "Ocean View",
-              },
-              {
-                name: "Overlook Bar & Pods",
-                img: "/images/cruise/ship/overlookbar.jpg",
-                tag: "AquaDome",
-              },
-              {
-                name: "Basecamp Bar",
-                img: "/images/cruise/ship/basecampbar.jpg",
-                tag: "Thrill Zone",
-              },
-              {
-                name: "Trellis Bar",
-                img: "/images/cruise/ship/trellisbar.jpg",
-                tag: "Central Park",
-              },
-              {
-                name: "Boleros Latin Bar",
-                img: "/images/cruise/ship/bolerosbar.jpg",
-                tag: "Latin Dance",
-              },
-              {
-                name: "Cantina Fresca",
-                img: "/images/cruise/ship/cantinafrescabar.jpg",
-                tag: "Mexican",
-              },
-              {
-                name: "Bubbles Champagne Bar",
-                img: "/images/cruise/ship/bubblesbar.jpg",
-                tag: "Champagne",
-              },
-              {
-                name: "Point & Feather Pub",
-                img: "/images/cruise/ship/pointfeather.jpg",
-                tag: "English Pub",
-              },
-              {
-                name: "Schooner Bar",
-                img: "/images/cruise/ship/schoonerbar.jpg",
-                tag: "Piano Lounge",
-              },
-              {
-                name: "1400 Lobby Bar",
-                img: "/images/cruise/ship/1400bar.jpg",
-                tag: "Atrium",
-              },
-              {
-                name: "Dueling Pianos Lounge",
-                img: "/images/cruise/ship/duelingpianosbar.jpg",
-                tag: "Live Music",
-              },
-              {
-                name: "Lou's Jazz & Blues",
-                img: "/images/cruise/ship/lousbar.jpg",
-                tag: "Jazz Club",
-              },
-              {
-                name: "Music Hall Lounge",
-                img: "/images/cruise/ship/musichallbar.jpg",
-                tag: "Rock Venue",
-              },
-              {
-                name: "Playmakers Lounge",
-                img: "/images/cruise/ship/playmakersbar.jpg",
-                tag: "Sports & Arcade",
-              },
-              {
-                name: "Casino Royale Bar",
-                img: "/images/cruise/ship/casinoroyalbar.jpg",
-                tag: "Casino Lounge",
-              },
-            ]
-            : [
-              {
-                name: "Back to the Future Musical",
-                img: "/images/cruise/ship/backtothefurure.jpg",
-                tag: "Broadway Show",
-              },
-              {
-                name: "Flowrider Surf Simulator",
-                img: "/images/cruise/ship/nmorley-flowrider-2361-rt-crop-u35615.jpg",
-                tag: "Surf Simulator",
-              },
-              {
-                name: "Absolute Zero Ice Rink",
-                img: "/images/cruise/ship/superclub.jpg",
-                tag: "Ice Arena",
-              },
-              {
-                name: "Torque Racing Arena",
-                img: "/images/cruise/ship/torgue.jpg",
-                tag: "E-Karting",
-              },
-              {
-                name: "SOL Pool Zone",
-                img: "/images/cruise/ship/sol.jpg",
-                tag: "Top Deck Pool",
-              },
-              {
-                name: "Create! Art Studio",
-                img: "/images/cruise/ship/create.jpg",
-                tag: "Craft Studio",
-              },
-              {
-                name: "The Price is Right Game",
-                img: "/images/cruise/ship/thepriceisright.jpg",
-                tag: "Game Show",
-              },
-              {
-                name: "The Quest Adult Game",
-                img: "/images/cruise/ship/quest.jpg",
-                tag: "Adult Show",
-              },
-              {
-                name: "Comedy Live Theater",
-                img: "/images/cruise/ship/comedy.jpg",
-                tag: "Standup Comedy",
-              },
-              {
-                name: "Headliner Concert Stage",
-                img: "/images/cruise/ship/headliner.jpg",
-                tag: "Live Concerts",
-              },
-              {
-                name: "Spotlight Karaoke Box",
-                img: "/images/cruise/ship/karoke.jpg",
-                tag: "Karaoke",
-              },
-              {
-                name: "Music Hall Nightclub",
-                img: "/images/cruise/ship/lous.jpg",
-                tag: "Nightclub",
-              },
-              {
-                name: "Ultimate Family Townhouse",
-                img: "/images/cruise/ship/family-townhouse.jpg",
-                tag: "3-Story Suite",
-              },
-              {
-                name: "Splashaway Bay & Cat 6",
-                img: "/images/cruise/ship/cat6-waterpark.jpg",
-                tag: "Water Park",
-              },
-              {
-                name: "Adrenaline Peak Climb",
-                img: "/images/cruise/ship/nmorley-adrenalinepeak-6050-rt-crop-u35524.jpg",
-                tag: "Rock Climbing",
-              },
-              {
-                name: "Adventure Ocean Kids Club",
-                img: "/images/cruise/ship/nmorley-adventureocean-1407-rt-crop-u36294.jpg",
-                tag: "Youth Program",
-              },
-              {
-                name: "Central Park Gardens",
-                img: "/images/cruise/ship/central%20park2-crop-u36273.jpg",
-                tag: "Nature Park",
-              },
-              {
-                name: "Lost Dunes Mini Golf",
-                img: "/images/cruise/ship/nmorley-lostdunes-6868-rt-crop-u35608.jpg",
-                tag: "Mini Golf",
-              },
-              {
-                name: "Surfside Carousel",
-                img: "/images/cruise/ship/nmorley-surfsidecarousel-1851-rt-crop-u37671.jpg",
-                tag: "Carousel",
-              },
-              {
-                name: "Royal AquaDome Theater",
-                img: "/images/cruise/ship/aquadome.jpg",
-                tag: "Main Theater",
-              },
-            ]
-          ).map((item) => (
+          {currentVenues.map((item) => (
             <div
               key={item.name}
-              className="group relative h-48 overflow-hidden rounded-[var(--radius-box)] border border-black/10 md:h-56"
+              className="group relative h-72 overflow-hidden rounded-[var(--radius-box)] border border-black/10 md:h-80"
             >
               <Image
-                width={200}
-                height={200}
+                width={400}
+                height={300}
                 loading="lazy"
                 unoptimized
                 src={item.img}
                 alt={item.name}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4">
                 <SectionBadge

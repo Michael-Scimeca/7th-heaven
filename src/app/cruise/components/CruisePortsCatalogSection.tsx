@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Compass } from "lucide-react";
 import { SectionBadge } from "@/components/SectionBadge";
+import ContentFeatureIcon from "@/components/ContentFeatureIcon";
 import { PORTS_DATA } from "../cruiseData";
 
 interface CruisePortsCatalogSectionProps {
@@ -37,13 +37,10 @@ export default function CruisePortsCatalogSection({
       <div>
         <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="title-group title-group--section max-w-3xl text-left">
-            <div className="mb-2 flex items-center gap-2">
-              <Compass className="h-4 w-4 text-[var(--color-amber)]" />
-              <span className="text-fluid-caption font-bold tracking-widest text-[var(--color-amber)] uppercase">
-                {sectionTagline}
-              </span>
-            </div>
-            <h2 id="ports-heading">{sectionTitle}</h2>
+            <h2 id="ports-heading">
+              Ports of Call{" "}
+              <span className="accent-gradient-text">Catalog</span>
+            </h2>
             <p className="text-secondary mt-2 text-fluid-body">
               Discover tropical paradises, pristine beaches, and breathtaking
               Caribbean destinations featured on our upcoming concert cruise
@@ -84,18 +81,19 @@ export default function CruisePortsCatalogSection({
                       <h3 className="text-fluid-h4 text-white mb-2">{port.name}</h3>
                       <p className="text-secondary text-fluid-body line-clamp-3">{port.desc}</p>
 
-                      {/* Port Highlights */}
-                      {port.highlights && (
-                        <div className="mt-4 flex flex-wrap gap-1.5">
+                      {/* Port Highlights List */}
+                      {port.highlights && port.highlights.length > 0 && (
+                        <ul className="mt-4 flex flex-col gap-2.5">
                           {port.highlights.map((h: string) => (
-                            <span
+                            <li
                               key={h}
-                              className="rounded-[var(--radius-box)] border border-white/10 bg-white/5 px-2.5 py-1 text-fluid-caption text-white/80"
+                              className="flex items-start gap-2.5 text-fluid-body text-white/90"
                             >
-                              {h}
-                            </span>
+                              <ContentFeatureIcon className="!mt-0.5 shrink-0" />
+                              <span className="leading-snug">{h}</span>
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       )}
                     </div>
 

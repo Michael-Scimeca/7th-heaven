@@ -20,7 +20,7 @@ import { createClient } from "@/lib/supabase/client";
 import { formatPhoneDisplay } from "@/lib/validation";
 import dynamic from "next/dynamic";
 import PushAlertsCard from "@/components/PushAlertsCard";
-import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
 import GlowInput from "@/components/GlowInput";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -36,6 +36,11 @@ import {
 } from "@/app/cruise/cruiseData";
 import { cleanWysiwygHtml } from "@/lib/wysiwyg-cleaner";
 import { sanitizeHtml } from "@/lib/sanitize-html";
+
+const ITIN_YEAR_TABS: { id: 2027 | 2028; label: string }[] = [
+  { id: 2027, label: "2027 Star of the Seas (7-Night)" },
+  { id: 2028, label: "2028 Legend of the Seas (8-Night)" },
+];
 const ReactQuill = dynamic(
   async () => {
     if (typeof window !== "undefined") {
@@ -822,7 +827,7 @@ export default function CruiseDashboard() {
                   </div>
                 </div>
 
-                <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
+                <form onSubmit={handleVerifyPinSubmit} className="flex flex-col gap-4">
                   <div>
                     <GlowInput
                       id="cruise-user-pin-input"
@@ -920,7 +925,7 @@ export default function CruiseDashboard() {
 
                 <div className="p-6 md:p-8">
                   {authTab === "login" ? (
-                    <form onSubmit={handleLoginSubmit} className="space-y-4">
+                    <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
                       <p className="mb-6 text-black/50">
                         Sign in using your Cruise Hub credentials to access your
                         booking, lounge chat, and itinerary.
@@ -967,7 +972,7 @@ export default function CruiseDashboard() {
                       </button>
                     </form>
                   ) : (
-                    <form onSubmit={handleRegisterSubmit} className="space-y-4">
+                    <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-4">
                       <p className="mb-6 text-black/50">
                         Sign up as a Cruise Member to register for the priority
                         booking list and unlock access to the hub.
@@ -1109,7 +1114,7 @@ export default function CruiseDashboard() {
                   />
 
                   {isEditingGuidelines ? (
-                    <div className="max-w-full min-w-0 space-y-4">
+                    <div className="max-w-full min-w-0 flex flex-col gap-4">
                       <div>
                         <GlowInput
                           id="cruise-hub-guidelines-title"
@@ -1168,7 +1173,7 @@ export default function CruiseDashboard() {
                     </div>
                   ) : (
                     <div
-                      className="max-w-full min-w-0 space-y-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] [&_a]:underline-offset-4 [&_p]:max-w-full"
+                      className="max-w-full min-w-0 flex flex-col gap-4 overflow-hidden [overflow-wrap:break-word] break-words [hyphens:manual] [&_a]:underline-offset-4 [&_p]:max-w-full"
                       dangerouslySetInnerHTML={{
                         __html:
                           sanitizedGuidelinesContent ||
@@ -1230,23 +1235,17 @@ export default function CruiseDashboard() {
               />
 
               {/* Itinerary Year Toggle */}
-              <div className="mt-6 flex flex-wrap items-center justify-start gap-3">
-                <SeventhButton
-                  type="button"
-                  onClick={() => setActiveItinYear(2027)}
-                  isActive={activeItinYear === 2027}
-                  className="!w-auto"
-                >
-                  2027 Star of the Seas (7-Night)
-                </SeventhButton>
-                <SeventhButton
-                  type="button"
-                  onClick={() => setActiveItinYear(2028)}
-                  isActive={activeItinYear === 2028}
-                  className="!w-auto"
-                >
-                  2028 Legend of the Seas (8-Night)
-                </SeventhButton>
+              <div className="hide-scrollbar mt-6 max-w-full overflow-x-auto">
+                <SegmentedTabs
+                  layout="flex"
+                  shape="full"
+                  size="md"
+                  ariaLabel="Itinerary year"
+                  className="inline-flex w-max shrink-0 flex-nowrap"
+                  tabs={ITIN_YEAR_TABS}
+                  activeTab={activeItinYear}
+                  onChange={setActiveItinYear}
+                />
               </div>
             </div>
 

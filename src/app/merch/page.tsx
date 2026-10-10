@@ -360,7 +360,6 @@ function MerchDashboard() {
         title="Merch Table"
         titleId="merch-heading"
         align="left"
-        className="mb-6"
         actions={
           <div className="flex items-center gap-2">
             {pendingPickups.length > 0 && (

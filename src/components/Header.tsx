@@ -559,15 +559,20 @@ export function Header() {
               ? "bg-blue-600"
               : "bg-[var(--color-accent)]";
 
-  if (pathname?.startsWith("/studio")) return null;
+  if (
+    pathname?.startsWith("/studio") ||
+    pathname?.startsWith("/transition-test")
+  )
+    return null;
 
   return (
     <>
       <header
-      className={`fixed top-0 right-0 left-0 pt-safe ${overlayMounted ? "z-[10005]" : "z-[1000]"} pointer-events-none font-heading`}
-      data-menu-open={mobileOpen}
-      suppressHydrationWarning
-    >
+        data-scrub-target="header"
+        className={`fixed top-0 right-0 left-0 pt-safe ${overlayMounted ? "z-[100005]" : "z-[100000]"} pointer-events-none font-heading`}
+        data-menu-open={mobileOpen}
+        suppressHydrationWarning
+      >
       <div className="site-container w-full max-w-full">
         <div
           id="nav-inner-card"

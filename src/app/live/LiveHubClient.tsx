@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import { SectionBadge } from "@/components/SectionBadge";
-import Button from "@/components/Button";
 import GlassPlayButton from "@/components/GlassPlayButton";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -177,45 +176,6 @@ export default function LiveHubClient({
   const [, setLiveAlertsEnabled] = useState(true);
   const [flaggedCount, setFlaggedCount] = useState(0);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
-  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
-
-  // Mobile-safe link copying with visual toast feedback & propagation stop
-  const handleCopyLink = (e: React.MouseEvent, slug: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const url = `${window.location.origin}/live/${slug}`;
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).catch(() => {
-        const textarea = document.createElement("textarea");
-        textarea.value = url;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-        try {
-          document.execCommand("copy");
-        } catch { }
-        document.body.removeChild(textarea);
-      });
-    } else {
-      const textarea = document.createElement("textarea");
-      textarea.value = url;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-      try {
-        document.execCommand("copy");
-      } catch { }
-      document.body.removeChild(textarea);
-    }
-
-    setCopiedSlug(slug);
-    setTimeout(() => setCopiedSlug(null), 2500);
-  };
 
   // Fluctuate viewer counts (throttled for mobile performance & paused when tab hidden)
   useEffect(() => {
@@ -349,11 +309,10 @@ export default function LiveHubClient({
                 <button
                   key={tab}
                   onClick={() => setAdminTab(tab)}
-                  className={`rounded-[var(--radius-box)] px-4 py-2 border-b-2 transition-colors ${
-                    adminTab === tab
-                      ? "bg-red-500/15 text-purple-400 border-purple-500"
-                      : "bg-transparent text-white/35 border-transparent hover:text-white/60"
-                  }`}
+                  className={`rounded-[var(--radius-box)] px-4 py-2 border-b-2 transition-colors ${adminTab === tab
+                    ? "bg-red-500/15 text-purple-400 border-purple-500"
+                    : "bg-transparent text-white/35 border-transparent hover:text-white/60"
+                    }`}
                 >
                   {tab === "streams" && (
                     <span className="flex items-center gap-1.5">
@@ -454,11 +413,10 @@ export default function LiveHubClient({
                     return (
                       <div
                         key={fan.id}
-                        className={`flex items-center justify-between gap-3 p-4 rounded-[var(--radius-box)] border ${
-                          isBanned
-                            ? "bg-red-500/[0.06] border-red-500/20 opacity-65"
-                            : "bg-white/[0.03] border-white/[0.07] opacity-100"
-                        }`}
+                        className={`flex items-center justify-between gap-3 p-4 rounded-[var(--radius-box)] border ${isBanned
+                          ? "bg-red-500/[0.06] border-red-500/20 opacity-65"
+                          : "bg-white/[0.03] border-white/[0.07] opacity-100"
+                          }`}
                       >
                         <div className="flex min-w-0 items-center gap-3">
                           <div
@@ -539,7 +497,7 @@ export default function LiveHubClient({
                       <p className="mb-3 text-white/30">
                         📋 Recent Actions
                       </p>
-                      <div className="space-y-1">
+                      <div className="flex flex-col gap-1">
                         {modLog.slice(0, 5).map((e) => (
                           <div key={e.id} className="flex items-center justify-between text-white/40">
                             <span>
@@ -648,37 +606,16 @@ export default function LiveHubClient({
         className="section md:pb-0 md:mb-0"
       >
         <SectionHeader id="live-streams-heading" title="Live Streams" visuallyHidden />
-        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 md:gap-4">
+        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 ">
           {rooms.map((room, i) => (
             <Link
               key={room.name}
               href={`/live/${room.name.replace(/^live_/, "")}`}
-              className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-purple-900/30 cursor-pointer transition-[colors,border-color,transform] hover:bg-[#0b041a]/90 hover:border-purple-500/40 select-none"
+              className="group flex flex-col justify-between overflow-hidden  cursor-pointer transition-[colors,border-color,transform] select-none"
               style={{ "--room-color": room.color } as React.CSSProperties}
             >
-              {/* Card Header Bar */}
-              <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-black/[0.02] p-3 sm:p-3.5">
-                <div className="flex min-w-0 items-center gap-2.5">
-                  <div className="flex aspect-square h-9 w-9 min-w-8 shrink-0 items-center justify-center rounded-full border border-purple-500/20 bg-gradient-to-br from-purple-600/40 to-indigo-900/90 text-xs font-semibold text-white">
-                    {room.member}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold text-white leading-tight truncate">{room.title}</h3>
-                    <p className="mt-0.5 text-xs text-white/60 leading-tight truncate">
-                      LiveKit Stream · Started {getElapsed(room.creationTime)}
-                    </p>
-                  </div>
-                </div>
-                <div className="shrink-0">
-                  <SectionBadge className="gap-1.5">
-                    <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-                    <span>Live Now</span>
-                  </SectionBadge>
-                </div>
-              </div>
-
-              {/* Middle Video Thumbnail */}
-              <div className="relative block aspect-video w-full overflow-hidden bg-black/60">
+              {/* 1. Image Thumbnail AT THE VERY TOP */}
+              <div className="relative block aspect-video w-full overflow-hidden bg-black/60 rounded-[var(--radius-box)] overflow-hidden">
                 <Image
                   src={
                     room.image ||
@@ -688,23 +625,9 @@ export default function LiveHubClient({
                   fill
                   priority={i < 2}
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover"
+                  className="object-cover "
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-
-                {/* Viewer + time pills */}
-                <div className="absolute right-3 bottom-3 z-10 flex items-center gap-2">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-[var(--radius-box)] border border-white/10 bg-black/75 backdrop-blur-md text-xs text-emerald-200">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    {(
-                      viewers[room.name] ?? room.numParticipants
-                    ).toLocaleString()}{" "}
-                    viewers
-                  </div>
-                  <div className="px-2.5 py-1 rounded-[var(--radius-box)] border border-white/10 bg-black/75 backdrop-blur-md text-xs text-white/60">
-                    {getElapsed(room.creationTime)}
-                  </div>
-                </div>
 
                 {/* Hover overlay with official 7th Heaven Glass Play Button */}
                 <div className="overlay-center-hover z-10">
@@ -712,29 +635,37 @@ export default function LiveHubClient({
                 </div>
               </div>
 
-              {/* Card Footer Bar */}
-              <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-black/[0.02] p-3 sm:p-3.5">
-                <div className="flex items-center gap-2 text-xs text-white/70">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                  </span>
-                  <span>Broadcasting Live</span>
-                </div>
+              {/* 2. All Content Text AT THE BOTTOM */}
+              <div className="py-4">
+                <div className="flex items-center justify-between gap-3">
+                  {/* Left Column: Member avatar + Title + Subtitle */}
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <div className="flex aspect-square h-9 w-9 min-w-8 shrink-0 items-center justify-center rounded-full border border-purple-500/20 bg-gradient-to-br from-purple-600/40 to-indigo-900/90 text-xs font-semibold text-white">
+                      {room.member}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      {/* heading-size-ok: room title in compact table */}
+                      <h3 className="text-sm font-semibold text-white leading-tight truncate">{room.title}</h3>
+                      <p className="mt-0.5 text-xs text-white/60 leading-tight truncate">
+                        LiveKit Stream
+                      </p>
+                    </div>
+                  </div>
 
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  aria-label="Copy stream link"
-                  onClick={(e) =>
-                    handleCopyLink(e as any, room.name.replace(/^live_/, ""))
-                  }
-                  className="shrink-0 whitespace-nowrap relative z-20"
-                >
-                  {copiedSlug === room.name.replace(/^live_/, "")
-                    ? "✓ Copied!"
-                    : "Copy Link"}
-                </Button>
+                  {/* Right Column: Viewer + time pills */}
+                  <div className="flex shrink-0 items-center gap-4">
+                    <div className="flex items-center gap-1.5  text-xs text-emerald-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      {(
+                        viewers[room.name] ?? room.numParticipants
+                      ).toLocaleString()}{" "}
+                      viewers
+                    </div>
+                    <div className="text-xs text-white/60">
+                      {getElapsed(room.creationTime)}
+                    </div>
+                  </div>
+                </div>
               </div>
             </Link>
           ))}

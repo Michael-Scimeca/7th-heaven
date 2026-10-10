@@ -519,7 +519,7 @@ export default function FanPhotoWallClient({
                           {photo.date || "Pending"}
                         </div>
                       </div>
-                      <div className="npm space-y-1.5">
+                      <div className="npm flex flex-col gap-1.5">
                         <div className="flex items-center gap-1.5">
                           <span className="text-purple-400">@</span>
                           <span>{photo.name}</span>
@@ -611,7 +611,7 @@ export default function FanPhotoWallClient({
                     }}
                     className="group transition-colors flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-purple-900/30 hover:bg-[#0b041a]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
                   >
-                    <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-black/[0.02] p-3 sm:p-3.5">
+                    <div className="flex items-center justify-between gap-3  bg-black/[0.02] p-3 sm:p-3.5">
                       <div className="flex min-w-0 items-center gap-2.5">
                         <div
                           className="flex aspect-square h-9 w-9 min-w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-accent)]/20 bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent)]/5 text-xs font-semibold text-white"
@@ -658,7 +658,7 @@ export default function FanPhotoWallClient({
                             src={
                               mediaDetails.isYouTube
                                 ? `https://img.youtube.com/vi/${mediaDetails.youtubeId}/hqdefault.jpg`
-                              : photo.src
+                                : photo.src
                             }
                             alt={`Media by ${photo.name}`}
                             fill
@@ -872,7 +872,7 @@ export default function FanPhotoWallClient({
                 </div>
               )}
 
-              <form onSubmit={handleSaveCmsMoment} className="space-y-4">
+              <form onSubmit={handleSaveCmsMoment} className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <InputField
                     label="Fan / Contributor Name"

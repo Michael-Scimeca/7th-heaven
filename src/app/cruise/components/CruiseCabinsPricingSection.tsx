@@ -47,10 +47,14 @@ const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
   </svg>
 );
+
+import ContentFeatureIcon from "@/components/ContentFeatureIcon";
 import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 import AddCmsButton from "@/components/AddCmsButton";
 import CustomDropdown from "@/components/CustomDropdown";
+import HelperText from "@/components/ui/HelperText";
 import { useMember } from "@/context/MemberContext";
 import { BANDS_DATA } from "../cruiseData";
 import { formatPhoneDisplay } from "@/lib/validation";
@@ -303,8 +307,8 @@ function CruiseCabinsPricingSectionComponent({
       >
         <div className="title-group title-group--section max-w-3xl text-left">
           <h2>
-            {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
-              ?.title || "Staterooms & Cruise Rates"}
+            Staterooms &{" "}
+            <span className="accent-gradient-text">Cruise Rates</span>
           </h2>
           <p>
             {sanityContent?.sections?.find((s: any) => s.sectionId === "cabins")
@@ -313,35 +317,33 @@ function CruiseCabinsPricingSectionComponent({
           </p>
 
           {/* Pricing Year Toggle */}
-          <div className="mt-6 flex flex-col items-stretch justify-start gap-3 sm:flex-row sm:items-center">
-            <SeventhButton
-              type="button"
-              onClick={() => setActivePriceYear(2027)}
-              isActive={activePriceYear === 2027}
-            >
-              2027 Star of the Seas (7-Night)
-            </SeventhButton>
-            <SeventhButton
-              type="button"
-              onClick={() => setActivePriceYear(2028)}
-              isActive={activePriceYear === 2028}
-            >
-              2028 Legend of the Seas (8-Night)
-            </SeventhButton>
+          <div className="mt-6 max-w-full overflow-x-auto hide-scrollbar py-1">
+            <SegmentedTabs<2027 | 2028>
+              tabs={[
+                { id: 2027, label: "2027 Star of the Seas (7-Night)" },
+                { id: 2028, label: "2028 Legend of the Seas (8-Night)" },
+              ]}
+              activeTab={activePriceYear}
+              onChange={(year) => setActivePriceYear(year)}
+              layout="flex"
+              shape="full"
+              size="md"
+              className="flex-nowrap inline-flex w-max shrink-0"
+              ariaLabel="Pricing year selector"
+            />
           </div>
         </div>
 
-        {/* Guidelines Grid */}
-        <div className="grid grid-cols-1 gap-6 text-left md:grid-cols-12">
+        {/* Guidelines Layout: Column 1 max-width 330px, Columns 2-4 fluid */}
+        <div className="grid grid-cols-1 gap-6 text-left md:grid-cols-2 lg:flex lg:flex-row lg:gap-8 items-start w-full">
           {/* Column 1: Ship Resources */}
-          <div className="relative flex flex-col justify-start rounded-2xl text-left md:col-span-4 min-[1400px]:col-span-3">
-            <div>
+          <div className="relative flex flex-col justify-start rounded-2xl text-left w-full lg:w-[330px] shrink-0">
+            <div className="w-full">
               <div className="mb-6 flex items-center gap-3">
-                <Ship className="h-6 w-6 shrink-0 text-purple-400" />
                 <h3>Ship Resources</h3>
               </div>
 
-              <ul className="space-y-2">
+              <ul className="grid grid-cols-1 gap-2">
                 <li>
                   <SeventhButton
                     type="button"
@@ -487,144 +489,171 @@ function CruiseCabinsPricingSectionComponent({
             </div>
           </div>
 
-          {/* Column 2: Booking Policy */}
-          <div className="relative rounded-2xl text-left border-t border-white/10 pt-6 md:border-t-0 md:pt-0 md:col-span-4 min-[1400px]:col-span-3">
-            <div className="mb-2 flex items-center gap-3">
-              <AlertTriangle className="h-6 w-6 shrink-0 text-yellow-400" />
-              <h3 className="uppercase">
-                {sanityContent?.cruiseInfo?.bookingPolicyTitle ||
-                  "Booking Policy"}
-              </h3>
-            </div>
-            <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
-              {sanityContent?.cruiseInfo?.bookingPolicyHeading ||
-                "Book through us to participate & lock in best rates"}
-            </p>
-            <p className="mb-6">
-              {sanityContent?.cruiseInfo?.bookingPolicyBody || (
-                <>
-                  To be part of our events, eat dinner together with the band
-                  and fans, and for us to assist you, your reservation{" "}
-                  <strong>must</strong> be placed under our official group
-                  booking.
-                </>
-              )}
-            </p>
-            <ul className="mb-6 pb-6 space-y-3 border-b border-white/10">
-              {sanityContent?.cruiseInfo?.bookingHighlights &&
-                sanityContent.cruiseInfo.bookingHighlights.length > 0 ? (
-                sanityContent.cruiseInfo.bookingHighlights.map(
-                  (highlight: string) => (
-                    <li
-                      key={highlight}
-                      className="flex items-start gap-2"
-                    >
-                      <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
-                      <span>{highlight}</span>
-                    </li>
-                  ),
-                )
-              ) : (
-                <>
-                  <li className="flex items-start gap-2">
-                    <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
-                    <span>
-                      Multiple booking options: Group Rate, Prevailing Rate, Sales
-                      &amp; Promotions.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckMarkIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
-                    <span>
-                      We match rates &amp; re-roll your room if prices drop before
-                      final payment!
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <HelpCircle className="mt-0.5 h-4 w-4 shrink-0 text-purple-400" />
-                    <span>
-                      <strong>ALL-INCLUSIVE:</strong> Prices include Cabin,
-                      Gratuities, Taxes, and Port Fees (Double Occupancy).
-                    </span>
-                  </li>
-                </>
-              )}
-            </ul>
-            <div className="space-y-1.5">
-              <p>
-                <strong>Email:</strong>{" "}
-                <a
-                  href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`}
-                  className="a-btn"
-                >
-                  {sanityContent?.cruiseInfo?.bookingEmail ||
-                    "info@NTDVacations.com"}
-                </a>
-              </p>
-              <p>
-                <strong>Call Us:</strong>{" "}
-                <a
-                  href={`tel:${(sanityContent?.cruiseInfo?.bookingPhone || "877-683-9753").replace(/[^0-9]/g, "")}`}
-                  className="no-underline"
-                >
-                  {sanityContent?.cruiseInfo?.bookingPhone ||
-                    "(877) 683-9753 - opt 5"}
-                </a>
-              </p>
-              <p>
-                <CreditCard className="mr-1 inline h-3.5 w-3.5 text-purple-400" />
-                <strong>Deposit:</strong>{" "}
-                {sanityContent?.cruiseInfo?.depositInfo ||
-                  "$250/person ($500/room)."}
-              </p>
-              <p>
-                <CalendarIcon className="mr-1 inline h-3.5 w-3.5 text-purple-400" />
-                <strong>Final Payment:</strong>{" "}
-                {activePriceYear === 2027
-                  ? sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026"
-                  : sanityContent?.cruiseInfo?.finalPayment2028 ||
-                  "Oct 1, 2027"}
-                .
-              </p>
-            </div>
-          </div>
-
-          {/* Column 3: Cancellation Policy & Passport Guidelines */}
-          <div className="relative flex flex-col justify-start rounded-2xl border-t border-white/10 pt-6 text-left md:border-t-0 md:pt-0 md:col-span-4">
-            {/* Cancellation Policy */}
-            <div>
+          {/* Columns 2-4: Fluid Grid Container */}
+          <div className="guidelines-fluid-grid min-w-0 flex-1 gap-6">
+            {/* Column 2: Booking Policy */}
+            <div className="relative  text-left border-t border-white/10 pt-6 md:border-t-0 md:pt-0">
               <div className="mb-2 flex items-center gap-3">
-                <CalendarIcon className="h-6 w-6 shrink-0 text-purple-400" />
                 <h3 className="uppercase">
-                  {sanityContent?.cruiseInfo?.cancellationTitle ||
-                    "Cancellation Policy"}
+                  {sanityContent?.cruiseInfo?.bookingPolicyTitle ||
+                    "Booking Policy"}
                 </h3>
               </div>
               <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
-                {sanityContent?.cruiseInfo?.cancellationSubheading ||
-                  "Refund terms before booking"}
+                {sanityContent?.cruiseInfo?.bookingPolicyHeading ||
+                  "Book through us to participate & lock in best rates"}
               </p>
-              <div>
-                <h4 className="pb-3 uppercase text-white">
-                  Group Rate Rooms:
-                </h4>
-                <ul className="list-disc space-y-1.5 pl-4 text-purple-100/90">
-                  {cancellationItems.map((item) => (
-                    <li key={`${item.period}-${item.fee}`}>
-                      {item.period}{" "}
-                      {item.fee && (
-                        <strong className="text-white">{item.fee}</strong>
-                      )}
+              <p className="mb-6">
+                {sanityContent?.cruiseInfo?.bookingPolicyBody || (
+                  <>
+                    To be part of our events, eat dinner together with the band
+                    and fans, and for us to assist you, your reservation{" "}
+                    <strong>must</strong> be placed under our official group
+                    booking.
+                  </>
+                )}
+              </p>
+              <ul className="mb-6 pb-6 flex flex-col gap-6 border-b border-white/10">
+                {sanityContent?.cruiseInfo?.bookingHighlights &&
+                  sanityContent.cruiseInfo.bookingHighlights.length > 0 ? (
+                  sanityContent.cruiseInfo.bookingHighlights.map(
+                    (highlight: string) => (
+                      <li
+                        key={highlight}
+                        className="flex items-start gap-2.5"
+                      >
+                        <ContentFeatureIcon />
+                        <span>{highlight}</span>
+                      </li>
+                    ),
+                  )
+                ) : (
+                  <>
+                    <li className="flex items-start gap-2.5">
+                      <ContentFeatureIcon />
+                      <span>
+                        Multiple booking options: Group Rate, Prevailing Rate, Sales
+                        &amp; Promotions.
+                      </span>
                     </li>
-                  ))}
-                </ul>
+                    <li className="flex items-start gap-2.5">
+                      <ContentFeatureIcon />
+                      <span>
+                        We match rates &amp; re-roll your room if prices drop before
+                        final payment!
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <ContentFeatureIcon />
+                      <span>
+                        <strong>ALL-INCLUSIVE:</strong> Prices include Cabin,
+                        Gratuities, Taxes, and Port Fees (Double Occupancy).
+                      </span>
+                    </li>
+                  </>
+                )}
+              </ul>
+              <div className="flex flex-col gap-1.5 npm">
+                <p>
+                  <strong>Email:</strong>{" "}
+                  <a
+                    href={`mailto:${sanityContent?.cruiseInfo?.bookingEmail || "info@NTDVacations.com"}`}
+                    className="a-btn"
+                  >
+                    {sanityContent?.cruiseInfo?.bookingEmail ||
+                      "info@NTDVacations.com"}
+                  </a>
+                </p>
+                <p>
+                  <strong>Call Us:</strong>{" "}
+                  <a
+                    href={`tel:${(sanityContent?.cruiseInfo?.bookingPhone || "877-683-9753").replace(/[^0-9]/g, "")}`}
+                    className="no-underline"
+                  >
+                    {sanityContent?.cruiseInfo?.bookingPhone ||
+                      "(877) 683-9753 - opt 5"}
+                  </a>
+                </p>
+                <p>
+                  <strong>Deposit:</strong>{" "}
+                  {sanityContent?.cruiseInfo?.depositInfo ||
+                    "$250/person ($500/room)."}
+                </p>
+                <p>
+                  <strong>Final Payment:</strong>{" "}
+                  {activePriceYear === 2027
+                    ? sanityContent?.cruiseInfo?.finalPayment2027 || "Oct 1, 2026"
+                    : sanityContent?.cruiseInfo?.finalPayment2028 ||
+                    "Oct 1, 2027"}
+                  .
+                </p>
               </div>
             </div>
 
-            {/* Passport Guidelines */}
-            <div className="mt-4 border-t border-white/10 pt-4">
+            {/* Column 3: Cancellation Policy (and Passport Guidelines below 1700px) */}
+            <div className="policy-col-cancel relative flex flex-col justify-start border-t border-white/10 pt-6 text-left sm:border-t-0 sm:pt-0">
+              <div>
+                <div className="mb-2 flex items-center gap-3">
+                  <h3 className="uppercase">
+                    {sanityContent?.cruiseInfo?.cancellationTitle ||
+                      "Cancellation Policy"}
+                  </h3>
+                </div>
+                <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
+                  {sanityContent?.cruiseInfo?.cancellationSubheading ||
+                    "Refund terms before booking"}
+                </p>
+                <div>
+                  <h4 className="pb-3 uppercase text-white">
+                    Group Rate Rooms
+                  </h4>
+                  <ul className="list-disc flex flex-col gap-1.5 pl-4 text-purple-100/90">
+                    {cancellationItems.map((item) => (
+                      <li key={`${item.period}-${item.fee}`}>
+                        {item.period}{" "}
+                        {item.fee && (
+                          <strong className="text-white">{item.fee}</strong>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Passport Guidelines (stacked under Cancellation Policy when < 1700px) */}
+              <div className="passport-col-stacked mt-6 border-t border-white/10 pt-6">
+                <div className="mb-2 flex items-center gap-3">
+                  <h3 className="uppercase">
+                    {sanityContent?.cruiseInfo?.passportTitle ||
+                      "Passport Guidelines"}
+                  </h3>
+                </div>
+                <p className="mb-6 text-xs font-semibold uppercase tracking-wider text-purple-200/80">
+                  {sanityContent?.cruiseInfo?.passportSubheading ||
+                    "Essential travel document guidelines"}
+                </p>
+                <div className="flex flex-col gap-4">
+                  {sanityContent?.cruiseInfo?.passportBody ? (
+                    <p>{sanityContent.cruiseInfo.passportBody}</p>
+                  ) : (
+                    <>
+                      <p>
+                        A physical passport book valid for 6 months post-cruise is highly recommended for all travelers.
+                      </p>
+                      <p>
+                        For closed-loop U.S. sailings, a certified state birth
+                        certificate accompanied by a government-issued photo ID is
+                        legally acceptable.
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Column 4: Passport Guidelines (standalone 4th column at >= 1700px) */}
+            <div className="passport-col-4 relative flex-col justify-start rounded-2xl border-t border-white/10 pt-6 text-left border-t-0 pt-0">
               <div className="mb-2 flex items-center gap-3">
-                <Compass className="h-6 w-6 shrink-0 text-purple-400" />
                 <h3 className="uppercase">
                   {sanityContent?.cruiseInfo?.passportTitle ||
                     "Passport Guidelines"}
@@ -634,7 +663,7 @@ function CruiseCabinsPricingSectionComponent({
                 {sanityContent?.cruiseInfo?.passportSubheading ||
                   "Essential travel document guidelines"}
               </p>
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 {sanityContent?.cruiseInfo?.passportBody ? (
                   <p>{sanityContent.cruiseInfo.passportBody}</p>
                 ) : (
@@ -655,11 +684,16 @@ function CruiseCabinsPricingSectionComponent({
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className=" space-y-16">
+        <div className="flex flex-col gap-16">
           <div className="relative p-0 text-left">
             <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div>
-                <h3>Limited Group Rate Cabins ({activePriceYear})</h3>
+                <h3>
+                  Limited Group Rate{" "}
+                  <span className="accent-gradient-text">
+                    Cabins ({activePriceYear})
+                  </span>
+                </h3>
               </div>
               {isAdmin && (
                 <AddCmsButton
@@ -847,14 +881,29 @@ function CruiseCabinsPricingSectionComponent({
                   )}
 
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-start justify-between gap-2 text-left">
-                      <SectionBadge label={room.badge} />
+                    <div className="flex flex-wrap items-center gap-2 text-left">
+                      <span className="block">{room.code} Category</span>
+                      {room.badge && (
+                        <>
+                          <span className="text-white/30" aria-hidden="true">•</span>
+                          <span
+                            className={
+                              room.status === "soldout" || room.badge.toLowerCase().includes("sold out")
+                                ? "text-xs font-medium text-rose-400"
+                                : room.status === "warning" || room.badge.toLowerCase().includes("left")
+                                  ? "text-xs font-medium text-amber-400"
+                                  : "text-xs font-medium text-white/60"
+                            }
+                          >
+                            {room.badge}
+                          </span>
+                        </>
+                      )}
                     </div>
-                    <span className="block">{room.code} Category</span>
                     <h4 className="text-left">{room.title}</h4>
                   </div>
 
-                  <div className="mt-auto flex flex-col gap-4 text-left">
+                  <div className="mt-auto flex flex-col gap-6 text-left">
                     <div className="flex flex-col gap-1">
                       <div className="flex items-baseline gap-1.5">
                         <span className="text-xl">{room.price}</span>
@@ -900,8 +949,21 @@ function CruiseCabinsPricingSectionComponent({
           <div id="payment-portal" />
 
           <div>
-            <div className="mb-6 text-left">
-              <div className="mb-3 flex flex-wrap items-center justify-start gap-3">
+            <div className="mb-6 flex flex-col gap-4 text-left sm:flex-row sm:items-end sm:justify-between">
+              <div className="min-w-0 flex-1">
+                <SectionHeader
+                  id="signup-heading"
+                  title={
+                    <>
+                      Reserve Your Cruise{" "}
+                      <span className="accent-gradient-text">Stateroom</span>
+                    </>
+                  }
+                  subtitle="Every booking requires a $500 deposit per room ($250 per person). Complete the form below to lock in your cabin rate."
+                  icon={Ship}
+                />
+              </div>
+              <div className="shrink-0 mb-4">
                 <SeventhButton
                   type="button"
                   onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
@@ -913,12 +975,6 @@ function CruiseCabinsPricingSectionComponent({
                     : "Make A Payment On Existing Booking"}
                 </SeventhButton>
               </div>
-              <SectionHeader
-                id="signup-heading"
-                title="RESERVE YOUR CRUISE STATEROOM"
-                subtitle="Every booking requires a $500 deposit per room ($250 per person). Complete the form below to lock in your cabin rate."
-                icon={Ship}
-              />
             </div>
 
             {PaymentPortalDropdownPanel && isPaymentDropdownOpen && (
@@ -931,7 +987,7 @@ function CruiseCabinsPricingSectionComponent({
             )}
 
             {signupStatus === "success" ? (
-              <div className="animate-fade-in space-y-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/40 p-8 text-center">
+              <div className="animate-fade-in flex flex-col gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-950/40 p-8 text-center">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/20 text-2xl text-emerald-400">
                   <CheckCircle2 className="h-8 w-8 text-emerald-400" />
                 </div>
@@ -950,7 +1006,7 @@ function CruiseCabinsPricingSectionComponent({
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSignup} className="space-y-3 text-left">
+              <form onSubmit={handleSignup} className="flex flex-col gap-6 text-left">
                 {formError && (
                   <div className="flex items-center gap-3 border border-red-500/50 bg-red-900/40 p-4 text-red-200">
                     <AlertTriangle className="h-5 w-5 shrink-0 text-red-400" />
@@ -975,18 +1031,18 @@ function CruiseCabinsPricingSectionComponent({
                       }))
                     }
                     placeholder="e.g. Ocean View Balcony (D4) or Suite"
+                    aria-describedby="cabinPreference-help"
                     className="focus-ring w-full"
                   />
-                  <p className="mt-1.5 text-white/50">
-                    EVERY BOOKING NEEDS $500 DEPOSIT PER ROOM (OR $250 PER PERSON)
-                  </p>
+                  <HelperText id="cabinPreference-help">
+                    Every booking needs a $500 deposit per room (or $250 per person)
+                  </HelperText>
                 </div>
 
                 {/* GUEST 1 DETAILS & PAYMENT */}
-                <div className="space-y-3">
+                <div className="flex flex-col gap-6">
                   <div className="flex items-center justify-between border-b border-white/10 pb-6">
                     <h3>GUEST 1 (PRIMARY RESERVATION HOLDER)</h3>
-                    <span className="text-purple-400">Primary Guest</span>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -1095,18 +1151,18 @@ function CruiseCabinsPricingSectionComponent({
                     title="GUEST 2 (IF NEEDED)"
                     subtitle="You do not need to fill out Guest 2 credit card info if you are a couple going together on one credit card."
                     action={
-                      <button
+                      <SeventhButton
                         type="button"
                         onClick={() => toggleGuestActive(0, !guests[0]?.active)}
-                        className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm font-semibold transition-[background-color,border-color,color] ${guests[0]?.active ? "border-purple-400 bg-purple-600 text-white" : "border-white/20 bg-white/10 text-white/80 hover:text-white"}`}
+                        isActive={guests[0]?.active}
                       >
                         {guests[0]?.active ? "✓ Guest 2 Added" : "+ Add Guest 2"}
-                      </button>
+                      </SeventhButton>
                     }
                   />
 
                   {guests[0]?.active && (
-                    <div className="animate-fade-in space-y-4">
+                    <div className="animate-fade-in flex flex-col gap-4">
                       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
                           <label>Guest 2 Full Legal Name</label>
@@ -1210,7 +1266,7 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
 
                 {/* EXTRA / OPTIONS & NOTES */}
-                <div className="space-y-3">
+                <div className="flex flex-col gap-6">
                   <h3 className="border-b border-white/10 pb-3">
                     EXTRA &amp; SPECIAL REQUESTS
                   </h3>
@@ -1259,9 +1315,7 @@ function CruiseCabinsPricingSectionComponent({
                         ]}
                         chevronColor="#f43f5e"
                       />
-                      <p className="mt-1 text-white/50">
-                        GROUP RATE ROOMS MUST HAVE THIS
-                      </p>
+                      <HelperText>Group rate rooms must have this</HelperText>
                     </div>
                   </div>
 
@@ -1301,13 +1355,17 @@ function CruiseCabinsPricingSectionComponent({
       <section
         id="concierge"
         aria-labelledby="concierge-heading"
-        className="section cv-auto site-container relative z-20"
-        style={{ "--cv-size": "400px", "--cv-size-lg": "719px" } as React.CSSProperties}
+        className="section site-container relative z-20"
       >
         <div className="mb-6 max-w-3xl text-left">
           <SectionHeader
             id="concierge-heading"
-            title="Official Cruise Concierge & Booking Team"
+            title={
+              <>
+                Official Cruise Concierge &{" "}
+                <span className="accent-gradient-text">Booking Team</span>
+              </>
+            }
             subtitle="Have questions about your booking, cabin options, group travel, or excursions? Our dedicated 7th Heaven Cruise concierge team is here to assist you every step of the way."
             align="left"
             divider={false}
@@ -1417,8 +1475,7 @@ function CruiseCabinsPricingSectionComponent({
       <section
         id="artists"
         aria-labelledby="artists-heading"
-        className="section cv-auto site-container"
-        style={{ "--cv-size": "500px", "--cv-size-lg": "665px" } as React.CSSProperties}
+        className="section site-container"
       >
         <div className="mb-6 w-full max-w-3xl text-left">
           <SectionHeader
@@ -1524,7 +1581,7 @@ function CruiseCabinsPricingSectionComponent({
                 </div>
               )}
 
-              <form onSubmit={handleSaveRoom} className="space-y-4">
+              <form onSubmit={handleSaveRoom} className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div>
                     <GlowInput

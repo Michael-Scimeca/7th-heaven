@@ -16,9 +16,9 @@ import {
   MapPin,
   Navigation,
   Calendar,
-  ChevronDown,
   Loader2,
 } from "lucide-react";
+import { DotChevronDown } from "@/components/ui/DotArrow";
 import { geocodeZip, distanceMiles } from "@/lib/geo";
 import { getVenueCoords } from "@/lib/venue-coords";
 import {
@@ -48,6 +48,7 @@ import {
   BookingManager,
 } from "@/components/CruiseWidgets";
 import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import { SectionBadge } from "@/components/SectionBadge";
 import { SectionHeader } from "@/components/SectionHeader";
 import MemberHeaderBadge from "@/components/MemberHeaderBadge";
@@ -798,20 +799,17 @@ export default function FanAccountPage({
       {/* Cruise Hub Toggle */}
       {isCruiser && (
         <div className="-mt-2 mb-10 flex justify-center">
-          <div className="inline-flex items-center rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-1 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-            <button
-              onClick={() => setDashboardView("fan")}
-              className={`cursor-pointer px-6 py-2 ${dashboardView === "fan" ? "bg-[var(--color-accent)] shadow-[0_0_15px_rgba(255,10,61,0.4)]" : "text-white/40 hover:text-white"}`}
-            >
-              Fan Dashboard
-            </button>
-            <button
-              onClick={() => setDashboardView("cruise")}
-              className={`cursor-pointer px-6 py-2 ${dashboardView === "cruise" ? "bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-white/40"}`}
-            >
-              Cruise Hub
-            </button>
-          </div>
+          <SegmentedTabs<"fan" | "cruise">
+            activeTab={dashboardView}
+            onChange={setDashboardView}
+            ariaLabel="Dashboard view"
+            layout="flex"
+            className="shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+            tabs={[
+              { id: "fan", label: "Fan Dashboard" },
+              { id: "cruise", label: "Cruise Hub" },
+            ]}
+          />
         </div>
       )}
 
@@ -906,7 +904,7 @@ export default function FanAccountPage({
                             <span>{day.location}</span>
                           </div>
                           <h3 className="mb-2">{day.theme}</h3>
-                          <ul className="mt-5 space-y-4 border-t border-white/10 pt-5">
+                          <ul className="mt-5 flex flex-col gap-4 border-t border-white/10 pt-5">
                             {day.events.map((ev) => (
                               <li
                                 key={ev.id}
@@ -1002,7 +1000,7 @@ export default function FanAccountPage({
             >
               <SectionHeader id="backstage-feed-heading" title="Backstage Live Feed" visuallyHidden />
               <div>
-                <div className="space-y-3">
+                <div className="flex flex-col gap-3">
                   {liveFeeds.map((feed) => (
                     <Link
                       key={feed.room}
@@ -1560,7 +1558,7 @@ export default function FanAccountPage({
                       <span>
                         Show More Nearby Dates ({displayShows.length - visibleShowCount} more)
                       </span>
-                      <ChevronDown className="h-4 w-4" />
+                      <DotChevronDown className="h-4 w-4" />
                     </button>
                   </div>
                 )}
@@ -1607,7 +1605,7 @@ export default function FanAccountPage({
                     <div className="h-6 w-6 animate-spin border-2 border-purple-500 border-t-transparent" />
                   </div>
                 ) : subscribedShows.length > 0 ? (
-                  <div className="space-y-3">
+                  <div className="flex flex-col gap-3">
                     {subscribedShows.map((sub: any) => (
                       <div
                         key={sub.id}
@@ -1755,7 +1753,7 @@ export default function FanAccountPage({
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {/* Main Column */}
-            <div className="space-y-0 lg:col-span-2">
+            <div className="flex flex-col gap-0 lg:col-span-2">
               {/* Tour Memories Gallery & Upload */}
               <section
                 id="tour-memories"
@@ -1763,7 +1761,7 @@ export default function FanAccountPage({
                 className="section"
               >
                 <SectionHeader id="tour-memories-heading" title="Tour Memories Gallery" visuallyHidden />
-                <div className="space-y-6">
+                <div className="flex flex-col gap-6">
                   {/* Photo Gallery Grid */}
                   {myPhotos.length > 0 && (
                     <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
@@ -1857,7 +1855,7 @@ export default function FanAccountPage({
             </div>
 
             {/* Right Column / Sidebar */}
-            <div className="space-y-8">
+            <div className="flex flex-col gap-8">
               {/* VIP Inbox */}
               <aside id="vip-inbox" className="flex flex-col justify-between">
                 <div className="border-b border-white/10 pb-4">
@@ -1886,7 +1884,7 @@ export default function FanAccountPage({
                   </div>
                 </div>
 
-                <div className="scrollbar-hide max-h-[300px] space-y-4 overflow-y-auto">
+                <div className="scrollbar-hide flex flex-col max-h-[300px] gap-4 overflow-y-auto">
                   {inboxMessages.map((msg) => (
                     <div
                       key={msg.id || msg.title}

@@ -30,7 +30,6 @@ import {
   FileText,
   MapPin,
   MessageSquare,
-  ChevronDown,
   Mail,
   Shield,
   Siren,
@@ -38,6 +37,7 @@ import {
   Radio,
   Calendar,
 } from "lucide-react";
+import { DotChevronDown } from "@/components/ui/DotArrow";
 import { getShowDateTime, parseDateSafe } from "@/lib/date-utils";
 import ChatInputBar from "@/components/ChatInputBar";
 import Toggle from "@/components/Toggle";
@@ -216,13 +216,13 @@ function AvailabilityCardForm({
     <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-5 sm:p-6 backdrop-blur-md">
       <div>
         <div className="mb-5">
-          <h3 className="text-base font-semibold text-white">Your Availability & Blackouts</h3>
+          <h3 className="text-white">Your Availability & Blackouts</h3>
           <p className="mt-1 text-xs text-white/60">
             Let admins know when you are available or unavailable for upcoming gigs.
           </p>
         </div>
 
-        <form onSubmit={onSubmit} className="mb-6 space-y-4">
+        <form onSubmit={onSubmit} className="mb-6 flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="avail-date-input" className="mb-1.5 block text-xs font-medium text-white/70">
@@ -329,13 +329,13 @@ function TimeOffCardForm({
     <div className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-5 sm:p-6 backdrop-blur-md">
       <div>
         <div className="mb-5">
-          <h3 className="text-base font-semibold text-white">Time-Off Requests</h3>
+          <h3 className="text-white">Time-Off Requests</h3>
           <p className="mt-1 text-xs text-white/60">
             Submit formal time-off requests for administrator approval.
           </p>
         </div>
 
-        <form onSubmit={onSubmit} className="mb-6 space-y-4">
+        <form onSubmit={onSubmit} className="mb-6 flex flex-col gap-4">
           <div>
             <label htmlFor="time-off-date-input" className="mb-1.5 block text-xs font-medium text-white/70">
               Request Date
@@ -3370,7 +3370,7 @@ export function CrewDashboard({
                     ? "Expand Feed Box"
                     : "Collapse Feed Box"}
                 </span>
-                <ChevronDown
+                <DotChevronDown
                   className={`h-4 w-4 transition-transform ${isBroadcastPanelCollapsed ? "rotate-180" : ""}`}
                 />
               </button>
@@ -3380,7 +3380,7 @@ export function CrewDashboard({
 
         {/* Collapsible Content */}
         {!isBroadcastPanelCollapsed && (
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             {/* Switch Feed and Fan page links moved from header */}
             <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
               <div className="no-glow flex items-center gap-3">
@@ -3623,7 +3623,7 @@ export function CrewDashboard({
                 <div
                   ref={chatScrollRef}
                   data-lenis-prevent
-                  className="custom-scrollbar flex min-h-0 flex-1 flex-col space-y-3 overflow-y-auto p-4"
+                  className="custom-scrollbar flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-4"
                 >
                   {posts.length === 0 && (
                     <div className="my-auto flex flex-1 flex-col items-center justify-center py-6 text-center text-white/30">
@@ -3790,7 +3790,7 @@ export function CrewDashboard({
                   })}
                 </div>
 
-                <div className="shrink-0 space-y-0 pt-2">
+                <div className="shrink-0 flex flex-col gap-0 pt-2">
                   {/* Pin message input */}
                   <div className="relative">
                     <input
@@ -3935,7 +3935,7 @@ export function CrewDashboard({
                   />
                   <div>
                     {activeDrop ? (
-                      <div className="space-y-4">
+                      <div className="flex flex-col gap-4">
                         {/* Submitted Status Header */}
                         <div className="flex items-center justify-between rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-500/10 p-3">
                           <div className="flex items-center gap-2">
@@ -3969,7 +3969,7 @@ export function CrewDashboard({
                         {/* Product List */}
                         <div
                           data-lenis-prevent
-                          className="custom-scrollbar max-h-60 space-y-2.5 overflow-y-auto pr-1"
+                          className="custom-scrollbar flex flex-col max-h-60 gap-2 overflow-y-auto pr-1"
                         >
                           <p>Active Products</p>
                           {activeDrop.products.map((p) => (
@@ -4066,7 +4066,7 @@ export function CrewDashboard({
 
                         <div
                           data-lenis-prevent
-                          className="custom-scrollbar mb-6 max-h-60 space-y-3 overflow-y-auto pr-1"
+                          className="custom-scrollbar mb-6 flex flex-col max-h-60 gap-3 overflow-y-auto pr-1"
                         >
                           <p className="mb-2">
                             Selected Products & Flash Sale Prices
@@ -4161,18 +4161,18 @@ export function CrewDashboard({
                           </div>
                           <div>
                             <p className="mb-3">Duration</p>
-                            <div className="grid grid-cols-4 gap-2">
-                              {["2m", "5m", "10m", "15m"].map((d) => (
-                                <SeventhButton
-                                  key={d}
-                                  isActive={dropDurationStr === d}
-                                  onClick={() => setDropDurationStr(d)}
-                                  className="!w-full"
-                                >
-                                  {d}
-                                </SeventhButton>
-                              ))}
-                            </div>
+                            <SegmentedTabs<string>
+                              activeTab={dropDurationStr}
+                              onChange={setDropDurationStr}
+                              ariaLabel="Drop duration selector"
+                              size="sm"
+                              tabs={[
+                                { id: "2m", label: "2m" },
+                                { id: "5m", label: "5m" },
+                                { id: "10m", label: "10m" },
+                                { id: "15m", label: "15m" },
+                              ]}
+                            />
                           </div>
                         </div>
 
@@ -4267,7 +4267,7 @@ export function CrewDashboard({
                   <div className="flex flex-1 flex-col gap-5">
                     {/* Multi-Raffle Queue Configuration */}
                     <div className="-mx-4 px-4 pb-4 sm:mx-0 sm:px-0">
-                      <div className="min-w-0 space-y-3">
+                      <div className="min-w-0 flex flex-col gap-3">
                         {Array.from(raffleQueue, (item, idx) => ({
                           item,
                           idx,
@@ -4550,9 +4550,9 @@ export function CrewDashboard({
                   icon={Shield}
                 />
 
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 items-start">
-                    <div className="w-full space-y-2">
+                    <div className="w-full flex flex-col gap-2">
                       <form
                         onSubmit={handleAddCustomWord}
                         className="no-glow mt-2 flex w-full gap-3"
@@ -4575,7 +4575,7 @@ export function CrewDashboard({
                       </form>
                     </div>
 
-                    <div className="w-full space-y-2">
+                    <div className="w-full flex flex-col gap-2">
                       <p className="font-semibold text-white/90">Active Custom Filters</p>
                       {customWords.length === 0 ? (
                         <div className="rounded-[var(--radius-box)] border border-dashed border-white/10 bg-white/[0.01] p-6 text-center">
@@ -4649,7 +4649,7 @@ export function CrewDashboard({
                 <span className="hidden whitespace-nowrap sm:inline">
                   {isSetlistCollapsed ? "Expand Setlist" : "Collapse Setlist"}
                 </span>
-                <ChevronDown
+                <DotChevronDown
                   className={`h-4 w-4 transition-transform ${isSetlistCollapsed ? "rotate-180" : ""}`}
                 />
               </button>
@@ -4663,7 +4663,7 @@ export function CrewDashboard({
               {/* Song rows */}
               <div
                 data-lenis-prevent
-                className="custom-scrollbar max-h-[300px] space-y-1 overflow-y-scroll pr-3 [scrollbar-gutter:stable]"
+                className="custom-scrollbar flex flex-col max-h-[300px] gap-1 overflow-y-scroll pr-3 [scrollbar-gutter:stable]"
               >
                 {setlist.map((song, idx) => (
                   <div
@@ -4701,7 +4701,7 @@ export function CrewDashboard({
               {/* Add Song form */}
               <div className="">
                 {isBulkImport ? (
-                  <div className="max-w-[300px] space-y-2">
+                  <div className="max-w-[300px] flex flex-col gap-2">
                     <textarea
                       aria-label="Paste a list of songs"
                       placeholder="Paste a list of songs (one per line, or separated by commas)..."
@@ -4731,7 +4731,7 @@ export function CrewDashboard({
                     </div>
                   </div>
                 ) : (
-                  <div className="max-w-[300px] space-y-2">
+                  <div className="max-w-[300px] flex flex-col gap-2">
                     <div className="flex gap-3">
                       <GlowInput
                         type="text"
@@ -4897,7 +4897,7 @@ export function CrewDashboard({
                     <span className="hidden whitespace-nowrap sm:inline">
                       {isScheduleCollapsed ? "Expand Schedule" : "Collapse Schedule"}
                     </span>
-                    <ChevronDown
+                    <DotChevronDown
                       className={`h-4 w-4 transition-transform ${isScheduleCollapsed ? "rotate-180" : ""}`}
                     />
                   </button>
@@ -5009,7 +5009,7 @@ export function CrewDashboard({
                         return (
                           <div
                             key={shift.id}
-                            className="rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-4 sm:p-5 transition-all hover:border-purple-500/30 hover:bg-white/[0.03] space-y-3 backdrop-blur-md"
+                            className="rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] p-4 sm:p-5 transition-colors duration-200 hover:border-purple-500/30 hover:bg-white/[0.03] flex flex-col gap-3 backdrop-blur-md"
                           >
                             {/* Top Header Row */}
                             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -5178,7 +5178,7 @@ export function CrewDashboard({
 
                             {/* Bottom Callout: Instructions & Decline Reason */}
                             {(shift.notes || shift.declineReason) && (
-                              <div className="rounded-lg border-l-2 border-purple-500/60 bg-white/[0.03] p-3 text-xs backdrop-blur-sm space-y-1">
+                              <div className="rounded-lg border-l-2 border-purple-500/60 bg-white/[0.03] p-3 text-xs backdrop-blur-sm flex flex-col gap-1">
                                 {shift.notes && (
                                   <div>
                                     <span className="font-semibold text-purple-300">Instructions: </span>
@@ -5270,47 +5270,41 @@ export function CrewDashboard({
                       return (
                         <div
                           key={show.date + "_" + show.venue}
-                          className="transition-colors flex flex-col justify-between gap-2.5 px-2 py-3.5 hover:bg-white/[0.02] md:flex-row md:items-center"
-                          style={{
-                            borderBottom:
-                              "1px solid rgba(255, 255, 255, 0.08)",
-                          }}
+                          className="group transition-[border-color,background-color,box-shadow] duration-200 flex flex-col justify-between gap-3 p-3.5 sm:p-4 mb-2.5 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] hover:border-purple-500/40 hover:bg-white/[0.03] hover:shadow-[0_4px_20px_rgba(168,85,247,0.15)] md:flex-row md:items-center backdrop-blur-md"
                         >
                           {/* Date Column */}
-                          <div className="flex min-w-[150px] shrink-0 items-center gap-2.5">
+                          <div className="flex shrink-0 items-center gap-3">
                             <div
-                              className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center border text-center ${userShift ? "border-purple-500/30 bg-purple-600/10" : "border-white/10 bg-[#00000029]"}`}
+                              className={`flex h-13 w-13 shrink-0 flex-col items-center justify-center rounded-[var(--radius-box)] border text-center transition-transform group-hover:scale-105 ${userShift ? "border-purple-500/40 bg-gradient-to-b from-purple-600/30 to-purple-900/40 shadow-[0_0_12px_rgba(168,85,247,0.3)] text-purple-200" : "border-white/10 bg-white/5 text-white"}`}
                             >
-                              <span
-                                className={`text-[8px] ${userShift ? " " : "text-white/50"}`}
-                              >
+                              <span className="text-[9px] font-extrabold uppercase tracking-wider text-purple-300">
                                 {month}
                               </span>
-                              <span className="mt-0.5">{dayNum}</span>
+                              <span className="text-base font-black leading-none text-white">{dayNum}</span>
                             </div>
-                            <div className="flex flex-col">
-                              <span className="text-[10px] text-white/40">
+                            <div className="flex flex-col gap-0.5">
+                              <span className="text-xs font-bold text-white/80 uppercase tracking-wide">
                                 {weekday}
                               </span>
                               {show.playTime ? (
-                                <>
+                                <div className="flex flex-col gap-0.5">
                                   <span
-                                    className="mt-0.5 text-[10px] text-rose-400"
+                                    className="inline-flex items-center gap-1 rounded-full border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 text-[10px] font-medium text-rose-300"
                                     title="Band Play Time"
                                   >
                                     🎸 {show.playTime}
                                   </span>
                                   {show.time && (
                                     <span
-                                      className="mt-0.5 text-[8px] text-white/40"
+                                      className="text-[10px] text-white/40"
                                       title="Event Show Time"
                                     >
                                       Event: {show.time}
                                     </span>
                                   )}
-                                </>
+                                </div>
                               ) : (
-                                <span className="mt-0.5 text-[10px]">
+                                <span className="text-xs text-white/50 font-medium">
                                   {show.time || "TBA"}
                                 </span>
                               )}
@@ -5318,46 +5312,46 @@ export function CrewDashboard({
                           </div>
 
                           {/* Show Venue & Details */}
-                          <div className="min-w-[160px] flex-1">
-                            <div className="flex flex-wrap items-center gap-1.5">
+                          <div className="min-w-[180px] flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
                               {matchingVenue ? (
                                 <button
                                   type="button"
                                   onClick={() =>
                                     setSelectedVenuePopup(matchingVenue)
                                   }
-                                  className="transition-colors flex cursor-pointer items-center gap-1 border-none p-0 hover:text-purple-200 hover:underline"
+                                  className="transition-colors flex cursor-pointer items-center gap-1.5 border-none p-0 font-bold text-white text-base tracking-tight hover:text-purple-300 hover:underline"
                                   title="Click to view venue specs"
                                 >
-                                  <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
-                                  {show.venue}{" "}
-                                  <span className="text-[12px] text-[var(--color-accent)]/80">
+                                  <MapPin className="inline h-4 w-4 shrink-0 text-purple-400" />{" "}
+                                  <span>{show.venue}</span>{" "}
+                                  <span className="text-xs text-[var(--color-accent)]/80">
                                     ℹ️
                                   </span>
                                 </button>
                               ) : (
-                                <span className="flex items-center gap-1">
-                                  <MapPin className="inline h-3.5 w-3.5 shrink-0" />{" "}
-                                  {show.venue}
+                                <span className="flex items-center gap-1.5 font-bold text-white text-base tracking-tight">
+                                  <MapPin className="inline h-4 w-4 shrink-0 text-purple-400" />{" "}
+                                  <span>{show.venue}</span>
                                 </span>
                               )}
-                              <span className="text-[10px] text-white/50">
-                                ({show.city || "TBD"}
-                                {show.state ? `, ${show.state}` : ""})
+                              <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs text-white/70 font-medium">
+                                {show.city || "TBD"}
+                                {show.state ? `, ${show.state}` : ""}
                               </span>
                               <button
                                 type="button"
                                 onClick={() =>
                                   setActiveDiscussionDate(show.date)
                                 }
-                                className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-purple-600/10 px-1.5 py-0.5 text-[12px] select-none hover:bg-purple-600 hover:text-white"
+                                className="transition-colors duration-200 cursor-pointer inline-flex items-center gap-1.5 rounded-full border border-purple-500/30 bg-purple-500/15 px-2.5 py-1 text-xs font-medium text-purple-200 hover:border-purple-400 hover:bg-purple-600 hover:text-white shadow-sm select-none"
                               >
                                 <MessageSquare className="inline h-3 w-3" />{" "}
                                 Lineup & Discuss
                               </button>
                             </div>
                             {show.notes && (
-                              <p className="mt-0.5 max-w-md">
+                              <p className="mt-1 max-w-md text-xs text-white/60 italic">
                                 “{show.notes}”
                               </p>
                             )}
@@ -5749,7 +5743,7 @@ export function CrewDashboard({
       {/* ─── DECLINE REASON MODAL ─── */}
       {isDeclineModalOpen && (
         <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-md space-y-4 border border-black/10 bg-gray-50 p-6">
+          <div className="relative w-full max-w-md flex flex-col gap-4 border border-black/10 bg-gray-50 p-6">
             <h3 className="flex items-center gap-2">
               <span className="text-rose-500">✗</span> Decline Work Shift
             </h3>
@@ -5803,13 +5797,13 @@ export function CrewDashboard({
       {/* ─── EMAIL ADMIN MODAL ─── */}
       {isEmailModalOpen && (
         <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-lg space-y-4 border border-black/10 bg-gray-50 p-6">
+          <div className="relative w-full max-w-lg flex flex-col gap-4 border border-black/10 bg-gray-50 p-6">
             <h3 className="flex items-center gap-2">
               <span className="text-[var(--color-accent)]">📧</span> Email
               Administrators
             </h3>
 
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               <div>
                 <span className="mb-1 block text-black/40">From</span>
                 <div className="border border-black/10 bg-black/35 px-3.5 py-2 text-black/70">
@@ -5928,7 +5922,7 @@ export function CrewDashboard({
             {/* Content Body */}
             <div
               data-lenis-prevent
-              className="custom-scrollbar max-h-[60vh] space-y-4 overflow-y-auto pr-1"
+              className="custom-scrollbar flex flex-col max-h-[60vh] gap-4 overflow-y-auto pr-1"
             >
               {/* Address */}
               <div>
@@ -5972,7 +5966,7 @@ export function CrewDashboard({
               )}
 
               {/* Two columns: Capacity and Contact */}
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-2 gap-3">
                 <div className="border border-black/10 bg-white/[0.02] p-3">
                   <span className="mb-1 block text-black/40">👥 Capacity</span>
                   <span className="text-black">
@@ -6066,10 +6060,10 @@ export function CrewDashboard({
             {/* Content Scroll Area */}
             <div
               data-lenis-prevent="true"
-              className="custom-scrollbar flex-1 space-y-5 overflow-y-auto py-1 pr-1"
+              className="custom-scrollbar flex flex-col flex-1 gap-4 overflow-y-auto py-1 pr-1"
             >
               {/* Lineup */}
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 <h4 className="block border-b border-black/10 pb-1 text-black/40">
                   Set Schedule Lineup
                 </h4>
@@ -6094,7 +6088,7 @@ export function CrewDashboard({
                         ? getChangeoverLabel(act.endTime, nextAct.startTime)
                         : "";
                       return (
-                        <div key={act.id} className="space-y-1.5">
+                        <div key={act.id} className="flex flex-col gap-1.5">
                           <div className="flex items-center justify-between border border-black/10 bg-black/30 p-3">
                             <span className="text-black">{act.actName}</span>
                             <span>
@@ -6115,7 +6109,7 @@ export function CrewDashboard({
               </div>
 
               {/* Discussion Thread */}
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 <h4 className="block border-b border-black/10 pb-1 text-black/40">
                   Discussion Board
                 </h4>
@@ -6136,15 +6130,15 @@ export function CrewDashboard({
                   );
 
                   return (
-                    <div className="space-y-4">
+                    <div className="flex flex-col gap-4">
                       {/* List */}
-                      <div className="max-h-48 space-y-3.5 overflow-y-auto pr-1">
+                      <div className="flex flex-col max-h-48 gap-3 overflow-y-auto pr-1">
                         {rootComments.map((c) => {
                           const replies = repliesByParent[c.id] || [];
                           return (
                             <div
                               key={c.id}
-                              className="space-y-2 border-b border-black/10 pb-2.5 last:border-none"
+                              className="flex flex-col gap-2 border-b border-black/10 pb-2.5 last:border-none"
                             >
                               <div className="flex items-start gap-2">
                                 <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center bg-gray-100">
@@ -6345,7 +6339,7 @@ export function CrewDashboard({
             </div>
 
             {/* Content Body */}
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <p className="text-black/60">
                 Choose whether you want to post this to the general pool for any
                 qualified colleague to claim, or propose a direct swap with a
@@ -6372,7 +6366,7 @@ export function CrewDashboard({
 
               {/* Direct Swap Colleague Selection */}
               {swapTargetColleagueId !== "" && (
-                <div className="animate-[fadeIn_0.2s_ease-out] space-y-2 border border-black/10 bg-white/[0.02] p-3">
+                <div className="animate-[fadeIn_0.2s_ease-out] flex flex-col gap-2 border border-black/10 bg-white/[0.02] p-3">
                   <label
                     htmlFor="swap-target-colleague-select"
                     className="block text-black/40"

@@ -309,13 +309,13 @@ export default function FooterProximityAlerts() {
         </div>
 
         {status === "error" && errorMsg && (
-          <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-rose-300">
+          <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/30 bg-rose-500/10 px-4 py-2 text-xs text-rose-300">
             ⚠️ {errorMsg}
           </div>
         )}
 
         {permission === "denied" && (
-          <div className="mb-6 rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-amber-300">
+          <div className="mb-6 rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs text-amber-300">
             🔒 Notifications are blocked in your browser settings. Enable them
             to receive show alerts.
           </div>

@@ -2830,6 +2830,21 @@
       "skillPath": "skills/build/SKILL.md",
       "computedHash": "adb9f9a5be14a82f2e1fb862d70cf1802c1c5f33d711aede40551aa00e827076"
     },
+    "build-ui": {
+      "source": "registry:adobe/build-ui",
+      "commit_sha": "e177e5c99c442d7537056905fb623b4dab2aba9e",
+      "digest": "sha256:4f475bd7bfb286b5e0c4b736a486cbad2012ae86e13cebaab9721539f967b319",
+      "agents": [
+        "claude-code",
+        "antigravity",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "antigravity": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
     "building-native-ui": {
       "source": "sickn33/agentic-awesome-skills",
       "sourceType": "github",
@@ -14288,6 +14303,21 @@
       "skillPath": "skills/ui-a11y/SKILL.md",
       "computedHash": "93fc342c399098846080e6ac653fdada526a11e3aa7df727c2a255d78540f375"
     },
+    "ui-best-practices": {
+      "source": "registry:pwdev-solucoes/ui-best-practices",
+      "commit_sha": "8591df8b2d472b335bd233a2831f2b386f500e62",
+      "digest": "sha256:a2f03b66ab395a02b0a5c9b3237d985f68fbe6c5d4ec8ec081313c277c0dfbf4",
+      "agents": [
+        "claude-code",
+        "antigravity",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "antigravity": "symlink",
+        "github-copilot": "symlink"
+      }
+    },
     "ui-component": {
       "source": "sickn33/agentic-awesome-skills",
       "sourceType": "github",
@@ -14989,6 +15019,21 @@
       "sourceType": "github",
       "skillPath": "skills/web-artifacts-builder/SKILL.md",
       "computedHash": "c54a94d66483ff8e3b80fd9584419e15737b85b18989b02f9b1a61ea4a9ce507"
+    },
+    "web-design-expert": {
+      "source": "registry:curiositech/web-design-expert",
+      "commit_sha": "56a576f0fa7d2d3c137580f440bad9975ad0b128",
+      "digest": "sha256:31927eec98be314a69ffa344baea350049fd9668ed12cfb0305726df67c100fb",
+      "agents": [
+        "claude-code",
+        "antigravity",
+        "github-copilot"
+      ],
+      "mode": {
+        "claude-code": "symlink",
+        "antigravity": "symlink",
+        "github-copilot": "symlink"
+      }
     },
     "web-design-guidelines": {
       "source": "sickn33/agentic-awesome-skills",

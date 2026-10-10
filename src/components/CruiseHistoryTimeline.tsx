@@ -502,15 +502,26 @@ export default function CruiseHistoryTimeline({ history }: Props) {
       const totalLen = desktopPathRef.current.getTotalLength();
       const rLengths: number[] = [];
 
+      // Sample the path ONCE and reuse for every row/badge lookup.
+      // (Calling getPointAtLength per row x per step froze scrolling.)
+      const sampleLens: number[] = [];
+      const sampleXs: number[] = [];
+      const sampleYs: number[] = [];
+      for (let l = 0; l <= totalLen; l += 15) {
+        const pt = desktopPathRef.current.getPointAtLength(l);
+        sampleLens.push(l);
+        sampleXs.push(pt.x);
+        sampleYs.push(pt.y);
+      }
+
       rowCenters.forEach((yCenter) => {
         let closestLen = 0;
         let minDistance = Infinity;
-        for (let l = 0; l <= totalLen; l += 15) {
-          const pt = desktopPathRef.current!.getPointAtLength(l);
-          const dist = Math.abs(pt.y - yCenter);
+        for (let i = 0; i < sampleLens.length; i++) {
+          const dist = Math.abs(sampleYs[i] - yCenter);
           if (dist < minDistance) {
             minDistance = dist;
-            closestLen = l;
+            closestLen = sampleLens[i];
           }
         }
         rLengths.push(closestLen);
@@ -527,12 +538,11 @@ export default function CruiseHistoryTimeline({ history }: Props) {
 
         let closestLen = 0;
         let minDistance = Infinity;
-        for (let l = 0; l <= totalLen; l += 15) {
-          const pt = desktopPathRef.current!.getPointAtLength(l);
-          const dist = Math.hypot(pt.x - targetX, pt.y - targetY);
+        for (let i = 0; i < sampleLens.length; i++) {
+          const dist = Math.hypot(sampleXs[i] - targetX, sampleYs[i] - targetY);
           if (dist < minDistance) {
             minDistance = dist;
-            closestLen = l;
+            closestLen = sampleLens[i];
           }
         }
         lengths.push(closestLen);
@@ -575,7 +585,13 @@ export default function CruiseHistoryTimeline({ history }: Props) {
     const el = desktopContainerRef.current;
     let resizeObserver: ResizeObserver | null = null;
     if (el && typeof ResizeObserver !== "undefined") {
+      let lastW = el.clientWidth;
+      let lastH = el.clientHeight;
       resizeObserver = new ResizeObserver(() => {
+        // Skip no-op notifications so we don't re-measure the path needlessly
+        if (el.clientWidth === lastW && el.clientHeight === lastH) return;
+        lastW = el.clientWidth;
+        lastH = el.clientHeight;
         debouncedResize();
       });
       resizeObserver.observe(el);

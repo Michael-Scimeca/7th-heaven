@@ -124,7 +124,7 @@ export default function CookieConsentBanner() {
 
           {/* Expandable custom preferences */}
           {expanded && (
-            <div className="mb-6 space-y-2 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-4">
+            <div className="mb-6 flex flex-col gap-2 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-4">
               {/* Essential — always on */}
               <div className="flex items-center justify-between">
                 <div>

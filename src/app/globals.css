@@ -29,8 +29,10 @@
   --font-size-h5: clamp(1.0rem, 0.8vw + 0.5rem, 1.35rem);
   --font-size-h6: clamp(0.95rem, 0.5vw + 0.5rem, 1.15rem);
   --font-size-body-lg: 1.375rem;
-  --font-size-body: 1.25rem;
-  /* 20px */
+  --font-size-body: clamp(1rem, 0.3846rem + 0.9615vw, 1.25rem);
+  /* fluid 16px → 20px */
+  /* Fluid paragraph: 16px (mobile/tablet ≤1024px) → 20px (desktop ≥1440px) */
+  --font-size-p: clamp(1rem, 0.3846rem + 0.9615vw, 1.25rem);
   --font-size-small: 0.875rem;
   --font-size-caption: 0.75rem;
 
@@ -102,7 +104,7 @@
   --color-indigo-800: #3730a3;
   --color-indigo-900: #312e81;
   --color-indigo-950: #1e1b4b;
-  --radius-box: 8px;
+  --radius-box: 20px;
   --radius-none: 0px;
   --radius-xs: 4px;
   --radius-sm: 4px;
@@ -208,6 +210,11 @@
   top: env(safe-area-inset-top, 0px);
 }
 
+@utility portal-aperture {
+  clip-path: circle(var(--portal-radius, 0%) at 50% 50%);
+}
+
+
 /* Header & Navigation Font System */
 header,
 header a,
@@ -215,6 +222,33 @@ header button,
 .nav-header-link {
   font-family: var(--font-body);
   letter-spacing: 0.03em;
+}
+
+/* Header Navigation Link Blur Effect on Hover / Focus */
+#nav-inner-card .nav-header-link,
+.nav-header-link {
+  transition: filter 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 250ms ease !important;
+  will-change: filter, opacity;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #nav-inner-card:has(.nav-header-link:hover) .nav-header-link:not(:hover) {
+    filter: blur(2.5px);
+    opacity: 0.35;
+  }
+}
+
+#nav-inner-card:has(.nav-header-link:focus-visible) .nav-header-link:not(:focus-visible) {
+  filter: blur(2.5px);
+  opacity: 0.35;
+}
+
+.nav-header-link:hover,
+.nav-header-link:focus-visible {
+  filter: blur(0px) !important;
+  opacity: 1 !important;
 }
 
 @layer components {
@@ -614,7 +648,7 @@ header button,
     position: absolute;
     left: 0;
     top: 0;
-    transform: translate3d(var(--ship-x-px, 0px), var(--ship-y-px, 0px), 0) translate(calc(-50% + 20px), calc(-50% - 70px)) rotate(var(--ship-angle, 0rad));
+    transform: translate3d(var(--ship-x-px, 0px), var(--ship-y-px, 0px), 0) translate(-50%, -50%) rotate(var(--ship-angle, 0rad));
     opacity: var(--ship-opacity, 1);
     will-change: transform;
   }
@@ -799,7 +833,7 @@ body {
   font-variant-numeric: lining-nums;
   font-feature-settings: "lnum" 1;
   font-weight: 400;
-  font-size: 20px;
+  font-size: var(--font-size-p);
   line-height: var(--leading-body, 1.65);
   min-height: 100vh;
   min-height: 100dvh;
@@ -905,11 +939,16 @@ address p {
   --line-height-snug: 1.33;
   --line-height-normal: 1.40;
 
-  /* --- Spacing & Radii --- */
+  /* --- Fluid Gap & Section Spacing --- */
+  --gap-desktop: 100px;
+  --gap-tablet: 100px;
+  --gap-mobile: 50px;
   --spacing-gutter: clamp(1rem, 0.67rem + 1.48vw, 3.5rem);
-  --spacing-section: clamp(1.75rem, 1.67rem + 0.37vw, 2rem);
-  --spacing-section-sm: clamp(1.75rem, 1.67rem + 0.37vw, 2rem);
-  --spacing-section-lg: clamp(4rem, 2rem + 8.89vw, 9rem);
+
+  /* Desktop section spacing: 100px (tablet fluid scales from 50px to 100px) */
+  --spacing-section: 100px;
+  --spacing-section-sm: 75px;
+  --spacing-section-lg: 160px;
   --space-xs: clamp(0.25rem, 0.2rem + 0.22vw, 0.5rem);
   --space-sm: clamp(0.5rem, 0.4rem + 0.44vw, 0.875rem);
   --space-md: clamp(1rem, 0.85rem + 0.67vw, 1.5rem);
@@ -933,6 +972,9 @@ address p {
   --input-focus-glow: rgba(168, 85, 247, 0.5);
   --input-padding-y: 12px;
   --input-padding-x: 18px;
+  --control-height: 52px;
+  --control-radius: var(--radius-full, 9999px);
+  --button-radius: var(--control-radius);
   --checkbox-accent-color: #c084fc;
   --checkbox-size: 18px;
   --checkbox-border-radius: var(--radius-sm);
@@ -1002,6 +1044,24 @@ address p {
   --page-transition-duration: 0ms;
   --color-interactive: 168, 85, 247;
   --blending: hard-light;
+}
+
+@media (max-width: 1023px) {
+  :root {
+    /* Fluid: 100px tablet scaling down to 50px mobile (640px - 1023px) */
+    --spacing-section: clamp(50px, calc(13.02vw - 2.08rem), 100px);
+    --spacing-section-sm: clamp(38px, calc(9.77vw - 1.56rem), 75px);
+    --spacing-section-lg: clamp(80px, calc(20.83vw - 3.33rem), 160px);
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    /* Mobile: 50px fluid down to 38px on small screens */
+    --spacing-section: clamp(38px, calc(4.29vw + 1.41rem), 50px);
+    --spacing-section-sm: clamp(28px, calc(3.21vw + 1.05rem), 38px);
+    --spacing-section-lg: clamp(60px, calc(7.14vw + 2.15rem), 80px);
+  }
 }
 
 body,
@@ -1094,13 +1154,14 @@ input[type="radio"]:checked {
     font-family: var(--font-body);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1 span,
+  h2 span,
+  h3 span,
+  h4 span,
+  h5 span,
+  h6 span {
     font-family: var(--font-heading);
+    font-weight: 500 !important;
   }
 
   h1 *,
@@ -1114,16 +1175,14 @@ input[type="radio"]:checked {
 
   p {
     color: var(--text-p-color);
-    font-size: 20px;
+    font-size: var(--font-size-p);
     line-height: var(--leading-body, 1.4);
     letter-spacing: normal;
     font-weight: 500;
     text-wrap: pretty;
   }
 
-  button,
   li,
-  span,
   time,
   legend {
     font-weight: 600;
@@ -1149,7 +1208,7 @@ input[type="radio"]:checked {
   .video-thumbnail,
   .media-card,
   .media-player-wrapper {
-    border-radius: var(--radius-box, 8px);
+    border-radius: var(--radius-box, 20px);
     overflow: hidden;
   }
 
@@ -1262,7 +1321,7 @@ p a::after,
 
 #nav-inner-card a {
   color: #ffffff;
-  transition: color 250ms ease;
+  transition: color 250ms ease, filter 250ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
@@ -1407,6 +1466,7 @@ label:not(.sr-only):not(.toggle),
   margin-bottom: 10px;
   display: block;
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .sr-only {
@@ -2409,9 +2469,9 @@ button,
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Primary body paragraph — 20px with proper leading & normal tracking */
+  /* Primary body paragraph — fluid 16px→20px with proper leading & normal tracking */
   p {
-    font-size: 20px;
+    font-size: var(--font-size-p);
     line-height: var(--leading-body, 1.4);
     letter-spacing: normal;
   }
@@ -2709,6 +2769,12 @@ button,
   mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
 }
 
+/* ── ThreeSlider vertical card item ── */
+.slider-card-item {
+  transform: translateY(var(--translate-y, -50%));
+  opacity: var(--opacity, 1);
+}
+
 /* ── Scrollbar hide ── */
 @utility scrollbar-hide {
   scrollbar-width: thin;
@@ -2784,6 +2850,17 @@ button,
   gap: var(--spacing-section-lg);
 }
 
+/* ── Top Gap Consistency: ensure the gap between header/PageHero and the first section/content consistently uses spacing-section-sm across every page ── */
+.page-stack>header:first-child+*,
+.page-stack>.page-hero:first-child+* {
+  margin-top: calc(var(--spacing-section-sm) - var(--spacing-section));
+}
+
+.page-stack-lg>header:first-child+*,
+.page-stack-lg>.page-hero:first-child+* {
+  margin-top: calc(var(--spacing-section-sm) - var(--spacing-section-lg));
+}
+
 @utility cv-auto {
   content-visibility: auto;
   contain-intrinsic-size: auto var(--cv-size, 800px);
@@ -2800,36 +2877,40 @@ button,
   }
 }
 
-@utility booking-calendar-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
-
-  @media (min-width: 1024px) {
-    grid-template-columns: minmax(0, 1fr) 220px;
-  }
-
-  @media (min-width: 1280px) {
-    grid-template-columns: minmax(0, 1fr) 230px;
-  }
+/* Reserves the lazy-mounted cruise history timeline's real height
+   (measured per breakpoint) so the page/footer don't jump when it mounts. */
+.cruise-history-reserve {
+  min-height: 600px;
 }
 
-.booking-calendar-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
+@media (min-width: 768px) {
+  .cruise-history-reserve {
+    min-height: 2128px;
+  }
 }
 
 @media (min-width: 1024px) {
-  .booking-calendar-grid {
-    grid-template-columns: minmax(0, 1fr) 220px;
+  .cruise-history-reserve {
+    min-height: 2248px;
   }
 }
 
-@media (min-width: 1280px) {
-  .booking-calendar-grid {
-    grid-template-columns: minmax(0, 1fr) 230px;
+@media (min-width: 1440px) {
+  .cruise-history-reserve {
+    min-height: 2328px;
   }
+}
+
+@utility booking-calendar-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.booking-calendar-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .stack {
@@ -3107,33 +3188,18 @@ html.tour-sort-stuck #tour-sort-bar {
   box-shadow: 0 0 18px rgba(192, 132, 252, 1) !important;
 }
 
-/* 6px Slim Dropdown Scrollbar (Always Visible Knob, Track Background) */
-
-.gooey-dropdown-scrollbar::-webkit-scrollbar {
-  width: 6px !important;
-  height: 6px !important;
-  display: block !important;
-  -webkit-appearance: none !important;
+/* Dropdown Scrollbar (Hidden so dropdown menus scroll seamlessly without scrollbar tracks) */
+.gooey-dropdown-scrollbar,
+.gooey-drop-menu {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-.gooey-dropdown-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-radius: 9999px !important;
-}
-
-.gooey-dropdown-scrollbar::-webkit-scrollbar-thumb {
-  background: #c084fc !important;
-  border-radius: 9999px !important;
-  min-height: 28px !important;
-  box-shadow: 0 0 12px rgba(192, 132, 252, 1) !important;
-  border: 1.5px solid #ffffff !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.gooey-dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #f472b6 !important;
-  box-shadow: 0 0 16px rgba(244, 114, 182, 1) !important;
+.gooey-dropdown-scrollbar::-webkit-scrollbar,
+.gooey-drop-menu::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Glowing Visible Cyan Admin Scrollbar */
@@ -5132,6 +5198,11 @@ html.is-preloading .preloader {
 
 /* --- Lenis Scrollbar Suppression --- */
 
+[data-lenis-prevent] {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
 [data-lenis-prevent]::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
@@ -5632,7 +5703,7 @@ body.fake-livestream-active {
   white-space: nowrap;
   width: fit-content;
   padding: 0.375rem 0.875rem;
-  border-radius: var(--radius-box, 8px);
+  border-radius: var(--radius-box, 20px);
   min-height: 32px;
   color: #ffffff;
   background-color: rgba(225, 230, 255, 0.16);
@@ -5658,48 +5729,71 @@ body.fake-livestream-active {
 
 /* Shared SVG & Container Shapes for Gooey Dropdowns & DM Chat */
 .gooey-drop-svgDefs,
-.gooey-msg-svgDefs,
-
-.gooey-drop-shapes,
-.gooey-msg-shapes,
-
-.gooey-drop-shapes {
-  z-index: 0;
+.gooey-msg-svgDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
-.gooey-drop-triggerShape,
-.gooey-msg-buttonShape,
+.gooey-drop-shapes,
+.gooey-msg-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* filter: var(--drop-filter); */
+  transition: filter 300ms ease;
+}
 
-/* GooeyDropdown */
+/* GooeyDropdown (Unified Container) */
 .gooey-drop-wrap {
   position: relative;
   display: inline-block;
+  height: var(--trigger-height, auto);
+  width: var(--trigger-width, auto);
+  flex-shrink: 0;
   z-index: 1;
+}
+
+.gooey-drop-wrap.w-full {
+  display: block;
+  width: 100%;
 }
 
 .gooey-drop-wrap[data-open="true"] {
   z-index: 9999 !important;
 }
 
-.gooey-drop-triggerShape,
-.gooey-drop-panelShape {
+/* The single unified div that holds trigger and menu */
+.gooey-drop-container {
   position: absolute;
   top: 0;
   left: 0;
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
-  transition: none;
+  width: var(--container-width, 100%);
+  min-width: 100%;
+  display: grid;
+  grid-template-rows: max-content 0fr;
+  /* background: var(--drop-bg-color, rgba(30, 24, 58, 0.96)); */
+  -webkit-backdrop-filter: blur(112px);
+  backdrop-filter: blur(112px);
+  box-shadow: 0 4px 14px #0000008c;
+  border-radius: var(--radius-box, 20px);
+  overflow: hidden;
+  transition: grid-template-rows 500ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 300ms ease;
 }
 
-.gooey-drop-content {
-  position: relative;
-  z-index: 1;
+.gooey-drop-container[data-open="true"],
+.gooey-drop-wrap[data-open="true"] .gooey-drop-container {
+  grid-template-rows: max-content 1fr;
+  border-radius: var(--radius-box, 20px);
+  box-shadow: 0 14px 36px #000000a6, 0 0 0 1px #ffffff29;
 }
 
 .gooey-drop-trigger {
   position: relative;
-  z-index: 2;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -5709,74 +5803,115 @@ body.fake-livestream-active {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  color: var(--drop-text-color, var(--color-white, #ffffff));
   background: transparent;
   border: none;
   cursor: pointer;
   white-space: nowrap;
   font-family: inherit;
+  align-self: start;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: background-color 150ms ease, border-color 300ms ease;
 }
 
+.gooey-drop-trigger:hover {}
+
+.gooey-drop-container[data-open="true"] .gooey-drop-trigger,
+.gooey-drop-wrap[data-open="true"] .gooey-drop-trigger {}
+
 .gooey-drop-chevron {
-  transition: transform 320ms cubic-bezier(0.65, 0, 0.35, 1);
+  transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .gooey-drop-chevron[data-open="true"] {
   transform: rotate(180deg);
 }
 
-.gooey-drop-menu {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  list-style: none;
-  margin: 0;
-  padding: 0 8px 12px 8px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 200ms ease;
+/* The expanding grid child */
+.gooey-drop-content-wrap {
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.gooey-drop-menu[data-open="true"] {
-  pointer-events: auto;
+/* Karen Avetisyan Blurry Dropdown Effect */
+.gooey-drop-content-wrap>.gooey-drop-menu {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 6px 0;
+  max-height: var(--menu-max-height, 340px);
+  overflow-y: auto;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: filter 400ms cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 350ms ease;
+}
+
+.gooey-drop-content-wrap>.gooey-drop-menu::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.gooey-drop-container[data-open="true"] .gooey-drop-content-wrap>.gooey-drop-menu {
+  filter: blur(0);
   opacity: 1;
+  pointer-events: auto;
 }
 
 .gooey-drop-menu li {
-  opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 220ms ease, transform 220ms ease;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .gooey-drop-menu li:last-child {
   border-bottom: none;
 }
 
-.gooey-drop-menu[data-open="true"] li {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .gooey-drop-menu a,
 .gooey-drop-menu button {
   display: block;
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px 14px;
   background: transparent;
   border: none;
   text-align: left;
   font-size: 13px;
   font-weight: 800;
+  color: var(--drop-menu-color, var(--color-white, #ffffff));
   cursor: pointer;
-  border-radius: var(--radius-box);
+  border-radius: 0;
   font-family: inherit;
   transition: background-color 150ms ease;
 }
 
 .gooey-drop-menu a:hover,
 .gooey-drop-menu button:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.gooey-drop-menu a.is-selected,
+.gooey-drop-menu button.is-selected,
+.gooey-drop-menu li.is-selected>a,
+.gooey-drop-menu li.is-selected>button,
+.gooey-drop-menu a[data-selected="true"],
+.gooey-drop-menu button[data-selected="true"] {
+  background: rgba(168, 85, 247, 0.28);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.gooey-drop-menu a.is-selected:hover,
+.gooey-drop-menu button.is-selected:hover,
+.gooey-drop-menu li.is-selected>a:hover,
+.gooey-drop-menu li.is-selected>button:hover,
+.gooey-drop-menu a[data-selected="true"]:hover,
+.gooey-drop-menu button[data-selected="true"]:hover {
+  background: rgba(168, 85, 247, 0.38);
 }
 
 /* Seventh Heaven Dropdown */
@@ -5882,7 +6017,7 @@ body.fake-livestream-active {
 }
 
 .seventh-heaven-dropdown-chevron.is-open {
-  transform: rotate(90deg);
+  transform: rotate(180deg);
 }
 
 .seventh-heaven-dropdown-chevron:not(.is-open) {
@@ -5977,7 +6112,6 @@ body.fake-livestream-active {
 .seventh-heaven-dropdown-item.is-selected:hover {
   background-color: #a855f7;
   color: #ffffff;
-  transform: translateX(3px);
   box-shadow: 0 4px 12px rgba(168, 85, 247, 0.45);
 }
 
@@ -5988,8 +6122,6 @@ body.fake-livestream-active {
 .seventh-heaven-dropdown-item:not(.is-selected):hover {
   background-color: rgba(168, 85, 247, 0.3);
   color: #ffffff;
-  transform: translateX(3px);
-  box-shadow: inset 3px 0 0 0 #c084fc, 0 2px 8px rgba(168, 85, 247, 0.2);
 }
 
 .seventh-heaven-dropdown-item:focus-visible {
@@ -6077,22 +6209,23 @@ body.fake-livestream-active {
   line-height: 1;
 }
 
-button>span,
-.seventh--btn {
+.seventh--btn,
+.seventh--btn>span {
   font-size: 13px;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   line-height: 1 !important;
+  white-space: nowrap;
 }
 
 /* seventh--btn — cursor-tracking glow buttons */
 .seventh--btn {
-  border-radius: var(--radius-full);
+  border-radius: var(--button-radius, var(--control-radius, var(--radius-full)));
   position: relative;
   z-index: 1;
   box-shadow: 0 24px 60px #0000008c;
   background: linear-gradient(to left, #581ed0, #8b5cf6);
   background-size: 200% 100%;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   color: white !important;
   /* 3. Position it on the right side initially */
   background-position: right center;
@@ -6387,13 +6520,6 @@ button.cursor-pointer,
   transition-duration: 250ms !important;
 }
 
-section,
-div,
-li,
-span {
-  /* border: 1px solid #fff; */
-}
-
 /* ═══════════════════════════════════════════════════════
    SECTION 5 RESTORED CUSTOM CLASSES
    ═══════════════════════════════════════════════════════ */
@@ -6411,6 +6537,69 @@ span {
 
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* ── Sliding Pill Segmented Toggle & Control Sync ── */
+.control-height-sync,
+.segmented-tabs-control,
+.seventh--btn:not([class*=" h-"]):not([class^="h-"]) {
+  height: var(--control-height, 52px);
+  min-height: var(--control-height, 52px);
+  box-sizing: border-box;
+}
+
+.segmented-tabs-control,
+.seventh--btn:not([class*=" h-"]):not([class^="h-"]) {
+  border-radius: var(--button-radius, var(--control-radius, var(--radius-full))) !important;
+}
+
+.segmented-tabs-control .sliding-pill-indicator,
+.segmented-tabs-control .sliding-pill-indicator-flex {
+  border-radius: calc(var(--button-radius, var(--control-radius, var(--radius-full))) - 2px) !important;
+}
+
+.segmented-tabs-control button[role="tab"] {
+  border-radius: var(--button-radius, var(--control-radius, var(--radius-full))) !important;
+}
+
+.seventh--btn:not([class*=" h-"]):not([class^="h-"])>span {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.sliding-pill-indicator {
+  left: calc(var(--active-index, 0) * (100% / var(--tab-count, 2)) + 4px);
+  width: calc(100% / var(--tab-count, 2) - 8px);
+  transition: left 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sliding-pill-indicator-flex {
+  left: var(--pill-left, 4px);
+  width: var(--pill-width, calc(50% - 8px));
+  transition: left 250ms cubic-bezier(0.22, 1, 0.36, 1), width 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* SegmentedTabs "aurora" variant — slow drifting gradient pill */
+.segmented-aurora {
+  background-image: linear-gradient(90deg, #a855f7, #ec4899, #6366f1, #a855f7);
+  background-size: 300% 100%;
+  animation: segmented-aurora-drift 6s ease-in-out infinite alternate;
+}
+
+@keyframes segmented-aurora-drift {
+  from {
+    background-position: 0% 50%;
+  }
+
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segmented-aurora {
+    animation: none;
   }
 }
 
@@ -6488,7 +6677,7 @@ span {
 .booking-section-header {
   font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+
 }
 
 .booking-signature-input {
@@ -6739,4 +6928,146 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+.sorts {
+  position: relative;
+  z-index: 10;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.sorts::before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: lab(7.07% 24.78 -32.92 / 0.435);
+}
+
+/* ── Cruise Guidelines Responsive 3 vs 4 Column Layout ── */
+@media (min-width: 1700px) {
+  .guidelines-fluid-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .passport-col-4 {
+    display: flex !important;
+  }
+
+  .passport-col-stacked {
+    display: none !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1699.98px) {
+  .guidelines-fluid-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .passport-col-4 {
+    display: none !important;
+  }
+
+  .passport-col-stacked {
+    display: block !important;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .guidelines-fluid-grid {
+    display: grid !important;
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+
+  .passport-col-4 {
+    display: none !important;
+  }
+
+  .passport-col-stacked {
+    display: block !important;
+  }
+}
+
+/* Tablet: flatten inner grid so the whole section is 2 columns
+   (Ship Resources | Booking Policy, then Cancellation + Passport below) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .guidelines-fluid-grid {
+    display: contents !important;
+  }
+
+  .policy-col-cancel {
+    grid-column: 2;
+    border-top: 1px solid rgb(255 255 255 / 0.1) !important;
+    padding-top: 1.5rem !important;
+  }
+}
+
+.content-feature-icon {
+  color: white;
+  border: 1px dashed white;
+  border-radius: 100%;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  margin-top: 4px;
+  padding: 4px;
+  display: flex;
+
+}
+
+/* ============================================================
+   HELPER TEXT — text shown directly below form inputs.
+   Used by <HelperText> (src/components/ui/HelperText.tsx).
+   Edit these tokens to restyle every helper on the site.
+   ============================================================ */
+@layer components {
+  .helper-text {
+    --helper-text-font: var(--font-body);
+    --helper-text-size: var(--font-size-small);
+    /* 14px */
+    --helper-text-weight: 500;
+    --helper-text-leading: 1.4;
+    --helper-text-tracking: normal;
+    --helper-text-transform: none;
+    --helper-text-color: var(--color-text-muted, rgba(123, 64, 64, 0.55));
+    --helper-text-error-color: #f87171;
+    --helper-text-offset: 0.5rem;
+    /* 8px gap below the input */
+
+    display: block;
+    margin-top: var(--helper-text-offset);
+    font-family: var(--helper-text-font);
+    font-size: var(--helper-text-size);
+    font-weight: var(--helper-text-weight);
+    line-height: var(--helper-text-leading);
+    letter-spacing: var(--helper-text-tracking);
+    text-transform: var(--helper-text-transform);
+    color: var(--helper-text-color);
+    text-wrap: pretty;
+  }
+
+  .helper-text--error {
+    color: var(--helper-text-error-color);
+  }
+}
+
+/* Page Noise Dissolve Filter Hook */
+[data-dissolve="active"] {
+  filter: url(#page-noise-dissolve);
+}
+
+/* WebGL Noise Transition Canvas Overlay */
+#webgl,
+#webgl-noise-transition-canvas,
+canvas.webgl-noise-overlay {
+  pointer-events: none !important;
+  mix-blend-mode: var(--canvas-blend-mode, normal);
 }

@@ -94,7 +94,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <p className="mb-3">
                 7th Heaven provides the following through the Site:
               </p>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   Band information, tour dates, music, videos, and news content
                 </li>
@@ -121,7 +121,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <h2 id="terms-sec-3-heading" className="mb-3">
                 3. Member Accounts
               </h2>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   You must provide accurate information when creating an
                   account.
@@ -157,7 +157,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 Notifications, you agree to the following:
               </p>
 
-              <dl className="space-y-4">
+              <dl className="flex flex-col gap-4">
                 <div>
                   <dt className="mb-1">4.1 Consent & Subscription</dt>
                   <dd>
@@ -256,7 +256,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 that content on the Site and associated media. You agree not to
                 submit content that is:
               </p>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>Unlawful, defamatory, harassing, abusive, or hateful</li>
                 <li>
                   Infringing on any third party&apos;s intellectual property or
@@ -275,7 +275,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <h2 id="terms-sec-7-heading" className="mb-3">
                 7. E-Commerce & Merch Purchases
               </h2>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   All prices are displayed in USD and are subject to change
                   without notice.
@@ -304,7 +304,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
                 8. Prohibited Activities
               </h2>
               <p className="mb-3">You agree not to:</p>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   Attempt to gain unauthorized access to the Site, member
                   accounts, or server infrastructure
@@ -402,7 +402,7 @@ export default function TermsClient({ sanityContent }: TermsClientProps) {
               <p className="mb-2">
                 For questions about these Terms of Service:
               </p>
-              <address className="not- space-y-1">
+              <address className="not- flex flex-col gap-1">
                 <p>
                   Email:{" "}
                   <a href="mailto:info@7thheavenband.com" className="a-btn">

@@ -502,7 +502,7 @@ export default function AdminLegalPage() {
         {/* Sidebar & Detail Layout */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[320px_1fr]">
           {/* Left Menu Tabs */}
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             <div className="mb-2 px-1 text-[10px] text-white/40">
               Regulatory Audit Categories
             </div>
@@ -590,7 +590,7 @@ export default function AdminLegalPage() {
             </div>
 
             {/* Requirement Checklist Items */}
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <div className="mb-6 flex items-center justify-between">
                 <h3>Inspections & Technical Verification Items</h3>
                 <span className="text-[10px] text-white/40">

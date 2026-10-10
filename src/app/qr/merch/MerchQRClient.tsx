@@ -318,7 +318,7 @@ export default function MerchQRClient({
     >
       {/* ── Top QR Banner Header ── */}
       <div className="relative border-b border-white/10 bg-gradient-to-b from-cyan-950/40 via-[#090912] to-[#06060b] px-4 py-8">
-        <div className="mx-auto max-w-4xl space-y-3 text-center">
+        <div className="mx-auto max-w-4xl flex flex-col gap-3 text-center">
           <div className="inline-flex animate-pulse items-center gap-2 border border-purple-500/30 px-3.5 py-1.5 text-purple-400">
             <span className="h-2 w-2 bg-cyan-400"></span>
             Show Night QR Express Store
@@ -334,7 +334,7 @@ export default function MerchQRClient({
           </p>
 
           {/* Live Scannable QR Code Card */}
-          <div className="mx-auto flex max-w-xs flex-col items-center space-y-2 border border-purple-500/40 bg-[#0b0b14]/90 p-4 shadow-[0_0_30px_rgba(6,182,212,0.25)]">
+          <div className="mx-auto flex max-w-xs flex-col items-center gap-2 border border-purple-500/40 bg-[#0b0b14]/90 p-4 shadow-[0_0_30px_rgba(6,182,212,0.25)]">
             <span>📱 Scan QR Code to Test</span>
             <div className="h-44 w-44 border border-white/10 bg-white p-2.5">
               <Image
@@ -395,7 +395,7 @@ export default function MerchQRClient({
               </button>
             </div>
 
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4">
               <p>
                 This QR Merch page is fully pre-wired to pull real-time
                 inventory, variants, prices, and images from your band's Shopify
@@ -580,7 +580,7 @@ export default function MerchQRClient({
                 </div>
 
                 {/* Info */}
-                <div className="space-y-2 p-5">
+                <div className="flex flex-col gap-2 p-5">
                   <h3 className="line-clamp-1">{product.title}</h3>
                   <p className="line-clamp-2">{product.description}</p>
                 </div>
@@ -610,7 +610,7 @@ export default function MerchQRClient({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div
             data-lenis-prevent
-            className="custom-scrollbar max-h-[90vh] w-full max-w-lg space-y-6 overflow-y-auto border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] sm:p-8"
+            className="custom-scrollbar max-h-[90vh] w-full max-w-lg flex flex-col gap-6 overflow-y-auto border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] sm:p-8"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -636,7 +636,7 @@ export default function MerchQRClient({
               </button>
             </div>
 
-            <form onSubmit={handleCompleteOrder} className="space-y-5">
+            <form onSubmit={handleCompleteOrder} className="flex flex-col gap-4">
               {/* Size Selector if available */}
               {selectedProduct.sizes && selectedProduct.sizes.length > 0 && (
                 <div>
@@ -687,7 +687,7 @@ export default function MerchQRClient({
               </div>
 
               {/* Customer Contact Details */}
-              <div className="space-y-3 pt-2">
+              <div className="flex flex-col gap-3 pt-2">
                 <div>
                   <label
                     htmlFor="qr-merch-customer-name"
@@ -727,7 +727,7 @@ export default function MerchQRClient({
 
               {/* Shipping Address Inputs if Shipping selected */}
               {fulfillmentMethod === "shipping" && (
-                <div className="animate-in fade-in space-y-3 border-t border-white/10 pt-2">
+                <div className="animate-in fade-in flex flex-col gap-3 border-t border-white/10 pt-2">
                   <p>Shipping Address</p>
                   <div>
                     <input
@@ -786,7 +786,7 @@ export default function MerchQRClient({
       {/* ── MISSED PICKUP TO SHIPPING CONVERSION MODAL ── */}
       {showSwitchToShippingModal && switchOrderTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-          <div className="w-full max-w-md space-y-5 border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:p-8">
+          <div className="w-full max-w-md flex flex-col gap-4 border border-purple-500/40 bg-[#0e0e18] p-6 shadow-[0_0_40px_rgba(234,179,8,0.25)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">🏃</span>
@@ -810,7 +810,7 @@ export default function MerchQRClient({
               directly to you.
             </p>
 
-            <form onSubmit={handleSwitchToDelivery} className="space-y-3">
+            <form onSubmit={handleSwitchToDelivery} className="flex flex-col gap-3">
               <input
                 type="text"
                 required
@@ -864,7 +864,7 @@ export default function MerchQRClient({
           data-lenis-prevent
           className="custom-scrollbar fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/90 p-4 backdrop-blur-2xl"
         >
-          <div className="w-full max-w-md space-y-6 border border-purple-500/50 bg-[var(--color-bg-surface)] p-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)] sm:p-8">
+          <div className="w-full max-w-md flex flex-col gap-6 border border-purple-500/50 bg-[var(--color-bg-surface)] p-6 text-center shadow-[0_0_60px_rgba(6,182,212,0.3)] sm:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <span>Venue Printable QR Sign</span>
               <button

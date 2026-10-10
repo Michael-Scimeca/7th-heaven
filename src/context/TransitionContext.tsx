@@ -4,10 +4,12 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useCallback,
   useMemo,
   ReactNode,
 } from "react";
+import { useOptionalWebGLTransition } from "@/components/WebGLNoiseTransition";
 
 export type TransitionMode = "idle" | "covering" | "covered" | "uncovering";
 
@@ -33,38 +35,51 @@ const TransitionContext = createContext<TransitionContextValue>({
   isPending: false,
 });
 
-// Deliberately just a mailbox: mode + pendingHref live here so any component
-// (Header, Footer, TransitionLink) can read where a transition stands, but
-// the actual GSAP animation frames AND the router.push call itself live
-// entirely in PageTransition.tsx. A prior version of this feature had this
-// context also drive navigation/timing, in parallel with PageTransition's
-// own state -- two machines racing each other (plus a third View Transition
-// code path) is what caused the flicker/hang bugs that got the whole
-// feature pulled. Keeping this file dumb-by-design avoids that class of bug
-// by construction rather than by careful sequencing between the two.
 export function TransitionProvider({ children }: { children: ReactNode }) {
+  const webgl = useOptionalWebGLTransition();
   const [mode, setMode] = useState<TransitionMode>("idle");
   const [pendingHref, setPendingHref] = useState<string | null>(null);
 
-  const requestTransition = useCallback((href: string, force = false) => {
-    const currentPath =
-      typeof window !== "undefined" ? window.location.pathname : "";
-    if (href.startsWith("/studio") || currentPath.startsWith("/studio")) {
-      return;
+  useEffect(() => {
+    if (!webgl?.isTransitioning && mode !== "idle") {
+      setMode("idle");
+      setPendingHref(null);
     }
-    const cleanHref = href.split(/[?#]/)[0];
-    const cleanPath = currentPath.split(/[?#]/)[0];
-    if (!force && cleanHref === cleanPath) {
-      if (typeof window !== "undefined" && (window as any).__lenis) {
-        (window as any).__lenis.scrollTo(0);
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [webgl?.isTransitioning, mode]);
+
+  const requestTransition = useCallback(
+    (href: string, force = false) => {
+      const currentPath =
+        typeof window !== "undefined" ? window.location.pathname : "";
+      if (href.startsWith("/studio") || currentPath.startsWith("/studio")) {
+        return;
       }
-      return;
-    }
-    setPendingHref(href);
-    setMode("covering");
-  }, []);
+      const cleanHref = href.split(/[?#]/)[0];
+      const cleanPath = currentPath.split(/[?#]/)[0];
+      if (!force && cleanHref === cleanPath) {
+        if (typeof window !== "undefined" && (window as any).__lenis) {
+          (window as any).__lenis.scrollTo(0);
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        return;
+      }
+
+      if (webgl?.navigateWithTransition) {
+        setPendingHref(href);
+        setMode("covering");
+        webgl.navigateWithTransition(href).catch(() => {
+          setMode("idle");
+          setPendingHref(null);
+        });
+        return;
+      }
+
+      setPendingHref(href);
+      setMode("covering");
+    },
+    [webgl],
+  );
 
   const clearPendingHref = useCallback(() => setPendingHref(null), []);
 
@@ -75,11 +90,11 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       pendingHref,
       requestTransition,
       clearPendingHref,
-      isTransitioning: mode !== "idle",
+      isTransitioning: (webgl?.isTransitioning ?? false) || mode !== "idle",
       isCovered: mode === "covered",
       isPending: mode === "covering",
     }),
-    [mode, pendingHref, requestTransition, clearPendingHref],
+    [mode, pendingHref, requestTransition, clearPendingHref, webgl?.isTransitioning],
   );
 
   return (

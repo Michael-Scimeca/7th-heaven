@@ -151,7 +151,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               <h2 id="privacy-sec-3-heading" className="mb-3">
                 3. How We Use Your Information
               </h2>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   To send you SMS show alerts when 7th Heaven is playing near
                   your area
@@ -184,7 +184,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 consent to receive automated notifications regarding nearby
                 concerts and show updates. Key details:
               </p>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   <strong>Data Collected:</strong> Full name (optional), email
                   address (optional), zip code or city, distance radius (e.g. 15
@@ -228,7 +228,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 We do <strong>not</strong> sell, rent, or trade your personal
                 information. We may share data with:
               </p>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   <strong>Service Providers:</strong> Third-party services that
                   help us operate (e.g., Twilio for SMS delivery, payment
@@ -287,7 +287,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
               <h2 id="privacy-sec-8-heading" className="mb-3">
                 8. Your Rights
               </h2>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   <strong>Access:</strong> Request a copy of the personal data
                   we hold about you.
@@ -372,7 +372,7 @@ export default function PrivacyClient({ sanityContent }: PrivacyClientProps) {
                 If you have questions about this Privacy Policy or wish to
                 exercise your data rights, contact us at:
               </p>
-              <address className="space-y-1">
+              <address className="flex flex-col gap-1">
                 <p>
                   Email:{" "}
                   <a href="mailto:info@7thheavenband.com" className="a-btn">

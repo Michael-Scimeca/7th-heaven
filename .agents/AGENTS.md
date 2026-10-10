@@ -52,5 +52,5 @@ Page sections = `<section id aria-labelledby className="section|section-sm|secti
 
 ## 🔲 Corner Radius Consistency Rule (MANDATORY)
 
-Boxes use rounded-[var(--radius-box)] (8px) via the shared components; pills use rounded-full; media gets radius on an overflow-hidden wrapper. Never redefine radius tokens.
+Boxes use rounded-[var(--radius-box)] (20px) via the shared components; pills use rounded-full; media gets radius on an overflow-hidden wrapper. Never redefine radius tokens.
 

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Toggle from "@/components/Toggle";
 import GlowInput from "@/components/GlowInput";
+import SegmentedTabs from "@/components/SegmentedTabs";
 
 export interface InputStyleSettings {
   bgRed: number; // 0 - 255
@@ -472,54 +473,32 @@ a:hover {
             </div>
 
             {/* View Tabs */}
-            <div className="flex border-b border-white/10">
-              <button
-                onClick={() => setActiveTab("controls")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "controls" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
-              >
-                <Sliders className="h-3.5 w-3.5" /> Inputs
-              </button>
-              <button
-                onClick={() => setActiveTab("search")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "search" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
-              >
-                <Search className="h-3.5 w-3.5" /> Search Bar
-              </button>
-              <button
-                onClick={() => setActiveTab("checkboxes")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "checkboxes" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
-              >
-                <CheckSquare className="h-3.5 w-3.5" /> Checkboxes
-              </button>
-              <button
-                onClick={() => setActiveTab("typography")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "typography" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
-              >
-                <Type className="h-3.5 w-3.5" /> Typography & Tags
-              </button>
-              <button
-                onClick={() => setActiveTab("preview")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "preview" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
-              >
-                <Eye className="h-3.5 w-3.5" /> Sandbox
-              </button>
-              <button
-                onClick={() => setActiveTab("css")}
-                className={`flex flex-1 items-center justify-center gap-1.5 border-b-2 px-3 py-2.5 ${activeTab === "css" ? "border-purple-400 bg-[#00000029]" : "border-transparent text-white/50 hover:text-white"}`}
-              >
-                <Layers className="h-3.5 w-3.5" /> CSS
-              </button>
+            <div className="p-3 border-b border-white/10">
+              <SegmentedTabs<"controls" | "search" | "checkboxes" | "typography" | "preview" | "css">
+                activeTab={activeTab}
+                onChange={setActiveTab}
+                ariaLabel="Input editor view tabs"
+                size="sm"
+                tabs={[
+                  { id: "controls", label: "Inputs", icon: <Sliders className="h-3.5 w-3.5" /> },
+                  { id: "search", label: "Search Bar", icon: <Search className="h-3.5 w-3.5" /> },
+                  { id: "checkboxes", label: "Checkboxes", icon: <CheckSquare className="h-3.5 w-3.5" /> },
+                  { id: "typography", label: "Typography & Tags", icon: <Type className="h-3.5 w-3.5" /> },
+                  { id: "preview", label: "Sandbox", icon: <Eye className="h-3.5 w-3.5" /> },
+                  { id: "css", label: "CSS", icon: <Layers className="h-3.5 w-3.5" /> },
+                ]}
+              />
             </div>
 
             {/* Modal Body */}
             <div
               data-lenis-prevent
-              className="custom-scrollbar max-h-[60vh] flex-1 space-y-6 overflow-y-auto p-6"
+              className="custom-scrollbar max-h-[60vh] flex flex-col flex-1 gap-6 overflow-y-auto p-6"
             >
               {activeTab === "controls" && (
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* Background & Blur */}
-                  <div className="space-y-4 border border-white/10 bg-[#00000029] p-4">
+                  <div className="flex flex-col gap-4 border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       🎨 Background & Blur
                     </h4>
@@ -614,7 +593,7 @@ a:hover {
                   </div>
 
                   {/* Border & Geometry */}
-                  <div className="space-y-4 border border-white/10 bg-[#00000029] p-4">
+                  <div className="flex flex-col gap-4 border border-white/10 bg-[#00000029] p-4">
                     f
                     <h4 className="flex items-center gap-2">
                       📐 Border & Geometry
@@ -669,7 +648,7 @@ a:hover {
                   </div>
 
                   {/* Focus Glow & Colors */}
-                  <div className="space-y-4 border border-white/10 bg-[#00000029] p-4">
+                  <div className="flex flex-col gap-4 border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       ✨ Focus Glow & Color
                     </h4>
@@ -711,7 +690,7 @@ a:hover {
                   </div>
 
                   {/* Padding & Spacing */}
-                  <div className="space-y-4 border border-white/10 bg-[#00000029] p-4">
+                  <div className="flex flex-col gap-4 border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       📏 Spacing & Padding
                     </h4>
@@ -755,8 +734,8 @@ a:hover {
               )}
 
               {activeTab === "search" && (
-                <div className="space-y-6">
-                  <div className="space-y-4 border border-white/10 bg-[#00000029] p-4">
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4 border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       🔍 Search Bar & Left Icon Styling
                     </h4>
@@ -982,8 +961,8 @@ a:hover {
               )}
 
               {activeTab === "checkboxes" && (
-                <div className="space-y-6">
-                  <div className="space-y-4 border border-white/10 bg-[#00000029] p-4">
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4 border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       ☑️ Checkbox Input Styling
                     </h4>
@@ -1055,7 +1034,7 @@ a:hover {
                     {/* Live Checkbox Preview */}
                     <div className="border-t border-white/10 pt-3">
                       <p className="mb-2">Live Checkbox Preview</p>
-                      <div className="space-y-2">
+                      <div className="flex flex-col gap-2">
                         <Toggle
                           id="editor-preview-1"
                           label="Drop on ALL live streams (Global)"
@@ -1075,8 +1054,8 @@ a:hover {
               )}
 
               {activeTab === "typography" && (
-                <div className="space-y-6">
-                  <div className="space-y-4 border border-white/10 bg-[#00000029] p-4">
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4 border border-white/10 bg-[#00000029] p-4">
                     <h4 className="flex items-center gap-2">
                       🔤 Typography & Tag Styling
                     </h4>
@@ -1184,7 +1163,7 @@ a:hover {
                     </div>
 
                     {/* Live Typography Preview */}
-                    <div className="space-y-2 border-t border-white/10 pt-3">
+                    <div className="flex flex-col gap-2 border-t border-white/10 pt-3">
                       <p className="mb-1">Live Typography Preview</p>
                       <h1>Sample H1 Main Title Header</h1>
                       <h3>Sample H3 Section Subtitle</h3>
@@ -1202,9 +1181,9 @@ a:hover {
               )}
 
               {activeTab === "preview" && (
-                <div className="space-y-4 border border-white/10 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black p-6">
+                <div className="flex flex-col gap-4 border border-white/10 bg-gradient-to-br from-purple-950/40 via-cyan-950/20 to-black p-6">
                   <h4>Live Input Testing Sandbox</h4>
-                  <div className="space-y-3">
+                  <div className="flex flex-col gap-3">
                     <div>
                       <label className="mb-1 block">Full Name</label>
                       <input
@@ -1250,7 +1229,7 @@ a:hover {
               )}
 
               {activeTab === "css" && (
-                <div className="space-y-3">
+                <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span>Generated Global CSS Rules</span>
                     <button

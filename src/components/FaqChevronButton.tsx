@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ChevronRight } from "lucide-react";
+import { DotChevronRight } from "@/components/ui/DotArrow";
 
 export interface FaqChevronButtonProps {
   isExpanded: boolean;
@@ -38,7 +38,7 @@ export function FaqChevronButton({
           : "text-white/70 hover:text-white"
         } ${className}`}
     >
-      <ChevronRight className="h-4 w-4" />
+      <DotChevronRight className="h-4 w-4" />
     </Component>
   );
 }

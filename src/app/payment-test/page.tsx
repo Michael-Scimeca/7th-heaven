@@ -103,7 +103,7 @@ function ProductCard({
           </div>
         </div>
 
-        <div className="mt-auto flex items-center justify-between pt-2">
+        <div className="mt-auto flex items-center justify-between">
           <span className="text-[var(--color-accent)]">
             ${Number(selectedVariant.price).toFixed(2)}
           </span>
@@ -378,7 +378,7 @@ export default function PaymentTestShopPage() {
                   </code>
                   :
                 </p>
-                <div className="space-y-1 border border-white/10 bg-black/80 p-2.5 text-emerald-300">
+                <div className="flex flex-col gap-1 border border-white/10 bg-black/80 p-2.5 text-emerald-300">
                   <div>NORTH_MERCHANT_ID=your_merchant_id</div>
                   <div>NORTH_TERMINAL_ID=your_terminal_id</div>
                   <div>NORTH_API_SECRET=your_secret_key</div>
@@ -738,7 +738,7 @@ export default function PaymentTestShopPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
           <div
             data-lenis-prevent
-            className="custom-scrollbar max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8"
+            className="custom-scrollbar max-h-[90vh] w-full max-w-lg flex flex-col gap-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:p-8"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <h2>My Cart</h2>
@@ -754,7 +754,7 @@ export default function PaymentTestShopPage() {
             {cart.items.length === 0 ? (
               <p className="py-8 text-center">Your cart is empty.</p>
             ) : (
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 {cart.items.map((item) => {
                   const entry = variantLookup.get(item.id);
                   const stock = entry

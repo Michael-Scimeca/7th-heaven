@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { StatsGl, useGLTF } from "@react-three/drei";
-import type * as THREE from "three";
+import * as THREE from "three";
 
 import { suppressBlobTextureErrors } from "@/lib/suppressBlobTextureErrors";
 import LazyHeavy from "@/components/LazyHeavy";
@@ -128,7 +128,21 @@ function ShipModel({
   shipScaleFactorRef: React.RefObject<number>;
 }) {
   const { scene } = useGLTF("/objects/ship.glb");
-  const clonedScene = React.useMemo(() => scene.clone(), [scene]);
+  const clonedScene = React.useMemo(() => {
+    const c = scene.clone();
+    c.traverse((child) => {
+      child.matrixAutoUpdate = true;
+    });
+
+    const box = new THREE.Box3().setFromObject(c);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+
+    // Center X & Z at midship, and place keel flush with the line (shifted ~5px onto waterline)
+    c.position.set(-center.x, -box.min.y - 0.16, -center.z);
+    return c;
+  }, [scene]);
+
   const groupRef = useRef<THREE.Group>(null);
   const scaleVelRef = useRef(0);
   const currentScaleFactorRef = useRef(1.0);
@@ -157,8 +171,8 @@ function ShipModel({
   });
 
   return (
-    <group ref={groupRef}>
-      <primitive object={clonedScene} position={[0, offsetY, 0]} />
+    <group ref={groupRef} position={[0, offsetY, 0]}>
+      <primitive object={clonedScene} />
     </group>
   );
 }
@@ -568,12 +582,12 @@ export default function CruiseSnakeItinerary({
   const lastDay = itinerary[itinerary.length - 1];
   const lastDayEventCount = lastDay?.events?.length || 2;
   const lastCardEstimatedHeight = isMobile
-    ? 360 + lastDayEventCount * 110
+    ? 290 + lastDayEventCount * 60
     : 340 + lastDayEventCount * 40;
 
   const totalH = isMobile
-    ? lastNodeY + 40 + lastCardEstimatedHeight + 140
-    : lastNodeY + Math.max(lastCardEstimatedHeight, 420) + 105;
+    ? lastNodeY + 40 + lastCardEstimatedHeight + 115
+    : lastNodeY + Math.max(lastCardEstimatedHeight, 420) + 60;
 
   /* ── Animated water-wave serpentine path ── */
   const trackRef = useRef<SVGPathElement>(null);
@@ -595,16 +609,22 @@ export default function CruiseSnakeItinerary({
 
       for (let s = 1; s <= STEPS; s++) {
         const t = s / STEPS;
-        const baseX = prev.x + (curr.x - prev.x) * t;
+        // Smooth S-curve easing so turns at left/right edges are rounded and curvy instead of sharp chevrons
+        const easeT = (1 - Math.cos(t * Math.PI)) / 2;
+        const baseX = prev.x + (curr.x - prev.x) * easeT;
         const baseY = prev.y + (curr.y - prev.y) * t;
 
-        const angle = Math.atan2(curr.y - prev.y, curr.x - prev.x);
-        // Phase shifts over time → organic flowing motion
-        const envelope = 1 - Math.abs(t - 0.5) * 1.2;
+        // Tangent angle along the curved base path
+        const dx = (curr.x - prev.x) * ((Math.PI / 2) * Math.sin(t * Math.PI));
+        const dy = curr.y - prev.y;
+        const angle = Math.atan2(dy, dx);
+
+        // Organic ripple that tapers cleanly to 0 at the nodes
+        const envelope = Math.sin(t * Math.PI);
         const ripple =
           Math.sin(t * Math.PI * 2 * FREQ + phase + i * 1.5) *
           RIPPLE *
-          Math.max(0, envelope);
+          envelope;
         const rx = baseX + Math.cos(angle + Math.PI / 2) * ripple;
         const ry = baseY + Math.sin(angle + Math.PI / 2) * ripple;
 
@@ -788,29 +808,32 @@ export default function CruiseSnakeItinerary({
         shipScaleFactorRef.current = 1.0;
         const opacityVal = 1.0;
 
-        // Compute direction tangent for ship heading angle (sample 24px behind & ahead for smooth angle)
+        const ship = shipContainerRef.current;
+        const container = ship?.parentElement;
+        const cw = container?.clientWidth || SVG_W;
+        const ch = container?.clientHeight || totalH;
+
+        // Compute direction tangent in actual screen pixel space so heading matches visual line slope
         const pPrev = getSample(Math.max(0, shipDist - 24));
         const pNext = getSample(Math.min(totalLen, shipDist + 24));
-        const dx = pNext.x - pPrev.x;
-        const dy = pNext.y - pPrev.y;
-        const headingLeft = dx < 0;
+        const screenDx = ((pNext.x - pPrev.x) / SVG_W) * cw;
+        const screenDy = ((pNext.y - pPrev.y) / totalH) * ch;
+        const headingLeft = screenDx < 0;
         const rawAngle = headingLeft
-          ? Math.atan2(-dy, -dx)
-          : Math.atan2(dy, dx);
+          ? Math.atan2(-screenDy, -screenDx)
+          : Math.atan2(screenDy, screenDx);
 
-        // Clamp maximum pitch angle to max ±22 degrees (0.38 rad) so the boat never nose-dives or looks like it's sinking
-        const MAX_TILT = (22 * Math.PI) / 180;
+        // Clamp maximum pitch angle to allow boat to follow the natural flow of the slope
+        const MAX_TILT = isMobile
+          ? (76 * Math.PI) / 180
+          : (38 * Math.PI) / 180;
         const angle = Math.max(-MAX_TILT, Math.min(MAX_TILT, rawAngle));
 
         shipRotYRef.current = headingLeft ? Math.PI : 0;
 
-        if (shipContainerRef.current) {
-          const ship = shipContainerRef.current;
-          const container = ship.parentElement;
-          const cw = container?.clientWidth || SVG_W;
-          const ch = container?.clientHeight || totalH;
+        if (ship) {
           const xPx = (pt.x / SVG_W) * cw;
-          const yPx = (pt.y / totalH) * ch;
+          const yPx = (pt.y / totalH) * ch - 70 + (t.anchorOffsetY ?? 0);
           ship.style.setProperty("--ship-x-px", `${xPx.toFixed(1)}px`);
           ship.style.setProperty("--ship-y-px", `${yPx.toFixed(1)}px`);
           ship.style.setProperty("--ship-angle", `${angle}rad`);
@@ -863,7 +886,7 @@ export default function CruiseSnakeItinerary({
         window.removeEventListener("resize", onResize);
       }
     };
-  }, [itinerary.length, layoutMode, nodes, totalH]);
+  }, [isMobile, itinerary.length, layoutMode, nodes, totalH]);
 
   /* ── Scroll-driven card reveal ── */
   useEffect(() => {
@@ -944,7 +967,7 @@ export default function CruiseSnakeItinerary({
               {/* Controls Sliders Grid — 2-Column organized sections */}
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 {/* SECTION 1: Velocity & Viewport Triggers */}
-                <div className="space-y-2 border border-purple-400/40 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 p-3.5 shadow-[0_0_15px_rgba(6,182,212,0.2)] md:col-span-2">
+                <div className="flex flex-col gap-2 border border-purple-400/40 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 p-3.5 shadow-[0_0_15px_rgba(6,182,212,0.2)] md:col-span-2">
                   <div className="flex items-center justify-between">
                     <span>⚡ Cruise Boat & Line Travel Speed</span>
                     <span>{(tuning.speedMultiplier ?? 1.0).toFixed(1)}x</span>
@@ -971,7 +994,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Ship Bow Path Advance Offset */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>🚢 Ship Bow Path Advance Offset</span>
                     <span>{tuning.shipAdvancePx ?? 80}px</span>
@@ -993,7 +1016,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Blue Line Lead / Lag Offset */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>🌊 Blue Line Lead/Lag Offset</span>
                     <span>{tuning.lineFillLeadPx ?? 0}px</span>
@@ -1015,7 +1038,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Start Trigger Location */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>📍 Start Trigger Location</span>
                     <span>
@@ -1039,7 +1062,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* End Trigger Location */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>📍 End Trigger Location</span>
                     <span>
@@ -1063,7 +1086,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Start Node Padding */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>🛑 Start Path Padding</span>
                     <span>{tuning.minShipDist ?? 0}px</span>
@@ -1085,7 +1108,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* End Node Padding */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>🏁 End Path Finish Padding</span>
                     <span>{tuning.maxShipDistPad ?? 0}px</span>
@@ -1107,7 +1130,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Anchor X Offset */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>⚓ Anchor X Offset</span>
                     <span>{tuning.anchorOffsetX ?? 0}px</span>
@@ -1129,7 +1152,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Anchor Y Offset */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>⚓ Anchor Y Offset</span>
                     <span>{tuning.anchorOffsetY ?? 0}px</span>
@@ -1151,7 +1174,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* 3D Ship Model Scale */}
-                <div className="space-y-1.5 border border-white/10 bg-black/30 p-3 backdrop-blur-sm">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/30 p-3 backdrop-blur-sm">
                   <div className="flex items-center justify-between">
                     <span>🔎 3D Ship Scale</span>
                     <span>{(tuning.shipScale ?? 1.8).toFixed(2)}x</span>
@@ -1170,7 +1193,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* 3D Hull Y Offset */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>⚓ Hull Y Path Offset</span>
                     <span>{(tuning.shipOffsetY ?? 0.0).toFixed(1)}</span>
@@ -1192,7 +1215,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* ── PORT CIRCLE & CORNER BEHAVIOR CONTROLS ── */}
-                <div className="col-span-1 mt-2 space-y-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
+                <div className="col-span-1 mt-2 flex flex-col gap-3 border border-purple-500/30 bg-cyan-950/40 p-4 md:col-span-2">
                   <div className="flex items-center gap-2 border-b border-white/10 pb-2">
                     <span>📍</span>
                     <h3>Port Circle & Corner Arrival Controls</h3>
@@ -1200,7 +1223,7 @@ export default function CruiseSnakeItinerary({
 
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     {/* Action Mode Toggle */}
-                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                       <span className="block">Port Circle Action</span>
                       <div className="flex gap-1.5 pt-1">
                         {[
@@ -1222,7 +1245,7 @@ export default function CruiseSnakeItinerary({
                     </div>
 
                     {/* Min Scale Over Circle */}
-                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                       <div className="flex items-center justify-between">
                         <span>🔎 Min Scale Over Circle</span>
                         <span>{(tuning.nodeMinScale ?? 0.0).toFixed(2)}x</span>
@@ -1244,7 +1267,7 @@ export default function CruiseSnakeItinerary({
                     </div>
 
                     {/* Scale Down Distance */}
-                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                       <div className="flex items-center justify-between">
                         <span>📏 Scale Down Trigger Radius</span>
                         <span>{tuning.nodeDipRadius ?? 65}px</span>
@@ -1266,7 +1289,7 @@ export default function CruiseSnakeItinerary({
                     </div>
 
                     {/* Re-appear Pop Distance */}
-                    <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                    <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                       <div className="flex items-center justify-between">
                         <span>🚀 Re-appear Pop Distance</span>
                         <span>{tuning.nodePopDist ?? 60}px</span>
@@ -1290,7 +1313,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Boat Smoothness Lerp */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>🚢 Tracking Smoothness Lerp</span>
                     <span>{(tuning.lerpSpeed ?? 0.85).toFixed(2)}</span>
@@ -1309,7 +1332,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Wave Ripple Height */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>🌊 Wave Ripple Height</span>
                     <span>{tuning.rippleAmp ?? 7}px</span>
@@ -1328,7 +1351,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* Wave Animation Speed */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>⏱️ Wave Motion Speed</span>
                     <span>
@@ -1349,7 +1372,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* SVG Line Thickness */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>📏 SVG Line Thickness</span>
                     <span>{tuning.lineWidth ?? 6}px</span>
@@ -1368,7 +1391,7 @@ export default function CruiseSnakeItinerary({
                 </div>
 
                 {/* SVG Glow Radius */}
-                <div className="space-y-1.5 border border-white/10 bg-black/60 p-3">
+                <div className="flex flex-col gap-1.5 border border-white/10 bg-black/60 p-3">
                   <div className="flex items-center justify-between">
                     <span>✨ Neon Glow Blur</span>
                     <span>{tuning.glowBlur ?? 6}px</span>
@@ -1500,7 +1523,7 @@ export default function CruiseSnakeItinerary({
                   </div>
                 )}
                 {/* Card content header & events list with responsive inner padding */}
-                <div className="rounded-r-2xl rounded-b-2xl border border-white/10 bg-black/60 p-5 shadow-2xl backdrop-blur-xl md:p-6">
+                <div className="rounded-b-2xl bg-black/60 p-5  backdrop-blur-xl md:p-6">
                   <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
                     <h3>
                       {day.theme}
@@ -1511,7 +1534,7 @@ export default function CruiseSnakeItinerary({
                       </span>
                     )}
                   </div>
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     {day.events.map((ev) => {
                       const isGuitar =
                         ev.title.includes("🎸") ||
@@ -1580,7 +1603,7 @@ export default function CruiseSnakeItinerary({
             // Card layout positioning logic per layoutMode
             let cardStyle: React.CSSProperties = {
               position: "absolute",
-              top: isMobile ? `${((node.y + 40) / totalH) * 100}%` : `${topPct}%`,
+              top: isMobile ? `${(node.y / totalH) * 100}%` : `${topPct}%`,
               zIndex: 20,
             };
 
@@ -1734,41 +1757,45 @@ export default function CruiseSnakeItinerary({
               <React.Fragment
                 key={`node-group-${day?.id || i}-${day?.location || day?.theme || "day"}`}
               >
-                {/* Day Badge — aligned with card margin on mobile */}
+                {/* Day Badge — positioned directly over card image on mobile */}
                 <div
                   style={{
                     position: "absolute",
                     ...(isMobile
-                      ? { left: "12px", right: "auto" }
+                      ? { left: "24px", right: "auto" }
                       : node.isLeft
                         ? { left: "0px" }
                         : { right: "0px", left: "auto" }),
-                    top: `calc(${(node.y / totalH) * 100}% - ${isMobile ? (isActive ? 46 : 40) : isActive ? 76 : 68}px)`,
+                    top: isMobile
+                      ? `calc(${(node.y / totalH) * 100}% + 14px)`
+                      : `calc(${(node.y / totalH) * 100}% - ${isActive ? 76 : 68}px)`,
                     transform: "none",
                     zIndex: 35,
                     pointerEvents: "none",
                     backgroundColor: "#060614",
                   }}
-                  className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-3.5 py-1.5 whitespace-nowrap text-[var(--font-size-2xs)] text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"}`}
+                  className={`flex items-center gap-1.5 border border-purple-500/40 bg-[#060614] px-2.5 py-1 whitespace-nowrap text-4xs font-medium tracking-wide text-cyan-300 rounded-full backdrop-blur-2xl shadow-lg ${isActive ? "scale-105 opacity-100 ring-1 ring-cyan-400/40" : "opacity-90"}`}
                 >
                   {isSea ? (
-                    <Waves className="inline-block h-3.5 w-3.5 shrink-0 text-cyan-400" />
+                    <Waves className="inline-block h-3 w-3 shrink-0 text-cyan-400" />
                   ) : (
-                    <MapPin className="inline-block h-3.5 w-3.5 shrink-0 text-rose-400" />
+                    <MapPin className="inline-block h-3 w-3 shrink-0 text-rose-400" />
                   )}{" "}
                   {formatNodeBadgeText(day, i)}
                 </div>
-                {/* Circle Video Node — aligned with card margin on mobile */}
+                {/* Circle Video Node — positioned directly over card image on mobile */}
                 <div
                   key={`node-ring-${day?.id || i}-${day?.location || day?.theme || "day"}`}
                   style={{
                     position: "absolute",
                     ...(isMobile
-                      ? { left: "16px", right: "auto" }
+                      ? { left: "24px", right: "auto" }
                       : node.isLeft
                         ? { left: "0px" }
                         : { right: "0px", left: "auto" }),
-                    top: `${(node.y / totalH) * 100}%`,
+                    top: isMobile
+                      ? `calc(${(node.y / totalH) * 100}% + 56px)`
+                      : `${(node.y / totalH) * 100}%`,
                     transform: "translate(0, -50%)",
                     width: isMobile ? (isActive ? 68 : 56) : isActive ? 109 : 93,
                     height: isMobile ? (isActive ? 68 : 56) : isActive ? 109 : 93,

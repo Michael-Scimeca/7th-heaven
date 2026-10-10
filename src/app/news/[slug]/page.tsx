@@ -4,7 +4,8 @@ import TransitionLink from "@/components/TransitionLink";
 import Button from "@/components/Button";
 import SeventhButton from "@/components/SeventhButton";
 import { sanityClient } from "@/lib/sanity";
-import { ArrowLeft, ArrowRight, Calendar, Tag, Newspaper } from "lucide-react";
+import { Calendar, Tag, Newspaper } from "lucide-react";
+import { DotChevronLeft, DotChevronRight } from "@/components/ui/DotArrow";
 
 export const dynamic = "force-dynamic";
 
@@ -228,7 +229,7 @@ export default async function NewsArticlePage({
               href="/#news"
               className="transition-colors inline-flex items-center gap-2 hover:text-white"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <DotChevronLeft className="h-4 w-4" />
               Back to News
             </Link>
           </div>
@@ -254,7 +255,7 @@ export default async function NewsArticlePage({
         </header>
 
         {/* Body */}
-        <div className="max-w-[65ch] space-y-5 text-secondary text-base">
+        <div className="max-w-[65ch] flex flex-col gap-4 text-secondary text-base">
           {article.content
             .split("\n")
             .map((paragraph) =>
@@ -266,7 +267,7 @@ export default async function NewsArticlePage({
 
         {/* Footer CTA */}
         <div className="mt-6 flex flex-wrap gap-4 border-t border-white/10 pt-6">
-          <Button variant="secondary" size="md" href="/#news" icon={<ArrowLeft className="h-4 w-4" />}>
+          <Button variant="secondary" size="md" href="/#news" icon={<DotChevronLeft className="h-4 w-4" />}>
             ALL NEWS
           </Button>
           <Button variant="primary" size="md" href="/shows">
@@ -297,7 +298,7 @@ export default async function NewsArticlePage({
                   href="/#news"
                   className="transition-colors hidden items-center gap-1.5 hover:text-white sm:inline-flex"
                 >
-                  View All <ArrowRight className="h-4 w-4" />
+                  View All <DotChevronRight className="h-4 w-4" />
                 </Link>
               </div>
 
@@ -333,7 +334,7 @@ export default async function NewsArticlePage({
                       </div>
                       <div className="transition-colors flex items-center justify-between border-t border-white/10 pt-3 group-hover:text-white">
                         <span>Read Article</span>
-                        <ArrowRight className="transition-transform h-3.5 w-3.5 transform group-hover:translate-x-1" />
+                        <DotChevronRight className="transition-transform h-3.5 w-3.5 transform group-hover:translate-x-1" />
                       </div>
                     </Link>
                   );

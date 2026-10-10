@@ -27,8 +27,8 @@ export default function CruiseHistorySection() {
         Cruise History &amp; Voyage Milestones
       </h2>
       <LazyHeavy
-        minHeight="600px"
-        rootMargin="400px 0px"
+        className="cruise-history-reserve"
+        rootMargin="1600px 0px"
         fallback={
           <div className="flex min-h-[400px] w-full items-center justify-center rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02]">
             <span className="text-sm text-white/40">Loading history timeline...</span>

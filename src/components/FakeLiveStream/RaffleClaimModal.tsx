@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Trophy } from "lucide-react";
+import { DotChevronRight } from "@/components/ui/DotArrow";
 
 interface RaffleState {
   status: string;
@@ -118,7 +119,7 @@ export function RaffleClaimModal({
               </div>
             )}
 
-            <div className="space-y-2">
+            <div className="flex flex-col gap-2">
               <p className="mb-2 text-center text-black/30">
                 Or choose how to receive your prize
               </p>
@@ -127,17 +128,7 @@ export function RaffleClaimModal({
                 className="transition-colors flex w-full items-center gap-3 border border-black/10 bg-gray-50 p-3 text-left hover:border-purple-500/30"
               >
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center bg-blue-500/20 text-blue-400">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
+                  <DotChevronRight className="h-4 w-4" />
                 </div>
                 <div>
                   <p>Ship it to me</p>

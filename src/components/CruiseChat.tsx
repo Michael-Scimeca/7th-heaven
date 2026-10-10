@@ -712,9 +712,9 @@ export default function CruiseChat({
           </div>
           {onlineUsers.length > 0 && (
             <div className="flex items-center -space-x-1.5">
-              {onlineUsers.slice(0, 4).map((u, i) => (
+              {onlineUsers.slice(0, 4).map((u) => (
                 <Avatar
-                  key={`${u.name}-${i}`}
+                  key={u.name}
                   name={u.name}
                   src={u.avatar}
                   size="sm"
@@ -737,12 +737,12 @@ export default function CruiseChat({
 
       {!isSignedIn ? (
         /* ── GUEST LOCKED CHAT PANEL ── */
-        <div className="flex flex-1 flex-col items-center justify-center space-y-3 bg-[#07040d]/90 p-6 text-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 bg-[#07040d]/90 p-6 text-center">
           <div className="flex h-16 w-16 animate-pulse items-center justify-center rounded-full border border-purple-500/40 bg-gradient-to-tr from-purple-600/30 to-pink-600/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
             <MessageSquare className="h-8 w-8" />
           </div>
 
-          <div className="max-w-xs space-y-2">
+          <div className="max-w-xs flex flex-col gap-2">
             <h3>Join the Live Chat</h3>
             <p>
               Sign in or register as a 7th Heaven fan, crew member, or admin to

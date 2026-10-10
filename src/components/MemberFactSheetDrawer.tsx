@@ -3,7 +3,8 @@
 
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { X, ChevronLeft, ChevronRight, Ticket } from "lucide-react";
+import { X, Ticket } from "lucide-react";
+import { DotChevronLeft, DotChevronRight } from "@/components/ui/DotArrow";
 import { useScrollLock } from "@/lib/useScrollLock";
 
 export interface BandMemberFactSheet {
@@ -183,7 +184,7 @@ export default function MemberFactSheetDrawer({
                   title="Previous Member"
                   aria-label="Previous member"
                 >
-                  <ChevronLeft className="h-3.5 w-3.5" />
+                  <DotChevronLeft className="h-3.5 w-3.5" />
                 </button>
                 <span className="px-1 text-[10px] text-neutral-400">
                   {currentIndex + 1} / {allMembers.length}
@@ -195,7 +196,7 @@ export default function MemberFactSheetDrawer({
                   title="Next Member"
                   aria-label="Next member"
                 >
-                  <ChevronRight className="h-3.5 w-3.5" />
+                  <DotChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             )}
@@ -212,7 +213,7 @@ export default function MemberFactSheetDrawer({
         </div>
 
         {/* Main Content Scroll Container */}
-        <div className="flex-1 space-y-3 py-4 pr-6 pl-6">
+        <div className="flex flex-col flex-1 gap-3 py-4 pr-6 pl-6">
           {/* 🎟️ VINTAGE LIGHT PAPER TICKET STUB / FACT SHEET CARD */}
           <div className="relative overflow-hidden sm:py-2">
             {/* Member Name */}
@@ -245,12 +246,12 @@ export default function MemberFactSheetDrawer({
           </div>
 
           {/* ── SECTION 01: THE CONTRADICTION ── */}
-          <div className="space-y-2.5">
+          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
               <h3>THE CONTRADICTION</h3>
             </div>
 
-            <div className="space-y-3.5">
+            <div className="flex flex-col gap-3">
               {/* Best Trait vs Worst Trait Row */}
               <div className="flex items-center justify-between gap-2 border border-white/10 bg-black/40 px-3 py-3 text-center">
                 <div className="flex-1">
@@ -277,7 +278,7 @@ export default function MemberFactSheetDrawer({
           </div>
 
           {/* ── SECTION 02: THE SETLIST ── */}
-          <div className="space-y-2.5">
+          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
               <h3>THE SETLIST</h3>
             </div>
@@ -367,7 +368,7 @@ export default function MemberFactSheetDrawer({
           </div>
 
           {/* ── SECTION 03: ON SCREEN ── */}
-          <div className="space-y-2.5">
+          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
               <h3 className="text-neutral-300">ON SCREEN</h3>
             </div>
@@ -412,7 +413,7 @@ export default function MemberFactSheetDrawer({
           </div>
 
           {/* ── SECTION 04: OFF STAGE ── */}
-          <div className="space-y-2.5">
+          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 border-b border-white/10 pb-1.5">
               <h3>OFF STAGE</h3>
             </div>

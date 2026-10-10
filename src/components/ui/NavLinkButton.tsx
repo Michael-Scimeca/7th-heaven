@@ -10,7 +10,7 @@ export interface NavLinkButtonProps
   href: string | UrlObject;
   variant?: "primary" | "secondary" | "ghost" | "outline" | "subtle";
   color?: "purple" | "cyan" | "emerald" | "rose" | "amber" | "white" | "muted";
-  size?: "xs" | "sm" | "md" | "lg";
+  size?: "none" | "xs" | "sm" | "md" | "lg";
   fontWeight?: "normal" | "medium" | "semibold" | "bold" | "extrabold";
   uppercase?: boolean;
   icon?: React.ReactNode;
@@ -37,6 +37,7 @@ const colorStyles: Record<NonNullable<NavLinkButtonProps["color"]>, string> = {
 };
 
 const sizeStyles: Record<NonNullable<NavLinkButtonProps["size"]>, string> = {
+  none: "p-0 text-xs sm:text-sm gap-1.5",
   xs: "px-2.5 py-1 text-xs gap-1",
   sm: "px-3.5 py-1.5 text-xs sm:text-sm gap-1.5",
   md: "px-4.5 py-2 text-sm sm:text-base gap-2",

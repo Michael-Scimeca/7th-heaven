@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { Play, X } from "lucide-react";
 import SeventhButton from "./SeventhButton";
+import SegmentedTabs from "./SegmentedTabs";
+import GooeyMessagesDropdown from "./GooeyMessagesDropdown";
 import GlassPlayButton from "./GlassPlayButton";
 import { SectionBadge } from "./SectionBadge";
 import SectionHeader from "./SectionHeader";
@@ -214,8 +216,7 @@ export default function CruiseVideoGallery() {
     <section
       id="ship-videos"
       aria-labelledby="ship-videos-heading"
-      className="section cv-auto relative"
-      style={{ "--cv-size": "2100px", "--cv-size-lg": "2006px" } as React.CSSProperties}
+      className="section relative"
     >
       <div className="site-container relative z-20">
         {/* Header */}
@@ -231,21 +232,38 @@ export default function CruiseVideoGallery() {
             divider={false}
           />
 
-          {/* Category Filters */}
-          {categories.length > 1 && (
-            <div className="mt-6 flex flex-wrap justify-start gap-3">
-              {categories.map((cat) => (
-                <SeventhButton
-                  key={cat}
-                  isActive={selectedCategory === cat}
-                  onClick={() => setSelectedCategory(cat)}
-                >
-                  {cat}
-                </SeventhButton>
-              ))}
-            </div>
-          )}
         </div>
+
+        {/* Category Filters: Responsive Hybrid (Dropdown on Mobile/Tablet, Pills on Desktop) */}
+        {categories.length > 1 && (
+          <div className="mb-8">
+            {/* Mobile & Tablet: Compact Glass Dropdown */}
+            <div className="w-full sm:max-w-xs lg:hidden">
+              <GooeyMessagesDropdown
+                options={categories.map((cat) => ({ value: cat, label: cat }))}
+                selected={selectedCategory}
+                onChange={(val) => setSelectedCategory(val)}
+                placeholder="Filter by Category"
+                showAllOption={false}
+                fullWidth
+              />
+            </div>
+
+            {/* Desktop: Enclosed Segmented Toggle Setup */}
+            <div className="hidden lg:inline-flex">
+              <SegmentedTabs<string>
+                tabs={categories.map((cat) => ({ id: cat, label: cat }))}
+                activeTab={selectedCategory}
+                onChange={(cat) => setSelectedCategory(cat)}
+                layout="flex"
+                shape="full"
+                size="md"
+                className="flex-nowrap inline-flex w-max shrink-0"
+                ariaLabel="Video category filter"
+              />
+            </div>
+          </div>
+        )}
 
         {/* Videos Grid */}
         {loading ? (
@@ -296,7 +314,7 @@ export default function CruiseVideoGallery() {
                 </div>
 
                 {/* Title & Info */}
-                <div className="flex flex-1 flex-col space-y-3 pt-6">
+                <div className="flex flex-1 flex-col gap-3 pt-6">
                   <div>
                     <h3>{vid.title}</h3>
                     {vid.description && (

@@ -275,7 +275,7 @@ export default function ShowCrewPanel({
               </div>
             ) : (
               <>
-                <div className="mb-3 space-y-1.5">
+                <div className="mb-3 flex flex-col gap-1.5">
                   {Array.from(data.crew, (c, i) => ({ c, i })).map(
                     ({ c, i }) => (
                       <div
@@ -383,7 +383,7 @@ export default function ShowCrewPanel({
 
         {/* TIMELINE */}
         {activeSection === "timeline" && (
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             {Array.from(data.timeline, (event, i) => ({ event, i })).map(
               ({ event, i }) => (
                 <div
@@ -525,7 +525,7 @@ export default function ShowCrewPanel({
             ) : (
               <div
                 data-lenis-prevent
-                className="custom-scrollbar max-h-48 space-y-2 overflow-y-auto"
+                className="custom-scrollbar max-h-48 flex flex-col gap-2 overflow-y-auto"
               >
                 {data.notes.map((note) => (
                   <div

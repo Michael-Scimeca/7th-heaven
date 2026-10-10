@@ -42,6 +42,15 @@ const GooeyDropdown = dynamic(() => import("@/components/GooeyDropdown"), {
   ),
 });
 
+const CustomDropdown = dynamic(() => import("@/components/CustomDropdown"), {
+  ssr: false,
+  loading: () => (
+    <div className="rounded-lg border border-white/10 bg-[#00000029] p-3 text-center text-white/40">
+      Loading Custom Dropdown...
+    </div>
+  ),
+});
+
 const GooeyMessagesDropdown = dynamic(
   () => import("@/components/GooeyMessagesDropdown"),
   {
@@ -69,18 +78,20 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import { useThemeTokens } from "@/components/ThemeProvider";
 import { useMember } from "@/context/MemberContext";
+import HelperText from "@/components/ui/HelperText";
+import { DotChevronDown, DotChevronRight } from "@/components/ui/DotArrow";
 import {
   Type,
   Palette,
   MousePointer,
   Layout,
-  ChevronDown,
   MessageSquare,
   Layers,
   ShieldCheck,
   Box,
   Sliders,
   Check,
+  Filter,
   Copy,
   AlertTriangle,
   Info,
@@ -91,7 +102,6 @@ import {
   X,
   FileText,
   Lock,
-  ArrowRight,
   Send,
   Eye,
   Settings,
@@ -176,7 +186,7 @@ const sections = [
   { id: "colors", label: "2. Color Palette", icon: Palette },
   { id: "buttons", label: "3. Buttons", icon: MousePointer },
   { id: "form-elements", label: "4. Form Elements", icon: Layout },
-  { id: "dropdowns", label: "5. Dropdowns", icon: ChevronDown },
+  { id: "dropdowns", label: "5. Dropdowns", icon: DotChevronDown },
   { id: "chat", label: "6. Chat Component", icon: MessageSquare },
   { id: "components", label: "7. Cards & Badges", icon: Layers },
   { id: "modals", label: "8. Modals & Dialogs", icon: Maximize2 },
@@ -240,7 +250,7 @@ function HoldToActivateButtonDemo() {
   };
 
   return (
-    <div className="space-y-3 border border-white/10 bg-white/[0.02] p-5">
+    <div className="flex flex-col gap-3 border border-white/10 bg-white/[0.02] p-5">
       <div className="flex items-center justify-between">
         <h3 className="text-amber-400">Hold to Activate Action Button</h3>
         <span className="text-white/40">
@@ -299,7 +309,7 @@ function SparkleGenerateButtonDemo() {
   const [particleCount, setParticleCount] = useState(12);
 
   return (
-    <div className="space-y-5 border border-white/10 bg-white/[0.02] p-5">
+    <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
         <div className="flex items-center gap-3">
           <h3 className="text-violet-400">
@@ -336,7 +346,7 @@ function SparkleGenerateButtonDemo() {
         </label>
 
         {/* Button Label Text Input */}
-        <div className="space-y-1">
+        <div className="flex flex-col gap-1">
           <label
             htmlFor="sgb-button-text-input"
             className="block text-purple-200"
@@ -354,7 +364,7 @@ function SparkleGenerateButtonDemo() {
         </div>
 
         {/* Particle Count Slider */}
-        <div className="space-y-1">
+        <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between text-purple-200">
             <label htmlFor="sgb-particle-count-slider">Particles</label>
             <span className="text-white/60">{particleCount} dots</span>
@@ -415,7 +425,7 @@ function CosmicTrackCardDemo() {
   ];
 
   return (
-    <div className="space-y-5 border border-white/10 bg-white/[0.02] p-5">
+    <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
         <h3 className="text-violet-400">
           Cosmic Track Card (Media Grid Selector Component)
@@ -458,7 +468,7 @@ function GlassPlayButtonDemo() {
   };
 
   return (
-    <div className="space-y-6 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+    <div className="flex flex-col gap-6 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
           <h3 className="flex items-center gap-2 text-pink-400">
@@ -611,7 +621,7 @@ function ButtonMasterGalleryAndStudio() {
       case "star":
         return <Star className="h-4 w-4 shrink-0 text-yellow-300" />;
       case "arrow":
-        return <ArrowRight className="h-4 w-4 shrink-0 text-purple-200" />;
+        return <DotChevronRight className="h-4 w-4 shrink-0 text-purple-200" />;
       default:
         return null;
     }
@@ -633,7 +643,7 @@ function ButtonMasterGalleryAndStudio() {
         : "h-10 min-h-[40px] px-5    ";
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-8">
       {/* Dedicated Interactive Video Play Button Studio */}
       <GlassPlayButtonDemo />
 
@@ -641,7 +651,7 @@ function ButtonMasterGalleryAndStudio() {
       <CosmicTrackCardDemo />
 
       {/* Interactive Control Studio Header & Inputs */}
-      <div className="space-y-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 p-6 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
+      <div className="flex flex-col gap-6 border border-purple-500/30 bg-gradient-to-br from-purple-950/50 via-black/90 to-slate-950 p-6 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center border border-purple-400/40 bg-purple-500/20">
@@ -664,7 +674,7 @@ function ButtonMasterGalleryAndStudio() {
         {/* Studio Form Controls Grid */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {/* Label Input */}
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <label>Button Text</label>
             <input
               type="text"
@@ -676,7 +686,7 @@ function ButtonMasterGalleryAndStudio() {
           </div>
 
           {/* Size Selector */}
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <label>Size Variant</label>
             <div className="flex items-center gap-1 border border-purple-500/40 bg-black/60 p-1">
               {(["sm", "md", "lg"] as const).map((sz) => (
@@ -693,7 +703,7 @@ function ButtonMasterGalleryAndStudio() {
           </div>
 
           {/* Icon Selector */}
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <label>Button Icon</label>
             <select
               value={iconName}
@@ -711,7 +721,7 @@ function ButtonMasterGalleryAndStudio() {
           </div>
 
           {/* Pill Dot Color */}
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             <label>Pill Badge Dot</label>
             <select
               value={dotColor}
@@ -770,7 +780,7 @@ function ButtonMasterGalleryAndStudio() {
       {/* Grid of All Site Buttons */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* 1. SeventhButton (Credits & High-converting CTA) */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-amber-400">SeventhButton / AlwaysButton</h4>
@@ -816,7 +826,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 3. SparkleGenerateButton */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-violet-400">
@@ -852,7 +862,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4. PillBadgeButton Component */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-emerald-400">PillBadgeButton Component</h4>
@@ -890,7 +900,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4c. Unified GlassPlayButton Component */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-pink-400">GlassPlayButton Component</h4>
@@ -925,7 +935,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 4b. Glass Pill Tag Badge Button (.btn-pill-glass / SectionBadge) */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-indigo-400">
@@ -939,7 +949,7 @@ function ButtonMasterGalleryAndStudio() {
               type="button"
               onClick={() =>
                 handleCopyCode(
-                  `<button className="btn-pill-glass ${isActiveState ?"active" : ""}">\n  ${buttonLabel || "FEATURED TAG"}\n</button>`,
+                  `<button className="btn-pill-glass ${isActiveState ? "active" : ""}">\n  ${buttonLabel || "FEATURED TAG"}\n</button>`,
                   "pillglass",
                 )
               }
@@ -970,7 +980,7 @@ function ButtonMasterGalleryAndStudio() {
         {/* 4d. GlowOrbButton (Cursor-Tracking Glow) */}
 
         {/* 6. Standardized Toggle Component */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-pink-400">Toggle Switch</h4>
@@ -998,7 +1008,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 7. AddCmsButton Admin Component */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-amber-300">AddCmsButton Component</h4>
@@ -1033,7 +1043,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 8. Update Sanity CMS Action Button */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="flex items-center gap-2 text-emerald-400">
@@ -1096,7 +1106,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 9. Inline Table Action Buttons (EDIT & DEL) */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-blue-400">
@@ -1143,7 +1153,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 8. Primary Purple Glow CTA */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-purple-400">
@@ -1183,7 +1193,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 9. Cyan Neon Cyber Button */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-cyan-400">Cyan Neon Cyber Action</h4>
@@ -1221,7 +1231,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 10. Secondary Glass Pill */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4>Secondary Glass (.btn-secondary / .site-link)</h4>
@@ -1257,7 +1267,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 11. Danger Destructive Action */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="text-rose-400">Danger Action Button</h4>
@@ -1295,7 +1305,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 12. Track & Animated Video Quick-Select Card Buttons */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="flex items-center gap-2">
@@ -1358,7 +1368,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 13. Booking Show Format & Event Type Selector Pill Buttons */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div>
               <h4 className="flex items-center gap-2 text-violet-300">
@@ -1437,7 +1447,7 @@ function ButtonMasterGalleryAndStudio() {
         </div>
 
         {/* 14. Hold To Activate Pressure Button */}
-        <div className="transition-colors space-y-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
+        <div className="transition-colors flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 hover:border-purple-500/40 md:col-span-2">
           <HoldToActivateButtonDemo />
         </div>
       </div>
@@ -1483,6 +1493,10 @@ export default function StyleGuidePage() {
   const [radioState, setRadioState] = useState("full_band");
   const [toggleState, setToggleState] = useState(true);
   const [selectedDropdown, setSelectedDropdown] = useState("chicago");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [spotlightVal, setSpotlightVal] = useState("october");
+  const [bentoVal, setBentoVal] = useState("chicago");
+  const [minimalVal, setMinimalVal] = useState("all");
   const [previewAlerts, setPreviewAlerts] = useState(true);
   const [previewNews, setPreviewNews] = useState(true);
   const [previewAge, setPreviewAge] = useState(true);
@@ -1841,7 +1855,7 @@ export default function StyleGuidePage() {
       id="style-guide-page"
       className="min-h-screen px-6 pt-24 pb-20 sm:px-8 lg:px-[42px]"
     >
-      <div className="mx-auto max-w-7xl space-y-12">
+      <div className="mx-auto max-w-7xl flex flex-col gap-12">
         {/* Page Header */}
         <div className="flex flex-col justify-between gap-6 border-b border-white/10 pb-8 md:flex-row md:items-center">
           <div>
@@ -1899,7 +1913,7 @@ export default function StyleGuidePage() {
         {/* SECTION 0: VISUAL HIERARCHY SYSTEM */}
         <section
           id="hierarchy"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -1911,31 +1925,31 @@ export default function StyleGuidePage() {
           </div>
 
           {/* 5 TEXT LEVELS */}
-          <div className="space-y-4 rounded-xl border border-white/10 bg-black/40 p-6">
+          <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-black/40 p-6">
             <div className="border-b border-white/10 pb-2">
               <h3 className="text-white">The 5 Contrast Levels</h3>
               <p className="text-sm text-muted">Brightness is the primary contrast lever on a dark stage theme.</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 flex flex-col gap-2">
                 <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 1 · Page Title</span>
                 <p className="text-2xl font-black text-white uppercase tracking-wider">7TH HEAVEN LIVE</p>
                 <p className="text-xs text-muted">Full white · Sized by tag · Tag-scale font</p>
               </div>
 
-              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 flex flex-col gap-2">
                 <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 2 · Section Heading</span>
                 <p className="text-xl font-bold text-white uppercase">UPCOMING TOUR DATES</p>
                 <p className="text-xs text-muted">Full white · SectionHeader component</p>
               </div>
 
-              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 flex flex-col gap-2">
                 <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 3 · Item Title</span>
                 <p className="text-base font-semibold text-white">VIP BALCONY ACCESS</p>
                 <p className="text-xs text-muted">White · Card or row item identifier</p>
               </div>
 
-              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 flex flex-col gap-2">
                 <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 4 · Body Copy</span>
                 <p className="text-sm text-secondary max-w-[65ch]">
                   Join us for an unforgettable night of high-energy rock classics and original anthems.
@@ -1943,13 +1957,13 @@ export default function StyleGuidePage() {
                 <p className="text-xs text-muted">--color-text-secondary (~72% white) · max-w-[65ch]</p>
               </div>
 
-              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 space-y-2">
+              <div className="rounded-lg border border-white/5 bg-white/[0.02] p-4 flex flex-col gap-2">
                 <span className="text-xs font-mono text-muted uppercase tracking-wider">Level 5 · Meta & Captions</span>
                 <p className="text-xs text-muted font-medium">SAT, OCT 18 · 8:00 PM CST · CHICAGO, IL</p>
                 <p className="text-xs text-muted">--color-text-muted (~55% white) · Dates, locations, tags</p>
               </div>
 
-              <div className="rounded-lg border border-action/20 bg-action/[0.03] p-4 space-y-2">
+              <div className="rounded-lg border border-action/20 bg-action/[0.03] p-4 flex flex-col gap-2">
                 <span className="text-xs font-mono text-action uppercase tracking-wider">Action Level · Gold Accent</span>
                 <p className="text-base font-bold text-action">$35.00 ADVANCE · RESERVE NOW &rarr;</p>
                 <p className="text-xs text-muted">--color-action (#f5b942) · Interactive focal points</p>
@@ -1958,13 +1972,13 @@ export default function StyleGuidePage() {
           </div>
 
           {/* 3 BUTTON KINDS */}
-          <div className="space-y-4 rounded-xl border border-white/10 bg-black/40 p-6">
+          <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-black/40 p-6">
             <div className="border-b border-white/10 pb-2">
               <h3 className="text-white">Unified Button Hierarchy</h3>
               <p className="text-sm text-muted">Exactly three kinds site-wide. At most one Primary button per screen.</p>
             </div>
             <div className="grid gap-6 sm:grid-cols-3">
-              <div className="space-y-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono text-action font-semibold uppercase">1. Primary</span>
                   <span className="text-xs text-muted">Max 1 / screen</span>
@@ -1976,7 +1990,7 @@ export default function StyleGuidePage() {
                 <p className="text-xs text-muted">Filled gold background · High contrast text · Clear singular focal action.</p>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono text-white/80 font-semibold uppercase">2. Secondary</span>
                   <span className="text-xs text-muted">Multiple allowed</span>
@@ -1988,7 +2002,7 @@ export default function StyleGuidePage() {
                 <p className="text-xs text-muted">Outline glass button · Subdued border · Supports secondary exploration.</p>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/5 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono text-muted font-semibold uppercase">3. Tertiary</span>
                   <span className="text-xs text-muted">In-line links</span>
@@ -2003,14 +2017,14 @@ export default function StyleGuidePage() {
           </div>
 
           {/* GESTALT SPACING EXAMPLE CARD */}
-          <div className="space-y-4 rounded-xl border border-white/10 bg-black/40 p-6">
+          <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-black/40 p-6">
             <div className="border-b border-white/10 pb-2">
               <h3 className="text-white">Gestalt Spacing & Card Architecture</h3>
               <p className="text-sm text-muted">Space between groups &ge; 2&times; space inside a group. 60/30/10 color ratio.</p>
             </div>
-            <div className="max-w-md rounded-2xl border border-white/10 bg-[var(--color-bg-glass)] p-6 space-y-6">
+            <div className="max-w-md rounded-2xl border border-white/10 bg-[var(--color-bg-glass)] p-6 flex flex-col gap-6">
               {/* Group 1: Title & Badge (Tight spacing: gap-2) */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold uppercase tracking-wider text-action">Next Live Show</span>
                   <span className="rounded-full bg-purple-500/20 px-2.5 py-0.5 text-xs text-purple-300">Featured</span>
@@ -2039,7 +2053,7 @@ export default function StyleGuidePage() {
         {/* SECTION 1: TYPOGRAPHY — FLUID TYPE SCALE EDITOR */}
         <section
           id="typography"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -2097,7 +2111,7 @@ export default function StyleGuidePage() {
             };
 
             return (
-              <div className="relative space-y-6 overflow-hidden border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 backdrop-blur-xl sm:p-8">
+              <div className="relative flex flex-col gap-6 overflow-hidden border border-purple-500/30 bg-gradient-to-b from-purple-950/20 via-black/40 to-black/60 p-6 backdrop-blur-xl sm:p-8">
                 {/* Glow Backdrop */}
                 <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 bg-purple-600/10 blur-3xl" />
                 <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 bg-pink-600/10 blur-3xl" />
@@ -2140,7 +2154,7 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* Target Element Selector */}
-                <div className="relative z-10 space-y-2">
+                <div className="relative z-10 flex flex-col gap-2">
                   <span className="flex items-center gap-1.5 text-[10px]">
                     <Layers className="h-3 w-3 text-purple-400" /> Target
                     Typography Element / Utility Class:
@@ -2161,7 +2175,7 @@ export default function StyleGuidePage() {
                 {/* Controls Grid */}
                 <div className="relative z-10 grid grid-cols-1 gap-6 md:grid-cols-2">
                   {/* 1. Min Font Size */}
-                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
+                  <div className="flex flex-col gap-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1 text-emerald-400">
                         1. Min Font Size:
@@ -2192,14 +2206,14 @@ export default function StyleGuidePage() {
                       }
                       className="h-2 w-full cursor-pointer appearance-none bg-white/10 accent-emerald-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-emerald-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(52,211,153,0.9)]"
                     />
-                    <p>
+                    <HelperText>
                       Smallest font size rendered at or below Min Viewport Width
                       ({studioMinVw}px).
-                    </p>
+                    </HelperText>
                   </div>
 
                   {/* 2. Max Font Size */}
-                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
+                  <div className="flex flex-col gap-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1 text-purple-400">
                         2. Max Font Size:
@@ -2230,14 +2244,14 @@ export default function StyleGuidePage() {
                       }
                       className="h-2 w-full cursor-pointer appearance-none bg-white/10 accent-purple-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(168,85,247,0.9)]"
                     />
-                    <p>
+                    <HelperText>
                       Largest font size rendered at or above Max Viewport Width
                       ({studioMaxVw}px).
-                    </p>
+                    </HelperText>
                   </div>
 
                   {/* 3. Min Viewport Width */}
-                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
+                  <div className="flex flex-col gap-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1 text-amber-400">
                         3. Min Viewport Width:
@@ -2269,14 +2283,14 @@ export default function StyleGuidePage() {
                       }
                       className="h-2 w-full cursor-pointer appearance-none bg-white/10 accent-amber-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(251,191,36,0.9)]"
                     />
-                    <p>
+                    <HelperText>
                       Screen width at which text hits Min Font Size (
                       {studioMinFs}px).
-                    </p>
+                    </HelperText>
                   </div>
 
                   {/* 4. Max Viewport Width */}
-                  <div className="space-y-2 border border-white/10 bg-white/[0.03] p-4">
+                  <div className="flex flex-col gap-2 border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1">
                         4. Max Viewport Width:
@@ -2308,10 +2322,10 @@ export default function StyleGuidePage() {
                       }
                       className="h-2 w-full cursor-pointer appearance-none bg-white/10 accent-cyan-400 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-cyan-400 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.9)]"
                     />
-                    <p>
+                    <HelperText>
                       Screen width at which text hits Max Font Size (
                       {studioMaxFs}px).
-                    </p>
+                    </HelperText>
                   </div>
                 </div>
 
@@ -2343,7 +2357,7 @@ export default function StyleGuidePage() {
                 </div>
 
                 {/* Live Formula & Computed Viewport Readout Card */}
-                <div className="relative z-10 space-y-4 border border-purple-500/30 bg-black/60 p-5">
+                <div className="relative z-10 flex flex-col gap-4 border border-purple-500/30 bg-black/60 p-5">
                   <div className="flex flex-col justify-between gap-2 border-b border-white/10 pb-3 sm:flex-row sm:items-center">
                     <div className="flex items-center gap-2">
                       <span>Generated CSS Formula & Live Inspection:</span>
@@ -2652,7 +2666,7 @@ ${deskRules.join("\n")}
             }
 
             return (
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 {/* Column headers */}
                 <div className="hidden grid-cols-[90px_1fr_220px_220px_220px] gap-4 border-b border-white/10 px-4 pb-2 xl:grid">
                   <span className="text-[10px] text-white/30">Utility</span>
@@ -3102,7 +3116,7 @@ ${deskRules.join("\n")}
                 {/* CSS Export Modal Drawer */}
                 {showCssModal && (
                   <div className="animate-fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
-                    <div className="relative w-full max-w-3xl space-y-4 border border-purple-500/30 bg-[#0d0914] p-6">
+                    <div className="relative w-full max-w-3xl flex flex-col gap-4 border border-purple-500/30 bg-[#0d0914] p-6">
                       <div className="flex items-center justify-between border-b border-white/10 pb-3">
                         <div className="flex items-center gap-3">
                           <span className="h-3 w-3 animate-ping bg-emerald-400" />
@@ -3158,7 +3172,7 @@ ${deskRules.join("\n")}
           {/* ═══════════════════════════════════════════════════════════════════
              UNIFIED FLUID HEADING HIERARCHY SCALE
              ═══════════════════════════════════════════════════════════════════ */}
-          <div className="space-y-6 border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+          <div className="flex flex-col gap-6 border border-white/10 bg-white/[0.02] p-6 sm:p-8">
             <div className="border-b border-white/10 pb-4">
               <h3 className="flex items-center gap-2">
                 <Type className="h-5 w-5 text-purple-400" />
@@ -3252,40 +3266,40 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Live Visual Specimen Cards */}
-            <div className="space-y-4 pt-4">
+            <div className="flex flex-col gap-4 pt-4">
               <h4 className="text-white/60">Live Heading Specimens:</h4>
 
-              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-4">
                 <div className="text-xs text-purple-400 font-mono">.text-display (44px → 88px)</div>
                 <h1>7TH HEAVEN LIVE</h1>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-4">
                 <div className="text-xs text-purple-400 font-mono">.text-h1 (36px → 64px)</div>
                 <h1>Official Tour & Concert Schedule</h1>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-4">
                 <div className="text-xs text-purple-400 font-mono">.text-h2 (28px → 48px)</div>
                 <h2>Upcoming Tour Schedule & Festival Appearances</h2>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-4">
                 <div className="text-xs text-purple-400 font-mono">.text-h3 (21.6px → 36px)</div>
                 <h3>Royal Caribbean Staterooms & VIP Inclusions</h3>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-4">
                 <div className="text-xs text-purple-400 font-mono">.text-h4 (18.4px → 28px)</div>
                 <h4>Crown Loft Suite & Premium Balcony View</h4>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-4">
                 <div className="text-xs text-purple-400 font-mono">.text-h5 (16px → 21.6px)</div>
                 <h5>Standard Balcony Stateroom #8204</h5>
               </div>
 
-              <div className="space-y-3 rounded-lg border border-white/10 bg-black/40 p-4">
+              <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-4">
                 <div className="text-xs text-purple-400 font-mono">.text-h6 (15.2px → 18.4px)</div>
                 <h6>STATEROOM BOOKING SUMMARY • TIER 1 CONFIRMED</h6>
               </div>
@@ -3296,7 +3310,7 @@ ${deskRules.join("\n")}
         {/* SECTION 2: COLORS */}
         <section
           id="colors"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 md:flex-row md:items-center">
             <div>
@@ -3380,7 +3394,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Inline Theme Token Editor */}
-          <div className="space-y-4 border border-purple-500/30 bg-black/40 p-5">
+          <div className="flex flex-col gap-4 border border-purple-500/30 bg-black/40 p-5">
             <h3 className="flex items-center gap-2">
               <Sliders className="h-4 w-4 text-purple-400" /> Quick Theme Token
               Overrides
@@ -3435,7 +3449,7 @@ ${deskRules.join("\n")}
         {/* SECTION 3: BUTTONS */}
         <section
           id="buttons"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-emerald-400">
@@ -3455,7 +3469,7 @@ ${deskRules.join("\n")}
         {/* SECTION 4: FORM ELEMENTS */}
         <section
           id="form-elements"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-amber-400">
@@ -3471,7 +3485,7 @@ ${deskRules.join("\n")}
           {/* Interactive Form Controls grid */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Text Inputs */}
-            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5">
               <h3>Text Inputs</h3>
 
               {/* Default */}
@@ -3508,9 +3522,9 @@ ${deskRules.join("\n")}
                   readOnly
                   className="focus-ring w-full border border-red-500/50 bg-red-500/10 px-4 py-2.5 text-red-300 outline-none"
                 />
-                <span className="block text-[10px] text-red-400">
+                <HelperText tone="error">
                   Please enter a valid email address.
-                </span>
+                </HelperText>
               </div>
 
               {/* Disabled */}
@@ -3528,7 +3542,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Search & Textarea */}
-            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5">
               <h3>Search & Textarea Controls</h3>
 
               {/* Search input with icon */}
@@ -3559,7 +3573,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* PIN / OTP Digit Input */}
-            <div className="space-y-5 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
+            <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>PIN / OTP Digit Input</h3>
 
               {/* Default State */}
@@ -3710,7 +3724,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Verify Module Cards */}
-            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
+            <div className="flex flex-col gap-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>Verify Module Cards (Crew · Planner · Cruise · Admin)</h3>
               <p>
                 Full glassmorphism verify card modules as used on{" "}
@@ -3851,7 +3865,7 @@ ${deskRules.join("\n")}
                       >
                         Access My Dashboard →
                       </button>
-                      <div className="mt-3 space-y-1.5 text-center">
+                      <div className="mt-3 flex flex-col gap-1.5 text-center">
                         <button
                           type="button"
                           style={{
@@ -4105,7 +4119,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Auth Modal Modules */}
-            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
+            <div className="flex flex-col gap-6 border border-white/10 bg-white/[0.02] p-5 md:col-span-2">
               <h3>Auth Modal Modules (Sign In · Sign Up)</h3>
               <p>
                 Full glassmorphism authentication modal cards as used in{" "}
@@ -4158,7 +4172,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Account Type Toggle */}
-                    <div className="my-3 space-y-1.5">
+                    <div className="my-3 flex flex-col gap-1.5">
                       <div className="flex items-center justify-between">
                         <span className="block text-left text-[10px]">
                           ACCOUNT TYPE:
@@ -4181,7 +4195,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Form Fields */}
-                    <div className="mb-6 space-y-3">
+                    <div className="mb-6 flex flex-col gap-3">
                       <div>
                         <label className="mb-1 block text-[10px]">EMAIL</label>
                         <div className="input-glow-border w-full">
@@ -4325,7 +4339,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Account Type Toggle */}
-                    <div className="my-3 space-y-1.5">
+                    <div className="my-3 flex flex-col gap-1.5">
                       <span className="block text-left text-[10px]">
                         ACCOUNT TYPE:
                       </span>
@@ -4344,7 +4358,7 @@ ${deskRules.join("\n")}
                     </div>
 
                     {/* Form Fields */}
-                    <div className="mb-6 space-y-3">
+                    <div className="mb-6 flex flex-col gap-3">
                       {signUpRole === "planner" ? (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
@@ -4561,12 +4575,12 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Checkboxes & Radios */}
-            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5">
               <h3 className="text-emerald-400">
                 Checkboxes & Radio Controls
               </h3>
 
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 <Toggle
                   id="sg-newsletter-toggle"
                   label="Subscribe to official band newsletter announcements"
@@ -4590,7 +4604,7 @@ ${deskRules.join("\n")}
                 />
               </div>
 
-              <div className="space-y-2 border-t border-white/10 pt-3">
+              <div className="flex flex-col gap-2 border-t border-white/10 pt-3">
                 <span className="mb-2 block">Performance Tier Radio Group</span>
                 <div className="flex flex-col gap-2">
                   <label className="flex cursor-pointer items-center gap-3">
@@ -4620,10 +4634,10 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Switches & Toggles */}
-            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-5">
               <h3 className="text-pink-400">Toggles & Switches</h3>
 
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <Toggle
                     id="style-guide-push-notifications"
@@ -4677,11 +4691,11 @@ ${deskRules.join("\n")}
         {/* SECTION 5: DROPDOWNS */}
         <section
           id="dropdowns"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
-              <ChevronDown className="h-6 w-6" /> 5. Standardized Global
+              <DotChevronDown className="h-6 w-6" /> 5. Standardized Global
               Dropdowns
             </h2>
             <p>
@@ -4690,30 +4704,150 @@ ${deskRules.join("\n")}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {/* Standard Pill Filter Dropdown (CITY ▼ Default) */}
-            <div className="space-y-4 border border-white/10 bg-white/[0.02] p-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+            {/* Layout 1: Unified Pill Unroll (Default) */}
+            <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between">
-                <h3>Default Site Pill Dropdown (`CITY ▼`)</h3>
+                <h3>1. Pill Unroll (`layout="unified"`)</h3>
                 <span className="rounded border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
-                  Site-Wide Standard
+                  Single Pill Container
                 </span>
               </div>
               <p>
-                Gooey animated glass filter pill dropdown with selection popup
-                menu. Used across Tour List filters, booking forms, and
-                site-wide dropdown controls.
+                Single morphing pill container with Karen Avetisyan blurry unroll physics. Seamlessly unrolls options downwards without separate floating boxes.
               </p>
               <div className="pt-2">
-                <GooeyMessagesDropdown
-                  placeholder="CITY"
-                  customers={[
-                    { id: "chicago", name: "Chicago, IL (14)" },
-                    { id: "naperville", name: "Naperville, IL (8)" },
-                    { id: "milwaukee", name: "Milwaukee, WI (5)" },
-                    { id: "vegas", name: "Las Vegas, NV (3)" },
+                <CustomDropdown
+                  ariaLabel="Pill Unroll Category Filter"
+                  layout="unified"
+                  value={selectedCategory}
+                  onChange={(val) => setSelectedCategory(String(val))}
+                  triggerPrefix={
+                    <span className="flex items-center gap-2 min-w-0">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 shadow-sm shadow-purple-600/40">
+                        <Filter className="h-2.5 w-2.5 text-white" />
+                      </span>
+                      <span className="text-[11px] font-semibold text-white/50 tracking-wider uppercase">
+                        Category:
+                      </span>
+                    </span>
+                  }
+                  options={[
+                    { value: "all", label: "ALL" },
+                    {
+                      value: "music-videos",
+                      label: "OFFICIAL MUSIC VIDEOS",
+                      badge: 30,
+                    },
+                    {
+                      value: "tv",
+                      label: "TV APPEARANCES",
+                      badge: 12,
+                    },
+                    {
+                      value: "concerts",
+                      label: "FULL CONCERTS",
+                      badge: 12,
+                    },
+                    {
+                      value: "covers",
+                      label: "COVER SONGS",
+                      badge: 7,
+                    },
                   ]}
-                  onSelect={(opt) => setSelectedDropdown(opt.id)}
+                  minWidth={280}
+                  maxHeight={360}
+                />
+              </div>
+            </div>
+
+            {/* Layout 2: Glass Spotlight */}
+            <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-6">
+              <div className="flex items-center justify-between">
+                <h3>2. Glass Spotlight (`layout="spotlight"`)</h3>
+                <span className="rounded border border-purple-500/20 bg-purple-500/10 px-2 py-0.5 text-[10px] text-purple-400">
+                  Floating Search Card
+                </span>
+              </div>
+              <p>
+                Floating frosted glass card with built-in live filter search bar, subtle purple spotlight ambient glow, badge counters, and animated neon checkmarks.
+              </p>
+              <div className="pt-2">
+                <CustomDropdown
+                  ariaLabel="Glass Spotlight Filter"
+                  layout="spotlight"
+                  value={spotlightVal}
+                  onChange={(val) => setSpotlightVal(String(val))}
+                  options={[
+                    { value: "all", label: "All Months", badge: 48 },
+                    { value: "october", label: "October 2026", badge: 14 },
+                    { value: "november", label: "November 2026", badge: 18 },
+                    { value: "december", label: "December 2026", badge: 12 },
+                    { value: "january", label: "January 2027", badge: 4 },
+                  ]}
+                  minWidth={280}
+                  maxHeight={340}
+                />
+              </div>
+            </div>
+
+            {/* Layout 3: Bento Grid */}
+            <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-6">
+              <div className="flex items-center justify-between">
+                <h3>3. Bento Grid (`layout="bento"`)</h3>
+                <span className="rounded border border-cyan-500/20 bg-cyan-500/10 px-2 py-0.5 text-[10px] text-cyan-400">
+                  Multi-Column Matrix
+                </span>
+              </div>
+              <p>
+                Wide multi-column bento chip matrix displaying options as quick-select pill chips. Perfect for rapid scanning of months or top cities without vertical scrolling.
+              </p>
+              <div className="pt-2">
+                <CustomDropdown
+                  ariaLabel="Bento Grid Filter"
+                  layout="bento"
+                  value={bentoVal}
+                  onChange={(val) => setBentoVal(String(val))}
+                  options={[
+                    { value: "all", label: "All Cities", badge: 85 },
+                    { value: "chicago", label: "Chicago, IL", badge: 14 },
+                    { value: "naperville", label: "Naperville, IL", badge: 8 },
+                    { value: "milwaukee", label: "Milwaukee, WI", badge: 5 },
+                    { value: "vegas", label: "Las Vegas, NV", badge: 3 },
+                    { value: "joliet", label: "Joliet, IL", badge: 6 },
+                  ]}
+                  minWidth={280}
+                  maxHeight={340}
+                />
+              </div>
+            </div>
+
+            {/* Layout 4: Minimal HUD */}
+            <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-6">
+              <div className="flex items-center justify-between">
+                <h3>4. Minimal HUD (`layout="minimal"`)</h3>
+                <span className="rounded border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] text-amber-400">
+                  Precision Drawer
+                </span>
+              </div>
+              <p>
+                Ultra-clean low-profile HUD drawer with glowing dot trigger indicator, hairline dividing lines, and left neon accent stripe on active items.
+              </p>
+              <div className="pt-2">
+                <CustomDropdown
+                  ariaLabel="Minimal HUD Filter"
+                  layout="minimal"
+                  value={minimalVal}
+                  onChange={(val) => setMinimalVal(String(val))}
+                  options={[
+                    { value: "all", label: "All Events", badge: 120 },
+                    { value: "festivals", label: "Festivals & Fairs", badge: 42 },
+                    { value: "casinos", label: "Casinos & Resorts", badge: 28 },
+                    { value: "private", label: "Private Galas", badge: 15 },
+                    { value: "clubs", label: "Rock Clubs", badge: 35 },
+                  ]}
+                  minWidth={280}
+                  maxHeight={340}
                 />
               </div>
             </div>
@@ -4723,7 +4857,7 @@ ${deskRules.join("\n")}
         {/* SECTION 6: CHAT BOX COMPONENT */}
         <section
           id="chat"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 md:flex-row md:items-center">
             <div>
@@ -4793,7 +4927,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Chat Bubble Customizer UI Control Bar */}
-          <div className="space-y-6 border border-white/10 bg-white/[0.03] p-5">
+          <div className="flex flex-col gap-6 border border-white/10 bg-white/[0.03] p-5">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <h3 className="flex items-center gap-2">
                 <Sliders className="h-4 w-4" /> Chat Bubble UI Controls Studio
@@ -4816,7 +4950,7 @@ ${deskRules.join("\n")}
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
               {/* 1. Corner Radius Control */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Corner Radius</span>
                   <span>{bubbleRadius}px</span>
@@ -4844,7 +4978,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 2. Border Width Control */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Border Width</span>
                   <span>{bubbleBorderWidth}px</span>
@@ -4872,7 +5006,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 3. Font Size Control */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Font Size</span>
                   <span className="text-emerald-300">{bubbleFontSize}px</span>
@@ -4900,7 +5034,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 4. Padding Y Control */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Padding Y (Vertical)</span>
                   <span>{bubblePaddingY}px</span>
@@ -4928,7 +5062,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 5. Padding X Control */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Padding X (Horizontal)</span>
                   <span>{bubblePaddingX}px</span>
@@ -4956,7 +5090,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 6. Message Spacing Control */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Message Spacing (Gap)</span>
                   <span className="text-amber-300">{messageSpacing}px</span>
@@ -4984,7 +5118,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 7. Opacity Control */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Bubble Opacity</span>
                   <span className="text-pink-300">{bubbleOpacity}%</span>
@@ -5012,7 +5146,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 8. Color Palette Swatches */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="block">Color Swatches</label>
                 <div className="flex flex-wrap items-center gap-1.5">
                   {[
@@ -5055,7 +5189,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* 9. Background Style Themes */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="block">Fill Theme</label>
                 <div className="grid grid-cols-2 gap-1.5">
                   {[
@@ -5133,7 +5267,7 @@ ${deskRules.join("\n")}
         {/* SECTION 7: CARDS & BADGES */}
         <section
           id="components"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-pink-400">
@@ -5146,7 +5280,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Role Badges */}
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             <h3>Role & Section Badges</h3>
             <div className="flex flex-wrap items-center gap-3">
               <RoleBadge role="admin" />
@@ -5158,7 +5292,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Unified Avatar Component Showcase */}
-          <div className="space-y-4 border-t border-white/10 pt-4">
+          <div className="flex flex-col gap-4 border-t border-white/10 pt-4">
             <h3>Unified Avatar Component</h3>
             <p className="text-white/60 text-sm">
               Supports photos/images, automatic initials fallback, role &amp; bottom badges, custom sizes, and neon glow.
@@ -5204,7 +5338,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Announcement Banner Component */}
-          <div className="space-y-3 border-t border-white/10 pt-4">
+          <div className="flex flex-col gap-3 border-t border-white/10 pt-4">
             <h3 className="text-amber-400">Announcement Banner Component</h3>
             <AnnouncementBanner
               text="⚡ 7TH HEAVEN CRUISE 2026 PRE-SALE IS NOW OPEN FOR VIP MEMBERS!"
@@ -5217,7 +5351,7 @@ ${deskRules.join("\n")}
           {/* Cards & Alerts Grid */}
           <div className="grid grid-cols-1 gap-6 border-t border-white/10 pt-4 md:grid-cols-3">
             {/* Glass Card Container */}
-            <div className="transition-colors space-y-3 border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl hover:border-purple-500/40">
+            <div className="transition-colors flex flex-col gap-3 border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl hover:border-purple-500/40">
               <span className="text-purple-400">Glassmorphism Card</span>
               <h4>House of Blues Chicago</h4>
               <p>
@@ -5230,7 +5364,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Alert Banner Callout */}
-            <div className="space-y-3 rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 p-6">
+            <div className="flex flex-col gap-3 rounded-[var(--radius-box)] border border-amber-500/30 bg-amber-500/10 p-6">
               <div className="flex items-center gap-2 text-amber-400">
                 <AlertTriangle className="h-4 w-4" /> System Warning Notice
               </div>
@@ -5241,7 +5375,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Modal Trigger */}
-            <div className="flex flex-col justify-between space-y-3 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6">
+            <div className="flex flex-col justify-between gap-3 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6">
               <div>
                 <span className="text-emerald-400">Interactive Modal</span>
                 <h4>Login & Authentication Modal</h4>
@@ -5260,7 +5394,7 @@ ${deskRules.join("\n")}
         {/* SECTION 8: MODALS & DIALOGS */}
         <section
           id="modals"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5274,7 +5408,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {/* 1 — Glassmorphism Modal Shell */}
-            <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col justify-between gap-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span>Glass Shell</span>
                 <h4>Glassmorphism Modal</h4>
@@ -5292,7 +5426,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* 2 — Confirmation / Alert Dialog */}
-            <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col justify-between gap-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-amber-400">Confirm / Alert</span>
                 <h4>Confirmation Dialog</h4>
@@ -5322,7 +5456,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* 3 — Login / Auth Modal */}
-            <div className="flex flex-col justify-between space-y-3 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col justify-between gap-3 border border-white/10 bg-white/[0.02] p-5">
               <div>
                 <span className="text-emerald-400">Auth Modal</span>
                 <h4>Login & Signup Modal</h4>
@@ -5341,7 +5475,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Alert / Success Toast Demo (inline) */}
-          <div className="space-y-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
+          <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
             <h3>Alert / Success Toast Patterns</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {/* Success */}
@@ -5412,7 +5546,7 @@ ${deskRules.join("\n")}
                   verify screens, PIN entry, and success states.
                 </p>
 
-                <div className="space-y-3">
+                <div className="flex flex-col gap-3">
                   <div className="input-glow-border w-full">
                     <input
                       type="text"
@@ -5488,7 +5622,7 @@ ${deskRules.join("\n")}
         {/* SECTION 9: BORDERS & GLASS */}
         <section
           id="borders"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5501,7 +5635,7 @@ ${deskRules.join("\n")}
             </p>
           </div>
 
-          <div className="space-y-4 border border-white/10 bg-white/[0.02] p-6">
+          <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-6">
             <div className="flex items-center justify-between">
               <span>
                 Variable: <strong>--color-border-main</strong>
@@ -5530,7 +5664,7 @@ ${deskRules.join("\n")}
         {/* SCROLLBAR SHOWCASE */}
         <section
           id="scrollbars"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5546,10 +5680,10 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {/* Vertical scroll demo */}
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               <p className="text-purple-400">Vertical Scroll</p>
               <div className="overflow-hidden border border-white/10 bg-white/[0.02]">
-                <CustomScrollbar height={256} className="space-y-3 p-4">
+                <CustomScrollbar height={256} className="flex flex-col gap-3 p-4">
                   {Array.from({ length: 18 }).map((_, i) => (
                     <div
                       key={i}
@@ -5570,7 +5704,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Horizontal scroll demo */}
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               <p className="text-purple-400">Horizontal Scroll</p>
               <div className="overflow-hidden border border-white/10 bg-white/[0.02]">
                 <CustomScrollbar direction="horizontal" className="p-4 pb-6">
@@ -5595,13 +5729,13 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Both axes demo */}
-            <div className="space-y-3 md:col-span-2">
+            <div className="flex flex-col gap-3 md:col-span-2">
               <p className="text-purple-400">Both Axes (2D Scroll)</p>
               <div
                 data-lenis-prevent
                 className="custom-scrollbar max-h-48 overflow-scroll border border-white/10 bg-white/[0.02] p-4"
               >
-                <div className="space-y-2 min-w-[900px]">
+                <div className="flex flex-col gap-2 min-w-[900px]">
                   {Array.from({ length: 10 }).map((_, row) => (
                     <div key={row} className="flex gap-2">
                       {Array.from({ length: 10 }).map((_, col) => (
@@ -5640,7 +5774,7 @@ ${deskRules.join("\n")}
         {/* SECTION 10: SPACING & PADDING TOKENS */}
         <section
           id="spacing"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -5654,7 +5788,7 @@ ${deskRules.join("\n")}
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="space-y-2 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col gap-2 border border-white/10 bg-white/[0.02] p-5">
               <span>Mobile Page Padding</span>
               <div className="text-2xl">
                 16px (
@@ -5663,7 +5797,7 @@ ${deskRules.join("\n")}
               <p>Used on screens below 768px viewport width.</p>
             </div>
 
-            <div className="space-y-2 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col gap-2 border border-white/10 bg-white/[0.02] p-5">
               <span className="text-purple-400">Tablet Page Padding</span>
               <div className="text-2xl">
                 32px (
@@ -5672,7 +5806,7 @@ ${deskRules.join("\n")}
               <p>Used on screens between 768px and 1024px viewport width.</p>
             </div>
 
-            <div className="space-y-2 border border-white/10 bg-white/[0.02] p-5">
+            <div className="flex flex-col gap-2 border border-white/10 bg-white/[0.02] p-5">
               <span className="text-emerald-400">Desktop Page Padding</span>
               <div className="text-2xl">
                 42px (
@@ -5684,7 +5818,7 @@ ${deskRules.join("\n")}
 
           {/* Dedicated .site-container Utility Specification Card */}
           <div className="flex flex-col justify-between gap-4 border border-purple-500/30 bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-black p-6 md:flex-row md:items-center">
-            <div className="space-y-1">
+            <div className="flex flex-col gap-1">
               <span className="block text-purple-400">
                 Primary Layout Wrapper Class
               </span>
@@ -5704,7 +5838,7 @@ ${deskRules.join("\n")}
                 <code className="text-emerald-300">42px</code> Desktop).
               </p>
             </div>
-            <div className="shrink-0 space-y-1 border border-white/10 bg-black/60 p-4">
+            <div className="shrink-0 flex flex-col gap-1 border border-white/10 bg-black/60 p-4">
               <div>
                 <span className="text-white/40">width:</span> 100%;
               </div>
@@ -5723,7 +5857,7 @@ ${deskRules.join("\n")}
         {/* SECTION 11: CANVAS SHADER & FILM GRAIN STUDIO */}
         <section
           id="canvas-studio"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center">
             <div>
@@ -5755,7 +5889,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* Full-Page Film Grain Controls */}
-            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-6">
+            <div className="flex flex-col gap-6 border border-white/10 bg-white/[0.02] p-6">
               <h3 className="flex items-center gap-2 text-emerald-400">
                 Film Grain Controls
               </h3>
@@ -5766,7 +5900,7 @@ ${deskRules.join("\n")}
               </p>
 
               {/* Grain Opacity Slider */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Grain Opacity</span>
                   <span className="text-emerald-400">
@@ -5799,7 +5933,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Grain Size Slider */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span>Grain Size (baseFrequency)</span>
                   <span className="text-emerald-400">{canvasGrainSize}</span>
@@ -5828,7 +5962,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Grain Blend Mode */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="block">Grain Blend Mode</label>
                 <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-5">
                   {[
@@ -5852,7 +5986,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* Background WebGL Shader Controls — LIVE connected to NeatGradient */}
-            <div className="space-y-5 border border-white/10 bg-white/[0.02] p-6">
+            <div className="flex flex-col gap-4 border border-white/10 bg-white/[0.02] p-6">
               <h3 className="flex items-center gap-2">
                 <Sliders className="h-4 w-4" /> 2. Background Shader Parameters
                 (Live)
@@ -5966,7 +6100,7 @@ ${deskRules.join("\n")}
                   },
                 ] as const
               ).map((ctrl) => (
-                <div key={ctrl.label} className="space-y-1">
+                <div key={ctrl.label} className="flex flex-col gap-1">
                   <div className="flex items-center justify-between">
                     <span>{ctrl.label}</span>
                     <span className={`text-${ctrl.color}-400`}>
@@ -5986,7 +6120,7 @@ ${deskRules.join("\n")}
               ))}
 
               {/* Background Color */}
-              <div className="space-y-2">
+              <div className="flex flex-col gap-2">
                 <label className="block">Background Color</label>
                 <div className="flex items-center gap-3">
                   {[
@@ -6021,7 +6155,7 @@ ${deskRules.join("\n")}
         {/* SECTION 11: GLOBAL CONTAINER STYLES */}
         <section
           id="global-containers"
-          className="scroll-mt-36 space-y-8 border border-white/10 p-6 sm:p-8"
+          className="scroll-mt-36 flex flex-col gap-8 border border-white/10 p-6 sm:p-8"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2 text-pink-400">
@@ -6115,7 +6249,7 @@ ${deskRules.join("\n")}
               return (
                 <div
                   key={item.token}
-                  className="space-y-3 border border-white/10 bg-white/[0.02] p-4"
+                  className="flex flex-col gap-3 border border-white/10 bg-white/[0.02] p-4"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -6191,11 +6325,11 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Live Preview Strip */}
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             <h3>Live Preview</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div
-                className="space-y-2 p-5"
+                className="flex flex-col gap-2 p-5"
                 style={{
                   backgroundColor: tokens.colors["--color-bg-card"],
                   border: `1px solid ${tokens.colors["--color-border-main"]}`,
@@ -6214,7 +6348,7 @@ ${deskRules.join("\n")}
                 </p>
               </div>
               <div
-                className="space-y-2 p-5 backdrop-blur-xl"
+                className="flex flex-col gap-2 p-5 backdrop-blur-xl"
                 style={{
                   backgroundColor: tokens.colors["--color-bg-glass"],
                   border: `1px solid ${tokens.colors["--color-border-main"]}`,
@@ -6226,7 +6360,7 @@ ${deskRules.join("\n")}
                 </p>
               </div>
               <div
-                className="space-y-2 p-5"
+                className="flex flex-col gap-2 p-5"
                 style={{
                   backgroundColor: tokens.colors["--color-bg-surface"],
                   border: `1px solid ${tokens.colors["--color-border-purple"]}`,
@@ -6245,7 +6379,7 @@ ${deskRules.join("\n")}
         {/* SECTION 12: STATEROOM CATALOG & SUITE PERKS */}
         <section
           id="stateroom-perks"
-          className="scroll-mt-36 space-y-6 overflow-hidden border-0 p-0"
+          className="scroll-mt-36 flex flex-col gap-6 overflow-hidden border-0 p-0"
         >
           <div className="border-b border-white/10 px-0 py-4 pb-4">
             <h2 className="flex items-center gap-2">
@@ -6303,7 +6437,7 @@ ${deskRules.join("\n")}
               <div className="mt-8 border-0 p-0">
                 <h4 className="mb-3">Available layouts:</h4>
                 {stateroomTab === "suites" && (
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-2">
                     <p>• Ultimate Family Townhouse</p>
                     <p>• Royal Loft Suite</p>
                     <p>• Owner&apos;s Suite</p>
@@ -6313,7 +6447,7 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "balcony" && (
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-2">
                     <p>• Infinite Ocean View Balcony</p>
                     <p>• Infinite Central Park Balcony</p>
                     <p>• Ocean View Balcony</p>
@@ -6322,13 +6456,13 @@ ${deskRules.join("\n")}
                   </div>
                 )}
                 {stateroomTab === "ocean" && (
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-2">
                     <p>• Panoramic Ocean View</p>
                     <p>• Ocean View</p>
                   </div>
                 )}
                 {stateroomTab === "interior" && (
-                  <div className="space-y-2">
+                  <div className="flex flex-col gap-2">
                     <p>• Interior</p>
                     <p>• Spacious Interior</p>
                     <p>• Central Park View Interior</p>
@@ -6446,7 +6580,7 @@ ${deskRules.join("\n")}
               </div>
 
               {/* Disclaimers & Notes */}
-              <div className="mt-8 space-y-1.5 border-t border-white/10 pt-4">
+              <div className="mt-8 flex flex-col gap-1.5 border-t border-white/10 pt-4">
                 {suiteTab === "sea" && (
                   <>
                     <p>
@@ -6502,7 +6636,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Stateroom Pricing & Rate Cards Showcase */}
-          <div className="space-y-6 border-t border-white/10 pt-8">
+          <div className="flex flex-col gap-6 border-t border-white/10 pt-8">
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <span className="text-purple-400">
@@ -6602,7 +6736,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cruise Guest Reservation Form Card Showcase */}
-          <div className="space-y-6 border-t border-white/10 pt-8">
+          <div className="flex flex-col gap-6 border-t border-white/10 pt-8">
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <span>Reservation Form Component</span>
@@ -6793,7 +6927,7 @@ ${deskRules.join("\n")}
           </div>
 
           {/* Cruise Policies & Guidelines 3-Column Showcase */}
-          <div className="space-y-6 border-t border-white/10 pt-8">
+          <div className="flex flex-col gap-6 border-t border-white/10 pt-8">
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <span className="text-purple-400">
@@ -6819,7 +6953,7 @@ ${deskRules.join("\n")}
                   <strong>must</strong> be placed under our official group
                   booking.
                 </p>
-                <ul className="mb-6 space-y-3">
+                <ul className="mb-6 flex flex-col gap-3">
                   <li className="flex items-start gap-2.5">
                     <Check className="text-purple-400 shrink-0 mt-0.5 h-4 w-4" />
                     <span>
@@ -6857,7 +6991,7 @@ ${deskRules.join("\n")}
                     </span>
                   </li>
                 </ul>
-                <div className="space-y-2 border-t border-white/10 pt-3">
+                <div className="flex flex-col gap-2 border-t border-white/10 pt-3">
                   <p>
                     <strong>Need help?</strong>{" "}
                     <a
@@ -6893,7 +7027,7 @@ ${deskRules.join("\n")}
                   <h3>Passport Requirements</h3>
                 </div>
                 <p className="mb-6">Essential travel document guidelines</p>
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   <p>
                     A physical passport book valid for 6 months post-cruise is{" "}
                     <strong className="inline-block">highly recommended</strong>{" "}
@@ -6927,10 +7061,10 @@ ${deskRules.join("\n")}
                   <h3>Cancellation Policy</h3>
                 </div>
                 <p className="mb-6">Refund terms before booking</p>
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   <div>
-                    <h4 className="mb-1">Group Rate Rooms:</h4>
-                    <ul className="list-disc space-y-1 pl-5">
+                    <h4 className="mb-1">Group Rate Rooms</h4>
+                    <ul className="list-disc flex flex-col gap-1 pl-5">
                       <li>
                         Cancel before May 12, 2026: <strong>No penalty</strong>
                       </li>
@@ -6967,7 +7101,7 @@ ${deskRules.join("\n")}
         {/* SECTION 13: CREW SCHEDULING & CREW GROUPS SYSTEM */}
         <section
           id="crew-scheduling"
-          className="scroll-mt-36 space-y-8 overflow-hidden border-0 p-0"
+          className="scroll-mt-36 flex flex-col gap-8 overflow-hidden border-0 p-0"
         >
           <div className="border-b border-white/10 px-0 py-4 pb-4">
             <h2 className="flex items-center gap-2">
@@ -6983,7 +7117,7 @@ ${deskRules.join("\n")}
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* MODULE 1: OpenShifts Cell Controls & Select Crew Group Popover */}
-            <div className="flex flex-col justify-between space-y-6 border border-white/10 bg-white/[0.02] p-6">
+            <div className="flex flex-col justify-between gap-6 border border-white/10 bg-white/[0.02] p-6">
               <div>
                 <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-3">
                   <div>
@@ -6999,11 +7133,11 @@ ${deskRules.join("\n")}
                 </div>
 
                 {/* OpenShifts Cell Controls Mockup */}
-                <div className="space-y-3">
+                <div className="flex flex-col gap-3">
                   <span className="block text-[10px] text-white/40">
                     1. OpenShifts Grid Cell Buttons
                   </span>
-                  <div className="max-w-sm space-y-2 border border-white/10 bg-[#0d0d14] p-3">
+                  <div className="max-w-sm flex flex-col gap-2 border border-white/10 bg-[#0d0d14] p-3">
                     <div className="transition-colors group flex w-full cursor-pointer flex-col items-center justify-center border border-dashed border-purple-500/40 py-1.5 shadow-2xs hover:border-purple-400 hover:bg-purple-500/10">
                       <span className="text-purple-400">+</span>
                       <span className="mt-0.5 text-[12px] text-purple-400">
@@ -7029,7 +7163,7 @@ ${deskRules.join("\n")}
                 </div>
 
                 {/* Select Crew Group Popover Spec */}
-                <div className="mt-6 space-y-3">
+                <div className="mt-6 flex flex-col gap-3">
                   <span className="block text-[10px] text-white/40">
                     2. Frosted Glass Select Crew Group Popover
                   </span>
@@ -7041,7 +7175,7 @@ ${deskRules.join("\n")}
                       </span>
                     </div>
 
-                    <div className="space-y-1.5">
+                    <div className="flex flex-col gap-1.5">
                       {[
                         { name: "Kitchen", count: "4 members" },
                         { name: "Managers", count: "2 members" },
@@ -7070,7 +7204,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* MODULE 2: Create New Crew Group Modal Spec */}
-            <div className="space-y-6 border border-white/10 bg-white/[0.02] p-6">
+            <div className="flex flex-col gap-6 border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <div>
                   <h3>Create New Crew Group Glass Modal</h3>
@@ -7105,10 +7239,10 @@ ${deskRules.join("\n")}
                 {/* Body */}
                 <CustomScrollbar
                   height={384}
-                  className="space-y-3.5 px-4 pt-5 pb-3"
+                  className="flex flex-col gap-3 px-4 pt-5 pb-3"
                 >
                   {/* Group Name input */}
-                  <div className="space-y-1.5">
+                  <div className="flex flex-col gap-1.5">
                     <label className="block text-[12px] text-white/50">
                       Group Name
                     </label>
@@ -7121,11 +7255,11 @@ ${deskRules.join("\n")}
                   </div>
 
                   {/* Member selection list item */}
-                  <div className="space-y-1.5 pt-2">
+                  <div className="flex flex-col gap-1.5 pt-2">
                     <span className="block text-[12px] text-white/50">
                       Select Crew Members
                     </span>
-                    <div className="space-y-3 border border-white/10 p-3">
+                    <div className="flex flex-col gap-3 border border-white/10 p-3">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <div className="relative h-4 w-8 cursor-pointer bg-purple-600">
@@ -7144,7 +7278,7 @@ ${deskRules.join("\n")}
                       </div>
 
                       {/* Time Frame box */}
-                      <div className="space-y-2 border border-white/10 p-2.5">
+                      <div className="flex flex-col gap-2 border border-white/10 p-2.5">
                         <div className="flex items-center justify-between">
                           <span className="text-[9.5px]">Time Frame 1</span>
                         </div>
@@ -7211,7 +7345,7 @@ ${deskRules.join("\n")}
         {/* SECTION 14: SHARED SECTIONS — PAGE HERO */}
         <section
           id="shared-sections"
-          className="scroll-mt-36 space-y-8 rounded-2xl border border-white/10 p-6 sm:p-8 bg-white/[0.01]"
+          className="scroll-mt-36 flex flex-col gap-8 rounded-2xl border border-white/10 p-6 sm:p-8 bg-white/[0.01]"
         >
           <div className="border-b border-white/10 pb-4">
             <h2 className="flex items-center gap-2">
@@ -7223,9 +7357,9 @@ ${deskRules.join("\n")}
             </p>
           </div>
 
-          <div className="space-y-10">
+          <div className="flex flex-col gap-10">
             {/* 1. Left-aligned Hero (Default Standard) */}
-            <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-6">
+            <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <span className="text-sm font-semibold text-purple-300">
                   Variant A: Left-Aligned with Actions (Proposed Standard)
@@ -7250,7 +7384,7 @@ ${deskRules.join("\n")}
             </div>
 
             {/* 2. Centered Hero */}
-            <div className="space-y-4 rounded-xl border border-white/10 bg-white/[0.02] p-6">
+            <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <span className="text-sm font-semibold text-purple-300">
                   Variant B: Centered Alignment

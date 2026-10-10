@@ -226,7 +226,7 @@ function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boole
         </div>
 
         {isIos ? (
-          <div className="space-y-4 my-5 text-sm text-white/80">
+          <div className="flex flex-col gap-4 my-5 text-sm text-white/80">
             <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3.5">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300 text-xs">
                 1
@@ -264,7 +264,7 @@ function IosInstallModal({ onClose, isIos }: { onClose: () => void; isIos: boole
             </div>
           </div>
         ) : (
-          <div className="my-5 text-sm text-white/70 space-y-3">
+          <div className="my-5 text-sm text-white/70 flex flex-col gap-3">
             <p>
               To install this app on your device, open this site in <strong>Chrome</strong>, <strong>Edge</strong>, or <strong>Safari</strong> on your smartphone.
             </p>

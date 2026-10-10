@@ -160,7 +160,7 @@ export default function LogoTicker({
       role="region"
       aria-label={ariaLabel || defaultLabel}
       tabIndex={0}
-      className="relative w-full focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-amber-400/50"
+      className="relative w-full transition-shadow duration-150 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-amber-400/50"
     >
       <div
         className={`hoy-ticker relative w-full overflow-hidden ${bgClassName}`}

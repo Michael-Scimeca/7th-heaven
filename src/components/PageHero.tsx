@@ -42,7 +42,7 @@ export function PageHero({
     : undefined;
 
   return (
-    <Comp className={`w-full ${className}`.trim()}>
+    <Comp className={`page-hero w-full ${className}`.trim()}>
       {actions && !isCenter ? (
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between w-full">
           <Stack gap="xs" className="max-w-3xl items-start text-left">

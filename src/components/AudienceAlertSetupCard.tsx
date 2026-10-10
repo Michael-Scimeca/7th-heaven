@@ -283,7 +283,7 @@ export function AudienceAlertSetupCard({
         )}
 
         {/* Action button bar */}
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between ">
           {webPushEnabled ? (
             <button
               type="button"

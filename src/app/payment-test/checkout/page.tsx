@@ -119,7 +119,7 @@ export default function NorthCheckoutPage() {
 
           {/* Order summary */}
           {cart.items.length > 0 && (
-            <div className="mb-6 space-y-2">
+            <div className="mb-6 flex flex-col gap-2">
               {cart.items.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
                   <div className="relative h-11 w-11 shrink-0 overflow-hidden bg-black/40">
@@ -153,7 +153,7 @@ export default function NorthCheckoutPage() {
           {/* Card fields — shown either way so the UI looks/feels the same,
               but in mock mode they're purely cosmetic (only the last 4 of
               the account number get used, for the fake masked receipt). */}
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <div>
               <label className="block">
                 Account Number

@@ -10,6 +10,7 @@ import PageHero from "@/components/PageHero";
 
 import { InstallAppButton } from "@/components/InstallAppButton";
 import { AudienceAlertSetupCard } from "@/components/AudienceAlertSetupCard";
+import { DotChevronRight } from "@/components/ui/DotArrow";
 
 type Group = "fans" | "crew" | "band" | "cruise";
 
@@ -177,7 +178,7 @@ export default function NotificationsPage() {
         aria-labelledby="notifications-heading"
         className="section relative"
       >
-        <div className="overflow-hidden space-y-8">
+        <div className="overflow-hidden flex flex-col gap-8">
           {/* Page Header */}
           <PageHero
             badge={
@@ -218,6 +219,51 @@ export default function NotificationsPage() {
             align="left"
             className="mb-8 max-w-3xl"
           />
+
+          {/* Push & Email Tech Showcase Banner */}
+          <div className="mx-auto max-w-3xl w-full">
+            <Link
+              href="/push-updates"
+              className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </span>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-white">
+                      See How Push Alerts & Email Updates Work
+                    </span>
+                    <span className="rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+                      Interactive Showcase
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-400">
+                    Explore our live simulator: see mobile lock-screens, desktop notifications, and email updates in action.
+                  </p>
+                </div>
+              </div>
+              <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary group-hover:translate-x-0.5 transition-transform shrink-0">
+                Explore Demo
+                <DotChevronRight className="h-3.5 w-3.5" />
+              </span>
+            </Link>
+          </div>
 
           {/* Install 7th Heaven App Card */}
           <div className="mx-auto max-w-3xl">
@@ -277,7 +323,7 @@ export default function NotificationsPage() {
                 </div>
 
                 {/* Steps */}
-                <div className="w-full flex-1 space-y-5">
+                <div className="w-full flex-1 flex flex-col gap-4">
                   <div className="flex gap-3">
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-600 text-xs">
                       1

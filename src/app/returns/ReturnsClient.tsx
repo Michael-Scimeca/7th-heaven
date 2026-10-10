@@ -91,7 +91,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 (processed via the Shopify Storefront API) and shipped to your
                 home:
               </p>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   You have <strong>14 calendar days</strong> from the delivery
                   confirmation date to request a return or size exchange.
@@ -129,7 +129,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 For orders pre-purchased online and designated for pickup at our
                 concert merch tables:
               </p>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc flex flex-col gap-2 pl-5">
                 <li>
                   Pickup orders are fully verified via a secure QR code emailed
                   to you. Once verified and scanned, our crew will release the
@@ -182,7 +182,7 @@ export default function ReturnsClient({ sanityContent }: ReturnsClientProps) {
                 If you have any questions about returns, exchanges, or refunds,
                 please reach out to us:
               </p>
-              <address className="not-italic space-y-1">
+              <address className="not-italic flex flex-col gap-1">
                 <p>7th Heaven Support</p>
                 <p>
                   Email:{" "}

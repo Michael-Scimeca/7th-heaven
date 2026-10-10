@@ -12,9 +12,11 @@ import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
-import { waitForPageReady } from "@/lib/waitForPageReady";
+import { waitForPageReady, waitForMediaVideosReady } from "@/lib/waitForPageReady";
 import { useTransition } from "@/context/TransitionContext";
+import { useOptionalWebGLTransition } from "@/components/WebGLNoiseTransition";
 import { Toggle } from "@/components/Toggle";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import { computeViewportOrigin } from "@/lib/curtainClipPath";
 
 if (typeof window !== "undefined") {
@@ -172,7 +174,7 @@ export interface TransitionSettings {
 export const SETTINGS_STORAGE_KEY = "7h_transition_settings_v2";
 
 export const DEFAULT_SETTINGS: TransitionSettings = {
-  enabled: true,
+  enabled: false,
   speedMult: 1,
   syncPaths: true,
   clipExitPath: true,
@@ -381,11 +383,14 @@ function shouldSkip(settings?: TransitionSettings): boolean {
 async function waitForNewPageContent(
   _container: HTMLElement | null,
 ): Promise<void> {
-  await new Promise<void>((resolve) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => resolve());
-    });
-  });
+  await Promise.all([
+    new Promise<void>((resolve) => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => resolve());
+      });
+    }),
+    waitForMediaVideosReady(),
+  ]);
 }
 
 function pathOf(href: string): string {
@@ -447,6 +452,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { mode, pendingHref, setMode, clearPendingHref, requestTransition } =
     useTransition();
+  const webgl = useOptionalWebGLTransition();
 
   const outerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -471,6 +477,17 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const [scrubTarget, setScrubTarget] = useState<"transition" | "preloader">("transition");
   const scrubTargetRef = useRef<"transition" | "preloader">("transition");
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
+
+  // Draggable pill state & refs
+  const [pillPos, setPillPos] = useState<{ x: number; y: number } | null>(null);
+  const isDraggingPillRef = useRef(false);
+  const pillMovedRef = useRef(false);
+  const pillDragStartRef = useRef<{
+    startX: number;
+    startY: number;
+    pillX: number;
+    pillY: number;
+  }>({ startX: 0, startY: 0, pillX: 0, pillY: 0 });
 
   useEffect(() => {
     settingsRef.current = settings;
@@ -510,6 +527,20 @@ export default function PageTransition({ children }: { children: ReactNode }) {
             setIsPanelOpen(true);
           }
         }
+
+        const savedPill = localStorage.getItem("7h_transition_pill_pos");
+        if (savedPill) {
+          const parsed = JSON.parse(savedPill);
+          if (
+            parsed &&
+            typeof parsed.x === "number" &&
+            typeof parsed.y === "number"
+          ) {
+            const safeX = Math.max(8, Math.min(window.innerWidth - 140, parsed.x));
+            const safeY = Math.max(8, Math.min(window.innerHeight - 50, parsed.y));
+            setPillPos({ x: safeX, y: safeY });
+          }
+        }
       }
     } catch {}
   }, []);
@@ -545,6 +576,62 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   const togglePanelOpen = useCallback((open: boolean) => {
     setIsPanelOpen(open);
   }, []);
+
+  const onPillPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (e.button !== 0) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    isDraggingPillRef.current = true;
+    pillMovedRef.current = false;
+    pillDragStartRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      pillX: rect.left,
+      pillY: rect.top,
+    };
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const onPillPointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!isDraggingPillRef.current) return;
+    const dx = e.clientX - pillDragStartRef.current.startX;
+    const dy = e.clientY - pillDragStartRef.current.startY;
+    if (Math.hypot(dx, dy) > 3) {
+      pillMovedRef.current = true;
+    }
+    const buttonWidth = e.currentTarget.offsetWidth || 140;
+    const buttonHeight = e.currentTarget.offsetHeight || 38;
+    const newX = Math.max(
+      8,
+      Math.min(window.innerWidth - buttonWidth - 8, pillDragStartRef.current.pillX + dx),
+    );
+    const newY = Math.max(
+      8,
+      Math.min(window.innerHeight - buttonHeight - 8, pillDragStartRef.current.pillY + dy),
+    );
+    setPillPos({ x: newX, y: newY });
+  };
+
+  const onPillPointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!isDraggingPillRef.current) return;
+    isDraggingPillRef.current = false;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {}
+
+    if (pillMovedRef.current) {
+      try {
+        const rect = e.currentTarget.getBoundingClientRect();
+        localStorage.setItem(
+          "7h_transition_pill_pos",
+          JSON.stringify({ x: rect.left, y: rect.top }),
+        );
+      } catch {}
+    } else {
+      togglePanelOpen(true);
+    }
+  };
 
   const updateSetting = <K extends keyof TransitionSettings>(
     key: K,
@@ -1024,6 +1111,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
   // 1. When mode === "covering", animate curtain cover and trigger router.push
   useEffect(() => {
     if (mode !== "covering" || !pendingHref) return;
+    if (webgl?.navigateWithTransition) return;
 
     if (originPathRef.current === null) {
       originPathRef.current = pathname;
@@ -1156,11 +1244,20 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         coverAnimIdRef.current = 0;
       }
     };
-  }, [mode, pendingHref, router, clearPendingHref, setMode, pathname]);
+  }, [
+    mode,
+    pendingHref,
+    router,
+    clearPendingHref,
+    setMode,
+    pathname,
+    webgl?.navigateWithTransition,
+  ]);
 
   // 2. When new route mounts, trigger reveal wipe
   useEffect(() => {
     if (mode !== "covering" || !pendingHref) return;
+    if (webgl?.navigateWithTransition) return;
     if (isWipingRef.current) return;
 
     const cleanPending = pathOf(pendingHref).replace(/\/+$/, "") || "/";
@@ -1179,7 +1276,7 @@ export default function PageTransition({ children }: { children: ReactNode }) {
         }
       });
     }
-  }, [mode, pendingHref, pathname]);
+  }, [mode, pendingHref, pathname, webgl?.navigateWithTransition]);
 
   // Global unmount cleanup
   useEffect(() => {
@@ -1276,7 +1373,12 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
       const currentPath =
         typeof window !== "undefined" ? window.location.pathname : "";
-      if (currentPath.startsWith("/studio") || href.startsWith("/studio"))
+      if (
+        currentPath.startsWith("/studio") ||
+        href.startsWith("/studio") ||
+        currentPath.startsWith("/transition-test") ||
+        href.startsWith("/transition-test")
+      )
         return;
 
       const cleanHref = href.split(/[?#]/)[0].replace(/\/+$/, "") || "/";
@@ -1334,7 +1436,10 @@ export default function PageTransition({ children }: { children: ReactNode }) {
 
   const exitDuration = settings.exitSpeed * settings.speedMult;
 
-  if (pathname?.startsWith("/studio")) {
+  if (
+    pathname?.startsWith("/studio") ||
+    pathname?.startsWith("/transition-test")
+  ) {
     return <>{children}</>;
   }
 
@@ -1362,14 +1467,37 @@ export default function PageTransition({ children }: { children: ReactNode }) {
       {/* Floating launcher trigger button & Tuner module portaled to document.body outside of PageTransition */}
       {mounted &&
         typeof document !== "undefined" &&
+        typeof window !== "undefined" &&
+        window.location.search.includes("exo-tuner=true") &&
         createPortal(
           <>
             {!isPanelOpen && (
               <button
                 type="button"
-                onClick={() => togglePanelOpen(true)}
-                className="pointer-events-auto fixed right-4 bottom-6 z-[100000] flex items-center gap-2 rounded-full border border-purple-500/40 bg-black/85 px-3.5 py-2 text-xs font-semibold text-purple-300 shadow-[0_4px_24px_rgba(147,51,234,0.35)] backdrop-blur-xl transition-[color,border-color,transform] hover:scale-105 hover:border-purple-400 hover:text-white active:scale-95 select-none"
-                title="Open Page Transition Controls (Shift+T)"
+                onPointerDown={onPillPointerDown}
+                onPointerMove={onPillPointerMove}
+                onPointerUp={onPillPointerUp}
+                onPointerCancel={onPillPointerUp}
+                onDoubleClick={() => {
+                  setPillPos(null);
+                  try {
+                    localStorage.removeItem("7h_transition_pill_pos");
+                  } catch {}
+                }}
+                style={
+                  pillPos
+                    ? ({
+                        "--pill-x": `${pillPos.x}px`,
+                        "--pill-y": `${pillPos.y}px`,
+                        left: "var(--pill-x)",
+                        top: "var(--pill-y)",
+                        right: "auto",
+                        bottom: "auto",
+                      } as React.CSSProperties)
+                    : undefined
+                }
+                className="pointer-events-auto fixed right-4 bottom-6 z-[100000] flex cursor-grab active:cursor-grabbing items-center gap-2 rounded-full border border-purple-500/40 bg-black/85 px-3.5 py-2 text-xs font-semibold text-purple-300 shadow-[0_4px_24px_rgba(147,51,234,0.35)] backdrop-blur-xl transition-[color,border-color,background-color] hover:border-purple-400 hover:text-white select-none touch-none"
+                title="Drag to move • Click to open Page Transition Controls (Shift+T) • Double-click to reset"
                 aria-label="Open Page Transition Controls"
               >
                 <span className="relative flex h-2 w-2">
@@ -1883,52 +2011,18 @@ function TransitionTunerPanel({
       </div>
 
       {/* ── TAB BAR SWITCHER ── */}
-      <div className="grid grid-cols-4 gap-1 rounded-lg border border-white/10 bg-white/5 p-1">
-        <button
-          type="button"
-          onClick={() => setActiveTab("master")}
-          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
-            activeTab === "master"
-              ? "bg-purple-600 text-white shadow"
-              : "text-white/60 hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          ⚡ Master
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("exit")}
-          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
-            activeTab === "exit"
-              ? "bg-fuchsia-600 text-white shadow"
-              : "text-white/60 hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          🚪 Exit
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("reveal")}
-          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
-            activeTab === "reveal"
-              ? "bg-cyan-600 text-white shadow"
-              : "text-white/60 hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          📥 Reveal
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("preloader")}
-          className={`rounded py-1.5 text-[10px] font-semibold transition-colors ${
-            activeTab === "preloader"
-              ? "bg-amber-600 text-white shadow"
-              : "text-white/60 hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          ⏳ Preload
-        </button>
-      </div>
+      <SegmentedTabs<"master" | "exit" | "reveal" | "preloader">
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        ariaLabel="Page transition inspector tabs"
+        size="sm"
+        tabs={[
+          { id: "master", label: "⚡ Master" },
+          { id: "exit", label: "🚪 Exit" },
+          { id: "reveal", label: "📥 Reveal" },
+          { id: "preloader", label: "⏳ Preload" },
+        ]}
+      />
 
       {/* ── TAB CONTENTS ── */}
       {activeTab === "master" && (

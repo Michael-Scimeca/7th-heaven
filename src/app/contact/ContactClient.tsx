@@ -136,7 +136,7 @@ export default function ContactClient({
   return (
     <main
       id="contact-page"
-      className="site-container page-container page-stack-sm relative flex h-full lg:min-h-[calc(100dvh-var(--header-height))] flex-col justify-between"
+      className="site-container page-container page-stack-sm relative min-h-screen"
     >
       {/* Hero Header */}
       <PageHero
@@ -151,12 +151,12 @@ export default function ContactClient({
       <section
         id="contact-team"
         aria-labelledby="contact-team-heading"
-        className="section relative flex-1 flex flex-col justify-end pb-0"
+        className="section relative pb-0"
       >
         <SectionHeader id="contact-team-heading" title="Contact Directory" visuallyHidden />
-        <div className="relative z-10 w-full flex-1 flex flex-col justify-end">
+        <div className="relative z-10 w-full">
           {/* Mobile & Tablet Stacked View (< lg) */}
-          <div className="flex flex-col space-y-8 lg:hidden">
+          <div className="flex flex-col gap-8 lg:hidden">
             {contacts.map((contact, idx) => {
               const photoKey = getPhotoForCategory(contact);
               const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];
@@ -238,7 +238,7 @@ export default function ContactClient({
           <div className="hidden grid-cols-1 gap-6 lg:grid lg:grid-cols-12 flex-1 w-full">
             {/* Left Column: Contact Cards Directory */}
             <div className="flex flex-col text-left lg:col-span-5">
-              <ul className="flex flex-col space-y-4">
+              <ul className="flex flex-col gap-4">
                 {contacts.map((contact) => {
                   const photoKey = getPhotoForCategory(contact);
                   const photo = PHOTO_MAP[photoKey] || ALL_PHOTOS[0];

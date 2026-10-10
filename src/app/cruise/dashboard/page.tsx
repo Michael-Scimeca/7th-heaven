@@ -196,7 +196,7 @@ export default function CruiseDashboardGate() {
                 </p>
               </div>
 
-              <form onSubmit={handleVerifyPinSubmit} className="space-y-4">
+              <form onSubmit={handleVerifyPinSubmit} className="flex flex-col gap-4">
                 <div>
                   <GlowInput
                     id="cruise-pin-input"
@@ -289,7 +289,7 @@ export default function CruiseDashboardGate() {
 
               <div className="p-6 md:p-8">
                 {authTab === "login" ? (
-                  <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
                     <p className="mb-6">
                       Sign in using your Cruise Hub credentials to access your
                       booking, lounge chat, and itinerary.
@@ -346,7 +346,7 @@ export default function CruiseDashboardGate() {
                     </div>
                   </form>
                 ) : (
-                  <form onSubmit={handleRegisterSubmit} className="space-y-4">
+                  <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-4">
                     <p className="mb-6">
                       Sign up as a Cruise Member to register for the priority
                       booking list and unlock access to the hub.

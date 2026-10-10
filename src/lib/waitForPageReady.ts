@@ -108,3 +108,40 @@ export async function waitForHeroVideoReady(timeoutMs = 2000): Promise<void> {
     heroVideo.addEventListener("loadeddata", onReady, { once: true });
   });
 }
+
+export async function waitForMediaVideosReady(timeoutMs = 1200): Promise<void> {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  // Only apply when the destination route is /media
+  if (!window.location.pathname.startsWith("/media")) return;
+
+  if ((window as any).__7hMediaVideosReady) {
+    return;
+  }
+
+  return new Promise<void>((resolve) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        cleanup();
+        resolve();
+      }
+    }, timeoutMs);
+
+    const onReady = () => {
+      if (!settled) {
+        settled = true;
+        cleanup();
+        resolve();
+      }
+    };
+
+    const cleanup = () => {
+      clearTimeout(timer);
+      window.removeEventListener("7h-media-videos-ready", onReady);
+    };
+
+    window.addEventListener("7h-media-videos-ready", onReady, { once: true });
+  });
+}

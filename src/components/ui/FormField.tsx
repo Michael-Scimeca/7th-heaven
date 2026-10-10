@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
+import HelperText from "./HelperText";
 
 export interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: React.ReactNode;
@@ -43,10 +44,12 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
         )}
         {children}
         {error && (
-          <span className="text-xs text-red-400">{error}</span>
+          <HelperText tone="error" className="mt-0">
+            {error}
+          </HelperText>
         )}
         {helperText && !error && (
-          <span className="text-xs text-white/50">{helperText}</span>
+          <HelperText className="mt-0">{helperText}</HelperText>
         )}
       </div>
     );

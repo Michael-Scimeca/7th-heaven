@@ -271,7 +271,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
                       <X className="h-4 w-4" />
                     </button>
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="flex flex-col gap-1.5">
                     <p className="text-black/50">History</p>
                     {pick.picks.slice(0, 5).map((p: any) => (
                       <div
@@ -336,7 +336,7 @@ export default function PickAwardsSection({ userId }: PickAwardsSectionProps) {
               <h3 className="mb-3 flex items-center gap-1.5 text-black/70">
                 <Dices className="h-4 w-4 text-purple-600" /> Active Lotteries
               </h3>
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 {lotteries.map((lottery: any) => (
                   <div
                     key={lottery.id}

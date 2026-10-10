@@ -13,9 +13,8 @@ import {
   Plus,
   Video as VideoIcon,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
+import { DotChevronLeft, DotChevronRight } from "@/components/ui/DotArrow";
 import Smooothy, { damp } from "smooothy";
 import SeventhButton from "./SeventhButton";
 import GlassPlayButton from "./GlassPlayButton";
@@ -174,6 +173,7 @@ export default function HomeVideoShowcase({
 }: {
   sanityContent?: any;
 }) {
+  return null;
   const { member, isLoggedIn } = useMember();
   const isAdmin = Boolean(
     isLoggedIn &&
@@ -778,7 +778,7 @@ export default function HomeVideoShowcase({
           aria-label="Previous Video Slide"
           className="transition-[background-color,color,border-color,transform] absolute top-1/2 left-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
         >
-          <ChevronLeft className="h-6 w-6" />
+          <DotChevronLeft className="h-6 w-6" />
         </button>
         <button
           type="button"
@@ -786,7 +786,7 @@ export default function HomeVideoShowcase({
           aria-label="Next Video Slide"
           className="transition-[background-color,color,border-color,transform] absolute top-1/2 right-4 z-30 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-black/70 opacity-0 shadow-2xl backdrop-blur-md group-hover/track:opacity-100 hover:scale-110 hover:bg-purple-600 active:scale-95"
         >
-          <ChevronRight className="h-6 w-6" />
+          <DotChevronRight className="h-6 w-6" />
         </button>
 
         <div
@@ -977,7 +977,7 @@ export default function HomeVideoShowcase({
                 </div>
               )}
 
-              <form onSubmit={handleAddVideoSubmit} className="space-y-4">
+              <form onSubmit={handleAddVideoSubmit} className="flex flex-col gap-4">
                 <div>
                   <label
                     htmlFor="sanity-video-title"

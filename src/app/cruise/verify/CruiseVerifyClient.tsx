@@ -146,7 +146,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
           </header>
 
           {status === "success" ? (
-            <div className="space-y-3 py-8">
+            <div className="flex flex-col gap-3 py-8">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-500/20 text-2xl text-emerald-400">
                 ✓
               </div>
@@ -157,7 +157,7 @@ function CruiseVerifyContent({ sanityContent }: CruiseVerifyClientProps) {
             </div>
           ) : (
             <>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 {/* 6 Digit PIN Inputs */}
                 <div className="flex justify-center gap-2">
                   {digits.map((digit, idx) => (

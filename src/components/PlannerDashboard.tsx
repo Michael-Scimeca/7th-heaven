@@ -636,7 +636,7 @@ export default function PlannerDashboard() {
         <SectionHeader id="active-booking-heading" title="Active Event Booking Details" visuallyHidden />
         <div className="grid grid-cols-1 gap-6">
           <div
-            className={`${booking.status === "cancelled" ? "" : ""} group relative flex flex-col gap-8 overflow-hidden lg:flex-row`}
+            className={`${booking.status === "cancelled" ? "" : ""} group relative flex flex-col gap-8  lg:flex-row`}
           >
 
 
@@ -686,7 +686,7 @@ export default function PlannerDashboard() {
                 </>
               ) : (
                 /* Edit Mode */
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                   <div>
                     <label
                       htmlFor="planner-edit-event-name"

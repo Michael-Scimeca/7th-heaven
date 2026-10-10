@@ -43,6 +43,7 @@ import {
   BarChart3,
   AlertTriangle,
 } from "lucide-react";
+import { DotChevronLeft } from "@/components/ui/DotArrow";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 const LiveKitStream = dynamic(
@@ -1695,17 +1696,7 @@ export function FakeLiveStream({
           {/* Left */}
           <div className="flex min-w-0 items-center gap-2.5">
             <Link href="/live" className="transition-colors flex items-center gap-1.5 text-xs text-white/85 hover:text-white">
-              <svg
-                width="11"
-                height="11"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-              </svg>
+              <DotChevronLeft className="h-3.5 w-3.5 shrink-0" />
               <span className="hidden sm:inline">Back</span>
             </Link>
 
@@ -2132,7 +2123,7 @@ export function FakeLiveStream({
                               <Trophy className="h-5 w-5 text-yellow-400" />
                               <span>Raffle Winner</span>
                             </div>
-                            <div className="space-y-2">
+                            <div className="flex flex-col gap-2">
                               {Array.from(
                                 raffleState.winners,
                                 (wObj: any, i: number) => ({ wObj, i }),
@@ -2563,7 +2554,7 @@ export function FakeLiveStream({
                         <p className="text-black/30">Waiting for messages...</p>
                       </div>
                     ) : (
-                      <div className="space-y-0.5 p-2">
+                      <div className="flex flex-col gap-0.5 p-2">
                         {messages.map((msg, i) => {
                           const isFlagged = flaggedMsgs.some(
                             (f) => f.msg.id === msg.id,
@@ -2696,7 +2687,7 @@ export function FakeLiveStream({
 
                 {/* ── FLAGGED MESSAGES TAB ── */}
                 {adminTab === "flagged" && (
-                  <div className="space-y-2 p-3">
+                  <div className="flex flex-col gap-2 p-3">
                     {flaggedMsgs.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <span className="mb-3 text-4xl">✅</span>
@@ -2801,7 +2792,7 @@ export function FakeLiveStream({
 
                 {/* ── USERS TAB ── */}
                 {adminTab === "users" && (
-                  <div className="space-y-1.5 p-3">
+                  <div className="flex flex-col gap-1.5 p-3">
                     <p className="mb-2 text-white/20">
                       Active in chat — click to moderate
                     </p>
@@ -2953,7 +2944,7 @@ export function FakeLiveStream({
 
                 {/* ── MOD LOG TAB ── */}
                 {adminTab === "log" && (
-                  <div className="space-y-1 p-3">
+                  <div className="flex flex-col gap-1 p-3">
                     {modLog.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <ClipboardList className="mb-3 h-8 w-8 text-black/30" />
@@ -2995,7 +2986,7 @@ export function FakeLiveStream({
 
                 {/* ── POLICY TAB ── */}
                 {adminTab === "policy" && (
-                  <div className="space-y-4 p-4">
+                  <div className="flex flex-col gap-4 p-4">
                     <div>
                       <p className="mb-3 text-red-400">
                         🚫 Zero-Tolerance — Instant Ban
@@ -3078,7 +3069,7 @@ export function FakeLiveStream({
                     </div>
 
                     {/* CUSTOM FLAGGED WORDS MANAGER */}
-                    <div className="space-y-3 border-t border-black/10 pt-4">
+                    <div className="flex flex-col gap-3 border-t border-black/10 pt-4">
                       <div>
                         <p>🔍 Custom Flagged Keywords</p>
                         <p className="mt-0.5 text-black/40">
@@ -3149,7 +3140,7 @@ export function FakeLiveStream({
 
                 {/* ── STATS TAB ── */}
                 {adminTab === "stats" && (
-                  <div className="space-y-3 p-3">
+                  <div className="flex flex-col gap-3 p-3">
                     <p className="mb-1 text-white/50">
                       Feed performance — tonight&#39;s show
                     </p>
@@ -3272,7 +3263,7 @@ export function FakeLiveStream({
 
                 {/* ── MERCH DROP TAB ── */}
                 {adminTab === "merch" && (
-                  <div className="space-y-4 p-3">
+                  <div className="flex flex-col gap-4 p-3">
                     {/* Active drop status */}
                     {merchTimerActive && activeMerchDrop ? (
                       <div
@@ -3462,7 +3453,7 @@ export function FakeLiveStream({
                     </div>
 
                     {/* Action buttons */}
-                    <div className="space-y-2">
+                    <div className="flex flex-col gap-2">
                       <button
                         onClick={() =>
                           handleMerchDrop(
@@ -3491,7 +3482,7 @@ export function FakeLiveStream({
                           <p className="mb-2 text-white/20">
                             Drop History
                           </p>
-                          <div className="space-y-1">
+                          <div className="flex flex-col gap-1">
                             {modLog.flatMap((e) =>
                               e.action === "🛍 Merch Drop"
                                 ? [
@@ -3638,13 +3629,13 @@ export function FakeLiveStream({
 
               {!isSignedInUser ? (
                 /* ─────────────── GUEST LOCKED CHAT PANEL ─────────────── */
-                <div className="flex flex-1 flex-col items-center justify-center space-y-3 bg-[#07040d]/50 p-6 pb-1 text-center backdrop-blur-xl">
+                <div className="flex flex-1 flex-col items-center justify-center gap-3 bg-[#07040d]/50 p-6 pb-1 text-center backdrop-blur-xl">
                   <div className="flex h-16 w-16 animate-pulse items-center justify-center rounded-full border border-purple-500/40 bg-gradient-to-tr from-purple-600/30 to-pink-600/30 shadow-[0_0_30px_rgba(168,85,247,0.3)]">
                     <MessageSquare className="h-8 w-8" />
                   </div>
 
-                  <div className="max-w-xs space-y-2">
-                    <h3 className="text-sm font-semibold text-white">Join the Live Chat</h3>
+                  <div className="max-w-xs flex flex-col gap-2">
+                    <h3 className="text-white">Join the Live Chat</h3>
                     <p className="text-xs leading-relaxed text-white/70">
                       Sign in or register as a 7th Heaven fan, crew member, or
                       admin to participate in live stream chat and setlist
@@ -3707,7 +3698,7 @@ export function FakeLiveStream({
                   {/* List of songs */}
                   <div
                     data-lenis-prevent
-                    className="custom-scrollbar flex-1 space-y-2 overflow-y-auto p-3"
+                    className="custom-scrollbar flex flex-col flex-1 gap-2 overflow-y-auto p-3"
                   >
                     {(() => {
                       const sorted = [...setlist].sort((a, b) => {
@@ -4104,7 +4095,7 @@ export function FakeLiveStream({
                   </button>
 
                   {checkoutStep === "form" && (
-                    <form onSubmit={handleCheckoutSubmit} className="space-y-4">
+                    <form onSubmit={handleCheckoutSubmit} className="flex flex-col gap-4">
                       <div className="mb-2 flex flex-col items-center text-center">
                         <div className="mb-2.5 h-20 w-20 shrink-0 overflow-hidden border border-black/10 bg-gray-50">
                           <Image
@@ -4165,7 +4156,7 @@ export function FakeLiveStream({
                         </p>
                       </div>
 
-                      <div className="space-y-3">
+                      <div className="flex flex-col gap-3">
                         <div>
                           <span className="block text-black/40">
                             Delivery Option
@@ -4463,7 +4454,7 @@ export function FakeLiveStream({
                   )}
 
                   {checkoutStep === "processing" && (
-                    <div className="space-y-4 py-10 text-center">
+                    <div className="flex flex-col gap-4 py-10 text-center">
                       <div
                         className="mx-auto h-12 w-12 animate-spin rounded-lg border-4 border-black/10 border-t-white"
                         style={{
@@ -4492,7 +4483,7 @@ export function FakeLiveStream({
                         successProdName.includes("hat") ||
                         successProdName.includes("cap");
                       return (
-                        <div className="space-y-4 py-4 text-center">
+                        <div className="flex flex-col gap-4 py-4 text-center">
                           <div
                             className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                           >
@@ -4531,7 +4522,7 @@ export function FakeLiveStream({
                             </p>
                           </div>
 
-                          <div className="space-y-3 border border-black/10 bg-gray-50 p-4 text-left">
+                          <div className="flex flex-col gap-3 border border-black/10 bg-gray-50 p-4 text-left">
                             {/* Product Image - large and prominent */}
                             <div className="flex justify-center">
                               <Image
@@ -4575,7 +4566,7 @@ export function FakeLiveStream({
                             )}
 
                             {/* Order Details */}
-                            <div className="space-y-1.5 border-t border-black/10 pt-2">
+                            <div className="flex flex-col gap-1.5 border-t border-black/10 pt-2">
                               <p className="text-black/40">
                                 Order Details
                               </p>

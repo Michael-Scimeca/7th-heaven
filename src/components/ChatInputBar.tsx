@@ -121,7 +121,7 @@ export default function ChatInputBar({
               aria-label="Tag admin for help"
               type="button"
               onClick={onAdminTag}
-              className="text-link cursor-pointer tracking-normal lowercase text-[10px] opacity-70 hover:opacity-100"
+              className="text-link cursor-pointer tracking-normal lowercase text-[10px] opacity-70 hover:opacity-100 transition-opacity duration-150"
             >
               tag @admin for help
             </button>

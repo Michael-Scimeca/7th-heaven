@@ -62,17 +62,13 @@ const FALLBACK_ENDORSEMENTS = [
 ];
 
 const footerLinks = [
-  { href: "/rock-and-roll-kids", label: "Rock & Roll Kids" },
-  { href: "/cruise", label: "Cruise 2026" },
-  { href: "/contact", label: "Contact Us" },
-  { href: "/fan-media-wall", label: "Fan Media Wall" },
   { href: "/faq", label: "FAQ" },
   { href: "/notifications", label: "Push Alerts" },
   { href: "/shows/past", label: "Past Shows Archive" },
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms of Service" },
   { href: "/returns", label: "Returns & Refunds" },
-  { href: "/sitemap", label: "Sitemap" },
+
 ];
 
 const FALLBACK_SOCIAL_LINKS = [
@@ -138,7 +134,11 @@ export function Footer() {
   // so it stays perfectly in sync with the transition reveal.
   const { isCovered } = useTransition();
 
-  if (pathname?.startsWith("/studio")) return null;
+  if (
+    pathname?.startsWith("/studio") ||
+    pathname?.startsWith("/transition-test")
+  )
+    return null;
 
   const isCrewOrAdminRoute =
     pathname?.startsWith("/admin") ||

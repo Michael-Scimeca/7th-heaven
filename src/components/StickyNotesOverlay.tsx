@@ -342,7 +342,7 @@ export default function StickyNotesOverlay() {
       {/* Admin Notes Slide-Over Drawer */}
       {isDrawerOpen && (
         <div className="fixed inset-0 z-[100000] flex justify-end bg-black/70 backdrop-blur-md">
-          <div className="flex h-full w-full max-w-md flex-col space-y-6 overflow-hidden border-l border-white/10 bg-[#0a0713] p-6">
+          <div className="flex h-full w-full max-w-md flex-col gap-6 overflow-hidden border-l border-white/10 bg-[#0a0713] p-6">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-2 text-amber-400">
                 <StickyNote className="h-5 w-5" />
@@ -374,7 +374,7 @@ export default function StickyNotesOverlay() {
             {/* Notes List */}
             <div
               data-lenis-prevent
-              className="custom-scrollbar flex-1 space-y-3 overflow-y-auto pr-1"
+              className="custom-scrollbar flex-1 flex flex-col gap-3 overflow-y-auto pr-1"
             >
               {notes.reduce<React.ReactNode[]>((acc, n) => {
                 if (activeFilter === "open" && n.status === "resolved")
@@ -387,7 +387,7 @@ export default function StickyNotesOverlay() {
                 acc.push(
                   <div
                     key={n.id}
-                    className="transition-colors space-y-2 border border-white/10 bg-white/[0.03] p-4 hover:border-amber-400/40"
+                    className="transition-colors flex flex-col gap-2 border border-white/10 bg-white/[0.03] p-4 hover:border-amber-400/40"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -661,7 +661,7 @@ function SingleStickyCard({
       </div>
 
       {/* Note Content Textarea */}
-      <div className="space-y-2">
+      <div className="flex flex-col gap-2">
         <textarea
           rows={3}
           value={text}

@@ -136,7 +136,11 @@ export function PageNav() {
     return () => el.removeEventListener("wheel", handler);
   }, [isOpen]);
 
-  if (pathname?.startsWith("/studio")) return null;
+  if (
+    pathname?.startsWith("/studio") ||
+    pathname?.startsWith("/transition-test")
+  )
+    return null;
   // Only available in development mode or when explicitly enabled
   if (
     process.env.NODE_ENV !== "development" &&

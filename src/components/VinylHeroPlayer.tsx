@@ -1061,7 +1061,7 @@ export default function VinylHeroPlayer({
                   </div>
                 </div>
                 <ol
-                  className="pointer-events-auto max-h-[200px] scrollbar-none space-y-1 overflow-y-scroll pt-2 pr-3.5 pb-2 text-[12px] whitespace-nowrap scroll-smooth overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                  className="pointer-events-auto max-h-[200px] scrollbar-none flex flex-col gap-1 overflow-y-scroll pt-2 pr-3.5 pb-2 text-[12px] whitespace-nowrap scroll-smooth overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                   onScroll={handleTracklistScroll}
                   onWheel={(e) => e.stopPropagation()}
                 >

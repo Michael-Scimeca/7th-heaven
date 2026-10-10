@@ -3,7 +3,11 @@
 "use client";
 import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import Link from "next/link";
-import { CalendarPicker, BookingSlot } from "@/components/CalendarPicker";
+import {
+  CalendarPicker,
+  EventFormatPicker,
+  BookingSlot,
+} from "@/components/CalendarPicker";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import {
@@ -21,8 +25,6 @@ import {
   Calendar as CalendarIcon,
   Plus,
   X,
-  ChevronDown,
-  ChevronRight,
   Megaphone,
   MapPin,
   Navigation,
@@ -40,6 +42,7 @@ import {
 } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
+import { DotChevronDown, DotChevronRight } from "@/components/ui/DotArrow";
 import { Toggle } from "@/components/Toggle";
 import Button from "@/components/Button";
 import GlowInput, { GlowTextarea } from "@/components/GlowInput";
@@ -130,17 +133,65 @@ const DEFAULT_SAVED_ADDRESSES: SavedAddress[] = [
 ];
 
 import { MiniDatePicker } from "./components/MiniDatePicker";
+import HelperText from "@/components/ui/HelperText";
 import {
   TextAreaField,
   SelectField,
   RadioPillField,
 } from "./components/BookFormFields";
 
-export default function BookClient({ sanityContent }: { sanityContent?: any }) {
-  return <BookPageContent sanityContent={sanityContent} />;
+const BOOKING_SERVICE_LD = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "7th Heaven Live Band Booking",
+  serviceType: "Musical Performance / Live Entertainment",
+  provider: {
+    "@type": "MusicGroup",
+    name: "7th Heaven",
+    url: "https://7thheavenband.com",
+  },
+  areaServed: {
+    "@type": "Country",
+    name: "United States",
+  },
+  description:
+    "Hire 7th Heaven for festivals, concert venues, corporate celebrations, private events, and weddings.",
+  url: "https://7thheavenband.com/book",
+};
+
+export default function BookClient({
+  sanityContent,
+  initialBlockedDates,
+  initialDateDetails,
+}: {
+  sanityContent?: any;
+  initialBlockedDates?: string[];
+  initialDateDetails?: Record<
+    string,
+    Array<{ time: string; venue?: string; city?: string }>
+  >;
+}) {
+  return (
+    <BookPageContent
+      sanityContent={sanityContent}
+      initialBlockedDates={initialBlockedDates}
+      initialDateDetails={initialDateDetails}
+    />
+  );
 }
 
-function BookPageContent({ sanityContent }: { sanityContent?: any }) {
+function BookPageContent({
+  sanityContent,
+  initialBlockedDates = [],
+  initialDateDetails = {},
+}: {
+  sanityContent?: any;
+  initialBlockedDates?: string[];
+  initialDateDetails?: Record<
+    string,
+    Array<{ time: string; venue?: string; city?: string }>
+  >;
+}) {
   const { member, isLoggedIn, openModal, signup, login } = useMember();
   const [urlParams] = useState(() => {
     if (typeof window !== "undefined") {
@@ -190,10 +241,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
       phone: initialPhone,
       organization: "",
       eventDate: "",
-      eventStartTime: "",
-      eventEndTime: "",
-      startTime: "",
-      endTime: "",
+      eventStartTime: "6:00 PM",
+      eventEndTime: "11:00 PM",
+      startTime: "8:00 PM",
+      endTime: "10:30 PM",
       customEventType: "",
       venueName: "",
       venueCity: "",
@@ -230,10 +281,10 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
   const [addOns, setAddOns] = useState<string[]>([]);
 
   // Blocked dates from confirmed bookings
-  const [blockedDates, setBlockedDates] = useState<string[]>([]);
+  const [blockedDates, setBlockedDates] = useState<string[]>(initialBlockedDates);
   const [dateDetails, setDateDetails] = useState<
     Record<string, Array<{ time: string; venue?: string; city?: string }>>
-  >({});
+  >(initialDateDetails);
 
   // Selected slots for booking (multiple date/time slot support)
   const [bookingSlots, setBookingSlots] = useState<BookingSlot[]>([]);
@@ -399,9 +450,11 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
     } catch { }
   }, []);
 
-  // Fetch blocked dates on mount
+  // Fetch blocked dates on mount if not already provided by server
   useEffect(() => {
-    loadAvailability();
+    if (initialBlockedDates.length === 0) {
+      loadAvailability();
+    }
 
     try {
       const saved =
@@ -411,7 +464,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
         setHasSavedForm(true);
       }
     } catch { }
-  }, [loadAvailability]);
+  }, [loadAvailability, initialBlockedDates.length]);
 
   // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
   useEffect(() => {
@@ -1012,9 +1065,9 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               )}
                             </button>
                           </div>
-                          <p className="mt-2 text-xs text-muted">
+                          <HelperText>
                             We will send a 6-digit verification code to your email.
-                          </p>
+                          </HelperText>
                         </div>
                       ) : (
                         <div>
@@ -1122,6 +1175,16 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
   return (
     <main id="book-page" className="page-container relative min-h-screen">
+      <script
+        id="booking-service-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(BOOKING_SERVICE_LD)
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026"),
+        }}
+      />
       <header className="sr-only">
         <h1 id="book-page-title">
           {sanityContent?.heroHeading || sanityContent?.title || "Book 7th Heaven"}
@@ -1187,7 +1250,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             </div>
           )}
 
-          {/* Step 1: Event Schedule & Format */}
+          {/* Step 1: Primary Event Schedule */}
           <PageSection
             id="step-1"
             aria-labelledby="step-1-heading"
@@ -1197,132 +1260,96 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               as="h2"
               id="step-1-heading"
               title={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "schedule" ||
-                    s.sectionId === "step-1" ||
-                    s.sectionId === "formats",
-                )?.title || "Event Schedule & Format"
+                <>
+                  {sanityContent?.sections?.find(
+                    (s: any) =>
+                      s.sectionId === "schedule" ||
+                      s.sectionId === "step-1",
+                  )?.title || "Primary Event Schedule"}{" "}
+                  <span className="text-[#c27aff]">*</span>
+                </>
               }
               subtitle={
                 sanityContent?.sections?.find(
                   (s: any) =>
                     s.sectionId === "schedule" ||
-                    s.sectionId === "step-1" ||
-                    s.sectionId === "formats",
+                    s.sectionId === "step-1",
                 )?.subtitle ||
                 "Select one or more dates on the calendar to reserve 7th Heaven."
               }
             />
             <Stack gap="lg">
-              <div>
-                <CalendarPicker
-                  label="Primary Event Schedule"
-                  required
-                  slots={bookingSlots}
-                  onChangeSlots={setBookingSlots}
-                  startTime={formData.startTime}
-                  onStartTimeChange={(t) =>
-                    setFormData((p) => ({ ...p, startTime: t }))
-                  }
-                  endTime={formData.endTime}
-                  onEndTimeChange={(t) =>
-                    setFormData((p) => ({ ...p, endTime: t }))
-                  }
-                  selectedType={selectedType || undefined}
-                  onSelectType={(t) => setSelectedType(t)}
-                  customDetails={formData.customEventType}
-                  onCustomDetailsChange={(d) =>
-                    setFormData((p) => ({ ...p, customEventType: d }))
-                  }
-                  blockedDates={blockedDates}
-                  dateDetails={dateDetails}
-                  labels={pickerLabels}
-                />
+              <CalendarPicker
+                hideHeader
+                hideFormat
+                slots={bookingSlots}
+                onChangeSlots={setBookingSlots}
+                eventStartTime={formData.eventStartTime || "6:00 PM"}
+                onEventStartTimeChange={(t) =>
+                  setFormData((p) => ({ ...p, eventStartTime: t }))
+                }
+                startTime={formData.startTime || "8:00 PM"}
+                onStartTimeChange={(t) =>
+                  setFormData((p) => ({ ...p, startTime: t }))
+                }
+                endTime={formData.endTime || "10:30 PM"}
+                onEndTimeChange={(t) =>
+                  setFormData((p) => ({ ...p, endTime: t }))
+                }
+                eventEndTime={formData.eventEndTime || "11:00 PM"}
+                onEventEndTimeChange={(t) =>
+                  setFormData((p) => ({ ...p, eventEndTime: t }))
+                }
+                blockedDates={blockedDates}
+                dateDetails={dateDetails}
+                labels={pickerLabels}
+              />
+            </Stack>
+          </PageSection>
 
-                {/* Alternate Dates */}
-                <div className="mt-8">
-                  <SectionHeader
-                    as="h3"
-                    title={
-                      sanityContent?.sections?.find(
-                        (s: any) =>
-                          s.sectionId === "backup_dates" ||
-                          s.sectionId === "backup",
-                      )?.title || "Flexible? Add Backup Dates"
-                    }
-                    subtitle={
-                      sanityContent?.sections?.find(
-                        (s: any) =>
-                          s.sectionId === "backup_dates" ||
-                          s.sectionId === "backup",
-                      )?.subtitle ||
-                      "Increase your chances — we'll try your preferred date first"
-                    }
-                    divider={false}
-                  />
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <MiniDatePicker
-                      label={
-                        sanityContent?.sections?.find(
-                          (s: any) => s.sectionId === "backup_2nd",
-                        )?.title || "2nd Choice"
-                      }
-                      value={altDate1}
-                      onChange={setAltDate1}
-                    />
-                    <MiniDatePicker
-                      label={
-                        sanityContent?.sections?.find(
-                          (s: any) => s.sectionId === "backup_3rd",
-                        )?.title || "3rd Choice"
-                      }
-                      value={altDate2}
-                      onChange={setAltDate2}
-                    />
-                  </div>
-                  {(altDate1 || altDate2) && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <span className="text-white/50">Priority:</span>
-                      <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                        1st:{" "}
-                        {bookingSlots.length > 0
-                          ? bookingSlots
-                            .map((s) =>
-                              new Date(s.date + "T12:00:00").toLocaleDateString(
-                                undefined,
-                                { month: "short", day: "numeric" },
-                              ),
-                            )
-                            .join(", ")
-                          : "—"}
-                      </span>
-                      {altDate1 && (
-                        <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                          2nd:{" "}
-                          {new Date(altDate1 + "T12:00:00").toLocaleDateString(
-                            undefined,
-                            { month: "short", day: "numeric" },
-                          )}
-                        </span>
-                      )}
-                      {altDate2 && (
-                        <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                          3rd:{" "}
-                          {new Date(altDate2 + "T12:00:00").toLocaleDateString(
-                            undefined,
-                            { month: "short", day: "numeric" },
-                          )}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
+          {/* Event Format */}
+          <PageSection
+            id="event-format"
+            aria-labelledby="event-format-heading"
+            size="sm"
+          >
+            <SectionHeader
+              as="h2"
+              id="event-format-heading"
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "formats" ||
+                    s.sectionId === "format",
+                )?.title ||
+                pickerLabels?.eventFormatHeading ||
+                "Event Format"
+              }
+              subtitle={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "formats" ||
+                    s.sectionId === "format",
+                )?.subtitle ||
+                "Choose the performance style for your date"
+              }
+            />
+            <Stack gap="lg">
+              <EventFormatPicker
+                hideHeader
+                selectedType={selectedType || undefined}
+                onSelectType={(t) => setSelectedType(t)}
+                customDetails={formData.customEventType}
+                onCustomDetailsChange={(d) =>
+                  setFormData((p) => ({ ...p, customEventType: d }))
+                }
+                labels={pickerLabels}
+              />
+
               {/* Pricing hint per type */}
               {selectedType && (
-                <div className="border border-purple-500/30 px-5 py-3">
-                  <span>Pricing Guide:</span>{" "}
+                <div className="rounded-[var(--radius-box)] border border-purple-500/25 bg-purple-950/20 px-4 py-2.5 text-xs leading-relaxed text-white/70">
+                  <span className="font-semibold text-purple-300">Pricing Guide:</span>{" "}
                   {selectedType === "full_band" &&
                     "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
                   {selectedType === "unplugged" &&
@@ -1331,6 +1358,91 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                     "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
                   {selectedType === "custom" &&
                     "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
+                </div>
+              )}
+            </Stack>
+          </PageSection>
+
+          {/* Flexible Backup Dates */}
+          <PageSection
+            id="backup-dates"
+            aria-labelledby="backup-dates-heading"
+            size="sm"
+          >
+            <SectionHeader
+              as="h2"
+              id="backup-dates-heading"
+              title={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "backup_dates" ||
+                    s.sectionId === "backup",
+                )?.title || "Flexible? Add Backup Dates"
+              }
+              subtitle={
+                sanityContent?.sections?.find(
+                  (s: any) =>
+                    s.sectionId === "backup_dates" ||
+                    s.sectionId === "backup",
+                )?.subtitle ||
+                "Increase your chances — we'll try your preferred date first"
+              }
+            />
+            <Stack gap="lg">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <MiniDatePicker
+                  label={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "backup_2nd",
+                    )?.title || "2nd Choice"
+                  }
+                  value={altDate1}
+                  onChange={setAltDate1}
+                />
+                <MiniDatePicker
+                  label={
+                    sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "backup_3rd",
+                    )?.title || "3rd Choice"
+                  }
+                  value={altDate2}
+                  onChange={setAltDate2}
+                />
+              </div>
+              {(altDate1 || altDate2) && (
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-white/50">Priority:</span>
+                  <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
+                    1st:{" "}
+                    {bookingSlots.length > 0
+                      ? bookingSlots
+                        .map((s) =>
+                          new Date(s.date + "T12:00:00").toLocaleDateString(
+                            undefined,
+                            { month: "short", day: "numeric" },
+                          ),
+                        )
+                        .join(", ")
+                      : "—"}
+                  </span>
+                  {altDate1 && (
+                    <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
+                      2nd:{" "}
+                      {new Date(altDate1 + "T12:00:00").toLocaleDateString(
+                        undefined,
+                        { month: "short", day: "numeric" },
+                      )}
+                    </span>
+                  )}
+                  {altDate2 && (
+                    <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
+                      3rd:{" "}
+                      {new Date(altDate2 + "T12:00:00").toLocaleDateString(
+                        undefined,
+                        { month: "short", day: "numeric" },
+                      )}
+                    </span>
+                  )}
                 </div>
               )}
             </Stack>
@@ -1410,7 +1522,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               <span className="mb-0.5 block text-xs font-semibold text-white/50 uppercase tracking-wider">
                                 Show #{index + 1}
                               </span>
-                              <h5 className="font-bold text-white text-base leading-tight">
+                              <h5 className="text-white">
                                 {formattedDate}
                               </h5>
                             </div>
@@ -1451,7 +1563,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             <div className="mb-3 rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-200">
                               <div className="flex items-start gap-2">
                                 <span className="text-sm">⚠️</span>
-                                <div className="space-y-0.5">
+                                <div className="flex flex-col gap-0.5">
                                   <p className="font-semibold text-rose-300">
                                     Existing show scheduled on this date:
                                   </p>
@@ -1470,7 +1582,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             </div>
                           )}
 
-                          <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
+                          <div className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
                             {/* Format */}
                             <div>
                               <label
@@ -1667,7 +1779,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                             </div>
 
                             {!slot.useSeparateInfo ? (
-                              <div className="mt-2 animate-[fade-in-up_0.1s_ease-out_both] space-y-1.5 border border-white/10 bg-white/[0.03] p-3.5 text-white/50">
+                              <div className="mt-2 animate-[fade-in-up_0.1s_ease-out_both] flex flex-col gap-1.5 border border-white/10 bg-white/[0.03] p-3.5 text-white/50">
                                 <div className="flex items-start justify-between gap-2">
                                   <span className="mt-0.5 text-white/40">
                                     Contact:
@@ -1707,7 +1819,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                                 </p>
                               </div>
                             ) : (
-                              <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] space-y-3 border border-white/10 bg-white/[0.03] p-3.5">
+                              <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] flex flex-col gap-3 border border-white/10 bg-white/[0.03] p-3.5">
                                 <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                                   <span className="text-white/40">
                                     Separate Show Info
@@ -1900,13 +2012,13 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                               className="group transition-colors flex w-full flex-col items-start gap-0.5 text-left hover:text-purple-400"
                             >
                               <div className="flex w-full items-center justify-between">
-                                <span className="flex items-center gap-1.5 font-semibold text-xs text-white/90 group-hover:text-purple-300">
+                                <span className="flex items-center gap-1.5 font-semibold text-xs text-white/90 group-hover:text-purple-300 transition-colors duration-200">
                                   <Megaphone className="h-3.5 w-3.5 shrink-0 text-purple-400" />
                                   <span>Tour Page Details</span>
                                   {expandedMetadata[slot.id] ? (
-                                    <ChevronDown className="h-3.5 w-3.5 shrink-0" />
+                                    <DotChevronDown className="h-3.5 w-3.5 shrink-0" />
                                   ) : (
-                                    <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                                    <DotChevronRight className="h-3.5 w-3.5 shrink-0" />
                                   )}
                                 </span>
                               </div>
@@ -2035,7 +2147,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
             />
             <Stack gap="lg">
               {/* Show Event Start & End Times + Band Schedule */}
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
 
                 {/* Row 1: Overall Event Start & End */}
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -2150,15 +2262,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         />
                       }
                     />
-                    <p className="mt-1.5 text-xs text-muted">
+                    <HelperText>
                       Band load-in is usually ~2 hours before band start time.
-                    </p>
+                    </HelperText>
                   </div>
                 </div>
 
                 {isLoadInUnsure && (
-                  <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3 border border-purple-500/40 bg-purple-950/40 p-3.5 text-purple-200">
-                    <div className="space-y-1">
+                  <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3 ">
+                    <div className="flex flex-col gap-1">
                       <span className="block">
                         Unsure of exact load-in time? No problem!
                       </span>
@@ -2173,7 +2285,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
               </div>
 
               {/* Venue Address & Location Picker */}
-              <div className="space-y-6">
+              <div className="flex flex-col gap-6">
                 <SectionHeader
                   as="h3"
                   title={
@@ -2299,15 +2411,15 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
 
                   {/* Row 4: Parking location link & directions expands when checkbox is checked */}
                   {hasParkingNotes && (
-                    <div className="animate-[fade-in-up_0.15s_ease-out_both] space-y-4 border border-purple-500/30 bg-purple-950/20 p-4 md:col-span-2">
-                      <div className="space-y-2">
+                    <div className="animate-[fade-in-up_0.15s_ease-out_both] flex flex-col gap-4 md:col-span-2">
+                      <div className="flex flex-col gap-2">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <label htmlFor="parkingAddress" className="block">
                             {sanityContent?.sections?.find(
                               (s: any) => s.sectionId === "parking_address",
                             )?.title || "Google Maps Parking Location or Link"}
                           </label>
-                          <div className="flex flex-wrap items-center gap-2">
+                          <div className="flex flex-wrap items-center gap-2 text-xs">
                             <button
                               type="button"
                               onClick={() => setShowMapPicker(true)}
@@ -2361,7 +2473,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                         />
                       </div>
 
-                      <div className="space-y-2">
+                      <div className="flex flex-col gap-2">
                         <label htmlFor="parkingNotes" className="block">
                           {sanityContent?.sections?.find(
                             (s: any) => s.sectionId === "parking_notes",
@@ -2651,7 +2763,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
           aria-label="Booking Summary"
           className="sticky top-25 md:mt-6 lg:mt-0 mt-6 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
         >
-          <div className="border-0 p-0">
+          <div className="rounded-[var(--radius-box)] border border-white/10 bg-purple-950/40 p-6 sm:p-7 shadow-2xl backdrop-blur-md">
             <SectionHeader
               as="h3"
               title={
@@ -2767,7 +2879,7 @@ function BookPageContent({ sanityContent }: { sanityContent?: any }) {
                       Please fix the following
                     </span>
                   </div>
-                  <ul className="space-y-1">
+                  <ul className="flex flex-col gap-1">
                     {validationErrors.map((err, i) => (
                       <li
                         key={`err-${i}-${err}`}
@@ -2835,7 +2947,7 @@ function BookingSlotMetadataSection({
   setBookingSlots: (s: any[]) => void;
 }) {
   return (
-    <div className="mt-4 animate-[fade-in-up_0.15s_ease-out_both] space-y-3">
+    <div className="mt-4 animate-[fade-in-up_0.15s_ease-out_both] flex flex-col gap-3">
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label
@@ -2982,7 +3094,7 @@ function MapPickerModal({
       />
       <div
         data-lenis-prevent
-        className="custom-scrollbar relative z-10 max-h-[90vh] w-full max-w-2xl space-y-5 overflow-hidden overflow-y-auto border border-purple-500/40 bg-[#0f0921] p-6"
+        className="custom-scrollbar relative z-10 max-h-[90vh] w-full max-w-2xl flex flex-col gap-6 overflow-hidden overflow-y-auto border border-purple-500/40 bg-[#0f0921] p-6"
       >
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
@@ -3003,7 +3115,7 @@ function MapPickerModal({
 
         {/* Saved Addresses & Quick Presets List */}
         {savedAddresses.length > 0 && (
-          <div className="space-y-2.5">
+          <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="search-location-input"
@@ -3031,7 +3143,7 @@ function MapPickerModal({
                     }
                   }}
                 >
-                  <div className="min-w-0 space-y-0.5">
+                  <div className="min-w-0 flex flex-col gap-0.5">
                     <div className="flex items-center gap-1.5">
                       <Building2 className="h-3.5 w-3.5 shrink-0 text-[#c27aff]" />
                       <span>{item.label}</span>
@@ -3064,7 +3176,7 @@ function MapPickerModal({
           </div>
         )}
 
-        <div className="space-y-2 border-t border-white/10 pt-4">
+        <div className="flex flex-col gap-2 border-t border-white/10 pt-4">
           <label
             htmlFor="search-location-input"
             className="block text-purple-400"

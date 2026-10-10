@@ -86,7 +86,7 @@ export default function StudioDPage() {
           ref={heroContentRef}
           className="site-container relative z-10 flex w-full flex-col justify-between gap-6 pb-16 sm:pb-24 md:flex-row md:items-end"
         >
-          <div className="max-w-3xl space-y-2">
+          <div className="max-w-3xl flex flex-col gap-2">
             {/* Giant Title matching Exo Ape Studio D */}
             <ExoTextReveal
               as="h1"
@@ -114,15 +114,15 @@ export default function StudioDPage() {
       </div>
 
       {/* Case Study Details Section */}
-      <section className="site-container space-y-16 py-24">
+      <section className="site-container flex flex-col gap-16 py-24">
         <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12">
-          <div className="space-y-4 md:col-span-4">
+          <div className="flex flex-col gap-4 md:col-span-4">
             <span className="text-purple-400">Project Overview</span>
             <h2>
               Landscape Architecture & Design Universe
             </h2>
           </div>
-          <div className="space-y-6 md:col-span-8">
+          <div className="flex flex-col gap-6 md:col-span-8">
             <p>
               Studio D is a visionary design concept bringing harmony between
               urban architecture and natural landscapes. Our work integrates

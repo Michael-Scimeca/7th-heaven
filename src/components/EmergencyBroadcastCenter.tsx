@@ -7,6 +7,7 @@ import React, { useState, useMemo } from "react";
 
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Toggle from "@/components/Toggle";
+import { ChannelToggleCard } from "@/components/ChannelToggleCard";
 import SeventhButton from "@/components/SeventhButton";
 import { GlowInput } from "@/components/GlowInput";
 
@@ -178,7 +179,7 @@ export function EmergencyBroadcastCenter({
   };
 
   return (
-    <div className="space-y-4 border-none py-5 pl-0">
+    <div className="flex flex-col gap-4 border-none py-5 pl-0">
       {/* Top Banner & Stats */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
         <div className="flex items-center justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.04] p-3.5">
@@ -404,124 +405,110 @@ export function EmergencyBroadcastCenter({
           4. Delivery Channels & Cost Estimator
         </span>
         <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="flex items-center justify-between border-none p-2.5">
-            <Toggle
-              id="send-sms"
-              size="sm"
-              checked={sendSms}
-              onChange={setSendSms}
-              label={
-                <span className="flex items-center gap-1.5 font-medium text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-                    <path d="M12 18h.01" />
-                  </svg>
-                  Twilio SMS Alert
-                </span>
-              }
-              description={`$${estimatedSmsCost.toFixed(2)} total`}
-            />
-          </div>
+          <ChannelToggleCard
+            id="send-sms"
+            icon={
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-purple-400"
+              >
+                <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+                <path d="M12 18h.01" />
+              </svg>
+            }
+            title="Twilio SMS Alert"
+            description={`$${estimatedSmsCost.toFixed(2)} total`}
+            checked={sendSms}
+            onChange={setSendSms}
+          />
 
-          <div className="flex items-center justify-between border-none p-2.5">
-            <Toggle
-              id="send-email"
-              size="sm"
-              checked={sendEmail}
-              onChange={setSendEmail}
-              label={
-                <span className="flex items-center gap-1.5 font-medium text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect width="20" height="16" x="2" y="4" rx="2" />
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                  </svg>
-                  Email Broadcast
-                </span>
-              }
-              description={`$${estimatedEmailCost.toFixed(2)} total`}
-            />
-          </div>
+          <ChannelToggleCard
+            id="send-email"
+            icon={
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-purple-400"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            }
+            title="Email Broadcast"
+            description={`$${estimatedEmailCost.toFixed(2)} total`}
+            checked={sendEmail}
+            onChange={setSendEmail}
+          />
 
-          <div className="flex items-center justify-between border-none p-2.5">
-            <Toggle
-              id="send-push"
-              size="sm"
-              checked={sendPush}
-              onChange={setSendPush}
-              label={
-                <span className="flex items-center gap-1.5 font-medium text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-                  </svg>
-                  Push Notification (ntfy)
-                </span>
-              }
-              description="Free ($0.00) — real send"
-            />
-          </div>
+          <ChannelToggleCard
+            id="send-push"
+            icon={
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-purple-400"
+              >
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+              </svg>
+            }
+            title="Push Notification"
+            badge={{ text: "FREE", variant: "emerald" }}
+            description="Real-time ntfy send"
+            checked={sendPush}
+            onChange={setSendPush}
+          />
 
-          <div className="flex items-center justify-between border-none p-2.5">
-            <Toggle
-              id="send-dashboard-banner"
-              size="sm"
-              checked={sendDashboardBanner}
-              onChange={setSendDashboardBanner}
-              label={
-                <span className="flex items-center gap-1.5 font-medium text-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-                  </svg>
-                  Fan Wall Banner
-                </span>
-              }
-              description="Free ($0.00)"
-            />
-          </div>
+          <ChannelToggleCard
+            id="send-dashboard-banner"
+            icon={
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-purple-400"
+              >
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+              </svg>
+            }
+            title="Fan Wall Banner"
+            badge={{ text: "FREE", variant: "emerald" }}
+            description="Site alert banner"
+            checked={sendDashboardBanner}
+            onChange={setSendDashboardBanner}
+          />
         </div>
       </div>
 
       {/* Editable Message Text & Live iPhone SMS Preview */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {/* Custom Message Inputs */}
-        <div className="space-y-2.5">
+        <div className="flex flex-col gap-2">
           <div>
             <label htmlFor="emg-msg-title" className="mb-1 block">
               Message Title / Header
@@ -560,7 +547,7 @@ export function EmergencyBroadcastCenter({
 
         {/* Live iPhone SMS Mockup Preview */}
         <div className="flex flex-col justify-between">
-          <div className="mb-2.5 flex items-center justify-between pb-1.5">
+          <div className="flex items-center justify-between pb-1.5">
             <span className="flex items-center gap-1.5">
               <svg
                 width="14"
@@ -581,7 +568,7 @@ export function EmergencyBroadcastCenter({
           </div>
 
           {/* SMS Bubble */}
-          <div className="space-y-1 rounded-[var(--radius-box)] border border-white/10 bg-[#a855f71f] p-3.5">
+          <div className="flex flex-col gap-1 rounded-[var(--radius-box)] border border-white/10 bg-[#a855f71f] p-3.5">
             <span className="block text-rose-400">{activeTitle}</span>
             <p>{activeBody}</p>
             <span className="block pt-1 text-right text-white/50">

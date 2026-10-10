@@ -1,7 +1,11 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 "use client";
+
 import Image from "next/image";
 import staticVideoCategories from "../../../public/data/videos.json";
+import availablePreviewsList from "../../../public/data/available-previews.json";
+
+const AVAILABLE_PREVIEWS = new Set<string>(availablePreviewsList as string[]);
 
 import React, {
   useState,
@@ -9,25 +13,25 @@ import React, {
   useCallback,
   useRef,
   useSyncExternalStore,
+  useMemo,
 } from "react";
 import { createPortal } from "react-dom";
 import {
-  Plus,
   X,
   Video as VideoIcon,
   CheckCircle2,
-  Play,
-  Search,
+  Check,
+  Filter,
 } from "lucide-react";
-import SearchInput from "@/components/SearchInput";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
-import SeventhButton from "@/components/SeventhButton";
-import Button from "@/components/Button";
 import PageHero from "@/components/PageHero";
-import GlassPlayButton from "@/components/GlassPlayButton";
 import AddCmsButton from "@/components/AddCmsButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
+import CustomDropdown from "@/components/CustomDropdown";
+import { SearchInput } from "@/components/SearchInput";
 import { SectionHeader } from "@/components/SectionHeader";
+import { Toggle } from "@/components/Toggle";
 import GlowInput, { GlowSelect, GlowTextarea } from "@/components/GlowInput";
 import { useScrollLock } from "@/lib/useScrollLock";
 
@@ -54,119 +58,216 @@ interface VideoCategory {
   videos: Video[];
 }
 
-const GRADIENT_PALETTES = [
-  {
-    bg: "from-[#1e0b36] via-[#0d061c] to-[#05020a]",
-    accent: "from-purple-500 to-indigo-500",
-    glow: "rgba(168,85,247,0.3)",
-  },
-  {
-    bg: "from-[#0b1b36] via-[#060c1c] to-[#02050a]",
-    accent: "from-blue-500 to-cyan-500",
-    glow: "rgba(59,130,246,0.3)",
-  },
-  {
-    bg: "from-[#360b24] via-[#1c0613] to-[#0a0207]",
-    accent: "from-pink-500 to-rose-500",
-    glow: "rgba(244,63,94,0.3)",
-  },
-  {
-    bg: "from-[#29170b] via-[#140b05] to-[#080402]",
-    accent: "from-amber-500 to-orange-500",
-    glow: "rgba(245,158,11,0.3)",
-  },
-  {
-    bg: "from-[#0b3620] via-[#051c10] to-[#020a05]",
-    accent: "from-emerald-500 to-teal-500",
-    glow: "rgba(16,185,129,0.3)",
-  },
-  {
-    bg: "from-[#250b36] via-[#12051c] to-[#07020a]",
-    accent: "from-violet-500 to-fuchsia-500",
-    glow: "rgba(217,70,239,0.3)",
-  },
+interface CardVariant {
+  aspectClass: string;
+}
+
+// Organic varied wide aspect-ratios matching House of Yellow collage
+const VARIANTS: CardVariant[] = [
+  { aspectClass: "aspect-[16/9]" },   // Standard wide video
+  { aspectClass: "aspect-[16/10]" },  // Rich wide
+  { aspectClass: "aspect-[4/3]" },    // Classic wide
+  { aspectClass: "aspect-[21/9]" },   // Cinematic ultra-wide
+  { aspectClass: "aspect-[16/9]" },   // Standard wide
+  { aspectClass: "aspect-square" },   // Square
+  { aspectClass: "aspect-[16/10]" },  // Rich wide
+  { aspectClass: "aspect-[4/5]" },    // Soft portrait
 ];
 
-function VideoCardVisual({
-  videoId,
-  title,
-  isHovered,
-  index = 0,
-}: {
+const COLUMN_TOP_STAGGERS = [
+  "pt-0",
+  "pt-14 md:pt-20 lg:pt-24",
+  "pt-6 md:pt-10 lg:pt-12",
+  "pt-16 md:pt-24 lg:pt-28",
+];
+
+export type MediaColumnItem =
+  | {
+      type: "video";
+      video: Video;
+      aspectClass: string;
+      key: string;
+      priority: boolean;
+    }
+  | {
+      type: "spacer";
+      aspectClass: string;
+      key: string;
+    };
+
+// Deterministic organic patterns for blank slots across columns so lines of four in a row are broken up with airy negative space
+const BLANK_COLUMNS_4: number[][] = [
+  [2],        // Row 0: col 2 is blank (cols 0, 1, 3 have videos)
+  [0],        // Row 1: col 0 is blank (cols 1, 2, 3 have videos)
+  [3],        // Row 2: col 3 is blank (cols 0, 1, 2 have videos)
+  [1],        // Row 3: col 1 is blank (cols 0, 2, 3 have videos)
+  [0, 2],     // Row 4: cols 0 & 2 are blank (cols 1, 3 have videos - airy pause)
+  [3],        // Row 5: col 3 is blank (cols 0, 1, 2 have videos)
+  [1],        // Row 6: col 1 is blank (cols 0, 2, 3 have videos)
+  [0],        // Row 7: col 0 is blank (cols 1, 2, 3 have videos)
+  [2],        // Row 8: col 2 is blank (cols 0, 1, 3 have videos)
+  [1, 3],     // Row 9: cols 1 & 3 are blank (cols 0, 2 have videos - airy pause)
+  [0],        // Row 10: col 0 is blank (cols 1, 2, 3 have videos)
+  [2],        // Row 11: col 2 is blank (cols 0, 1, 3 have videos)
+  [1],        // Row 12: col 1 is blank (cols 0, 2, 3 have videos)
+  [3],        // Row 13: col 3 is blank (cols 0, 1, 2 have videos)
+];
+
+const BLANK_COLUMNS_3: number[][] = [
+  [1],        // Row 0: col 1 is blank
+  [2],        // Row 1: col 2 is blank
+  [0],        // Row 2: col 0 is blank
+  [1],        // Row 3: col 1 is blank
+  [0],        // Row 4: col 0 is blank
+  [2],        // Row 5: col 2 is blank
+];
+
+const BLANK_COLUMNS_2: number[][] = [
+  [],         // Row 0: 2 videos
+  [1],        // Row 1: col 1 is blank
+  [],         // Row 2: 2 videos
+  [0],        // Row 3: col 0 is blank
+];
+
+function getTargetColumnCount(width: number): number {
+  if (width >= 2000) return 4;
+  if (width >= 1380) return 3;
+  if (width >= 640) return 2;
+  return 1;
+}
+
+interface CardVideoEmbedProps {
   videoId: string;
   title: string;
-  isHovered: boolean;
-  index?: number;
-}) {
-  const palette = GRADIENT_PALETTES[index % GRADIENT_PALETTES.length];
-  const [imgSrc, setImgSrc] = useState<string>(
-    `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-  );
-  const [imgFailed, setImgFailed] = useState(false);
+  aspectClass: string;
+  isHovered?: boolean;
+  priority?: boolean;
+}
+
+function CardVideoEmbed({
+  videoId,
+  title,
+  aspectClass,
+  isHovered,
+  priority = false,
+}: CardVideoEmbedProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(priority || Boolean(isHovered));
   const [isLoaded, setIsLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const bufferTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
-      setIsLoaded(true);
-    }
-  }, [imgSrc]);
+    return () => {
+      if (bufferTimerRef.current) clearTimeout(bufferTimerRef.current);
+    };
+  }, []);
 
-  const handleImageError = () => {
-    if (imgSrc.includes("hqdefault.jpg")) {
-      setImgSrc(`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`);
-    } else if (imgSrc.includes("mqdefault.jpg")) {
-      setImgSrc(`https://img.youtube.com/vi/${videoId}/0.jpg`);
-    } else {
-      setImgFailed(true);
+  useEffect(() => {
+    if (isHovered) {
+      setInView(true);
+      return;
     }
+
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        } else {
+          if (bufferTimerRef.current) {
+            clearTimeout(bufferTimerRef.current);
+            bufferTimerRef.current = null;
+          }
+          setInView(false);
+          setIsLoaded(false);
+        }
+      },
+      {
+        rootMargin: "300px 0px",
+      },
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+    };
+  }, [isHovered]);
+
+  const handleIframeLoad = () => {
+    if (bufferTimerRef.current) clearTimeout(bufferTimerRef.current);
+    // YouTube takes ~1.2s to seek to 20s and buffer the first video frame.
+    // We hold opacity-0 while seeking/buffering so the crisp thumbnail stays visible
+    // and NO black screen/spinner is ever exposed to the user.
+    bufferTimerRef.current = setTimeout(() => {
+      setIsLoaded(true);
+      if (priority && typeof window !== "undefined") {
+        (window as any).__7hMediaVideosReady = true;
+        window.dispatchEvent(new CustomEvent("7h-media-videos-ready"));
+      }
+    }, priority ? 600 : 1300);
   };
 
-  const originUrl =
-    typeof window !== "undefined"
-      ? window.location.origin
-      : "http://localhost:3000";
-  const embedSnippetUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=10&end=15&playsinline=1&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(originUrl)}`;
+  let sizeClasses = "w-[140%] h-[140%] min-w-[140%] min-h-[140%]";
+  if (
+    aspectClass.includes("4/5") ||
+    aspectClass.includes("3/4") ||
+    aspectClass.includes("3/4.2")
+  ) {
+    sizeClasses = "w-[250%] h-[140%] min-w-[250%] min-h-[140%]";
+  } else if (aspectClass.includes("square")) {
+    sizeClasses = "w-[195%] h-[140%] min-w-[195%] min-h-[140%]";
+  } else if (aspectClass.includes("4/3")) {
+    sizeClasses = "w-[160%] h-[140%] min-w-[160%] min-h-[140%]";
+  } else if (aspectClass.includes("21/9")) {
+    sizeClasses = "w-[140%] h-[165%] min-w-[140%] min-h-[165%]";
+  }
+
+  const hasLocalPreview = AVAILABLE_PREVIEWS.has(videoId);
+
+  // 5-second lightweight loop playing 20 seconds in (20s to 25s) to capture song's energy
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}&start=20&end=25&playsinline=1&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&vq=medium`;
 
   return (
     <div
-      className={`relative h-full w-full bg-gradient-to-b ${palette.bg} overflow-hidden`}
+      ref={containerRef}
+      className={`pointer-events-none absolute inset-0 z-10 overflow-hidden transition-opacity duration-700 ease-out ${
+        inView && isLoaded ? "opacity-100" : "opacity-0"
+      }`}
     >
-      {/* 1. Base Stylized Poster Layer */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
-        <div
-          className="pointer-events-none absolute top-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full opacity-40 blur-3xl bg-[var(--glow-color)]"
-          style={{ "--glow-color": palette.glow } as React.CSSProperties}
+      {inView && hasLocalPreview ? (
+        <video
+          src={`/movie/previews/${videoId}.mp4`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onLoadedData={() => {
+            setIsLoaded(true);
+            if (priority && typeof window !== "undefined") {
+              (window as any).__7hMediaVideosReady = true;
+              window.dispatchEvent(new CustomEvent("7h-media-videos-ready"));
+            }
+          }}
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
         />
-        <span className="line-clamp-2 px-2 text-white/90 font-semibold drop-shadow-md">{title}</span>
-      </div>
-
-      {/* 2. Cover Image Layer */}
-      {!imgFailed && (
-        <Image
-          ref={imgRef}
-          src={imgSrc}
-          alt={title}
-          fill
-          loading={index < 6 ? "eager" : "lazy"}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`object-cover transition-opacity ${isLoaded ? "opacity-100" : "opacity-90"} ${isHovered ? "scale-105" : "scale-100"}`}
-          onLoad={() => setIsLoaded(true)}
-          onError={handleImageError}
+      ) : inView ? (
+        <iframe
+          src={embedUrl}
+          title={title}
+          loading="eager"
+          onLoad={handleIframeLoad}
+          className={`pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0 transform-gpu ${sizeClasses}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
         />
-      )}
-
-      {/* 3. 5-Second Video Hover Snippet */}
-      {isHovered && (
-        <div className="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-hidden animate-[fade-in_0.2s_ease-out]">
-          <iframe
-            src={embedSnippetUrl}
-            title={title}
-            className="pointer-events-none absolute -top-[100%] -left-[100%] z-10 h-[300%] w-[300%] transform-gpu border-0 object-cover"
-            allow="autoplay; encrypted-media"
-          />
-        </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -189,12 +290,11 @@ export default function MediaClient({
   const { member, isLoggedIn } = useMember();
   const isAdmin = Boolean(
     isLoggedIn &&
-    (member?.role === "admin" ||
-      member?.role === "crew" ||
-      (member as any)?.isAdmin === true),
+      (member?.role === "admin" || member?.role === "crew"),
   );
+
   const mounted = useSyncExternalStore(
-    () => () => { },
+    () => () => {},
     () => true,
     () => false,
   );
@@ -206,72 +306,60 @@ export default function MediaClient({
   const [hoveredVideoId, setHoveredVideoId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
+  const [airyLayout, setAiryLayout] = useState(true);
 
-  const handleFilterChange = useCallback((newFilter: string) => {
-    setActiveFilter(newFilter.toUpperCase());
-  }, []);
+  // Category responsive dropdown state (when tabs start getting cut off)
+  const [isCategoryCutOff, setIsCategoryCutOff] = useState(false);
+  const categoryContainerRef = useRef<HTMLDivElement>(null);
+  const tabsMeasureRef = useRef<HTMLDivElement>(null);
+  const requiredTabsWidthRef = useRef<number>(0);
 
-  const handleCloseVideo = useCallback(() => {
-    setPlayingVideo(null);
-    setHoveredVideoId(null);
-  }, []);
-
-  // Add Video Modal State
+  // Add video modal state (for Sanity CMS admins)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  useScrollLock(Boolean(playingVideo || isAddModalOpen));
-
-  // Escape key handler to close video and add modal
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (playingVideo) {
-          handleCloseVideo();
-        }
-        if (isAddModalOpen) {
-          setIsAddModalOpen(false);
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [playingVideo, isAddModalOpen, handleCloseVideo]);
   const [newTitle, setNewTitle] = useState("");
   const [newUrl, setNewUrl] = useState("");
-  const [newCategory, setNewCategory] = useState("Official Music Videos");
-  const [customCategories, setCustomCategories] = useState<string[]>([]);
+  const [newCategory, setNewCategory] = useState("OFFICIAL MUSIC VIDEOS");
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [customCategoryInput, setCustomCategoryInput] = useState("");
-  const [newYear, setNewYear] = useState(() =>
-    new Date().getFullYear().toString(),
+  const [newYear, setNewYear] = useState<string>(
+    String(new Date().getFullYear()),
   );
-  const [newDuration, setNewDuration] = useState("3:30");
   const [newDesc, setNewDesc] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const availableCategories = React.useMemo(() => {
-    const defaults = [
-      "Official Music Videos",
-      "TV Appearances",
-      "Full Concerts",
-      "Cover Songs",
-      "Songs In Movies & TV",
-      "Cruise Videos",
-      "College Shows",
-      "Misc. / Various",
-      "Live Footage",
-      "Medley's",
-      "Live Feeds",
-    ];
-    const fromCategories: string[] = [];
-    for (let i = 0; i < categories.length; i++) {
-      if (categories[i].category) fromCategories.push(categories[i].category);
-    }
-    return Array.from(
-      new Set([...defaults, ...fromCategories, ...customCategories]),
-    );
-  }, [categories, customCategories]);
+  const projectsContainerRef = useRef<HTMLElement>(null);
+  const columnRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Fixed initial column count to match SSR (3 columns) and prevent hydration mismatch.
+  // The actual viewport measurement is applied on client mount in useEffect below.
+  const [columnCount, setColumnCount] = useState<number>(3);
+
+  useEffect(() => {
+    const updateCols = () => {
+      const next = getTargetColumnCount(window.innerWidth);
+      setColumnCount((prev) => (prev !== next ? next : prev));
+    };
+    updateCols();
+    window.addEventListener("resize", updateCols, { passive: true });
+    return () => window.removeEventListener("resize", updateCols);
+  }, []);
+
+  useScrollLock(Boolean(playingVideo || isAddModalOpen));
+
+  // Escape key handler
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (playingVideo) setPlayingVideo(null);
+        if (isAddModalOpen) setIsAddModalOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [playingVideo, isAddModalOpen]);
+
+  // Fetch updated videos from Sanity and localStorage
   const fetchCategories = useCallback(async () => {
     try {
       const r = await fetch("/data/videos.json");
@@ -280,7 +368,6 @@ export default function MediaClient({
         baseCategories = await r.json();
       }
 
-      let hasExtraVideos = false;
       try {
         const sanityRes = await fetch("/api/videos");
         if (sanityRes.ok) {
@@ -301,73 +388,27 @@ export default function MediaClient({
               if (targetCat) {
                 if (!targetCat.videos.some((v) => v.id === formattedVideo.id)) {
                   targetCat.videos.unshift(formattedVideo);
-                  hasExtraVideos = true;
                 }
               } else {
                 baseCategories.push({
                   category: sv.category || "Misc. / Various",
                   videos: [formattedVideo],
                 });
-                hasExtraVideos = true;
               }
             });
+            setCategories(baseCategories);
           }
         }
-      } catch { }
-
-      try {
-        const rawLocal = localStorage.getItem("7th_heaven_custom_videos_v1");
-        if (rawLocal) {
-          const customVids: any[] = JSON.parse(rawLocal);
-          customVids.forEach((cv) => {
-            const targetCat = baseCategories.find(
-              (c) => c.category.toLowerCase() === cv.category?.toLowerCase(),
-            );
-            const formattedVideo: Video = {
-              id: cv.id,
-              title: cv.title,
-              year: cv.year,
-              duration: cv.duration,
-              description: cv.description,
-              category: cv.category,
-            };
-            if (targetCat) {
-              if (!targetCat.videos.some((v) => v.id === formattedVideo.id)) {
-                targetCat.videos.unshift(formattedVideo);
-                hasExtraVideos = true;
-              }
-            } else {
-              baseCategories.push({
-                category: cv.category,
-                videos: [formattedVideo],
-              });
-              hasExtraVideos = true;
-            }
-          });
-        }
-      } catch { }
-
-      if (hasExtraVideos) {
-        setCategories(baseCategories);
-      }
-    } catch { }
+      } catch {}
+    } catch {}
   }, []);
-
-  const [prefetchLimit, setPrefetchLimit] = useState<number>(6);
 
   useEffect(() => {
     fetchCategories();
-
-    // After top 6 initial videos load, start downloading remaining videos in the background
-    const bgPreloadTimer = setTimeout(() => {
-      setPrefetchLimit(100);
-    }, 2000);
-
-    return () => clearTimeout(bgPreloadTimer);
   }, [fetchCategories]);
 
-  // Flatten all videos with their category attached
-  const allVideos = React.useMemo(() => {
+  // Flatten all videos
+  const allVideos = useMemo(() => {
     const list: Video[] = [];
     const seen = new Set<string>();
 
@@ -382,117 +423,247 @@ export default function MediaClient({
     return list;
   }, [categories]);
 
-  // Filtered videos array based on active filter tab & search query
-  const filteredVideos = React.useMemo(() => {
+  // Filtered videos based on active filter & search query
+  const filteredVideos = useMemo(() => {
     return allVideos.filter((v) => {
       const matchesCategory =
         activeFilter === "ALL" ||
-        v.category?.toUpperCase() === activeFilter.toUpperCase();
+        (v.category &&
+          v.category.toUpperCase() === activeFilter.toUpperCase());
+
+      const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
-        !searchQuery.trim() ||
-        v.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (v.description &&
-          v.description.toLowerCase().includes(searchQuery.toLowerCase()));
+        !q ||
+        v.title.toLowerCase().includes(q) ||
+        (v.category && v.category.toLowerCase().includes(q)) ||
+        (v.description && v.description.toLowerCase().includes(q)) ||
+        String(v.year).includes(q);
+
       return matchesCategory && matchesSearch;
     });
   }, [allVideos, activeFilter, searchQuery]);
 
-  const CARDS_PER_BATCH = 12;
-  const [visibleCount, setVisibleCount] = useState(CARDS_PER_BATCH);
-  useEffect(() => {
-    setVisibleCount(CARDS_PER_BATCH);
-  }, [activeFilter, searchQuery]);
 
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  // Segmented Tabs options for single-row sliding category toggle
+  const categoryTabs = useMemo(() => {
+    const list: Array<{ id: string; label: string; badge?: number | string }> =
+      [
+        {
+          id: "ALL",
+          label: "ALL",
+        },
+      ];
+
+    categories.forEach((cat) => {
+      if (!cat.category || !cat.category.trim() || cat.videos.length === 0) {
+        return;
+      }
+      const catUpper = cat.category.toUpperCase();
+      list.push({
+        id: catUpper,
+        label: catUpper,
+        badge: cat.videos.length,
+      });
+    });
+
+    return list;
+  }, [categories, allVideos.length]);
+
+  // Dropdown options for responsive category filter
+  const categoryDropdownOptions = useMemo(() => {
+    return categoryTabs.map((tab) => ({
+      value: String(tab.id),
+      label: tab.label,
+      badge: tab.badge,
+    }));
+  }, [categoryTabs]);
+
+  const categoryTriggerPrefix = useMemo(
+    () => (
+      <span className="flex items-center gap-2 min-w-0">
+        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 shadow-sm shadow-purple-600/40">
+          <Filter className="h-2.5 w-2.5 text-white" />
+        </span>
+        <span className="text-[11px] font-semibold text-white/50 tracking-wider uppercase">
+          Category:
+        </span>
+      </span>
+    ),
+    [],
+  );
+
+  // Monitor container width vs required tabs width to toggle between tabs row and dropdown
   useEffect(() => {
-    const sentinel = loadMoreRef.current;
-    if (!sentinel) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setVisibleCount((prev) =>
-            Math.min(prev + CARDS_PER_BATCH, filteredVideos.length),
-          );
+    const el = categoryContainerRef.current;
+    if (!el) return;
+
+    const checkOverflow = () => {
+      if (!categoryContainerRef.current) return;
+      const containerWidth = categoryContainerRef.current.clientWidth;
+      if (containerWidth <= 0) return;
+
+      if (tabsMeasureRef.current && !isCategoryCutOff) {
+        const sw = tabsMeasureRef.current.scrollWidth;
+        if (sw > 0) {
+          requiredTabsWidthRef.current = sw;
         }
-      },
-      { rootMargin: "600px" },
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, [filteredVideos.length]);
+      }
 
-  const visibleVideos = filteredVideos.slice(0, visibleCount);
-  const hasMoreVideos = visibleCount < filteredVideos.length;
+      // Estimate fallback width from tab labels if not yet measured
+      const fallbackWidth = categoryTabs.reduce((acc, tab) => {
+        const len = typeof tab.label === "string" ? tab.label.length : 10;
+        return acc + len * 9 + 48;
+      }, 32);
+
+      const threshold = requiredTabsWidthRef.current || fallbackWidth;
+      // When container width is less than required width + padding, tabs start cutting off
+      const cutOff = containerWidth < threshold + 12;
+      setIsCategoryCutOff((prev) => (prev !== cutOff ? cutOff : prev));
+    };
+
+    checkOverflow();
+
+    const ro = new ResizeObserver(() => {
+      checkOverflow();
+    });
+    ro.observe(el);
+
+    window.addEventListener("resize", checkOverflow, { passive: true });
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", checkOverflow);
+    };
+  }, [isCategoryCutOff, categoryTabs]);
+
+  // Available categories for add form
+  const availableCategories = useMemo(() => {
+    return Array.from(
+      new Set(
+        categories
+          .map((c) => c.category)
+          .filter((cat) => cat && cat.trim() !== ""),
+      ),
+    );
+  }, [categories]);
+
+  // Responsive column streams partitioning with organic negative-space blank slots
+  const columns = useMemo(() => {
+    const cols: MediaColumnItem[][] = Array.from(
+      { length: columnCount },
+      () => [],
+    );
+
+    const shouldAddBlanks =
+      airyLayout &&
+      columnCount >= 2 &&
+      filteredVideos.length >= columnCount * 2;
+
+    let videoIdx = 0;
+    let rowIdx = 0;
+
+    while (videoIdx < filteredVideos.length) {
+      let blankCols: number[] = [];
+      if (shouldAddBlanks) {
+        const patternSource =
+          columnCount === 4
+            ? BLANK_COLUMNS_4
+            : columnCount === 3
+              ? BLANK_COLUMNS_3
+              : BLANK_COLUMNS_2;
+        blankCols = patternSource[rowIdx % patternSource.length] || [];
+      }
+
+      const blankSet = new Set(blankCols);
+
+      for (let c = 0; c < columnCount; c++) {
+        if (videoIdx >= filteredVideos.length) break;
+
+        const isBlank = blankSet.has(c);
+        const variant = VARIANTS[(c * 3 + cols[c].length) % VARIANTS.length];
+
+        if (isBlank) {
+          cols[c].push({
+            type: "spacer",
+            aspectClass: variant.aspectClass,
+            key: `spacer-r${rowIdx}-c${c}`,
+          });
+        } else {
+          const video = filteredVideos[videoIdx];
+          cols[c].push({
+            type: "video",
+            video,
+            aspectClass: variant.aspectClass,
+            key: `video-${video.id}-r${rowIdx}-c${c}`,
+            priority: rowIdx === 0 && cols[c].length === 0,
+          });
+          videoIdx++;
+        }
+      }
+      rowIdx++;
+    }
+
+    return cols;
+  }, [filteredVideos, columnCount, airyLayout]);
+
+  const handleFilterChange = (cat: string) => {
+    setActiveFilter(cat);
+  };
+
+  const handleCloseVideo = () => {
+    setPlayingVideo(null);
+  };
 
   const handleAddVideoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const parsedId = extractYouTubeId(newUrl);
-    if (!parsedId || parsedId.length !== 11) {
-      alert("Please enter a valid 11-character YouTube video URL or ID.");
+    const ytId = extractYouTubeId(newUrl);
+    if (!ytId || ytId.length !== 11) {
+      alert("Please enter a valid YouTube Video URL or 11-character ID.");
       return;
     }
-
-    const targetCategory = (
-      isCustomCategory ? customCategoryInput : newCategory
-    ).trim();
-    if (!targetCategory) {
-      alert("Please select or enter a video category.");
+    if (!newTitle.trim()) {
+      alert("Please enter a video title.");
       return;
     }
+    const finalCategory = isCustomCategory
+      ? customCategoryInput.trim() || "Official Music Videos"
+      : newCategory;
 
     setSubmitting(true);
-
-    const videoObj = {
-      id: parsedId,
-      title: newTitle.trim() || "Untitled Video",
-      year: parseInt(newYear, 10) || new Date().getFullYear(),
-      duration: newDuration.trim() || "3:30",
-      description: newDesc.trim(),
-      category: targetCategory,
-    };
-
     try {
+      const videoObj: Video = {
+        id: ytId,
+        title: newTitle.trim(),
+        year: Number(newYear) || new Date().getFullYear(),
+        duration: "3:30",
+        description: newDesc.trim(),
+        category: finalCategory,
+      };
+
       const res = await fetch("/api/videos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          youtubeId: videoObj.id,
           title: videoObj.title,
-          youtubeUrl: videoObj.id,
-          category: videoObj.category,
           year: videoObj.year,
           duration: videoObj.duration,
           description: videoObj.description,
+          category: videoObj.category,
         }),
       });
 
       if (!res.ok) {
-        throw new Error("Failed to save video to Sanity.");
-      }
-
-      const rawLocal = localStorage.getItem("7th_heaven_custom_videos_v1");
-      const existing: any[] = rawLocal ? JSON.parse(rawLocal) : [];
-      const updated = [
-        videoObj,
-        ...existing.filter((v: any) => v.id !== videoObj.id),
-      ];
-      localStorage.setItem(
-        "7th_heaven_custom_videos_v1",
-        JSON.stringify(updated),
-      );
-
-      if (isCustomCategory && customCategoryInput.trim()) {
-        setCustomCategories((prev) =>
-          Array.from(new Set([...prev, customCategoryInput.trim()])),
-        );
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.message || "Failed to publish video to Sanity");
       }
 
       setCategories((prev) => {
         const next = [...prev];
         let cat = next.find(
-          (c) => c.category.toLowerCase() === videoObj.category.toLowerCase(),
+          (c) => c.category.toLowerCase() === videoObj.category?.toLowerCase(),
         );
         if (!cat) {
-          cat = { category: videoObj.category, videos: [] };
+          cat = { category: videoObj.category || "Misc", videos: [] };
           next.push(cat);
         }
         if (!cat.videos.some((v) => v.id === videoObj.id)) {
@@ -501,7 +672,7 @@ export default function MediaClient({
         return next;
       });
 
-      setActiveFilter(videoObj.category.toUpperCase());
+      setActiveFilter(videoObj.category ? videoObj.category.toUpperCase() : "ALL");
       setIsAddModalOpen(false);
       setIsCustomCategory(false);
       setCustomCategoryInput("");
@@ -519,9 +690,91 @@ export default function MediaClient({
     }
   };
 
+  const renderCard = (
+    video: Video,
+    aspectClass: string,
+    keySuffix?: string,
+    sizeClass?: string,
+    priority?: boolean,
+  ) => {
+    const isHovered = !playingVideo && hoveredVideoId === video.id;
+
+    return (
+      <div
+        key={`${activeFilter}-${video.id}${keySuffix ? `-${keySuffix}` : ""}`}
+        className={`w-full ${sizeClass || ""} transition-transform duration-500`}
+      >
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label={`Play ${video.title}`}
+          onMouseEnter={() => {
+            if (!playingVideo) setHoveredVideoId(video.id);
+          }}
+          onMouseLeave={() => setHoveredVideoId(null)}
+          onClick={() => {
+            setHoveredVideoId(null);
+            setPlayingVideo(video);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setHoveredVideoId(null);
+              setPlayingVideo(video);
+            }
+          }}
+          className="group block w-full cursor-pointer text-left select-none"
+        >
+          {/* Media Video Box */}
+          <div
+            className={`relative block w-full overflow-hidden rounded-[20px] bg-[#1a1a1a] border border-white/10 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.85),0_12px_24px_-8px_rgba(0,0,0,0.6)] transition-[transform,box-shadow,border-color] duration-300 group-hover:scale-[1.015] group-hover:shadow-[0_36px_70px_-15px_rgba(0,0,0,0.95),0_16px_32px_-8px_rgba(0,0,0,0.75)] group-hover:border-white/20 ${aspectClass}`}
+          >
+            {/* Media Thumbnail Image & Video Preview on Hover */}
+            <div className="relative h-full w-full overflow-hidden">
+              <Image
+                src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                alt={video.title}
+                fill
+                priority={priority}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                className={`object-cover transition-transform duration-500 ease-out ${
+                  isHovered ? "scale-[1.08]" : "scale-100"
+                }`}
+              />
+
+              {/* Autoplaying video 20s in (eager loaded before reveal for top priority cards) */}
+              <CardVideoEmbed
+                videoId={video.id}
+                title={video.title}
+                aspectClass={aspectClass}
+                isHovered={isHovered}
+                priority={priority}
+              />
+            </div>
+          </div>
+
+          {/* Title and Other Info OUTSIDE of the video */}
+          <div className="mt-4 flex flex-col gap-1.5 px-0.5">
+            <div className="flex items-center gap-2.5">
+              <span className="h-3 w-3 shrink-0 rounded-[2px] bg-[#f2efa3] shadow-[0_0_8px_#f2efa3]" />
+              {/* heading-size-ok: card title outside video */}
+              <h2 className="line-clamp-2 text-base font-bold tracking-tight text-white group-hover:text-[#f2efa3] transition-colors duration-150 drop-shadow-sm sm:text-lg">
+                {video.title}
+              </h2>
+            </div>
+            <div className="text-xs font-medium tracking-wider text-white/60 uppercase">
+              {video.category || "7th Heaven"}
+              {video.year ? ` • ${video.year}` : ""}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <main
-      className="page-container relative min-h-screen overflow-hidden"
+      className="page-container relative min-h-screen overflow-x-hidden selection:bg-[#f2efa3] selection:text-[#1d1d1b]"
       id="media-page"
     >
       <div className="site-container page-stack relative z-10">
@@ -543,21 +796,38 @@ export default function MediaClient({
         />
 
         {/* ── 700+ SONG MP3/CD AUDIO VAULT PLAYER (TOP OF MEDIA PAGE) ── */}
-        <section id="audio-vault" aria-labelledby="audio-vault-heading" className="section">
-          <SectionHeader id="audio-vault-heading" title="Audio Vault Player" visuallyHidden />
+        <section
+          id="audio-vault"
+          aria-labelledby="audio-vault-heading"
+          className="section"
+        >
+          <SectionHeader
+            id="audio-vault-heading"
+            title="Audio Vault Player"
+            visuallyHidden
+          />
           <div>
             <AudioPlayer />
           </div>
         </section>
 
-        {/* ── TALL VERTICAL POSTER CARD GRID (Staggered Column Elevation Layout) ── */}
-        {/* min-h prevents CLS when filter switch remounts section with fewer cards */}
-        <section id="media-gallery" aria-labelledby="media-gallery-heading" className="section">
-          <SectionHeader id="media-gallery-heading" title="Media Gallery" visuallyHidden />
+        {/* ── NEW HOUSE OF YELLOW SPREAD MEDIA SECTION ── */}
+        <section
+          ref={projectsContainerRef}
+          id="media-gallery"
+          aria-labelledby="media-gallery-heading"
+          className="section relative min-h-screen pt-4 pb-36"
+        >
+          <SectionHeader
+            id="media-gallery-heading"
+            title="Media Gallery"
+            visuallyHidden
+          />
 
-          <div role="toolbar" aria-label="Media Filters" className="mb-8 lg:mb-12">
-            {/* ── SEARCH & ADD VIDEO UTILITY BAR ── */}
-            <div className="mb-6 flex flex-col items-start justify-start gap-3 sm:flex-row sm:items-center">
+          {/* ── MEDIA TOOLBAR: SEARCH, CMS BUTTON, VIEW MODE & CATEGORY TOGGLE PILLS ── */}
+          <div role="toolbar" aria-label="Media Filters" className="mb-8 lg:mb-10">
+            {/* Search & Add Video Controls */}
+            <div className="mb-5 flex flex-wrap items-center gap-3">
               <SearchInput
                 value={searchQuery}
                 onChange={setSearchQuery}
@@ -573,167 +843,135 @@ export default function MediaClient({
                 }
                 onClick={() => setIsAddModalOpen(true)}
               />
+              {columnCount >= 2 && (
+                <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 backdrop-blur-md">
+                  <Toggle
+                    size="sm"
+                    checked={airyLayout}
+                    onChange={setAiryLayout}
+                    label={
+                      <span className="text-2xs font-bold uppercase tracking-wider text-white/70">
+                        Airy Spacing
+                      </span>
+                    }
+                  />
+                </div>
+              )}
             </div>
 
-            {/* ── CATEGORY FILTER PILLS BAR ── */}
-            <nav
-              aria-label="Media Categories"
-              className="flex w-full flex-wrap items-center justify-start gap-2.5"
-            >
-              <SeventhButton
-                type="button"
-                onClick={() => handleFilterChange("ALL")}
-                isActive={activeFilter === "ALL"}
-                className="!w-auto [&>span]:!min-w-0"
-              >
-                ALL
-              </SeventhButton>
-
-              {categories.map((cat) => {
-                if (
-                  !cat.category ||
-                  !cat.category.trim() ||
-                  cat.videos.length === 0
-                )
-                  return null;
-                const catUpper = cat.category.toUpperCase();
-                const isActive = activeFilter.toUpperCase() === catUpper;
-                return (
-                  <SeventhButton
-                    key={cat.category}
-                    type="button"
-                    onClick={() => handleFilterChange(catUpper)}
-                    isActive={isActive}
-                    className="!w-auto [&>span]:!min-w-0"
-                  >
-                    {catUpper}
-                  </SeventhButton>
-                );
-              })}
-            </nav>
-          </div>
-
-          <div className="min-h-[60vh] [overflow-anchor:auto] pt-2 lg:pt-4">
-            <ul key={activeFilter} className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {visibleVideos.map((video, index) => {
-                const isHovered =
-                  !playingVideo && hoveredVideoId === video.id;
-                const isMiddleCol = index % 3 === 1;
-
-                return (
-                  <li key={`${activeFilter}-${video.id}`}>
-                    <article
-                      className={`group relative flex aspect-[16/10] animate-[fade-in_0.35s_ease-out_both] stagger-item flex-col overflow-hidden rounded-[var(--radius-box)] bg-[#0c071a] sm:aspect-[3/4.2] ${isMiddleCol ? "lg:z-10 lg:-translate-y-4" : "lg:translate-y-4"}`}
-                      style={{ "--i": Math.min(index, 9) } as React.CSSProperties}
-                    >
-                      <div
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Play ${video.title}`}
-                        onMouseEnter={() => {
-                          if (!playingVideo) setHoveredVideoId(video.id);
-                        }}
-                        onMouseLeave={() => setHoveredVideoId(null)}
-                        onClick={() => {
-                          setHoveredVideoId(null);
-                          setPlayingVideo(video);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            setHoveredVideoId(null);
-                            setPlayingVideo(video);
-                          }
-                        }}
-                        className="focus-ring relative h-full w-full cursor-pointer text-left select-none"
-                      >
-                        {/* Full Bleed Visual Media Player Preview */}
-                        <div className="absolute inset-0 h-full w-full">
-                          <VideoCardVisual
-                            key={video.id}
-                            videoId={video.id}
-                            title={video.title}
-                            isHovered={isHovered}
-                            index={index}
-                          />
-                        </div>
-
-                        {/* Dark Gradient Overlay at Bottom */}
-                        <div className="transition-opacity pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-90 group-hover:opacity-0" />
-
-                        {/* Centered Glass Play Button Above Dark Overlay */}
-                        <div className="transition-[transform,opacity] pointer-events-none absolute inset-0 z-20 flex items-center justify-center group-hover:scale-110 group-hover:opacity-0">
-                          <GlassPlayButton size="lg" as="div" />
-                        </div>
-
-                        {/* Bottom Overlay Info (Category Tag + Title + Metadata with Responsive Fixed Padding) */}
-                        <div className="transition-opacity pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end p-4 text-center group-hover:opacity-0 sm:p-8">
-                          {/* Category Pill Tag (Hidden on mobile to avoid overlapping play button) */}
-                          <span className="mb-2 hidden shrink-0 items-center justify-center !rounded-lg border border-white/10 bg-white/20 px-3 py-1.5 text-center sm:inline-flex">
-                            {video.category || "7TH HEAVEN"}
-                          </span>
-
-                          {/* Poster Title Container with Responsive Height */}
-                          <div className="flex h-10 items-center justify-center sm:h-14">
-                            <span className="block line-clamp-2 drop-shadow-md sm:text-lg font-bold text-white">
-                              {video.title}
-                            </span>
-                          </div>
-
-                          {/* Year / Duration Metadata */}
-                          <span className="shrink-0 text-muted text-xs font-medium">
-                            {video.year || "2026"}{" "}
-                            {video.duration ? `• ${video.duration}` : ""}
-                          </span>
-                        </div>
-                      </div>
-                    </article>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {hasMoreVideos && (
-            <div ref={loadMoreRef} className="flex justify-center py-10">
-              <Button
-                variant="secondary"
-                size="md"
-                onClick={() =>
-                  setVisibleCount((prev) =>
-                    Math.min(prev + CARDS_PER_BATCH, filteredVideos.length),
-                  )
-                }
-              >
-                {sanityContent?.loadMoreText || "Load more"} (
-                {filteredVideos.length - visibleCount} more)
-              </Button>
+            {/* Category Navigation (Sliding Single-Row Toggle when wide, or GooeyDropdown when cut off) */}
+            <div ref={categoryContainerRef} className="relative w-full py-1">
+              {isCategoryCutOff ? (
+                <div className="inline-block">
+                  <CustomDropdown
+                    ariaLabel="Media categories"
+                    value={activeFilter.toUpperCase()}
+                    options={categoryDropdownOptions}
+                    onChange={(val) => handleFilterChange(String(val))}
+                    accentColor="#1e183a"
+                    minWidth={280}
+                    maxHeight={360}
+                    triggerPrefix={categoryTriggerPrefix}
+                    buttonClassName="rounded-full border border-white/15 bg-black/35 px-4 py-2 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
+                  />
+                </div>
+              ) : (
+                <div
+                  ref={tabsMeasureRef}
+                  className="hide-scrollbar max-w-full overflow-x-auto select-none"
+                >
+                  <SegmentedTabs
+                    layout="flex"
+                    shape="full"
+                    size="sm"
+                    variant="glass"
+                    ariaLabel="Media categories"
+                    className="inline-flex w-max shrink-0 flex-nowrap"
+                    tabs={categoryTabs}
+                    activeTab={activeFilter.toUpperCase()}
+                    onChange={(id) => handleFilterChange(String(id))}
+                  />
+                </div>
+              )}
             </div>
-          )}
+          </div>
 
-          {/* Empty State */}
-          {filteredVideos.length === 0 && (
-            <div className="rounded-3xl border border-white/10 bg-white/5 py-24 text-center">
-              <Search className="mx-auto mb-6 h-12 w-12 text-purple-400/50" />
-              <p>
-                {sanityContent?.noResultsTitle || "No media found matching"}{" "}
-                &quot;{searchQuery}&quot;
-              </p>
+          {/* Active Filter Indicator banner if filter is active */}
+          {activeFilter !== "ALL" && (
+            <div className="mb-8 flex items-center justify-between rounded-2xl border border-[#f2efa3]/30 bg-[#f2efa3]/10 px-5 py-3">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#f2efa3]" />
+                <span className="text-xs font-bold tracking-wider text-[#f2efa3] uppercase">
+                  Active Filter: {activeFilter}
+                </span>
+                <span className="text-xs text-white/50">
+                  ({filteredVideos.length} projects)
+                </span>
+              </div>
               <button
+                type="button"
                 onClick={() => {
-                  setSearchQuery("");
                   setActiveFilter("ALL");
+                  setSearchQuery("");
                 }}
-                className="btn-primary mt-4 cursor-pointer px-6 py-2.5"
+                className="cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white"
               >
-                {sanityContent?.clearFiltersText || "Clear Filters & Search"}
+                Reset to All ✕
               </button>
             </div>
           )}
+
+          {/* =================== HOUSE OF YELLOW SPREAD MULTI-STREAM COLLAGE =================== */}
+          <div className="relative mx-auto w-full max-w-[2400px]">
+            <div className="flex gap-6 items-start w-full">
+              {columns.map((colItems, colIndex) => {
+                const topPadding =
+                  columnCount > 1
+                    ? COLUMN_TOP_STAGGERS[colIndex % COLUMN_TOP_STAGGERS.length]
+                    : "pt-0";
+
+                return (
+                  <div
+                    key={`col-${colIndex}-${columnCount}`}
+                    ref={(el) => {
+                      columnRefs.current[colIndex] = el;
+                    }}
+                    className={`flex-1 min-w-0 flex flex-col gap-6 md:gap-8 ${topPadding}`}
+                  >
+                    {colItems.map((item) => {
+                      if (item.type === "spacer") {
+                        return (
+                          <div
+                            key={item.key}
+                            aria-hidden="true"
+                            className="w-full select-none pointer-events-none"
+                          >
+                            <div className={`w-full ${item.aspectClass}`} />
+                            <div className="mt-4 h-14 sm:h-16" />
+                          </div>
+                        );
+                      }
+
+                      return renderCard(
+                        item.video,
+                        item.aspectClass,
+                        item.key,
+                        undefined,
+                        item.priority,
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+
         </section>
       </div>
 
-      {/* ── FULL SCREEN VIDEO MODAL ── */}
+
+      {/* FULL SCREEN VIDEO MODAL */}
       {mounted &&
         playingVideo &&
         createPortal(
@@ -741,13 +979,11 @@ export default function MediaClient({
             className="fixed inset-0 z-[999999] flex h-full h-dvh w-full cursor-pointer animate-[fade-in_0.2s_ease-out] flex-col bg-black p-0"
             onClick={handleCloseVideo}
           >
-            <div
-              className="relative flex h-full w-full flex-col overflow-hidden bg-black"
-            >
+            <div className="relative flex h-full w-full flex-col overflow-hidden bg-black">
               {/* Modal Header Bar */}
               <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 bg-black/90 px-4 pt-safe sm:px-6">
                 <div className="flex items-center gap-3">
-                  <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-3 py-1 text-purple-300">
+                  <span className="rounded-full border border-[#f2efa3]/30 bg-[#f2efa3]/20 px-3 py-1 text-xs font-bold tracking-wider text-[#f2efa3] uppercase">
                     {playingVideo.category || "7TH HEAVEN"}
                   </span>
                   <span className="line-clamp-1 text-white sm:text-lg">
@@ -796,10 +1032,11 @@ export default function MediaClient({
                     <VideoIcon className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3>
+                    {/* heading-size-ok: admin modal title */}
+                    <h3 className="text-base font-bold text-white">
                       {sanityContent?.modalTitle || "Add Video to Media Vault"}
                     </h3>
-                    <p>
+                    <p className="text-xs text-purple-300/70">
                       {sanityContent?.modalSubtitle ||
                         "Syncs to Sanity CMS & Media Hub"}
                     </p>
@@ -844,9 +1081,9 @@ export default function MediaClient({
                         <div>
                           <div className="flex items-center gap-1.5">
                             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                            <span>Valid Video Link Detected</span>
+                            <span className="text-xs font-semibold text-emerald-400">Valid Video Link Detected</span>
                           </div>
-                          <p className="mt-0.5 text-purple-200/80">
+                          <p className="mt-0.5 text-xs text-purple-200/80 font-mono">
                             ID: {parsed}
                           </p>
                         </div>
@@ -871,7 +1108,7 @@ export default function MediaClient({
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <div className="mb-1 flex items-center justify-between">
-                      <label className="block">
+                      <label className="block text-xs font-medium text-white/80">
                         Category <span className="text-pink-400">*</span>
                       </label>
                       <button
@@ -950,14 +1187,14 @@ export default function MediaClient({
                   <button
                     type="button"
                     onClick={() => setIsAddModalOpen(false)}
-                    className="transition-colors cursor-pointer hover:text-white"
+                    className="transition-colors cursor-pointer text-xs text-white/70 hover:text-white"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="transition-colors flex cursor-pointer items-center gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
+                    className="transition-colors flex cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 px-6 py-2.5 text-xs font-bold text-white shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:from-purple-500 hover:to-pink-500 disabled:opacity-50"
                   >
                     {submitting
                       ? sanityContent?.modalSavingText || "Saving to Sanity..."

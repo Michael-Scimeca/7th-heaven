@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import SeventhButton from "@/components/SeventhButton";
+import SegmentedTabs from "@/components/SegmentedTabs";
 import InputField from "@/components/InputField";
 import GlowInput, { GlowSelect } from "@/components/GlowInput";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
@@ -51,7 +52,7 @@ export function EmbarkationCountdown() {
     <div className="relative flex flex-wrap items-center gap-6 overflow-visible border-none">
       <div className="z-10 flex shrink-0 items-center">
         <div>
-          <h2 className="py-0.5 text-xl font-bold md:text-2xl">Embarkation</h2>
+          <h2 className="py-0.5">Embarkation</h2>
           <p className="text-xs text-secondary sm:text-sm">Port of Miami</p>
         </div>
       </div>
@@ -97,7 +98,7 @@ export function DailyPoll() {
         What should the theme be for the Lido Deck Sailaway Party?
       </p>
 
-      <div className="relative z-10 space-y-3">
+      <div className="relative z-10 flex flex-col gap-3">
         {POLL_OPTIONS.map((opt) => {
           const optVotes = opt.votes + (voted === opt.id ? 1 : 0);
           const percent = Math.round((optVotes / totalVotes) * 100);
@@ -166,7 +167,7 @@ export function OriginStats() {
     <div className="group relative overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] p-6">
       <h2 className="mb-5 text-white/40">Where Fans Are Sailing From</h2>
 
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         {ORIGIN_STATS.map((stat, i) => (
           <div key={stat.location}>
             <div className="flex justify-between">
@@ -555,7 +556,7 @@ export function BookingManager({ email }: { email?: string }) {
 
         <form
           onSubmit={handleQuickRegister}
-          className="relative z-10 space-y-4 border border-white/10 p-4"
+          className="relative z-10 flex flex-col gap-4 border border-white/10 p-4"
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <InputField
@@ -660,7 +661,7 @@ export function BookingManager({ email }: { email?: string }) {
       </div>
 
       {/* Payment Breakdown: Total Fare, Paid & Owed */}
-      <div className="my-3 space-y-2.5">
+      <div className="my-3 flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <span>Total Cruise Fare</span>
           <span>{booking.total_fare || "$1,550.00"}</span>
@@ -699,7 +700,7 @@ export function BookingManager({ email }: { email?: string }) {
       {booking.guests && booking.guests.length > 0 && (
         <div className="mt-3 border-t border-white/10 pt-3">
           <h3 className="mb-2 text-white/40">Guest List</h3>
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-1.5">
             {booking.guests.map((g: any, i: number) => (
               <div key={i} className="flex items-center justify-between">
                 <span>{g.name || `Guest ${i + 2}`}</span>
@@ -715,7 +716,7 @@ export function BookingManager({ email }: { email?: string }) {
       )}
 
       {/* Two Clickable Cruise Agent Email Buttons */}
-      <div className="mt-4 space-y-2">
+      <div className="mt-4 flex flex-col gap-2">
         <span className="mb-2 block">
           Get in Touch with Cruise Agents
         </span>
@@ -914,7 +915,7 @@ function PaymentModal({
 
       <div className="relative w-full max-w-md overflow-hidden border border-white/10 bg-[var(--color-bg-surface)] text-left shadow-[0_0_50px_rgba(6,182,212,0.15)]">
         {success ? (
-          <div className="space-y-4 p-8 text-center">
+          <div className="flex flex-col gap-4 p-8 text-center">
             <div className="mx-auto flex h-16 w-16 items-center justify-center border border-emerald-500/30 bg-emerald-500/10 text-2xl shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckMarkIcon className="h-8 w-8 text-emerald-400" />
             </div>
@@ -933,7 +934,7 @@ function PaymentModal({
             </button>
           </div>
         ) : (
-          <form onSubmit={handlePaymentSubmit} className="space-y-6 p-6 md:p-8">
+          <form onSubmit={handlePaymentSubmit} className="flex flex-col gap-6 p-6 md:p-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
                 <h3>Final Payment</h3>
@@ -951,7 +952,7 @@ function PaymentModal({
             )}
 
             {processing ? (
-              <div className="space-y-4 py-12 text-center">
+              <div className="flex flex-col gap-4 py-12 text-center">
                 <div className="mx-auto h-11 w-11 animate-spin rounded-full border-2 border-purple-400 border-t-transparent" />
                 <p className="animate-pulse text-purple-400">
                   Processing Secure Payment...
@@ -959,31 +960,22 @@ function PaymentModal({
               </div>
             ) : (
               <>
-                <div className="flex gap-2 border border-white/10 bg-black/40 p-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setTab("saved");
-                      setError("");
-                    }}
-                    className={`flex-1 cursor-pointer py-1.5 ${tab === "saved" ? "border border-white/10" : "border border-transparent text-white/40"}`}
-                  >
-                    Use Saved Card
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setTab("new");
-                      setError("");
-                    }}
-                    className={`flex-1 cursor-pointer py-1.5 ${tab === "new" ? "border border-white/10" : "border border-transparent text-white/40"}`}
-                  >
-                    Use New Card
-                  </button>
-                </div>
+                <SegmentedTabs<"saved" | "new">
+                  activeTab={tab}
+                  onChange={(newTab) => {
+                    setTab(newTab);
+                    setError("");
+                  }}
+                  ariaLabel="Card selection tabs"
+                  size="sm"
+                  tabs={[
+                    { id: "saved", label: "Use Saved Card" },
+                    { id: "new", label: "Use New Card" },
+                  ]}
+                />
 
                 {tab === "saved" ? (
-                  <div className="space-y-3 border border-white/10 p-4">
+                  <div className="flex flex-col gap-3 border border-white/10 p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <span>💳</span>
@@ -1000,7 +992,7 @@ function PaymentModal({
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="flex flex-col gap-4">
                     <div>
                       <GlowInput
                         id="cruise-card-name"
@@ -1117,7 +1109,7 @@ export function ImportantLinksWidget() {
         </div>
       </div>
 
-      <div className="relative z-10 space-y-3">
+      <div className="relative z-10 flex flex-col gap-3">
         {links.map((link) => (
           <a
             key={link.url || link.title}
@@ -1171,7 +1163,7 @@ export function SongRequestLeaderboard() {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         {songs.map((song, i) => (
           <div key={song.id} className="group flex items-center gap-4">
             <span
@@ -1276,7 +1268,7 @@ export function ExcursionTeasers() {
     <div className="border border-white/10 bg-[var(--color-bg-surface)] p-6">
       <h2 className="mb-5">Band Excursions</h2>
 
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         {EXCURSIONS.map((ex, i) => (
           <div
             key={ex.title}

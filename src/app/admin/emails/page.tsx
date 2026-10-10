@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { EMAIL_TEMPLATES } from "@/lib/email-templates";
 import CustomScrollbar from "@/components/CustomScrollbar";
+import SegmentedTabs from "@/components/SegmentedTabs";
 
 const categories = [
   "All",
@@ -102,7 +103,7 @@ export default function EmailPreviewPage() {
           </div>
 
           {/* Template list */}
-          <CustomScrollbar className="space-y-1.5 p-4">
+          <CustomScrollbar className="flex flex-col gap-1.5 p-4">
             {filtered.map((t) => (
               <button
                 key={t.id}
@@ -164,21 +165,17 @@ export default function EmailPreviewPage() {
 
               <div className="h-4 w-px bg-[#00000029]" />
 
-              <div className="flex items-center gap-2">
-                <button
-                  aria-label="Previous"
-                  onClick={() => setViewMode("preview")}
-                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "preview" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
-                >
-                  Preview
-                </button>
-                <button
-                  onClick={() => setViewMode("code")}
-                  className={`cursor-pointer px-3 py-1.5 ${viewMode === "code" ? "bg-[var(--color-accent)]" : "text-white/30"}`}
-                >
-                  HTML
-                </button>
-              </div>
+              <SegmentedTabs<"preview" | "code">
+                activeTab={viewMode}
+                onChange={setViewMode}
+                ariaLabel="Email view mode"
+                layout="flex"
+                size="sm"
+                tabs={[
+                  { id: "preview", label: "Preview" },
+                  { id: "code", label: "HTML" },
+                ]}
+              />
             </div>
           </div>
 

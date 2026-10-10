@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
 import GlowInput, { GlowTextarea, GlowSelect } from "@/components/GlowInput";
+import SegmentedTabs from "@/components/SegmentedTabs";
 
 type Variant = {
   id: string;
@@ -189,22 +190,17 @@ export default function ShopInventoryAdminPage() {
         </div>
 
         {/* Tab Navigation */}
-        <nav aria-label="Shop Inventory Sections" className="mt-6 flex gap-2">
-          <button
-            type="button"
-            onClick={() => setActiveTab("products")}
-            className={`rounded-lg px-4 py-2 ${activeTab === "products" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
-          >
-            Products
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("orders")}
-            className={`rounded-lg px-4 py-2 ${activeTab === "orders" ? "bg-cyan-500 text-black" : "border border-white/10 bg-[#00000029] hover:text-white"}`}
-          >
-            Orders ({orders.length})
-          </button>
-        </nav>
+        <SegmentedTabs<"products" | "orders">
+          className="mt-6 inline-flex"
+          layout="flex"
+          activeTab={activeTab}
+          onChange={setActiveTab}
+          ariaLabel="Shop Inventory Sections"
+          tabs={[
+            { id: "products", label: "Products" },
+            { id: "orders", label: `Orders (${orders.length})` },
+          ]}
+        />
       </header>
 
       {error && (
@@ -265,7 +261,7 @@ function ProductsTab({
     );
   }
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-4">
       {products.map((product) => (
         <ProductRow key={product.id} product={product} onChanged={onChanged} />
       ))}
@@ -377,7 +373,7 @@ function ProductRow({
       </div>
 
       {expanded && (
-        <div className="space-y-2 bg-black/20 p-4">
+        <div className="flex flex-col gap-2 bg-black/20 p-4">
           <div className="mb-2 text-[10px] text-white/40">
             Variants ({product.variant_kind})
           </div>
@@ -742,7 +738,7 @@ function AddProductModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-2xl">
       <div
         data-lenis-prevent
-        className="custom-scrollbar max-h-[90vh] w-full max-w-lg space-y-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8"
+        className="custom-scrollbar max-h-[90vh] w-full max-w-lg flex flex-col gap-4 overflow-y-auto border border-white/[0.12] bg-[#0e0e18] p-6 sm:p-8"
       >
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <h2>Add Product</h2>
@@ -825,7 +821,7 @@ function AddProductModal({
                 : "colors"}
             )
           </label>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             {variants.map((v, i) => (
               <div key={v.id} className="flex gap-2">
                 <GlowInput
@@ -925,7 +921,7 @@ function OrdersTab({ orders }: { orders: Order[] }) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col gap-2">
       {orders.map((order) => (
         <div
           key={order.id}

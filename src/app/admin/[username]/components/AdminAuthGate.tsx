@@ -44,7 +44,7 @@ export function AdminAuthGate({
             : "Sign in with an administrative account to view management console."}
         </p>
 
-        <form onSubmit={handleAdminLoginSubmit} className="space-y-4 text-left">
+        <form onSubmit={handleAdminLoginSubmit} className="flex flex-col gap-4 text-left">
           <div>
             <label htmlFor="admin-gate-email" className="text-4xs block">
               Email

@@ -7,7 +7,11 @@ import {
   buildDecayingSlantClipPath,
   computeViewportOrigin,
 } from "@/lib/curtainClipPath";
-import { waitForPageReady, waitForCanvasReady } from "@/lib/waitForPageReady";
+import {
+  waitForPageReady,
+  waitForCanvasReady,
+  waitForMediaVideosReady,
+} from "@/lib/waitForPageReady";
 
 function getPageElement(): HTMLElement | null {
   if (typeof document === "undefined") return null;
@@ -586,12 +590,20 @@ export default function Preloader() {
       loaderDoneTimeout = setTimeout(async () => {
         if (particleInterval) clearInterval(particleInterval);
         wrap.classList.add("done"); // fades the bar track + trailing dot
-        await Promise.all([waitForPageReady(), waitForCanvasReady()]);
+        await Promise.all([
+          waitForPageReady(),
+          waitForCanvasReady(),
+          waitForMediaVideosReady(),
+        ]);
         advanceToWipe();
       }, activeLoaderTotalMs);
     } else {
       // Refs not ready for some reason -- don't hang the site on a missing element.
-      Promise.all([waitForPageReady(), waitForCanvasReady()]).then(() => {
+      Promise.all([
+        waitForPageReady(),
+        waitForCanvasReady(),
+        waitForMediaVideosReady(),
+      ]).then(() => {
         advanceToWipe();
       });
     }
