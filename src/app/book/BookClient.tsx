@@ -1193,7 +1193,7 @@ function BookPageContent({
 
       <form
         id="book-event"
-        className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_360px]"
+        className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] 2xl:grid-cols-[1fr_500px] lg:gap-6 xl:gap-8"
         onSubmit={handleSubmit}
       >
         <div className="steps flex flex-col page-stack">
@@ -2763,7 +2763,7 @@ function BookPageContent({
           aria-label="Booking Summary"
           className="sticky top-25 md:mt-6 lg:mt-0 mt-6 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
         >
-          <div className="rounded-[var(--radius-box)] border border-white/10 bg-purple-950/40 p-6 sm:p-7 shadow-2xl backdrop-blur-md">
+          <div className="rounded-[var(--radius-box)] border border-white/10 bg-purple-950/40 p-6 sm:p-7 lg:p-8 shadow-2xl backdrop-blur-md">
             <SectionHeader
               as="h3"
               title={
@@ -2786,10 +2786,10 @@ function BookPageContent({
             />
 
             <Stack gap="md">
-              <div className="flex flex-col">
-                <div className="flex items-start justify-between">
+              <div className="flex flex-col divide-y divide-white/10 text-sm">
+                <div className="flex items-start justify-between pb-3">
                   <span className="text-white/50">Date</span>
-                  <span className="text-right">
+                  <span className="text-right font-medium text-white">
                     {bookingSlots.length === 1 ? (
                       new Date(
                         bookingSlots[0].date + "T12:00:00Z",
@@ -2806,9 +2806,9 @@ function BookPageContent({
                     )}
                   </span>
                 </div>
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between py-3">
                   <span className="text-white/50">Time</span>
-                  <span className="text-right">
+                  <span className="text-right font-medium text-white">
                     {bookingSlots.length === 1 ? (
                       `${bookingSlots[0].startTime} – ${bookingSlots[0].endTime}`
                     ) : bookingSlots.length > 1 ? (
@@ -2818,41 +2818,41 @@ function BookPageContent({
                     )}
                   </span>
                 </div>
-                <div className="flex items-start justify-between mb-6">
+                <div className="flex items-start justify-between py-3">
                   <span className="text-white/50">Format</span>
-                  <span className="text-right">
+                  <span className="text-right font-medium text-white">
                     {selectedType ? (
                       eventTypes.find((t) => t.id === selectedType)?.label
                     ) : (
-                      <span>—</span>
+                      <span className="text-white/30">—</span>
                     )}
                   </span>
                 </div>
-                <div className="flex items-start justify-between border-t border-white/10 pt-4">
+                <div className="flex items-start justify-between py-3">
                   <span className="text-white/50">Venue</span>
-                  <span className="max-w-[150px] text-right break-words">
+                  <span className="max-w-[240px] sm:max-w-[280px] text-right break-words font-medium text-white">
                     {formData.venueName ? (
                       formData.venueName
                     ) : (
                       <span className="text-white/30">—</span>
                     )}
                     {formData.venueCity && (
-                      <span className="block font-normal text-white/50">
+                      <span className="block font-normal text-white/50 text-xs mt-0.5">
                         {formData.venueCity}, {formData.venueState}
                       </span>
                     )}
                   </span>
                 </div>
                 {addOns.length > 0 && (
-                  <div className="flex items-start justify-between border-t border-white/10 pt-4">
+                  <div className="flex items-start justify-between pt-3">
                     <span className="text-white/50">Add-Ons</span>
                     <div className="text-right">
-                      <span>{addOns.length} selected</span>
-                      <div className="flex max-w-[160px] flex-wrap justify-end gap-1">
+                      <span className="font-medium text-white">{addOns.length} selected</span>
+                      <div className="flex max-w-[240px] sm:max-w-[280px] flex-wrap justify-end gap-1.5 mt-1.5">
                         {addOns.slice(0, 3).map((id) => (
                           <span
                             key={id}
-                            className="rounded bg-cyan-500/20 px-1.5 py-0.5"
+                            className="rounded bg-cyan-500/20 px-2 py-0.5 text-xs text-cyan-200"
                           >
                             {id
                               .replace(/_/g, " ")
@@ -2860,7 +2860,7 @@ function BookPageContent({
                           </span>
                         ))}
                         {addOns.length > 3 && (
-                          <span className="text-white/40">
+                          <span className="text-white/40 text-xs">
                             +{addOns.length - 3} more
                           </span>
                         )}

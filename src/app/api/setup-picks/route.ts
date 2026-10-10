@@ -22,6 +22,7 @@ export async function POST() {
             created_at TIMESTAMPTZ DEFAULT NOW()
           );
           CREATE INDEX IF NOT EXISTS idx_fan_picks_user ON fan_picks(user_id);
+          ALTER TABLE fan_picks ENABLE ROW LEVEL SECURITY;
         `,
       }),
       supabase.rpc("exec_sql", {
@@ -37,6 +38,7 @@ export async function POST() {
             winner_user_id UUID,
             created_at TIMESTAMPTZ DEFAULT NOW()
           );
+          ALTER TABLE lotteries ENABLE ROW LEVEL SECURITY;
         `,
       }),
       supabase.rpc("exec_sql", {
@@ -51,6 +53,7 @@ export async function POST() {
           );
           CREATE INDEX IF NOT EXISTS idx_lottery_entries_user ON lottery_entries(user_id);
           CREATE INDEX IF NOT EXISTS idx_lottery_entries_lottery ON lottery_entries(lottery_id);
+          ALTER TABLE lottery_entries ENABLE ROW LEVEL SECURITY;
         `,
       }),
     ]);

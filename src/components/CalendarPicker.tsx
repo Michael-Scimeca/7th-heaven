@@ -5,6 +5,7 @@ import { DotChevronLeft, DotChevronRight, DotChevronDown } from "@/components/ui
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import GlowInput from "@/components/GlowInput";
 import SectionHeader from "@/components/SectionHeader";
+import { ProgressionLayouts } from "@/components/ProgressionLayouts";
 
 export interface BookingSlot {
   id: string;
@@ -166,13 +167,29 @@ function parseTimeToMinutes(timeStr: string): number {
 
 function calculateDiffMinutes(start: string, end: string): number {
   if (!start || !end) return 180;
-  const startMins = parseTimeToMinutes(start);
-  let endMins = parseTimeToMinutes(end);
+  if (start.trim().toUpperCase() === end.trim().toUpperCase()) return 0;
+  
+  const parseEveningMins = (t: string): number => {
+    const match = t.trim().match(/^(\d+)(?::(\d+))?\s*(AM|PM)?$/i);
+    if (!match) return 0;
+    let h = parseInt(match[1], 10);
+    const m = match[2] ? parseInt(match[2], 10) : 0;
+    const p = match[3]?.toUpperCase();
+    if (p === "PM" && h !== 12) h += 12;
+    if (p === "AM" && h === 12) h = 0;
+    let total = h * 60 + m;
+    // Map past-midnight hours (12:00 AM - 5:59 AM) to post-midnight
+    if (p === "AM" && total < 6 * 60) total += 1440;
+    return total;
+  };
 
-  if (endMins <= startMins) {
-    endMins += 24 * 60;
+  const startMins = parseEveningMins(start);
+  const endMins = parseEveningMins(end);
+
+  if (endMins >= startMins) {
+    return endMins - startMins;
   }
-  return Math.max(0, endMins - startMins);
+  return 0;
 }
 
 function formatDuration(minutes: number, label: string = ""): string {
@@ -242,6 +259,7 @@ export function CalendarPicker({
   const [localEventStart, setLocalEventStart] = useState("6:00 PM");
   const [localEventEnd, setLocalEventEnd] = useState("11:00 PM");
   const [openTimeline, setOpenTimeline] = useState<string | null>(null);
+  const [timelineLayout, setTimelineLayout] = useState<number>(1);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
   const [expandedMetadata, setExpandedMetadata] = useState<
     Record<string, boolean>
@@ -617,302 +635,22 @@ export function CalendarPicker({
             </h2>
           </div>
 
-          <div
-            ref={timelineContainerRef}
-            className="relative flex flex-col gap-3 "
-          >
-            {/* Row 1: Event Starts -> Band on Stage */}
-            <div className="flex flex-wrap items-start gap-2.5 sm:gap-3">
-              {/* 1. Event Start */}
-              <div className="relative flex flex-col">
-                <button
-                  type="button"
-                  id="cal-event-start-btn"
-                  aria-haspopup="listbox"
-                  aria-expanded={openTimeline === "eventStart"}
-                  onClick={() =>
-                    setOpenTimeline(
-                      openTimeline === "eventStart" ? null : "eventStart",
-                    )
-                  }
-                  className={`flex h-10 sm:min-w-[210px] justify-between cursor-pointer items-center gap-2 rounded-full border px-4 text-xs font-bold uppercase transition-all ${openTimeline === "eventStart"
-                    ? "border-white/50 bg-white/[0.16] text-white shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-                    : "border-white/20 bg-white/[0.06] text-white hover:border-white/35 hover:bg-white/[0.12]"
-                    }`}
-                >
-                  <span className="text-[10px] text-white/50 tracking-wider">EVENT STARTS:</span>
-                  <span className="text-white font-bold">{effectiveEventStart}</span>
-                  <DotChevronDown className="h-3 w-3 text-white/60" />
-                </button>
-                <span className="mt-1.5 pl-3 text-[10px] text-white/40">
-                  Guests Arrive
-                </span>
-
-                {/* Popover */}
-                {openTimeline === "eventStart" && (
-                  <div
-                    role="listbox"
-                    data-lenis-prevent
-                    aria-label="Select event start time"
-                    className="absolute top-12 left-0 z-50 w-64 rounded-2xl border border-white/20 bg-[#0d1522]/95 p-3.5 shadow-2xl backdrop-blur-2xl"
-                  >
-                    <div className="mb-2 text-[10px] font-bold text-white/70 uppercase">
-                      Select Event Start Time
-                    </div>
-                    <div
-                      data-lenis-prevent
-                      className="custom-scrollbar grid max-h-56 grid-cols-2 gap-1.5 overflow-y-auto overscroll-contain pr-1 touch-pan-y"
-                    >
-                      {EVENT_START_TIMES.map((t) => {
-                        const isSelected = t === effectiveEventStart;
-                        return (
-                          <button
-                            key={t}
-                            type="button"
-                            role="option"
-                            aria-selected={isSelected}
-                            onClick={() => {
-                              handleSelectTimelineTime("eventStart", t);
-                              setOpenTimeline(null);
-                            }}
-                            className={`rounded-xl border px-2.5 py-2 text-xs font-semibold transition-all ${isSelected
-                              ? "border-white/40 bg-white/20 text-white font-bold shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-                              : "border-white/10 bg-white/5 text-white/80 hover:border-white/30 hover:bg-white/15 hover:text-white"
-                              }`}
-                          >
-                            {t}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex h-10 items-center px-0.5 text-white/40" aria-hidden="true">
-                <ArrowRight className="h-3.5 w-3.5" />
-              </div>
-
-              {/* 2. Band Starts */}
-              <div className="relative flex flex-col">
-                <button
-                  type="button"
-                  id="cal-band-start-btn"
-                  aria-haspopup="listbox"
-                  aria-expanded={openTimeline === "bandStart"}
-                  onClick={() =>
-                    setOpenTimeline(
-                      openTimeline === "bandStart" ? null : "bandStart",
-                    )
-                  }
-                  className={`flex h-10 sm:min-w-[210px] justify-between cursor-pointer items-center gap-2 rounded-full border px-4 text-xs font-bold uppercase transition-all ${openTimeline === "bandStart"
-                    ? "border-white/50 bg-white/[0.16] text-white shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-                    : "border-white/20 bg-white/[0.06] text-white hover:border-white/35 hover:bg-white/[0.12]"
-                    }`}
-                >
-                  <span className="text-[10px] text-white/50 tracking-wider">
-                    BAND ON STAGE:
-                  </span>
-                  <span className="text-white font-bold">{effectiveBandStart}</span>
-                  <DotChevronDown className="h-3 w-3 text-white/60" />
-                </button>
-                <span className="mt-1.5 pl-3 text-[10px] text-white/40">
-                  Live Show Starts
-                </span>
-
-                {/* Popover */}
-                {openTimeline === "bandStart" && (
-                  <div
-                    role="listbox"
-                    data-lenis-prevent
-                    aria-label="Select band on stage time"
-                    className="absolute top-12 left-0 sm:left-auto sm:right-0 z-50 w-64 rounded-2xl border border-white/20 bg-[#0d1522]/95 p-3.5 shadow-2xl backdrop-blur-2xl"
-                  >
-                    <div className="mb-2 text-[10px] font-bold text-white/70 uppercase">
-                      Select Band On Stage Time
-                    </div>
-                    <div
-                      data-lenis-prevent
-                      className="custom-scrollbar grid max-h-56 grid-cols-2 gap-1.5 overflow-y-auto overscroll-contain pr-1 touch-pan-y"
-                    >
-                      {BAND_START_TIMES.map((t) => {
-                        const isSelected = t === effectiveBandStart;
-                        return (
-                          <button
-                            key={t}
-                            type="button"
-                            role="option"
-                            aria-selected={isSelected}
-                            onClick={() => {
-                              handleSelectTimelineTime("bandStart", t);
-                              setOpenTimeline(null);
-                            }}
-                            className={`rounded-xl border px-2.5 py-2 text-xs font-semibold transition-all ${isSelected
-                              ? "border-white/40 bg-white/20 text-white font-bold shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-                              : "border-white/10 bg-white/5 text-white/80 hover:border-white/30 hover:bg-white/15 hover:text-white"
-                              }`}
-                          >
-                            {t}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Row 2: Band Finishes -> Event Ends */}
-            <div className="flex flex-wrap items-start gap-2.5 sm:gap-3">
-              {/* 3. Band Finishes */}
-              <div className="relative flex flex-col">
-                <button
-                  type="button"
-                  id="cal-band-finish-btn"
-                  aria-haspopup="listbox"
-                  aria-expanded={openTimeline === "bandEnd"}
-                  onClick={() =>
-                    setOpenTimeline(
-                      openTimeline === "bandEnd" ? null : "bandEnd",
-                    )
-                  }
-                  className={`flex h-10 sm:min-w-[210px] justify-between cursor-pointer items-center gap-2 rounded-full border px-4 text-xs font-bold uppercase transition-all ${openTimeline === "bandEnd"
-                    ? "border-white/50 bg-white/[0.16] text-white shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-                    : "border-white/20 bg-white/[0.06] text-white hover:border-white/35 hover:bg-white/[0.12]"
-                    }`}
-                >
-                  <span className="text-[10px] text-white/50 tracking-wider">
-                    BAND FINISHES:
-                  </span>
-                  <span className="text-white font-bold">{effectiveBandEnd}</span>
-                  <DotChevronDown className="h-3 w-3 text-white/60" />
-                </button>
-                <span className="mt-1.5 pl-3 text-[10px] text-white/40">
-                  Final Encore
-                </span>
-
-                {/* Popover */}
-                {openTimeline === "bandEnd" && (
-                  <div
-                    role="listbox"
-                    data-lenis-prevent
-                    aria-label="Select band finish time"
-                    className="absolute top-12 left-0 z-50 w-64 rounded-2xl border border-white/20 bg-[#0d1522]/95 p-3.5 shadow-2xl backdrop-blur-2xl"
-                  >
-                    <div className="mb-2 text-[10px] font-bold text-white/70 uppercase">
-                      Select Band Finish Time
-                    </div>
-                    <div
-                      data-lenis-prevent
-                      className="custom-scrollbar grid max-h-56 grid-cols-2 gap-1.5 overflow-y-auto overscroll-contain pr-1 touch-pan-y"
-                    >
-                      {BAND_END_TIMES.map((t) => {
-                        const isSelected = t === effectiveBandEnd;
-                        return (
-                          <button
-                            key={t}
-                            type="button"
-                            role="option"
-                            aria-selected={isSelected}
-                            onClick={() => {
-                              handleSelectTimelineTime("bandEnd", t);
-                              setOpenTimeline(null);
-                            }}
-                            className={`rounded-xl border px-2.5 py-2 text-xs font-semibold transition-all ${isSelected
-                              ? "border-white/40 bg-white/20 text-white font-bold shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-                              : "border-white/10 bg-white/5 text-white/80 hover:border-white/30 hover:bg-white/15 hover:text-white"
-                              }`}
-                          >
-                            {t}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex h-10 items-center px-0.5 text-white/40" aria-hidden="true">
-                <ArrowRight className="h-3.5 w-3.5" />
-              </div>
-
-              {/* 4. Event Ends */}
-              <div className="relative flex flex-col">
-                <button
-                  type="button"
-                  id="cal-event-end-btn"
-                  aria-haspopup="listbox"
-                  aria-expanded={openTimeline === "eventEnd"}
-                  onClick={() =>
-                    setOpenTimeline(
-                      openTimeline === "eventEnd" ? null : "eventEnd",
-                    )
-                  }
-                  className={`flex h-10 sm:min-w-[210px] justify-between cursor-pointer items-center gap-2 rounded-full border px-4 text-xs font-bold uppercase transition-all ${openTimeline === "eventEnd"
-                    ? "border-white/50 bg-white/[0.16] text-white shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-                    : "border-white/20 bg-white/[0.06] text-white hover:border-white/35 hover:bg-white/[0.12]"
-                    }`}
-                >
-                  <span className="text-[10px] text-white/50 tracking-wider">EVENT ENDS:</span>
-                  <span className="text-white font-bold">{effectiveEventEnd}</span>
-                  <DotChevronDown className="h-3 w-3 text-white/60" />
-                </button>
-                <span className="mt-1.5 pl-3 text-[10px] text-white/40">
-                  Party Concludes
-                </span>
-
-                {/* Popover */}
-                {openTimeline === "eventEnd" && (
-                  <div
-                    role="listbox"
-                    data-lenis-prevent
-                    aria-label="Select event end time"
-                    className="absolute top-12 left-0 sm:left-auto sm:right-0 z-50 w-64 rounded-2xl border border-white/20 bg-[#0d1522]/95 p-3.5 shadow-2xl backdrop-blur-2xl"
-                  >
-                    <div className="mb-2 text-[10px] font-bold text-white/70 uppercase">
-                      Select Event End Time
-                    </div>
-                    <div
-                      data-lenis-prevent
-                      className="custom-scrollbar grid max-h-56 grid-cols-2 gap-1.5 overflow-y-auto overscroll-contain pr-1 touch-pan-y"
-                    >
-                      {EVENT_END_TIMES.map((t) => {
-                        const isSelected = t === effectiveEventEnd;
-                        return (
-                          <button
-                            key={t}
-                            type="button"
-                            role="option"
-                            aria-selected={isSelected}
-                            onClick={() => {
-                              handleSelectTimelineTime("eventEnd", t);
-                              setOpenTimeline(null);
-                            }}
-                            className={`rounded-xl border px-2.5 py-2 text-xs font-semibold transition-all ${isSelected
-                              ? "border-white/40 bg-white/20 text-white font-bold shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-                              : "border-white/10 bg-white/5 text-white/80 hover:border-white/30 hover:bg-white/15 hover:text-white"
-                              }`}
-                          >
-                            {t}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Row 3: Duration Summary Badge */}
-            <div className="flex h-10 items-center pt-1">
-              <span className="flex h-10 items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-4 text-xs font-bold text-white shadow-sm backdrop-blur-md">
-                <Zap className="h-3.5 w-3.5 text-white/80" />
-                <span>🎸 {formatDuration(bandLiveMinutes, "Live Set")}</span>
-                <span className="text-white/30">•</span>
-                <span>{formatDuration(totalEventMinutes, "Total")}</span>
-              </span>
-            </div>
-          </div>
+          <ProgressionLayouts
+            layoutId={timelineLayout}
+            onSelectLayout={setTimelineLayout}
+            openTimeline={openTimeline}
+            setOpenTimeline={setOpenTimeline}
+            effectiveEventStart={effectiveEventStart}
+            effectiveBandStart={effectiveBandStart}
+            effectiveBandEnd={effectiveBandEnd}
+            effectiveEventEnd={effectiveEventEnd}
+            handleSelectTimelineTime={handleSelectTimelineTime}
+            bandLiveMinutes={bandLiveMinutes}
+            totalEventMinutes={totalEventMinutes}
+            preShowMinutes={preShowMinutes}
+            postShowMinutes={postShowMinutes}
+            containerRef={timelineContainerRef}
+          />
         </div>
 
         {/* Row 2: Event Format (spans full width on mobile/tablet, spans both columns at lg+) */}
