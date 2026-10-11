@@ -1,0 +1,34 @@
+{
+  "ignores": [
+    "@swc/helpers",
+    "@tailwindcss/typography",
+    "tw-animate-css",
+    "@tailwindcss/postcss",
+    "postcss",
+    "tailwindcss",
+    "prettier",
+    "prettier-plugin-tailwindcss",
+    "react-doctor",
+    "@types/google.maps",
+    "@types/styled-components",
+    "styled-components",
+    "framer-motion",
+    "lighthouse",
+    "@testing-library/dom",
+    "@testing-library/jest-dom",
+    "@testing-library/react",
+    "ecc-universal",
+    "@netlify/functions",
+    "pg"
+  ],
+  "ignore-dirs": [
+    ".agents",
+    ".claude",
+    ".codex",
+    ".github",
+    "spectest",
+    "scratch",
+    "artifacts",
+    "Claude outputs"
+  ]
+}

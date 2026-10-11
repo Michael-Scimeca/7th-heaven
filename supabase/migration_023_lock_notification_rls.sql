@@ -12,32 +12,16 @@ DROP POLICY IF EXISTS "Allow public subscribe to web push" ON public.push_subscr
 DROP POLICY IF EXISTS "Allow public update own web push subscription" ON public.push_subscribers;
 DROP POLICY IF EXISTS "Allow public read push subscriptions" ON public.push_subscribers;
 DROP POLICY IF EXISTS "Service role manages push subscriptions" ON public.push_subscribers;
-CREATE POLICY "Service role manages push subscriptions"
-    ON public.push_subscribers FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- RLS enabled: default deny for anon and authenticated. Server routes use service_role which bypasses RLS automatically.
 
 -- email_quota_logs
 DROP POLICY IF EXISTS "Allow service role or admin to manage email quota logs" ON public.email_quota_logs;
-CREATE POLICY "Allow service role or admin to manage email quota logs"
-    ON public.email_quota_logs FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- RLS enabled: default deny for anon and authenticated. Server routes use service_role which bypasses RLS automatically.
 
 -- email_queue
 DROP POLICY IF EXISTS "Allow service role or admin to manage email queue" ON public.email_queue;
-CREATE POLICY "Allow service role or admin to manage email queue"
-    ON public.email_queue FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- RLS enabled: default deny for anon and authenticated. Server routes use service_role which bypasses RLS automatically.
 
 -- notification_broadcast_logs
 DROP POLICY IF EXISTS "Allow service role or admin to manage broadcast logs" ON public.notification_broadcast_logs;
-CREATE POLICY "Allow service role or admin to manage broadcast logs"
-    ON public.notification_broadcast_logs FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- RLS enabled: default deny for anon and authenticated. Server routes use service_role which bypasses RLS automatically.

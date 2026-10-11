@@ -1,8 +1,11 @@
 import { createClient } from "@sanity/client";
-import dotenv from "dotenv";
-import path from "path";
-
-dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
+try {
+  (process as unknown as { loadEnvFile?: (path: string) => void }).loadEnvFile?.(
+    ".env.local",
+  );
+} catch {
+  // .env.local is optional or already populated in environment
+}
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "1dg5ciuj";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";

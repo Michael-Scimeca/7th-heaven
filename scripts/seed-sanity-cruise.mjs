@@ -1,6 +1,9 @@
 import { createClient } from "@sanity/client";
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
+try {
+  process.loadEnvFile?.(".env.local");
+} catch {
+  // .env.local is optional or already populated in environment
+}
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "1dg5ciuj",

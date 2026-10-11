@@ -1,4 +1,8 @@
-require('dotenv').config({ path: '.env.local' });
+try {
+  process.loadEnvFile?.('.env.local');
+} catch {
+  // .env.local is optional or already populated in environment
+}
 const { createClient } = require('@sanity/client');
 const fs = require('fs');
 const path = require('path');

@@ -4,7 +4,7 @@ import React, { forwardRef, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export interface ModalOverlayProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends React.HTMLAttributes<HTMLDialogElement> {
   isOpen?: boolean;
   onClose?: () => void;
   blur?: "sm" | "md" | "lg";
@@ -17,7 +17,7 @@ const blurStyles: Record<NonNullable<ModalOverlayProps["blur"]>, string> = {
   lg: "backdrop-blur-lg",
 };
 
-export const ModalOverlay = forwardRef<HTMLDivElement, ModalOverlayProps>(
+export const ModalOverlay = forwardRef<HTMLDialogElement, ModalOverlayProps>(
   (
     {
       isOpen = true,
@@ -49,25 +49,29 @@ export const ModalOverlay = forwardRef<HTMLDivElement, ModalOverlayProps>(
     if (!isOpen) return null;
 
     return (
-      <div
+      <dialog
         ref={ref}
-        role="dialog"
+        open
         aria-modal="true"
-        onClick={(e) => {
-          if (e.target === e.currentTarget && onClose) {
-            onClose();
-          }
-          if (onClick) onClick(e);
+        onCancel={(e) => {
+          e.preventDefault();
+          onCloseRef.current?.();
         }}
         className={cn(
-          "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 transition-opacity duration-200",
+          "fixed inset-0 z-50 m-0 p-4 max-w-none max-h-none w-screen h-screen flex items-center justify-center bg-black/60 border-none transition-opacity duration-200",
           blurStyles[blur],
           className,
         )}
         {...props}
       >
+        <button
+          type="button"
+          aria-label="Close dialog backdrop"
+          onClick={() => onCloseRef.current?.()}
+          className="fixed inset-0 -z-10 cursor-default bg-transparent border-none"
+        />
         {children}
-      </div>
+      </dialog>
     );
   },
 );

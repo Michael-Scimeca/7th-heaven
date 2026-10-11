@@ -41,14 +41,7 @@ END $$;
 
 -- Enable RLS on push_subscribers
 ALTER TABLE public.push_subscribers ENABLE ROW LEVEL SECURITY;
-
--- All access goes through server API routes using the service-role key.
--- Never expose subscriber emails/zips or endpoints to the public anon key.
-CREATE POLICY "Service role manages push subscriptions"
-    ON public.push_subscribers FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- Default deny for anon & authenticated. All access goes through server API routes using the service-role key which bypasses RLS automatically.
 
 -- 2. Email Quota Tracker (Daily 100 / Monthly 3,000 for Resend Free Tier)
 CREATE TABLE IF NOT EXISTS public.email_quota_logs (
@@ -61,12 +54,7 @@ CREATE TABLE IF NOT EXISTS public.email_quota_logs (
 );
 
 ALTER TABLE public.email_quota_logs ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Allow service role or admin to manage email quota logs"
-    ON public.email_quota_logs FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- Default deny for anon & authenticated. Server routes use service-role key which bypasses RLS automatically.
 
 -- 3. Email Queue (Overflow emails queued for daily batch drain)
 CREATE TABLE IF NOT EXISTS public.email_queue (
@@ -88,12 +76,7 @@ CREATE TABLE IF NOT EXISTS public.email_queue (
 CREATE INDEX IF NOT EXISTS idx_email_queue_status_scheduled ON public.email_queue(status, scheduled_for);
 
 ALTER TABLE public.email_queue ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Allow service role or admin to manage email queue"
-    ON public.email_queue FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- Default deny for anon & authenticated. Server routes use service-role key which bypasses RLS automatically.
 
 -- 4. Notification Broadcast Logs (Audit log of all broadcasts across channels)
 CREATE TABLE IF NOT EXISTS public.notification_broadcast_logs (
@@ -113,12 +96,7 @@ CREATE TABLE IF NOT EXISTS public.notification_broadcast_logs (
 );
 
 ALTER TABLE public.notification_broadcast_logs ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Allow service role or admin to manage broadcast logs"
-    ON public.notification_broadcast_logs FOR ALL
-    TO service_role
-    USING (auth.role() = 'service_role')
-    WITH CHECK (auth.role() = 'service_role');
+-- Default deny for anon & authenticated. Server routes use service-role key which bypasses RLS automatically.
 
 -- 5. Profiles table enhancement: is_band flag
 DO $$
