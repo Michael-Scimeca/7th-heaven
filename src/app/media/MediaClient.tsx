@@ -31,7 +31,6 @@ import SegmentedTabs from "@/components/SegmentedTabs";
 import CustomDropdown from "@/components/CustomDropdown";
 import { SearchInput } from "@/components/SearchInput";
 import { SectionHeader } from "@/components/SectionHeader";
-import { Toggle } from "@/components/Toggle";
 import GlowInput, { GlowSelect, GlowTextarea } from "@/components/GlowInput";
 import { useScrollLock } from "@/lib/useScrollLock";
 
@@ -120,15 +119,6 @@ const ORGANIC_MARGINS = [
   "mb-14 md:mb-20",
 ];
 
-// Dynamic airy pause heights
-const AIRY_SPACER_HEIGHTS = [
-  "h-16 md:h-24",
-  "h-24 md:h-36",
-  "h-14 md:h-20",
-  "h-32 md:h-48",
-  "h-20 md:h-30",
-];
-
 const COLUMN_TOP_STAGGERS = [
   "pt-0",
   "pt-14 md:pt-24 lg:pt-32",
@@ -172,13 +162,6 @@ function getOrganicItemStyle(videoId: string, index: number) {
     marginClass,
     ratio,
   };
-}
-
-function getTargetColumnCount(width: number): number {
-  if (width >= 2000) return 4;
-  if (width >= 1380) return 3;
-  if (width >= 640) return 2;
-  return 1;
 }
 
 interface CardVideoEmbedProps {
@@ -352,7 +335,6 @@ export default function MediaClient({
   const [hoveredVideoId, setHoveredVideoId] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
-  const [airyLayout, setAiryLayout] = useState(true);
 
   // Category responsive dropdown state (when tabs start getting cut off)
   const [isCategoryCutOff, setIsCategoryCutOff] = useState(false);
@@ -375,20 +357,6 @@ export default function MediaClient({
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const projectsContainerRef = useRef<HTMLElement>(null);
-
-  // Fixed initial column count to match SSR (3 columns) and prevent hydration mismatch.
-  // The actual viewport measurement is applied on client mount in useEffect below.
-  const [columnCount, setColumnCount] = useState<number>(3);
-
-  useEffect(() => {
-    const updateCols = () => {
-      const next = getTargetColumnCount(window.innerWidth);
-      setColumnCount((prev) => (prev !== next ? next : prev));
-    };
-    updateCols();
-    window.addEventListener("resize", updateCols, { passive: true });
-    return () => window.removeEventListener("resize", updateCols);
-  }, []);
 
   useScrollLock(Boolean(playingVideo || isAddModalOpen));
 
@@ -743,9 +711,7 @@ export default function MediaClient({
         }`}
       >
         <div
-          className={`${style.widthClass} ${style.alignClass} ${
-            airyLayout ? style.marginClass : "mb-8 md:mb-12"
-          } ${style.offsetClass} transition-transform duration-500`}
+          className={`${style.widthClass} ${style.alignClass} ${style.marginClass} ${style.offsetClass} transition-transform duration-500`}
         >
           <div
             role="button"
@@ -885,20 +851,6 @@ export default function MediaClient({
                 }
                 onClick={() => setIsAddModalOpen(true)}
               />
-              {columnCount >= 2 && (
-                <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 backdrop-blur-md">
-                  <Toggle
-                    size="sm"
-                    checked={airyLayout}
-                    onChange={setAiryLayout}
-                    label={
-                      <span className="text-2xs font-bold uppercase tracking-wider text-white/70">
-                        Airy Spacing
-                      </span>
-                    }
-                  />
-                </div>
-              )}
             </div>
 
             {/* Category Navigation (Sliding Single-Row Toggle when wide, or GooeyDropdown when cut off) */}
