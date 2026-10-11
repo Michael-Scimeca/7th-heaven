@@ -10,11 +10,13 @@ import ContactClient from "./ContactClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await fetchPageContent("contact");
-  const title =
-    content?.seo?.metaTitle ||
-    (content?.title
-      ? `${content.title} — 7th Heaven`
-      : "Contact 7th Heaven | Band Management, Booking & Media Contacts");
+  const rawTitle = content?.seo?.metaTitle || content?.title;
+  const isGeneric = !rawTitle || /^(contact|contact us)$/i.test(rawTitle.trim());
+  const title = isGeneric
+    ? "Contact 7th Heaven | Band Booking & Management Inquiries"
+    : rawTitle.includes("7th Heaven")
+    ? rawTitle
+    : `${rawTitle} — 7th Heaven`;
   const description =
     content?.seo?.metaDescription ||
     content?.heroSubheading ||

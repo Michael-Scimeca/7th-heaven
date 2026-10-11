@@ -17,7 +17,11 @@ import FooterProximityAlerts from "@/components/FooterProximityAlerts";
 import { InstallAppButton } from "@/components/InstallAppButton";
 
 const FALLBACK_PLATFORM_LINKS = [
-  { name: "Apple Music", url: "https://music.apple.com", label: " Music" },
+  {
+    name: "Apple Music",
+    url: "https://music.apple.com/us/artist/7th-heaven/711717089",
+    label: "Apple Music",
+  },
   { name: "Amazon", url: "https://music.amazon.com", label: "Amazon" },
   { name: "YouTube", url: "https://www.youtube.com", label: "YouTube" },
   {
@@ -73,7 +77,10 @@ const footerLinks = [
 
 const FALLBACK_SOCIAL_LINKS = [
   { name: "Spotify", url: "https://open.spotify.com/artist/7thheavenband" },
-  { name: "Apple Music", url: "https://music.apple.com" },
+  {
+    name: "Apple Music",
+    url: "https://music.apple.com/us/artist/7th-heaven/711717089",
+  },
   { name: "YouTube", url: "https://www.youtube.com" },
   { name: "Facebook", url: "https://www.facebook.com/7thheavenband" },
   { name: "Instagram", url: "https://www.instagram.com" },

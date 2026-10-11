@@ -214,6 +214,7 @@ const BAND_LD = {
     "https://twitter.com/7thheavenband",
     "https://www.instagram.com/7thheavenband",
     "https://www.youtube.com/user/7thheavenband",
+    "https://music.apple.com/us/artist/7th-heaven/711717089",
   ],
   member: [
     {
