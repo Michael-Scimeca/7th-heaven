@@ -161,6 +161,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: "Photos submitted for review!",
+      photos: validEntries,
     });
   } catch (error) {
     console.error("Fan photo upload error:", error);

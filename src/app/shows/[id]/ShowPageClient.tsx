@@ -1,4 +1,4 @@
-/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function, react-doctor/iframe-missing-sandbox */
+/* eslint-disable react-doctor/no-giant-component, react-doctor/no-high-complexity-react-function, react-doctor/iframe-missing-sandbox, react-doctor/prefer-html-dialog */
 "use client";
 
 import Image from "next/image";
@@ -9,7 +9,9 @@ import {
   useCallback,
   useSyncExternalStore,
   useRef,
+  useMemo,
 } from "react";
+import { createPortal } from "react-dom";
 import { useMember } from "@/context/MemberContext";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -20,6 +22,9 @@ import QRCode from "react-qr-code";
 import { SectionBadge } from "@/components/SectionBadge";
 import { DotChevronRight } from "@/components/ui/DotArrow";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import SectionHeader from "@/components/SectionHeader";
+import { useScrollLock } from "@/lib/useScrollLock";
+import { X, Play, Camera, Upload } from "lucide-react";
 
 export interface RelatedShow {
   id: string;
@@ -28,6 +33,26 @@ export interface RelatedShow {
   state: string;
   date: string;
   time?: string | null;
+}
+
+export interface VenueMediaItem {
+  id: string;
+  src: string;
+  type?: "image" | "video";
+  youtubeId?: string;
+  name: string;
+  caption?: string;
+  date?: string;
+  venue?: string;
+  city?: string;
+  instagram?: string;
+  isUserUploaded?: boolean;
+}
+
+export interface PastVenueShow {
+  date: string;
+  raw: string;
+  year?: string;
 }
 
 interface Attendee {
@@ -97,14 +122,24 @@ function formatShowBadge(dateStr: string) {
   return { month: "TBD", day: "", weekday: "" };
 }
 
+const EMPTY_RELATED_SHOWS: RelatedShow[] = [];
+const EMPTY_VENUE_MEDIA: VenueMediaItem[] = [];
+const EMPTY_PAST_SHOWS: PastVenueShow[] = [];
+
 export default function ShowPageClient({
   show,
   initialAttendees,
-  relatedShows = [],
+  relatedShows = EMPTY_RELATED_SHOWS,
+  defaultImage = "/images/tour/fan-concert-photo.jpg",
+  venueMedia = EMPTY_VENUE_MEDIA,
+  pastVenueShows = EMPTY_PAST_SHOWS,
 }: {
   show: Show;
   initialAttendees: Attendee[];
   relatedShows?: RelatedShow[];
+  defaultImage?: string;
+  venueMedia?: VenueMediaItem[];
+  pastVenueShows?: PastVenueShow[];
 }) {
   const { member, isLoggedIn, openModal } = useMember();
   const supabase = createClient();
@@ -119,6 +154,179 @@ export default function ShowPageClient({
   const [wantAnonymous, setWantAnonymous] = useState(false);
   const [liveFeeds, setLiveFeeds] = useState<LiveFeed[]>([]);
   const autoRsvpDoneRef = useRef(false);
+
+  // ── Show Media & Upload States ──────────────────────────────────
+  const [uploadedPhotos, setUploadedPhotos] = useState<VenueMediaItem[]>([]);
+  const [activeHeroImage, setActiveHeroImage] = useState<string>(defaultImage);
+  const [heroImageCaption, setHeroImageCaption] = useState<string>("");
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [videoModalId, setVideoModalId] = useState<string | null>(null);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
+  // Upload Form States
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [uploaderName, setUploaderName] = useState(() => member?.name || "");
+  const [uploaderCaption, setUploaderCaption] = useState("");
+  const [uploaderInstagram, setUploaderInstagram] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadSuccessMessage, setUploadSuccessMessage] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useScrollLock(uploadModalOpen || !!videoModalId);
+
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem(`7h_show_photos_v1_${show.id}`);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setUploadedPhotos(parsed);
+          setActiveHeroImage(parsed[0].src);
+          if (parsed[0].caption) {
+            setHeroImageCaption(parsed[0].caption);
+          }
+        }
+      }
+    } catch {}
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setUploadModalOpen(false);
+        setVideoModalId(null);
+      }
+    };
+    if (uploadModalOpen || !!videoModalId) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [uploadModalOpen, videoModalId]);
+
+  const allMedia = useMemo(() => {
+    const existingIds = new Set<string>();
+    const list: VenueMediaItem[] = [];
+
+    for (const item of uploadedPhotos) {
+      if (!existingIds.has(item.id)) {
+        existingIds.add(item.id);
+        list.push(item);
+      }
+    }
+
+    for (const item of venueMedia) {
+      if (!existingIds.has(item.id)) {
+        existingIds.add(item.id);
+        list.push(item);
+      }
+    }
+
+    return list;
+  }, [uploadedPhotos, venueMedia]);
+
+  const handleFileSelect = (file: File | null) => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    if (!file) {
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      return;
+    }
+    setSelectedFile(file);
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+  };
+
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedFile) {
+      setUploadError("Please select a photo to upload.");
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("photo", selectedFile);
+      const name = uploaderName.trim() || member?.name || "7th Heaven Fan";
+      formData.append("name", name);
+      formData.append("venue", show.venue_name);
+      formData.append("date", show.date || "2026");
+      if (uploaderCaption.trim()) {
+        formData.append("caption", uploaderCaption.trim());
+      }
+
+      const res = await fetch("/api/fans", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || "Upload failed. Please try again.");
+      }
+
+      const data = await res.json().catch(() => ({}));
+      const serverPhoto = data.photos?.[0];
+
+      const newMediaItem: VenueMediaItem = {
+        id: serverPhoto?.id || `user_up_${Date.now()}`,
+        src: serverPhoto?.src || previewUrl || defaultImage,
+        type: "image",
+        name,
+        caption: uploaderCaption.trim() || `Concert snapshot at ${show.venue_name}`,
+        date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        venue: show.venue_name,
+        city: show.city,
+        instagram: uploaderInstagram.trim() || undefined,
+        isUserUploaded: true,
+      };
+
+      const updated = [newMediaItem, ...uploadedPhotos];
+      try {
+        localStorage.setItem(
+          `7h_show_photos_v1_${show.id}`,
+          JSON.stringify(updated.slice(0, 10)),
+        );
+      } catch {}
+
+      setUploadedPhotos(updated);
+      setActiveHeroImage(newMediaItem.src);
+      setHeroImageCaption(newMediaItem.caption || "");
+
+      setUploadSuccessMessage("Photo uploaded successfully! It is now featured on this show page.");
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      setUploaderCaption("");
+
+      setTimeout(() => {
+        setUploadModalOpen(false);
+        setUploadSuccessMessage(null);
+      }, 1600);
+    } catch (err: any) {
+      setUploadError(err.message || "Failed to upload photo.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   // ── Notify Me Next Time States ──────────────────────────────────
   const [notifyEmail, setNotifyEmail] = useState("");
@@ -485,8 +693,8 @@ export default function ShowPageClient({
             </Link>
           </div>
 
-          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-            <div>
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-7">
               {/* Status badge */}
               <div className="mb-6 flex flex-wrap items-center gap-2">
                 {isPast ? (
@@ -535,62 +743,116 @@ export default function ShowPageClient({
                   </span>
                 )}
               </div>
+
+              {/* Action buttons */}
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                {!isPast && (
+                  <>
+                    {isGoing ? (
+                      <button
+                        onClick={handleRsvp}
+                        disabled={rsvpLoading}
+                        id="rsvp-btn"
+                        className="transition-colors cursor-pointer border border-white/10 bg-white/10 px-8 py-3.5 hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-50"
+                      >
+                        {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
+                      </button>
+                    ) : (
+                      <SeventhButton
+                        onClick={handleRsvp}
+                        disabled={rsvpLoading}
+                        icon={false}
+                        id="rsvp-btn"
+                        className="disabled:opacity-50"
+                      >
+                        {rsvpLoading ? "…" : "🎸 I'm Going"}
+                      </SeventhButton>
+                    )}
+
+                    {/* Anonymous toggle — only before RSVP */}
+                    {!isGoing && isLoggedIn && (
+                      <div className="flex items-center gap-2 border border-white/10 bg-[#00000029] px-3 py-1.5">
+                        <Toggle
+                          id="show-anonymous-toggle"
+                          label="Go anonymously"
+                          checked={wantAnonymous}
+                          onChange={setWantAnonymous}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+                <a
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="directions-btn"
+                  className="transition-colors border border-white/10 px-6 py-3 text-center text-xs hover:border-white/30 hover:text-white"
+                >
+                  📍 Directions
+                </a>
+                <button
+                  onClick={copyLink}
+                  id="share-show-btn"
+                  className="transition-colors border border-white/10 px-6 py-3 text-xs hover:border-white/30 hover:text-white"
+                >
+                  {copied ? "✓ Copied!" : "🔗 Share"}
+                </button>
+                <SeventhButton
+                  onClick={() => setUploadModalOpen(true)}
+                  icon={false}
+                  id="hero-upload-photo-btn"
+                  className="text-xs"
+                >
+                  📸 Upload Photo
+                </SeventhButton>
+              </div>
             </div>
 
-            {/* Action buttons */}
-            <div className="flex min-w-[200px] shrink-0 flex-col gap-3">
-              {!isPast && (
-                <>
-                  {isGoing ? (
-                    <button
-                      onClick={handleRsvp}
-                      disabled={rsvpLoading}
-                      id="rsvp-btn"
-                      className="transition-colors cursor-pointer border border-white/10 bg-white/10 px-8 py-4 hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-400 disabled:opacity-50"
-                    >
-                      {rsvpLoading ? "…" : "✓ Going (tap to cancel)"}
-                    </button>
-                  ) : (
-                    <SeventhButton
-                      onClick={handleRsvp}
-                      disabled={rsvpLoading}
-                      icon={false}
-                      id="rsvp-btn"
-                      className="disabled:opacity-50"
-                    >
-                      {rsvpLoading ? "…" : "🎸 I'm Going"}
-                    </SeventhButton>
-                  )}
+            {/* Hero Image Card */}
+            <div className="lg:col-span-5">
+              <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-box)] border border-white/15 bg-white/[0.03] shadow-2xl transition-all duration-300 hover:border-[var(--color-accent)]/50">
+                <Image
+                  src={activeHeroImage}
+                  alt={`${show.venue_name} Concert Preview`}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                {/* Gradient vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30 pointer-events-none" />
 
-                  {/* Anonymous toggle — only before RSVP */}
-                  {!isGoing && isLoggedIn && (
-                    <div className="flex items-center gap-2 border border-white/10 bg-[#00000029] px-3 py-1.5">
-                      <Toggle
-                        id="show-anonymous-toggle"
-                        label="Go anonymously"
-                        checked={wantAnonymous}
-                        onChange={setWantAnonymous}
-                      />
-                    </div>
-                  )}
-                </>
-              )}
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                id="directions-btn"
-                className="transition-colors border border-white/10 px-6 py-3 text-center hover:border-white/30 hover:text-white"
-              >
-                📍 Directions
-              </a>
-              <button
-                onClick={copyLink}
-                id="share-show-btn"
-                className="transition-colors border border-white/10 px-6 py-3 hover:border-white/30 hover:text-white"
-              >
-                {copied ? "✓ Copied!" : "🔗 Share"}
-              </button>
+                {/* Top Badge & Action */}
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
+                    {uploadedPhotos.length > 0 ? "✨ Fan Photo Featured" : `📍 ${show.venue_name}`}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setUploadModalOpen(true)}
+                    className="cursor-pointer inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur-md transition-colors hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/80 hover:text-white"
+                    aria-label="Upload a photo from this show"
+                  >
+                    <Camera className="h-3.5 w-3.5" />
+                    <span>Upload Photo</span>
+                  </button>
+                </div>
+
+                {/* Bottom Caption & Credit */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <p className="text-sm font-semibold text-white drop-shadow-md">
+                    {heroImageCaption || `${show.venue_name} • ${show.city || "Live Performance"}${show.state ? `, ${show.state}` : ""}`}
+                  </p>
+                  <p className="mt-0.5 text-xs text-white/70">
+                    {uploadedPhotos.length > 0
+                      ? `Shared by ${uploadedPhotos[0].name}`
+                      : venueMedia.length > 0 && venueMedia[0].name
+                        ? `Photo courtesy of ${venueMedia[0].name}`
+                        : "Official Concert Archive"}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -802,6 +1064,177 @@ export default function ShowPageClient({
             </div>
           )}
 
+          {/* ── VENUE MEDIA & MEMORIES SECTION ────────────────────────── */}
+          <section
+            id="venue-media"
+            aria-labelledby="venue-media-heading"
+            className="mt-12 border-t border-white/10 pt-10"
+          >
+            <div className="mb-8">
+              <SectionHeader
+                id="venue-media-heading"
+                badge="Venue Media & Memories"
+                title={`Photos & Videos from ${show.venue_name}`}
+                subtitle={`Concert memories, fan snapshots, and live footage from 7th Heaven performances at ${show.venue_name}${show.city ? ` in ${show.city}` : ""}.`}
+                action={
+                  <SeventhButton
+                    onClick={() => setUploadModalOpen(true)}
+                    icon={false}
+                    className="text-xs"
+                  >
+                    📸 Upload Photo
+                  </SeventhButton>
+                }
+              />
+            </div>
+
+            {/* Media Items Grid */}
+            {allMedia.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {allMedia.map((item) => {
+                  const isVideo = item.type === "video" || !!item.youtubeId;
+                  const posterUrl =
+                    isVideo && item.youtubeId
+                      ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`
+                      : item.src;
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="group relative flex flex-col overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] transition-all hover:border-[var(--color-accent)]/40 hover:bg-white/[0.06] hover:shadow-[0_0_25px_rgba(255,10,61,0.15)]"
+                    >
+                      <div className="relative aspect-video w-full overflow-hidden bg-black">
+                        <Image
+                          src={posterUrl}
+                          alt={item.caption || item.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+                        {isVideo ? (
+                          <button
+                            type="button"
+                            onClick={() => setVideoModalId(item.youtubeId || null)}
+                            className="cursor-pointer absolute inset-0 flex items-center justify-center"
+                            aria-label={`Play video clip by ${item.name}`}
+                          >
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-accent)] text-white shadow-lg transition-transform group-hover:scale-110">
+                              <Play className="h-5 w-5 fill-white translate-x-0.5" />
+                            </div>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setActiveHeroImage(item.src);
+                              if (item.caption) setHeroImageCaption(item.caption);
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                            className="cursor-pointer absolute inset-0"
+                            aria-label={`Feature photo by ${item.name} in hero`}
+                          />
+                        )}
+
+                        <div className="absolute top-3 left-3">
+                          <span className="rounded-full border border-white/20 bg-black/60 px-2.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-md">
+                            {isVideo
+                              ? "🎬 Live Video"
+                              : item.isUserUploaded
+                                ? "✨ Fan Upload"
+                                : "📸 Venue Photo"}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-1 flex-col justify-between p-4">
+                        <div>
+                          <div className="flex items-center justify-between gap-2">
+                            <h3 className="text-sm font-semibold text-white">
+                              {item.name}
+                            </h3>
+                            {item.date && (
+                              <span className="text-[11px] text-white/50">
+                                {item.date}
+                              </span>
+                            )}
+                          </div>
+                          {item.caption && (
+                            <p className="mt-1.5 text-xs text-white/70 line-clamp-2">
+                              {item.caption}
+                            </p>
+                          )}
+                        </div>
+
+                        {item.instagram && (
+                          <p className="mt-3 text-[11px] text-[var(--color-accent)]">
+                            {item.instagram}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="rounded-[var(--radius-box)] border border-dashed border-white/15 bg-white/[0.02] p-12 text-center">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-2xl">
+                  📸
+                </div>
+                <h3 className="mb-2 text-lg font-semibold text-white">
+                  Be the First to Share a Photo from {show.venue_name}!
+                </h3>
+                <p className="mx-auto mb-6 max-w-md text-xs text-white/60">
+                  Are you attending this show or have memories from past 7th
+                  Heaven performances at this venue? Share your photos with the band and fans!
+                </p>
+                <SeventhButton
+                  onClick={() => setUploadModalOpen(true)}
+                  icon={false}
+                >
+                  Upload First Photo
+                </SeventhButton>
+              </div>
+            )}
+
+            {/* Past shows timeline at this venue */}
+            {pastVenueShows.length > 0 && (
+              <div className="mt-12 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-6 sm:p-8">
+                <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+                  <div>
+                    <h3 className="text-base font-semibold text-white flex items-center gap-2">
+                      <span>🗓️</span> 7th Heaven Concert History at {show.venue_name}
+                    </h3>
+                    <p className="text-xs text-white/60">
+                      7th Heaven has rocked {show.venue_name} across multiple Midwest tour runs.
+                    </p>
+                  </div>
+                  <span className="rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-xs font-medium text-[var(--color-accent)]">
+                    {pastVenueShows.length} Past Appearance{pastVenueShows.length !== 1 ? "s" : ""}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {pastVenueShows.map((ps) => (
+                    <div
+                      key={`${ps.year || "tour"}-${ps.date}`}
+                      className="flex flex-col justify-between rounded-xl border border-white/10 bg-white/[0.03] p-3.5 transition-colors hover:border-white/20 hover:bg-white/[0.05]"
+                    >
+                      <span className="text-[11px] font-bold text-[var(--color-accent)]">
+                        {ps.year || "Past Tour"}
+                      </span>
+                      <p className="mt-1 text-sm font-semibold text-white">{ps.date}</p>
+                      <p className="mt-0.5 text-xs text-white/50 truncate">
+                        {ps.raw.replace(/^[^-]+-\s*/, "") || show.venue_name}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+
           {/* ── RELATED SHOWS SECTION ────────────────────────────────── */}
           {relatedShows && relatedShows.length > 0 && (
             <section
@@ -878,6 +1311,241 @@ export default function ShowPageClient({
           )}
         </div>
       </div>
+
+      {/* ── UPLOAD MODAL ──────────────────────────────────────────── */}
+      {mounted &&
+        uploadModalOpen &&
+        createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="upload-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setUploadModalOpen(false);
+              }
+            }}
+          >
+            <div className="relative w-full max-w-lg overflow-hidden rounded-[var(--radius-box)] border border-white/15 bg-[#0e0e12] p-6 shadow-2xl sm:p-8">
+              <button
+                type="button"
+                onClick={() => setUploadModalOpen(false)}
+                className="cursor-pointer absolute top-5 right-5 rounded-full p-1.5 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                aria-label="Close modal"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="mb-6">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-[11px] font-semibold text-[var(--color-accent)]">
+                  📸 Concert Memories
+                </span>
+                <h2
+                  id="upload-modal-title"
+                  className="mt-2 text-xl font-bold text-white"
+                >
+                  Upload Show Photo
+                </h2>
+                <p className="mt-1 text-xs text-white/60">
+                  Share your photo from {show.venue_name}
+                  {show.city ? ` in ${show.city}` : ""} with 7th Heaven fans!
+                </p>
+              </div>
+
+              {uploadSuccessMessage ? (
+                <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-center">
+                  <p className="text-base font-semibold text-emerald-400">
+                    ✓ Upload Complete!
+                  </p>
+                  <p className="mt-2 text-xs text-white/70">
+                    {uploadSuccessMessage}
+                  </p>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleUploadSubmit}
+                  className="flex flex-col gap-4"
+                >
+                  {/* File Dropzone */}
+                  <div>
+                    <label
+                      htmlFor="photo-upload-input"
+                      className="block mb-2 text-xs font-semibold text-white/80"
+                    >
+                      Select Photo{" "}
+                      <span className="text-[var(--color-accent)]">*</span>
+                    </label>
+                    <input
+                      ref={fileInputRef}
+                      id="photo-upload-input"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) =>
+                        handleFileSelect(e.target.files?.[0] || null)
+                      }
+                      className="sr-only"
+                    />
+
+                    {previewUrl ? (
+                      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/15 bg-black">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={previewUrl}
+                          alt="Upload preview"
+                          className="h-full w-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleFileSelect(null)}
+                          className="cursor-pointer absolute top-3 right-3 rounded-full bg-black/70 p-1.5 text-white/80 backdrop-blur-md hover:bg-black hover:text-white"
+                          aria-label="Remove selected image"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => fileInputRef.current?.click()}
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          const file = e.dataTransfer.files?.[0];
+                          if (file) handleFileSelect(file);
+                        }}
+                        className="cursor-pointer flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-white/20 bg-white/[0.02] p-8 text-center transition-colors hover:border-[var(--color-accent)]/60 hover:bg-white/[0.04]"
+                      >
+                        <Upload className="mb-2 h-8 w-8 text-white/40" />
+                        <p className="text-sm font-semibold text-white">
+                          Click or drag a photo here
+                        </p>
+                        <p className="mt-1 text-xs text-white/50">
+                          PNG, JPG, WEBP up to 10MB
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Name */}
+                  <div>
+                    <label
+                      htmlFor="uploader-name"
+                      className="block mb-1.5 text-xs font-semibold text-white/80"
+                    >
+                      Your Name
+                    </label>
+                    <InputField
+                      id="uploader-name"
+                      type="text"
+                      placeholder="e.g. Sarah M."
+                      value={uploaderName}
+                      onChange={(e) => setUploaderName(e.target.value)}
+                      inputClassName="bg-black/40 border border-white/10 px-4 py-2.5 placeholder:text-white/40 text-white outline-none rounded-xl w-full text-xs"
+                    />
+                  </div>
+
+                  {/* Caption */}
+                  <div>
+                    <label
+                      htmlFor="uploader-caption"
+                      className="block mb-1.5 text-xs font-semibold text-white/80"
+                    >
+                      Caption or Memory
+                    </label>
+                    <InputField
+                      id="uploader-caption"
+                      type="text"
+                      placeholder="e.g. Front row at Station 34! Best setlist ever!"
+                      value={uploaderCaption}
+                      onChange={(e) => setUploaderCaption(e.target.value)}
+                      inputClassName="bg-black/40 border border-white/10 px-4 py-2.5 placeholder:text-white/40 text-white outline-none rounded-xl w-full text-xs"
+                    />
+                  </div>
+
+                  {/* Instagram (optional) */}
+                  <div>
+                    <label
+                      htmlFor="uploader-instagram"
+                      className="block mb-1.5 text-xs font-semibold text-white/80"
+                    >
+                      Instagram Handle{" "}
+                      <span className="text-white/40">(Optional)</span>
+                    </label>
+                    <InputField
+                      id="uploader-instagram"
+                      type="text"
+                      placeholder="@yourhandle"
+                      value={uploaderInstagram}
+                      onChange={(e) => setUploaderInstagram(e.target.value)}
+                      inputClassName="bg-black/40 border border-white/10 px-4 py-2.5 placeholder:text-white/40 text-white outline-none rounded-xl w-full text-xs"
+                    />
+                  </div>
+
+                  {uploadError && (
+                    <p className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-400">
+                      {uploadError}
+                    </p>
+                  )}
+
+                  <div className="mt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setUploadModalOpen(false)}
+                      className="cursor-pointer rounded-xl border border-white/10 px-4 py-2 text-xs text-white/60 hover:text-white transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <SeventhButton
+                      type="submit"
+                      disabled={uploading || !selectedFile}
+                      icon={false}
+                      className="disabled:opacity-50"
+                    >
+                      {uploading ? "Uploading..." : "Upload Photo"}
+                    </SeventhButton>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>,
+          document.body,
+        )}
+
+      {/* ── VIDEO LIGHTBOX MODAL ──────────────────────────────────── */}
+      {mounted &&
+        !!videoModalId &&
+        createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Video Player Lightbox"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+            onClick={() => setVideoModalId(null)}
+          >
+            <div
+              className="relative aspect-video w-full max-w-4xl overflow-hidden rounded-[var(--radius-box)] border border-white/20 bg-black shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setVideoModalId(null)}
+                className="cursor-pointer absolute top-4 right-4 z-10 rounded-full bg-black/70 p-2 text-white hover:bg-black transition-colors"
+                aria-label="Close video"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${videoModalId}?autoplay=1&rel=0&modestbranding=1`}
+                title="7th Heaven Video Performance"
+                className="h-full w-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                allowFullScreen
+              />
+            </div>
+          </div>,
+          document.body,
+        )}
     </main>
   );
 }

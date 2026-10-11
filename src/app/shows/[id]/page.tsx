@@ -4,6 +4,8 @@ import { createClient } from "@supabase/supabase-js";
 import ShowPageClient from "./ShowPageClient";
 import { notFound } from "next/navigation";
 import showsSupabaseData from "@/data/shows-supabase.json";
+import pastShowsData from "@/data/past-shows.json";
+import { getFanPhotos } from "@/lib/fanPhotos";
 
 export const revalidate = 60;
 
@@ -185,6 +187,46 @@ async function ShowPageContent({
     }
   }
 
+  // ── Venue Photos & Videos (from data/fan-photos.json) ──
+  let venueMedia: any[] = [];
+  try {
+    const allFanPhotos = await getFanPhotos();
+    const venueLower = (show.venue_name || "").toLowerCase().trim();
+    const cityLower = (show.city || "").toLowerCase().trim();
+
+    venueMedia = allFanPhotos.filter((p) => {
+      if (!p.venue) return false;
+      const pVenue = p.venue.toLowerCase().trim();
+      const pCity = (p.city || "").toLowerCase().trim();
+      const matchVenue = pVenue.includes(venueLower) || venueLower.includes(pVenue);
+      const matchCity = cityLower && (pCity.includes(cityLower) || cityLower.includes(pCity));
+      return p.approved && (matchVenue || (matchCity && p.type === "video"));
+    });
+  } catch {}
+
+  // ── Past Shows at this Venue (from src/data/past-shows.json) ──
+  const pastVenueShows: Array<{ date: string; raw: string; year?: string }> = [];
+  try {
+    const venueLower = (show.venue_name || "").toLowerCase().trim();
+    const years = (pastShowsData as any).years || [];
+    for (const yearGroup of years) {
+      for (const s of yearGroup.shows || []) {
+        if (s.venue && s.venue.toLowerCase().trim() === venueLower) {
+          pastVenueShows.push({
+            date: s.date || s.raw,
+            raw: s.raw,
+            year: yearGroup.year,
+          });
+        }
+      }
+    }
+  } catch {}
+
+  // Default image for the venue
+  const defaultImage =
+    venueMedia.find((m) => m.type !== "video" && m.src)?.src ||
+    "/images/tour/fan-concert-photo.jpg";
+
   // MusicEvent JSON-LD schema for Google Event rich search results
   const showDateIso = show.date ? `${show.date}T19:00:00-06:00` : new Date().toISOString();
   const musicEventLd = {
@@ -210,7 +252,7 @@ async function ShowPageContent({
       url: "https://7thheavenband.com",
     },
     url: `https://7thheavenband.com/shows/${id}`,
-    image: ["https://7thheavenband.com/opengraph-image"],
+    image: [defaultImage.startsWith("http") ? defaultImage : `https://7thheavenband.com${defaultImage}`],
     description: `7th Heaven live performance at ${show.venue_name} in ${show.city}, ${show.state}.`,
   };
 
@@ -230,6 +272,9 @@ async function ShowPageContent({
         show={show}
         initialAttendees={(attendees || []) as any}
         relatedShows={relatedShows}
+        defaultImage={defaultImage}
+        venueMedia={venueMedia}
+        pastVenueShows={pastVenueShows}
       />
     </>
   );

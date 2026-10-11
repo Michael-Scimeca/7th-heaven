@@ -26,7 +26,22 @@
     "caption": "Stage side with the best crowd in Chicagoland! 7th Heaven killed it!",
     "instagram": "@sarah_rockz",
     "submittedAt": "2026-09-11T20:30:00.000Z",
-    "approved": false
+    "approved": true
+  },
+  {
+    "id": "approved_video_station34",
+    "filename": "station34_live_clip.mp4",
+    "src": "/images/tour/fan-concert-photo.jpg",
+    "type": "video",
+    "youtubeId": "Dnic7xeXrQo",
+    "name": "MidwestRockArchive",
+    "venue": "Station 34",
+    "city": "Mount Prospect, IL",
+    "date": "January 2025",
+    "caption": "Live performance clip at Station 34 in Mount Prospect! 7th Heaven rocking the crowd.",
+    "instagram": "@7h_live_clips",
+    "submittedAt": "2025-01-05T21:00:00.000Z",
+    "approved": true
   },
   {
     "id": "approved_video_001",
