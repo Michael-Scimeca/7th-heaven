@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { Music } from "lucide-react";
+import { Music, ChevronDown } from "lucide-react";
 import SearchInput from "@/components/SearchInput";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -13,6 +13,9 @@ export interface PastShowItem {
   raw: string;
   date: string;
   venue: string;
+  id?: string;
+  city?: string;
+  state?: string;
 }
 
 export interface YearGroup {
@@ -92,7 +95,11 @@ export default function PastShowsClient({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState<string>("ALL");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
-  const [openYears, setOpenYears] = useState<Record<string, boolean>>({});
+  const [openYears, setOpenYears] = useState<Record<string, boolean>>({
+    "2026": true,
+  });
+
+  const isSearchActive = searchQuery.trim().length > 0;
 
   // Filtered shows logic
   const filteredYears = useMemo(() => {
@@ -107,6 +114,8 @@ export default function PastShowsClient({
         return (
           show.venue.toLowerCase().includes(query) ||
           show.date.toLowerCase().includes(query) ||
+          (show.city && show.city.toLowerCase().includes(query)) ||
+          (show.state && show.state.toLowerCase().includes(query)) ||
           yGroup.year.includes(query)
         );
       });
@@ -127,10 +136,15 @@ export default function PastShowsClient({
   }, [filteredYears]);
 
   const toggleYear = (year: string) => {
-    setOpenYears((prev) => ({
-      ...prev,
-      [year]: !prev[year],
-    }));
+    setOpenYears((prev) => {
+      const currentlyOpen = isSearchActive
+        ? prev[year] !== false
+        : !!prev[year];
+      return {
+        ...prev,
+        [year]: !currentlyOpen,
+      };
+    });
   };
 
   const expandAll = () => {
@@ -250,8 +264,27 @@ export default function PastShowsClient({
           ))}
         </div>
 
-        <div className="mt-6 text-white/60">
-          Showing <span>{displayedCount}</span> of {totalShowsCount} shows
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-white/60">
+          <div>
+            Showing <span className="font-semibold text-white">{displayedCount}</span> of {totalShowsCount} shows
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={expandAll}
+              className="cursor-pointer text-xs font-medium text-purple-400 transition-colors hover:text-purple-300"
+            >
+              Expand All
+            </button>
+            <span className="text-white/30">•</span>
+            <button
+              type="button"
+              onClick={collapseAll}
+              className="cursor-pointer text-xs font-medium text-purple-400 transition-colors hover:text-purple-300"
+            >
+              Collapse All
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -288,8 +321,11 @@ export default function PastShowsClient({
           <SectionHeader id="past-shows-archive-heading" title="Past Shows Archive" visuallyHidden />
           <div className="min-h-[60vh] flex flex-col gap-0">
             {filteredYears.map((yGroup) => {
-              const isOpen = !!openYears[yGroup.year];
+              const isOpen = isSearchActive
+                ? openYears[yGroup.year] !== false
+                : !!openYears[yGroup.year];
               const accordionContentId = `year-shows-${yGroup.year}`;
+              const yearHeadingId = `year-heading-${yGroup.year}`;
               return (
                 <article key={yGroup.year} className="overflow-hidden">
                   {/* Year Header Accordion Bar */}
@@ -300,7 +336,7 @@ export default function PastShowsClient({
                     aria-controls={accordionContentId}
                     className="accordion-trigger flex w-full cursor-pointer items-center justify-between !rounded-none border-b border-white/15 py-2.5 pr-6 text-left"
                   >
-                    <h2 className="flex items-center gap-3">
+                    <h2 id={yearHeadingId} className="flex items-center gap-3">
                       <span className="rounded-lg bg-[var(--color-accent)] px-3 py-1">
                         {yGroup.year}
                       </span>
@@ -309,75 +345,118 @@ export default function PastShowsClient({
                         {yGroup.shows.length === 1 ? "Show" : "Shows"}
                       </span>
                     </h2>
+                    <ChevronDown
+                      className={`h-5 w-5 text-white/50 transition-transform duration-200 ${isOpen ? "rotate-180 text-purple-400" : ""}`}
+                      aria-hidden="true"
+                    />
                   </button>
 
                   {/* Shows Table / Grid */}
-                  {isOpen && (
-                    <ul
-                      id={accordionContentId}
-                      className="divide-y divide-[var(--border-color)]"
-                    >
-                      {yGroup.shows.map((show, idx) => {
-                        const isCancelled = show.venue
-                          .toLowerCase()
-                          .includes("cancelled");
-                        const isUnplugged = show.venue
-                          .toLowerCase()
-                          .includes("unplugged");
-                        const isPrivate = show.venue
-                          .toLowerCase()
-                          .includes("private");
-                        const isCruise =
-                          show.venue.toLowerCase().includes("cruise") ||
-                          show.venue.toLowerCase().includes("greece") ||
-                          show.venue.toLowerCase().includes("london") ||
-                          show.venue.toLowerCase().includes("amsterdam");
+                  <ul
+                    id={accordionContentId}
+                    role="region"
+                    aria-labelledby={`year-heading-${yGroup.year}`}
+                    className={`divide-y divide-[var(--border-color)] ${isOpen ? "" : "hidden"}`}
+                  >
+                    {yGroup.shows.map((show, idx) => {
+                      const isCancelled = show.venue
+                        .toLowerCase()
+                        .includes("cancelled");
+                      const isUnplugged = show.venue
+                        .toLowerCase()
+                        .includes("unplugged");
+                      const isPrivate = show.venue
+                        .toLowerCase()
+                        .includes("private");
+                      const isCruise =
+                        show.venue.toLowerCase().includes("cruise") ||
+                        show.venue.toLowerCase().includes("greece") ||
+                        show.venue.toLowerCase().includes("london") ||
+                        show.venue.toLowerCase().includes("amsterdam");
 
-                        return (
-                          <li
-                            key={`${yGroup.year}-${idx}`}
-                            className="text-link group flex flex-col justify-between gap-2 border-b border-white/[0.12] stagger-item py-3.5 sm:flex-row sm:items-center"
-                            style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
-                          >
-                            {/* Date & Day */}
-                            <time className="flex w-full shrink-0 items-center gap-2 text-muted text-sm font-medium sm:w-48">
-                              <span className="transition-colors h-2 w-2 rounded-full bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
-                              {show.date || yGroup.year}
-                            </time>
+                      return (
+                        <li
+                          key={`${yGroup.year}-${idx}`}
+                          className="text-link group flex flex-col justify-between gap-2 border-b border-white/[0.12] stagger-item py-3.5 sm:flex-row sm:items-center"
+                          style={{ "--i": Math.min(idx, 9) } as React.CSSProperties}
+                        >
+                          {/* Date & Day */}
+                          <time className="flex w-full shrink-0 items-center gap-2 text-muted text-sm font-medium sm:w-48">
+                            <span className="transition-colors h-2 w-2 rounded-full bg-[var(--color-accent)]/50 group-hover:bg-[var(--color-accent)]"></span>
+                            {show.date || yGroup.year}
+                          </time>
 
-                            {/* Venue Name */}
-                            <span className="flex-1 font-bold text-white">
-                              {show.venue}
-                            </span>
-
-                            {/* Badges */}
-                            <div className="flex shrink-0 items-center gap-1.5 pt-1 sm:pt-0">
-                              {isCancelled && (
-                                <span className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-2 py-0.5 text-rose-600">
-                                  Cancelled
+                          {/* Venue Name & Location */}
+                          {show.id ? (
+                            <div className="flex flex-1 flex-wrap items-center gap-2">
+                              <Link
+                                href={`/shows/${show.id}`}
+                                className="font-bold text-white transition-colors hover:text-purple-400 hover:underline underline-offset-4"
+                                title={`View ${show.venue} concert details & recap`}
+                              >
+                                {show.venue}
+                              </Link>
+                              {(show.city || show.state) && (
+                                <span className="text-xs text-white/50">
+                                  {[show.city, show.state].filter(Boolean).join(", ")}
                                 </span>
                               )}
-                              {isUnplugged && (
-                                <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-2 py-0.5">
-                                  Unplugged
-                                </span>
-                              )}
-                              {isPrivate && (
-                                <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
-                                  Private Event
-                                </span>
-                              )}
-                              {isCruise && (
-                                <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
-                                  Special Tour
+                              <Link
+                                href={`/shows/${show.id}`}
+                                className="hidden sm:inline-flex text-xs text-purple-400/80 hover:text-purple-300 transition-colors"
+                              >
+                                Details →
+                              </Link>
+                            </div>
+                          ) : (
+                            <div className="flex flex-1 flex-wrap items-center gap-2">
+                              <span className="font-bold text-white">
+                                {show.venue}
+                              </span>
+                              {(show.city || show.state) && (
+                                <span className="text-xs text-white/50">
+                                  {[show.city, show.state].filter(Boolean).join(", ")}
                                 </span>
                               )}
                             </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
+                          )}
+
+                          {/* Badges & Actions */}
+                          <div className="flex shrink-0 items-center gap-1.5 pt-1 sm:pt-0">
+                            {show.id && (
+                              <Link
+                                href={`/shows/${show.id}`}
+                                className="rounded-lg border border-purple-500/30 bg-purple-600/15 px-2.5 py-0.5 text-xs font-medium text-purple-300 transition-colors hover:bg-purple-600/35 hover:text-white"
+                                title={`View show details for ${show.venue}`}
+                              >
+                                Details
+                              </Link>
+                            )}
+                            {isCancelled && (
+                              <span className="rounded-lg border border-rose-500/30 bg-rose-500/20 px-2 py-0.5 text-rose-600">
+                                Cancelled
+                              </span>
+                            )}
+                            {isUnplugged && (
+                              <span className="rounded-lg border border-purple-500/30 bg-purple-600/20 px-2 py-0.5">
+                                Unplugged
+                              </span>
+                            )}
+                            {isPrivate && (
+                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
+                                Private Event
+                              </span>
+                            )}
+                            {isCruise && (
+                              <span className="rounded-lg border border-[var(--color-accent)]/30 bg-purple-600/20 px-2 py-0.5">
+                                Special Tour
+                              </span>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </article>
               );
             })}

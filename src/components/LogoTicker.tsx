@@ -121,7 +121,7 @@ export default function LogoTicker({
         >
           <Image
             src={item.src}
-            alt={isDuplicate ? "" : altText}
+            alt={altText}
             width={160}
             height={64}
             loading="lazy"

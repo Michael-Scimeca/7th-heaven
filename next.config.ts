@@ -209,6 +209,26 @@ const nextConfig: NextConfig = {
         destination: "/#tour",
         permanent: true,
       },
+      {
+        source: "/video",
+        destination: "/media",
+        permanent: true,
+      },
+      {
+        source: "/news",
+        destination: "/#news",
+        permanent: true,
+      },
+      {
+        source: "/7hrrk",
+        destination: "/rock-and-roll-kids",
+        permanent: true,
+      },
+      {
+        source: "/rrk",
+        destination: "/rock-and-roll-kids",
+        permanent: true,
+      },
     ];
   },
 };

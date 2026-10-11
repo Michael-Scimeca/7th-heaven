@@ -7,6 +7,7 @@ import {
 } from "@/lib/sanity";
 import { ensureUpcomingTourDates } from "@/lib/tour-helpers";
 import { VENUE_LINKS } from "@/lib/venue-links";
+import { findShowId } from "@/lib/show-lookup";
 
 export const revalidate = 60;
 
@@ -24,7 +25,13 @@ export async function GET() {
           ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${s.venue} ${s.city} ${s.state || ""}`)}`
           : "");
       const mapLink = s.directionsLink || s.mapUrl || fallbackMap;
+      const supabaseId = findShowId({
+        date: s.date,
+        startDate: (s as any).startDate,
+        venue: s.venue,
+      });
       return {
+        id: supabaseId,
         _id: s._id,
         venue: s.venue,
         city: s.city || "",

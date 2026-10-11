@@ -2,7 +2,7 @@
 /* eslint-disable react-doctor/nextjs-no-img-element */
 
 import { useState } from "react";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, Calendar, Radio, Sliders, Compass } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { SectionHeader } from "@/components/SectionHeader";
 
@@ -337,6 +337,85 @@ export default function ContactClient({
               })}
             </aside>
           </div>
+        </div>
+      </section>
+
+      {/* ── DEPARTMENT INFORMATION & BOOKING GUIDE ── */}
+      <section
+        id="contact-guide"
+        aria-labelledby="contact-guide-heading"
+        className="section border-t border-white/10"
+      >
+        <SectionHeader
+          id="contact-guide-heading"
+          title="Booking & Department Guidelines"
+          subtitle="Direct information for festival committees, corporate event buyers, media, and travelers."
+        />
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <Calendar className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Concert & Event Booking</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Looking to bring 7th Heaven to your summer festival, county fair, casino ballroom, corporate gala, or
+                private party? With over 100 high-energy concerts annually, our management team provides full tour riders,
+                staging specs, and marketing collateral.
+              </p>
+            </div>
+            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
+              Department: NTD Management
+            </div>
+          </article>
+
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <Radio className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Press & Media Relations</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                For radio and television appearances, podcast interviews, press credentials, high-resolution band photos,
+                and feature stories, reach out directly to our public relations and record label team at NTD Records.
+              </p>
+            </div>
+            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
+              Department: NTD Records
+            </div>
+          </article>
+
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <Sliders className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Technical Advance & Production</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Venue production managers, audio engineers, and stage leads can coordinate technical riders, stage plots,
+                patch lists, lighting requirements, and power specifications directly with our touring production crew.
+              </p>
+            </div>
+            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
+              Department: Tour Technical Advance
+            </div>
+          </article>
+
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <Compass className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Annual Music Cruise Inquiries</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Planning to sail with 7th Heaven on our annual Caribbean or European music voyage? Mary Grivas at NTD Vacations
+                assists with cabin selection, VIP concert passes, group rates, airfare, hotel packages, and travel insurance.
+              </p>
+            </div>
+            <div className="mt-4 border-t border-white/10 pt-3 text-xs text-white/50">
+              Department: NTD Vacations
+            </div>
+          </article>
         </div>
       </section>
     </main>

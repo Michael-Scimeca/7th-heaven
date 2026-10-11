@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { sanityFetch } from "@/sanity/live";
-import { queries, SanityTourDate } from "@/lib/sanity";
 import { createClient } from "@supabase/supabase-js";
+import showsSupabaseData from "@/data/shows-supabase.json";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,161 +11,212 @@ const supabase = createClient(
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://7thheavenband.com";
 
-  // Fetch tour dates for dynamic venue pages
-  let tourDates: SanityTourDate[] = [];
-  try {
-    const { data } = await sanityFetch({ query: queries.allTourDates });
-    tourDates = data as SanityTourDate[];
-  } catch {}
-
-  // Fetch shows from Supabase for /shows/[id] pages
+  // Fetch shows from Supabase for /shows/[id] pages (with local fallback)
   let showPages: MetadataRoute.Sitemap = [];
   try {
     const { data: shows } = await supabase
       .from("shows")
       .select("id, date")
       .order("date", { ascending: false });
-    if (shows?.length) {
-      showPages = shows.map((show) => ({
+
+    const showList = shows?.length ? shows : showsSupabaseData;
+
+    if (showList?.length) {
+      showPages = showList.map((show: { id: string; date: string }) => ({
         url: `${baseUrl}/shows/${show.id}`,
         lastModified: new Date(show.date + "T12:00:00"),
         changeFrequency: "weekly" as const,
         priority: 0.7,
+        images: [
+          `${baseUrl}/images/hero/band-stage.webp`,
+          `${baseUrl}/images/hero/band-performance.webp`,
+        ],
       }));
     }
-  } catch {}
+  } catch {
+    if (showsSupabaseData?.length) {
+      showPages = showsSupabaseData.map((show) => ({
+        url: `${baseUrl}/shows/${show.id}`,
+        lastModified: new Date(show.date + "T12:00:00"),
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+        images: [
+          `${baseUrl}/images/hero/band-stage.webp`,
+          `${baseUrl}/images/hero/band-performance.webp`,
+        ],
+      }));
+    }
+  }
 
   // Fetch news articles from Sanity for /news/[slug] pages
   let newsPages: MetadataRoute.Sitemap = [];
   try {
     const { data: articles } = await sanityFetch({
-      query: `*[_type == "newsPost"] { "slug": slug.current, publishedAt, _updatedAt }`,
+      query: `*[_type == "newsPost"] { "slug": slug.current, publishedAt, _updatedAt, "imageUrl": image.asset->url }`,
     });
     if (Array.isArray(articles) && articles.length) {
       newsPages = articles
         .filter((a: any) => a.slug)
-        .map((a: any) => ({
-          url: `${baseUrl}/news/${a.slug}`,
-          lastModified: new Date(a._updatedAt || a.publishedAt || new Date()),
-          changeFrequency: "monthly" as const,
-          priority: 0.7,
-        }));
+        .map((a: any) => {
+          const timestamp = a._updatedAt || a.publishedAt;
+          return {
+            url: `${baseUrl}/news/${a.slug}`,
+            ...(timestamp ? { lastModified: new Date(timestamp) } : {}),
+            changeFrequency: "monthly" as const,
+            priority: 0.7,
+            images: a.imageUrl
+              ? [a.imageUrl]
+              : [`${baseUrl}/images/hero/band-performance.webp`],
+          };
+        });
     }
   } catch {}
 
-  // Static public pages
+  // Static public pages (omit lastModified so Google doesn't see fake "today" timestamps)
   const staticPages: MetadataRoute.Sitemap = [
     // ── Core Pages ──
     {
       url: baseUrl,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1.0,
+      images: [
+        `${baseUrl}/images/hero/band-performance.webp`,
+        `${baseUrl}/images/hero/band-stage.webp`,
+        `${baseUrl}/images/band/band-crowd-panorama.webp`,
+      ],
     },
     {
       url: `${baseUrl}/shows/past`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
+      images: [
+        `${baseUrl}/images/tour/tour-bus.webp`,
+        `${baseUrl}/images/hero/band-stage.webp`,
+        `${baseUrl}/images/hero/band-performance.webp`,
+      ],
     },
     {
       url: `${baseUrl}/cruise`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
+      images: [
+        `${baseUrl}/images/cruise/at-sea.png`,
+        `${baseUrl}/images/cruise/cruise-hero.png`,
+        `${baseUrl}/images/cruise/deck.png`,
+        `${baseUrl}/images/cruise/cococay-beach-party.png`,
+      ],
     },
     {
       url: `${baseUrl}/book`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
+      images: [
+        `${baseUrl}/images/hero/band-performance.webp`,
+        `${baseUrl}/images/events/corporate.jpg`,
+        `${baseUrl}/images/events/festival.jpg`,
+        `${baseUrl}/images/events/wedding.jpg`,
+      ],
     },
     {
       url: `${baseUrl}/merch`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
+      images: [
+        `${baseUrl}/images/merch/logo-tee.png`,
+        `${baseUrl}/images/merch/hoodie.png`,
+        `${baseUrl}/images/merch/vinyl.png`,
+        `${baseUrl}/images/merch/merch-be-here.png`,
+      ],
     },
     {
       url: `${baseUrl}/media`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
+      images: [
+        `${baseUrl}/images/hero/band-performance.webp`,
+        `${baseUrl}/images/album/luminous.png`,
+      ],
     },
     {
-      url: `${baseUrl}/video`,
-      lastModified: new Date(),
+      url: `${baseUrl}/live`,
       changeFrequency: "weekly",
-      priority: 0.8,
+      priority: 0.7,
+      images: [
+        `${baseUrl}/images/hero/band-stage.webp`,
+        `${baseUrl}/images/hero/band-performance.webp`,
+      ],
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
+      images: [
+        `${baseUrl}/images/contact/alan-contact.png`,
+        `${baseUrl}/images/contact/lenny-contact.png`,
+      ],
     },
     {
       url: `${baseUrl}/faq`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/rock-and-roll-kids`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
+      images: [
+        `${baseUrl}/images/7hrrk/artbook.jpg`,
+        `${baseUrl}/images/7hrrk/book1.jpg`,
+        `${baseUrl}/images/7hrrk/All-c.png`,
+      ],
     },
 
     // ── Community & Fan Media ──
     {
       url: `${baseUrl}/fans`,
-      lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.6,
+      images: [
+        `${baseUrl}/images/fans/fan-photo-featured.jpg`,
+        `${baseUrl}/images/hero/band-performance.webp`,
+      ],
     },
     {
       url: `${baseUrl}/fan-photo-wall`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.6,
+      images: [
+        `${baseUrl}/images/fans/fan-photo-featured.jpg`,
+      ],
     },
     {
       url: `${baseUrl}/fan-media-wall`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.6,
+      images: [
+        `${baseUrl}/images/hero/band-performance.webp`,
+      ],
     },
 
     // ── Legal & Policies ──
     {
       url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.2,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.2,
     },
     {
       url: `${baseUrl}/returns`,
-      lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.2,
     },
   ];
 
-  // Dynamic Tour Date pages (Venue specific)
-  const tourDatePages: MetadataRoute.Sitemap = tourDates.map((date: any) => ({
-    url: `${baseUrl}/tour/${date.slug?.current || date._id}`,
-    lastModified: new Date(date._updatedAt || new Date()),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
-  return [...staticPages, ...tourDatePages, ...showPages, ...newsPages];
+  return [...staticPages, ...showPages, ...newsPages];
 }
+
 

@@ -258,11 +258,10 @@ export default function GooeyDropdown({
           aria-haspopup="menu"
           aria-expanded={open}
           aria-label={ariaLabel}
-          className={`relative flex w-full cursor-pointer items-center justify-between gap-2.5 rounded-full border border-purple-500/35 bg-[#0a0518] px-4 py-2 text-xs font-mono font-medium tracking-wide text-purple-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_rgba(0,0,0,0.4)] transition-all duration-150 hover:border-purple-400/70 hover:bg-[#130728] hover:text-white active:scale-[0.98] ${
-            open
-              ? "border-purple-400 ring-2 ring-purple-500/35 text-white shadow-[0_0_18px_rgba(168,85,247,0.35)]"
-              : ""
-          } ${buttonClassName}`}
+          className={`relative flex w-full cursor-pointer items-center justify-between gap-2.5 rounded-full border border-purple-500/35 bg-[#0a0518] px-4 py-2 text-xs font-mono font-medium tracking-wide text-purple-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_rgba(0,0,0,0.4)] transition-all duration-150 hover:bg-[#130728] hover:text-white active:scale-[0.98] ${open
+            ? " ring-2  text-white shadow-[0_0_18px_rgba(168,85,247,0.35)]"
+            : ""
+            } ${buttonClassName}`}
         >
           <span className="flex items-center gap-2 truncate">
             <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_#c084fc] shrink-0" />
@@ -274,9 +273,8 @@ export default function GooeyDropdown({
             </span>
             {showChevron && (
               <ChevronDown
-                className={`h-3 w-3 text-purple-300 transition-transform duration-200 ${
-                  open ? "rotate-180" : ""
-                }`}
+                className={`h-3 w-3 text-purple-300 transition-transform duration-200 ${open ? "rotate-180" : ""
+                  }`}
               />
             )}
           </span>
@@ -331,11 +329,10 @@ export default function GooeyDropdown({
                       item.onClick?.();
                       closeDropdown();
                     }}
-                    className={`group flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${
-                      item.selected
-                        ? "border border-purple-400/50 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]"
-                        : "text-purple-100/80 hover:bg-purple-900/30 hover:text-white"
-                    }`}
+                    className={`group flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${item.selected
+                      ? "border border-purple-400/50 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]"
+                      : "text-purple-100/80 hover:bg-purple-900/30 hover:text-white"
+                      }`}
                   >
                     <span className="flex items-center gap-2 truncate">
                       {item.selected && (
@@ -383,18 +380,16 @@ export default function GooeyDropdown({
           aria-haspopup="menu"
           aria-expanded={open}
           aria-label={ariaLabel}
-          className={`relative flex w-full cursor-pointer items-center justify-between gap-2.5 rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-all duration-200 ${
-            open
-              ? "border border-purple-400 bg-purple-600/35 text-white shadow-[0_0_15px_rgba(192,132,252,0.45)]"
-              : "border border-white/15 bg-white/10 text-white/90 hover:border-white/30 hover:bg-white/15 hover:text-white"
-          } ${buttonClassName}`}
+          className={`relative flex w-full cursor-pointer items-center justify-between gap-2.5 rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-all duration-200 ${open
+            ? "border border-purple-400 bg-purple-600/35 text-white shadow-[0_0_15px_rgba(192,132,252,0.45)]"
+            : "border border-white/15 bg-white/10 text-white/90 hover:border-white/30 hover:bg-white/15 hover:text-white"
+            } ${buttonClassName}`}
         >
           <span className="truncate">{label}</span>
           {showChevron && (
             <ChevronDown
-              className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${
-                open ? "rotate-180" : ""
-              }`}
+              className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${open ? "rotate-180" : ""
+                }`}
             />
           )}
         </button>
@@ -424,11 +419,10 @@ export default function GooeyDropdown({
                     item.onClick?.();
                     closeDropdown();
                   }}
-                  className={`flex cursor-pointer items-center justify-between gap-1.5 rounded-xl px-2.5 py-2 text-left text-xs font-bold transition-all ${
-                    item.selected
-                      ? "border border-purple-400 bg-purple-600/50 text-white shadow-[0_0_12px_rgba(192,132,252,0.5)]"
-                      : "border border-white/10 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/15 hover:text-white"
-                  }`}
+                  className={`flex cursor-pointer items-center justify-between gap-1.5 rounded-xl px-2.5 py-2 text-left text-xs font-bold transition-all ${item.selected
+                    ? "border border-purple-400 bg-purple-600/50 text-white shadow-[0_0_12px_rgba(192,132,252,0.5)]"
+                    : "border border-white/10 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/15 hover:text-white"
+                    }`}
                 >
                   <span className="truncate">{item.label}</span>
                   {item.badge !== undefined ? (
@@ -464,11 +458,10 @@ export default function GooeyDropdown({
           aria-haspopup="menu"
           aria-expanded={open}
           aria-label={ariaLabel}
-          className={`relative flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl px-3.5 py-2 text-xs font-bold tracking-wider uppercase transition-all duration-200 ${
-            open
-              ? "border-b-2 border-purple-400 bg-white/15 text-white"
-              : "border border-white/10 bg-black/40 text-white/80 hover:border-white/25 hover:text-white"
-          } ${buttonClassName}`}
+          className={`relative flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl px-3.5 py-2 text-xs font-bold tracking-wider uppercase transition-all duration-200 ${open
+            ? "border-b-2 border-purple-400 bg-white/15 text-white"
+            : "border border-white/10 bg-black/40 text-white/80 hover:border-white/25 hover:text-white"
+            } ${buttonClassName}`}
         >
           <span className="flex items-center gap-2 truncate">
             <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]" />
@@ -476,9 +469,8 @@ export default function GooeyDropdown({
           </span>
           {showChevron && (
             <ChevronDown
-              className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${
-                open ? "rotate-180" : ""
-              }`}
+              className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${open ? "rotate-180" : ""
+                }`}
             />
           )}
         </button>
@@ -508,11 +500,10 @@ export default function GooeyDropdown({
                       item.onClick?.();
                       closeDropdown();
                     }}
-                    className={`flex w-full cursor-pointer items-center justify-between px-3 py-2 text-left text-xs transition-colors ${
-                      item.selected
-                        ? "border-l-2 border-purple-400 bg-purple-500/15 font-extrabold text-white"
-                        : "font-medium text-white/75 hover:bg-white/5 hover:text-white"
-                    }`}
+                    className={`flex w-full cursor-pointer items-center justify-between px-3 py-2 text-left text-xs transition-colors ${item.selected
+                      ? "border-l-2 border-purple-400 bg-purple-500/15 font-extrabold text-white"
+                      : "font-medium text-white/75 hover:bg-white/5 hover:text-white"
+                      }`}
                   >
                     <span className="truncate">{item.label}</span>
                     {item.badge !== undefined && (
@@ -591,9 +582,9 @@ export default function GooeyDropdown({
                   {(() => {
                     const content =
                       typeof item.label !== "string" &&
-                      !item.badge &&
-                      !item.icon &&
-                      item.selected === undefined ? (
+                        !item.badge &&
+                        !item.icon &&
+                        item.selected === undefined ? (
                         item.label
                       ) : (
                         <span className="flex w-full items-center justify-between gap-3 text-xs font-semibold tracking-wide">

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Masonry Gallery Demo | 7th Heaven",
   description:
     "Interactive demonstration of the multi-speed parallax masonry gallery with responsive column distribution, smooth scroll integration, and zero layout shift.",
+  robots: { index: false, follow: false },
 };
 
 const GALLERY_ITEMS: MasonryItem[] = [

@@ -6,6 +6,7 @@ import SeventhButton from "@/components/SeventhButton";
 import { sanityClient } from "@/lib/sanity";
 import { Calendar, Tag, Newspaper } from "lucide-react";
 import { DotChevronLeft, DotChevronRight } from "@/components/ui/DotArrow";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const dynamic = "force-dynamic";
 
@@ -153,7 +154,7 @@ export async function generateMetadata({
       type: "article",
       images: [
         {
-          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          url: "https://7thheavenband.com/opengraph-image",
           width: 1200,
           height: 630,
           alt: article.title,
@@ -165,7 +166,7 @@ export async function generateMetadata({
       site: "@7thheavenband",
       title,
       description,
-      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+      images: ["https://7thheavenband.com/opengraph-image"],
     },
   };
 }
@@ -190,6 +191,7 @@ export default async function NewsArticlePage({
     "@type": "NewsArticle",
     headline: article.title,
     description: article.content.slice(0, 160).replace(/\n/g, " "),
+    image: ["https://7thheavenband.com/opengraph-image"],
     datePublished: article.publishedAt || "2026-01-01T00:00:00Z",
     dateModified: article.publishedAt || "2026-01-01T00:00:00Z",
     author: {
@@ -202,7 +204,7 @@ export default async function NewsArticlePage({
       name: "7th Heaven",
       logo: {
         "@type": "ImageObject",
-        url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+        url: "https://7thheavenband.com/icon-512.png",
       },
     },
     url: `https://7thheavenband.com/news/${slug}`,
@@ -223,14 +225,23 @@ export default async function NewsArticlePage({
       {/* Article */}
       <article className="site-container">
         <header>
-          {/* Top nav back link */}
-          <div className="py-3 mb-4">
+          {/* Breadcrumbs */}
+          <div className="flex flex-wrap items-center justify-between gap-4 py-2 mb-2">
+            <Breadcrumbs
+              id={`news-breadcrumbs-${slug}`}
+              className="mb-0 py-0"
+              items={[
+                { name: "Home", href: "/" },
+                { name: "News", href: "/#news" },
+                { name: article.title },
+              ]}
+            />
             <Link
               href="/#news"
-              className="transition-colors inline-flex items-center gap-2 hover:text-white"
+              className="transition-colors inline-flex items-center gap-1.5 text-xs text-white/50 hover:text-white"
             >
-              <DotChevronLeft className="h-4 w-4" />
-              Back to News
+              <DotChevronLeft className="h-3.5 w-3.5" />
+              All News
             </Link>
           </div>
 

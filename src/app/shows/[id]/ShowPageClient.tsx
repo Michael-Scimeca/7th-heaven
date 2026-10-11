@@ -18,6 +18,17 @@ import SeventhButton from "@/components/SeventhButton";
 import InputField from "@/components/InputField";
 import QRCode from "react-qr-code";
 import { SectionBadge } from "@/components/SectionBadge";
+import { DotChevronRight } from "@/components/ui/DotArrow";
+import Breadcrumbs from "@/components/Breadcrumbs";
+
+export interface RelatedShow {
+  id: string;
+  venue_name: string;
+  city: string;
+  state: string;
+  date: string;
+  time?: string | null;
+}
 
 interface Attendee {
   id: string;
@@ -65,12 +76,35 @@ const tierGlow: Record<string, string> = {
   Platinum: "shadow-[0_0_12px_rgba(255,10,61,0.2)]",
 };
 
+const MONTH_NAMES = [
+  "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
+];
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function formatShowBadge(dateStr: string) {
+  const parts = dateStr.split("-");
+  if (parts.length === 3) {
+    const y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10) - 1;
+    const d = parseInt(parts[2], 10);
+    const month = MONTH_NAMES[m] || "TBD";
+    const day = String(d);
+    const dateObj = new Date(Date.UTC(y, m, d, 12, 0, 0));
+    const weekday = WEEKDAYS[dateObj.getUTCDay()] || "";
+    return { month, day, weekday };
+  }
+  return { month: "TBD", day: "", weekday: "" };
+}
+
 export default function ShowPageClient({
   show,
   initialAttendees,
+  relatedShows = [],
 }: {
   show: Show;
   initialAttendees: Attendee[];
+  relatedShows?: RelatedShow[];
 }) {
   const { member, isLoggedIn, openModal } = useMember();
   const supabase = createClient();
@@ -433,12 +467,23 @@ export default function ShowPageClient({
       <div className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#0d0718] to-[#050505]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,10,61,0.2)_0%,_transparent_60%)]" />
         <div className="site-container relative z-10 py-14 md:py-20">
-          <Link
-            href="/#tour"
-            className="mb-8 inline-flex items-center gap-2 text-white/30"
-          >
-            ← All Shows
-          </Link>
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <Breadcrumbs
+              id={`show-breadcrumbs-${show.id}`}
+              className="mb-0 py-0"
+              items={[
+                { name: "Home", href: "/" },
+                { name: "Tour Dates", href: "/#tour" },
+                { name: `${show.venue_name}${show.city ? ` (${show.city})` : ""}` },
+              ]}
+            />
+            <Link
+              href="/#tour"
+              className="transition-colors inline-flex items-center gap-1.5 text-xs text-white/50 hover:text-white"
+            >
+              ← All Shows
+            </Link>
+          </div>
 
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <div>
@@ -755,6 +800,81 @@ export default function ShowPageClient({
                 </SeventhButton>
               </div>
             </div>
+          )}
+
+          {/* ── RELATED SHOWS SECTION ────────────────────────────────── */}
+          {relatedShows && relatedShows.length > 0 && (
+            <section
+              id="related-shows"
+              aria-labelledby="related-shows-heading"
+              className="mt-12 border-t border-white/10 pt-10"
+            >
+              <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                <div className="title-group title-group--section">
+                  <h2 id="related-shows-heading" className="flex items-center gap-2">
+                    <span className="text-[var(--color-accent)]">🎸</span>
+                    {show.city ? `More Shows in & Near ${show.city}` : "Related Tour Dates"}
+                  </h2>
+                  <p>
+                    Catch 7th Heaven live at other upcoming Midwest concerts and festivals.
+                  </p>
+                </div>
+                <Link
+                  href="/#tour"
+                  className="transition-colors hidden items-center gap-1.5 text-xs text-white/50 hover:text-white sm:inline-flex"
+                >
+                  View Full Schedule <DotChevronRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {relatedShows.map((rel) => {
+                  const { month, day, weekday } = formatShowBadge(rel.date);
+
+                  return (
+                    <Link
+                      key={rel.id}
+                      href={`/shows/${rel.id}`}
+                      className="group flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-5 transition-all hover:border-[var(--color-accent)]/50 hover:bg-white/[0.06] hover:shadow-[0_0_20px_rgba(255,10,61,0.15)]"
+                    >
+                      <div>
+                        {/* Date badge */}
+                        <div className="mb-3 flex items-center justify-between">
+                          <span className="rounded-full border border-purple-500/30 bg-purple-500/10 px-2.5 py-0.5 text-[11px] font-bold text-[var(--color-accent)]">
+                            {month} {day} &bull; {weekday}
+                          </span>
+                          {rel.time && (
+                            <span className="text-xs text-white/50">{rel.time}</span>
+                          )}
+                        </div>
+
+                        <h3 className="mb-1 text-base font-semibold text-white group-hover:text-[var(--color-accent)] transition-colors line-clamp-1">
+                          {rel.venue_name}
+                        </h3>
+
+                        <p className="text-xs text-white/60">
+                          {rel.city}{rel.state ? `, ${rel.state}` : ""}
+                        </p>
+                      </div>
+
+                      <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-xs text-white/50 group-hover:text-white transition-colors">
+                        <span>Show Details</span>
+                        <DotChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 text-center sm:hidden">
+                <Link
+                  href="/#tour"
+                  className="transition-colors inline-flex items-center gap-1 text-xs text-[var(--color-accent)]"
+                >
+                  View Full Schedule <DotChevronRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </section>
           )}
         </div>
       </div>

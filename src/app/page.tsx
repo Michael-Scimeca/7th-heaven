@@ -29,10 +29,15 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `${content.title} — 7th Heaven`
       : "7th Heaven Band | Official Chicago Rock Band & Live Concerts");
 
-  const description =
+  const rawDescription =
     content?.seo?.metaDescription ||
     content?.heroSubheading ||
     "Official website of 7th Heaven, Chicago's premier rock band with #1 Billboard chart hits, 30 Songs in 30 Minutes medley, and 40 years of live concert tours.";
+
+  const description =
+    rawDescription.length > 158
+      ? rawDescription.slice(0, 155).replace(/\s+\S*$/, "") + "…"
+      : rawDescription;
 
   return {
     title,
@@ -48,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          url: "https://7thheavenband.com/opengraph-image",
           width: 1200,
           height: 630,
           alt: "7th Heaven Band Logo",
@@ -60,7 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
       site: "@7thheavenband",
       title,
       description,
-      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+      images: ["https://7thheavenband.com/opengraph-image"],
     },
   };
 }

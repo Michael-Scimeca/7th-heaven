@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
 export default function RRKRedirectPage() {
-  redirect("/rock-and-roll-kids");
+  permanentRedirect("/rock-and-roll-kids");
 }

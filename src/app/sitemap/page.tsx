@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Sitemap & Page Directory — 7th Heaven",
   description:
     "Complete interactive sitemap and page directory for 7th Heaven Official Website. Easily explore all public pages, fan portals, cruise dashboards, admin tools, and API endpoints.",
+  robots: { index: false, follow: false },
 };
 
 export default function SitemapPage() {

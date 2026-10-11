@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          url: "https://7thheavenband.com/opengraph-image",
           width: 1200,
           height: 630,
           alt: "7th Heaven Fan Media Wall",
@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
       site: "@7thheavenband",
       title,
       description,
-      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+      images: ["https://7thheavenband.com/opengraph-image"],
     },
   };
 }

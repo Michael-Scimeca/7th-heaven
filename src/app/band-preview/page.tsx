@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
 import BandVideoLoop from "@/components/BandVideoLoop";
 
-export const metadata = { title: "Band Loop Preview", robots: { index: false } };
+export const metadata: Metadata = {
+  title: "Band Loop Preview",
+  robots: { index: false, follow: false },
+};
 
 export default function BandPreviewPage() {
   return (

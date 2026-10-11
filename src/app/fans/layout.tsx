@@ -14,7 +14,7 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+        url: "https://7thheavenband.com/opengraph-image",
         width: 1200,
         height: 630,
         alt: "7th Heaven Fan Club",
@@ -27,7 +27,7 @@ export const metadata = {
     title: "7th Heaven Fan Club & VIP Dashboard",
     description:
       "Unlock custom fan rewards, show attendance tracking, raffle entries, and concert proximity alerts.",
-    images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+    images: ["https://7thheavenband.com/opengraph-image"],
   },
 };
 

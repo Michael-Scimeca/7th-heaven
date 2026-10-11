@@ -219,7 +219,7 @@ export function generateTourEventSchema(shows: any[]) {
           addressCountry: "US",
         },
       },
-      image: ["https://7thheavenband.com/og-image.jpg"],
+      image: ["https://7thheavenband.com/opengraph-image"],
       description: `7th Heaven performing live at ${venueName}${city ? ` in ${city}, ${state}` : ""}.${s.info ? ` ${s.info}` : ""}`,
       performer: {
         "@type": "MusicGroup",

@@ -169,11 +169,10 @@ export default function SingleDropdownShowcase({
           <button
             type="button"
             onClick={() => setActiveFilter("all")}
-            className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all ${
-              activeFilter === "all"
+            className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all ${activeFilter === "all"
                 ? "bg-purple-600 text-white shadow-lg shadow-purple-600/40"
                 : "border border-white/10 bg-white/5 text-white/60 hover:text-white"
-            }`}
+              }`}
           >
             All 8 Styles
           </button>
@@ -182,11 +181,10 @@ export default function SingleDropdownShowcase({
               key={s.id}
               type="button"
               onClick={() => setActiveFilter(s.id)}
-              className={`cursor-pointer rounded-full px-2.5 py-1 text-xs font-bold transition-all ${
-                activeFilter === s.id
+              className={`cursor-pointer rounded-full px-2.5 py-1 text-xs font-bold transition-all ${activeFilter === s.id
                   ? "bg-purple-600 text-white shadow-lg shadow-purple-600/40"
                   : "border border-white/10 bg-white/5 text-white/60 hover:text-white"
-              }`}
+                }`}
             >
               0{s.id}
             </button>
@@ -228,20 +226,18 @@ export default function SingleDropdownShowcase({
                     aria-haspopup="menu"
                     aria-expanded={openStyle === 1}
                     onClick={() => toggleDropdown(1)}
-                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border px-5 py-2.5 text-xs font-bold tracking-wider uppercase transition-all duration-300 ${
-                      openStyle === 1
+                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border px-5 py-2.5 text-xs font-bold tracking-wider uppercase transition-all duration-300 ${openStyle === 1
                         ? "border-purple-400 bg-[#160a2c] text-white shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400/50"
                         : "border-purple-500/30 bg-[#0e071c] text-white/90 hover:border-purple-400/60 hover:bg-[#150a2b] hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
-                    }`}
+                      }`}
                   >
                     <span className="flex items-center gap-2.5 truncate">
                       <span className="h-2 w-2 rounded-full bg-fuchsia-400 shadow-[0_0_8px_rgba(232,121,249,0.9)] animate-pulse" />
                       <span className="truncate">{displayLabel}</span>
                     </span>
                     <DotChevronDown
-                      className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${
-                        openStyle === 1 ? "rotate-180" : ""
-                      }`}
+                      className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${openStyle === 1 ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -255,17 +251,15 @@ export default function SingleDropdownShowcase({
                               type="button"
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
-                              className={`group flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${
-                                selectedCity === c.id
+                              className={`group flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${selectedCity === c.id
                                   ? "border border-purple-400/60 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white shadow-[0_0_15px_rgba(168,85,247,0.35)]"
                                   : "text-white/80 hover:bg-white/10 hover:text-white"
-                              }`}
+                                }`}
                             >
                               <span className="flex items-center gap-2">
                                 <span
-                                  className={`h-1.5 w-1.5 rounded-full ${
-                                    selectedCity === c.id ? "bg-fuchsia-400 shadow-[0_0_6px_#f43f5e]" : "bg-white/20"
-                                  }`}
+                                  className={`h-1.5 w-1.5 rounded-full ${selectedCity === c.id ? "bg-fuchsia-400 shadow-[0_0_6px_#f43f5e]" : "bg-white/20"
+                                    }`}
                                 />
                                 <span>{c.name}</span>
                               </span>
@@ -318,18 +312,16 @@ export default function SingleDropdownShowcase({
                     aria-haspopup="menu"
                     aria-expanded={openStyle === 2}
                     onClick={() => toggleDropdown(2)}
-                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-t-white/30 border-b-white/10 border-x-white/20 bg-white/[0.08] px-5 py-2.5 text-xs font-semibold tracking-wider uppercase text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-2xl transition-all duration-300 hover:bg-white/[0.14] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_8px_20px_rgba(0,0,0,0.3)] ${
-                      openStyle === 2 ? "ring-2 ring-cyan-400/50 bg-white/[0.18]" : ""
-                    }`}
+                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-t-white/30 border-b-white/10 border-x-white/20 bg-white/[0.08] px-5 py-2.5 text-xs font-semibold tracking-wider uppercase text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-2xl transition-all duration-300 hover:bg-white/[0.14] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_8px_20px_rgba(0,0,0,0.3)] ${openStyle === 2 ? "ring-2 ring-cyan-400/50 bg-white/[0.18]" : ""
+                      }`}
                   >
                     <span className="flex items-center gap-2.5 truncate">
                       <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(103,232,249,0.8)]" />
                       <span className="truncate">{displayLabel}</span>
                     </span>
                     <ChevronDown
-                      className={`h-3.5 w-3.5 shrink-0 text-cyan-200 transition-transform duration-300 ${
-                        openStyle === 2 ? "rotate-180" : ""
-                      }`}
+                      className={`h-3.5 w-3.5 shrink-0 text-cyan-200 transition-transform duration-300 ${openStyle === 2 ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -343,11 +335,10 @@ export default function SingleDropdownShowcase({
                               type="button"
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
-                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-medium transition-all ${
-                                selectedCity === c.id
+                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-medium transition-all ${selectedCity === c.id
                                   ? "border border-cyan-400/40 bg-cyan-500/20 text-white shadow-sm"
                                   : "text-white/80 hover:bg-white/10 hover:text-white"
-                              }`}
+                                }`}
                             >
                               <span>{c.name}</span>
                               {selectedCity === c.id && <Check className="h-3.5 w-3.5 text-cyan-300" />}
@@ -394,9 +385,8 @@ export default function SingleDropdownShowcase({
                     aria-haspopup="menu"
                     aria-expanded={openStyle === 3}
                     onClick={() => toggleDropdown(3)}
-                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-purple-500/35 bg-[#0a0518] px-4 py-2 text-xs font-mono font-medium tracking-wide text-purple-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_rgba(0,0,0,0.4)] transition-all duration-150 hover:border-purple-400/70 hover:bg-[#130728] hover:text-white active:scale-[0.98] ${
-                      openStyle === 3 ? "border-purple-400 ring-2 ring-purple-500/35 text-white shadow-[0_0_18px_rgba(168,85,247,0.35)]" : ""
-                    }`}
+                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-purple-500/35 bg-[#0a0518] px-4 py-2 text-xs font-mono font-medium tracking-wide text-purple-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_rgba(0,0,0,0.4)] transition-all duration-150 hover:bg-[#130728] hover:text-white active:scale-[0.98] ${openStyle === 3 ? "border-purple-400 ring-2 ring-purple-500/35 text-white shadow-[0_0_18px_rgba(168,85,247,0.35)]" : ""
+                      }`}
                   >
                     <span className="flex items-center gap-2 truncate">
                       <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_#c084fc]" />
@@ -405,9 +395,8 @@ export default function SingleDropdownShowcase({
                     <span className="flex items-center gap-1.5 text-purple-300/70">
                       <span className="rounded border border-purple-500/30 bg-purple-950/60 px-1.5 py-0.5 text-[9px] font-sans font-bold text-purple-200">⌘K</span>
                       <ChevronDown
-                        className={`h-3 w-3 text-purple-300 transition-transform duration-200 ${
-                          openStyle === 3 ? "rotate-180" : ""
-                        }`}
+                        className={`h-3 w-3 text-purple-300 transition-transform duration-200 ${openStyle === 3 ? "rotate-180" : ""
+                          }`}
                       />
                     </span>
                   </button>
@@ -433,11 +422,10 @@ export default function SingleDropdownShowcase({
                               type="button"
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
-                              className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs font-mono transition-colors ${
-                                selectedCity === c.id
+                              className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs font-mono transition-colors ${selectedCity === c.id
                                   ? "border border-purple-400/50 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white font-bold shadow-[0_0_12px_rgba(168,85,247,0.25)]"
                                   : "text-purple-100/80 hover:bg-purple-900/30 hover:text-white"
-                              }`}
+                                }`}
                             >
                               <span className="flex items-center gap-2">
                                 {selectedCity === c.id && (
@@ -488,9 +476,8 @@ export default function SingleDropdownShowcase({
                 <div className="relative mt-4 w-full max-w-[340px]">
                   {/* Segmented Dual-Chamber Pill */}
                   <div
-                    className={`inline-flex w-full items-stretch rounded-full border border-white/15 bg-white/[0.05] p-0.5 shadow-md transition-all duration-200 hover:border-amber-400/50 ${
-                      openStyle === 4 ? "border-amber-400/70 shadow-[0_0_15px_rgba(251,191,36,0.3)]" : ""
-                    }`}
+                    className={`inline-flex w-full items-stretch rounded-full border border-white/15 bg-white/[0.05] p-0.5 shadow-md transition-all duration-200 hover:border-amber-400/50 ${openStyle === 4 ? "border-amber-400/70 shadow-[0_0_15px_rgba(251,191,36,0.3)]" : ""
+                      }`}
                   >
                     <button
                       type="button"
@@ -509,9 +496,8 @@ export default function SingleDropdownShowcase({
                       className="flex cursor-pointer items-center justify-center rounded-r-full px-3 text-amber-300 transition-colors hover:bg-white/10"
                     >
                       <ChevronDown
-                        className={`h-3.5 w-3.5 transition-transform duration-300 ${
-                          openStyle === 4 ? "rotate-180" : ""
-                        }`}
+                        className={`h-3.5 w-3.5 transition-transform duration-300 ${openStyle === 4 ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
                   </div>
@@ -526,11 +512,10 @@ export default function SingleDropdownShowcase({
                               type="button"
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
-                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${
-                                selectedCity === c.id
+                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${selectedCity === c.id
                                   ? "border border-amber-400/50 bg-amber-500/20 text-white"
                                   : "text-white/80 hover:bg-white/10 hover:text-white"
-                              }`}
+                                }`}
                             >
                               <span>{c.name}</span>
                               <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] text-amber-300">
@@ -576,9 +561,8 @@ export default function SingleDropdownShowcase({
                 <div className="relative mt-4 w-full max-w-[340px]">
                   {/* Prismatic Gradient Outer Border Wrapper */}
                   <div
-                    className={`rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 p-[1.5px] shadow-lg transition-all duration-300 ${
-                      openStyle === 5 ? "shadow-[0_0_25px_rgba(236,72,153,0.5)] scale-[1.01]" : ""
-                    }`}
+                    className={`rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 p-[1.5px] shadow-lg transition-all duration-300 ${openStyle === 5 ? "shadow-[0_0_25px_rgba(236,72,153,0.5)] scale-[1.01]" : ""
+                      }`}
                   >
                     <button
                       type="button"
@@ -592,9 +576,8 @@ export default function SingleDropdownShowcase({
                         <span className="truncate">{displayLabel}</span>
                       </span>
                       <ChevronDown
-                        className={`h-3.5 w-3.5 shrink-0 text-pink-300 transition-transform duration-300 ${
-                          openStyle === 5 ? "rotate-180" : ""
-                        }`}
+                        className={`h-3.5 w-3.5 shrink-0 text-pink-300 transition-transform duration-300 ${openStyle === 5 ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
                   </div>
@@ -609,11 +592,10 @@ export default function SingleDropdownShowcase({
                               type="button"
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
-                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${
-                                selectedCity === c.id
+                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${selectedCity === c.id
                                   ? "border border-pink-400/50 bg-gradient-to-r from-pink-600/30 to-purple-600/30 text-white shadow-sm"
                                   : "text-white/80 hover:bg-white/10 hover:text-white"
-                              }`}
+                                }`}
                             >
                               <span>{c.name}</span>
                               <span className="rounded-full bg-pink-500/20 px-2 py-0.5 text-[10px] text-pink-300">
@@ -662,9 +644,8 @@ export default function SingleDropdownShowcase({
                     aria-haspopup="menu"
                     aria-expanded={openStyle === 6}
                     onClick={() => toggleDropdown(6)}
-                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-orange-500/40 bg-zinc-950 px-5 py-2.5 text-xs font-black tracking-widest text-zinc-100 uppercase transition-all duration-200 hover:border-orange-400 hover:bg-zinc-900 ${
-                      openStyle === 6 ? "border-orange-400 ring-2 ring-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.35)]" : ""
-                    }`}
+                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-orange-500/40 bg-zinc-950 px-5 py-2.5 text-xs font-black tracking-widest text-zinc-100 uppercase transition-all duration-200 hover:border-orange-400 hover:bg-zinc-900 ${openStyle === 6 ? "border-orange-400 ring-2 ring-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.35)]" : ""
+                      }`}
                   >
                     <span className="flex items-center gap-2.5 truncate">
                       <span className="h-2 w-2 rounded-full bg-orange-500 shadow-[0_0_8px_#f97316] animate-ping" />
@@ -673,9 +654,8 @@ export default function SingleDropdownShowcase({
                     <span className="flex items-center gap-1.5">
                       <span className="rounded bg-orange-500/20 px-1.5 py-0.5 text-[9px] font-mono font-bold text-orange-400">TOUR</span>
                       <ChevronDown
-                        className={`h-3.5 w-3.5 text-orange-400 transition-transform duration-200 ${
-                          openStyle === 6 ? "rotate-180" : ""
-                        }`}
+                        className={`h-3.5 w-3.5 text-orange-400 transition-transform duration-200 ${openStyle === 6 ? "rotate-180" : ""
+                          }`}
                       />
                     </span>
                   </button>
@@ -690,11 +670,10 @@ export default function SingleDropdownShowcase({
                               type="button"
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
-                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-black tracking-wider transition-all ${
-                                selectedCity === c.id
+                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-black tracking-wider transition-all ${selectedCity === c.id
                                   ? "border border-orange-500 bg-orange-500/25 text-white"
                                   : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
-                              }`}
+                                }`}
                             >
                               <span>{c.name}</span>
                               <span className="font-mono text-[10px] text-orange-400">{c.count} DATES</span>
@@ -741,18 +720,16 @@ export default function SingleDropdownShowcase({
                     aria-haspopup="menu"
                     aria-expanded={openStyle === 7}
                     onClick={() => toggleDropdown(7)}
-                    className={`flex w-full cursor-pointer items-center justify-between gap-3 rounded-full bg-blue-950/40 px-5 py-2.5 text-xs font-bold tracking-wider text-blue-100 uppercase shadow-lg shadow-black/50 transition-all duration-200 hover:bg-blue-900/50 hover:text-white ${
-                      openStyle === 7 ? "bg-blue-900/70 text-white ring-1 ring-blue-400/40" : ""
-                    }`}
+                    className={`flex w-full cursor-pointer items-center justify-between gap-3 rounded-full bg-blue-950/40 px-5 py-2.5 text-xs font-bold tracking-wider text-blue-100 uppercase shadow-lg shadow-black/50 transition-all duration-200 hover:bg-blue-900/50 hover:text-white ${openStyle === 7 ? "bg-blue-900/70 text-white ring-1 ring-blue-400/40" : ""
+                      }`}
                   >
                     <span className="flex items-center gap-2.5 truncate">
                       <span className="h-2 w-2 rounded-full bg-blue-400" />
                       <span className="truncate">{displayLabel}</span>
                     </span>
                     <ChevronDown
-                      className={`h-3.5 w-3.5 text-blue-300 transition-transform duration-200 ${
-                        openStyle === 7 ? "rotate-180" : ""
-                      }`}
+                      className={`h-3.5 w-3.5 text-blue-300 transition-transform duration-200 ${openStyle === 7 ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
 
@@ -766,11 +743,10 @@ export default function SingleDropdownShowcase({
                               type="button"
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
-                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors ${
-                                selectedCity === c.id
+                              className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors ${selectedCity === c.id
                                   ? "bg-blue-600/30 text-white font-bold"
                                   : "text-white/70 hover:bg-white/10 hover:text-white"
-                              }`}
+                                }`}
                             >
                               <span>{c.name}</span>
                               {selectedCity === c.id && <Check className="h-3.5 w-3.5 text-blue-300" />}
@@ -817,9 +793,8 @@ export default function SingleDropdownShowcase({
                     aria-haspopup="menu"
                     aria-expanded={openStyle === 8}
                     onClick={() => toggleDropdown(8)}
-                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-violet-500/40 bg-[#170a2c] px-5 py-2.5 text-xs font-bold tracking-wider uppercase text-white shadow-md transition-all duration-300 hover:border-violet-400 hover:bg-[#1f0d3b] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] ${
-                      openStyle === 8 ? "border-violet-400 ring-2 ring-violet-500/40" : ""
-                    }`}
+                    className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border border-violet-500/40 bg-[#170a2c] px-5 py-2.5 text-xs font-bold tracking-wider uppercase text-white shadow-md transition-all duration-300 hover:border-violet-400 hover:bg-[#1f0d3b] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] ${openStyle === 8 ? "border-violet-400 ring-2 ring-violet-500/40" : ""
+                      }`}
                   >
                     <span className="flex items-center gap-2.5 truncate">
                       <MapPin className="h-3.5 w-3.5 text-violet-400" />
@@ -830,9 +805,8 @@ export default function SingleDropdownShowcase({
                         {activeCityObj.count}
                       </span>
                       <ChevronDown
-                        className={`h-3.5 w-3.5 text-violet-300 transition-transform duration-300 ${
-                          openStyle === 8 ? "rotate-180" : ""
-                        }`}
+                        className={`h-3.5 w-3.5 text-violet-300 transition-transform duration-300 ${openStyle === 8 ? "rotate-180" : ""
+                          }`}
                       />
                     </span>
                   </button>
@@ -849,11 +823,10 @@ export default function SingleDropdownShowcase({
                             key={c.id}
                             type="button"
                             onClick={() => handleSelect(c.id)}
-                            className={`flex flex-col items-start gap-1 rounded-xl p-2.5 text-left transition-all ${
-                              selectedCity === c.id
+                            className={`flex flex-col items-start gap-1 rounded-xl p-2.5 text-left transition-all ${selectedCity === c.id
                                 ? "border border-violet-400 bg-violet-600/30 text-white shadow-sm"
                                 : "border border-white/5 bg-white/[0.03] text-white/80 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
-                            }`}
+                              }`}
                           >
                             <span className="text-xs font-bold leading-tight truncate w-full">{c.name}</span>
                             <span className="flex items-center justify-between w-full text-[10px] text-violet-300/70">

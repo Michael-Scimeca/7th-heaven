@@ -13,6 +13,8 @@ import {
   useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
+import { findShowId } from "@/lib/show-lookup";
 import {
   Plus,
   X,
@@ -33,7 +35,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CarIcon from "./CarIcon";
 import LocationPinIcon from "./LocationPinIcon";
 import { SanityTourDate } from "@/lib/sanity";
-import Script from "next/script";
 import dynamic from "next/dynamic";
 const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
 import {
@@ -1563,7 +1564,7 @@ export default function TourList({
   return (
     <>
       {eventSchema && (
-        <Script
+        <script
           id="tour-event-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -1802,6 +1803,13 @@ export default function TourList({
                 (show.tags && show.tags.includes("private")) ||
                 (show.info && show.info.toLowerCase().includes("private")) ||
                 false;
+              const showSupabaseId =
+                show.id ||
+                findShowId({
+                  date: show.date,
+                  startDate: show.startDate,
+                  venue: show.venue,
+                });
               return (
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
                 <div
@@ -1819,9 +1827,19 @@ export default function TourList({
                     <span className="text-[clamp(14px,1.3vw,21px)] text-muted whitespace-nowrap">
                       {show.date}
                     </span>
-                    <span className="text-[clamp(14px,1.3vw,21px)] font-bold text-white whitespace-nowrap">
-                      {show.venue}
-                    </span>
+                    {showSupabaseId ? (
+                      <Link
+                        href={`/shows/${showSupabaseId}`}
+                        className="text-[clamp(14px,1.3vw,21px)] font-bold text-white whitespace-nowrap transition-colors hover:text-purple-400 hover:underline underline-offset-4"
+                        title={`View ${show.venue} concert details & RSVP`}
+                      >
+                        {show.venue}
+                      </Link>
+                    ) : (
+                      <span className="text-[clamp(14px,1.3vw,21px)] font-bold text-white whitespace-nowrap">
+                        {show.venue}
+                      </span>
+                    )}
                     <span className="text-[clamp(14px,1.3vw,21px)] text-secondary whitespace-nowrap text-left">
                       {show.city
                         ? `${show.city}${show.state ? `, ${show.state}` : ""}`
@@ -2025,6 +2043,15 @@ export default function TourList({
                       )}
                     </span>
                     <span className="flex items-center justify-end gap-2 text-right">
+                      {showSupabaseId && (
+                        <Link
+                          href={`/shows/${showSupabaseId}`}
+                          title={`Show details & RSVP for ${show.venue}`}
+                          className="transition-all a-btn inline-flex cursor-pointer items-center justify-center whitespace-nowrap hover:bg-purple-600/30 hover:border-purple-400 text-white"
+                        >
+                          Details
+                        </Link>
+                      )}
                       {!isPrivate && (
                         <a
                           href={
@@ -2069,18 +2096,40 @@ export default function TourList({
                   >
                     {/* 1. Venue & City (FIRST) */}
                     <div className="flex flex-col gap-1">
-                      <h4 className="text-white">{show.venue}</h4>
-
-                      {(show.city || show.state) && (
-                        <p className="flex items-center gap-1.5 text-secondary text-sm">
-                          <MapPin className="h-3.5 w-3.5 shrink-0 text-purple-400" />
-                          <span>
-                            {show.city
-                              ? `${show.city}${show.state ? `, ${show.state}` : ""}`
-                              : show.state}
-                          </span>
-                        </p>
+                      {showSupabaseId ? (
+                        <Link
+                          href={`/shows/${showSupabaseId}`}
+                          className="group inline-block"
+                          title={`View ${show.venue} concert details & RSVP`}
+                        >
+                          <h4 className="text-white transition-colors group-hover:text-purple-400 underline decoration-purple-500/40 underline-offset-4">
+                            {show.venue}
+                          </h4>
+                        </Link>
+                      ) : (
+                        <h4 className="text-white">{show.venue}</h4>
                       )}
+
+                      <div className="flex items-center justify-between gap-2">
+                        {(show.city || show.state) && (
+                          <p className="flex items-center gap-1.5 text-secondary text-sm">
+                            <MapPin className="h-3.5 w-3.5 shrink-0 text-purple-400" />
+                            <span>
+                              {show.city
+                                ? `${show.city}${show.state ? `, ${show.state}` : ""}`
+                                : show.state}
+                            </span>
+                          </p>
+                        )}
+                        {showSupabaseId && (
+                          <Link
+                            href={`/shows/${showSupabaseId}`}
+                            className="text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors"
+                          >
+                            Show Info →
+                          </Link>
+                        )}
+                      </div>
                     </div>
 
                     {/* 2. Date & Time Pill Strip (SECOND / BELOW VENUE) */}

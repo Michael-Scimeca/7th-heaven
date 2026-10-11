@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     content?.seo?.metaDescription ||
     content?.heroSubheading ||
-    "Explore 7th Heaven's historical concert archive containing over 1,200 past shows, festival appearances, and live performances across the US since 1985.";
+    "Explore 7th Heaven's historical concert archive containing over 4,000 past shows, festival appearances, and live performances across the US since 1985.";
   const canonicalUrl = "https://7thheavenband.com/shows/past";
 
   return {
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          url: "https://7thheavenband.com/opengraph-image",
           width: 1200,
           height: 630,
           alt: "7th Heaven Concert Archive",
@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       site: "@7thheavenband",
       title,
       description,
-      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+      images: ["https://7thheavenband.com/opengraph-image"],
     },
   };
 }

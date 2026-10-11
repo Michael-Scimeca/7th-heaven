@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { createClient } from "@supabase/supabase-js";
 import ShowPageClient from "./ShowPageClient";
 import { notFound } from "next/navigation";
+import showsSupabaseData from "@/data/shows-supabase.json";
 
 export const revalidate = 60;
 
@@ -12,7 +13,7 @@ const supabase = createClient(
 );
 
 export async function generateStaticParams() {
-  const { data: shows } = await supabase.from("shows").select("id").limit(100);
+  const { data: shows } = await supabase.from("shows").select("id").limit(500);
   return (shows || []).map((show) => ({ id: String(show.id) }));
 }
 
@@ -50,7 +51,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+          url: "https://7thheavenband.com/opengraph-image",
           width: 1200,
           height: 630,
           alt: `7th Heaven at ${show.venue_name}`,
@@ -62,7 +63,7 @@ export async function generateMetadata({
       site: "@7thheavenband",
       title,
       description,
-      images: ["https://7thheavenband.com/images/logos/7thheavenlogo.jpg"],
+      images: ["https://7thheavenband.com/opengraph-image"],
     },
   };
 }
@@ -74,34 +75,115 @@ async function ShowPageContent({
 }) {
   const { id } = await params;
 
-  // Fetch show details
-  const { data: show } = await supabase
-    .from("shows")
-    .select("*")
-    .eq("id", id)
-    .single();
+  // Fetch show details (with fallback)
+  let show: any = null;
+  try {
+    const { data } = await supabase
+      .from("shows")
+      .select("*")
+      .eq("id", id)
+      .single();
+    show = data;
+  } catch {}
+
+  if (!show && showsSupabaseData?.length) {
+    show = showsSupabaseData.find((s) => s.id === id) || null;
+  }
 
   if (!show) notFound();
 
   // Fetch attendees
-  const { data: attendees } = await supabase
-    .from("show_attendance")
-    .select(
-      `
-      id,
-      status,
-      anonymous,
-      checked_in_at,
-      profiles (
+  let attendees: any[] = [];
+  try {
+    const { data } = await supabase
+      .from("show_attendance")
+      .select(
+        `
         id,
-        full_name,
-        profile_photo_url,
-        tier
+        status,
+        anonymous,
+        checked_in_at,
+        profiles (
+          id,
+          full_name,
+          profile_photo_url,
+          tier
+        )
+      `,
       )
-    `,
-    )
-    .eq("show_id", id)
-    .order("created_at", { ascending: false });
+      .eq("show_id", id)
+      .order("created_at", { ascending: false });
+    if (data) attendees = data;
+  } catch {}
+
+  // ── Related Shows (same city or same state) ──
+  let relatedShows: any[] = [];
+  try {
+    if (show.city) {
+      const { data: cityShows } = await supabase
+        .from("shows")
+        .select("id, venue_name, city, state, date, time")
+        .neq("id", id)
+        .eq("city", show.city)
+        .order("date", { ascending: true })
+        .limit(4);
+      if (cityShows?.length) {
+        relatedShows = cityShows;
+      }
+    }
+  } catch {}
+
+  if (relatedShows.length < 4) {
+    try {
+      const existingIds = new Set([id, ...relatedShows.map((s) => s.id)]);
+      const { data: stateShows } = await supabase
+        .from("shows")
+        .select("id, venue_name, city, state, date, time")
+        .neq("id", id)
+        .eq("state", show.state || "IL")
+        .order("date", { ascending: true })
+        .limit(10);
+
+      if (stateShows?.length) {
+        for (const s of stateShows) {
+          if (!existingIds.has(s.id)) {
+            relatedShows.push(s);
+            existingIds.add(s.id);
+            if (relatedShows.length >= 4) break;
+          }
+        }
+      }
+    } catch {}
+  }
+
+  // Fallback to local shows data if needed
+  if (relatedShows.length < 4 && showsSupabaseData?.length) {
+    const existingIds = new Set([id, ...relatedShows.map((s) => s.id)]);
+    // First try matching city
+    if (show.city) {
+      for (const s of showsSupabaseData) {
+        if (s.id !== id && !existingIds.has(s.id) && s.city === show.city) {
+          relatedShows.push(s);
+          existingIds.add(s.id);
+          if (relatedShows.length >= 4) break;
+        }
+      }
+    }
+    // Then try matching state
+    if (relatedShows.length < 4) {
+      for (const s of showsSupabaseData) {
+        if (
+          s.id !== id &&
+          !existingIds.has(s.id) &&
+          (s.state === show.state || s.state === "IL")
+        ) {
+          relatedShows.push(s);
+          existingIds.add(s.id);
+          if (relatedShows.length >= 4) break;
+        }
+      }
+    }
+  }
 
   // MusicEvent JSON-LD schema for Google Event rich search results
   const showDateIso = show.date ? `${show.date}T19:00:00-06:00` : new Date().toISOString();
@@ -128,6 +210,7 @@ async function ShowPageContent({
       url: "https://7thheavenband.com",
     },
     url: `https://7thheavenband.com/shows/${id}`,
+    image: ["https://7thheavenband.com/opengraph-image"],
     description: `7th Heaven live performance at ${show.venue_name} in ${show.city}, ${show.state}.`,
   };
 
@@ -143,7 +226,11 @@ async function ShowPageContent({
             .replace(/&/g, "\\u0026"),
         }}
       />
-      <ShowPageClient show={show} initialAttendees={(attendees || []) as any} />
+      <ShowPageClient
+        show={show}
+        initialAttendees={(attendees || []) as any}
+        relatedShows={relatedShows}
+      />
     </>
   );
 }

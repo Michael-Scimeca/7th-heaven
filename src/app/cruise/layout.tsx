@@ -13,8 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
     content?.heroSubheading ||
     "Join 7th Heaven on an exclusive fan cruise in the Caribbean. Limited spots available — live performances, meet & greets, and an unforgettable at-sea experience.";
   const ogImageUrl = content?.seo?.ogImage
-    ? getMediaUrl(content.seo.ogImage, "/images/logos/7thheavenlogo.jpg")
-    : "/images/logos/7thheavenlogo.jpg";
+    ? getMediaUrl(content.seo.ogImage, "/opengraph-image")
+    : "/opengraph-image";
 
   return {
     title,

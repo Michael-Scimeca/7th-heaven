@@ -305,9 +305,8 @@ export const SegmentedTabs = <T extends string | number = string>({
             className={`relative z-10 flex h-full cursor-pointer items-center justify-center ${shapeClass} border-none whitespace-nowrap transition-colors duration-[250ms] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40 select-none pointer-events-auto touch-manipulation active:scale-[0.98] ${sizeButtonClasses} ${isActive ? v.active : v.idle}`}
           >
             <div
-              className={`flex w-full items-center ${
-                hasBadge ? "justify-between gap-3" : "justify-center gap-2"
-              }`}
+              className={`flex w-full items-center ${hasBadge ? "justify-between gap-3" : "justify-center gap-2"
+                }`}
             >
               {tab.icon && (
                 <span className="inline-flex shrink-0 items-center">
@@ -317,11 +316,10 @@ export const SegmentedTabs = <T extends string | number = string>({
               <span className="truncate">{tab.label}</span>
               {hasBadge && (
                 <span
-                  className={`inline-flex shrink-0 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-bold leading-none transition-colors duration-[250ms] ${
-                    isActive
+                  className={`inline-flex shrink-0 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-bold leading-none transition-colors duration-[250ms] ${isActive
                       ? "bg-white/20 text-white"
                       : "bg-white/10 text-white/55"
-                  }`}
+                    }`}
                 >
                   {tab.badge}
                 </span>

@@ -5,6 +5,7 @@ export const metadata = {
   title: "WebGL Noise Dissolve Page Transition Test | 7th Heaven",
   description:
     "Test harness for Codrops WebGL noise dissolve page transitions inspired by page-transitions-astro-barba-gsap.crnacura.workers.dev/about/",
+  robots: { index: false, follow: false },
 };
 
 export default function WebGLTransitionLayout({

@@ -1,6 +1,1067 @@
 {
   "years": [
     {
+      "year": "2026",
+      "shows": [
+        {
+          "raw": "October 10, 2026 - House of Mercy Charity Ball",
+          "date": "October 10, 2026",
+          "venue": "House of Mercy Charity Ball",
+          "id": "46a9ad41-0a8a-404e-8f1f-e38de529906a",
+          "city": "Janesville",
+          "state": "WI"
+        },
+        {
+          "raw": "October 3, 2026 - Hideaway Brew Garden",
+          "date": "October 3, 2026",
+          "venue": "Hideaway Brew Garden",
+          "id": "9983e5db-38e5-4285-9801-bcfb35f70bfb",
+          "city": "Hoffman Est.",
+          "state": "IL"
+        },
+        {
+          "raw": "October 2, 2026 - Durty Nellies",
+          "date": "October 2, 2026",
+          "venue": "Durty Nellies",
+          "id": "87a5303d-e1dc-4f74-81ab-cb73f7058413",
+          "city": "Palatine",
+          "state": "IL"
+        },
+        {
+          "raw": "September 27, 2026 - Private Party",
+          "date": "September 27, 2026",
+          "venue": "Private Party",
+          "id": "9f5f3f5f-2a08-4a7e-93d0-2cb4ff03b497",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "September 26, 2026 - Long Grove Apple Fest",
+          "date": "September 26, 2026",
+          "venue": "Long Grove Apple Fest",
+          "id": "e715ffd7-0765-4b3d-b1d0-986221030e03",
+          "city": "Long Grove",
+          "state": "IL"
+        },
+        {
+          "raw": "September 25, 2026 - Huntley Fall Fest",
+          "date": "September 25, 2026",
+          "venue": "Huntley Fall Fest",
+          "id": "3ac4b9b8-3662-459c-a3b8-49d45e7e2fae",
+          "city": "Huntley",
+          "state": "IL"
+        },
+        {
+          "raw": "September 23, 2026 - Private Event",
+          "date": "September 23, 2026",
+          "venue": "Private Event",
+          "id": "e1938ffb-fb78-4e69-9822-a784158aa1cf",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "September 20, 2026 - Des Plaines Fall Fest",
+          "date": "September 20, 2026",
+          "venue": "Des Plaines Fall Fest",
+          "id": "0e55bf50-a316-4c18-80c3-ef2d256795eb",
+          "city": "Des Plaines",
+          "state": "IL"
+        },
+        {
+          "raw": "September 20, 2026 - Norwood Park Fest",
+          "date": "September 20, 2026",
+          "venue": "Norwood Park Fest",
+          "id": "0882e597-6bd0-45fa-a610-30b1fc96015b",
+          "city": "Norwood Pk",
+          "state": "IL"
+        },
+        {
+          "raw": "September 19, 2026 - West Dundee Heritage Fest",
+          "date": "September 19, 2026",
+          "venue": "West Dundee Heritage Fest",
+          "id": "a75fb86e-ea21-4eaa-8142-a4a2bfc6f160",
+          "city": "West Dundee",
+          "state": "IL"
+        },
+        {
+          "raw": "September 18, 2026 - Goebert's Farm Fest",
+          "date": "September 18, 2026",
+          "venue": "Goebert's Farm Fest",
+          "id": "a7e07d13-9d61-4535-bf13-7d38b32c3aae",
+          "city": "Pingree Grov.",
+          "state": "IL"
+        },
+        {
+          "raw": "September 12, 2026 - Evviva Fest",
+          "date": "September 12, 2026",
+          "venue": "Evviva Fest",
+          "id": "bb86d01c-7a3f-4c90-be3a-d7b269085cc7",
+          "city": "Lisle",
+          "state": "IL"
+        },
+        {
+          "raw": "September 12, 2026 - Lake Zurich Rock the Block",
+          "date": "September 12, 2026",
+          "venue": "Lake Zurich Rock the Block",
+          "id": "46d13927-68cc-4439-8649-3112d2a64a4f",
+          "city": "Lake Zurich",
+          "state": "IL"
+        },
+        {
+          "raw": "September 11, 2026 - Pub 72 Octoberfest",
+          "date": "September 11, 2026",
+          "venue": "Pub 72 Octoberfest",
+          "id": "bb53bed7-1332-4f08-b49a-ecf9c26238f6",
+          "city": "Gilberts",
+          "state": "IL"
+        },
+        {
+          "raw": "September 9, 2026 - Winnetka CITP",
+          "date": "September 9, 2026",
+          "venue": "Winnetka CITP",
+          "id": "3a7f66fd-a431-4354-9443-35e963a3487a",
+          "city": "Winnetka",
+          "state": "IL"
+        },
+        {
+          "raw": "September 6, 2026 - Yorkville Fest",
+          "date": "September 6, 2026",
+          "venue": "Yorkville Fest",
+          "id": "eaf28036-ef7f-446c-8a40-d11eaafba6e0",
+          "city": "Yorkville",
+          "state": "IL"
+        },
+        {
+          "raw": "September 5, 2026 - Buffalo Grove Fest",
+          "date": "September 5, 2026",
+          "venue": "Buffalo Grove Fest",
+          "id": "895b95e2-4b8c-484b-8d83-955c2180a3a2",
+          "city": "Buffalo Grove",
+          "state": "IL"
+        },
+        {
+          "raw": "September 5, 2026 - Frankfort Fest",
+          "date": "September 5, 2026",
+          "venue": "Frankfort Fest",
+          "id": "885766c8-a095-4194-b9a4-a7b2d93b4504",
+          "city": "Frankfort",
+          "state": "IL"
+        },
+        {
+          "raw": "September 4, 2026 - Old Republic",
+          "date": "September 4, 2026",
+          "venue": "Old Republic",
+          "id": "11c231f6-a540-40a9-8eb9-1a2417bba194",
+          "city": "Elgin",
+          "state": "IL"
+        },
+        {
+          "raw": "September 2, 2026 - Private Event",
+          "date": "September 2, 2026",
+          "venue": "Private Event",
+          "id": "f5c4111d-0c6c-4153-a7cc-59d76ee9d83a",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "August 30, 2026 - Broken Oar",
+          "date": "August 30, 2026",
+          "venue": "Broken Oar",
+          "id": "630172dc-1e9c-4e16-a62a-7a34387e44c8",
+          "city": "P. Barrington",
+          "state": "IL"
+        },
+        {
+          "raw": "August 29, 2026 - Phoenix Park Bandshell",
+          "date": "August 29, 2026",
+          "venue": "Phoenix Park Bandshell",
+          "id": "eee4b272-c8ff-4604-94aa-2a74e48d2179",
+          "city": "Delavan",
+          "state": "WI"
+        },
+        {
+          "raw": "August 28, 2026 - DeKalb Corn Fest",
+          "date": "August 28, 2026",
+          "venue": "DeKalb Corn Fest",
+          "id": "f7a752f8-fdbd-4067-a932-7846f06f81c1",
+          "city": "DeKalb",
+          "state": "IL"
+        },
+        {
+          "raw": "August 27, 2026 - Block 59 Naperville Fest",
+          "date": "August 27, 2026",
+          "venue": "Block 59 Naperville Fest",
+          "id": "1acc0011-4187-47b9-8085-4bac5da29639",
+          "city": "Naperville",
+          "state": "IL"
+        },
+        {
+          "raw": "August 23, 2026 - Bandito Barney's",
+          "date": "August 23, 2026",
+          "venue": "Bandito Barney's",
+          "id": "8f16030f-9542-46e9-8fd6-3116c3b0de16",
+          "city": "East Dundee",
+          "state": "IL"
+        },
+        {
+          "raw": "August 22, 2026 - Private Event",
+          "date": "August 22, 2026",
+          "venue": "Private Event",
+          "id": "48ac3fa2-d553-4075-adf4-9bc393fd4665",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "August 21, 2026 - Hollywood Casino Aurora",
+          "date": "August 21, 2026",
+          "venue": "Hollywood Casino Aurora",
+          "id": "51da30ca-cbbf-4b5a-b4e7-20b394949e0b",
+          "city": "Aurora",
+          "state": "IL"
+        },
+        {
+          "raw": "August 20, 2026 - Potter's Place",
+          "date": "August 20, 2026",
+          "venue": "Potter's Place",
+          "id": "c50b867b-95b9-42b8-ae43-03f6ace21720",
+          "city": "Naperville",
+          "state": "IL"
+        },
+        {
+          "raw": "August 19, 2026 - Hinsdale CITP",
+          "date": "August 19, 2026",
+          "venue": "Hinsdale CITP",
+          "id": "4449b146-71ee-40d9-85d8-85ed05f45531",
+          "city": "Hinsdale",
+          "state": "IL"
+        },
+        {
+          "raw": "August 16, 2026 - Crosstown Classic",
+          "date": "August 16, 2026",
+          "venue": "Crosstown Classic",
+          "id": "436301e6-a433-476b-9c94-718c53996f25",
+          "city": "Chicago",
+          "state": "IL"
+        },
+        {
+          "raw": "August 15, 2026 - Private Event",
+          "date": "August 15, 2026",
+          "venue": "Private Event",
+          "id": "d8e198b3-d5f1-4eed-a865-3a311879bdea",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "August 15, 2026 - Grayslake Summer Fest",
+          "date": "August 15, 2026",
+          "venue": "Grayslake Summer Fest",
+          "id": "8cccc5be-fb22-43af-a0bc-a71c771a1b29",
+          "city": "Garyslake",
+          "state": "IL"
+        },
+        {
+          "raw": "August 14, 2026 - Oak Brook Center Mall",
+          "date": "August 14, 2026",
+          "venue": "Oak Brook Center Mall",
+          "id": "5399596e-11f1-4e57-b0c2-027497a047ba",
+          "city": "Oak Brook",
+          "state": "IL"
+        },
+        {
+          "raw": "August 13, 2026 - PB & J Fest",
+          "date": "August 13, 2026",
+          "venue": "PB & J Fest",
+          "id": "7a706f8c-07e9-4058-ac19-9bf8d6c75f6b",
+          "city": "Kenosha",
+          "state": "WI"
+        },
+        {
+          "raw": "August 9, 2026 - Hideaway Brew Garden",
+          "date": "August 9, 2026",
+          "venue": "Hideaway Brew Garden",
+          "id": "42eae259-2982-42f4-a9c5-f6a1af333381",
+          "city": "Hoffman Est.",
+          "state": "IL"
+        },
+        {
+          "raw": "August 8, 2026 - Country Club Hills Fest",
+          "date": "August 8, 2026",
+          "venue": "Country Club Hills Fest",
+          "id": "4aa972c1-88bd-414b-8ff4-6697fa4d9aaf",
+          "city": "Country C H",
+          "state": "IL"
+        },
+        {
+          "raw": "August 8, 2026 - Vet Fest Oswego",
+          "date": "August 8, 2026",
+          "venue": "Vet Fest Oswego",
+          "id": "8f615c22-49aa-4039-8569-2dc3dc7b1512",
+          "city": "Oswego",
+          "state": "IL"
+        },
+        {
+          "raw": "August 7, 2026 - Linden Fest",
+          "date": "August 7, 2026",
+          "venue": "Linden Fest",
+          "id": "34ab1b6b-8d68-4cb2-8805-c9da009a644a",
+          "city": "Lindenhurst",
+          "state": "IL"
+        },
+        {
+          "raw": "August 6, 2026 - St. Charles CITP",
+          "date": "August 6, 2026",
+          "venue": "St. Charles CITP",
+          "id": "408533c9-4b3c-4492-909e-5a7bef48fd1c",
+          "city": "St Charles",
+          "state": "IL"
+        },
+        {
+          "raw": "August 4, 2026 - Addison National Night Out",
+          "date": "August 4, 2026",
+          "venue": "Addison National Night Out",
+          "id": "95c8a4e5-9511-487c-95ed-b52d45de1024",
+          "city": "Addison",
+          "state": "IL"
+        },
+        {
+          "raw": "August 2, 2026 - Lake County Fair",
+          "date": "August 2, 2026",
+          "venue": "Lake County Fair",
+          "id": "55c5f128-8805-41d7-8d6a-f535e20e1352",
+          "city": "Grayslake",
+          "state": "IL"
+        },
+        {
+          "raw": "August 1, 2026 - Taste of Orland Park",
+          "date": "August 1, 2026",
+          "venue": "Taste of Orland Park",
+          "id": "3ca3baa2-544d-4a31-977f-fe4937396b50",
+          "city": "Orland Park",
+          "state": "IL"
+        },
+        {
+          "raw": "July 31, 2026 - Private Event",
+          "date": "July 31, 2026",
+          "venue": "Private Event",
+          "id": "7090aacc-12d2-4de6-b12b-5484be0b73af",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "July 30, 2026 - Mt. Prospect CITP",
+          "date": "July 30, 2026",
+          "venue": "Mt. Prospect CITP",
+          "id": "5d989923-2fc4-41a2-84e9-4266cbefafa0",
+          "city": "Mt. Prospect",
+          "state": "IL"
+        },
+        {
+          "raw": "July 26, 2026 - Algonquin Fest",
+          "date": "July 26, 2026",
+          "venue": "Algonquin Fest",
+          "id": "1a0bc34b-e2af-4e73-b746-29b530d1cfbc",
+          "city": "Algonquin",
+          "state": "IL"
+        },
+        {
+          "raw": "July 25, 2026 - Streamwood Fest",
+          "date": "July 25, 2026",
+          "venue": "Streamwood Fest",
+          "id": "7624a9e7-c624-4bd8-8bcc-a0bc49a0ef87",
+          "city": "Streamwood",
+          "state": "IL"
+        },
+        {
+          "raw": "July 24, 2026 - Lincolnwood Fest",
+          "date": "July 24, 2026",
+          "venue": "Lincolnwood Fest",
+          "id": "3badd887-4477-40d5-afd7-fcda8aeb7bba",
+          "city": "Lincolnwood",
+          "state": "IL"
+        },
+        {
+          "raw": "July 23, 2026 - Zion CITP",
+          "date": "July 23, 2026",
+          "venue": "Zion CITP",
+          "id": "f039ed9f-1bf4-4b22-be1b-bdecccb999d8",
+          "city": "Zion",
+          "state": "IL"
+        },
+        {
+          "raw": "July 22, 2026 - Private Event",
+          "date": "July 22, 2026",
+          "venue": "Private Event",
+          "id": "10b42637-c5d1-41a7-8158-f73f65f157e3",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "July 19, 2026 - Sundance Saloon",
+          "date": "July 19, 2026",
+          "venue": "Sundance Saloon",
+          "id": "d4ea009e-a0fa-49f7-ad8f-1dbe0e8332d3",
+          "city": "Mundelein",
+          "state": "IL"
+        },
+        {
+          "raw": "July 18, 2026 - America's Gym Grand Opening",
+          "date": "July 18, 2026",
+          "venue": "America's Gym Grand Opening",
+          "id": "9330ad08-5dcf-46e9-9486-c1d808469587",
+          "city": "Wheeling",
+          "state": "IL"
+        },
+        {
+          "raw": "July 18, 2026 - Huntley Food Truck Fest",
+          "date": "July 18, 2026",
+          "venue": "Huntley Food Truck Fest",
+          "id": "571a02ca-4ba9-4aac-98b4-bb088083fd69",
+          "city": "Huntley",
+          "state": "IL"
+        },
+        {
+          "raw": "July 18, 2026 - Old Republic",
+          "date": "July 18, 2026",
+          "venue": "Old Republic",
+          "id": "bb1fa1ae-bc18-4a1f-aa35-01ef829dd7c1",
+          "city": "Elgin",
+          "state": "IL"
+        },
+        {
+          "raw": "July 17, 2026 - Oak Brook Terrace",
+          "date": "July 17, 2026",
+          "venue": "Oak Brook Terrace",
+          "id": "bef6c08c-ef5a-4318-8844-9f5affc35b18",
+          "city": "Oak Brook",
+          "state": "IL"
+        },
+        {
+          "raw": "July 16, 2026 - Carol Stream CITP",
+          "date": "July 16, 2026",
+          "venue": "Carol Stream CITP",
+          "id": "6087517c-92bd-43ae-8827-4bafca5405f4",
+          "city": "Carol Stream",
+          "state": "IL"
+        },
+        {
+          "raw": "July 15, 2026 - Arboretum of South Barrington",
+          "date": "July 15, 2026",
+          "venue": "Arboretum of South Barrington",
+          "id": "8ea0ee0d-305e-4d45-8f56-3e00fbdd0e62",
+          "city": "S. Barrington",
+          "state": "IL"
+        },
+        {
+          "raw": "July 12, 2026 - Bandito Barney's",
+          "date": "July 12, 2026",
+          "venue": "Bandito Barney's",
+          "id": "6f8d96ec-5ec0-4833-a35b-a7c149bc01a1",
+          "city": "East Dundee",
+          "state": "IL"
+        },
+        {
+          "raw": "July 11, 2026 - Batavia Windmill Fest",
+          "date": "July 11, 2026",
+          "venue": "Batavia Windmill Fest",
+          "id": "b4983106-7029-4a63-be52-c560f9322027",
+          "city": "Batavia",
+          "state": "IL"
+        },
+        {
+          "raw": "July 10, 2026 - Norridge Island in the City Fest",
+          "date": "July 10, 2026",
+          "venue": "Norridge Island in the City Fest",
+          "id": "2051f0e8-eb94-408e-97a5-fcef6bfb6abf",
+          "city": "Norridge",
+          "state": "IL"
+        },
+        {
+          "raw": "July 9, 2026 - Taste of Park Ridge",
+          "date": "July 9, 2026",
+          "venue": "Taste of Park Ridge",
+          "id": "3975ecc3-dc6b-4094-b749-27b086b455fa",
+          "city": "Park Ridge",
+          "state": "IL"
+        },
+        {
+          "raw": "July 5, 2026 - Mt. Prospect Lions Fest",
+          "date": "July 5, 2026",
+          "venue": "Mt. Prospect Lions Fest",
+          "id": "fc9c31be-7034-4aff-b5b1-115bf7ecedf8",
+          "city": "Mt. Prospect",
+          "state": "IL"
+        },
+        {
+          "raw": "July 3, 2026 - Hoffman Estates Fest Fireworks",
+          "date": "July 3, 2026",
+          "venue": "Hoffman Estates Fest Fireworks",
+          "id": "594bab57-0325-4e41-8212-dd961db3e7c2",
+          "city": "Hoffman Est.",
+          "state": "IL"
+        },
+        {
+          "raw": "July 2, 2026 - Bartlett Fest",
+          "date": "July 2, 2026",
+          "venue": "Bartlett Fest",
+          "id": "407d320f-6aa4-476a-be10-b2fd90266652",
+          "city": "Bartlett",
+          "state": "IL"
+        },
+        {
+          "raw": "July 1, 2026 - Arlington Hts Frontier Days",
+          "date": "July 1, 2026",
+          "venue": "Arlington Hts Frontier Days",
+          "id": "804bf3ba-df7a-4e72-ad2b-17b466232f73",
+          "city": "Arlington Hts",
+          "state": "IL"
+        },
+        {
+          "raw": "June 28, 2026 - York Township Fest",
+          "date": "June 28, 2026",
+          "venue": "York Township Fest",
+          "id": "84538d97-a4ef-4146-b00b-2f4dfaf487fe",
+          "city": "Lombard",
+          "state": "IL"
+        },
+        {
+          "raw": "June 27, 2026 - City Square Opening Celebration",
+          "date": "June 27, 2026",
+          "venue": "City Square Opening Celebration",
+          "id": "1151a7d5-555b-4360-9246-c3ec35269d78",
+          "city": "Joliet",
+          "state": "IL"
+        },
+        {
+          "raw": "June 27, 2026 - Wheeling Rock The Runway",
+          "date": "June 27, 2026",
+          "venue": "Wheeling Rock The Runway",
+          "id": "b5b45492-357c-48b7-bcd4-1188483632f7",
+          "city": "Wheeling",
+          "state": "IL"
+        },
+        {
+          "raw": "June 27, 2026 - Rotary GroveFest",
+          "date": "June 27, 2026",
+          "venue": "Rotary GroveFest",
+          "id": "54d5eac6-b20e-4bc9-8db5-c2c85349a814",
+          "city": "Downers Gro.",
+          "state": "IL"
+        },
+        {
+          "raw": "June 26, 2026 - Milwaukee Summerfest",
+          "date": "June 26, 2026",
+          "venue": "Milwaukee Summerfest",
+          "id": "68a29649-55f3-40ce-bb83-a121210e6b44",
+          "city": "Milwaukee",
+          "state": "WI"
+        },
+        {
+          "raw": "June 25, 2026 - Wauconda Fest",
+          "date": "June 25, 2026",
+          "venue": "Wauconda Fest",
+          "id": "69d507fe-fbbe-462a-9a65-fa53d1da1597",
+          "city": "Wauconda",
+          "state": "IL"
+        },
+        {
+          "raw": "June 24, 2026 - CANCELLED - NOW SEPT 9",
+          "date": "June 24, 2026",
+          "venue": "CANCELLED - NOW SEPT 9",
+          "id": "ed67dff4-1873-46c8-93b6-2a8e99d7b2f2",
+          "city": "Winnetka",
+          "state": "IL"
+        },
+        {
+          "raw": "June 24, 2026 - Winnetka CITP",
+          "date": "June 24, 2026",
+          "venue": "Winnetka CITP",
+          "id": "075144a7-588c-4d9a-a8b5-b44bca910b90",
+          "city": "Winnetka",
+          "state": "IL"
+        },
+        {
+          "raw": "June 21, 2026 - Broken Oar",
+          "date": "June 21, 2026",
+          "venue": "Broken Oar",
+          "id": "98e8dc48-dd3d-417c-bad9-6f363699c56f",
+          "city": "P. Barrington",
+          "state": "IL"
+        },
+        {
+          "raw": "June 20, 2026 - Prospect Hts Block Party Fest",
+          "date": "June 20, 2026",
+          "venue": "Prospect Hts Block Party Fest",
+          "id": "ec61b323-ae7d-435e-b5ab-f84cce63b8fb",
+          "city": "Prospect Hts",
+          "state": "IL"
+        },
+        {
+          "raw": "June 19, 2026 - Elmhurst Greek Fest",
+          "date": "June 19, 2026",
+          "venue": "Elmhurst Greek Fest",
+          "id": "61e9887b-d653-445b-b57f-b9394fb683eb",
+          "city": "Elmhurst",
+          "state": "IL"
+        },
+        {
+          "raw": "June 18, 2026 - Potter's Place",
+          "date": "June 18, 2026",
+          "venue": "Potter's Place",
+          "id": "54f357d0-215f-463f-9263-925a21cf0e9f",
+          "city": "Naperville",
+          "state": "IL"
+        },
+        {
+          "raw": "June 17, 2026 - Private Event",
+          "date": "June 17, 2026",
+          "venue": "Private Event",
+          "id": "49336628-427c-40ae-9327-b1443887888e",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "June 13, 2026 - Hideaway Brew Garden",
+          "date": "June 13, 2026",
+          "venue": "Hideaway Brew Garden",
+          "id": "da62abb5-1175-4dd0-b54e-46f2f43abde2",
+          "city": "Hoffman Est.",
+          "state": "IL"
+        },
+        {
+          "raw": "June 12, 2026 - Racine Harbor Fest",
+          "date": "June 12, 2026",
+          "venue": "Racine Harbor Fest",
+          "id": "a026ca58-0856-4b71-8ecf-ccbae27b0ee9",
+          "city": "Racine",
+          "state": "WI"
+        },
+        {
+          "raw": "June 11, 2026 - CANCELLED - NOW AUG 19",
+          "date": "June 11, 2026",
+          "venue": "CANCELLED - NOW AUG 19",
+          "id": "ad38f963-82e7-4ab4-9eb9-d0125ba7b1cb",
+          "city": "Hinsdale",
+          "state": "IL"
+        },
+        {
+          "raw": "June 7, 2026 - Private Corporate Event",
+          "date": "June 7, 2026",
+          "venue": "Private Corporate Event",
+          "id": "b087b1e1-2adc-4e8f-bd30-49c8111bc527",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "June 6, 2026 - Hard Rock Casino",
+          "date": "June 6, 2026",
+          "venue": "Hard Rock Casino",
+          "id": "aa6d11b4-064c-479a-b83f-24c7b9e92c59",
+          "city": "Gary",
+          "state": "IN"
+        },
+        {
+          "raw": "June 5, 2026 - Schiller Park Greek Fest",
+          "date": "June 5, 2026",
+          "venue": "Schiller Park Greek Fest",
+          "id": "73888596-fcf3-478f-870d-fefbe2043032",
+          "city": "Schiller Park",
+          "state": "IL"
+        },
+        {
+          "raw": "June 4, 2026 - CD & ME",
+          "date": "June 4, 2026",
+          "venue": "CD & ME",
+          "id": "1c33d57e-d34c-4d60-9285-9c3aebac3235",
+          "city": "Frankfort",
+          "state": "IL"
+        },
+        {
+          "raw": "May 30, 2026 - Old Republic",
+          "date": "May 30, 2026",
+          "venue": "Old Republic",
+          "id": "fcbe1411-422f-470b-a377-dc9af2485f91",
+          "city": "Elgin",
+          "state": "IL"
+        },
+        {
+          "raw": "May 29, 2026 - Will County Beer & Bourbon Fest",
+          "date": "May 29, 2026",
+          "venue": "Will County Beer & Bourbon Fest",
+          "id": "a70bb5df-d89b-4158-b44a-c4d35cabda8b",
+          "city": "Joliet",
+          "state": "IL"
+        },
+        {
+          "raw": "May 24, 2026 - Bandito Barney's",
+          "date": "May 24, 2026",
+          "venue": "Bandito Barney's",
+          "id": "e7d1d9db-90ea-4a36-ada7-00a7f6be10ca",
+          "city": "East Dundee",
+          "state": "IL"
+        },
+        {
+          "raw": "May 23, 2026 - Hard Rock Casino",
+          "date": "May 23, 2026",
+          "venue": "Hard Rock Casino",
+          "id": "8c6fe0a0-9e59-4c55-abe9-65121022dd8a",
+          "city": "Rockford",
+          "state": "IL"
+        },
+        {
+          "raw": "May 22, 2026 - Sundance Saloon",
+          "date": "May 22, 2026",
+          "venue": "Sundance Saloon",
+          "id": "d9ab3129-7990-4430-9d86-2da4704a23f5",
+          "city": "Mundelein",
+          "state": "IL"
+        },
+        {
+          "raw": "May 16, 2026 - Tailgaters",
+          "date": "May 16, 2026",
+          "venue": "Tailgaters",
+          "id": "73b039ae-cb3e-44b2-85bb-213c0fb0c5c9",
+          "city": "Bolingbrook",
+          "state": "IL"
+        },
+        {
+          "raw": "May 15, 2026 - Durty Nellies",
+          "date": "May 15, 2026",
+          "venue": "Durty Nellies",
+          "id": "e3d37136-6ba3-470b-ac4a-65dfe0dea9c4",
+          "city": "Palatine",
+          "state": "IL"
+        },
+        {
+          "raw": "May 9, 2026 - Sideouts",
+          "date": "May 9, 2026",
+          "venue": "Sideouts",
+          "id": "83686aa5-1a8e-442d-b6e6-28a245e6eec6",
+          "city": "Island Lake",
+          "state": "IL"
+        },
+        {
+          "raw": "May 8, 2026 - Bannerman's",
+          "date": "May 8, 2026",
+          "venue": "Bannerman's",
+          "id": "c5013c68-14e8-43bb-94f1-526dbfce1148",
+          "city": "Bartlett",
+          "state": "IL"
+        },
+        {
+          "raw": "May 2, 2026 - Deer Park Fest",
+          "date": "May 2, 2026",
+          "venue": "Deer Park Fest",
+          "id": "b5e78e89-996a-4071-b4bb-79d8fb6f7d46",
+          "city": "Deer Park",
+          "state": "IL"
+        },
+        {
+          "raw": "May 2, 2026 - Town Center ParkGrand Opening",
+          "date": "May 2, 2026",
+          "venue": "Town Center ParkGrand Opening",
+          "id": "4048be89-d9f5-47cb-ae87-2d1f1b9fb206",
+          "city": "Deer Park",
+          "state": "IL"
+        },
+        {
+          "raw": "May 1, 2026 - Station 34",
+          "date": "May 1, 2026",
+          "venue": "Station 34",
+          "id": "1f9c9360-9994-4e99-84d3-3d412f78363b",
+          "city": "Mt. Prospect",
+          "state": "IL"
+        },
+        {
+          "raw": "April 25, 2026 - Rochaus",
+          "date": "April 25, 2026",
+          "venue": "Rochaus",
+          "id": "b85f4ecb-9538-4244-bd60-f2e1ab9a4b47",
+          "city": "West Dundee",
+          "state": "IL"
+        },
+        {
+          "raw": "April 24, 2026 - Evenflow",
+          "date": "April 24, 2026",
+          "venue": "Evenflow",
+          "id": "526bb3fb-e834-42fb-8523-b741e907c903",
+          "city": "Geneva",
+          "state": "IL"
+        },
+        {
+          "raw": "April 18, 2026 - Stage 119",
+          "date": "April 18, 2026",
+          "venue": "Stage 119",
+          "id": "7b4987c3-b7f5-44a7-8b0f-3372500b552e",
+          "city": "Elmurst",
+          "state": "IL"
+        },
+        {
+          "raw": "April 17, 2026 - Joe's Live",
+          "date": "April 17, 2026",
+          "venue": "Joe's Live",
+          "id": "d41932e0-2830-4202-af47-7654ef18c0a7",
+          "city": "Rosemont",
+          "state": "IL"
+        },
+        {
+          "raw": "April 17, 2026 - Joe's Live - Parkinson's Show",
+          "date": "April 17, 2026",
+          "venue": "Joe's Live - Parkinson's Show",
+          "id": "31f1c853-6787-4ac9-a023-8d034b94009f",
+          "city": "Rosemont",
+          "state": "IL"
+        },
+        {
+          "raw": "April 11, 2026 - Midway Sports",
+          "date": "April 11, 2026",
+          "venue": "Midway Sports",
+          "id": "f3b25a35-5376-473d-8418-78d48a230af4",
+          "city": "Bartlett",
+          "state": "IL"
+        },
+        {
+          "raw": "April 10, 2026 - Corrigan's Pub",
+          "date": "April 10, 2026",
+          "venue": "Corrigan's Pub",
+          "id": "c0810761-1c78-41d1-9d3f-59dbb26c6385",
+          "city": "Shorewood",
+          "state": "IL"
+        },
+        {
+          "raw": "April 4, 2026 - Sundance Saloon",
+          "date": "April 4, 2026",
+          "venue": "Sundance Saloon",
+          "id": "be5e6fe1-ca7b-47b9-a986-1ebe699a8422",
+          "city": "Mundelein",
+          "state": "IL"
+        },
+        {
+          "raw": "April 3, 2026 - Rookie's Rockhouse",
+          "date": "April 3, 2026",
+          "venue": "Rookie's Rockhouse",
+          "id": "9f241e2d-435f-42f4-8b29-c625d4d34b65",
+          "city": "Hoffman Est.",
+          "state": "IL"
+        },
+        {
+          "raw": "March 28, 2026 - Old Republic",
+          "date": "March 28, 2026",
+          "venue": "Old Republic",
+          "id": "55c1b9c8-3110-4d23-95a7-d250b7f64b36",
+          "city": "Elgin",
+          "state": "IL"
+        },
+        {
+          "raw": "March 27, 2026 - Tailgaters",
+          "date": "March 27, 2026",
+          "venue": "Tailgaters",
+          "id": "1c633465-fed0-4874-99e7-c1798608f08e",
+          "city": "Bolingbrook",
+          "state": "IL"
+        },
+        {
+          "raw": "March 22, 2026 - Sundance Saloon",
+          "date": "March 22, 2026",
+          "venue": "Sundance Saloon",
+          "id": "ecf03704-cbe0-44dc-aa70-c82f29f1556c",
+          "city": "Mundelein",
+          "state": "IL"
+        },
+        {
+          "raw": "March 11, 2026 - Home Show",
+          "date": "March 11, 2026",
+          "venue": "Home Show",
+          "id": "de2d1037-374f-437e-ae40-21ed2fa6c7dc",
+          "city": "Chicago",
+          "state": "IL"
+        },
+        {
+          "raw": "March 11, 2026 - Home Show McCormick Place",
+          "date": "March 11, 2026",
+          "venue": "Home Show McCormick Place",
+          "id": "3f57b002-68e6-473c-b6c3-b21d88f17eb4",
+          "city": "Chicago",
+          "state": "IL"
+        },
+        {
+          "raw": "March 7, 2026 - Broken Oar",
+          "date": "March 7, 2026",
+          "venue": "Broken Oar",
+          "id": "4826a024-6844-4a2b-9779-c3bbe684b02b",
+          "city": "P. Barrington",
+          "state": "IL"
+        },
+        {
+          "raw": "March 6, 2026 - Bannerman's",
+          "date": "March 6, 2026",
+          "venue": "Bannerman's",
+          "id": "5aaa9072-96a6-49b2-985a-8e3501656d79",
+          "city": "Bartlett",
+          "state": "IL"
+        },
+        {
+          "raw": "March 1, 2026 - Private Event",
+          "date": "March 1, 2026",
+          "venue": "Private Event",
+          "id": "7ead51bc-95f5-4f55-a7ed-662971a61261",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "February 28, 2026 - Sundance Saloon",
+          "date": "February 28, 2026",
+          "venue": "Sundance Saloon",
+          "id": "bd79fbed-3fa7-4e6c-8839-6d10e1eba6f4",
+          "city": "Mundelein",
+          "state": "IL"
+        },
+        {
+          "raw": "February 27, 2026 - Evenflow",
+          "date": "February 27, 2026",
+          "venue": "Evenflow",
+          "id": "870e64a5-181f-468c-9183-5f545e930a45",
+          "city": "Geneva",
+          "state": "IL"
+        },
+        {
+          "raw": "February 21, 2026 - Barb's Rescue Gala",
+          "date": "February 21, 2026",
+          "venue": "Barb's Rescue Gala",
+          "id": "28d558db-67cf-4287-95bb-5a47a963a36c",
+          "city": "Schaumburg",
+          "state": "IL"
+        },
+        {
+          "raw": "February 20, 2026 - Jamos Live",
+          "date": "February 20, 2026",
+          "venue": "Jamos Live",
+          "id": "e07ad3f8-a05d-47c6-acdd-e2cd95bc1f0d",
+          "city": "Mokena",
+          "state": "IL"
+        },
+        {
+          "raw": "February 20, 2026 - Jamo's Live",
+          "date": "February 20, 2026",
+          "venue": "Jamo's Live",
+          "id": "cf355cd8-808c-446a-a37c-34f3da5abd00",
+          "city": "Mokena",
+          "state": "IL"
+        },
+        {
+          "raw": "February 14, 2026 - Stage 119",
+          "date": "February 14, 2026",
+          "venue": "Stage 119",
+          "id": "6f29ebb9-213d-4ac9-ba02-e71521b84fbf",
+          "city": "Elmurst",
+          "state": "IL"
+        },
+        {
+          "raw": "February 13, 2026 - Durty Nellies",
+          "date": "February 13, 2026",
+          "venue": "Durty Nellies",
+          "id": "7c1be05a-40c5-4a46-9049-ee5c22bc78da",
+          "city": "Palatine",
+          "state": "IL"
+        },
+        {
+          "raw": "February 11, 2026 - Private Event",
+          "date": "February 11, 2026",
+          "venue": "Private Event",
+          "id": "b30ac8a7-78c6-47f6-aac1-6417f3c1962a",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "February 7, 2026 - Hard Rock Casino",
+          "date": "February 7, 2026",
+          "venue": "Hard Rock Casino",
+          "id": "b09e4e53-fa68-455a-b005-32ad692dee3b",
+          "city": "Gary",
+          "state": "IN"
+        },
+        {
+          "raw": "February 6, 2026 - Chicago Auto Show First Look",
+          "date": "February 6, 2026",
+          "venue": "Chicago Auto Show First Look",
+          "id": "ef620206-260a-4cc2-89ec-46432af110dd",
+          "city": "Chicago",
+          "state": "IL"
+        },
+        {
+          "raw": "January 31, 2026 - Des Plaines Theater",
+          "date": "January 31, 2026",
+          "venue": "Des Plaines Theater",
+          "id": "2307db65-e672-4158-8943-ed336f7e57d4",
+          "city": "Des Plaines",
+          "state": "IL"
+        },
+        {
+          "raw": "January 30, 2026 - Youth Services Fundraiser",
+          "date": "January 30, 2026",
+          "venue": "Youth Services Fundraiser",
+          "id": "6bd04e29-4357-4f44-9400-3d840829e266",
+          "city": "Wilmette",
+          "state": "IL"
+        },
+        {
+          "raw": "January 28, 2026 - WGN TV News Segment",
+          "date": "January 28, 2026",
+          "venue": "WGN TV News Segment",
+          "id": "41acd954-1050-47d2-9d5b-40b2ffbf2bef",
+          "city": "Chicago",
+          "state": "IL"
+        },
+        {
+          "raw": "January 17, 2026 - Chicago Music Cruise",
+          "date": "January 17, 2026",
+          "venue": "Chicago Music Cruise",
+          "id": "63752e81-2f56-4266-b2b4-b96c57177849",
+          "city": "Miami",
+          "state": "FL"
+        },
+        {
+          "raw": "January 11, 2026 - Sundance Saloon",
+          "date": "January 11, 2026",
+          "venue": "Sundance Saloon",
+          "id": "224d5c32-8619-494b-bd48-65e0682c4318",
+          "city": "Mundelein",
+          "state": "IL"
+        },
+        {
+          "raw": "January 10, 2026 - Private Event",
+          "date": "January 10, 2026",
+          "venue": "Private Event",
+          "id": "e4059981-997f-47fe-b11b-494a4d6ae4da",
+          "city": "",
+          "state": "IL"
+        },
+        {
+          "raw": "January 9, 2026 - Rookies",
+          "date": "January 9, 2026",
+          "venue": "Rookies",
+          "id": "ca04d94d-b68e-40a5-93dd-6efcb4e56b04",
+          "city": "Hoffman Est.",
+          "state": "IL"
+        },
+        {
+          "raw": "January 3, 2026 - Old Republic",
+          "date": "January 3, 2026",
+          "venue": "Old Republic",
+          "id": "820ec0f5-67f8-4aba-8bdb-2e8ce7f4d58c",
+          "city": "Elgin",
+          "state": "IL"
+        },
+        {
+          "raw": "January 2, 2026 - Station 34",
+          "date": "January 2, 2026",
+          "venue": "Station 34",
+          "id": "34f3a136-3220-4355-b396-74a46d244640",
+          "city": "Mt. Prospect",
+          "state": "IL"
+        }
+      ]
+    },
+    {
       "year": "2025",
       "shows": [
         {
@@ -20186,5 +21247,5 @@
       ]
     }
   ],
-  "totalShows": 3996
+  "totalShows": 4128
 }

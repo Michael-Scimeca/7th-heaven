@@ -18,6 +18,10 @@ import {
   Radio,
   Users,
   ScrollText,
+  Bell,
+  Headphones,
+  MessageSquare,
+  Video,
 } from "lucide-react";
 import PushSubscribeModal from "@/components/PushSubscribeModal";
 import { SectionBadge } from "@/components/SectionBadge";
@@ -669,6 +673,104 @@ export default function LiveHubClient({
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* ── ABOUT THE LIVE STREAM HUB ── */}
+      <section
+        id="live-about"
+        aria-labelledby="live-about-heading"
+        className="section"
+      >
+        <SectionHeader
+          id="live-about-heading"
+          title="About the 7th Heaven Live Stream Hub"
+          subtitle="Your front-row digital pass to live concerts, soundchecks, and backstage streams."
+        />
+        <div className="mx-auto max-w-4xl space-y-4 text-white/80 leading-relaxed">
+          <p>
+            Welcome to the 7th Heaven Live Stream Hub — your all-access digital gateway to real-time concert broadcasts,
+            backstage soundchecks, multi-angle camera feeds, and pre-show rehearsal sessions. Built specifically for fans
+            who cannot attend a tour stop in person or want to relive the electric concert atmosphere from an up-close
+            perspective, our interactive broadcast network brings the energy of the main stage directly to your device.
+          </p>
+          <p>
+            Each stream is powered by high-efficiency, low-latency LiveKit infrastructure, delivering ultra-clear video
+            alongside dedicated direct-line soundboard audio mixes. Switch effortlessly between individual band member
+            camera angles — from blistering guitar solos and dual-keyboard leads to powerhouse drum warm-ups and lead
+            vocal soundchecks — to experience the musicianship and camaraderie that define every 7th Heaven show.
+          </p>
+          <p>
+            Join thousands of active viewers in the interactive live chat, request classic rock favorites, participate in
+            digital concert raffles, and connect with 7th Heaven fans across the country. Check the official tour schedule
+            for upcoming multi-camera broadcast dates and festival livestreams.
+          </p>
+        </div>
+      </section>
+
+      {/* ── BROADCAST FEATURES ── */}
+      <section
+        id="live-features"
+        aria-labelledby="live-features-heading"
+        className="section"
+      >
+        <SectionHeader
+          id="live-features-heading"
+          title="Multi-Camera Features & Viewing Tips"
+          subtitle="Get the most out of your live streaming experience."
+        />
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <Video className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Multi-Angle Stage Cams</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Choose your favorite vantage point. Switch between backstage cams, drummer perspective, and center-stage
+                views with zero stream buffering.
+              </p>
+            </div>
+          </article>
+
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <Headphones className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Soundboard HD Audio</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Direct-feed stereo mixes engineered specifically for home theater setups and premium headphones. Hear every
+                note, vocal harmony, and guitar riff in crystal clarity.
+              </p>
+            </div>
+          </article>
+
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <MessageSquare className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Real-Time Fan Chat</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Connect with fans in the live chat room. Share your concert reactions, cheer on the band, and enter digital
+                giveaways hosted by the backstage crew.
+              </p>
+            </div>
+          </article>
+
+          <article className="flex flex-col justify-between rounded-[var(--radius-box)] border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40">
+            <div>
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600/20 text-purple-400">
+                <Bell className="h-6 w-6" />
+              </div>
+              <h3 className="mb-2 text-lg font-bold text-white">Instant Go-Live Alerts</h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                Subscribe to push notifications to be alerted the moment 7th Heaven powers on stage cameras or begins an
+                impromptu acoustic soundcheck session.
+              </p>
+            </div>
+          </article>
         </div>
       </section>
 

@@ -99,14 +99,19 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `7th Heaven — ${settings.tagline}`
       : "7th Heaven — Official Website");
 
-  const description =
+  const rawDescription =
     settings?.seo?.metaDescription ||
     settings?.bioIntro ||
-    "7th heaven is an experience you just have to see and hear! Charted #1 on the Midwest Billboard Charts three times with 7 major radio hits. 40 years of rocking the world.";
+    "Official website of 7th Heaven, Chicago's premier rock band with #1 Billboard hits, 30 Songs in 30 Minutes medley, and 40 years of unforgettable live tours.";
+
+  const description =
+    rawDescription.length > 158
+      ? rawDescription.slice(0, 155).replace(/\s+\S*$/, "") + "…"
+      : rawDescription;
 
   const ogImageUrl = settings?.seo?.ogImage
-    ? getMediaUrl(settings.seo.ogImage, "/images/logos/7thheavenlogo.jpg")
-    : "/images/logos/7thheavenlogo.jpg";
+    ? getMediaUrl(settings.seo.ogImage, "/opengraph-image")
+    : "/opengraph-image";
 
   const rawSiteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com";
@@ -202,13 +207,66 @@ const BAND_LD = {
     name: "Chicago, Illinois, USA",
   },
   url: "https://7thheavenband.com",
-  logo: "https://7thheavenband.com/images/logos/7thheavenlogo.jpg",
+  logo: "https://7thheavenband.com/icon-512.png",
   image: "https://7thheavenband.com/images/hero/hero-banner.png",
   sameAs: [
     "https://www.facebook.com/7thheavenband",
     "https://twitter.com/7thheavenband",
     "https://www.instagram.com/7thheavenband",
     "https://www.youtube.com/user/7thheavenband",
+  ],
+  member: [
+    {
+      "@type": "Person",
+      name: "Adam Heisler",
+      jobTitle: "Lead Vocals",
+    },
+    {
+      "@type": "Person",
+      name: "Richard Hofherr",
+      jobTitle: "Lead Guitars, Vocals, Keys",
+    },
+    {
+      "@type": "Person",
+      name: "Frankie Harchut",
+      jobTitle: "Drums, Percussion",
+    },
+    {
+      "@type": "Person",
+      name: "Nick Cox",
+      jobTitle: "Guitars, Vocals, Piano",
+    },
+    {
+      "@type": "Person",
+      name: "Mark Kennetz",
+      jobTitle: "Bass, Vocals",
+    },
+  ],
+  album: [
+    {
+      "@type": "MusicAlbum",
+      name: "Be Here",
+    },
+    {
+      "@type": "MusicAlbum",
+      name: "Luminous",
+    },
+    {
+      "@type": "MusicAlbum",
+      name: "Color In Motion",
+    },
+    {
+      "@type": "MusicAlbum",
+      name: "Jukebox",
+    },
+    {
+      "@type": "MusicAlbum",
+      name: "Next",
+    },
+    {
+      "@type": "MusicAlbum",
+      name: "Medley Time",
+    },
   ],
   track: [
     {
@@ -240,17 +298,14 @@ const BAND_LD = {
   ],
 };
 
-// WebSite Structured Data for Google Sitelinks Search
+// WebSite Structured Data — controls the site name Google shows above results.
+// (Google retired the sitelinks search box in 2024, so no SearchAction.)
 const WEBSITE_LD = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "7th Heaven",
+  alternateName: ["7th Heaven Band", "7thheavenband.com"],
   url: "https://7thheavenband.com",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://7thheavenband.com/faq?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 };
 
 export default function RootLayout({

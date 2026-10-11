@@ -86,3 +86,11 @@ test-results/
 
 # Discord exports (contain other people's messages)
 /data/discord-export/
+
+# Root test screenshots & local scratch artifacts
+/*.png
+/artifacts/
+/scratch/
+/unused_report.json
+/schedules.json
+/LAYOUT_STRUCTURE_AUDIT.md
