@@ -27,7 +27,6 @@ import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import PageHero from "@/components/PageHero";
 import AddCmsButton from "@/components/AddCmsButton";
-import SegmentedTabs from "@/components/SegmentedTabs";
 import CustomDropdown from "@/components/CustomDropdown";
 import { SearchInput } from "@/components/SearchInput";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -336,12 +335,6 @@ export default function MediaClient({
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Category responsive dropdown state (when tabs start getting cut off)
-  const [isCategoryCutOff, setIsCategoryCutOff] = useState(false);
-  const categoryContainerRef = useRef<HTMLDivElement>(null);
-  const tabsMeasureRef = useRef<HTMLDivElement>(null);
-  const requiredTabsWidthRef = useRef<number>(0);
-
   // Add video modal state (for Sanity CMS admins)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newTitle, setNewTitle] = useState("");
@@ -506,12 +499,12 @@ export default function MediaClient({
   }, [visibleVideoIds.size]);
 
 
-  // Segmented Tabs options for single-row sliding category toggle
-  const categoryTabs = useMemo(() => {
-    const list: Array<{ id: string; label: string; badge?: number | string }> =
+  // Dropdown options for category filter
+  const categoryDropdownOptions = useMemo(() => {
+    const list: Array<{ value: string; label: string; badge?: number | string }> =
       [
         {
-          id: "ALL",
+          value: "ALL",
           label: "ALL",
         },
       ];
@@ -522,23 +515,14 @@ export default function MediaClient({
       }
       const catUpper = cat.category.toUpperCase();
       list.push({
-        id: catUpper,
+        value: catUpper,
         label: catUpper,
         badge: cat.videos.length,
       });
     });
 
     return list;
-  }, [categories, allVideos.length]);
-
-  // Dropdown options for responsive category filter
-  const categoryDropdownOptions = useMemo(() => {
-    return categoryTabs.map((tab) => ({
-      value: String(tab.id),
-      label: tab.label,
-      badge: tab.badge,
-    }));
-  }, [categoryTabs]);
+  }, [categories]);
 
   const categoryTriggerPrefix = useMemo(
     () => (
@@ -553,49 +537,6 @@ export default function MediaClient({
     ),
     [],
   );
-
-  // Monitor container width vs required tabs width to toggle between tabs row and dropdown
-  useEffect(() => {
-    const el = categoryContainerRef.current;
-    if (!el) return;
-
-    const checkOverflow = () => {
-      if (!categoryContainerRef.current) return;
-      const containerWidth = categoryContainerRef.current.clientWidth;
-      if (containerWidth <= 0) return;
-
-      if (tabsMeasureRef.current && !isCategoryCutOff) {
-        const sw = tabsMeasureRef.current.scrollWidth;
-        if (sw > 0) {
-          requiredTabsWidthRef.current = sw;
-        }
-      }
-
-      // Estimate fallback width from tab labels if not yet measured
-      const fallbackWidth = categoryTabs.reduce((acc, tab) => {
-        const len = typeof tab.label === "string" ? tab.label.length : 10;
-        return acc + len * 9 + 48;
-      }, 32);
-
-      const threshold = requiredTabsWidthRef.current || fallbackWidth;
-      // When container width is less than required width + padding, tabs start cutting off
-      const cutOff = containerWidth < threshold + 12;
-      setIsCategoryCutOff((prev) => (prev !== cutOff ? cutOff : prev));
-    };
-
-    checkOverflow();
-
-    const ro = new ResizeObserver(() => {
-      checkOverflow();
-    });
-    ro.observe(el);
-
-    window.addEventListener("resize", checkOverflow, { passive: true });
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", checkOverflow);
-    };
-  }, [isCategoryCutOff, categoryTabs]);
 
   // Available categories for add form
   const availableCategories = useMemo(() => {
@@ -832,62 +773,40 @@ export default function MediaClient({
             visuallyHidden
           />
 
-          {/* ── MEDIA TOOLBAR: SEARCH, CMS BUTTON, VIEW MODE & CATEGORY TOGGLE PILLS ── */}
-          <div role="toolbar" aria-label="Media Filters" className="mb-8 lg:mb-10">
-            {/* Search & Add Video Controls */}
-            <div className="mb-5 flex flex-wrap items-center gap-3">
-              <SearchInput
-                value={searchQuery}
-                onChange={setSearchQuery}
-                placeholder={
-                  sanityContent?.searchPlaceholder || "Search Media..."
-                }
-                containerClassName="w-full sm:w-[320px]"
-              />
-              <AddCmsButton
-                label={
-                  sanityContent?.addVideoButtonText ||
-                  "ADD VIDEO / MEDIA IN SANITY CMS"
-                }
-                onClick={() => setIsAddModalOpen(true)}
-              />
-            </div>
+          {/* ── MEDIA TOOLBAR: SEARCH, CATEGORY DROPDOWN & CMS BUTTON ON SAME ROW ── */}
+          <div
+            role="toolbar"
+            aria-label="Media Filters"
+            className="mb-8 flex flex-wrap items-center gap-3 sm:gap-4 lg:mb-10"
+          >
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder={
+                sanityContent?.searchPlaceholder || "Search Media..."
+              }
+              containerClassName="w-full sm:w-[280px] lg:w-[320px]"
+            />
 
-            {/* Category Navigation (Sliding Single-Row Toggle when wide, or GooeyDropdown when cut off) */}
-            <div ref={categoryContainerRef} className="relative w-full py-1">
-              {isCategoryCutOff ? (
-                <div className="inline-block">
-                  <CustomDropdown
-                    ariaLabel="Media categories"
-                    value={activeFilter.toUpperCase()}
-                    options={categoryDropdownOptions}
-                    onChange={(val) => handleFilterChange(String(val))}
-                    accentColor="#1e183a"
-                    minWidth={280}
-                    maxHeight={360}
-                    triggerPrefix={categoryTriggerPrefix}
-                    buttonClassName="rounded-full border border-white/15 bg-black/35 px-4 py-2 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
-                  />
-                </div>
-              ) : (
-                <div
-                  ref={tabsMeasureRef}
-                  className="hide-scrollbar max-w-full overflow-x-auto select-none"
-                >
-                  <SegmentedTabs
-                    layout="flex"
-                    shape="full"
-                    size="sm"
-                    variant="glass"
-                    ariaLabel="Media categories"
-                    className="inline-flex w-max shrink-0 flex-nowrap"
-                    tabs={categoryTabs}
-                    activeTab={activeFilter.toUpperCase()}
-                    onChange={(id) => handleFilterChange(String(id))}
-                  />
-                </div>
-              )}
-            </div>
+            <CustomDropdown
+              ariaLabel="Media categories"
+              value={activeFilter.toUpperCase()}
+              options={categoryDropdownOptions}
+              onChange={(val) => handleFilterChange(String(val))}
+              accentColor="#1e183a"
+              minWidth={220}
+              maxHeight={360}
+              triggerPrefix={categoryTriggerPrefix}
+              buttonClassName="rounded-full border border-white/15 bg-black/35 px-4 py-2.5 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
+            />
+
+            <AddCmsButton
+              label={
+                sanityContent?.addVideoButtonText ||
+                "ADD VIDEO / MEDIA IN SANITY CMS"
+              }
+              onClick={() => setIsAddModalOpen(true)}
+            />
           </div>
 
           {/* Active Filter Indicator banner if filter is active */}
