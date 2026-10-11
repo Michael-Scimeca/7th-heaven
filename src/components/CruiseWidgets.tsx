@@ -12,6 +12,8 @@ import SegmentedTabs from "@/components/SegmentedTabs";
 import InputField from "@/components/InputField";
 import GlowInput, { GlowSelect } from "@/components/GlowInput";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
+import CruiseCabinShowcase from "@/components/CruiseCabinShowcase";
+import { SectionHeader } from "@/components/SectionHeader";
 
 // --- COUNTDOWN TICKER ---
 export function EmbarkationCountdown() {
@@ -639,150 +641,195 @@ export function BookingManager({ email }: { email?: string }) {
     );
 
   return (
-    <div className="relative flex flex-col justify-between">
-      {/* Travel Readiness Checklist Badges */}
-      <div>
-        <span className="mb-2 block">Travel Readiness Checklist</span>
-        <div className="grid grid-cols-2 gap-2 text-[var(--font-size-2xs)]">
-          <div className="flex items-center gap-1.5 py-1 text-emerald-300">
-            <CheckMarkIcon className="h-3.5 w-3.5 shrink-0 text-emerald-300" />{" "}
-            Passport Verified
-          </div>
-          <div className="flex items-center gap-1.5 px-2 py-1">
-            Band VIP Pass Included
-          </div>
-          <div className="flex items-center gap-1.5 py-1">
-            <span>📅</span> Check-in: 45 Days Prior
-          </div>
-          <div className="flex items-center gap-1.5 px-2 py-1">
-            <span>🏷️</span> Luggage Tags: Dec 1st
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col gap-6">
+      {/* 1. Chosen Stateroom & Comprehensive Cabin Details Card */}
+      <CruiseCabinShowcase booking={booking} />
 
-      {/* Payment Breakdown: Total Fare, Paid & Owed */}
-      <div className="my-3 flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <span>Total Cruise Fare</span>
-          <span>{booking.total_fare || "$1,550.00"}</span>
-        </div>
-        <div className="flex items-center justify-between border-t border-white/10 pt-2">
-          <span className="flex items-center gap-1 text-emerald-400">
-            <CheckMarkIcon className="h-3.5 w-3.5 shrink-0 text-emerald-400" />{" "}
-            Amount Paid
-          </span>
-          <span className="text-emerald-400">
-            {booking.amount_paid || "$1,200.00"}
-          </span>
-        </div>
-        <div className="flex items-center justify-between border-t border-white/10 pt-2">
-          <span className="flex items-center gap-1 text-rose-400">
-            <span></span> Balance Owed
-          </span>
-          <div className="flex items-center gap-2">
-            <span className="text-rose-400">
-              {booking.balance_due || "$350.00"}
+      {/* 2. Travel Readiness, Billing & Support Card */}
+      <article
+        aria-labelledby="booking-billing-heading"
+        className="relative overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-glass,rgba(18,18,24,0.55))] p-6 shadow-xl backdrop-blur-md md:p-8"
+      >
+        <SectionHeader
+          id="booking-billing-heading"
+          title="Travel Readiness & Billing Status"
+          subtitle={
+            <span className="text-purple-400">
+              Checklist, Payment Breakdown &amp; Cruise Agent Support
             </span>
-            {parseFloat(
-              (booking.balance_due || "$350.00").replace(/[^0-9.]/g, ""),
-            ) > 0 && (
+          }
+          divider={true}
+        />
+
+        {/* Travel Readiness Checklist Badges */}
+        <div className="mb-6">
+          <span className="mb-3 block text-xs font-semibold uppercase tracking-wider text-white/60">
+            Travel Readiness Checklist
+          </span>
+          <div className="grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+            <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-emerald-300">
+              <CheckMarkIcon className="h-4 w-4 shrink-0 text-emerald-300" />
+              <span>Passport Verified</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-lg border border-cyan-500/20 bg-cyan-500/10 px-3 py-2 text-cyan-300">
+              <span>🎟️</span>
+              <span>VIP Pass Included</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white/80">
+              <span>📅</span>
+              <span>Check-in: 45 Days</span>
+            </div>
+            <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white/80">
+              <span>🏷️</span>
+              <span>Luggage Tags: Dec 1</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Payment Breakdown: Total Fare, Paid & Owed */}
+        <div className="my-4 flex flex-col gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-white/70">Total Cruise Fare</span>
+            <span className="font-semibold text-white">
+              {booking.total_fare || "$1,550.00"}
+            </span>
+          </div>
+          <div className="flex items-center justify-between border-t border-white/10 pt-3">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+              <CheckMarkIcon className="h-4 w-4 shrink-0 text-emerald-400" />
+              Amount Paid
+            </span>
+            <span className="font-bold text-emerald-400">
+              {booking.amount_paid || "$1,200.00"}
+            </span>
+          </div>
+          <div className="flex items-center justify-between border-t border-white/10 pt-3">
+            <span className="flex items-center gap-1.5 text-rose-400 font-medium">
+              <span>💳</span> Balance Owed
+            </span>
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-rose-400">
+                {booking.balance_due || "$350.00"}
+              </span>
+              {parseFloat(
+                (booking.balance_due || "$350.00").replace(/[^0-9.]/g, ""),
+              ) > 0 && (
                 <button
+                  type="button"
                   onClick={() => setIsPayModalOpen(true)}
-                  className="transition-colors cursor-pointer rounded bg-rose-500 px-2.5 py-1 shadow hover:bg-rose-400"
+                  className="cursor-pointer rounded-lg bg-rose-500 px-3 py-1.5 text-xs font-semibold text-white shadow-md transition-colors hover:bg-rose-400"
                 >
                   💳 Pay Balance
                 </button>
               )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {booking.guests && booking.guests.length > 0 && (
-        <div className="mt-3 border-t border-white/10 pt-3">
-          <h3 className="mb-2 text-white/40">Guest List</h3>
-          <div className="flex flex-col gap-1.5">
-            {booking.guests.map((g: any, i: number) => (
-              <div key={i} className="flex items-center justify-between">
-                <span>{g.name || `Guest ${i + 2}`}</span>
-                <span className="text-white/40">
-                  {g.type === "child"
-                    ? `Child ${g.age ? `(Age ${g.age})` : ""}`
-                    : "Adult"}
+        {/* Guest List */}
+        {booking.guests && booking.guests.length > 0 && (
+          <div className="mt-5 border-t border-white/10 pt-5">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+              Registered Cabin Guests
+            </h3>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.02] px-3.5 py-2 text-xs">
+                <span className="font-semibold text-white">
+                  {booking.name || "Primary Guest"} (Primary)
+                </span>
+                <span className="rounded-full bg-cyan-500/20 px-2 py-0.5 text-[11px] text-cyan-300">
+                  Adult
                 </span>
               </div>
-            ))}
+              {booking.guests.map((g: any, i: number) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between rounded-lg border border-white/5 bg-white/[0.02] px-3.5 py-2 text-xs"
+                >
+                  <span className="text-white">
+                    {g.name || `Guest ${i + 2}`}
+                  </span>
+                  <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] text-white/60">
+                    {g.type === "child"
+                      ? `Child ${g.age ? `(Age ${g.age})` : ""}`
+                      : "Adult"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Two Clickable Cruise Agent Email Buttons */}
+        <div className="mt-6 border-t border-white/10 pt-5">
+          <span className="mb-3 block text-xs font-semibold uppercase tracking-wider text-white/60">
+            Dedicated Cruise Support Agents
+          </span>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Button 1: Cruise Admin Agent */}
+            <SeventhButton
+              icon={false}
+              onClick={() =>
+                (window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
+                  `7th Heaven Cruise Inquiry - ${booking.cabin_preference || "Cabin 9122"} (${booking.name || "Passenger"})`,
+                )}&body=${encodeURIComponent(
+                  `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || "Cruise Guest"} (${booking.cabin_preference || "Cabin 9122"}):\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
+                )}`)
+              }
+              className="flex flex-col items-center justify-center gap-0.5"
+            >
+              <div className="flex items-center gap-1.5">
+                <span>✉️</span> Cruise Admin
+              </div>
+              <span className="font-normal tracking-normal lowercase normal-case">
+                cruise@7thheavenband.com
+              </span>
+            </SeventhButton>
+
+            {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
+            <SeventhButton
+              icon={false}
+              onClick={() =>
+                (window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
+                  `7th Heaven Cruise Support - ${booking.name || "Passenger"} (${booking.cabin_preference || "Cabin 9122"})`,
+                )}&body=${encodeURIComponent(
+                  `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
+                )}`)
+              }
+              className="flex flex-col items-center justify-center gap-0.5"
+            >
+              <div className="flex items-center gap-1.5">
+                <span>✉️</span> Support Agent (Mary)
+              </div>
+              <span className="font-normal tracking-normal lowercase normal-case">
+                mary@ntdvacations.com
+              </span>
+            </SeventhButton>
           </div>
         </div>
-      )}
 
-      {/* Two Clickable Cruise Agent Email Buttons */}
-      <div className="mt-4 flex flex-col gap-2">
-        <span className="mb-2 block">
-          Get in Touch with Cruise Agents
-        </span>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {/* Button 1: Cruise Admin Agent */}
-          <SeventhButton
-            icon={false}
-            onClick={() =>
-            (window.location.href = `mailto:cruise@7thheavenband.com?subject=${encodeURIComponent(
-              `7th Heaven Cruise Inquiry - ${booking.cabin_preference || "Cabin 9122"} (${booking.name || "Passenger"})`,
-            )}&body=${encodeURIComponent(
-              `Hi 7th Heaven Cruise Admin,\n\nI have a question regarding my cruise booking for ${booking.name || "Cruise Guest"} (${booking.cabin_preference || "Cabin 9122"}):\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
-            )}`)
-            }
-            className="flex flex-col items-center justify-center gap-0.5"
-          >
-            <div className="flex items-center gap-1.5">
-              <span>✉️</span> Cruise Admin
-            </div>
-            <span className="font-normal tracking-normal lowercase normal-case">
-              cruise@7thheavenband.com
-            </span>
-          </SeventhButton>
-
-          {/* Button 2: Support & Booking Agent (Mary - NTD Vacations) */}
-          <SeventhButton
-            icon={false}
-            onClick={() =>
-            (window.location.href = `mailto:mary@ntdvacations.com?subject=${encodeURIComponent(
-              `7th Heaven Cruise Support - ${booking.name || "Passenger"} (${booking.cabin_preference || "Cabin 9122"})`,
-            )}&body=${encodeURIComponent(
-              `Hi Mary / Cruise Agent,\n\nI have a question regarding my cruise booking:\n\n[Write your question here]\n\nThank you,\n${booking.name || "Cruise Guest"}`,
-            )}`)
-            }
-            className="flex flex-col items-center justify-center gap-0.5"
-          >
-            <div className="flex items-center gap-1.5">
-              <span>✉️</span> Support Agent (Mary)
-            </div>
-            <span className="font-normal tracking-normal lowercase normal-case">
-              mary@ntdvacations.com
-            </span>
-          </SeventhButton>
+        {/* Cruising Power Travel Agent Portal Hook */}
+        <div className="relative z-10 mt-6 border-t border-white/10 pt-4 text-left text-xs text-white/60">
+          <div className="flex items-center gap-2 font-semibold text-white/80">
+            <span>🚢</span>
+            <span>Cruising Power Integration</span>
+          </div>
+          <p className="mt-1 leading-relaxed">
+            Are you booking through an independent travel agent? Agents can log into Royal
+            Caribbean Group&apos;s official{" "}
+            <a
+              href="https://www.cruisingpower.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-400 underline hover:text-cyan-300"
+            >
+              Cruising Power Portal
+            </a>{" "}
+            to register and link your booking details to the 7th Heaven group
+            code.
+          </p>
         </div>
-      </div>
-
-      {/* Cruising Power Travel Agent Portal Hook */}
-      <div className="relative z-10 mt-4 pt-4 text-left text-[10.5px]">
-        <div className="flex items-center gap-2">
-          <span>🚢</span>
-          <span>Cruising Power Integration</span>
-        </div>
-        <p>
-          Are you booking through a travel agent? Agents can log into Royal
-          Caribbean Group&apos;s official{" "}
-          <a
-            href="https://www.cruisingpower.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Cruising Power Portal
-          </a>{" "}
-          to register and link your booking details to the 7th Heaven group
-          code.
-        </p>
-      </div>
+      </article>
 
       <PaymentModal
         isOpen={isPayModalOpen}
