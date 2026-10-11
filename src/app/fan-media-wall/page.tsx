@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { fetchPageContent } from "@/lib/sanity";
 import { getApprovedFanPhotos } from "@/lib/fanPhotos";
-import FanPhotoWallClient from "../fan-photo-wall/FanPhotoWallClient";
+import FanPhotoWallClient from "./FanPhotoWallClient";
 
 export async function generateMetadata(): Promise<Metadata> {
   const sanityContent = await fetchPageContent("fan-media-wall");

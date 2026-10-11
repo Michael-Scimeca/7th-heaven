@@ -345,7 +345,7 @@ export default function FanPhotoWallClient({
   const approvedPhotos = photos.filter((p) => p.approved);
 
   return (
-    <div className="page-container page-stack min-h-screen" id="fan-photo-wall-page">
+    <div className="page-container page-stack min-h-screen" id="fan-media-wall-page">
       {/* ── HERO SECTION WITH GLASS BLUR BACKGROUND ── */}
       <section
         id="fan-wall"

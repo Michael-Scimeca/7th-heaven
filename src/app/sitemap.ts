@@ -182,18 +182,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ],
     },
     {
-      url: `${baseUrl}/fan-photo-wall`,
-      changeFrequency: "weekly",
-      priority: 0.6,
-      images: [
-        `${baseUrl}/images/fans/fan-photo-featured.jpg`,
-      ],
-    },
-    {
       url: `${baseUrl}/fan-media-wall`,
       changeFrequency: "weekly",
       priority: 0.6,
       images: [
+        `${baseUrl}/images/fans/fan-photo-featured.jpg`,
         `${baseUrl}/images/hero/band-performance.webp`,
       ],
     },

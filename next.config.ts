@@ -234,6 +234,11 @@ const nextConfig: NextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/fan-photo-wall",
+        destination: "/fan-media-wall",
+        permanent: true,
+      },
     ];
   },
 };

@@ -479,10 +479,7 @@ export function Header() {
       return "/studio/structure/pageContent;mediaVault";
     if (pathname.startsWith("/book"))
       return "/studio/structure/pageContent;bookUs";
-    if (
-      pathname.startsWith("/fan-photo-wall") ||
-      pathname.startsWith("/fan-media-wall")
-    )
+    if (pathname.startsWith("/fan-media-wall"))
       return "/studio/structure/pageContent;fanPhotoWall";
     if (pathname.startsWith("/rock-and-roll-kids"))
       return "/studio/structure/pageContent;rockAndRollKids";

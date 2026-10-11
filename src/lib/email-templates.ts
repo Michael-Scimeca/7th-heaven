@@ -1662,7 +1662,7 @@ export function fanUploadApproved(data: { name: string; title: string }) {
     <h1 style="margin:0 0 8px;color:#10b981;font-size:26px;font-weight:900;text-align:center;">Photo Wall Approved!</h1><p style="margin:0 0 28px;color:rgba(255,255,255,0.4);font-size:13px;text-align:center;">Your moments are now live for the community to see.</p>
     <p style="color:rgba(255,255,255,0.7);font-size:15px;line-height:1.6;margin:0 0 28px;">Hey <strong style="color:#fff;">${sanitize(data.name)}</strong>, good news! The media you uploaded ("${sanitize(data.title)}") has been approved by the 7th Heaven team and is now published to the public Fan Photo & Video Wall!
 </p>
-    <div style="text-align:center;margin:24px 0;"><a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com"}/fan-photo-wall" style="${btnStyle}">View Photo Wall</a>
+    <div style="text-align:center;margin:24px 0;"><a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com"}/fan-media-wall" style="${btnStyle}">View Photo Wall</a>
 </div>
   `);
 }
@@ -1686,7 +1686,7 @@ export function fanUploadRejected(data: {
     </table>
     <p style="color:rgba(255,255,255,0.5);font-size:13px;line-height:1.6;margin:0 0 28px;">Please ensure your uploads contain band-related content, show appropriate community guidelines, and don't feature copyrighted audio/video from other sources.
 </p>
-    <div style="text-align:center;margin:24px 0;"><a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com"}/fan-photo-wall" style="${btnStyle}">Back to Fan Wall</a>
+    <div style="text-align:center;margin:24px 0;"><a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://7thheavenband.com"}/fan-media-wall" style="${btnStyle}">Back to Fan Wall</a>
 </div>
   `);
 }

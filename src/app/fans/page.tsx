@@ -63,11 +63,11 @@ function FansContent() {
                   Sign In / Join Free
                 </button>
                 <Link
-                  href="/fan-photo-wall"
+                  href="/fan-media-wall"
                   className="inline-flex items-center gap-2 rounded-[var(--radius-box)] border border-white/15 bg-white/5 px-5 py-2.5 font-medium text-white transition-colors hover:bg-white/10"
                 >
                   <Camera className="h-4 w-4" />
-                  Fan Photo Wall
+                  Fan Media Wall
                 </Link>
               </>
             )}
