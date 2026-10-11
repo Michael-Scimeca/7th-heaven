@@ -4025,7 +4025,7 @@ export function CrewDashboard({
                               href={`https://admin.shopify.com/store/${(process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "7th-heaven-7012.myshopify.com").replace(/"/g, "").split(".")[0]}/products`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-2 py-0.5 backdrop-blur-xl"
+                              className="flex items-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-[#00000029] px-2 py-0.5 text-xs backdrop-blur-xl transition-colors hover:text-white"
                               title="Go to Shopify Products Admin"
                             >
                               Shopify Admin ↗
