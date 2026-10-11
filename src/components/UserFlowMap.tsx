@@ -970,18 +970,6 @@ const REFERENCE_NODES: Node<FlowNodeData>[] = [
     },
   },
   {
-    id: "c5-4",
-    type: "pageNode",
-    position: { x: 1280, y: 650 },
-    data: {
-      label: "Career Features",
-      sub: "/features",
-      system: "peach",
-      kind: "page",
-      iconName: "globe",
-    },
-  },
-  {
     id: "c5-5",
     type: "pageNode",
     position: { x: 1280, y: 770 },
@@ -1433,15 +1421,8 @@ const REFERENCE_EDGES: Edge[] = [
     style: { stroke: "#f97316", strokeWidth: 2 },
   },
   {
-    id: "ec5-4",
-    source: "c5-3",
-    target: "c5-4",
-    type: "smoothstep",
-    style: { stroke: "#f97316", strokeWidth: 2 },
-  },
-  {
     id: "ec5-5",
-    source: "c5-4",
+    source: "c5-3",
     target: "c5-5",
     type: "smoothstep",
     style: { stroke: "#f97316", strokeWidth: 2 },

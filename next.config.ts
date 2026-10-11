@@ -229,6 +229,11 @@ const nextConfig: NextConfig = {
         destination: "/rock-and-roll-kids",
         permanent: true,
       },
+      {
+        source: "/features",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };

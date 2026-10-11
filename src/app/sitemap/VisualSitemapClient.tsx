@@ -327,20 +327,6 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
     },
   },
   {
-    id: "nav-features",
-    type: "sitemapCard",
-    position: { x: 3880, y: 120 },
-    data: {
-      header: "FEATURES",
-      title: "Full Platform Features Directory",
-      path: "/features",
-      imgUrl: "/sitemap-thumbs/features.jpg",
-      badgeType: "HEADER_NAV",
-      description:
-        "Full directory of 30+ live platform features, API endpoints, email templates, and tech stack.",
-    },
-  },
-  {
     id: "nav-sitemap",
     type: "sitemapCard",
     position: { x: 4120, y: 120 },
@@ -1376,21 +1362,6 @@ const ARCHITECTURE_NODES: Node<SitemapNodeData>[] = [
         "Full-page version of proximity push-notification signup form.",
     },
   },
-  // ── COLUMN 7: FEATURES CHILDREN ──
-  {
-    id: "footer-features",
-    type: "sitemapCard",
-    position: { x: 3880, y: 340 },
-    data: {
-      header: "FEATURES OVERVIEW",
-      title: "Full Platform Features Overview",
-      path: "/features",
-      imgUrl: "/sitemap-thumbs/features.jpg",
-      badgeType: "FOOTER_NAV",
-      description:
-        "Full platform overview directory summarizing 30+ features, tech stack, and API endpoints.",
-    },
-  },
 
   // ── COLUMN 8: SITEMAP CHILDREN ──
   {
@@ -1878,13 +1849,6 @@ const ARCHITECTURE_EDGES: Edge[] = [
   },
 
   // Column 7: Contact connections
-  // Column 7: Features connections
-  {
-    id: "e-features-overview",
-    source: "nav-features",
-    target: "footer-features",
-    type: "smoothstep",
-  },
   {
     id: "e-contact-notifications",
     source: "nav-contact",

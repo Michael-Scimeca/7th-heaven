@@ -918,7 +918,6 @@ export function Header() {
                         { href: "/cruise", label: "CRUISE" },
                         { href: "/book", label: "BOOK US" },
                         { href: "/contact", label: "CONTACT" },
-                        { href: "/features", label: "FEATURES" },
                       ].map((link, i) => {
                         const isActive =
                           effectivePathname === link.href ||

@@ -23,7 +23,6 @@ export default function robots(): MetadataRoute.Robots {
           "/firecanvas",
           "/slideup",
           "/style-guide",
-          "/features",
           "/work/",
           "/7hrrk",
           "/rrk",

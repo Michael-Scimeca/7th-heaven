@@ -81,7 +81,6 @@ const CATEGORIES = [
       { path: "/slideup", label: "Mobile Bottom Sheet Slide-Up" },
       { path: "/textcolor", label: "Text Color Shifts" },
       { path: "/style-guide", label: "Design System Style Guide" },
-      { path: "/features", label: "Feature Flags Sandbox" },
       { path: "/work/studio-d", label: "Studio D Agency Showcase" },
     ],
   },
