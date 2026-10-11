@@ -425,48 +425,48 @@ export default function SlideupSection({
                   WebkitMaskImage: "var(--card-mask)",
                 }}
               >
-              <div className="title-group title-group--section mb-6 items-start text-left">
-                <h2 className="su-headline flex w-full max-w-[800px] flex-wrap items-start justify-start gap-4 text-left">
-                  {slide.title}
-                </h2>
-                <p className="su-desc m-0 max-w-2xl text-left">{slide.desc}</p>
-              </div>
-              <div className="su-thumbs flex w-full max-w-full gap-6">
-                {slide.thumbs.map((t, ti) => {
-                  return (
-                    <div
-                      key={`${t.label}-${ti}`}
-                      className="su-thumb group relative aspect-[16/10] h-[clamp(220px,38vh,520px)] max-h-[520px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-8 sm:pb-10"
-                    >
-                      {t.video && <AutoPlayVideo src={t.video} />}
-                      {t.youtube && (
-                        <Image
-                          src={`https://img.youtube.com/vi/${t.youtube}/hqdefault.jpg`}
-                          alt={t.label}
-                          width={480}
-                          height={360}
-                          className="su-thumb-yt object-cover"
-                          loading="lazy"
-                        />
-                      )}
-                      <div className="su-thumb-content pointer-events-none relative z-[3] flex w-full flex-col items-center justify-end pb-3 sm:pb-4 text-center">
-                        {t.badge && (
-                          <span className="su-thumb-badge mb-2 inline-block rounded-[6px] border border-white/30 bg-white/20 px-3 py-[5px] text-[0.75rem] tracking-[0.08em] backdrop-blur-[12px]">
-                            {t.badge}
-                          </span>
+                <div className="title-group title-group--section mb-6 items-start text-left">
+                  <h2 className="su-headline flex w-full max-w-[800px] flex-wrap items-start justify-start gap-4 text-left">
+                    {slide.title}
+                  </h2>
+                  <p className="su-desc m-0 max-w-2xl text-left">{slide.desc}</p>
+                </div>
+                <div className="su-thumbs flex w-full max-w-full gap-6">
+                  {slide.thumbs.map((t, ti) => {
+                    return (
+                      <div
+                        key={`${t.label}-${ti}`}
+                        className="su-thumb group relative aspect-[16/10] h-[clamp(220px,38vh,520px)] max-h-[520px] flex-1 items-end justify-center overflow-hidden px-5 pt-6 pb-8 sm:pb-10"
+                      >
+                        {t.video && <AutoPlayVideo src={t.video} />}
+                        {t.youtube && (
+                          <Image
+                            src={`https://img.youtube.com/vi/${t.youtube}/hqdefault.jpg`}
+                            alt={t.label}
+                            width={480}
+                            height={360}
+                            className="su-thumb-yt object-cover"
+                            loading="lazy"
+                          />
                         )}
-                        <h3 className="su-thumb-title m-0 [filter:drop-shadow(0_4px_16px_rgba(0,0,0,0.98))]">
-                          {t.label}
-                        </h3>
+                        <div className="su-thumb-content pointer-events-none relative z-[3] flex w-full flex-col items-center justify-end pb-3 sm:pb-4 text-center">
+                          {t.badge && (
+                            <span className="su-thumb-badge mb-2 inline-block rounded-[6px]  bg-white/20 px-3 py-[5px] text-[0.75rem] tracking-[0.08em] backdrop-blur-[12px]">
+                              {t.badge}
+                            </span>
+                          )}
+                          <h3 className="su-thumb-title m-0 [filter:drop-shadow(0_4px_16px_rgba(0,0,0,0.98))]">
+                            {t.label}
+                          </h3>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </article>
-        );
-      })}
+            </article>
+          );
+        })}
       </section>
     </section>
   );

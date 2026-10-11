@@ -389,6 +389,7 @@ function CruiseShipExplorerSectionComponent({
               ]}
               activeTab={foodTypeTab}
               onChange={(tab) => setFoodTypeTab(tab)}
+              className="w-full max-w-sm sm:max-w-md"
               ariaLabel="Dining Categories"
             />
           </div>
@@ -627,6 +628,7 @@ function CruiseShipExplorerSectionComponent({
               ]}
               activeTab={barTab}
               onChange={(tab) => setBarTab(tab)}
+              className="w-full max-w-sm sm:max-w-md"
               ariaLabel="Bars and Entertainment Categories"
             />
           </div>

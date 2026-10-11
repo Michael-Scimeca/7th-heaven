@@ -283,6 +283,8 @@ export default function RootLayout({
          * blocked or failed script degrades to simply not showing the
          * preloader rather than to a stuck black screen. */}
         <script
+          id="preloader-check"
+          async
           dangerouslySetInnerHTML={{
             __html: PRELOAD_SCRIPT_CONTENT,
           }}

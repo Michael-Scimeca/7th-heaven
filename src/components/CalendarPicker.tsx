@@ -1,11 +1,13 @@
 /* eslint-disable react-doctor/no-giant-component */
-import React, { useState, useMemo, useRef, useEffect, useSyncExternalStore } from "react";
+import React, { useState, useMemo, useSyncExternalStore } from "react";
 import { Guitar, Mic, PartyPopper, Sparkles, Check, Zap, ArrowRight } from "lucide-react";
 import { DotChevronLeft, DotChevronRight, DotChevronDown } from "@/components/ui/DotArrow";
-import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
+import ConnectedDateCapsule from "@/components/ConnectedDateCapsule";
 import GlowInput from "@/components/GlowInput";
 import SectionHeader from "@/components/SectionHeader";
-import { ProgressionLayouts } from "@/components/ProgressionLayouts";
+import InputField from "@/components/InputField";
+import { Toggle } from "@/components/Toggle";
+import HelperText from "@/components/ui/HelperText";
 
 export interface BookingSlot {
   id: string;
@@ -151,52 +153,7 @@ const EVENT_END_TIMES = [
   "2:00 AM",
 ];
 
-function parseTimeToMinutes(timeStr: string): number {
-  if (!timeStr) return 0;
-  const match = timeStr.trim().match(/^(\d+)(?::(\d+))?\s*(AM|PM)?$/i);
-  if (!match) return 0;
-  let hours = parseInt(match[1], 10);
-  const minutes = match[2] ? parseInt(match[2], 10) : 0;
-  const period = match[3]?.toUpperCase();
 
-  if (period === "PM" && hours !== 12) hours += 12;
-  if (period === "AM" && hours === 12) hours = 0;
-
-  return hours * 60 + minutes;
-}
-
-function calculateDiffMinutes(start: string, end: string): number {
-  if (!start || !end) return 180;
-  if (start.trim().toUpperCase() === end.trim().toUpperCase()) return 0;
-  
-  const parseEveningMins = (t: string): number => {
-    const match = t.trim().match(/^(\d+)(?::(\d+))?\s*(AM|PM)?$/i);
-    if (!match) return 0;
-    let h = parseInt(match[1], 10);
-    const m = match[2] ? parseInt(match[2], 10) : 0;
-    const p = match[3]?.toUpperCase();
-    if (p === "PM" && h !== 12) h += 12;
-    if (p === "AM" && h === 12) h = 0;
-    let total = h * 60 + m;
-    // Map past-midnight hours (12:00 AM - 5:59 AM) to post-midnight
-    if (p === "AM" && total < 6 * 60) total += 1440;
-    return total;
-  };
-
-  const startMins = parseEveningMins(start);
-  const endMins = parseEveningMins(end);
-
-  if (endMins >= startMins) {
-    return endMins - startMins;
-  }
-  return 0;
-}
-
-function formatDuration(minutes: number, label: string = ""): string {
-  const hours = minutes / 60;
-  const formatted = Number.isInteger(hours) ? `${hours}h` : `${hours.toFixed(1)}h`;
-  return label ? `${formatted} ${label}` : formatted;
-}
 
 export function CalendarPicker({
   slots = EMPTY_SLOTS,
@@ -209,6 +166,10 @@ export function CalendarPicker({
   onEventStartTimeChange,
   eventEndTime,
   onEventEndTimeChange,
+  loadInTime,
+  onLoadInTimeChange,
+  isLoadInUnsure,
+  onLoadInUnsureChange,
   selectedType,
   onSelectType,
   customDetails,
@@ -235,6 +196,10 @@ export function CalendarPicker({
   onEventStartTimeChange?: (t: string) => void;
   eventEndTime?: string;
   onEventEndTimeChange?: (t: string) => void;
+  loadInTime?: string;
+  onLoadInTimeChange?: (t: string) => void;
+  isLoadInUnsure?: boolean;
+  onLoadInUnsureChange?: (val: boolean) => void;
   selectedType?: string;
   onSelectType?: (t: string) => void;
   customDetails?: string;
@@ -258,9 +223,6 @@ export function CalendarPicker({
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [localEventStart, setLocalEventStart] = useState("6:00 PM");
   const [localEventEnd, setLocalEventEnd] = useState("11:00 PM");
-  const [openTimeline, setOpenTimeline] = useState<string | null>(null);
-  const [timelineLayout, setTimelineLayout] = useState<number>(1);
-  const timelineContainerRef = useRef<HTMLDivElement>(null);
   const [expandedMetadata, setExpandedMetadata] = useState<
     Record<string, boolean>
   >({});
@@ -269,79 +231,6 @@ export function CalendarPicker({
   const effectiveBandStart = startTime || "8:00 PM";
   const effectiveBandEnd = endTime || "10:30 PM";
   const effectiveEventEnd = eventEndTime || localEventEnd;
-
-  const handleSelectTimelineTime = (stage: string, t: string) => {
-    if (stage === "eventStart") {
-      if (onEventStartTimeChange) {
-        onEventStartTimeChange(t);
-      } else {
-        setLocalEventStart(t);
-      }
-    } else if (stage === "bandStart") {
-      onStartTimeChange(t);
-    } else if (stage === "bandEnd") {
-      onEndTimeChange(t);
-    } else if (stage === "eventEnd") {
-      if (onEventEndTimeChange) {
-        onEventEndTimeChange(t);
-      } else {
-        setLocalEventEnd(t);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!openTimeline) return;
-    const handlePointerDown = (e: MouseEvent) => {
-      if (
-        timelineContainerRef.current &&
-        !timelineContainerRef.current.contains(e.target as Node)
-      ) {
-        setOpenTimeline(null);
-      }
-    };
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpenTimeline(null);
-      }
-    };
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [openTimeline]);
-
-  const preShowMinutes = useMemo(
-    () => calculateDiffMinutes(effectiveEventStart, effectiveBandStart),
-    [effectiveEventStart, effectiveBandStart],
-  );
-  const bandLiveMinutes = useMemo(
-    () => calculateDiffMinutes(effectiveBandStart, effectiveBandEnd),
-    [effectiveBandStart, effectiveBandEnd],
-  );
-  const postShowMinutes = useMemo(
-    () => calculateDiffMinutes(effectiveBandEnd, effectiveEventEnd),
-    [effectiveBandEnd, effectiveEventEnd],
-  );
-  const totalEventMinutes = useMemo(
-    () => calculateDiffMinutes(effectiveEventStart, effectiveEventEnd),
-    [effectiveEventStart, effectiveEventEnd],
-  );
-
-  const preShowPct = useMemo(
-    () => Math.max(15, (preShowMinutes / (totalEventMinutes || 1)) * 100),
-    [preShowMinutes, totalEventMinutes],
-  );
-  const bandLivePct = useMemo(
-    () => Math.max(40, (bandLiveMinutes / (totalEventMinutes || 1)) * 100),
-    [bandLiveMinutes, totalEventMinutes],
-  );
-  const postShowPct = useMemo(
-    () => Math.max(15, (postShowMinutes / (totalEventMinutes || 1)) * 100),
-    [postShowMinutes, totalEventMinutes],
-  );
 
   const blockedSet = useMemo(() => new Set(blockedDates), [blockedDates]);
 
@@ -438,7 +327,7 @@ export function CalendarPicker({
         {/* Row 1, Col 1: Calendar */}
         <div className="col-span-1 min-w-0">
           {/* Month & Year Selection Bar */}
-          <div className="mb-6 flex items-center justify-center gap-3 sm:gap-4 border-0 p-0">
+          <div className="relative z-30 mb-6 flex items-center justify-center gap-3 sm:gap-4 border-0 p-0">
             <button
               aria-label="Previous Month"
               type="button"
@@ -448,51 +337,15 @@ export function CalendarPicker({
               <DotChevronLeft className="h-5 w-5" aria-hidden="true" />
             </button>
 
-            <div className="flex shrink-0 items-center justify-center gap-2">
-              {/* Month Select Dropdown */}
-              <GooeyMessagesDropdown
-                placeholder="Month"
-                showAllOption={false}
-                selected={String(currentMonth.getMonth())}
-                defaultSelectedId={String(currentMonth.getMonth())}
-                customers={[
-                  "January",
-                  "February",
-                  "March",
-                  "April",
-                  "May",
-                  "June",
-                  "July",
-                  "August",
-                  "September",
-                  "October",
-                  "November",
-                  "December",
-                ].map((name, idx) => ({ id: String(idx), name }))}
-                onSelect={(opt) => {
-                  const newMonth = parseInt(opt.id, 10);
-                  setCurrentMonth(
-                    new Date(currentMonth.getFullYear(), newMonth, 1),
-                  );
+            <div className="relative z-30 flex shrink-0 items-center justify-center">
+              <ConnectedDateCapsule
+                selectedMonth={currentMonth.getMonth()}
+                selectedYear={currentMonth.getFullYear()}
+                onChange={({ month, year }) => {
+                  setCurrentMonth(new Date(year, month, 1));
                 }}
-              />
-
-              {/* Year Select Dropdown */}
-              <GooeyMessagesDropdown
-                placeholder="Year"
-                showAllOption={false}
-                selected={String(currentMonth.getFullYear())}
-                defaultSelectedId={String(currentMonth.getFullYear())}
-                customers={[2026, 2027, 2028].map((yr) => ({
-                  id: String(yr),
-                  name: String(yr),
-                }))}
-                onSelect={(opt) => {
-                  const newYear = parseInt(opt.id, 10);
-                  setCurrentMonth(
-                    new Date(newYear, currentMonth.getMonth(), 1),
-                  );
-                }}
+                size="md"
+                idPrefix="calendar-nav"
               />
             </div>
 
@@ -625,33 +478,104 @@ export function CalendarPicker({
               </div>
             </div>
           )}
-        </div>
 
-        {/* 4-Stage Night Progression Capsule */}
-        <div className="flex flex-col gap-4 border-t border-white/10 pt-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="">
-              {labels?.bookingWindowHeading || "Event Night Progression & Timing"}
-            </h2>
+          {/* Integrated Timing & Load-In Schedule */}
+          <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6">
+            {/* Row 1: Overall Event Start & End */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <InputField
+                label="Event Start Time"
+                name="eventStartTime"
+                value={effectiveEventStart}
+                onChange={(e) => {
+                  if (onEventStartTimeChange) {
+                    onEventStartTimeChange(e.target.value);
+                  } else {
+                    setLocalEventStart(e.target.value);
+                  }
+                }}
+                placeholder="e.g. 5:00 PM (Doors / Event Starts)"
+              />
+              <InputField
+                label="Event End Time"
+                name="eventEndTime"
+                value={effectiveEventEnd}
+                onChange={(e) => {
+                  if (onEventEndTimeChange) {
+                    onEventEndTimeChange(e.target.value);
+                  } else {
+                    setLocalEventEnd(e.target.value);
+                  }
+                }}
+                placeholder="e.g. 11:30 PM (Event Ends)"
+              />
+            </div>
+
+            {/* Row 2: Band Load-In & Band Performance Start / End */}
+            <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
+              <InputField
+                label="Band Start Time"
+                name="startTime"
+                value={effectiveBandStart}
+                onChange={(e) => onStartTimeChange?.(e.target.value)}
+                required
+                placeholder="e.g. 7:00 PM (Band Plays)"
+              />
+              <InputField
+                label="Band End Time"
+                name="endTime"
+                value={effectiveBandEnd}
+                onChange={(e) => onEndTimeChange?.(e.target.value)}
+                required
+                placeholder="e.g. 10:30 PM (Band Finish)"
+              />
+
+              <div>
+                <InputField
+                  label="Load-in / Setup Time"
+                  name="loadInTime"
+                  value={
+                    isLoadInUnsure
+                      ? "Unsure — Band admin will confirm & email setup time"
+                      : loadInTime || ""
+                  }
+                  onChange={(e) => onLoadInTimeChange?.(e.target.value)}
+                  disabled={isLoadInUnsure}
+                  placeholder="e.g. 5:00 PM (2 hrs before)"
+                  labelRight={
+                    <Toggle
+                      id="toggle-loadin-unsure"
+                      size="sm"
+                      checked={isLoadInUnsure || false}
+                      onChange={(next) => onLoadInUnsureChange?.(next)}
+                      label={<span className="text-purple-400">Unsure?</span>}
+                    />
+                  }
+                />
+                <HelperText>
+                  Band load-in is usually ~2 hours before band start time.
+                </HelperText>
+              </div>
+            </div>
+
+            {isLoadInUnsure && (
+              <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3">
+                <div className="flex flex-col gap-1">
+                  <span className="block text-xs font-semibold text-white/90">
+                    Unsure of exact load-in time? No problem!
+                  </span>
+                  <span className="block text-xs text-white/50">
+                    Our 7th Heaven band booking admin will coordinate your event
+                    schedule, update the load-in setup time, and send a
+                    confirmation email directly to the planner.
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
-
-          <ProgressionLayouts
-            layoutId={timelineLayout}
-            onSelectLayout={setTimelineLayout}
-            openTimeline={openTimeline}
-            setOpenTimeline={setOpenTimeline}
-            effectiveEventStart={effectiveEventStart}
-            effectiveBandStart={effectiveBandStart}
-            effectiveBandEnd={effectiveBandEnd}
-            effectiveEventEnd={effectiveEventEnd}
-            handleSelectTimelineTime={handleSelectTimelineTime}
-            bandLiveMinutes={bandLiveMinutes}
-            totalEventMinutes={totalEventMinutes}
-            preShowMinutes={preShowMinutes}
-            postShowMinutes={postShowMinutes}
-            containerRef={timelineContainerRef}
-          />
         </div>
+
+
 
         {/* Row 2: Event Format (spans full width on mobile/tablet, spans both columns at lg+) */}
         {!hideFormat && (

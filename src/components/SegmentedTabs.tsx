@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 export interface SegmentedTabOption<T extends string | number = string> {
   id: T;
@@ -8,6 +8,8 @@ export interface SegmentedTabOption<T extends string | number = string> {
   badge?: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
+  panelId?: string;
+  controlsId?: string;
 }
 
 export interface SegmentedTabsProps<T extends string | number = string> {
@@ -51,9 +53,9 @@ export const SEGMENTED_TABS_VARIANTS: Record<
 > = {
   glass: {
     container:
-      "bg-[rgba(0,0,0,0.16)] backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.2)]",
+      "bg-black/40 border border-white/10 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)]",
     pill: "top-1 bottom-1 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-500 shadow-md shadow-purple-600/40",
-    active: "text-white font-semibold",
+    active: "text-white font-bold",
     idle: "text-white/60 hover:text-white",
   },
   outline: {
@@ -203,7 +205,7 @@ export const SegmentedTabs = <T extends string | number = string>({
   const v = SEGMENTED_TABS_VARIANTS[variant];
   const activeIndex = Math.max(
     0,
-    tabs.findIndex((t) => t.id === activeTab),
+    tabs.findIndex((t) => String(t.id) === String(activeTab)),
   );
 
   const isGrid = layout === "grid";
@@ -211,28 +213,35 @@ export const SegmentedTabs = <T extends string | number = string>({
   const shapeClass = shape === "box" ? "rounded-[var(--radius-box)]" : "rounded-full";
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [flexPill, setFlexPill] = useState<{ left: number; width: number } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (layout === "flex") {
+    if (layout === "flex" && containerRef.current) {
       const el = tabRefs.current[activeIndex];
       if (el) {
-        const left = el.offsetLeft;
-        const width = el.offsetWidth;
-        setFlexPill((prev) =>
-          prev && prev.left === left && prev.width === width
-            ? prev
-            : { left, width },
-        );
+        containerRef.current.style.setProperty("--pill-left", `${el.offsetLeft}px`);
+        containerRef.current.style.setProperty("--pill-width", `${el.offsetWidth}px`);
       }
     }
-  }, [activeIndex, activeTab, layout, tabs]);
+  }, [activeIndex, layout]);
+
+  const handleTabClick = (tab: SegmentedTabOption<T>, idx: number) => {
+    if (tab.disabled) return;
+    if (layout === "flex" && containerRef.current) {
+      const el = tabRefs.current[idx];
+      if (el) {
+        containerRef.current.style.setProperty("--pill-left", `${el.offsetLeft}px`);
+        containerRef.current.style.setProperty("--pill-width", `${el.offsetWidth}px`);
+      }
+    }
+    onChange(tab.id);
+  };
 
   const sizeButtonClasses = {
     none: "p-0 text-sm",
-    sm: "px-3 text-xs",
-    md: "px-4 text-sm",
-    lg: "px-5 text-base",
+    sm: "px-3.5 py-1.5 text-xs font-bold",
+    md: "px-4 py-2 text-xs sm:text-sm font-bold",
+    lg: "px-5 py-2.5 text-sm sm:text-base font-bold",
   }[noPadding ? "none" : size];
 
   const hasExplicitZeroPadding =
@@ -255,13 +264,9 @@ export const SegmentedTabs = <T extends string | number = string>({
     "--tab-count": tabs.length,
   };
 
-  if (flexPill) {
-    containerVars["--pill-left"] = `${flexPill.left}px`;
-    containerVars["--pill-width"] = `${flexPill.width}px`;
-  }
-
   return (
     <div
+      ref={containerRef}
       role="tablist"
       aria-label={ariaLabel}
       style={containerVars as React.CSSProperties}
@@ -275,7 +280,7 @@ export const SegmentedTabs = <T extends string | number = string>({
       />
 
       {tabs.map((tab, idx) => {
-        const isActive = tab.id === activeTab;
+        const isActive = String(tab.id) === String(activeTab);
 
         const hasBadge = tab.badge !== undefined && tab.badge !== null;
 
@@ -288,25 +293,40 @@ export const SegmentedTabs = <T extends string | number = string>({
             type="button"
             role="tab"
             aria-selected={isActive}
-            aria-controls={`panel-${String(tab.id)}`}
-            onClick={() => onChange(tab.id)}
+            aria-controls={tab.panelId || tab.controlsId || undefined}
+            onClick={() => handleTabClick(tab, idx)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                handleTabClick(tab, idx);
+              }
+            }}
             disabled={tab.disabled}
-            className={`relative z-10 flex h-full cursor-pointer items-center justify-center ${shapeClass} border-none font-medium whitespace-nowrap transition-colors duration-[250ms] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40 select-none ${sizeButtonClasses} ${isActive ? v.active : v.idle}`}
+            className={`relative z-10 flex h-full cursor-pointer items-center justify-center ${shapeClass} border-none whitespace-nowrap transition-colors duration-[250ms] focus:outline-none disabled:cursor-not-allowed disabled:opacity-40 select-none pointer-events-auto touch-manipulation active:scale-[0.98] ${sizeButtonClasses} ${isActive ? v.active : v.idle}`}
           >
-            {tab.icon && <span className="inline-flex items-center shrink-0 mr-2">{tab.icon}</span>}
-            <span className="relative inline-flex items-center">
-              {tab.label}
+            <div
+              className={`flex w-full items-center ${
+                hasBadge ? "justify-between gap-3" : "justify-center gap-2"
+              }`}
+            >
+              {tab.icon && (
+                <span className="inline-flex shrink-0 items-center">
+                  {tab.icon}
+                </span>
+              )}
+              <span className="truncate">{tab.label}</span>
               {hasBadge && (
                 <span
-                  className={`pointer-events-none absolute -top-1 -right-4.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full px-1 text-[9px] font-bold leading-none transition-colors duration-[250ms] ${isActive
-                    ? "bg-white/20 text-white"
-                    : "bg-white/10 text-white/60"
-                    }`}
+                  className={`inline-flex shrink-0 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-bold leading-none transition-colors duration-[250ms] ${
+                    isActive
+                      ? "bg-white/20 text-white"
+                      : "bg-white/10 text-white/55"
+                  }`}
                 >
                   {tab.badge}
                 </span>
               )}
-            </span>
+            </div>
           </button>
         );
       })}

@@ -446,50 +446,49 @@ export default function FooterProximityAlerts() {
                   {BAND_FORMATS.map((item) => {
                     const isSelected = isAll || activeTypeSet.has(item.id);
                     return (
-                      <button
+                      <div
                         key={item.id}
-                        type="button"
-                        onClick={(e) => toggleType(item.id, e)}
-                        className={`group flex cursor-pointer items-center justify-between rounded-xl border p-3 text-left transition-colors duration-200 ${isSelected
+                        className={`group flex items-center justify-between rounded-xl border p-2.5 sm:p-3 text-left transition-colors duration-200 ${isSelected
                           ? "border-purple-400/60 bg-purple-950/40 text-white ring-1 ring-purple-500/50 "
                           : "border-white/10 bg-white/[0.02] text-white/60 hover:border-white/20 hover:text-white"
                           }`}
                       >
-                        <div className="min-w-0 pr-2">
-                          <div className="flex items-center gap-2">
-                            <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.dot}`} />
-                            <span className="truncate text-xs font-semibold">
-                              {item.label}
+                        <button
+                          type="button"
+                          role="checkbox"
+                          aria-checked={isSelected}
+                          onClick={(e) => toggleType(item.id, e)}
+                          className="flex flex-1 items-center justify-between min-w-0 pr-1 text-left cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-purple-400 rounded-lg"
+                        >
+                          <div className="min-w-0 pr-2">
+                            <div className="flex items-center gap-2">
+                              <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.dot}`} />
+                              <span className="truncate text-xs font-semibold">
+                                {item.label}
+                              </span>
+                            </div>
+                            <span className="mt-0.5 block truncate text-[10px] text-white/50">
+                              {item.desc}
                             </span>
                           </div>
-                          <span className="mt-0.5 block truncate text-[10px] text-white/50">
-                            {item.desc}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {(isAll || selectedTypes.length > 1) && (
-                            <span
-                              role="button"
-                              tabIndex={0}
-                              onClick={(e) => selectOnlyType(item.id, e)}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  selectOnlyType(item.id, e as unknown as React.MouseEvent);
-                                }
-                              }}
-                              className="opacity-0 group-hover:opacity-100 hover:!opacity-100 transition-[opacity,background-color,color] duration-150 rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white"
-                              title={`Select only ${item.label}`}
-                            >
-                              Only
-                            </span>
-                          )}
                           {isSelected ? (
                             <Check className="h-4 w-4 shrink-0 text-purple-300 stroke-[3]" />
                           ) : (
                             <span className="h-4 w-4 shrink-0 rounded-full border border-white/20" />
                           )}
-                        </div>
-                      </button>
+                        </button>
+                        {(isAll || selectedTypes.length > 1) && (
+                          <button
+                            type="button"
+                            onClick={(e) => selectOnlyType(item.id, e)}
+                            className="opacity-0 group-hover:opacity-100 hover:!opacity-100 focus:opacity-100 transition-[opacity,background-color,color] duration-150 rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white cursor-pointer shrink-0 ml-1"
+                            title={`Select only ${item.label}`}
+                            aria-label={`Select only ${item.label}`}
+                          >
+                            Only
+                          </button>
+                        )}
+                      </div>
                     );
                   })}
                 </div>
@@ -504,50 +503,49 @@ export default function FooterProximityAlerts() {
                   {VENUE_FORMATS.map((item) => {
                     const isSelected = isAll || activeTypeSet.has(item.id);
                     return (
-                      <button
+                      <div
                         key={item.id}
-                        type="button"
-                        onClick={(e) => toggleType(item.id, e)}
-                        className={`group flex cursor-pointer items-center justify-between rounded-xl border p-3 text-left transition-colors duration-200 ${isSelected
+                        className={`group flex items-center justify-between rounded-xl border p-2.5 sm:p-3 text-left transition-colors duration-200 ${isSelected
                           ? "border-purple-400/60 bg-purple-950/40 text-white ring-1 ring-purple-500/50 "
                           : "border-white/10 bg-white/[0.02] text-white/60 hover:border-white/20 hover:text-white"
                           }`}
                       >
-                        <div className="min-w-0 pr-2">
-                          <div className="flex items-center gap-2">
-                            <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.dot}`} />
-                            <span className="truncate text-xs font-semibold">
-                              {item.label}
+                        <button
+                          type="button"
+                          role="checkbox"
+                          aria-checked={isSelected}
+                          onClick={(e) => toggleType(item.id, e)}
+                          className="flex flex-1 items-center justify-between min-w-0 pr-1 text-left cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-purple-400 rounded-lg"
+                        >
+                          <div className="min-w-0 pr-2">
+                            <div className="flex items-center gap-2">
+                              <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.dot}`} />
+                              <span className="truncate text-xs font-semibold">
+                                {item.label}
+                              </span>
+                            </div>
+                            <span className="mt-0.5 block truncate text-[10px] text-white/50">
+                              {item.desc}
                             </span>
                           </div>
-                          <span className="mt-0.5 block truncate text-[10px] text-white/50">
-                            {item.desc}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {(isAll || selectedTypes.length > 1) && (
-                            <span
-                              role="button"
-                              tabIndex={0}
-                              onClick={(e) => selectOnlyType(item.id, e)}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  selectOnlyType(item.id, e as unknown as React.MouseEvent);
-                                }
-                              }}
-                              className="opacity-0 group-hover:opacity-100 hover:!opacity-100 transition-opacity rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white"
-                              title={`Select only ${item.label}`}
-                            >
-                              Only
-                            </span>
-                          )}
                           {isSelected ? (
                             <Check className="h-4 w-4 shrink-0 text-purple-300 stroke-[3]" />
                           ) : (
                             <span className="h-4 w-4 shrink-0 rounded-full border border-white/20" />
                           )}
-                        </div>
-                      </button>
+                        </button>
+                        {(isAll || selectedTypes.length > 1) && (
+                          <button
+                            type="button"
+                            onClick={(e) => selectOnlyType(item.id, e)}
+                            className="opacity-0 group-hover:opacity-100 hover:!opacity-100 focus:opacity-100 transition-[opacity,background-color,color] duration-150 rounded px-1.5 py-0.5 text-[10px] font-semibold text-purple-300 hover:bg-purple-500/20 hover:text-white cursor-pointer shrink-0 ml-1"
+                            title={`Select only ${item.label}`}
+                            aria-label={`Select only ${item.label}`}
+                          >
+                            Only
+                          </button>
+                        )}
+                      </div>
                     );
                   })}
                 </div>

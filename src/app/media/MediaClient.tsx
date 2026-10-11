@@ -62,72 +62,117 @@ interface CardVariant {
   aspectClass: string;
 }
 
-// Organic varied wide aspect-ratios matching House of Yellow collage
-const VARIANTS: CardVariant[] = [
-  { aspectClass: "aspect-[16/9]" },   // Standard wide video
-  { aspectClass: "aspect-[16/10]" },  // Rich wide
-  { aspectClass: "aspect-[4/3]" },    // Classic wide
-  { aspectClass: "aspect-[21/9]" },   // Cinematic ultra-wide
-  { aspectClass: "aspect-[16/9]" },   // Standard wide
-  { aspectClass: "aspect-square" },   // Square
-  { aspectClass: "aspect-[16/10]" },  // Rich wide
-  { aspectClass: "aspect-[4/5]" },    // Soft portrait
+export type MediaColumnItem =
+  | {
+    type: "video";
+    video: Video;
+    aspectClass: string;
+    widthClass: string;
+    alignClass: string;
+    marginClass: string;
+    offsetClass: string;
+    key: string;
+    priority: boolean;
+  }
+  | {
+    type: "spacer";
+    heightClass: string;
+    key: string;
+  };
+
+// Organic varied aspect-ratios matching high-fashion editorial collage / House of Yellow
+const ORGANIC_ASPECTS = [
+  "aspect-[16/9]",    // Standard widescreen
+  "aspect-[4/3]",     // Vintage broadcast / classic CRT
+  "aspect-[16/10]",   // Cinematic golden
+  "aspect-square",    // Album square
+  "aspect-[4/5]",     // Tall editorial portrait
+  "aspect-[21/9]",    // Cinematic ultra-wide letterbox
+  "aspect-[3/4]",     // Subtle vertical frame
+  "aspect-[3/2]",     // Classic 35mm photography
+  "aspect-[1.18/1]",  // Soft square
+  "aspect-[1.85/1]",  // Flat widescreen
+];
+
+// Varied card widths, alignments & horizontal drift to shatter the rigid column grid
+const ORGANIC_LAYOUTS = [
+  { width: "w-full", align: "self-stretch", offset: "translate-x-0" },
+  { width: "w-[94%] sm:w-[92%]", align: "self-start", offset: "md:translate-x-1" },
+  { width: "w-[92%] sm:w-[90%]", align: "self-end", offset: "md:-translate-x-1" },
+  { width: "w-[88%] sm:w-[86%]", align: "self-center", offset: "translate-x-0" },
+  { width: "w-full", align: "self-stretch", offset: "translate-x-0" },
+  { width: "w-[96%] sm:w-[94%]", align: "self-start", offset: "md:translate-x-2" },
+  { width: "w-[90%] sm:w-[88%]", align: "self-end", offset: "md:-translate-x-2" },
+  { width: "w-[95%] sm:w-[92%]", align: "self-center", offset: "translate-x-0" },
+  { width: "w-[86%] sm:w-[84%]", align: "self-start", offset: "md:translate-x-3" },
+  { width: "w-full", align: "self-stretch", offset: "translate-x-0" },
+];
+
+// Dynamic vertical rhythm: varied margin-bottom to create artistic syncopation
+const ORGANIC_MARGINS = [
+  "mb-4 md:mb-6",
+  "mb-8 md:mb-12",
+  "mb-12 md:mb-18",
+  "mb-6 md:mb-10",
+  "mb-16 md:mb-24",
+  "mb-4 md:mb-8",
+  "mb-10 md:mb-14",
+  "mb-14 md:mb-20",
+];
+
+// Dynamic airy pause heights
+const AIRY_SPACER_HEIGHTS = [
+  "h-16 md:h-24",
+  "h-24 md:h-36",
+  "h-14 md:h-20",
+  "h-32 md:h-48",
+  "h-20 md:h-30",
 ];
 
 const COLUMN_TOP_STAGGERS = [
   "pt-0",
-  "pt-14 md:pt-20 lg:pt-24",
-  "pt-6 md:pt-10 lg:pt-12",
-  "pt-16 md:pt-24 lg:pt-28",
+  "pt-14 md:pt-24 lg:pt-32",
+  "pt-6 md:pt-10 lg:pt-14",
+  "pt-20 md:pt-36 lg:pt-48",
 ];
 
-export type MediaColumnItem =
-  | {
-      type: "video";
-      video: Video;
-      aspectClass: string;
-      key: string;
-      priority: boolean;
-    }
-  | {
-      type: "spacer";
-      aspectClass: string;
-      key: string;
-    };
+// Deterministic seed hash from string so SSR and client always produce identical layout
+function getDeterministicHash(str: string, salt: number = 0): number {
+  let hash = 0;
+  const combined = `${str}_${salt}`;
+  for (let i = 0; i < combined.length; i++) {
+    hash = ((hash << 5) - hash + combined.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
 
-// Deterministic organic patterns for blank slots across columns so lines of four in a row are broken up with airy negative space
-const BLANK_COLUMNS_4: number[][] = [
-  [2],        // Row 0: col 2 is blank (cols 0, 1, 3 have videos)
-  [0],        // Row 1: col 0 is blank (cols 1, 2, 3 have videos)
-  [3],        // Row 2: col 3 is blank (cols 0, 1, 2 have videos)
-  [1],        // Row 3: col 1 is blank (cols 0, 2, 3 have videos)
-  [0, 2],     // Row 4: cols 0 & 2 are blank (cols 1, 3 have videos - airy pause)
-  [3],        // Row 5: col 3 is blank (cols 0, 1, 2 have videos)
-  [1],        // Row 6: col 1 is blank (cols 0, 2, 3 have videos)
-  [0],        // Row 7: col 0 is blank (cols 1, 2, 3 have videos)
-  [2],        // Row 8: col 2 is blank (cols 0, 1, 3 have videos)
-  [1, 3],     // Row 9: cols 1 & 3 are blank (cols 0, 2 have videos - airy pause)
-  [0],        // Row 10: col 0 is blank (cols 1, 2, 3 have videos)
-  [2],        // Row 11: col 2 is blank (cols 0, 1, 3 have videos)
-  [1],        // Row 12: col 1 is blank (cols 0, 2, 3 have videos)
-  [3],        // Row 13: col 3 is blank (cols 0, 1, 2 have videos)
-];
+function getOrganicItemStyle(videoId: string, index: number) {
+  const hash = getDeterministicHash(videoId, index);
+  const aspectClass = ORGANIC_ASPECTS[hash % ORGANIC_ASPECTS.length];
+  const layout = ORGANIC_LAYOUTS[(hash >> 2) % ORGANIC_LAYOUTS.length];
+  const marginClass = ORGANIC_MARGINS[(hash >> 4) % ORGANIC_MARGINS.length];
 
-const BLANK_COLUMNS_3: number[][] = [
-  [1],        // Row 0: col 1 is blank
-  [2],        // Row 1: col 2 is blank
-  [0],        // Row 2: col 0 is blank
-  [1],        // Row 3: col 1 is blank
-  [0],        // Row 4: col 0 is blank
-  [2],        // Row 5: col 2 is blank
-];
+  // Rough aspect ratio multipliers for height estimation
+  let ratio = 0.5625; // 16/9
+  if (aspectClass.includes("4/3")) ratio = 0.75;
+  else if (aspectClass.includes("16/10")) ratio = 0.625;
+  else if (aspectClass.includes("square")) ratio = 1.0;
+  else if (aspectClass.includes("4/5")) ratio = 1.25;
+  else if (aspectClass.includes("21/9")) ratio = 0.428;
+  else if (aspectClass.includes("3/4")) ratio = 1.333;
+  else if (aspectClass.includes("3/2")) ratio = 0.667;
+  else if (aspectClass.includes("1.18/1")) ratio = 0.847;
+  else if (aspectClass.includes("1.85/1")) ratio = 0.54;
 
-const BLANK_COLUMNS_2: number[][] = [
-  [],         // Row 0: 2 videos
-  [1],        // Row 1: col 1 is blank
-  [],         // Row 2: 2 videos
-  [0],        // Row 3: col 0 is blank
-];
+  return {
+    aspectClass,
+    widthClass: layout.width,
+    alignClass: layout.align,
+    offsetClass: layout.offset,
+    marginClass,
+    ratio,
+  };
+}
 
 function getTargetColumnCount(width: number): number {
   if (width >= 2000) return 4;
@@ -223,10 +268,16 @@ function CardVideoEmbed({
     sizeClasses = "w-[250%] h-[140%] min-w-[250%] min-h-[140%]";
   } else if (aspectClass.includes("square")) {
     sizeClasses = "w-[195%] h-[140%] min-w-[195%] min-h-[140%]";
+  } else if (aspectClass.includes("1.18/1")) {
+    sizeClasses = "w-[185%] h-[140%] min-w-[185%] min-h-[140%]";
   } else if (aspectClass.includes("4/3")) {
     sizeClasses = "w-[160%] h-[140%] min-w-[160%] min-h-[140%]";
+  } else if (aspectClass.includes("3/2")) {
+    sizeClasses = "w-[150%] h-[140%] min-w-[150%] min-h-[140%]";
   } else if (aspectClass.includes("21/9")) {
     sizeClasses = "w-[140%] h-[165%] min-w-[140%] min-h-[165%]";
+  } else if (aspectClass.includes("1.85/1")) {
+    sizeClasses = "w-[140%] h-[145%] min-w-[140%] min-h-[145%]";
   }
 
   const hasLocalPreview = AVAILABLE_PREVIEWS.has(videoId);
@@ -237,9 +288,8 @@ function CardVideoEmbed({
   return (
     <div
       ref={containerRef}
-      className={`pointer-events-none absolute inset-0 z-10 overflow-hidden transition-opacity duration-700 ease-out ${
-        inView && isLoaded ? "opacity-100" : "opacity-0"
-      }`}
+      className={`pointer-events-none absolute inset-0 z-10 overflow-hidden transition-opacity duration-700 ease-out ${inView && isLoaded ? "opacity-100" : "opacity-0"
+        }`}
     >
       {inView && hasLocalPreview ? (
         <video
@@ -290,11 +340,11 @@ export default function MediaClient({
   const { member, isLoggedIn } = useMember();
   const isAdmin = Boolean(
     isLoggedIn &&
-      (member?.role === "admin" || member?.role === "crew"),
+    (member?.role === "admin" || member?.role === "crew"),
   );
 
   const mounted = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false,
   );
@@ -399,27 +449,42 @@ export default function MediaClient({
             setCategories(baseCategories);
           }
         }
-      } catch {}
-    } catch {}
+      } catch { }
+    } catch { }
   }, []);
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
 
-  // Flatten all videos
+  // Flatten and organically interleave all videos across categories for an eclectic mix in ALL mode
   const allVideos = useMemo(() => {
     const list: Video[] = [];
     const seen = new Set<string>();
 
-    categories.forEach((cat) => {
-      cat.videos.forEach((v) => {
-        if (!seen.has(v.id)) {
-          seen.add(v.id);
-          list.push({ ...v, category: v.category || cat.category });
+    // Prepare queues per category
+    const categoryQueues = categories.map((cat) =>
+      cat.videos.map((v) => ({ ...v, category: v.category || cat.category }))
+    );
+
+    let hasRemaining = true;
+    let round = 0;
+
+    while (hasRemaining) {
+      hasRemaining = false;
+      for (const queue of categoryQueues) {
+        if (round < queue.length) {
+          const v = queue[round];
+          if (!seen.has(v.id)) {
+            seen.add(v.id);
+            list.push(v);
+          }
+          hasRemaining = true;
         }
-      });
-    });
+      }
+      round++;
+    }
+
     return list;
   }, [categories]);
 
@@ -546,61 +611,68 @@ export default function MediaClient({
     );
   }, [categories]);
 
-  // Responsive column streams partitioning with organic negative-space blank slots
+  // Responsive organic column streams partitioning with dynamic visual heights,
+  // varied card sizes, staggered rhythms, and natural negative-space pauses
   const columns = useMemo(() => {
     const cols: MediaColumnItem[][] = Array.from(
       { length: columnCount },
       () => [],
     );
 
+    // Initial column top stagger weights to offset column streams naturally
+    const STAGGER_INITIAL_WEIGHTS = [0, 140, 50, 210];
+    const colHeights = new Array(columnCount)
+      .fill(0)
+      .map((_, i) => (columnCount > 1 ? STAGGER_INITIAL_WEIGHTS[i % STAGGER_INITIAL_WEIGHTS.length] : 0));
+
     const shouldAddBlanks =
       airyLayout &&
       columnCount >= 2 &&
       filteredVideos.length >= columnCount * 2;
 
-    let videoIdx = 0;
-    let rowIdx = 0;
-
-    while (videoIdx < filteredVideos.length) {
-      let blankCols: number[] = [];
-      if (shouldAddBlanks) {
-        const patternSource =
-          columnCount === 4
-            ? BLANK_COLUMNS_4
-            : columnCount === 3
-              ? BLANK_COLUMNS_3
-              : BLANK_COLUMNS_2;
-        blankCols = patternSource[rowIdx % patternSource.length] || [];
-      }
-
-      const blankSet = new Set(blankCols);
-
-      for (let c = 0; c < columnCount; c++) {
-        if (videoIdx >= filteredVideos.length) break;
-
-        const isBlank = blankSet.has(c);
-        const variant = VARIANTS[(c * 3 + cols[c].length) % VARIANTS.length];
-
-        if (isBlank) {
-          cols[c].push({
-            type: "spacer",
-            aspectClass: variant.aspectClass,
-            key: `spacer-r${rowIdx}-c${c}`,
-          });
-        } else {
-          const video = filteredVideos[videoIdx];
-          cols[c].push({
-            type: "video",
-            video,
-            aspectClass: variant.aspectClass,
-            key: `video-${video.id}-r${rowIdx}-c${c}`,
-            priority: rowIdx === 0 && cols[c].length === 0,
-          });
-          videoIdx++;
+    filteredVideos.forEach((video, idx) => {
+      // Find the column with the least accumulated height
+      let shortestCol = 0;
+      for (let c = 1; c < columnCount; c++) {
+        if (colHeights[c] < colHeights[shortestCol]) {
+          shortestCol = c;
         }
       }
-      rowIdx++;
-    }
+
+      const style = getOrganicItemStyle(video.id, idx);
+      const colItems = cols[shortestCol];
+
+      // Organic airy pause: insert a spacer breath occasionally when airyLayout is enabled
+      if (shouldAddBlanks && colItems.length > 0 && colItems[colItems.length - 1].type === "video") {
+        const hash = getDeterministicHash(video.id, idx + shortestCol * 17);
+        // Approximately 1 in 3 cards triggers an airy breathing space
+        if (hash % 3 === 0) {
+          const spacerHeight = AIRY_SPACER_HEIGHTS[(hash >> 2) % AIRY_SPACER_HEIGHTS.length];
+          colItems.push({
+            type: "spacer",
+            heightClass: spacerHeight,
+            key: `spacer-${video.id}-${idx}`,
+          });
+          colHeights[shortestCol] += 140;
+        }
+      }
+
+      // Add the video card
+      colItems.push({
+        type: "video",
+        video,
+        aspectClass: style.aspectClass,
+        widthClass: style.widthClass,
+        alignClass: style.alignClass,
+        marginClass: style.marginClass,
+        offsetClass: style.offsetClass,
+        key: `video-${video.id}-${idx}`,
+        priority: idx < columnCount * 2,
+      });
+
+      // Update column height estimate: (baseWidth 360 * ratio) + estimated margin & title
+      colHeights[shortestCol] += 360 * style.ratio + 110;
+    });
 
     return cols;
   }, [filteredVideos, columnCount, airyLayout]);
@@ -693,8 +765,11 @@ export default function MediaClient({
   const renderCard = (
     video: Video,
     aspectClass: string,
+    widthClass: string = "w-full",
+    alignClass: string = "self-stretch",
+    marginClass: string = "mb-8",
+    offsetClass: string = "translate-x-0",
     keySuffix?: string,
-    sizeClass?: string,
     priority?: boolean,
   ) => {
     const isHovered = !playingVideo && hoveredVideoId === video.id;
@@ -702,7 +777,7 @@ export default function MediaClient({
     return (
       <div
         key={`${activeFilter}-${video.id}${keySuffix ? `-${keySuffix}` : ""}`}
-        className={`w-full ${sizeClass || ""} transition-transform duration-500`}
+        className={`${widthClass} ${alignClass} ${marginClass} ${offsetClass} transition-transform duration-500`}
       >
         <div
           role="button"
@@ -737,9 +812,8 @@ export default function MediaClient({
                 fill
                 priority={priority}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                className={`object-cover transition-transform duration-500 ease-out ${
-                  isHovered ? "scale-[1.08]" : "scale-100"
-                }`}
+                className={`object-cover transition-transform duration-500 ease-out ${isHovered ? "scale-[1.08]" : "scale-100"
+                  }`}
               />
 
               {/* Autoplaying video 20s in (eager loaded before reveal for top priority cards) */}
@@ -756,9 +830,8 @@ export default function MediaClient({
           {/* Title and Other Info OUTSIDE of the video */}
           <div className="mt-4 flex flex-col gap-1.5 px-0.5">
             <div className="flex items-center gap-2.5">
-              <span className="h-3 w-3 shrink-0 rounded-[2px] bg-[#f2efa3] shadow-[0_0_8px_#f2efa3]" />
               {/* heading-size-ok: card title outside video */}
-              <h2 className="line-clamp-2 text-base font-bold tracking-tight text-white group-hover:text-[#f2efa3] transition-colors duration-150 drop-shadow-sm sm:text-lg">
+              <h2 className="line-clamp-2 text-base  tracking-tight text-white group-hover:text-[#f2efa3] transition-colors duration-150 drop-shadow-sm sm:text-lg">
                 {video.title}
               </h2>
             </div>
@@ -936,7 +1009,7 @@ export default function MediaClient({
                     ref={(el) => {
                       columnRefs.current[colIndex] = el;
                     }}
-                    className={`flex-1 min-w-0 flex flex-col gap-6 md:gap-8 ${topPadding}`}
+                    className={`flex-1 min-w-0 flex flex-col items-stretch ${topPadding}`}
                   >
                     {colItems.map((item) => {
                       if (item.type === "spacer") {
@@ -944,19 +1017,19 @@ export default function MediaClient({
                           <div
                             key={item.key}
                             aria-hidden="true"
-                            className="w-full select-none pointer-events-none"
-                          >
-                            <div className={`w-full ${item.aspectClass}`} />
-                            <div className="mt-4 h-14 sm:h-16" />
-                          </div>
+                            className={`w-full select-none pointer-events-none ${item.heightClass}`}
+                          />
                         );
                       }
 
                       return renderCard(
                         item.video,
                         item.aspectClass,
+                        item.widthClass,
+                        item.alignClass,
+                        item.marginClass,
+                        item.offsetClass,
                         item.key,
-                        undefined,
                         item.priority,
                       );
                     })}

@@ -54,6 +54,7 @@
     "@xyflow/react": "^12.11.3",
     "cheerio": "^1.2.0",
     "dompurify": "^3.4.13",
+    "ecc-universal": "^2.2.3",
     "framer-motion": "^13.1.0",
     "gsap": "^3.15.0",
     "isomorphic-dompurify": "^3.22.0",

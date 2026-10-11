@@ -30,8 +30,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { DotChevronDown } from "@/components/ui/DotArrow";
-import { Check, Search } from "lucide-react";
+import { Check, Search, ChevronDown } from "lucide-react";
 
 export type DropdownLayout = "unified" | "spotlight" | "bento" | "minimal";
 
@@ -259,43 +258,62 @@ export default function GooeyDropdown({
           aria-haspopup="menu"
           aria-expanded={open}
           aria-label={ariaLabel}
-          className={`relative flex w-full cursor-pointer items-center justify-between gap-2.5 rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-all duration-200 ${
+          className={`relative flex w-full cursor-pointer items-center justify-between gap-2.5 rounded-full border border-purple-500/35 bg-[#0a0518] px-4 py-2 text-xs font-mono font-medium tracking-wide text-purple-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_12px_rgba(0,0,0,0.4)] transition-all duration-150 hover:border-purple-400/70 hover:bg-[#130728] hover:text-white active:scale-[0.98] ${
             open
-              ? "border border-purple-400 bg-purple-600/35 text-white shadow-[0_0_15px_rgba(192,132,252,0.45)]"
-              : "border border-white/15 bg-white/10 text-white/90 hover:border-white/30 hover:bg-white/15 hover:text-white"
+              ? "border-purple-400 ring-2 ring-purple-500/35 text-white shadow-[0_0_18px_rgba(168,85,247,0.35)]"
+              : ""
           } ${buttonClassName}`}
         >
-          <span className="truncate">{label}</span>
-          {showChevron && (
-            <DotChevronDown
-              className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${
-                open ? "rotate-180" : ""
-              }`}
-            />
-          )}
+          <span className="flex items-center gap-2 truncate">
+            <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_#c084fc] shrink-0" />
+            <span className="truncate">{label}</span>
+          </span>
+          <span className="flex items-center gap-1.5 text-purple-300/70 shrink-0">
+            <span className="rounded border border-purple-500/30 bg-purple-950/60 px-1.5 py-0.5 text-[9px] font-sans font-bold text-purple-200">
+              ⌘K
+            </span>
+            {showChevron && (
+              <ChevronDown
+                className={`h-3 w-3 text-purple-300 transition-transform duration-200 ${
+                  open ? "rotate-180" : ""
+                }`}
+              />
+            )}
+          </span>
         </button>
 
         {open && (
           <div
             data-lenis-prevent
-            className="absolute top-[calc(100%+8px)] left-0 z-[9999] w-full min-w-[260px] max-w-[340px] rounded-2xl border border-white/20 bg-[#170a2c]/95 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_20px_rgba(168,85,247,0.25)] backdrop-blur-2xl duration-150 animate-in fade-in zoom-in-95"
+            className="absolute top-[calc(100%+8px)] left-0 z-[9999] w-full min-w-[260px] max-w-[340px] rounded-2xl border border-purple-500/35 bg-[#0c061e]/98 p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_25px_rgba(168,85,247,0.25)] backdrop-blur-2xl duration-150 animate-in fade-in zoom-in-95"
           >
             {items.length > 5 && (
               <div className="relative mb-2 px-1">
-                <Search className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-white/40" />
+                <Search className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-purple-300/50" />
                 <input
                   type="text"
-                  placeholder="Filter options..."
+                  placeholder={
+                    typeof label === "string" && label.toLowerCase().includes("date")
+                      ? "Search dates..."
+                      : "Search locations..."
+                  }
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && filteredItems.length > 0) {
+                      e.preventDefault();
+                      filteredItems[0]?.onClick?.();
+                      closeDropdown();
+                    }
+                  }}
                   autoFocus
-                  className="w-full rounded-xl border border-white/10 bg-white/5 py-1.5 pr-3 pl-8 text-xs text-white placeholder-white/40 outline-none transition-colors focus:border-purple-400/60 focus:bg-white/10"
+                  className="w-full rounded-xl border border-purple-500/30 bg-purple-950/40 py-1.5 pr-2.5 pl-8 text-xs text-white placeholder-purple-300/40 outline-none transition-colors focus:border-purple-400 focus:bg-purple-950/70 focus:ring-1 focus:ring-purple-400/40"
                 />
               </div>
             )}
             <ul
               role="menu"
-              className="gooey-drop-menu flex max-h-[300px] flex-col gap-1 overflow-y-auto overscroll-contain pr-0.5"
+              className="gooey-drop-menu flex max-h-[300px] flex-col gap-1 overflow-y-auto overscroll-contain pr-0.5 custom-scrollbar"
             >
               {filteredItems.map((item) => (
                 <li
@@ -316,28 +334,28 @@ export default function GooeyDropdown({
                     className={`group flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${
                       item.selected
                         ? "border border-purple-400/50 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]"
-                        : "text-white/80 hover:bg-white/10 hover:text-white"
+                        : "text-purple-100/80 hover:bg-purple-900/30 hover:text-white"
                     }`}
                   >
                     <span className="flex items-center gap-2 truncate">
+                      {item.selected && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc] shrink-0" />
+                      )}
                       {item.icon}
-                      <span>{item.label}</span>
+                      <span className="truncate">{item.label}</span>
                     </span>
                     <span className="flex shrink-0 items-center gap-2">
                       {item.badge !== undefined && (
-                        <span className="rounded-full bg-purple-500/20 px-2 py-0.5 text-[10px] font-semibold text-purple-300">
+                        <span className="rounded bg-purple-950/60 border border-purple-500/20 px-1.5 py-0.5 text-[10px] text-purple-300 font-mono">
                           {item.badge}
                         </span>
-                      )}
-                      {item.selected && (
-                        <Check className="h-3.5 w-3.5 text-purple-300 drop-shadow-[0_0_6px_rgba(192,132,252,0.8)]" />
                       )}
                     </span>
                   </button>
                 </li>
               ))}
               {filteredItems.length === 0 && (
-                <li className="py-4 text-center text-xs text-white/40">
+                <li className="py-4 text-center text-xs text-purple-300/50">
                   No matching options
                 </li>
               )}
@@ -373,7 +391,7 @@ export default function GooeyDropdown({
         >
           <span className="truncate">{label}</span>
           {showChevron && (
-            <DotChevronDown
+            <ChevronDown
               className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${
                 open ? "rotate-180" : ""
               }`}
@@ -457,7 +475,7 @@ export default function GooeyDropdown({
             <span>{label}</span>
           </span>
           {showChevron && (
-            <DotChevronDown
+            <ChevronDown
               className={`h-3 w-3 shrink-0 text-purple-300 transition-transform duration-300 ${
                 open ? "rotate-180" : ""
               }`}
@@ -536,7 +554,7 @@ export default function GooeyDropdown({
         >
           <span>{label}</span>
           {showChevron && (
-            <DotChevronDown
+            <ChevronDown
               className="gooey-drop-chevron h-3 w-3 shrink-0"
               data-open={open}
             />

@@ -35,7 +35,6 @@ import LocationPinIcon from "./LocationPinIcon";
 import { SanityTourDate } from "@/lib/sanity";
 import Script from "next/script";
 import dynamic from "next/dynamic";
-import type { DropdownLayout } from "./GooeyDropdown";
 const TourMap = dynamic(() => import("./TourMap"), { ssr: false });
 import {
   isShowOver,
@@ -783,7 +782,6 @@ export default function TourList({
   const [activeType, setActiveType] = useState("All");
   const [activeCity, setActiveCity] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [dropdownLayout, setDropdownLayout] = useState<DropdownLayout>("unified");
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
 
   const [activeCalDropdownId, setActiveCalDropdownId] = useState<string | null>(
@@ -1692,34 +1690,6 @@ export default function TourList({
                   </button>
                 )}
               </div>
-
-              {/* Interactive Dropdown Layout Switcher */}
-              <div className="flex flex-wrap items-center gap-1 rounded-full border border-white/10 bg-black/40 p-1 backdrop-blur-md">
-                <span className="hidden px-2 text-[10px] font-extrabold uppercase tracking-widest text-purple-300/70 sm:inline">
-                  Dropdown Style:
-                </span>
-                {(
-                  [
-                    { id: "unified", label: "Pill Unroll" },
-                    { id: "spotlight", label: "Glass Spotlight" },
-                    { id: "bento", label: "Bento Grid" },
-                    { id: "minimal", label: "Minimal HUD" },
-                  ] as const
-                ).map((l) => (
-                  <button
-                    key={l.id}
-                    type="button"
-                    onClick={() => setDropdownLayout(l.id)}
-                    className={`cursor-pointer rounded-full px-2.5 py-1 text-2xs font-bold uppercase tracking-wider transition-all duration-150 ${
-                      dropdownLayout === l.id
-                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm shadow-purple-600/50 ring-1 ring-white/30"
-                        : "text-white/60 hover:bg-white/10 hover:text-white"
-                    }`}
-                  >
-                    {l.label}
-                  </button>
-                ))}
-              </div>
             </div>
 
             {/* 7-Column Header Grid (Aligned 1:1 with tour data rows) */}
@@ -1727,7 +1697,7 @@ export default function TourList({
               className={`flex flex-wrap lg:grid ${gridClass} w-full items-center gap-3 sm:gap-4 lg:gap-8 font-bold text-white`}
             >
               {/* Column 1: DAY */}
-              <span className="hidden text-[clamp(16px,1.4vw,21px)] font-bold lg:inline-block">
+              <span className="hidden text-[clamp(16px,1.4vw,22px)] font-bold lg:inline-block">
                 Day
               </span>
 
@@ -1736,12 +1706,12 @@ export default function TourList({
                 <GooeyMessagesDropdown
                   fullWidth
                   showAllOption
-                  layout={dropdownLayout}
+                  layout="spotlight"
                   allOptionLabel="DATES"
                   placeholder="DATES"
                   selected={activeMonth}
                   defaultSelectedId={activeMonth}
-                  customers={months.map((m) => ({ id: m, name: m }))}
+                  customers={months.map((m) => ({ id: m, name: m.toUpperCase() }))}
                   onSelect={(opt) => setActiveMonth(opt.id)}
                 />
               </div>
@@ -1756,14 +1726,15 @@ export default function TourList({
                 <GooeyMessagesDropdown
                   fullWidth
                   showAllOption
-                  layout={dropdownLayout}
+                  layout="spotlight"
                   allOptionLabel="LOCATION"
                   placeholder="LOCATION"
                   selected={activeCity}
                   defaultSelectedId={activeCity}
                   customers={locationOptions.map(({ city, count }) => ({
                     id: city,
-                    name: `${city} (${count})`,
+                    name: city.toUpperCase(),
+                    badge: count,
                   }))}
                   onSelect={(opt) => setActiveCity(opt.id)}
                 />

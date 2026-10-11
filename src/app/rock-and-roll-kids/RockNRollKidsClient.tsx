@@ -9,7 +9,6 @@ import CosmicTrackCard from "@/components/CosmicTrackCard";
 import AddCmsButton from "@/components/AddCmsButton";
 import SectionHeader from "@/components/SectionHeader";
 import PageHero from "@/components/PageHero";
-import BandVideoLoop from "@/components/BandVideoLoop";
 import { getMediaUrl } from "@/lib/sanity";
 
 const ABOUT_DATA = {
@@ -543,9 +542,22 @@ export default function RockNRollKidsClient({
         align="left"
         className="mb-6"
       >
-        {/* Animated band loop */}
+        {/* Hero image lineup */}
         <div className="relative mt-6 w-full">
-          <BandVideoLoop className="mx-auto max-w-5xl" />
+          <Image
+            src={getMediaUrl(
+              sanityContent?.heroBannerImage,
+              "/images/7hrrk/c-all.png",
+            )}
+            alt={
+              sanityContent?.heroHeading ||
+              "7th Heaven and the Rock 'n' Roll Kids Full Cast Lineup"
+            }
+            width={1918}
+            height={748}
+            className="mx-auto h-auto w-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+            priority
+          />
         </div>
       </PageHero>
 
@@ -776,10 +788,10 @@ export default function RockNRollKidsClient({
           {productsList.map((prod: any) => (
             <article
               key={prod.id}
-              className="group flex flex-col justify-between overflow-hidden border border-white/10 bg-[#0b0718]/90 p-4"
+              className="group flex flex-col justify-between overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[#0b0718]/90 p-4 shadow-lg transition-all duration-300 hover:border-white/20 hover:shadow-purple-950/30"
             >
               <div>
-                <div className="relative mb-3 aspect-[3/4] w-full overflow-hidden bg-black/40">
+                <div className="relative mb-3 aspect-[3/4] w-full overflow-hidden rounded-[calc(var(--radius-box)-6px)] bg-black/40">
                   <Image
                     src={prod.coverImg}
                     alt={`${prod.title} book cover`}
@@ -787,7 +799,7 @@ export default function RockNRollKidsClient({
                     loading="lazy"
                     decoding="async"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
                 <span className="mb-1 block text-muted text-xs font-semibold uppercase">{prod.badge}</span>
@@ -829,13 +841,13 @@ export default function RockNRollKidsClient({
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:gap-8 w-full">
           {foundersList.map((founder: any) => (
             <article
               key={founder.name}
               className="group flex flex-col gap-4"
             >
-              <div className="relative flex aspect-[4/3] max-h-[460px] w-full items-end justify-center overflow-hidden rounded-2xl [mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_75%,transparent_98%)] sm:aspect-[1.2/1]">
+              <div className="relative flex aspect-[1.2/1] w-full items-end justify-center overflow-hidden rounded-[var(--radius-box)] [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] max-h-[500px] sm:max-h-[540px] md:max-h-[580px] lg:max-h-[620px]">
                 {/* Mobile Image */}
                 <Image
                   src={founder.mobileImg}
@@ -849,7 +861,7 @@ export default function RockNRollKidsClient({
                   src={founder.desktopImg}
                   alt={`${founder.name} Desktop`}
                   fill
-                  sizes="(min-width: 641px) 50vw, 100vw"
+                  sizes="(min-width: 1280px) 700px, (min-width: 768px) 50vw, 100vw"
                   className="hidden object-contain object-bottom sm:block"
                 />
                 {/* Bottom Gradient Mask Overlay */}

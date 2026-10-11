@@ -2,9 +2,25 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 export async function POST() {
+  // Block in production — this route should only run during development setup
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { error: "This endpoint is disabled in production" },
+      { status: 403 },
+    );
+  }
+
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
+    if (!supabaseServiceKey) {
+      return NextResponse.json(
+        { error: "Missing SUPABASE_SERVICE_ROLE_KEY" },
+        { status: 500 },
+      );
+    }
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Execute table setups in parallel
@@ -111,9 +127,9 @@ CREATE TABLE IF NOT EXISTS fan_picks (
 CREATE INDEX IF NOT EXISTS idx_fan_picks_user ON fan_picks(user_id);
 
 ALTER TABLE fan_picks ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can read own picks" ON fan_picks FOR SELECT USING (true);
-CREATE POLICY "Service role can insert picks" ON fan_picks FOR INSERT WITH CHECK (true);
-CREATE POLICY "Service role can update picks" ON fan_picks FOR UPDATE USING (true);
+CREATE POLICY "Users can read own picks" ON fan_picks FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Service role can insert picks" ON fan_picks FOR INSERT WITH CHECK (auth.role() = 'service_role');
+CREATE POLICY "Service role can update picks" ON fan_picks FOR UPDATE USING (auth.role() = 'service_role');
 
 CREATE TABLE IF NOT EXISTS lotteries (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -129,7 +145,7 @@ CREATE TABLE IF NOT EXISTS lotteries (
 
 ALTER TABLE lotteries ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Anyone can read lotteries" ON lotteries FOR SELECT USING (true);
-CREATE POLICY "Service role can manage lotteries" ON lotteries FOR ALL USING (true);
+CREATE POLICY "Service role can manage lotteries" ON lotteries FOR ALL USING (auth.role() = 'service_role');
 
 CREATE TABLE IF NOT EXISTS lottery_entries (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -143,8 +159,8 @@ CREATE INDEX IF NOT EXISTS idx_lottery_entries_user ON lottery_entries(user_id);
 CREATE INDEX IF NOT EXISTS idx_lottery_entries_lottery ON lottery_entries(lottery_id);
 
 ALTER TABLE lottery_entries ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can read own entries" ON lottery_entries FOR SELECT USING (true);
-CREATE POLICY "Authenticated can enter" ON lottery_entries FOR INSERT WITH CHECK (true);
+CREATE POLICY "Users can read own entries" ON lottery_entries FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Authenticated can enter" ON lottery_entries FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Seed some lotteries
 INSERT INTO lotteries (name, prize, requirement_type, requirement_value, ends_at) VALUES

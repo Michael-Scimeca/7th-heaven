@@ -7,11 +7,14 @@ import { type DropdownLayout } from "./GooeyDropdown";
 export interface DropdownOption {
   label: string;
   value: string;
+  badge?: string | number;
 }
 
 export interface GooeyCustomer {
   id: string;
   name: string;
+  badge?: string | number;
+  count?: number;
 }
 
 export interface GooeyMessagesDropdownProps {
@@ -69,7 +72,7 @@ export default function GooeyMessagesDropdown({
   fullWidth = false,
   disabled = false,
   maxHeight,
-  layout = "unified",
+  layout = "spotlight",
 }: GooeyMessagesDropdownProps) {
   const [internalSelected, setInternalSelected] = useState<string>(
     selected !== undefined ? selected : (defaultSelectedId ?? ""),
@@ -88,12 +91,19 @@ export default function GooeyMessagesDropdown({
         return {
           value: opt?.value !== undefined ? String(opt.value) : `opt-${i}`,
           label: opt?.label || opt?.value || `Option ${i + 1}`,
+          badge: opt?.badge,
         };
       });
     } else {
       list = customers.map((c) => ({
         value: c.id,
         label: c.name,
+        badge:
+          c.badge !== undefined
+            ? c.badge
+            : c.count !== undefined
+              ? c.count
+              : undefined,
       }));
     }
 

@@ -19,6 +19,8 @@ import {
   Calendar as CalendarIcon,
   Compass,
   X,
+  ShieldCheck,
+  Check,
   Loader2,
   CheckCircle2,
 } from "lucide-react";
@@ -54,6 +56,7 @@ import SegmentedTabs from "@/components/SegmentedTabs";
 import CheckMarkIcon from "@/components/CheckMarkIcon";
 import AddCmsButton from "@/components/AddCmsButton";
 import CustomDropdown from "@/components/CustomDropdown";
+import SegmentedCapsuleSwitch from "@/components/SegmentedCapsuleSwitch";
 import HelperText from "@/components/ui/HelperText";
 import { useMember } from "@/context/MemberContext";
 import { BANDS_DATA } from "../cruiseData";
@@ -317,14 +320,19 @@ function CruiseCabinsPricingSectionComponent({
           </p>
 
           {/* Pricing Year Toggle */}
-          <div className="mt-6 max-w-full overflow-x-auto hide-scrollbar py-1">
+          <div
+            data-lenis-prevent="true"
+            data-lenis-prevent-wheel="true"
+            data-lenis-prevent-touch="true"
+            className="mt-6 max-w-full overflow-x-auto hide-scrollbar py-1 touch-pan-x"
+          >
             <SegmentedTabs<2027 | 2028>
               tabs={[
                 { id: 2027, label: "2027 Star of the Seas (7-Night)" },
                 { id: 2028, label: "2028 Legend of the Seas (8-Night)" },
               ]}
               activeTab={activePriceYear}
-              onChange={(year) => setActivePriceYear(year)}
+              onChange={(year) => setActivePriceYear(Number(year) as 2027 | 2028)}
               layout="flex"
               shape="full"
               size="md"
@@ -1273,8 +1281,8 @@ function CruiseCabinsPricingSectionComponent({
 
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
-                      <label>Travel Insurance? (Yes / No)</label>
-                      <CustomDropdown
+                      <SegmentedCapsuleSwitch
+                        label="Travel Insurance? (Yes / No)"
                         value={formData.insurance || "no"}
                         onChange={(val) =>
                           setFormData((prev: any) => ({
@@ -1283,19 +1291,23 @@ function CruiseCabinsPricingSectionComponent({
                           }))
                         }
                         options={[
-                          { value: "no", label: "No - I decline insurance" },
+                          {
+                            value: "no",
+                            label: "NO, DECLINE",
+                            icon: <X className="h-3.5 w-3.5 text-rose-400" />,
+                          },
                           {
                             value: "yes",
-                            label: "Yes - Send me insurance quote options",
+                            label: "YES, SEND QUOTE",
+                            icon: <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />,
                           },
                         ]}
-                        chevronColor="#f43f5e"
                       />
                     </div>
 
                     <div>
-                      <label>Pre-Paid Gratuities? (Y/N?) *</label>
-                      <CustomDropdown
+                      <SegmentedCapsuleSwitch
+                        label="Pre-Paid Gratuities? (Y/N?) *"
                         value={formData.prepaidGratuities || "yes"}
                         onChange={(val) =>
                           setFormData((prev: any) => ({
@@ -1305,15 +1317,16 @@ function CruiseCabinsPricingSectionComponent({
                         }
                         options={[
                           {
-                            value: "yes",
-                            label: "Yes - Add pre-paid gratuities",
+                            value: "no",
+                            label: "NO, ONBOARD",
+                            icon: <X className="h-3.5 w-3.5 text-rose-400" />,
                           },
                           {
-                            value: "no",
-                            label: "No - Pay gratuities onboard ship",
+                            value: "yes",
+                            label: "YES, PRE-PAY",
+                            icon: <Check className="h-3.5 w-3.5 text-emerald-400" />,
                           },
                         ]}
-                        chevronColor="#f43f5e"
                       />
                       <HelperText>Group rate rooms must have this</HelperText>
                     </div>

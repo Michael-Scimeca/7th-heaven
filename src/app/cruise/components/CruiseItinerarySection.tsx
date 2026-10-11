@@ -58,14 +58,19 @@ export default function CruiseItinerarySection({
           </div>
 
           {/* Itinerary Year Toggle */}
-          <div className="my-6 max-w-full overflow-x-auto hide-scrollbar py-1">
+          <div
+            data-lenis-prevent="true"
+            data-lenis-prevent-wheel="true"
+            data-lenis-prevent-touch="true"
+            className="relative z-30 my-6 max-w-full overflow-x-auto hide-scrollbar py-1 touch-pan-x"
+          >
             <SegmentedTabs<2027 | 2028>
               tabs={[
                 { id: 2027, label: "⭐ 2027 Star of the Seas (7-Night Caribbean)" },
                 { id: 2028, label: "🌊 2028 Legend of the Seas (8-Night Bahamas)" },
               ]}
               activeTab={activeItinYear}
-              onChange={(year) => setActiveItinYear(year)}
+              onChange={(year) => setActiveItinYear(Number(year) as 2027 | 2028)}
               layout="flex"
               shape="full"
               size="md"
@@ -77,9 +82,8 @@ export default function CruiseItinerarySection({
 
         <div className="w-full">
           <CruiseSnakeItinerary
-            key={`itin-${activeItinYear}`}
             itinerary={mapToSnakeItinerary(
-              activeItinYear === 2027 ? rawItin2027 : rawItin2028,
+              Number(activeItinYear) === 2027 ? rawItin2027 : rawItin2028,
             )}
             hideHeader
           />

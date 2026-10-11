@@ -28,7 +28,6 @@ import {
   Megaphone,
   MapPin,
   Navigation,
-  Clock,
   Compass,
   FileText,
   Bookmark,
@@ -132,7 +131,7 @@ const DEFAULT_SAVED_ADDRESSES: SavedAddress[] = [
   },
 ];
 
-import { MiniDatePicker } from "./components/MiniDatePicker";
+
 import HelperText from "@/components/ui/HelperText";
 import {
   TextAreaField,
@@ -739,6 +738,19 @@ function BookPageContent({
         ? formatPhoneDisplay(e.target.value)
         : e.target.value;
     setFormData((prev) => ({ ...prev, [e.target.name]: value }));
+    if (e.target.name === "startTime") {
+      setBookingSlots((prev) =>
+        prev.map((s) => ({ ...s, startTime: value })),
+      );
+    } else if (e.target.name === "endTime") {
+      setBookingSlots((prev) =>
+        prev.map((s) => ({ ...s, endTime: value })),
+      );
+    } else if (e.target.name === "eventStartTime") {
+      setBookingSlots((prev) =>
+        prev.map((s) => ({ ...s, doorsTime: value })),
+      );
+    }
     // Clear validation errors when user edits
     if (validationErrors.length > 0) setValidationErrors([]);
   };
@@ -1300,6 +1312,26 @@ function BookPageContent({
                 onEventEndTimeChange={(t) =>
                   setFormData((p) => ({ ...p, eventEndTime: t }))
                 }
+                loadInTime={formData.loadInTime}
+                onLoadInTimeChange={(t) =>
+                  setFormData((p) => ({ ...p, loadInTime: t }))
+                }
+                isLoadInUnsure={isLoadInUnsure}
+                onLoadInUnsureChange={(next) => {
+                  setIsLoadInUnsure(next);
+                  if (next) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      loadInTime:
+                        "Unsure — Band admin will confirm & email setup time",
+                    }));
+                  } else {
+                    setFormData((prev) => ({
+                      ...prev,
+                      loadInTime: "",
+                    }));
+                  }
+                }}
                 blockedDates={blockedDates}
                 dateDetails={dateDetails}
                 labels={pickerLabels}
@@ -1363,90 +1395,7 @@ function BookPageContent({
             </Stack>
           </PageSection>
 
-          {/* Flexible Backup Dates */}
-          <PageSection
-            id="backup-dates"
-            aria-labelledby="backup-dates-heading"
-            size="sm"
-          >
-            <SectionHeader
-              as="h2"
-              id="backup-dates-heading"
-              title={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "backup_dates" ||
-                    s.sectionId === "backup",
-                )?.title || "Flexible? Add Backup Dates"
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "backup_dates" ||
-                    s.sectionId === "backup",
-                )?.subtitle ||
-                "Increase your chances — we'll try your preferred date first"
-              }
-            />
-            <Stack gap="lg">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <MiniDatePicker
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "backup_2nd",
-                    )?.title || "2nd Choice"
-                  }
-                  value={altDate1}
-                  onChange={setAltDate1}
-                />
-                <MiniDatePicker
-                  label={
-                    sanityContent?.sections?.find(
-                      (s: any) => s.sectionId === "backup_3rd",
-                    )?.title || "3rd Choice"
-                  }
-                  value={altDate2}
-                  onChange={setAltDate2}
-                />
-              </div>
-              {(altDate1 || altDate2) && (
-                <div className="flex flex-wrap gap-2">
-                  <span className="text-white/50">Priority:</span>
-                  <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                    1st:{" "}
-                    {bookingSlots.length > 0
-                      ? bookingSlots
-                        .map((s) =>
-                          new Date(s.date + "T12:00:00").toLocaleDateString(
-                            undefined,
-                            { month: "short", day: "numeric" },
-                          ),
-                        )
-                        .join(", ")
-                      : "—"}
-                  </span>
-                  {altDate1 && (
-                    <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                      2nd:{" "}
-                      {new Date(altDate1 + "T12:00:00").toLocaleDateString(
-                        undefined,
-                        { month: "short", day: "numeric" },
-                      )}
-                    </span>
-                  )}
-                  {altDate2 && (
-                    <span className="rounded-lg bg-white/10 px-2.5 py-0.5">
-                      3rd:{" "}
-                      {new Date(altDate2 + "T12:00:00").toLocaleDateString(
-                        undefined,
-                        { month: "short", day: "numeric" },
-                      )}
-                    </span>
-                  )}
-                </div>
-              )}
-            </Stack>
-          </PageSection>
+
 
           {/* Your Scheduled Shows (Full Width Grid) */}
           <PageSection
@@ -2122,7 +2071,7 @@ function BookPageContent({
             </Stack>
           </PageSection>
 
-          {/* Step 3: Venue Details & Event Schedule */}
+          {/* Step 3: Venue Details & Location Setup */}
           <PageSection
             id="venue-logistics"
             aria-labelledby="venue-info-heading"
@@ -2135,184 +2084,27 @@ function BookPageContent({
               title={
                 sanityContent?.sections?.find(
                   (s: any) => s.sectionId === "venue",
-                )?.title || "Venue & Event Logistics"
+                )?.title || "Venue Details & Location"
               }
               subtitle={
                 sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "venue",
+                  (s: any) =>
+                    s.sectionId === "venue_address" ||
+                    s.sectionId === "address",
                 )?.subtitle ||
-                "Specify event start & end times, band performance sets, and load-in schedules for your booking."
+                "Provide the physical street address, city, state, zip code, and parking details for the event location."
               }
               icon={MapPin}
             />
             <Stack gap="lg">
-              {/* Show Event Start & End Times + Band Schedule */}
-              <div className="flex flex-col gap-3">
-
-                {/* Row 1: Overall Event Start & End */}
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "event_start_time",
-                      )?.title || "Event Start Time"
-                    }
-                    name="eventStartTime"
-                    value={formData.eventStartTime}
-                    onChange={handleChange}
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "event_start_time",
-                      )?.subtitle || "e.g. 5:00 PM (Doors / Event Starts)"
-                    }
-                  />
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "event_end_time",
-                      )?.title || "Event End Time"
-                    }
-                    name="eventEndTime"
-                    value={formData.eventEndTime}
-                    onChange={handleChange}
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "event_end_time",
-                      )?.subtitle || "e.g. 11:30 PM (Event Ends)"
-                    }
-                  />
+              {addressNotification && (
+                <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5 border border-purple-400/40 bg-cyan-950/70 p-3">
+                  <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
+                  <span>{addressNotification}</span>
                 </div>
+              )}
 
-                {/* Row 2: Band Load-In & Band Performance Start / End */}
-                <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "band_start_time",
-                      )?.title || "Band Start Time"
-                    }
-                    name="startTime"
-                    value={formData.startTime}
-                    onChange={handleChange}
-                    required
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "band_start_time",
-                      )?.subtitle || "e.g. 7:00 PM (Band Plays)"
-                    }
-                  />
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "band_end_time",
-                      )?.title || "Band End Time"
-                    }
-                    name="endTime"
-                    value={formData.endTime}
-                    onChange={handleChange}
-                    required
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "band_end_time",
-                      )?.subtitle || "e.g. 10:30 PM (Band Finish)"
-                    }
-                  />
-
-                  <div>
-                    <InputField
-                      label={
-                        sanityContent?.sections?.find(
-                          (s: any) => s.sectionId === "load_in_time",
-                        )?.title || "Load-in / Setup Time"
-                      }
-                      name="loadInTime"
-                      value={
-                        isLoadInUnsure
-                          ? "Unsure — Band admin will confirm & email setup time"
-                          : formData.loadInTime
-                      }
-                      onChange={handleChange}
-                      disabled={isLoadInUnsure}
-                      placeholder={
-                        sanityContent?.sections?.find(
-                          (s: any) => s.sectionId === "load_in_time",
-                        )?.subtitle || "e.g. 5:00 PM (2 hrs before)"
-                      }
-                      labelRight={
-                        <Toggle
-                          id="toggle-loadin-unsure"
-                          size="sm"
-                          checked={isLoadInUnsure}
-                          onChange={(next) => {
-                            setIsLoadInUnsure(next);
-                            if (next) {
-                              setFormData((prev) => ({
-                                ...prev,
-                                loadInTime:
-                                  "Unsure — Band admin will confirm & email setup time",
-                              }));
-                            } else {
-                              setFormData((prev) => ({
-                                ...prev,
-                                loadInTime: "",
-                              }));
-                            }
-                          }}
-                          label={<span className="text-purple-400">Unsure?</span>}
-                        />
-                      }
-                    />
-                    <HelperText>
-                      Band load-in is usually ~2 hours before band start time.
-                    </HelperText>
-                  </div>
-                </div>
-
-                {isLoadInUnsure && (
-                  <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3 ">
-                    <div className="flex flex-col gap-1">
-                      <span className="block">
-                        Unsure of exact load-in time? No problem!
-                      </span>
-                      <span className="block">
-                        Our 7th Heaven band booking admin will coordinate your event
-                        schedule, update the load-in setup time, and send a
-                        confirmation email directly to the planner.
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Venue Address & Location Picker */}
               <div className="flex flex-col gap-6">
-                <SectionHeader
-                  as="h3"
-                  title={
-                    sanityContent?.sections?.find(
-                      (s: any) =>
-                        s.sectionId === "venue_address" ||
-                        s.sectionId === "address",
-                    )?.title || "Venue Address & Location Setup"
-                  }
-                  subtitle={
-                    sanityContent?.sections?.find(
-                      (s: any) =>
-                        s.sectionId === "venue_address" ||
-                        s.sectionId === "address",
-                    )?.subtitle ||
-                    "Provide the physical street address, city, state, zip code, and parking details for the event location."
-                  }
-                  icon={Building2}
-                />
-
-                {addressNotification && (
-                  <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5 border border-purple-400/40 bg-cyan-950/70 p-3">
-                    <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
-                    <span>{addressNotification}</span>
-                  </div>
-                )}
-
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <InputField
                     label={
