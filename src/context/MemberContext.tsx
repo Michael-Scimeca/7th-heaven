@@ -43,6 +43,19 @@ export interface Member {
   is_warned?: boolean;
 }
 
+export interface UpdateProfilePayload {
+  name?: string;
+  username?: string;
+  email?: string;
+  avatar?: string;
+  password?: string;
+  phone?: string;
+  organization?: string;
+  venueName?: string;
+  venueCity?: string;
+  venueState?: string;
+}
+
 interface MemberContextType {
   member: Member | null;
   isLoggedIn: boolean;
@@ -56,6 +69,14 @@ interface MemberContextType {
   modalMode: "login" | "signup" | "forgot";
   setModalMode: (mode: "login" | "signup" | "forgot") => void;
   modalLoginRole: "fan" | "crew" | "planner" | "cruise";
+  isProfileModalOpen: boolean;
+  profileModalUser: Member | null;
+  openProfileModal: (targetUser?: Member | null) => void;
+  closeProfileModal: () => void;
+  updateProfile: (
+    updates: UpdateProfilePayload,
+    targetUser?: Member | null,
+  ) => Promise<{ success: boolean; error?: string }>;
   login: (email: string, password: string) => Promise<boolean>;
   signup: (
     name: string,
@@ -101,6 +122,18 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   const [modalLoginRole, setModalLoginRole] = useState<
     "fan" | "crew" | "planner" | "cruise"
   >("fan");
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [profileModalUser, setProfileModalUser] = useState<Member | null>(null);
+
+  const openProfileModal = useCallback((targetUser?: Member | null) => {
+    setProfileModalUser(targetUser || null);
+    setIsProfileModalOpen(true);
+  }, []);
+
+  const closeProfileModal = useCallback(() => {
+    setIsProfileModalOpen(false);
+    setProfileModalUser(null);
+  }, []);
 
   // Load member and setup auth listener
   useEffect(() => {
@@ -280,20 +313,32 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(
-    async (email: string, password: string): Promise<boolean> => {
-      // Check fake logins bypass
-      const savedPassword =
-        typeof window !== "undefined"
-          ? localStorage.getItem(`7h_dev_password_${email.toLowerCase()}`)
-          : null;
+    async (emailOrUsername: string, password: string): Promise<boolean> => {
+      const trimmed = emailOrUsername.trim();
+      const cleanUser = trimmed.replace(/^@/, "").toLowerCase();
+
+      // Check fake logins bypass by email OR username OR name
       const fakeUser = fakeLogins.find(
         (u) =>
-          u.email.toLowerCase() === email.toLowerCase() &&
-          (password === savedPassword ||
-            (!savedPassword && u.password === password)),
+          u.email.toLowerCase() === trimmed.toLowerCase() ||
+          (u.username && u.username.toLowerCase() === cleanUser) ||
+          (u.name && u.name.toLowerCase() === trimmed.toLowerCase()),
       );
 
-      if (fakeUser) {
+      const emailKey = fakeUser
+        ? fakeUser.email.toLowerCase()
+        : trimmed.toLowerCase();
+      const savedPassword =
+        typeof window !== "undefined"
+          ? localStorage.getItem(`7h_dev_password_${emailKey}`) ||
+            localStorage.getItem(`7h_dev_password_${cleanUser}`)
+          : null;
+
+      if (
+        fakeUser &&
+        (password === savedPassword ||
+          (!savedPassword && fakeUser.password === password))
+      ) {
         const storedBans =
           typeof window !== "undefined"
             ? localStorage.getItem("7h_banned_users")
@@ -338,12 +383,46 @@ export function MemberProvider({ children }: { children: ReactNode }) {
         return true;
       }
 
+      let emailForAuth = trimmed;
+      if (!trimmed.includes("@")) {
+        try {
+          const raw =
+            typeof window !== "undefined"
+              ? localStorage.getItem("7h_accounts_v1") ||
+                localStorage.getItem("7h_accounts")
+              : null;
+          if (raw) {
+            const accts = JSON.parse(raw);
+            const found = Object.values(accts).find(
+              (a: any) =>
+                a?.username?.toLowerCase() === cleanUser ||
+                a?.name?.toLowerCase() === trimmed.toLowerCase(),
+            ) as any;
+            if (found?.email) {
+              emailForAuth = found.email;
+            }
+          }
+          if (!emailForAuth.includes("@")) {
+            const { createClient } = await import("@/lib/supabase/client");
+            const supabase = createClient();
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("id, email, username")
+              .ilike("username", cleanUser)
+              .single();
+            if (profile?.email) {
+              emailForAuth = profile.email;
+            }
+          }
+        } catch {}
+      }
+
       // Authenticate via Supabase Auth
       try {
         const { createClient } = await import("@/lib/supabase/client");
         const supabase = createClient();
         const { data, error } = await supabase.auth.signInWithPassword({
-          email,
+          email: emailForAuth,
           password,
         });
         if (error || !data.user) return false;
@@ -356,7 +435,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
           .single();
 
         if (profile?.is_banned) {
-          console.warn("Attempted login to banned account:", email);
+          console.warn("Attempted login to banned account:", emailForAuth);
           await supabase.auth.signOut();
           throw new Error("This account has been banned.");
         }
@@ -373,7 +452,7 @@ export function MemberProvider({ children }: { children: ReactNode }) {
           id: data.user.id,
           name: fullName,
           username: profileUsername,
-          email: data.user.email?.toLowerCase() || email.toLowerCase(),
+          email: data.user.email?.toLowerCase() || emailForAuth.toLowerCase(),
           joinDate: data.user.created_at || new Date().toISOString(),
           avatar: fullName
             .split(" ")
@@ -649,6 +728,215 @@ export function MemberProvider({ children }: { children: ReactNode }) {
     [setMember],
   );
 
+  const updateProfile = useCallback(
+    async (
+      updates: UpdateProfilePayload,
+      targetUser?: Member | null,
+    ): Promise<{ success: boolean; error?: string }> => {
+      const activeTarget = targetUser || member;
+      if (!activeTarget) {
+        return { success: false, error: "No user account to update." };
+      }
+
+      const updatedEmail = updates.email
+        ? updates.email.trim().toLowerCase()
+        : activeTarget.email;
+      const updatedName =
+        updates.name !== undefined ? updates.name.trim() : activeTarget.name;
+      const updatedUsername =
+        updates.username !== undefined
+          ? updates.username.trim().replace(/^@/, "")
+          : activeTarget.username;
+      const updatedAvatar =
+        updates.avatar !== undefined ? updates.avatar : activeTarget.avatar;
+      const updatedPhone =
+        updates.phone !== undefined ? updates.phone.trim() : activeTarget.phone;
+      const updatedOrg =
+        updates.organization !== undefined
+          ? updates.organization.trim()
+          : activeTarget.organization;
+      const updatedVenueName =
+        updates.venueName !== undefined
+          ? updates.venueName.trim()
+          : activeTarget.venueName;
+      const updatedVenueCity =
+        updates.venueCity !== undefined
+          ? updates.venueCity.trim()
+          : activeTarget.venueCity;
+      const updatedVenueState =
+        updates.venueState !== undefined
+          ? updates.venueState.trim()
+          : activeTarget.venueState;
+
+      const updatedMember: Member = {
+        ...activeTarget,
+        name: updatedName,
+        username: updatedUsername,
+        email: updatedEmail,
+        avatar: updatedAvatar,
+        phone: updatedPhone,
+        organization: updatedOrg,
+        venueName: updatedVenueName,
+        venueCity: updatedVenueCity,
+        venueState: updatedVenueState,
+      };
+
+      // If we are updating the currently logged-in member, update React state
+      if (!targetUser || targetUser.id === member?.id) {
+        setMember(updatedMember);
+      }
+
+      // Persist to local storage
+      try {
+        if (!targetUser || targetUser.id === member?.id) {
+          localStorage.setItem("7h_member_v1", JSON.stringify(updatedMember));
+          if (updatedAvatar) {
+            localStorage.setItem("7h_profile_avatar_v1", updatedAvatar);
+            localStorage.setItem("7h_profile_avatar", updatedAvatar);
+          }
+        }
+
+        if (updates.password) {
+          localStorage.setItem(
+            `7h_dev_password_${updatedEmail}`,
+            updates.password,
+          );
+          if (updatedUsername) {
+            localStorage.setItem(
+              `7h_dev_password_${updatedUsername.toLowerCase()}`,
+              updates.password,
+            );
+          }
+        }
+
+        // Sync into 7h_accounts_v1 and 7h_accounts
+        const acctKeys = ["7h_accounts_v1", "7h_accounts"];
+        acctKeys.forEach((key) => {
+          try {
+            const raw = localStorage.getItem(key);
+            const accts = raw ? JSON.parse(raw) : {};
+            const oldEmailKey = activeTarget.email.toLowerCase();
+            const existing =
+              accts[oldEmailKey] ||
+              Object.values(accts).find(
+                (a: any) =>
+                  a?.username === activeTarget.username ||
+                  a?.id === activeTarget.id,
+              ) ||
+              {};
+
+            delete accts[oldEmailKey];
+            accts[updatedEmail] = {
+              ...existing,
+              id: activeTarget.id,
+              name: updatedName,
+              username: updatedUsername,
+              email: updatedEmail,
+              avatar: updatedAvatar,
+              avatar_url: updatedAvatar,
+              role: activeTarget.role,
+              ...(updates.password
+                ? { password: updates.password }
+                : existing.password
+                  ? { password: existing.password }
+                  : {}),
+              phone: updatedPhone,
+              organization: updatedOrg,
+              venueName: updatedVenueName,
+              venueCity: updatedVenueCity,
+              venueState: updatedVenueState,
+            };
+            localStorage.setItem(key, JSON.stringify(accts));
+          } catch {}
+        });
+
+        // Sync planner storage if role is event_planner
+        if (activeTarget.role === "event_planner") {
+          try {
+            const pKey = "7h_planner_info_v1";
+            const pRaw = localStorage.getItem(pKey);
+            const pInfo = pRaw ? JSON.parse(pRaw) : {};
+            pInfo.plannerName = updatedName;
+            pInfo.plannerEmail = updatedEmail;
+            pInfo.plannerPhone = updatedPhone || pInfo.plannerPhone;
+            pInfo.organization = updatedOrg || pInfo.organization;
+            pInfo.venueName = updatedVenueName || pInfo.venueName;
+            pInfo.venueCity = updatedVenueCity || pInfo.venueCity;
+            pInfo.venueState = updatedVenueState || pInfo.venueState;
+            localStorage.setItem(pKey, JSON.stringify(pInfo));
+          } catch {}
+        }
+      } catch (storageErr) {
+        console.error("Local storage sync error in updateProfile:", storageErr);
+      }
+
+      // Sync Supabase backend
+      try {
+        const { createClient } = await import("@/lib/supabase/client");
+        const supabase = createClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user && (!targetUser || targetUser.id === user.id)) {
+          const authUpdates: any = {
+            data: {
+              full_name: updatedName,
+              username: updatedUsername,
+              phone: updatedPhone,
+            },
+          };
+          if (updatedEmail && updatedEmail !== user.email?.toLowerCase()) {
+            authUpdates.email = updatedEmail;
+          }
+          if (updates.password) {
+            authUpdates.password = updates.password;
+          }
+
+          const { error: authErr } = await supabase.auth.updateUser(authUpdates);
+          if (authErr) {
+            console.warn("Supabase auth.updateUser notice:", authErr.message);
+          }
+
+          await supabase
+            .from("profiles")
+            .update({
+              username: updatedUsername,
+              avatar_url: updatedAvatar,
+              ...(updatedPhone ? { phone: updatedPhone } : {}),
+            })
+            .eq("id", user.id);
+        } else if (
+          targetUser &&
+          targetUser.id &&
+          !targetUser.id.startsWith("fake-")
+        ) {
+          const { adminSetUserPassword, adminUpdateUserProfile } = await import(
+            "@/app/admin/actions"
+          );
+          if (updates.password) {
+            await adminSetUserPassword(
+              targetUser.id,
+              updatedEmail,
+              updates.password,
+            );
+          }
+          await adminUpdateUserProfile(targetUser.id, updatedEmail, {
+            name: updatedName,
+            username: updatedUsername,
+            email: updatedEmail,
+            avatar_url: updatedAvatar,
+          });
+        }
+      } catch (backendErr) {
+        console.warn("Backend update error (offline or dev bypass):", backendErr);
+      }
+
+      return { success: true };
+    },
+    [member, setMember],
+  );
+
   const contextValue = useMemo(
     () => ({
       member,
@@ -660,6 +948,11 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       modalMode,
       setModalMode,
       modalLoginRole,
+      isProfileModalOpen,
+      profileModalUser,
+      openProfileModal,
+      closeProfileModal,
+      updateProfile,
       login,
       signup,
       logout,
@@ -678,6 +971,11 @@ export function MemberProvider({ children }: { children: ReactNode }) {
       modalMode,
       setModalMode,
       modalLoginRole,
+      isProfileModalOpen,
+      profileModalUser,
+      openProfileModal,
+      closeProfileModal,
+      updateProfile,
       login,
       signup,
       logout,

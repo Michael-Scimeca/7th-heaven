@@ -621,15 +621,7 @@ export default function HeroVideoPlayer({
       <div ref={containerRef} className="relative flex h-full w-full flex-col justify-between">
         {/* On mobile (<768px), load ultra-compressed 433KB fast-start video loop (well within <1.5MB guidelines) */}
         {!isDesktop ? (
-          <div
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(black 0%, black 75%, transparent 94%)",
-              maskImage:
-                "linear-gradient(black 0%, black 75%, transparent 94%)",
-            }}
-          >
+          <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden">
             <video
               ref={mobileVideoRef}
               src={sanityContent?.heroVideoMobileUrl || "/movie/hero-mobile.mp4"}
@@ -649,34 +641,18 @@ export default function HeroVideoPlayer({
                   window.dispatchEvent(new CustomEvent("7h-hero-video-ready"));
                 }
               }}
-              className={`absolute inset-0 z-10 h-full w-full scale-[1.38] object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] opacity-0" : "translate-y-0 opacity-90"}`}
+              className={`absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-0 opacity-0" : "translate-y-0 opacity-90"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}
             />
           </div>
         ) : isYouTube && YTComp ? (
-          <div
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(to bottom, black 0%, black 45%, transparent 97%)",
-              maskImage:
-                "linear-gradient(to bottom, black 0%, black 45%, transparent 97%)",
-            }}
-          >
+          <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden">
             <YTComp videoId={ytId || "UQBvl_wZ0ak"} start={20} end={29} />
           </div>
         ) : (
-          <div
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(to bottom, black 0%, black 65%, transparent 97%)",
-              maskImage:
-                "linear-gradient(to bottom, black 0%, black 65%, transparent 97%)",
-            }}
-          >
+          <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden">
             <video
               key={videoSrc}
               ref={videoRef}
@@ -699,7 +675,7 @@ export default function HeroVideoPlayer({
               muted
               loop
               playsInline
-              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-[30px] scale-[1.50] opacity-0 blur-sm filter" : "blur-0 translate-y-0 scale-[1.43] opacity-100 filter"}`}
+              className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-cover duration-[250ms] ${!videoReady || isVideoFading ? "translate-y-0 opacity-0 blur-sm filter" : "blur-0 translate-y-0 opacity-100 filter"}`}
               style={{
                 objectPosition: `center ${videoScreenY}%`,
               }}

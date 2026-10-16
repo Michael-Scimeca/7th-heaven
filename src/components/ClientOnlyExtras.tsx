@@ -14,6 +14,7 @@ export default function ClientOnlyExtras() {
   );
   const [DevGuide, setDevGuide] = useState<ComponentType | null>(null);
   const [SpacingInspector, setSpacingInspector] = useState<ComponentType | null>(null);
+  const [FluidGap, setFluidGap] = useState<ComponentType | null>(null);
   const [BlurTuner, setBlurTuner] = useState<ComponentType | null>(null);
   const [Vitals, setVitals] = useState<ComponentType | null>(null);
   const [StickyNotes, setStickyNotes] = useState<ComponentType | null>(null);
@@ -21,19 +22,6 @@ export default function ClientOnlyExtras() {
 
   useEffect(() => {
     let loaded = false;
-
-    // Clean up any previously injected fluid tuner styles or frames
-    if (typeof document !== "undefined") {
-      const dynamicTag = document.getElementById("fluid-gap-dynamic-styles");
-      if (dynamicTag) dynamicTag.remove();
-      const wrapper = document.querySelector("#page-content-wrapper") as HTMLElement | null;
-      if (wrapper) {
-        wrapper.style.maxWidth = "";
-        wrapper.style.marginLeft = "";
-        wrapper.style.marginRight = "";
-        wrapper.style.boxShadow = "";
-      }
-    }
 
     const loadExtras = () => {
       if (loaded) return;
@@ -43,13 +31,18 @@ export default function ClientOnlyExtras() {
       if (
         process.env.NODE_ENV === "development" ||
         (typeof window !== "undefined" &&
-          window.location.search.includes("dev=true"))
+          (window.location.search.includes("dev=true") ||
+            window.location.search.includes("gap=true") ||
+            window.location.search.includes("tuner=true")))
       ) {
         import("@/components/DevGuideLine")
           .then((m) => setDevGuide(() => m.default))
           .catch(() => {});
         import("@/components/SpacingInspector")
           .then((m) => setSpacingInspector(() => m.default))
+          .catch(() => {});
+        import("@/components/FluidGapTuner")
+          .then((m) => setFluidGap(() => m.default))
           .catch(() => {});
       }
 
@@ -89,6 +82,12 @@ export default function ClientOnlyExtras() {
       }
     };
 
+    // In development mode, load extras immediately so dev tools are instantly ready
+    if (process.env.NODE_ENV === "development") {
+      loadExtras();
+      return () => {};
+    }
+
     // Load extra scripts during browser idle time (or 8s max timeout) instead of stealing CPU on first scroll/touch
     if (typeof window !== "undefined" && "requestIdleCallback" in window) {
       const idleId = (window as any).requestIdleCallback(loadExtras, {
@@ -107,6 +106,7 @@ export default function ClientOnlyExtras() {
     <>
       {DevGuide && <DevGuide />}
       {SpacingInspector && <SpacingInspector />}
+      {FluidGap && <FluidGap />}
       {BlurTuner && <BlurTuner />}
       {Vitals && <Vitals />}
       {StickyNotes && <StickyNotes />}

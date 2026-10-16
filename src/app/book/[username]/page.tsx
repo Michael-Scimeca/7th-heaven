@@ -101,6 +101,7 @@ export default function PlannerDashboardPage() {
     const stageAvailable = "Yes";
     const loadInTime = "3:00 PM";
     const parkingAddress = "980 S Bartlett Rd, Lot B";
+    const parkingType = "bus-trailer";
     const parkingNotes =
       "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.";
 
@@ -117,6 +118,7 @@ export default function PlannerDashboardPage() {
     if (stageAvailable) p.set("stageAvailable", stageAvailable);
     if (loadInTime) p.set("loadInTime", loadInTime);
     if (parkingAddress) p.set("parkingAddress", parkingAddress);
+    if (parkingType) p.set("parkingType", parkingType);
     if (parkingNotes) p.set("parkingNotes", parkingNotes);
 
     requestTransition(`/book?${p.toString()}`);

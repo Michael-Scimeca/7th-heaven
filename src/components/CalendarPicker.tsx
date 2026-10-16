@@ -6,8 +6,10 @@ import ConnectedDateCapsule from "@/components/ConnectedDateCapsule";
 import GlowInput from "@/components/GlowInput";
 import SectionHeader from "@/components/SectionHeader";
 import InputField from "@/components/InputField";
+import ScrollWheelTimePicker from "@/components/ScrollWheelTimePicker";
 import { Toggle } from "@/components/Toggle";
 import HelperText from "@/components/ui/HelperText";
+import type { TourDateDetailItem } from "@/lib/booking-availability";
 
 export interface BookingSlot {
   id: string;
@@ -18,13 +20,18 @@ export interface BookingSlot {
   customEventType?: string;
   ageRestriction?: string;
   doorsTime?: string;
+  playTime?: string;
   cover?: string;
   ticketLink?: string;
   directionsLink?: string;
   mapUrl?: string;
+  parkingAddress?: string;
+  parkingType?: string;
   parkingInfo?: string;
+  parkingNotes?: string;
   parkingUrl?: string;
   isFestival?: boolean;
+  isPrivate?: boolean;
   notes?: string;
   useSeparateInfo?: boolean;
   contactName?: string;
@@ -34,14 +41,14 @@ export interface BookingSlot {
   venueName?: string;
   venueCity?: string;
   venueState?: string;
+  soundSystem?: string;
+  stageAvailable?: string;
+  loadInTime?: string;
 }
 
 const EMPTY_SLOTS: BookingSlot[] = [];
 const EMPTY_BLOCKED_DATES: string[] = [];
-const EMPTY_DATE_DETAILS: Record<
-  string,
-  Array<{ time: string; venue?: string; city?: string }>
-> = {};
+const EMPTY_DATE_DETAILS: Record<string, TourDateDetailItem[]> = {};
 const MONTH_NAMES = [
   "Jan",
   "Feb",
@@ -185,6 +192,12 @@ export function CalendarPicker({
   labels,
   hideHeader = false,
   hideFormat = false,
+  defaultVenueName,
+  defaultVenueCity,
+  defaultVenueState,
+  defaultParkingAddress,
+  defaultParkingType,
+  defaultParkingNotes,
 }: {
   slots: BookingSlot[];
   onChangeSlots: (slots: BookingSlot[]) => void;
@@ -211,13 +224,16 @@ export function CalendarPicker({
   label?: string;
   required?: boolean;
   blockedDates?: string[];
-  dateDetails?: Record<
-    string,
-    Array<{ time: string; venue?: string; city?: string }>
-  >;
+  dateDetails?: Record<string, TourDateDetailItem[]>;
   labels?: CalendarPickerLabels;
   hideHeader?: boolean;
   hideFormat?: boolean;
+  defaultVenueName?: string;
+  defaultVenueCity?: string;
+  defaultVenueState?: string;
+  defaultParkingAddress?: string;
+  defaultParkingType?: string;
+  defaultParkingNotes?: string;
 }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showMonthPicker, setShowMonthPicker] = useState(false);
@@ -227,12 +243,32 @@ export function CalendarPicker({
     Record<string, boolean>
   >({});
 
-  const effectiveEventStart = eventStartTime || localEventStart;
-  const effectiveBandStart = startTime || "8:00 PM";
-  const effectiveBandEnd = endTime || "10:30 PM";
-  const effectiveEventEnd = eventEndTime || localEventEnd;
+  const effectiveEventStart = eventStartTime !== undefined ? eventStartTime : localEventStart;
+  const effectiveBandStart = startTime !== undefined ? startTime : "";
+  const effectiveBandEnd = endTime !== undefined ? endTime : "";
+  const effectiveEventEnd = eventEndTime !== undefined ? eventEndTime : localEventEnd;
 
   const blockedSet = useMemo(() => new Set(blockedDates), [blockedDates]);
+
+  // Find all selected dates that already have existing shows
+  const selectedBlockedInfo = useMemo(() => {
+    return slots
+      .filter((s) => blockedSet.has(s.date))
+      .map((s) => {
+        const details = dateDetails?.[s.date] || [];
+        const timeFrame = details.map((d) => d.time).join(", ") || "Scheduled Show";
+        const venueInfo = details
+          .map((d) => [d.venue, d.city].filter(Boolean).join(" - "))
+          .filter(Boolean)
+          .join("; ");
+        return {
+          id: s.id,
+          date: s.date,
+          time: timeFrame,
+          venue: venueInfo,
+        };
+      });
+  }, [slots, blockedSet, dateDetails]);
 
   const todayTimestamp = useSyncExternalStore(
     () => () => { },
@@ -271,25 +307,7 @@ export function CalendarPicker({
     );
   };
 
-  // Find all selected dates that already have existing shows
-  const selectedBlockedInfo = useMemo(() => {
-    return slots
-      .filter((s) => blockedSet.has(s.date))
-      .map((s) => {
-        const details = dateDetails[s.date] || [];
-        const timeFrame = details.map((d) => d.time).join(", ") || "Scheduled Show";
-        const venueInfo = details
-          .map((d) => [d.venue, d.city].filter(Boolean).join(" - "))
-          .filter(Boolean)
-          .join("; ");
-        return {
-          id: s.id,
-          date: s.date,
-          time: timeFrame,
-          venue: venueInfo,
-        };
-      });
-  }, [slots, blockedSet, dateDetails]);
+
 
   return (
     <div className="w-full border-0 p-0">
@@ -427,6 +445,12 @@ export function CalendarPicker({
                         ticketLink: "",
                         isFestival: false,
                         notes: "",
+                        venueName: defaultVenueName || "",
+                        venueCity: defaultVenueCity || "",
+                        venueState: defaultVenueState || "",
+                        parkingAddress: defaultParkingAddress || "",
+                        parkingType: defaultParkingType || "bus-trailer",
+                        parkingNotes: defaultParkingNotes || "",
                       };
                       onChangeSlots([...slots, newSlot]);
                     }
@@ -456,6 +480,8 @@ export function CalendarPicker({
             })}
           </div>
 
+
+
           {/* Banner notification when user selects dates that have existing shows */}
           {selectedBlockedInfo.length > 0 && (
             <div className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-sm text-rose-200">
@@ -480,98 +506,130 @@ export function CalendarPicker({
           )}
 
           {/* Integrated Timing & Load-In Schedule */}
-          <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6">
-            {/* Row 1: Overall Event Start & End */}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <InputField
+          <div className="mt-8 flex flex-col gap-6 border-t border-white/10 pt-6">
+            <div>
+              <h4 className="text-sm font-semibold text-white">Event & Showtime Schedule</h4>
+              <p className="text-xs text-white/50 mt-0.5">Enter your event times below (4 milestone schedule inputs)</p>
+            </div>
+
+            {/* 4 Core Schedule Inputs */}
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              <ScrollWheelTimePicker
                 label="Event Start Time"
                 name="eventStartTime"
                 value={effectiveEventStart}
-                onChange={(e) => {
+                onChange={(val) => {
                   if (onEventStartTimeChange) {
-                    onEventStartTimeChange(e.target.value);
+                    onEventStartTimeChange(val);
                   } else {
-                    setLocalEventStart(e.target.value);
+                    setLocalEventStart(val);
                   }
                 }}
-                placeholder="e.g. 5:00 PM (Doors / Event Starts)"
+                milestoneBadge="Doors Open"
+                milestoneTheme="cyan"
+                placeholder="5:00 PM"
               />
-              <InputField
-                label="Event End Time"
-                name="eventEndTime"
-                value={effectiveEventEnd}
-                onChange={(e) => {
-                  if (onEventEndTimeChange) {
-                    onEventEndTimeChange(e.target.value);
-                  } else {
-                    setLocalEventEnd(e.target.value);
-                  }
-                }}
-                placeholder="e.g. 11:30 PM (Event Ends)"
-              />
-            </div>
-
-            {/* Row 2: Band Load-In & Band Performance Start / End */}
-            <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
-              <InputField
+              <ScrollWheelTimePicker
                 label="Band Start Time"
                 name="startTime"
                 value={effectiveBandStart}
-                onChange={(e) => onStartTimeChange?.(e.target.value)}
+                onChange={(val) => onStartTimeChange?.(val)}
                 required
-                placeholder="e.g. 7:00 PM (Band Plays)"
+                milestoneBadge="Band Plays"
+                milestoneTheme="purple"
+                placeholder="7:00 PM"
               />
-              <InputField
+              <ScrollWheelTimePicker
                 label="Band End Time"
                 name="endTime"
                 value={effectiveBandEnd}
-                onChange={(e) => onEndTimeChange?.(e.target.value)}
+                onChange={(val) => onEndTimeChange?.(val)}
                 required
-                placeholder="e.g. 10:30 PM (Band Finish)"
+                milestoneBadge="Band Finish"
+                milestoneTheme="rose"
+                placeholder="10:30 PM"
               />
+              <ScrollWheelTimePicker
+                label="Event End Time"
+                name="eventEndTime"
+                value={effectiveEventEnd}
+                onChange={(val) => {
+                  if (onEventEndTimeChange) {
+                    onEventEndTimeChange(val);
+                  } else {
+                    setLocalEventEnd(val);
+                  }
+                }}
+                milestoneBadge="Event Ends"
+                milestoneTheme="amber"
+                placeholder="11:30 PM"
+              />
+            </div>
 
-              <div>
-                <InputField
-                  label="Load-in / Setup Time"
-                  name="loadInTime"
-                  value={
-                    isLoadInUnsure
-                      ? "Unsure — Band admin will confirm & email setup time"
-                      : loadInTime || ""
-                  }
-                  onChange={(e) => onLoadInTimeChange?.(e.target.value)}
-                  disabled={isLoadInUnsure}
-                  placeholder="e.g. 5:00 PM (2 hrs before)"
-                  labelRight={
-                    <Toggle
-                      id="toggle-loadin-unsure"
-                      size="sm"
-                      checked={isLoadInUnsure || false}
-                      onChange={(next) => onLoadInUnsureChange?.(next)}
-                      label={<span className="text-purple-400">Unsure?</span>}
+            {/* Load-in / Setup Time */}
+            <div className="">
+              <div className="max-w-md">
+                {isLoadInUnsure ? (
+                  <InputField
+                    label="Load-in / Setup Time"
+                    name="loadInTime"
+                    value="Unsure — Band admin will confirm & email setup time"
+                    disabled
+                    labelRight={
+                      <Toggle
+                        id="toggle-loadin-unsure"
+                        size="sm"
+                        checked={isLoadInUnsure || false}
+                        onChange={(next) => onLoadInUnsureChange?.(next)}
+                        label={<span className="text-purple-400 font-medium">Unsure?</span>}
+                      />
+                    }
+                  />
+                ) : (
+                  <div>
+                    <div className="flex items-center justify-between min-h-[24px] gap-2 mb-2">
+                      <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white/70">
+                        Load-in / Setup Time
+                      </span>
+                      <Toggle
+                        id="toggle-loadin-unsure"
+                        size="sm"
+                        checked={isLoadInUnsure || false}
+                        onChange={(next) => onLoadInUnsureChange?.(next)}
+                        label={<span className="text-purple-400 font-medium">Unsure?</span>}
+                      />
+                    </div>
+                    <ScrollWheelTimePicker
+                      label=""
+                      name="loadInTime"
+                      value={loadInTime || "4:00 PM"}
+                      onChange={(val) => onLoadInTimeChange?.(val)}
+                      milestoneBadge="Gear Setup"
+                      milestoneTheme="emerald"
+                      placeholder="4:00 PM"
                     />
-                  }
-                />
+                  </div>
+                )}
                 <HelperText>
                   Band load-in is usually ~2 hours before band start time.
                 </HelperText>
               </div>
-            </div>
 
-            {isLoadInUnsure && (
-              <div className="flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3">
-                <div className="flex flex-col gap-1">
-                  <span className="block text-xs font-semibold text-white/90">
-                    Unsure of exact load-in time? No problem!
-                  </span>
-                  <span className="block text-xs text-white/50">
-                    Our 7th Heaven band booking admin will coordinate your event
-                    schedule, update the load-in setup time, and send a
-                    confirmation email directly to the planner.
-                  </span>
+              {isLoadInUnsure && (
+                <div className="mt-3 flex animate-[fade-in-up_0.15s_ease-out_both] items-start gap-3 rounded-lg border border-purple-500/20 bg-purple-500/10 p-3">
+                  <div className="flex flex-col gap-1">
+                    <span className="block text-xs font-semibold text-white/90">
+                      Unsure of exact load-in time? No problem!
+                    </span>
+                    <span className="block text-xs text-white/50">
+                      Our 7th Heaven band booking admin will coordinate your event
+                      schedule, update the load-in setup time, and send a
+                      confirmation email directly to the planner.
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 

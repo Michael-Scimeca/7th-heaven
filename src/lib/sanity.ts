@@ -54,6 +54,7 @@ export interface SanityTourDate {
   _id: string;
   _type: "tourDate";
   venue: string;
+  address?: string;
   city: string;
   state: string;
   date: string;
@@ -62,11 +63,15 @@ export interface SanityTourDate {
   doorsTime?: string;
   playTime?: string;
   allAges?: boolean;
+  ageRestriction?: string;
   cover?: string;
   ticketLink?: string;
   directionsLink?: string;
   mapUrl?: string;
+  parkingType?: string;
+  parkingAddress?: string;
   parkingInfo?: string;
+  parkingNotes?: string;
   parkingUrl?: string;
   websiteUrl?: string;
   isSoldOut: boolean;
@@ -246,8 +251,8 @@ export const queries = {
   featuredNews: `*[_type == "newsPost" && featured == true] | order(publishedAt desc)[0...3] { _id, title, slug, content, date, category, image, featured, publishedAt }`,
 
   // Tour Dates
-  allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, mapUrl, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
-  upcomingTourDates: `*[_type == "tourDate" && date>= now()] | order(date asc) { _id, venue, city, state, date, time, playTime, day, doorsTime, allAges, cover, ticketLink, directionsLink, mapUrl, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
+  allTourDates: `*[_type == "tourDate"] | order(date asc) { _id, venue, address, city, state, date, time, playTime, day, doorsTime, allAges, ageRestriction, cover, ticketLink, directionsLink, mapUrl, parkingType, parkingAddress, parkingInfo, parkingNotes, parkingUrl, websiteUrl, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
+  upcomingTourDates: `*[_type == "tourDate" && date >= now()] | order(date asc) { _id, venue, address, city, state, date, time, playTime, day, doorsTime, allAges, ageRestriction, cover, ticketLink, directionsLink, mapUrl, parkingType, parkingAddress, parkingInfo, parkingNotes, parkingUrl, websiteUrl, isSoldOut, isFestival, isPrivate, tags, notes, lat, lng }`,
 
   // Band Members
   allBandMembers: `*[_type == "bandMember"] | order(order asc) { _id, name, slug, role, image, memberNo, fullName, birthday, zodiac, luckyNo, color, favQuote, bestTrait, worstTrait, favBands, favAlbum, favLoveSong, favRockSong, favSoundtrack, favMovie, favTvShow, favCartoon, favMagazine, fav7hSong, firstSong, firstSongLearned, favPlaceToPlay, bestConcertSeen, bestFeeling, bestFeelingInWorld, hobbies, hobbyAwayFromBand, influences, favPet, favFoods, favDrink, favCar, favSportToWatch, favBoardGame, littleKnownFact, funFact, order }`,

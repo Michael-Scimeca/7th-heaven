@@ -15,6 +15,8 @@ export type PreviewMode = "auto" | "desktop" | "tablet" | "mobile";
 
 const STORAGE_KEY = "v2_fluid_gap_settings";
 const STEP_KEY = "v2_fluid_gap_active_step";
+const OPEN_KEY = "v2_fluid_gap_open";
+const PANEL_POS_KEY = "v2_fluid_gap_panel_pos";
 const STYLE_TAG_ID = "fluid-gap-dynamic-styles";
 
 const DEFAULT_SETTINGS: FluidGapSettings = {
@@ -158,7 +160,20 @@ export default function FluidGapTuner() {
     () => false
   );
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedOpen = localStorage.getItem(OPEN_KEY);
+      if (savedOpen !== null) {
+        return savedOpen === "true";
+      }
+      return (
+        window.location.search.includes("gap=true") ||
+        window.location.search.includes("tuner=true") ||
+        process.env.NODE_ENV === "development"
+      );
+    }
+    return false;
+  });
   const [activeStep, setActiveStep] = useState<ActiveStep>("desktop");
   const [previewMode, setPreviewMode] = useState<PreviewMode>("desktop");
   const [simulateFrame, setSimulateFrame] = useState(false);
@@ -166,8 +181,13 @@ export default function FluidGapTuner() {
   const [currentViewport, setCurrentViewport] = useState<number>(1440);
   const [computedGapPx, setComputedGapPx] = useState<number>(72);
   const [panelPos, setPanelPos] = useState({ x: 20, y: 80 });
+  const panelPosRef = React.useRef(panelPos);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = React.useRef({ x: 0, y: 0, startX: 0, startY: 0 });
+
+  useEffect(() => {
+    panelPosRef.current = panelPos;
+  }, [panelPos]);
 
   // Load saved settings on mount
   useEffect(() => {
@@ -193,10 +213,27 @@ export default function FluidGapTuner() {
         setActiveStep(savedStep);
         setPreviewMode(savedStep === "master" ? "auto" : savedStep);
       }
+      const savedPos = localStorage.getItem(PANEL_POS_KEY);
+      if (savedPos) {
+        try {
+          const parsedPos = JSON.parse(savedPos);
+          if (typeof parsedPos.x === "number" && typeof parsedPos.y === "number") {
+            setPanelPos(parsedPos);
+          }
+        } catch {}
+      }
     } catch {
       // Ignore localStorage errors
     }
   }, []);
+
+  // Persist open state
+  useEffect(() => {
+    if (!mounted) return;
+    try {
+      localStorage.setItem(OPEN_KEY, String(isOpen));
+    } catch {}
+  }, [isOpen, mounted]);
 
   // When activeStep changes, also update previewMode to match that device
   const handleSelectStep = useCallback((step: ActiveStep) => {
@@ -282,7 +319,7 @@ export default function FluidGapTuner() {
     return () => window.removeEventListener("resize", measureLive);
   }, [settings, previewMode]);
 
-  // Keyboard shortcut: Alt+G to toggle
+  // Keyboard shortcut: Alt+G to toggle & custom events
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.altKey && (e.key === "g" || e.key === "G")) {
@@ -290,8 +327,17 @@ export default function FluidGapTuner() {
         setIsOpen((prev) => !prev);
       }
     };
+    const handleOpen = () => setIsOpen(true);
+    const handleToggle = () => setIsOpen((prev) => !prev);
+
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("open-fluid-gap-tuner", handleOpen);
+    window.addEventListener("toggle-fluid-gap-tuner", handleToggle);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("open-fluid-gap-tuner", handleOpen);
+      window.removeEventListener("toggle-fluid-gap-tuner", handleToggle);
+    };
   }, []);
 
   // Dragging support
@@ -320,7 +366,12 @@ export default function FluidGapTuner() {
       });
     };
 
-    const handleMouseUp = () => setIsDragging(false);
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      try {
+        localStorage.setItem(PANEL_POS_KEY, JSON.stringify(panelPosRef.current));
+      } catch {}
+    };
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
@@ -375,16 +426,24 @@ export default function FluidGapTuner() {
     return createPortal(
       <div
         data-fluid-gap-tuner
-        className="fixed z-[9999998] transition-opacity"
-        style={{ left: panelPos.x, top: panelPos.y }}
+        className="fixed z-[9999998] transition-opacity cursor-grab active:cursor-grabbing select-none"
+        onMouseDown={handleDragMouseDown}
+        style={
+          {
+            "--panel-x": `${panelPos.x}px`,
+            "--panel-y": `${panelPos.y}px`,
+            left: "var(--panel-x)",
+            top: "var(--panel-y)",
+          } as React.CSSProperties
+        }
       >
         <button
           onClick={() => setIsOpen(true)}
-          title="Open Fluid Gap Controller (Alt+G)"
-          className="transition-colors flex items-center gap-2 rounded-full border border-cyan-500/40 bg-zinc-950/90 px-3.5 py-2 font-mono text-xs text-cyan-300 shadow-2xl backdrop-blur-xl hover:bg-cyan-950/80 hover:text-white"
+          title="Open Section Gap Controller (Alt+G)"
+          className="transition-colors flex items-center gap-2 rounded-full border border-cyan-500/50 bg-zinc-950/95 px-3.5 py-2 font-mono text-xs text-cyan-300 shadow-2xl backdrop-blur-xl hover:border-cyan-400 hover:bg-cyan-950 hover:text-white cursor-pointer"
         >
-          <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span>🌊 Fluid Gap: {computedGapPx}px ({previewMode})</span>
+          <span className="h-2.5 w-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+          <span className="font-semibold">🌊 Section Gap: {computedGapPx}px</span>
         </button>
       </div>,
       document.body
@@ -396,7 +455,14 @@ export default function FluidGapTuner() {
     <div
       data-fluid-gap-tuner
       className="fixed z-[9999998] w-[370px] rounded-2xl border border-cyan-500/40 bg-zinc-950/95 text-white shadow-2xl backdrop-blur-2xl font-sans text-xs select-none"
-      style={{ left: panelPos.x, top: panelPos.y }}
+      style={
+        {
+          "--panel-x": `${panelPos.x}px`,
+          "--panel-y": `${panelPos.y}px`,
+          left: "var(--panel-x)",
+          top: "var(--panel-y)",
+        } as React.CSSProperties
+      }
     >
       {/* Header bar (Draggable) */}
       <div
@@ -411,14 +477,14 @@ export default function FluidGapTuner() {
           <button
             onClick={resetDefaults}
             title="Reset to original defaults"
-            className="transition-colors rounded px-2 py-0.5 font-mono text-[10px] text-zinc-400 hover:bg-white/10 hover:text-white"
+            className="transition-colors rounded px-2 py-0.5 font-mono text-xs text-zinc-400 hover:bg-white/10 hover:text-white cursor-pointer"
           >
             Reset
           </button>
           <button
             onClick={() => setIsOpen(false)}
             title="Minimize (Alt+G)"
-            className="transition-colors rounded px-2 py-0.5 font-mono text-[10px] text-zinc-400 hover:bg-white/10 hover:text-white"
+            className="transition-colors rounded px-2 py-0.5 font-mono text-xs text-zinc-400 hover:bg-white/10 hover:text-white cursor-pointer"
           >
             ✕
           </button>
@@ -429,7 +495,7 @@ export default function FluidGapTuner() {
         {/* Live Status Banner */}
         <div className="rounded-xl border border-cyan-500/30 bg-cyan-950/30 p-2.5 flex items-center justify-between">
           <div className="flex flex-col gap-0.5">
-            <span className="text-[10px] uppercase tracking-wider text-cyan-300 font-mono">
+            <span className="text-xs uppercase tracking-wider text-cyan-300 font-mono">
               {previewMode === "auto" ? `Auto Mode (${currentViewport}px)` : `Step: ${previewMode.toUpperCase()}`}
             </span>
             <span className="font-medium text-white">
@@ -443,7 +509,7 @@ export default function FluidGapTuner() {
             </span>
           </div>
           <div className="flex flex-col items-end gap-0.5">
-            <span className="text-[10px] uppercase tracking-wider text-white/50 font-mono">
+            <span className="text-xs uppercase tracking-wider text-white/50 font-mono">
               Active Gap
             </span>
             <span className="text-base font-extrabold text-cyan-300 font-mono leading-none">
@@ -455,11 +521,11 @@ export default function FluidGapTuner() {
         {/* STEP-BY-STEP PROGRESSION TABS: DESKTOP -> TABLET -> MOBILE */}
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
+            <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
               Step-by-Step Device Setup:
             </span>
             {(activeStep === "tablet" || activeStep === "mobile") && (
-              <label className="flex items-center gap-1 cursor-pointer text-[10px] text-cyan-300 font-mono">
+              <label className="flex items-center gap-1 cursor-pointer text-xs text-cyan-300 font-mono">
                 <input
                   type="checkbox"
                   checked={simulateFrame}
@@ -471,10 +537,10 @@ export default function FluidGapTuner() {
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-1 rounded-lg bg-zinc-900 p-1 font-mono text-[11px]">
+          <div className="grid grid-cols-3 gap-1 rounded-lg bg-zinc-900 p-1 font-mono text-xs">
             <button
               onClick={() => handleSelectStep("desktop")}
-              className={`rounded py-1.5 text-center font-medium transition ${
+              className={`rounded py-1.5 text-center font-medium transition cursor-pointer ${
                 activeStep === "desktop"
                   ? "bg-cyan-500/25 text-cyan-200 border border-cyan-400/60 shadow"
                   : "text-zinc-400 hover:text-white"
@@ -484,7 +550,7 @@ export default function FluidGapTuner() {
             </button>
             <button
               onClick={() => handleSelectStep("tablet")}
-              className={`rounded py-1.5 text-center font-medium transition ${
+              className={`rounded py-1.5 text-center font-medium transition cursor-pointer ${
                 activeStep === "tablet"
                   ? "bg-cyan-500/25 text-cyan-200 border border-cyan-400/60 shadow"
                   : "text-zinc-400 hover:text-white"
@@ -494,7 +560,7 @@ export default function FluidGapTuner() {
             </button>
             <button
               onClick={() => handleSelectStep("mobile")}
-              className={`rounded py-1.5 text-center font-medium transition ${
+              className={`rounded py-1.5 text-center font-medium transition cursor-pointer ${
                 activeStep === "mobile"
                   ? "bg-cyan-500/25 text-cyan-200 border border-cyan-400/60 shadow"
                   : "text-zinc-400 hover:text-white"
@@ -511,7 +577,7 @@ export default function FluidGapTuner() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-semibold text-white">Step 1: Desktop Gap (≥1024px)</div>
-                <div className="text-[10px] text-zinc-400">Baseline wide-screen section spacing</div>
+                <div className="text-xs text-zinc-400">Baseline wide-screen section spacing</div>
               </div>
               <span className="font-mono text-cyan-300 font-bold text-sm">{scaledDesktop}px</span>
             </div>
@@ -525,17 +591,17 @@ export default function FluidGapTuner() {
               onChange={(e) => updateSetting("desktop", parseInt(e.target.value, 10))}
               className="h-2 w-full cursor-pointer accent-cyan-400"
             />
-            <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
+            <div className="flex justify-between text-xs text-zinc-500 font-mono">
               <span>60px (Tight)</span>
               <span>Target: 136px</span>
               <span>240px (Extra Large)</span>
             </div>
 
             <div className="pt-2 border-t border-white/10 flex justify-between items-center">
-              <span className="text-[10px] text-zinc-400">Previewing Desktop live</span>
+              <span className="text-xs text-zinc-400">Previewing Desktop live</span>
               <button
                 onClick={() => handleSelectStep("tablet")}
-                className="transition-colors flex items-center gap-1 rounded bg-cyan-500/20 px-2.5 py-1 font-mono text-[11px] font-semibold text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30"
+                className="transition-colors flex items-center gap-1 rounded bg-cyan-500/20 px-2.5 py-1 font-mono text-xs font-semibold text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 cursor-pointer"
               >
                 <span>Next: Tablet</span>
                 <span>➔</span>
@@ -550,7 +616,7 @@ export default function FluidGapTuner() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-semibold text-white">Step 2: Tablet Gap (640-1023px)</div>
-                <div className="text-[10px] text-zinc-400">Intermediate fluid gap for iPads & tablets</div>
+                <div className="text-xs text-zinc-400">Intermediate fluid gap for iPads & tablets</div>
               </div>
               <span className="font-mono text-cyan-300 font-bold text-sm">{scaledTablet}px</span>
             </div>
@@ -564,7 +630,7 @@ export default function FluidGapTuner() {
               onChange={(e) => updateSetting("tablet", parseInt(e.target.value, 10))}
               className="h-2 w-full cursor-pointer accent-cyan-400"
             />
-            <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
+            <div className="flex justify-between text-xs text-zinc-500 font-mono">
               <span>40px (Tight)</span>
               <span>Target: 100px</span>
               <span>Max: {settings.desktop}px</span>
@@ -573,13 +639,13 @@ export default function FluidGapTuner() {
             <div className="pt-2 border-t border-white/10 flex justify-between items-center">
               <button
                 onClick={() => handleSelectStep("desktop")}
-                className="transition-colors rounded bg-white/5 px-2 py-1 font-mono text-[10px] text-zinc-400 hover:text-white hover:bg-white/10"
+                className="transition-colors rounded bg-white/5 px-2 py-1 font-mono text-xs text-zinc-400 hover:text-white hover:bg-white/10 cursor-pointer"
               >
                 ⬅ Back: Desktop
               </button>
               <button
                 onClick={() => handleSelectStep("mobile")}
-                className="transition-colors flex items-center gap-1 rounded bg-cyan-500/20 px-2.5 py-1 font-mono text-[11px] font-semibold text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30"
+                className="transition-colors flex items-center gap-1 rounded bg-cyan-500/20 px-2.5 py-1 font-mono text-xs font-semibold text-cyan-200 border border-cyan-500/40 hover:bg-cyan-500/30 cursor-pointer"
               >
                 <span>Next: Mobile</span>
                 <span>➔</span>
@@ -594,7 +660,7 @@ export default function FluidGapTuner() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-semibold text-white">Step 3: Mobile Gap (&lt;640px)</div>
-                <div className="text-[10px] text-zinc-400">Compact fluid gap for smartphones</div>
+                <div className="text-xs text-zinc-400">Compact fluid gap for smartphones</div>
               </div>
               <span className="font-mono text-cyan-300 font-bold text-sm">{scaledMobile}px</span>
             </div>
@@ -608,7 +674,7 @@ export default function FluidGapTuner() {
               onChange={(e) => updateSetting("mobile", parseInt(e.target.value, 10))}
               className="h-2 w-full cursor-pointer accent-cyan-400"
             />
-            <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
+            <div className="flex justify-between text-xs text-zinc-500 font-mono">
               <span>20px (Tight)</span>
               <span>Target: 50px</span>
               <span>Max: {settings.tablet}px</span>
@@ -617,13 +683,13 @@ export default function FluidGapTuner() {
             <div className="pt-2 border-t border-white/10 flex justify-between items-center">
               <button
                 onClick={() => handleSelectStep("tablet")}
-                className="transition-colors rounded bg-white/5 px-2 py-1 font-mono text-[10px] text-zinc-400 hover:text-white hover:bg-white/10"
+                className="transition-colors rounded bg-white/5 px-2 py-1 font-mono text-xs text-zinc-400 hover:text-white hover:bg-white/10 cursor-pointer"
               >
                 ⬅ Back: Tablet
               </button>
               <button
                 onClick={() => setPreviewMode("auto")}
-                className={`transition-colors rounded px-2.5 py-1 font-mono text-[11px] font-semibold border ${
+                className={`transition-colors rounded px-2.5 py-1 font-mono text-xs font-semibold border cursor-pointer ${
                   previewMode === "auto"
                     ? "bg-emerald-500/20 text-emerald-200 border-emerald-500/40"
                     : "bg-white/5 text-zinc-300 border-white/10 hover:bg-white/10"
@@ -650,7 +716,7 @@ export default function FluidGapTuner() {
             onChange={(e) => updateSetting("scale", parseFloat(e.target.value))}
             className="h-1.5 w-full cursor-pointer accent-cyan-400"
           />
-          <div className="flex justify-between text-[10px] text-zinc-500 font-mono">
+          <div className="flex justify-between text-xs text-zinc-500 font-mono">
             <span>0.5x (Tight)</span>
             <span>1.0x (Normal)</span>
             <span>2.5x (Airy)</span>
@@ -659,43 +725,43 @@ export default function FluidGapTuner() {
 
         {/* QUICK CASCADE PRESETS (Desktop -> Tablet -> Mobile) */}
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
+          <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
             Quick Cascades (Desk ➔ Tablet ➔ Mobile):
           </span>
           <div className="grid grid-cols-2 gap-1.5">
             <button
               onClick={() => applyPreset(136, 100, 50)}
-              className="transition-colors rounded-lg border border-cyan-500/50 bg-cyan-950/30 p-1.5 text-left hover:border-cyan-400 hover:bg-cyan-900/40 shadow-sm"
+              className="transition-colors rounded-lg border border-cyan-500/50 bg-cyan-950/30 p-1.5 text-left hover:border-cyan-400 hover:bg-cyan-900/40 shadow-sm cursor-pointer"
             >
               <div className="font-semibold text-cyan-200">Target</div>
-              <div className="font-mono text-[10px] text-cyan-300">136 ➔ 100 ➔ 50px</div>
+              <div className="font-mono text-xs text-cyan-300">136 ➔ 100 ➔ 50px</div>
             </button>
             <button
               onClick={() => applyPreset(160, 120, 60)}
-              className="transition-colors rounded-lg border border-white/10 bg-white/[0.03] p-1.5 text-left hover:border-cyan-500/40 hover:bg-cyan-500/10"
+              className="transition-colors rounded-lg border border-white/10 bg-white/[0.03] p-1.5 text-left hover:border-cyan-500/40 hover:bg-cyan-500/10 cursor-pointer"
             >
               <div className="font-semibold text-white">Airy</div>
-              <div className="font-mono text-[10px] text-zinc-400">160 ➔ 120 ➔ 60px</div>
+              <div className="font-mono text-xs text-zinc-400">160 ➔ 120 ➔ 60px</div>
             </button>
             <button
               onClick={() => applyPreset(112, 80, 40)}
-              className="transition-colors rounded-lg border border-white/10 bg-white/[0.03] p-1.5 text-left hover:border-cyan-500/40 hover:bg-cyan-500/10"
+              className="transition-colors rounded-lg border border-white/10 bg-white/[0.03] p-1.5 text-left hover:border-cyan-500/40 hover:bg-cyan-500/10 cursor-pointer"
             >
               <div className="font-semibold text-white">Compact</div>
-              <div className="font-mono text-[10px] text-zinc-400">112 ➔ 80 ➔ 40px</div>
+              <div className="font-mono text-xs text-zinc-400">112 ➔ 80 ➔ 40px</div>
             </button>
             <button
               onClick={() => applyPreset(88, 64, 32)}
-              className="transition-colors rounded-lg border border-white/10 bg-white/[0.03] p-1.5 text-left hover:border-cyan-500/40 hover:bg-cyan-500/10"
+              className="transition-colors rounded-lg border border-white/10 bg-white/[0.03] p-1.5 text-left hover:border-cyan-500/40 hover:bg-cyan-500/10 cursor-pointer"
             >
               <div className="font-semibold text-white">Minimal</div>
-              <div className="font-mono text-[10px] text-zinc-400">88 ➔ 64 ➔ 32px</div>
+              <div className="font-mono text-xs text-zinc-400">88 ➔ 64 ➔ 32px</div>
             </button>
           </div>
         </div>
 
         {/* Current Hierarchy Breakdown */}
-        <div className="rounded-xl border border-white/10 bg-black/40 p-2.5 flex flex-col gap-1 font-mono text-[10px]">
+        <div className="rounded-xl border border-white/10 bg-black/40 p-2.5 flex flex-col gap-1 font-mono text-xs">
           <span className="text-zinc-400 uppercase tracking-wider">Configured Hierarchy</span>
           <div className="flex items-center justify-between text-cyan-300">
             <span>💻 Desk: {scaledDesktop}px</span>

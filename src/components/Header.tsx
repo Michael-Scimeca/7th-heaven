@@ -154,7 +154,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   useScrollLock(mobileOpen);
-  const { member, isLoggedIn, openModal, logout, isModalOpen } = useMember();
+  const { member, isLoggedIn, openModal, openProfileModal, logout, isModalOpen } =
+    useMember();
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -710,6 +711,13 @@ export function Header() {
                     </span>
                   </div>
                   <button
+                    onClick={() => openProfileModal()}
+                    className="ml-2 cursor-pointer text-[12px] font-semibold text-white/70 hover:text-white transition-colors"
+                    title="Edit Profile & Password"
+                  >
+                    <span>EDIT</span>
+                  </button>
+                  <button
                     onClick={() => {
                       logout();
                       requestTransition("/");
@@ -1012,6 +1020,15 @@ export function Header() {
                             {badgeText}
                           </span>
                         </div>
+                        <button
+                          onClick={() => {
+                            setMobileOpen(false);
+                            openProfileModal();
+                          }}
+                          className="transition-colors ml-1 cursor-pointer text-[12px] font-semibold text-white/80 hover:text-white"
+                        >
+                          EDIT
+                        </button>
                         <button
                           onClick={() => {
                             setMobileOpen(false);

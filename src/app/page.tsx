@@ -88,18 +88,18 @@ export default async function Home() {
   });
 
   return (
-    <main id="home-page" className="page-container page-container--hero page-stack !pt-0">
-      {/* ====== HERO (Viewport Height) ====== */}
+    <main id="home-page" className="page-container page-container--hero flex flex-col !pt-0">
+      {/* ====== HERO (Viewport Height - Sticky Pin) ====== */}
       <section
         id="hero"
         aria-labelledby="hero-heading"
-        className="section relative"
+        className="section sticky top-0 z-0 w-full h-[100vh] h-[100svh] overflow-hidden"
         data-pick-label="Play Music"
       >
-        <div className="relative h-[100vh] h-[100svh] w-full">
+        <div className="relative h-full w-full">
           <div
             id="hero-card"
-            className="relative flex h-full w-full flex-col justify-between pb-15"
+            className="relative flex h-full w-full flex-col justify-between"
             data-pick-label="Play Music"
           >
             <HeroVideoPlayer sanityContent={sanityContent} />
@@ -107,20 +107,23 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint. */}
-      <HomeDataLoader />
+      {/* Content Stack: slides up over the sticky hero */}
+      <div className="page-stack relative z-10 min-h-screen bg-[#0a0a0f]">
+        {/* Announcement banner + Tour list + Band Bio — loaded client-side after paint. */}
+        <HomeDataLoader />
 
-{/* ====== FEATURED VIDEO SHOWCASE (Temporarily disabled) ====== */}
-      {/* <HomeVideoShowcase sanityContent={sanityContent} /> */}
+        {/* ====== FEATURED VIDEO SHOWCASE (Temporarily disabled) ====== */}
+        {/* <HomeVideoShowcase sanityContent={sanityContent} /> */}
 
-      {/* ====== SLIDEUP STACK SECTION (Temporarily disabled) ====== */}
-      {/* <SlideupSection sanityContent={sanityContent} /> */}
+        {/* ====== SLIDEUP STACK SECTION (Temporarily disabled) ====== */}
+        {/* <SlideupSection sanityContent={sanityContent} /> */}
 
-      {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
-      <HomeLogosSection sanityContent={sanityContent} />
+        {/* ====== SHARED THE STAGE WITH / AS SEEN ON ====== */}
+        <HomeLogosSection sanityContent={sanityContent} />
 
-      {/* ====== LATEST BAND NEWS ====== */}
-      <HomeNewsSection sanityContent={sanityContent} />
+        {/* ====== LATEST BAND NEWS ====== */}
+        <HomeNewsSection sanityContent={sanityContent} />
+      </div>
     </main>
   );
 }

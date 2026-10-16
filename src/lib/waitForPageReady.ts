@@ -60,19 +60,78 @@ export async function waitForCanvasReady(timeoutMs = 1800): Promise<void> {
   });
 }
 
-export async function waitForHeroVideoReady(timeoutMs = 2000): Promise<void> {
+export async function waitForHeroVideoReady(timeoutMs = 4000): Promise<void> {
   if (typeof window === "undefined" || typeof document === "undefined") return;
 
+  if ((window as any).__7hHeroVideoReady) {
+    return;
+  }
+
+  // Attempt to immediately play or prime hero video element if present
   const heroVideo = document.querySelector(
     "#hero video",
   ) as HTMLVideoElement | null;
-  if (!heroVideo) return;
 
   if (
-    (window as any).__7hHeroVideoReady ||
-    heroVideo.readyState >= 3 ||
-    (!heroVideo.paused && heroVideo.currentTime > 0)
+    heroVideo &&
+    (heroVideo.readyState >= 3 || (!heroVideo.paused && heroVideo.currentTime > 0))
   ) {
+    (window as any).__7hHeroVideoReady = true;
+    return;
+  }
+
+  return new Promise<void>((resolve) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        cleanup();
+        resolve();
+      }
+    }, timeoutMs);
+
+    const onReady = () => {
+      if (!settled) {
+        settled = true;
+        (window as any).__7hHeroVideoReady = true;
+        cleanup();
+        resolve();
+      }
+    };
+
+    const cleanup = () => {
+      clearTimeout(timer);
+      window.removeEventListener("7h-hero-video-ready", onReady);
+      if (heroVideo) {
+        heroVideo.removeEventListener("canplay", onReady);
+        heroVideo.removeEventListener("playing", onReady);
+        heroVideo.removeEventListener("loadeddata", onReady);
+      }
+    };
+
+    window.addEventListener("7h-hero-video-ready", onReady, { once: true });
+    if (heroVideo) {
+      heroVideo.addEventListener("canplay", onReady, { once: true });
+      heroVideo.addEventListener("playing", onReady, { once: true });
+      heroVideo.addEventListener("loadeddata", onReady, { once: true });
+      // If paused or stalled, trigger play
+      if (heroVideo.paused) {
+        heroVideo.play().catch(() => {});
+      }
+    }
+  });
+}
+
+export async function waitForMapReady(timeoutMs = 5000): Promise<void> {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  // Signal the map to load eagerly during preloader if on homepage
+  if (typeof window !== "undefined") {
+    (window as any).__7hEagerLoadMap = true;
+    window.dispatchEvent(new CustomEvent("7h-eager-load-map"));
+  }
+
+  if ((window as any).__7hMapLoaded) {
     return;
   }
 
@@ -96,16 +155,10 @@ export async function waitForHeroVideoReady(timeoutMs = 2000): Promise<void> {
 
     const cleanup = () => {
       clearTimeout(timer);
-      window.removeEventListener("7h-hero-video-ready", onReady);
-      heroVideo.removeEventListener("canplay", onReady);
-      heroVideo.removeEventListener("playing", onReady);
-      heroVideo.removeEventListener("loadeddata", onReady);
+      window.removeEventListener("7h-map-ready", onReady);
     };
 
-    window.addEventListener("7h-hero-video-ready", onReady);
-    heroVideo.addEventListener("canplay", onReady, { once: true });
-    heroVideo.addEventListener("playing", onReady, { once: true });
-    heroVideo.addEventListener("loadeddata", onReady, { once: true });
+    window.addEventListener("7h-map-ready", onReady, { once: true });
   });
 }
 

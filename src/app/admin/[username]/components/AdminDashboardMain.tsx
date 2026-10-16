@@ -21,7 +21,7 @@ const emptySubscribe = () => () => { };
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { useMember } from "@/context/MemberContext";
+import { useMember, Member } from "@/context/MemberContext";
 import Dropdown from "@/components/Dropdown";
 import { Toggle } from "@/components/Toggle";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
@@ -40,6 +40,7 @@ import {
   seedMockData,
   adminCreateCrewMember,
   adminResetPassword,
+  adminSetUserPassword,
   adminCreateAdmin,
 } from "../../actions";
 import { CrewSetPasswordModal } from "@/components/CrewSetPasswordModal";
@@ -80,7 +81,8 @@ const STANDARD_ROLE_TAGS_SET = new Set([
 import BulkInvitePanel from "@/components/admin/BulkInvitePanel";
 import { AdminSectionHeader } from "@/components/admin/AdminSectionHeader";
 import { ChannelToggleCard } from "@/components/ChannelToggleCard";
-import { Clock, CheckCircle2, Plus, Bell, Radio, Send, Users, Mail, MessageSquare, Sparkles, AlertTriangle, ShieldCheck, Calendar } from "lucide-react";
+import { Clock, CheckCircle2, Plus, Bell, Radio, Send, Users, Mail, MessageSquare, Sparkles, AlertTriangle, ShieldCheck, Calendar, Edit2 } from "lucide-react";
+import { AdminTourDateModal } from "@/components/AdminTourDateModal";
 import { CruiseLivePreview } from "./CruiseLivePreview";
 import { AdminAuthGate } from "./AdminAuthGate";
 import CustomScrollbar from "@/components/CustomScrollbar";
@@ -564,12 +566,14 @@ const SidebarDateButton = React.memo(
     isActiveWeek,
     shiftCount,
     onClick,
+    onEdit,
   }: {
     show: any;
     isSelected: boolean;
     isActiveWeek: boolean;
     shiftCount: number;
     onClick: (date: string) => void;
+    onEdit?: (show: any) => void;
   }) => {
     let dateLabel = show.dateLabel;
     let dayLabel = show.dayLabel;
@@ -617,12 +621,32 @@ const SidebarDateButton = React.memo(
             {show.venue || show.venue_name}
           </p>
           {show.city && (
-            <p className="m-0">
+            <p className="m-0 text-[10px] text-white/40">
               {show.city}
               {show.state ? `, ${show.state}` : ""}
             </p>
           )}
         </div>
+        {onEdit && (
+          <span
+            role="button"
+            tabIndex={0}
+            aria-label={`Edit ${show.venue || "show"} tour date`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(show);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.stopPropagation();
+                onEdit(show);
+              }
+            }}
+            className="flex h-5 w-5 shrink-0 items-center justify-center rounded border border-white/10 bg-white/5 text-white/40 opacity-0 transition-opacity hover:border-cyan-500/40 hover:bg-cyan-500/10 hover:text-cyan-300 group-hover:opacity-100 cursor-pointer"
+          >
+            <Edit2 size={10} />
+          </span>
+        )}
       </button>
     );
   },
@@ -989,8 +1013,15 @@ export function AdminDashboardMain({
   params: Promise<{ username: string }>;
 }) {
   const { username } = use(params);
-  const { member, isLoggedIn, login, logout, openModal, updateAvatar } =
-    useMember();
+  const {
+    member,
+    isLoggedIn,
+    login,
+    logout,
+    openModal,
+    updateAvatar,
+    openProfileModal,
+  } = useMember();
   const router = useRouter();
 
   const adminPhotoInputRef = useRef<HTMLInputElement>(null);
@@ -1006,6 +1037,14 @@ export function AdminDashboardMain({
   const [adminAvatarOverride, setAdminAvatarOverride] = useState<string | null>(
     null,
   );
+  const [editingPasswordUserId, setEditingPasswordUserId] = useState<
+    string | null
+  >(null);
+  const [adminNewPasswordInput, setAdminNewPasswordInput] = useState<string>("");
+  const [adminPasswordStatus, setAdminPasswordStatus] = useState<string | null>(
+    null,
+  );
+  const [adminPasswordSaving, setAdminPasswordSaving] = useState<boolean>(false);
 
   const isMaryRoute = username.toLowerCase().includes("mary");
   const m = member as any;
@@ -2272,6 +2311,8 @@ export function AdminDashboardMain({
 
   //  Tour Dates Sync State & Handlers
   const [tourDates, setTourDates] = useState<any[]>([]);
+  const [isTourModalOpen, setIsTourModalOpen] = useState(false);
+  const [adminEditingShow, setAdminEditingShow] = useState<any | null>(null);
 
   // Pre-calculate schedules lookup maps once per render for O(1) retrieval
   const schedulesByDateAndCrew = useMemo(() => {
@@ -2775,6 +2816,11 @@ export function AdminDashboardMain({
       return current;
     });
   }, []);
+
+  const handleDateEdit = useCallback((show: any) => {
+    setAdminEditingShow(show);
+    setIsTourModalOpen(true);
+  }, []);
   const syncLoadingRef = useRef(false);
   const syncResultRef = useRef<any>(null);
 
@@ -2844,6 +2890,24 @@ export function AdminDashboardMain({
       syncLoadingRef.current = false;
     }
   };
+
+  const handleTourDateSaved = useCallback(async () => {
+    try {
+      const tourRes = await fetch("/api/tour");
+      if (tourRes.ok) {
+        const freshTourDates = await tourRes.json();
+        setTourDates(freshTourDates);
+        syncTourDatesToCalendar(freshTourDates, schedules);
+      }
+      const showsRes = await fetch("/api/admin/shows");
+      if (showsRes.ok) {
+        const updatedSmsShows = await showsRes.json();
+        setSmsShows(updatedSmsShows);
+      }
+    } catch {
+      // ignore
+    }
+  }, [schedules, syncTourDatesToCalendar]);
 
   //  Memory Moderation Queue State & Handlers
   // eslint-disable-next-line react-doctor/rerender-state-only-in-handlers
@@ -9958,12 +10022,17 @@ export function AdminDashboardMain({
                       const accounts =
                         typeof window !== "undefined"
                           ? JSON.parse(
+                            localStorage.getItem("7h_accounts_v1") ||
                             localStorage.getItem("7h_accounts") || "{}",
                           )
                           : {};
                       const acct = Object.values(accounts).find(
                         (a: any) =>
                           (a.id && a.id === user.id) ||
+                          (a.username &&
+                            user.username &&
+                            a.username.toLowerCase() ===
+                            user.username.toLowerCase()) ||
                           (a.email &&
                             user.email &&
                             a.email.toLowerCase() ===
@@ -9971,6 +10040,15 @@ export function AdminDashboardMain({
                           (a.name &&
                             a.name.toLowerCase() === user.name.toLowerCase()),
                       ) as any;
+                      const userDisplayUsername =
+                        user.username ||
+                        acct?.username ||
+                        (user.name
+                          ? user.name.toLowerCase().replace(/[^a-z0-9]/g, "_")
+                          : "user");
+                      const userDisplayEmail =
+                        acct?.email || user.email || "";
+
                       return (
                         <div key={user.id}>
                           <div className="transition-colors grid grid-cols-[2fr_1fr_1fr_1fr] items-center gap-2 border-b border-black/10 py-2 px-3">
@@ -9979,7 +10057,8 @@ export function AdminDashboardMain({
                                 <Avatar
                                   src={
                                     (user as any).avatar ||
-                                    (user as any).avatar_url
+                                    (user as any).avatar_url ||
+                                    acct?.avatar
                                   }
                                   name={user.name}
                                   size="md"
@@ -9992,7 +10071,12 @@ export function AdminDashboardMain({
                                   }
                                   border="border border-white/10"
                                 />
-                                <span>{user.name}</span>
+                                <div>
+                                  <span className="block font-medium">{user.name}</span>
+                                  <span className="block text-[0.65rem] text-purple-400">
+                                    @{userDisplayUsername}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                             <div>
@@ -10043,79 +10127,201 @@ export function AdminDashboardMain({
                             </div>
                           </div>
                           {viewingUser === user.id && (
-                            <div className="border-b border-black/10 bg-white/[0.02] px-6 py-3 dark:border-white/5">
-                              <div className="flex items-center gap-6 text-[0.7rem]">
+                            <div className="border-b border-black/10 bg-white/[0.02] px-6 py-4 dark:border-white/5 flex flex-col gap-3">
+                              <div className="flex flex-wrap items-center gap-6 text-[0.75rem]">
                                 <div>
-                                  <span className="text-[0.55rem] text-white/30">
+                                  <span className="text-[0.65rem] text-white/40">
+                                    Username:{" "}
+                                  </span>
+                                  <span className="font-semibold text-purple-300">
+                                    @{userDisplayUsername}
+                                  </span>
+                                </div>
+                                <div>
+                                  <span className="text-[0.65rem] text-white/40">
                                     Email:{" "}
                                   </span>
-                                  <span>
-                                    {acct?.email || user.email || "N/A"}
-                                  </span>
+                                  <span>{userDisplayEmail || "N/A"}</span>
                                 </div>
                                 <div>
-                                  <span className="text-[0.55rem] text-white/30">
+                                  <span className="text-[0.65rem] text-white/40">
                                     Password:{" "}
                                   </span>
-                                  <span>
-                                    {acct?.password ||
-                                      (user.role === "crew"
-                                        ? "********"
-                                        : "N/A")}
+                                  <span className="font-mono text-purple-200">
+                                    {acct?.password || "••••••••"}
                                   </span>
-                                  {user.role === "crew" && (
-                                    <button
-                                      onClick={async () => {
-                                        const res = await adminResetPassword(
-                                          user.id,
-                                          user.email,
-                                        );
-                                        if (res.success) {
-                                          const accounts = JSON.parse(
-                                            localStorage.getItem(
-                                              "7h_accounts_v1",
-                                            ) ||
-                                            localStorage.getItem(
-                                              "7h_accounts",
-                                            ) ||
-                                            "{}",
-                                          );
-                                          accounts[user.email.toLowerCase()] = {
-                                            ...accounts[
-                                            user.email.toLowerCase()
-                                            ],
-                                            id: user.id,
-                                            name: user.name,
-                                            email: user.email.toLowerCase(),
-                                            password: res.password,
-                                            role: "crew",
-                                          };
-                                          localStorage.setItem(
-                                            "7h_accounts_v1",
-                                            JSON.stringify(accounts),
-                                          );
-                                          alert(
-                                            `Password reset for ${user.name}!\nNew Password: ${res.password}`,
-                                          );
-                                          setViewingUser(null);
-                                        } else {
-                                          alert(
-                                            `Failed to reset password: ${res.error}`,
-                                          );
-                                        }
-                                      }}
-                                      className="transition-colors ml-2 rounded border border-purple-500/30 bg-white/20 px-2 py-0.5 text-[0.55rem] hover:bg-purple-500/30"
-                                    >
-                                      Reset Password
-                                    </button>
-                                  )}
+                                </div>
+                                <div className="flex items-center gap-2 ml-auto">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const targetMember: Member = {
+                                        id: user.id,
+                                        name: user.name,
+                                        username: userDisplayUsername,
+                                        email: userDisplayEmail,
+                                        avatar:
+                                          (user as any).avatar ||
+                                          (user as any).avatar_url ||
+                                          acct?.avatar ||
+                                          "",
+                                        role: (user.role as Member["role"]) || "fan",
+                                        joinDate:
+                                          (user as any).created_at ||
+                                          new Date().toISOString(),
+                                        points: (user as any).points || 0,
+                                        tier:
+                                          (user as any).tier || "Bronze",
+                                        showsAttended:
+                                          (user as any).shows_attended || 0,
+                                        favoriteVenues: [],
+                                        notificationsEnabled: false,
+                                        notificationRadius: 25,
+                                      };
+                                      openProfileModal(targetMember);
+                                    }}
+                                    className="cursor-pointer rounded-full border border-purple-400/40 bg-purple-600/20 px-3 py-1 text-[0.7rem] font-medium text-purple-200 hover:bg-purple-600/40 transition-colors"
+                                  >
+                                    Edit Profile & Photo
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setEditingPasswordUserId(
+                                        editingPasswordUserId === user.id
+                                          ? null
+                                          : user.id,
+                                      );
+                                      setAdminNewPasswordInput("");
+                                      setAdminPasswordStatus(null);
+                                    }}
+                                    className="cursor-pointer rounded-full border border-purple-500/30 bg-white/10 px-3 py-1 text-[0.7rem] font-medium text-white hover:bg-purple-500/30 transition-colors"
+                                  >
+                                    {editingPasswordUserId === user.id
+                                      ? "Cancel"
+                                      : "Change Password"}
+                                  </button>
                                 </div>
                               </div>
-                              {user.role === "crew" && !acct?.password && (
-                                <p className="mt-1 text-amber-400/70">
-                                  * Credentials lost (Check browser history or
-                                  re-create account)
-                                </p>
+
+                              {editingPasswordUserId === user.id && (
+                                <div className="mt-2 rounded-[var(--radius-box)] border border-purple-500/20 bg-black/40 p-3.5 flex flex-col gap-2.5">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-white/70">
+                                      Set new password for username{" "}
+                                      <strong className="text-purple-300">
+                                        @{userDisplayUsername}
+                                      </strong>
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const rand =
+                                          Math.random()
+                                            .toString(36)
+                                            .slice(-8) + "!A1";
+                                        setAdminNewPasswordInput(rand);
+                                      }}
+                                      className="cursor-pointer text-[10px] text-purple-400 hover:underline"
+                                    >
+                                      Generate Random
+                                    </button>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <input
+                                      type="text"
+                                      value={adminNewPasswordInput}
+                                      onChange={(e) =>
+                                        setAdminNewPasswordInput(e.target.value)
+                                      }
+                                      placeholder="New password (min 4 chars)"
+                                      className="flex-1 rounded-full border border-purple-500/30 bg-black/60 px-3.5 py-1.5 text-xs text-white outline-none focus:border-purple-400"
+                                    />
+                                    <SeventhButton
+                                      disabled={
+                                        adminPasswordSaving ||
+                                        adminNewPasswordInput.length < 4
+                                      }
+                                      onClick={async () => {
+                                        if (adminNewPasswordInput.length < 4)
+                                          return;
+                                        try {
+                                          setAdminPasswordSaving(true);
+                                          setAdminPasswordStatus(null);
+                                          const targetEmail = userDisplayEmail;
+                                          const res =
+                                            await adminSetUserPassword(
+                                              user.id,
+                                              targetEmail,
+                                              adminNewPasswordInput,
+                                            );
+                                          if (res.success) {
+                                            const accountsData = JSON.parse(
+                                              localStorage.getItem(
+                                                "7h_accounts_v1",
+                                              ) ||
+                                                localStorage.getItem(
+                                                  "7h_accounts",
+                                                ) ||
+                                                "{}",
+                                            );
+                                            const emailKey =
+                                              targetEmail.toLowerCase();
+                                            accountsData[emailKey] = {
+                                              ...accountsData[emailKey],
+                                              id: user.id,
+                                              name: user.name,
+                                              username: userDisplayUsername,
+                                              email: emailKey,
+                                              password: adminNewPasswordInput,
+                                              role: user.role,
+                                            };
+                                            localStorage.setItem(
+                                              "7h_accounts_v1",
+                                              JSON.stringify(accountsData),
+                                            );
+                                            localStorage.setItem(
+                                              `7h_dev_password_${emailKey}`,
+                                              adminNewPasswordInput,
+                                            );
+                                            if (userDisplayUsername) {
+                                              localStorage.setItem(
+                                                `7h_dev_password_${userDisplayUsername.toLowerCase()}`,
+                                                adminNewPasswordInput,
+                                              );
+                                            }
+                                            setAdminPasswordStatus(
+                                              `Password updated for @${userDisplayUsername}! New password: ${adminNewPasswordInput}`,
+                                            );
+                                            setAdminNewPasswordInput("");
+                                          } else {
+                                            setAdminPasswordStatus(
+                                              `Failed: ${res.error}`,
+                                            );
+                                          }
+                                        } finally {
+                                          setAdminPasswordSaving(false);
+                                        }
+                                      }}
+                                      className="cursor-pointer px-4 py-1.5 text-xs"
+                                    >
+                                      {adminPasswordSaving
+                                        ? "Saving..."
+                                        : "Save Password"}
+                                    </SeventhButton>
+                                  </div>
+                                  {adminPasswordStatus && (
+                                    <p
+                                      className={`text-xs ${
+                                        adminPasswordStatus.startsWith("Failed")
+                                          ? "text-rose-400"
+                                          : "text-emerald-400"
+                                      }`}
+                                    >
+                                      {adminPasswordStatus}
+                                    </p>
+                                  )}
+                                </div>
                               )}
                             </div>
                           )}
@@ -13622,7 +13828,19 @@ export function AdminDashboardMain({
                       }}
                     />
 
-                    {/*  Tour Dates Quick-Jump */}
+                    {/*  Tour Dates Quick-Jump & Create Show */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAdminEditingShow(null);
+                        setIsTourModalOpen(true);
+                      }}
+                      className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-2.5 py-1.5 text-xs font-semibold text-cyan-300 transition-colors hover:bg-cyan-500/20 active:scale-95"
+                    >
+                      <Plus size={12} strokeWidth={2.5} />
+                      <span>NEW SHOW</span>
+                    </button>
+
                     <div className="relative" data-tour-dropdown>
                       <button
                         type="button"
@@ -13638,6 +13856,18 @@ export function AdminDashboardMain({
                       </button>
                       {showTourDropdown && (
                         <div className="custom-scrollbar absolute top-full left-0 z-50 mt-1 max-h-[850px] min-w-[320px] overflow-y-auto border border-white/10 bg-[#1a1a22] py-1.5 shadow-2xl">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowTourDropdown(false);
+                              setAdminEditingShow(null);
+                              setIsTourModalOpen(true);
+                            }}
+                            className="flex w-full cursor-pointer items-center gap-2 border-b border-white/10 bg-cyan-950/40 px-3.5 py-2.5 text-xs font-bold text-cyan-300 transition-colors hover:bg-cyan-900/50"
+                          >
+                            <Plus size={13} strokeWidth={2.5} />
+                            <span>Create New Tour Date</span>
+                          </button>
                           {(() => {
                             const datesToRender = upcomingTourDatesWithLabels;
                             if (!datesToRender || datesToRender.length === 0) {
@@ -14063,6 +14293,17 @@ export function AdminDashboardMain({
                           <span>Tour Dates</span>
                         </div>
                         <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAdminEditingShow(null);
+                              setIsTourModalOpen(true);
+                            }}
+                            className="flex cursor-pointer items-center gap-1 rounded border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-[11px] font-semibold text-cyan-300 transition-colors hover:bg-cyan-500/20 active:scale-95"
+                          >
+                            <Plus size={11} strokeWidth={2.5} />
+                            <span>Add</span>
+                          </button>
                           <span className="rounded-lg border border-white/10 bg-[#00000029] px-1.5 py-0.5">
                             {upcomingTourDatesWithLabels.length}
                           </span>
@@ -14104,6 +14345,7 @@ export function AdminDashboardMain({
                                   isActiveWeek={isActiveWeek}
                                   shiftCount={shiftCount}
                                   onClick={handleDateClick}
+                                  onEdit={handleDateEdit}
                                 />
                               );
                             },
@@ -17381,6 +17623,18 @@ export function AdminDashboardMain({
             <p className="mt-0.5">{activeToast.message}</p>
           </div>
         </div>
+      )}
+      {isTourModalOpen && (
+        <AdminTourDateModal
+          isOpen={isTourModalOpen}
+          onClose={() => {
+            setIsTourModalOpen(false);
+            setAdminEditingShow(null);
+          }}
+          editingShow={adminEditingShow}
+          onSaved={handleTourDateSaved}
+          onDeleted={handleTourDateSaved}
+        />
       )}
     </main>
   );

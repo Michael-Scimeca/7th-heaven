@@ -7,32 +7,58 @@ import {
   ClipboardList,
   FileText,
   Check,
-  CheckSquare,
-  Square,
-  PartyPopper,
-  Lightbulb,
   History,
   Calendar,
   MapPin,
   Clock,
-  Navigation,
-  Phone,
-  Mail,
-  User,
-  Sliders,
-  PhoneCall,
 } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 import { useMember } from "@/context/MemberContext";
 import Toggle from "@/components/Toggle";
-import SeventhButton from "@/components/SeventhButton";
 import Button from "@/components/Button";
 import { SectionBadge } from "@/components/SectionBadge";
 import { SectionHeader } from "@/components/SectionHeader";
 import { AudienceAlertSetupCard } from "@/components/AudienceAlertSetupCard";
+import { PlannerActiveBookingHero } from "@/components/PlannerActiveBookingHero";
+import {
+  getStoredPlannerProfile,
+  saveStoredPlannerProfile,
+  PLANNER_SYNC_EVENT,
+  type PlannerProfile,
+} from "@/lib/planner-storage";
 
-interface BookingData {
+export const mergePlannerProfileIntoBooking = (
+  b: BookingData,
+  profile: PlannerProfile,
+): BookingData => {
+  return {
+    ...b,
+    name: profile.name || b.name,
+    email: profile.email || b.email,
+    phone: profile.phone || b.phone,
+    organization: profile.organization || b.organization,
+    venueName: profile.venueName || b.venueName,
+    venueCity: profile.venueCity || b.venueCity,
+    venueState: profile.venueState || b.venueState,
+    parkingAddress: profile.parkingAddress || b.parkingAddress,
+    parkingType: profile.parkingType || b.parkingType,
+    parkingNotes: profile.parkingNotes || b.parkingNotes,
+    soundSystem: profile.soundSystem || b.soundSystem,
+    stageAvailable: profile.stageAvailable || b.stageAvailable,
+    backlineProvided: profile.backlineProvided || b.backlineProvided,
+    loadInTime: profile.loadInTime || b.loadInTime,
+    expectedAttendance: profile.expectedAttendance || b.expectedAttendance,
+    budget: profile.budget || b.budget,
+    setDuration: profile.setLength || b.setDuration,
+    indoorOutdoor: profile.indoorOutdoor || b.indoorOutdoor,
+    ageRestriction: profile.ageRestriction || b.ageRestriction,
+    notes: profile.details || b.notes,
+    eventType: profile.eventType || b.eventType,
+    eventName: profile.organization ? `${profile.organization} Event` : b.eventName,
+  };
+};
+
+export interface BookingData {
   id: string;
   eventName: string;
   eventType: string;
@@ -52,6 +78,7 @@ interface BookingData {
   loadInTime?: string;
   parkingAddress?: string;
   parkingNotes?: string;
+  parkingType?: string;
   notes?: string;
   name?: string;
   email?: string;
@@ -60,13 +87,19 @@ interface BookingData {
   backlineProvided?: string;
   ageRestriction?: string;
   details?: string;
+  setDuration?: string;
+  eventStartTime?: string;
+  eventEndTime?: string;
+  isLoadInUnsure?: boolean;
 }
 
-const defaultBooking: BookingData = {
+export const defaultBooking: BookingData = {
   id: "7H-BK-8921",
   eventName: "Mainstage Festival Event",
   eventType: "unplugged",
   date: "Thu, Aug 6, 2026",
+  eventStartTime: "6:00 PM",
+  eventEndTime: "11:00 PM",
   startTime: "7:00 PM",
   endTime: "10:30 PM",
   venueName: "Bridges Scoreboard",
@@ -82,16 +115,25 @@ const defaultBooking: BookingData = {
   soundSystem: "Yes — full PA system",
   stageAvailable: "Yes",
   loadInTime: "3:00 PM",
+  setDuration: "Full Show",
   parkingAddress: "980 S Bartlett Rd, Lot B",
+  parkingType: "bus-trailer",
   parkingNotes:
     "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.",
+  budget: "$6,500 Guarantee",
+  backlineProvided: "Yes — amps, drum kit & monitors",
+  ageRestriction: "All Ages",
+  details: "",
+  notes: "",
 };
 
-const pendingBooking: BookingData = {
+export const pendingBooking: BookingData = {
   id: "7H-BK-9204",
   eventName: "Lakefront Summer Bash",
   eventType: "full_band",
   date: "Sat, Sep 12, 2026",
+  eventStartTime: "5:00 PM",
+  eventEndTime: "11:30 PM",
   startTime: "6:00 PM",
   endTime: "11:00 PM",
   venueName: "Navy Pier Grand Ballroom",
@@ -104,12 +146,21 @@ const pendingBooking: BookingData = {
   name: "Event Planner",
   email: "planner@7thheavenband.com",
   phone: "(847) 555-0199",
-  soundSystem: "",
-  stageAvailable: "",
-  loadInTime: "",
+  soundSystem: "Yes — venue house line array",
+  stageAvailable: "Yes — 32ft proscenium",
+  loadInTime: "2:00 PM",
+  setDuration: "Full Show",
+  parkingAddress: "600 E Grand Ave, Chicago, IL",
+  parkingType: "dock-bay",
+  parkingNotes: "Loading dock bays 3-4 on North Service Rd. Semi clearance verified.",
+  budget: "$8,500 Guarantee",
+  backlineProvided: "Partial — house drums provided",
+  ageRestriction: "21+",
+  details: "Corporate summer event. Private ballroom access and guest queue.",
+  notes: "Sound check scheduled for 4:30 PM sharp.",
 };
 
-const STATUS_CONFIG: Record<
+export const STATUS_CONFIG: Record<
   string,
   {
     label: string;
@@ -122,19 +173,19 @@ const STATUS_CONFIG: Record<
 > = {
   pending: {
     label: "Pending Review",
-    color: "purple",
-    bg: "bg-purple-600/10",
-    border: "border- purple-white/20",
-    text: " ",
-    bar: "bg-purple-600",
+    color: "amber",
+    bg: "bg-amber-500/10",
+    border: "border-amber-500/30",
+    text: "text-amber-300",
+    bar: "bg-amber-400",
   },
   confirmed: {
     label: "Confirmed",
-    color: "purple",
-    bg: "bg-[var(--color-accent)]/10",
-    border: "border-[var(--color-accent)]/30",
-    text: "text-[var(--color-accent)]",
-    bar: "bg-[var(--color-accent)]",
+    color: "emerald",
+    bg: "bg-emerald-500/10",
+    border: "border-emerald-500/30",
+    text: "text-emerald-400",
+    bar: "bg-emerald-400",
   },
   cancelled: {
     label: "Cancelled",
@@ -146,7 +197,7 @@ const STATUS_CONFIG: Record<
   },
 };
 
-const rebookUrl = (b: BookingData, member?: any) => {
+export const rebookUrl = (b: BookingData, member?: any) => {
   const p = new URLSearchParams();
   p.set("from", "rebook");
   p.set("organization", b.organization || "Scoreboard Entertainment");
@@ -174,10 +225,11 @@ const rebookUrl = (b: BookingData, member?: any) => {
   if (b.details) p.set("details", b.details);
   if (b.parkingAddress) p.set("parkingAddress", b.parkingAddress);
   if (b.parkingNotes) p.set("parkingNotes", b.parkingNotes);
+  if (b.parkingType) p.set("parkingType", b.parkingType);
   return `/book?${p.toString()}`;
 };
 
-const eventTypeLabels: Record<string, string> = {
+export const eventTypeLabels: Record<string, string> = {
   full_band: "Full Band Show",
   unplugged: "Unplugged Acoustic Set",
   private: "Private Event",
@@ -320,10 +372,17 @@ export default function PlannerDashboard() {
             organization: item.organization || defaultBooking.organization,
             status: item.status || defaultBooking.status,
             cancelledAt: item.cancelledAt || item.cancelled_at,
-            soundSystem: item.soundSystem || item.sound_system || "",
-            stageAvailable: item.stageAvailable || item.stage_available || "",
-            loadInTime: item.loadInTime || item.load_in_time || "",
-            notes: item.details || item.notes || "",
+            soundSystem: item.soundSystem || item.sound_system || defaultBooking.soundSystem || "",
+            stageAvailable: item.stageAvailable || item.stage_available || defaultBooking.stageAvailable || "",
+            loadInTime: item.loadInTime || item.load_in_time || defaultBooking.loadInTime || "3:00 PM",
+            notes: item.details || item.notes || defaultBooking.notes || "",
+            ageRestriction: item.ageRestriction || item.age_restriction || defaultBooking.ageRestriction || "All Ages",
+            eventStartTime: item.eventStartTime || item.event_start_time || defaultBooking.eventStartTime || "6:00 PM",
+            eventEndTime: item.eventEndTime || item.event_end_time || defaultBooking.eventEndTime || "11:00 PM",
+            parkingAddress: item.parkingAddress || item.parking_address || defaultBooking.parkingAddress,
+            parkingNotes: item.parkingNotes || item.parking_notes || defaultBooking.parkingNotes,
+            setDuration: item.setDuration || item.set_duration || defaultBooking.setDuration || "Full Show",
+            backlineProvided: item.backlineProvided || item.backline_provided || defaultBooking.backlineProvided || "Yes — amps, drum kit & monitors",
           }));
           const statusOrder: Record<string, number> = {
             confirmed: 1,
@@ -354,6 +413,34 @@ export default function PlannerDashboard() {
     setMounted(true);
     fetchBookings();
   }, [fetchBookings]);
+
+  // Live synchronization with /book planner fields
+  useEffect(() => {
+    const handlePlannerSync = (e?: Event) => {
+      const customEvt = e as CustomEvent<PlannerProfile> | undefined;
+      const profile = customEvt?.detail || getStoredPlannerProfile();
+      setBooking((prev) => mergePlannerProfileIntoBooking(prev, profile));
+      setAllBookings((prev) =>
+        prev.map((b, i) =>
+          i === 0 || b.status === "confirmed"
+            ? mergePlannerProfileIntoBooking(b, profile)
+            : b,
+        ),
+      );
+      setEditDraft((prev) => mergePlannerProfileIntoBooking(prev, profile));
+    };
+
+    window.addEventListener(PLANNER_SYNC_EVENT, handlePlannerSync);
+    window.addEventListener("storage", handlePlannerSync);
+
+    // Initial sync from stored profile
+    handlePlannerSync();
+
+    return () => {
+      window.removeEventListener(PLANNER_SYNC_EVENT, handlePlannerSync);
+      window.removeEventListener("storage", handlePlannerSync);
+    };
+  }, []);
 
   // Revive countdown timer
   useEffect(() => {
@@ -554,6 +641,29 @@ export default function PlannerDashboard() {
 
   const handleEditSave = () => {
     setBooking({ ...editDraft });
+    saveStoredPlannerProfile({
+      name: editDraft.name,
+      email: editDraft.email,
+      phone: editDraft.phone,
+      organization: editDraft.organization,
+      venueName: editDraft.venueName,
+      venueCity: editDraft.venueCity,
+      venueState: editDraft.venueState,
+      parkingAddress: editDraft.parkingAddress,
+      parkingType: editDraft.parkingType,
+      parkingNotes: editDraft.parkingNotes,
+      soundSystem: editDraft.soundSystem,
+      stageAvailable: editDraft.stageAvailable,
+      backlineProvided: editDraft.backlineProvided,
+      loadInTime: editDraft.loadInTime,
+      expectedAttendance: editDraft.expectedAttendance,
+      budget: editDraft.budget,
+      setLength: editDraft.setDuration,
+      indoorOutdoor: editDraft.indoorOutdoor,
+      ageRestriction: editDraft.ageRestriction,
+      details: editDraft.notes,
+      eventType: editDraft.eventType,
+    });
     setIsEditing(false);
   };
 
@@ -634,298 +744,29 @@ export default function PlannerDashboard() {
         className="section"
       >
         <SectionHeader id="active-booking-heading" title="Active Event Booking Details" visuallyHidden />
-        <div className="grid grid-cols-1 gap-6">
-          <div
-            className={`${booking.status === "cancelled" ? "" : ""} group relative flex flex-col gap-8  lg:flex-row`}
-          >
-
-
-            <div className="flex-1">
-              <div className="mb-6 flex items-center gap-3">
-                <SectionBadge label={s.label} />
-                <span className="text-white/40">ID: {booking.id}</span>
-              </div>
-
-              {/* View Mode */}
-              {!isEditing ? (
-                <>
-                  <div className="title-group title-group--section mb-6">
-                    <h2
-                      className={`${booking.status === "cancelled" ? "line-through opacity-50" : ""}`}
-                    >
-                      {booking.eventName}
-                    </h2>
-                    <p>
-                      {eventTypeLabels[booking.eventType] || booking.eventType}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                    <div className="npm">
-                      <p className="mb-1">Date</p>
-                      <p>{booking.date}</p>
-                    </div>
-                    <div className="npm">
-
-                      <p className="mb-1">Time Window</p>
-                      <p>
-                        {booking.startTime} - {booking.endTime}
-                      </p>
-                    </div>
-                    <div className="npm">
-                      <p className="mb-1">Venue</p>
-                      <p>{booking.venueName}</p>
-                    </div>
-                    <div className="npm">
-                      <p className="mb-1">City</p>
-                      <p>
-                        {booking.venueCity}, {booking.venueState}
-                      </p>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                /* Edit Mode */
-                <div className="flex flex-col gap-4">
-                  <div>
-                    <label
-                      htmlFor="planner-edit-event-name"
-                      className="mb-1 block text-white/30"
-                    >
-                      Event Name
-                    </label>
-                    <input
-                      id="planner-edit-event-name"
-                      value={editDraft.eventName}
-                      onChange={(e) =>
-                        setEditDraft((d) => ({ ...d, eventName: e.target.value }))
-                      }
-                      className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 outline-none"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                    <div>
-                      <label
-                        htmlFor="planner-edit-start-time"
-                        className="mb-1 block text-white/30"
-                      >
-                        Start Time
-                      </label>
-                      <input
-                        id="planner-edit-start-time"
-                        value={editDraft.startTime}
-                        onChange={(e) =>
-                          setEditDraft((d) => ({
-                            ...d,
-                            startTime: e.target.value,
-                          }))
-                        }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="planner-edit-end-time"
-                        className="mb-1 block text-white/30"
-                      >
-                        End Time
-                      </label>
-                      <input
-                        id="planner-edit-end-time"
-                        value={editDraft.endTime}
-                        onChange={(e) =>
-                          setEditDraft((d) => ({ ...d, endTime: e.target.value }))
-                        }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="planner-edit-venue"
-                        className="mb-1 block text-white/30"
-                      >
-                        Venue
-                      </label>
-                      <input
-                        id="planner-edit-venue"
-                        value={editDraft.venueName}
-                        onChange={(e) =>
-                          setEditDraft((d) => ({
-                            ...d,
-                            venueName: e.target.value,
-                          }))
-                        }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="planner-edit-attendance"
-                        className="mb-1 block text-white/30"
-                      >
-                        Attendance
-                      </label>
-                      <input
-                        id="planner-edit-attendance"
-                        value={editDraft.expectedAttendance}
-                        onChange={(e) =>
-                          setEditDraft((d) => ({
-                            ...d,
-                            expectedAttendance: e.target.value,
-                          }))
-                        }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        htmlFor="planner-edit-city"
-                        className="mb-1 block text-white/30"
-                      >
-                        City
-                      </label>
-                      <input
-                        id="planner-edit-city"
-                        value={editDraft.venueCity}
-                        onChange={(e) =>
-                          setEditDraft((d) => ({
-                            ...d,
-                            venueCity: e.target.value,
-                          }))
-                        }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="planner-edit-state"
-                        className="mb-1 block text-white/30"
-                      >
-                        State
-                      </label>
-                      <input
-                        id="planner-edit-state"
-                        value={editDraft.venueState}
-                        onChange={(e) =>
-                          setEditDraft((d) => ({
-                            ...d,
-                            venueState: e.target.value,
-                          }))
-                        }
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-3 py-2.5 outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Actions — require real sign-in */}
-            <div className="flex flex-col justify-start gap-3 border-white/10 lg:w-64 lg:border-l lg:pl-8">
-              {isSignedInPlanner ? (
-                <>
-                  {isEditing ? (
-                    /* Edit mode actions */
-                    <>
-                      <SeventhButton
-                        type="button"
-                        onClick={handleEditSave}
-                        icon={false}
-                        background="linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(4, 120, 87, 0.4))"
-                        glowStart="rgba(16, 185, 129, 0.5)"
-                        glowEnd="rgba(5, 150, 105, 0.4)"
-                        className="w-full justify-center text-center cursor-pointer text-emerald-200"
-                      >
-                        Save Changes
-                      </SeventhButton>
-                      <SeventhButton
-                        type="button"
-                        onClick={handleEditCancel}
-                        icon={false}
-                        className="w-full justify-center text-center cursor-pointer"
-                      >
-                        Discard
-                      </SeventhButton>
-                    </>
-                  ) : booking.status === "cancelled" ? (
-                    /* Cancelled state — rebook or revive */
-                    <>
-                      <SeventhButton
-                        href={rebookUrl(booking, member)}
-                        icon={false}
-                        className="w-full justify-center text-center cursor-pointer"
-                      >
-                        Rebook This Event
-                      </SeventhButton>
-                      {reviveTimeLeft && (
-                        <>
-                          <SeventhButton
-                            type="button"
-                            aria-label="Revive booking"
-                            onClick={() =>
-                              setBooking((prev) => ({
-                                ...prev,
-                                status: "pending",
-                                cancelledAt: undefined,
-                              }))
-                            }
-                            icon={false}
-                            className="w-full justify-center text-center cursor-pointer"
-                          >
-                            Revive Booking
-                          </SeventhButton>
-                          <p className="text-center">
-                            ⏱ Revive expires in <span>{reviveTimeLeft}</span>
-                          </p>
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    /* Normal actions */
-                    <>
-                      <SeventhButton
-                        href={rebookUrl(booking, member)}
-                        icon={false}
-                        className="w-full justify-center text-center cursor-pointer"
-                      >
-                        Rebook This Event
-                      </SeventhButton>
-                      <SeventhButton
-                        type="button"
-                        onClick={handleEditStart}
-                        icon={false}
-                        className="w-full justify-center text-center cursor-pointer"
-                      >
-                        Edit Logistics
-                      </SeventhButton>
-                      <SeventhButton
-                        type="button"
-                        onClick={() => setShowCancelConfirm(true)}
-                        icon={false}
-                        background="linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(159, 18, 57, 0.4))"
-                        glowStart="rgba(244, 63, 94, 0.5)"
-                        glowEnd="rgba(225, 29, 72, 0.4)"
-                        className="w-full justify-center text-center cursor-pointer text-rose-200"
-                      >
-                        Cancel Request
-                      </SeventhButton>
-                    </>
-                  )}
-                </>
-              ) : (
-                <Link
-                  href="/planner"
-                  className="transition-colors flex w-full items-center justify-center gap-2 border border-white/10 bg-white/[0.03] py-3 text-white/50 hover:bg-white/[0.08] hover:text-white"
-                >
-                  <History className="h-4 w-4" />
-                  Sign in to manage
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
+        <PlannerActiveBookingHero
+          booking={booking}
+          setBooking={setBooking}
+          allBookings={allBookings}
+          onSelectBooking={(b) => {
+            setBooking(b);
+            setEditDraft(b);
+            setPlannerNotes(b.notes || "");
+          }}
+          isEditing={isEditing}
+          editDraft={editDraft}
+          setEditDraft={setEditDraft}
+          handleEditStart={handleEditStart}
+          handleEditSave={handleEditSave}
+          handleEditCancel={handleEditCancel}
+          setShowCancelConfirm={setShowCancelConfirm}
+          rebookHref={rebookUrl(booking, member)}
+          reviveTimeLeft={reviveTimeLeft}
+          isSignedInPlanner={isSignedInPlanner}
+          member={member}
+          statusConfig={s}
+          eventTypeLabels={eventTypeLabels}
+        />
       </section>
 
       {/* ── Planner Push & Email Alert Preferences ── */}

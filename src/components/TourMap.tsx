@@ -345,10 +345,18 @@ export default function TourMap({
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
-      typeof (window as any).google?.maps?.Map === "function"
+      (typeof (window as any).google?.maps?.Map === "function" ||
+        (window as any).__7hEagerLoadMap)
     ) {
       setShouldLoadMaps(true);
       return;
+    }
+
+    const onEagerLoad = () => {
+      setShouldLoadMaps(true);
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("7h-eager-load-map", onEagerLoad, { once: true });
     }
 
     const container = mapRef.current;
@@ -365,11 +373,16 @@ export default function TourMap({
           observer.disconnect();
         }
       },
-      { rootMargin: "0px", threshold: 0.05 },
+      { rootMargin: "300px 0px", threshold: 0 },
     );
 
     observer.observe(container);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (typeof window !== "undefined") {
+        window.removeEventListener("7h-eager-load-map", onEagerLoad);
+      }
+    };
   }, []);
 
   // Load the Google Maps API once the map approaches the viewport
@@ -1065,7 +1078,7 @@ export default function TourMap({
 
   return (
     <div
-      className="relative z-10 h-[400px] w-full sm:h-[600px]"
+      className="tour-map-canvas relative z-10 w-full"
       style={{
         transform: "translateZ(0)",
         backfaceVisibility: "hidden",

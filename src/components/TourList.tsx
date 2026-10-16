@@ -56,6 +56,7 @@ import LazyHeavy from "@/components/LazyHeavy";
 import SeventhButton from "@/components/SeventhButton";
 import { SectionBadge } from "@/components/SectionBadge";
 import AddCmsButton from "./AddCmsButton";
+import { AdminTourDateModal } from "@/components/AdminTourDateModal";
 import { VENUE_LINKS } from "@/lib/venue-links";
 
 // ─── Wavy canvas divider ─────────────────────────────────────────────────────
@@ -866,192 +867,20 @@ export default function TourList({
   // Show CRUD States
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingShow, setEditingShow] = useState<any | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [modalError, setModalError] = useState<string | null>(null);
 
-  // Form Fields State
-  const [formVenue, setFormVenue] = useState("");
-  const [formCity, setFormCity] = useState("");
-  const [formState, setFormState] = useState("IL");
-  const [formDate, setFormDate] = useState("");
-  const [formTime, setFormTime] = useState("");
-  const [formDoorsTime, setFormDoorsTime] = useState("");
-  const [formPlayTime, setFormPlayTime] = useState("");
-  const [formAllAges, setFormAllAges] = useState(true);
-  const [formCover, setFormCover] = useState("");
-  const [formTicketLink, setFormTicketLink] = useState("");
-  const [formDirectionsLink, setFormDirectionsLink] = useState("");
-  const [formMapUrl, setFormMapUrl] = useState("");
-  const [formParkingInfo, setFormParkingInfo] = useState("");
-  const [formParkingUrl, setFormParkingUrl] = useState("");
-  const formIsSoldOutRef = useRef(false);
-  const [formIsFestival, setFormIsFestival] = useState(false);
-  const [formIsPrivate, setFormIsPrivate] = useState(false);
-  const [formNotes, setFormNotes] = useState("");
-  const [formIsUnplugged, setFormIsUnplugged] = useState(false);
-  const [formIsOutdoor, setFormIsOutdoor] = useState(false);
-  const [formIsCasino, setFormIsCasino] = useState(false);
-  const [formIsSpecialEvent, setFormIsSpecialEvent] = useState(false);
 
-  const populateForm = useCallback((show: any | null) => {
-    if (show) {
-      setFormVenue(show.venue || "");
-      setFormCity(show.city || "");
-      setFormState(show.state || "IL");
-      setFormDate(show.startDate || "");
-      setFormTime(show.time || "");
-      setFormDoorsTime(show.doorsTime || "");
-      setFormPlayTime(show.playTime || "");
-      setFormAllAges(show.allAges ?? true);
-      setFormCover(show.cover || "");
-      setFormTicketLink(show.ticketLink || "");
-      setFormDirectionsLink(show.directionsLink || show.mapUrl || "");
-      setFormMapUrl(show.mapUrl || show.directionsLink || "");
-      setFormParkingInfo(show.parkingInfo || "");
-      setFormParkingUrl(show.parkingUrl || "");
-      formIsSoldOutRef.current = show.isSoldOut || false;
-      setFormIsFestival(show.isFestival || false);
-      setFormIsPrivate(show.isPrivate || false);
-      setFormNotes(show.notes || "");
 
-      const currentTags = show.tags || [];
-      const lowerNotes = (
-        (show.notes || "") +
-        " " +
-        (show.info || "")
-      ).toLowerCase();
-      setFormIsUnplugged(
-        currentTags.includes("unplugged") || lowerNotes.includes("unplugged"),
-      );
-      setFormIsOutdoor(
-        currentTags.includes("outdoor") ||
-        lowerNotes.includes("outdoor") ||
-        lowerNotes.includes("beer garden"),
-      );
-      setFormIsCasino(
-        currentTags.includes("casino") || lowerNotes.includes("casino"),
-      );
-      setFormIsSpecialEvent(
-        currentTags.includes("special") ||
-        currentTags.includes("gala") ||
-        currentTags.includes("fundraiser") ||
-        currentTags.includes("cruise") ||
-        currentTags.includes("tv") ||
-        lowerNotes.includes("gala") ||
-        lowerNotes.includes("fundraiser") ||
-        lowerNotes.includes("cruise") ||
-        lowerNotes.includes("tv"),
-      );
-    } else {
-      setFormVenue("");
-      setFormCity("");
-      setFormState("IL");
-      setFormDate("");
-      setFormTime("");
-      setFormDoorsTime("");
-      setFormPlayTime("");
-      setFormAllAges(true);
-      setFormCover("");
-      setFormTicketLink("");
-      setFormDirectionsLink("");
-      setFormMapUrl("");
-      setFormParkingInfo("");
-      setFormParkingUrl("");
-      formIsSoldOutRef.current = false;
-      setFormIsFestival(false);
-      setFormIsPrivate(false);
-      setFormNotes("");
-      setFormIsUnplugged(false);
-      setFormIsOutdoor(false);
-      setFormIsCasino(false);
-      setFormIsSpecialEvent(false);
-    }
-    setModalError(null);
-  }, []);
+
+
 
   const handleAddShowClick = useCallback(() => {
     setEditingShow(null);
-    populateForm(null);
-    setModalError(null);
     setIsModalOpen(true);
-  }, [populateForm]);
+  }, []);
 
   const handleEditClick = (show: any) => {
     setEditingShow(show);
-    populateForm(show);
     setIsModalOpen(true);
-  };
-
-  const handleSaveShow = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (
-      !formVenue.trim() ||
-      !formCity.trim() ||
-      !formState.trim() ||
-      !formDate
-    ) {
-      setModalError("Please fill out all required fields.");
-      return;
-    }
-    setSubmitting(true);
-    setModalError(null);
-
-    const tags = [];
-    if (formIsFestival) tags.push("festival");
-    if (formIsPrivate) tags.push("private");
-    if (formIsUnplugged) tags.push("unplugged");
-    if (formIsOutdoor) tags.push("outdoor");
-    if (formIsCasino) tags.push("casino");
-    if (formIsSpecialEvent) tags.push("special");
-
-    const payload = {
-      venue: formVenue.trim(),
-      city: formCity.trim(),
-      state: formState.trim().toUpperCase(),
-      date: formDate,
-      time: formTime,
-      doorsTime: formDoorsTime,
-      playTime: formPlayTime,
-      allAges: formAllAges,
-      cover: formCover,
-      ticketLink: formTicketLink.trim(),
-      directionsLink: formDirectionsLink.trim() || formMapUrl.trim(),
-      mapUrl: formMapUrl.trim() || formDirectionsLink.trim(),
-      parkingInfo: formParkingInfo.trim(),
-      parkingUrl: formParkingUrl.trim(),
-      isSoldOut: formIsSoldOutRef.current,
-      isFestival: formIsFestival,
-      isPrivate: formIsPrivate,
-      notes: formNotes.trim(),
-      tags,
-      _id: editingShow?._id,
-    };
-
-    try {
-      const url = "/api/admin/shows";
-      const method = editingShow ? "PATCH" : "POST";
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (res.ok) {
-        const result = await res.json();
-        if (result.success) {
-          setIsModalOpen(false);
-          window.location.reload();
-        } else {
-          setModalError(result.error || "Failed to save show date.");
-        }
-      } else {
-        const result = await res.json().catch(() => ({}));
-        setModalError(result.error || "Failed to save show date.");
-      }
-    } catch (err) {
-      setModalError("Network error. Please check connection.");
-    } finally {
-      setSubmitting(false);
-    }
   };
 
   const handleDeleteShow = useCallback(async (id: string) => {
@@ -1337,26 +1166,26 @@ export default function TourList({
     window.addEventListener("scroll", checkStuck, { passive: true });
     checkStuck();
 
-    let observer: IntersectionObserver | null = null;
-    const targetOffset = mobileHeaderOffset;
+    const observer =
+      typeof IntersectionObserver !== "undefined"
+        ? new IntersectionObserver(
+          () => {
+            checkStuck();
+          },
+          {
+            threshold: 0,
+            rootMargin: `-${mobileHeaderOffset}px 0px 0px 0px`,
+          },
+        )
+        : null;
 
-    if (typeof IntersectionObserver !== "undefined") {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          checkStuck();
-        },
-        {
-          threshold: 0,
-          rootMargin: `-${mobileHeaderOffset}px 0px 0px 0px`,
-        },
-      );
-
+    if (observer) {
       observer.observe(sentinel);
     }
 
     return () => {
       window.removeEventListener("scroll", checkStuck);
-      if (observer) observer.disconnect();
+      observer?.disconnect();
       document.documentElement.classList.remove("tour-sort-stuck");
     };
   }, [mobileHeaderOffset]);
@@ -1504,62 +1333,10 @@ export default function TourList({
   const eventSchema = generateTourEventSchema(displayShows);
 
   const gridClass =
-    "grid-cols-1 lg:grid-cols-[35px_145px_3.1fr_1.5fr_1fr_110px_minmax(50px,1fr)]";
+    "grid-cols-1 lg:grid-cols-[35px_145px_3.1fr_1.5fr_1fr_148px_minmax(50px,1fr)]";
 
   const headerParallaxRef = useRef<HTMLDivElement | null>(null);
   const mapParallaxRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      // Map Parallax: Smooth vertical drift as user scrolls down the page
-      if (mapParallaxRef.current && tableRef.current) {
-        gsap.fromTo(
-          mapParallaxRef.current,
-          { yPercent: -3, force3D: true },
-          {
-            yPercent: 3,
-            force3D: true,
-            ease: "none",
-            scrollTrigger: {
-              trigger: tableRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 0.2,
-            },
-          },
-        );
-      }
-
-      // Section Headline Counter-Parallax synced exactly with Hero Section
-      if (headerParallaxRef.current) {
-        const heroEl = document.getElementById("hero") || tableRef.current;
-        if (heroEl) {
-          gsap.fromTo(
-            headerParallaxRef.current,
-            { yPercent: 7, force3D: true },
-            {
-              yPercent: -7,
-              force3D: true,
-              ease: "none",
-              scrollTrigger: {
-                trigger: heroEl,
-                start: "top top",
-                end: "bottom top",
-                scrub: 0.25,
-              },
-            },
-          );
-        }
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <>
@@ -1580,6 +1357,7 @@ export default function TourList({
         className="relative"
         ref={tableRef}
         id="tour-table-container"
+        aria-labelledby="tour-heading"
         style={
           {
             "--tour-font-family": tourFontFamily,
@@ -1589,36 +1367,57 @@ export default function TourList({
           } as React.CSSProperties
         }
       >
-        {/* Section Headline & Paragraph */}
-        <div className="site-container relative w-full  pb-8  sm:pb-12">
-          <div
-            ref={headerParallaxRef}
-            className="title-group title-group--section pointer-events-none z-30 mx-auto items-center text-center gap-3 sm:gap-4"
-          >
-            <h2 className="text-amber-50">Upcoming Tour Dates</h2>
-            <p className="text-zinc-300">
-              Catch 7th Heaven live on stage! Explore all upcoming show dates,
-              venues, directions, and sync concerts directly to your calendar.
-            </p>
+        {/* If hideMap is true, render headline in normal flow */}
+        {hideMap && (
+          <div className="site-container relative w-full pb-8 sm:pb-12">
+            <div
+              ref={headerParallaxRef}
+              className="title-group title-group--section pointer-events-none z-30 mx-auto items-center text-center gap-3 sm:gap-4"
+            >
+              <h2 id="tour-heading" className="text-amber-50">Upcoming Tour Dates</h2>
+              <p className="text-zinc-300">
+                Catch 7th Heaven live on stage! Explore all upcoming show dates,
+                venues, directions, and sync concerts directly to your calendar.
+              </p>
+            </div>
           </div>
-        </div>
+        )}
+
         <div className="site-container relative w-full">
           {!hideMap && (
             <div
               ref={mapParallaxRef}
-              className="relative right-1/2 left-1/2 z-10 -mr-[50vw] -ml-[50vw] w-screen"
+              className="relative right-1/2 left-1/2 z-10 -mr-[50vw] -ml-[50vw] w-screen overflow-hidden bg-[#0a0a0f]"
               style={{
                 transform: "translate3d(0, 0, 0)",
                 backfaceVisibility: "hidden",
                 WebkitBackfaceVisibility: "hidden",
               }}
             >
+              {/* Section Headline & Paragraph positioned ON TOP of the map */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 bg-gradient-to-b from-[#0a0a0f]/95 via-[#0a0a0f]/65 to-transparent pt-8 pb-16 sm:pt-14 sm:pb-24 md:pt-18 lg:pt-20">
+                <div className="site-container">
+                  <div className="title-group title-group--section mx-auto items-center text-center gap-2 sm:gap-3 max-w-3xl">
+                    <h2
+                      id="tour-heading"
+                      className="text-amber-50 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+                    >
+                      Upcoming Tour Dates
+                    </h2>
+                    <p className="text-zinc-200 drop-shadow-[0_1px_8px_rgba(0,0,0,0.95)] max-w-2xl mx-auto text-sm sm:text-base font-medium">
+                      Catch 7th Heaven live on stage! Explore all upcoming show dates,
+                      venues, directions, and sync concerts directly to your calendar.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <LazyHeavy
-                minHeight="400px"
-                rootMargin="100px 0px"
-                className="relative h-[400px] w-full sm:h-[600px]"
+                minHeight="560px"
+                rootMargin="200px 0px"
+                className="tour-map-canvas relative w-full"
                 fallback={
-                  <div className="relative flex h-[400px] w-full items-center justify-center border-y border-white/10 bg-[var(--color-bg-surface,#0f0f13)] sm:h-[600px]">
+                  <div className="tour-map-canvas relative flex w-full items-center justify-center border-y border-white/10 bg-[var(--color-bg-surface,#0f0f13)]">
                     <div className="flex flex-col items-center gap-3 text-white/40">
                       <div className="h-8 w-8 animate-spin rounded-full border-2 border-purple-500 border-t-transparent" />
                       <span className="font-mono text-xs tracking-widest uppercase">
@@ -1638,7 +1437,7 @@ export default function TourList({
             </div>
           )}
 
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end mt-4 sm:mt-6">
             <div className="flex items-center gap-3">
               {isAdmin && (
                 <AddCmsButton label="ADD SHOW" onClick={handleAddShowClick} />
@@ -1666,9 +1465,10 @@ export default function TourList({
               pointerEvents: sortBarOpacityRef.current > 0.05 ? "auto" : "none",
               top: `${mobileHeaderOffset}px`,
             }}
-            className="relative sticky z-[40] flex w-full flex-col sm:gap-0 md:gap-2 lg:gap-2 border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-6"
+            className="relative sticky z-[40] flex w-full flex-col border-0 [&.is-stuck_.sort-bar-bg]:opacity-100 sm:mb-6 mb-6 "
           >
-            <div className="my-3 flex flex-wrap items-center justify-between gap-3">
+            <div className="sort-bar-bg pointer-events-none absolute -top-5 right-1/2 -bottom-4 left-1/2 -z-10 -mr-[50vw] -ml-[50vw] w-screen opacity-0 transition-opacity backdrop-blur-[24px] " />
+            <div className="my-2 flex flex-wrap items-center justify-between gap-3">
               <div className="relative w-full max-w-[280px] shrink-0">
                 <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-white/50" />
                 <GlowInput
@@ -1742,17 +1542,17 @@ export default function TourList({
               </div>
 
               {/* Column 5: TIME */}
-              <span className="hidden text-[clamp(16px,1.4vw,22px)] font-bold lg:inline-block">
+              <span className="hidden text-[clamp(16px,1.4vw,22px)] font-bold whitespace-nowrap lg:inline-block">
                 Time
               </span>
 
-              {/* Column 6: MAP/CAL */}
-              <span className="hidden text-left text-[clamp(16px,1.4vw,22px)] font-bold lg:inline-block">
-                Map/Parking
+              {/* Column 6: MAP & ALERTS / CAL */}
+              <span className="hidden text-center text-[clamp(16px,1.4vw,22px)] font-bold whitespace-nowrap lg:inline-block">
+                Map & Alerts
               </span>
 
               {/* Column 7: WEBSITE */}
-              <span className="hidden text-right text-[clamp(16px,1.4vw,22px)] font-bold lg:inline-block">
+              <span className="hidden text-right text-[clamp(16px,1.4vw,22px)] font-bold whitespace-nowrap lg:inline-block">
                 Website
               </span>
             </div>
@@ -1814,7 +1614,7 @@ export default function TourList({
                 // eslint-disable-next-line react-doctor/no-array-index-as-key
                 <div
                   key={`tour_row_${i}_${show.id || rowId}`}
-                  className="group overflow-visible sm:mb-6 md:mb-0"
+                  className="group overflow-visible mb-6"
                 >
                   {/* Desktop Row Layout */}
                   <div
@@ -2043,15 +1843,6 @@ export default function TourList({
                       )}
                     </span>
                     <span className="flex items-center justify-end gap-2 text-right">
-                      {showSupabaseId && (
-                        <Link
-                          href={`/shows/${showSupabaseId}`}
-                          title={`Show details & RSVP for ${show.venue}`}
-                          className="transition-all a-btn inline-flex cursor-pointer items-center justify-center whitespace-nowrap hover:bg-purple-600/30 hover:border-purple-400 text-white"
-                        >
-                          Details
-                        </Link>
-                      )}
                       {!isPrivate && (
                         <a
                           href={
@@ -2094,42 +1885,43 @@ export default function TourList({
                     className={`tour-row-item relative flex flex-col gap-1 lg:hidden mb-6 ${isHighlighted ? "animate-pulse ring-2 ring-purple-500/80" : isUpNext ? "border-purple-500/40" : ""} ${!show.city ? "opacity-50" : ""} ${isPast && !isHighlighted ? "opacity-65" : ""}`}
                     id={`${rowId}-mobile`}
                   >
-                    {/* 1. Venue & City (FIRST) */}
+                    {/* 1. Venue & Show Info (Same Row) + City */}
                     <div className="flex flex-col gap-1">
-                      {showSupabaseId ? (
-                        <Link
-                          href={`/shows/${showSupabaseId}`}
-                          className="group inline-block"
-                          title={`View ${show.venue} concert details & RSVP`}
-                        >
-                          <h4 className="text-white transition-colors group-hover:text-purple-400 underline decoration-purple-500/40 underline-offset-4">
-                            {show.venue}
-                          </h4>
-                        </Link>
-                      ) : (
-                        <h4 className="text-white">{show.venue}</h4>
-                      )}
-
-                      <div className="flex items-center justify-between gap-2">
-                        {(show.city || show.state) && (
-                          <p className="flex items-center gap-1.5 text-secondary text-sm">
-                            <MapPin className="h-3.5 w-3.5 shrink-0 text-purple-400" />
-                            <span>
-                              {show.city
-                                ? `${show.city}${show.state ? `, ${show.state}` : ""}`
-                                : show.state}
-                            </span>
-                          </p>
+                      <div className="flex items-center justify-between gap-3">
+                        {showSupabaseId ? (
+                          <Link
+                            href={`/shows/${showSupabaseId}`}
+                            className="group inline-block"
+                            title={`View ${show.venue} concert details & RSVP`}
+                          >
+                            <h4 className="text-white transition-colors group-hover:text-purple-400 underline decoration-purple-500/40 underline-offset-4">
+                              {show.venue}
+                            </h4>
+                          </Link>
+                        ) : (
+                          <h4 className="text-white">{show.venue}</h4>
                         )}
+
                         {showSupabaseId && (
                           <Link
                             href={`/shows/${showSupabaseId}`}
-                            className="text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors"
+                            className="text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors shrink-0 whitespace-nowrap"
                           >
                             Show Info →
                           </Link>
                         )}
                       </div>
+
+                      {(show.city || show.state) && (
+                        <p className="flex items-center gap-1.5 text-secondary text-sm">
+                          <MapPin className="h-3.5 w-3.5 shrink-0 text-purple-400" />
+                          <span>
+                            {show.city
+                              ? `${show.city}${show.state ? `, ${show.state}` : ""}`
+                              : show.state}
+                          </span>
+                        </p>
+                      )}
                     </div>
 
                     {/* 2. Date & Time Pill Strip (SECOND / BELOW VENUE) */}
@@ -2384,343 +2176,21 @@ export default function TourList({
       </section>
 
       {/* Show Edit/Add Modal */}
-      {isModalOpen &&
-        typeof window !== "undefined" &&
-        createPortal(
-          <div
-            data-lenis-prevent
-            className="custom-scrollbar fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-black/80 p-4 backdrop-blur-md"
-          >
-            <div className="relative my-8 w-full max-w-2xl animate-[fade-in-up_0.2s_ease-out] overflow-hidden rounded-[var(--radius-box)] border border-white/10 bg-[var(--color-bg-surface)]">
-              <div className="h-1 bg-gradient-to-r from-emerald-500 via-[var(--color-accent)] to-emerald-500" />
-              <div className="p-6 text-left md:p-8">
-                <div className="mb-6 flex items-center justify-between">
-                  <h3 className="flex items-center gap-2">
-                    <span className="flex items-center gap-1.5">
-                      {editingShow ? (
-                        <>
-                          <Edit className="h-5 w-5" /> Edit Show Date
-                        </>
-                      ) : (
-                        <>
-                          <Plus className="h-5 w-5" /> Add New Show Date
-                        </>
-                      )}
-                    </span>
-                  </h3>
-                  <button
-                    onClick={() => setIsModalOpen(false)}
-                    className="transition-colors cursor-pointer p-2 text-white/50 hover:text-white"
-                  >
-                    ✕ Close
-                  </button>
-                </div>
-
-                {modalError && (
-                  <div className="mb-6 rounded-[var(--radius-box)] border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400">
-                    {modalError}
-                  </div>
-                )}
-
-                <form onSubmit={handleSaveShow} className="flex flex-col gap-4">
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                      <label
-                        htmlFor="tour-form-venue"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Venue Name *
-                      </label>
-                      <input
-                        id="tour-form-venue"
-                        type="text"
-                        required
-                        value={formVenue}
-                        onChange={(e) => setFormVenue(e.target.value)}
-                        placeholder="e.g. Station 34"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="tour-form-date"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Event Date *
-                      </label>
-                      <input
-                        id="tour-form-date"
-                        type="date"
-                        required
-                        value={formDate}
-                        onChange={(e) => setFormDate(e.target.value)}
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <div className="sm:col-span-2">
-                      <label
-                        htmlFor="tour-form-city"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        City *
-                      </label>
-                      <input
-                        id="tour-form-city"
-                        type="text"
-                        required
-                        value={formCity}
-                        onChange={(e) => setFormCity(e.target.value)}
-                        placeholder="e.g. Mt. Prospect"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="tour-form-state"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        State *
-                      </label>
-                      <input
-                        id="tour-form-state"
-                        type="text"
-                        required
-                        value={formState}
-                        onChange={(e) => setFormState(e.target.value)}
-                        placeholder="e.g. IL"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-                    <div>
-                      <label
-                        htmlFor="tour-form-time"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Show Time
-                      </label>
-                      <input
-                        id="tour-form-time"
-                        type="text"
-                        value={formTime}
-                        onChange={(e) => setFormTime(e.target.value)}
-                        placeholder="e.g. 8:00pm"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="tour-form-doors-time"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Doors Open
-                      </label>
-                      <input
-                        id="tour-form-doors-time"
-                        type="text"
-                        value={formDoorsTime}
-                        onChange={(e) => setFormDoorsTime(e.target.value)}
-                        placeholder="e.g. 7:00pm"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="tour-form-play-time"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Band Plays
-                      </label>
-                      <input
-                        id="tour-form-play-time"
-                        type="text"
-                        value={formPlayTime}
-                        onChange={(e) => setFormPlayTime(e.target.value)}
-                        placeholder="e.g. 8:30pm"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="tour-form-cover"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Cover / Admission
-                      </label>
-                      <input
-                        id="tour-form-cover"
-                        type="text"
-                        value={formCover}
-                        onChange={(e) => setFormCover(e.target.value)}
-                        placeholder="e.g. Free, $10"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                      <label
-                        htmlFor="tour-form-ticket-link"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Ticket Link (URL)
-                      </label>
-                      <input
-                        id="tour-form-ticket-link"
-                        type="url"
-                        value={formTicketLink}
-                        onChange={(e) => setFormTicketLink(e.target.value)}
-                        placeholder="https://..."
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="tour-form-directions-link"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Directions / Google Maps (URL)
-                      </label>
-                      <input
-                        id="tour-form-directions-link"
-                        type="url"
-                        value={formDirectionsLink}
-                        onChange={(e) => {
-                          setFormDirectionsLink(e.target.value);
-                          setFormMapUrl(e.target.value);
-                        }}
-                        placeholder="https://maps.google.com/..."
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                      <label
-                        htmlFor="tour-form-parking-url"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Parking Directions Link (URL)
-                      </label>
-                      <input
-                        id="tour-form-parking-url"
-                        type="url"
-                        value={formParkingUrl}
-                        onChange={(e) => setFormParkingUrl(e.target.value)}
-                        placeholder="https://maps.google.com/..."
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="tour-form-parking-info"
-                        className="block text-white/70 font-medium text-sm"
-                      >
-                        Parking Info / Notes
-                      </label>
-                      <input
-                        id="tour-form-parking-info"
-                        type="text"
-                        value={formParkingInfo}
-                        onChange={(e) => setFormParkingInfo(e.target.value)}
-                        placeholder="e.g. Free lot behind building"
-                        className="focus-ring w-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="tour-form-notes"
-                      className="block text-white/70 font-medium text-sm"
-                    >
-                      Notes / Description
-                    </label>
-                    <textarea
-                      aria-label="Text input"
-                      id="tour-form-notes"
-                      rows={2}
-                      value={formNotes}
-                      onChange={(e) => setFormNotes(e.target.value)}
-                      placeholder="e.g. Unplugged Acoustic Show"
-                      className="focus-ring w-full resize-none border border-white/10 bg-white/[0.03] px-4 py-2.5 text-white placeholder:text-white/40 outline-none rounded-[var(--radius-box)]"
-                    />
-                  </div>
-
-                  <div className="my-2 grid grid-cols-2 gap-4 border-t border-b border-white/10 py-3 sm:grid-cols-4">
-                    <Toggle
-                      id="tour-all-ages-toggle"
-                      label="All Ages Show"
-                      checked={formAllAges}
-                      onChange={setFormAllAges}
-                    />
-                    <Toggle
-                      id="tour-is-festival-toggle"
-                      label="Is Festival"
-                      checked={formIsFestival}
-                      onChange={setFormIsFestival}
-                    />
-                    <Toggle
-                      id="tour-is-private-toggle"
-                      label="Private Event"
-                      checked={formIsPrivate}
-                      onChange={setFormIsPrivate}
-                    />
-                    <Toggle
-                      id="tour-is-unplugged-toggle"
-                      label="Unplugged Show"
-                      checked={formIsUnplugged}
-                      onChange={setFormIsUnplugged}
-                    />
-                    <Toggle
-                      id="tour-is-outdoor-toggle"
-                      label="Outdoor Show"
-                      checked={formIsOutdoor}
-                      onChange={setFormIsOutdoor}
-                    />
-                    <Toggle
-                      id="tour-is-casino-toggle"
-                      label="Casino Show"
-                      checked={formIsCasino}
-                      onChange={setFormIsCasino}
-                    />
-                    <Toggle
-                      id="tour-is-special-event-toggle"
-                      label="Special Event"
-                      checked={formIsSpecialEvent}
-                      onChange={setFormIsSpecialEvent}
-                    />
-                  </div>
-
-                  <div className="flex gap-3 border-t border-white/10 pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setIsModalOpen(false)}
-                      className="transition-colors flex-1 cursor-pointer bg-[#00000029] py-3 hover:bg-white/10"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="transition-colors flex-1 cursor-pointer bg-[var(--color-accent)] py-3 hover:bg-emerald-500 disabled:opacity-50"
-                    >
-                      {submitting ? "Saving..." : "Save Show"}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>,
-          document.body,
-        )}
+      {isModalOpen && (
+        <AdminTourDateModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          editingShow={editingShow}
+          onSaved={() => {
+            setIsModalOpen(false);
+            window.location.reload();
+          }}
+          onDeleted={() => {
+            setIsModalOpen(false);
+            window.location.reload();
+          }}
+        />
+      )}
 
       {notifyPopupShow &&
         typeof window !== "undefined" &&

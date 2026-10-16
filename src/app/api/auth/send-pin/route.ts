@@ -3,16 +3,68 @@ import { savePin } from "@/lib/pins";
 import { sendEmail } from "@/lib/email";
 import { isValidEmail } from "@/lib/api-utils";
 import { getFakeLogins } from "@/lib/get-fake-logins";
+import { createClient } from "@supabase/supabase-js";
 
 import { plannerPinVerification } from "@/lib/email-templates";
 
 export async function POST(req: Request) {
   try {
-    const { email } = await req.json();
+    const body = await req.json();
+    let email = (body.email || body.identifier || "").trim();
+
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email or username is required." },
+        { status: 400 },
+      );
+    }
+
+    // If identifier doesn't contain '@', resolve username to email
+    if (!email.includes("@")) {
+      const cleanUser = email.replace(/^@/, "").toLowerCase();
+      const fakeLogins = getFakeLogins();
+      const devMatch = fakeLogins.find(
+        (u: any) =>
+          u.username?.toLowerCase() === cleanUser ||
+          u.name?.toLowerCase() === cleanUser,
+      );
+      if (devMatch?.email) {
+        email = devMatch.email;
+      } else {
+        try {
+          const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+          const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+          if (supabaseUrl && supabaseServiceKey) {
+            const supabaseAdmin: any = createClient(
+              supabaseUrl,
+              supabaseServiceKey,
+              { auth: { autoRefreshToken: false, persistSession: false } },
+            );
+            const { data: profile } = await supabaseAdmin
+              .from("profiles")
+              .select("id, email, username")
+              .ilike("username", cleanUser)
+              .single();
+
+            if (profile?.email) {
+              email = profile.email;
+            } else if (profile?.id) {
+              const { data: userData } =
+                await supabaseAdmin.auth.admin.getUserById(profile.id);
+              if (userData?.user?.email) {
+                email = userData.user.email;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn("Username resolution error:", e);
+        }
+      }
+    }
 
     if (!email || !isValidEmail(email)) {
       return NextResponse.json(
-        { error: "Valid email address is required." },
+        { error: "No account found matching that username or email." },
         { status: 400 },
       );
     }
@@ -29,7 +81,7 @@ export async function POST(req: Request) {
           console.log(`\n==============================================`);
           console.log(`🛠️ DEV PIN for ${email}: ${devUser.pin}`);
           console.log(`==============================================\n`);
-          return NextResponse.json({ success: true, devBypass: true });
+          return NextResponse.json({ success: true, devBypass: true, email });
         }
       } catch {
         /* ignore — fall through to normal flow */
@@ -63,10 +115,10 @@ export async function POST(req: Request) {
       console.log("\n==============================================");
       console.log(`🔑 DEV FALLBACK PIN FOR ${email}: ${pin}`);
       console.log("==============================================\n");
-      return NextResponse.json({ success: true, sandboxFallback: true });
+      return NextResponse.json({ success: true, sandboxFallback: true, email });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, email });
   } catch (error: any) {
     console.error("Failed to generate and send PIN:", error);
     return NextResponse.json(

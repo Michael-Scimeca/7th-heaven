@@ -511,7 +511,13 @@ export default function LoginModal() {
     setLoading(true);
 
     if (modalMode === "forgot") {
-      if (!isValidEmail(email)) {
+      const trimmed = email.trim();
+      if (!trimmed) {
+        setError("Please enter your email address or username.");
+        setLoading(false);
+        return;
+      }
+      if (trimmed.includes("@") && !isValidEmail(trimmed)) {
         setError("Please enter a valid email address.");
         setLoading(false);
         return;
@@ -522,13 +528,16 @@ export default function LoginModal() {
           const res = await fetch("/api/auth/send-pin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ identifier: trimmed, email: trimmed }),
           });
           if (res.ok) {
             const data = await res.json();
             if (data.error) {
               setError(data.error);
             } else {
+              if (data.email) {
+                setEmail(data.email);
+              }
               setForgotPinSent(true);
               setError("");
             }
@@ -1227,14 +1236,14 @@ function LoginModalBodyContent(props: any) {
                 {!forgotPinSent ? (
                   <div>
                     <label htmlFor="forgot-email-input" className="block">
-                      Email Address
+                      Email Address or Username
                     </label>
                     <input
                       id="forgot-email-input"
-                      type="email"
+                      type="text"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="your@email.com"
+                      placeholder="your@email.com or @username"
                       className="w-full border border-white/10 bg-black/60 px-4 py-3 text-white outline-none placeholder:text-white/50"
                       required
                     />
@@ -1263,6 +1272,11 @@ function LoginModalBodyContent(props: any) {
                         className="w-full border border-white/10 bg-black/60 px-4 py-3 text-center tracking-[0.5em] text-white outline-none placeholder:text-white/50"
                         required
                       />
+                      {process.env.NODE_ENV !== "production" && (
+                        <p className="mt-1 text-center text-[11px] text-purple-300/80">
+                          Dev Test PIN: <strong className="text-purple-200">777777</strong>
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label

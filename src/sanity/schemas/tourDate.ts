@@ -12,6 +12,12 @@ const tourDate = {
       validation: (Rule: { required: () => unknown }) => Rule.required(),
     },
     {
+      name: "address",
+      title: "Physical Street Address",
+      type: "string",
+      description: "e.g. 4018 Roberts Rd",
+    },
+    {
       name: "city",
       title: "City",
       type: "string",
@@ -82,6 +88,40 @@ const tourDate = {
       title: "Google Maps / Directions URL",
       type: "url",
       description: "Custom Google Maps or directions URL for venue",
+    },
+    {
+      name: "parkingType",
+      title: "Band Access & Parking Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Band Bus & Trailer Lot", value: "bus-trailer" },
+          { title: "Loading Dock & Freight Bay", value: "dock-bay" },
+          { title: "Venue Parking Garage", value: "garage" },
+          { title: "Street / Alley Load-in Zone", value: "street" },
+          { title: "Custom Instructions", value: "custom" },
+        ],
+      },
+      initialValue: "bus-trailer",
+    },
+    {
+      name: "parkingAddress",
+      title: "Dedicated Parking Address",
+      type: "string",
+      description: "Specific parking lot or dock address if different from venue",
+    },
+    {
+      name: "parkingNotes",
+      title: "Gate / Dock / Bus Access Instructions",
+      type: "text",
+      rows: 2,
+      description: "Specific gate, dock, or bus access instructions for band and crew",
+    },
+    {
+      name: "ageRestriction",
+      title: "Age Restriction",
+      type: "string",
+      description: "e.g. 'All Ages', '21+', '18+'",
     },
     {
       name: "parkingInfo",

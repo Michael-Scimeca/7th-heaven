@@ -68,14 +68,29 @@ function buildPlannerEmailHtml(booking: any) {
         if (s.doorsTime) {
           metaInfo += ` · <span style="color:rgba(255,255,255,0.5);font-size:12px;">Doors: ${sanitize(s.doorsTime)}</span>`;
         }
+        if (s.playTime && s.playTime !== s.startTime) {
+          metaInfo += ` · <span style="color:#c084fc;font-size:12px;font-weight:700;">Set Time: ${sanitize(s.playTime)}</span>`;
+        }
         if (s.cover) {
           metaInfo += ` · <span style="color:rgba(255,255,255,0.5);font-size:12px;">Cover: ${sanitize(s.cover)}</span>`;
+        }
+        if (s.isFestival) {
+          metaInfo += ` · <span style="color:#f59e0b;font-size:12px;font-weight:700;">🎪 Festival Stage</span>`;
+        }
+        if (s.isPrivate) {
+          metaInfo += ` · <span style="color:#f43f5e;font-size:12px;font-weight:700;">🔒 Private Show</span>`;
+        }
+        if (s.parkingNotes || s.parkingType) {
+          metaInfo += `<br/><span style="color:#fde047;font-size:11px;">🅿️ Parking: ${s.parkingType ? `[${sanitize(s.parkingType)}] ` : ""}${sanitize(s.parkingNotes || "")}</span>`;
         }
         if (s.ticketLink) {
           metaInfo += `<br/><span style="color:rgba(255,255,255,0.4);font-size:11px;">Tickets: <a href="${sanitize(s.ticketLink)}" style="color:#a855f7;text-decoration:none;">${sanitize(s.ticketLink)}</a></span>`;
         }
+        if (s.mapUrl || s.directionsLink) {
+          metaInfo += `<br/><span style="color:rgba(255,255,255,0.4);font-size:11px;">Map: <a href="${sanitize(s.mapUrl || s.directionsLink)}" style="color:#38bdf8;text-decoration:none;">${sanitize(s.mapUrl || s.directionsLink)}</a></span>`;
+        }
         if (s.notes) {
-          metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;font-style: ;">Notes: "${sanitize(s.notes)}"</span>`;
+          metaInfo += `<br/><span style="color:rgba(255,255,255,0.6);font-size:12px;">Notes: "${sanitize(s.notes)}"</span>`;
         }
         const icsUrl = `${SITE_URL}/api/calendar/ics?bookingId=${encodeURIComponent(booking.bookingId)}&date=${encodeURIComponent(s.date)}&venue=${encodeURIComponent(booking.venueName || "")}&city=${encodeURIComponent(booking.venueCity)}&state=${encodeURIComponent(booking.venueState)}&eventType=${encodeURIComponent(typeLabel)}&startTime=${encodeURIComponent(s.startTime || "")}&endTime=${encodeURIComponent(s.endTime || "")}`;
         return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:#fff;">
@@ -138,7 +153,11 @@ function buildPlannerEmailHtml(booking: any) {
         <p style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);font-weight:700;">Event Details</p>
         <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
           <tr><td style="${td1}">Venue</td><td style="${td2}">${sanitize(booking.venueName) || "Not specified"}</td></tr>
+          ${booking.parkingAddress ? `<tr><td style="${td1}">Street Address</td><td style="${td2}">${sanitize(booking.parkingAddress)}</td></tr>` : ""}
           <tr><td style="${td1}">Location</td><td style="${td2}">${sanitize(booking.venueCity)}, ${sanitize(booking.venueState)}</td></tr>
+          ${booking.parkingType ? `<tr><td style="${td1}">Parking Access</td><td style="${td2}">${sanitize(booking.parkingType)}</td></tr>` : ""}
+          ${booking.parkingNotes ? `<tr><td style="${td1}">Parking / Gate</td><td style="${td2}">${sanitize(booking.parkingNotes)}</td></tr>` : ""}
+          ${booking.loadInTime ? `<tr><td style="${td1}">Load-In Time</td><td style="${td2}">${sanitize(booking.loadInTime)}</td></tr>` : ""}
           ${booking.indoorOutdoor ? `<tr><td style="${td1}">Indoor/Outdoor</td><td style="${td2}">${sanitize(booking.indoorOutdoor)}</td></tr>` : ""}
           ${booking.expectedAttendance ? `<tr><td style="${td1}">Attendance</td><td style="${td2}">${sanitize(booking.expectedAttendance)}</td></tr>` : ""}
         </table>
@@ -291,10 +310,14 @@ function buildAdminNotificationHtml(booking: any) {
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Venue</td>
             <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueName) || "Not specified"}</td>
           </tr>
+          ${booking.parkingAddress ? `<tr><td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Street Address</td><td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.parkingAddress)}</td></tr>` : ""}
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Location</td>
             <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.venueCity)}, ${sanitize(booking.venueState)}</td>
           </tr>
+          ${booking.parkingType ? `<tr><td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Parking Access</td><td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.parkingType)}</td></tr>` : ""}
+          ${booking.parkingNotes ? `<tr><td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Parking / Gate</td><td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.parkingNotes)}</td></tr>` : ""}
+          ${booking.loadInTime ? `<tr><td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Load-In Time</td><td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.loadInTime)}</td></tr>` : ""}
           <tr>
             <td style="padding: 6px 0; color: rgba(255,255,255,0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Indoor/Outdoor</td>
             <td style="padding: 6px 0; color: #fff; font-size: 14px; font-weight: 600;">${sanitize(booking.indoorOutdoor) || "N/A"}</td>
@@ -485,17 +508,35 @@ export async function POST(request: Request) {
         notes: slot.notes || "",
         ageRestriction: slot.ageRestriction || "all_ages",
         doorsTime: slot.doorsTime || "",
+        playTime: slot.playTime || slot.startTime || "",
         cover: slot.cover || "",
         ticketLink: slot.ticketLink || "",
-        isFestival: slot.isFestival || false,
+        directionsLink: slot.directionsLink || slot.mapUrl || "",
+        mapUrl: slot.mapUrl || slot.directionsLink || "",
+        parkingAddress: slot.parkingAddress || data.parkingAddress || "",
+        parkingType: slot.parkingType || data.parkingType || "bus-trailer",
+        parkingNotes:
+          slot.parkingNotes || slot.parkingInfo || data.parkingNotes || "",
+        parkingUrl: slot.parkingUrl || "",
+        isFestival: Boolean(slot.isFestival),
+        isPrivate: Boolean(
+          slot.isPrivate ||
+            slot.eventType === "private" ||
+            data.eventType === "private",
+        ),
+        soundSystem: data.soundSystem || "",
+        stageAvailable: data.stageAvailable || "",
+        loadInTime: data.loadInTime || "",
+        budget: data.budget || "",
+        backlineProvided: data.backlineProvided || "",
         plannerNotes: data.details || "",
         useSeparateInfo: slot.useSeparateInfo || false,
         contactName: slot.contactName || "",
         contactEmail: slot.contactEmail || "",
         contactPhone: slot.contactPhone || "",
-        venueName: slot.venueName || "",
-        venueCity: slot.venueCity || "",
-        venueState: slot.venueState || "",
+        venueName: slot.venueName || data.venueName || "",
+        venueCity: slot.venueCity || data.venueCity || "",
+        venueState: slot.venueState || data.venueState || "",
       };
 
       return {
@@ -563,9 +604,17 @@ export async function POST(request: Request) {
         customEventType: s.customEventType,
         ageRestriction: s.ageRestriction,
         doorsTime: s.doorsTime,
+        playTime: s.playTime || s.startTime,
         cover: s.cover,
         ticketLink: s.ticketLink,
-        isFestival: s.isFestival,
+        directionsLink: s.directionsLink || s.mapUrl,
+        mapUrl: s.mapUrl || s.directionsLink,
+        parkingAddress: s.parkingAddress || data.parkingAddress,
+        parkingType: s.parkingType || data.parkingType,
+        parkingNotes: s.parkingNotes || s.parkingInfo || data.parkingNotes,
+        parkingUrl: s.parkingUrl,
+        isFestival: Boolean(s.isFestival),
+        isPrivate: Boolean(s.isPrivate),
         notes: s.notes,
       })),
       eventDates: slotsToInsert.map((s: any) => s.date),

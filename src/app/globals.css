@@ -1806,6 +1806,7 @@ header,
 
 #tour-sort-bar .sort-bar-bg {
   height: calc(100% + 100px);
+  background-color: rgba(10, 10, 15, 0.88);
   -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
   -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
@@ -2843,6 +2844,12 @@ button,
 .page-stack>header:first-child+*,
 .page-stack>.page-hero:first-child+* {
   margin-top: calc(var(--spacing-section-sm) - var(--spacing-section));
+}
+
+/* ── Fullscreen Hero: eliminate the gap between the full-screen hero and the next section ── */
+.page-stack>#hero:first-child+*,
+.page-stack-lg>#hero:first-child+* {
+  margin-top: calc(-1 * var(--spacing-section));
 }
 
 .page-stack-lg>header:first-child+*,
@@ -4504,6 +4511,18 @@ Map Popups & InfoWindow High Z-Index Override .custom-tooltip-card,
   }
 }
 
+@utility tour-map-canvas {
+  height: 560px;
+
+  @media (min-width: 640px) {
+    height: 720px;
+  }
+
+  @media (min-width: 1024px) {
+    height: 840px;
+  }
+}
+
 
 /* Ensure active navigation items or logos never display click pointer */
 a.active,
@@ -5008,6 +5027,12 @@ a[href^="mailto:"] {
 .preloader-loader {
   position: relative;
   width: min(60vw, 320px);
+}
+
+/* Blur fade-in headline below the loader bar. */
+.preloader-content .preloader-headline {
+  margin-top: 40px;
+  font-size: clamp(36px, 7vw, 88px);
 }
 
 .preloader-note-icon {
@@ -7029,10 +7054,14 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     --helper-text-transform: none;
     --helper-text-color: var(--color-text-muted, rgba(123, 64, 64, 0.55));
     --helper-text-error-color: #f87171;
+    --helper-text-success-color: #34d399;
     --helper-text-offset: 0.5rem;
     /* 8px gap below the input */
 
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+
     margin-top: var(--helper-text-offset);
     font-family: var(--helper-text-font);
     font-size: var(--helper-text-size);
@@ -7047,7 +7076,32 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   .helper-text--error {
     color: var(--helper-text-error-color);
   }
+
+  .helper-text--success {
+    color: var(--helper-text-success-color);
+  }
+
+  /* Scroll Wheel Time Picker */
+  .scroll-wheel-column {
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: contain;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scroll-wheel-column::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .scroll-wheel-item {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
 }
+
 
 /* Page Noise Dissolve Filter Hook */
 [data-dissolve="active"] {

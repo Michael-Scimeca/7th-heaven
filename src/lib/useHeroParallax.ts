@@ -52,7 +52,7 @@ const LS_SCRUB = "7h_hero_parallax_scrub";
 const LS_FG = "7h_hero_parallax_fg";
 
 export const PARALLAX_DEFAULT_RANGE = 14;
-export const PARALLAX_DEFAULT_SCRUB = 0.25;
+export const PARALLAX_DEFAULT_SCRUB = 0.6;
 export const PARALLAX_DEFAULT_FOREGROUND = true;
 
 /** Video/image scale that leaves enough headroom for a given drift range. */
@@ -166,12 +166,11 @@ export function useHeroParallax({
 
     const ctx = gsap.context(() => {
       // GSAP writes a single inline `transform`, which would otherwise
-      // clobber any Tailwind scale class (inline style always wins over the
-      // stylesheet rule). Keeping scale in both tween ends means GSAP owns
-      // the whole transform and the zoom never drops.
+      // clobber any Tailwind scale class. Keeping scale in both tween ends
+      // means GSAP owns the whole transform and the zoom never drops.
       gsap.fromTo(
         media,
-        { yPercent: -pxRange, scale, force3D: true },
+        { yPercent: 0, scale, force3D: true },
         {
           yPercent: pxRange,
           scale,
@@ -182,17 +181,30 @@ export function useHeroParallax({
             start: "top top",
             end: "bottom top",
             scrub: pxScrub,
+            onLeave: () => {
+              const el = document.querySelector("#hero") || document.querySelector(triggerSelector);
+              if (el) gsap.set(el, { autoAlpha: 0, visibility: "hidden", pointerEvents: "none" });
+              if (media instanceof HTMLMediaElement) {
+                media.pause();
+              }
+            },
+            onEnterBack: () => {
+              const el = document.querySelector("#hero") || document.querySelector(triggerSelector);
+              if (el) gsap.set(el, { autoAlpha: 1, visibility: "visible", pointerEvents: "auto" });
+              if (media instanceof HTMLMediaElement) {
+                media.play().catch(() => {});
+              }
+            },
           },
         },
       );
 
-      // Foreground counter-drift: moves the opposite direction at half the
-      // amplitude, so the layer visually separates from the background
-      // instead of scrolling in lockstep with it.
+      // Foreground counter-drift: starts at 0 on page load (so text & controls
+      // are never clipped or pushed off screen at scroll: 0), then counter-drifts upward as you scroll.
       if (pxForeground && foregroundRef?.current) {
         gsap.fromTo(
           foregroundRef.current,
-          { yPercent: halfRange, force3D: true },
+          { yPercent: 0, force3D: true },
           {
             yPercent: -halfRange,
             force3D: true,
@@ -206,6 +218,8 @@ export function useHeroParallax({
           },
         );
       }
+
+      ScrollTrigger.refresh();
     });
 
     return () => ctx.revert();

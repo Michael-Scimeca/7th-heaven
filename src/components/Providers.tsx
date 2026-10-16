@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { MemberProvider } from "@/context/MemberContext";
 import { AuthProvider } from "@/context/AuthContext";
 import LoginModal from "@/components/LoginModal";
+import EditProfileModal from "@/components/EditProfileModal";
 
 if (typeof window !== "undefined") {
   // Patch exactly once — idempotency guard prevents double-wrap on Strict Mode remount
@@ -35,6 +36,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <>
           {children}
           <LoginModal />
+          <EditProfileModal />
         </>
       </MemberProvider>
     </AuthProvider>

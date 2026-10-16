@@ -5,8 +5,8 @@ export interface HelperTextProps {
   children: ReactNode;
   /** Pair with the input's `aria-describedby` so screen readers announce it. */
   id?: string;
-  /** `error` switches to the error color and announces changes politely. */
-  tone?: "default" | "error";
+  /** `error` switches to the error color, `success` switches to positive confirmation. */
+  tone?: "default" | "error" | "success";
   className?: string;
 }
 
@@ -24,8 +24,13 @@ export default function HelperText({
   return (
     <p
       id={id}
-      className={cn("helper-text", tone === "error" && "helper-text--error", className)}
-      role={tone === "error" ? "alert" : undefined}
+      className={cn(
+        "helper-text",
+        tone === "error" && "helper-text--error",
+        tone === "success" && "helper-text--success",
+        className,
+      )}
+      role={tone === "error" ? "alert" : tone === "success" ? "status" : undefined}
     >
       {children}
     </p>

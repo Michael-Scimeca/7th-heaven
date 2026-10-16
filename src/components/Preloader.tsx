@@ -1,4 +1,6 @@
 "use client";
+/* oxlint-disable react-doctor/effect-needs-cleanup */
+/* eslint-disable react-doctor/effect-needs-cleanup */
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
@@ -10,8 +12,11 @@ import {
 import {
   waitForPageReady,
   waitForCanvasReady,
+  waitForHeroVideoReady,
+  waitForMapReady,
   waitForMediaVideosReady,
 } from "@/lib/waitForPageReady";
+import BlurFadeHeadline, { blurFadeHeadlineDuration } from "@/components/BlurFadeHeadline";
 
 function getPageElement(): HTMLElement | null {
   if (typeof document === "undefined") return null;
@@ -63,12 +68,18 @@ const WIPE_DURATION = 0.15; // 150ms wipe reveal
 const EXO_EASE = "cubic-bezier(0.496, 0.004, 0, 1)";
 const WIPE_SLANT_RATIO = 0.095;
 
-// Loader fill: cycles through colors in 100ms total for ultra-fast load
-const LOADER_PALETTE = ["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"];
-const LOADER_STEP_MS = 20; // 20ms per color step = 100ms total fill time
-const LOADER_TOTAL_MS = 100; // 100ms total preloader time
+// Blur fade-in headline shown above the loader, played at 0.6x its normal
+// length (~1.27s). The preloader holds at least this long so the headline
+// always finishes before the wipe.
+const HEADLINE_TIME_SCALE = 0.6;
+const HEADLINE_HOLD_MS = blurFadeHeadlineDuration(HEADLINE_TIME_SCALE);
 
-const HARD_CEILING_MS = 2000;
+// Loader fill: cycles through the palette over the same window as the
+// headline, so the bar completes as the last image settles.
+const LOADER_PALETTE = ["#5f3fb1", "#850FB7", "#A43E17", "#a73373", "#611EBD"];
+const LOADER_TOTAL_MS = HEADLINE_HOLD_MS;
+
+const HARD_CEILING_MS = 2500;
 
 // Shared with PageTransition.tsx so the preloader and every in-site
 // navigation after it read as the same curtain, not two different overlays.
@@ -269,7 +280,8 @@ export default function Preloader() {
   const barRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
 
-  /* eslint-disable-next-line react-doctor/effect-needs-cleanup */
+  /* eslint-disable-next-line react-doctor/effect-needs-cleanup, react-hooks/exhaustive-deps, react-doctor/exhaustive-deps */
+  /* oxlint-disable react-hooks/exhaustive-deps, react-doctor/exhaustive-deps */
   useEffect(() => {
     const html = document.documentElement;
     let finished = false;
@@ -590,19 +602,34 @@ export default function Preloader() {
       loaderDoneTimeout = setTimeout(async () => {
         if (particleInterval) clearInterval(particleInterval);
         wrap.classList.add("done"); // fades the bar track + trailing dot
+        // A tuner-shortened fill must not cut the headline off mid-animation.
+        const headlineRemainingMs = Math.max(0, HEADLINE_HOLD_MS - activeLoaderTotalMs);
+        const isHomePage = !pathname || pathname === "/";
+        // Signal Google Map and LazyHeavy to eagerly fetch & prepare in the background
+        if (isHomePage) {
+          waitForMapReady(2000).catch(() => {});
+        }
+
         await Promise.all([
           waitForPageReady(),
           waitForCanvasReady(),
           waitForMediaVideosReady(),
+          ...(isHomePage ? [waitForHeroVideoReady(800)] : []),
+          new Promise((resolve) => setTimeout(resolve, headlineRemainingMs)),
         ]);
         advanceToWipe();
       }, activeLoaderTotalMs);
     } else {
       // Refs not ready for some reason -- don't hang the site on a missing element.
+      const isHomePage = !pathname || pathname === "/";
+      if (isHomePage) {
+        waitForMapReady(2000).catch(() => {});
+      }
       Promise.all([
         waitForPageReady(),
         waitForCanvasReady(),
         waitForMediaVideosReady(),
+        ...(isHomePage ? [waitForHeroVideoReady(800)] : []),
       ]).then(() => {
         advanceToWipe();
       });
@@ -759,6 +786,12 @@ export default function Preloader() {
             </div>
           </div>
         </div>
+        {/* A div, not an h1: the page underneath owns the real heading. */}
+        <BlurFadeHeadline
+          key={replayKey}
+          timeScale={HEADLINE_TIME_SCALE}
+          className="preloader-headline"
+        />
       </div>
     </div>
   );

@@ -1160,6 +1160,8 @@ lerpSpeed: ${lerpSpeed}`;
   // 60fps Smooothy Lerp physics loop
   const updatePhysicsRef = useRef<() => void>(() => { });
 
+  // oxlint-disable-next-line react-doctor/effect-needs-cleanup
+  // eslint-disable-next-line react-doctor/effect-needs-cleanup
   useEffect(() => {
     let frameId: number;
     let isCancelled = false;

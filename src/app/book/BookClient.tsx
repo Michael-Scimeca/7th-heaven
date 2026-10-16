@@ -1,13 +1,15 @@
 /* eslint-disable react-doctor/no-high-complexity-react-function */
 /* eslint-disable react-doctor/nextjs-no-client-fetch-for-server-data */
 "use client";
-import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
+import { useState, useEffect, useCallback, useMemo, Suspense, useSyncExternalStore, useRef } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   CalendarPicker,
   EventFormatPicker,
   BookingSlot,
 } from "@/components/CalendarPicker";
+import type { TourDateDetailItem } from "@/lib/booking-availability";
 import { useMember } from "@/context/MemberContext";
 import { formatPhoneDisplay } from "@/lib/validation";
 import {
@@ -22,7 +24,6 @@ import {
   ClipboardList,
   Zap,
   Lightbulb,
-  Calendar as CalendarIcon,
   Plus,
   X,
   Megaphone,
@@ -38,6 +39,12 @@ import {
   Sliders,
   User,
   MessageSquare,
+  Bus,
+  Truck,
+  Warehouse,
+  ExternalLink,
+  RotateCcw,
+  LogIn,
 } from "lucide-react";
 import GooeyMessagesDropdown from "@/components/GooeyMessagesDropdown";
 import Dropdown from "@/components/Dropdown";
@@ -51,10 +58,20 @@ import { SectionHeader } from "@/components/SectionHeader";
 import PageSection from "@/components/PageSection";
 import Stack from "@/components/Stack";
 import dynamic from "next/dynamic";
+import { ScheduledShowsSection } from "./ScheduledShowsSection";
+import BookingProgressTracker from "@/components/BookingProgressTracker";
+import {
+  getStoredPlannerProfile,
+  saveStoredPlannerProfile,
+  resetPlannerProfile,
+  DEFAULT_PLANNER_PROFILE,
+  PLANNER_SYNC_EVENT,
+  type PlannerProfile,
+} from "@/lib/planner-storage";
 
 const PlannerDashboard = dynamic(() => import("@/components/PlannerDashboard"));
 
-const eventTypes = [
+export const eventTypes = [
   {
     id: "full_band",
     label: "Full Band",
@@ -90,7 +107,7 @@ const budgetRanges = [
   "Prefer not to say",
 ];
 
-interface SavedAddress {
+export interface SavedAddress {
   id: string;
   label: string;
   venueName: string;
@@ -98,35 +115,93 @@ interface SavedAddress {
   venueCity: string;
   venueState: string;
   parkingNotes?: string;
+  parkingType?: string;
 }
+
+export const PARKING_OPTIONS = [
+  {
+    id: "bus-trailer",
+    label: "Band Bus & Trailer Lot",
+    short: "Bus & Trailer",
+    icon: Bus,
+    description: "Dedicated outdoor lot, rear stage bus parking (e.g. West Lot Gate 4)",
+    defaultNote: "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.",
+  },
+  {
+    id: "dock-bay",
+    label: "Loading Dock & Freight Bay",
+    short: "Loading Dock",
+    icon: Truck,
+    description: "Dedicated loading dock, roll-up bay doors, freight elevator (e.g. Bays 3-4)",
+    defaultNote: "Load-in Gate: West Lot 4. Loading dock bays 3-4 at service concourse.",
+  },
+  {
+    id: "garage",
+    label: "Venue Parking Garage",
+    short: "Garage / Ramp",
+    icon: Warehouse,
+    description: "Covered or underground multi-level parking ramp (e.g. Marina City garage lower level)",
+    defaultNote: "Stage door load-in via venue parking garage lower level.",
+  },
+  {
+    id: "street",
+    label: "Street / Alley Load-in Zone",
+    short: "Street / Alley",
+    icon: Navigation,
+    description: "Curb-side street staging or alley access behind venue",
+    defaultNote: "Curb-side staging on street or alley behind venue. Ramp to stage floor.",
+  },
+  {
+    id: "custom",
+    label: "Custom Instructions",
+    short: "Custom Notes",
+    icon: Sliders,
+    description: "Custom gate passes, security checkpoints, or staff coordination",
+    defaultNote: "",
+  },
+];
 
 const DEFAULT_SAVED_ADDRESSES: SavedAddress[] = [
   {
     id: "preset-1",
     label: "Bridges Scoreboard - Bartlett",
     venueName: "Bridges Scoreboard",
-    parkingAddress: "980 S Bartlett Rd",
+    parkingAddress: "980 S Bartlett Rd, Lot B",
     venueCity: "Bartlett",
     venueState: "IL",
+    parkingType: "bus-trailer",
     parkingNotes:
-      "Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.",
+      "Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd.",
   },
   {
     id: "preset-2",
+    label: "Navy Pier Grand Ballroom - Chicago",
+    venueName: "Navy Pier Grand Ballroom",
+    parkingAddress: "600 E Grand Ave",
+    venueCity: "Chicago",
+    venueState: "IL",
+    parkingType: "dock-bay",
+    parkingNotes:
+      "Load-in Gate: West Lot 4. Loading dock bays 3-4 at service concourse.",
+  },
+  {
+    id: "preset-3",
     label: "The Arcada Theatre - St. Charles",
     venueName: "The Arcada Theatre",
     parkingAddress: "105 E Main St",
     venueCity: "St. Charles",
     venueState: "IL",
+    parkingType: "dock-bay",
     parkingNotes: "Loading dock located in alley behind venue on 1st St.",
   },
   {
-    id: "preset-3",
+    id: "preset-4",
     label: "House of Blues - Chicago",
     venueName: "House of Blues",
     parkingAddress: "329 N Dearborn St",
     venueCity: "Chicago",
     venueState: "IL",
+    parkingType: "garage",
     parkingNotes: "Stage door load-in via Marina City garage lower level.",
   },
 ];
@@ -165,10 +240,7 @@ export default function BookClient({
 }: {
   sanityContent?: any;
   initialBlockedDates?: string[];
-  initialDateDetails?: Record<
-    string,
-    Array<{ time: string; venue?: string; city?: string }>
-  >;
+  initialDateDetails?: Record<string, TourDateDetailItem[]>;
 }) {
   return (
     <BookPageContent
@@ -179,6 +251,8 @@ export default function BookClient({
   );
 }
 
+const emptySubscribe = () => () => {};
+
 function BookPageContent({
   sanityContent,
   initialBlockedDates = [],
@@ -186,11 +260,9 @@ function BookPageContent({
 }: {
   sanityContent?: any;
   initialBlockedDates?: string[];
-  initialDateDetails?: Record<
-    string,
-    Array<{ time: string; venue?: string; city?: string }>
-  >;
+  initialDateDetails?: Record<string, TourDateDetailItem[]>;
 }) {
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const { member, isLoggedIn, openModal, signup, login } = useMember();
   const [urlParams] = useState(() => {
     if (typeof window !== "undefined") {
@@ -198,9 +270,10 @@ function BookPageContent({
       return {
         from: params.get("from"),
         tab: params.get("tab"),
+        step: params.get("step"),
       };
     }
-    return { from: null, tab: null };
+    return { from: null, tab: null, step: null };
   });
 
   const fromParam = urlParams.from;
@@ -213,7 +286,7 @@ function BookPageContent({
       : "book",
   );
 
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<string | null>("full_band");
 
   const [formData, setFormData] = useState(() => {
     let initialName = member?.name || "";
@@ -234,37 +307,41 @@ function BookPageContent({
       } catch { }
     }
 
+    const p = DEFAULT_PLANNER_PROFILE;
+
     return {
-      name: initialName,
-      email: initialEmail,
-      phone: initialPhone,
-      organization: "",
+      name: initialName || p.name,
+      email: initialEmail || p.email,
+      phone: initialPhone || p.phone,
+      organization: member?.organization || p.organization,
       eventDate: "",
-      eventStartTime: "6:00 PM",
-      eventEndTime: "11:00 PM",
-      startTime: "8:00 PM",
-      endTime: "10:30 PM",
+      eventStartTime: "",
+      eventEndTime: "",
+      startTime: "",
+      endTime: "",
       customEventType: "",
       venueName: "",
       venueCity: "",
       venueState: "",
-      indoorOutdoor: "",
-      expectedAttendance: "",
-      budget: "",
-      setLength: "Full Show (3-4 hours)",
-      soundSystem: "",
-      stageAvailable: "",
-      backlineProvided: "",
-      ageRestriction: "",
-      loadInTime: "",
+      indoorOutdoor: p.indoorOutdoor,
+      expectedAttendance: p.expectedAttendance,
+      budget: p.budget,
+      setLength: p.setLength,
+      soundSystem: p.soundSystem,
+      stageAvailable: p.stageAvailable,
+      backlineProvided: p.backlineProvided,
+      ageRestriction: p.ageRestriction,
+      loadInTime: p.loadInTime,
       parkingAddress: "",
+      parkingType: p.parkingType || "bus-trailer",
       parkingNotes: "",
-      details: "",
+      details: p.details,
       hearAbout: "",
       website: "", // Honeypot
     };
   });
   const [hasParkingNotes, setHasParkingNotes] = useState(false);
+  const [bookMapMode, setBookMapMode] = useState<"map" | "satellite" | "radar">("map");
   const [isLoadInUnsure, setIsLoadInUnsure] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -282,7 +359,7 @@ function BookPageContent({
   // Blocked dates from confirmed bookings
   const [blockedDates, setBlockedDates] = useState<string[]>(initialBlockedDates);
   const [dateDetails, setDateDetails] = useState<
-    Record<string, Array<{ time: string; venue?: string; city?: string }>>
+    Record<string, TourDateDetailItem[]>
   >(initialDateDetails);
 
   // Selected slots for booking (multiple date/time slot support)
@@ -305,6 +382,24 @@ function BookPageContent({
   );
   const [selectedSavedAddressId, setSelectedSavedAddressId] =
     useState<string>("");
+
+  const currentVenueAddress = [
+    formData.parkingAddress,
+    formData.venueCity,
+    formData.venueState,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const bookSearchQuery = formData.venueName
+    ? currentVenueAddress
+      ? `${formData.venueName}, ${currentVenueAddress}`
+      : `${formData.venueName}, Chicago, IL`
+    : currentVenueAddress || "Chicago, IL";
+
+  const encodedBookQuery = encodeURIComponent(bookSearchQuery);
+  const bookEmbedUrl = `https://maps.google.com/maps?q=${encodedBookQuery}&t=${bookMapMode === "satellite" ? "k" : ""}&z=15&ie=UTF8&iwloc=&output=embed`;
+  const bookGoogleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedBookQuery}`;
 
   const pickerLabels = useMemo(() => {
     const formatSection = sanityContent?.sections?.find(
@@ -405,13 +500,14 @@ function BookPageContent({
       venueCity: item.venueCity || prev.venueCity,
       venueState: item.venueState || prev.venueState,
       parkingNotes: item.parkingNotes || prev.parkingNotes || "",
+      parkingType: item.parkingType || prev.parkingType || "bus-trailer",
     }));
 
     if (item.parkingNotes) {
       setHasParkingNotes(true);
     }
 
-    setAddressNotification(`Loaded "${item.label}" into venue form!`);
+    setAddressNotification(`Loaded "${item.label}" into venue & parking details!`);
     setTimeout(() => setAddressNotification(null), 3000);
   };
 
@@ -430,13 +526,6 @@ function BookPageContent({
     }
   };
 
-  // Synchronize first booking slot date to formData.eventDate for legacy/display compatibility
-  useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      eventDate: bookingSlots[0]?.date || "",
-    }));
-  }, [bookingSlots]);
 
   const loadAvailability = useCallback(async () => {
     try {
@@ -465,143 +554,218 @@ function BookPageContent({
     } catch { }
   }, [loadAvailability, initialBlockedDates.length]);
 
-  // Auto-fill from planner dashboard or rebook — pull saved form data from localStorage first
+  // Auto-fill planner details on /book so planners don't have to refill them
   useEffect(() => {
-    if (isFromPlanner) {
-      // Try to restore full form data from last booking
-      try {
+    try {
+      const profile = getStoredPlannerProfile();
+      setFormData((prev) => ({
+        ...prev,
+        name: member?.name || profile.name || prev.name,
+        email: member?.email || profile.email || prev.email,
+        phone: member?.phone || profile.phone || prev.phone,
+        organization: member?.organization || profile.organization || prev.organization,
+        // Venue location & parking should NOT be auto-filled - user specifies for each booking
+        venueName: prev.venueName || "",
+        venueCity: prev.venueCity || "",
+        venueState: prev.venueState || "",
+        parkingAddress: prev.parkingAddress || "",
+        parkingType: prev.parkingType || profile.parkingType || "bus-trailer",
+        parkingNotes: prev.parkingNotes || "",
+        soundSystem: profile.soundSystem || prev.soundSystem,
+        stageAvailable: profile.stageAvailable || prev.stageAvailable,
+        backlineProvided: profile.backlineProvided || prev.backlineProvided,
+        loadInTime: profile.loadInTime || prev.loadInTime,
+        expectedAttendance: profile.expectedAttendance || prev.expectedAttendance,
+        budget: profile.budget || prev.budget,
+        setLength: profile.setLength || prev.setLength,
+        indoorOutdoor: profile.indoorOutdoor || prev.indoorOutdoor,
+        details: profile.details || prev.details,
+      }));
+      if (profile.eventType) {
+        setSelectedType(profile.eventType);
+      }
+
+      // If user came via rebooking or is a logged-in planner making a new booking,
+      // start with fresh slots/dates so the planner can select their new date & time
+      if (
+        fromParam === "rebook" ||
+        (isLoggedIn &&
+          (member?.role === "event_planner" || member?.role === "admin"))
+      ) {
+        setBookingSlots([]);
+        setAltDate1("");
+        setAltDate2("");
+      } else {
         const savedForm =
           localStorage.getItem("7h_planner_last_form_v1") ||
           localStorage.getItem("7h_planner_last_form");
         if (savedForm) {
           const parsed = JSON.parse(savedForm);
-          setFormData((prev) => ({
-            ...prev,
-            ...parsed,
-            // Clear date/time so user picks new ones
-            eventDate: "",
-            startTime: "",
-            endTime: "",
-            eventStartTime: "",
-            eventEndTime: "",
-          }));
-          if (parsed.eventType) setSelectedType(parsed.eventType);
-
-          if (fromParam === "rebook") {
-            setBookingSlots([]);
-            setAltDate1("");
-            setAltDate2("");
-          } else if (parsed.bookingSlots) {
+          if (parsed.bookingSlots && Array.isArray(parsed.bookingSlots) && parsed.bookingSlots.length > 0) {
             setBookingSlots(parsed.bookingSlots);
-          } else if (parsed.eventDates) {
-            setBookingSlots(
-              parsed.eventDates.map((d: string) => ({
-                id: Math.random().toString(36).substring(2, 9),
-                date: d,
-                startTime: parsed.startTime || "7:00 PM",
-                endTime: parsed.endTime || "10:00 PM",
-                eventType: parsed.eventType || "full_band",
-              })),
-            );
-          } else if (parsed.eventDate) {
-            setBookingSlots([
-              {
-                id: Math.random().toString(36).substring(2, 9),
-                date: parsed.eventDate,
-                startTime: parsed.startTime || "7:00 PM",
-                endTime: parsed.endTime || "10:00 PM",
-                eventType: parsed.eventType || "full_band",
-              },
-            ]);
-          }
-        }
-      } catch { }
-
-      // URL params override localStorage (for specific field overrides)
-      if (typeof window !== "undefined") {
-        const searchParams = new URLSearchParams(window.location.search);
-        const allFields = [
-          "name",
-          "email",
-          "phone",
-          "organization",
-          "venueName",
-          "venueCity",
-          "venueState",
-          "parkingAddress",
-          "parkingNotes",
-          "indoorOutdoor",
-          "expectedAttendance",
-          "budget",
-          "soundSystem",
-          "stageAvailable",
-          "backlineProvided",
-          "ageRestriction",
-          "loadInTime",
-          "details",
-        ] as const;
-        setFormData((prev) => {
-          const updated = { ...prev };
-          allFields.forEach((f) => {
-            const val = searchParams.get(f);
-            if (val) (updated as any)[f] = val;
-          });
-          if (isFromPlanner) {
-            if (!updated.venueName)
-              updated.venueName =
-                searchParams.get("venueName") || "Bridges Scoreboard";
-            if (!updated.venueCity)
-              updated.venueCity = searchParams.get("venueCity") || "Chicago";
-            if (!updated.venueState)
-              updated.venueState = searchParams.get("venueState") || "IL";
-            if (!updated.organization)
-              updated.organization =
-                searchParams.get("organization") || "Scoreboard Entertainment";
-          }
-          if (fromParam === "rebook") {
-            updated.eventDate = "";
-            updated.startTime = "";
-            updated.endTime = "";
-            updated.eventStartTime = "";
-            updated.eventEndTime = "";
-          }
-          return updated;
-        });
-        const eventType = searchParams.get("eventType");
-        if (eventType) setSelectedType(eventType);
-
-        if (fromParam === "rebook") {
-          setBookingSlots([]);
-          setAltDate1("");
-          setAltDate2("");
-        } else {
-          const dateParam = searchParams.get("eventDate");
-          const datesParam = searchParams.get("eventDates");
-          if (datesParam) {
-            setBookingSlots(
-              datesParam.split(",").map((d: string) => ({
-                id: Math.random().toString(36).substring(2, 9),
-                date: d,
-                startTime: searchParams.get("startTime") || "7:00 PM",
-                endTime: searchParams.get("endTime") || "10:00 PM",
-                eventType: searchParams.get("eventType") || "full_band",
-              })),
-            );
-          } else if (dateParam) {
-            setBookingSlots([
-              {
-                id: Math.random().toString(36).substring(2, 9),
-                date: dateParam,
-                startTime: searchParams.get("startTime") || "7:00 PM",
-                endTime: searchParams.get("endTime") || "10:00 PM",
-                eventType: searchParams.get("eventType") || "full_band",
-              },
-            ]);
           }
         }
       }
+    } catch { }
+
+    // URL params override localStorage (for specific field overrides)
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const allFields = [
+        "name",
+        "email",
+        "phone",
+        "organization",
+        "venueName",
+        "venueCity",
+        "venueState",
+        "parkingAddress",
+        "parkingNotes",
+        "parkingType",
+        "indoorOutdoor",
+        "expectedAttendance",
+        "budget",
+        "soundSystem",
+        "stageAvailable",
+        "backlineProvided",
+        "ageRestriction",
+        "loadInTime",
+        "details",
+      ] as const;
+      if (
+        searchParams.get("parkingAddress") ||
+        searchParams.get("parkingNotes") ||
+        searchParams.get("parkingType")
+      ) {
+        setHasParkingNotes(true);
+      }
+      setFormData((prev) => {
+        const updated = { ...prev };
+        allFields.forEach((f) => {
+          const val = searchParams.get(f);
+          if (val) (updated as any)[f] = val;
+        });
+        if (fromParam === "rebook") {
+          updated.eventDate = "";
+          updated.startTime = "";
+          updated.endTime = "";
+          updated.eventStartTime = "";
+          updated.eventEndTime = "";
+        }
+        return updated;
+      });
+      const eventType = searchParams.get("eventType");
+      if (eventType) setSelectedType(eventType);
     }
-  }, [isFromPlanner, fromParam]);
+  }, [fromParam, isLoggedIn, member]);
+
+  // Live debounced auto-sync of planner fields to localStorage and Planner Dashboard
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      saveStoredPlannerProfile({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        organization: formData.organization,
+        venueName: formData.venueName,
+        venueCity: formData.venueCity,
+        venueState: formData.venueState,
+        parkingAddress: formData.parkingAddress,
+        parkingType: formData.parkingType,
+        parkingNotes: formData.parkingNotes,
+        soundSystem: formData.soundSystem,
+        stageAvailable: formData.stageAvailable,
+        backlineProvided: formData.backlineProvided,
+        loadInTime: formData.loadInTime,
+        expectedAttendance: formData.expectedAttendance,
+        budget: formData.budget,
+        setLength: formData.setLength,
+        indoorOutdoor: formData.indoorOutdoor,
+        ageRestriction: formData.ageRestriction,
+        details: formData.details,
+        eventType: selectedType || "unplugged",
+      });
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [formData, selectedType]);
+
+  // Listen for sync events from dashboard or another window
+  useEffect(() => {
+    const handlePlannerSync = (e?: Event) => {
+      const customEvt = e as CustomEvent<PlannerProfile> | undefined;
+      const profile = customEvt?.detail || getStoredPlannerProfile();
+      setFormData((prev) => ({
+        ...prev,
+        name: profile.name || prev.name,
+        email: profile.email || prev.email,
+        phone: profile.phone || prev.phone,
+        organization: profile.organization || prev.organization,
+        // Preserve current venue/parking without auto-filling
+        venueName: prev.venueName || "",
+        venueCity: prev.venueCity || "",
+        venueState: prev.venueState || "",
+        parkingAddress: prev.parkingAddress || "",
+        parkingType: prev.parkingType || profile.parkingType || "bus-trailer",
+        parkingNotes: prev.parkingNotes || "",
+        soundSystem: profile.soundSystem || prev.soundSystem,
+        stageAvailable: profile.stageAvailable || prev.stageAvailable,
+        backlineProvided: profile.backlineProvided || prev.backlineProvided,
+        loadInTime: profile.loadInTime || prev.loadInTime,
+        expectedAttendance: profile.expectedAttendance || prev.expectedAttendance,
+        budget: profile.budget || prev.budget,
+        setLength: profile.setLength || prev.setLength,
+        indoorOutdoor: profile.indoorOutdoor || prev.indoorOutdoor,
+        ageRestriction: profile.ageRestriction || prev.ageRestriction,
+      }));
+      if (profile.eventType) {
+        setSelectedType(profile.eventType);
+      }
+    };
+
+    window.addEventListener(PLANNER_SYNC_EVENT, handlePlannerSync);
+    return () => window.removeEventListener(PLANNER_SYNC_EVENT, handlePlannerSync);
+  }, []);
+
+  const handleResetPlannerDefaults = () => {
+    const p = resetPlannerProfile();
+    setFormData((prev) => ({
+      ...prev,
+      name: p.name,
+      email: p.email,
+      phone: p.phone,
+      organization: p.organization,
+      venueName: p.venueName,
+      venueCity: p.venueCity,
+      venueState: p.venueState,
+      parkingAddress: p.parkingAddress,
+      parkingType: p.parkingType,
+      parkingNotes: p.parkingNotes,
+      soundSystem: p.soundSystem,
+      stageAvailable: p.stageAvailable,
+      backlineProvided: p.backlineProvided,
+      loadInTime: p.loadInTime,
+      expectedAttendance: p.expectedAttendance,
+      budget: p.budget,
+      setLength: p.setLength,
+      indoorOutdoor: p.indoorOutdoor,
+      ageRestriction: p.ageRestriction,
+      details: p.details,
+      eventDate: "",
+      startTime: "",
+      endTime: "",
+      eventStartTime: "",
+      eventEndTime: "",
+    }));
+    setBookingSlots([]);
+    setSelectedType(p.eventType);
+  };
 
   // Auto-fill details if user is already logged in
   useEffect(() => {
@@ -838,14 +1002,28 @@ function BookPageContent({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Run validation
+    // Run validation across all form fields
     const errors = validateBooking();
     if (errors.length > 0) {
       setValidationErrors(errors);
-      // Scroll to top of form to show errors
-      document
-        .getElementById("book-event")
-        ?.scrollIntoView({ behavior: "smooth" });
+      if (
+        !selectedType ||
+        bookingSlots.length === 0 ||
+        !formData.startTime ||
+        !formData.endTime
+      ) {
+        document
+          .getElementById("step-1")
+          ?.scrollIntoView({ behavior: "smooth" });
+      } else if (!formData.venueName.trim() || !formData.venueCity.trim()) {
+        document
+          .getElementById("venue-logistics")
+          ?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        document
+          .getElementById("contact-info")
+          ?.scrollIntoView({ behavior: "smooth" });
+      }
       return;
     }
 
@@ -1186,7 +1364,7 @@ function BookPageContent({
   }
 
   return (
-    <main id="book-page" className="page-container relative min-h-screen">
+    <main id="book-page" className="page-container relative min-h-screen pb-12">
       <script
         id="booking-service-jsonld"
         type="application/ld+json"
@@ -1205,795 +1383,25 @@ function BookPageContent({
 
       <form
         id="book-event"
-        className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] 2xl:grid-cols-[1fr_500px] lg:gap-6 xl:gap-8"
+        className="relative z-10 mx-auto w-full grid grid-cols-1 items-start lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] 2xl:grid-cols-[1fr_500px] lg:gap-6 xl:gap-8 pb-16 sm:pb-20"
         onSubmit={handleSubmit}
       >
         <div className="steps flex flex-col page-stack">
-          {isFromPlanner && (
+          {fromParam === "rebook" ? (
             <div className="mx-[var(--spacing-gutter)] flex items-center gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/40 px-6 py-4">
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#c084fc"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+                <Check className="h-4 w-4 text-purple-300" />
               </div>
               <div>
-                <p>
-                  {fromParam === "rebook"
-                    ? "Rebooking previous event"
-                    : "Profile details pre-loaded"}
-                </p>
-                <p>
-                  {fromParam === "rebook"
-                    ? "All your previous event details have been copied over. Just pick a new date and tweak anything you need."
-                    : "Your contact & venue info has been filled in. Just pick your date and event type."}
+                <p className="font-semibold text-sm text-white">Rebooking previous event</p>
+                <p className="mt-0.5 text-xs text-muted">
+                  All your previous event details have been copied over. Just pick a new date and tweak anything you need.
                 </p>
               </div>
             </div>
-          )}
+          ) : null}
 
-          {hasSavedForm && !isFromPlanner && (
-            <div className="mx-[var(--spacing-gutter)] relative z-10 flex animate-[fade-in-up_0.2s_ease-out_both] flex-col items-start justify-between gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-purple-950/40 p-5 sm:flex-row sm:items-center">
-              <div className="flex items-center gap-3">
-                <ClipboardList className="h-6 w-6 shrink-0" />
-                <div>
-                  <p className="font-semibold text-sm">Re-fill with details from your last booking?</p>
-                  <p className="mt-0.5 text-xs text-muted">
-                    We found a booking request you recently filled out. You can
-                    automatically fill in your contact and venue details.
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={handleLoadLastForm}
-                className="transition-colors flex shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] bg-purple-600 px-5 py-2.5 hover:bg-purple-500"
-              >
-                <Zap className="h-3.5 w-3.5" /> Populate
-              </button>
-            </div>
-          )}
-
-          {/* Step 1: Primary Event Schedule */}
-          <PageSection
-            id="step-1"
-            aria-labelledby="step-1-heading"
-            size="sm"
-          >
-            <SectionHeader
-              as="h2"
-              id="step-1-heading"
-              title={
-                <>
-                  {sanityContent?.sections?.find(
-                    (s: any) =>
-                      s.sectionId === "schedule" ||
-                      s.sectionId === "step-1",
-                  )?.title || "Primary Event Schedule"}{" "}
-                  <span className="text-[#c27aff]">*</span>
-                </>
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "schedule" ||
-                    s.sectionId === "step-1",
-                )?.subtitle ||
-                "Select one or more dates on the calendar to reserve 7th Heaven."
-              }
-            />
-            <Stack gap="lg">
-              <CalendarPicker
-                hideHeader
-                hideFormat
-                slots={bookingSlots}
-                onChangeSlots={setBookingSlots}
-                eventStartTime={formData.eventStartTime || "6:00 PM"}
-                onEventStartTimeChange={(t) =>
-                  setFormData((p) => ({ ...p, eventStartTime: t }))
-                }
-                startTime={formData.startTime || "8:00 PM"}
-                onStartTimeChange={(t) =>
-                  setFormData((p) => ({ ...p, startTime: t }))
-                }
-                endTime={formData.endTime || "10:30 PM"}
-                onEndTimeChange={(t) =>
-                  setFormData((p) => ({ ...p, endTime: t }))
-                }
-                eventEndTime={formData.eventEndTime || "11:00 PM"}
-                onEventEndTimeChange={(t) =>
-                  setFormData((p) => ({ ...p, eventEndTime: t }))
-                }
-                loadInTime={formData.loadInTime}
-                onLoadInTimeChange={(t) =>
-                  setFormData((p) => ({ ...p, loadInTime: t }))
-                }
-                isLoadInUnsure={isLoadInUnsure}
-                onLoadInUnsureChange={(next) => {
-                  setIsLoadInUnsure(next);
-                  if (next) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      loadInTime:
-                        "Unsure — Band admin will confirm & email setup time",
-                    }));
-                  } else {
-                    setFormData((prev) => ({
-                      ...prev,
-                      loadInTime: "",
-                    }));
-                  }
-                }}
-                blockedDates={blockedDates}
-                dateDetails={dateDetails}
-                labels={pickerLabels}
-              />
-            </Stack>
-          </PageSection>
-
-          {/* Event Format */}
-          <PageSection
-            id="event-format"
-            aria-labelledby="event-format-heading"
-            size="sm"
-          >
-            <SectionHeader
-              as="h2"
-              id="event-format-heading"
-              title={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "formats" ||
-                    s.sectionId === "format",
-                )?.title ||
-                pickerLabels?.eventFormatHeading ||
-                "Event Format"
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "formats" ||
-                    s.sectionId === "format",
-                )?.subtitle ||
-                "Choose the performance style for your date"
-              }
-            />
-            <Stack gap="lg">
-              <EventFormatPicker
-                hideHeader
-                selectedType={selectedType || undefined}
-                onSelectType={(t) => setSelectedType(t)}
-                customDetails={formData.customEventType}
-                onCustomDetailsChange={(d) =>
-                  setFormData((p) => ({ ...p, customEventType: d }))
-                }
-                labels={pickerLabels}
-              />
-
-              {/* Pricing hint per type */}
-              {selectedType && (
-                <div className="rounded-[var(--radius-box)] border border-purple-500/25 bg-purple-950/20 px-4 py-2.5 text-xs leading-relaxed text-white/70">
-                  <span className="font-semibold text-purple-300">Pricing Guide:</span>{" "}
-                  {selectedType === "full_band" &&
-                    "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
-                  {selectedType === "unplugged" &&
-                    "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
-                  {selectedType === "private" &&
-                    "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
-                  {selectedType === "custom" &&
-                    "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
-                </div>
-              )}
-            </Stack>
-          </PageSection>
-
-
-
-          {/* Your Scheduled Shows (Full Width Grid) */}
-          <PageSection
-            id="scheduled-shows"
-            aria-labelledby="scheduled-shows-heading"
-            size="sm"
-            containerClassName="bg-[var(--color-section-bg)]"
-          >
-            <SectionHeader
-              as="h2"
-              id="scheduled-shows-heading"
-              title={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "scheduled-shows" ||
-                    s.sectionId === "schedule",
-                )?.title || "Your Scheduled Shows"
-              }
-              subtitle={
-                sanityContent?.sections?.find(
-                  (s: any) =>
-                    s.sectionId === "scheduled-shows" ||
-                    s.sectionId === "schedule",
-                )?.subtitle ||
-                "Configure individual times and formats for each show below"
-              }
-              action={
-                bookingSlots.length > 0 ? (
-                  <span className="rounded-lg border border-purple-400/30 bg-cyan-500/20 px-3 py-1 text-small font-semibold">
-                    {bookingSlots.length} Show{bookingSlots.length > 1 ? "s" : ""}
-                  </span>
-                ) : null
-              }
-            />
-            <Stack gap="lg">
-              {bookingSlots.length === 0 ? (
-                <div className="rounded-lg border-2 border-dashed border-white/10 bg-white/[0.02] p-6 text-center">
-                  <span className="mb-6 block text-4xl">📅</span>
-                  <div className="title-group title-group--sub title-group--center items-center text-center">
-                    <h4 className="text-center">
-                      {sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "no_dates",
-                      )?.title || "No Dates Selected Yet"}
-                    </h4>
-                    <p className="mx-auto max-w-md text-center">
-                      {sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "no_dates",
-                      )?.subtitle ||
-                        "Click one or more dates on the calendar picker in Step 1 to select dates for your tour date booking request. You can schedule multiple dates at once."}
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-1 xl:grid-cols-2">
-                    {bookingSlots.map((slot, index) => {
-                      const formattedDate = new Date(
-                        slot.date + "T12:00:00Z",
-                      ).toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                        timeZone: "UTC",
-                      });
-                      return (
-                        <div
-                          key={slot.id}
-                          className="transition-colors group relative border border-white/10 bg-[#00000029] p-4 sm:p-6 hover:border-purple-400/40"
-                        >
-                          <div className="mb-4 flex w-full items-start justify-between gap-3 border-b border-white/10 pb-3">
-                            <div className="min-w-0 flex-1">
-                              <span className="mb-0.5 block text-xs font-semibold text-white/50 uppercase tracking-wider">
-                                Show #{index + 1}
-                              </span>
-                              <h5 className="text-white">
-                                {formattedDate}
-                              </h5>
-                            </div>
-
-                            {/* Duplicate and Remove buttons */}
-                            <div className="flex shrink-0 flex-col items-end gap-1.5 sm:flex-row sm:items-center">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const newSlot = {
-                                    ...slot,
-                                    id: Math.random().toString(36).substring(2, 9),
-                                  };
-                                  setBookingSlots([...bookingSlots, newSlot]);
-                                }}
-                                className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/10 px-2.5 py-1 text-xs text-white/80 hover:border-purple-400/30 hover:bg-cyan-500/20 hover:text-white"
-                                title="Add another show on this date"
-                              >
-                                <Plus className="h-3 w-3 shrink-0" /> Add Another
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setBookingSlots(
-                                    bookingSlots.filter((s) => s.id !== slot.id),
-                                  )
-                                }
-                                className="transition-colors flex cursor-pointer items-center gap-1 rounded border border-white/10 bg-white/10 px-2.5 py-1 text-xs text-white/80 hover:border-rose-500/30 hover:bg-rose-500/20 hover:text-rose-400"
-                                title="Remove this show"
-                              >
-                                <X className="h-3 w-3 shrink-0" /> Remove
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Existing Show Double-Booking Notice */}
-                          {dateDetails[slot.date] && dateDetails[slot.date].length > 0 && (
-                            <div className="mb-3 rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-200">
-                              <div className="flex items-start gap-2">
-                                <span className="text-sm">⚠️</span>
-                                <div className="flex flex-col gap-0.5">
-                                  <p className="font-semibold text-rose-300">
-                                    Existing show scheduled on this date:
-                                  </p>
-                                  {dateDetails[slot.date].map((d, i) => (
-                                    <p key={`${slot.date}-${d.time}-${d.venue || ""}-${i}`} className="text-rose-200/90">
-                                      <strong>{d.time}</strong>
-                                      {d.venue ? ` at ${d.venue}` : ""}
-                                      {d.city ? ` (${d.city})` : ""}
-                                    </p>
-                                  ))}
-                                  <p className="mt-1 text-[11px] text-white/60">
-                                    Double-booking permitted: please configure your preferred alternate time frame below (e.g. afternoon or daytime set).
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          <div className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
-                            {/* Format */}
-                            <div>
-                              <label
-                                htmlFor={`slot-format-${slot.id}`}
-                                className="mb-1 block text-xs text-white/50"
-                              >
-                                Show Format
-                              </label>
-                              <Dropdown
-                                id={`slot-format-${slot.id}`}
-                                fullWidth={true}
-                                selected={slot.eventType}
-                                options={[
-                                  { label: "Full Band", value: "full_band" },
-                                  { label: "Unplugged", value: "unplugged" },
-                                  { label: "Private Event", value: "private" },
-                                  { label: "Custom Booking", value: "custom" },
-                                ]}
-                                onChange={(val) => {
-                                  const updated = bookingSlots.map((s) =>
-                                    s.id === slot.id ? { ...s, eventType: val } : s,
-                                  );
-                                  setBookingSlots(updated);
-                                }}
-                                className="w-full"
-                              />
-                              {slot.eventType === "custom" && (
-                                <input
-                                  type="text"
-                                  placeholder="Describe show type (e.g. Street Fest)..."
-                                  value={slot.customEventType || ""}
-                                  onChange={(e) => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? { ...s, customEventType: e.target.value }
-                                        : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  className="focus-ring mt-2 w-full border border-purple-400/40 bg-[#00000029] px-3 py-2 text-xs text-white/80 shadow-inner outline-none"
-                                />
-                              )}
-                            </div>
-
-                            {/* Times */}
-                            <div className="grid grid-cols-2 gap-2.5">
-                              <div>
-                                <label
-                                  htmlFor={`slot-start-${slot.id}`}
-                                  className="mb-1 block text-xs text-white/50"
-                                >
-                                  Start Time
-                                </label>
-                                <Dropdown
-                                  id={`slot-start-${slot.id}`}
-                                  fullWidth={true}
-                                  selected={slot.startTime}
-                                  options={[
-                                    "12:00 PM",
-                                    "1:00 PM",
-                                    "2:00 PM",
-                                    "3:00 PM",
-                                    "4:00 PM",
-                                    "5:00 PM",
-                                    "6:00 PM",
-                                    "7:00 PM",
-                                    "8:00 PM",
-                                    "9:00 PM",
-                                    "10:00 PM",
-                                    "11:00 PM",
-                                    "12:00 AM",
-                                  ]}
-                                  onChange={(val) => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? { ...s, startTime: val }
-                                        : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  className="w-full"
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  htmlFor={`slot-end-${slot.id}`}
-                                  className="mb-1 block text-xs text-white/50"
-                                >
-                                  End Time
-                                </label>
-                                <Dropdown
-                                  id={`slot-end-${slot.id}`}
-                                  fullWidth={true}
-                                  selected={slot.endTime}
-                                  options={[
-                                    "12:00 PM",
-                                    "1:00 PM",
-                                    "2:00 PM",
-                                    "3:00 PM",
-                                    "4:00 PM",
-                                    "5:00 PM",
-                                    "6:00 PM",
-                                    "7:00 PM",
-                                    "8:00 PM",
-                                    "9:00 PM",
-                                    "10:00 PM",
-                                    "11:00 PM",
-                                    "12:00 AM",
-                                    "1:00 AM",
-                                    "2:00 AM",
-                                  ]}
-                                  onChange={(val) => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id ? { ...s, endTime: val } : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  className="w-full"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Separate Contact/Venue details toggle buttons & form fields */}
-                          <div className="mt-4 border-t border-white/10 pt-4">
-                            <div className="mb-3">
-                              <span className="mb-1.5 block text-xs text-white/50">
-                                Contact & Venue Details
-                              </span>
-                              <div className="grid grid-cols-2 gap-1 rounded-md border border-white/10 bg-black/50 p-1">
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? {
-                                          ...s,
-                                          useSeparateInfo: false,
-                                          contactName: "",
-                                          contactEmail: "",
-                                          contactPhone: "",
-                                          venueName: "",
-                                          venueCity: "",
-                                          venueState: "",
-                                        }
-                                        : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  className={`cursor-pointer rounded py-1.5 px-1.5 text-center text-xs transition-colors ${!slot.useSeparateInfo ? "bg-purple-600 font-semibold text-white shadow-sm shadow-purple-600/40" : "text-white/60 hover:text-white"}`}
-                                >
-                                  Share Main Info
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    const updated = bookingSlots.map((s) =>
-                                      s.id === slot.id
-                                        ? {
-                                          ...s,
-                                          useSeparateInfo: true,
-                                          contactName:
-                                            s.contactName || formData.name || "",
-                                          contactEmail:
-                                            s.contactEmail ||
-                                            formData.email ||
-                                            "",
-                                          contactPhone:
-                                            s.contactPhone ||
-                                            formData.phone ||
-                                            "",
-                                          venueName:
-                                            s.venueName ||
-                                            formData.venueName ||
-                                            "",
-                                          venueCity:
-                                            s.venueCity ||
-                                            formData.venueCity ||
-                                            "",
-                                          venueState:
-                                            s.venueState ||
-                                            formData.venueState ||
-                                            "",
-                                        }
-                                        : s,
-                                    );
-                                    setBookingSlots(updated);
-                                  }}
-                                  className={`cursor-pointer rounded py-1.5 px-1.5 text-center text-xs transition-colors ${slot.useSeparateInfo ? "bg-purple-600 font-semibold text-white shadow-sm shadow-purple-600/40" : "text-white/60 hover:text-white"}`}
-                                >
-                                  Use Separate Info
-                                </button>
-                              </div>
-                            </div>
-
-                            {!slot.useSeparateInfo ? (
-                              <div className="mt-2 animate-[fade-in-up_0.1s_ease-out_both] flex flex-col gap-1.5 border border-white/10 bg-white/[0.03] p-3.5 text-white/50">
-                                <div className="flex items-start justify-between gap-2">
-                                  <span className="mt-0.5 text-white/40">
-                                    Contact:
-                                  </span>
-                                  <span className="text-right break-all">
-                                    {formData.name || (
-                                      <span className="text-white/50 italic">(empty)</span>
-                                    )}
-                                    {formData.email && (
-                                      <span className="mt-0.5 block text-white/40">
-                                        {formData.email}
-                                      </span>
-                                    )}
-                                  </span>
-                                </div>
-                                <div className="flex items-start justify-between gap-2">
-                                  <span className="mt-0.5 text-white/40">
-                                    Venue:
-                                  </span>
-                                  <span className="text-right break-all">
-                                    {formData.venueName || (
-                                      <span className="text-white/50 italic">(empty)</span>
-                                    )}
-                                    {(formData.venueCity ||
-                                      formData.venueState) && (
-                                        <span className="mt-0.5 block text-white/40">
-                                          {formData.venueCity || "—"},{" "}
-                                          {formData.venueState || "—"}
-                                        </span>
-                                      )}
-                                  </span>
-                                </div>
-                                <p className="mt-2 flex items-center justify-end gap-1 border-t border-white/10 pt-1.5 text-right">
-                                  <span>
-                                    🔗 Link Active: Shares contact & venue data
-                                  </span>
-                                </p>
-                              </div>
-                            ) : (
-                              <div className="mt-3 animate-[fade-in-up_0.15s_ease-out_both] flex flex-col gap-3 border border-white/10 bg-white/[0.03] p-3.5">
-                                <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-                                  <span className="text-white/40">
-                                    Separate Show Info
-                                  </span>
-                                  <div className="flex gap-2">
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        const updated = bookingSlots.map((s) =>
-                                          s.id === slot.id
-                                            ? {
-                                              ...s,
-                                              contactName: formData.name,
-                                              contactEmail: formData.email,
-                                              contactPhone: formData.phone,
-                                              venueName: formData.venueName,
-                                              venueCity: formData.venueCity,
-                                              venueState: formData.venueState,
-                                            }
-                                            : s,
-                                        );
-                                        setBookingSlots(updated);
-                                      }}
-                                      className="transition-colors cursor-pointer hover:text-white"
-                                    >
-                                      ⚡ Copy Main
-                                    </button>
-                                    {hasSavedForm && (
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          try {
-                                            const saved =
-                                              localStorage.getItem(
-                                                "7h_planner_last_form_v1",
-                                              ) ||
-                                              localStorage.getItem(
-                                                "7h_planner_last_form",
-                                              );
-                                            if (saved) {
-                                              const parsed = JSON.parse(saved);
-                                              const updated = bookingSlots.map(
-                                                (s) =>
-                                                  s.id === slot.id
-                                                    ? {
-                                                      ...s,
-                                                      contactName:
-                                                        parsed.name ||
-                                                        s.contactName,
-                                                      contactEmail:
-                                                        parsed.email ||
-                                                        s.contactEmail,
-                                                      contactPhone:
-                                                        parsed.phone ||
-                                                        s.contactPhone,
-                                                      venueName:
-                                                        parsed.venueName ||
-                                                        s.venueName,
-                                                      venueCity:
-                                                        parsed.venueCity ||
-                                                        s.venueCity,
-                                                      venueState:
-                                                        parsed.venueState ||
-                                                        s.venueState,
-                                                    }
-                                                    : s,
-                                              );
-                                              setBookingSlots(updated);
-                                            }
-                                          } catch { }
-                                        }}
-                                        className="transition-colors cursor-pointer text-purple-400 hover:text-white"
-                                      >
-                                        ⚡ Load Last
-                                      </button>
-                                    )}
-                                  </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-2">
-                                  <div>
-                                    <GlowInput
-                                      id={`slot-contact-name-${slot.id}`}
-                                      label="Contact Name"
-                                      type="text"
-                                      placeholder="e.g. Jane Doe"
-                                      value={slot.contactName || ""}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map((s) =>
-                                          s.id === slot.id
-                                            ? { ...s, contactName: e.target.value }
-                                            : s,
-                                        );
-                                        setBookingSlots(updated);
-                                      }}
-                                      wrapperClassName="w-full"
-                                    />
-                                  </div>
-                                  <div>
-                                    <GlowInput
-                                      id={`slot-contact-email-${slot.id}`}
-                                      label="Contact Email"
-                                      type="email"
-                                      placeholder="e.g. jane@email.com"
-                                      value={slot.contactEmail || ""}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map((s) =>
-                                          s.id === slot.id
-                                            ? { ...s, contactEmail: e.target.value }
-                                            : s,
-                                        );
-                                        setBookingSlots(updated);
-                                      }}
-                                      wrapperClassName="w-full"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div>
-                                  <GlowInput
-                                    id={`slot-venue-name-${slot.id}`}
-                                    label="Venue Name"
-                                    type="text"
-                                    placeholder="e.g. House of Blues"
-                                    value={slot.venueName || ""}
-                                    onChange={(e) => {
-                                      const updated = bookingSlots.map((s) =>
-                                        s.id === slot.id
-                                          ? { ...s, venueName: e.target.value }
-                                          : s,
-                                      );
-                                      setBookingSlots(updated);
-                                    }}
-                                    wrapperClassName="w-full"
-                                  />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-2">
-                                  <div>
-                                    <GlowInput
-                                      id={`slot-venue-city-${slot.id}`}
-                                      label="City"
-                                      type="text"
-                                      placeholder="Chicago"
-                                      value={slot.venueCity || ""}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map((s) =>
-                                          s.id === slot.id
-                                            ? { ...s, venueCity: e.target.value }
-                                            : s,
-                                        );
-                                        setBookingSlots(updated);
-                                      }}
-                                      wrapperClassName="w-full"
-                                    />
-                                  </div>
-                                  <div>
-                                    <GlowInput
-                                      id={`slot-venue-state-${slot.id}`}
-                                      label="State"
-                                      type="text"
-                                      placeholder="IL"
-                                      value={slot.venueState || ""}
-                                      onChange={(e) => {
-                                        const updated = bookingSlots.map((s) =>
-                                          s.id === slot.id
-                                            ? { ...s, venueState: e.target.value }
-                                            : s,
-                                        );
-                                        setBookingSlots(updated);
-                                      }}
-                                      wrapperClassName="w-full"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="mt-4 border-t border-white/10 pt-4">
-                            <button
-                              type="button"
-                              aria-label="Toggle tour page details"
-                              onClick={() =>
-                                setExpandedMetadata((prev) => ({
-                                  ...prev,
-                                  [slot.id]: !prev[slot.id],
-                                }))
-                              }
-                              className="group transition-colors flex w-full flex-col items-start gap-0.5 text-left hover:text-purple-400"
-                            >
-                              <div className="flex w-full items-center justify-between">
-                                <span className="flex items-center gap-1.5 font-semibold text-xs text-white/90 group-hover:text-purple-300 transition-colors duration-200">
-                                  <Megaphone className="h-3.5 w-3.5 shrink-0 text-purple-400" />
-                                  <span>Tour Page Details</span>
-                                  {expandedMetadata[slot.id] ? (
-                                    <DotChevronDown className="h-3.5 w-3.5 shrink-0" />
-                                  ) : (
-                                    <DotChevronRight className="h-3.5 w-3.5 shrink-0" />
-                                  )}
-                                </span>
-                              </div>
-                              <span className="font-normal text-[11px] text-white/40">
-                                (optional: age limit, tickets, notes)
-                              </span>
-                            </button>
-
-                            {expandedMetadata[slot.id] && (
-                              <BookingSlotMetadataSection
-                                slot={slot}
-                                bookingSlots={bookingSlots}
-                                setBookingSlots={setBookingSlots}
-                              />
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-            </Stack>
-          </PageSection>
-
-          {/* Step 2: Contact Information */}
+          {/* Contact Information (FIRST SECTION) */}
           <PageSection
             id="contact-info"
             aria-labelledby="contact-info-heading"
@@ -2004,9 +1412,18 @@ function BookPageContent({
               as="h2"
               id="contact-info-heading"
               title={
-                sanityContent?.sections?.find(
-                  (s: any) => s.sectionId === "contact",
-                )?.title || "Contact Information"
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span>
+                    {sanityContent?.sections?.find(
+                      (s: any) => s.sectionId === "contact",
+                    )?.title || "Contact Information"}
+                  </span>
+                  <span className="text-xs font-normal text-purple-300 bg-purple-500/10 border border-purple-500/20 rounded-full px-2.5 py-0.5">
+                    {isLoggedIn && (member?.role === "event_planner" || member?.role === "admin")
+                      ? "Auto-filled • Fully Editable"
+                      : "Auto-filled • Fully Editable"}
+                  </span>
+                </div>
               }
               subtitle={
                 sanityContent?.sections?.find(
@@ -2017,6 +1434,75 @@ function BookPageContent({
               icon={User}
             />
             <Stack gap="lg">
+              {/* Planner Status / Sign In Callout */}
+              {isLoggedIn && (member?.role === "event_planner" || member?.role === "admin") ? (
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-[var(--radius-box)] border border-emerald-500/30 bg-emerald-950/20 p-4 sm:p-5 shadow-[0_4px_20px_rgba(16,185,129,0.08)]">
+                  <div className="flex items-start sm:items-center gap-3">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-emerald-400/30 bg-emerald-500/10 text-emerald-300">
+                      <Check className="h-4 w-4 text-emerald-300" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-semibold text-sm text-white">
+                          Planner Details Pre-Filled
+                        </p>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[11px] font-medium text-emerald-300">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          Live Dashboard Sync
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-xs text-muted">
+                        Signed in as {member.name || member.username || "Planner"}. Your contact &amp; venue specs are pre-filled and sync live with your Planner Dashboard.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                    <Link
+                      href={member.username ? `/book/${member.username}` : "/book/demo"}
+                      className="transition-colors inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] border border-emerald-400/30 bg-emerald-600/20 px-3.5 py-2 text-xs font-medium text-emerald-200 hover:bg-emerald-600/30 hover:text-white"
+                    >
+                      <span>Planner Dashboard</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleResetPlannerDefaults}
+                      className="transition-colors inline-flex cursor-pointer items-center gap-1 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/70 hover:bg-white/10 hover:text-white"
+                      title="Reset fields to standard planner defaults"
+                    >
+                      <RotateCcw className="h-3 w-3" />
+                      <span>Reset</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-[var(--radius-box)] border border-purple-500/30 bg-gradient-to-r from-purple-950/50 via-purple-900/30 to-purple-950/50 p-4 sm:p-5 shadow-[0_4px_24px_rgba(168,85,247,0.12)]">
+                  <div className="flex items-start sm:items-center gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-box)] border border-purple-400/30 bg-purple-500/20 text-purple-300">
+                      <Sparkles className="h-5 w-5 text-purple-300" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm text-white">
+                        Are you signed up as a planner?
+                      </p>
+                      <p className="mt-0.5 text-xs text-purple-200/80">
+                        Sign in for easier booking — your contact info, organization, and venue logistics will automatically pre-fill!
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => openModal("login", "planner")}
+                      className="transition-all inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-box)] border border-purple-400/40 bg-purple-600 hover:bg-purple-500 text-white font-medium px-4 py-2 text-xs shadow-[0_0_15px_rgba(168,85,247,0.35)] hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]"
+                    >
+                      <LogIn className="h-3.5 w-3.5" />
+                      <span>Sign in as Planner</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <InputField
                   label={
@@ -2071,12 +1557,166 @@ function BookPageContent({
             </Stack>
           </PageSection>
 
-          {/* Step 3: Venue Details & Location Setup */}
+          {/* Primary Event Schedule */}
+          <PageSection
+            id="step-1"
+                aria-labelledby="step-1-heading"
+                size="sm"
+              >
+                <SectionHeader
+                  as="h2"
+                  id="step-1-heading"
+                  title={
+                    <>
+                      {sanityContent?.sections?.find(
+                        (s: any) =>
+                          s.sectionId === "schedule" ||
+                          s.sectionId === "step-1",
+                      )?.title || "Primary Event Schedule"}{" "}
+                      <span className="text-[#c27aff]">*</span>
+                    </>
+                  }
+                  subtitle={
+                    sanityContent?.sections?.find(
+                      (s: any) =>
+                        s.sectionId === "schedule" ||
+                        s.sectionId === "step-1",
+                    )?.subtitle ||
+                    "Select one or more dates on the calendar to reserve 7th Heaven."
+                  }
+                />
+                <Stack gap="lg">
+                  <CalendarPicker
+                    hideHeader
+                    hideFormat
+                    slots={bookingSlots}
+                    onChangeSlots={setBookingSlots}
+                    eventStartTime={formData.eventStartTime || "6:00 PM"}
+                    onEventStartTimeChange={(t) =>
+                      setFormData((p) => ({ ...p, eventStartTime: t }))
+                    }
+                    startTime={formData.startTime}
+                    onStartTimeChange={(t) => {
+                      setFormData((p) => ({ ...p, startTime: t }));
+                      setBookingSlots((prev) =>
+                        prev.map((s) => ({ ...s, startTime: t })),
+                      );
+                    }}
+                    endTime={formData.endTime}
+                    onEndTimeChange={(t) => {
+                      setFormData((p) => ({ ...p, endTime: t }));
+                      setBookingSlots((prev) =>
+                        prev.map((s) => ({ ...s, endTime: t })),
+                      );
+                    }}
+                    eventEndTime={formData.eventEndTime || "11:00 PM"}
+                    onEventEndTimeChange={(t) =>
+                      setFormData((p) => ({ ...p, eventEndTime: t }))
+                    }
+                    loadInTime={formData.loadInTime}
+                    onLoadInTimeChange={(t) =>
+                      setFormData((p) => ({ ...p, loadInTime: t }))
+                    }
+                    isLoadInUnsure={isLoadInUnsure}
+                    onLoadInUnsureChange={(next) => {
+                      setIsLoadInUnsure(next);
+                      if (next) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          loadInTime:
+                            "Unsure — Band admin will confirm & email setup time",
+                        }));
+                      } else {
+                        setFormData((prev) => ({
+                          ...prev,
+                          loadInTime: "",
+                        }));
+                      }
+                    }}
+                    blockedDates={blockedDates}
+                    dateDetails={dateDetails}
+                    labels={pickerLabels}
+                    defaultVenueName={formData.venueName || ""}
+                    defaultVenueCity={formData.venueCity || ""}
+                    defaultVenueState={formData.venueState || ""}
+                    defaultParkingAddress={formData.parkingAddress || ""}
+                    defaultParkingType={formData.parkingType || "bus-trailer"}
+                    defaultParkingNotes={formData.parkingNotes || ""}
+                    selectedType={selectedType || "full_band"}
+                    customDetails={formData.customEventType || ""}
+                  />
+                </Stack>
+              </PageSection>
+
+              {/* Event Format */}
+              <PageSection
+                id="event-format"
+                aria-labelledby="event-format-heading"
+                size="sm"
+              >
+                <SectionHeader
+                  as="h2"
+                  id="event-format-heading"
+                  title={
+                    sanityContent?.sections?.find(
+                      (s: any) =>
+                        s.sectionId === "formats" ||
+                        s.sectionId === "format",
+                    )?.title ||
+                    pickerLabels?.eventFormatHeading ||
+                    "Event Format"
+                  }
+                  subtitle={
+                    sanityContent?.sections?.find(
+                      (s: any) =>
+                        s.sectionId === "formats" ||
+                        s.sectionId === "format",
+                    )?.subtitle ||
+                    "Choose the performance style for your date"
+                  }
+                />
+                <Stack gap="lg">
+                  <EventFormatPicker
+                    hideHeader
+                    selectedType={selectedType || undefined}
+                    onSelectType={(t) => {
+                      setSelectedType(t);
+                      setBookingSlots((prev) =>
+                        prev.map((s) => ({ ...s, eventType: t || s.eventType })),
+                      );
+                    }}
+                    customDetails={formData.customEventType}
+                    onCustomDetailsChange={(d) => {
+                      setFormData((p) => ({ ...p, customEventType: d }));
+                      setBookingSlots((prev) =>
+                        prev.map((s) => ({ ...s, customEventType: d })),
+                      );
+                    }}
+                    labels={pickerLabels}
+                  />
+
+                  {/* Pricing hint per type */}
+                  {selectedType && (
+                    <div className="rounded-[var(--radius-box)] border border-purple-500/25 bg-purple-950/20 px-4 py-2.5 text-xs leading-relaxed text-white/70">
+                      <span className="font-semibold text-purple-300">Pricing Guide:</span>{" "}
+                      {selectedType === "full_band" &&
+                        "Full band performances typically start at $3,000 depending on stage scale and production requirements."}
+                      {selectedType === "unplugged" &&
+                        "Unplugged acoustic sets start at $1,500. Perfect for smaller rooms or cocktail setups."}
+                      {selectedType === "private" &&
+                        "Private events start at $4,000. Includes custom setlist and dedicated coordination."}
+                      {selectedType === "custom" &&
+                        "Custom package pricing depends entirely on requirements. We'll be in touch to quote you directly."}
+                    </div>
+                  )}
+                </Stack>
+              </PageSection>
+
+          {/* Venue Location & Parking Logistics */}
           <PageSection
             id="venue-logistics"
             aria-labelledby="venue-info-heading"
             size="sm"
-            containerClassName="animate-[fade-in-up_0.15s_ease-out_both]"
           >
             <SectionHeader
               as="h2"
@@ -2084,7 +1724,7 @@ function BookPageContent({
               title={
                 sanityContent?.sections?.find(
                   (s: any) => s.sectionId === "venue",
-                )?.title || "Venue Details & Location"
+                )?.title || "Venue Location & Parking Logistics"
               }
               subtitle={
                 sanityContent?.sections?.find(
@@ -2092,208 +1732,287 @@ function BookPageContent({
                     s.sectionId === "venue_address" ||
                     s.sectionId === "address",
                 )?.subtitle ||
-                "Provide the physical street address, city, state, zip code, and parking details for the event location."
+                "Provide the physical street address, city, state, and select parking / load-in access for the band bus and crew."
               }
               icon={MapPin}
             />
             <Stack gap="lg">
               {addressNotification && (
-                <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5 border border-purple-400/40 bg-cyan-950/70 p-3">
+                <div className="flex animate-[fade-in_0.15s_ease-out] items-center gap-2.5 border border-purple-400/40 bg-cyan-950/70 p-3 rounded-[var(--radius-box)]">
                   <CheckCircle2 className="text-purple-400 shrink-0 h-4 w-4" />
                   <span>{addressNotification}</span>
                 </div>
               )}
+              {/* 2-Column Grid: Left inputs (7 cols) + Right Live Google Map (5 cols) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                {/* Left Column: Location & Parking Inputs */}
+                <div className="lg:col-span-7 flex flex-col gap-6">
+                  {/* Location Inputs Block */}
+                  <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-purple-400" />
+                        <h3 className="text-sm text-white">1. Physical Venue Location</h3>
+                      </div>
+                    </div>
 
-              <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "venue_name",
-                      )?.title || "Venue Name"
-                    }
-                    name="venueName"
-                    value={formData.venueName}
-                    onChange={handleChange}
-                    required
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "venue_name",
-                      )?.subtitle || "Venue name (e.g. Bridges Scoreboard)"
-                    }
-                  />
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "venue_city",
-                      )?.title || "City"
-                    }
-                    name="venueCity"
-                    value={formData.venueCity}
-                    onChange={handleChange}
-                    required
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "venue_city",
-                      )?.subtitle || "Chicago"
-                    }
-                  />
-
-                  <InputField
-                    label={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "venue_state",
-                      )?.title || "State"
-                    }
-                    name="venueState"
-                    value={formData.venueState}
-                    onChange={handleChange}
-                    required
-                    placeholder={
-                      sanityContent?.sections?.find(
-                        (s: any) => s.sectionId === "venue_state",
-                      )?.subtitle || "IL"
-                    }
-                  />
-
-                  {/* Row 2 Right: Toggle for custom parking directions */}
-                  <div className="flex flex-wrap items-end gap-2.5 pb-0.5 md:flex-nowrap">
-                    <div className="flex items-center gap-3 px-3.5 py-1.5 text-[#c27aff] select-none">
-                      <Toggle
-                        id="toggle-parking-notes"
-                        checked={hasParkingNotes}
-                        onChange={(next) => {
-                          setHasParkingNotes(next);
-                          if (!next) {
-                            setFormData((prev) => ({ ...prev, parkingNotes: "" }));
-                          }
-                        }}
-                        label="Add custom parking directions"
+                    <div className="flex flex-col gap-4">
+                      <InputField
+                        label="Venue Name"
+                        name="venueName"
+                        value={formData.venueName}
+                        onChange={handleChange}
+                        required
+                        placeholder="e.g. Navy Pier Grand Ballroom or Bridges Scoreboard"
                       />
+
+                      <InputField
+                        label="Street Address"
+                        name="parkingAddress"
+                        value={formData.parkingAddress}
+                        onChange={handleChange}
+                        required
+                        placeholder="e.g. 600 E Grand Ave or 980 S Bartlett Rd, Lot B"
+                      />
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <InputField
+                          label="City"
+                          name="venueCity"
+                          value={formData.venueCity}
+                          onChange={handleChange}
+                          required
+                          placeholder="e.g. Chicago"
+                        />
+                        <InputField
+                          label="State"
+                          name="venueState"
+                          value={formData.venueState}
+                          onChange={handleChange}
+                          required
+                          placeholder="e.g. IL"
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Interactive Map Picker Modal */}
-                  <MapPickerModal
-                    isOpen={showMapPicker}
-                    onClose={() => setShowMapPicker(false)}
-                    initialAddress={
-                      formData.parkingAddress ||
-                      `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()
-                    }
-                    savedAddresses={savedAddresses}
-                    onSelectSaved={handleSelectSavedAddress}
-                    onSaveNewAddress={handleSaveCurrentAddress}
-                    onDeleteSavedAddress={handleDeleteSavedAddress}
-                    onSave={(savedAddr, fullData) => {
-                      if (fullData && (fullData.venueName || fullData.venueCity)) {
-                        handleSelectSavedAddress(fullData as SavedAddress);
-                      } else {
-                        setFormData((prev) => ({
-                          ...prev,
-                          parkingAddress: savedAddr,
-                        }));
-                        setAddressNotification(
-                          `Updated parking address to: ${savedAddr}`,
-                        );
-                        setTimeout(() => setAddressNotification(null), 3000);
-                      }
-                    }}
-                  />
+                  {/* Parking Options Block */}
+                  <div className="flex flex-col gap-4 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                      <div className="flex items-center gap-2">
+                        <Bus className="h-4 w-4 text-cyan-400" />
+                        <h3 className="text-sm  text-white">2. Parking &amp; Load-In Access Options</h3>
+                      </div>
+                      <span className="text-[11px] text-cyan-300 font-medium">Select primary option</span>
+                    </div>
 
-                  {/* Row 4: Parking location link & directions expands when checkbox is checked */}
-                  {hasParkingNotes && (
-                    <div className="animate-[fade-in-up_0.15s_ease-out_both] flex flex-col gap-4 md:col-span-2">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <label htmlFor="parkingAddress" className="block">
-                            {sanityContent?.sections?.find(
-                              (s: any) => s.sectionId === "parking_address",
-                            )?.title || "Google Maps Parking Location or Link"}
-                          </label>
-                          <div className="flex flex-wrap items-center gap-2 text-xs">
-                            <button
-                              type="button"
-                              onClick={() => setShowMapPicker(true)}
-                              className="transition-colors flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
-                            >
-                              <MapPin className="h-3.5 w-3.5" /> Pick on Map
-                            </button>
-                            <span className="text-white/20">•</span>
-                            <a
-                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                                [
-                                  formData.parkingAddress || formData.venueName,
-                                  formData.venueCity,
-                                  formData.venueState,
-                                  "parking",
-                                ]
-                                  .filter(Boolean)
-                                  .join(" ") || "Chicago IL parking",
-                              )}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="transition-colors flex items-center gap-1 hover:text-purple-200 hover:underline"
-                            >
-                              <Compass className="h-3.5 w-3.5" /> Search Google Maps
-                              ↗
-                            </a>
-                            <span className="text-white/20">•</span>
-                            <button
-                              type="button"
-                              onClick={() => handleSaveCurrentAddress()}
-                              className="transition-colors flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
-                            >
-                              <Bookmark className="h-3.5 w-3.5" /> Save Link
-                            </button>
+                    {/* Parking Option Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {PARKING_OPTIONS.map((opt) => {
+                        const Icon = opt.icon;
+                        const isSelected = (formData.parkingType || "bus-trailer") === opt.id;
+                        return (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => {
+                              setFormData((prev) => ({
+                                ...prev,
+                                parkingType: opt.id,
+                              }));
+                            }}
+                            className={`flex items-start gap-3 p-3 rounded-[var(--radius-box)] border text-left transition-all cursor-pointer ${isSelected
+                              ? "border-cyan-400 bg-cyan-950/40 text-white shadow-lg shadow-cyan-950/50"
+                              : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
+                              }`}
+                          >
+                            <div className={`p-2 rounded-lg shrink-0 mt-0.5 ${isSelected ? "bg-cyan-500/20 text-cyan-300" : "bg-white/5 text-white/50"}`}>
+                              <Icon className="h-4 w-4" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="font-semibold text-xs text-white leading-tight">{opt.label}</p>
+                              <p className="text-[11px] text-white/50 leading-snug mt-0.5 line-clamp-2">{opt.description}</p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Detailed Gate & Parking Directions Textarea */}
+                    <div className="flex flex-col gap-2 pt-2">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <label htmlFor="parkingNotes" className="text-xs font-semibold uppercase tracking-wider text-white/60">
+                          Specific Gate / Dock &amp; Load-in Instructions
+                        </label>
+                        <div className="flex flex-wrap items-center gap-2 text-xs">
+                          <button
+                            type="button"
+                            onClick={() => setShowMapPicker(true)}
+                            className="transition-colors flex cursor-pointer items-center gap-1 text-[#c27aff] hover:text-white"
+                          >
+                            <MapPin className="h-3.5 w-3.5" /> Pick on Map
+                          </button>
+                          <span className="text-white/20">•</span>
+                          <a
+                            href={bookGoogleMapsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition-colors flex items-center gap-1 text-cyan-300 hover:text-white hover:underline"
+                          >
+                            <Compass className="h-3.5 w-3.5" /> Search Google Maps ↗
+                          </a>
+                          <span className="text-white/20">•</span>
+                          <button
+                            type="button"
+                            onClick={() => handleSaveCurrentAddress()}
+                            className="transition-colors flex cursor-pointer items-center gap-1 text-emerald-400 hover:text-emerald-300 hover:text-white"
+                          >
+                            <Bookmark className="h-3.5 w-3.5" /> Save Favorite
+                          </button>
+                        </div>
+                      </div>
+                      <GlowTextarea
+                        id="parkingNotes"
+                        name="parkingNotes"
+                        value={formData.parkingNotes}
+                        onChange={handleChange}
+                        rows={3}
+                        placeholder="e.g. Band bus & crew truck park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate."
+                        className="focus-ring min-h-[90px] w-full resize-y border-0 bg-[#00000029] px-4 py-3 text-white text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Live Google Map Preview & Venue Telemetry */}
+                <div className="lg:col-span-5 flex flex-col justify-between relative overflow-hidden min-h-[460px] sticky top-28 rounded-[var(--radius-box)] border border-white/10 bg-white/[0.02] p-5">
+                  {/* Top Header: Title, City & View Mode Switcher */}
+                  <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center gap-1.5 text-xs font-bold text-rose-300 uppercase tracking-wider">
+                        <MapPin className="h-4 w-4 text-rose-400" />
+                        LIVE GOOGLE MAP
+                      </span>
+                      <span className="text-xs text-white/50">{formData.venueCity || "Chicago"}, {formData.venueState || "IL"}</span>
+                    </div>
+
+                    {/* Map View Switcher Pills */}
+                    <div className="flex items-center rounded-full bg-white/[0.06] p-0.5 border border-white/10 text-[11px]">
+                      <button
+                        type="button"
+                        onClick={() => setBookMapMode("map")}
+                        className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "map"
+                          ? "bg-rose-500/80 text-white shadow-sm"
+                          : "text-white/60 hover:text-white"
+                          }`}
+                      >
+                        Map
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setBookMapMode("satellite")}
+                        className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "satellite"
+                          ? "bg-rose-500/80 text-white shadow-sm"
+                          : "text-white/60 hover:text-white"
+                          }`}
+                      >
+                        Satellite
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setBookMapMode("radar")}
+                        className={`px-2.5 py-0.5 rounded-full font-medium transition-all cursor-pointer ${bookMapMode === "radar"
+                          ? "bg-purple-600/80 text-white shadow-sm"
+                          : "text-white/60 hover:text-white"
+                          }`}
+                      >
+                        Radar
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Center Content: Interactive Google Map iframe OR Radar Telemetry */}
+                  <div className="relative z-10 my-3 flex-1 min-h-[280px] rounded-[var(--radius-box)] overflow-hidden border border-white/10 bg-black/60">
+                    {bookMapMode === "radar" ? (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                        <div className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
+                        <div className="relative flex items-center justify-center">
+                          <span className="absolute h-16 w-16 rounded-full bg-rose-500/20 animate-ping" />
+                          <span className="absolute h-10 w-10 rounded-full bg-rose-500/40" />
+                          <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-rose-600 text-white shadow-lg shadow-rose-600/50">
+                            <MapPin className="h-4 w-4" />
                           </div>
                         </div>
-                        <GlowInput
-                          aria-label="Google Maps Parking Location Link"
-                          id="parkingAddress"
-                          name="parkingAddress"
-                          type="text"
-                          value={formData.parkingAddress}
-                          onChange={handleChange}
-                          placeholder={
-                            sanityContent?.sections?.find(
-                              (s: any) => s.sectionId === "parking_address",
-                            )?.subtitle ||
-                            "Paste Google Maps URL or parking lot address (e.g. https://maps.google.com/?q=... or Gate B West Lot)"
-                          }
-                          className="focus-ring w-full border-0 bg-[#00000029] px-4 py-3 text-white/30"
-                        />
+                        <p className="mt-3 text-sm font-bold text-white text-center">{formData.venueName || "Venue Location"}</p>
+                        <p className="text-xs text-white/60 text-center">
+                          {formData.parkingAddress || (formData.venueCity ? `${formData.venueCity}, ${formData.venueState || ""}` : "Address not entered yet")}
+                        </p>
                       </div>
+                    ) : (
+                      <iframe
+                        src={bookEmbedUrl}
+                        title={`Google Map - ${formData.venueName || "Venue Location"}`}
+                        className="absolute inset-0 h-full w-full border-0 block"
+                        loading="lazy"
+                        allowFullScreen
+                        referrerPolicy="no-referrer-when-downgrade"
+                        sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
+                      />
+                    )}
+                  </div>
 
-                      <div className="flex flex-col gap-2">
-                        <label htmlFor="parkingNotes" className="block">
-                          {sanityContent?.sections?.find(
-                            (s: any) => s.sectionId === "parking_notes",
-                          )?.title || "Directions for Parking"}
-                        </label>
-                        <GlowTextarea
-                          id="parkingNotes"
-                          name="parkingNotes"
-                          value={formData.parkingNotes}
-                          onChange={handleChange}
-                          rows={3}
-                          placeholder={
-                            sanityContent?.sections?.find(
-                              (s: any) => s.sectionId === "parking_notes",
-                            )?.subtitle ||
-                            "Write directions or parking instructions here (e.g. Band bus park in West Lot behind stage. Enter through Gate 4 off Bartlett Rd. Parking passes provided by staff at gate.)"
-                          }
-                          className="focus-ring min-h-[90px] w-full resize-y border-0 bg-[#00000029] px-4 py-3 text-white/30"
-                        />
-                      </div>
+                  {/* Bottom Venue Footer & Open in Google Maps Link */}
+                  <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-xs">
+                    <div className="min-w-0 max-w-[65%]">
+                      <p className="text-white font-semibold truncate">{formData.venueName || "Venue Not Specified Yet"}</p>
+                      <p className="text-white/50 text-[11px] truncate">
+                        Access: <strong className="text-cyan-300 font-medium">{PARKING_OPTIONS.find((p) => p.id === (formData.parkingType || "bus-trailer"))?.short || "Bus & Trailer"}</strong>
+                      </p>
                     </div>
-                  )}
+                    <a
+                      href={bookGoogleMapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] border border-white/10 text-cyan-300 hover:text-white transition-all font-medium text-xs shrink-0 cursor-pointer"
+                    >
+                      <span>Open in Google Maps</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
                 </div>
               </div>
+
+              {/* Interactive Map Picker Modal */}
+              <MapPickerModal
+                isOpen={showMapPicker}
+                onClose={() => setShowMapPicker(false)}
+                initialAddress={
+                  formData.parkingAddress ||
+                  `${formData.venueName} ${formData.venueCity} ${formData.venueState}`.trim()
+                }
+                savedAddresses={savedAddresses}
+                onSelectSaved={handleSelectSavedAddress}
+                onSaveNewAddress={handleSaveCurrentAddress}
+                onDeleteSavedAddress={handleDeleteSavedAddress}
+                onSave={(savedAddr, fullData) => {
+                  if (fullData && (fullData.venueName || fullData.venueCity)) {
+                    handleSelectSavedAddress(fullData as SavedAddress);
+                  } else {
+                    setFormData((prev) => ({
+                      ...prev,
+                      parkingAddress: savedAddr,
+                    }));
+                    setAddressNotification(
+                      `Updated venue address to: ${savedAddr}`,
+                    );
+                    setTimeout(() => setAddressNotification(null), 3000);
+                  }
+                }}
+              />
             </Stack>
           </PageSection>
 
-          {/* Step 4: Technical & Logistics */}
+          {/* Technical & Logistics */}
           <PageSection
             id="tech-specs"
             aria-labelledby="tech-info-heading"
@@ -2464,7 +2183,7 @@ function BookPageContent({
             );
           })()}
 
-          {/* Step 6: Notes & Questions */}
+          {/* Notes & Questions */}
           <PageSection
             id="notes-section"
             aria-labelledby="hold-confirm-heading"
@@ -2525,15 +2244,29 @@ function BookPageContent({
                   "e.g. We need a specific song for the first dance, the venue has a noise curfew at 10pm, or any questions about pricing, gear, or logistics…"
                 }
                 className="focus-ring w-full resize-none"
+                aria-describedby={formData.details ? "details-helper" : undefined}
               />
               {formData.details && (
-                <div className="mt-3 flex items-center gap-2 text-emerald-400">
+                <HelperText id="details-helper" tone="success">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
                   <span>Note attached to your booking</span>
-                </div>
+                </HelperText>
               )}
             </Stack>
           </PageSection>
+
+          {/* Scheduled Shows (Multi-show configuration) - Placed as the last section */}
+          <ScheduledShowsSection
+            sanityContent={sanityContent}
+            bookingSlots={bookingSlots}
+            setBookingSlots={setBookingSlots}
+            dateDetails={dateDetails}
+            expandedMetadata={expandedMetadata}
+            setExpandedMetadata={setExpandedMetadata}
+            formData={formData}
+            hasSavedForm={hasSavedForm}
+            selectedType={selectedType}
+          />
 
           {/* Honeypot */}
           <div className="hidden" aria-hidden="true">
@@ -2548,6 +2281,25 @@ function BookPageContent({
               autoComplete="off"
             />
           </div>
+
+          {/* Form Submit Action */}
+          <div className="mx-[var(--spacing-gutter)] flex items-center justify-end border-t border-white/10 pt-6">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              disabled={submitting}
+            >
+              {submitting ? (
+                <>
+                  <span className="h-4 w-4 animate-spin border-2 border-black border-t-transparent" />
+                  Submitting Request...
+                </>
+              ) : (
+                "Submit Booking Request"
+              )}
+            </Button>
+          </div>
         </div>
 
         {/* Right Column: Sticky Summary Sidebar */}
@@ -2555,6 +2307,21 @@ function BookPageContent({
           aria-label="Booking Summary"
           className="sticky top-25 md:mt-6 lg:mt-0 mt-6 pr-[var(--spacing-gutter)] max-lg:px-[var(--spacing-gutter)]"
         >
+          {/* Vertical Timeline Progress Rail */}
+          <BookingProgressTracker
+            bookingSlotsCount={bookingSlots.length}
+            firstSlotDate={bookingSlots[0]?.date}
+            startTime={formData.startTime}
+            endTime={formData.endTime}
+            selectedType={selectedType}
+            selectedTypeLabel={eventTypes.find((t) => t.id === selectedType)?.label}
+            venueName={formData.venueName}
+            venueCity={formData.venueCity}
+            contactName={formData.name}
+            contactEmail={formData.email}
+            contactPhone={formData.phone}
+          />
+
           <div className="rounded-[var(--radius-box)] border border-white/10 bg-purple-950/40 p-6 sm:p-7 lg:p-8 shadow-2xl backdrop-blur-md">
             <SectionHeader
               as="h3"
@@ -2575,6 +2342,11 @@ function BookPageContent({
               }
               subtitleClassName="text-xs"
               icon={ClipboardList}
+              action={
+                <span className="rounded-full border border-purple-400/30 bg-purple-500/20 px-2.5 py-0.5 text-xs font-semibold text-purple-300">
+                  Live Review
+                </span>
+              }
             />
 
             <Stack gap="md">
@@ -2628,9 +2400,27 @@ function BookPageContent({
                     ) : (
                       <span className="text-white/30">—</span>
                     )}
+                    {formData.parkingAddress && (
+                      <span className="block font-normal text-white/60 text-xs mt-0.5">
+                        {formData.parkingAddress}
+                      </span>
+                    )}
                     {formData.venueCity && (
-                      <span className="block font-normal text-white/50 text-xs mt-0.5">
+                      <span className="block font-normal text-white/50 text-xs">
                         {formData.venueCity}, {formData.venueState}
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-start justify-between py-3">
+                  <span className="text-white/50">Parking</span>
+                  <span className="max-w-[240px] sm:max-w-[280px] text-right break-words font-medium text-white text-xs">
+                    <span className="text-cyan-300">
+                      {PARKING_OPTIONS.find((p) => p.id === (formData.parkingType || "bus-trailer"))?.short || "Bus & Trailer"}
+                    </span>
+                    {formData.parkingNotes && (
+                      <span className="block font-normal text-white/50 text-[11px] mt-0.5 line-clamp-2">
+                        {formData.parkingNotes}
                       </span>
                     )}
                   </span>
@@ -2684,20 +2474,13 @@ function BookPageContent({
                 </div>
               )}
 
-              <div>
+              <div className="flex flex-col gap-2">
                 <Button
                   variant="primary"
                   size="lg"
                   fullWidth
                   type="submit"
-                  disabled={
-                    submitting ||
-                    !selectedType ||
-                    bookingSlots.length === 0 ||
-                    !formData.startTime ||
-                    !formData.endTime ||
-                    !formData.email
-                  }
+                  disabled={submitting}
                 >
                   {submitting ? (
                     <>
@@ -2724,122 +2507,9 @@ function BookPageContent({
             </Stack>
           </div>
         </aside>
+
       </form>
     </main>
-  );
-}
-
-function BookingSlotMetadataSection({
-  slot,
-  bookingSlots,
-  setBookingSlots,
-}: {
-  slot: any;
-  bookingSlots: any[];
-  setBookingSlots: (s: any[]) => void;
-}) {
-  return (
-    <div className="mt-4 animate-[fade-in-up_0.15s_ease-out_both] flex flex-col gap-3">
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <label
-            htmlFor={`slot-age-limit-${slot.id}`}
-            className="mb-1 block text-white/50"
-          >
-            Age Limit
-          </label>
-          <Dropdown
-            id={`slot-age-limit-${slot.id}`}
-            fullWidth={true}
-            selected={slot.ageRestriction || "all_ages"}
-            options={[
-              { label: "All Ages", value: "all_ages" },
-              { label: "21 & Over", value: "21_plus" },
-              { label: "18 & Over", value: "18_plus" },
-            ]}
-            onChange={(val) => {
-              const updated = bookingSlots.map((s) =>
-                s.id === slot.id ? { ...s, ageRestriction: val } : s,
-              );
-              setBookingSlots(updated);
-            }}
-            className="w-full"
-          />
-        </div>
-        <div>
-          <label
-            htmlFor={`slot-doors-time-${slot.id}`}
-            className="mb-1 block text-white/50"
-          >
-            Doors Time
-          </label>
-          <Dropdown
-            id={`slot-doors-time-${slot.id}`}
-            fullWidth={true}
-            placeholder="Same as Start"
-            selected={slot.doorsTime || ""}
-            options={[
-              "Same as Start",
-              "12:00 PM",
-              "1:00 PM",
-              "2:00 PM",
-              "3:00 PM",
-              "4:00 PM",
-              "5:00 PM",
-              "6:00 PM",
-              "7:00 PM",
-              "8:00 PM",
-              "9:00 PM",
-              "10:00 PM",
-              "11:00 PM",
-              "12:00 AM",
-            ]}
-            onChange={(val) => {
-              const updated = bookingSlots.map((s) =>
-                s.id === slot.id ? { ...s, doorsTime: val } : s,
-              );
-              setBookingSlots(updated);
-            }}
-            className="w-full"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <GlowInput
-            id={`slot-cover-${slot.id}`}
-            label="Cover / Price"
-            type="text"
-            placeholder="e.g. Free, $15..."
-            value={slot.cover || ""}
-            onChange={(e) => {
-              const updated = bookingSlots.map((s) =>
-                s.id === slot.id ? { ...s, cover: e.target.value } : s,
-              );
-              setBookingSlots(updated);
-            }}
-            wrapperClassName="w-full"
-          />
-        </div>
-        <div>
-          <GlowInput
-            id={`slot-ticket-link-${slot.id}`}
-            label="Ticket Link"
-            type="text"
-            placeholder="https://..."
-            value={slot.ticketLink || ""}
-            onChange={(e) => {
-              const updated = bookingSlots.map((s) =>
-                s.id === slot.id ? { ...s, ticketLink: e.target.value } : s,
-              );
-              setBookingSlots(updated);
-            }}
-            wrapperClassName="w-full"
-          />
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -2993,6 +2663,19 @@ function MapPickerModal({
               <Navigation className="h-3.5 w-3.5" /> Open Map
             </a>
           </div>
+        </div>
+
+        {/* Live Interactive Map Preview in Modal */}
+        <div className="relative z-10 h-64 w-full rounded-lg overflow-hidden border border-white/10 bg-black/60">
+          <iframe
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(addressInput || "Chicago, IL")}&z=15&ie=UTF8&iwloc=&output=embed`}
+            title="Map Location Preview"
+            className="w-full h-full border-0"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
+          />
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">

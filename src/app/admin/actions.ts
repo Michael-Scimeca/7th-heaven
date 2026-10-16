@@ -417,6 +417,78 @@ export async function adminResetPassword(userId: string, email: string) {
   return { success: true, password: newPassword };
 }
 
+export async function adminSetUserPassword(
+  userId: string,
+  email: string,
+  newPassword: string,
+) {
+  await requireAdminSession();
+  after(() => {
+    console.log(`[Admin] Setting explicit password for ${email}`);
+  });
+  if (!newPassword || newPassword.length < 4) {
+    return { success: false, error: "Password must be at least 4 characters." };
+  }
+
+  if (userId && !userId.startsWith("fake-")) {
+    const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+      password: newPassword,
+    });
+
+    if (error) {
+      console.error("Admin set password error in Supabase:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  return { success: true };
+}
+
+export async function adminUpdateUserProfile(
+  userId: string,
+  email: string,
+  updates: {
+    name?: string;
+    username?: string;
+    email?: string;
+    role?: string;
+    avatar_url?: string;
+  },
+) {
+  await requireAdminSession();
+  after(() => {
+    console.log(`[Admin] Updating user profile for ${email}`, updates);
+  });
+
+  if (userId && !userId.startsWith("fake-")) {
+    const authUpdates: any = {};
+    if (updates.email) authUpdates.email = updates.email.toLowerCase();
+    if (updates.name || updates.username) {
+      authUpdates.user_metadata = {
+        ...(updates.name ? { full_name: updates.name } : {}),
+        ...(updates.username ? { username: updates.username } : {}),
+      };
+    }
+    if (Object.keys(authUpdates).length > 0) {
+      await supabaseAdmin.auth.admin.updateUserById(userId, authUpdates);
+    }
+
+    const profileUpdates: any = {};
+    if (updates.username) profileUpdates.username = updates.username;
+    if (updates.role) profileUpdates.role = updates.role;
+    if (updates.avatar_url) profileUpdates.avatar_url = updates.avatar_url;
+    if (Object.keys(profileUpdates).length > 0) {
+      await supabaseAdmin
+        .from("profiles")
+        .update(profileUpdates)
+        .eq("id", userId);
+    }
+  }
+
+  revalidatePath("/admin/[username]", "page");
+  return { success: true };
+}
+
 export async function seed20CrewMembers() {
   await requireAdminSession();
   after(() => {

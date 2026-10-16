@@ -170,8 +170,8 @@ export default function SingleDropdownShowcase({
             type="button"
             onClick={() => setActiveFilter("all")}
             className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all ${activeFilter === "all"
-                ? "bg-purple-600 text-white shadow-lg shadow-purple-600/40"
-                : "border border-white/10 bg-white/5 text-white/60 hover:text-white"
+              ? "bg-purple-600 text-white shadow-lg shadow-purple-600/40"
+              : "border border-white/10 bg-white/5 text-white/60 hover:text-white"
               }`}
           >
             All 8 Styles
@@ -182,8 +182,8 @@ export default function SingleDropdownShowcase({
               type="button"
               onClick={() => setActiveFilter(s.id)}
               className={`cursor-pointer rounded-full px-2.5 py-1 text-xs font-bold transition-all ${activeFilter === s.id
-                  ? "bg-purple-600 text-white shadow-lg shadow-purple-600/40"
-                  : "border border-white/10 bg-white/5 text-white/60 hover:text-white"
+                ? "bg-purple-600 text-white shadow-lg shadow-purple-600/40"
+                : "border border-white/10 bg-white/5 text-white/60 hover:text-white"
                 }`}
             >
               0{s.id}
@@ -227,8 +227,8 @@ export default function SingleDropdownShowcase({
                     aria-expanded={openStyle === 1}
                     onClick={() => toggleDropdown(1)}
                     className={`relative flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border px-5 py-2.5 text-xs font-bold tracking-wider uppercase transition-all duration-300 ${openStyle === 1
-                        ? "border-purple-400 bg-[#160a2c] text-white shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400/50"
-                        : "border-purple-500/30 bg-[#0e071c] text-white/90 hover:border-purple-400/60 hover:bg-[#150a2b] hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+                      ? "border-purple-400 bg-[#160a2c] text-white shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400/50"
+                      : "border-purple-500/30 bg-[#0e071c] text-white/90 hover:border-purple-400/60 hover:bg-[#150a2b] hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]"
                       }`}
                   >
                     <span className="flex items-center gap-2.5 truncate">
@@ -252,8 +252,8 @@ export default function SingleDropdownShowcase({
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
                               className={`group flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${selectedCity === c.id
-                                  ? "border border-purple-400/60 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white shadow-[0_0_15px_rgba(168,85,247,0.35)]"
-                                  : "text-white/80 hover:bg-white/10 hover:text-white"
+                                ? "border border-purple-400/60 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white shadow-[0_0_15px_rgba(168,85,247,0.35)]"
+                                : "text-white/80 hover:bg-white/10 hover:text-white"
                                 }`}
                             >
                               <span className="flex items-center gap-2">
@@ -336,8 +336,8 @@ export default function SingleDropdownShowcase({
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
                               className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-medium transition-all ${selectedCity === c.id
-                                  ? "border border-cyan-400/40 bg-cyan-500/20 text-white shadow-sm"
-                                  : "text-white/80 hover:bg-white/10 hover:text-white"
+                                ? "border border-cyan-400/40 bg-cyan-500/20 text-white shadow-sm"
+                                : "text-white/80 hover:bg-white/10 hover:text-white"
                                 }`}
                             >
                               <span>{c.name}</span>
@@ -392,8 +392,7 @@ export default function SingleDropdownShowcase({
                       <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_#c084fc]" />
                       <span className="truncate">{displayLabel}</span>
                     </span>
-                    <span className="flex items-center gap-1.5 text-purple-300/70">
-                      <span className="rounded border border-purple-500/30 bg-purple-950/60 px-1.5 py-0.5 text-[9px] font-sans font-bold text-purple-200">⌘K</span>
+                    <span className="flex items-center text-purple-300/70">
                       <ChevronDown
                         className={`h-3 w-3 text-purple-300 transition-transform duration-200 ${openStyle === 3 ? "rotate-180" : ""
                           }`}
@@ -404,15 +403,15 @@ export default function SingleDropdownShowcase({
                   {/* Menu Popover with Search Filter */}
                   {openStyle === 3 && (
                     <div className="absolute top-[calc(100%+8px)] left-0 z-50 w-full rounded-2xl border border-purple-500/35 bg-[#0c061e]/98 p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_25px_rgba(168,85,247,0.25)] backdrop-blur-2xl duration-150 animate-in fade-in zoom-in-95">
-                      <div className="relative mb-2 px-1">
-                        <Search className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-purple-300/50" />
+                      <div className="relative mb-2.5 px-0.5">
+                        <Search className="pointer-events-none absolute top-1/2 left-3.5 h-3.5 w-3.5 -translate-y-1/2 text-purple-300/60" />
                         <input
                           type="text"
                           placeholder="Search locations..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           autoFocus
-                          className="w-full rounded-xl border border-purple-500/30 bg-purple-950/40 py-1.5 pr-2.5 pl-8 text-xs text-white placeholder-purple-300/40 outline-none transition-colors focus:border-purple-400 focus:bg-purple-950/70 focus:ring-1 focus:ring-purple-400/40"
+                          className="w-full rounded-xl border border-purple-500/30 bg-purple-950/40 py-2 pr-3 pl-9 text-xs text-white placeholder-purple-300/40 outline-none transition-colors focus:border-purple-400 focus:bg-purple-950/70 focus:ring-1 focus:ring-purple-400/40"
                         />
                       </div>
                       <ul role="menu" className="flex max-h-[190px] flex-col gap-0.5 overflow-y-auto custom-scrollbar p-0.5">
@@ -423,8 +422,8 @@ export default function SingleDropdownShowcase({
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
                               className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs font-mono transition-colors ${selectedCity === c.id
-                                  ? "border border-purple-400/50 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white font-bold shadow-[0_0_12px_rgba(168,85,247,0.25)]"
-                                  : "text-purple-100/80 hover:bg-purple-900/30 hover:text-white"
+                                ? "border border-purple-400/50 bg-gradient-to-r from-purple-600/40 to-indigo-600/30 text-white font-bold shadow-[0_0_12px_rgba(168,85,247,0.25)]"
+                                : "text-purple-100/80 hover:bg-purple-900/30 hover:text-white"
                                 }`}
                             >
                               <span className="flex items-center gap-2">
@@ -513,8 +512,8 @@ export default function SingleDropdownShowcase({
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
                               className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${selectedCity === c.id
-                                  ? "border border-amber-400/50 bg-amber-500/20 text-white"
-                                  : "text-white/80 hover:bg-white/10 hover:text-white"
+                                ? "border border-amber-400/50 bg-amber-500/20 text-white"
+                                : "text-white/80 hover:bg-white/10 hover:text-white"
                                 }`}
                             >
                               <span>{c.name}</span>
@@ -593,8 +592,8 @@ export default function SingleDropdownShowcase({
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
                               className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-bold transition-all ${selectedCity === c.id
-                                  ? "border border-pink-400/50 bg-gradient-to-r from-pink-600/30 to-purple-600/30 text-white shadow-sm"
-                                  : "text-white/80 hover:bg-white/10 hover:text-white"
+                                ? "border border-pink-400/50 bg-gradient-to-r from-pink-600/30 to-purple-600/30 text-white shadow-sm"
+                                : "text-white/80 hover:bg-white/10 hover:text-white"
                                 }`}
                             >
                               <span>{c.name}</span>
@@ -671,8 +670,8 @@ export default function SingleDropdownShowcase({
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
                               className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-black tracking-wider transition-all ${selectedCity === c.id
-                                  ? "border border-orange-500 bg-orange-500/25 text-white"
-                                  : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
+                                ? "border border-orange-500 bg-orange-500/25 text-white"
+                                : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
                                 }`}
                             >
                               <span>{c.name}</span>
@@ -744,8 +743,8 @@ export default function SingleDropdownShowcase({
                               role="menuitem"
                               onClick={() => handleSelect(c.id)}
                               className={`flex w-full cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-semibold transition-colors ${selectedCity === c.id
-                                  ? "bg-blue-600/30 text-white font-bold"
-                                  : "text-white/70 hover:bg-white/10 hover:text-white"
+                                ? "bg-blue-600/30 text-white font-bold"
+                                : "text-white/70 hover:bg-white/10 hover:text-white"
                                 }`}
                             >
                               <span>{c.name}</span>
@@ -824,8 +823,8 @@ export default function SingleDropdownShowcase({
                             type="button"
                             onClick={() => handleSelect(c.id)}
                             className={`flex flex-col items-start gap-1 rounded-xl p-2.5 text-left transition-all ${selectedCity === c.id
-                                ? "border border-violet-400 bg-violet-600/30 text-white shadow-sm"
-                                : "border border-white/5 bg-white/[0.03] text-white/80 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+                              ? "border border-violet-400 bg-violet-600/30 text-white shadow-sm"
+                              : "border border-white/5 bg-white/[0.03] text-white/80 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
                               }`}
                           >
                             <span className="text-xs font-bold leading-tight truncate w-full">{c.name}</span>

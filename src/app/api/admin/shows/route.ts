@@ -6,12 +6,28 @@ import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";
 
-// Helper to geocode city + state to lat/lng using free OpenStreetMap Nominatim API
-async function geocodeCity(
+// Helper to geocode address/city + state to lat/lng using free OpenStreetMap Nominatim API
+async function geocodeLocation(
   city: string,
   state: string,
+  address?: string,
 ): Promise<{ lat: number; lng: number } | null> {
   try {
+    if (address && address.trim()) {
+      const fullQuery = encodeURIComponent(
+        `${address.trim()}, ${city.trim()}, ${state.trim()}, USA`,
+      );
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${fullQuery}&format=json&limit=1`,
+        { headers: { "User-Agent": "7thHeavenBand/1.0" } },
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.[0]) {
+          return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+        }
+      }
+    }
     const query = encodeURIComponent(`${city}, ${state}, USA`);
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
@@ -47,10 +63,11 @@ export async function GET() {
   try {
     const today = new Date().toISOString().split("T")[0];
     const { data: shows } = await sanityFetch({
-      query: `*[_type == "tourDate" && date>= "${today}" && isPrivate != true && !("private" in coalesce(tags, [])) && !("corporate" in coalesce(tags, []))] | order(date asc) {
-        _id, venue, city, state, date, time, day,
-        doorsTime, allAges, cover, ticketLink, directionsLink,
-        lat, lng, isSoldOut, tags, notes
+      query: `*[_type == "tourDate" && date >= "${today}" && isPrivate != true && !("private" in coalesce(tags, [])) && !("corporate" in coalesce(tags, []))] | order(date asc) {
+        _id, venue, address, city, state, date, time, day,
+        doorsTime, playTime, allAges, ageRestriction, cover, ticketLink, directionsLink, mapUrl,
+        parkingType, parkingAddress, parkingInfo, parkingNotes, parkingUrl, websiteUrl,
+        lat, lng, isSoldOut, isFestival, isPrivate, tags, notes
       }`,
     });
 
@@ -72,6 +89,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const {
       venue,
+      address,
       city,
       state,
       date,
@@ -79,9 +97,17 @@ export async function POST(request: Request) {
       doorsTime,
       playTime,
       allAges,
+      ageRestriction,
       cover,
       ticketLink,
       directionsLink,
+      mapUrl,
+      parkingType,
+      parkingAddress,
+      parkingInfo,
+      parkingNotes,
+      parkingUrl,
+      websiteUrl,
       isSoldOut,
       isFestival,
       isPrivate,
@@ -97,7 +123,7 @@ export async function POST(request: Request) {
     }
 
     // Geocode coordinates
-    const coords = await geocodeCity(city, state);
+    const coords = await geocodeLocation(city, state, address);
     const lat = coords?.lat ?? null;
     const lng = coords?.lng ?? null;
 
@@ -107,6 +133,7 @@ export async function POST(request: Request) {
     const doc = {
       _type: "tourDate",
       venue,
+      address: address || "",
       city,
       state,
       date,
@@ -115,9 +142,17 @@ export async function POST(request: Request) {
       doorsTime: doorsTime || "",
       playTime: playTime || "",
       allAges: allAges ?? true,
+      ageRestriction: ageRestriction || (allAges === false ? "21+" : "All Ages"),
       cover: cover || "",
       ticketLink: ticketLink || "",
-      directionsLink: directionsLink || "",
+      directionsLink: directionsLink || mapUrl || "",
+      mapUrl: mapUrl || directionsLink || "",
+      parkingType: parkingType || "bus-trailer",
+      parkingAddress: parkingAddress || "",
+      parkingInfo: parkingInfo || "",
+      parkingNotes: parkingNotes || "",
+      parkingUrl: parkingUrl || "",
+      websiteUrl: websiteUrl || ticketLink || "",
       isSoldOut: isSoldOut ?? false,
       isFestival: isFestival ?? false,
       isPrivate: isPrivate ?? false,
@@ -149,6 +184,7 @@ export async function PATCH(request: Request) {
     const {
       _id,
       venue,
+      address,
       city,
       state,
       date,
@@ -156,9 +192,17 @@ export async function PATCH(request: Request) {
       doorsTime,
       playTime,
       allAges,
+      ageRestriction,
       cover,
       ticketLink,
       directionsLink,
+      mapUrl,
+      parkingType,
+      parkingAddress,
+      parkingInfo,
+      parkingNotes,
+      parkingUrl,
+      websiteUrl,
       isSoldOut,
       isFestival,
       isPrivate,
@@ -176,6 +220,7 @@ export async function PATCH(request: Request) {
     // Prepare fields to set
     const updateFields: any = {};
     if (venue !== undefined) updateFields.venue = venue;
+    if (address !== undefined) updateFields.address = address;
     if (city !== undefined) updateFields.city = city;
     if (state !== undefined) updateFields.state = state;
     if (date !== undefined) {
@@ -186,23 +231,32 @@ export async function PATCH(request: Request) {
     if (doorsTime !== undefined) updateFields.doorsTime = doorsTime;
     if (playTime !== undefined) updateFields.playTime = playTime;
     if (allAges !== undefined) updateFields.allAges = allAges;
+    if (ageRestriction !== undefined) updateFields.ageRestriction = ageRestriction;
     if (cover !== undefined) updateFields.cover = cover;
     if (ticketLink !== undefined) updateFields.ticketLink = ticketLink;
     if (directionsLink !== undefined)
       updateFields.directionsLink = directionsLink;
+    if (mapUrl !== undefined) updateFields.mapUrl = mapUrl;
+    if (parkingType !== undefined) updateFields.parkingType = parkingType;
+    if (parkingAddress !== undefined) updateFields.parkingAddress = parkingAddress;
+    if (parkingInfo !== undefined) updateFields.parkingInfo = parkingInfo;
+    if (parkingNotes !== undefined) updateFields.parkingNotes = parkingNotes;
+    if (parkingUrl !== undefined) updateFields.parkingUrl = parkingUrl;
+    if (websiteUrl !== undefined) updateFields.websiteUrl = websiteUrl;
     if (isSoldOut !== undefined) updateFields.isSoldOut = isSoldOut;
     if (isFestival !== undefined) updateFields.isFestival = isFestival;
     if (isPrivate !== undefined) updateFields.isPrivate = isPrivate;
     if (notes !== undefined) updateFields.notes = notes;
     if (tags !== undefined) updateFields.tags = tags;
 
-    // Recalculate geocoding if city or state changed, or if coordinates are not set
-    if (city || state) {
+    // Recalculate geocoding if address, city, or state changed
+    if (address !== undefined || city !== undefined || state !== undefined) {
       const currentDoc = await sanityWriteClient.getDocument(_id);
+      const newAddress = address !== undefined ? address : currentDoc?.address;
       const newCity = city || currentDoc?.city;
       const newState = state || currentDoc?.state;
       if (newCity && newState) {
-        const coords = await geocodeCity(newCity, newState);
+        const coords = await geocodeLocation(newCity, newState, newAddress);
         if (coords) {
           updateFields.lat = coords.lat;
           updateFields.lng = coords.lng;

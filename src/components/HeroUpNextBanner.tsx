@@ -301,7 +301,7 @@ export default function HeroUpNextBanner() {
         </div>
 
         {/* Action Links (DIRECTIONS | WEBSITE | ADD TO CALENDAR) */}
-        <div className="mt-1 flex flex-wrap items-center gap-4 border-t border-white/10 pt-4 text-fluid-caption font-bold sm:gap-6">
+        <div className="mt-0.5 flex flex-wrap items-center gap-4 border-t border-white/10 pt-2.5 text-fluid-caption font-bold sm:gap-6">
           {upNext.mapUrl && (
             <a
               href={upNext.mapUrl}

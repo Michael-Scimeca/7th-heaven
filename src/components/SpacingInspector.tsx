@@ -342,19 +342,22 @@ export default function SpacingInspector() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [pinnedEl, measureEl1, measureEl2]);
 
-  // Handle dragging pill
-  const handlePillMouseDown = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest("button, input, a, label")) return;
+  // Handle dragging pill (mouse & touch)
+  const startDraggingPill = (clientX: number, clientY: number, target: HTMLElement, isPill: boolean) => {
+    // If clicking directly on a button or interactive element that is not a drag handle, ignore
+    if (target.closest("button:not([data-drag-handle]), input, a, label")) return;
+
     isDraggingPillRef.current = true;
     dragStartRef.current = {
-      x: e.clientX - pillPosRef.current.x,
-      y: e.clientY - pillPosRef.current.y,
+      x: clientX - pillPosRef.current.x,
+      y: clientY - pillPosRef.current.y,
     };
 
-    const handleMouseMove = (moveEv: MouseEvent) => {
+    const handlePointerMove = (moveX: number, moveY: number) => {
       if (!isDraggingPillRef.current) return;
-      const newX = Math.max(10, Math.min(window.innerWidth - 420, moveEv.clientX - dragStartRef.current.x));
-      const newY = Math.max(10, Math.min(window.innerHeight - 100, moveEv.clientY - dragStartRef.current.y));
+      const widthAllowance = isPill ? 220 : 420;
+      const newX = Math.max(10, Math.min(window.innerWidth - widthAllowance, moveX - dragStartRef.current.x));
+      const newY = Math.max(10, Math.min(window.innerHeight - 60, moveY - dragStartRef.current.y));
       const nextPos = { x: newX, y: newY };
       setPillPos(nextPos);
       try {
@@ -362,14 +365,40 @@ export default function SpacingInspector() {
       } catch { }
     };
 
-    const handleMouseUp = () => {
-      isDraggingPillRef.current = false;
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+    const onMouseMove = (moveEv: MouseEvent) => {
+      handlePointerMove(moveEv.clientX, moveEv.clientY);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    const onTouchMove = (moveEv: TouchEvent) => {
+      if (moveEv.touches.length > 0) {
+        handlePointerMove(moveEv.touches[0].clientX, moveEv.touches[0].clientY);
+      }
+    };
+
+    const onPointerUp = () => {
+      isDraggingPillRef.current = false;
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onPointerUp);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onPointerUp);
+      window.removeEventListener("touchcancel", onPointerUp);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onPointerUp);
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchend", onPointerUp);
+    window.addEventListener("touchcancel", onPointerUp);
+  };
+
+  const handlePillMouseDown = (e: React.MouseEvent, isPill = false) => {
+    startDraggingPill(e.clientX, e.clientY, e.target as HTMLElement, isPill);
+  };
+
+  const handlePillTouchStart = (e: React.TouchEvent, isPill = false) => {
+    if (e.touches.length > 0) {
+      startDraggingPill(e.touches[0].clientX, e.touches[0].clientY, e.target as HTMLElement, isPill);
+    }
   };
 
   // Hover detection
@@ -627,15 +656,34 @@ export default function SpacingInspector() {
     return (
       <div
         data-spacing-inspector
-        className="fixed z-[9999999] transition-opacity flex items-center gap-1.5"
-        style={{ left: pillPos.x, top: pillPos.y }}
+        onMouseDown={(e) => handlePillMouseDown(e, true)}
+        onTouchStart={(e) => handlePillTouchStart(e, true)}
+        className="fixed z-[9999999] transition-opacity flex items-center gap-1.5 select-none"
+        style={{ left: pillPos.x, top: pillPos.y, touchAction: "none" }}
       >
+        {/* Drag handle */}
+        <div
+          data-drag-handle
+          title="Drag to reposition (moves everywhere)"
+          className="flex items-center justify-center h-8 w-6 cursor-grab active:cursor-grabbing rounded-full border border-white/20 bg-zinc-950/90 text-white/60 hover:text-white shadow-2xl backdrop-blur-xl transition-colors hover:border-white/40"
+        >
+          <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 16 16" aria-hidden="true">
+            <circle cx="5" cy="4" r="1.5" />
+            <circle cx="11" cy="4" r="1.5" />
+            <circle cx="5" cy="8" r="1.5" />
+            <circle cx="11" cy="8" r="1.5" />
+            <circle cx="5" cy="12" r="1.5" />
+            <circle cx="11" cy="12" r="1.5" />
+          </svg>
+        </div>
+
         <button
           onClick={() => {
+            window.dispatchEvent(new CustomEvent("open-fluid-gap-tuner"));
             window.dispatchEvent(new KeyboardEvent("keydown", { altKey: true, key: "g" }));
           }}
           title="Open Fluid Gap Controller (Alt+G)"
-          className="transition-colors flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-zinc-950/90 px-3 py-2 font-mono text-xs text-cyan-300 shadow-2xl backdrop-blur-xl hover:bg-cyan-950/80 hover:text-white"
+          className="transition-colors flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-zinc-950/90 px-3 py-2 font-mono text-xs text-cyan-300 shadow-2xl backdrop-blur-xl hover:bg-cyan-950/80 hover:text-white cursor-pointer"
         >
           <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
           <span>🌊 Fluid Gap</span>
@@ -643,7 +691,7 @@ export default function SpacingInspector() {
         <button
           onClick={() => setIsActive(true)}
           title="Enable Spacing Inspector (Alt+S)"
-          className="transition-colors flex items-center gap-2 rounded-full border border-purple-500/40 bg-zinc-950/90 px-3.5 py-2 font-mono text-xs text-purple-300 shadow-2xl backdrop-blur-xl hover:bg-purple-950/80 hover:text-white"
+          className="transition-colors flex items-center gap-2 rounded-full border border-purple-500/40 bg-zinc-950/90 px-3.5 py-2 font-mono text-xs text-purple-300 shadow-2xl backdrop-blur-xl hover:bg-purple-950/80 hover:text-white cursor-pointer"
         >
           <span className="h-2 w-2 rounded-full bg-zinc-500" />
           <span>📐 Spacing</span>
@@ -1179,8 +1227,9 @@ export default function SpacingInspector() {
       {/* ── 6. FLOATING MAIN CONTROL TOOLBAR ── */}
       <div
         className="pointer-events-auto fixed flex flex-col gap-2 rounded-2xl border border-purple-500/40 bg-zinc-950/95 p-3 text-white shadow-2xl backdrop-blur-2xl"
-        style={{ left: pillPos.x, top: pillPos.y }}
-        onMouseDown={handlePillMouseDown}
+        style={{ left: pillPos.x, top: pillPos.y, touchAction: "none" }}
+        onMouseDown={(e) => handlePillMouseDown(e, false)}
+        onTouchStart={(e) => handlePillTouchStart(e, false)}
       >
         <div className="flex items-center justify-between gap-3 cursor-grab active:cursor-grabbing border-b border-white/10 pb-2">
           <div className="flex items-center gap-2">
@@ -1191,10 +1240,11 @@ export default function SpacingInspector() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => {
+                window.dispatchEvent(new CustomEvent("open-fluid-gap-tuner"));
                 window.dispatchEvent(new KeyboardEvent("keydown", { altKey: true, key: "g" }));
               }}
               title="Open Fluid Gap Controller (Alt+G)"
-              className="rounded border border-cyan-500/60 bg-cyan-950/90 px-2 py-1 text-[11px] font-mono text-cyan-200 transition shadow hover:bg-cyan-900 hover:text-white"
+              className="rounded border border-cyan-500/60 bg-cyan-950/90 px-2 py-1 text-xs font-mono text-cyan-200 transition shadow hover:bg-cyan-900 hover:text-white cursor-pointer"
             >
               🌊 FLUID GAP
             </button>

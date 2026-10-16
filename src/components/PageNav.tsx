@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMember } from "@/context/MemberContext";
+import { useAuth } from "@/context/AuthContext";
 
 const CATEGORIES = [
   {
@@ -125,6 +127,8 @@ export function PageNav() {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const { isLoggedIn, member, hydrated } = useMember();
+  const auth = useAuth();
 
   // Close when clicking outside
   useEffect(() => {
@@ -169,6 +173,13 @@ export function PageNav() {
     process.env.NODE_ENV !== "development" &&
     process.env.NEXT_PUBLIC_SHOW_DEV_NAV !== "true"
   ) {
+    return null;
+  }
+
+  // Hide on all pages if not signed in
+  const isUserSignedIn =
+    isLoggedIn || !!member || auth?.isAuthenticated || !!auth?.user;
+  if (!hydrated || !isUserSignedIn) {
     return null;
   }
 
