@@ -939,7 +939,9 @@ export default function FanPhotoWallClient({
                                 </div>
                                 <div className="min-w-0">
                                   <p className="text-sm font-semibold text-white truncate">{photo.name}</p>
-                                  {photo.venue && <p className="text-xs text-white/60 truncate">{photo.venue}</p>}
+                                  <p className="text-xs text-white/60 truncate">
+                                    {photo.venue || photo.city || "Live Show"}{photo.date ? ` • ${photo.date}` : ""}
+                                  </p>
                                 </div>
                               </div>
                               <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] uppercase font-bold text-white/70">
@@ -1009,7 +1011,9 @@ export default function FanPhotoWallClient({
                               {mediaDetails.isVideo ? "Live Video Clip" : "Concert Photo"}
                             </span>
                             <h4 className="font-bold text-white mt-0.5">{photo.name}</h4>
-                            {photo.venue && <p className="text-xs text-white/70">{photo.venue}</p>}
+                            <p className="text-xs text-white/70">
+                              {photo.venue || photo.city || "Live Show"}{photo.date ? ` • ${photo.date}` : ""}
+                            </p>
                             {isLarge && photo.caption && (
                               <p className="mt-2 text-xs text-white/80 line-clamp-2 italic">&ldquo;{photo.caption}&rdquo;</p>
                             )}
@@ -1089,7 +1093,9 @@ export default function FanPhotoWallClient({
                                   {mediaDetails.isVideo ? "Video Clip" : "Concert Capture"}
                                 </span>
                                 <h4 className="font-bold text-white mt-1">{photo.name}</h4>
-                                {photo.venue && <p className="text-xs text-white/60">{photo.venue}</p>}
+                                <p className="text-xs text-white/60">
+                                  {photo.venue || photo.city || "Live Show"}{photo.date ? ` • ${photo.date}` : ""}
+                                </p>
                                 {photo.caption && <p className="text-xs text-white/70 line-clamp-2 mt-2 italic">&ldquo;{photo.caption}&rdquo;</p>}
                               </div>
                             </div>
@@ -1141,11 +1147,9 @@ export default function FanPhotoWallClient({
                             <h3 className="mt-1 font-extrabold text-white">
                               {leadReel.name}
                             </h3>
-                            {leadReel.venue && (
-                              <p className="text-xs text-white/80 mt-1 flex items-center gap-1.5">
-                                <MapPin className="h-3.5 w-3.5 text-cyan-400" /> {leadReel.venue}
-                              </p>
-                            )}
+                            <p className="text-xs text-white/80 mt-1 flex items-center gap-1.5">
+                              <MapPin className="h-3.5 w-3.5 text-cyan-400" /> {leadReel.venue || leadReel.city || "Live Stage"}{leadReel.date ? ` • ${leadReel.date}` : ""}
+                            </p>
                             {leadReel.caption && (
                               <p className="mt-3 text-sm text-white/90 line-clamp-3 italic">
                                 &ldquo;{leadReel.caption}&rdquo;
@@ -1178,7 +1182,9 @@ export default function FanPhotoWallClient({
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent p-3.5 flex flex-col justify-end">
                               <span className="text-[10px] font-bold uppercase text-purple-300">{mediaDetails.isVideo ? "Video" : "Photo"}</span>
                               <p className="text-xs font-bold text-white truncate mt-0.5">{photo.name}</p>
-                              {photo.venue && <p className="text-[10px] text-white/60 truncate">{photo.venue}</p>}
+                              <p className="text-[10px] text-white/60 truncate">
+                                {photo.venue || photo.city || "Live Show"}{photo.date ? ` • ${photo.date}` : ""}
+                              </p>
                             </div>
                           </div>
                         );
@@ -1265,7 +1271,9 @@ export default function FanPhotoWallClient({
                             <div className="min-w-0 flex-1">
                               <span className="text-[10px] font-bold uppercase text-purple-300">{mediaDetails.isVideo ? "Video" : "Photo"}</span>
                               <h4 className="font-bold text-white truncate">{photo.name}</h4>
-                              {photo.venue && <p className="text-xs text-white/60 truncate">{photo.venue}</p>}
+                              <p className="text-xs text-white/60 truncate">
+                                {photo.venue || photo.city || "Live Show"}{photo.date ? ` • ${photo.date}` : ""}
+                              </p>
                               {photo.caption && <p className="text-xs text-white/50 line-clamp-1 italic mt-0.5">&ldquo;{photo.caption}&rdquo;</p>}
                             </div>
                           </div>
@@ -1435,7 +1443,9 @@ export default function FanPhotoWallClient({
                             <div className="mt-4 flex items-center justify-between">
                               <div>
                                 <h4 className="font-bold text-white">{photo.name}</h4>
-                                {photo.venue && <p className="text-xs text-nocturne-rose/70">{photo.venue}</p>}
+                                <p className="text-xs text-nocturne-rose/70">
+                                  {photo.venue || photo.city || "Live Show"}{photo.date ? ` • ${photo.date}` : ""}
+                                </p>
                               </div>
                               <span className="rounded-full border border-nocturne-rose/30 bg-nocturne-plum/40 px-2.5 py-1 text-[10px] font-bold uppercase text-nocturne-rose">
                                 {mediaDetails.isVideo ? "Video" : "Photo"}
@@ -1491,7 +1501,9 @@ export default function FanPhotoWallClient({
                               <div className="mt-4">
                                 <div className="flex items-center justify-between">
                                   <h3 className="font-bold text-white">{hero.item.name}</h3>
-                                  <span className="text-xs text-purple-300 font-mono">{hero.item.venue}</span>
+                                  <span className="text-xs text-purple-300 font-mono">
+                                    {hero.item.venue || hero.item.city || "Live Stage"}{hero.item.date ? ` • ${hero.item.date}` : ""}
+                                  </span>
                                 </div>
                                 {hero.item.caption && (
                                   <p className="mt-2 text-xs text-white/80 line-clamp-2 italic">&ldquo;{hero.item.caption}&rdquo;</p>
@@ -1523,7 +1535,9 @@ export default function FanPhotoWallClient({
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-3 flex flex-col justify-end">
                               <p className="text-xs font-bold text-white truncate">{photo.name}</p>
-                              {photo.venue && <p className="text-[10px] text-white/60 truncate">{photo.venue}</p>}
+                              <p className="text-[10px] text-white/60 truncate">
+                                {photo.venue || photo.city || "Live Stage"}{photo.date ? ` • ${photo.date}` : ""}
+                              </p>
                             </div>
                           </div>
                         );
@@ -1567,7 +1581,9 @@ export default function FanPhotoWallClient({
                             <h4 className={`${isLarge ? "text-xl sm:text-2xl" : "text-base"} font-bold text-white mt-1`}>
                               {photo.name}
                             </h4>
-                            {photo.venue && <p className="text-xs text-white/70">{photo.venue}</p>}
+                            <p className="text-xs text-white/70">
+                              {photo.venue || photo.city || "Live Show"}{photo.date ? ` • ${photo.date}` : ""}
+                            </p>
                             {isLarge && photo.caption && (
                               <p className="text-xs sm:text-sm text-white/90 line-clamp-2 mt-2 italic">&ldquo;{photo.caption}&rdquo;</p>
                             )}
@@ -1774,9 +1790,12 @@ export default function FanPhotoWallClient({
                                 </div>
                               )}
                             </div>
-                            <div className="mt-3 flex items-center justify-between text-xs">
-                              <span className="font-bold text-white group-hover:text-amber-300 transition-colors">{photo.name}</span>
-                              <span className="text-white/50">{photo.venue || photo.city || "7th Heaven"}</span>
+                            <div className="mt-3 flex flex-col gap-0.5 text-xs">
+                              <span className="font-bold text-white group-hover:text-amber-300 transition-colors truncate">{photo.name}</span>
+                              <div className="flex items-center justify-between text-white/50 text-[10px]">
+                                <span className="truncate">{photo.venue || photo.city || "7th Heaven"}</span>
+                                <span className="shrink-0">{photo.date || "2026"}</span>
+                              </div>
                             </div>
                           </div>
                         );
@@ -1873,9 +1892,10 @@ export default function FanPhotoWallClient({
                                 className="object-cover group-hover:scale-105 transition-transform"
                               />
                             </div>
-                            <div className="mt-3 flex flex-col gap-1">
-                              <span className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">{photo.name}</span>
+                            <div className="mt-3 flex flex-col gap-0.5">
+                              <span className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors truncate">{photo.name}</span>
                               <span className="text-xs text-white/60 truncate">{photo.venue || photo.city || "Live Show"}</span>
+                              <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
                             </div>
                           </div>
                         );
@@ -1971,8 +1991,10 @@ export default function FanPhotoWallClient({
                                 sizes="160px"
                                 className="object-cover group-hover:scale-110 transition-transform"
                               />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2 flex items-end">
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col justify-end">
                                 <span className="text-[10px] font-bold text-white truncate">{photo.name}</span>
+                                <span className="text-[9px] text-white/70 truncate">{photo.venue || photo.city || "Tour"}</span>
+                                <span className="text-[9px] text-white/40 truncate">{photo.date || "2026"}</span>
                               </div>
                             </div>
                           );
@@ -2017,7 +2039,7 @@ export default function FanPhotoWallClient({
                             </div>
                             <div className="md:col-span-5 flex flex-col gap-1.5">
                               <span className="text-xs uppercase font-mono text-purple-300">
-                                {photo.venue || "Tour Stage"} {photo.date && `• ${photo.date}`}
+                                {photo.venue || photo.city || "Tour Stage"} {photo.date && `• ${photo.date}`}
                               </span>
                               <h3 className="font-black text-white group-hover:text-purple-300 transition-colors">
                                 {photo.name}
@@ -2176,10 +2198,11 @@ export default function FanPhotoWallClient({
                                 className="object-cover group-hover:scale-105 transition-transform"
                               />
                             </div>
-                            <div className="flex flex-col gap-1 min-w-0">
+                            <div className="flex flex-col gap-0.5 min-w-0">
                               <span className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors truncate">{photo.name}</span>
                               <span className="text-xs text-white/60 truncate">{photo.venue || photo.city || "Live Capture"}</span>
-                              {photo.caption && <p className="text-xs text-white/70 line-clamp-1 italic">&ldquo;{photo.caption}&rdquo;</p>}
+                              <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
+                              {photo.caption && <p className="text-xs text-white/70 line-clamp-1 italic mt-0.5">&ldquo;{photo.caption}&rdquo;</p>}
                             </div>
                           </div>
                         );
@@ -2210,6 +2233,8 @@ export default function FanPhotoWallClient({
                               />
                             </div>
                             <span className="mt-2 text-xs font-bold text-white truncate">{photo.name}</span>
+                            <span className="text-[10px] text-white/60 truncate">{photo.venue || photo.city || "Live Show"}</span>
+                            <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
                           </div>
                         );
                       })}
@@ -2272,7 +2297,9 @@ export default function FanPhotoWallClient({
                         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
                           <span className="text-xs uppercase font-mono tracking-widest text-purple-300 font-bold">24:9 Panoramic Marquee</span>
                           <h3 className="font-black text-white mt-1">{billboard.name}</h3>
-                          <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">{billboard.venue} &bull; {billboard.city}</p>
+                          <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl">
+                            {billboard.venue || billboard.city || "Live Stage"}{billboard.venue && billboard.city ? ` • ${billboard.city}` : ""}{billboard.date ? ` • ${billboard.date}` : ""}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -2324,8 +2351,11 @@ export default function FanPhotoWallClient({
                               </div>
                             )}
                           </div>
-                          <span className="mt-2 text-xs font-bold text-white truncate">{photo.name}</span>
-                          <span className="text-[10px] text-white/50 truncate">{photo.venue || "Tour"}</span>
+                          <span className="mt-2 text-xs font-bold text-white truncate" title={photo.name}>{photo.name}</span>
+                          <span className="text-[10px] text-white/70 truncate" title={photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}>
+                            {photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}
+                          </span>
+                          <span className="text-[10px] text-white/45 truncate">{photo.date || "2026"}</span>
                         </div>
                       );
                     })}
@@ -2413,7 +2443,8 @@ export default function FanPhotoWallClient({
                         </div>
                         <div className="mt-2 flex flex-col">
                           <span className="text-xs font-bold text-white truncate group-hover:text-purple-300">{photo.name}</span>
-                          <span className="text-[10px] text-white/50 truncate">{photo.city || photo.venue || "Tour"}</span>
+                          <span className="text-[10px] text-white/60 truncate">{photo.venue || photo.city || "Tour"}</span>
+                          <span className="text-[10px] text-white/40 truncate">{photo.date || "2026"}</span>
                         </div>
                       </div>
                     );
