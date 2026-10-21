@@ -63,31 +63,142 @@ const PANEL: Variants = {
   hidden: { x: "100%" },
   show: {
     x: 0,
-    transition: { duration: 0.4, ease: EASE },
+    transition: {
+      duration: 0.42,
+      ease: EASE,
+      staggerChildren: 0.03,
+      delayChildren: 0.06,
+    },
   },
   exit: {
     x: "100%",
-    transition: { duration: 0.4, ease: EASE },
+    transition: {
+      duration: 0.36,
+      ease: EASE,
+      staggerChildren: 0.02,
+      staggerDirection: -1,
+    },
   },
 };
 
-/* Content elements remain stable inside the drawer so they slide cleanly with the panel */
-const ITEM: Variants = {
-  hidden: { opacity: 0, x: 20 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
-  exit: { opacity: 1, x: 0 },
+const HEADER: Variants = {
+  hidden: { opacity: 0, y: -12, filter: "blur(6px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.32, ease: EASE },
+    transitionEnd: { filter: "none" },
+  },
+  exit: {
+    opacity: 0,
+    y: -10,
+    filter: "blur(6px)",
+    transition: { duration: 0.2, ease: EASE },
+  },
+};
+
+const BODY: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.02,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.22,
+      staggerChildren: 0.02,
+      staggerDirection: -1,
+    },
+  },
 };
 
 const GROUP: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.25 } },
-  exit: { opacity: 1 },
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.32,
+      ease: EASE,
+      staggerChildren: 0.025,
+      delayChildren: 0.02,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: 10,
+    transition: {
+      duration: 0.2,
+      ease: EASE,
+      staggerChildren: 0.015,
+      staggerDirection: -1,
+    },
+  },
+};
+
+/* Content / data elements inside drawer have distinct in and out transition effects */
+const ITEM: Variants = {
+  hidden: {
+    opacity: 0,
+    x: 20,
+    filter: "blur(6px)",
+  },
+  show: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.32,
+      ease: EASE,
+    },
+    transitionEnd: {
+      filter: "none",
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 18,
+    filter: "blur(6px)",
+    transition: {
+      duration: 0.2,
+      ease: EASE,
+    },
+  },
 };
 
 const FOOTER: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE, delay: 0.1 } },
-  exit: { opacity: 1, y: 0 },
+  hidden: {
+    opacity: 0,
+    y: 20,
+    filter: "blur(4px)",
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.35,
+      ease: EASE,
+      delay: 0.1,
+    },
+    transitionEnd: {
+      filter: "none",
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: 16,
+    filter: "blur(4px)",
+    transition: {
+      duration: 0.2,
+      ease: EASE,
+    },
+  },
 };
 
 export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
@@ -171,7 +282,7 @@ export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
               exit={reduceMotion ? undefined : "exit"}
             >
               {/* Header */}
-              <m.div variants={ITEM} className="mfd-header flex items-center justify-between">
+              <m.div variants={HEADER} className="mfd-header flex items-center justify-between">
                 <h2 id="mfd-title" className="mfd-title font-heading">
                   Filters
                 </h2>
@@ -187,7 +298,7 @@ export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
               </m.div>
 
               {/* Body */}
-              <div className="mfd-body custom-scrollbar flex-1 overflow-y-auto" data-lenis-prevent="true">
+              <m.div variants={BODY} className="mfd-body custom-scrollbar flex-1 overflow-y-auto" data-lenis-prevent="true">
                 <RadioGroup
                   legend="Category"
                   name="mfd-category"
@@ -218,7 +329,7 @@ export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
                     onChange={props.onYearRangeChange}
                   />
                 )}
-              </div>
+              </m.div>
 
               {/* Footer */}
               <m.div variants={FOOTER} className="mfd-footer grid grid-cols-2 items-center gap-3">
@@ -226,7 +337,14 @@ export default function MediaFilterDrawer(props: MediaFilterDrawerProps) {
                   Clear all
                 </Button>
                 <Button variant="primary" size="md" fullWidth onClick={onClose} className="uppercase tracking-wide">
-                  Show {n} {n === 1 ? "item" : "items"}
+                  <m.span
+                    key={n}
+                    initial={{ opacity: 0, y: 3 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, ease: EASE }}
+                  >
+                    Show {n} {n === 1 ? "item" : "items"}
+                  </m.span>
                 </Button>
               </m.div>
             </m.aside>
@@ -259,7 +377,7 @@ function RadioGroup({
       <m.legend variants={ITEM} className="mfd-legend">
         {legend}
       </m.legend>
-      <div className="flex flex-col gap-[10px]">
+      <m.div variants={GROUP} className="flex flex-col gap-[10px]">
         {options.map((opt) => (
           <m.label
             key={opt.value}
@@ -274,10 +392,20 @@ function RadioGroup({
               onChange={() => onChange(opt.value)}
             />
             <span className="mfd-label">{opt.label}</span>
-            {typeof opt.count === "number" && <span className="mfd-count">{opt.count}</span>}
+            {typeof opt.count === "number" && (
+              <m.span
+                key={`${opt.value}-${opt.count}`}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.22, ease: EASE }}
+                className="mfd-count"
+              >
+                {opt.count}
+              </m.span>
+            )}
           </m.label>
         ))}
-      </div>
+      </m.div>
     </m.fieldset>
   );
 }
@@ -326,7 +454,14 @@ function YearRange({
           })}
         </m.div>
       )}
-      <m.span variants={ITEM} className="mfd-range-value">
+      <m.span
+        key={`${lo}-${hi}`}
+        variants={ITEM}
+        initial={{ opacity: 0, y: 3 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, ease: EASE }}
+        className="mfd-range-value"
+      >
         {lo} – {hi}
       </m.span>
       <m.div variants={ITEM} className="mfd-range">

@@ -1084,6 +1084,7 @@ export default function MediaClient({
 
                   <button
                     ref={filterTriggerRef}
+                    id="media-filter-drawer-trigger"
                     type="button"
                     onClick={() => setFilterDrawerOpen(true)}
                     aria-haspopup="dialog"
