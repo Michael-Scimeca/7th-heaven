@@ -202,30 +202,33 @@ export function InfoLayout({
   onTogglePreview,
 }: LayoutProps) {
   return (
-    <div className="disc-chrome pointer-events-none absolute inset-0 text-[var(--color-text-primary)]">
-      <h2 className="sr-only">{item.title}</h2>
+    <>
+      <div className="disc-chrome pointer-events-none absolute inset-0 text-[var(--color-text-primary)]">
+        <h2 className="sr-only">{item.title}</h2>
 
-      <div
-        key={item.slug}
-        className="disc-card absolute inset-x-0 bottom-[84px] flex flex-col items-center gap-2 px-4 text-center sm:bottom-[68px]"
-      >
-        <p className={`text-xs uppercase ${MUTED}`}>{item.category}</p>
-        <div className={D} style={{ fontSize: "clamp(28px, 8vw, 46px)" }}>
-          {item.title}
+        <div
+          key={item.slug}
+          className="disc-card absolute inset-x-0 bottom-[84px] flex flex-col items-center gap-2 px-4 text-center sm:bottom-[68px]"
+        >
+          <p className={`text-xs uppercase ${MUTED}`}>{item.category}</p>
+          <div className={D} style={{ fontSize: "clamp(28px, 8vw, 46px)" }}>
+            {item.title}
+          </div>
+          <Chips item={item} />
+          {preview && onTogglePreview && (
+            <MiniPlayer preview={preview} onToggle={onTogglePreview} />
+          )}
         </div>
-        <Chips item={item} />
-        {preview && onTogglePreview && (
-          <MiniPlayer preview={preview} onToggle={onTogglePreview} />
-        )}
+
+        <div className="absolute inset-x-0 bottom-4 flex justify-center px-5 sm:px-8">
+          <div className="w-full max-w-[500px]">
+            <TimelineDots items={items} active={active} onGo={onGo} />
+          </div>
+        </div>
       </div>
 
       <DiscNav items={items} active={active} onGo={onGo} />
-
-      <div className="absolute inset-x-0 bottom-4 flex justify-center px-5 sm:px-8">
-        <div className="w-full max-w-[500px]">
-          <TimelineDots items={items} active={active} onGo={onGo} />
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
+

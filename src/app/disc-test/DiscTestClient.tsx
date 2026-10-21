@@ -598,7 +598,7 @@ function DiscStage({
         @keyframes discThumbSpin { to { transform: rotate(360deg); } }
         .disc-stage { opacity: 0; }
         .disc-chrome { animation: discChromeIn .6s .25s cubic-bezier(.22,1,.36,1) both; }
-        .is-closing .disc-chrome, .is-closing .disc-panel { animation: discChromeOut .32s ease both; }
+        .is-closing .disc-chrome, .is-closing .disc-panel, .is-closing .disc-nav-glass { animation: discChromeOut .32s ease both; }
         @keyframes discChromeOut { to { opacity: 0; transform: translateY(8px); } }
         @keyframes discChromeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
         .disc-blink { animation: discBlink 1s steps(1) infinite; }
@@ -611,7 +611,7 @@ function DiscStage({
         .disc-detail { animation: discFade .3s ease both; }
         @keyframes discFade { from { opacity: 0; } to { opacity: 1; } }
         .disc-nav-glass {
-          background: rgba(15, 8, 28, 0.82) !important;
+          background: rgba(15, 8, 28, 0.68) !important;
           -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
           backdrop-filter: blur(32px) saturate(180%) !important;
           isolation: auto !important;

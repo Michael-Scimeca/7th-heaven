@@ -2760,7 +2760,7 @@ body:has(.disc-stage:not(.is-closing)) .progressive-blur {
 
 /* 3D CD Vault Navigation Sidebar Frosted Glass */
 .disc-nav-glass {
-  background: rgba(15, 8, 28, 0.82);
+  background: rgba(15, 8, 28, 0.68);
   -webkit-backdrop-filter: blur(32px) saturate(180%);
   backdrop-filter: blur(32px) saturate(180%);
   isolation: auto !important;
