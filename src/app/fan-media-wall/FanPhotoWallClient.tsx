@@ -2305,8 +2305,8 @@ export default function FanPhotoWallClient({
                     </div>
                   )}
 
-                  {/* 5-Column Micro Matrix */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {/* 4-Column Matrix (Enlarged) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
                     {matrix.map((photo) => {
                       const details = getMediaDetails(photo);
                       return (
@@ -2322,21 +2322,21 @@ export default function FanPhotoWallClient({
                               src={details.isYouTube ? `https://img.youtube.com/vi/${details.youtubeId}/hqdefault.jpg` : photo.src}
                               alt={photo.name}
                               fill
-                              sizes="200px"
+                              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                               className="object-cover group-hover:scale-105 transition-transform"
                             />
 
                             {/* Prominent Format Badge (Top-Left: VIDEO vs PHOTO) */}
-                            <div className="absolute top-1.5 left-1.5 z-10">
+                            <div className="absolute top-2 left-2 z-10">
                               {details.isVideo ? (
-                                <span className="flex items-center gap-1 rounded-md border border-purple-400/50 bg-black/80 backdrop-blur-md px-1.5 py-0.5 text-[9px] font-mono font-bold tracking-wider text-purple-200 shadow-md">
+                                <span className="flex items-center gap-1 rounded-md border border-purple-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-purple-200 shadow-md">
                                   <span className="h-1.5 w-1.5 rounded-full bg-rose-500 animate-pulse" />
-                                  <Film className="h-2.5 w-2.5 text-purple-300" />
+                                  <Film className="h-3 w-3 text-purple-300" />
                                   <span>VIDEO</span>
                                 </span>
                               ) : (
-                                <span className="flex items-center gap-1 rounded-md border border-emerald-400/50 bg-black/80 backdrop-blur-md px-1.5 py-0.5 text-[9px] font-mono font-bold tracking-wider text-emerald-200 shadow-md">
-                                  <Camera className="h-2.5 w-2.5 text-emerald-300" />
+                                <span className="flex items-center gap-1 rounded-md border border-emerald-400/50 bg-black/80 backdrop-blur-md px-2 py-0.5 text-[10px] font-mono font-bold tracking-wider text-emerald-200 shadow-md">
+                                  <Camera className="h-3 w-3 text-emerald-300" />
                                   <span>PHOTO</span>
                                 </span>
                               )}
@@ -2345,17 +2345,17 @@ export default function FanPhotoWallClient({
                             {/* Centered subtle play icon on video items */}
                             {details.isVideo && (
                               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/60 border border-white/20 backdrop-blur-sm text-white group-hover:scale-110 transition-transform">
-                                  <Play className="h-3.5 w-3.5 fill-white text-white ml-0.5" />
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black/60 border border-white/20 backdrop-blur-sm text-white group-hover:scale-110 transition-transform">
+                                  <Play className="h-4 w-4 fill-white text-white ml-0.5" />
                                 </div>
                               </div>
                             )}
                           </div>
-                          <span className="mt-2 text-xs font-bold text-white truncate" title={photo.name}>{photo.name}</span>
-                          <span className="text-[10px] text-white/70 truncate" title={photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}>
+                          <span className="mt-2.5 text-sm font-bold text-white truncate" title={photo.name}>{photo.name}</span>
+                          <span className="text-xs text-white/70 truncate" title={photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}>
                             {photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}
                           </span>
-                          <span className="text-[10px] text-white/45 truncate">{photo.date || "2026"}</span>
+                          <span className="text-xs text-white/45 truncate">{photo.date || "2026"}</span>
                         </div>
                       );
                     })}
