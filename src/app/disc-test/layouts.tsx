@@ -177,23 +177,25 @@ function DiscNav({ items, active, onGo }: Pick<LayoutProps, "items" | "active" |
             key={it.slug}
             onClick={() => onGo(i)}
             aria-current={on ? "true" : undefined}
-            className={`group flex min-h-[44px] items-center justify-end gap-2.5 py-1.5 pl-3 text-right transition-colors ${
+            className={`group flex min-h-[48px] items-center justify-end gap-3 py-1.5 pl-3 text-right transition-colors ${
               on ? "text-white" : "text-white hover:text-purple-300"
             }`}
           >
-            <span
-              className={`text-xs tabular-nums font-bold tracking-wide transition-colors ${
-                on ? "text-purple-300 font-extrabold" : "text-white"
-              }`}
-            >
-              {it.meta[0]?.[1]}
-            </span>
-            <span
-              className={`max-w-[13rem] truncate text-[13px] sm:text-sm font-extrabold uppercase tracking-wide transition-colors ${
-                on ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]" : "text-white group-hover:text-purple-300"
-              }`}
-            >
-              {it.title}
+            <span className="flex flex-col items-end leading-tight">
+              <span
+                className={`max-w-[13rem] truncate text-[13px] sm:text-sm font-extrabold uppercase tracking-wide transition-colors ${
+                  on ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]" : "text-white group-hover:text-purple-300"
+                }`}
+              >
+                {it.title}
+              </span>
+              <span
+                className={`text-[11px] tabular-nums font-bold tracking-wider transition-colors ${
+                  on ? "text-purple-300 font-extrabold" : "text-white/90"
+                }`}
+              >
+                {it.meta[0]?.[1]}
+              </span>
             </span>
             <NavDisc item={it} active={on} />
           </button>
