@@ -7197,12 +7197,6 @@ canvas.webgl-noise-overlay {
   mix-blend-mode: var(--canvas-blend-mode, normal);
 }
 
-.font-quisas {
-  font-size: 34px;
-  letter-spacing: 0;
-  font-weight: 500;
-  line-height: 50%;
-}
 
 /* Smooth Tab / Section Toggle Transition */
 .media-section-enter {

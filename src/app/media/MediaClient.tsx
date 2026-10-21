@@ -961,7 +961,7 @@ export default function MediaClient({
                 <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl uppercase text-white group-hover:text-[#f2efa3] transition-colors duration-150 line-clamp-1 leading-tight tracking-normal">
                   {video.title}
                 </h2>
-                <div className="font-quisas text-sm sm:text-base text-white/90 tracking-wide line-clamp-1 mt-0.5">
+                <div className="font-quisas text-sm sm:text-base text-white/90 tracking-wide line-clamp-1 leading-normal mt-0.5">
                   {video.category || "7th Heaven Official Release"}
                 </div>
               </div>
