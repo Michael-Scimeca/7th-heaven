@@ -108,6 +108,8 @@ export interface MediaPaginationProps {
   /** plural noun for the summary line, e.g. "videos" */
   label?: string;
   className?: string;
+  onBackToTop?: () => void;
+  backToTopLabel?: string;
 }
 
 export default function MediaPagination({
@@ -117,6 +119,8 @@ export default function MediaPagination({
   totalItems,
   pageSize,
   onPageChange,
+  onBackToTop,
+  backToTopLabel = "↑ Top",
   label = "videos",
   className = "",
 }: MediaPaginationProps) {
@@ -124,7 +128,7 @@ export default function MediaPagination({
 
   const go = (p: number) => {
     const next = Math.max(1, Math.min(totalPages, p));
-    if (next !== page) onPageChange(next);
+    onPageChange(next);
   };
   const first = (page - 1) * pageSize + 1;
   const last = Math.min(page * pageSize, totalItems);
@@ -255,6 +259,15 @@ export default function MediaPagination({
             <button type="button" disabled={isLast} onClick={() => go(page + 1)} className={link}>
               Next →
             </button>
+            {onBackToTop && (
+              <button
+                type="button"
+                onClick={onBackToTop}
+                className="cursor-pointer text-sm font-semibold text-[#f2efa3] transition-colors hover:text-white py-2 px-2 sm:border-l sm:border-white/20 sm:pl-6 hover:underline"
+              >
+                {backToTopLabel}
+              </button>
+            )}
           </div>
         );
       }
