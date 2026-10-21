@@ -1059,8 +1059,8 @@ export default function MediaClient({
                 </div>
 
                 {/* Main Filter & Search Control Row */}
-                <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                  <p className="mr-auto text-[13px] text-white/55" aria-live="polite">
+                <div className="flex flex-wrap items-center justify-end gap-3 sm:gap-4">
+                  <p className="text-[13px] text-white/55 whitespace-nowrap" aria-live="polite">
                     {filteredVideos.length} {filteredVideos.length === 1 ? "item" : "items"}
                   </p>
                   <SearchInput
