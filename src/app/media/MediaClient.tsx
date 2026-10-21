@@ -26,13 +26,13 @@ import {
   Clock,
   Maximize2,
   SlidersHorizontal,
+  Search,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useMember } from "@/context/MemberContext";
 import PageHero from "@/components/PageHero";
 import AddCmsButton from "@/components/AddCmsButton";
 import CustomDropdown from "@/components/CustomDropdown";
-import { SearchInput } from "@/components/SearchInput";
 import { SectionHeader } from "@/components/SectionHeader";
 import { SeventhButton } from "@/components/SeventhButton";
 import GlowInput, { GlowSelect, GlowTextarea } from "@/components/GlowInput";
@@ -1083,17 +1083,36 @@ export default function MediaClient({
 
                 {/* Main Filter & Search Control Row */}
                 <div className="flex flex-wrap items-center justify-end gap-3 sm:gap-4">
-                  <p className="text-[13px] text-white/55 whitespace-nowrap" aria-live="polite">
+                  <span className="flex h-10 items-center text-xs sm:text-[13px] font-medium text-white/55 whitespace-nowrap" aria-live="polite">
                     {filteredVideos.length} {filteredVideos.length === 1 ? "item" : "items"}
-                  </p>
-                  <SearchInput
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    placeholder={sanityContent?.searchPlaceholder || "Search by title, category, year..."}
-                    containerClassName="w-full sm:w-[260px] lg:w-[300px]"
-                  />
+                  </span>
 
-                  {/* Sort Order Dropdown */}
+                  {/* Unified Search Input (h-10, border, bg-black/35, backdrop-blur-md) */}
+                  <div className="relative flex h-10 w-full sm:w-[260px] lg:w-[300px] items-center rounded-none border border-white/15 bg-black/35 backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 focus-within:border-white/40 focus-within:bg-black/50">
+                    <div className="pointer-events-none absolute left-3 flex items-center justify-center text-white/50">
+                      <Search className="h-3.5 w-3.5" aria-hidden="true" />
+                    </div>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={sanityContent?.searchPlaceholder || "Search by title, category, year..."}
+                      aria-label="Search media by title, category, year"
+                      className="h-full w-full bg-transparent pl-9 pr-8 text-xs text-white placeholder:text-white/40 focus:outline-none"
+                    />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery("")}
+                        aria-label="Clear search"
+                        className="absolute right-2.5 flex h-5 w-5 items-center justify-center text-white/40 transition-colors hover:text-white"
+                      >
+                        <X className="h-3.5 w-3.5" aria-hidden="true" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Sort Order Dropdown (h-10) */}
                   <CustomDropdown
                     ariaLabel="Sort videos"
                     value={sortBy}
@@ -1102,9 +1121,11 @@ export default function MediaClient({
                     minWidth={200}
                     maxHeight={320}
                     triggerPrefix={sortTriggerPrefix}
-                    buttonClassName="rounded-none border border-white/15 bg-black/35 px-4 py-2.5 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
+                    wrapperClassName="!inline-flex h-10 items-center"
+                    buttonClassName="!h-10 !py-0 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
                   />
 
+                  {/* Filter Drawer Trigger Button (h-10) */}
                   <button
                     ref={filterTriggerRef}
                     id="media-filter-drawer-trigger"
@@ -1112,10 +1133,10 @@ export default function MediaClient({
                     onClick={() => setFilterDrawerOpen(true)}
                     aria-haspopup="dialog"
                     aria-expanded={filterDrawerOpen}
-                    className="flex cursor-pointer items-center gap-2 border border-white/20 px-4 py-2.5 text-xs text-white transition-colors hover:border-white/50 hover:bg-white/5"
+                    className="flex h-10 cursor-pointer items-center gap-2 rounded-none border border-white/15 bg-black/35 px-4 text-xs font-semibold text-white backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] transition-colors hover:border-white/30 hover:bg-black/50 focus-visible:outline-none focus-visible:border-white/40"
                   >
                     <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
-                    Filters
+                    <span>Filters</span>
                     {activeFilterCount > 0 && (
                       <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--color-action,#f5b942)] px-1 text-[11px] font-bold text-black">
                         {activeFilterCount}
@@ -1123,7 +1144,7 @@ export default function MediaClient({
                     )}
                   </button>
 
-                  {/* Reset all filters button text on the right of all of this on the same row */}
+                  {/* Reset all filters */}
                   {(activeFilterCount > 0 || sortBy !== "default" || searchQuery.trim() !== "") && (
                     <button
                       id="media-reset-all-filters"
@@ -1133,7 +1154,7 @@ export default function MediaClient({
                         setSortBy("default");
                         setSearchQuery("");
                       }}
-                      className="cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline underline-offset-4 whitespace-nowrap hover:text-[#f2efa3]"
+                      className="flex h-10 items-center cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline underline-offset-4 whitespace-nowrap hover:text-[#f2efa3]"
                     >
                       Reset all filters ✕
                     </button>
