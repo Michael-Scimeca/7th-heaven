@@ -429,11 +429,11 @@ export default function RootLayout({
                 <SmoothScroll>
                   <HomeShaderGradient />
                   <ProgressiveBlur position="top" />
+                  <Header />
                   <div
                     id="page-content-wrapper"
                     className="relative flex min-h-screen flex-col"
                   >
-                    <Header />
                     <PageTransition>{children}</PageTransition>
                     <Footer />
                     <Suspense fallback={null}>
