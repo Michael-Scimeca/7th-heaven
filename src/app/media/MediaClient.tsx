@@ -1145,61 +1145,6 @@ export default function MediaClient({
                 onClearAll={clearDrawerFilters}
               />
 
-              {/* Active Filter Indicator banner if any filter is active */}
-              {(activeFilterCount > 0 || sortBy !== "default" || searchQuery.trim() !== "") && (
-                <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#f2efa3]/30 bg-[#f2efa3]/10 px-5 py-3">
-                  <div className="flex flex-wrap items-center gap-2.5">
-                    <span className="h-2 w-2 rounded-full bg-[#f2efa3]" />
-                    <span className="text-xs font-bold tracking-wider text-[#f2efa3] uppercase">
-                      Active Filters:
-                    </span>
-                    {activeFilter !== "ALL" && (
-                      <span className="rounded-md border border-[#f2efa3]/40 bg-[#f2efa3]/20 px-2 py-0.5 text-xs font-mono font-semibold text-white">
-                        Category: {activeFilter}
-                      </span>
-                    )}
-                    {mediaTypeFilter !== "all" && (
-                      <span className="rounded-md border border-white/30 bg-white/10 px-2 py-0.5 text-xs font-mono font-semibold text-white">
-                        Type: {mediaTypeFilter}
-                      </span>
-                    )}
-                    {lengthFilter !== "all" && (
-                      <span className="rounded-md border border-white/30 bg-white/10 px-2 py-0.5 text-xs font-mono font-semibold text-white">
-                        Length: {lengthFilter}
-                      </span>
-                    )}
-                    {yearActive && effectiveYearRange && (
-                      <span className="rounded-md border border-amber-400/40 bg-amber-500/20 px-2 py-0.5 text-xs font-mono font-semibold text-amber-200">
-                        Years: {effectiveYearRange[0]}–{effectiveYearRange[1]}
-                      </span>
-                    )}
-                    {sortBy !== "default" && (
-                      <span className="rounded-md border border-emerald-400/40 bg-emerald-500/20 px-2 py-0.5 text-xs font-mono font-semibold text-emerald-200">
-                        Sort: {sortBy}
-                      </span>
-                    )}
-                    {searchQuery.trim() !== "" && (
-                      <span className="rounded-md border border-purple-400/40 bg-purple-500/20 px-2 py-0.5 text-xs font-mono font-semibold text-purple-200">
-                        &quot;{searchQuery}&quot;
-                      </span>
-                    )}
-                    <span className="text-xs text-white/60">
-                      ({filteredVideos.length} matching {filteredVideos.length === 1 ? "video" : "videos"})
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      clearDrawerFilters();
-                      setSortBy("default");
-                      setSearchQuery("");
-                    }}
-                    className="cursor-pointer text-xs font-semibold text-white/80 transition-colors duration-150 hover:text-white underline"
-                  >
-                    Reset all filters ✕
-                  </button>
-                </div>
-              )}
 
               {/* =================== DYNAMIC 20-LAYOUT VIDEO SHOWCASE =================== */}
               <div className="relative mx-auto w-full">
