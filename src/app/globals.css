@@ -5862,21 +5862,23 @@ body.fake-livestream-active {
   min-width: 100%;
   display: grid;
   grid-template-rows: max-content 0fr;
-  /* background: var(--drop-bg-color, rgba(30, 24, 58, 0.96)); */
-  -webkit-backdrop-filter: blur(112px);
-  backdrop-filter: blur(112px);
-  box-shadow: 0 4px 14px #0000008c;
+  background: var(--drop-bg-color, rgba(12, 10, 20, 0.9));
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-box, 0px);
   overflow: hidden;
-  transition: grid-template-rows 500ms cubic-bezier(0.25, 1, 0.5, 1),
+  transition: grid-template-rows 400ms cubic-bezier(0.25, 1, 0.5, 1),
     box-shadow 300ms ease;
 }
 
 .gooey-drop-container[data-open="true"],
 .gooey-drop-wrap[data-open="true"] .gooey-drop-container {
   grid-template-rows: max-content 1fr;
-  border-radius: var(--radius-box, 0px);
-  box-shadow: 0 14px 36px #000000a6, 0 0 0 1px #ffffff29;
+  background: rgba(12, 10, 20, 0.9) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  backdrop-filter: blur(24px) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .gooey-drop-trigger {
@@ -5922,6 +5924,9 @@ body.fake-livestream-active {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  background: var(--drop-bg-color, rgba(12, 10, 20, 0.9));
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
 }
 
 /* Karen Avetisyan Blurry Dropdown Effect */
