@@ -951,6 +951,13 @@ export default function MediaClient({
                     </div>
                   )}
                 </div>
+
+                {/* Video Duration Badge */}
+                {!isPhoto && video.duration && (
+                  <div className="pointer-events-none absolute bottom-2.5 right-2.5 z-10 rounded bg-black/75 px-1.5 py-0.5 text-[11px] font-medium tabular-nums text-white/90 backdrop-blur-md border border-white/10 shadow-sm">
+                    {video.duration}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -976,15 +983,24 @@ export default function MediaClient({
                       : video.category || "Official Release"}
                 </span>
                 <span className="block text-xs sm:text-sm font-medium text-white/90 tracking-wide leading-none mt-0.5">
-                  {isPhoto
-                    ? video.city || video.photographer || "Live Show Photography"
-                    : video.category === "Cruise Videos"
-                      ? "Annual Band Cruise"
-                      : video.category === "TV Appearances"
-                        ? "Television Broadcast"
-                        : video.category === "Full Concerts" || video.category === "Live Footage"
-                          ? "Live Concert Archive"
-                          : "7th Heaven Records"}
+                  {isPhoto ? (
+                    video.city || video.photographer || "Live Show Photography"
+                  ) : (
+                    <>
+                      <span>
+                        {video.category === "Cruise Videos"
+                          ? "Annual Band Cruise"
+                          : video.category === "TV Appearances"
+                            ? "Television Broadcast"
+                            : video.category === "Full Concerts" || video.category === "Live Footage"
+                              ? "Live Concert Archive"
+                              : "7th Heaven Records"}
+                      </span>
+                      {video.duration && (
+                        <span className="text-white/60"> • {video.duration}</span>
+                      )}
+                    </>
+                  )}
                 </span>
               </div>
             </div>
