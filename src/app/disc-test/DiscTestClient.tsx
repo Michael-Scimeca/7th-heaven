@@ -537,21 +537,6 @@ function DiscStage({
         />
       )}
 
-      {/* Close button when opened as modal */}
-      {onClose && (
-        <button
-          type="button"
-          onClick={requestExit}
-          aria-label="Close vault"
-          className="disc-chrome pointer-events-auto absolute top-4 right-4 sm:top-6 sm:right-6 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white/80 backdrop-blur-md transition-all hover:scale-105 hover:bg-white/20 hover:text-white active:scale-95 cursor-pointer shadow-lg"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      )}
-
       {/* WebGL stage */}
       <div
         ref={mountRef}
