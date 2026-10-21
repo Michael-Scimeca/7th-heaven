@@ -1257,6 +1257,7 @@ export default function MediaClient({
                   id="fan-wall-heading"
                   title="Fan Media Wall & Live Concert Moments"
                   subtitle="Discover crowd photos, fan memories, and live concert footage captured by 7th Heaven fans across the country."
+                  divider={false}
                 />
               </div>
               <div className="mt-8 w-full px-4 sm:px-6 lg:px-8">
