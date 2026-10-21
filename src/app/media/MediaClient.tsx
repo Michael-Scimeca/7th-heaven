@@ -384,7 +384,14 @@ export default function MediaClient({
   const filterTriggerRef = useRef<HTMLButtonElement>(null);
   const [sortBy, setSortBy] = useState<"default" | "newest" | "oldest" | "title" | "duration">("default");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 20;
+  // In Layout 2 ("Cinema Hero + Queue"), 4 videos are in the hero + side queue (1 hero + 3 side).
+  // With pageSize = 22, the remaining 18 items form exactly 6 full rows of 3 in the grid (18 % 3 === 0),
+  // ensuring the bottom row is always completely flushed with 3 videos all the way to the end.
+  const pageSize = useMemo(() => {
+    if (layoutVariant === 2) return 22;
+    if ([1, 4, 7, 8, 12, 13, 14, 18, 19, 20].includes(layoutVariant)) return 24;
+    return 22;
+  }, [layoutVariant]);
 
   // Reset pagination to page 1 when filter, year range, length, sort or search changes
   useEffect(() => {
