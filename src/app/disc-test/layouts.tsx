@@ -22,20 +22,6 @@ const SEC = "text-[var(--color-text-secondary)]";
 const CHIP = "rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs backdrop-blur-md";
 const pad = (v: number) => String(v).padStart(2, "0");
 
-function OpenBtn({ item, onOpen }: { item: DiscItem; onOpen: () => void }) {
-  return (
-    <button
-      onClick={onOpen}
-      className="pointer-events-auto inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 text-xs text-white backdrop-blur-sm transition-[transform,background-color] duration-150 hover:scale-105 hover:bg-white/20 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-action-ring)]"
-    >
-      {item.albumId ? "View songs" : "Open"}
-      <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-        <path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    </button>
-  );
-}
-
 function Chips({ item }: { item: DiscItem }) {
   return (
     <ul className="flex flex-wrap justify-center gap-1.5">
@@ -228,13 +214,8 @@ export function InfoLayout({
           {item.title}
         </div>
         <Chips item={item} />
-        {preview && onTogglePreview ? (
-          <>
-            <MiniPlayer preview={preview} onToggle={onTogglePreview} />
-            <OpenBtn item={item} onOpen={onOpen} />
-          </>
-        ) : (
-          <OpenBtn item={item} onOpen={onOpen} />
+        {preview && onTogglePreview && (
+          <MiniPlayer preview={preview} onToggle={onTogglePreview} />
         )}
       </div>
 
