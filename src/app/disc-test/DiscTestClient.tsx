@@ -563,15 +563,7 @@ function DiscStage({
         <dialog open className="fixed inset-0 z-10 m-0 h-full w-full max-h-none max-w-none border-0 bg-transparent p-0 block" aria-modal="false" aria-label={detail.title}>
           {/* click-away: transparent, so the discs stay visible */}
           <button aria-label="Close" onClick={closeDisc} className="absolute inset-0 cursor-default" />
-          <div className="disc-panel absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden sm:w-[min(92vw,24rem)] sm:border-l sm:border-white/10 shadow-[-24px_0_60px_rgba(0,0,0,0.6)] backdrop-blur-xl"
-            style={{
-              backgroundImage: [
-                // warm glow behind the artwork, fading down the panel
-                "radial-gradient(120% 45% at 50% 0%, var(--color-accent-gradient-glow, rgba(83,17,97,0.6)) 0%, transparent 70%)",
-                "linear-gradient(180deg, rgba(83,17,97,0.55) 0%, rgba(73,25,60,0.45) 38%, rgba(10,6,16,0.94) 100%)",
-              ].join(", "),
-              backgroundColor: "rgba(8,5,13,0.82)",
-            }}>
+          <div className="disc-panel disc-panel-glass absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden sm:w-[min(92vw,24rem)] sm:border-l sm:border-white/15 shadow-[-24px_0_60px_rgba(0,0,0,0.85)]">
             <button
               onClick={closeDisc}
               aria-label="Close"
@@ -624,6 +616,14 @@ function DiscStage({
           backdrop-filter: blur(32px) saturate(180%) !important;
           isolation: auto !important;
           transform: none !important;
+        }
+        .disc-panel-glass {
+          background: rgba(15, 8, 28, 0.68) !important;
+          background-image: radial-gradient(120% 45% at 50% 0%, rgba(140, 25, 170, 0.35) 0%, transparent 70%),
+                            linear-gradient(180deg, rgba(50, 15, 65, 0.35) 0%, rgba(12, 7, 22, 0.72) 100%) !important;
+          -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+          backdrop-filter: blur(32px) saturate(180%) !important;
+          isolation: auto !important;
         }
         @media (prefers-reduced-motion: reduce) { .disc-stage, .disc-chrome, .disc-card, .disc-pop, .disc-detail, .disc-panel, .disc-bar, .disc-blink, [style*="discThumbSpin"] { animation: none !important; } }
       `}</style>
