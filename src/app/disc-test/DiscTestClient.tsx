@@ -612,6 +612,8 @@ function DiscStage({
         @keyframes discFade { from { opacity: 0; } to { opacity: 1; } }
         .disc-nav-glass {
           background: rgba(15, 8, 28, 0.68) !important;
+          background-image: radial-gradient(120% 45% at 50% 0%, rgba(140, 25, 170, 0.35) 0%, transparent 70%),
+                            linear-gradient(180deg, rgba(50, 15, 65, 0.35) 0%, rgba(12, 7, 22, 0.72) 100%) !important;
           -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
           backdrop-filter: blur(32px) saturate(180%) !important;
           isolation: auto !important;
