@@ -560,7 +560,7 @@ function DiscStage({
 
       {/* Detail panel — docked right, no dimmed backdrop */}
       {detail && (
-        <dialog open className="fixed inset-0 z-10 m-0 h-full w-full max-h-none max-w-none border-0 bg-transparent p-0 block" aria-modal="false" aria-label={detail.title}>
+        <dialog open className="fixed inset-0 z-30 m-0 h-full w-full max-h-none max-w-none border-0 bg-transparent p-0 block" aria-modal="false" aria-label={detail.title}>
           {/* click-away: transparent, so the discs stay visible */}
           <button aria-label="Close" onClick={closeDisc} className="absolute inset-0 cursor-default" />
           <div className="disc-panel disc-panel-glass absolute inset-y-0 right-0 flex w-full flex-col overflow-hidden sm:w-[min(92vw,24rem)] sm:border-l sm:border-white/15 shadow-[-24px_0_60px_rgba(0,0,0,0.85)]">

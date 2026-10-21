@@ -143,18 +143,33 @@ function NavDisc({ item, active }: { item: DiscItem; active: boolean }) {
   );
 }
 
-/** Vertical index of every CD, pinned to the right edge. */
+/** Horizontal index of every CD, docked along the bottom. */
 function DiscNav({ items, active, onGo }: Pick<LayoutProps, "items" | "active" | "onGo">) {
   const ref = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const row = ref.current?.querySelector('[aria-current="true"]');
-    row?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    row?.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
   }, [active]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    };
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, []);
+
   return (
     <nav
       ref={ref}
       aria-label="All CDs"
-      className="disc-nav-glass pointer-events-auto absolute right-0 top-0 hidden h-[100dvh] flex-col gap-1 overflow-y-auto border-l border-white/15 py-6 pl-6 pr-4 shadow-[-24px_0_50px_rgba(0,0,0,0.9)] lg:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="disc-nav-glass pointer-events-auto absolute inset-x-0 bottom-0 z-20 flex w-full items-center gap-2.5 sm:gap-3.5 overflow-x-auto border-t border-white/15 px-6 sm:px-12 py-2 sm:py-2.5 shadow-[0_-16px_40px_rgba(0,0,0,0.85)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {items.map((it, i) => {
         const on = i === active;
@@ -163,27 +178,29 @@ function DiscNav({ items, active, onGo }: Pick<LayoutProps, "items" | "active" |
             key={it.slug}
             onClick={() => onGo(i)}
             aria-current={on ? "true" : undefined}
-            className={`group flex min-h-[48px] items-center justify-end gap-3 py-1.5 pl-3 text-right transition-colors ${
-              on ? "text-white" : "text-white hover:text-purple-300"
+            className={`group flex shrink-0 items-center gap-2.5 rounded-full border px-3 py-1.5 transition-all duration-200 ${
+              on
+                ? "border-white/30 bg-white/15 text-white shadow-[0_0_20px_rgba(180,90,240,0.3)]"
+                : "border-transparent text-white/80 hover:border-white/10 hover:bg-white/10 hover:text-white"
             }`}
           >
-            <span className="flex flex-col items-end leading-tight">
+            <NavDisc item={it} active={on} />
+            <span className="flex flex-col items-start leading-tight">
               <span
-                className={`max-w-[13rem] truncate text-[13px] sm:text-sm font-extrabold uppercase tracking-wide transition-colors ${
+                className={`whitespace-nowrap text-xs sm:text-[13px] font-extrabold uppercase tracking-wide transition-colors ${
                   on ? "text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]" : "text-white group-hover:text-purple-300"
                 }`}
               >
                 {it.title}
               </span>
               <span
-                className={`text-[11px] tabular-nums font-bold tracking-wider transition-colors ${
-                  on ? "text-purple-300 font-extrabold" : "text-white/90"
+                className={`text-[10px] sm:text-[11px] tabular-nums font-bold tracking-wider transition-colors ${
+                  on ? "text-purple-300 font-extrabold" : "text-white/70"
                 }`}
               >
                 {it.meta[0]?.[1]}
               </span>
             </span>
-            <NavDisc item={it} active={on} />
           </button>
         );
       })}
@@ -191,7 +208,7 @@ function DiscNav({ items, active, onGo }: Pick<LayoutProps, "items" | "active" |
   );
 }
 
-/** Centered caption under the disc, with the timeline along the bottom. */
+/** Centered caption under the disc, with the horizontal CD navigation docked at the bottom. */
 export function InfoLayout({
   item,
   items,
@@ -208,7 +225,7 @@ export function InfoLayout({
 
         <div
           key={item.slug}
-          className="disc-card absolute inset-x-0 bottom-[84px] flex flex-col items-center gap-2 px-4 text-center sm:bottom-[68px]"
+          className="disc-card absolute inset-x-0 bottom-[92px] sm:bottom-[100px] flex flex-col items-center gap-2 px-4 text-center"
         >
           <p className={`text-xs uppercase ${MUTED}`}>{item.category}</p>
           <div className={D} style={{ fontSize: "clamp(28px, 8vw, 46px)" }}>
@@ -218,12 +235,6 @@ export function InfoLayout({
           {preview && onTogglePreview && (
             <MiniPlayer preview={preview} onToggle={onTogglePreview} />
           )}
-        </div>
-
-        <div className="absolute inset-x-0 bottom-4 flex justify-center px-5 sm:px-8">
-          <div className="w-full max-w-[500px]">
-            <TimelineDots items={items} active={active} onGo={onGo} />
-          </div>
         </div>
       </div>
 
