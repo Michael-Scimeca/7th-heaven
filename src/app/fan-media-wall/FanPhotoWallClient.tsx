@@ -28,12 +28,15 @@ import {
   Eye,
   Calendar,
   Filter,
+  ArrowUpDown,
 } from "lucide-react";
 
 import React, {
   useState,
   useEffect,
   useCallback,
+  useRef,
+  useMemo,
   useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
@@ -53,6 +56,8 @@ import AddCmsButton from "@/components/AddCmsButton";
 import PageHero from "@/components/PageHero";
 import InputField from "@/components/InputField";
 import CustomDropdown from "@/components/CustomDropdown";
+import { SearchInput } from "@/components/SearchInput";
+import MediaFilterDrawer from "@/components/MediaFilterDrawer";
 import { FanPhoto } from "@/lib/fanPhotos";
 import SectionBadge from "@/components/SectionBadge";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -165,6 +170,10 @@ export default function FanPhotoWallClient({
   const [layoutMode, setLayoutMode] = useState<number>(17);
   const [mediaFilter, setMediaFilter] = useState<"all" | "photos" | "videos">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [venueFilter, setVenueFilter] = useState("ALL");
+  const [sortBy, setSortBy] = useState<"default" | "newest" | "oldest" | "fan">("default");
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const filterTriggerRef = useRef<HTMLButtonElement>(null);
   const mounted = useMounted();
 
   // Sync layout preset from URL query parameter (?layout=1..20) if present, default to 17
@@ -399,6 +408,103 @@ export default function FanPhotoWallClient({
   // Separate pending and approved
   const pendingPhotos = isModerator ? photos.filter((p) => !p.approved) : [];
   const approvedPhotos = photos.filter((p) => p.approved);
+
+  const sortDropdownOptions = useMemo(
+    () => [
+      { value: "default", label: "DEFAULT CURATED" },
+      { value: "newest", label: "NEWEST FIRST" },
+      { value: "oldest", label: "OLDEST FIRST" },
+      { value: "fan", label: "FAN NAME (A-Z)" },
+    ],
+    [],
+  );
+
+  const sortTriggerPrefix = (
+    <ArrowUpDown className="h-3 w-3 text-purple-300" aria-hidden="true" />
+  );
+
+  const venueOptions = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const p of approvedPhotos) {
+      const v = p.venue?.trim() || p.city?.trim();
+      if (v) counts.set(v, (counts.get(v) || 0) + 1);
+    }
+    const opts = Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([venue, count]) => ({
+        value: venue,
+        label: venue,
+        count,
+      }));
+    return [
+      { value: "ALL", label: "All Venues & Cities", count: approvedPhotos.length },
+      ...opts,
+    ];
+  }, [approvedPhotos]);
+
+  const mediaTypeDrawerOptions = useMemo(
+    () => [
+      { value: "all", label: "All Moments", count: approvedPhotos.length },
+      {
+        value: "photos",
+        label: "Fan Photos",
+        count: approvedPhotos.filter((p) => !getMediaDetails(p).isVideo).length,
+      },
+      {
+        value: "videos",
+        label: "Fan Videos",
+        count: approvedPhotos.filter((p) => getMediaDetails(p).isVideo).length,
+      },
+    ],
+    [approvedPhotos],
+  );
+
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (mediaFilter !== "all") count++;
+    if (venueFilter !== "ALL") count++;
+    return count;
+  }, [mediaFilter, venueFilter]);
+
+  const displayedPhotos = useMemo(() => {
+    let list = approvedPhotos.filter((p) => {
+      const details = getMediaDetails(p);
+      if (mediaFilter === "videos" && !details.isVideo) return false;
+      if (mediaFilter === "photos" && details.isVideo) return false;
+      if (venueFilter !== "ALL") {
+        const v = p.venue?.trim() || p.city?.trim();
+        if (v !== venueFilter) return false;
+      }
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        return Boolean(
+          p.name?.toLowerCase().includes(q) ||
+          p.venue?.toLowerCase().includes(q) ||
+          p.city?.toLowerCase().includes(q) ||
+          p.caption?.toLowerCase().includes(q),
+        );
+      }
+      return true;
+    });
+
+    if (sortBy === "newest") {
+      list = [...list].sort((a, b) => {
+        const dateA = a.date || a.submittedAt || "";
+        const dateB = b.date || b.submittedAt || "";
+        return dateB.localeCompare(dateA);
+      });
+    } else if (sortBy === "oldest") {
+      list = [...list].sort((a, b) => {
+        const dateA = a.date || a.submittedAt || "";
+        const dateB = b.date || b.submittedAt || "";
+        return dateA.localeCompare(dateB);
+      });
+    } else if (sortBy === "fan") {
+      list = [...list].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+    }
+
+    return list;
+  }, [approvedPhotos, mediaFilter, venueFilter, searchQuery, sortBy]);
 
   return (
     <div
@@ -661,79 +767,72 @@ export default function FanPhotoWallClient({
             visuallyHidden
           />
 
-          {/* ── FAN MEDIA WALL FILTER & SEARCH TOOLBAR ── */}
+          {/* ── FAN MEDIA WALL FILTER & SEARCH TOOLBAR (MATCHING VIDEO GALLERY) ── */}
           <div
             role="toolbar"
             aria-label="Fan Media Filters"
-            className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4"
+            className="mb-6 flex flex-wrap items-center gap-3 sm:gap-4 border-b border-white/10 pb-4"
           >
-            {/* Filter Toggle: All Moments / Fan Photos / Fan Videos */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-white/50">
-                Filter:
-              </span>
-              <div className="inline-flex rounded-lg border border-white/15 bg-black/40 p-1 backdrop-blur-md">
-                <button
-                  type="button"
-                  onClick={() => setMediaFilter("all")}
-                  className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold transition-all cursor-pointer rounded-md ${
-                    mediaFilter === "all"
-                      ? "bg-[#f2efa3] text-black shadow-sm"
-                      : "text-white/70 hover:text-white"
-                  }`}
-                >
-                  <Sparkles className="h-3 w-3" />
-                  <span>All ({approvedPhotos.length})</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMediaFilter("photos")}
-                  className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold transition-all cursor-pointer rounded-md ${
-                    mediaFilter === "photos"
-                      ? "bg-emerald-500 text-black shadow-sm"
-                      : "text-white/70 hover:text-white"
-                  }`}
-                >
-                  <Camera className="h-3 w-3" />
-                  <span>Photos Only ({approvedPhotos.filter((p) => !getMediaDetails(p).isVideo).length})</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMediaFilter("videos")}
-                  className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold transition-all cursor-pointer rounded-md ${
-                    mediaFilter === "videos"
-                      ? "bg-purple-600 text-white shadow-sm shadow-purple-600/50"
-                      : "text-white/70 hover:text-white"
-                  }`}
-                >
-                  <Film className="h-3 w-3" />
-                  <span>Videos Only ({approvedPhotos.filter((p) => getMediaDetails(p).isVideo).length})</span>
-                </button>
-              </div>
-            </div>
+            <p className="mr-auto text-[13px] text-white/55" aria-live="polite">
+              {displayedPhotos.length} {displayedPhotos.length === 1 ? "item" : "items"}
+            </p>
+            <SearchInput
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Search by fan name, venue, city..."
+              containerClassName="w-full sm:w-[260px] lg:w-[300px]"
+            />
 
-            {/* Fan Wall Keyword Search Input */}
-            <div className="relative w-full sm:w-64">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/50" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search fans, venues, cities..."
-                className="w-full rounded-lg border border-white/15 bg-black/40 pl-9 pr-8 py-1.5 text-xs text-white placeholder-white/40 backdrop-blur-md focus:border-purple-400 focus:outline-none"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs cursor-pointer"
-                  aria-label="Clear fan search"
-                >
-                  ✕
-                </button>
+            {/* Sort Order Dropdown */}
+            <CustomDropdown
+              ariaLabel="Sort fan moments"
+              value={sortBy}
+              options={sortDropdownOptions}
+              onChange={(val) => setSortBy(val as any)}
+              minWidth={200}
+              maxHeight={320}
+              triggerPrefix={sortTriggerPrefix}
+              buttonClassName="rounded-none border border-white/15 bg-black/35 px-4 py-2.5 text-xs backdrop-blur-md shadow-[inset_0_0_10px_rgba(0,0,0,0.25)] hover:border-white/30 hover:bg-black/50"
+            />
+
+            <button
+              ref={filterTriggerRef}
+              type="button"
+              onClick={() => setFilterDrawerOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={filterDrawerOpen}
+              className="flex cursor-pointer items-center gap-2 border border-white/20 px-4 py-2.5 text-xs text-white transition-colors hover:border-white/50 hover:bg-white/5"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--color-action,#f5b942)] px-1 text-[11px] font-bold text-black">
+                  {activeFilterCount}
+                </span>
               )}
-            </div>
+            </button>
           </div>
+
+          <MediaFilterDrawer
+            open={filterDrawerOpen}
+            onClose={() => setFilterDrawerOpen(false)}
+            returnFocusRef={filterTriggerRef}
+            categoryOptions={venueOptions}
+            category={venueFilter}
+            onCategoryChange={setVenueFilter}
+            mediaTypeOptions={mediaTypeDrawerOptions}
+            mediaType={mediaFilter}
+            onMediaTypeChange={(v) => setMediaFilter(v as "all" | "photos" | "videos")}
+            yearBounds={null}
+            yearRange={null}
+            onYearRangeChange={() => {}}
+            resultCount={displayedPhotos.length}
+            onClearAll={() => {
+              setMediaFilter("all");
+              setVenueFilter("ALL");
+              setSearchQuery("");
+            }}
+          />
 
           {photosLoading ? (
             /* Skeleton grid */
@@ -745,24 +844,8 @@ export default function FanPhotoWallClient({
                 </div>
               ))}
             </div>
-          ) : approvedPhotos.length > 0 ? (
+          ) : displayedPhotos.length > 0 ? (
             (() => {
-              // Apply Media Filter
-              const displayedPhotos = approvedPhotos.filter((p) => {
-                const details = getMediaDetails(p);
-                if (mediaFilter === "videos") return details.isVideo;
-                if (mediaFilter === "photos") return !details.isVideo;
-                if (searchQuery.trim()) {
-                  const q = searchQuery.toLowerCase();
-                  return (
-                    p.name?.toLowerCase().includes(q) ||
-                    p.venue?.toLowerCase().includes(q) ||
-                    p.city?.toLowerCase().includes(q) ||
-                    p.caption?.toLowerCase().includes(q)
-                  );
-                }
-                return true;
-              });
 
               /* ═══════════════════════════════════════════════════
                  LAYOUT 1: CONCERT ARENA (Hero Stage Cinema + Live Grid)
@@ -2396,6 +2479,24 @@ export default function FanPhotoWallClient({
               </div>
             );
           })()
+          ) : approvedPhotos.length > 0 ? (
+            /* Filter empty state */
+            <div className="py-20 text-center">
+              <p className="text-lg text-white/60 font-medium">
+                No fan moments found matching your filter
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setMediaFilter("all");
+                  setVenueFilter("ALL");
+                  setSearchQuery("");
+                }}
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                Reset all filters
+              </button>
+            </div>
           ) : (
             /* Empty state */
             <div className="py-32 text-center">
