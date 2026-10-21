@@ -228,7 +228,7 @@ export function InfoLayout({
           className="disc-card absolute inset-x-0 bottom-[92px] sm:bottom-[100px] flex flex-col items-center gap-2 px-4 text-center"
         >
           <p className={`text-xs uppercase ${MUTED}`}>{item.category}</p>
-          <div className={D} style={{ fontSize: "clamp(28px, 8vw, 46px)" }}>
+          <div className={`${D} text-[clamp(28px,8vw,46px)]`}>
             {item.title}
           </div>
           <Chips item={item} />

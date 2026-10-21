@@ -599,17 +599,62 @@ function DiscStage({
         .disc-stage { opacity: 0; }
         .disc-chrome { animation: discChromeIn .6s .25s cubic-bezier(.22,1,.36,1) both; }
         .is-closing .disc-chrome, .is-closing .disc-panel, .is-closing .disc-nav-glass { animation: discChromeOut .32s ease both; }
-        @keyframes discChromeOut { to { opacity: 0; transform: translateY(8px); } }
-        @keyframes discChromeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        @keyframes discChromeOut {
+          to {
+            opacity: 0;
+            filter: blur(12px);
+            transform: translate3d(0, 10px, 0);
+          }
+        }
+        @keyframes discChromeIn {
+          from {
+            opacity: 0;
+            filter: blur(14px);
+            transform: translate3d(0, 12px, 0);
+          }
+          to {
+            opacity: 1;
+            filter: blur(0);
+            transform: translate3d(0, 0, 0);
+          }
+        }
         .disc-blink { animation: discBlink 1s steps(1) infinite; }
         @keyframes discBlink { 50% { opacity: 0; } }
         .disc-panel { animation: discPanelIn .35s cubic-bezier(.22,1,.36,1) both; }
         @keyframes discPanelIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
-        .disc-card { animation: discIn .5s cubic-bezier(.22,1,.36,1) both; }
-        .disc-pop { animation: discIn .2s cubic-bezier(.22,1,.36,1) both; }
-        @keyframes discIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .disc-card { will-change: opacity, transform, filter; }
+        .disc-card > * {
+          animation: discIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+          will-change: opacity, transform, filter;
+        }
+        .disc-card > :nth-child(1) { animation-delay: 0ms; }
+        .disc-card > :nth-child(2) { animation-delay: 45ms; animation-duration: 0.6s; }
+        .disc-card > :nth-child(3) { animation-delay: 90ms; }
+        .disc-card > :nth-child(4) { animation-delay: 135ms; }
+        .disc-pop { animation: discIn .25s cubic-bezier(.22,1,.36,1) both; }
+        @keyframes discIn {
+          from {
+            opacity: 0;
+            filter: blur(14px);
+            transform: translate3d(0, 12px, 0);
+          }
+          to {
+            opacity: 1;
+            filter: blur(0);
+            transform: translate3d(0, 0, 0);
+          }
+        }
         .disc-detail { animation: discFade .3s ease both; }
-        @keyframes discFade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes discFade {
+          from {
+            opacity: 0;
+            filter: blur(10px);
+          }
+          to {
+            opacity: 1;
+            filter: blur(0);
+          }
+        }
         .disc-nav-glass {
           background: rgba(15, 8, 28, 0.68) !important;
           background-image: radial-gradient(120% 45% at 50% 0%, rgba(140, 25, 170, 0.35) 0%, transparent 70%),
