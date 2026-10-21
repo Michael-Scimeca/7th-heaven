@@ -41,6 +41,11 @@ import GlassPlayButton from "@/components/GlassPlayButton";
 import VideoArchiveRenderer, { VIDEO_LAYOUT_PRESETS } from "@/components/VideoArchiveRenderer";
 import { useScrollLock } from "@/lib/useScrollLock";
 import MediaFilterDrawer, { type MediaFilterOption } from "@/components/MediaFilterDrawer";
+import MediaPagination, {
+  PAGINATION_INFO,
+  PAGINATION_VARIANTS,
+  type PaginationVariant,
+} from "@/components/MediaPagination";
 import type { FanPhoto } from "@/lib/fanPhotos";
 
 const CustomVideoPlayer = dynamic(
@@ -345,6 +350,7 @@ export default function MediaClient({
 
   // Fixed layout: Layout 2 (Fixed Bottom Audio Dock + Hero Video + Fan Mosaic)
   const [layoutVariant, setLayoutVariant] = useState<number>(2);
+  const [paginationVariant, setPaginationVariant] = useState<PaginationVariant>("classic");
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
@@ -352,7 +358,21 @@ export default function MediaClient({
     if (!isNaN(layoutParam) && layoutParam >= 1 && layoutParam <= 20) {
       setLayoutVariant(layoutParam);
     }
+    const pagParam = p.get("pagination") as PaginationVariant;
+    if (pagParam && PAGINATION_VARIANTS.includes(pagParam)) {
+      setPaginationVariant(pagParam);
+    } else {
+      const saved = localStorage.getItem("7th_pagination_variant") as PaginationVariant;
+      if (saved && PAGINATION_VARIANTS.includes(saved)) {
+        setPaginationVariant(saved);
+      }
+    }
   }, []);
+
+  const handlePaginationVariantChange = (v: PaginationVariant) => {
+    setPaginationVariant(v);
+    localStorage.setItem("7th_pagination_variant", v);
+  };
 
   const [categories, setCategories] = useState<VideoCategory[]>(
     staticVideoCategories as VideoCategory[],
@@ -1207,60 +1227,63 @@ export default function MediaClient({
                   }}
                 />
 
-                {/* ── PAGINATION CONTROLS: LOAD NEXT / PREV SET OF 20 IN PLACE ── */}
+                {/* ── PAGINATION CONTROLS: 20 INTERACTIVE VARIANTS & LIVE SWITCHER ── */}
                 {totalPages > 1 && (
-                  <div className="mt-12 flex flex-col items-center justify-center gap-4 text-center">
-                    <p className="font-mono text-xs uppercase tracking-wider text-white/60">
-                      Showing {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, filteredVideos.length)} of {filteredVideos.length} videos · Page {currentPage} of {totalPages}
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-3">
-                      <SeventhButton
-                        type="button"
-                        disabled={currentPage <= 1}
-                        onClick={() => {
-                          setCurrentPage((prev) => Math.max(1, prev - 1));
-                          projectsContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-                        }}
-                        icon={false}
-                        className={`text-xs sm:text-sm px-6 py-2.5 ${currentPage <= 1 ? "opacity-40 cursor-not-allowed pointer-events-none" : ""}`}
-                      >
-                        ◀ Previous 20
-                      </SeventhButton>
-
-                      {/* Numbered Page Pills */}
-                      <div className="flex items-center gap-1.5 px-2">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                          <button
-                            key={`page-${pageNum}`}
-                            type="button"
-                            onClick={() => {
-                              setCurrentPage(pageNum);
-                              projectsContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-                            }}
-                            className={`h-8 min-w-[32px] px-2 text-xs font-mono font-bold transition-all cursor-pointer ${
-                              pageNum === currentPage
-                                ? "bg-purple-600 text-white border border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.5)]"
-                                : "bg-white/5 text-white/70 hover:bg-white/15 hover:text-white border border-white/10"
-                            }`}
-                          >
-                            {pageNum}
-                          </button>
-                        ))}
+                  <div className="mt-12 flex flex-col items-center justify-center gap-6">
+                    {/* Live Pagination Style Switcher Dock */}
+                    <div className="flex flex-wrap items-center justify-center gap-2 rounded-2xl border border-purple-500/30 bg-black/70 p-2 shadow-2xl backdrop-blur-xl">
+                      <div className="flex items-center gap-1.5 px-3 py-1 font-mono text-xs font-semibold text-purple-300">
+                        <span className="flex h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
+                        <span>📑 Style ({PAGINATION_VARIANTS.indexOf(paginationVariant) + 1}/20):</span>
                       </div>
-
-                      <SeventhButton
-                        type="button"
-                        disabled={currentPage >= totalPages}
-                        onClick={() => {
-                          setCurrentPage((prev) => Math.min(totalPages, prev + 1));
-                          projectsContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-                        }}
-                        icon={false}
-                        className={`text-xs sm:text-sm px-6 py-2.5 ${currentPage >= totalPages ? "opacity-40 cursor-not-allowed pointer-events-none" : ""}`}
+                      <select
+                        value={paginationVariant}
+                        onChange={(e) => handlePaginationVariantChange(e.target.value as PaginationVariant)}
+                        aria-label="Choose Pagination Style"
+                        className="rounded-lg border border-purple-400/40 bg-purple-950/80 px-3 py-1.5 font-mono text-xs text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-400"
                       >
-                        Next 20 Videos ▶
-                      </SeventhButton>
+                        {PAGINATION_VARIANTS.map((v, idx) => (
+                          <option key={v} value={v} className="bg-zinc-950 text-white">
+                            {idx + 1}. {PAGINATION_INFO[v].name}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const currentIndex = PAGINATION_VARIANTS.indexOf(paginationVariant);
+                          const nextVariant = PAGINATION_VARIANTS[(currentIndex + 1) % PAGINATION_VARIANTS.length];
+                          handlePaginationVariantChange(nextVariant);
+                        }}
+                        title="Cycle to next pagination design"
+                        className="cursor-pointer rounded-lg border border-purple-400/40 bg-white/10 px-3 py-1.5 font-mono text-xs font-semibold text-purple-200 transition-colors hover:bg-purple-600 hover:text-white"
+                      >
+                        Next Style ➔
+                      </button>
+                      <a
+                        href="/pagination-preview"
+                        target="_blank"
+                        rel="noreferrer"
+                        title="Open full showcase page to see all 20 designs at once"
+                        className="cursor-pointer rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+                      >
+                        Compare All 20 ↗
+                      </a>
                     </div>
+
+                    {/* Active Pagination Variant */}
+                    <MediaPagination
+                      variant={paginationVariant}
+                      page={currentPage}
+                      totalPages={totalPages}
+                      totalItems={filteredVideos.length}
+                      pageSize={pageSize}
+                      onPageChange={(nextPage) => {
+                        setCurrentPage(nextPage);
+                        projectsContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      label="videos"
+                    />
                   </div>
                 )}
 
