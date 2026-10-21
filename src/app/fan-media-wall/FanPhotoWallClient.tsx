@@ -2315,7 +2315,7 @@ export default function FanPhotoWallClient({
                           role="button"
                           tabIndex={0}
                           onClick={() => setSelectedPhoto(photo)}
-                          className="group flex flex-col rounded-xl border border-white/10 bg-white/[0.02] p-2 hover:border-purple-400 hover:bg-white/[0.05] transition-all cursor-pointer"
+                          className="group flex flex-col transition-all cursor-pointer"
                         >
                           <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-black">
                             <Image
