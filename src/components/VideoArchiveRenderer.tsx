@@ -21,8 +21,6 @@ import {
   Eye,
   Bookmark,
   Disc,
-  Video as VideoIcon,
-  Camera,
 } from "lucide-react";
 import GlassPlayButton from "@/components/GlassPlayButton";
 
@@ -172,29 +170,6 @@ export default function VideoArchiveRenderer({
                 priority
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              {/* Prominent Format Badge (Top-Left: VIDEO or PHOTO indicator) */}
-              {isFirstPhoto ? (
-                <div className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20 flex items-center gap-2 rounded-full border border-purple-400/40 bg-black/80 backdrop-blur-md px-3 py-1.5 text-xs font-mono font-bold tracking-wider text-purple-200 shadow-xl shadow-black/80">
-                  <span className="flex h-2.5 w-2.5 rounded-full bg-rose-500 animate-pulse" />
-                  <Camera className="h-3.5 w-3.5 text-purple-300" />
-                  <span>FEATURED PHOTO</span>
-                  <span className="ml-1 border-l border-white/20 pl-2 text-white/80">
-                    HIGH-RES
-                  </span>
-                </div>
-              ) : (
-                <div className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20 flex items-center gap-2 rounded-full border border-purple-400/40 bg-black/80 backdrop-blur-md px-3 py-1.5 text-xs font-mono font-bold tracking-wider text-purple-200 shadow-xl shadow-black/80">
-                  <span className="flex h-2.5 w-2.5 rounded-full bg-rose-500 animate-pulse" />
-                  <VideoIcon className="h-3.5 w-3.5 text-purple-300" />
-                  <span>OFFICIAL VIDEO</span>
-                  {firstVideo.duration && (
-                    <span className="ml-1 border-l border-white/20 pl-2 text-white/80">
-                      {firstVideo.duration}
-                    </span>
-                  )}
-                </div>
-              )}
-
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
                 <div className="flex items-center gap-3">
                   <span

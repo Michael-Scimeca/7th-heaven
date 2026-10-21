@@ -901,32 +901,6 @@ export default function MediaClient({
                     }`}
                 />
 
-                {/* Subtle dark gradient scrim across the bottom for metadata legibility */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-                {/* Prominent Format Badge (Top-Left: VIDEO indicator or PHOTO indicator) */}
-                {isPhoto ? (
-                  <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10 flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/85 backdrop-blur-md px-2.5 py-1 text-[10px] sm:text-[11px] font-mono font-bold tracking-wider text-purple-200 shadow-lg shadow-black/70">
-                    <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
-                    <Camera className="h-3 w-3 text-purple-300" />
-                    <span>PHOTO</span>
-                    <span className="ml-0.5 border-l border-white/20 pl-1.5 font-sans font-normal text-white/80">
-                      HIGH-RES
-                    </span>
-                  </div>
-                ) : (
-                  <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10 flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-black/85 backdrop-blur-md px-2.5 py-1 text-[10px] sm:text-[11px] font-mono font-bold tracking-wider text-purple-200 shadow-lg shadow-black/70">
-                    <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
-                    <VideoIcon className="h-3 w-3 text-purple-300" />
-                    <span>VIDEO</span>
-                    {video.duration && (
-                      <span className="ml-0.5 border-l border-white/20 pl-1.5 font-sans font-normal text-white/80">
-                        {video.duration}
-                      </span>
-                    )}
-                  </div>
-                )}
-
                 {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                   {isPhoto ? (
@@ -952,23 +926,6 @@ export default function MediaClient({
                         className="pointer-events-none"
                       />
                     </div>
-                  )}
-                </div>
-
-                {/* Category & Metadata Pills (Bottom-Right, matching reference) */}
-                <div className="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 z-10 flex flex-wrap items-center justify-end gap-1 sm:gap-1.5">
-                  <span className="border border-white/20 bg-black/60 backdrop-blur-md px-2 py-1.5 text-[10px] sm:text-[11px] font-medium tracking-wide text-white/90">
-                    {video.category || (isPhoto ? "Band Photo" : "Official Video")}
-                  </span>
-                  {video.year && (
-                    <span className="border border-white/20 bg-black/60 backdrop-blur-md px-2 py-1.5 text-[10px] sm:text-[11px] font-medium tracking-wide text-white/90">
-                      {video.year}
-                    </span>
-                  )}
-                  {video.duration && (
-                    <span className="border border-white/20 bg-black/60 backdrop-blur-md px-2 py-1.5 text-[10px] sm:text-[11px] font-medium tracking-wide text-white/90">
-                      {video.duration}
-                    </span>
                   )}
                 </div>
               </div>
