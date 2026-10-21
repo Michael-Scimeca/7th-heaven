@@ -633,6 +633,13 @@ function DiscStage({
         @keyframes discIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
         .disc-detail { animation: discFade .3s ease both; }
         @keyframes discFade { from { opacity: 0; } to { opacity: 1; } }
+        .disc-nav-glass {
+          background: rgba(15, 8, 28, 0.82) !important;
+          -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+          backdrop-filter: blur(32px) saturate(180%) !important;
+          isolation: auto !important;
+          transform: none !important;
+        }
         @media (prefers-reduced-motion: reduce) { .disc-stage, .disc-chrome, .disc-card, .disc-pop, .disc-detail, .disc-panel, .disc-bar, .disc-blink, [style*="discThumbSpin"] { animation: none !important; } }
       `}</style>
     </section>
