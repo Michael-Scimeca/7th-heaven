@@ -223,12 +223,12 @@ export default function VideoArchiveRenderer({
                     sizes="(min-width: 1024px) 33vw, 100vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-black/30 to-transparent p-4">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#f2efa3]">
+                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 sm:p-5">
+                    <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-[#f2efa3]">
                       {isPhoto ? "Photo" : "Video"}
                       {v.duration ? ` • ${v.duration}` : ""}
                     </span>
-                    <h3 className="line-clamp-2 text-sm font-bold uppercase leading-tight text-white transition-colors group-hover:text-[#f2efa3]">
+                    <h3 className="line-clamp-2 font-heading text-xl sm:text-2xl uppercase leading-tight tracking-wide text-white transition-colors group-hover:text-[#f2efa3] mt-1">
                       {v.title}
                     </h3>
                   </div>
