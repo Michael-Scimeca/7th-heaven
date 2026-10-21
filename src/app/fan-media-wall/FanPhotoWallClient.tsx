@@ -61,6 +61,7 @@ import MediaFilterDrawer from "@/components/MediaFilterDrawer";
 import { FanPhoto } from "@/lib/fanPhotos";
 import SectionBadge from "@/components/SectionBadge";
 import { SectionHeader } from "@/components/SectionHeader";
+import GlassPlayButton from "@/components/GlassPlayButton";
 import dynamic from "next/dynamic";
 
 const FanUploadForm = dynamic(() => import("@/components/FanUploadForm"), {
@@ -2286,13 +2287,23 @@ export default function FanPhotoWallClient({
                           )}
                         </div>
 
-                        {billDetails?.isVideo && (
-                          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 border border-white/20 backdrop-blur-sm text-white group-hover:scale-110 transition-transform">
-                              <Play className="h-6 w-6 fill-white text-white ml-0.5" />
+                        {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
+                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 z-10">
+                          {billDetails?.isVideo ? (
+                            <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
+                              <GlassPlayButton
+                                size="lg"
+                                as="div"
+                                glow
+                                className="pointer-events-none"
+                              />
                             </div>
-                          </div>
-                        )}
+                          ) : (
+                            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
+                              <Maximize2 className="h-6 w-6" />
+                            </div>
+                          )}
+                        </div>
 
                         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent p-6 sm:p-10 flex flex-col justify-end">
                           <span className="text-xs uppercase font-mono tracking-widest text-purple-300 font-bold">24:9 Panoramic Marquee</span>
@@ -2342,14 +2353,23 @@ export default function FanPhotoWallClient({
                               )}
                             </div>
 
-                            {/* Centered subtle play icon on video items */}
-                            {details.isVideo && (
-                              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black/60 border border-white/20 backdrop-blur-sm text-white group-hover:scale-110 transition-transform">
-                                  <Play className="h-4 w-4 fill-white text-white ml-0.5" />
+                            {/* Center Overlay: Play Button for Videos, Zoom / Inspect for Photos */}
+                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
+                              {details.isVideo ? (
+                                <div className="transition-transform duration-300 transform scale-90 group-hover:scale-100">
+                                  <GlassPlayButton
+                                    size="md"
+                                    as="div"
+                                    glow
+                                    className="pointer-events-none"
+                                  />
                                 </div>
-                              </div>
-                            )}
+                              ) : (
+                                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-purple-400/40 bg-black/60 backdrop-blur-md text-purple-200 transition-all duration-300 transform scale-90 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white shadow-lg shadow-purple-600/50">
+                                  <Maximize2 className="h-5 w-5" />
+                                </div>
+                              )}
+                            </div>
                           </div>
                           <span className="mt-2.5 text-sm font-bold text-white truncate" title={photo.name}>{photo.name}</span>
                           <span className="text-xs text-white/70 truncate" title={photo.venue ? (photo.city ? `${photo.venue} • ${photo.city}` : photo.venue) : (photo.city || "Live Stage")}>
